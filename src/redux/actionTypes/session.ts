@@ -1,0 +1,16 @@
+import { actionTypes } from './constants';
+import { generateApiActionsTypes } from './generateApiActionsTypes';
+
+export const ACCOUNT_LOGOUT = actionTypes.LOGOUT;
+
+export const loginActionTypes = generateApiActionsTypes(
+  actionTypes.ACCOUNT_LOGIN
+);
+
+export const signupActionTypes = generateApiActionsTypes(
+  actionTypes.ACCOUNT_SIGNUP
+);
+
+export const forgotActionTypes = generateApiActionsTypes(
+  actionTypes.FORGOT_PASSWORD
+);

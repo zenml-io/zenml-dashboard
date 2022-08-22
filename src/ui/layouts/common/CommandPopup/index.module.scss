@@ -1,0 +1,39 @@
+@import '../../../globalStyles.scss';
+
+$width: 30rem;
+$boxShadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+
+.popup {
+  background-color: $whiteColor;
+  position: absolute;
+  border-radius: 4px;
+  width: $width;
+  z-index: 9;
+  box-shadow: $boxShadow;
+  top: 5rem;
+  right: 0;
+  border: 1px solid $lightGreyColor;
+}
+
+.fakeInput {
+  border-radius: 4px;
+  border: 1px solid $lightestGreyColor;
+  padding: 0.5rem;
+  white-space: nowrap;
+  overflow-x: auto;
+}
+
+.copy {
+  position: absolute;
+  right: 17px;
+  top: 50%;
+  z-index: 9;
+  background-color: $lightestGreyColor;
+  height: 37px;
+  transform: translateY(-50%);
+  transition: 0.2s ease-in all;
+}
+
+.copy:hover {
+  background-color: $lightGreyColor;
+}

@@ -1,0 +1,44 @@
+@import '../../globalStyles.scss';
+
+.spinner {
+  display: inline-block;
+  vertical-align: text-bottom;
+  border-radius: 50%;
+  animation: spinnerAnimation 0.75s linear infinite;
+}
+
+.xs {
+  width: 2rem;
+  height: 2rem;
+}
+
+.sm {
+  width: 4rem;
+  height: 4rem;
+}
+
+.md {
+  width: 8rem;
+  height: 8rem;
+}
+
+.lg {
+  width: 12rem;
+  height: 12rem;
+}
+
+.white {
+  border: 2px solid $whiteColor;
+  border-right: 2px solid transparent;
+}
+
+.black {
+  border: 2px solid $blackColor;
+  border-right: 2px solid transparent;
+}
+
+@keyframes spinnerAnimation {
+  100% {
+    transform: rotate(1turn);
+  }
+}

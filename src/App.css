@@ -1,0 +1,33 @@
+@font-face {
+  font-family: Rubik;
+  src: url('./ui/assets/Rubik-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: RubikBold;
+  src: url('./ui/assets/Rubik-Medium.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: SourceCodePro;
+  src: url('./ui/assets/SourceCodePro-Regular.ttf') format('truetype');
+}
+
+html  , #root, body, .App {
+  height: 100%;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html {
+  font-size: 62.5%;
+  box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+.container-fluid {
+  padding-left: 0;
+  padding-right: 0;
+}

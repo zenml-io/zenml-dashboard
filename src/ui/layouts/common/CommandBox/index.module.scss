@@ -1,0 +1,13 @@
+@import '../../../globalStyles.scss';
+
+$commandBgColor: #1d3052;
+
+.command {
+  background-color: $commandBgColor;
+  border-radius: 4px;
+  overflow: scroll;
+
+  & p {
+    font-family: $commandFontFamily;
+  }
+}

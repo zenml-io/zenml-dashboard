@@ -1,0 +1,35 @@
+@import '../../../../../globalStyles.scss';
+
+$bgColor: rgba(201, 203, 208, 0.2);
+
+.sidebar {
+  width: 24rem;
+  height: calc(100vh - #{$headerHeight});
+  background-color: $bgColor;
+}
+
+@media (max-width: $md-breakpoint) {
+  .dimmer {
+    height: 100vh;
+    width: 100vw;
+    position: fixed;
+    z-index: 999;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.2);
+  }
+
+  .sidebar {
+    width: 70vw;
+    height: 100vh;
+    position: fixed;
+    z-index: 9999;
+    top: 0;
+    background-color: $whiteColor;
+    transform: translateX(-100%);
+    transition: 0.3s ease-in all;
+  }
+
+  .mobileSidebarOpen {
+    transform: translateX(0);
+  }
+}

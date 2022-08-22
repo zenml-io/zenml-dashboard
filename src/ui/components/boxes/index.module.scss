@@ -1,0 +1,14 @@
+.linkBox {
+  cursor: pointer;
+  &:focus {
+    outline: none;
+  }
+}
+
+.relativeBox {
+  position: relative;
+}
+
+.absoluteBox {
+  position: absolute;
+}

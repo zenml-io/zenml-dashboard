@@ -1,0 +1,6 @@
+@import '../../../../globalStyles.scss';
+
+.content {
+  height: calc(100vh - #{$headerHeight});
+  overflow-y: auto;
+}
