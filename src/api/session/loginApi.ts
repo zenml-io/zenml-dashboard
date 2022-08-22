@@ -3,6 +3,7 @@ import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 import queryString from 'query-string';
+import mockApi from '../mockApiData';
 
 export interface Response {
   access_token: string;
@@ -28,6 +29,13 @@ const loginApi = ({ account }: Params): Promise<Response> =>
       username: account.email,
       password: account.password,
     }),
+  }).catch((res) => {
+    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
+      res = {
+        data: mockApi.loginMockResponse,
+      };
+    }
+    return res;
   });
 
 export default loginApi;
