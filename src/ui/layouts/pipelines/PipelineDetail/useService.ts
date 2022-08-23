@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { PipelineDetailRouteParams } from '.';
 import { pipelinesActions } from '../../../../redux/actions';
 import { pipelineSelectors } from '../../../../redux/selectors';

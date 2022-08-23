@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import _ from 'lodash';
 import React from 'react';
 import { useEffect } from 'react';

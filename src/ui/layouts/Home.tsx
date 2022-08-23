@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import React from 'react';
 import { AuthenticatedLayout } from './common/layouts/AuthenticatedLayout';
 
