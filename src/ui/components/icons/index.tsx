@@ -28,6 +28,7 @@ import { ReactComponent as Plus } from './assets/Plus.svg';
 import { ReactComponent as FileText } from './assets/FileText.svg';
 import { ReactComponent as Download } from './assets/Download.svg';
 import { ReactComponent as AlertTriangle } from './assets/AlertTriangle.svg';
+import { ReactComponent as Settings } from './assets/Settings.svg';
 
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
@@ -114,6 +115,7 @@ const icons = {
   fileText: createIcon({ Component: FileText, useStroke: true }),
   download: createIcon({ Component: Download, useStroke: true }),
   alertTriangle: createIcon({ Component: AlertTriangle, useStroke: true }),
+  settings: createIcon({ Component: Settings }),
 };
 
 export { icons };
