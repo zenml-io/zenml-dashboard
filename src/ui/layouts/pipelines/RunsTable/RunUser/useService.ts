@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import { useState, useEffect } from 'react';
 import { userActions } from '../../../../../redux/actions';
 import { userSelectors } from '../../../../../redux/selectors';
