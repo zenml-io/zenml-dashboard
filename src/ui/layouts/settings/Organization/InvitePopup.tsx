@@ -1,3 +1,6 @@
+/* eslint-disable */
+
+
 import React, { useEffect, useState } from 'react';
 import { iconColors } from '../../../../constants';
 import { organizationActions } from '../../../../redux/actions';

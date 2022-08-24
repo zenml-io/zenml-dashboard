@@ -1,3 +1,5 @@
+/* eslint-disable */
+
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
