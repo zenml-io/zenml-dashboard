@@ -19,9 +19,9 @@ export const Menu: React.FC = () => {
         text={translate('menu.home.text')}
         exact
       />
-      <Box marginVertical="md">
+      {/* <Box marginVertical="md">
         <Separator.Light />
-      </Box>
+      </Box> */}
       <MenuItem
         isActive={() => {
           return (
@@ -46,23 +46,23 @@ export const Menu: React.FC = () => {
           <icons.code color={iconColors.darkGrey} size={iconSizes.md} />
         )}
         to={routePaths.workspaces.list}
-        text={translate('menu.workspaces.text')}
+        text={translate('menu.stacks.text')}
       />
       <MenuItem
         Icon={() => (
           <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
         )}
         to={routePaths.datasources}
-        text={translate('menu.datasources.text')}
+        text={translate('menu.stackComponents.text')}
       />
       <MenuItem
         Icon={() => (
-          <icons.rocket color={iconColors.darkGrey} size={iconSizes.md} />
+          <icons.settings color={iconColors.darkGrey} size={iconSizes.md} />
         )}
-        to={routePaths.functions}
-        text={translate('menu.functions.text')}
+        to={routePaths.settings.personalDetails}
+        text={translate('menu.setting.text')}
       />
-      <MenuItem
+      {/* <MenuItem
         Icon={() => (
           <icons.table color={iconColors.darkGrey} size={iconSizes.md} />
         )}
@@ -75,7 +75,7 @@ export const Menu: React.FC = () => {
         )}
         to={routePaths.deployments}
         text={translate('menu.deployments.text')}
-      />
+      /> */}
     </>
   );
 };
