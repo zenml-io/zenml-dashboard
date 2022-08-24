@@ -27,7 +27,7 @@ export const AuthenticatedSidebar: React.FC<{
       )}
     </If>
     <Box
-      paddingHorizontal="md"
+      // paddingHorizontal="md"
       paddingTop="lg"
       className={cn(styles.sidebar, mobileMenuOpen && styles.mobileSidebarOpen)}
     >
