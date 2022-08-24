@@ -19,6 +19,7 @@ export const Menu: React.FC = () => {
         text={translate('menu.home.text')}
         exact
       />
+      {/* will remove this code later */}
       {/* <Box marginVertical="md">
         <Separator.Light />
       </Box> */}
@@ -62,6 +63,7 @@ export const Menu: React.FC = () => {
         to={routePaths.settings.personalDetails}
         text={translate('menu.setting.text')}
       />
+      {/* will remove this code later */}
       {/* <MenuItem
         Icon={() => (
           <icons.table color={iconColors.darkGrey} size={iconSizes.md} />
