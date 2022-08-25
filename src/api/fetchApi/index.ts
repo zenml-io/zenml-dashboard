@@ -18,14 +18,20 @@ export const fetchApi = ({
   method: any;
   headers?: any;
   params?: any;
-}): Promise<any> =>
-  axios({
+}): Promise<any> => {
+  if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
+    return new Promise((resolve, reject) => {
+      reject();
+    });
+  }
+  return axios({
     method: method || httpMethods.get,
     url,
     data,
     headers: { ...DEFAULT_HEADERS, ...headers },
     params: params,
   });
+};
 
 export const fetchApiWithAuthRequest = ({
   url,
@@ -39,8 +45,13 @@ export const fetchApiWithAuthRequest = ({
   method: any;
   authenticationToken: string;
   headers?: any;
-}): Promise<any> =>
-  axios({
+}): Promise<any> => {
+  if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
+    return new Promise((resolve, reject) => {
+      reject();
+    });
+  }
+  return axios({
     method: method || httpMethods.get,
     url,
     data,
@@ -50,6 +61,7 @@ export const fetchApiWithAuthRequest = ({
       Authorization: `Bearer ${authenticationToken}`,
     },
   });
+};
 
 export const fetchApiForAWS = ({
   url,
