@@ -1,7 +1,7 @@
 import React from 'react';
 import { MenuItem } from './MenuItem';
 import { routePaths } from '../../../../../../../routes/routePaths';
-import { Separator, Box, icons } from '../../../../../../components';
+import { icons } from '../../../../../../components';
 import { iconSizes, iconColors } from '../../../../../../../constants';
 import { translate } from '../translate';
 import { useLocationPath } from '../../../../../../hooks';
