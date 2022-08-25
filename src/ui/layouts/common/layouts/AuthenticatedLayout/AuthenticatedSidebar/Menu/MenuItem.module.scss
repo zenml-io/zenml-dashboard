@@ -16,13 +16,22 @@ $bgColor: rgba(201, 203, 208, 0.2);
 
 .activeMenuItem,
 .menuItem:hover {
-  background-color: $primaryColor;
+  // background-color: $whiteColor;
 
   & p {
-    color: $whiteColor;
+    color: $primaryColor;
   }
 
   & svg path {
-    fill: $whiteColor !important;
+    fill: $ButterflyBlue !important;
   }
+}
+.menuItemSideBox{
+
+width: 6.56px;
+height: 36.53px;
+background:$primaryColor !important;
+border-top-right-radius: 10.25px;
+border-bottom-right-radius: 10.25px;
+
 }

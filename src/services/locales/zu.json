@@ -225,20 +225,14 @@
               "pipelines": {
                 "text": "Pipelines"
               },
-              "workspaces": {
-                "text": "Workspaces"
+              "stacks": {
+                "text": "Stacks"
               },
-              "datasources": {
-                "text": "Datasources"
+              "stackComponents": {
+                "text": "Stack Components"
               },
-              "functions": {
-                "text": "Functions"
-              },
-              "models": {
-                "text": "Models"
-              },
-              "deployments": {
-                "text": "Deployments"
+              "setting": {
+                "text": "Setting"
               }
             }
           },
