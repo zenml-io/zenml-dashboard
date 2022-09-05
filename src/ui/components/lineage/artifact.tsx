@@ -32,6 +32,12 @@ const a = {
   border: "0px solid #bbb",
   fontSize: "10pt"
 }
+const  title = {
+  padding: "8px 32px",
+  flexGrow: 1,
+  backgroundColor: "#eee"
+}
+
 const style = {
   body: {
     display: "flex",
@@ -45,28 +51,21 @@ const style = {
   selected: {
     boxShadow: "0 14px 28px rgba(0,0,0,0.25), 0 10px 10px rgba(0,0,0,0.22)"
   },
-  title: {
-    position: "relative",
-    padding: "8px 32px",
-    flexGrow: 1,
-    backgroundColor: "#eee"
-  },
+
   contentWrapper: {
     padding: "8px 0px"
   }
 };
 
 export const ArtifactNode = (data: ArtifactNodeData) => {
-  const onChange = useCallback((evt) => {
-    console.log(data);
-  }, []);
+
 
   return (
     <>
       <Handle type="target" position={Position.Top} />
       <div style={a}>
+        <h1 style={title}>aritfact</h1>
         <label htmlFor="text">Artifact: {data.data.execution_id}</label>
-        <input id="text" name="text" onChange={onChange} />
       </div>
       <Handle type="source" position={Position.Bottom} id="a" />
     </>
