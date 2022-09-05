@@ -18,10 +18,55 @@
   margin-right: 10px;
 }
 
-.a {
-  display: "flex";
-  transition: "all 250ms cubic-bezier(0.4, 0, 0.2, 1) 0ms";
-  box-shadow: "0 3px 6px rgba(0,0,0,0.16), 0 3px 6px rgba(0,0,0,0.23)";
-  border: "0px solid #bbb";
-  font-size: "10pt";
+.stepBody {
+  display: flex;
+  font-family: Arial, Helvetica, sans-serif !important;
+  border: 1px #4ade80 solid;
+  border-radius: 2px;
+  font-size: 8px;
+}
+
+.stepIcon {
+  display: grid;
+  place-items: center;
+  background: #4ade80;
+  padding: 0.5rem;
+}
+
+.stepText {
+  padding: 0.5rem 0.5rem;
+}
+
+.stepTitle {
+  font-weight: 600;
+  margin-bottom: 2px;
+}
+
+.stepSub {
+  font-weight: 300;
+  font-size: 7px;
+}
+
+.artifactBody {
+  position: relative;
+  display: inline-flex;
+  font-family: Arial, Helvetica, sans-serif !important;
+  border: 1px #cccccc solid;
+  border-radius: 100%;
+  background: #d9d9d9;
+  padding: 0.5rem;
+}
+
+.artifactIcon {
+  padding-bottom: 1px;
+}
+
+.artifactTitle {
+  font-weight: 600;
+  padding: 0.5rem 0.5rem;
+}
+
+.handle {
+  border: none !important;
+  background: none !important;
 }

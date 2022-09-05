@@ -44,7 +44,7 @@ const routes = [
     path: routePaths.home,
     Component: Home,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -52,7 +52,7 @@ const routes = [
     path: routePaths.pipelines.base,
     Component: Pipelines,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -60,7 +60,7 @@ const routes = [
     path: routePaths.pipelines.list,
     Component: Pipelines,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -68,7 +68,7 @@ const routes = [
     path: routePaths.pipelines.allRuns,
     Component: Pipelines,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -76,7 +76,7 @@ const routes = [
     path: routePaths.pipeline.base(':id'),
     Component: PipelineDetail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -84,7 +84,7 @@ const routes = [
     path: routePaths.pipeline.configuration(':id'),
     Component: PipelineDetail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -92,7 +92,7 @@ const routes = [
     path: routePaths.pipeline.runs(':id'),
     Component: PipelineDetail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -100,7 +100,7 @@ const routes = [
     path: routePaths.run.base(':id', ':pipelineId'),
     Component: RunDetail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -108,7 +108,7 @@ const routes = [
     path: routePaths.run.statistics(':id', ':pipelineId'),
     Component: RunDetail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -116,7 +116,7 @@ const routes = [
     path: routePaths.run.results(':id', ':pipelineId'),
     Component: RunDetail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -124,7 +124,7 @@ const routes = [
     path: routePaths.run.tensorboard(':id', ':pipelineId'),
     Component: RunDetail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -132,7 +132,7 @@ const routes = [
     path: routePaths.workspaces.base,
     Component: Workspaces,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -140,7 +140,7 @@ const routes = [
     path: routePaths.workspaces.list,
     Component: Workspaces,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -148,35 +148,35 @@ const routes = [
     path: routePaths.datasources,
     Component: Datasources,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
   },
   {
     path: routePaths.functions,
     Component: Functions,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
   },
   {
     path: routePaths.models,
     Component: Models,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
   },
   {
     path: routePaths.deployments,
     Component: Deployments,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
   },
   {
     path: routePaths.settings.base,
     Component: SettingsPage,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -184,7 +184,7 @@ const routes = [
     path: routePaths.settings.personalDetails,
     Component: SettingsPage,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -192,7 +192,7 @@ const routes = [
     path: routePaths.settings.yourPlan,
     Component: SettingsPage,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -200,7 +200,7 @@ const routes = [
     path: routePaths.settings.billing,
     Component: SettingsPage,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },
@@ -208,7 +208,7 @@ const routes = [
     path: routePaths.settings.organizationSettings,
     Component: SettingsPage,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },
     exact: true,
   },

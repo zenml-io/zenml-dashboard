@@ -6,24 +6,22 @@ import ReactFlow, {
   ConnectionLineType,
   useNodesState,
   useEdgesState,
-  FitViewOptions,
-  applyNodeChanges,
-  applyEdgeChanges,
   Node,
   Edge,
-  NodeChange,
-  EdgeChange,
-  Connection,
   Position,
   Controls,
   MarkerType,
 } from 'react-flow-renderer';
 
 import dagre from 'dagre';
-import { StepNode } from './step'
-import { ArtifactNode } from './artifact'
+import { StepNode } from './step';
+import { ArtifactNode } from './artifact';
 
-import { apiResponseEdges, apiResponseNodes, APINode } from './initial-elements'
+import {
+  apiResponseEdges,
+  apiResponseNodes,
+  APINode,
+} from './initial-elements';
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -31,8 +29,13 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 const nodeWidth = 172;
 const nodeHeight = 36;
 
+const connectionLineStyle = { stroke: '#cccccc' };
 
-const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'TB') => {
+const getLayoutedElements = (
+  nodes: Node[],
+  edges: Edge[],
+  direction = 'TB',
+) => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
 
@@ -48,8 +51,8 @@ const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'TB') => 
 
   nodes.forEach((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
-    node.targetPosition = isHorizontal ? Position.Left : Position.Top;
-    node.sourcePosition = isHorizontal ? Position.Right : Position.Bottom;
+    node.sourcePosition = isHorizontal ? Position.Left : Position.Top;
+    node.targetPosition = isHorizontal ? Position.Right : Position.Bottom;
 
     // We are shifting the dagre node position (anchor=center center) to the top left
     // so it matches the React Flow node anchor point (top left).
@@ -65,29 +68,29 @@ const getLayoutedElements = (nodes: Node[], edges: Edge[], direction = 'TB') => 
 };
 
 const getNodeElements = (apiResponseNodes: APINode[]) => {
-  const position = { x: 0, y: 0 };  
-  const nodes: Node[] = []
+  const position = { x: 0, y: 0 };
+  const nodes: Node[] = [];
   apiResponseNodes.forEach(function (nodeDict, index) {
-    var node = nodeDict as Node;
-    node['position'] = position
-    nodes.push(node)
+    const node = nodeDict as Node;
+    node['position'] = position;
+    nodes.push(node);
   });
-  return nodes
+  return nodes;
 };
 
 const getEdgeElements = (apiResponseEdges: Edge[]) => {
-  var edges: any[] = [];
+  const edges: any[] = [];
   apiResponseEdges.forEach(function (edgeDict, index) {
-    var edge = edgeDict;
-    edge['markerEnd'] = { type: MarkerType.Arrow }
-    edges.push(edge)
+    const edge = edgeDict;
+    edge['markerEnd'] = { type: MarkerType.Arrow };
+    edges.push(edge);
   });
   return edges;
 };
 
 const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
   getNodeElements(apiResponseNodes),
-  getEdgeElements(apiResponseEdges)
+  getEdgeElements(apiResponseEdges),
 );
 
 export const LayoutFlow = () => {
@@ -95,23 +98,31 @@ export const LayoutFlow = () => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
 
   const onConnect = useCallback(
-    (params) => setEdges((eds) => addEdge({ ...params, type: ConnectionLineType.SmoothStep, animated: true }, eds)),
-    []
+    (params) =>
+      setEdges((eds) =>
+        addEdge(
+          { ...params, type: ConnectionLineType.SmoothStep, animated: true },
+          eds,
+        ),
+      ),
+    [],
   );
   const onLayout = useCallback(
     (direction) => {
-      const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-        nodes,
-        edges,
-        direction
-      );
+      const {
+        nodes: layoutedNodes,
+        edges: layoutedEdges,
+      } = getLayoutedElements(nodes, edges, direction);
 
       setNodes([...layoutedNodes]);
       setEdges([...layoutedEdges]);
     },
-    [nodes, edges]
+    [nodes, edges],
   );
-  const nodeTypes = useMemo(() => ({ step: StepNode, artifact: ArtifactNode }), []);
+  const nodeTypes = useMemo(
+    () => ({ step: StepNode, artifact: ArtifactNode }),
+    [],
+  );
 
   return (
     <div className={styles.layoutflow}>
@@ -122,8 +133,10 @@ export const LayoutFlow = () => {
         onEdgesChange={onEdgesChange}
         onConnect={onConnect}
         connectionLineType={ConnectionLineType.SmoothStep}
+        connectionLineStyle={connectionLineStyle}
         nodeTypes={nodeTypes}
-        fitView>
+        fitView
+      >
         <Controls />
       </ReactFlow>
       <div className={styles.controls}>
