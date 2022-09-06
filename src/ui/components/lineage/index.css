@@ -82,13 +82,25 @@
   height: 100%;
   width: 100%;
   position: absolute;
-  top: 0;
   left: 0;
+  top: -2rem;
 }
 
 .URI {
   word-wrap: break-word;
   max-width: 35ch;
+}
+
+.legend {
+  border-top: 1px var(--lightGrey) solid;
+  width: 100%;
+  padding: 2rem;
+  color: var(--darkGrey);
+  display: grid;
+  gap: 0.5rem 1rem;
+  grid-template-columns: 1.2fr 1fr;
+  position: absolute;
+  bottom: -2rem;
 }
 
 @media (max-width: 1850px) {
@@ -122,11 +134,15 @@
   }
 
   .detailsTitle {
-    margin-bottom: 1rem;
+    margin-bottom: 1.5rem;
   }
 
   .detailsNoNode {
     display: block;
+    position: relative;
+  }
+
+  .legend {
     position: relative;
   }
 
@@ -138,6 +154,10 @@
 @media (max-width: 550px) {
   .URI {
     max-width: 32ch;
+  }
+  .legend {
+    grid-template-columns: 1fr;
+    gap: 1rem;
   }
 }
 

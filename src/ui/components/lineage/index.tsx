@@ -1,4 +1,4 @@
-import React, { FC, useCallback, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ReactFlow, {
   addEdge,
   ConnectionLineType,
@@ -13,6 +13,7 @@ import ArtifactNode from './ArtifactNode';
 import StepNode from './StepNode';
 
 import './index.css';
+import { Analysis, Data, Model, Schema, Service, Statistic } from './icons';
 
 const placeholderData = {
   status: '',
@@ -21,7 +22,7 @@ const placeholderData = {
   name: '',
   parameters: {},
   inputs: {},
-  outputs: undefined,
+  outputs: {},
   is_cached: true,
   artifact_type: '',
   artifact_data_type: '',
@@ -120,8 +121,8 @@ export const LayoutFlow: React.FC = () => {
           connectionLineType={ConnectionLineType.SmoothStep}
           nodeTypes={nodeTypes}
           onNodeClick={(event, node) => setSelectedNode(node.data)}
-          onNodeMouseEnter={(event, node) => setSelectedNode(node.data)}
-          onNodeMouseLeave={() => setSelectedNode(placeholderData)}
+          // onNodeMouseEnter={(event, node) => setSelectedNode(node.data)}
+          // onNodeMouseLeave={() => setSelectedNode(placeholderData)}
           fitView
         >
           <Controls />
@@ -213,6 +214,26 @@ export const LayoutFlow: React.FC = () => {
           ) : (
             <div className="detailsNoNode">
               <p>Click on a node to see details</p>
+              <div className="legend">
+                <span>
+                  <Analysis /> Data Analysis Artifact
+                </span>
+                <span>
+                  <Data /> Data Artifact
+                </span>
+                <span>
+                  <Model /> Model Artifact
+                </span>
+                <span>
+                  <Schema /> Schema Artifact
+                </span>
+                <span>
+                  <Service /> Service Artifact
+                </span>
+                <span>
+                  <Statistic /> Statistic Artifact
+                </span>
+              </div>
             </div>
           )}
         </div>
