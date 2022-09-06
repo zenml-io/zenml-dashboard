@@ -69,7 +69,7 @@ const getLayoutedElements = (
   });
 
   initialEdges.forEach((edge) => {
-    edge.type = isHorizontal ? 'straight' : '';
+    edge.type = isHorizontal ? 'straight' : 'smoothstep';
     return edge;
   });
 
