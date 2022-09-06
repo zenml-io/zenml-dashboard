@@ -4,8 +4,8 @@ export const Running: React.FC = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width="14"
-      height="14"
+      width="16"
+      height="16"
       viewBox="0 0 24 24"
       fill="none"
       stroke="white"
@@ -13,7 +13,9 @@ export const Running: React.FC = () => {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <polyline points="22 12 18 12 15 21 9 3 6 12 2 12" />
+      <polyline points="23 4 23 10 17 10" />
+      <polyline points="1 20 1 14 7 14" />
+      <path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15" />
     </svg>
   );
 };
@@ -31,14 +33,32 @@ export const Completed: React.FC = () => {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z" />
-      <polyline points="3.27 6.96 12 12.01 20.73 6.96" />
-      <line x1="12" y1="22.08" x2="12" y2="12" />
+      <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" />
+      <polyline points="22 4 12 14.01 9 11.01" />
     </svg>
   );
 };
 
 export const Cached: React.FC = () => {
+  return (
+    <svg
+      xmlns="http://www.w3.org/2000/svg"
+      width="16"
+      height="16"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="white"
+      strokeWidth="1.5"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <polygon points="11 19 2 12 11 5 11 19" />
+      <polygon points="22 19 13 12 22 5 22 19" />
+    </svg>
+  );
+};
+
+export const Failed: React.FC = () => {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -51,26 +71,9 @@ export const Cached: React.FC = () => {
       strokeLinecap="round"
       strokeLinejoin="round"
     >
-      <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z" />
-    </svg>
-  );
-};
-
-export const Failed: React.FC = () => {
-  return (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      width="16"
-      height="16"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="white"
-      strokeWidth="1.5"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <line x1="18" y1="6" x2="6" y2="18" />
-      <line x1="6" y1="6" x2="18" y2="18" />
+      <circle cx="12" cy="12" r="10" />
+      <line x1="15" y1="9" x2="9" y2="15" />
+      <line x1="9" y1="9" x2="15" y2="15" />
     </svg>
   );
 };
@@ -83,7 +86,7 @@ export const Analysis: React.FC = () => {
       height="16"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#999"
+      stroke="#431D93"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -102,7 +105,7 @@ export const Statistic: React.FC = () => {
       height="16"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#999"
+      stroke="#431D93"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -122,7 +125,7 @@ export const Data: React.FC = () => {
       height="16"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#999"
+      stroke="#431D93"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -142,7 +145,7 @@ export const Model: React.FC = () => {
       height="16"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#999"
+      stroke="#431D93"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -163,7 +166,7 @@ export const Schema: React.FC = () => {
       height="16"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#999"
+      stroke="#431D93"
       strokeWidth="1.5"
       strokeLinecap="round"
       strokeLinejoin="round"
@@ -183,10 +186,10 @@ export const Service: React.FC = () => {
       height="16"
       viewBox="0 0 24 24"
       fill="none"
-      stroke="#999"
+      stroke="#431D93"
       strokeWidth="1.5"
       strokeLinecap="round"
-      stroke-Linejoin="round"
+      strokeLinejoin="round"
     >
       <line x1="4" y1="9" x2="20" y2="9" />
       <line x1="4" y1="15" x2="20" y2="15" />

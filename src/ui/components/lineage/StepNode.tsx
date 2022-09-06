@@ -27,7 +27,7 @@ const ArtifactNode = ({
             : data.status === 'running'
             ? { borderColor: '#22BBDD' }
             : data.status === 'cached'
-            ? { borderColor: '#E8A562' }
+            ? { borderColor: '#4ade80' }
             : { borderColor: '#000' }
         }
       >
@@ -41,7 +41,7 @@ const ArtifactNode = ({
               : data.status === 'running'
               ? { background: '#22BBDD' }
               : data.status === 'cached'
-              ? { background: '#E8A562' }
+              ? { background: '#4ade80' }
               : { background: '#000' }
           }
         >

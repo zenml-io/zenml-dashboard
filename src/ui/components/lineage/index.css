@@ -20,7 +20,11 @@
 
 .controls {
   display: flex;
+  position: absolute;
+  top: 2rem;
+  right: 4.5rem;
   gap: 1rem;
+  z-index: 100;
 }
 
 .controls > button {
@@ -47,7 +51,6 @@
   border: 1px var(--lightGrey) solid;
   position: relative;
 }
-
 .details {
   font-size: 16px;
   display: grid;
@@ -83,7 +86,7 @@
   width: 100%;
   position: absolute;
   left: 0;
-  top: -2rem;
+  top: 0;
 }
 
 .URI {
@@ -92,15 +95,20 @@
 }
 
 .legend {
-  border-top: 1px var(--lightGrey) solid;
-  width: 100%;
+  border: 1px var(--lightGrey) solid;
   padding: 2rem;
   color: var(--darkGrey);
   display: grid;
-  gap: 0.5rem 1rem;
+  gap: 1rem 1rem;
   grid-template-columns: 1.2fr 1fr;
   position: absolute;
-  bottom: -2rem;
+  border-radius: 4px;
+  background: white;
+  top: 4rem;
+  right: 0;
+  font-size: 1.7rem;
+  font-family: Arial, Helvetica, sans-serif;
+  width: 125%;
 }
 
 @media (max-width: 1850px) {
@@ -142,10 +150,6 @@
     position: relative;
   }
 
-  .legend {
-    position: relative;
-  }
-
   .URI {
     max-width: 100%;
   }
@@ -157,7 +161,7 @@
   }
   .legend {
     grid-template-columns: 1fr;
-    gap: 1rem;
+    width: 80%;
   }
 }
 

@@ -1,10 +1,7 @@
-const position = { x: 0, y: 0 };
-
 export const initialNodes = [
   {
     id: 'step_44',
     type: 'step',
-    position,
     data: {
       status: 'completed',
       execution_id: '29',
@@ -12,16 +9,17 @@ export const initialNodes = [
       name: 'get_first_num',
       parameters: {},
       inputs: {},
-      outputs: {
-        first_num:
-          '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/get_first_num/first_num/29',
-      },
+      outputs: [
+        {
+          first_num:
+            '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/get_first_num/first_num/29',
+        },
+      ],
     },
   },
   {
     id: 'artifact_33',
     type: 'artifact',
-    position,
     data: {
       execution_id: '33',
       name: 'first_num',
@@ -37,8 +35,6 @@ export const initialNodes = [
   {
     id: 'step_45',
     type: 'step',
-
-    position,
     data: {
       status: 'cached',
       execution_id: '45',
@@ -46,16 +42,17 @@ export const initialNodes = [
       name: 'get_random_int',
       parameters: {},
       inputs: {},
-      outputs: {
-        random_num:
-          '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/get_random_int/random_num/45',
-      },
+      outputs: [
+        {
+          random_num:
+            '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/get_random_int/random_num/45',
+        },
+      ],
     },
   },
   {
     id: 'artifact_44',
     type: 'artifact',
-    position,
     data: {
       execution_id: '44',
       name: 'random_num',
@@ -71,8 +68,6 @@ export const initialNodes = [
   {
     id: 'step_46',
     type: 'step',
-
-    position,
     data: {
       status: 'running',
       execution_id: '46',
@@ -85,16 +80,17 @@ export const initialNodes = [
         random_num:
           '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/get_random_int/random_num/45',
       },
-      outputs: {
-        result:
-          '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/subtract_numbers/result/46',
-      },
+      outputs: [
+        {
+          result:
+            '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/subtract_numbers/result/46',
+        },
+      ],
     },
   },
   {
     id: 'artifact_45',
     type: 'artifact',
-    position,
     data: {
       execution_id: '45',
       name: 'result',
