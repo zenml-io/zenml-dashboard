@@ -59,12 +59,18 @@ const getLayoutedElements = (
     const nodeWithPosition = dagreGraph.node(node.id);
     node.targetPosition = isHorizontal ? 'left' : 'top';
     node.sourcePosition = isHorizontal ? 'right' : 'bottom';
+
     node.position = {
       x: nodeWithPosition.x - nodeWidth / 2,
       y: nodeWithPosition.y - nodeHeight / 2,
     };
 
     return node;
+  });
+
+  initialEdges.forEach((edge) => {
+    edge.type = isHorizontal ? 'straight' : '';
+    return edge;
   });
 
   return { initialNodes, edges };
@@ -123,22 +129,22 @@ export const LayoutFlow: React.FC = () => {
         </button>
         <div className="legend" style={{ display: legend ? '' : 'none' }}>
           <span>
-            <Analysis /> Data Analysis Artifact
+            <Analysis /> <span>Data Analysis Artifact</span>
           </span>
           <span>
-            <Data /> Data Artifact
+            <Data /> <span>Data Artifact</span>
           </span>
           <span>
-            <Model /> Model Artifact
+            <Model /> <span>Model Artifact</span>
           </span>
           <span>
-            <Schema /> Schema Artifact
+            <Schema /> <span>Schema Artifact</span>
           </span>
           <span>
-            <Service /> Service Artifact
+            <Service /> <span>Service Artifact</span>
           </span>
           <span>
-            <Statistic /> Statistic Artifact
+            <Statistic /> <span>Statistic Artifact</span>
           </span>
         </div>
       </div>

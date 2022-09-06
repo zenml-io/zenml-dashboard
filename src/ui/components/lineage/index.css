@@ -176,3 +176,14 @@
     max-width: 10ch;
   }
 }
+
+.legend > span > svg {
+  width: 18px;
+  height: 18px;
+  vertical-align: middle;
+  margin-top: -1px;
+}
+
+.legend > span > span {
+  vertical-align: middle;
+}

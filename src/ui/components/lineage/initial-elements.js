@@ -110,25 +110,30 @@ export const initialEdges = [
     id: 'step_44_artifact_33',
     source: 'step_44',
     target: 'artifact_33',
+    type: '',
   },
   {
     id: 'step_45_artifact_44',
     source: 'step_45',
     target: 'artifact_44',
+    type: '',
   },
   {
     id: 'step_46_artifact_45',
     source: 'step_46',
     target: 'artifact_45',
+    type: '',
   },
   {
     id: 'step_46_artifact_33',
     source: 'artifact_33',
     target: 'step_46',
+    type: '',
   },
   {
     id: 'step_46_artifact_44',
     source: 'artifact_44',
     target: 'step_46',
+    type: '',
   },
 ];
