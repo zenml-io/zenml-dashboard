@@ -1,27 +1,34 @@
-import styles from './index.module.scss';
-
-import React, { useCallback, useMemo } from 'react';
+import React, { FC, useCallback, useState } from 'react';
 import ReactFlow, {
   addEdge,
   ConnectionLineType,
   useNodesState,
   useEdgesState,
-  Node,
-  Edge,
-  Position,
   Controls,
-  MarkerType,
 } from 'react-flow-renderer';
-
 import dagre from 'dagre';
-import { StepNode } from './step';
-import { ArtifactNode } from './artifact';
 
-import {
-  apiResponseEdges,
-  apiResponseNodes,
-  APINode,
-} from './initial-elements';
+import { initialNodes, initialEdges } from './initial-elements.js';
+import ArtifactNode from './ArtifactNode';
+import StepNode from './StepNode';
+
+import './index.css';
+
+const placeholderData = {
+  status: '',
+  execution_id: '',
+  entrypoint_name: '',
+  name: '',
+  parameters: {},
+  inputs: {},
+  outputs: undefined,
+  is_cached: true,
+  artifact_type: '',
+  artifact_data_type: '',
+  parent_step_id: '',
+  producer_step_id: '',
+  uri: '',
+};
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -29,17 +36,15 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 const nodeWidth = 172;
 const nodeHeight = 36;
 
-const connectionLineStyle = { stroke: '#cccccc' };
-
 const getLayoutedElements = (
-  nodes: Node[],
-  edges: Edge[],
+  initialNodes: any[],
+  edges: any[],
   direction = 'TB',
 ) => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
 
-  nodes.forEach((node) => {
+  initialNodes.forEach((node) => {
     dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
   });
 
@@ -49,13 +54,10 @@ const getLayoutedElements = (
 
   dagre.layout(dagreGraph);
 
-  nodes.forEach((node) => {
+  initialNodes.forEach((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
-    node.sourcePosition = isHorizontal ? Position.Left : Position.Top;
-    node.targetPosition = isHorizontal ? Position.Right : Position.Bottom;
-
-    // We are shifting the dagre node position (anchor=center center) to the top left
-    // so it matches the React Flow node anchor point (top left).
+    node.targetPosition = isHorizontal ? 'left' : 'top';
+    node.sourcePosition = isHorizontal ? 'right' : 'bottom';
     node.position = {
       x: nodeWithPosition.x - nodeWidth / 2,
       y: nodeWithPosition.y - nodeHeight / 2,
@@ -64,44 +66,30 @@ const getLayoutedElements = (
     return node;
   });
 
-  return { nodes, edges };
+  return { initialNodes, edges };
 };
 
-const getNodeElements = (apiResponseNodes: APINode[]) => {
-  const position = { x: 0, y: 0 };
-  const nodes: Node[] = [];
-  apiResponseNodes.forEach(function (nodeDict, index) {
-    const node = nodeDict as Node;
-    node['position'] = position;
-    nodes.push(node);
-  });
-  return nodes;
-};
+const {
+  initialNodes: layoutedNodes,
+  edges: layoutedEdges,
+} = getLayoutedElements(initialNodes, initialEdges);
 
-const getEdgeElements = (apiResponseEdges: Edge[]) => {
-  const edges: any[] = [];
-  apiResponseEdges.forEach(function (edgeDict, index) {
-    const edge = edgeDict;
-    edge['markerEnd'] = { type: MarkerType.Arrow };
-    edges.push(edge);
-  });
-  return edges;
-};
+const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
-const { nodes: layoutedNodes, edges: layoutedEdges } = getLayoutedElements(
-  getNodeElements(apiResponseNodes),
-  getEdgeElements(apiResponseEdges),
-);
-
-export const LayoutFlow = () => {
+export const LayoutFlow: React.FC = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
+  const [selectedNode, setSelectedNode] = useState(placeholderData);
 
   const onConnect = useCallback(
     (params) =>
       setEdges((eds) =>
         addEdge(
-          { ...params, type: ConnectionLineType.SmoothStep, animated: true },
+          {
+            ...params,
+            type: ConnectionLineType.SmoothStep,
+            animated: true,
+          },
           eds,
         ),
       ),
@@ -110,38 +98,124 @@ export const LayoutFlow = () => {
   const onLayout = useCallback(
     (direction) => {
       const {
-        nodes: layoutedNodes,
+        initialNodes: layoutedNodes,
         edges: layoutedEdges,
-      } = getLayoutedElements(nodes, edges, direction);
+      } = getLayoutedElements(initialNodes, edges, direction);
 
       setNodes([...layoutedNodes]);
       setEdges([...layoutedEdges]);
     },
     [nodes, edges],
   );
-  const nodeTypes = useMemo(
-    () => ({ step: StepNode, artifact: ArtifactNode }),
-    [],
-  );
 
   return (
-    <div className={styles.layoutflow}>
-      <ReactFlow
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        connectionLineType={ConnectionLineType.SmoothStep}
-        connectionLineStyle={connectionLineStyle}
-        nodeTypes={nodeTypes}
-        fitView
-      >
-        <Controls />
-      </ReactFlow>
-      <div className={styles.controls}>
-        <button onClick={() => onLayout('TB')}>vertical layout</button>
-        <button onClick={() => onLayout('LR')}>horizontal layout</button>
+    <div className="layout">
+      <div className="layoutflow">
+        <ReactFlow
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          connectionLineType={ConnectionLineType.SmoothStep}
+          nodeTypes={nodeTypes}
+          onNodeClick={(event, node) => setSelectedNode(node.data)}
+          onNodeMouseEnter={(event, node) => setSelectedNode(node.data)}
+          onNodeMouseLeave={() => setSelectedNode(placeholderData)}
+          fitView
+        >
+          <Controls />
+        </ReactFlow>
+        <div className="controls">
+          <button onClick={() => onLayout('TB')}>Vertical Layout</button>
+          <button onClick={() => onLayout('LR')}>Horizontal Layout</button>
+        </div>
+      </div>
+      <div className="detailsPositioning">
+        <div className="detailsBox">
+          <h3 className="detailsTitle">
+            {selectedNode.artifact_type || selectedNode.execution_id == '' ? (
+              'Details'
+            ) : (
+              <span>
+                Status:{' '}
+                <span
+                  style={
+                    selectedNode.status === 'completed'
+                      ? { color: '#4ade80' }
+                      : selectedNode.status === 'failed'
+                      ? { color: '#FF5C93' }
+                      : selectedNode.status === 'running'
+                      ? { color: '#22BBDD' }
+                      : selectedNode.status === 'cached'
+                      ? { color: '#E8A562' }
+                      : { color: '#000' }
+                  }
+                >
+                  {selectedNode.status}
+                </span>
+              </span>
+            )}
+          </h3>
+          {selectedNode.execution_id !== '' ? (
+            <div className="details">
+              <div className="detailsInfo">
+                <p className="detailsLabel">
+                  {selectedNode.artifact_type ? 'Artifact ID' : 'Pipeline ID'}
+                </p>
+                <p className="detailsP">{selectedNode.execution_id}</p>
+                <p className="detailsLabel">
+                  {selectedNode.artifact_type
+                    ? 'Artifact Name'
+                    : 'Pipeline Run Name'}
+                </p>
+                <p className="detailsP">
+                  {selectedNode.artifact_type
+                    ? selectedNode.name
+                    : selectedNode.entrypoint_name}
+                </p>
+                <p className="detailsLabel">
+                  {selectedNode.artifact_type ? 'Type' : 'Stack'}
+                </p>
+                <p className="detailsP">
+                  {selectedNode.artifact_type
+                    ? selectedNode.artifact_type
+                    : 'PLACEHOLDER TEXT'}
+                </p>
+                <p className="detailsLabel">
+                  {selectedNode.artifact_type ? 'Data Types' : 'Inputs'}
+                </p>
+                <p className="detailsP">
+                  {selectedNode.artifact_type
+                    ? selectedNode.artifact_data_type
+                    : 'PLACEHOLDER TEXT'}
+                </p>
+                <p className="detailsLabel">
+                  {selectedNode.artifact_type ? 'URI' : 'Outputs'}
+                </p>
+                <p className="detailsP URI">
+                  {selectedNode.artifact_type
+                    ? selectedNode.uri
+                    : 'PLACEHOLDER TEXT'}
+                </p>
+                <p className="detailsLabel">
+                  {selectedNode.artifact_type ? 'Is Cached?' : 'Params'}
+                </p>
+                <p className="detailsP">
+                  {selectedNode.artifact_type
+                    ? selectedNode.is_cached
+                      ? 'Yes'
+                      : 'No'
+                    : 'PLACEHOLDER TEXT'}
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div className="detailsNoNode">
+              <p>Click on a node to see details</p>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

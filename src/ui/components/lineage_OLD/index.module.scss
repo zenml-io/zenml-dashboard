@@ -21,15 +21,15 @@
 .stepBody {
   display: flex;
   font-family: Arial, Helvetica, sans-serif !important;
-  border: 1px solid;
+  border: 1px #4ade80 solid;
   border-radius: 2px;
   font-size: 8px;
-  background: #fff;
 }
 
 .stepIcon {
   display: grid;
   place-items: center;
+  background: #4ade80;
   padding: 0.5rem;
 }
 
@@ -53,7 +53,7 @@
   font-family: Arial, Helvetica, sans-serif !important;
   border: 1px #cccccc solid;
   border-radius: 100%;
-  background: #eee;
+  background: #d9d9d9;
   padding: 0.5rem;
 }
 
