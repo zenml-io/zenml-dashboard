@@ -22,7 +22,7 @@ const placeholderData = {
   name: '',
   parameters: {},
   inputs: {},
-  outputs: [],
+  outputs: {},
   is_cached: true,
   artifact_type: '',
   artifact_data_type: '',
@@ -86,7 +86,7 @@ const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 export const LayoutFlow: React.FC = () => {
   const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
-  const [selectedNode, setSelectedNode] = useState(placeholderData);
+  const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
 
   const onConnect = useCallback(
@@ -169,79 +169,94 @@ export const LayoutFlow: React.FC = () => {
         <div className="detailsPositioning">
           <div className="detailsBox">
             <h3 className="detailsTitle">
-              {selectedNode.artifact_type || selectedNode.execution_id == '' ? (
+              {selectedNode?.artifact_type ||
+              selectedNode?.execution_id == '' ? (
                 'Details'
               ) : (
                 <span>
                   Status:{' '}
                   <span
                     style={
-                      selectedNode.status === 'completed'
+                      selectedNode?.status === 'completed'
                         ? { color: '#4ade80' }
-                        : selectedNode.status === 'failed'
+                        : selectedNode?.status === 'failed'
                         ? { color: '#FF5C93' }
-                        : selectedNode.status === 'running'
+                        : selectedNode?.status === 'running'
                         ? { color: '#22BBDD' }
-                        : selectedNode.status === 'cached'
+                        : selectedNode?.status === 'cached'
                         ? { color: '#4ade80' }
                         : { color: '#000' }
                     }
                   >
-                    {selectedNode.status}
+                    {selectedNode?.status}
                   </span>
                 </span>
               )}
             </h3>
-            {selectedNode.execution_id !== '' ? (
+            {selectedNode ? (
               <div className="details">
                 <div className="detailsInfo">
                   <p className="detailsLabel">
-                    {selectedNode.artifact_type ? 'Artifact ID' : 'Pipeline ID'}
+                    {selectedNode?.artifact_type
+                      ? 'Artifact ID'
+                      : 'Pipeline ID'}
                   </p>
-                  <p className="detailsP">{selectedNode.execution_id}</p>
+                  <p className="detailsP">{selectedNode?.execution_id}</p>
                   <p className="detailsLabel">
-                    {selectedNode.artifact_type
+                    {selectedNode?.artifact_type
                       ? 'Artifact Name'
                       : 'Pipeline Run Name'}
                   </p>
                   <p className="detailsP">
-                    {selectedNode.artifact_type
-                      ? selectedNode.name
-                      : selectedNode.entrypoint_name}
+                    {selectedNode?.artifact_type
+                      ? selectedNode?.name
+                      : selectedNode?.entrypoint_name}
                   </p>
                   <p className="detailsLabel">
-                    {selectedNode.artifact_type ? 'Type' : 'Stack'}
+                    {selectedNode?.artifact_type ? 'Type' : 'Stack'}
                   </p>
                   <p className="detailsP">
-                    {selectedNode.artifact_type
-                      ? selectedNode.artifact_type
+                    {selectedNode?.artifact_type
+                      ? selectedNode?.artifact_type
                       : 'PLACEHOLDER TEXT'}
                   </p>
                   <p className="detailsLabel">
-                    {selectedNode.artifact_type ? 'Data Types' : 'Inputs'}
-                  </p>
-                  <p className="detailsP">
-                    {selectedNode.artifact_type
-                      ? selectedNode.artifact_data_type
-                      : 'PLACEHOLDER TEXT'}
-                  </p>
-                  <p className="detailsLabel">
-                    {selectedNode.artifact_type ? 'URI' : 'Outputs'}
+                    {selectedNode?.artifact_type ? 'Data Types' : 'Inputs'}
                   </p>
                   <p className="detailsP URI">
-                    {selectedNode.artifact_type
-                      ? selectedNode.uri
-                      : 'PLACEHOLDER TEXT'}
+                    {selectedNode?.artifact_type
+                      ? selectedNode?.artifact_data_type
+                      : Object.entries(selectedNode?.inputs || {}).map(
+                          (value) => {
+                            return value[0] + ': ' + value[1] + '\n';
+                          },
+                        )}
                   </p>
                   <p className="detailsLabel">
-                    {selectedNode.artifact_type ? 'Is Cached?' : 'Params'}
+                    {selectedNode?.artifact_type ? 'URI' : 'Outputs'}
                   </p>
-                  <p className="detailsP">
-                    {selectedNode.artifact_type
-                      ? selectedNode.is_cached
+                  <p className="detailsP URI">
+                    {selectedNode?.artifact_type
+                      ? selectedNode?.uri
+                      : Object.entries(selectedNode?.outputs || {}).map(
+                          (value) => {
+                            return value[0] + ': ' + value[1] + '\n';
+                          },
+                        )}
+                  </p>
+                  <p className="detailsLabel">
+                    {selectedNode?.artifact_type ? 'Is Cached?' : 'Params'}
+                  </p>
+                  <p className="detailsP URI">
+                    {selectedNode?.artifact_type
+                      ? selectedNode?.is_cached
                         ? 'Yes'
                         : 'No'
-                      : 'PLACEHOLDER TEXT'}
+                      : Object.entries(selectedNode?.parameters || {}).map(
+                          (value) => {
+                            return value[0] + ': ' + value[1] + '\n';
+                          },
+                        )}
                   </p>
                 </div>
               </div>

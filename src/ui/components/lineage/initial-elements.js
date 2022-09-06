@@ -9,12 +9,10 @@ export const initialNodes = [
       name: 'get_first_num',
       parameters: {},
       inputs: {},
-      outputs: [
-        {
-          first_num:
-            '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/get_first_num/first_num/29',
-        },
-      ],
+      outputs: {
+        first_num:
+          '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/get_first_num/first_num/29',
+      },
     },
   },
   {
@@ -42,12 +40,10 @@ export const initialNodes = [
       name: 'get_random_int',
       parameters: {},
       inputs: {},
-      outputs: [
-        {
-          random_num:
-            '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/get_random_int/random_num/45',
-        },
-      ],
+      outputs: {
+        random_num:
+          '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/get_random_int/random_num/45',
+      },
     },
   },
   {
@@ -80,12 +76,10 @@ export const initialNodes = [
         random_num:
           '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/get_random_int/random_num/45',
       },
-      outputs: [
-        {
-          result:
-            '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/subtract_numbers/result/46',
-        },
-      ],
+      outputs: {
+        result:
+          '/home/htahir1/.config/zenml/local_stores/b5954d0e-07f2-4db5-8994-b6fde66d2d30/subtract_numbers/result/46',
+      },
     },
   },
   {
@@ -137,3 +131,5 @@ export const initialEdges = [
     type: '',
   },
 ];
+
+// const [selectedNode, setSelectedNode] = useState(placeholderData);
