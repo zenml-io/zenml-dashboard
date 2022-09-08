@@ -36,7 +36,7 @@ export const useService = (): ServiceInterface => {
 
     const filteredPipelines = orderedPipelines.filter(
       (pipeline: TPipeline) =>
-        currentWorkspace && pipeline.workspaceId === currentWorkspace.id,
+        currentWorkspace && pipeline.projectName === currentWorkspace.id,
     );
 
     setFilteredPipelines(filteredPipelines);

@@ -72,7 +72,8 @@ interface TPipeline {
   id: TId;
   name: string;
   createdAt: Date;
-  workspaceId: TId;
+  projectName: string;
+  // workspaceId: TId;
   pipelineConfig: any;
   userId: TId;
 }

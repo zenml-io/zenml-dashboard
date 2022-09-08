@@ -11,7 +11,7 @@ export const useService = ({
   pipeline: TPipeline;
 }): ServiceInterface => {
   const workspace = useSelector(
-    workspaceSelectors.workspaceForId(pipeline.workspaceId),
+    workspaceSelectors.workspaceForId(pipeline.projectName),
   );
 
   return { workspace };

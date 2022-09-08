@@ -31,6 +31,7 @@ export const actionTypesHandledByRequestSaga: string[] = [
   workspaceActionTypes.getPipelinesForWorkspaceId.request,
   pipelineActionTypes.getMyPipelines.request,
   pipelineActionTypes.getPipelineForId.request,
+  pipelineActionTypes.getRunsByPipelineId.request,
   runActionTypes.getRunForId.request,
   billingActionTypes.getBillingForRunId.request,
   billingActionTypes.getOrganizationBilling.request,

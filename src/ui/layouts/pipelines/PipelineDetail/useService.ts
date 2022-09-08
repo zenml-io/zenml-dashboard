@@ -18,8 +18,16 @@ export const useService = (): ServiceInterface => {
 
   useEffect(() => {
     setFetching(true);
+    // Legacy: previously runs was in pipeline
+    // dispatch(
+    //   pipelinesActions.pipelineForId({
+    //     pipelineId: id,
+    //     onSuccess: () => setFetching(false),
+    //     onFailure: () => setFetching(false),
+    //   }),
+    // );
     dispatch(
-      pipelinesActions.pipelineForId({
+      pipelinesActions.allRunsByPipelineId({
         pipelineId: id,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),

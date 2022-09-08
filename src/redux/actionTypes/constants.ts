@@ -32,6 +32,7 @@ const workspaceActionTypes = {
 const pipelineActionTypes = {
   PIPELINES_GET_MY_PIPELINES: 'PIPELINES_GET_MY_PIPELINES',
   PIPELINES_GET_PIPELINE_FOR_ID: 'PIPELINES_GET_PIPELINE_FOR_ID',
+  RUNS_GET_PIPELINE_FOR_ID: 'RUNS_GET_PIPELINE_FOR_ID',
 };
 
 const runActionTypes = {
