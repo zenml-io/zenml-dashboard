@@ -1,3 +1,3 @@
 import { getTranslateByScope } from '../../../../services';
 
-export const translate = getTranslateByScope('ui.layouts.Pipelines');
+export const translate = getTranslateByScope('ui.layouts.Stacks');
