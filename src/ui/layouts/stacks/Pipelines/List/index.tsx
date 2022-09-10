@@ -24,7 +24,7 @@ export const List: React.FC = () => {
   const openDetailPage = (pipeline: TPipeline) => {
     setSelectedRunIds([]);
 
-    history.push(routePaths.pipeline.configuration(pipeline.id));
+    history.push(routePaths.stack.configuration(pipeline.id));
   };
 
   console.log('test');

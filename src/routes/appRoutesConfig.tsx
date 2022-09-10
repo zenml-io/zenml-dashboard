@@ -140,7 +140,7 @@ const routes = [
   },
   {
     path: routePaths.stack.runs(':id'),
-    Component: PipelineDetail,
+    Component: StackDetails,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
