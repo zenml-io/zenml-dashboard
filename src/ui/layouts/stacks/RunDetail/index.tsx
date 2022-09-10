@@ -53,12 +53,12 @@ const getBreadcrumbs = ({
     {
       name: translate('header.breadcrumbs.pipelines.text'),
       clickable: true,
-      to: routePaths.pipelines.list,
+      to: routePaths.stacks.list,
     },
     {
       name: pipelineId,
       clickable: true,
-      to: routePaths.pipeline.configuration(pipelineId),
+      to: routePaths.stack.configuration(pipelineId),
     },
     {
       name: `Run ${runId}`,

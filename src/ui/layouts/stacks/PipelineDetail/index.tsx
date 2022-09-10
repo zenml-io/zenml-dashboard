@@ -12,12 +12,12 @@ const getTabPages = (pipelineId: TId): TabPage[] => {
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration pipelineId={pipelineId} />,
-      path: routePaths.pipeline.configuration(pipelineId),
+      path: routePaths.stack.configuration(pipelineId),
     },
     {
       text: translate('tabs.runs.text'),
       Component: () => <Runs pipelineId={pipelineId} />,
-      path: routePaths.pipeline.runs(pipelineId),
+      path: routePaths.stack.runs(pipelineId),
     },
   ];
 };
@@ -27,12 +27,12 @@ const getBreadcrumbs = (pipelineId: TId): TBreadcrumb[] => {
     {
       name: translate('header.breadcrumbs.pipelines.text'),
       clickable: true,
-      to: routePaths.pipelines.list,
+      to: routePaths.stacks.list,
     },
     {
       name: pipelineId,
       clickable: true,
-      to: routePaths.pipeline.configuration(pipelineId),
+      to: routePaths.stack.configuration(pipelineId),
     },
   ];
 };
@@ -51,7 +51,7 @@ export const PipelineDetail: React.FC = () => {
     <BasePage
       headerWithButtons
       tabPages={tabPages}
-      tabBasePath={routePaths.pipeline.base(pipeline.id)}
+      tabBasePath={routePaths.stack.base(pipeline.id)}
       breadcrumbs={breadcrumbs}
     />
   );

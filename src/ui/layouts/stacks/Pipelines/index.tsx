@@ -11,12 +11,12 @@ const PAGES = [
   {
     text: translate('tabs.pipelines.text'),
     Component: List,
-    path: routePaths.pipelines.list,
+    path: routePaths.stacks.list,
   },
   {
     text: translate('tabs.allRuns.text'),
     Component: AllRuns,
-    path: routePaths.pipelines.allRuns,
+    path: routePaths.stacks.allRuns,
   },
 ];
 
@@ -24,7 +24,7 @@ const BREADCRUMBS = [
   {
     name: translate('header.breadcrumbs.pipelines.text'),
     clickable: true,
-    to: routePaths.pipelines.list,
+    to: routePaths.stacks.list,
   },
 ];
 
@@ -39,7 +39,7 @@ export const Pipelines: React.FC = () => {
   return (
     <BasePage
       tabPages={PAGES}
-      tabBasePath={routePaths.pipelines.base}
+      tabBasePath={routePaths.stacks.base}
       breadcrumbs={BREADCRUMBS}
       headerWithButtons
       renderHeaderRight={() => (
