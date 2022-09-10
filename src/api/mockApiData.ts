@@ -75,24 +75,61 @@ const mockApi = {
   pipelinesByWorkspacesIdMockResponse: [
     {
       id: '9lg2jk3',
-      organization_id: 'string',
-      project_name: 'string',
-      name: 'prod_stack',
-      components: [
-        {
-          id: 'asdf2-asdf1-ad143',
-          type: 'alerter',
-          flavor: 'slack',
-          name: 'slack_alerter',
-          config: {
-            slack_token: 'INFU1328UJ',
-            default_slack_channel_id: 184195,
+      name: 'default',
+      description: 'Awesome default stack.',
+      components: {
+        artifact_store: {
+          id: '2142bae6-3223-4a17-a988-57ca81022956',
+          name: 'default',
+          type: 'artifact_store',
+          flavor_name: 'local',
+          configuration: {
+            path:
+              '/home/apenner/.config/zenml/local_stores/default_local_store',
           },
+          owner: 'd3ea3f95-d95f-4df7-a102-516962cf2a59',
+          is_shared: false,
+          project: 'default',
+          created_at: '2022-08-12T07:12:45.931Z',
         },
-      ],
-      creator: 'Hamza Tahir',
-      creation_date: '2022-08-12T07:12:45.931Z',
+        orchestrator: {
+          id: '7003d20a-6a35-4585-a89c-2eb9bfad45f9',
+          name: 'default',
+          type: 'orchestrator',
+          flavor_name: 'local',
+          configuration: {},
+          owner: 'd3ea3f95-d95f-4df7-a102-516962cf2a59',
+          is_shared: true,
+          project: 'default',
+          created_at: '2022-08-12T07:12:45.931Z',
+        },
+      },
+      is_shared: true,
+      project_name: 'default',
+      organization_id: 'string',
+      owner: 'd3ea3f95-d95f-4df7-a102-516962cf2a59',
+      created_at: '2022-08-12T07:12:45.931Z',
     },
+    // {
+    //   id: '9lg2jk3',
+    //   organization_id: 'string',
+    //   project_name: 'string',
+    //   name: 'prod_stack',
+    //   components: [
+    //     {
+    //       id: 'asdf2-asdf1-ad143',
+    //       type: 'alerter',
+    //       flavor: 'slack',
+    //       name: 'slack_alerter',
+    //       config: {
+    //         slack_token: 'INFU1328UJ',
+    //         default_slack_channel_id: 184195,
+    //       },
+    //     },
+    //   ],
+    //   creator: 'Hamza Tahir',
+    //   creation_date: '2022-08-12T07:12:45.931Z',
+    // },
     // {
     //   name: 'string',
     //   pipeline_config: {},
