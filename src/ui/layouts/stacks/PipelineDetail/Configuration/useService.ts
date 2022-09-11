@@ -17,10 +17,17 @@ export const useService = ({
     pipelineSelectors.pipelineForId(pipelineId),
   );
 
-  const yamlConfigObj = {
+  const yamlConfigObj: any = {
     stack_name: pipeline.name,
-    components: pipeline.components,
+    components: {},
   };
+  Object.keys(pipeline.components).forEach((element) => {
+    yamlConfigObj.components[element] = {
+      flavor: pipeline.components[element].flavor_name,
+      name: pipeline.components[element].name,
+      ...pipeline.components[element].configuration,
+    };
+  });
 
   const pipelineConfig = YAML.stringify(yamlConfigObj);
 

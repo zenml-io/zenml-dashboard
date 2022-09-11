@@ -21,10 +21,19 @@ export const RunsForPipelineTable: React.FC<{
   if (!isPipelineOpen()) return null;
 
   if (nestedRow) {
-    const nestedRowtiles = pipeline.components.map((c: any) => ({
-      name: c.name,
-      type: c.type,
-    }));
+    const nestedRowtiles = [];
+
+    for (const [key, value] of Object.entries(pipeline.components)) {
+      nestedRowtiles.push({
+        type: key,
+        name: pipeline.components[key].name,
+      });
+    }
+
+    // const nestedRowtiles = pipeline.components.map((c: any) => ({
+    //   name: c.name,
+    //   type: c.type,
+    // }));
     /**
      * return nested rows each row should not exceed more than 4 tiles
      */
