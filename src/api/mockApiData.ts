@@ -15,26 +15,27 @@ const mockApi = {
     },
   ],
   myPipelinesMockResponse: [
-    {
-      id: '9lg2jk3',
-      organization_id: 'string',
-      name: 'prod_stack',
-      project_name: 'string',
-      components: [
-        {
-          id: 'asdf2-asdf1-ad143',
-          type: 'alerter',
-          flavor: 'slack',
-          name: 'slack_alerter',
-          config: {
-            slack_token: 'INFU1328UJ',
-            default_slack_channel_id: 184195,
-          },
-        },
-      ],
-      creator: 'Hamza Tahir',
-      creation_date: '2022-08-12T07:12:45.931Z',
-    },
+    // old response, will remove this code later
+    // {
+    //   id: '9lg2jk3',
+    //   organization_id: 'string',
+    //   name: 'prod_stack',
+    //   project_name: 'string',
+    //   components: [
+    //     {
+    //       id: 'asdf2-asdf1-ad143',
+    //       type: 'alerter',
+    //       flavor: 'slack',
+    //       name: 'slack_alerter',
+    //       config: {
+    //         slack_token: 'INFU1328UJ',
+    //         default_slack_channel_id: 184195,
+    //       },
+    //     },
+    //   ],
+    //   creator: 'Hamza Tahir',
+    //   creation_date: '2022-08-12T07:12:45.931Z',
+    // },
     // {
     //   name: 'string',
     //   pipeline_config: {},
@@ -73,6 +74,7 @@ const mockApi = {
     // },
   ],
   pipelinesByWorkspacesIdMockResponse: [
+    // new response
     {
       id: '9lg2jk3',
       name: 'default',
@@ -169,24 +171,24 @@ const mockApi = {
   ],
 
   pipelineByIdMockResponse: {
-    id: '9lg2jk3',
-    organization_id: 'string',
-    name: 'prod_stack',
-    project_name: 'string',
-    components: [
-      {
-        id: 'asdf2-asdf1-ad143',
-        type: 'alerter',
-        flavor: 'slack',
-        name: 'slack_alerter',
-        config: {
-          slack_token: 'INFU1328UJ',
-          default_slack_channel_id: 184195,
-        },
-      },
-    ],
-    creator: 'Hamza Tahir',
-    creation_date: '2022-08-12T07:12:45.931Z',
+    // id: '9lg2jk3',
+    // organization_id: 'string',
+    // name: 'prod_stack',
+    // project_name: 'string',
+    // components: [
+    //   {
+    //     id: 'asdf2-asdf1-ad143',
+    //     type: 'alerter',
+    //     flavor: 'slack',
+    //     name: 'slack_alerter',
+    //     config: {
+    //       slack_token: 'INFU1328UJ',
+    //       default_slack_channel_id: 184195,
+    //     },
+    //   },
+    // ],
+    // creator: 'Hamza Tahir',
+    // creation_date: '2022-08-12T07:12:45.931Z',
     // name: 'string',
     // pipeline_config: {},
     // project_name: 'string',
