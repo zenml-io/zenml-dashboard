@@ -43,12 +43,22 @@ export const getHeaderCols = ({
       ),
     },
     {
+      render: () => (
+        <Paragraph size="small" color="grey">
+          STACK NAME
+        </Paragraph>
+      ),
       width: '13%',
       renderRow: (pipeline: TPipeline) => (
         <Paragraph size="small">{pipeline.name}</Paragraph>
       ),
     },
     {
+      render: () => (
+        <Paragraph size="small" color="grey">
+          RUN ID
+        </Paragraph>
+      ),
       width: '15%',
       renderRow: (pipeline: TPipeline) => (
         <Paragraph size="small">
@@ -56,19 +66,24 @@ export const getHeaderCols = ({
         </Paragraph>
       ),
     },
+
     {
-      width: '10%',
-      renderRow: (pipeline: TPipeline) => <Status pipeline={pipeline} />,
-    },
-    {
-      width: '16%',
-      renderRow: (pipeline: TPipeline) => <WorkspaceName pipeline={pipeline} />,
-    },
-    {
+      render: () => (
+        <Paragraph size="small" color="grey">
+          OWNER
+        </Paragraph>
+      ),
       width: '11%',
-      renderRow: (pipeline: TPipeline) => <UserName pipeline={pipeline} />,
+      renderRow: (pipeline: TPipeline) => (
+        <Paragraph size="small">{pipeline.owner}</Paragraph>
+      ),
     },
     {
+      render: () => (
+        <Paragraph size="small" color="grey">
+          CREATED AT
+        </Paragraph>
+      ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
         <FlexBox alignItems="center">

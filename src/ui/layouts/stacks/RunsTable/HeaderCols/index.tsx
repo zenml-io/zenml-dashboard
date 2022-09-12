@@ -56,42 +56,6 @@ export const useHeaderCols = ({
   return [
     {
       render: () => (
-        <FlexBox justifyContent="center">
-          <Paragraph size="small" color="grey">
-            <LinkBox
-              onClick={() => {
-                if (allRunsSelected(runs)) {
-                  unselectRuns(runs);
-                } else {
-                  selectRuns(runs);
-                }
-              }}
-              className={cn(
-                styles.checkbox,
-                allRunsSelected(runs) && styles.checkedCheckbox,
-              )}
-            />
-          </Paragraph>
-        </FlexBox>
-      ),
-      width: '3%',
-      renderRow: (run: TRun) => (
-        <FlexBox justifyContent="center">
-          <LinkBox
-            onClick={(e: Event) => {
-              e.stopPropagation();
-              toggleSelectRun(run);
-            }}
-            className={cn(
-              styles.checkbox,
-              isRunSelected(run) && styles.checkedCheckbox,
-            )}
-          />
-        </FlexBox>
-      ),
-    },
-    {
-      render: () => (
         <SortingHeader
           sorting="id"
           sortMethod={sortMethod('id', {
@@ -102,7 +66,7 @@ export const useHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="grey">
-            {translate('runId.text')}
+            RUN NAME
           </Paragraph>
         </SortingHeader>
       ),
@@ -114,96 +78,46 @@ export const useHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="grey">
-          {translate('pipelineName.text')}
+          STACK
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (run: TRun) => <PipelineName run={run} />,
+      renderRow: (run: TRun) => (
+        <Paragraph size="small">{run.stack.name}</Paragraph>
+      ),
     },
+
     {
       render: () => (
-        <SortingHeader
-          sorting="pipelineRunType"
-          sortMethod={sortMethod('pipelineRunType', {
-            asc: (runs: TRun[]) =>
-              _.orderBy(runs, ['pipelineRunType'], ['asc']),
-            desc: (runs: TRun[]) =>
-              _.orderBy(runs, ['pipelineRunType'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('type.text')}
-          </Paragraph>
-        </SortingHeader>
+        <Paragraph size="small" color="grey">
+          RUN TIME
+        </Paragraph>
       ),
-      width: '8%',
+      width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.pipelineRunType}</Paragraph>
+        <Paragraph size="small">{run.duration}</Paragraph>
+      ),
+    },
+
+    {
+      render: () => (
+        <Paragraph size="small" color="grey">
+          PIPELINE NAME
+        </Paragraph>
+      ),
+      width: '10%',
+      renderRow: (run: TRun) => (
+        <Paragraph size="small">{run.pipeline.name}</Paragraph>
       ),
     },
     {
       render: () => (
         <Paragraph size="small" color="grey">
-          {translate('runtime.text')}
+          AUTHOR
         </Paragraph>
       ),
-      width: '8%',
-      renderRow: (run: TRun) => <RunTime run={run} />,
-    },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="status"
-          sortMethod={sortMethod('status', {
-            asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
-            desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('status.text')}
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '13%',
-      renderRow: (run: TRun) => <RunStatus run={run} />,
-    },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="datasourceCommit"
-          sortMethod={sortMethod('datasourceCommit', {
-            asc: (runs: TRun[]) =>
-              _.orderBy(runs, ['datasourceCommitId'], ['asc']),
-            desc: (runs: TRun[]) =>
-              _.orderBy(runs, ['datasourceCommitId'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('datasourceCommit.text')}
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '20%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">
-          {truncate(run.datasourceCommitId, ID_MAX_LENGTH)}
-        </Paragraph>
-      ),
-    },
-    {
-      render: () => (
-        <Paragraph size="small" color="grey">
-          {translate('author.text')}
-        </Paragraph>
-      ),
-      width: '15%',
-      renderRow: (run: TRun) => <RunUser run={run} />,
+      width: '10%',
+      renderRow: (run: TRun) => <RunUser run={run.owner.name} />,
     },
     {
       render: () => (
@@ -227,7 +141,7 @@ export const useHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="grey">
-            {translate('createdAt.text')}
+            CREATED AT
           </Paragraph>
         </SortingHeader>
       ),
@@ -238,7 +152,7 @@ export const useHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(run.kubeflowStartTime)}
+            {formatDateToDisplay(run.creationDate)}
           </Paragraph>
         </FlexBox>
       ),
