@@ -23,7 +23,7 @@ export const RunsForPipelineTable: React.FC<{
   if (nestedRow) {
     const nestedRowtiles = [];
 
-    for (const [key, value] of Object.entries(pipeline.components)) {
+    for (const [key] of Object.entries(pipeline.components)) {
       nestedRowtiles.push({
         type: key,
         name: pipeline.components[key].name,
@@ -40,7 +40,7 @@ export const RunsForPipelineTable: React.FC<{
     return (
       <>
         <NestedRow tiles={nestedRowtiles} />
-        <NestedRow tiles={nestedRowtiles} />;
+        {/* <NestedRow tiles={nestedRowtiles} />; */}
       </>
     );
   }
@@ -72,7 +72,7 @@ function NestedRow({ tiles }: NestedRowProps) {
       className={styles.nestedrow}
       padding="md"
       alignItems="center"
-      justifyContent="center"
+      // justifyContent="center"
     >
       {tiles &&
         tiles.map((tile: tile, index: number) => (
@@ -86,7 +86,7 @@ function NestedRow({ tiles }: NestedRowProps) {
           </Box>
         ))}
 
-      <Box className={styles.tile} color="black">
+      {/* <Box className={styles.tile} color="black">
         <Paragraph size="small">
           <span>artifact_store {'>'} </span>{' '}
           <span className={styles.name}>s3_aws</span>
@@ -103,7 +103,7 @@ function NestedRow({ tiles }: NestedRowProps) {
           <span>experiment_tracker {'>'} </span>{' '}
           <span className={styles.name}>mlflow_prd</span>
         </Paragraph>
-      </Box>
+      </Box> */}
     </FlexBox.Row>
   );
 }

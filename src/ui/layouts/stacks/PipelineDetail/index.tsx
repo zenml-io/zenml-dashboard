@@ -25,7 +25,7 @@ const getTabPages = (pipelineId: TId): TabPage[] => {
 const getBreadcrumbs = (pipelineId: TId): TBreadcrumb[] => {
   return [
     {
-      name: translate('header.breadcrumbs.pipelines.text'),
+      name: translate('header.breadcrumbs.stacks.text'),
       clickable: true,
       to: routePaths.stacks.list,
     },

@@ -39,7 +39,7 @@ export const List: React.FC = () => {
           />
         )}
         loading={fetching}
-        showHeader={false}
+        showHeader={true}
         headerCols={headerCols}
         tableRows={filteredPipelines}
         emptyState={{ text: translate('emptyState.text') }}

@@ -9,9 +9,9 @@ import {
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
-import { Status } from './Status';
-import { WorkspaceName } from './WorkspaceName';
-import { UserName } from './UserName';
+// import { Status } from './Status';
+// import { WorkspaceName } from './WorkspaceName';
+// import { UserName } from './UserName';
 
 export const getHeaderCols = ({
   openPipelineIds,
@@ -44,7 +44,7 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="grey">
+        <Paragraph size="small" color="black">
           STACK NAME
         </Paragraph>
       ),
@@ -55,7 +55,7 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="grey">
+        <Paragraph size="small" color="black">
           RUN ID
         </Paragraph>
       ),
@@ -69,7 +69,7 @@ export const getHeaderCols = ({
 
     {
       render: () => (
-        <Paragraph size="small" color="grey">
+        <Paragraph size="small" color="black">
           OWNER
         </Paragraph>
       ),
@@ -80,7 +80,7 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="grey">
+        <Paragraph size="small" color="black">
           CREATED AT
         </Paragraph>
       ),
