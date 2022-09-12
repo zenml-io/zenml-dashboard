@@ -4,6 +4,11 @@
 $bgColor: #FFFF;
 
 
+.signUp {
+  overflow: hidden;
+  background: linear-gradient(#433E99, #8F599D);
+}
+
 .loginBox {
   max-width: 400px;
   margin: 0 auto !important;
@@ -32,4 +37,9 @@ $bgColor: #FFFF;
 .descriptionTextBox {
   max-width: 700px;
   margin: 5vh auto !important;
+}
+
+.signUpButton {
+  width: 100%;
+  background-color: #E8A562;
 }

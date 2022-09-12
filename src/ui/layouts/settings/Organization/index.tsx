@@ -43,11 +43,63 @@ export const Organization: React.FC = () => {
   );
 
   const organization = useSelector(organizationSelectors.myOrganization);
-  const invites = useSelector(organizationSelectors.invites);
-  const members = useSelector(organizationSelectors.myMembers);
+  // const invites = useSelector(organizationSelectors.invites);
+  // const members = useSelector(organizationSelectors.myMembers);
 
   const memberHeaderCols = useMemberHeaderCols();
   const inviteHeaderCols = useInviteHeaderCols();
+
+const invites = [
+    {
+        id: "string",
+        userId: "string",
+        status: "string",
+        startTime: "2022-08-09T19:08:54.541Z",
+        endTime: "2022-08-09T19:08:54.541Z",
+        workers: 0,
+        cpusPerWorker: 0,
+        datasourceCommitId: "string",
+        pipelineRunType: "string",
+        pipelineComponents: [{ start_time: "2022-08-09T19:08:54.541Z", end_time: "2022-08-09T19:08:54.541Z", status: "string", component_type: "string"  }],
+        processingBackendId: "string",
+        orchestrationBackendId: "string",
+        trainingBackendId: "string",
+        servingBackendId: "string",
+        trainingArgs: {},
+        servingArgs: {},
+        workspaceId: "string",
+        pipelineId: "string",
+        Member: 'fds',
+        Role: 'uio'
+    },
+]
+
+
+const members = [
+    {
+      id: "string",
+      userId: "string",
+      status: "string",
+      startTime: "2022-08-09T19:08:54.541Z",
+      endTime: "2022-08-09T19:08:54.541Z",
+      workers: 0,
+      cpusPerWorker: 0,
+      datasourceCommitId: "string",
+      pipelineRunType: "string",
+      pipelineComponents: [{ start_time: "2022-08-09T19:08:54.541Z", end_time: "2022-08-09T19:08:54.541Z", status: "string", component_type: "string" }],
+      processingBackendId: "string",
+      orchestrationBackendId: "string",
+      trainingBackendId: "string",
+      servingBackendId: "string",
+      trainingArgs: {},
+      servingArgs: {},
+      workspaceId: "string",
+      pipelineId: "string",
+      Member: 'fds',
+      Role: 'uio'
+  }
+]
+
 
   if (!organization) return null;
 
@@ -60,7 +112,7 @@ export const Organization: React.FC = () => {
         />
       )}
 
-      <FlexBox.Column flex={1} style={{ width: '100%' }}>
+      <FlexBox.Column flex={1} style={{ width: '100%', marginLeft: '40px' }}>
         <FlexBox.Row alignItems="center" justifyContent="space-between">
           <FlexBox.Row alignItems="center">
             <Box>

@@ -4,12 +4,10 @@ import {
   Box,
   FormEmailField,
   FormPasswordField,
-  SecondaryLink,
   PrimaryButton,
 } from '../../../components';
 import { translate } from './translate';
 import { useService } from './useService';
-import { routePaths } from '../../../../routes/routePaths';
 import { useEnterKeyPress } from '../../../hooks';
 
 const emailHasError = (email: string, hasSubmittedWithErrors: boolean) =>
@@ -47,6 +45,7 @@ export const Form: React.FC = () => {
       <Box marginBottom="lg">
         <FormEmailField
           label={translate('form.email.label')}
+          labelColor='#ffffff'
           placeholder={translate('form.email.placeholder')}
           value={email}
           onChange={(val: string) => setEmail(val)}
@@ -56,9 +55,10 @@ export const Form: React.FC = () => {
           }}
         />
       </Box>
-      <Box marginBottom="md">
+      <Box marginBottom="xxl">
         <FormPasswordField
           label={translate('form.password.label')}
+          labelColor='#ffffff'
           placeholder={translate('form.password.placeholder')}
           value={password}
           onChange={(val: string) => setPassword(val)}
@@ -68,14 +68,8 @@ export const Form: React.FC = () => {
           }}
         />
       </Box>
-      <Box marginBottom="xxl">
-        <SecondaryLink
-          size="small"
-          text={translate('forgotPassword.text')}
-          route={routePaths.forgot}
-        />
-      </Box>
       <PrimaryButton
+        style={{ width: '100%', backgroundColor: '#E8A562' }}
         loading={loading}
         disabled={BUTTON_DISABLED || loading}
         onClick={submit}

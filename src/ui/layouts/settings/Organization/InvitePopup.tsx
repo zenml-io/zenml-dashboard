@@ -187,6 +187,7 @@ export const InvitePopup: React.FC<{
               <Box style={{ width: '35%' }} marginLeft="md">
                 <FormDropdownField
                   label={translate('popup.role.label')}
+                  labelColor='#000'
                   placeholder={translate('popup.role.placeholder')}
                   value={inviteMember.role}
                   onChange={(value: any) => {

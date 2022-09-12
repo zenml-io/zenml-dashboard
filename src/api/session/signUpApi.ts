@@ -28,8 +28,8 @@ const signUpApi = ({ account }: Params): Promise<void> =>
     data: JSON.stringify({
       email: account.email,
       password: account.password,
-      full_name: account.fullname,
-      organization_name: account.organizationName,
+      // full_name: account.fullname,
+      // organization_name: account.organizationName,
       organization_id: null,
       n_pipelines_executed: 0,
       firebase_id: null,

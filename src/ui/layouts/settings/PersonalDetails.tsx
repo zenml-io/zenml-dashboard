@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { getInitials } from '../../../utils';
 import {
   Box,
   ColoredSquare,
   FlexBox,
   FormTextField,
+  FormPasswordField,
   Paragraph,
   Row,
   Col,
@@ -33,9 +34,24 @@ export const PersonalDetails: React.FC = () => {
   const organization = useSelector(organizationSelectors.myOrganization);
   const user = useSelector(userSelectors.myUser);
 
+  const [email, setEmail] = useState(user?.email)
+  const [showPassField, setShowPassField] = useState(false)
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
+
+
   if (!organization || !user) return null;
 
   const forgotPassword = () => {
+
+    if (newPassword !== confirmPassword) {
+      dispatch(showToasterAction({
+          description: 'Password not Matched',
+          type: toasterTypes.failure,
+        })
+      )
+    } else {
     dispatch(
       sessionActions.forgotPassword({
         email: user.email,
@@ -57,11 +73,12 @@ export const PersonalDetails: React.FC = () => {
         },
       }),
     );
+    }
   };
 
   return (
-    <FlexBox.Column flex={1}>
-      <FlexBox.Row alignItems="center">
+    <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
+      <FlexBox.Row  alignItems="center">
         <Box>
           <ColoredSquare size="md" color="secondary">
             <Paragraph color="white">
@@ -73,41 +90,95 @@ export const PersonalDetails: React.FC = () => {
           <Paragraph bold>{organization.name}</Paragraph>
         </Box>
       </FlexBox.Row>
-      <Box marginTop="lg">
-        <Paragraph color="grey">
-          {translate('accountManagedText')} {organization.name}
-        </Paragraph>
-      </Box>
+
+      {!showPassField && (
+        <Box marginTop="lg">
+          <Row>
+            <Col lg={5}>
+              <Box marginBottom="lg">
+                <FormTextField
+                  label={translate('form.email.label')}
+                  labelColor='#000'
+                  placeholder={translate('form.email.placeholder')}
+                  value={email ? email : ''}
+                  onChange={(val: string) => setEmail(val)}
+                />
+              </Box>
+            
+              <Box marginBottom="xs" style={{ display: 'flex', justifyContent: 'space-between' }}>
+                {!showPassField && (
+                  <Box>
+                    <Paragraph style={{ textDecoration: 'underline', color: '#A1A4AB', cursor: 'pointer' }} onClick={() => setShowPassField(!showPassField)}>
+                      {translate('passwordReset.label')}
+                    </Paragraph>
+                  </Box>
+                )}
+                {email !== user.email && (   
+                  <PrimaryButton>
+                    {translate('emailReset.label')}
+                  </PrimaryButton>
+                )}
+              </Box>
+            </Col>
+          </Row>
+        </Box>
+      )}
+
       <Box marginBottom="lg" marginTop="xl">
         <Row>
-          <Col lg={6}>
-            <FormTextField
-              label={translate('form.fullName.label')}
-              placeholder={translate('form.fullName.placeholder')}
-              value={user.fullName}
-              disabled
-            />
+          <Col lg={5}>
+
+            {showPassField && (
+              <>
+                <Box marginBottom="lg">
+                  <FormPasswordField
+                    label={translate('form.passwordChange.currentPassword.label')}
+                    labelColor='#000'
+                    placeholder={translate('form.passwordChange.currentPassword.placeholder')}
+                    value={currentPassword}
+                    onChange={(val: string) => setCurrentPassword(val)}
+                    error={{
+                      hasError: currentPassword.trim() === undefined,
+                      text: translate('form.passwordChange.currentPassword.required'),
+                    }}
+                    showPasswordOption
+                  />
+                </Box>
+                <Box marginBottom="lg">
+                  <FormPasswordField
+                    label={translate('form.passwordChange.newPassword.label')}
+                    labelColor='#000'
+                    placeholder={translate('form.passwordChange.newPassword.placeholder')}
+                    value={newPassword}
+                    onChange={(val: string) => setNewPassword(val)}
+                    error={{
+                      hasError: newPassword.trim() === undefined,
+                      text: translate('form.passwordChange.newPassword.required'),
+                    }}
+                    showPasswordOption
+                  />
+                </Box>
+                <Box marginBottom="lg">
+                  <FormPasswordField
+                    label={translate('form.passwordChange.confirmPassword.label')}
+                    labelColor='#000'
+                    placeholder={translate('form.passwordChange.confirmPassword.placeholder')}
+                    value={confirmPassword}
+                    onChange={(val: string) => setConfirmPassword(val)}
+                    error={{
+                      hasError: confirmPassword.trim() === undefined,
+                      text: translate('form.passwordChange.confirmPassword.required'),
+                    }}
+                    showPasswordOption
+                  />
+                </Box>
+                <PrimaryButton onClick={forgotPassword}>
+                  {translate('passwordReset.button')}
+                </PrimaryButton>
+              </>   
+            )}
           </Col>
-          <Col lg={6}>
-            <Box marginBottom="xs">
-              <Paragraph>{translate('passwordReset.label')}</Paragraph>
-            </Box>
-            <PrimaryButton onClick={forgotPassword}>
-              {translate('passwordReset.button')}
-            </PrimaryButton>
-          </Col>
-        </Row>
-      </Box>
-      <Box marginBottom="lg">
-        <Row>
-          <Col lg={6}>
-            <FormTextField
-              label={translate('form.email.label')}
-              placeholder={translate('form.email.placeholder')}
-              value={user.email}
-              disabled
-            />
-          </Col>
+       
         </Row>
       </Box>
     </FlexBox.Column>

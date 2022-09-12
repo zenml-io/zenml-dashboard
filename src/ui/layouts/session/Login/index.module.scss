@@ -3,6 +3,11 @@
 // $bgColor: rgba(43, 217, 120, 0.1);
 $bgColor: #FFFF;
 
+.login {
+  overflow: hidden;
+  background: linear-gradient(#433E99, #8F599D);
+}
+
 .loginBox {
   max-width: 400px;
   margin: 0 auto !important;

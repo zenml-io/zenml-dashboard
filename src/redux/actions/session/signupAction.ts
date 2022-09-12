@@ -4,15 +4,11 @@ import signUpApi from '../../../api/session/signUpApi';
 export const signUpAction = ({
   password,
   email,
-  fullname,
-  organizationName,
   onSuccess,
   onFailure,
 }: {
   password: string;
   email: string;
-  fullname: string;
-  organizationName: string;
   onSuccess?: () => void;
   onFailure?: (errorMessage: string) => void;
 }): TRequestAction => ({
@@ -27,9 +23,7 @@ export const signUpAction = ({
     params: {
       account: {
         email,
-        password,
-        fullname,
-        organizationName,
+        password
       },
     },
   },

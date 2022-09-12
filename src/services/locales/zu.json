@@ -36,11 +36,32 @@
               "email": {
                 "label": "Email address",
                 "placeholder": "john.doe@acme.com"
+              },
+              "passwordChange": {
+                "currentPassword": {
+                  "label": "Current Password",
+                  "placeholder": "Current Password",
+                  "required": "Current Password Required"
+                },
+                "newPassword": {
+                  "label": "New Password",
+                  "placeholder": "New Password",
+                  "required": "New Password Required"
+                },
+                "confirmPassword": {
+                  "label": "Confirm Password",
+                  "placeholder": "Confirm Password",
+                  "required": "Confirm Password Required"
+                }
               }
             },
             "passwordReset": {
-              "label": "Password",
+              "label": "Change Password",
               "button": "Change Password"
+            },
+            "emailReset": {
+              "label": "Change Email",
+              "button": "Change Email"
             },
             "toasts": {
               "successful": {
@@ -272,7 +293,7 @@
             }
           },
           "Signup": {
-            "title": "Sign Up",
+            "title": "Register",
             "subtitle": "Enter your details below",
             "form": {
               "fullname": {
@@ -291,13 +312,18 @@
                 "placeholder": "Password",
                 "required": "Password is required"
               },
+              "confirmPassword": {
+                "label": "Confirm Password",
+                "placeholder": "Password",
+                "required": "Password is required"
+              },
               "organization": {
                 "label": "Organization",
                 "placeholder": "Organization",
                 "required": "Organization is required"
               },
               "button": {
-                "text": "Sign Up"
+                "text": "Register"
               }
             },
             "login": {

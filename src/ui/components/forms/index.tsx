@@ -37,6 +37,7 @@ export type FieldError = {
 
 export const FormTextField = (props: {
   label: string;
+  labelColor: any;
   placeholder: string;
   value: string;
   onChange?: any;
@@ -50,6 +51,7 @@ export const FormTextField = (props: {
       <InputWithLabel
         name={props.name}
         label={props.label}
+        labelColor={props.labelColor}
         InputComponent={
           <TextInput
             {...props}
@@ -70,6 +72,7 @@ export const FormTextField = (props: {
 
 export const FormDropdownField = (props: {
   label: string;
+  labelColor: any;
   placeholder: string;
   value: string;
   options: any[];
@@ -83,6 +86,7 @@ export const FormDropdownField = (props: {
       <InputWithLabel
         name={props.name}
         label={props.label}
+        labelColor={props.labelColor}
         InputComponent={
           <DropdownInput
             {...props}
@@ -104,6 +108,7 @@ export const FormDropdownField = (props: {
 export const FormPasswordField = (
   props: {
     label: string;
+    labelColor: any;
     placeholder: string;
     value: string;
     onChange: any;
@@ -118,6 +123,7 @@ export const FormPasswordField = (
         <InputWithLabel
           name={props.name}
           label={props.label}
+          labelColor={props.labelColor}
           InputComponent={
             !showPassword ? (
               <PasswordInput
@@ -160,6 +166,7 @@ export const FormPasswordField = (
 export const FormEmailField = (
   props: {
     label: string;
+    labelColor: any;
     placeholder: string;
     value: string;
     onChange: any;
@@ -170,6 +177,7 @@ export const FormEmailField = (
     <FlexBox alignItems="center" fullWidth>
       <InputWithLabel
         label={props.label}
+        labelColor={props.labelColor}
         InputComponent={
           <EmailInput
             onChangeText={props.onChange}
@@ -190,6 +198,7 @@ export const FormEmailField = (
 
 export const FormNumberField = (props: {
   label: string;
+  labelColor: any;
   placeholder: string;
   error: any;
   value: string;
@@ -199,6 +208,7 @@ export const FormNumberField = (props: {
     <FlexBox alignItems="center" fullWidth>
       <InputWithLabel
         label={props.label}
+        labelColor={props.labelColor}
         InputComponent={
           <TextInput
             type="number"

@@ -16,10 +16,6 @@ interface ServiceInterface {
   setEmail: (email: string) => void;
   password: string;
   setPassword: (password: string) => void;
-  fullname: string;
-  setFullName: (fullname: string) => void;
-  organizationName: string;
-  setOrganizationName: (organization: string) => void;
   loading: boolean;
   invite: TInvite | undefined;
 }
@@ -28,8 +24,6 @@ export const useService = (): ServiceInterface => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [fullname, setFullName] = useState('');
-  const [organizationName, setOrganizationName] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
 
   const dispatch = useDispatch();
@@ -62,20 +56,11 @@ export const useService = (): ServiceInterface => {
     signup: () => {
       setLoading(true);
       setHasSubmittedWithErrors(true);
-      if (
-        email.trim() !== '' &&
-        password.trim() !== '' &&
-        fullname.trim() !== '' &&
-        (organizationName.trim() !== '' || invite)
-      ) {
+      if (email.trim() !== '' && password.trim() !== '') {
         dispatch(
           signUpAction({
             password,
             email,
-            fullname,
-            organizationName: invite
-              ? invite.organizationName
-              : organizationName,
             onFailure: (errorMessage) => {
               dispatch(
                 showToasterAction({
@@ -104,10 +89,6 @@ export const useService = (): ServiceInterface => {
     setEmail,
     password,
     setPassword,
-    fullname,
-    setFullName,
-    organizationName,
-    setOrganizationName,
     invite,
     loading,
   };
