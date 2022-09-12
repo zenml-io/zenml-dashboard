@@ -43,10 +43,22 @@ export const Menu: React.FC = () => {
         text={translate('menu.pipelines.text')}
       />
       <MenuItem
+        isActive={() => {
+          return (
+            !!matchPath(locationPath, {
+              path: routePaths.stacks.base,
+              exact: false,
+            }) ||
+            !!matchPath(locationPath, {
+              path: routePaths.stack.base(':id'),
+              exact: false,
+            })
+          );
+        }}
         Icon={() => (
           <icons.code color={iconColors.darkGrey} size={iconSizes.md} />
         )}
-        to={routePaths.workspaces.list}
+        to={routePaths.stacks.list}
         text={translate('menu.stacks.text')}
       />
       <MenuItem

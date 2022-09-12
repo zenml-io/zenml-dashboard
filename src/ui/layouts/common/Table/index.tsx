@@ -79,7 +79,7 @@ export const Table: React.FC<TableProps> = ({
                       style={{ width: headerCol.width }}
                       key={index}
                     >
-                      <Box paddingVertical={showHeader ? 'md' : null}>
+                      <Box paddingVertical={showHeader ? 'sm' : null}>
                         {headerCol.render && headerCol.render()}
                       </Box>
                     </th>

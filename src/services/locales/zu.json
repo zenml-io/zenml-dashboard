@@ -383,9 +383,63 @@
               "text": "No runs."
             }
           },
+          "Stacks": {
+            "header": {
+              "breadcrumbs": {
+                "dashBoard": {
+                  "text": "Dashboard"
+                },
+                "stacks": {
+                  "text": "Stacks"
+                }
+              }
+            },
+            "tabs": {
+              "stacks": {
+                "text": "Stacks"
+              },
+              "allRuns": {
+                "text": "All Runs"
+              }
+            },
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            },
+            "runsEmptyState": {
+              "text": "No runs."
+            }
+          },
           "AllRuns": {
             "emptyState": {
               "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            }
+          },
+          "StackDetail": {
+            "header": {
+              "breadcrumbs": {
+                "stacks": {
+                  "text": "Stacks"
+                }
+              }
+            },
+            "tabs": {
+              "configuration": {
+                "text": "Configuration"
+              },
+              "runs": {
+                "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "No runs."
+            },
+            "configuration": {
+              "title": {
+                "text": "YAML Configuration"
+              },
+              "button": {
+                "text": "Download"
+              }
             }
           },
           "PipelineDetail": {

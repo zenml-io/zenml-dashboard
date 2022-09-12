@@ -8,4 +8,7 @@ export const pipelineActionTypes = {
   getPipelineForId: generateApiActionsTypes(
     actionTypes.PIPELINES_GET_PIPELINE_FOR_ID,
   ),
+  getRunsByPipelineId: generateApiActionsTypes(
+    actionTypes.RUNS_GET_PIPELINE_FOR_ID,
+  ),
 };

@@ -34,12 +34,12 @@ export const useService = (): ServiceInterface => {
       new Date(pipeline.createdAt).getTime(),
     ).reverse();
 
-    const filteredPipelines = orderedPipelines.filter(
-      (pipeline: TPipeline) =>
-        currentWorkspace && pipeline.workspaceId === currentWorkspace.id,
-    );
+    // const filteredPipelines = orderedPipelines.filter(
+    //   (pipeline: TPipeline) =>
+    //     currentWorkspace && pipeline.projectName === currentWorkspace.id,
+    // );
 
-    setFilteredPipelines(filteredPipelines);
+    setFilteredPipelines(orderedPipelines);
   }, []);
 
   const setSelectedRunIds = (runIds: TId[]) => {

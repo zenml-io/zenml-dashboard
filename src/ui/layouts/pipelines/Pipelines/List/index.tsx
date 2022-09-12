@@ -27,8 +27,6 @@ export const List: React.FC = () => {
     history.push(routePaths.pipeline.configuration(pipeline.id));
   };
 
-  console.log('test');
-
   return (
     <>
       <CollapseTable
