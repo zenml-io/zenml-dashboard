@@ -12,7 +12,7 @@ const getById = (state: State): Record<TId, TPipeline> =>
   _.get(stateKey(state), 'byId');
 
 const getMyPipelineIds = (state: State): TId[] =>
-  _.get(stateKey(state), 'mystackIds');
+  _.get(stateKey(state), 'myPipelineIds');
 
 export const mystacks = (state?: State | null): TPipeline[] => {
   if (!state) return [];

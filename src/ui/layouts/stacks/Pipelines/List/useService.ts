@@ -3,10 +3,15 @@
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { pipelinePagesActions } from '../../../../../redux/actions';
+import {
+  pipelinePagesActions,
+  stackPagesActions,
+} from '../../../../../redux/actions';
 import {
   pipelinePagesSelectors,
   pipelineSelectors,
+  stackPagesSelectors,
+  stackSelectors,
 } from '../../../../../redux/selectors';
 
 interface ServiceInterface {
@@ -23,11 +28,11 @@ export const useService = (): ServiceInterface => {
   const [openPipelineIds, setOpenPipelineIds] = useState<TId[]>([]);
   const [filteredPipelines, setFilteredPipelines] = useState<TPipeline[]>([]);
 
-  const fetching = useSelector(pipelinePagesSelectors.fetching);
+  const fetching = useSelector(stackPagesSelectors.fetching);
 
-  const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
+  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
-  const pipelines = useSelector(pipelineSelectors.myPipelines);
+  const pipelines = useSelector(stackSelectors.mystacks);
 
   useEffect(() => {
     const orderedPipelines = _.sortBy(pipelines, (pipeline: TPipeline) =>
@@ -43,7 +48,7 @@ export const useService = (): ServiceInterface => {
   }, []);
 
   const setSelectedRunIds = (runIds: TId[]) => {
-    dispatch(pipelinePagesActions.setSelectedRunIds({ runIds }));
+    dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
   };
 
   return {
