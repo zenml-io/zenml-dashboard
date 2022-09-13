@@ -9,7 +9,7 @@ import ForgotPassword from '../ui/layouts/session/ForgotPassword';
 import Home from '../ui/layouts/Home';
 
 import Pipelines from '../ui/layouts/pipelines/Pipelines';
-import stacks from '../ui/layouts/stacks/Pipelines';
+import stacks from '../ui/layouts/stacks/Stacks';
 import Datasources from '../ui/layouts/datasources/Datasources';
 import Deployments from '../ui/layouts/deployments/Deployments';
 import Functions from '../ui/layouts/functions/Functions';
