@@ -11,6 +11,7 @@ import {
 import { HeaderCol } from '../../common/Table';
 import { iconColors, iconSizes } from '../../../../constants';
 import { DeleteInvite } from './DeleteInvite';
+import { DeleteMember } from './DeleteMember';
 
 export const useInviteHeaderCols = (): HeaderCol[] => {
   return [
@@ -61,15 +62,17 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
   ];
 };
 
+const headColStyle = { color: '#000', fontWeight: 700 }
+
 export const useMemberHeaderCols = (): HeaderCol[] => {
   return [
     {
       render: () => (
-        <Paragraph size="small" color="grey">
+        <Paragraph size="small" style={headColStyle}>
           {translate('table.member.text')}
         </Paragraph>
       ),
-      width: '10%',
+      width: '15%',
       renderRow: (member: TMember) => {
         const initials = getInitialsFromEmail(member.email);
         return (
@@ -86,32 +89,37 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
     },
     {
       render: () => (
-        <Paragraph size="small" color="grey">
-          {translate('table.role.text')}
+        <Paragraph size="small" style={headColStyle}>
+          {translate('table.status.text')}
         </Paragraph>
       ),
-      width: '10%',
+      width: '15%',
       renderRow: (member: TMember) => (
         <Paragraph size="small">{member.role}</Paragraph>
       ),
     },
     {
       render: () => (
-        <Paragraph size="small" color="grey">
-          {translate('table.joinedAt.text')}
+        <Paragraph size="small" style={headColStyle}>
+          {translate('table.createdAt.text')}
         </Paragraph>
       ),
-      width: '8%',
+      width: '10%',
       renderRow: (member: TMember) => (
         <FlexBox alignItems="center">
           <Box paddingRight="sm">
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
-          <Paragraph color="grey" size="tiny">
+          <Paragraph color="black" size="tiny">
             {formatDateToDisplay(member.createdAt)}
           </Paragraph>
         </FlexBox>
       ),
+    },
+    {
+      render: () => <Paragraph size="small" ></Paragraph>,
+      width: '5%',
+      renderRow: (member: TInvite) => <DeleteMember member={member} />,
     },
   ];
 };

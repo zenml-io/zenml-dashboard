@@ -70,7 +70,17 @@
               "failed": {
                 "text": "Something went wrong. Please try again."
               }
-            }
+            },
+            "popup": {
+                "title": "Change Email",
+                "text": "Are you sure to change your email",
+                "successButton": {
+                  "text": "Yes"
+                },
+                "cancelButton": {
+                  "text": "No"
+                }
+              }
           },
           "BillingSettings": {
             "title": "Billing",
@@ -147,7 +157,7 @@
           },
           "OrganizationSettings": {
             "button": {
-              "text": "Invite  new Member"
+              "text": "New Invite"
             },
             "popup": {
               "title": "Add a new Member",
@@ -163,11 +173,23 @@
                 "required": "Role is required"
               },
               "button": {
-                "text": "Invite  new Member"
+                "text": "Invite"
               },
               "plus": {
                 "text": "Invite another user"
               }
+            },
+            "deleteMemberPopup": {
+              "title": "Are you sure?",
+              "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+              "successButton": {
+                "text": "Delete"
+              },
+              "cancelButton": {
+                "text": "Cancel"
+              },
+              "errorToaster": "Something went wrong!",
+              "successToaster": "Member deleted"
             },
             "deleteInvitePopup": {
               "title": "Are you sure?",
@@ -200,6 +222,9 @@
               },
               "joinedAt": {
                 "text": "Joined"
+              },
+              "createdAt": {
+                "text": "Created At"
               },
               "sendAt": {
                 "text": "Send"

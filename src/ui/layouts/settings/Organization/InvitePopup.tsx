@@ -1,24 +1,16 @@
 /* eslint-disable */
-
-
 import React, { useEffect, useState } from 'react';
-import { iconColors } from '../../../../constants';
 import { organizationActions } from '../../../../redux/actions';
 import { translate } from './translate';
 import {
   Box,
   FlexBox,
-  FormDropdownField,
   FormEmailField,
   H3,
-  icons,
-  LinkBox,
-  Paragraph,
   PrimaryButton,
 } from '../../../components';
-import { useDispatch, useSelector } from '../../../hooks';
+import { useDispatch } from '../../../hooks';
 import { Popup } from '../../common/Popup';
-import { organizationSelectors } from '../../../../redux/selectors';
 import { fieldValidation } from '../../../../utils';
 
 const emailHasError = (email: string, hasSubmittedWithErrors: boolean) =>
@@ -44,10 +36,6 @@ export const InvitePopup: React.FC<{
   ]);
 
   const dispatch = useDispatch();
-
-  const roles = useSelector(organizationSelectors.roles);
-
-  const dropdownRoles = roles.map((role) => ({ label: role, value: role }));
 
   useEffect(() => {
     if (inviteMembers.length === 0) {
@@ -120,25 +108,9 @@ export const InvitePopup: React.FC<{
     }
   };
 
-  const addNewInviteMember = () => {
-    setInviteMembers([
-      ...inviteMembers,
-      { email: '', role: '', error: '', success: false },
-    ]);
-  };
-
   const updateInviteEmail = (val: string, index: number) => {
     const memberToUpdate = { ...inviteMembers[index] };
     memberToUpdate.email = val;
-
-    const newInviteMembers = [...inviteMembers];
-    newInviteMembers[index] = memberToUpdate;
-    setInviteMembers(newInviteMembers);
-  };
-
-  const updateInviteRole = (val: string, index: number) => {
-    const memberToUpdate = { ...inviteMembers[index] };
-    memberToUpdate.role = val;
 
     const newInviteMembers = [...inviteMembers];
     newInviteMembers[index] = memberToUpdate;
@@ -169,7 +141,7 @@ export const InvitePopup: React.FC<{
         {inviteMembers.map((inviteMember, index) => (
           <Box key={index}>
             <FlexBox.Row marginBottom="md">
-              <Box style={{ width: '65%' }}>
+              <Box style={{ width: '80%' }}>
                 <FormEmailField
                   label={translate('popup.email.label')}
                   placeholder={translate('popup.email.placeholder')}
@@ -184,7 +156,18 @@ export const InvitePopup: React.FC<{
                   }}
                 />
               </Box>
-              <Box style={{ width: '35%' }} marginLeft="md">
+              
+              <Box style={{ width: '10%', marginTop: '22px' }} marginLeft="md">
+                <PrimaryButton
+                  disabled={submitting}
+                  loading={submitting}
+                  onClick={inviteNewMembers}
+                >
+                  {translate('popup.button.text')}
+                </PrimaryButton>
+              </Box>
+
+              {/* <Box style={{ width: '35%' }} marginLeft="md">
                 <FormDropdownField
                   label={translate('popup.role.label')}
                   labelColor='#000'
@@ -202,17 +185,17 @@ export const InvitePopup: React.FC<{
                     text: translate('popup.role.required'),
                   }}
                 />
-              </Box>
+              </Box> */}
             </FlexBox.Row>
-            {inviteMember.error && (
+            {/* {inviteMember.error && (
               <Box marginBottom="md">
                 <Paragraph color="red">{inviteMember.error}</Paragraph>
               </Box>
-            )}
+            )} */}
           </Box>
         ))}
       </Box>
-      {inviteMembers.length < 5 && (
+      {/* {inviteMembers.length < 5 && (
         <Box marginTop="md">
           <LinkBox onClick={addNewInviteMember}>
             <FlexBox.Row alignItems="center">
@@ -223,17 +206,8 @@ export const InvitePopup: React.FC<{
             </FlexBox.Row>
           </LinkBox>
         </Box>
-      )}
+      )} */}
 
-      <FlexBox justifyContent="flex-end" marginTop="xl">
-        <PrimaryButton
-          disabled={submitting}
-          loading={submitting}
-          onClick={inviteNewMembers}
-        >
-          {translate('popup.button.text')}
-        </PrimaryButton>
-      </FlexBox>
     </Popup>
   );
 };

@@ -23,6 +23,7 @@ import { getTranslateByScope } from '../../../services';
 import { useDispatch } from 'react-redux';
 import { toasterTypes } from '../../../constants';
 import { PrimaryButton } from '../../components/buttons/index';
+import { EmailPopup } from './EmailPopup';
 
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
@@ -34,6 +35,7 @@ export const PersonalDetails: React.FC = () => {
   const organization = useSelector(organizationSelectors.myOrganization);
   const user = useSelector(userSelectors.myUser);
 
+  const [popupOpen, setPopupOpen] = useState(false);
   const [email, setEmail] = useState(user?.email)
   const [showPassField, setShowPassField] = useState(false)
   const [currentPassword, setCurrentPassword] = useState('')
@@ -77,6 +79,10 @@ export const PersonalDetails: React.FC = () => {
   };
 
   return (
+    <>
+    {popupOpen && (
+      <EmailPopup setPopupOpen={setPopupOpen} />
+    )}
     <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
       <FlexBox.Row  alignItems="center">
         <Box>
@@ -114,7 +120,7 @@ export const PersonalDetails: React.FC = () => {
                   </Box>
                 )}
                 {email !== user.email && (   
-                  <PrimaryButton>
+                  <PrimaryButton onClick={() => setPopupOpen(true)} >
                     {translate('emailReset.label')}
                   </PrimaryButton>
                 )}
@@ -182,5 +188,6 @@ export const PersonalDetails: React.FC = () => {
         </Row>
       </Box>
     </FlexBox.Column>
+  </>
   );
 };

@@ -60,18 +60,19 @@ export const Table: React.FC<TableProps> = ({
     rowsToDisplay = itemsForPage;
   }
 
-  if (loading) {
-    return <FullWidthSpinner color="black" size="md" />;
-  }
+  // if (loading) {
+  //   return <FullWidthSpinner color="black" size="md" />;
+  // }
 
   return (
     <FlexBox.Column className={styles.tableWrapper} fullWidth>
       <IfElse
-        condition={tableRows.length > 0 && !loading}
+        // condition={tableRows.length > 0 && !loading}
+        condition={tableRows.length > 0}
         renderWhenTrue={() => (
           <>
             <table className={styles.table}>
-              <thead>
+              <thead style={{ backgroundColor: '#F4F4F4' }} >
                 <tr className={showHeader ? styles.tableHeaderRow : ''}>
                   {headerCols.map((headerCol: HeaderCol, index: number) => (
                     <th
@@ -79,7 +80,7 @@ export const Table: React.FC<TableProps> = ({
                       style={{ width: headerCol.width }}
                       key={index}
                     >
-                      <Box paddingVertical={showHeader ? 'md' : null}>
+                      <Box paddingVertical={showHeader ? 'sm' : null} paddingLeft='lg' >
                         {headerCol.render && headerCol.render()}
                       </Box>
                     </th>
@@ -110,7 +111,7 @@ export const Table: React.FC<TableProps> = ({
                           style={{ width: headerCol.width }}
                           key={index}
                         >
-                          <Box paddingVertical="md">
+                          <Box paddingVertical="md" paddingLeft='lg'>
                             <Truncate maxLines={1}>
                               {headerCol.renderRow(headerRow)}
                             </Truncate>

@@ -15,7 +15,6 @@ import { useRequestOnMount } from '../../../hooks';
 import { Table } from '../../common/Table';
 import { translate } from './translate';
 import { useMemberHeaderCols, useInviteHeaderCols } from './useHeaderCols';
-
 import { InvitePopup } from './InvitePopup';
 
 type Table = 'members' | 'invites';
@@ -49,57 +48,23 @@ export const Organization: React.FC = () => {
   const memberHeaderCols = useMemberHeaderCols();
   const inviteHeaderCols = useInviteHeaderCols();
 
-const invites = [
+  const members = [
     {
-        id: "string",
-        userId: "string",
-        status: "string",
-        startTime: "2022-08-09T19:08:54.541Z",
-        endTime: "2022-08-09T19:08:54.541Z",
-        workers: 0,
-        cpusPerWorker: 0,
-        datasourceCommitId: "string",
-        pipelineRunType: "string",
-        pipelineComponents: [{ start_time: "2022-08-09T19:08:54.541Z", end_time: "2022-08-09T19:08:54.541Z", status: "string", component_type: "string"  }],
-        processingBackendId: "string",
-        orchestrationBackendId: "string",
-        trainingBackendId: "string",
-        servingBackendId: "string",
-        trainingArgs: {},
-        servingArgs: {},
-        workspaceId: "string",
-        pipelineId: "string",
-        Member: 'fds',
-        Role: 'uio'
+      createdAt: "2022-08-09T19:08:54.541Z",
+      email: 'Haziq@example.com',
+      role: 'Accepted'
     },
-]
-
-
-const members = [
     {
-      id: "string",
-      userId: "string",
-      status: "string",
-      startTime: "2022-08-09T19:08:54.541Z",
-      endTime: "2022-08-09T19:08:54.541Z",
-      workers: 0,
-      cpusPerWorker: 0,
-      datasourceCommitId: "string",
-      pipelineRunType: "string",
-      pipelineComponents: [{ start_time: "2022-08-09T19:08:54.541Z", end_time: "2022-08-09T19:08:54.541Z", status: "string", component_type: "string" }],
-      processingBackendId: "string",
-      orchestrationBackendId: "string",
-      trainingBackendId: "string",
-      servingBackendId: "string",
-      trainingArgs: {},
-      servingArgs: {},
-      workspaceId: "string",
-      pipelineId: "string",
-      Member: 'fds',
-      Role: 'uio'
-  }
+      createdAt: "2022-08-09T19:08:54.541Z",
+      email: 'Hamza@example.com',
+      role: 'Pending'
+    },
+    {
+      createdAt: "2022-08-09T19:08:54.541Z",
+      email: 'Daniel@example.com',
+      role: 'Owner'
+    }
 ]
-
 
   if (!organization) return null;
 
@@ -144,7 +109,7 @@ const members = [
                 </Paragraph>
               </LinkBox>
             </Box>
-            <Box paddingHorizontal="md">
+            {/* <Box paddingHorizontal="md">
               <LinkBox onClick={() => setCurrentTable('invites')}>
                 <Paragraph
                   bold
@@ -153,7 +118,7 @@ const members = [
                   {translate('invites')} {`(${invites.length})`}
                 </Paragraph>
               </LinkBox>
-            </Box>
+            </Box> */}
           </FlexBox.Row>
           {currentTable === 'members' && (
             <Table
@@ -165,7 +130,7 @@ const members = [
               emptyState={{ text: translate('emptyState.text') }}
             />
           )}
-          {currentTable === 'invites' && (
+          {/* {currentTable === 'invites' && (
             <Table
               pagination={true}
               headerCols={inviteHeaderCols}
@@ -174,7 +139,7 @@ const members = [
               tableRows={invites}
               emptyState={{ text: translate('emptyState.text') }}
             />
-          )}
+          )} */}
         </Box>
       </FlexBox.Column>
     </>
