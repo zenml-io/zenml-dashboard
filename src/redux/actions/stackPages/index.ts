@@ -1,31 +1,31 @@
-import { pipelinePagesActionTypes } from '../../actionTypes';
+import { stackPagesActionTypes } from '../../actionTypes';
 
 const setCurrentWorkspaceAction = ({
   workspace,
 }: {
   workspace: TWorkspace | null;
 }): TAction => ({
-  type: pipelinePagesActionTypes.setCurrentWorkspace,
+  type: stackPagesActionTypes.setCurrentWorkspace,
   payload: {
     workspace,
   },
 });
 
 const setSelectedRunIdsAction = ({ runIds }: { runIds: TId[] }): TAction => ({
-  type: pipelinePagesActionTypes.setSelectedRunIds,
+  type: stackPagesActionTypes.setSelectedRunIds,
   payload: {
     runIds,
   },
 });
 
 const setFetchingAction = ({ fetching }: { fetching: boolean }): TAction => ({
-  type: pipelinePagesActionTypes.setFetching,
+  type: stackPagesActionTypes.setFetching,
   payload: {
     fetching,
   },
 });
 
-export const pipelinePagesActions = {
+export const stackPagesActions = {
   setCurrentWorkspace: setCurrentWorkspaceAction,
   setSelectedRunIds: setSelectedRunIdsAction,
   setFetching: setFetchingAction,

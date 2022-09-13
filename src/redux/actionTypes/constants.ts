@@ -34,6 +34,11 @@ const pipelineActionTypes = {
   PIPELINES_GET_PIPELINE_FOR_ID: 'PIPELINES_GET_PIPELINE_FOR_ID',
   RUNS_GET_PIPELINE_FOR_ID: 'RUNS_GET_PIPELINE_FOR_ID',
 };
+const stackActionTypes = {
+  STACKS_GET_MY_STACKS: 'STACKS_GET_MY_STACKS',
+  STACKS_GET_STACK_FOR_ID: 'STACKS_GET_STACK_FOR_ID',
+  RUNS_GET_STACK_FOR_ID: 'RUNS_GET_STACK_FOR_ID',
+};
 
 const runActionTypes = {
   RUNS_GET_RUN_FOR_ID: 'RUNS_GET_RUN_FOR_ID',
@@ -58,6 +63,12 @@ const pipelinePagesActionTypes = {
   PIPELINE_PAGES_SET_FETCHING: 'PIPELINE_PAGES_SET_FETCHING',
 };
 
+const stackPagesActionTypes = {
+  STACK_PAGES_SET_CURRENT_WORKSPACE: 'STACK_PAGES_SET_CURRENT_WORKSPACE',
+  STACK_PAGES_SET_SELECTED_RUN_IDS: 'STACK_PAGES_SET_SELECTED_RUN_IDS',
+  STACK_PAGES_SET_FETCHING: 'STACK_PAGES_SET_FETCHING',
+};
+
 const workspacePagesActionTypes = {
   WORKSPACE_PAGES_SET_FETCHING: 'WORKSPACE_PAGES_SET_FETCHING',
 };
@@ -69,9 +80,11 @@ export const actionTypes = {
   ...organizationActionTypes,
   ...workspaceActionTypes,
   ...pipelineActionTypes,
+  ...stackActionTypes,
   ...runActionTypes,
   ...billingActionTypes,
   ...pipelinePagesActionTypes,
+  ...stackPagesActionTypes,
   ...stripeActionTypes,
   ...workspacePagesActionTypes,
 };

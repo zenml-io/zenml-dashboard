@@ -1,6 +1,6 @@
 import { getStackByIdAction } from './getStackByIdAction';
-import { pipelineActionTypes } from '../../actionTypes';
-import getPipelineByIdApi from '../../../api/pipelines/getPipelineByIdApi';
+import { stackActionTypes } from '../../actionTypes';
+import getStackByIdApi from '../../../api/stacks/getStackByIdApi';
 
 import { testApiAction } from '../testUtils/testApiAction';
 
@@ -14,12 +14,12 @@ export const onAction = (): any =>
 
 testApiAction({
   onAction,
-  type: pipelineActionTypes.getPipelineForId.request,
+  type: stackActionTypes.getStackForId.request,
   payload: {
-    apiMethod: getPipelineByIdApi,
+    apiMethod: getStackByIdApi,
     isAuthenticated: true,
-    failureActionType: pipelineActionTypes.getPipelineForId.failure,
-    successActionType: pipelineActionTypes.getPipelineForId.success,
+    failureActionType: stackActionTypes.getStackForId.failure,
+    successActionType: stackActionTypes.getStackForId.success,
     params: { pipelineId },
     onFailure,
     onSuccess,

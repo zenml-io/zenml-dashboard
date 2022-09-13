@@ -1,5 +1,5 @@
-import { pipelineActionTypes } from '../../actionTypes';
-import getAllRunsByPipelineIdApi from '../../../api/pipelines/getAllRunsByPipelineIdApi';
+import { stackActionTypes } from '../../actionTypes';
+import getAllRunsByStackIdApi from '../../../api/stacks/getAllRunsByStackIdApi';
 
 export const getAllRunsByStackId = ({
   pipelineId,
@@ -11,12 +11,12 @@ export const getAllRunsByStackId = ({
   onFailure?: () => void;
 }): TRequestAction => {
   return {
-    type: pipelineActionTypes.getRunsByPipelineId.request,
+    type: stackActionTypes.getRunsByStackId.request,
     payload: {
-      apiMethod: getAllRunsByPipelineIdApi,
+      apiMethod: getAllRunsByStackIdApi,
       isAuthenticated: true,
-      failureActionType: pipelineActionTypes.getRunsByPipelineId.failure,
-      successActionType: pipelineActionTypes.getRunsByPipelineId.success,
+      failureActionType: stackActionTypes.getRunsByStackId.failure,
+      successActionType: stackActionTypes.getRunsByStackId.success,
       params: { pipelineId },
       onSuccess,
       onFailure,

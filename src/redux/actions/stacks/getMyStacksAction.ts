@@ -1,12 +1,12 @@
-import { pipelineActionTypes } from '../../actionTypes';
-import getMyPipelinesApi from '../../../api/pipelines/getMyPipelinesApi';
+import { stackActionTypes } from '../../actionTypes';
+import getMyStacksApi from '../../../api/stacks/getMyStacksApi';
 
 export const getMyStacksAction = (): TRequestAction => ({
-  type: pipelineActionTypes.getMyPipelines.request,
+  type: stackActionTypes.getMyStacks.request,
   payload: {
-    apiMethod: getMyPipelinesApi,
+    apiMethod: getMyStacksApi,
     isAuthenticated: true,
-    failureActionType: pipelineActionTypes.getMyPipelines.failure,
-    successActionType: pipelineActionTypes.getMyPipelines.success,
+    failureActionType: stackActionTypes.getMyStacks.failure,
+    successActionType: stackActionTypes.getMyStacks.success,
   },
 });
