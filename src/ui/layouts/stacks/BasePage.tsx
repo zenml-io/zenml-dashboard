@@ -4,7 +4,7 @@ import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { Tabs } from '../common/Tabs';
 import Header from './Header';
-import Pipelines from './Stacks';
+import Stacks from './Stacks';
 import { useService } from './useService';
 
 export const BasePage: React.FC<{
@@ -55,4 +55,4 @@ export const BasePage: React.FC<{
   );
 };
 
-export default Pipelines;
+export default Stacks;

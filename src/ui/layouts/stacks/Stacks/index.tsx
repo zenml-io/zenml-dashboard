@@ -32,7 +32,7 @@ const BREADCRUMBS = [
   },
 ];
 
-export const Pipelines: React.FC = () => {
+export const Stacks: React.FC = () => {
   const {
     setFetching,
     setCurrentWorkspace,
@@ -62,4 +62,4 @@ export const Pipelines: React.FC = () => {
   );
 };
 
-export default Pipelines;
+export default Stacks;
