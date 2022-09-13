@@ -2,11 +2,11 @@
 
 import { useEffect } from 'react';
 import {
-  pipelinePagesActions,
+  stackPagesActions,
   workspacesActions,
 } from '../../../../redux/actions';
 import {
-  pipelinePagesSelectors,
+  stackPagesSelectors,
   workspaceSelectors,
 } from '../../../../redux/selectors';
 import { useDispatch, useRequestOnMount, useSelector } from '../../../hooks';
@@ -19,7 +19,7 @@ interface ServiceInterface {
 }
 
 export const useService = (): ServiceInterface => {
-  const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
+  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
   const dispatch = useDispatch();
 
@@ -43,11 +43,11 @@ export const useService = (): ServiceInterface => {
   }, []);
 
   const setFetching = (fetching: boolean) => {
-    dispatch(pipelinePagesActions.setFetching({ fetching }));
+    dispatch(stackPagesActions.setFetching({ fetching }));
   };
 
   const setCurrentWorkspace = (workspace: TWorkspace | null) => {
-    dispatch(pipelinePagesActions.setCurrentWorkspace({ workspace }));
+    dispatch(stackPagesActions.setCurrentWorkspace({ workspace }));
 
     if (workspace) {
       setFetching(true);

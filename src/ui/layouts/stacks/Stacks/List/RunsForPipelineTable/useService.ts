@@ -1,5 +1,5 @@
 import {
-  pipelinePagesSelectors,
+  stackPagesSelectors,
   runSelectors,
 } from '../../../../../../redux/selectors';
 import { useSelector } from '../../../../../hooks';
@@ -17,7 +17,7 @@ export const useService = ({
   openPipelineIds: TId[];
 }): ServiceInterface => {
   const runs = useSelector(runSelectors.runsForPipelineId(pipeline.id));
-  const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
+  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
   const filteredRuns = runs.filter(
     (run: TRun) => currentWorkspace && run.workspaceId === currentWorkspace.id,

@@ -1,5 +1,5 @@
 import {
-  pipelinePagesSelectors,
+  stackPagesSelectors,
   runSelectors,
 } from '../../../../../redux/selectors';
 import { useSelector } from '../../../../hooks';
@@ -10,8 +10,8 @@ interface ServiceInterface {
 }
 
 export const useService = (): ServiceInterface => {
-  const fetching = useSelector(pipelinePagesSelectors.fetching);
-  const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
+  const fetching = useSelector(stackPagesSelectors.fetching);
+  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
   const runs = useSelector(runSelectors.myRuns);
 

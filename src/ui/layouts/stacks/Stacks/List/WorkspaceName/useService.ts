@@ -8,7 +8,7 @@ interface ServiceInterface {
 export const useService = ({
   pipeline,
 }: {
-  pipeline: TPipeline;
+  pipeline: TStack;
 }): ServiceInterface => {
   const workspace = useSelector(
     workspaceSelectors.workspaceForId(pipeline.projectName),

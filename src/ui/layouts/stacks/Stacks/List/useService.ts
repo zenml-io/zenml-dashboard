@@ -3,13 +3,8 @@
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
+import { stackPagesActions } from '../../../../../redux/actions';
 import {
-  pipelinePagesActions,
-  stackPagesActions,
-} from '../../../../../redux/actions';
-import {
-  pipelinePagesSelectors,
-  pipelineSelectors,
   stackPagesSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
