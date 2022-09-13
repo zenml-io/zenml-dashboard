@@ -17,36 +17,36 @@ import { formatMoney } from '../../../../utils/money';
 import { truncate } from '../../../../utils';
 
 const getTabPages = ({
-  pipelineId,
+  stackId,
   runId,
 }: {
-  pipelineId: TId;
+  stackId: TId;
   runId: TId;
 }): TabPage[] => {
   return [
     {
       text: translate('tabs.statistics.text'),
-      Component: () => <Statistics runId={runId} pipelineId={pipelineId} />,
-      path: routePaths.run.statistics(runId, pipelineId),
+      Component: () => <Statistics runId={runId} stackId={stackId} />,
+      path: routePaths.run.statistics(runId, stackId),
     },
     {
       text: translate('tabs.results.text'),
-      Component: () => <Results runId={runId} pipelineId={pipelineId} />,
-      path: routePaths.run.results(runId, pipelineId),
+      Component: () => <Results runId={runId} stackId={stackId} />,
+      path: routePaths.run.results(runId, stackId),
     },
     {
       text: translate('tabs.tensorboard.text'),
-      Component: () => <Tensorboard runId={runId} pipelineId={pipelineId} />,
-      path: routePaths.run.tensorboard(runId, pipelineId),
+      Component: () => <Tensorboard runId={runId} stackId={stackId} />,
+      path: routePaths.run.tensorboard(runId, stackId),
     },
   ];
 };
 
 const getBreadcrumbs = ({
-  pipelineId,
+  stackId,
   runId,
 }: {
-  pipelineId: TId;
+  stackId: TId;
   runId: TId;
 }): TBreadcrumb[] => {
   return [
@@ -56,39 +56,39 @@ const getBreadcrumbs = ({
       to: routePaths.stacks.list,
     },
     {
-      name: pipelineId,
+      name: stackId,
       clickable: true,
-      to: routePaths.stack.configuration(pipelineId),
+      to: routePaths.stack.configuration(stackId),
     },
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.statistics(runId, pipelineId),
+      to: routePaths.run.statistics(runId, stackId),
     },
   ];
 };
 
 export interface RunDetailRouteParams {
   id: TId;
-  pipelineId: TId;
+  stackId: TId;
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, pipelineId, run, billing } = useService();
+  const { runId, stackId, run, billing } = useService();
 
   const tabPages = getTabPages({
     runId,
-    pipelineId,
+    stackId,
   });
   const breadcrumbs = getBreadcrumbs({
     runId,
-    pipelineId,
+    stackId,
   });
 
   return (
     <BasePage
       tabPages={tabPages}
-      tabBasePath={routePaths.run.base(runId, pipelineId)}
+      tabBasePath={routePaths.run.base(runId, stackId)}
       breadcrumbs={breadcrumbs}
     >
       <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
