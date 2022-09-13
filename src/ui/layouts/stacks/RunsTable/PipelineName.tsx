@@ -1,10 +1,10 @@
 import React from 'react';
 import { Paragraph } from '../../../components';
-import { pipelineSelectors } from '../../../../redux/selectors';
+import { stackSelectors } from '../../../../redux/selectors';
 import { useSelector } from '../../../hooks';
 
 export const PipelineName: React.FC<{ run: TRun }> = ({ run }) => {
-  const pipeline = useSelector(pipelineSelectors.pipelineForId(run.pipelineId));
+  const pipeline = useSelector(stackSelectors.stackForId(run.pipelineId));
 
   const name = pipeline.name;
 

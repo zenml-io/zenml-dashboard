@@ -1,5 +1,5 @@
 import { useSelector } from 'react-redux';
-import { pipelinePagesSelectors } from '../../../../redux/selectors';
+import { stackPagesSelectors } from '../../../../redux/selectors';
 
 interface ServiceInterface {
   selectedRunIds: TId[];
@@ -7,8 +7,8 @@ interface ServiceInterface {
 }
 
 export const useService = (): ServiceInterface => {
-  const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
-  const selectedRunIds = useSelector(pipelinePagesSelectors.selectedRunIds);
+  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
+  const selectedRunIds = useSelector(stackPagesSelectors.selectedRunIds);
 
   return {
     selectedRunIds,
