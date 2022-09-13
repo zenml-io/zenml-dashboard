@@ -10,28 +10,28 @@ import {
 } from '../../../../../redux/selectors';
 
 interface ServiceInterface {
-  openPipelineIds: TId[];
-  setOpenPipelineIds: (ids: TId[]) => void;
+  openStackIds: TId[];
+  setOpenStackIds: (ids: TId[]) => void;
   fetching: boolean;
-  filteredPipelines: TPipeline[];
+  filteredStacks: TStack[];
   setSelectedRunIds: (ids: TId[]) => void;
 }
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
 
-  const [openPipelineIds, setOpenPipelineIds] = useState<TId[]>([]);
-  const [filteredPipelines, setFilteredPipelines] = useState<TPipeline[]>([]);
+  const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
+  const [filteredStacks, setFilteredStacks] = useState<TStack[]>([]);
 
   const fetching = useSelector(stackPagesSelectors.fetching);
 
   const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
-  const pipelines = useSelector(stackSelectors.mystacks);
+  const Stacks = useSelector(stackSelectors.mystacks);
 
   useEffect(() => {
-    const orderedPipelines = _.sortBy(pipelines, (pipeline: TPipeline) =>
-      new Date(pipeline.createdAt).getTime(),
+    const orderedStacks = _.sortBy(Stacks, (stack: TStack) =>
+      new Date(stack.createdAt).getTime(),
     ).reverse();
 
     // const filteredPipelines = orderedPipelines.filter(
@@ -39,7 +39,7 @@ export const useService = (): ServiceInterface => {
     //     currentWorkspace && pipeline.projectName === currentWorkspace.id,
     // );
     // debugger;
-    setFilteredPipelines(orderedPipelines);
+    setFilteredStacks(orderedStacks);
   }, []);
 
   const setSelectedRunIds = (runIds: TId[]) => {
@@ -47,10 +47,10 @@ export const useService = (): ServiceInterface => {
   };
 
   return {
-    openPipelineIds,
-    setOpenPipelineIds,
+    openStackIds,
+    setOpenStackIds,
     fetching,
-    filteredPipelines,
+    filteredStacks,
     setSelectedRunIds,
   };
 };

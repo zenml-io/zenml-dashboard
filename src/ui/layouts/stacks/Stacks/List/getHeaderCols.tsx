@@ -14,24 +14,24 @@ import { HeaderCol } from '../../../common/Table';
 // import { UserName } from './UserName';
 
 export const getHeaderCols = ({
-  openPipelineIds,
-  setOpenPipelineIds,
+  openStackIds,
+  setOpenStackIds,
 }: {
-  openPipelineIds: TId[];
-  setOpenPipelineIds: (ids: TId[]) => void;
+  openStackIds: TId[];
+  setOpenStackIds: (ids: TId[]) => void;
 }): HeaderCol[] => {
   return [
     {
       width: '2%',
-      renderRow: (pipeline: TPipeline) => (
+      renderRow: (stack: TStack) => (
         <LinkBox
           onClick={(e: Event) => {
             e.stopPropagation();
-            if (openPipelineIds.indexOf(pipeline.id) === -1) {
-              setOpenPipelineIds([...openPipelineIds, pipeline.id]);
+            if (openStackIds.indexOf(stack.id) === -1) {
+              setOpenStackIds([...openStackIds, stack.id]);
             } else {
-              setOpenPipelineIds(
-                openPipelineIds.filter((id: TId) => id !== pipeline.id),
+              setOpenStackIds(
+                openStackIds.filter((id: TId) => id !== stack.id),
               );
             }
           }}
@@ -49,8 +49,8 @@ export const getHeaderCols = ({
         </Paragraph>
       ),
       width: '13%',
-      renderRow: (pipeline: TPipeline) => (
-        <Paragraph size="small">{pipeline.name}</Paragraph>
+      renderRow: (stack: TStack) => (
+        <Paragraph size="small">{stack.name}</Paragraph>
       ),
     },
     {
@@ -60,10 +60,8 @@ export const getHeaderCols = ({
         </Paragraph>
       ),
       width: '15%',
-      renderRow: (pipeline: TPipeline) => (
-        <Paragraph size="small">
-          {truncate(pipeline.id, ID_MAX_LENGTH)}
-        </Paragraph>
+      renderRow: (stack: TStack) => (
+        <Paragraph size="small">{truncate(stack.id, ID_MAX_LENGTH)}</Paragraph>
       ),
     },
 
@@ -74,8 +72,8 @@ export const getHeaderCols = ({
         </Paragraph>
       ),
       width: '11%',
-      renderRow: (pipeline: TPipeline) => (
-        <Paragraph size="small">{pipeline.owner}</Paragraph>
+      renderRow: (stack: TStack) => (
+        <Paragraph size="small">{stack.owner}</Paragraph>
       ),
     },
     {
@@ -85,13 +83,13 @@ export const getHeaderCols = ({
         </Paragraph>
       ),
       width: '8%',
-      renderRow: (pipeline: TPipeline) => (
+      renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
           <Box paddingRight="sm">
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(pipeline.createdAt)}
+            {formatDateToDisplay(stack.createdAt)}
           </Paragraph>
         </FlexBox>
       ),

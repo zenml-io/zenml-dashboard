@@ -6,17 +6,17 @@ import { useSelector } from '../../../../../hooks';
 
 interface ServiceInterface {
   runIds: TId[];
-  isPipelineOpen: () => boolean;
+  isStackOpen: () => boolean;
 }
 
 export const useService = ({
-  pipeline,
-  openPipelineIds,
+  stack,
+  openStackIds,
 }: {
-  pipeline: TPipeline;
-  openPipelineIds: TId[];
+  stack: TStack;
+  openStackIds: TId[];
 }): ServiceInterface => {
-  const runs = useSelector(runSelectors.runsForPipelineId(pipeline.id));
+  const runs = useSelector(runSelectors.runsForPipelineId(stack.id));
   const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
   const filteredRuns = runs.filter(
@@ -27,8 +27,8 @@ export const useService = ({
 
   return {
     runIds,
-    isPipelineOpen: (): boolean => {
-      return openPipelineIds.indexOf(pipeline.id) !== -1;
+    isStackOpen: (): boolean => {
+      return openStackIds.indexOf(stack.id) !== -1;
     },
   };
 };

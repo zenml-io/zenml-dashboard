@@ -5,13 +5,9 @@ interface ServiceInterface {
   workspace: TWorkspace;
 }
 
-export const useService = ({
-  pipeline,
-}: {
-  pipeline: TStack;
-}): ServiceInterface => {
+export const useService = ({ stack }: { stack: TStack }): ServiceInterface => {
   const workspace = useSelector(
-    workspaceSelectors.workspaceForId(pipeline.projectName),
+    workspaceSelectors.workspaceForId(stack.projectName),
   );
 
   return { workspace };

@@ -7,41 +7,41 @@ import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
 import { getHeaderCols } from './getHeaderCols';
-import { RunsForPipelineTable } from './RunsForPipelineTable';
+import { RunsForStackTable } from './RunsForPipelineTable';
 
 export const List: React.FC = () => {
   const history = useHistory();
   const {
-    openPipelineIds,
-    setOpenPipelineIds,
+    openStackIds,
+    setOpenStackIds,
     fetching,
-    filteredPipelines,
+    filteredStacks,
     setSelectedRunIds,
   } = useService();
 
-  const headerCols = getHeaderCols({ openPipelineIds, setOpenPipelineIds });
+  const headerCols = getHeaderCols({ openStackIds, setOpenStackIds });
 
-  const openDetailPage = (pipeline: TPipeline) => {
+  const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);
 
-    history.push(routePaths.stack.configuration(pipeline.id));
+    history.push(routePaths.stack.configuration(stack.id));
   };
 
   return (
     <>
       <CollapseTable
-        renderAfterRow={(pipeline: TPipeline) => (
-          <RunsForPipelineTable
+        renderAfterRow={(stack: TStack) => (
+          <RunsForStackTable
             nestedRow={true}
-            pipeline={pipeline}
-            openPipelineIds={openPipelineIds}
+            stack={stack}
+            openStackIds={openStackIds}
             fetching={fetching}
           />
         )}
         loading={fetching}
         showHeader={true}
         headerCols={headerCols}
-        tableRows={filteredPipelines}
+        tableRows={filteredStacks}
         emptyState={{ text: translate('emptyState.text') }}
         trOnClick={openDetailPage}
       />

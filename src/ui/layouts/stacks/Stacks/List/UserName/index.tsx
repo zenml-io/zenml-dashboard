@@ -11,8 +11,8 @@ import {
 } from '../../../../../components';
 import { useService } from './useService';
 
-export const UserName: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
-  const { fetching, user } = useService({ pipeline });
+export const UserName: React.FC<{ stack: TStack }> = ({ stack }) => {
+  const { fetching, user } = useService({ stack });
 
   if (fetching) {
     return <Spinner size="xs" color="black" />;

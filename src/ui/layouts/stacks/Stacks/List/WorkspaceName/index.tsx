@@ -4,10 +4,8 @@ import { routePaths } from '../../../../../../routes/routePaths';
 import { LinkBox, SecondaryLink } from '../../../../../components';
 import { useService } from './useService';
 
-export const WorkspaceName: React.FC<{ pipeline: TPipeline }> = ({
-  pipeline,
-}) => {
-  const { workspace } = useService({ pipeline });
+export const WorkspaceName: React.FC<{ stack: TStack }> = ({ stack }) => {
+  const { workspace } = useService({ stack });
 
   return (
     <LinkBox

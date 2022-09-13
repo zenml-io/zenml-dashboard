@@ -10,26 +10,22 @@ interface ServiceInterface {
   user: TUser;
 }
 
-export const useService = ({
-  pipeline,
-}: {
-  pipeline: TPipeline;
-}): ServiceInterface => {
+export const useService = ({ stack }: { stack: TStack }): ServiceInterface => {
   const dispatch = useDispatch();
   const [fetching, setFetching] = useState<boolean>(false);
 
-  const user = useSelector(userSelectors.userForId(pipeline.userId));
+  const user = useSelector(userSelectors.userForId(stack.userId));
 
   useEffect(() => {
     setFetching(true);
     dispatch(
       userActions.userForId({
-        userId: pipeline.userId,
+        userId: stack.userId,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),
     );
-  }, [pipeline.id]);
+  }, [stack.id]);
 
   return { fetching, user };
 };

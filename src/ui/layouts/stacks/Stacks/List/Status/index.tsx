@@ -10,8 +10,8 @@ import {
 } from '../../../../../components';
 import { useService } from './useService';
 
-export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
-  const { lastThreeRuns } = useService({ pipeline });
+export const Status: React.FC<{ stack: TStack }> = ({ stack }) => {
+  const { lastThreeRuns } = useService({ stack });
 
   return (
     <FlexBox alignItems="center">

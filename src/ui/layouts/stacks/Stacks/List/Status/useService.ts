@@ -6,12 +6,8 @@ interface ServiceInterface {
   lastThreeRuns: TRun[];
 }
 
-export const useService = ({
-  pipeline,
-}: {
-  pipeline: TPipeline;
-}): ServiceInterface => {
-  const runs = useSelector(runSelectors.runsForPipelineId(pipeline.id));
+export const useService = ({ stack }: { stack: TStack }): ServiceInterface => {
+  const runs = useSelector(runSelectors.runsForPipelineId(stack.id));
 
   const lastThreeRuns = getLastThreeRuns(runs);
 

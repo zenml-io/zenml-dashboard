@@ -6,27 +6,27 @@ import { translate } from '../../translate';
 import { useService } from './useService';
 import styles from './NestedRow.module.scss';
 
-export const RunsForPipelineTable: React.FC<{
-  pipeline: TPipeline;
-  openPipelineIds: TId[];
+export const RunsForStackTable: React.FC<{
+  stack: TStack;
+  openStackIds: TId[];
   fetching: boolean;
   nestedRow: boolean;
-}> = ({ pipeline, openPipelineIds, fetching, nestedRow }) => {
-  const { runIds, isPipelineOpen } = useService({
-    pipeline,
-    openPipelineIds,
+}> = ({ stack, openStackIds, fetching, nestedRow }) => {
+  const { runIds, isStackOpen } = useService({
+    stack,
+    openStackIds,
   });
-  console.log('pipeline: ', pipeline);
+  console.log('stack: ', stack);
 
-  if (!isPipelineOpen()) return null;
+  if (!isStackOpen()) return null;
 
   if (nestedRow) {
     const nestedRowtiles = [];
 
-    for (const [key] of Object.entries(pipeline.components)) {
+    for (const [key] of Object.entries(stack.components)) {
       nestedRowtiles.push({
         type: key,
-        name: pipeline.components[key].name,
+        name: stack.components[key].name,
       });
     }
 
