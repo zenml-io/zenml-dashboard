@@ -1,47 +1,41 @@
 import { useSelector } from 'react-redux';
-import { pipelineSelectors } from '../../../../../redux/selectors';
+import { stackSelectors } from '../../../../../redux/selectors';
 
 import YAML from 'json2yaml';
 
 interface ServiceInterface {
   downloadYamlFile: () => void;
-  pipelineConfig: string;
+  stackConfig: string;
 }
 
-export const useService = ({
-  pipelineId,
-}: {
-  pipelineId: TId;
-}): ServiceInterface => {
-  const pipeline: TPipeline = useSelector(
-    pipelineSelectors.pipelineForId(pipelineId),
-  );
+export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
+  const stack: TStack = useSelector(stackSelectors.stackForId(stackId));
 
   const yamlConfigObj: any = {
-    stack_name: pipeline.name,
+    stack_name: stack.name,
     components: {},
   };
-  Object.keys(pipeline.components).forEach((element) => {
+  Object.keys(stack.components).forEach((element) => {
     yamlConfigObj.components[element] = {
-      flavor: pipeline.components[element].flavor_name,
-      name: pipeline.components[element].name,
-      ...pipeline.components[element].configuration,
+      flavor: stack.components[element].flavor_name,
+      name: stack.components[element].name,
+      ...stack.components[element].configuration,
     };
   });
 
-  const pipelineConfig = YAML.stringify(yamlConfigObj);
+  const stackConfig = YAML.stringify(yamlConfigObj);
 
   const downloadYamlFile = () => {
     const element = document.createElement('a');
 
-    const file = new Blob([pipelineConfig], {
+    const file = new Blob([stackConfig], {
       type: 'text/yaml',
     });
     element.href = URL.createObjectURL(file);
-    element.download = `${pipeline.id}-config.yaml`;
+    element.download = `${stack.id}-config.yaml`;
     document.body.appendChild(element);
     element.click();
   };
 
-  return { downloadYamlFile, pipelineConfig };
+  return { downloadYamlFile, stackConfig };
 };

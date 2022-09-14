@@ -3,8 +3,9 @@ import { translate } from '../translate';
 import { RunsTable } from '../../RunsTable';
 import { useService } from './useService';
 
-export const Runs: React.FC<{ pipelineId: TId }> = ({ pipelineId }) => {
-  const { fetching, runIds } = useService({ pipelineId });
+export const Runs: React.FC<{ stackId: TId }> = ({ stackId }) => {
+  const { fetching, runIds } = useService({ stackId });
+  // debugger;
 
   return (
     <RunsTable

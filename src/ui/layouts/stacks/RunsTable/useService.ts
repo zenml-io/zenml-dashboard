@@ -4,7 +4,7 @@ import _ from 'lodash';
 import React from 'react';
 import { useEffect } from 'react';
 import { Sorting, SortingDirection } from './types';
-import { pipelinePagesActions } from '../../../../redux/actions';
+import { stackPagesActions } from '../../../../redux/actions';
 import { useDispatch, useSelector } from '../../../hooks';
 import { runSelectors } from '../../../../redux/selectors';
 
@@ -40,7 +40,7 @@ export const useService = ({ runIds }: { runIds: TId[] }): ServiceInterface => {
   }, []);
 
   const setSelectedRunIds = (runIds: TId[]) => {
-    dispatch(pipelinePagesActions.setSelectedRunIds({ runIds }));
+    dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
   };
 
   return {

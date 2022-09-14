@@ -4,13 +4,13 @@ import { byKeyInsert, idsInsert } from './reducerHelpers';
 
 export interface State {
   ids: TId[];
-  byId: Record<TId, TPipeline>;
-  myPipelineIds: TId[];
+  byId: Record<TId, TStack>;
+  myStackIds: TId[];
 }
 
-type PipelinesPayload = TPipeline[];
+type StacksPayload = TStack[];
 
-type PipelinePayload = TPipeline;
+type StackPayload = TStack;
 
 export type Action = {
   type: string;
@@ -20,39 +20,32 @@ export type Action = {
 export const initialState: State = {
   ids: [],
   byId: {},
-  myPipelineIds: [],
+  myStackIds: [],
 };
 
-const newState = (state: State, pipelines: TPipeline[]): State => ({
+const newState = (state: State, stacks: TStack[]): State => ({
   ...state,
-  ids: idsInsert(state.ids, pipelines),
-  byId: byKeyInsert(state.byId, pipelines),
+  ids: idsInsert(state.ids, stacks),
+  byId: byKeyInsert(state.byId, stacks),
 });
 
-const pipelinesReducer = (
-  state: State = initialState,
-  action: Action,
-): State => {
+const stacksReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case stackActionTypes.getMyStacks.success:
     case workspaceActionTypes.getPipelinesForWorkspaceId.success: {
-      const pipelines: TPipeline[] = camelCaseArray(
-        action.payload as PipelinesPayload,
-      );
+      const stacks: TStack[] = camelCaseArray(action.payload as StacksPayload);
 
-      const myPipelineIds: TId[] = pipelines.map(
-        (pipeline: TPipeline) => pipeline.id,
-      );
+      const myStackIds: TId[] = stacks.map((stack: TStack) => stack.id);
 
-      return { ...newState(state, pipelines), myPipelineIds };
+      return { ...newState(state, stacks), myStackIds };
     }
 
     case stackActionTypes.getStackForId.success: {
-      const payload: PipelinePayload = action.payload;
+      const payload: StackPayload = action.payload;
 
-      const pipeline = camelCaseObject(payload);
+      const stack = camelCaseObject(payload);
 
-      return { ...state, ...newState(state, [pipeline]) };
+      return { ...state, ...newState(state, [stack]) };
     }
 
     default:
@@ -60,4 +53,4 @@ const pipelinesReducer = (
   }
 };
 
-export default pipelinesReducer;
+export default stacksReducer;

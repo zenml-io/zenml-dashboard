@@ -56,7 +56,7 @@ export const useHeaderCols = ({
   return [
     {
       width: '2%',
-      renderRow: (pipeline: TPipeline) => <></>,
+      renderRow: (stack: TStack) => <></>,
     },
     {
       render: () => (

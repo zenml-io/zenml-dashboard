@@ -38,7 +38,6 @@ export const runsForPipelineId = (pipelineId: TId | null | undefined) => (
   const byId = getById(state);
 
   if (!byPipelineId[pipelineId]) return [];
-
   return byPipelineId[pipelineId].map((id: TId) => byId[id]);
 };
 

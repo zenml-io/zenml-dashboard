@@ -2,11 +2,11 @@ import { stackActionTypes } from '../../actionTypes';
 import getStackByIdApi from '../../../api/stacks/getStackByIdApi';
 
 export const getStackByIdAction = ({
-  pipelineId,
+  stackId,
   onSuccess,
   onFailure,
 }: {
-  pipelineId: TId;
+  stackId: TId;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -16,7 +16,7 @@ export const getStackByIdAction = ({
     isAuthenticated: true,
     failureActionType: stackActionTypes.getStackForId.failure,
     successActionType: stackActionTypes.getStackForId.success,
-    params: { pipelineId },
+    params: { stackId },
     onSuccess,
     onFailure,
   },

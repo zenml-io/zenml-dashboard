@@ -2,11 +2,11 @@ import { stackActionTypes } from '../../actionTypes';
 import getAllRunsByStackIdApi from '../../../api/stacks/getAllRunsByStackIdApi';
 
 export const getAllRunsByStackId = ({
-  pipelineId,
+  stackId,
   onSuccess,
   onFailure,
 }: {
-  pipelineId: TId;
+  stackId: TId;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => {
@@ -17,7 +17,7 @@ export const getAllRunsByStackId = ({
       isAuthenticated: true,
       failureActionType: stackActionTypes.getRunsByStackId.failure,
       successActionType: stackActionTypes.getRunsByStackId.success,
-      params: { pipelineId },
+      params: { stackId },
       onSuccess,
       onFailure,
     },

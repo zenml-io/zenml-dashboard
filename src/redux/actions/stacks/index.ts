@@ -4,6 +4,6 @@ import { getAllRunsByStackId } from './getAllRunsByStackId';
 
 export const stacksActions = {
   getMy: getMyStacksAction,
-  pipelineForId: getStackByIdAction,
-  allRunsByPipelineId: getAllRunsByStackId,
+  stackForId: getStackByIdAction,
+  allRunsByStackId: getAllRunsByStackId,
 };

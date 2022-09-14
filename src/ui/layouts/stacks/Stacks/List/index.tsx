@@ -7,7 +7,7 @@ import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
 import { getHeaderCols } from './getHeaderCols';
-import { RunsForStackTable } from './RunsForPipelineTable';
+import { RunsForStackTable } from './RunsForStackTable';
 
 export const List: React.FC = () => {
   const history = useHistory();

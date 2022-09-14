@@ -1,20 +1,20 @@
 /* eslint-disable */
 
-import { PipelineDetailRouteParams } from '.';
-import { pipelinesActions } from '../../../../redux/actions';
-import { pipelineSelectors } from '../../../../redux/selectors';
+import { StackDetailRouteParams } from '.';
+import { pipelinesActions, stacksActions } from '../../../../redux/actions';
+import { stackSelectors } from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
-import { pipelinePagesActions } from '../../../../redux/actions';
+import { stackPagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
 
 interface ServiceInterface {
-  pipeline: TPipeline;
+  stack: TStack;
 }
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
-  const { id } = useParams<PipelineDetailRouteParams>();
+  const { id } = useParams<StackDetailRouteParams>();
 
   useEffect(() => {
     setFetching(true);
@@ -36,10 +36,10 @@ export const useService = (): ServiceInterface => {
   }, [id]);
 
   const setFetching = (fetching: boolean) => {
-    dispatch(pipelinePagesActions.setFetching({ fetching }));
+    dispatch(stackPagesActions.setFetching({ fetching }));
   };
 
-  const pipeline = useSelector(pipelineSelectors.pipelineForId(id));
+  const stack = useSelector(stackSelectors.stackForId(id));
 
-  return { pipeline };
+  return { stack };
 };

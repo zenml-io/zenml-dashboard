@@ -7,22 +7,22 @@ import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 
-const getTabPages = (pipelineId: TId): TabPage[] => {
+const getTabPages = (stackId: TId): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
-      Component: () => <Configuration pipelineId={pipelineId} />,
-      path: routePaths.stack.configuration(pipelineId),
+      Component: () => <Configuration stackId={stackId} />,
+      path: routePaths.stack.configuration(stackId),
     },
     {
       text: translate('tabs.runs.text'),
-      Component: () => <Runs pipelineId={pipelineId} />,
-      path: routePaths.stack.runs(pipelineId),
+      Component: () => <Runs stackId={stackId} />,
+      path: routePaths.stack.runs(stackId),
     },
   ];
 };
 
-const getBreadcrumbs = (pipelineId: TId): TBreadcrumb[] => {
+const getBreadcrumbs = (stackId: TId): TBreadcrumb[] => {
   return [
     {
       name: translate('header.breadcrumbs.stacks.text'),
@@ -30,31 +30,31 @@ const getBreadcrumbs = (pipelineId: TId): TBreadcrumb[] => {
       to: routePaths.stacks.list,
     },
     {
-      name: pipelineId,
+      name: stackId,
       clickable: true,
-      to: routePaths.stack.configuration(pipelineId),
+      to: routePaths.stack.configuration(stackId),
     },
   ];
 };
 
-export interface PipelineDetailRouteParams {
+export interface StackDetailRouteParams {
   id: TId;
 }
 
-export const PipelineDetail: React.FC = () => {
-  const { pipeline } = useService();
+export const StackDetail: React.FC = () => {
+  const { stack } = useService();
 
-  const tabPages = getTabPages(pipeline.id);
-  const breadcrumbs = getBreadcrumbs(pipeline.id);
+  const tabPages = getTabPages(stack.id);
+  const breadcrumbs = getBreadcrumbs(stack.id);
 
   return (
     <BasePage
       headerWithButtons
       tabPages={tabPages}
-      tabBasePath={routePaths.stack.base(pipeline.id)}
+      tabBasePath={routePaths.stack.base(stack.id)}
       breadcrumbs={breadcrumbs}
     />
   );
 };
 
-export default PipelineDetail;
+export default StackDetail;

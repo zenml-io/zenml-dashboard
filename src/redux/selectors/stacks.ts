@@ -8,30 +8,30 @@ import { extractItemFromById } from './utils';
 const stateKey = (state: State): State =>
   _.get(state, 'persisted.stacks') || {};
 
-const getById = (state: State): Record<TId, TPipeline> =>
+const getById = (state: State): Record<TId, TStack> =>
   _.get(stateKey(state), 'byId');
 
-const getMyPipelineIds = (state: State): TId[] =>
-  _.get(stateKey(state), 'myPipelineIds');
+const getMyStackIds = (state: State): TId[] =>
+  _.get(stateKey(state), 'myStackIds');
 
-export const mystacks = (state?: State | null): TPipeline[] => {
+export const mystacks = (state?: State | null): TStack[] => {
   if (!state) return [];
-  const myPipelineIds = getMyPipelineIds(state);
+  const myStackIds = getMyStackIds(state);
   const byId = getById(state);
 
-  return (myPipelineIds || []).reduce((current: TPipeline[], id: TId) => {
-    const pipeline = byId[id];
+  return (myStackIds || []).reduce((current: TStack[], id: TId) => {
+    const stack = byId[id];
 
-    if (pipeline) {
-      current = [...current, pipeline];
+    if (stack) {
+      current = [...current, stack];
     }
 
     return current;
-  }, [] as TPipeline[]);
+  }, [] as TStack[]);
 };
 
-export const stackForId = (pipelineId: TId): Selector<any, TPipeline> =>
-  createSelector(getById, extractItemFromById(pipelineId));
+export const stackForId = (stackId: TId): Selector<any, TStack> =>
+  createSelector(getById, extractItemFromById(stackId));
 
 const stackSelectors = {
   mystacks: mystacks,

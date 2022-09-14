@@ -6,13 +6,13 @@ import mockApi from '../mockApiData';
 
 const getStackByIdApi = ({
   authenticationToken,
-  pipelineId,
+  stackId,
 }: {
   authenticationToken: string;
-  pipelineId: TId;
+  stackId: TId;
 }): Promise<TOrganization> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.Stacks.get(pipelineId)),
+    url: apiUrl(endpoints.Stacks.get(stackId)),
     method: httpMethods.get,
     authenticationToken,
   }).catch((res) => {

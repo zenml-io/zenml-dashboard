@@ -9,10 +9,8 @@ import { translate } from '../translate';
 import styles from './index.module.scss';
 import { useService } from './useService';
 
-export const Configuration: React.FC<{ pipelineId: TId }> = ({
-  pipelineId,
-}) => {
-  const { downloadYamlFile, pipelineConfig } = useService({ pipelineId });
+export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
+  const { downloadYamlFile, stackConfig } = useService({ stackId });
 
   return (
     <FlexBox.Column fullWidth>
@@ -33,7 +31,7 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
           language="yaml"
           style={okaidia}
         >
-          {pipelineConfig}
+          {stackConfig}
         </SyntaxHighlighter>
       </FlexBox>
     </FlexBox.Column>
