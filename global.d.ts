@@ -82,11 +82,11 @@ interface TPipeline {
 interface TStack {
   id: TId;
   name: string;
-  createdAt: Date;
+  creationDate: Date;
   projectName: string;
   // workspaceId: TId;
   components: any;
-  owner: string;
+  userName: string;
   pipelineConfig: any;
   userId: TId;
 }
@@ -107,6 +107,7 @@ interface TRun {
   pipeline?: any;
   duration?: string;
   owner?: any;
+  userName?: any;
   creationDate?: any;
 }
 

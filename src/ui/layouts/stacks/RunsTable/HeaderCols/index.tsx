@@ -121,7 +121,9 @@ export const useHeaderCols = ({
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (run: TRun) => <RunUser run={run.owner.name} />,
+      renderRow: (run: TRun) => (
+        <Paragraph size="small">{run.userName}</Paragraph>
+      ),
     },
     {
       render: () => (

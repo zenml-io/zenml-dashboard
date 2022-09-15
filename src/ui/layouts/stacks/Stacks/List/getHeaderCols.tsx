@@ -73,7 +73,7 @@ export const getHeaderCols = ({
       ),
       width: '11%',
       renderRow: (stack: TStack) => (
-        <Paragraph size="small">{stack.owner}</Paragraph>
+        <Paragraph size="small">{stack.userName}</Paragraph>
       ),
     },
     {
@@ -89,7 +89,7 @@ export const getHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(stack.createdAt)}
+            {formatDateToDisplay(stack.creationDate)}
           </Paragraph>
         </FlexBox>
       ),

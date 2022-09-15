@@ -31,7 +31,7 @@ export const useService = (): ServiceInterface => {
 
   useEffect(() => {
     const orderedStacks = _.sortBy(Stacks, (stack: TStack) =>
-      new Date(stack.createdAt).getTime(),
+      new Date(stack.creationDate).getTime(),
     ).reverse();
 
     // const filteredPipelines = orderedPipelines.filter(
