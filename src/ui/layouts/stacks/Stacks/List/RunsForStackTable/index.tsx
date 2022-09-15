@@ -79,9 +79,9 @@ function NestedRow({ tiles }: NestedRowProps) {
           <Box key={index} className={styles.tile} color="black">
             <Paragraph size="small">
               <span>
-                {tile.name} {'>'}{' '}
+                {tile.type} {'>'}{' '}
               </span>{' '}
-              <span className={styles.name}>{tile.type}</span>
+              <span className={styles.name}>{tile.name}</span>
             </Paragraph>
           </Box>
         ))}

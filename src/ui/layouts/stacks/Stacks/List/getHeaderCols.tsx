@@ -42,6 +42,18 @@ export const getHeaderCols = ({
         </LinkBox>
       ),
     },
+
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
+          STACK ID
+        </Paragraph>
+      ),
+      width: '15%',
+      renderRow: (stack: TStack) => (
+        <Paragraph size="small">{truncate(stack.id, ID_MAX_LENGTH)}</Paragraph>
+      ),
+    },
     {
       render: () => (
         <Paragraph size="small" color="black">
@@ -53,18 +65,6 @@ export const getHeaderCols = ({
         <Paragraph size="small">{stack.name}</Paragraph>
       ),
     },
-    {
-      render: () => (
-        <Paragraph size="small" color="black">
-          RUN ID
-        </Paragraph>
-      ),
-      width: '15%',
-      renderRow: (stack: TStack) => (
-        <Paragraph size="small">{truncate(stack.id, ID_MAX_LENGTH)}</Paragraph>
-      ),
-    },
-
     {
       render: () => (
         <Paragraph size="small" color="black">

@@ -20,11 +20,11 @@ const PAGES = [
 ];
 
 const BREADCRUMBS = [
-  {
-    name: translate('header.breadcrumbs.dashBoard.text'),
-    clickable: true,
-    to: routePaths.home,
-  },
+  // {
+  //   name: translate('header.breadcrumbs.dashBoard.text'),
+  //   clickable: true,
+  //   to: routePaths.home,
+  // },
   {
     name: translate('header.breadcrumbs.stacks.text'),
     clickable: true,
