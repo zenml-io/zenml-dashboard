@@ -55,14 +55,6 @@ export const Form: React.FC = () => {
     }
   };
 
-  const BUTTON_DISABLED =
-    email.trim() === '' ||
-    password.trim() === ''
-
-  useEnterKeyPress(() => {
-    if (!BUTTON_DISABLED) signup();
-  });
-
   return (
     <Box >
       <Box marginBottom="lg">
@@ -146,7 +138,6 @@ export const Form: React.FC = () => {
         marginTop='md'
         className={styles.signUpButton}
         loading={loading}
-        disabled={BUTTON_DISABLED || loading}
         onClick={submit} >
         {translate('form.button.text')}
       </PrimaryButton>

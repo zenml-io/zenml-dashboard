@@ -11,6 +11,7 @@ export interface State {
   myOrganizationId: TId | null;
   roles: string[];
   invoices: TInvoice[];
+  invite: { id: null, activationToken: null, email: null }
 }
 
 export type Action = {
@@ -22,7 +23,7 @@ export type Action = {
     | TMember
     | TMember[]
     | string[]
-    | TInvoice[];
+    | TInvoice[]
 };
 
 export const initialState: State = {
@@ -34,6 +35,7 @@ export const initialState: State = {
   roles: [],
   invoices: [],
   myOrganizationId: null,
+  invite: { id: null, activationToken: null, email: null },
 };
 
 const newState = (state: State, organizations: TOrganization[]): State => ({
@@ -92,6 +94,11 @@ const organizationsReducer = (
       const invoices: TInvoice[] = camelCaseArray(action.payload as TInvoice[]);
 
       return { ...newState(state, []), invoices: invoices || [] };
+    }
+
+    case organizationActionTypes.invite.success: {
+      const inviteUser = camelCaseObject(action.payload);
+      return { ...newState(state, []), invite: inviteUser };
     }
 
     default:

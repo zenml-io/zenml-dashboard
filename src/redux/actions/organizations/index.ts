@@ -14,7 +14,7 @@ export const organizationActions = {
   getInvites: getInvitesAction,
   getOwner: getOwnerAction,
   getMembers: getMembersAction,
-  getRoles: getRolesAction,
+  getRoles: getRolesAction, 
   invite: inviteAction,
   deleteInvite: deleteInviteAction,
   getInvoices: getInvoicesAction,

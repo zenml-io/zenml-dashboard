@@ -13,8 +13,8 @@ import { translate } from './translate';
 interface ServiceInterface {
   login: () => void;
   hasSubmittedWithErrors: boolean;
-  email: string;
-  setEmail: (password: string) => void;
+  username: string;
+  setUsername: (password: string) => void;
   password: string;
   setPassword: (password: string) => void;
   loading: boolean;
@@ -22,7 +22,7 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
 
@@ -32,11 +32,11 @@ export const useService = (): ServiceInterface => {
     login: () => {
       setLoading(true);
       setHasSubmittedWithErrors(true);
-      if (email.trim() !== '' && password.trim() !== '') {
+      if (username.trim() !== '' && password.trim() !== '') {
         dispatch(
           loginAction({
-            password,
-            email,
+            password, 
+            username,
             onFailure: (errorText) => {
               dispatch(
                 showToasterAction({
@@ -62,8 +62,8 @@ export const useService = (): ServiceInterface => {
       }
     },
     hasSubmittedWithErrors,
-    email,
-    setEmail,
+    username,
+    setUsername,
     password,
     setPassword,
     loading,

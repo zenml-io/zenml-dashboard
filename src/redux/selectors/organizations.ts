@@ -45,6 +45,9 @@ const getRoles = (state: State): string[] => _.get(stateKey(state), 'roles');
 const getInvoices = (state: State): TInvoice[] =>
   _.get(stateKey(state), 'invoices');
 
+const invite = (state: State): { id: null, activationToken: null, email: null } =>
+  _.get(stateKey(state), 'invite');
+
 const organizationSelectors = {
   myOrganization: myOrganization,
   myMembers: myMembers,
@@ -53,6 +56,7 @@ const organizationSelectors = {
   roles: getRoles,
   owner: getOwner,
   invoices: getInvoices,
+  invite,
 };
 
 export { organizationSelectors };

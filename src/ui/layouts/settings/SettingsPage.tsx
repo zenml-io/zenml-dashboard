@@ -19,16 +19,6 @@ const PAGES = [
     Component: PersonalDetails,
     path: routePaths.settings.personalDetails,
   },
-  // {
-  //   text: translate('tabs.yourPlan.text'),
-  //   Component: Plan,
-  //   path: routePaths.settings.yourPlan,
-  // },
-  // {
-  //   text: translate('tabs.billing.text'),
-  //   Component: Billing,
-  //   path: routePaths.settings.billing,
-  // },
   {
     text: translate('tabs.organizationSettings.text'),
     Component: Organization,

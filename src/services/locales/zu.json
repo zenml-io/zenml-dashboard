@@ -177,6 +177,9 @@
               },
               "plus": {
                 "text": "Invite another user"
+              },
+              "invite": {
+                "text": "Invitation Token"
               }
             },
             "deleteMemberPopup": {
@@ -291,6 +294,11 @@
                 "placeholder": "john.doe@acme.com",
                 "required": "Email is required",
                 "invalidEmail": "Email is not valid"
+              },
+              "username": {
+                "label": "Username",
+                "placeholder": "username",
+                "required": "Username is required"
               },
               "password": {
                 "label": "Password",

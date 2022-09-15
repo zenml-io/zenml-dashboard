@@ -27,6 +27,7 @@ export const actionTypesHandledByRequestSaga: string[] = [
   organizationActionTypes.deleteInvite.request,
   organizationActionTypes.getInvoices.request,
   organizationActionTypes.retryInvoice.request,
+  organizationActionTypes.invite.request,
   workspaceActionTypes.getMyWorkspaces.request,
   workspaceActionTypes.getPipelinesForWorkspaceId.request,
   pipelineActionTypes.getMyPipelines.request,

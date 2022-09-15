@@ -14,12 +14,13 @@ import {
 import { useRequestOnMount } from '../../../hooks';
 import { Table } from '../../common/Table';
 import { translate } from './translate';
-import { useMemberHeaderCols, useInviteHeaderCols } from './useHeaderCols';
+import { useMemberHeaderCols } from './useHeaderCols';
 import { InvitePopup } from './InvitePopup';
 
 type Table = 'members' | 'invites';
 
 export const Organization: React.FC = () => {
+  
   const [fetchingInvites, setFetchingInvites] = useState(true);
   const [fetchingMembers, setFetchingMembers] = useState(true);
 
@@ -34,6 +35,7 @@ export const Organization: React.FC = () => {
       onFailure: () => setFetchingInvites(false),
     }),
   );
+
   useRequestOnMount(() =>
     organizationActions.getMembers({
       onSuccess: () => setFetchingMembers(false),
@@ -42,30 +44,47 @@ export const Organization: React.FC = () => {
   );
 
   const organization = useSelector(organizationSelectors.myOrganization);
-  // const invites = useSelector(organizationSelectors.invites);
   // const members = useSelector(organizationSelectors.myMembers);
-
+  // const invites = useSelector(organizationSelectors.invites);
   const memberHeaderCols = useMemberHeaderCols();
-  const inviteHeaderCols = useInviteHeaderCols();
 
+  
   const members = [
     {
-      createdAt: "2022-08-09T19:08:54.541Z",
-      email: 'Haziq@example.com',
+      id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+      name: "Haziq",
+      full_name: "Haziq",
+      email: "Haziq@zenml.io",
+      active: false,
+      activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
+      created_at: "2022-09-14T17:59:16.660668",
+      updated_at: "2022-09-14T17:59:16.660668",
       role: 'Accepted'
     },
     {
-      createdAt: "2022-08-09T19:08:54.541Z",
-      email: 'Hamza@example.com',
+      id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+      name: "Hamza",
+      full_name: "Hamza",
+      email: "Hamza@zenml.io",
+      active: false,
+      activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
+      created_at: "2022-09-14T17:59:16.660668",
+      updated_at: "2022-09-14T17:59:16.660668",
       role: 'Pending'
     },
-    {
-      createdAt: "2022-08-09T19:08:54.541Z",
-      email: 'Daniel@example.com',
+     {
+      id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+      name: "Daniel",
+      full_name: "Daniel",
+      email: "Daniel@zenml.io",
+      active: false,
+      activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
+      created_at: "2022-09-14T17:59:16.660668",
+      updated_at: "2022-09-14T17:59:16.660668",
       role: 'Owner'
     }
 ]
-
+   
   if (!organization) return null;
 
   return (
@@ -109,16 +128,6 @@ export const Organization: React.FC = () => {
                 </Paragraph>
               </LinkBox>
             </Box>
-            {/* <Box paddingHorizontal="md">
-              <LinkBox onClick={() => setCurrentTable('invites')}>
-                <Paragraph
-                  bold
-                  color={currentTable === 'invites' ? 'primary' : 'darkGrey'}
-                >
-                  {translate('invites')} {`(${invites.length})`}
-                </Paragraph>
-              </LinkBox>
-            </Box> */}
           </FlexBox.Row>
           {currentTable === 'members' && (
             <Table
@@ -130,16 +139,6 @@ export const Organization: React.FC = () => {
               emptyState={{ text: translate('emptyState.text') }}
             />
           )}
-          {/* {currentTable === 'invites' && (
-            <Table
-              pagination={true}
-              headerCols={inviteHeaderCols}
-              loading={fetchingInvites}
-              showHeader={true}
-              tableRows={invites}
-              emptyState={{ text: translate('emptyState.text') }}
-            />
-          )} */}
         </Box>
       </FlexBox.Column>
     </>

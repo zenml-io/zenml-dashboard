@@ -1,5 +1,4 @@
 import React from 'react';
-import { fieldValidation } from '../../../../utils/validations';
 import {
   Box,
   FormEmailField,
@@ -8,24 +7,14 @@ import {
 } from '../../../components';
 import { translate } from './translate';
 import { useService } from './useService';
-import { useEnterKeyPress } from '../../../hooks';
-
-const emailHasError = (email: string, hasSubmittedWithErrors: boolean) =>
-  (hasSubmittedWithErrors && email.trim() === '') ||
-  (hasSubmittedWithErrors && !fieldValidation(email.trim()).isEmail());
-
-const emailErrorText = (email: string) =>
-  email.trim() !== '' && !fieldValidation(email.trim()).isEmail()
-    ? translate('form.email.invalidEmail')
-    : translate('form.email.required');
 
 export const Form: React.FC = () => {
   const {
     login,
     hasSubmittedWithErrors,
-    email,
+    username,
     password,
-    setEmail,
+    setUsername,
     setPassword,
     loading,
   } = useService();
@@ -34,24 +23,18 @@ export const Form: React.FC = () => {
     login();
   };
 
-  const BUTTON_DISABLED = email.trim() === '' || password.trim() === '';
-
-  useEnterKeyPress(() => {
-    if (!BUTTON_DISABLED) login();
-  });
-
   return (
     <Box marginTop="xxl">
       <Box marginBottom="lg">
         <FormEmailField
-          label={translate('form.email.label')}
+          label={translate('form.username.label')}
           labelColor='#ffffff'
-          placeholder={translate('form.email.placeholder')}
-          value={email}
-          onChange={(val: string) => setEmail(val)}
+          placeholder={translate('form.username.placeholder')}
+          value={username}
+          onChange={(val: string) => setUsername(val)}
           error={{
-            hasError: emailHasError(email, hasSubmittedWithErrors),
-            text: emailErrorText(email),
+            hasError: hasSubmittedWithErrors && username.trim() === '',
+            text: translate('form.username.required'),
           }}
         />
       </Box>
@@ -71,7 +54,6 @@ export const Form: React.FC = () => {
       <PrimaryButton
         style={{ width: '100%', backgroundColor: '#E8A562' }}
         loading={loading}
-        disabled={BUTTON_DISABLED || loading}
         onClick={submit}
       >
         {translate('form.button.text')}

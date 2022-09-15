@@ -12,6 +12,7 @@ import { HeaderCol } from '../../common/Table';
 import { iconColors, iconSizes } from '../../../../constants';
 import { DeleteInvite } from './DeleteInvite';
 import { DeleteMember } from './DeleteMember';
+import { TokenPopup } from './tokenPopup';
 
 export const useInviteHeaderCols = (): HeaderCol[] => {
   return [
@@ -95,7 +96,13 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
       ),
       width: '15%',
       renderRow: (member: TMember) => (
-        <Paragraph size="small">{member.role}</Paragraph>
+        <Paragraph size="small" >
+          {member.role === 'Pending' ? (
+            <TokenPopup id={member?.id} email={member?.email} activationToken={member?.activationToken} role={member?.role} />
+          ) : (
+            <Paragraph>{member.role}</Paragraph>
+          )}
+        </Paragraph>
       ),
     },
     {
@@ -111,7 +118,7 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="black" size="tiny">
-            {formatDateToDisplay(member.createdAt)}
+            {formatDateToDisplay(member.created_at)}
           </Paragraph>
         </FlexBox>
       ),

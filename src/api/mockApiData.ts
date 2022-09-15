@@ -1,6 +1,6 @@
 const mockApi = {
   loginMockResponse: {
-    access_token: 'string',
+    access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
     token_type: 'string',
   },
   myWorkSpacesMockResponse: [
@@ -158,6 +158,51 @@ const mockApi = {
     created_at: '2022-08-09T18:54:03.919Z',
     bucket_name: 'string',
     service_account: {},
+    organizationMembers: [
+      {
+        id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+        name: "Haziq",
+        full_name: "Haziq",
+        email: "Haziq@zenml.io",
+        active: false,
+        activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
+        created_at: "2022-09-14T17:59:16.660668",
+        updated_at: "2022-09-14T17:59:16.660668",
+        role: 'Accepted'
+      },
+      {
+        id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+        name: "Hamza",
+        full_name: "Hamza",
+        email: "Hamza@zenml.io",
+        active: false,
+        activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
+        created_at: "2022-09-14T17:59:16.660668",
+        updated_at: "2022-09-14T17:59:16.660668",
+        role: 'Pending'
+      },
+       {
+        id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+        name: "Daniel",
+        full_name: "Daniel",
+        email: "Daniel@zenml.io",
+        active: false,
+        activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
+        created_at: "2022-09-14T17:59:16.660668",
+        updated_at: "2022-09-14T17:59:16.660668",
+        role: 'Owner'
+      }
+    ],
+    myOrganizationInviteMockResponse: {
+        id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+        name: "john@zenml.io",
+        full_name: "John Doe",
+        email: "john@zenml.io",
+        active: false,
+        activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
+        created_at: "2022-09-14T17:59:16.660668",
+        updated_at: "2022-09-14T17:59:16.660668"
+    }
   },
   userByIdMockResponse: {
     email: 'string',

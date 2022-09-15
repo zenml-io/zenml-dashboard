@@ -105,6 +105,55 @@ export const FormDropdownField = (props: {
   </FlexBox.Column>
 );
 
+export const CopyField = (
+  props: {
+    label: string;
+    labelColor: any;
+    placeholder: any;
+    value: string;
+  } & any,
+): JSX.Element => {
+
+  const [copied, setCopied] = useState(false)
+  const handleClick = () => {
+    navigator.clipboard.writeText(props.value)
+    setCopied(true)
+    setTimeout(() => {
+      setCopied(false)
+    }, 2000);
+  }
+
+  return (
+    <FlexBox.Column fullWidth>
+      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+        <InputWithLabel
+          name={props.name}
+          label={props.label}
+          labelColor={props.labelColor}
+          InputComponent={
+              <TextInput
+                {...props}
+                value={`${props.value.slice(0, 60)}...`}
+                placeholder={props.placeholder}
+              />
+          }
+        />
+          <LinkBox
+            style={{ position: 'absolute', right: '10px', top: '30px' }}
+            onClick={handleClick}
+          >
+            <icons.copy color={iconColors.grey} />
+          </LinkBox>
+      </FlexBox>
+          {copied && (<div style={{  marginTop: '20px', textAlign: 'right' }} >
+                        <button style={{ backgroundColor: '#F4F4F4', padding: '5px 20px', border: 'none', borderRadius: '5px' }} >Copied</button>
+                      </div>
+          )}
+    </FlexBox.Column>
+  );
+};
+
+
 export const FormPasswordField = (
   props: {
     label: string;
