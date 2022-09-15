@@ -5,12 +5,13 @@ import cn from 'classnames';
 import styles from './MenuItem.module.scss';
 
 export const MenuItem: React.FC<{
+  subItem?: boolean;
   text: string;
   to: string;
   exact?: boolean;
   Icon: React.ComponentType;
   isActive?: ({ match, location }: { match: any; location: any }) => boolean;
-}> = ({ text, to, exact = false, Icon, isActive }) => {
+}> = ({ text, to, exact = false, Icon, isActive, subItem }) => {
   let location = useLocation();
   return (
     <NavLink
@@ -26,12 +27,14 @@ export const MenuItem: React.FC<{
       <FlexBox alignItems="center" paddingVertical="sm" marginVertical="sm">
         <Box
           className={cn(
-            to === location.pathname ? styles.menuItemSideBox : null,
+            to === location.pathname && !subItem
+              ? styles.menuItemSideBox
+              : null,
           )}
         ></Box>
 
         <FlexBox>
-          <Box paddingLeft="md">
+          <Box paddingLeft={subItem ? 'xl' : 'md'}>
             <Icon />
           </Box>
           <Box paddingLeft="md">
