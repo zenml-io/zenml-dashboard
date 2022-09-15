@@ -16,7 +16,7 @@ import {
 import { HeaderCol } from '../../../common/Table';
 // import { RunStatus } from '../RunStatus';
 // import { RunTime } from '../../RunTime';
-import { RunUser } from '../RunUser';
+// import { RunUser } from '../RunUser';
 import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
@@ -121,7 +121,9 @@ export const useHeaderCols = ({
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (run: TRun) => <RunUser run={run.owner.name} />,
+      renderRow: (run: TRun) => (
+        <Paragraph size="small">{run.userName}</Paragraph>
+      ),
     },
     {
       render: () => (
