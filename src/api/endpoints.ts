@@ -27,7 +27,7 @@ export const endpoints = {
   },
   Stacks: {
     my: '/Stacks/',
-    get: (pipelineId: TId): string => `/Stacks/${pipelineId}`,
+    get: (stackId: TId): string => `/Stacks/${stackId}`,
   },
   runs: {
     get: (pipelineId: TId, runId: TId): string =>
