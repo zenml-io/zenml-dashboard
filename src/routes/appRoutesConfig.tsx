@@ -15,6 +15,7 @@ import Deployments from '../ui/layouts/deployments/Deployments';
 import Functions from '../ui/layouts/functions/Functions';
 import Models from '../ui/layouts/models/Models';
 import Workspaces from '../ui/layouts/workspaces/Workspaces';
+import stackComponents from '../ui/layouts/stackComponents/Workspaces';
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
 import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import RunDetail from '../ui/layouts/pipelines/RunDetail';
@@ -189,6 +190,14 @@ const routes = [
   {
     path: routePaths.workspaces.list,
     Component: Workspaces,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.stackComponents.base(':type'),
+    Component: stackComponents,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
