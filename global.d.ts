@@ -79,6 +79,17 @@ interface TPipeline {
   pipelineConfig: any;
   userId: TId;
 }
+interface TStack {
+  id: TId;
+  name: string;
+  createdAt: Date;
+  projectName: string;
+  // workspaceId: TId;
+  components: any;
+  owner: string;
+  pipelineConfig: any;
+  userId: TId;
+}
 
 type TRunStatus = 'Succeeded' | 'Running' | 'Failed';
 

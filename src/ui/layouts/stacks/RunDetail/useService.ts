@@ -5,30 +5,30 @@ import { useParams, useRequestOnMount, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
   runId: TId;
-  pipelineId: TId;
+  stackId: TId;
   run: TRun;
   billing: TBilling | Record<any, any>;
 }
 
 export const useService = (): ServiceInterface => {
-  const { id, pipelineId } = useParams<RunDetailRouteParams>();
+  const { id, stackId } = useParams<RunDetailRouteParams>();
 
-  useRequestOnMount(() =>
-    runsActions.runForId({
-      pipelineId,
-      runId: id,
-    }),
-  );
+  // useRequestOnMount(() =>
+  //   runsActions.runForId({
+  //     pipelineId,
+  //     runId: id,
+  //   }),
+  // );
 
-  useRequestOnMount(() =>
-    billingActions.billingForRunId({
-      runId: id,
-      pipelineId,
-    }),
-  );
+  // useRequestOnMount(() =>
+  //   billingActions.billingForRunId({
+  //     runId: id,
+  //     pipelineId,
+  //   }),
+  // );
 
   const run = useSelector(runSelectors.runForId(id));
   const billing = useSelector(billingSelectors.billingForRunId(id));
 
-  return { runId: id, pipelineId, run, billing };
+  return { runId: id, stackId, run, billing };
 };

@@ -1,6 +1,6 @@
 export type Sorting =
   | 'id'
-  | 'pipelineRunType'
+  | 'stackRunType'
   | 'status'
   | 'datasourceCommit'
   | 'createdAt';

@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { pipelinePagesActions } from '../../../../../redux/actions';
-import { pipelinePagesSelectors } from '../../../../../redux/selectors';
+import { stackPagesActions } from '../../../../../redux/actions';
+import { stackPagesSelectors } from '../../../../../redux/selectors';
 import { Sorting, SortingDirection } from '../types';
 
 export type SortMethod = (
@@ -38,10 +38,10 @@ export const useService = ({
   const dispatch = useDispatch();
 
   const setSelectedRunIds = (ids: TId[]) => {
-    dispatch(pipelinePagesActions.setSelectedRunIds({ runIds: ids }));
+    dispatch(stackPagesActions.setSelectedRunIds({ runIds: ids }));
   };
 
-  const selectedRunIds = useSelector(pipelinePagesSelectors.selectedRunIds);
+  const selectedRunIds = useSelector(stackPagesSelectors.selectedRunIds);
 
   const toggleSelectRun = (run: TRun): void => {
     if (selectedRunIds.indexOf(run.id) === -1) {

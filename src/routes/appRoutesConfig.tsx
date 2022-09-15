@@ -9,14 +9,14 @@ import ForgotPassword from '../ui/layouts/session/ForgotPassword';
 import Home from '../ui/layouts/Home';
 
 import Pipelines from '../ui/layouts/pipelines/Pipelines';
-import stacks from '../ui/layouts/stacks/Pipelines';
+import stacks from '../ui/layouts/stacks/Stacks';
 import Datasources from '../ui/layouts/datasources/Datasources';
 import Deployments from '../ui/layouts/deployments/Deployments';
 import Functions from '../ui/layouts/functions/Functions';
 import Models from '../ui/layouts/models/Models';
 import Workspaces from '../ui/layouts/workspaces/Workspaces';
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
-import StackDetails from '../ui/layouts/stacks/PipelineDetail/index';
+import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import RunDetail from '../ui/layouts/pipelines/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
@@ -124,7 +124,7 @@ const routes = [
   },
   {
     path: routePaths.stack.base(':id'),
-    Component: StackDetails,
+    Component: StackDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
@@ -132,7 +132,7 @@ const routes = [
   },
   {
     path: routePaths.stack.configuration(':id'),
-    Component: StackDetails,
+    Component: StackDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
@@ -140,7 +140,7 @@ const routes = [
   },
   {
     path: routePaths.stack.runs(':id'),
-    Component: StackDetails,
+    Component: StackDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
