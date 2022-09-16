@@ -1,3 +1,3 @@
 import { getTranslateByScope } from '../../../../services';
 
-export const translate = getTranslateByScope('ui.layouts.WorkspacesHeader');
+export const translate = getTranslateByScope('ui.layouts.PipelinesHeader');

@@ -1,16 +1,18 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { FlexBox } from '../../../components';
+import { FlexBox, Box } from '../../../components';
 import { Breadcrumbs } from '../../common/Breadcrumbs';
-import { CreateWorkspaceButton } from './CreateWorkspaceButton';
+import { CompareRunsButton } from './CompareRunsButton';
+import { CreatePipelineButton } from './CreatePipelineButton';
 import { DocumentationLink } from './DocumentationLink';
 
 import styles from './index.module.scss';
 
 const DefaultHeader: React.FC<{
   breadcrumbs: TBreadcrumb[];
-}> = ({ breadcrumbs }) => (
+  renderRight?: () => JSX.Element;
+}> = ({ breadcrumbs, renderRight }) => (
   <FlexBox
     marginTop="xl"
     alignItems="center"
@@ -20,12 +22,16 @@ const DefaultHeader: React.FC<{
     <FlexBox fullHeight alignItems="center">
       <Breadcrumbs breadcrumbs={breadcrumbs} />
     </FlexBox>
+    <FlexBox alignItems="center">
+      <Box marginRight="lg">{renderRight && renderRight()}</Box>
+    </FlexBox>
   </FlexBox>
 );
 
 const HeaderWithButtons: React.FC<{
   breadcrumbs: TBreadcrumb[];
-}> = ({ breadcrumbs }) => (
+  renderRight?: () => JSX.Element;
+}> = ({ breadcrumbs, renderRight }) => (
   <FlexBox
     marginTop="xl"
     alignItems="center"
@@ -41,7 +47,11 @@ const HeaderWithButtons: React.FC<{
       justifyContent="flex-end"
       className={styles.rightWrapper}
     >
-      <CreateWorkspaceButton />
+      <Box marginRight="lg" className={styles.dynamicHeaderRight}>
+        {renderRight && renderRight()}
+      </Box>
+      <CreatePipelineButton />
+      <CompareRunsButton />
       <DocumentationLink />
     </FlexBox>
   </FlexBox>

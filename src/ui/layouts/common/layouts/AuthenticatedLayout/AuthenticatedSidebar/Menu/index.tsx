@@ -9,7 +9,7 @@ import { matchPath } from 'react-router-dom';
 
 export const Menu: React.FC = () => {
   const locationPath = useLocationPath();
-  const stackComponentsTypes = ['Alerter'];
+  const stackComponentsTypes = ['Alerter', 'asdasd'];
   return (
     <>
       <MenuItem
@@ -100,7 +100,7 @@ export const Menu: React.FC = () => {
                   <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
                 )}
                 to={routePaths.stackComponents.base(item)}
-                text={translate('menu.stackComponents.text')}
+                text={item}
               />
               ;
             </>
