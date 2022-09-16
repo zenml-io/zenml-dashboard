@@ -1,0 +1,27 @@
+@import '../../../globalStyles.scss';
+
+$activeBgColor: #fbfbfb;
+$boxShadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+$width: 18rem;
+
+.dropdown {
+  background-color: $whiteColor;
+  position: absolute;
+  border: 1px solid $lightestGreyColor;
+  border-radius: 4px;
+  box-shadow: $boxShadow;
+  width: $width;
+  z-index: 9;
+}
+
+.dropdownItem {
+  border-left: 4px solid transparent;
+  cursor: pointer;
+  transition: 0.2s ease-in all;
+}
+
+.currentDropdownItem,
+.dropdownItem:hover {
+  border-left: 4px solid $primaryColor;
+  background-color: $activeBgColor;
+}
