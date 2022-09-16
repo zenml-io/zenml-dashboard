@@ -329,14 +329,19 @@
             "title": "Register",
             "subtitle": "Enter your details below",
             "form": {
+              "username": {
+                "label": "username",
+                "placeholder": "username",
+                "required": "Username is required"
+              },
               "fullname": {
                 "label": "Fullname",
-                "placeholder": "Jane Doe",
+                "placeholder": "Full Name",
                 "required": "Fullname is required"
               },
               "email": {
                 "label": "Email address",
-                "placeholder": "jane.doe@acme.com",
+                "placeholder": "Email address",
                 "required": "Email is required",
                 "invalidEmail": "Email is not valid"
               },

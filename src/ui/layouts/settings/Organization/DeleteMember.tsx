@@ -39,7 +39,6 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
         },
         onFailure: () => {
           setSubmitting(false);
-
           dispatch(
             showToasterAction({
               type: 'failure',

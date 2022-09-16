@@ -59,8 +59,8 @@ interface TMember {
   fullName: string;
   email: string;
   created_at: Date;
-  role: string;
-  activationToken: string
+  active: boolean;
+  activation_token: string
 }
 
 interface TWorkspace {

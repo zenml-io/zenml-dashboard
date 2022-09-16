@@ -55,11 +55,10 @@ export const Organization: React.FC = () => {
       name: "Haziq",
       full_name: "Haziq",
       email: "Haziq@zenml.io",
-      active: false,
+      active: true,
       activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
       created_at: "2022-09-14T17:59:16.660668",
-      updated_at: "2022-09-14T17:59:16.660668",
-      role: 'Accepted'
+      updated_at: "2022-09-14T17:59:16.660668"
     },
     {
       id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
@@ -69,19 +68,17 @@ export const Organization: React.FC = () => {
       active: false,
       activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
       created_at: "2022-09-14T17:59:16.660668",
-      updated_at: "2022-09-14T17:59:16.660668",
-      role: 'Pending'
+      updated_at: "2022-09-14T17:59:16.660668"
     },
      {
       id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
       name: "Daniel",
       full_name: "Daniel",
       email: "Daniel@zenml.io",
-      active: false,
+      active: true,
       activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
       created_at: "2022-09-14T17:59:16.660668",
-      updated_at: "2022-09-14T17:59:16.660668",
-      role: 'Owner'
+      updated_at: "2022-09-14T17:59:16.660668"
     }
 ]
    

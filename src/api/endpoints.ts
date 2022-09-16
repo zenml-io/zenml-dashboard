@@ -1,6 +1,6 @@
 export const endpoints = {
   login: '/login',
-  signup: '/users',
+  signup: (username: string): string => `/users/${username}/activate`,
   forgot: '/login/email/resetpassword',
   users: {
     me: '/users/me',
@@ -13,9 +13,10 @@ export const endpoints = {
     owner: '/organizations/creator',
     members: '/organizations/users',
     roles: '/organizations/roles',
-    // invite: '/organizations/invite',
     invite: '/users',
-    deleteInvite: (id: string): string => `/organizations/invite/${id}`,
+    deleteInvite: (id: string): string => `/users/${id}`,
+    // invite: '/organizations/invite',
+    // deleteInvite: (id: string): string => `/organizations/invite/${id}`,
     getInvoices: `/billing/organization/invoices`,
   },
   workspaces: {

@@ -6,17 +6,14 @@ import { fieldValidation } from '../../../../utils/validations';
 import {
   Box,
   FormEmailField,
+  FormTextField,
   FormPasswordField,
-  Paragraph,
   PrimaryButton,
-  ColoredSquare,
-  FlexBox,
 } from '../../../components';
 import { useDispatch } from '../../../hooks';
 import { translate } from './translate';
 import { useService } from './useService';
 import { useEnterKeyPress } from '../../../hooks';
-import { getInitials } from '../../../../utils/name';
 
 const emailHasError = (email: string, hasSubmittedWithErrors: boolean) =>
   (hasSubmittedWithErrors && email.trim() === '') ||
@@ -35,12 +32,15 @@ export const Form: React.FC = () => {
   const {
     signup,
     hasSubmittedWithErrors,
+    username,
     email,
+    fullName,
     password,
+    setUsername,
     setEmail,
+    setFullName,
     setPassword,
     loading,
-    invite,
   } = useService();
 
   const submit = () => {
@@ -55,44 +55,30 @@ export const Form: React.FC = () => {
     }
   };
 
+  const BUTTON_DISABLED = email.trim() === '' || password.trim() === '' || confirmPass.trim() === '' 
+
+  useEnterKeyPress(() => {
+    if (!BUTTON_DISABLED) signup();
+  });
+
+
   return (
     <Box >
       <Box marginBottom="lg">
-        {invite && (
-          <Box>
-            <Paragraph size="body" color="black">
-              {translate('form.organization.label')}
-            </Paragraph>
-            <FlexBox.Row alignItems="center" marginTop="sm">
-              <Box>
-                <ColoredSquare size="md" color="secondary">
-                  <Paragraph color="white">
-                    {getInitials(invite.organizationName)}
-                  </Paragraph>
-                </ColoredSquare>
-              </Box>
-              <Box marginLeft="sm">
-                <Paragraph bold>{invite.organizationName}</Paragraph>
-              </Box>
-            </FlexBox.Row>
-          </Box>
-        )} 
+          <FormTextField
+            label={translate('form.username.label')}
+            labelColor='#ffffff'
+            placeholder={translate('form.username.placeholder')}
+            value={username} 
+            onChange={(val: string) => setUsername(val)}
+            error={{
+              hasError: emailHasError(email, hasSubmittedWithErrors),
+              text: emailErrorText(email),
+            }}
+          />
       </Box>
+
       <Box marginBottom="lg">
-        {!!invite ? (
-          <Box>
-            <Box paddingBottom="sm">
-              <Paragraph size="body" color="white">
-                <label>{translate('form.email.label')}</label>
-              </Paragraph>
-            </Box>
-            <Box>
-              <Paragraph size="body" color="black">
-                {email}
-              </Paragraph>
-            </Box>
-          </Box>
-        ) : (
           <FormEmailField
             label={translate('form.email.label')}
             labelColor='#ffffff'
@@ -104,8 +90,23 @@ export const Form: React.FC = () => {
               text: emailErrorText(email),
             }}
           />
-        )}
       </Box>
+
+      <Box marginBottom="lg">
+          <FormTextField
+            label={translate('form.fullname.label')}
+            labelColor='#ffffff'
+            placeholder={translate('form.fullname.placeholder')}
+            value={fullName} 
+            onChange={(val: string) => setFullName(val)}
+            error={{
+              hasError: emailHasError(email, hasSubmittedWithErrors),
+              text: emailErrorText(email),
+            }}
+          />
+      </Box>
+      
+
       <Box marginBottom="lg">
         <FormPasswordField
           label={translate('form.password.label')}
@@ -138,6 +139,7 @@ export const Form: React.FC = () => {
         marginTop='md'
         className={styles.signUpButton}
         loading={loading}
+        disabled={BUTTON_DISABLED || loading}
         onClick={submit} >
         {translate('form.button.text')}
       </PrimaryButton>

@@ -7,7 +7,7 @@ export interface State {
   byId: Record<TId, TOrganization>;
   invites: TInvite[];
   owner: TMember | null;
-  members: TMember[];
+  members: any[];
   myOrganizationId: TId | null;
   roles: string[];
   invoices: TInvoice[];
@@ -21,7 +21,7 @@ export type Action = {
     | TInvite
     | TInvite[]
     | TMember
-    | TMember[]
+    | any[]
     | string[]
     | TInvoice[]
 };
@@ -80,7 +80,7 @@ const organizationsReducer = (
 
     case organizationActionTypes.getMembers.success: {
       const members: TMember[] = camelCaseArray(action.payload as TMember[]);
-
+  
       return { ...newState(state, []), members: members || [] };
     }
 

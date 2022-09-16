@@ -7,6 +7,7 @@ import {
 } from '../../../components';
 import { translate } from './translate';
 import { useService } from './useService';
+import { useEnterKeyPress } from '../../../hooks';
 
 export const Form: React.FC = () => {
   const {
@@ -22,6 +23,12 @@ export const Form: React.FC = () => {
   const submit = () => {
     login();
   };
+
+  const BUTTON_DISABLED = username.trim() === '' || password.trim() === ''
+
+  useEnterKeyPress(() => {
+    if (!BUTTON_DISABLED) login();
+  });
 
   return (
     <Box marginTop="xxl">
@@ -54,6 +61,7 @@ export const Form: React.FC = () => {
       <PrimaryButton
         style={{ width: '100%', backgroundColor: '#E8A562' }}
         loading={loading}
+        disabled={BUTTON_DISABLED || loading}
         onClick={submit}
       >
         {translate('form.button.text')}

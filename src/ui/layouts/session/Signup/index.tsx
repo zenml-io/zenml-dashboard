@@ -22,8 +22,8 @@ import { Link } from 'react-router-dom';
 const Signup: React.FC = () => {
   return (
     <EaseInBox>
-      <Container className={styles.signUp} style={{ height: window.innerHeight }} fluid >
-            <Box style={{ overflowY: 'auto', maxHeight: '100vh' }}>
+      <Container className={styles.signUp} fluid>
+            <Box style={{ overflowY: 'auto' }}>
               <Box margin="xxl" style={{ textAlign: 'center' }}>
                 <Link to={routePaths.signup}>
                   <Image src={image} />

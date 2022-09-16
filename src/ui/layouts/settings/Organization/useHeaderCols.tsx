@@ -10,7 +10,6 @@ import {
 } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { iconColors, iconSizes } from '../../../../constants';
-import { DeleteInvite } from './DeleteInvite';
 import { DeleteMember } from './DeleteMember';
 import { TokenPopup } from './tokenPopup';
 
@@ -58,7 +57,7 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
     {
       render: () => <Paragraph size="small" color="grey"></Paragraph>,
       width: '5%',
-      renderRow: (invite: TInvite) => <DeleteInvite invite={invite} />,
+      renderRow: (invite: TInvite) => <DeleteMember member={invite} />,
     },
   ];
 };
@@ -97,10 +96,10 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
       width: '15%',
       renderRow: (member: TMember) => (
         <Paragraph size="small" >
-          {member.role === 'Pending' ? (
-            <TokenPopup id={member?.id} email={member?.email} activationToken={member?.activationToken} role={member?.role} />
+          {member.active === false ? (
+            <TokenPopup id={member?.id} email={member?.email} activation_token={member?.activation_token} active={member?.active} />
           ) : (
-            <Paragraph>{member.role}</Paragraph>
+            <Paragraph>Accepted</Paragraph>
           )}
         </Paragraph>
       ),

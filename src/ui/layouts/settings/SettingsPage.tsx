@@ -32,7 +32,7 @@ export const SettingsPage: React.FC = () => {
     <AuthenticatedLayout>
       <SidebarContainer>
         <Box marginTop="xl">
-          <Paragraph>Dashboard &#62; {translate('title')}</Paragraph>
+          <Paragraph>{translate('title')}</Paragraph>
         </Box>
         <Box>
           <Tabs pages={PAGES} basePath={routePaths.settings.base} />

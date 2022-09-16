@@ -3,6 +3,15 @@ const mockApi = {
     access_token: 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiaWF0IjoxNTE2MjM5MDIyfQ.SflKxwRJSMeKKF2QT4fwpMeJf36POk6yJV_adQssw5c',
     token_type: 'string',
   },
+  signupMockResponse: {
+      id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+      name: "johndoe",
+      full_name: "John Doe",
+      email: "johndoe@zenml.io",
+      active: true,
+      created_at: "2022-09-14T17:59:16.660668",
+      updated_at: "2022-09-14T17:59:16.660668"
+  },
   myWorkSpacesMockResponse: [
     {
       name: 'string',
@@ -168,7 +177,6 @@ const mockApi = {
         activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
         created_at: "2022-09-14T17:59:16.660668",
         updated_at: "2022-09-14T17:59:16.660668",
-        role: 'Accepted'
       },
       {
         id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
@@ -179,7 +187,6 @@ const mockApi = {
         activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
         created_at: "2022-09-14T17:59:16.660668",
         updated_at: "2022-09-14T17:59:16.660668",
-        role: 'Pending'
       },
        {
         id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
@@ -190,7 +197,6 @@ const mockApi = {
         activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
         created_at: "2022-09-14T17:59:16.660668",
         updated_at: "2022-09-14T17:59:16.660668",
-        role: 'Owner'
       }
     ],
     myOrganizationInviteMockResponse: {
