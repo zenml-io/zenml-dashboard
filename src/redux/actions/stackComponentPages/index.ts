@@ -25,7 +25,7 @@ const setFetchingAction = ({ fetching }: { fetching: boolean }): TAction => ({
   },
 });
 
-export const stackPagesActions = {
+export const stackComponentPagesActions = {
   setCurrentWorkspace: setCurrentWorkspaceAction,
   setSelectedRunIds: setSelectedRunIdsAction,
   setFetching: setFetchingAction,
