@@ -9,7 +9,7 @@ import { matchPath } from 'react-router-dom';
 
 export const Menu: React.FC = () => {
   const locationPath = useLocationPath();
-  const stackComponentsTypes = ['Alerter', 'asdasd'];
+  const stackComponentsTypes = ['Alerter', 'Test'];
   return (
     <>
       <MenuItem

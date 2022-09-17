@@ -24,7 +24,7 @@ export const List: React.FC = () => {
   const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);
 
-    history.push(routePaths.stack.configuration(stack.id));
+    history.push(routePaths.stackComponents.configuration(stack.id));
   };
 
   return (

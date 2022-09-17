@@ -12,12 +12,12 @@ const getTabPages = (stackId: TId): TabPage[] => {
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration stackId={stackId} />,
-      path: routePaths.stack.configuration(stackId),
+      path: routePaths.stackComponents.configuration(stackId),
     },
     {
       text: translate('tabs.runs.text'),
       Component: () => <Runs stackId={stackId} />,
-      path: routePaths.stack.runs(stackId),
+      path: routePaths.stackComponents.runs(stackId),
     },
   ];
 };
@@ -25,14 +25,14 @@ const getTabPages = (stackId: TId): TabPage[] => {
 const getBreadcrumbs = (stackId: TId): TBreadcrumb[] => {
   return [
     {
-      name: translate('header.breadcrumbs.stacks.text'),
+      name: 'components',
       clickable: true,
-      to: routePaths.stacks.list,
+      to: routePaths.stackComponents.base('alerter'),
     },
     {
-      name: stackId,
+      name: 'alerter',
       clickable: true,
-      to: routePaths.stack.configuration(stackId),
+      to: routePaths.stackComponents.configuration(stackId),
     },
   ];
 };

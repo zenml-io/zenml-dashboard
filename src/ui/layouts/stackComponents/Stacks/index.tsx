@@ -8,7 +8,7 @@ import { useService } from './useService';
 
 const PAGES = [
   {
-    text: translate('tabs.stacks.text'),
+    text: 'Alerter',
     Component: List,
     path: routePaths.stackComponents.base('alerter'),
   },
@@ -20,15 +20,10 @@ const PAGES = [
 ];
 
 const BREADCRUMBS = [
-  // {
-  //   name: translate('header.breadcrumbs.dashBoard.text'),
-  //   clickable: true,
-  //   to: routePaths.home,
-  // },
   {
     name: 'Components',
     clickable: true,
-    to: routePaths.stacks.list,
+    to: routePaths.stackComponents.base('alerter'),
   },
 ];
 

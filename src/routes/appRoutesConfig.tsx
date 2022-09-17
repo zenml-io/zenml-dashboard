@@ -18,6 +18,7 @@ import Workspaces from '../ui/layouts/workspaces/Workspaces';
 import stackComponents from '../ui/layouts/stackComponents/Stacks';
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
 import StackDetail from '../ui/layouts/stacks/StackDetail/index';
+import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
 import RunDetail from '../ui/layouts/pipelines/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
@@ -198,6 +199,22 @@ const routes = [
   {
     path: routePaths.stackComponents.base(':type'),
     Component: stackComponents,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.stackComponents.configuration(':id'),
+    Component: stackComponentsDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.stackComponents.runs(':id'),
+    Component: stackComponentsDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
