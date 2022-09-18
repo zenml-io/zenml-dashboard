@@ -5,9 +5,11 @@ import usersReducer from './reducers/usersReducer';
 import organizationsReducer from './reducers/organizationsReducer';
 import workspacesReducer from './reducers/workspacesReducer';
 import pipelinesReducer from './reducers/pipelinesReducer';
+import stacksReducer from './reducers/stacksReducer';
 import runsReducer from './reducers/runsReducer';
 import billingReducer from './reducers/billingReducer';
 import pipelinePagesReducer from './reducers/pipelinePagesReducer';
+import stackPagesReducer from './reducers/stackPagesReducer';
 
 jest.mock('redux', () => ({
   combineReducers: (reducerObject: any): any => reducerObject,
@@ -27,7 +29,9 @@ describe('expect to map keys', () => {
   expectToMap('organizations', organizationsReducer);
   expectToMap('workspaces', workspacesReducer);
   expectToMap('pipelines', pipelinesReducer);
+  expectToMap('stacks', stacksReducer);
   expectToMap('runs', runsReducer);
   expectToMap('billing', billingReducer);
   expectToMap('pipelinePages', pipelinePagesReducer);
+  expectToMap('stackPages', stackPagesReducer);
 });

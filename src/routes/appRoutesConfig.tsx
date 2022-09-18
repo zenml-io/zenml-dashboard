@@ -9,12 +9,14 @@ import ForgotPassword from '../ui/layouts/session/ForgotPassword';
 import Home from '../ui/layouts/Home';
 
 import Pipelines from '../ui/layouts/pipelines/Pipelines';
+import stacks from '../ui/layouts/stacks/Stacks';
 import Datasources from '../ui/layouts/datasources/Datasources';
 import Deployments from '../ui/layouts/deployments/Deployments';
 import Functions from '../ui/layouts/functions/Functions';
 import Models from '../ui/layouts/models/Models';
 import Workspaces from '../ui/layouts/workspaces/Workspaces';
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
+import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import RunDetail from '../ui/layouts/pipelines/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
@@ -91,6 +93,54 @@ const routes = [
   {
     path: routePaths.pipeline.runs(':id'),
     Component: PipelineDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.stacks.base,
+    Component: stacks,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.stacks.list,
+    Component: stacks,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.stacks.allRuns,
+    Component: stacks,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.stack.base(':id'),
+    Component: StackDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.stack.configuration(':id'),
+    Component: StackDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.stack.runs(':id'),
+    Component: StackDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

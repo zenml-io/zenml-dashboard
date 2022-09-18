@@ -73,7 +73,21 @@ interface TPipeline {
   id: TId;
   name: string;
   createdAt: Date;
-  workspaceId: TId;
+  projectName: string;
+  // workspaceId: TId;
+  components: any;
+  owner: string;
+  pipelineConfig: any;
+  userId: TId;
+}
+interface TStack {
+  id: TId;
+  name: string;
+  creationDate: Date;
+  projectName: string;
+  // workspaceId: TId;
+  components: any;
+  userName: string;
   pipelineConfig: any;
   userId: TId;
 }
@@ -90,6 +104,12 @@ interface TRun {
   workspaceId: TId;
   pipelineId: TId;
   userId: TId;
+  stack?: any;
+  pipeline?: any;
+  duration?: string;
+  owner?: any;
+  userName?: any;
+  creationDate?: any;
 }
 
 interface TBreadcrumb {

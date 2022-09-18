@@ -9,15 +9,19 @@ export const getPipelinesByWorkspaceIdAction = ({
   id: TId;
   onSuccess?: () => void;
   onFailure?: () => void;
-}): TRequestAction => ({
-  type: workspaceActionTypes.getPipelinesForWorkspaceId.request,
-  payload: {
-    apiMethod: getPipelinesByWorkspaceIdApi,
-    isAuthenticated: true,
-    failureActionType: workspaceActionTypes.getPipelinesForWorkspaceId.failure,
-    successActionType: workspaceActionTypes.getPipelinesForWorkspaceId.success,
-    params: { id },
-    onSuccess,
-    onFailure,
-  },
-});
+}): TRequestAction => {
+  return {
+    type: workspaceActionTypes.getPipelinesForWorkspaceId.request,
+    payload: {
+      apiMethod: getPipelinesByWorkspaceIdApi,
+      isAuthenticated: true,
+      failureActionType:
+        workspaceActionTypes.getPipelinesForWorkspaceId.failure,
+      successActionType:
+        workspaceActionTypes.getPipelinesForWorkspaceId.success,
+      params: { id },
+      onSuccess,
+      onFailure,
+    },
+  };
+};
