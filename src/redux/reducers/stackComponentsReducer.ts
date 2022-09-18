@@ -39,7 +39,7 @@ const stackComponentsReducer = (
   action: Action,
 ): State => {
   switch (action.type) {
-    case stackComponentActionTypes.getMyStackComponents.success:
+    case stackComponentActionTypes.getStackComponentList.success:
     case stackComponentActionTypes.getStackComponentTypes.success: {
       const stackComponentTypes: any[] = action.payload as StacksPayload;
 

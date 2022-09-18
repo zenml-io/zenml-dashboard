@@ -38,7 +38,7 @@ export const actionTypesHandledByRequestSaga: string[] = [
   stackActionTypes.getStackForId.request,
   stackActionTypes.getRunsByStackId.request,
   stackComponentActionTypes.getStackComponentTypes.request,
-  stackComponentActionTypes.getMyStackComponents.request,
+  stackComponentActionTypes.getStackComponentList.request,
   stackComponentActionTypes.getStackComponentForId.request,
   stackComponentActionTypes.getRunsByStackComponentId.request,
   runActionTypes.getRunForId.request,

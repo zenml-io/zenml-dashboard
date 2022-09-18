@@ -16,7 +16,7 @@ const getMyStackComponentsApi = ({
   }).catch((res) => {
     if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
       res = {
-        data: mockApi.myPipelinesMockResponse,
+        data: mockApi.stackComponentList,
       };
     }
     return res;

@@ -1,10 +1,10 @@
 import { pipelineActionTypes } from '../../actionTypes';
-import { getMyStacksAction } from './getMyStackComponentsAction';
+import { getStackComponentListAction } from './getStackComponentListAction';
 import getMyPipelinesApi from '../../../api/pipelines/getMyPipelinesApi';
 
 import { testApiAction } from '../testUtils/testApiAction';
 
-export const onAction = (): any => getMyStacksAction();
+export const onAction = (): any => getStackComponentListAction();
 
 testApiAction({
   onAction,
