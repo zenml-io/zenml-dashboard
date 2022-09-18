@@ -5,6 +5,7 @@ import { byKeyInsert, idsInsert } from './reducerHelpers';
 export interface State {
   ids: TId[];
   byId: Record<TId, TOrganization>;
+  inviteCode: any;
   invites: TInvite[];
   owner: TMember | null;
   members: any[];
@@ -30,6 +31,7 @@ export const initialState: State = {
   ids: [],
   byId: {},
   invites: [],
+  inviteCode: null,
   owner: null,
   members: [],
   roles: [],
@@ -61,9 +63,9 @@ const organizationsReducer = (
     }
 
     case organizationActionTypes.getInviteForCode.success: {
-      const invite: TInvite = camelCaseObject(action.payload);
+      const inviteCode: any = camelCaseObject(action.payload);
 
-      return { ...newState(state, []), invites: [invite] };
+      return { ...newState(state, []), inviteCode: inviteCode?.activationToken };
     }
 
     case organizationActionTypes.getInvites.success: {

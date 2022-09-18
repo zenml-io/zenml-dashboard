@@ -8,7 +8,7 @@ import {
   FormPasswordField,
   Paragraph,
   Row,
-  Col,
+  Col
 } from '../../components';
 import { useRequestOnMount, useSelector } from '../../hooks';
 import {
@@ -17,8 +17,8 @@ import {
   showToasterAction,
   userActions,
 } from '../../../redux/actions';
-import { organizationSelectors, userSelectors } from '../../../redux/selectors';
 
+import { organizationSelectors, userSelectors } from '../../../redux/selectors';
 import { getTranslateByScope } from '../../../services';
 import { useDispatch } from 'react-redux';
 import { toasterTypes } from '../../../constants';
@@ -35,9 +35,9 @@ export const PersonalDetails: React.FC = () => {
   const organization = useSelector(organizationSelectors.myOrganization);
   const user = useSelector(userSelectors.myUser);
 
+  const [submitting, setSubmitting] = useState(false)
   const [popupOpen, setPopupOpen] = useState(false);
   const [email, setEmail] = useState(user?.email)
-  const [showPassField, setShowPassField] = useState(false)
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
@@ -54,10 +54,13 @@ export const PersonalDetails: React.FC = () => {
         })
       )
     } else {
+    setSubmitting(true)
     dispatch(
       sessionActions.forgotPassword({
         email: user.email,
+        password: newPassword,
         onFailure: () => {
+          setSubmitting(false)
           dispatch(
             showToasterAction({
               description: translate('toasts.failed.text'),
@@ -66,6 +69,7 @@ export const PersonalDetails: React.FC = () => {
           );
         },
         onSuccess: () => {
+          setSubmitting(false)
           dispatch(
             showToasterAction({
               description: translate('toasts.successful.text'),
@@ -78,10 +82,13 @@ export const PersonalDetails: React.FC = () => {
     }
   };
 
+
+ const BUTTON_DISABLED = newPassword.trim() === '' || confirmPassword.trim() === ''
+
   return (
     <>
     {popupOpen && (
-      <EmailPopup setPopupOpen={setPopupOpen} />
+      <EmailPopup userId={user?.id} email={email} setPopupOpen={setPopupOpen} />
     )}
     <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
       <FlexBox.Row  alignItems="center">
@@ -97,8 +104,7 @@ export const PersonalDetails: React.FC = () => {
         </Box>
       </FlexBox.Row>
 
-      {!showPassField && (
-        <Box marginTop="lg">
+        <Box marginTop="lg" style={{ height: '130px' }}  >
           <Row>
             <Col lg={5}>
               <Box marginBottom="lg">
@@ -110,32 +116,21 @@ export const PersonalDetails: React.FC = () => {
                   onChange={(val: string) => setEmail(val)}
                 />
               </Box>
-            
-              <Box marginBottom="xs" style={{ display: 'flex', justifyContent: 'space-between' }}>
-                {!showPassField && (
-                  <Box>
-                    <Paragraph style={{ textDecoration: 'underline', color: '#A1A4AB', cursor: 'pointer' }} onClick={() => setShowPassField(!showPassField)}>
-                      {translate('passwordReset.label')}
-                    </Paragraph>
-                  </Box>
-                )}
-                {email !== user.email && (   
+
+              {email !== user.email && (          
+                <Box style={{ display: 'flex', justifyContent: 'end' }}>
                   <PrimaryButton onClick={() => setPopupOpen(true)} >
                     {translate('emailReset.label')}
                   </PrimaryButton>
-                )}
-              </Box>
+                </Box>
+              )}
             </Col>
           </Row>
         </Box>
-      )}
-
+   
       <Box marginBottom="lg" marginTop="xl">
         <Row>
           <Col lg={5}>
-
-            {showPassField && (
-              <>
                 <Box marginBottom="lg">
                   <FormPasswordField
                     label={translate('form.passwordChange.currentPassword.label')}
@@ -178,11 +173,12 @@ export const PersonalDetails: React.FC = () => {
                     showPasswordOption
                   />
                 </Box>
-                <PrimaryButton onClick={forgotPassword}>
-                  {translate('passwordReset.button')}
-                </PrimaryButton>
-              </>   
-            )}
+
+                <Box marginBottom="xs" style={{ display: 'flex', justifyContent: 'end' }}>
+                  <PrimaryButton onClick={forgotPassword} style={{ width: '198px' }} loading={submitting} disabled={BUTTON_DISABLED}>
+                    {translate('passwordReset.button')}
+                  </PrimaryButton>
+                </Box>
           </Col>
        
         </Row>

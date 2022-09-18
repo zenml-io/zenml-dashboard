@@ -2,13 +2,13 @@ import { organizationActionTypes } from '../../actionTypes';
 import getInviteByCodeApi from '../../../api/organizations/getInviteByCodeApi';
 
 export const getInviteByCodeAction = ({
-  code,
+  username,
   onSuccess,
   onFailure,
 }: {
-  code: string | null;
+  username: string | null;
   onSuccess?: () => void;
-  onFailure?: () => void;
+  onFailure?: (err: any) => void;
 }): TRequestAction => ({
   type: organizationActionTypes.getInviteForCode.request,
   payload: {
@@ -16,7 +16,7 @@ export const getInviteByCodeAction = ({
     isAuthenticated: true,
     failureActionType: organizationActionTypes.getInviteForCode.failure,
     successActionType: organizationActionTypes.getInviteForCode.success,
-    params: { code },
+    params: { username },
     onSuccess,
     onFailure,
   },

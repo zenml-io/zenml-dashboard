@@ -175,6 +175,9 @@
               "button": {
                 "text": "Invite"
               },
+              "generateInvitebutton": {
+                "text": "Generate Token"
+              },
               "plus": {
                 "text": "Invite another user"
               },
@@ -370,7 +373,7 @@
             },
             "toasts": {
               "successfulSignup": {
-                "text": "Signed up successfully! Please verify your email before logging in."
+                "text": "Signed up successfully!"
               },
               "failedSignup": {
                 "text": "Incorrect credentials. Please try again."

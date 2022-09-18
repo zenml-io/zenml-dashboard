@@ -1,6 +1,6 @@
 import _ from 'lodash';
-import { Selector } from 'reselect';
-import { createSelector } from './createSelector';
+// import { Selector } from 'reselect';
+// import { createSelector } from './createSelector';
 
 import { State } from '../reducers/organizationsReducer';
 
@@ -22,14 +22,16 @@ export const myOrganization = (state: State): TOrganization | null => {
   return byId[myOrganizationId];
 };
 
-export const inviteForCode = (
-  code: string | null,
-): Selector<any, TInvite | undefined> =>
-  createSelector(getInvites, (invites): TInvite | undefined => {
-    const invite = invites && invites.find((i) => i.code === code);
+// export const inviteForCode = (
+//   code: string | null,
+// ): Selector<any, TInvite | undefined> =>
+//   createSelector(getInvites, (invites): TInvite | undefined => {
+//     const invite = invites && invites.find((i) => i.code === code);
+//     return invite;
+//   });
 
-    return invite;
-  });
+const inviteForCode = (state: State): any[] =>  
+  _.get(stateKey(state), 'inviteCode');
 
 const getOwner = (state: State): TMember | null =>
   _.get(stateKey(state), 'owner');

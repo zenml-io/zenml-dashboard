@@ -5,10 +5,11 @@ export const endpoints = {
   users: {
     me: '/users/me',
     get: (id: TId): string => `/users/${id}`,
+    updateUser: (id: string): string => `/users/${id}`,
   },
   organizations: {
     my: '/organizations/',
-    inviteForCode: (code: string): string => `/organizations/invite/${code}`,
+    reGenerateToken: (username: string): string => `/users/${username}/deactivate`,
     invites: '/organizations/invite?status=pending',
     owner: '/organizations/creator',
     members: '/organizations/users',

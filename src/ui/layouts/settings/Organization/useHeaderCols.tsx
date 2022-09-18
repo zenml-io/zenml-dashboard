@@ -97,7 +97,7 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
       renderRow: (member: TMember) => (
         <Paragraph size="small" >
           {member.active === false ? (
-            <TokenPopup id={member?.id} email={member?.email} activation_token={member?.activation_token} active={member?.active} />
+            <TokenPopup id={member?.id} email={member?.email} active={member?.active} />
           ) : (
             <Paragraph>Accepted</Paragraph>
           )}

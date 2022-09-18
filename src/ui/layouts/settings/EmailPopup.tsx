@@ -1,5 +1,6 @@
 /* eslint-disable */
-import React from 'react';
+import React, { useState } from 'react';
+import { useDispatch } from 'react-redux';
 import {
   Box,
   FlexBox,
@@ -10,13 +11,52 @@ import {
 } from '../../components';
 import { getTranslateByScope } from '../../../services';
 import { Popup } from '../common/Popup';
+import {
+  showToasterAction,
+  userActions,
+} from '../../../redux/actions';
+import { toasterTypes } from '../../../constants';
 
 export const EmailPopup: React.FC<{
+  userId: any;
+  email: any;
   setPopupOpen: (attr: boolean) => void;
-  // email: (attr: string) => void;
-}> = ({ setPopupOpen }) => {
+}> = ({ userId, email, setPopupOpen }) => {
 
+  const [submitting, setSubmitting] = useState(false);
+
+  const dispatch = useDispatch()
   const translate = getTranslateByScope('ui.layouts.PersonalDetails');
+
+  const changeEmail = () => {
+    setSubmitting(true);
+    dispatch(
+      userActions.updateUserEmail({
+        userId,
+        email,
+        onFailure: () => {
+          setSubmitting(false);
+          dispatch(
+            showToasterAction({
+              description: translate('toasts.failed.text'),
+              type: toasterTypes.failure,
+            }),
+          );
+        },
+        onSuccess: () => {
+          setSubmitting(false);
+          setPopupOpen(false);
+          dispatch(
+            showToasterAction({
+              description: translate('toasts.successful.text'),
+              type: toasterTypes.success,
+            }),
+          );
+        },
+      }),
+    );
+  };
+
 
   return (
     <Popup onClose={() => setPopupOpen(false)} >
@@ -39,7 +79,7 @@ export const EmailPopup: React.FC<{
               </GhostButton>
             </Box>
             <Box marginLeft="sm" marginRight="sm" marginBottom="md">
-              <PrimaryButton style={{ width: '150px' }}>
+              <PrimaryButton style={{ width: '150px' }} onClick={changeEmail} loading={submitting} >
                 {translate('popup.successButton.text')}
               </PrimaryButton>
             </Box>
