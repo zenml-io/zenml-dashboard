@@ -2,7 +2,16 @@ import { actionTypes } from './constants';
 import { generateApiActionsTypes } from './generateApiActionsTypes';
 
 export const stackComponentActionTypes = {
-  getMyStacks: generateApiActionsTypes(actionTypes.STACKS_GET_MY_STACKS),
-  getStackForId: generateApiActionsTypes(actionTypes.STACKS_GET_STACK_FOR_ID),
-  getRunsByStackId: generateApiActionsTypes(actionTypes.RUNS_GET_STACK_FOR_ID),
+  getStackComponentTypes: generateApiActionsTypes(
+    actionTypes.STACKCOMPONENTS_GET_STACKCOMPONENTS_TYPE,
+  ),
+  getMyStackComponents: generateApiActionsTypes(
+    actionTypes.STACKCOMPONENTS_GET_MY_STACKCOMPONENTS,
+  ),
+  getStackComponentForId: generateApiActionsTypes(
+    actionTypes.STACKCOMPONENTS_GET_STACKCOMPONENT_FOR_ID,
+  ),
+  getRunsByStackComponentId: generateApiActionsTypes(
+    actionTypes.RUNS_GET_STACKCOMPONENT_FOR_ID,
+  ),
 };
