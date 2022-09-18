@@ -17,70 +17,71 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { iconColors, iconSizes } from '../../../../constants';
 import styles from './WorkspaceDropdown.module.scss';
 
+function getInitialFilterState() {
+  const initialFilterState = {
+    column: {
+      selectedValue: '',
+      options: [
+        {
+          value: 'name',
+          label: 'Stack Name',
+        },
+        {
+          value: 'userName',
+          label: 'Owner',
+        },
+        {
+          value: 'created_at',
+          label: 'Created at',
+        },
+      ],
+    },
+    contains: {
+      selectedValue: '',
+      options: [
+        {
+          value: 'contains',
+          label: 'contains',
+        },
+        {
+          value: 'equal',
+          label: 'equal',
+        },
+      ],
+    },
+    filterValue: '',
+  };
+  return JSON.parse(JSON.stringify(initialFilterState));
+}
+
 const FilterComponent = () => {
   const [applyFilter, setApplyFilter] = useState(false);
 
-  const [filter, setFilter] = useState({
-    where: {
-      column: {
-        selectedValue: '',
-        options: [
-          {
-            value: 'name',
-            label: 'Stack Name',
-          },
-          {
-            value: 'userName',
-            label: 'Owner',
-          },
-          {
-            value: 'created_at',
-            label: 'Created at',
-          },
-        ],
-      },
-      contains: {
-        selectedValue: '',
-        options: [
-          {
-            value: 'contains',
-            label: 'contains',
-          },
-          {
-            value: 'equal',
-            label: 'equal',
-          },
-        ],
-      },
-      filterValue: '',
-    },
-  });
+  const [filters, setFilter] = useState([getInitialFilterState()]);
 
   function handleChange(field: any, value: string) {
     field.selectedValue = value;
-    setFilter({
-      ...filter,
-    });
+    setFilter([...filters]);
   }
 
   function handleValueFieldChange(field: any, value: string) {
     field.filterValue = value;
-    setFilter({
-      ...filter,
-    });
+    setFilter([...filters]);
   }
 
-  const valueField = (selectedValue: string) => {
-    switch (selectedValue) {
+  function addAnotherFilter() {
+    setFilter([...filters, getInitialFilterState()]);
+  }
+
+  const valueField = (filter: any) => {
+    switch (filter?.contains.selectedValue) {
       case 'contains':
         return (
           <FormTextField
             label={''}
             placeholder={''}
-            value={filter.where.filterValue}
-            onChange={(value: string) =>
-              handleValueFieldChange(filter.where, value)
-            }
+            value={filter.filterValue}
+            onChange={(value: string) => handleValueFieldChange(filter, value)}
           />
         );
       case 'equal':
@@ -95,18 +96,21 @@ const FilterComponent = () => {
             label={''}
             placeholder={''}
             disabled
-            value={filter.where.filterValue}
+            value={filter.filterValue}
           />
         );
     }
   };
 
-  function getFilter(value: any) {
-    return {
-      column: value.where.column.selectedValue,
-      type: value.where.contains.selectedValue,
-      value: value.where.filterValue,
-    };
+  function getFilter(values: any) {
+    const filterValuesMap = values.map((v: any) => {
+      return {
+        column: v.column.selectedValue,
+        type: v.contains.selectedValue,
+        value: v.filterValue,
+      };
+    });
+    return filterValuesMap;
   }
 
   return (
@@ -139,46 +143,52 @@ const FilterComponent = () => {
         <Box className="mb-4">
           <Container>
             <p className="h3 text-muted">Custom Filtering</p>
-            <FlexBox.Row className="align-items-center mb-1">
-              <Box className="mr-4 mt-5 h4 text-muted">Where</Box>
-              <FormDropdownField
-                label={''}
-                onChange={(value: string) =>
-                  handleChange(filter.where['column'], value)
-                }
-                placeholder={'Column Name'}
-                value={filter.where.column.selectedValue}
-                options={filter.where.column.options}
-              />
-              <FormDropdownField
-                label={''}
-                disabled={filter.where.column.selectedValue ? false : true}
-                placeholder={'category'}
-                onChange={(value: string) =>
-                  handleChange(filter.where['contains'], value)
-                }
-                value={filter.where.contains.selectedValue}
-                options={filter.where.contains.options}
-              />
-              {valueField(filter.where.contains.selectedValue)}
+            {filters.map((filter, index) => {
+              return (
+                <FlexBox.Row key={index} className="align-items-center mb-1">
+                  <Box className="mr-4 mt-5 h4 text-muted">
+                    {index === 0 ? 'Where' : 'And'}
+                  </Box>
+                  <FormDropdownField
+                    label={''}
+                    onChange={(value: string) =>
+                      handleChange(filter['column'], value)
+                    }
+                    placeholder={'Column Name'}
+                    value={filter.column.selectedValue}
+                    options={filter.column.options}
+                  />
+                  <FormDropdownField
+                    label={''}
+                    disabled={filter.column.selectedValue ? false : true}
+                    placeholder={'category'}
+                    onChange={(value: string) =>
+                      handleChange(filter['contains'], value)
+                    }
+                    value={filter.contains.selectedValue}
+                    options={filter.contains.options}
+                  />
+                  {valueField(filter)}
 
-              <Box
-                style={{
-                  marginTop: '23px',
-                  width: '130px',
-                  height: '40px',
-                  border: '1px solid #c9cbd0',
-                  borderRadius: '4px',
-                }}
-              >
-                <icons.delete
-                  style={{ padding: '7px 0px 0px 7px' }}
-                  size={iconSizes.md}
-                  color={iconColors.grey}
-                />
-              </Box>
-            </FlexBox.Row>
-            <FlexBox.Row className="mt-5">
+                  <Box
+                    style={{
+                      marginTop: '23px',
+                      width: '130px',
+                      height: '40px',
+                      border: '1px solid #c9cbd0',
+                      borderRadius: '4px',
+                    }}
+                  >
+                    <icons.delete
+                      style={{ padding: '7px 0px 0px 7px' }}
+                      size={iconSizes.md}
+                      color={iconColors.grey}
+                    />
+                  </Box>
+                </FlexBox.Row>
+              );
+            })}
+            <FlexBox.Row className="mt-5" onClick={addAnotherFilter}>
               <icons.simplePlus
                 size={iconSizes.lg}
                 color={iconColors.darkGrey}
@@ -188,7 +198,7 @@ const FilterComponent = () => {
           </Container>
         </Box>
       )}
-      <List filter={getFilter(filter)} />
+      <List filter={getFilter(filters)} />
     </FlexBox.Column>
   );
 };

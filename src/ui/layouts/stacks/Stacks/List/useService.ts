@@ -23,11 +23,13 @@ export const useService = (
     column: string;
     type: string;
     value: string;
-  } = {
-    column: '',
-    type: '',
-    value: '',
-  },
+  }[] = [
+    {
+      column: '',
+      type: '',
+      value: '',
+    },
+  ],
 ): ServiceInterface => {
   const dispatch = useDispatch();
 
@@ -45,11 +47,16 @@ export const useService = (
       new Date(stack.creationDate).getTime(),
     ).reverse();
 
-    if (filter.value) {
-      orderedStacks = orderedStacks.filter((os: any) => {
-        return os[filter.column]
-          .toLowerCase()
-          .includes(filter.value.toLowerCase());
+    const isValidFilter = filter.map((f) => f.value).join('');
+
+    if (isValidFilter) {
+      filter.forEach((f) => {
+        orderedStacks = orderedStacks.filter((os: any) => {
+          if (f.column || f.value) {
+            return os[f.column].toLowerCase().includes(f.value.toLowerCase());
+          }
+          return true;
+        });
       });
     }
 
