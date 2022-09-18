@@ -73,6 +73,11 @@ const FilterComponent = () => {
     setFilter([...filters, getInitialFilterState()]);
   }
 
+  function hanldeDelete(index: number) {
+    filters.splice(1, 1);
+    setFilter([...filters]);
+  }
+
   const valueField = (filter: any) => {
     switch (filter?.contains.selectedValue) {
       case 'contains':
@@ -171,6 +176,7 @@ const FilterComponent = () => {
                   {valueField(filter)}
 
                   <Box
+                    onClick={() => hanldeDelete(index)}
                     style={{
                       marginTop: '23px',
                       width: '130px',
