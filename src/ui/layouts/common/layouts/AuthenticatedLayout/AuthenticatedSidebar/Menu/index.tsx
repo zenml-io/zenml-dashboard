@@ -62,6 +62,7 @@ export const Menu: React.FC = () => {
         to={routePaths.stacks.list}
         text={translate('menu.stacks.text')}
       />
+      {/* <div onClick={() => console.log('asdasd')}> */}
       <MenuItem
         Icon={() => (
           <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
@@ -69,6 +70,7 @@ export const Menu: React.FC = () => {
         to={routePaths.stackComponents.base(stackComponentsTypes[0])}
         text={translate('menu.stackComponents.text')}
       />
+      {/* </div> */}
       {locationPath.includes('components') && (
         <>
           {/* <MenuItem
