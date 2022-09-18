@@ -3,6 +3,7 @@ import { toasterTypes } from '../../../../constants';
 import {
   organizationActions,
   showToasterAction,
+  stackComponentsActions,
   userActions,
   workspacesActions,
 } from '../../../../redux/actions';
@@ -56,6 +57,7 @@ export const useService = (): ServiceInterface => {
               dispatch(workspacesActions.getMy({}));
               dispatch(organizationActions.getMy());
               dispatch(userActions.getMy({}));
+              dispatch(stackComponentsActions.getTypes());
             },
           }),
         );

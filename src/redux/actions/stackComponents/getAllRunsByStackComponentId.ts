@@ -1,7 +1,7 @@
 import { stackActionTypes } from '../../actionTypes';
-import getAllRunsByStackIdApi from '../../../api/stacks/getAllRunsByStackIdApi';
+import getAllRunsByStackComponentIdApi from '../../../api/stackComponents/getAllRunsByStackComponentIdApi';
 
-export const getAllRunsByStackId = ({
+export const getAllRunsByStackComponentId = ({
   stackId,
   onSuccess,
   onFailure,
@@ -13,7 +13,7 @@ export const getAllRunsByStackId = ({
   return {
     type: stackActionTypes.getRunsByStackId.request,
     payload: {
-      apiMethod: getAllRunsByStackIdApi,
+      apiMethod: getAllRunsByStackComponentIdApi,
       isAuthenticated: true,
       failureActionType: stackActionTypes.getRunsByStackId.failure,
       successActionType: stackActionTypes.getRunsByStackId.success,

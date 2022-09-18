@@ -1,16 +1,16 @@
-import { getStackByIdAction } from './getStackByIdAction';
+import { getStackComponentByIdAction } from './getStackComponentByIdAction';
 import { stackActionTypes } from '../../actionTypes';
 import getStackByIdApi from '../../../api/stacks/getStackByIdApi';
 
 import { testApiAction } from '../testUtils/testApiAction';
 
-const pipelineId = 'pipelineId';
+const stackId = 'pipelineId';
 
 const onSuccess = jest.fn();
 const onFailure = jest.fn();
 
 export const onAction = (): any =>
-  getStackByIdAction({ pipelineId, onSuccess, onFailure });
+  getStackComponentByIdAction({ stackId, onSuccess, onFailure });
 
 testApiAction({
   onAction,
@@ -20,7 +20,7 @@ testApiAction({
     isAuthenticated: true,
     failureActionType: stackActionTypes.getStackForId.failure,
     successActionType: stackActionTypes.getStackForId.success,
-    params: { pipelineId },
+    params: { stackId },
     onFailure,
     onSuccess,
   },

@@ -1,9 +1,11 @@
-import { getMyStacksAction } from './getMyStacksAction';
-import { getStackByIdAction } from './getStackByIdAction';
-import { getAllRunsByStackId } from './getAllRunsByStackId';
+import { getMyStackComponentsAction } from './getMyStackComponentsAction';
+import { getStackComponentByIdAction } from './getStackComponentByIdAction';
+import { getAllRunsByStackComponentId } from './getAllRunsByStackComponentId';
+import { getStackComponentTypesAction } from './getStackComponentTypesAction';
 
 export const stackComponentsActions = {
-  getMy: getMyStacksAction,
-  stackForId: getStackByIdAction,
-  allRunsByStackId: getAllRunsByStackId,
+  getTypes: getStackComponentTypesAction,
+  getMy: getMyStackComponentsAction,
+  stackForId: getStackComponentByIdAction,
+  allRunsByStackId: getAllRunsByStackComponentId,
 };

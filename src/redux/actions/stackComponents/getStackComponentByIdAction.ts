@@ -1,7 +1,7 @@
 import { stackActionTypes } from '../../actionTypes';
 import getStackByIdApi from '../../../api/stacks/getStackByIdApi';
 
-export const getStackByIdAction = ({
+export const getStackComponentByIdAction = ({
   stackId,
   onSuccess,
   onFailure,

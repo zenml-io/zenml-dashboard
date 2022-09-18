@@ -1,10 +1,10 @@
 import { stackActionTypes } from '../../actionTypes';
-import getMyStacksApi from '../../../api/stacks/getMyStacksApi';
+import getStackComponentTypesApi from '../../../api/stackComponents/getStackComponentTypesApi';
 
-export const getMyStacksAction = (): TRequestAction => ({
+export const getStackComponentTypesAction = (): TRequestAction => ({
   type: stackActionTypes.getMyStacks.request,
   payload: {
-    apiMethod: getMyStacksApi,
+    apiMethod: getStackComponentTypesApi,
     isAuthenticated: true,
     failureActionType: stackActionTypes.getMyStacks.failure,
     successActionType: stackActionTypes.getMyStacks.success,

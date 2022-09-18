@@ -1,5 +1,5 @@
 import { pipelineActionTypes } from '../../actionTypes';
-import { getMyStacksAction } from './getMyStacksAction';
+import { getMyStacksAction } from './getMyStackComponentsAction';
 import getMyPipelinesApi from '../../../api/pipelines/getMyPipelinesApi';
 
 import { testApiAction } from '../testUtils/testApiAction';

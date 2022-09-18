@@ -9,6 +9,7 @@ export interface State {
   ids: TId[];
   byId: Record<TId, TStack>;
   myStackComponentIds: TId[];
+  stackComponentTypes: any[];
 }
 
 type StacksPayload = TStack[];
@@ -24,6 +25,7 @@ export const initialState: State = {
   ids: [],
   byId: {},
   myStackComponentIds: [],
+  stackComponentTypes: [],
 };
 
 const newState = (state: State, stacks: TStack[]): State => ({
@@ -38,6 +40,9 @@ const stackComponentsReducer = (
 ): State => {
   switch (action.type) {
     case stackComponentActionTypes.getMyStackComponents.success:
+    case stackComponentActionTypes.getStackComponentTypes.success: {
+      return { ...newState(state, action.payload as StacksPayload) };
+    }
     case workspaceActionTypes.getPipelinesForWorkspaceId.success: {
       const stackComponents: TStack[] = camelCaseArray(
         action.payload as StacksPayload,
