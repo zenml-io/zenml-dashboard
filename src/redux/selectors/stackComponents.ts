@@ -1,37 +1,39 @@
 import _ from 'lodash';
 import { Selector } from 'reselect';
 
-import { State } from '../reducers/stacksReducer';
+import { State } from '../reducers/stackComponentsReducer';
 import { createSelector } from './createSelector';
 import { extractItemFromById } from './utils';
 
 const stateKey = (state: State): State =>
-  _.get(state, 'persisted.stacks') || {};
+  _.get(state, 'persisted.stackComponents') || {};
 
 const getById = (state: State): Record<TId, TStack> =>
   _.get(stateKey(state), 'byId');
 
-const getMyStackIds = (state: State): TId[] =>
-  _.get(stateKey(state), 'myStackIds');
+const getMyStackComponentIds = (state: State): TId[] =>
+  _.get(stateKey(state), 'myStackComponentIds');
 
 export const mystackComponents = (state?: State | null): TStack[] => {
   if (!state) return [];
-  const myStackIds = getMyStackIds(state);
+  const myStackComponentIds = getMyStackComponentIds(state);
   const byId = getById(state);
 
-  return (myStackIds || []).reduce((current: TStack[], id: TId) => {
-    const stack = byId[id];
+  return (myStackComponentIds || []).reduce((current: TStack[], id: TId) => {
+    const stackComponent = byId[id];
 
-    if (stack) {
-      current = [...current, stack];
+    if (stackComponent) {
+      current = [...current, stackComponent];
     }
 
     return current;
   }, [] as TStack[]);
 };
 
-export const stackComponentForId = (stackId: TId): Selector<any, TStack> =>
-  createSelector(getById, extractItemFromById(stackId));
+export const stackComponentForId = (
+  stackComponentId: TId,
+): Selector<any, TStack> =>
+  createSelector(getById, extractItemFromById(stackComponentId));
 
 const stackComponentSelectors = {
   mystackComponents: mystackComponents,

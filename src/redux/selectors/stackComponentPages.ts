@@ -1,9 +1,9 @@
 import _ from 'lodash';
 
-import { State } from '../reducers/stackPagesReducer';
+import { State } from '../reducers/stackComponentPagesReducer';
 
 const stateKey = (state: State): State =>
-  _.get(state, 'persisted.stackPages') || {};
+  _.get(state, 'persisted.stackComponentPages') || {};
 
 const getCurrentWorkspace = (state: State): TWorkspace | null =>
   _.get(stateKey(state), 'currentWorkspace');
