@@ -29,6 +29,9 @@ import { ReactComponent as FileText } from './assets/FileText.svg';
 import { ReactComponent as Download } from './assets/Download.svg';
 import { ReactComponent as AlertTriangle } from './assets/AlertTriangle.svg';
 import { ReactComponent as Settings } from './assets/Settings.svg';
+import { ReactComponent as FunnelFill } from './assets/FunnelFill.svg';
+import { ReactComponent as Delete } from './assets/Delete.svg';
+import { ReactComponent as SimplePlus } from './assets/SimplePlus.svg';
 
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
@@ -112,10 +115,13 @@ const icons = {
   bookOpen: createIcon({ Component: BookOpen, useStroke: true }),
   tool: createIcon({ Component: Tool, useStroke: true }),
   plus: createIcon({ Component: Plus }),
+  simplePlus: createIcon({ Component: SimplePlus }),
   fileText: createIcon({ Component: FileText, useStroke: true }),
   download: createIcon({ Component: Download, useStroke: true }),
   alertTriangle: createIcon({ Component: AlertTriangle, useStroke: true }),
   settings: createIcon({ Component: Settings }),
+  funnelFill: createIcon({ Component: FunnelFill }),
+  delete: createIcon({ Component: Delete }),
 };
 
 export { icons };

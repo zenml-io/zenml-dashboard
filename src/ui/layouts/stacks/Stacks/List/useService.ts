@@ -17,7 +17,18 @@ interface ServiceInterface {
   setSelectedRunIds: (ids: TId[]) => void;
 }
 
-export const useService = (): ServiceInterface => {
+// export const useService = (): ServiceInterface => {
+export const useService = (
+  filter: {
+    column: string;
+    type: string;
+    value: string;
+  } = {
+    column: '',
+    type: '',
+    value: '',
+  },
+): ServiceInterface => {
   const dispatch = useDispatch();
 
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
@@ -30,17 +41,20 @@ export const useService = (): ServiceInterface => {
   const Stacks = useSelector(stackSelectors.mystacks);
 
   useEffect(() => {
-    const orderedStacks = _.sortBy(Stacks, (stack: TStack) =>
+    let orderedStacks = _.sortBy(Stacks, (stack: TStack) =>
       new Date(stack.creationDate).getTime(),
     ).reverse();
 
-    // const filteredPipelines = orderedPipelines.filter(
-    //   (pipeline: TPipeline) =>
-    //     currentWorkspace && pipeline.projectName === currentWorkspace.id,
-    // );
-    // debugger;
+    if (filter.value) {
+      orderedStacks = orderedStacks.filter((os: any) => {
+        return os[filter.column]
+          .toLowerCase()
+          .includes(filter.value.toLowerCase());
+      });
+    }
+
     setFilteredStacks(orderedStacks);
-  }, []);
+  }, [filter]);
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));

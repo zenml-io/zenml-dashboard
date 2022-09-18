@@ -8,8 +8,13 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { useService } from './useService';
 import { getHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
+// import { Box } from '../../../../components';
 
-export const List: React.FC = () => {
+interface Props {
+  filter: any;
+}
+export const List: React.FC<Props> = ({ filter }: Props) => {
+  // export const List: React.FC = () => {
   const history = useHistory();
   const {
     openStackIds,
@@ -17,7 +22,8 @@ export const List: React.FC = () => {
     fetching,
     filteredStacks,
     setSelectedRunIds,
-  } = useService();
+    // } = useService();
+  } = useService(filter);
 
   const headerCols = getHeaderCols({ openStackIds, setOpenStackIds });
 
@@ -29,14 +35,17 @@ export const List: React.FC = () => {
 
   return (
     <>
+      {/* <Box>a</Box> */}
       <CollapseTable
         renderAfterRow={(stack: TStack) => (
-          <RunsForStackTable
-            nestedRow={true}
-            stack={stack}
-            openStackIds={openStackIds}
-            fetching={fetching}
-          />
+          <>
+            <RunsForStackTable
+              nestedRow={true}
+              stack={stack}
+              openStackIds={openStackIds}
+              fetching={fetching}
+            />
+          </>
         )}
         loading={fetching}
         showHeader={true}
