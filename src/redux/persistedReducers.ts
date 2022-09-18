@@ -27,7 +27,7 @@ import stacksReducer, {
 
 import stackComponentsReducer, {
   initialState as stackComponentsInitialState,
-} from './reducers/stacksReducer';
+} from './reducers/stackComponentsReducer';
 
 import runsReducer, {
   initialState as runsInitialState,

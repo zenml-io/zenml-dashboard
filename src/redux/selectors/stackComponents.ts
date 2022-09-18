@@ -14,20 +14,27 @@ const getById = (state: State): Record<TId, TStack> =>
 const getMyStackComponentIds = (state: State): TId[] =>
   _.get(stateKey(state), 'myStackComponentIds');
 
+const getStackComponentTypes = (state: State): TId[] =>
+  _.get(stateKey(state), 'stackComponentTypes');
+
 export const mystackComponents = (state?: State | null): TStack[] => {
   if (!state) return [];
   const myStackComponentIds = getMyStackComponentIds(state);
   const byId = getById(state);
+  const stackComponentTypes = getStackComponentTypes(state);
 
-  return (myStackComponentIds || []).reduce((current: TStack[], id: TId) => {
-    const stackComponent = byId[id];
+  return (myStackComponentIds || stackComponentTypes || []).reduce(
+    (current: TStack[], id: TId) => {
+      const stackComponent = byId[id];
 
-    if (stackComponent) {
-      current = [...current, stackComponent];
-    }
+      if (stackComponent) {
+        current = [...current, stackComponent];
+      }
 
-    return current;
-  }, [] as TStack[]);
+      return current;
+    },
+    [] as TStack[],
+  );
 };
 
 export const stackComponentForId = (

@@ -41,7 +41,12 @@ const stackComponentsReducer = (
   switch (action.type) {
     case stackComponentActionTypes.getMyStackComponents.success:
     case stackComponentActionTypes.getStackComponentTypes.success: {
-      return { ...newState(state, action.payload as StacksPayload) };
+      const stackComponentTypes: any[] = action.payload as StacksPayload;
+
+      return {
+        ...state,
+        stackComponentTypes: stackComponentTypes,
+      };
     }
     case workspaceActionTypes.getPipelinesForWorkspaceId.success: {
       const stackComponents: TStack[] = camelCaseArray(
