@@ -4,7 +4,7 @@ import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 import mockApi from '../mockApiData';
 
-const getAllRunsByStackIdApi = ({
+const getAllRunsByStackComponentIdApi = ({
   authenticationToken,
   stackId,
 }: {
@@ -27,4 +27,4 @@ const getAllRunsByStackIdApi = ({
     return res;
   });
 
-export default getAllRunsByStackIdApi;
+export default getAllRunsByStackComponentIdApi;

@@ -4,7 +4,7 @@ import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 import mockApi from '../mockApiData';
 
-const getMyStacksApi = ({
+const getMyStackComponentsApi = ({
   authenticationToken,
 }: {
   authenticationToken: string;
@@ -22,4 +22,4 @@ const getMyStacksApi = ({
     return res;
   });
 
-export default getMyStacksApi;
+export default getMyStackComponentsApi;

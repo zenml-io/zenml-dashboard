@@ -328,5 +328,6 @@ const mockApi = {
   //   created_at: '2022-08-09T18:51:01.010Z',
   //   role_id: 'string',
   // },
+  stackComponentTypes: ['alerter'],
 };
 export default mockApi;

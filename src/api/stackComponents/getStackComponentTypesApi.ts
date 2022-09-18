@@ -4,7 +4,7 @@ import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 import mockApi from '../mockApiData';
 
-const getMyStacksApi = ({
+const getStackComponentTypesApi = ({
   authenticationToken,
 }: {
   authenticationToken: string;
@@ -16,10 +16,10 @@ const getMyStacksApi = ({
   }).catch((res) => {
     if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
       res = {
-        data: mockApi.myPipelinesMockResponse,
+        data: mockApi.stackComponentTypes,
       };
     }
     return res;
   });
 
-export default getMyStacksApi;
+export default getStackComponentTypesApi;
