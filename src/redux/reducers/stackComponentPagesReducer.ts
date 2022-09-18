@@ -1,4 +1,4 @@
-import { stackPagesActionTypes } from '../actionTypes';
+import { stackComponentPagesActionTypes } from '../actionTypes';
 
 export interface State {
   currentWorkspace: TWorkspace | null;
@@ -21,12 +21,12 @@ export type Action = {
   };
 };
 
-const stackPagesReducer = (
+const stackComponentPagesReducer = (
   state: State = initialState,
   action: Action,
 ): State => {
   switch (action.type) {
-    case stackPagesActionTypes.setCurrentWorkspace: {
+    case stackComponentPagesActionTypes.setCurrentWorkspace: {
       const currentWorkspace = action.payload.workspace;
 
       if (currentWorkspace === undefined) {
@@ -36,7 +36,7 @@ const stackPagesReducer = (
       return { ...state, currentWorkspace };
     }
 
-    case stackPagesActionTypes.setSelectedRunIds: {
+    case stackComponentPagesActionTypes.setSelectedRunIds: {
       const selectedRunIds = action.payload.runIds;
 
       if (selectedRunIds === undefined) {
@@ -46,7 +46,7 @@ const stackPagesReducer = (
       return { ...state, selectedRunIds };
     }
 
-    case stackPagesActionTypes.setFetching: {
+    case stackComponentPagesActionTypes.setFetching: {
       const fetching = action.payload.fetching;
 
       if (fetching === undefined) {
@@ -61,4 +61,4 @@ const stackPagesReducer = (
   }
 };
 
-export default stackPagesReducer;
+export default stackComponentPagesReducer;

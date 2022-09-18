@@ -1,11 +1,14 @@
 import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
-import { stackActionTypes, workspaceActionTypes } from '../actionTypes';
+import {
+  stackComponentActionTypes,
+  workspaceActionTypes,
+} from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
 export interface State {
   ids: TId[];
   byId: Record<TId, TStack>;
-  myStackIds: TId[];
+  myStackComponentIds: TId[];
 }
 
 type StacksPayload = TStack[];
@@ -20,7 +23,7 @@ export type Action = {
 export const initialState: State = {
   ids: [],
   byId: {},
-  myStackIds: [],
+  myStackComponentIds: [],
 };
 
 const newState = (state: State, stacks: TStack[]): State => ({
@@ -29,23 +32,30 @@ const newState = (state: State, stacks: TStack[]): State => ({
   byId: byKeyInsert(state.byId, stacks),
 });
 
-const stacksReducer = (state: State = initialState, action: Action): State => {
+const stackComponentsReducer = (
+  state: State = initialState,
+  action: Action,
+): State => {
   switch (action.type) {
-    case stackActionTypes.getMyStacks.success:
+    case stackComponentActionTypes.getMyStackComponents.success:
     case workspaceActionTypes.getPipelinesForWorkspaceId.success: {
-      const stacks: TStack[] = camelCaseArray(action.payload as StacksPayload);
+      const stackComponents: TStack[] = camelCaseArray(
+        action.payload as StacksPayload,
+      );
 
-      const myStackIds: TId[] = stacks.map((stack: TStack) => stack.id);
+      const myStackComponentIds: TId[] = stackComponents.map(
+        (stack: TStack) => stack.id,
+      );
 
-      return { ...newState(state, stacks), myStackIds };
+      return { ...newState(state, stackComponents), myStackComponentIds };
     }
 
-    case stackActionTypes.getStackForId.success: {
+    case stackComponentActionTypes.getStackComponentForId.success: {
       const payload: StackPayload = action.payload;
 
-      const stack = camelCaseObject(payload);
+      const stackComponent = camelCaseObject(payload);
 
-      return { ...state, ...newState(state, [stack]) };
+      return { ...state, ...newState(state, [stackComponent]) };
     }
 
     default:
@@ -53,4 +63,4 @@ const stacksReducer = (state: State = initialState, action: Action): State => {
   }
 };
 
-export default stacksReducer;
+export default stackComponentsReducer;
