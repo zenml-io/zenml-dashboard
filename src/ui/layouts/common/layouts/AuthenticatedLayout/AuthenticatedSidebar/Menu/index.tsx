@@ -6,10 +6,15 @@ import { iconSizes, iconColors } from '../../../../../../../constants';
 import { translate } from '../translate';
 import { useLocationPath } from '../../../../../../hooks';
 import { matchPath } from 'react-router-dom';
+import { useSelector } from './../../../../../../../ui/hooks';
+import { stackComponentSelectors } from '../../../../../../../redux/selectors';
 
 export const Menu: React.FC = () => {
   const locationPath = useLocationPath();
-  const stackComponentsTypes = ['Alerter', 'Test'];
+  const stackComponentsTypes: any[] = useSelector(
+    stackComponentSelectors.stackComponentTypes,
+  );
+
   return (
     <>
       <MenuItem

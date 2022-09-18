@@ -21,20 +21,21 @@ export const mystackComponents = (state?: State | null): TStack[] => {
   if (!state) return [];
   const myStackComponentIds = getMyStackComponentIds(state);
   const byId = getById(state);
+
+  return (myStackComponentIds || []).reduce((current: TStack[], id: TId) => {
+    const stackComponent = byId[id];
+
+    if (stackComponent) {
+      current = [...current, stackComponent];
+    }
+
+    return current;
+  }, [] as TStack[]);
+};
+export const stackComponentTypes = (state?: State | null) => {
+  if (!state) return [];
   const stackComponentTypes = getStackComponentTypes(state);
-
-  return (myStackComponentIds || stackComponentTypes || []).reduce(
-    (current: TStack[], id: TId) => {
-      const stackComponent = byId[id];
-
-      if (stackComponent) {
-        current = [...current, stackComponent];
-      }
-
-      return current;
-    },
-    [] as TStack[],
-  );
+  return stackComponentTypes;
 };
 
 export const stackComponentForId = (
@@ -43,6 +44,7 @@ export const stackComponentForId = (
   createSelector(getById, extractItemFromById(stackComponentId));
 
 const stackComponentSelectors = {
+  stackComponentTypes: stackComponentTypes,
   mystackComponents: mystackComponents,
   stackComponentForId,
 };
