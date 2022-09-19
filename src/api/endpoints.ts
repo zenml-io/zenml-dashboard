@@ -16,8 +16,6 @@ export const endpoints = {
     roles: '/organizations/roles',
     invite: '/users',
     deleteInvite: (id: string): string => `/users/${id}`,
-    // invite: '/organizations/invite',
-    // deleteInvite: (id: string): string => `/organizations/invite/${id}`,
     getInvoices: `/billing/organization/invoices`,
   },
   workspaces: {

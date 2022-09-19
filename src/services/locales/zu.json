@@ -187,7 +187,7 @@
             },
             "deleteMemberPopup": {
               "title": "Are you sure?",
-              "text": "Lorem Ipsum is simply dummy text of the printing and typesetting industry.",
+              "text": "Do you want to revoke access for",
               "successButton": {
                 "text": "Delete"
               },

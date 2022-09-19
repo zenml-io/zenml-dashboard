@@ -60,7 +60,7 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
             </H3>
           </FlexBox.Row>
           <Box marginTop="md">
-            <Paragraph>{translate('deleteMemberPopup.text')}</Paragraph>
+            <Paragraph>{`${translate('deleteMemberPopup.text')} ${member?.email}`}</Paragraph>
           </Box>
           <FlexBox justifyContent="flex-end" marginTop="xl" flexWrap>
             <Box marginRight="sm" marginBottom="md">
