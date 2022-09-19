@@ -6,6 +6,7 @@ import { Configuration } from './Configuration';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
+import { useLocationPath } from '../../../hooks';
 
 const getTabPages = (stackId: TId): TabPage[] => {
   return [
@@ -22,12 +23,12 @@ const getTabPages = (stackId: TId): TabPage[] => {
   ];
 };
 
-const getBreadcrumbs = (stackId: TId): TBreadcrumb[] => {
+const getBreadcrumbs = (stackId: TId, locationPath: any): TBreadcrumb[] => {
   return [
     {
       name: 'components',
       clickable: true,
-      to: routePaths.stackComponents.base('alerter'),
+      to: routePaths.stackComponents.base(locationPath.split('/')[2]),
     },
     {
       name: 'alerter',
@@ -42,16 +43,17 @@ export interface StackDetailRouteParams {
 }
 
 export const StackDetail: React.FC = () => {
-  const { stack } = useService();
+  const locationPath = useLocationPath();
+  const { stackComponent } = useService();
 
-  const tabPages = getTabPages(stack.id);
-  const breadcrumbs = getBreadcrumbs(stack.id);
+  const tabPages = getTabPages(stackComponent.id);
+  const breadcrumbs = getBreadcrumbs(stackComponent.id, locationPath);
 
   return (
     <BasePage
       headerWithButtons
       tabPages={tabPages}
-      tabBasePath={routePaths.stack.base(stack.id)}
+      tabBasePath={routePaths.stackComponents.base(stackComponent.id)}
       breadcrumbs={breadcrumbs}
     />
   );

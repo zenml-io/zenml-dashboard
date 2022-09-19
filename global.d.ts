@@ -89,8 +89,13 @@ interface TStack {
   userName: string;
   pipelineConfig: any;
   userId: TId;
+  createdAt: Date;
+  type?: string;
+  flavor?: string;
+  configuration?: any;
+  project?: string;
+  user?: string;
 }
-
 type TRunStatus = 'Succeeded' | 'Running' | 'Failed';
 
 interface TRun {

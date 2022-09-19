@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react';
 import {
+  stackComponentsActions,
   stackPagesActions,
   workspacesActions,
 } from '../../../../redux/actions';
@@ -35,19 +36,15 @@ export const useService = (): ServiceInterface => {
   useRequestOnMount(workspacesActions.getMy, {});
 
   useEffect(() => {
-    if (currentWorkspace) {
-      setFetching(true);
-      dispatch(
-        workspacesActions.pipelinesForWorkspaceId({
-          id: currentWorkspace.id,
-          // id: locationPath.split('/')[2],
-          onSuccess: () => setFetching(false),
-          onFailure: () => setFetching(false),
-        }),
-      );
-    } else if (workspaces.length > 0) {
-      setCurrentWorkspace(workspaces[0]);
-    }
+    setFetching(true);
+    dispatch(
+      stackComponentsActions.getMy({
+        // id: currentWorkspace.id,
+        type: locationPath.split('/')[2],
+        onSuccess: () => setFetching(false),
+        onFailure: () => setFetching(false),
+      }),
+    );
   }, []);
 
   const setFetching = (fetching: boolean) => {
@@ -57,16 +54,16 @@ export const useService = (): ServiceInterface => {
   const setCurrentWorkspace = (workspace: TWorkspace | null) => {
     dispatch(stackPagesActions.setCurrentWorkspace({ workspace }));
 
-    if (workspace) {
-      setFetching(true);
-      dispatch(
-        workspacesActions.pipelinesForWorkspaceId({
-          id: workspace.id,
-          onSuccess: () => setFetching(false),
-          onFailure: () => setFetching(false),
-        }),
-      );
-    }
+    // if (workspace) {
+    //   setFetching(true);
+    //   dispatch(
+    //     workspacesActions.pipelinesForWorkspaceId({
+    //       id: workspace.id,
+    //       onSuccess: () => setFetching(false),
+    //       onFailure: () => setFetching(false),
+    //     }),
+    //   );
+    // }
   };
 
   return {

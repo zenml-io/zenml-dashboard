@@ -5,7 +5,7 @@ import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 import { WorkspaceDropdown } from './WorkspaceDropdown';
 import { useService } from './useService';
-
+import { useLocationPath } from '../../../hooks';
 const PAGES = [
   {
     text: 'Alerter',
@@ -28,6 +28,7 @@ const BREADCRUMBS = [
 ];
 
 export const Stacks: React.FC = () => {
+  const locationPath = useLocationPath();
   const {
     setFetching,
     setCurrentWorkspace,
@@ -37,8 +38,14 @@ export const Stacks: React.FC = () => {
 
   return (
     <BasePage
-      tabPages={PAGES}
-      tabBasePath={routePaths.stacks.base}
+      tabPages={[
+        {
+          text: 'Alerter',
+          Component: List,
+          path: routePaths.stackComponents.base(locationPath.split('/')[2]),
+        },
+      ]}
+      tabBasePath={routePaths.stackComponents.base('')}
       breadcrumbs={BREADCRUMBS}
       headerWithButtons
       renderHeaderRight={() => (

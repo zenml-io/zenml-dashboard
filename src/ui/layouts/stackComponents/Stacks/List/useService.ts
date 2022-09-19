@@ -5,6 +5,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { stackPagesActions } from '../../../../../redux/actions';
 import {
+  stackComponentSelectors,
   stackPagesSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
@@ -27,10 +28,12 @@ export const useService = (): ServiceInterface => {
 
   const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
-  const Stacks = useSelector(stackSelectors.mystacks);
+  const stackComponents = useSelector(
+    stackComponentSelectors.mystackComponents,
+  );
 
   useEffect(() => {
-    const orderedStacks = _.sortBy(Stacks, (stack: TStack) =>
+    const orderedStacks = _.sortBy(stackComponents, (stack: TStack) =>
       new Date(stack.creationDate).getTime(),
     ).reverse();
 

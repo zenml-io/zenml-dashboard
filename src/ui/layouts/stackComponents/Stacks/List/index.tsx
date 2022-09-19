@@ -21,10 +21,10 @@ export const List: React.FC = () => {
 
   const headerCols = getHeaderCols({ openStackIds, setOpenStackIds });
 
-  const openDetailPage = (stack: TStack) => {
+  const openDetailPage = (stackComponent: TStack) => {
     setSelectedRunIds([]);
 
-    history.push(routePaths.stackComponents.configuration(stack.id));
+    history.push(routePaths.stackComponents.configuration(stackComponent.id));
   };
 
   return (

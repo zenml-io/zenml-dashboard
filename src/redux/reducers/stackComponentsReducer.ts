@@ -39,16 +39,7 @@ const stackComponentsReducer = (
   action: Action,
 ): State => {
   switch (action.type) {
-    case stackComponentActionTypes.getStackComponentList.success:
-    case stackComponentActionTypes.getStackComponentTypes.success: {
-      const stackComponentTypes: any[] = action.payload as StacksPayload;
-
-      return {
-        ...state,
-        stackComponentTypes: stackComponentTypes,
-      };
-    }
-    case workspaceActionTypes.getPipelinesForWorkspaceId.success: {
+    case stackComponentActionTypes.getStackComponentList.success: {
       const stackComponents: TStack[] = camelCaseArray(
         action.payload as StacksPayload,
       );
@@ -56,15 +47,23 @@ const stackComponentsReducer = (
       const myStackComponentIds: TId[] = stackComponents.map(
         (stack: TStack) => stack.id,
       );
-
+      debugger;
       return { ...newState(state, stackComponents), myStackComponentIds };
+    }
+    case stackComponentActionTypes.getStackComponentTypes.success: {
+      const stackComponentTypes: any[] = action.payload as StacksPayload;
+      debugger;
+      return {
+        ...state,
+        stackComponentTypes,
+      };
     }
 
     case stackComponentActionTypes.getStackComponentForId.success: {
       const payload: StackPayload = action.payload;
 
       const stackComponent = camelCaseObject(payload);
-
+      debugger;
       return { ...state, ...newState(state, [stackComponent]) };
     }
 

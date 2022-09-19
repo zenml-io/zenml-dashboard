@@ -23,40 +23,53 @@ export const getHeaderCols = ({
   return [
     {
       width: '2%',
-      renderRow: (stack: TStack) => <></>,
+      renderRow: (stackComponent: TStack) => <></>,
     },
 
     {
       render: () => (
         <Paragraph size="small" color="black">
-          STACK ID
+          ID
         </Paragraph>
       ),
       width: '15%',
-      renderRow: (stack: TStack) => (
-        <Paragraph size="small">{truncate(stack.id, ID_MAX_LENGTH)}</Paragraph>
+      renderRow: (stackComponent: TStack) => (
+        <Paragraph size="small">
+          {truncate(stackComponent.id, ID_MAX_LENGTH)}
+        </Paragraph>
       ),
     },
     {
       render: () => (
         <Paragraph size="small" color="black">
-          STACK NAME
+          NAME
         </Paragraph>
       ),
       width: '15%',
-      renderRow: (stack: TStack) => (
-        <Paragraph size="small">{stack.name}</Paragraph>
+      renderRow: (stackComponent: TStack) => (
+        <Paragraph size="small">{stackComponent.name}</Paragraph>
       ),
     },
     {
       render: () => (
         <Paragraph size="small" color="black">
-          OWNER
+          FLAVOUR
         </Paragraph>
       ),
       width: '15%',
-      renderRow: (stack: TStack) => (
-        <Paragraph size="small">{stack.userName}</Paragraph>
+      renderRow: (stackComponent: TStack) => (
+        <Paragraph size="small">{stackComponent.flavor}</Paragraph>
+      ),
+    },
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
+          USER
+        </Paragraph>
+      ),
+      width: '15%',
+      renderRow: (stackComponent: TStack) => (
+        <Paragraph size="small">{stackComponent.user}</Paragraph>
       ),
     },
     {
@@ -66,13 +79,13 @@ export const getHeaderCols = ({
         </Paragraph>
       ),
       width: '15%',
-      renderRow: (stack: TStack) => (
+      renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
           <Box paddingRight="sm">
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(stack.creationDate)}
+            {formatDateToDisplay(stackComponent.createdAt)}
           </Paragraph>
         </FlexBox>
       ),

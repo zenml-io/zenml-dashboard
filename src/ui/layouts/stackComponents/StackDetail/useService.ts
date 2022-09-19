@@ -2,14 +2,17 @@
 
 import { StackDetailRouteParams } from '.';
 import { pipelinesActions, stacksActions } from '../../../../redux/actions';
-import { stackSelectors } from '../../../../redux/selectors';
+import {
+  stackComponentSelectors,
+  stackSelectors,
+} from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { stackPagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
 
 interface ServiceInterface {
-  stack: TStack;
+  stackComponent: TStack;
 }
 
 export const useService = (): ServiceInterface => {
@@ -39,7 +42,9 @@ export const useService = (): ServiceInterface => {
     dispatch(stackPagesActions.setFetching({ fetching }));
   };
 
-  const stack = useSelector(stackSelectors.stackForId(id));
+  const stackComponent = useSelector(
+    stackComponentSelectors.stackComponentForId(id),
+  );
 
-  return { stack };
+  return { stackComponent };
 };
