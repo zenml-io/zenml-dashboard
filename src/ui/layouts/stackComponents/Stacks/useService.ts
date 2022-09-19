@@ -9,7 +9,12 @@ import {
   stackPagesSelectors,
   workspaceSelectors,
 } from '../../../../redux/selectors';
-import { useDispatch, useRequestOnMount, useSelector } from '../../../hooks';
+import {
+  useDispatch,
+  useLocationPath,
+  useRequestOnMount,
+  useSelector,
+} from '../../../hooks';
 
 interface ServiceInterface {
   setFetching: (arg: boolean) => void;
@@ -19,6 +24,8 @@ interface ServiceInterface {
 }
 
 export const useService = (): ServiceInterface => {
+  const locationPath = useLocationPath();
+
   const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
   const dispatch = useDispatch();
@@ -33,6 +40,7 @@ export const useService = (): ServiceInterface => {
       dispatch(
         workspacesActions.pipelinesForWorkspaceId({
           id: currentWorkspace.id,
+          // id: locationPath.split('/')[2],
           onSuccess: () => setFetching(false),
           onFailure: () => setFetching(false),
         }),
