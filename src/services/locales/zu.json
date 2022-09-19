@@ -175,8 +175,12 @@
               "button": {
                 "text": "Invite"
               },
-              "generateInvitebutton": {
-                "text": "Generate Token"
+              "generateInviteModal": {
+                "title": "Invitation Token",
+                "text": "Click generate token to re-generate invitation for",
+                "button": {
+                  "text": "Generate Token"
+                }
               },
               "plus": {
                 "text": "Invite another user"

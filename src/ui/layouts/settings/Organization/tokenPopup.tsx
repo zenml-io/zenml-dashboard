@@ -63,10 +63,13 @@ export const TokenPopup: React.FC<{
       >
         <FlexBox.Row alignItems="center" justifyContent="space-between">
           <H3 bold color="darkGrey">
-            {translate('popup.invite.text')}
+            {translate('popup.generateInviteModal.title')}
           </H3>
         </FlexBox.Row>
         <Box marginTop="md">
+            <Paragraph>{`${translate('popup.generateInviteModal.text')} ${email}`}</Paragraph>
+          </Box>
+        <Box marginTop="xl" >
             <Box>
               <FlexBox.Row marginBottom="md">
                 <Box style={{ width: showTokField ? '100%' : '70%' }}>
@@ -85,7 +88,7 @@ export const TokenPopup: React.FC<{
                       loading={submitting}
                       onClick={generateToken}
                     >
-                      {translate('popup.generateInvitebutton.text')}
+                      {translate('popup.generateInviteModal.button.text')}
                     </PrimaryButton>
                   </Box>
                 )}
