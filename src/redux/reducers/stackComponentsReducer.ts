@@ -1,8 +1,5 @@
 import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
-import {
-  stackComponentActionTypes,
-  workspaceActionTypes,
-} from '../actionTypes';
+import { stackComponentActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
 export interface State {

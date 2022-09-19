@@ -1,8 +1,5 @@
 import { useSelector } from 'react-redux';
-import {
-  stackComponentSelectors,
-  stackSelectors,
-} from '../../../../../redux/selectors';
+import { stackComponentSelectors } from '../../../../../redux/selectors';
 
 import YAML from 'json2yaml';
 

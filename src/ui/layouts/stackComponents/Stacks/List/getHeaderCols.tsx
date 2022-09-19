@@ -1,13 +1,7 @@
 import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { formatDateToDisplay, truncate } from '../../../../../utils';
-import {
-  Box,
-  FlexBox,
-  icons,
-  LinkBox,
-  Paragraph,
-} from '../../../../components';
+import { Box, FlexBox, icons, Paragraph } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 // import { Status } from './Status';
 // import { WorkspaceName } from './WorkspaceName';

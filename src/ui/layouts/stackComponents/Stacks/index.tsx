@@ -1,23 +1,23 @@
 import React from 'react';
-import { translate } from './translate';
+// import { translate } from './translate';
 import { List } from './List';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 import { WorkspaceDropdown } from './WorkspaceDropdown';
 import { useService } from './useService';
 import { useLocationPath } from '../../../hooks';
-const PAGES = [
-  {
-    text: 'Alerter',
-    Component: List,
-    path: routePaths.stackComponents.base('alerter'),
-  },
-  // {
-  //   text: translate('tabs.allRuns.text'),
-  //   Component: AllRuns,
-  //   path: routePaths.stacks.allRuns,
-  // },
-];
+// const PAGES = [
+//   {
+//     text: 'Alerter',
+//     Component: List,
+//     path: routePaths.stackComponents.base('alerter'),
+//   },
+//   // {
+//   //   text: translate('tabs.allRuns.text'),
+//   //   Component: AllRuns,
+//   //   path: routePaths.stacks.allRuns,
+//   // },
+// ];
 
 const BREADCRUMBS = [
   {
