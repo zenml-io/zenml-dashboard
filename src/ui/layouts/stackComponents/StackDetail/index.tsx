@@ -26,7 +26,7 @@ const getTabPages = (stackId: TId): TabPage[] => {
 const getBreadcrumbs = (stackId: TId, locationPath: any): TBreadcrumb[] => {
   return [
     {
-      name: 'components',
+      name: 'Components',
       clickable: true,
       to: routePaths.stackComponents.base(locationPath.split('/')[2]),
     },

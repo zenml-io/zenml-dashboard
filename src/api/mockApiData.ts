@@ -338,6 +338,20 @@ const mockApi = {
       configuration: {
         location: 'europe-west3',
       },
+      isShared: true,
+      project: 'da63ad01-9117-4082-8a99-557ca5a7d324',
+      user: '43d73159-04fe-418b-b604-b769dd5b771b',
+      created_at: '2022-08-12T07:12:44.931Z',
+    },
+    {
+      id: '5esdsdb5-51f4-4286-b1f8-b0143e9a27ce',
+      name: 'vertex_prd_orchestrator',
+      type: 'orchestrator',
+      flavor: 'vertex',
+      configuration: {
+        location: 'europe-west3',
+      },
+      isShared: false,
       project: 'da63ad01-9117-4082-8a99-557ca5a7d324',
       user: '43d73159-04fe-418b-b604-b769dd5b771b',
       created_at: '2022-08-12T07:12:44.931Z',

@@ -64,6 +64,21 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
+          Shared
+        </Paragraph>
+      ),
+      width: '15%',
+      renderRow: (stackComponent: TStack) =>
+        stackComponent.isShared ? (
+          <icons.multiUser color={iconColors.primary} size={iconSizes.md} />
+        ) : (
+          <icons.singleUser color={iconColors.primary} size={iconSizes.md} />
+        ),
+      // <Paragraph size="small">{stackComponent.isShared}</Paragraph>
+    },
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
           USER
         </Paragraph>
       ),

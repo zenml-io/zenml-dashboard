@@ -95,6 +95,7 @@ interface TStack {
   configuration?: any;
   project?: string;
   user?: string;
+  isShared?: Boolean;
 }
 type TRunStatus = 'Succeeded' | 'Running' | 'Failed';
 

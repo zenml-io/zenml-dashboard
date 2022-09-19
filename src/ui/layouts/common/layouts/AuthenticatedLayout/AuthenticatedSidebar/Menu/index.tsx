@@ -11,6 +11,7 @@ import { stackComponentSelectors } from '../../../../../../../redux/selectors';
 
 export const Menu: React.FC = () => {
   const locationPath = useLocationPath();
+
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
