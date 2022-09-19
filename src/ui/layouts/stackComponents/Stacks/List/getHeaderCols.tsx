@@ -78,7 +78,7 @@ export const getHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <Paragraph size="small">{stackComponent.user}</Paragraph>
+        <Paragraph size="small">{stackComponent.user.name}</Paragraph>
       ),
     },
     {
