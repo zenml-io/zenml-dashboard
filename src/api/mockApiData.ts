@@ -379,5 +379,50 @@ const mockApi = {
   //   created_at: '2022-08-09T18:51:01.010Z',
   //   role_id: 'string',
   // },
+  stackComponentTypes: ['alerter'],
+  stackComponentList: [
+    {
+      id: '5e4286b5-51f4-4286-b1f8-b0143e9a27ce',
+      name: 'vertex_prd_orchestrator',
+      type: 'orchestrator',
+      flavor: 'vertex',
+      configuration: {
+        location: 'europe-west3',
+      },
+      isShared: true,
+      project: 'da63ad01-9117-4082-8a99-557ca5a7d324',
+      user: {
+        id: 'ae1fd828-fb3b-48e8-a31a-f3ecb3cdb294',
+        name: 'default',
+        full_name: '',
+        email: '',
+        active: 'True',
+        created: '2022-09-15T11:43:29.987627',
+        updated: '2022-09-15T11:43:29.987627',
+      },
+      created_at: '2022-08-12T07:12:44.931Z',
+    },
+    {
+      id: '5esdsdb5-51f4-4286-b1f8-b0143e9a27ce',
+      name: 'vertex_prd_orchestrator',
+      type: 'orchestrator',
+      flavor: 'vertex',
+      configuration: {
+        location: 'europe-west3',
+      },
+      isShared: false,
+      project: 'da63ad01-9117-4082-8a99-557ca5a7d324',
+      user: {
+        id: 'ae1fd828-fb3b-48e8-a31a-f3ecb3cdb294',
+        name: 'default',
+        full_name: '',
+        email: '',
+        active: 'True',
+        created: '2022-09-15T11:43:29.987627',
+        updated: '2022-09-15T11:43:29.987627',
+      },
+      created_at: '2022-08-12T07:12:44.931Z',
+    },
+  ],
 };
 export default mockApi;

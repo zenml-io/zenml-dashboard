@@ -38,6 +38,12 @@ export const routePaths = {
     base: '/workspaces',
     list: '/workspaces/list',
   },
+  stackComponents: {
+    base: (type: string): string => `/components/${type}`,
+    configuration: (id: TId): string => `/components/${id}/configuration`,
+    runs: (id: TId): string => `/components/${id}/runs`,
+    // list: (type: string): string => `/components/${type}`,
+  },
   datasources: '/datasources',
   functions: '/functions',
   models: '/models',

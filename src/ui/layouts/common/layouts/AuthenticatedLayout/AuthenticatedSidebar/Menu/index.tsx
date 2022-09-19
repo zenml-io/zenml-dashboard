@@ -6,9 +6,16 @@ import { iconSizes, iconColors } from '../../../../../../../constants';
 import { translate } from '../translate';
 import { useLocationPath } from '../../../../../../hooks';
 import { matchPath } from 'react-router-dom';
+import { useSelector } from './../../../../../../../ui/hooks';
+import { stackComponentSelectors } from '../../../../../../../redux/selectors';
 
 export const Menu: React.FC = () => {
   const locationPath = useLocationPath();
+
+  const stackComponentsTypes: any[] = useSelector(
+    stackComponentSelectors.stackComponentTypes,
+  );
+
   return (
     <>
       <MenuItem
@@ -61,13 +68,62 @@ export const Menu: React.FC = () => {
         to={routePaths.stacks.list}
         text={translate('menu.stacks.text')}
       />
+      {/* <div onClick={() => console.log('asdasd')}> */}
       <MenuItem
         Icon={() => (
           <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
         )}
-        to={routePaths.datasources}
+        to={routePaths.stackComponents.base(stackComponentsTypes[0])}
         text={translate('menu.stackComponents.text')}
       />
+      {/* </div> */}
+      {locationPath.includes('components') && (
+        <>
+          {/* <MenuItem
+            // isActive={() => {
+            //   return !!matchPath(locationPath, {
+            //     path: routePaths.stackComponents.base(item),
+            //     exact: false,
+            //   });
+            // }}
+            subItem={true}
+            Icon={() => (
+              <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
+            )}
+            to={routePaths.stackComponents.base(stackComponentsTypes[0])}
+            text={translate('menu.stackComponents.text')}
+          /> */}
+          ;
+          {stackComponentsTypes?.map((item) => (
+            <>
+              <MenuItem
+                // isActive={() => {
+                //   return !!matchPath(locationPath, {
+                //     path: routePaths.stackComponents.base(item),
+                //     exact: false,
+                //   });
+                // }}
+                subItem={true}
+                Icon={() => (
+                  <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
+                )}
+                to={routePaths.stackComponents.base(item)}
+                text={item}
+              />
+              ;
+            </>
+          ))}
+          {/* 
+          <MenuItem
+            subItem={true}
+            Icon={() => (
+              <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
+            )}
+            to={routePaths.datasources}
+            text={translate('menu.stackComponents.text')}
+          /> */}
+        </>
+      )}
       <MenuItem
         Icon={() => (
           <icons.settings color={iconColors.darkGrey} size={iconSizes.md} />
