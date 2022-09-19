@@ -58,8 +58,9 @@ interface TMember {
   organizationId: string;
   fullName: string;
   email: string;
-  createdAt: Date;
-  role: string;
+  created_at: Date;
+  active: boolean;
+  activation_token: string
 }
 
 interface TWorkspace {

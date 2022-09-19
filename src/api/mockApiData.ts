@@ -3,6 +3,15 @@ const mockApi = {
     access_token: 'string',
     token_type: 'string',
   },
+  signupMockResponse: {
+      id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+      name: "johndoe",
+      full_name: "John Doe",
+      email: "johndoe@zenml.io",
+      active: true,
+      created_at: "2022-09-14T17:59:16.660668",
+      updated_at: "2022-09-14T17:59:16.660668"
+  },
   myWorkSpacesMockResponse: [
     {
       name: 'string',
@@ -279,6 +288,48 @@ const mockApi = {
     created_at: '2022-08-09T18:54:03.919Z',
     bucket_name: 'string',
     service_account: {},
+    organizationMembers: [
+      {
+        id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+        name: "Haziq",
+        full_name: "Haziq",
+        email: "Haziq@zenml.io",
+        active: false,
+        activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
+        created_at: "2022-09-14T17:59:16.660668",
+        updated_at: "2022-09-14T17:59:16.660668",
+      },
+      {
+        id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+        name: "Hamza",
+        full_name: "Hamza",
+        email: "Hamza@zenml.io",
+        active: false,
+        activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
+        created_at: "2022-09-14T17:59:16.660668",
+        updated_at: "2022-09-14T17:59:16.660668",
+      },
+       {
+        id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+        name: "Daniel",
+        full_name: "Daniel",
+        email: "Daniel@zenml.io",
+        active: false,
+        activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
+        created_at: "2022-09-14T17:59:16.660668",
+        updated_at: "2022-09-14T17:59:16.660668",
+      }
+    ],
+    myOrganizationInviteMockResponse: {
+        id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
+        name: "john@zenml.io",
+        full_name: "John Doe",
+        email: "john@zenml.io",
+        active: false,
+        activation_token: "e97b3c26f9fc8020ea2f602c5d3bdda66662c60ddbf60cbbf70d119ef5b07bdc",
+        created_at: "2022-09-14T17:59:16.660668",
+        updated_at: "2022-09-14T17:59:16.660668"
+    }
   },
   userByIdMockResponse: {
     email: 'string',

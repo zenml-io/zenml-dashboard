@@ -9,6 +9,7 @@ export interface Response {
 
 interface ForgotEmail {
   email: string;
+  password: string;
 }
 
 interface Params {
@@ -17,12 +18,12 @@ interface Params {
 
 const forgotApi = ({ account }: Params): Promise<Response> =>
   fetchApi({
-    url: apiUrl(endpoints.forgot),
-    method: httpMethods.post,
+    url: apiUrl(endpoints.users.updateUser(account.email)),
+    method: httpMethods.put,
     headers: {
       'Content-Type': 'application/json',
     },
-    params: { email: account.email },
+    params: { password: account.password },
   });
 
 export default forgotApi;

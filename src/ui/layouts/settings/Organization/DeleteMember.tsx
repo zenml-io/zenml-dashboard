@@ -14,8 +14,9 @@ import { Popup } from '../../common/Popup/index';
 import { translate } from './translate';
 import { organizationActions } from '../../../../redux/actions/organizations/index';
 import { showToasterAction } from '../../../../redux/actions/showToasterAction';
+import { iconColors } from '../../../../constants/icons';
 
-export const DeleteInvite: React.FC<{ invite: TInvite }> = ({ invite }) => {
+export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
@@ -24,7 +25,7 @@ export const DeleteInvite: React.FC<{ invite: TInvite }> = ({ invite }) => {
     setSubmitting(true);
     dispatch(
       organizationActions.deleteInvite({
-        id: invite.id,
+        id: member.id,
         onSuccess: () => {
           setPopupOpen(false);
           setSubmitting(false);
@@ -32,17 +33,16 @@ export const DeleteInvite: React.FC<{ invite: TInvite }> = ({ invite }) => {
           dispatch(
             showToasterAction({
               type: 'success',
-              description: translate('deleteInvitePopup.successToaster'),
+              description: translate('deleteMemberPopup.successToaster'),
             }),
           );
         },
         onFailure: () => {
           setSubmitting(false);
-
           dispatch(
             showToasterAction({
               type: 'failure',
-              description: translate('deleteInvitePopup.errorToaster'),
+              description: translate('deleteMemberPopup.errorToaster'),
             }),
           );
         },
@@ -56,16 +56,16 @@ export const DeleteInvite: React.FC<{ invite: TInvite }> = ({ invite }) => {
         <Popup onClose={() => setPopupOpen(false)}>
           <FlexBox.Row alignItems="center" justifyContent="space-between">
             <H3 bold color="darkGrey">
-              {translate('deleteInvitePopup.title')}
+              {translate('deleteMemberPopup.title')}
             </H3>
           </FlexBox.Row>
           <Box marginTop="md">
-            <Paragraph>{translate('deleteInvitePopup.text')}</Paragraph>
+            <Paragraph>{`${translate('deleteMemberPopup.text')} ${member?.email}`}</Paragraph>
           </Box>
           <FlexBox justifyContent="flex-end" marginTop="xl" flexWrap>
             <Box marginRight="sm" marginBottom="md">
               <GhostButton onClick={() => setPopupOpen(false)}>
-                {translate('deleteInvitePopup.cancelButton.text')}
+                {translate('deleteMemberPopup.cancelButton.text')}
               </GhostButton>
             </Box>
             <Box marginLeft="sm" marginRight="sm" marginBottom="md">
@@ -74,15 +74,15 @@ export const DeleteInvite: React.FC<{ invite: TInvite }> = ({ invite }) => {
                 loading={submitting}
                 onClick={onDelete}
               >
-                {translate('deleteInvitePopup.successButton.text')}
+                {translate('deleteMemberPopup.successButton.text')}
               </PrimaryButton>
             </Box>
           </FlexBox>
         </Popup>
       )}
       <Box>
-        <LinkBox onClick={() => setPopupOpen(true)}>
-          <icons.closeWithBorder />
+        <LinkBox onClick={() => setPopupOpen(true)} >
+          <icons.closeWithBorder color={iconColors.grey} />
         </LinkBox>
       </Box>
     </>

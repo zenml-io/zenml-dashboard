@@ -28,6 +28,7 @@ export const useService = (): ServiceInterface => {
       if (email.trim() !== '') {
         dispatch(
           forgotAction({
+            password: '',
             email,
             onFailure: () => {
               dispatch(

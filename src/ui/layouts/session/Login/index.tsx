@@ -4,12 +4,8 @@ import {
   H2,
   Paragraph,
   Container,
-  Row,
-  Col,
   FlexBox,
   Box,
-  MaiotLogo,
-  SecondaryLink,
   Image,
   EaseInBox,
 } from '../../../components';
@@ -18,7 +14,7 @@ import { Form } from './Form';
 
 import styles from './index.module.scss';
 
-import image from '../image.png';
+import image from '../imageNew.png';
 import { translate } from './translate';
 import { routePaths } from '../../../../routes/routePaths';
 import { Link } from 'react-router-dom';
@@ -26,13 +22,11 @@ import { Link } from 'react-router-dom';
 const Login: React.FC = () => {
   return (
     <EaseInBox>
-      <Container style={{ overflow: 'hidden' }} fluid>
-        <Row>
-          <Col md={5}>
+      <Container className={styles.login} style={{ height: window.innerHeight }} fluid>
             <Box style={{ overflowY: 'auto', maxHeight: '100vh' }}>
-              <Box margin="xxl">
+              <Box margin="xxl" style={{ textAlign: 'center' }}>
                 <Link to={routePaths.login}>
-                  <MaiotLogo />
+                  <Image src={image} />
                 </Link>
               </Box>
               <FlexBox.Column
@@ -40,38 +34,15 @@ const Login: React.FC = () => {
                 justifyContent="center"
                 className={styles.loginBox}
               >
-                <Box marginTop="xl">
+                <Box marginTop="xl" style={{ textAlign: 'center' }}>
                   <Box paddingBottom="md">
-                    <H2 bold>{translate('title')}</H2>
+                    <H2 bold color='white'>{translate('title')}</H2>
                   </Box>
-                  <Paragraph color="grey">{translate('subtitle')}</Paragraph>
-                  <Form />
+                  <Paragraph style={{ color: "#A1A4AB" }}>{translate('subtitle')}</Paragraph>
                 </Box>
-                <FlexBox marginBottom="xxl" marginTop="xl">
-                  <Paragraph size="small">{translate('signUp.text')}</Paragraph>
-                  <Box paddingLeft="xs">
-                    <SecondaryLink
-                      size="small"
-                      text={translate('signUp.link')}
-                      route={routePaths.signup}
-                    />
-                  </Box>
-                </FlexBox>
+                <Form />
               </FlexBox.Column>
             </Box>
-          </Col>
-          <Col md={7} className="d-none d-md-block">
-            <FlexBox
-              justifyContent="center"
-              alignItems="center"
-              className={styles.background}
-            >
-              <Box>
-                <Image className={styles.backgroundImage} src={image} />
-              </Box>
-            </FlexBox>
-          </Col>
-        </Row>
       </Container>
     </EaseInBox>
   );

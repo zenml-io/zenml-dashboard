@@ -53,6 +53,7 @@ export const InvoiceInformationForm: React.FC<{
           <FormTextField
             disabled={disabled}
             label={translate('invoiceInformation.company.label')}
+            labelColor='#000'
             placeholder={translate('invoiceInformation.company.placeholder')}
             value={company}
             onChange={(val: string) => setCompany(val)}
@@ -66,6 +67,7 @@ export const InvoiceInformationForm: React.FC<{
           <FormTextField
             disabled={disabled}
             label={translate('invoiceInformation.billingAddress.label')}
+            labelColor='#000'
             placeholder={translate(
               'invoiceInformation.billingAddress.placeholder',
             )}
@@ -84,6 +86,7 @@ export const InvoiceInformationForm: React.FC<{
             <FormTextField
               disabled={disabled}
               label={translate('invoiceInformation.zipCode.label')}
+              labelColor='#000'
               placeholder={translate('invoiceInformation.zipCode.placeholder')}
               value={zipCode}
               onChange={(val: string) => setZipCode(val)}
@@ -97,6 +100,7 @@ export const InvoiceInformationForm: React.FC<{
             <FormTextField
               disabled={disabled}
               label={translate('invoiceInformation.city.label')}
+              labelColor='#000'
               placeholder={translate('invoiceInformation.city.placeholder')}
               value={city}
               onChange={(val: string) => setCity(val)}
@@ -110,6 +114,7 @@ export const InvoiceInformationForm: React.FC<{
         <Box marginBottom="lg">
           <FormDropdownField
             label={translate('invoiceInformation.country.label')}
+            labelColor='#000'
             placeholder={translate('invoiceInformation.country.placeholder')}
             disabled={disabled}
             value={country}
