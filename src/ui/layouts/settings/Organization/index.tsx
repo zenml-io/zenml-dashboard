@@ -21,7 +21,6 @@ type Table = 'members' | 'invites';
 
 export const Organization: React.FC = () => {
   
-  const [fetchingInvites, setFetchingInvites] = useState(true);
   const [fetchingMembers, setFetchingMembers] = useState(true);
 
   const [popupOpen, setPopupOpen] = useState(false);
@@ -29,12 +28,6 @@ export const Organization: React.FC = () => {
 
   useRequestOnMount(organizationActions.getMy);
   useRequestOnMount(organizationActions.getRoles);
-  useRequestOnMount(() =>
-    organizationActions.getInvites({
-      onSuccess: () => setFetchingInvites(false),
-      onFailure: () => setFetchingInvites(false),
-    }),
-  );
 
   useRequestOnMount(() =>
     organizationActions.getMembers({
@@ -89,7 +82,6 @@ export const Organization: React.FC = () => {
       {popupOpen && (
         <InvitePopup
           setPopupOpen={setPopupOpen}
-          setFetchingInvites={setFetchingInvites}
         />
       )}
 

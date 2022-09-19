@@ -27,8 +27,7 @@ const emailErrorText = (email: string) =>
 
 export const InvitePopup: React.FC<{
   setPopupOpen: (attr: boolean) => void;
-  setFetchingInvites: (attr: boolean) => void;
-}> = ({ setPopupOpen, setFetchingInvites }) => {
+}> = ({ setPopupOpen }) => {
  
   const [submitting, setSubmitting] = useState(false);
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
@@ -38,17 +37,6 @@ export const InvitePopup: React.FC<{
   const dispatch = useDispatch();
   const invite = useSelector(organizationSelectors.invite);
   
-  useEffect(() => {
-      setHasSubmittedWithErrors(false);
-      setFetchingInvites(true);
-
-      dispatch(
-        organizationActions.getInvites({
-          onSuccess: () => setFetchingInvites(false),
-          onFailure: () => setFetchingInvites(false),
-        }),
-      );
-  }, []);
 
   const inviteNewMembers = () => {
     setHasSubmittedWithErrors(true);
@@ -83,12 +71,6 @@ export const InvitePopup: React.FC<{
   return (
     <Popup
       onClose={() => {
-        dispatch(
-          organizationActions.getInvites({
-            onSuccess: () => setFetchingInvites(false),
-            onFailure: () => setFetchingInvites(false),
-          }),
-        );
         setPopupOpen(false);
         setHasSubmittedWithErrors(false);
        }}
