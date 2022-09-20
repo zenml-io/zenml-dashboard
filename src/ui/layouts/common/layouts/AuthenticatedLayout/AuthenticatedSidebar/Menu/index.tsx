@@ -73,7 +73,9 @@ export const Menu: React.FC = () => {
         Icon={() => (
           <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
         )}
-        to={routePaths.stackComponents.base(stackComponentsTypes[0])}
+        to={routePaths.stackComponents.base(
+          stackComponentsTypes ? stackComponentsTypes[0] : '',
+        )}
         text={translate('menu.stackComponents.text')}
       />
       {/* </div> */}
