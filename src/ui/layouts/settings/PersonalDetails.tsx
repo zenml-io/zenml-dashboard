@@ -82,9 +82,6 @@ export const PersonalDetails: React.FC = () => {
     }
   };
 
-
- const BUTTON_DISABLED = newPassword.trim() === '' || confirmPassword.trim() === ''
-
   return (
     <>
     {popupOpen && (
@@ -104,7 +101,7 @@ export const PersonalDetails: React.FC = () => {
         </Box>
       </FlexBox.Row>
 
-        <Box marginTop="lg" style={{ height: '130px' }}  >
+        <Box marginTop="lg" >
           <Row>
             <Col lg={5}>
               <Box marginBottom="lg">
@@ -117,13 +114,11 @@ export const PersonalDetails: React.FC = () => {
                 />
               </Box>
 
-              {email !== user.email && (          
                 <Box style={{ display: 'flex', justifyContent: 'end' }}>
-                  <PrimaryButton onClick={() => setPopupOpen(true)} >
+                  <PrimaryButton style={{ width: '198px' }} onClick={() => setPopupOpen(true)} disabled={email === user.email} >
                     {translate('emailReset.label')}
                   </PrimaryButton>
                 </Box>
-              )}
             </Col>
           </Row>
         </Box>
@@ -175,7 +170,7 @@ export const PersonalDetails: React.FC = () => {
                 </Box>
 
                 <Box marginBottom="xs" style={{ display: 'flex', justifyContent: 'end' }}>
-                  <PrimaryButton onClick={forgotPassword} style={{ width: '198px' }} loading={submitting} disabled={BUTTON_DISABLED}>
+                  <PrimaryButton onClick={forgotPassword} style={{ width: '198px' }} loading={submitting} disabled={newPassword.trim() === '' || confirmPassword.trim() === ''}>
                     {translate('passwordReset.button')}
                   </PrimaryButton>
                 </Box>
