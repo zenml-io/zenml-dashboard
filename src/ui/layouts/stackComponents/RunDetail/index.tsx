@@ -10,9 +10,9 @@ import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
 import { RunTime } from '../RunTime';
 import { KeyValue, RunStatus } from './components';
-import { Results } from './Results';
-import { Statistics } from './Statistics';
-import { Tensorboard } from './Tensorboard';
+// import { Results } from './Results';
+// import { Statistics } from './Statistics';
+// import { Tensorboard } from './Tensorboard';
 import { formatMoney } from '../../../../utils/money';
 import { truncate } from '../../../../utils';
 
@@ -25,19 +25,16 @@ const getTabPages = ({
 }): TabPage[] => {
   return [
     {
-      text: translate('tabs.statistics.text'),
-      Component: () => <Statistics runId={runId} stackId={stackId} />,
-      path: routePaths.run.statistics(runId, stackId),
+      text: 'DAG',
+      // <Statistics runId={runId} stackId={stackId} />
+      Component: () => <div>Coming soon</div>,
+      path: routePaths.run.component.statistics('alerter', runId, stackId),
     },
     {
-      text: translate('tabs.results.text'),
-      Component: () => <Results runId={runId} stackId={stackId} />,
-      path: routePaths.run.results(runId, stackId),
-    },
-    {
-      text: translate('tabs.tensorboard.text'),
-      Component: () => <Tensorboard runId={runId} stackId={stackId} />,
-      path: routePaths.run.tensorboard(runId, stackId),
+      text: 'Configuration',
+      // <Results runId={runId} stackId={stackId} />
+      Component: () => <div>Coming soon</div>,
+      path: routePaths.run.component.results(runId, stackId),
     },
   ];
 };
@@ -51,19 +48,19 @@ const getBreadcrumbs = ({
 }): TBreadcrumb[] => {
   return [
     {
-      name: translate('header.breadcrumbs.pipelines.text'),
+      name: 'Component',
       clickable: true,
-      to: routePaths.stacks.list,
+      to: routePaths.stackComponents.base('alerter'),
     },
     {
-      name: stackId,
+      name: 'alerter',
       clickable: true,
-      to: routePaths.stack.configuration(stackId),
+      to: routePaths.stackComponents.base('alerter'),
     },
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.statistics(runId, stackId),
+      to: routePaths.run.component.statistics('alerter', runId, stackId),
     },
   ];
 };
@@ -75,7 +72,7 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const { runId, stackId, run, billing } = useService();
-
+  debugger;
   const tabPages = getTabPages({
     runId,
     stackId,
@@ -88,7 +85,7 @@ export const RunDetail: React.FC = () => {
   return (
     <BasePage
       tabPages={tabPages}
-      tabBasePath={routePaths.run.base(runId, stackId)}
+      tabBasePath={routePaths.run.pipeline.base(runId, stackId)}
       breadcrumbs={breadcrumbs}
     >
       <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
