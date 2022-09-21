@@ -14,14 +14,36 @@ export const routePaths = {
     runs: (id: TId): string => `/pipelines/${id}/runs`,
   },
   run: {
-    base: (id: TId, pipelineId: TId): string =>
-      `/pipelines/${pipelineId}/runs/${id}`,
-    statistics: (id: TId, pipelineId: TId): string =>
-      `/pipelines/${pipelineId}/runs/${id}/statistics`,
-    results: (id: TId, pipelineId: TId): string =>
-      `/pipelines/${pipelineId}/runs/${id}/results`,
-    tensorboard: (id: TId, pipelineId: TId): string =>
-      `/pipelines/${pipelineId}/runs/${id}/tensorboard`,
+    pipeline: {
+      base: (id: TId, pipelineId: TId): string =>
+        `/pipelines/${pipelineId}/runs/${id}`,
+      statistics: (id: TId, pipelineId: TId): string =>
+        `/pipelines/${pipelineId}/runs/${id}/statistics`,
+      results: (id: TId, pipelineId: TId): string =>
+        `/pipelines/${pipelineId}/runs/${id}/results`,
+      tensorboard: (id: TId, pipelineId: TId): string =>
+        `/pipelines/${pipelineId}/runs/${id}/tensorboard`,
+    },
+    stack: {
+      base: (id: TId, pipelineId: TId): string =>
+        `/stacks/${pipelineId}/runs/${id}`,
+      statistics: (id: TId, stackId: TId): string =>
+        `/stacks/${stackId}/runs/${id}/statistics`,
+      results: (id: TId, pipelineId: TId): string =>
+        `/stacks/${pipelineId}/runs/${id}/results`,
+      tensorboard: (id: TId, pipelineId: TId): string =>
+        `/stacks/${pipelineId}/runs/${id}/tensorboard`,
+    },
+    component: {
+      base: (id: TId, pipelineId: TId): string =>
+        `/components/${pipelineId}/runs/${id}`,
+      statistics: (type: string, id: TId, pipelineId: TId): string =>
+        `/components/${type}/runs/${id}/statistics`,
+      results: (id: TId, pipelineId: TId): string =>
+        `/components/${pipelineId}/runs/${id}/results`,
+      tensorboard: (id: TId, pipelineId: TId): string =>
+        `/components/${pipelineId}/runs/${id}/tensorboard`,
+    },
   },
   stacks: {
     base: '/stacks',
