@@ -19,7 +19,9 @@ import stackComponents from '../ui/layouts/stackComponents/Stacks';
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
 import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
-import RunDetail from '../ui/layouts/pipelines/RunDetail';
+import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
+import StacksRunDetail from '../ui/layouts/stacks/RunDetail';
+import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
 const routes = [
@@ -149,32 +151,96 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.base(':id', ':pipelineId'),
-    Component: RunDetail,
+    path: routePaths.run.pipeline.base(':id', ':pipelineId'),
+    Component: PipelineRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
     exact: true,
   },
   {
-    path: routePaths.run.statistics(':id', ':pipelineId'),
-    Component: RunDetail,
+    path: routePaths.run.pipeline.statistics(':id', ':pipelineId'),
+    Component: PipelineRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
     exact: true,
   },
   {
-    path: routePaths.run.results(':id', ':pipelineId'),
-    Component: RunDetail,
+    path: routePaths.run.pipeline.results(':id', ':pipelineId'),
+    Component: PipelineRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
     exact: true,
   },
   {
-    path: routePaths.run.tensorboard(':id', ':pipelineId'),
-    Component: RunDetail,
+    path: routePaths.run.pipeline.tensorboard(':id', ':pipelineId'),
+    Component: PipelineRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.stack.base(':id', ':stackId'),
+    Component: StacksRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.stack.statistics(':id', ':stackId'),
+    Component: StacksRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.stack.results(':id', ':stackId'),
+    Component: StacksRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.stack.tensorboard(':id', ':stackId'),
+    Component: StacksRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.component.base(':id', ':stackId'),
+    Component: ComponentRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.component.statistics(':type', ':id', ':stackId'),
+    Component: ComponentRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.component.results(':id', ':stackId'),
+    Component: ComponentRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.component.tensorboard(':id', ':stackId'),
+    Component: ComponentRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
