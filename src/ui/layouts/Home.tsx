@@ -16,7 +16,6 @@ import {
   icons,
   GhostButton,
   Image,
-  LayoutFlow,
 } from '../components';
 import { getTranslateByScope } from '../../services';
 
@@ -61,8 +60,7 @@ export const Home: React.FC = () => {
 
   return (
     <AuthenticatedLayout>
-      <LayoutFlow />
-      {/* <SidebarContainer>
+      <SidebarContainer>
         <EaseInBox>
           <Box marginTop="5xl">
             <Row style={{ alignItems: 'center' }}>
@@ -102,7 +100,7 @@ export const Home: React.FC = () => {
             </Row>
           </Box>
         </EaseInBox>
-      </SidebarContainer> */}
+      </SidebarContainer>
     </AuthenticatedLayout>
   );
 };
