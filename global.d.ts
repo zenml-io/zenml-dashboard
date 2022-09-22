@@ -60,7 +60,7 @@ interface TMember {
   email: string;
   created_at: Date;
   active: boolean;
-  activation_token: string
+  activation_token: string;
 }
 
 interface TWorkspace {
@@ -79,6 +79,7 @@ interface TPipeline {
   owner: string;
   pipelineConfig: any;
   userId: TId;
+  runs: Array;
 }
 interface TStack {
   id: TId;
