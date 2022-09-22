@@ -51,19 +51,19 @@ export const AuthenticatedHeader: React.FC<{
       className={styles.header}
     >
       <FlexBox alignItems="center">
-        <Box className="d-none d-md-block">
+        {/* <Box className="d-none d-md-block">
           <Link to={routePaths.home}>
             <MaiotLogo />
           </Link>
-        </Box>
+        </Box> */}
         <Box className="d-md-none">
           <LinkBox onClick={() => setMobileMenuOpen(true)}>
             <icons.burger size={iconSizes.md} />
           </LinkBox>
         </Box>
-        <Box marginLeft="xxl" className="d-none d-md-block">
+        {/* <Box marginLeft="xxl" className="d-none d-md-block">
           <Paragraph bold>{organizationName}</Paragraph>
-        </Box>
+        </Box> */}
       </FlexBox>
       <If condition={!!userFullName}>
         {() => (

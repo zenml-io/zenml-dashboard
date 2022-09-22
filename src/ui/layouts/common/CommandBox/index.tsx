@@ -8,3 +8,9 @@ export const CommandBox: React.FC<{ command: string }> = ({ command }) => (
     <Paragraph color="white">{command}</Paragraph>
   </FlexBox>
 );
+
+export const CommandBoxWScroll: React.FC<{ command: string }> = ({ command }) => (
+  <FlexBox padding="sm" fullWidth className={styles.commandWScroll}>
+    <Paragraph color="white">{command}</Paragraph>
+  </FlexBox>
+);

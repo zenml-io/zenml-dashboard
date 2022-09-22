@@ -11,3 +11,13 @@ $commandBgColor: #1d3052;
     font-family: $commandFontFamily;
   }
 }
+
+.commandWScroll {
+  background-color: $commandBgColor;
+  border-radius: 4px;
+  overflow: hidden;
+
+  & p {
+    font-family: $commandFontFamily;
+  }
+}
