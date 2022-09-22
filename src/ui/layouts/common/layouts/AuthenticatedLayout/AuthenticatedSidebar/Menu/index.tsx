@@ -13,7 +13,7 @@ export const Menu: React.FC = () => {
     <>
       <MenuItem
         Icon={() => (
-          <icons.home color={iconColors.darkGrey} size={iconSizes.md} />
+          <icons.home color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.home}
         text={translate('menu.home.text')}
@@ -37,7 +37,7 @@ export const Menu: React.FC = () => {
           );
         }}
         Icon={() => (
-          <icons.stream color={iconColors.darkGrey} size={iconSizes.md} />
+          <icons.stream color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.pipelines.list}
         text={translate('menu.pipelines.text')}
@@ -56,21 +56,21 @@ export const Menu: React.FC = () => {
           );
         }}
         Icon={() => (
-          <icons.code color={iconColors.darkGrey} size={iconSizes.md} />
+          <icons.code color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.stacks.list}
         text={translate('menu.stacks.text')}
       />
       <MenuItem
         Icon={() => (
-          <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
+          <icons.data color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.datasources}
         text={translate('menu.stackComponents.text')}
       />
       <MenuItem
         Icon={() => (
-          <icons.settings color={iconColors.darkGrey} size={iconSizes.md} />
+          <icons.settings color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.settings.personalDetails}
         text={translate('menu.setting.text')}
@@ -78,14 +78,14 @@ export const Menu: React.FC = () => {
       {/* will remove this code later */}
       {/* <MenuItem
         Icon={() => (
-          <icons.table color={iconColors.darkGrey} size={iconSizes.md} />
+          <icons.table color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.models}
         text={translate('menu.models.text')}
       />
       <MenuItem
         Icon={() => (
-          <icons.dashboard color={iconColors.darkGrey} size={iconSizes.md} />
+          <icons.dashboard color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.deployments}
         text={translate('menu.deployments.text')}

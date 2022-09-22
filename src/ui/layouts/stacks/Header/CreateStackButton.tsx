@@ -1,12 +1,11 @@
 import React from 'react';
-import { translate } from './translate';
 import { Box, PrimaryButton } from '../../../components';
 import { useService } from './useService';
 
 import { CommandPopup } from '../../common/CommandPopup';
 
-export const CreatePipelineButton: React.FC = () => {
-  const [createPipelinePopupOpen, setCreatePipelinePopupOpen] = React.useState<
+export const CreateStackButton: React.FC = () => {
+  const [createStackPopupOpen, setCreateStackPopupOpen] = React.useState<
     boolean
   >(false);
 
@@ -22,13 +21,11 @@ export const CreatePipelineButton: React.FC = () => {
       paddingVertical="sm"
       paddingHorizontal="sm"
     >
-      <PrimaryButton onClick={() => setCreatePipelinePopupOpen(true)}>
-        {translate('createButton.text')}
-      </PrimaryButton>
+      <PrimaryButton onClick={() => setCreateStackPopupOpen(true)}>Create Stack</PrimaryButton>
       <CommandPopup
         commandText={commandText}
-        open={createPipelinePopupOpen}
-        setOpen={setCreatePipelinePopupOpen}
+        open={createStackPopupOpen}
+        setOpen={setCreateStackPopupOpen}
       />
     </Box>
   );

@@ -1,14 +1,16 @@
 import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-import { formatDateToDisplay, truncate } from '../../../../../utils';
+import { formatDateToDisplay, truncate, getInitialsFromEmail } from '../../../../../utils';
 import {
   Box,
   FlexBox,
+  ColoredCircle,
   icons,
   LinkBox,
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
+
 // import { Status } from './Status';
 // import { WorkspaceName } from './WorkspaceName';
 // import { UserName } from './UserName';
@@ -20,9 +22,10 @@ export const getHeaderCols = ({
   openStackIds: TId[];
   setOpenStackIds: (ids: TId[]) => void;
 }): HeaderCol[] => {
+
   return [
     {
-      width: '2%',
+      width: '3%',
       renderRow: (stack: TStack) => (
         <LinkBox
           onClick={(e: Event) => {
@@ -37,21 +40,9 @@ export const getHeaderCols = ({
           }}
         >
           <FlexBox justifyContent="center">
-            <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+              <icons.plus color={iconColors.grey} size={iconSizes.lg} />
           </FlexBox>
         </LinkBox>
-      ),
-    },
-
-    {
-      render: () => (
-        <Paragraph size="small" color="black">
-          STACK ID
-        </Paragraph>
-      ),
-      width: '15%',
-      renderRow: (stack: TStack) => (
-        <Paragraph size="small">{truncate(stack.id, ID_MAX_LENGTH)}</Paragraph>
       ),
     },
     {
@@ -60,9 +51,46 @@ export const getHeaderCols = ({
           STACK NAME
         </Paragraph>
       ),
-      width: '13%',
+      width: '8%',
       renderRow: (stack: TStack) => (
         <Paragraph size="small">{stack.name}</Paragraph>
+      ),
+    },
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
+          STACK ID
+        </Paragraph>
+      ),
+      width: '8%',
+      renderRow: (stack: TStack) => (
+        <Paragraph size="small">{truncate(stack.id, ID_MAX_LENGTH)}</Paragraph>
+      ),
+    },
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
+          STATUS
+        </Paragraph>
+      ),
+      width: '8%',
+      renderRow: (stack: TStack) => (
+        <Box>
+            <FlexBox justifyContent='center' style={{ backgroundColor: stack.isShared ? '#47E08B' : '#FF5C93', borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
+              {stack.isShared ? <icons.check color={iconColors.white} size={iconSizes.sm} /> : <icons.close color={iconColors.white} size={iconSizes.sm} />} 
+            </FlexBox>    
+        </Box>
+      ),
+    },
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
+          STACK
+        </Paragraph>
+      ),
+      width: '8%',
+      renderRow: (stack: TStack) => (
+        <Paragraph size="small" style={{ color: '#22BBDD', textDecoration: 'underline' }} >{stack.name}</Paragraph>
       ),
     },
     {
@@ -72,9 +100,19 @@ export const getHeaderCols = ({
         </Paragraph>
       ),
       width: '11%',
-      renderRow: (stack: TStack) => (
-        <Paragraph size="small">{stack.userName}</Paragraph>
-      ),
+      renderRow: (stack: TStack) => {
+        const initials = getInitialsFromEmail(stack.userName);
+        return (
+          <FlexBox alignItems="center">
+            <Box paddingRight="sm">
+              <ColoredCircle color="secondary" size="sm">
+                {initials}
+              </ColoredCircle>
+            </Box>
+            <Paragraph size="small">{stack.userName}</Paragraph>
+          </FlexBox>
+       )
+      }
     },
     {
       render: () => (
@@ -88,7 +126,7 @@ export const getHeaderCols = ({
           <Box paddingRight="sm">
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
-          <Paragraph color="grey" size="tiny">
+          <Paragraph size="tiny">
             {formatDateToDisplay(stack.creationDate)}
           </Paragraph>
         </FlexBox>

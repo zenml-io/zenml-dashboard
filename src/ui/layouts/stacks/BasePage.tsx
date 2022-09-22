@@ -45,7 +45,6 @@ export const BasePage: React.FC<{
             />
           )}
         />
-
         <Box>
           {children}
           <Tabs pages={tabPages} basePath={tabBasePath} />

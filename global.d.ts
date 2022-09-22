@@ -90,9 +90,10 @@ interface TStack {
   userName: string;
   pipelineConfig: any;
   userId: TId;
+  isShared: boolean;
 }
 
-type TRunStatus = 'Succeeded' | 'Running' | 'Failed';
+type TRunStatus = 'Finished' | 'Succeeded' | 'Running' | 'Failed';
 
 interface TRun {
   id: TId;
