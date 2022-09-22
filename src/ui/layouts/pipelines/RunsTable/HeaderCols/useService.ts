@@ -14,7 +14,7 @@ export type SortMethod = (
 interface ServiceInterface {
   toggleSelectRun: (run: TRun) => void;
   isRunSelected: (run: TRun) => boolean;
-  allRunsSelected: (runs: TRun[]) => boolean;
+  // allRunsSelected: (runs: TRun[]) => boolean;
   selectRuns: (runs: TRun[]) => void;
   unselectRuns: (runs: TRun[]) => void;
   sortMethod: SortMethod;
@@ -69,9 +69,9 @@ export const useService = ({
     setSelectedRunIds(newRunIds);
   };
 
-  const allRunsSelected = (runs: TRun[]): boolean => {
-    return runs.every((run: TRun) => isRunSelected(run));
-  };
+  // const allRunsSelected = (runs: TRun[]): boolean => {
+  //   return runs.every((run: TRun) => isRunSelected(run));
+  // };
 
   const sortMethod = (
     sorting: Sorting,
@@ -100,7 +100,7 @@ export const useService = ({
     isRunSelected,
     unselectRuns,
     selectRuns,
-    allRunsSelected,
+    // allRunsSelected,
     sortMethod,
   };
 };

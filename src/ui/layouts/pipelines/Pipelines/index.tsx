@@ -29,12 +29,12 @@ const BREADCRUMBS = [
 ];
 
 export const Pipelines: React.FC = () => {
-  const {
-    setFetching,
-    setCurrentWorkspace,
-    currentWorkspace,
-    workspaces,
-  } = useService();
+  // const {
+  //   setFetching,
+  //   setCurrentWorkspace,
+  //   currentWorkspace,
+  //   workspaces,
+  // } = useService();
 
   return (
     <BasePage
@@ -43,16 +43,17 @@ export const Pipelines: React.FC = () => {
       breadcrumbs={BREADCRUMBS}
       headerWithButtons
       renderHeaderRight={() => (
-        <WorkspaceDropdown
-          workspaces={workspaces}
-          currentWorkspace={currentWorkspace}
-          setCurrentWorkspace={(workspace: TWorkspace): void => {
-            if (currentWorkspace && workspace.id !== currentWorkspace.id) {
-              setFetching(true);
-            }
-            setCurrentWorkspace(workspace);
-          }}
-        />
+        <></>
+        // <WorkspaceDropdown
+        //   workspaces={workspaces}
+        //   currentWorkspace={currentWorkspace}
+        //   setCurrentWorkspace={(workspace: TWorkspace): void => {
+        //     if (currentWorkspace && workspace.id !== currentWorkspace.id) {
+        //       setFetching(true);
+        //     }
+        //     setCurrentWorkspace(workspace);
+        //   }}
+        // />
       )}
     />
   );

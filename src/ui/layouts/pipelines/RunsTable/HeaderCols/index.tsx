@@ -42,7 +42,7 @@ export const useHeaderCols = ({
     isRunSelected,
     selectRuns,
     unselectRuns,
-    allRunsSelected,
+    // allRunsSelected,
     sortMethod,
   } = useService({
     setActiveSortingDirection,
@@ -58,7 +58,7 @@ export const useHeaderCols = ({
       render: () => (
         <FlexBox justifyContent="center">
           <Paragraph size="small" color="grey">
-            <LinkBox
+            {/* <LinkBox
               onClick={() => {
                 if (allRunsSelected(runs)) {
                   unselectRuns(runs);
@@ -70,24 +70,25 @@ export const useHeaderCols = ({
                 styles.checkbox,
                 allRunsSelected(runs) && styles.checkedCheckbox,
               )}
-            />
+            /> */}
           </Paragraph>
         </FlexBox>
       ),
       width: '3%',
       renderRow: (run: TRun) => (
-        <FlexBox justifyContent="center">
-          <LinkBox
-            onClick={(e: Event) => {
-              e.stopPropagation();
-              toggleSelectRun(run);
-            }}
-            className={cn(
-              styles.checkbox,
-              isRunSelected(run) && styles.checkedCheckbox,
-            )}
-          />
-        </FlexBox>
+        <></>
+        // <FlexBox justifyContent="center">
+        //   <LinkBox
+        //     onClick={(e: Event) => {
+        //       e.stopPropagation();
+        //       toggleSelectRun(run);
+        //     }}
+        //     className={cn(
+        //       styles.checkbox,
+        //       isRunSelected(run) && styles.checkedCheckbox,
+        //     )}
+        //   />
+        // </FlexBox>
       ),
     },
     {
