@@ -43,13 +43,12 @@ export const getHeaderCols = ({
       ),
     },
     {
-      width: '13%',
-      renderRow: (pipeline: TPipeline) => (
-        <Paragraph size="small">{pipeline.name}</Paragraph>
+      render: () => (
+        <Paragraph size="small" color="black">
+          NAME
+        </Paragraph>
       ),
-    },
-    {
-      width: '15%',
+      width: '13%',
       renderRow: (pipeline: TPipeline) => (
         <Paragraph size="small">
           {truncate(pipeline.id, ID_MAX_LENGTH)}
@@ -57,18 +56,41 @@ export const getHeaderCols = ({
       ),
     },
     {
+      render: () => (
+        <Paragraph size="small" color="black">
+          ID
+        </Paragraph>
+      ),
+      width: '15%',
+      renderRow: (pipeline: TPipeline) => (
+        <Paragraph size="small">{pipeline.name}</Paragraph>
+      ),
+    },
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
+          STATUS
+        </Paragraph>
+      ),
       width: '10%',
       renderRow: (pipeline: TPipeline) => <Status pipeline={pipeline} />,
     },
+
     {
-      width: '16%',
-      renderRow: (pipeline: TPipeline) => <WorkspaceName pipeline={pipeline} />,
-    },
-    {
+      render: () => (
+        <Paragraph size="small" color="black">
+          AUTHER
+        </Paragraph>
+      ),
       width: '11%',
       renderRow: (pipeline: TPipeline) => <UserName pipeline={pipeline} />,
     },
     {
+      render: () => (
+        <Paragraph size="small" color="black">
+          CREATED AT
+        </Paragraph>
+      ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
         <FlexBox alignItems="center">
@@ -76,7 +98,7 @@ export const getHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(pipeline.createdAt)}
+            {formatDateToDisplay(pipeline.creationDate)}
           </Paragraph>
         </FlexBox>
       ),

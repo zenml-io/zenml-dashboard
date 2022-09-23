@@ -52,7 +52,7 @@ export const useHeaderCols = ({
     activeSortingDirection,
     runs,
   });
-
+  // debugger;
   return [
     {
       render: () => (
@@ -170,6 +170,7 @@ export const useHeaderCols = ({
         </SortingHeader>
       ),
       width: '13%',
+
       renderRow: (run: TRun) => <RunStatus run={run} />,
     },
     {
