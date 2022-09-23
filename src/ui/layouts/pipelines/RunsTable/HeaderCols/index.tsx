@@ -103,11 +103,11 @@ export const useHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="grey">
-            {translate('runId.text')}
+            RUN NAME
           </Paragraph>
         </SortingHeader>
       ),
-      width: '10%',
+      width: '15%',
       renderRow: (run: TRun) => (
         <Paragraph size="small">{truncate(run.id, ID_MAX_LENGTH)}</Paragraph>
       ),
@@ -115,43 +115,28 @@ export const useHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="grey">
-          {translate('pipelineName.text')}
+          PIPELINE NAME
         </Paragraph>
       ),
-      width: '10%',
-      renderRow: (run: TRun) => <PipelineName run={run} />,
-    },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="pipelineRunType"
-          sortMethod={sortMethod('pipelineRunType', {
-            asc: (runs: TRun[]) =>
-              _.orderBy(runs, ['pipelineRunType'], ['asc']),
-            desc: (runs: TRun[]) =>
-              _.orderBy(runs, ['pipelineRunType'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('type.text')}
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '8%',
+      width: '15%',
       renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.pipelineRunType}</Paragraph>
+        <Paragraph size="small">{run.pipeline?.name}</Paragraph>
       ),
+
+      // <PipelineName run={run.pipeline.name} />,
     },
+
     {
       render: () => (
         <Paragraph size="small" color="grey">
-          {translate('runtime.text')}
+          RUM TIME
         </Paragraph>
       ),
-      width: '8%',
-      renderRow: (run: TRun) => <RunTime run={run} />,
+      width: '15%',
+      renderRow: (run: TRun) => (
+        <Paragraph size="small">{run.duration}</Paragraph>
+      ),
+      // <RunTime run={run} />,
     },
     {
       render: () => (
@@ -169,35 +154,11 @@ export const useHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '13%',
+      width: '15%',
 
       renderRow: (run: TRun) => <RunStatus run={run} />,
     },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="datasourceCommit"
-          sortMethod={sortMethod('datasourceCommit', {
-            asc: (runs: TRun[]) =>
-              _.orderBy(runs, ['datasourceCommitId'], ['asc']),
-            desc: (runs: TRun[]) =>
-              _.orderBy(runs, ['datasourceCommitId'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('datasourceCommit.text')}
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '20%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">
-          {truncate(run.datasourceCommitId, ID_MAX_LENGTH)}
-        </Paragraph>
-      ),
-    },
+
     {
       render: () => (
         <Paragraph size="small" color="grey">
@@ -205,7 +166,11 @@ export const useHeaderCols = ({
         </Paragraph>
       ),
       width: '15%',
-      renderRow: (run: TRun) => <RunUser run={run} />,
+      renderRow: (run: TRun) => (
+        <Paragraph size="small">{run.userName}</Paragraph>
+      ),
+
+      // <RunUser run={run} />,
     },
     {
       render: () => (
@@ -233,14 +198,14 @@ export const useHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '10%',
+      width: '15%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
           <Box paddingRight="sm">
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(run.kubeflowStartTime)}
+            {formatDateToDisplay(run.creationDate)}
           </Paragraph>
         </FlexBox>
       ),
