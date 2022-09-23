@@ -25,6 +25,13 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                 </ColoredCircle>
               )}
             </If>
+            <If condition={run.status === runStatus.Running}>
+              {() => (
+                <ColoredCircle color="orange" size="xs">
+                  {/* <icons color={iconColors.orange} size={iconSizes.xs} /> */}
+                </ColoredCircle>
+              )}
+            </If>
             <If condition={run.status === runStatus.Failed}>
               {() => (
                 <ColoredCircle color="red" size="xs">

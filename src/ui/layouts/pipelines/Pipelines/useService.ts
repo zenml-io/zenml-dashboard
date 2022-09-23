@@ -28,18 +28,18 @@ export const useService = (): ServiceInterface => {
   useRequestOnMount(workspacesActions.getMy, {});
 
   useEffect(() => {
-    if (currentWorkspace) {
-      setFetching(true);
-      dispatch(
-        workspacesActions.pipelinesForWorkspaceId({
-          id: currentWorkspace.id,
-          onSuccess: () => setFetching(false),
-          onFailure: () => setFetching(false),
-        }),
-      );
-    } else if (workspaces.length > 0) {
-      setCurrentWorkspace(workspaces[0]);
-    }
+    // if (currentWorkspace) {
+    //   setFetching(true);
+    //   dispatch(
+    //     workspacesActions.pipelinesForWorkspaceId({
+    //       id: currentWorkspace.id,
+    //       onSuccess: () => setFetching(false),
+    //       onFailure: () => setFetching(false),
+    //     }),
+    //   );
+    // } else if (workspaces.length > 0) {
+    //   setCurrentWorkspace(workspaces[0]);
+    // }
   }, []);
 
   const setFetching = (fetching: boolean) => {
@@ -49,16 +49,16 @@ export const useService = (): ServiceInterface => {
   const setCurrentWorkspace = (workspace: TWorkspace | null) => {
     dispatch(pipelinePagesActions.setCurrentWorkspace({ workspace }));
 
-    if (workspace) {
-      setFetching(true);
-      dispatch(
-        workspacesActions.pipelinesForWorkspaceId({
-          id: workspace.id,
-          onSuccess: () => setFetching(false),
-          onFailure: () => setFetching(false),
-        }),
-      );
-    }
+    // if (workspace) {
+    //   setFetching(true);
+    //   dispatch(
+    //     workspacesActions.pipelinesForWorkspaceId({
+    //       id: workspace.id,
+    //       onSuccess: () => setFetching(false),
+    //       onFailure: () => setFetching(false),
+    //     }),
+    //   );
+    // }
   };
 
   return {

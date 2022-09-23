@@ -4,19 +4,20 @@ import cn from 'classnames';
 import {
   FlexBox,
   Box,
-  MaiotLogo,
+  MaiotLogoWhite,
   LinkBox,
   If,
 } from '../../../../../components';
 
 import { Menu } from './Menu';
-
 import styles from './index.module.scss';
+import { SideFooter } from './SideFooter';
 
 export const AuthenticatedSidebar: React.FC<{
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (val: boolean) => void;
-}> = ({ mobileMenuOpen, setMobileMenuOpen }) => (
+}> = ({ mobileMenuOpen, setMobileMenuOpen }) => {
+  return (
   <>
     <If condition={mobileMenuOpen}>
       {() => (
@@ -27,19 +28,29 @@ export const AuthenticatedSidebar: React.FC<{
       )}
     </If>
     <Box
-      // paddingHorizontal="md"
       paddingTop="lg"
       className={cn(styles.sidebar, mobileMenuOpen && styles.mobileSidebarOpen)}
     >
       <FlexBox
         marginBottom="xxl"
         alignItems="center"
-        justifyContent="center"
-        className="d-md-none"
+        paddingLeft="lg"
+        // justifyContent="center"
+        // className="d-md-none"
       >
-        <MaiotLogo />
+        <MaiotLogoWhite />
       </FlexBox>
-      <Menu />
+      
+      <FlexBox
+        flexDirection='column'
+        justifyContent='space-between'
+        style={{ height: '90%' }}
+      >
+        <Box><Menu /></Box>
+        <Box><SideFooter /></Box>
+      </FlexBox>
+    
     </Box>
   </>
-);
+)
+}

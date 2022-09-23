@@ -5,13 +5,15 @@ import React from 'react';
 // import styles from '../index.module.scss';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 // import { translate } from '../translate';
-import { formatDateToDisplay, truncate } from '../../../../../utils';
+import { formatDateToDisplay, truncate, getInitialsFromEmail } from '../../../../../utils';
+
 import {
   FlexBox,
   Paragraph,
   // LinkBox,
   Box,
   icons,
+  ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 // import { RunStatus } from '../RunStatus';
@@ -52,7 +54,6 @@ export const useHeaderCols = ({
     activeSortingDirection,
     runs,
   });
-
   return [
     {
       width: '2%',
@@ -70,7 +71,7 @@ export const useHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black">
-            RUN NAME
+            RUN ID
           </Paragraph>
         </SortingHeader>
       ),
@@ -87,14 +88,14 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.stack.name}</Paragraph>
+        <Paragraph size="small" style={{ color: '#22BBDD', textDecoration: 'underline' }} >{run.stack.name}</Paragraph>
       ),
     },
 
     {
       render: () => (
         <Paragraph size="small" color="black">
-          RUN TIME
+          DURATION
         </Paragraph>
       ),
       width: '10%',
@@ -102,6 +103,21 @@ export const useHeaderCols = ({
         <Paragraph size="small">{run.duration}</Paragraph>
       ),
     },
+
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
+          STATUS
+        </Paragraph>
+      ),
+      width: '10%',
+      renderRow: (run: TRun) => (
+        <Paragraph style={{ justifyContent: 'center', backgroundColor: run.status === "Finished" ? "#47E08B" : "#FF5C93", borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
+            {run.status === "Finished" ? <icons.check color={iconColors.white} size={iconSizes.sm} /> : <icons.close color={iconColors.white} size={iconSizes.sm} />} 
+        </Paragraph>
+      ),
+    },
+
 
     {
       render: () => (
@@ -121,9 +137,20 @@ export const useHeaderCols = ({
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.userName}</Paragraph>
-      ),
+      renderRow: (run: TRun) => {
+        const initials = getInitialsFromEmail(run.userName);
+      console.log(run.status)
+        return (
+        <FlexBox alignItems="center">
+          <Box paddingRight="sm">
+            <ColoredCircle color="secondary" size="sm">
+              {initials}
+            </ColoredCircle>
+          </Box>
+          <Paragraph size="small">{run.userName}</Paragraph>
+        </FlexBox>
+        )
+      }
     },
     {
       render: () => (

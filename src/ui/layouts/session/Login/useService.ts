@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { toasterTypes } from '../../../../constants';
 import {
   organizationActions,
+  pipelinesActions,
   showToasterAction,
   stackComponentsActions,
   userActions,
@@ -36,7 +37,7 @@ export const useService = (): ServiceInterface => {
       if (username.trim() !== '' && password.trim() !== '') {
         dispatch(
           loginAction({
-            password, 
+            password,
             username,
             onFailure: (errorText) => {
               dispatch(
@@ -58,6 +59,7 @@ export const useService = (): ServiceInterface => {
               dispatch(organizationActions.getMy());
               dispatch(userActions.getMy({}));
               dispatch(stackComponentsActions.getTypes());
+              dispatch(pipelinesActions.getMy());
             },
           }),
         );

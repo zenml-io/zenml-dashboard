@@ -72,7 +72,7 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const { runId, stackId, run, billing } = useService();
-  debugger;
+  // debugger;
   const tabPages = getTabPages({
     runId,
     stackId,

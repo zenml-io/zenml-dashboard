@@ -27,6 +27,7 @@ export const TokenPopup: React.FC<{
   const [showTokField, setShowTokField] = useState(false)
 
   const dispatch = useDispatch();
+  
   const inviteCode = useSelector(organizationSelectors.inviteForCode);
   
   const generateToken = () => {
@@ -51,16 +52,18 @@ export const TokenPopup: React.FC<{
         setShowTokField(true)
   };
 
+  const onClose = () => {
+    setShowTokField(false)
+    setSubmitting(false)
+    setPopupOpen(false)
+  }
+
   return (
     <>
     <Paragraph style={{ color:'#8045FF', cursor: 'pointer' }} onClick={() => setPopupOpen(true)} >{!active && 'Pending'}</Paragraph>   
     
     {popupOpen && (
-      <Popup
-        onClose={() => {
-          setPopupOpen(false);
-        }}
-      >
+      <Popup onClose={onClose}>
         <FlexBox.Row alignItems="center" justifyContent="space-between">
           <H3 bold color="darkGrey">
             {translate('popup.generateInviteModal.title')}
