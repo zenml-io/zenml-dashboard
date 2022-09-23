@@ -25,7 +25,7 @@ export const BasePage: React.FC<{
 
   if (!organization) return null;
 
-  const organizationName = organization.name;
+  // const organizationName = organization.name;
 
   return (
     <AuthenticatedLayout>

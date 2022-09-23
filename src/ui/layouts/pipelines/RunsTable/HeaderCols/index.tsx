@@ -1,26 +1,26 @@
 import _ from 'lodash';
 import React from 'react';
-import cn from 'classnames';
+// import cn from 'classnames';
 
-import styles from '../index.module.scss';
+// import styles from '../index.module.scss';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { translate } from '../translate';
 import { formatDateToDisplay, truncate } from '../../../../../utils';
 import {
   FlexBox,
   Paragraph,
-  LinkBox,
+  // LinkBox,
   Box,
   icons,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
-import { RunTime } from '../../RunTime';
-import { RunUser } from '../RunUser';
+// import { RunTime } from '../../RunTime';
+// import { RunUser } from '../RunUser';
 import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
-import { PipelineName } from '../PipelineName';
+// import { PipelineName } from '../PipelineName';
 
 export const useHeaderCols = ({
   runs,
@@ -38,10 +38,10 @@ export const useHeaderCols = ({
   setActiveSorting: (sorting: Sorting | null) => void;
 }): HeaderCol[] => {
   const {
-    toggleSelectRun,
-    isRunSelected,
-    selectRuns,
-    unselectRuns,
+    // toggleSelectRun,
+    // isRunSelected,
+    // selectRuns,
+    // unselectRuns,
     // allRunsSelected,
     sortMethod,
   } = useService({
