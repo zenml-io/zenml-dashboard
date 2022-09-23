@@ -414,10 +414,12 @@ const mockApi = {
     role_id: 'string',
   },
   myUserMockResponse: {
-    id: 'w813dw',
+    id: "246f9afe-d28c-4c31-89ed-b02c089b4374",
     name: 'htahir',
-    creation_date: '2022-09-08T19:23:58.197Z',
-    organization_id: 'string',
+    full_name: "Hamza Tahir",
+    email: "htahir@zenml.io",
+    active: true,
+    organization_id: 'string'
   },
   allRunsByPipelineId: [
     {

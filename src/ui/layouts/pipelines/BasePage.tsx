@@ -34,13 +34,13 @@ export const BasePage: React.FC<{
           condition={!!headerWithButtons}
           renderWhenTrue={() => (
             <Header.HeaderWithButtons
-              breadcrumbs={[{ name: organizationName }, ...breadcrumbs]}
+              breadcrumbs={[...breadcrumbs]}
               renderRight={renderHeaderRight}
             />
           )}
           renderWhenFalse={() => (
             <Header.DefaultHeader
-              breadcrumbs={[{ name: organizationName }, ...breadcrumbs]}
+              breadcrumbs={[...breadcrumbs]}
               renderRight={renderHeaderRight}
             />
           )}

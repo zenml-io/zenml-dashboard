@@ -77,7 +77,7 @@ export const Table: React.FC<TableProps> = ({
                   {headerCols.map((headerCol: HeaderCol, index: number) => (
                     <th
                       className={styles.tableHeadingTh}
-                      style={{ width: headerCol.width }}
+                      style={{ width: headerCol.width, color: '#000', fontWeight: 700 }}
                       key={index}
                     >
                       <Box paddingVertical={showHeader ? 'sm' : null} paddingLeft='lg' >

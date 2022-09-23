@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { FlexBox, Box } from '../../../components';
 import { Breadcrumbs } from '../../common/Breadcrumbs';
 import { CompareRunsButton } from './CompareRunsButton';
-import { CreatePipelineButton } from './CreatePipelineButton';
+import { CreateStackButton } from './CreateStackButton';
 import { DocumentationLink } from './DocumentationLink';
 
 import styles from './index.module.scss';
@@ -47,10 +47,10 @@ const HeaderWithButtons: React.FC<{
       justifyContent="flex-end"
       className={styles.rightWrapper}
     >
-      <Box marginRight="lg" className={styles.dynamicHeaderRight}>
+      {/* <Box marginRight="lg" className={styles.dynamicHeaderRight}>
         {renderRight && renderRight()}
-      </Box>
-      <CreatePipelineButton />
+      </Box> */}
+      <CreateStackButton />
       <CompareRunsButton />
       <DocumentationLink />
     </FlexBox>

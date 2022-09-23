@@ -1,5 +1,5 @@
 /* eslint-disable */
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { toasterTypes } from '../../../../constants';
 import { organizationActions, showToasterAction } from '../../../../redux/actions';
 import { translate } from './translate';
@@ -36,7 +36,6 @@ export const InvitePopup: React.FC<{
 
   const dispatch = useDispatch();
   const invite = useSelector(organizationSelectors.invite);
-  
 
   const inviteNewMembers = () => {
     setHasSubmittedWithErrors(true);

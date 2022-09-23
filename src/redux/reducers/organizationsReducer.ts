@@ -64,7 +64,7 @@ const organizationsReducer = (
 
     case organizationActionTypes.getInviteForCode.success: {
       const inviteCode: any = camelCaseObject(action.payload);
-
+      
       return { ...newState(state, []), inviteCode: inviteCode?.activationToken };
     }
 

@@ -121,7 +121,7 @@ export const TextInput = ({
   type?: string;
 }): JSX.Element => (
   <BaseInput
-    {...props}
+    {...props} 
     hasError={hasError}
     onChange={(e: any): void => {
       onChangeText(e.target.value);
