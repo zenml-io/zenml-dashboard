@@ -98,7 +98,7 @@ interface TStack {
   user?: any;
   isShared?: Boolean;
 }
-type TRunStatus = 'Succeeded' | 'Running' | 'Failed';
+type TRunStatus = 'Finished' | 'Succeeded' | 'Running' | 'Failed';
 
 interface TRun {
   id: TId;

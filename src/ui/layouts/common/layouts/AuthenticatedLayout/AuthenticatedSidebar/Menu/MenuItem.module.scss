@@ -12,6 +12,7 @@ $bgColor: rgba(201, 203, 208, 0.2);
 .menuItem svg path,
 .menuItem p {
   transition: 0.2s ease-in all;
+  color: #fff;
 }
 
 .activeMenuItem,
@@ -19,11 +20,11 @@ $bgColor: rgba(201, 203, 208, 0.2);
   // background-color: $whiteColor;
 
   & p {
-    color: $primaryColor;
+    color: #E8A562;
   }
 
   & svg path {
-    fill: $ButterflyBlue !important;
+    fill: #E8A562 !important;
   }
 }
 .menuItemSideBox{

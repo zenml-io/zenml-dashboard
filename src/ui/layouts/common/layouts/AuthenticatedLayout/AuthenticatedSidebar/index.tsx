@@ -4,13 +4,12 @@ import cn from 'classnames';
 import {
   FlexBox,
   Box,
-  MaiotLogo,
+  MaiotLogoWhite,
   LinkBox,
   If,
 } from '../../../../../components';
 
 import { Menu } from './Menu';
-
 import styles from './index.module.scss';
 
 export const AuthenticatedSidebar: React.FC<{
@@ -27,17 +26,17 @@ export const AuthenticatedSidebar: React.FC<{
       )}
     </If>
     <Box
-      // paddingHorizontal="md"
       paddingTop="lg"
       className={cn(styles.sidebar, mobileMenuOpen && styles.mobileSidebarOpen)}
     >
       <FlexBox
         marginBottom="xxl"
         alignItems="center"
-        justifyContent="center"
-        className="d-md-none"
+        paddingLeft="lg"
+        // justifyContent="center"
+        // className="d-md-none"
       >
-        <MaiotLogo />
+        <MaiotLogoWhite />
       </FlexBox>
       <Menu />
     </Box>
