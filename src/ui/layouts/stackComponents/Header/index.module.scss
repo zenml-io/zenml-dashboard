@@ -1,0 +1,20 @@
+@import '../../../globalStyles.scss';
+
+.header {
+  height: 4rem;
+}
+
+@media (max-width: $md-breakpoint) {
+  .dynamicHeaderRight {
+    margin-right: auto !important;
+  }
+  .rightWrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: $lg-breakpoint) {
+  .header {
+    height: auto;
+  }
+}

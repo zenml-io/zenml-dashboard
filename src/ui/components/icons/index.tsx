@@ -29,6 +29,8 @@ import { ReactComponent as FileText } from './assets/FileText.svg';
 import { ReactComponent as Download } from './assets/Download.svg';
 import { ReactComponent as AlertTriangle } from './assets/AlertTriangle.svg';
 import { ReactComponent as Settings } from './assets/Settings.svg';
+import { ReactComponent as SingleUser } from './assets/SingleUser.svg';
+import { ReactComponent as MultiUser } from './assets/MultiUser.svg';
 
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
@@ -116,6 +118,8 @@ const icons = {
   download: createIcon({ Component: Download, useStroke: true }),
   alertTriangle: createIcon({ Component: AlertTriangle, useStroke: true }),
   settings: createIcon({ Component: Settings }),
+  singleUser: createIcon({ Component: SingleUser }),
+  multiUser: createIcon({ Component: MultiUser }),
 };
 
 export { icons };
