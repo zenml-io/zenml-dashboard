@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import {
   FlexBox,
-  MaiotLogo,
   Box,
   Paragraph,
   ColoredCircle,
@@ -21,7 +20,6 @@ import { DEFAULT_FULL_NAME } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, usePushRoute, useSelector } from '../../../../hooks';
 import { sessionActions } from '../../../../../redux/actions';
-import { Link } from 'react-router-dom';
 import { routePaths } from '../../../../../routes/routePaths';
 
 export const AuthenticatedHeader: React.FC<{
@@ -35,7 +33,6 @@ export const AuthenticatedHeader: React.FC<{
 
   if (!user || !organization) return null;
 
-  const organizationName = organization.name;
   const userFullName = user.fullName || DEFAULT_FULL_NAME;
   const userInitials = getInitials(userFullName);
 

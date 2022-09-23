@@ -27,17 +27,17 @@ const getTabPages = ({
     {
       text: translate('tabs.statistics.text'),
       Component: () => <Statistics runId={runId} pipelineId={pipelineId} />,
-      path: routePaths.run.statistics(runId, pipelineId),
+      path: routePaths.run.pipeline.statistics(runId, pipelineId),
     },
     {
       text: translate('tabs.results.text'),
       Component: () => <Results runId={runId} pipelineId={pipelineId} />,
-      path: routePaths.run.results(runId, pipelineId),
+      path: routePaths.run.pipeline.results(runId, pipelineId),
     },
     {
       text: translate('tabs.tensorboard.text'),
       Component: () => <Tensorboard runId={runId} pipelineId={pipelineId} />,
-      path: routePaths.run.tensorboard(runId, pipelineId),
+      path: routePaths.run.pipeline.tensorboard(runId, pipelineId),
     },
   ];
 };
@@ -63,7 +63,7 @@ const getBreadcrumbs = ({
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.statistics(runId, pipelineId),
+      to: routePaths.run.pipeline.statistics(runId, pipelineId),
     },
   ];
 };
@@ -88,7 +88,7 @@ export const RunDetail: React.FC = () => {
   return (
     <BasePage
       tabPages={tabPages}
-      tabBasePath={routePaths.run.base(runId, pipelineId)}
+      tabBasePath={routePaths.run.pipeline.base(runId, pipelineId)}
       breadcrumbs={breadcrumbs}
     >
       <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
