@@ -80,6 +80,7 @@ interface TPipeline {
   pipelineConfig: any;
   userId: TId;
   runs: Array;
+  configuration: object;
 }
 interface TStack {
   id: TId;

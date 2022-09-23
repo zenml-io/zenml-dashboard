@@ -30,7 +30,7 @@ export const RunsTable: React.FC<{
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService({ pipelineRuns });
+  } = useService({ pipelineRuns, runIds });
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
@@ -38,14 +38,13 @@ export const RunsTable: React.FC<{
   };
 
   const headerCols = useHeaderCols({
-    runs: pipelineRuns,
+    runs: pipelineRuns ? pipelineRuns : sortedRuns,
     setRuns: setSortedRuns,
     activeSorting,
     setActiveSorting,
     activeSortingDirection,
     setActiveSortingDirection,
   });
-  debugger;
 
   return (
     <Table
