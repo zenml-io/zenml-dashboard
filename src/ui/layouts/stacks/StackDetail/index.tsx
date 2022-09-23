@@ -66,7 +66,7 @@ export const StackDetail: React.FC = () => {
           <Paragraph style={{ color: '#515151', marginTop: '10px', fontWeight: "bold" }}>{stack.id}</Paragraph>
         </Box>
         <Box>
-          <Paragraph style={headStyle}>Status</Paragraph>
+          <Paragraph style={headStyle}>Shared</Paragraph>
           <Paragraph style={{ marginTop: '10px', justifyContent: 'center', backgroundColor: stack.isShared ? '#47E08B' : '#FF5C93', borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
             {stack.isShared ? 
               <icons.check color={iconColors.white} size={iconSizes.sm} /> 
