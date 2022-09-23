@@ -25,7 +25,7 @@ export const getHeaderCols = ({
 
   return [
     {
-      width: '3%',
+      width: '2%',
       renderRow: (stack: TStack) => (
         <LinkBox
           onClick={(e: Event) => {
@@ -40,20 +40,9 @@ export const getHeaderCols = ({
           }}
         >
           <FlexBox justifyContent="center">
-              <icons.plus color={iconColors.grey} size={iconSizes.lg} />
+              <icons.chevronDown color={iconColors.grey} size={iconSizes.md} />
           </FlexBox>
         </LinkBox>
-      ),
-    },
-    {
-      render: () => (
-        <Paragraph size="small" color="black">
-          STACK NAME
-        </Paragraph>
-      ),
-      width: '8%',
-      renderRow: (stack: TStack) => (
-        <Paragraph size="small">{stack.name}</Paragraph>
       ),
     },
     {
@@ -70,7 +59,7 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
-          STATUS
+          SHARED
         </Paragraph>
       ),
       width: '8%',

@@ -126,13 +126,13 @@ export const Menu: React.FC = () => {
           /> */}
         </>
       )}
-      <MenuItem
+      {/* <MenuItem
         Icon={() => (
           <icons.settings color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.settings.personalDetails}
         text={translate('menu.setting.text')}
-      />
+      /> */}
       {/* will remove this code later */}
       {/* <MenuItem
         Icon={() => (

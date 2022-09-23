@@ -54,7 +54,6 @@ export const useHeaderCols = ({
     activeSortingDirection,
     runs,
   });
-
   return [
     {
       width: '2%',
@@ -72,7 +71,7 @@ export const useHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black">
-            RUN NAME
+            RUN ID
           </Paragraph>
         </SortingHeader>
       ),
@@ -96,7 +95,7 @@ export const useHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
-          RUN TIME
+          DURATION
         </Paragraph>
       ),
       width: '10%',
