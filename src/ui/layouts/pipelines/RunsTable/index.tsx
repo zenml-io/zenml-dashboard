@@ -12,7 +12,14 @@ export const RunsTable: React.FC<{
   pagination?: boolean;
   emptyStateText: string;
   fetching: boolean;
-}> = ({ runIds, pagination = true, emptyStateText, fetching }) => {
+  pipelineRuns?: any;
+}> = ({
+  runIds,
+  pagination = true,
+  emptyStateText,
+  fetching,
+  pipelineRuns,
+}) => {
   const history = useHistory();
 
   const {
@@ -23,7 +30,7 @@ export const RunsTable: React.FC<{
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService({ runIds });
+  } = useService({ pipelineRuns, runIds });
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
@@ -31,7 +38,7 @@ export const RunsTable: React.FC<{
   };
 
   const headerCols = useHeaderCols({
-    runs: sortedRuns,
+    runs: pipelineRuns ? pipelineRuns : sortedRuns,
     setRuns: setSortedRuns,
     activeSorting,
     setActiveSorting,

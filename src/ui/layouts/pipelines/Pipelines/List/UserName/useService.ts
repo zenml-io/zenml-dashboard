@@ -7,7 +7,7 @@ import { userSelectors } from '../../../../../../redux/selectors';
 
 interface ServiceInterface {
   fetching: boolean;
-  user: TUser;
+  user: any;
 }
 
 export const useService = ({
@@ -18,18 +18,18 @@ export const useService = ({
   const dispatch = useDispatch();
   const [fetching, setFetching] = useState<boolean>(false);
 
-  const user = useSelector(userSelectors.userForId(pipeline.userId));
+  const user = pipeline.user;
 
-  useEffect(() => {
-    setFetching(true);
-    dispatch(
-      userActions.userForId({
-        userId: pipeline.userId,
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
-      }),
-    );
-  }, [pipeline.id]);
+  // useEffect(() => {
+  //   setFetching(true);
+  //   dispatch(
+  //     userActions.userForId({
+  //       userId: pipeline.userId,
+  //       onSuccess: () => setFetching(false),
+  //       onFailure: () => setFetching(false),
+  //     }),
+  //   );
+  // }, [pipeline.id]);
 
   return { fetching, user };
 };

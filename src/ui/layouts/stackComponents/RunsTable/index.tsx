@@ -26,7 +26,7 @@ export const RunsTable: React.FC<{
   } = useService({ runIds });
 
   const openDetailPage = (run: TRun) => {
-    debugger;
+    // debugger;
     setSelectedRunIds([]);
     history.push(
       routePaths.run.component.statistics('alerter', run.id, run.pipelineId),

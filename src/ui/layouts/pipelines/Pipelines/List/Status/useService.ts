@@ -1,6 +1,6 @@
-import { runSelectors } from '../../../../../../redux/selectors';
+// import { runSelectors } from '../../../../../../redux/selectors';
 import { getLastThreeRuns } from '../../../../../../utils';
-import { useSelector } from '../../../../../hooks';
+// import { useSelector } from '../../../../../hooks';
 
 interface ServiceInterface {
   lastThreeRuns: TRun[];
@@ -11,8 +11,8 @@ export const useService = ({
 }: {
   pipeline: TPipeline;
 }): ServiceInterface => {
-  const runs = useSelector(runSelectors.runsForPipelineId(pipeline.id));
-
+  const runs = pipeline.runs;
+  // debugger;
   const lastThreeRuns = getLastThreeRuns(runs);
 
   return { lastThreeRuns };
