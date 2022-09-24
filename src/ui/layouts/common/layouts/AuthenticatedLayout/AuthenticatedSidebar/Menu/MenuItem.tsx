@@ -33,7 +33,7 @@ export const MenuItem: React.FC<{
           )}
         ></Box>
 
-        <FlexBox>
+        <FlexBox style={{ width: '100%' }}>
           <Box paddingLeft={subItem ? 'xl' : 'md'}>
             <Icon />
           </Box>

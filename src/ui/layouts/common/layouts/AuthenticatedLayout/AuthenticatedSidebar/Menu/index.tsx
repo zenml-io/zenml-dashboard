@@ -1,7 +1,7 @@
 import React from 'react';
 import { MenuItem } from './MenuItem';
 import { routePaths } from '../../../../../../../routes/routePaths';
-import { icons } from '../../../../../../components';
+import { Box, Separator, icons } from '../../../../../../components';
 import { iconSizes, iconColors } from '../../../../../../../constants';
 import { translate } from '../translate';
 import { useLocationPath } from '../../../../../../hooks';
@@ -25,11 +25,11 @@ export const Menu: React.FC = () => {
         to={routePaths.home}
         text={translate('menu.home.text')}
         exact
-      />
-      {/* will remove this code later */}
-      {/* <Box marginVertical="md">
-        <Separator.Light />
-      </Box> */}
+      />     
+      <Box marginHorizontal="md">
+        <Separator.LightNew />
+      </Box> 
+
       <MenuItem
         isActive={() => {
           return (

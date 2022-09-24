@@ -1,5 +1,6 @@
 import React from 'react';
 import { MenuItem } from '../Menu/MenuItem';
+import { MenuItemExternal } from './MenuItemExternal';
 import { routePaths } from '../../../../../../../routes/routePaths';
 import { Box, Separator, icons } from '../../../../../../components';
 import { iconSizes, iconColors } from '../../../../../../../constants';
@@ -9,22 +10,22 @@ export const SideFooter: React.FC = () => {
   return (
     <>
      <Box marginHorizontal="md">
-        <Separator.Light />
+        <Separator.LightNew />
       </Box> 
 
-      <MenuItem
+      <MenuItemExternal
         Icon={() => (
-          <icons.stream color={iconColors.white} size={iconSizes.md} />
+          <icons.docs color={iconColors.white} size={iconSizes.md} />
         )}
-        to='/' text="Documentation" exact />  
-      <MenuItem
+        to='https://www.google.com/' text="Documentation" />  
+      <MenuItemExternal
         Icon={() => (
-          <icons.rocket color={iconColors.white} size={iconSizes.md} />
-        )} to='/' text="Example & Tutorials" exact />  
-      <MenuItem
+          <icons.example color={iconColors.white} size={iconSizes.md} />
+        )} to='https://www.google.com/' text="Example & Tutorials" />  
+      <MenuItemExternal
         Icon={() => (
-          <icons.tool color={iconColors.white} size={iconSizes.md} />
-        )} to='/' text="Report Issue" exact />  
+          <icons.tool color={iconColors.white} size={iconSizes.md} /> 
+        )} to='https://www.google.com/' text="Report Issue" />  
       <MenuItem
         Icon={() => (
           <icons.settings color={iconColors.white} size={iconSizes.md} />

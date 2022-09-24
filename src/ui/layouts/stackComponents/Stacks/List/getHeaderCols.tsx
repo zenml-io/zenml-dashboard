@@ -1,7 +1,7 @@
 import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-import { formatDateToDisplay, truncate } from '../../../../../utils';
-import { Box, FlexBox, icons, Paragraph } from '../../../../components';
+import { formatDateToDisplay, truncate, getInitialsFromEmail } from '../../../../../utils';
+import { Box, FlexBox, icons, Paragraph, ColoredCircle } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 // import { Status } from './Status';
 // import { WorkspaceName } from './WorkspaceName';
@@ -22,7 +22,7 @@ export const getHeaderCols = ({
 
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: "12px" }}>
           ID
         </Paragraph>
       ),
@@ -35,7 +35,7 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: "12px" }}>
           NAME
         </Paragraph>
       ),
@@ -46,7 +46,7 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: "12px" }}>
           FLAVOUR
         </Paragraph>
       ),
@@ -57,7 +57,7 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: "12px" }}>
           Shared
         </Paragraph>
       ),
@@ -72,18 +72,28 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: "12px" }}>
           USER
         </Paragraph>
       ),
       width: '15%',
-      renderRow: (stackComponent: TStack) => (
-        <Paragraph size="small">{stackComponent.user.name}</Paragraph>
-      ),
-    },
+      renderRow: (stackComponent: TStack) => {
+        const initials = getInitialsFromEmail(stackComponent.user.name);
+        return (
+          <FlexBox alignItems="center">
+          <Box paddingRight="sm">
+            <ColoredCircle color="secondary" size="sm">
+              {initials}
+            </ColoredCircle>
+          </Box>
+          <Paragraph size="small">{stackComponent.user.name}</Paragraph>
+        </FlexBox>
+       )
+      }
+     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: "12px" }}>
           CREATED AT
         </Paragraph>
       ),

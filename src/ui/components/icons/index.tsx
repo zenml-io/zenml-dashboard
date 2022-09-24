@@ -31,6 +31,8 @@ import { ReactComponent as AlertTriangle } from './assets/AlertTriangle.svg';
 import { ReactComponent as Settings } from './assets/Settings.svg';
 import { ReactComponent as SingleUser } from './assets/SingleUser.svg';
 import { ReactComponent as MultiUser } from './assets/MultiUser.svg';
+import { ReactComponent as Docs } from './assets/Docs.svg';
+import { ReactComponent as Example } from './assets/Example.svg';
 
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
@@ -120,6 +122,8 @@ const icons = {
   settings: createIcon({ Component: Settings }),
   singleUser: createIcon({ Component: SingleUser }),
   multiUser: createIcon({ Component: MultiUser }),
+  docs: createIcon({ Component: Docs }),
+  example: createIcon({ Component: Example }),
 };
 
 export { icons };

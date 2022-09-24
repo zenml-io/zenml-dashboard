@@ -56,7 +56,7 @@ export const StackDetail: React.FC = () => {
   return (
     <BasePage
       headerWithButtons={false}
-      tabPages={tabPages}
+      tabPages={tabPages} 
       tabBasePath={routePaths.stack.base(stack.id)}
       breadcrumbs={breadcrumbs}
     >
