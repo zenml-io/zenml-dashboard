@@ -48,15 +48,16 @@ export const useService = (
     ).reverse();
 
     const isValidFilter = filter.map((f) => f.value).join('');
-
     if (isValidFilter) {
       filter.forEach((f) => {
-        orderedStacks = orderedStacks.filter((os: any) => {
-          if (f.column || f.value) {
-            return os[f.column].toLowerCase().includes(f.value.toLowerCase());
-          }
-          return true;
-        });
+        if (f.type === 'contains') {
+          orderedStacks = orderedStacks.filter((os: any) => {
+            if (f.column || f.value) {
+              return os[f.column].toLowerCase().includes(f.value.toLowerCase());
+            }
+            return true;
+          });
+        }
       });
     }
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, forwardRef } from 'react';
 import { translate } from './translate';
 import { List } from './List';
 import { BasePage } from '../BasePage';
@@ -15,7 +15,9 @@ import {
 } from '../../../components';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { iconColors, iconSizes } from '../../../../constants';
+import DatePicker from 'react-datepicker';
 import styles from './WorkspaceDropdown.module.scss';
+import 'react-datepicker/dist/react-datepicker.css';
 
 function getInitialFilterState() {
   const initialFilterState = {
@@ -74,7 +76,7 @@ const FilterComponent = () => {
   }
 
   function hanldeDelete(index: number) {
-    filters.splice(1, 1);
+    filters.splice(index, 1);
     setFilter([...filters]);
   }
 
@@ -90,10 +92,27 @@ const FilterComponent = () => {
           />
         );
       case 'equal':
+        const ExampleCustomInput = forwardRef(
+          ({ value, onClick }: any, ref: any) => (
+            <div
+              className={`${styles.datePickerField} justify-content-between`}
+              onClick={onClick}
+              ref={ref}
+            >
+              <div>{value}</div>
+              <div>
+                <icons.calendar size={iconSizes.md} color={iconColors.grey} />
+              </div>
+            </div>
+          ),
+        );
+        // date-picker
         return (
-          <div className={`${styles.datePickerField} justify-content-end`}>
-            <icons.calendar size={iconSizes.md} color={iconColors.grey} />
-          </div>
+          <DatePicker
+            selected={filter.filterValue}
+            onChange={(value: any) => handleValueFieldChange(filter, value)}
+            customInput={<ExampleCustomInput />}
+          />
         );
       default:
         return (
