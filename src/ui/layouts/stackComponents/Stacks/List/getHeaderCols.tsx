@@ -63,12 +63,11 @@ export const getHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) =>
-        stackComponent.isShared ? (
-          <icons.multiUser color={iconColors.primary} size={iconSizes.md} />
-        ) : (
-          <icons.singleUser color={iconColors.primary} size={iconSizes.md} />
-        ),
-      // <Paragraph size="small">{stackComponent.isShared}</Paragraph>
+        <Box>
+            <FlexBox justifyContent='center' style={{ backgroundColor: stackComponent.isShared ? '#431D93' : '#FF5C93', borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
+              {stackComponent.isShared ? <icons.check color={iconColors.white} size={iconSizes.sm} /> : <icons.close color={iconColors.white} size={iconSizes.sm} />} 
+            </FlexBox>    
+        </Box>
     },
     {
       render: () => (

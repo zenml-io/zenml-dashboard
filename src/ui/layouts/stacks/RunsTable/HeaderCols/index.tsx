@@ -112,7 +112,7 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph style={{ justifyContent: 'center', backgroundColor: run.status === "Finished" ? "#47E08B" : "#FF5C93", borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
+        <Paragraph style={{ justifyContent: 'center', backgroundColor: run.status === "Finished" ? "#431D93" : run.status === 'In Progress' ? '#ffff00' : "#FF5C93", borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
             {run.status === "Finished" ? <icons.check color={iconColors.white} size={iconSizes.sm} /> : <icons.close color={iconColors.white} size={iconSizes.sm} />} 
         </Paragraph>
       ),

@@ -7,10 +7,12 @@ import mockApi from '../mockApiData';
 const updateUserEmailApi = ({
   authenticationToken,
   userId,
+  username,
   email,
 }: {
   authenticationToken: string;
   userId:string;
+  username: string;
   email: string;
 }): Promise<TUser> =>
   fetchApiWithAuthRequest({
@@ -21,7 +23,7 @@ const updateUserEmailApi = ({
       'Content-Type': 'application/json',
     },
     data: JSON.stringify({
-      email
+     username, email
     }),
   }).catch((res) => {
     if (process.env.REACT_APP_MOCKAPI_RESPONSE) {

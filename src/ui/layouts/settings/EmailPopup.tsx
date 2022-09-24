@@ -20,8 +20,9 @@ import { toasterTypes } from '../../../constants';
 export const EmailPopup: React.FC<{
   userId: any;
   email: any;
+  username: any;
   setPopupOpen: (attr: boolean) => void;
-}> = ({ userId, email, setPopupOpen }) => {
+}> = ({ userId, email, username, setPopupOpen }) => {
 
   const [submitting, setSubmitting] = useState(false);
 
@@ -34,6 +35,7 @@ export const EmailPopup: React.FC<{
       userActions.updateUserEmail({
         userId,
         email,
+        username,
         onFailure: () => {
           setSubmitting(false);
           dispatch(
@@ -56,7 +58,6 @@ export const EmailPopup: React.FC<{
       }),
     );
   };
-
 
   return (
     <Popup onClose={() => setPopupOpen(false)} >

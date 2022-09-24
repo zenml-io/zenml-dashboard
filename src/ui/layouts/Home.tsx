@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React from 'react';
+import React, { useState } from 'react';
 import { AuthenticatedLayout } from './common/layouts/AuthenticatedLayout';
 
 import { SidebarContainer } from './common/layouts/SidebarContainer';
@@ -15,6 +15,7 @@ import {
   ColoredCircle,
   icons,
   GhostButton,
+  Paragraph,
   Image,
 } from '../components';
 import { getTranslateByScope } from '../../services';
@@ -22,7 +23,6 @@ import { getTranslateByScope } from '../../services';
 import styles from './Home.module.scss';
 import { iconColors } from '../../constants';
 import { usePushRoute } from '../hooks';
-import image from './home-image.png';
 
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
@@ -58,45 +58,68 @@ const GreyBoxWithIcon: React.FC<{
 export const Home: React.FC = () => {
   const { push } = usePushRoute();
 
+  const [box, setBox] = useState('')
+
+  const dashData = [
+    { number: 204, text: 'Number of Users' },
+    { number: 124, text: 'Number of Stacks' },
+    { number: 245, text: 'Number of Components' },
+    { number: 434, text: 'Number of Pipelines' }
+  ]
+
   return (
     <AuthenticatedLayout>
       <SidebarContainer>
         <EaseInBox>
-          <Box marginTop="5xl">
+          <Box marginTop="5xl" marginLeft='xl' >
             <Row style={{ alignItems: 'center' }}>
-              <Col xs={12} lg={7}>
+              <Col xs={12} lg={10}>
                 <Box paddingBottom="md">
                   <H2 bold>{translate('title')}</H2>
                 </Box>
-                <Box paddingBottom="xxxl">
+                <Box paddingBottom="lg">
                   <H4 bold>{translate('subtitle')}</H4>
                 </Box>
-                <GreyBoxWithIcon
-                  onClick={() =>
-                    window.open(translate('cardOne.button.href'), '_blank')
-                  }
-                  IconComponent={<icons.bookOpen color={iconColors.white} />}
-                  title={translate('cardOne.title')}
-                  buttonText={translate('cardOne.button.text')}
-                />
-                <GreyBoxWithIcon
-                  onClick={() => window.open(translate('cardTwo.button.href'), '_blank')}
-                  IconComponent={<icons.tool color={iconColors.white} />}
-                  title={translate('cardTwo.title')}
-                  buttonText={translate('cardTwo.button.text')}
-                />
-                <GreyBoxWithIcon
-                  onClick={() => window.open(translate('cardThree.button.href'), '_blank')}
-                  IconComponent={<icons.userPlus color={iconColors.white} />}
-                  title={translate('cardThree.title')}
-                  buttonText={translate('cardThree.button.text')}
-                />
+      
+                <FlexBox>
+                  {dashData.map((e) => (
+                    <Box marginRight="xxl" style={{ width: '220px', height: '100px', border: '1px solid #C9CBD0', borderRadius: '6px', padding: '13px 14px', backgroundColor: box === e.text ? '#431D93' : '#fff' }} onClick={() => setBox(e.text)} >
+                      <Paragraph style={{ fontSize: '24px', fontWeight: "bold", color: box === e.text ? '#fff' : '#431D93' }}>{e.number}</Paragraph>
+                      <Paragraph style={{ fontSize: '14px', fontWeight: "inherit", color:  box === e.text ? '#fff' : '#646972', marginTop: '38px' }}>{e.text}</Paragraph>
+                    </Box>
+                  ))}
+                </FlexBox>
               </Col>
-              <Col xs={12} lg={5} style={{ paddingRight: 0 }}>
+              
+              <Col xs={12} lg={7}>
+                <Box marginTop="xxxl" >                
+                  <GreyBoxWithIcon
+                    onClick={() =>
+                      window.open(translate('cardOne.button.href'), '_blank')
+                    }
+                    IconComponent={<icons.bookOpen color={iconColors.white} />}
+                    title={translate('cardOne.title')}
+                    buttonText={translate('cardOne.button.text')}
+                  />
+                  <GreyBoxWithIcon
+                    onClick={() => window.open(translate('cardTwo.button.href'), '_blank')}
+                    IconComponent={<icons.tool color={iconColors.white} />}
+                    title={translate('cardTwo.title')}
+                    buttonText={translate('cardTwo.button.text')}
+                  />
+                  <GreyBoxWithIcon
+                    onClick={() => window.open(translate('cardThree.button.href'), '_blank')}
+                    IconComponent={<icons.userPlus color={iconColors.white} />}
+                    title={translate('cardThree.title')}
+                    buttonText={translate('cardThree.button.text')}
+                  />
+                </Box>
+              </Col>
+              {/* <Col xs={12} lg={5} style={{ paddingRight: 0 }}>
                 <Box>
                   <Image style={{ maxWidth: '100%' }} src={image} />
                 </Box>
-              </Col>
+              </Col> */}
             </Row>
           </Box>
         </EaseInBox>

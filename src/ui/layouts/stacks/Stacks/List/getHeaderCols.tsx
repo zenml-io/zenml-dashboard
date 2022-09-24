@@ -25,7 +25,7 @@ export const getHeaderCols = ({
 
   return [
     {
-      width: '2%',
+      width: '3%',
       renderRow: (stack: TStack) => (
         <LinkBox
           onClick={(e: Event) => {
@@ -40,7 +40,7 @@ export const getHeaderCols = ({
           }}
         >
           <FlexBox justifyContent="center">
-              <icons.chevronDown color={iconColors.grey} size={iconSizes.md} />
+              <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
           </FlexBox>
         </LinkBox>
       ),
@@ -65,7 +65,7 @@ export const getHeaderCols = ({
       width: '8%',
       renderRow: (stack: TStack) => (
         <Box>
-            <FlexBox justifyContent='center' style={{ backgroundColor: stack.isShared ? '#47E08B' : '#FF5C93', borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
+            <FlexBox justifyContent='center' style={{ backgroundColor: stack.isShared ? '#431D93' : '#FF5C93', borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
               {stack.isShared ? <icons.check color={iconColors.white} size={iconSizes.sm} /> : <icons.close color={iconColors.white} size={iconSizes.sm} />} 
             </FlexBox>    
         </Box>

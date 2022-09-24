@@ -70,7 +70,7 @@ export const StackDetail: React.FC = () => {
         </Box>
         <Box>
           <Paragraph style={headStyle}>Shared</Paragraph>
-          <Paragraph style={{ marginTop: '10px', justifyContent: 'center', backgroundColor: stackComponent.isShared ? '#47E08B' : '#FF5C93', borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
+          <Paragraph style={{ marginTop: '10px', justifyContent: 'center', backgroundColor: stackComponent.isShared ? '#431D93' : '#FF5C93', borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
             {stackComponent.isShared ? 
               <icons.check color={iconColors.white} size={iconSizes.sm} /> 
               : <icons.close color={iconColors.white} size={iconSizes.sm} />

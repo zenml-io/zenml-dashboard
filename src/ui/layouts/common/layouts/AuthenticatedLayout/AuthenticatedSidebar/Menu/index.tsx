@@ -44,7 +44,7 @@ export const Menu: React.FC = () => {
           );
         }}
         Icon={() => (
-          <icons.stream color={iconColors.white} size={iconSizes.md} />
+          <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.pipelines.list}
         text={translate('menu.pipelines.text')}
@@ -63,7 +63,7 @@ export const Menu: React.FC = () => {
           );
         }}
         Icon={() => (
-          <icons.code color={iconColors.white} size={iconSizes.md} />
+          <icons.stack color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.stacks.list}
         text={translate('menu.stacks.text')}
@@ -71,7 +71,7 @@ export const Menu: React.FC = () => {
       {/* <div onClick={() => console.log('asdasd')}> */}
       <MenuItem
         Icon={() => (
-          <icons.data color={iconColors.white} size={iconSizes.md} />
+          <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.stackComponents.base(
           stackComponentsTypes ? stackComponentsTypes[0] : '',

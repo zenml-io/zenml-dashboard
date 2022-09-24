@@ -13,16 +13,13 @@ export const RunsForStackTable: React.FC<{
   nestedRow: boolean;
 }> = ({ stack, openStackIds, fetching, nestedRow }) => {
   const { runIds, isStackOpen } = useService({
-    stack,
+    stack, 
     openStackIds,
   });
-  console.log('stack: ', stack);
 
   if (!isStackOpen()) return null;
-
   if (nestedRow) {
     const nestedRowtiles = [];
-
     for (const [key] of Object.entries(stack.components)) {
       nestedRowtiles.push({
         type: key,
@@ -40,7 +37,6 @@ export const RunsForStackTable: React.FC<{
     return (
       <>
         <NestedRow tiles={nestedRowtiles} />
-        {/* <NestedRow tiles={nestedRowtiles} />; */}
       </>
     );
   }

@@ -26,9 +26,15 @@ $bgColor: rgba(201, 203, 208, 0.2);
 }
 
 .menuItemSideBox{
-  width: 3px;
-  height: 26px;
+  width: 6px;
+  height: 30px;
   background: #E8A562 !important;
   border-top-right-radius: 10.25px;
   border-bottom-right-radius: 10.25px;
+}
+
+.menuItemSideBoxUn {
+  width: 6px;
+  height: 30px;
+  background: transparent !important;
 }

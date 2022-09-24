@@ -9,8 +9,6 @@ import {
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
-import { Status } from './Status';
-import { WorkspaceName } from './WorkspaceName';
 import { UserName } from './UserName';
 
 export const getHeaderCols = ({
@@ -22,7 +20,7 @@ export const getHeaderCols = ({
 }): HeaderCol[] => {
   return [
     {
-      width: '2%',
+      width: '3%',
       renderRow: (pipeline: TPipeline) => (
         <LinkBox
           onClick={(e: Event) => {
@@ -43,40 +41,64 @@ export const getHeaderCols = ({
       ),
     },
     {
+      render: () => (
+        <Paragraph size="small" color="black">Pipeline</Paragraph>
+      ),
       width: '13%',
       renderRow: (pipeline: TPipeline) => (
         <Paragraph size="small">{pipeline.name}</Paragraph>
       ),
     },
-    {
+
+
+    {      
+      render: () => (
+        <Paragraph size="small" color="black">Pipeline ID</Paragraph>
+      ),
       width: '15%',
-      renderRow: (pipeline: TPipeline) => (
+      renderRow: (pipeline: TPipeline) => (   
         <Paragraph size="small">
           {truncate(pipeline.id, ID_MAX_LENGTH)}
         </Paragraph>
       ),
     },
     {
+      render: () => (
+        <Paragraph size="small" color="black">Shared</Paragraph>
+      ),
       width: '10%',
-      renderRow: (pipeline: TPipeline) => <Status pipeline={pipeline} />,
+      renderRow: (pipeline: TPipeline) => (
+        <Box>
+          <FlexBox justifyContent='center' style={{ backgroundColor: pipeline.isShared ? '#431D93' : '#FF5C93', borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
+            {pipeline.isShared ? <icons.check color={iconColors.white} size={iconSizes.sm} /> : <icons.close color={iconColors.white} size={iconSizes.sm} />} 
+          </FlexBox>    
+        </Box>
+      ) 
     },
+    // {
+    //   width: '16%',
+    //   renderRow: (pipeline: TPipeline) => <WorkspaceName pipeline={pipeline} />,
+    // },
     {
-      width: '16%',
-      renderRow: (pipeline: TPipeline) => <WorkspaceName pipeline={pipeline} />,
-    },
-    {
+      render: () => (
+        <Paragraph size="small" color="black">Author</Paragraph>
+      ),
       width: '11%',
       renderRow: (pipeline: TPipeline) => <UserName pipeline={pipeline} />,
     },
     {
+      render: () => (
+        <Paragraph size="small" color="black">Created At</Paragraph>
+      ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
         <FlexBox alignItems="center">
           <Box paddingRight="sm">
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
-          <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(pipeline.createdAt)}
+          <Paragraph color="black" size="tiny">
+        {console.log(pipeline)}
+            {formatDateToDisplay(pipeline.creationDate)}
           </Paragraph>
         </FlexBox>
       ),
