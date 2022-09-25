@@ -19,7 +19,7 @@ const getAllRunsByStackIdApi = ({
     if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
       res = {
         data: {
-          runsByPipeline: mockApi.allRunsByPipelineId,
+          runsByStack: mockApi.allRunsByStackId,
           stackId,
         },
       };

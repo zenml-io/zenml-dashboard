@@ -4,6 +4,7 @@ import {
   workspaceActionTypes,
   runActionTypes,
   stackComponentActionTypes,
+  stackActionTypes,
 } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
@@ -148,6 +149,30 @@ const runsReducer = (state: State = initialState, action: Action): State => {
         ...newState(state, runs),
         myRunIds,
         byPipelineId,
+      };
+    }
+    case stackActionTypes.getRunsByStackId.success: {
+      const payload = action.payload;
+
+      const runsFromStack = payload.runsByStack.map((run: TRun) => ({
+        ...run,
+        // projectName: payload.projectName,
+        stackId: payload.stackId,
+      }));
+
+      const runs: TRun[] = camelCaseArray(runsFromStack);
+      const myRunIds: TId[] = runs.map((run: TRun) => run.id);
+
+      const byStackId: Record<TId, TId[]> = {
+        ...state.byStackId,
+      };
+
+      byStackId[payload.stackId] = runs.map((run: TRun) => run.id);
+      return {
+        ...state,
+        ...newState(state, runs),
+        myRunIds,
+        byStackId,
       };
     }
     case stackComponentActionTypes.getRunsByStackComponentId.success: {
