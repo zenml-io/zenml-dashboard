@@ -1,7 +1,11 @@
 /* eslint-disable */
 
 import { StackDetailRouteParams } from '.';
-import { pipelinesActions, stacksActions } from '../../../../redux/actions';
+import {
+  pipelinesActions,
+  stackComponentsActions,
+  stacksActions,
+} from '../../../../redux/actions';
 import {
   stackComponentSelectors,
   stackSelectors,
@@ -30,8 +34,8 @@ export const useService = (): ServiceInterface => {
     //   }),
     // );
     dispatch(
-      pipelinesActions.allRunsByPipelineId({
-        pipelineId: id,
+      stackComponentsActions.allRunsByStackComponentId({
+        stackComponentId: id,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

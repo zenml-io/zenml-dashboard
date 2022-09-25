@@ -3,8 +3,10 @@ import { translate } from '../translate';
 import { RunsTable } from '../../RunsTable';
 import { useService } from './useService';
 
-export const Runs: React.FC<{ stackId: TId }> = ({ stackId }) => {
-  const { fetching, runIds } = useService({ stackId });
+export const Runs: React.FC<{ stackComponentId: TId }> = ({
+  stackComponentId,
+}) => {
+  const { fetching, runIds } = useService({ stackComponentId });
   // debugger;
 
   return (

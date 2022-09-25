@@ -9,11 +9,17 @@ interface ServiceInterface {
   runIds: TId[];
 }
 
-export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
+export const useService = ({
+  stackComponentId,
+}: {
+  stackComponentId: TId;
+}): ServiceInterface => {
   const fetching = useSelector(stackPagesSelectors.fetching);
-  const runs: TRun[] = useSelector(runSelectors.runsForPipelineId(stackId));
-  // debugger;
-  const runIds = runs.map((run: TRun) => run.id);
+  const runs: TRun[] = useSelector(
+    runSelectors.runsForStackComponentId(stackComponentId),
+  );
 
+  const runIds = runs.map((run: TRun) => run.id);
+  // debugger;
   return { fetching, runIds };
 };

@@ -6,6 +6,6 @@ import { getStackComponentTypesAction } from './getStackComponentTypesAction';
 export const stackComponentsActions = {
   getTypes: getStackComponentTypesAction,
   getMy: getStackComponentListAction,
-  stackForId: getStackComponentByIdAction,
-  allRunsByStackId: getAllRunsByStackComponentId,
+  stackComponentForId: getStackComponentByIdAction,
+  allRunsByStackComponentId: getAllRunsByStackComponentId,
 };

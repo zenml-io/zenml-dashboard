@@ -17,7 +17,7 @@ const getTabPages = (stackId: TId): TabPage[] => {
     },
     {
       text: translate('tabs.runs.text'),
-      Component: () => <Runs stackId={stackId} />,
+      Component: () => <Runs stackComponentId={stackId} />,
       path: routePaths.stackComponents.runs(stackId),
     },
   ];

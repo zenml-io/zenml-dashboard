@@ -443,6 +443,28 @@ const mockApi = {
       creation_date: '2022-08-12T07:12:45.931Z',
     },
   ],
+  allRunsByStackComponentId: [
+    {
+      id: '68be3034',
+      name: 'stackCompoent_training_pipeline_run_4921',
+      zenml_version: '0.12.0',
+      duration: 'string',
+      git_sha: '73841b4',
+      pipeline: {
+        name: 'cat_stackComponentRun_detection_training_pipeline',
+        id: '9eaa2d6',
+      },
+      stack: {
+        name: 'prod_stack',
+        id: '9lg2jk3',
+      },
+      status: 'Succeeded',
+      project_id: 'op985f64-5717-4562-b3fc-2c963f66afa6',
+      user_id: '3fa85f64-5717-4562-b3fc-2c963f66afa6',
+      user_name: 'Hamza Tahir',
+      creation_date: '2022-08-12T07:12:45.931Z',
+    },
+  ],
   // myUserMockResponse: {
   //   email: 'string',
   //   full_name: 'string',

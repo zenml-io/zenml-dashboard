@@ -6,21 +6,21 @@ import mockApi from '../mockApiData';
 
 const getAllRunsByStackComponentIdApi = ({
   authenticationToken,
-  stackId,
+  stackComponentId,
 }: {
   authenticationToken: string;
-  stackId: TId;
+  stackComponentId: TId;
 }): Promise<TOrganization> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.Stacks.get(stackId)), // todo: get runs by pipeline id please update endpoint
+    url: apiUrl(endpoints.Stacks.get(stackComponentId)), // todo: get runs by pipeline id please update endpoint
     method: httpMethods.get,
     authenticationToken,
   }).catch((res) => {
     if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
       res = {
         data: {
-          runsByPipeline: mockApi.allRunsByPipelineId,
-          stackId,
+          runsByStackComponent: mockApi.allRunsByStackComponentId,
+          stackComponentId,
         },
       };
     }
