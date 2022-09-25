@@ -39,6 +39,11 @@ function getInitialFilterState() {
           type: 'string',
         },
         {
+          value: 'isShared',
+          label: 'Shared',
+          type: 'boolean',
+        },
+        {
           value: 'creationDate',
           label: 'Created at',
           type: 'date',
@@ -88,6 +93,16 @@ function getInitialFilterState() {
           label: 'Equal',
           type: 'date',
         },
+        {
+          value: 'true',
+          label: 'True',
+          type: 'boolean',
+        },
+        {
+          value: 'false',
+          label: 'false',
+          type: 'boolean',
+        },
       ],
     },
     filterValue: '',
@@ -104,6 +119,12 @@ const FilterComponent = () => {
     filter[key].selectedValue = filter[key].options.filter(
       (option: any) => option.value === value,
     )[0];
+    if (key === 'contains' && (value === 'true' || value === 'false')) {
+      filter.filterValue = value;
+      setFilter([...filters]);
+      return;
+    }
+
     if (key === 'column') {
       filter.contains.selectedValue = { value: '', label: '', type: '' };
       filter.filterValue = '';

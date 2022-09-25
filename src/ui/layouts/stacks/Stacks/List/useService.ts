@@ -171,6 +171,16 @@ export const useService = (
             });
           }
         }
+
+        if (f.column.type === 'boolean') {
+          orderedStacks = orderedStacks.filter((os: any) => {
+            if (f.column.value && f.value) {
+              const filterValue = f.type.value === 'true' ? true : false;
+              return os[f.column.value] === filterValue;
+            }
+            return true;
+          });
+        }
       });
     }
 
