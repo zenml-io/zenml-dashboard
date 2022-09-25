@@ -6,7 +6,7 @@ export const getMembersAction = ({
   onFailure,
 }: {
   onSuccess?: () => void;
-  onFailure?: () => void;
+  onFailure?: (err: any) => void;
 }): TRequestAction => ({
   type: organizationActionTypes.getMembers.request,
   payload: {

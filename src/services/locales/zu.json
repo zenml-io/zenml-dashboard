@@ -36,11 +36,32 @@
               "email": {
                 "label": "Email address",
                 "placeholder": "john.doe@acme.com"
+              },
+              "passwordChange": {
+                "currentPassword": {
+                  "label": "Current Password",
+                  "placeholder": "Current Password",
+                  "required": "Current Password Required"
+                },
+                "newPassword": {
+                  "label": "New Password",
+                  "placeholder": "New Password",
+                  "required": "New Password Required"
+                },
+                "confirmPassword": {
+                  "label": "Confirm Password",
+                  "placeholder": "Confirm Password",
+                  "required": "Confirm Password Required"
+                }
               }
             },
             "passwordReset": {
-              "label": "Password",
+              "label": "Change Password",
               "button": "Change Password"
+            },
+            "emailReset": {
+              "label": "Change Email",
+              "button": "Change Email"
             },
             "toasts": {
               "successful": {
@@ -49,7 +70,17 @@
               "failed": {
                 "text": "Something went wrong. Please try again."
               }
-            }
+            },
+            "popup": {
+                "title": "Change Email",
+                "text": "Are you sure to change your email",
+                "successButton": {
+                  "text": "Yes"
+                },
+                "cancelButton": {
+                  "text": "No"
+                }
+              }
           },
           "BillingSettings": {
             "title": "Billing",
@@ -126,7 +157,7 @@
           },
           "OrganizationSettings": {
             "button": {
-              "text": "Invite  new Member"
+              "text": "New Invite"
             },
             "popup": {
               "title": "Add a new Member",
@@ -142,11 +173,33 @@
                 "required": "Role is required"
               },
               "button": {
-                "text": "Invite  new Member"
+                "text": "Invite"
+              },
+              "generateInviteModal": {
+                "title": "Invitation Token",
+                "text": "Click generate token to re-generate invitation for",
+                "button": {
+                  "text": "Generate Token"
+                }
               },
               "plus": {
                 "text": "Invite another user"
+              },
+              "invite": {
+                "text": "Invitation Token"
               }
+            },
+            "deleteMemberPopup": {
+              "title": "Are you sure?",
+              "text": "Do you want to revoke access for",
+              "successButton": {
+                "text": "Delete"
+              },
+              "cancelButton": {
+                "text": "Cancel"
+              },
+              "errorToaster": "Something went wrong!",
+              "successToaster": "Member deleted"
             },
             "deleteInvitePopup": {
               "title": "Are you sure?",
@@ -179,6 +232,9 @@
               },
               "joinedAt": {
                 "text": "Joined"
+              },
+              "createdAt": {
+                "text": "Created At"
               },
               "sendAt": {
                 "text": "Send"
@@ -246,6 +302,11 @@
                 "required": "Email is required",
                 "invalidEmail": "Email is not valid"
               },
+              "username": {
+                "label": "Username",
+                "placeholder": "username",
+                "required": "Username is required"
+              },
               "password": {
                 "label": "Password",
                 "placeholder": "Password",
@@ -272,22 +333,32 @@
             }
           },
           "Signup": {
-            "title": "Sign Up",
+            "title": "Register",
             "subtitle": "Enter your details below",
             "form": {
+              "username": {
+                "label": "username",
+                "placeholder": "username",
+                "required": "Username is required"
+              },
               "fullname": {
                 "label": "Fullname",
-                "placeholder": "Jane Doe",
+                "placeholder": "Full Name",
                 "required": "Fullname is required"
               },
               "email": {
                 "label": "Email address",
-                "placeholder": "jane.doe@acme.com",
+                "placeholder": "Email address",
                 "required": "Email is required",
                 "invalidEmail": "Email is not valid"
               },
               "password": {
                 "label": "Password",
+                "placeholder": "Password",
+                "required": "Password is required"
+              },
+              "confirmPassword": {
+                "label": "Confirm Password",
                 "placeholder": "Password",
                 "required": "Password is required"
               },
@@ -297,7 +368,7 @@
                 "required": "Organization is required"
               },
               "button": {
-                "text": "Sign Up"
+                "text": "Register"
               }
             },
             "login": {
@@ -306,7 +377,7 @@
             },
             "toasts": {
               "successfulSignup": {
-                "text": "Signed up successfully! Please verify your email before logging in."
+                "text": "Signed up successfully!"
               },
               "failedSignup": {
                 "text": "Incorrect credentials. Please try again."

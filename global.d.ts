@@ -58,8 +58,9 @@ interface TMember {
   organizationId: string;
   fullName: string;
   email: string;
-  createdAt: Date;
-  role: string;
+  created_at: Date;
+  active: boolean;
+  activation_token: string;
 }
 
 interface TWorkspace {
@@ -72,12 +73,16 @@ interface TPipeline {
   id: TId;
   name: string;
   createdAt: Date;
+  creationDate: Date;
   projectName: string;
   // workspaceId: TId;
   components: any;
   owner: string;
   pipelineConfig: any;
   userId: TId;
+  user: any;
+  runs: Array;
+  configuration: object;
 }
 interface TStack {
   id: TId;
@@ -89,9 +94,15 @@ interface TStack {
   userName: string;
   pipelineConfig: any;
   userId: TId;
+  createdAt: Date;
+  type?: string;
+  flavor?: string;
+  configuration?: any;
+  project?: string;
+  user?: any;
+  isShared?: Boolean;
 }
-
-type TRunStatus = 'Succeeded' | 'Running' | 'Failed';
+type TRunStatus = 'Finished' | 'Succeeded' | 'Running' | 'Failed';
 
 interface TRun {
   id: TId;
@@ -109,6 +120,7 @@ interface TRun {
   owner?: any;
   userName?: any;
   creationDate?: any;
+  status?: string;
 }
 
 interface TBreadcrumb {

@@ -1,20 +1,21 @@
 export const endpoints = {
-  login: '/login/access-token',
-  signup: '/users/',
+  login: '/login',
+  signup: (username: string): string => `/users/${username}/activate`,
   forgot: '/login/email/resetpassword',
   users: {
     me: '/users/me',
     get: (id: TId): string => `/users/${id}`,
+    updateUser: (id: string): string => `/users/${id}`,
   },
   organizations: {
     my: '/organizations/',
-    inviteForCode: (code: string): string => `/organizations/invite/${code}`,
+    reGenerateToken: (username: string): string => `/users/${username}/deactivate`,
     invites: '/organizations/invite?status=pending',
     owner: '/organizations/creator',
     members: '/organizations/users',
     roles: '/organizations/roles',
-    invite: '/organizations/invite',
-    deleteInvite: (id: string): string => `/organizations/invite/${id}`,
+    invite: '/users',
+    deleteInvite: (id: string): string => `/users/${id}`,
     getInvoices: `/billing/organization/invoices`,
   },
   workspaces: {

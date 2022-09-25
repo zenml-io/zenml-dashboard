@@ -4,78 +4,58 @@ import { showToasterAction } from '../../../../redux/actions';
 import { signUpAction } from '../../../../redux/actions/session/signupAction';
 import { useDispatch, usePushRoute } from '../../../hooks';
 import { translate } from './translate';
-import { useGetSearchParam } from '../../../hooks/routes';
-import { useRequestOnMount, useSelector } from '../../../hooks/store';
-import { getInviteByCodeAction } from '../../../../redux/actions/organizations/getInviteByCodeAction';
-import { organizationSelectors } from '../../../../redux/selectors';
+import { useLocation } from 'react-router-dom';
 
 interface ServiceInterface {
   signup: () => void;
   hasSubmittedWithErrors: boolean;
+  username: string,
+  setUsername: (username: string) => void,
   email: string;
   setEmail: (email: string) => void;
+  fullName: string,
+  setFullName: (fullName: string) => void,
   password: string;
   setPassword: (password: string) => void;
-  fullname: string;
-  setFullName: (fullname: string) => void;
-  organizationName: string;
-  setOrganizationName: (organization: string) => void;
+  token: any,
   loading: boolean;
-  invite: TInvite | undefined;
 }
 
 export const useService = (): ServiceInterface => {
+
+  const location = useLocation()
+  const params = new URLSearchParams(location.search)
+
+  const preEmail = params.get('email')
+  const token = params.get('token')
+
   const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
+  const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
-  const [fullname, setFullName] = useState('');
-  const [organizationName, setOrganizationName] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
 
   const dispatch = useDispatch();
   const { push } = usePushRoute();
-  const code = useGetSearchParam('code');
-
-  const invite = useSelector(organizationSelectors.inviteForCode(code));
 
   useEffect(() => {
-    setEmail(invite ? invite.email : '');
-  }, [invite]);
-
-  useRequestOnMount(() =>
-    getInviteByCodeAction({
-      code,
-      onFailure: () => {
-        if (code) {
-          dispatch(
-            showToasterAction({
-              type: 'failure',
-              description: translate('toasts.invalidCode.text'),
-            }),
-          );
-        }
-      },
-    }),
-  );
+    setUsername(preEmail ? preEmail : '');
+    setEmail(preEmail ? preEmail : '');
+  }, [preEmail]);
 
   return {
     signup: () => {
       setLoading(true);
       setHasSubmittedWithErrors(true);
-      if (
-        email.trim() !== '' &&
-        password.trim() !== '' &&
-        fullname.trim() !== '' &&
-        (organizationName.trim() !== '' || invite)
-      ) {
+      if (username.trim() !== '' && email.trim() !== '' && password.trim() !== '') {
         dispatch(
           signUpAction({
-            password,
+            username,
             email,
-            fullname,
-            organizationName: invite
-              ? invite.organizationName
-              : organizationName,
+            fullName,
+            password,
+            token,
             onFailure: (errorMessage) => {
               dispatch(
                 showToasterAction({
@@ -100,15 +80,15 @@ export const useService = (): ServiceInterface => {
       }
     },
     hasSubmittedWithErrors,
+    username,
+    setUsername,
     email,
     setEmail,
+    fullName,
+    setFullName,
     password,
     setPassword,
-    fullname,
-    setFullName,
-    organizationName,
-    setOrganizationName,
-    invite,
+    token,
     loading,
   };
 };

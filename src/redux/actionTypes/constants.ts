@@ -8,6 +8,7 @@ const sessionActionTypes = {
 const userActionTypes = {
   USERS_GET_MY_USER: 'USERS_GET_MY_USER',
   USERS_GET_USER_FOR_ID: 'USERS_GET_USER_FOR_ID',
+  UPDATE_USER_EMAIL: 'UPDATE_USER_EMAIL'
 };
 
 const organizationActionTypes = {
@@ -40,6 +41,16 @@ const stackActionTypes = {
   RUNS_GET_STACK_FOR_ID: 'RUNS_GET_STACK_FOR_ID',
 };
 
+const stackComponentActionTypes = {
+  STACKCOMPONENTS_GET_STACKCOMPONENTS_TYPE:
+    'STACKCOMPONENTS_GET_STACKCOMPONENTS_TYPE',
+  STACKCOMPONENTS_GET_STACKCOMPONENTS_LIST:
+    'STACKCOMPONENTS_GET_STACKCOMPONENTS_LIST',
+  STACKCOMPONENTS_GET_STACKCOMPONENT_FOR_ID:
+    'STACKCOMPONENTS_GET_STACKCOMPONENT_FOR_ID',
+  RUNS_GET_STACKCOMPONENT_FOR_ID: 'RUNS_GET_STACKCOMPONENT_FOR_ID',
+};
+
 const runActionTypes = {
   RUNS_GET_RUN_FOR_ID: 'RUNS_GET_RUN_FOR_ID',
 };
@@ -69,6 +80,14 @@ const stackPagesActionTypes = {
   STACK_PAGES_SET_FETCHING: 'STACK_PAGES_SET_FETCHING',
 };
 
+const stackComponentPagesActionTypes = {
+  STACKCOMPONENT_PAGES_SET_CURRENT_WORKSPACE:
+    'STACKCOMPONENT_PAGES_SET_CURRENT_WORKSPACE',
+  STACKCOMPONENT_PAGES_SET_SELECTED_RUN_IDS:
+    'STACKCOMPONENT_PAGES_SET_SELECTED_RUN_IDS',
+  STACKCOMPONENT_PAGES_SET_FETCHING: 'STACKCOMPONENT_PAGES_SET_FETCHING',
+};
+
 const workspacePagesActionTypes = {
   WORKSPACE_PAGES_SET_FETCHING: 'WORKSPACE_PAGES_SET_FETCHING',
 };
@@ -85,6 +104,8 @@ export const actionTypes = {
   ...billingActionTypes,
   ...pipelinePagesActionTypes,
   ...stackPagesActionTypes,
+  ...stackComponentPagesActionTypes,
+  ...stackComponentActionTypes,
   ...stripeActionTypes,
   ...workspacePagesActionTypes,
 };

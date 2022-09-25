@@ -5,12 +5,14 @@ import { byKeyInsert, idsInsert } from './reducerHelpers';
 export interface State {
   ids: TId[];
   byId: Record<TId, TOrganization>;
+  inviteCode: any;
   invites: TInvite[];
   owner: TMember | null;
-  members: TMember[];
+  members: any[];
   myOrganizationId: TId | null;
   roles: string[];
   invoices: TInvoice[];
+  invite: { id: null, activationToken: null, email: null }
 }
 
 export type Action = {
@@ -20,20 +22,22 @@ export type Action = {
     | TInvite
     | TInvite[]
     | TMember
-    | TMember[]
+    | any[]
     | string[]
-    | TInvoice[];
+    | TInvoice[]
 };
 
 export const initialState: State = {
   ids: [],
   byId: {},
   invites: [],
+  inviteCode: null,
   owner: null,
   members: [],
   roles: [],
   invoices: [],
   myOrganizationId: null,
+  invite: { id: null, activationToken: null, email: null },
 };
 
 const newState = (state: State, organizations: TOrganization[]): State => ({
@@ -59,9 +63,9 @@ const organizationsReducer = (
     }
 
     case organizationActionTypes.getInviteForCode.success: {
-      const invite: TInvite = camelCaseObject(action.payload);
-
-      return { ...newState(state, []), invites: [invite] };
+      const inviteCode: any = camelCaseObject(action.payload);
+      
+      return { ...newState(state, []), inviteCode: inviteCode?.activationToken };
     }
 
     case organizationActionTypes.getInvites.success: {
@@ -78,7 +82,7 @@ const organizationsReducer = (
 
     case organizationActionTypes.getMembers.success: {
       const members: TMember[] = camelCaseArray(action.payload as TMember[]);
-
+  
       return { ...newState(state, []), members: members || [] };
     }
 
@@ -92,6 +96,11 @@ const organizationsReducer = (
       const invoices: TInvoice[] = camelCaseArray(action.payload as TInvoice[]);
 
       return { ...newState(state, []), invoices: invoices || [] };
+    }
+
+    case organizationActionTypes.invite.success: {
+      const inviteUser = camelCaseObject(action.payload);
+      return { ...newState(state, []), invite: inviteUser };
     }
 
     default:

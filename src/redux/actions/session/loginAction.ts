@@ -3,12 +3,12 @@ import loginApi from '../../../api/session/loginApi';
 
 export const loginAction = ({
   password,
-  email,
+  username,
   onSuccess,
   onFailure,
 }: {
   password: string;
-  email: string;
+  username: string;
   onSuccess?: () => void;
   onFailure?: (errorText: string) => void;
 }): TRequestAction => ({
@@ -22,7 +22,7 @@ export const loginAction = ({
     onFailure,
     params: {
       account: {
-        email,
+        username,
         password,
       },
     },
