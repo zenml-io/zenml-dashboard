@@ -8,6 +8,7 @@ import {
   stackPagesSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
+import { formatDateToDisplay } from '../../../../../utils/date';
 
 interface ServiceInterface {
   openStackIds: TId[];
@@ -18,18 +19,17 @@ interface ServiceInterface {
 }
 
 // export const useService = (): ServiceInterface => {
+interface filterValue {
+  label: string;
+  type: string;
+  value: string;
+}
 export const useService = (
   filter: {
-    column: string;
-    type: string;
+    column: filterValue;
+    type: filterValue;
     value: string;
-  }[] = [
-    {
-      column: '',
-      type: '',
-      value: '',
-    },
-  ],
+  }[],
 ): ServiceInterface => {
   const dispatch = useDispatch();
 
@@ -50,13 +50,126 @@ export const useService = (
     const isValidFilter = filter.map((f) => f.value).join('');
     if (isValidFilter) {
       filter.forEach((f) => {
-        if (f.type === 'contains') {
-          orderedStacks = orderedStacks.filter((os: any) => {
-            if (f.column || f.value) {
-              return os[f.column].toLowerCase().includes(f.value.toLowerCase());
-            }
-            return true;
-          });
+        if (f.column.type === 'string') {
+          if (f.type.value === 'contains') {
+            orderedStacks = orderedStacks.filter((os: any) => {
+              if (f.column.value && f.value) {
+                return os[f.column.value]
+                  .toLowerCase()
+                  .includes(f.value.toLowerCase());
+              }
+              return true;
+            });
+          }
+
+          if (f.type.value === 'start_with') {
+            orderedStacks = orderedStacks.filter((os: any) => {
+              if (f.column.value && f.value) {
+                return os[f.column.value]
+                  .toLowerCase()
+                  .startsWith(f.value.toLowerCase());
+              }
+              return true;
+            });
+          }
+
+          if (f.type.value === 'end_with') {
+            orderedStacks = orderedStacks.filter((os: any) => {
+              if (f.column.value && f.value) {
+                return os[f.column.value]
+                  .toLowerCase()
+                  .endsWith(f.value.toLowerCase());
+              }
+              return true;
+            });
+          }
+
+          if (f.type.value === 'equal') {
+            orderedStacks = orderedStacks.filter((os: any) => {
+              if (f.column.value && f.value) {
+                return (
+                  os[f.column.value].toLowerCase() === f.value.toLowerCase()
+                );
+              }
+              return true;
+            });
+          }
+          if (f.type.value === 'not_equal') {
+            orderedStacks = orderedStacks.filter((os: any) => {
+              if (f.column.value && f.value) {
+                return (
+                  os[f.column.value].toLowerCase() !== f.value.toLowerCase()
+                );
+              }
+              return true;
+            });
+          }
+        }
+
+        if (f.column.type === 'date') {
+          if (f.type.value === 'greater') {
+            orderedStacks = orderedStacks.filter((os: any) => {
+              if (f.column.value && f.value) {
+                const itemFormatedDateToCompare = formatDateToDisplay(
+                  os[f.column.value],
+                )
+                  .split('.')
+                  .join('-');
+                const selectedFormatedDateToCompare = formatDateToDisplay(
+                  new Date(f.value),
+                )
+                  .split('.')
+                  .join('-');
+
+                return (
+                  selectedFormatedDateToCompare < itemFormatedDateToCompare
+                );
+              }
+              return true;
+            });
+          }
+          if (f.type.value === 'less') {
+            orderedStacks = orderedStacks.filter((os: any) => {
+              if (f.column.value && f.value) {
+                const itemFormatedDateToCompare = formatDateToDisplay(
+                  os[f.column.value],
+                )
+                  .split('.')
+                  .join('-');
+                const selectedFormatedDateToCompare = formatDateToDisplay(
+                  new Date(f.value),
+                )
+                  .split('.')
+                  .join('-');
+
+                return (
+                  selectedFormatedDateToCompare > itemFormatedDateToCompare
+                );
+              }
+              return true;
+            });
+          }
+          if (f.type.value === 'equal_date') {
+            orderedStacks = orderedStacks.filter((os: any) => {
+              if (f.column.value && f.value) {
+                const itemFormatedDateToCompare = formatDateToDisplay(
+                  os[f.column.value],
+                )
+                  .split('.')
+                  .join('-');
+                const selectedFormatedDateToCompare = formatDateToDisplay(
+                  new Date(f.value),
+                )
+                  .split('.')
+                  .join('-');
+
+                return (
+                  itemFormatedDateToCompare === selectedFormatedDateToCompare
+                );
+              }
+              return true;
+            });
+          }
         }
       });
     }

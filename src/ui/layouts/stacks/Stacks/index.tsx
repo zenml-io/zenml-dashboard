@@ -22,32 +22,71 @@ import 'react-datepicker/dist/react-datepicker.css';
 function getInitialFilterState() {
   const initialFilterState = {
     column: {
-      selectedValue: '',
+      selectedValue: {
+        value: '',
+        label: '',
+        type: '',
+      },
       options: [
         {
           value: 'name',
           label: 'Stack Name',
+          type: 'string',
         },
         {
           value: 'userName',
           label: 'Owner',
+          type: 'string',
         },
         {
-          value: 'created_at',
+          value: 'creationDate',
           label: 'Created at',
+          type: 'date',
         },
       ],
     },
     contains: {
-      selectedValue: '',
+      selectedValue: {},
       options: [
         {
           value: 'contains',
-          label: 'contains',
+          label: 'Contains',
+          type: 'string',
+        },
+        {
+          value: 'start_with',
+          label: 'Start With',
+          type: 'string',
+        },
+        {
+          value: 'end_with',
+          label: 'End With',
+          type: 'string',
         },
         {
           value: 'equal',
-          label: 'equal',
+          label: 'Equal',
+          type: 'string',
+        },
+        {
+          value: 'not_equal',
+          label: 'Not Equal',
+          type: 'string',
+        },
+        {
+          value: 'greater',
+          label: 'Greater than',
+          type: 'date',
+        },
+        {
+          value: 'less',
+          label: 'Less than',
+          type: 'date',
+        },
+        {
+          value: 'equal_date',
+          label: 'Equal',
+          type: 'date',
         },
       ],
     },
@@ -61,8 +100,14 @@ const FilterComponent = () => {
 
   const [filters, setFilter] = useState([getInitialFilterState()]);
 
-  function handleChange(field: any, value: string) {
-    field.selectedValue = value;
+  function handleChange(filter: any, key: string, value: string) {
+    filter[key].selectedValue = filter[key].options.filter(
+      (option: any) => option.value === value,
+    )[0];
+    if (key === 'column') {
+      filter.contains.selectedValue = { value: '', label: '', type: '' };
+      filter.filterValue = '';
+    }
     setFilter([...filters]);
   }
 
@@ -81,8 +126,8 @@ const FilterComponent = () => {
   }
 
   const valueField = (filter: any) => {
-    switch (filter?.contains.selectedValue) {
-      case 'contains':
+    switch (filter?.contains.selectedValue.type) {
+      case 'string':
         return (
           <FormTextField
             label={''}
@@ -91,7 +136,7 @@ const FilterComponent = () => {
             onChange={(value: string) => handleValueFieldChange(filter, value)}
           />
         );
-      case 'equal':
+      case 'date':
         const ExampleCustomInput = forwardRef(
           ({ value, onClick }: any, ref: any) => (
             <div
@@ -137,6 +182,10 @@ const FilterComponent = () => {
     return filterValuesMap;
   }
 
+  function getSecondColumnOptions(options: any, type: any) {
+    return options.filter((o: any) => o.type === type);
+  }
+
   return (
     <FlexBox.Column fullWidth>
       <FlexBox
@@ -176,21 +225,24 @@ const FilterComponent = () => {
                   <FormDropdownField
                     label={''}
                     onChange={(value: string) =>
-                      handleChange(filter['column'], value)
+                      handleChange(filter, 'column', value)
                     }
                     placeholder={'Column Name'}
-                    value={filter.column.selectedValue}
+                    value={filter.column.selectedValue.value}
                     options={filter.column.options}
                   />
                   <FormDropdownField
                     label={''}
-                    disabled={filter.column.selectedValue ? false : true}
+                    disabled={!filter.column.selectedValue.type}
                     placeholder={'category'}
                     onChange={(value: string) =>
-                      handleChange(filter['contains'], value)
+                      handleChange(filter, 'contains', value)
                     }
-                    value={filter.contains.selectedValue}
-                    options={filter.contains.options}
+                    value={filter.contains.selectedValue.value}
+                    options={getSecondColumnOptions(
+                      filter.contains.options,
+                      filter.column.selectedValue.type,
+                    )}
                   />
                   {valueField(filter)}
 
