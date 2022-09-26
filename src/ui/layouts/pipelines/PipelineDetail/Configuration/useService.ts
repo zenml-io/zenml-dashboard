@@ -16,7 +16,7 @@ export const useService = ({
   const pipeline: TPipeline = useSelector(
     pipelineSelectors.pipelineForId(pipelineId),
   );
-
+  // debugger;
   const pipelineConfig = YAML.stringify(pipeline.configuration);
 
   const downloadYamlFile = () => {

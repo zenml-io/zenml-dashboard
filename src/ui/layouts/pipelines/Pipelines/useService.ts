@@ -25,7 +25,7 @@ export const useService = (): ServiceInterface => {
 
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
 
-  useRequestOnMount(workspacesActions.getMy, {});
+  // useRequestOnMount(workspacesActions.getMy, {});
 
   useEffect(() => {
     // if (currentWorkspace) {

@@ -13,13 +13,6 @@ const getMyPipelinesApi = ({
     url: apiUrl(endpoints.pipelines.my),
     method: httpMethods.get,
     authenticationToken,
-  }).catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.myPipelinesMockResponse,
-      };
-    }
-    return res;
   });
 
 export default getMyPipelinesApi;

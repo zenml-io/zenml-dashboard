@@ -55,10 +55,10 @@ export const useService = (): ServiceInterface => {
                   type: toasterTypes.success,
                 }),
               );
-              dispatch(workspacesActions.getMy({}));
+              // dispatch(workspacesActions.getMy({}));
               dispatch(organizationActions.getMy());
               dispatch(userActions.getMy({}));
-              dispatch(stackComponentsActions.getTypes());
+              // dispatch(stackComponentsActions.getTypes());
               dispatch(pipelinesActions.getMy());
             },
           }),

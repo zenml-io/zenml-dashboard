@@ -13,12 +13,12 @@ interface ServiceInterface {
 export const useService = (): ServiceInterface => {
   const { id, pipelineId } = useParams<RunDetailRouteParams>();
 
-  useRequestOnMount(() =>
-    runsActions.runForId({
-      pipelineId,
-      runId: id,
-    }),
-  );
+  // useRequestOnMount(() =>
+  //   runsActions.runForId({
+  //     pipelineId,
+  //     runId: id,
+  //   }),
+  // );
 
   useRequestOnMount(() =>
     billingActions.billingForRunId({

@@ -13,13 +13,6 @@ const getMyStackComponentsApi = ({
     url: apiUrl(endpoints.Stacks.my),
     method: httpMethods.get,
     authenticationToken,
-  }).catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.stackComponentList,
-      };
-    }
-    return res;
   });
 
 export default getMyStackComponentsApi;

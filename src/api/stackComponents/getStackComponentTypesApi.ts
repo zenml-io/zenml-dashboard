@@ -10,16 +10,9 @@ const getStackComponentTypesApi = ({
   authenticationToken: string;
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.Stacks.my),
+    url: apiUrl(endpoints.StackComponents.types),
     method: httpMethods.get,
     authenticationToken,
-  }).catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.stackComponentTypes,
-      };
-    }
-    return res;
   });
 
 export default getStackComponentTypesApi;
