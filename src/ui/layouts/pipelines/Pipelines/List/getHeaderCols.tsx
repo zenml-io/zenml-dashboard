@@ -98,7 +98,7 @@ export const getHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(pipeline.creationDate)}
+            {formatDateToDisplay(pipeline.created)}
           </Paragraph>
         </FlexBox>
       ),

@@ -72,7 +72,7 @@ interface TWorkspace {
 interface TPipeline {
   id: TId;
   name: string;
-  createdAt: Date;
+  created: Date;
   creationDate: Date;
   projectName: string;
   // workspaceId: TId;
@@ -82,6 +82,7 @@ interface TPipeline {
   userId: TId;
   user: any;
   runs: Array;
+  status: Array;
   configuration: object;
 }
 interface TStack {
@@ -102,7 +103,7 @@ interface TStack {
   user?: any;
   isShared?: Boolean;
 }
-type TRunStatus = 'Finished' | 'Succeeded' | 'Running' | 'Failed';
+type TRunStatus = 'Finished' | 'completed' | 'Running' | 'Failed';
 
 interface TRun {
   id: TId;
