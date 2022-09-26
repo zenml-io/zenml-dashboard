@@ -1,7 +1,6 @@
 import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
 import {
   pipelineActionTypes,
-  workspaceActionTypes,
   runActionTypes,
   stackComponentActionTypes,
   stackActionTypes,
@@ -57,7 +56,7 @@ const newState = (state: State, runs: TRun[]): State => ({
 
 const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
-    case pipelineActionTypes.getMyPipelines.success:
+    // case pipelineActionTypes.getMyPipelines.success:
     // case workspaceActionTypes.getPipelinesForWorkspaceId.success: {
     //   const payload: PipelinesPayload = action.payload;
 
@@ -91,7 +90,6 @@ const runsReducer = (state: State = initialState, action: Action): State => {
 
     //   return { ...newState(state, runs), myRunIds, byPipelineId };
     // }
-
     case runActionTypes.getRunForId.success: {
       const payload: RunPayload = action.payload;
 
