@@ -18,7 +18,13 @@ interface ServiceInterface {
   setSelectedRunIds: (ids: TId[]) => void;
 }
 
-export const useService = ({ runIds }: { runIds: TId[] }): ServiceInterface => {
+export const useService = ({
+  pipelineRuns,
+  runIds,
+}: {
+  pipelineRuns: any;
+  runIds: TId[];
+}): ServiceInterface => {
   const dispatch = useDispatch();
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'createdAt',
@@ -29,7 +35,9 @@ export const useService = ({ runIds }: { runIds: TId[] }): ServiceInterface => {
   ] = React.useState<SortingDirection | null>('DESC');
   const [sortedRuns, setSortedRuns] = React.useState<TRun[]>([]);
 
-  const runs = useSelector(runSelectors.forRunIds(runIds));
+  const runs = pipelineRuns
+    ? pipelineRuns
+    : useSelector(runSelectors.forRunIds(runIds));
 
   useEffect(() => {
     const orderedRuns = _.sortBy(runs, (run: TRun) =>

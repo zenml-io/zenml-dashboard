@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import {
   stackPagesActions,
+  stacksActions,
   workspacesActions,
 } from '../../../../redux/actions';
 import {
@@ -31,8 +32,8 @@ export const useService = (): ServiceInterface => {
     if (currentWorkspace) {
       setFetching(true);
       dispatch(
-        workspacesActions.pipelinesForWorkspaceId({
-          id: currentWorkspace.id,
+        stacksActions.getMy({
+          // id: currentWorkspace.id,
           onSuccess: () => setFetching(false),
           onFailure: () => setFetching(false),
         }),
@@ -48,17 +49,6 @@ export const useService = (): ServiceInterface => {
 
   const setCurrentWorkspace = (workspace: TWorkspace | null) => {
     dispatch(stackPagesActions.setCurrentWorkspace({ workspace }));
-
-    if (workspace) {
-      setFetching(true);
-      dispatch(
-        workspacesActions.pipelinesForWorkspaceId({
-          id: workspace.id,
-          onSuccess: () => setFetching(false),
-          onFailure: () => setFetching(false),
-        }),
-      );
-    }
   };
 
   return {

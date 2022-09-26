@@ -9,6 +9,8 @@ import {
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
+import { Status } from './Status';
+// import { WorkspaceName } from './WorkspaceName';
 import { UserName } from './UserName';
 
 export const getHeaderCols = ({
@@ -42,21 +44,12 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">Pipeline</Paragraph>
+        <Paragraph size="small" color="black">
+          ID
+        </Paragraph>
       ),
       width: '13%',
       renderRow: (pipeline: TPipeline) => (
-        <Paragraph size="small">{pipeline.name}</Paragraph>
-      ),
-    },
-
-
-    {      
-      render: () => (
-        <Paragraph size="small" color="black">Pipeline ID</Paragraph>
-      ),
-      width: '15%',
-      renderRow: (pipeline: TPipeline) => (   
         <Paragraph size="small">
           {truncate(pipeline.id, ID_MAX_LENGTH)}
         </Paragraph>
@@ -64,31 +57,39 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">Shared</Paragraph>
+        <Paragraph size="small" color="black">
+          NAME
+        </Paragraph>
       ),
-      width: '10%',
+      width: '15%',
       renderRow: (pipeline: TPipeline) => (
-        <Box>
-          <FlexBox justifyContent='center' style={{ backgroundColor: pipeline.isShared ? '#431D93' : '#FF5C93', borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
-            {pipeline.isShared ? <icons.check color={iconColors.white} size={iconSizes.sm} /> : <icons.close color={iconColors.white} size={iconSizes.sm} />} 
-          </FlexBox>    
-        </Box>
-      ) 
+        <Paragraph size="small">{pipeline.name}</Paragraph>
+      ),
     },
-    // {
-    //   width: '16%',
-    //   renderRow: (pipeline: TPipeline) => <WorkspaceName pipeline={pipeline} />,
-    // },
     {
       render: () => (
-        <Paragraph size="small" color="black">Author</Paragraph>
+        <Paragraph size="small" color="black">
+          STATUS
+        </Paragraph>
+      ),
+      width: '10%',
+      renderRow: (pipeline: TPipeline) => <Status pipeline={pipeline} />,
+    },
+
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
+          AUTHOR
+        </Paragraph>
       ),
       width: '11%',
       renderRow: (pipeline: TPipeline) => <UserName pipeline={pipeline} />,
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">Created At</Paragraph>
+        <Paragraph size="small" color="black">
+          CREATED AT
+        </Paragraph>
       ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
@@ -96,7 +97,7 @@ export const getHeaderCols = ({
           <Box paddingRight="sm">
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
-          <Paragraph color="black" size="tiny">
+          <Paragraph color="grey" size="tiny">
             {formatDateToDisplay(pipeline.creationDate)}
           </Paragraph>
         </FlexBox>

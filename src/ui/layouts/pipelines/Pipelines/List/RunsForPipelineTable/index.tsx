@@ -45,6 +45,7 @@ export const RunsForPipelineTable: React.FC<{
         emptyStateText={translate('runsEmptyState.text')}
         pagination={false}
         runIds={runIds}
+        pipelineRuns={pipeline.runs}
       />
     </Box>
   );
