@@ -6,22 +6,15 @@ import mockApi from '../mockApiData';
 
 const getStackComponentByIdApi = ({
   authenticationToken,
-  stackId,
+  stackComponentId,
 }: {
   authenticationToken: string;
-  stackId: TId;
+  stackComponentId: TId;
 }): Promise<TOrganization> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.Stacks.get(stackId)),
+    url: apiUrl(endpoints.StackComponents.get(stackComponentId)),
     method: httpMethods.get,
     authenticationToken,
-  }).catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.pipelineByIdMockResponse,
-      };
-    }
-    return res;
   });
 
 export default getStackComponentByIdApi;

@@ -25,20 +25,16 @@ export const endpoints = {
   },
   pipelines: {
     my: '/pipelines?hydrated=true',
-    get: (pipelineId: TId): string => `/pipelines/${pipelineId}`,
+    get: (pipelineId: TId): string => `/pipelines/${pipelineId}&hydrated=true`,
   },
   Stacks: {
-    my: '/stacks',
-    get: (stackId: TId): string => `/Stacks/${stackId}`,
+    my: '/stacks?hydrated=true',
+    get: (stackId: TId): string => `/Stacks/${stackId}&hydrated=true`,
   },
   StackComponents: {
     types: '/component-types',
-    components: {
-      my: (type: string): string => `/components?type=${type}`,
-      get: (stackId: TId): string => `/Stacks/${stackId}`,
-    },
-    my: '/Stacks/',
-    get: (stackId: TId): string => `/Stacks/${stackId}`,
+    my: (type: string): string => `/components?type=${type}`,
+    get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
   },
   runs: {
     pipeline: {
@@ -51,7 +47,7 @@ export const endpoints = {
     },
     stackComponent: {
       get: (stackComponentId: TId): string =>
-        `/runs?component_id=${stackComponentId}?hydrated=true`,
+        `/runs?component_id=${stackComponentId}&hydrated=true`,
     },
     get: (pipelineId: TId, runId: TId): string =>
       `/pipelines/${pipelineId}/runs/${runId}`,

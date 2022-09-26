@@ -12,7 +12,7 @@ const getMyStackComponentsApi = ({
   type: string;
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.StackComponents.components.my(type)),
+    url: apiUrl(endpoints.StackComponents.my(type)),
     method: httpMethods.get,
     authenticationToken,
   });
