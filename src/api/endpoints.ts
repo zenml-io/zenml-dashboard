@@ -9,7 +9,8 @@ export const endpoints = {
   },
   organizations: {
     my: '/organizations/',
-    reGenerateToken: (username: string): string => `/users/${username}/deactivate`,
+    reGenerateToken: (username: string): string =>
+      `/users/${username}/deactivate`,
     invites: '/organizations/invite?status=pending',
     owner: '/organizations/creator',
     members: '/organizations/users',
@@ -23,14 +24,35 @@ export const endpoints = {
     pipelinesForId: (id: TId): string => `/workspaces/${id}/pipelines`,
   },
   pipelines: {
-    my: '/pipelines/',
+    my: '/pipelines?hydrated=true',
     get: (pipelineId: TId): string => `/pipelines/${pipelineId}`,
   },
   Stacks: {
+    my: '/stacks',
+    get: (stackId: TId): string => `/Stacks/${stackId}`,
+  },
+  StackComponents: {
+    types: '/components/types',
+    Stacks: {
+      my: '/Stacks/',
+      get: (stackId: TId): string => `/Stacks/${stackId}`,
+    },
     my: '/Stacks/',
     get: (stackId: TId): string => `/Stacks/${stackId}`,
   },
   runs: {
+    pipeline: {
+      get: (pipelineId: TId): string =>
+        `/runs?pipeine_id=${pipelineId}?hydrated=true`,
+    },
+    stack: {
+      get: (stackId: TId): string =>
+        `/runs?stack_id=${stackId}&unlisted=false&hydrated=true`,
+    },
+    stackComponent: {
+      get: (stackComponentId: TId): string =>
+        `/runs?component_id=${stackComponentId}?hydrated=true`,
+    },
     get: (pipelineId: TId, runId: TId): string =>
       `/pipelines/${pipelineId}/runs/${runId}`,
   },
