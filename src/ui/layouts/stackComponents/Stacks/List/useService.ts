@@ -26,7 +26,7 @@ export const useService = (): ServiceInterface => {
 
   const fetching = useSelector(stackPagesSelectors.fetching);
 
-  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
+  // const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
   const stackComponents = useSelector(
     stackComponentSelectors.mystackComponents,
@@ -43,7 +43,7 @@ export const useService = (): ServiceInterface => {
     // );
     // debugger;
     setFilteredStacks(orderedStacks);
-  }, []);
+  }, [stackComponents]);
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));

@@ -2,7 +2,7 @@ import React from 'react';
 
 import { translate } from '../translate';
 import { CollapseTable } from '../../../common/CollapseTable';
-import { useHistory } from '../../../../hooks';
+import { useHistory, useLocationPath } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
@@ -10,6 +10,7 @@ import { getHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
 
 export const List: React.FC = () => {
+  const locationPath = useLocationPath();
   const history = useHistory();
   const {
     openStackIds,
@@ -24,7 +25,12 @@ export const List: React.FC = () => {
   const openDetailPage = (stackComponent: TStack) => {
     setSelectedRunIds([]);
 
-    history.push(routePaths.stackComponents.configuration(stackComponent.id));
+    history.push(
+      routePaths.stackComponents.configuration(
+        locationPath.split('/')[2],
+        stackComponent.id,
+      ),
+    );
   };
 
   return (

@@ -6,11 +6,13 @@ import mockApi from '../mockApiData';
 
 const getMyStackComponentsApi = ({
   authenticationToken,
+  type,
 }: {
   authenticationToken: string;
+  type: string;
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.Stacks.my),
+    url: apiUrl(endpoints.StackComponents.components.my(type)),
     method: httpMethods.get,
     authenticationToken,
   });

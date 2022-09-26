@@ -58,7 +58,7 @@ export const useService = (): ServiceInterface => {
               // dispatch(workspacesActions.getMy({}));
               dispatch(organizationActions.getMy());
               dispatch(userActions.getMy({}));
-              // dispatch(stackComponentsActions.getTypes());
+              dispatch(stackComponentsActions.getTypes());
               dispatch(pipelinesActions.getMy());
             },
           }),

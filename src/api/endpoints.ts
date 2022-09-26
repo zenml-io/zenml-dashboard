@@ -32,9 +32,9 @@ export const endpoints = {
     get: (stackId: TId): string => `/Stacks/${stackId}`,
   },
   StackComponents: {
-    types: '/components/types',
-    Stacks: {
-      my: '/Stacks/',
+    types: '/component-types',
+    components: {
+      my: (type: string): string => `/components?type=${type}`,
       get: (stackId: TId): string => `/Stacks/${stackId}`,
     },
     my: '/Stacks/',
