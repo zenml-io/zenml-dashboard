@@ -32,7 +32,7 @@ export const SideFooter: React.FC = () => {
         )} to={routePaths.settings.personalDetails} text={translate('menu.setting.text')} exact />
 
         <Box style={{ color: '#fff', fontFamily: 'sans-serif' }} paddingLeft='sm' paddingTop="md" paddingBottom="sm">
-          <h5>UI Version v0.14.0</h5>
+          <h5>UI Version v{process.env.REACT_APP_VERSION}</h5>
           <h5>ZenMl v0.14.0</h5>
         </Box>
       </>

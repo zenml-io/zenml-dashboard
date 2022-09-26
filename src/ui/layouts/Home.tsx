@@ -16,14 +16,13 @@ import {
   icons,
   GhostButton,
   Paragraph,
-  Image,
 } from '../components';
 import { getTranslateByScope } from '../../services';
 
 import styles from './Home.module.scss';
 import { iconColors } from '../../constants';
 import { usePushRoute } from '../hooks';
-
+ 
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
 const GreyBoxWithIcon: React.FC<{
@@ -49,7 +48,7 @@ const GreyBoxWithIcon: React.FC<{
         <H4 bold>{title}</H4>
       </FlexBox.Row>
       <Box>
-        <GhostButton onClick={onClick}>{buttonText}</GhostButton>
+        <GhostButton style={{ width: '124px' }} onClick={onClick}>{buttonText}</GhostButton>
       </Box>
     </FlexBox.Row>
   );
@@ -65,7 +64,7 @@ export const Home: React.FC = () => {
     { number: 124, text: 'Number of Stacks' },
     { number: 245, text: 'Number of Components' },
     { number: 434, text: 'Number of Pipelines' }
-  ]
+  ]  
 
   return (
     <AuthenticatedLayout>
@@ -83,7 +82,7 @@ export const Home: React.FC = () => {
       
                 <FlexBox>
                   {dashData.map((e) => (
-                    <Box marginRight="xxl" style={{ width: '220px', height: '100px', border: '1px solid #C9CBD0', borderRadius: '6px', padding: '13px 14px', backgroundColor: box === e.text ? '#431D93' : '#fff' }} onClick={() => setBox(e.text)} >
+                    <Box marginRight="xxl" style={{ width: '220px', minHeight: '100px', border: '1px solid #C9CBD0', borderRadius: '6px', padding: '13px 14px', backgroundColor: box === e.text ? '#431D93' : '#fff' }} onClick={() => setBox(e.text)} >
                       <Paragraph style={{ fontSize: '24px', fontWeight: "bold", color: box === e.text ? '#fff' : '#431D93' }}>{e.number}</Paragraph>
                       <Paragraph style={{ fontSize: '14px', fontWeight: "inherit", color:  box === e.text ? '#fff' : '#646972', marginTop: '38px' }}>{e.text}</Paragraph>
                     </Box>
@@ -102,24 +101,19 @@ export const Home: React.FC = () => {
                     buttonText={translate('cardOne.button.text')}
                   />
                   <GreyBoxWithIcon
-                    onClick={() => window.open(translate('cardTwo.button.href'), '_blank')}
+                    onClick={() => push('/settings/personal-details')}
                     IconComponent={<icons.tool color={iconColors.white} />}
                     title={translate('cardTwo.title')}
                     buttonText={translate('cardTwo.button.text')}
                   />
                   <GreyBoxWithIcon
-                    onClick={() => window.open(translate('cardThree.button.href'), '_blank')}
+                    onClick={() => push('/settings/organization')}
                     IconComponent={<icons.userPlus color={iconColors.white} />}
                     title={translate('cardThree.title')}
                     buttonText={translate('cardThree.button.text')}
                   />
                 </Box>
               </Col>
-              {/* <Col xs={12} lg={5} style={{ paddingRight: 0 }}>
-                <Box>
-                  <Image style={{ maxWidth: '100%' }} src={image} />
-                </Box>
-              </Col> */}
             </Row>
           </Box>
         </EaseInBox>

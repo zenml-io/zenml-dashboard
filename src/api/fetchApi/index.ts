@@ -59,7 +59,7 @@ export const fetchApiWithAuthRequest = ({
       ...DEFAULT_HEADERS,
       ...headers,
       Authorization: `Bearer ${authenticationToken}`,
-    },
+    }
   });
 };
 

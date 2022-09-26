@@ -13,7 +13,8 @@ const getMyUserApi = ({
     url: apiUrl(endpoints.users.me),
     method: httpMethods.get,
     authenticationToken,
-  }).catch((res) => {
+  })
+  .catch((res) => {
     if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
       res = {
         data: mockApi.myUserMockResponse,

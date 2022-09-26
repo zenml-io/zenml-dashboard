@@ -65,8 +65,8 @@ export const getHeaderCols = ({
       width: '8%',
       renderRow: (stack: TStack) => (
         <Box>
-            <FlexBox justifyContent='center' style={{ backgroundColor: stack.isShared ? '#431D93' : '#FF5C93', borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
-              {stack.isShared ? <icons.check color={iconColors.white} size={iconSizes.sm} /> : <icons.close color={iconColors.white} size={iconSizes.sm} />} 
+            <FlexBox justifyContent='center' style={{ borderRadius: '50%', height: '19px', width: '19px', textAlign: 'center' }}>
+              {stack.isShared ? <icons.multiUser color={iconColors.white} size={iconSizes.sm} /> : <icons.singleUser color={iconColors.white} size={iconSizes.sm} />} 
             </FlexBox>    
         </Box>
       ),
