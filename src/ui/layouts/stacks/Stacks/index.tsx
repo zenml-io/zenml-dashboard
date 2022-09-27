@@ -46,7 +46,18 @@ export const Stacks: React.FC = () => {
       tabBasePath={routePaths.stacks.base}
       breadcrumbs={BREADCRUMBS}
       headerWithButtons
-      renderHeaderRight={() => <></>}
+      renderHeaderRight={() => (
+        <WorkspaceDropdown
+          workspaces={workspaces}
+          currentWorkspace={currentWorkspace}
+          setCurrentWorkspace={(workspace: TWorkspace): void => {
+            if (currentWorkspace && workspace.id !== currentWorkspace.id) {
+              setFetching(true);
+            }
+            setCurrentWorkspace(workspace);
+          }}
+        />
+      )}
     />
   );
 };

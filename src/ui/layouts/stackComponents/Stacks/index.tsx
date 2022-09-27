@@ -3,9 +3,10 @@ import React from 'react';
 import { List } from './List';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
-import { WorkspaceDropdown } from './WorkspaceDropdown';
+// import { WorkspaceDropdown } from './WorkspaceDropdown';
 import { useService } from './useService';
 import { useLocationPath } from '../../../hooks';
+import { WorkspaceDropdown } from './WorkspaceDropdown';
 // const PAGES = [
 //   {
 //     text: 'Alerter',
@@ -55,17 +56,16 @@ export const Stacks: React.FC = () => {
       ]}
       headerWithButtons
       renderHeaderRight={() => (
-        <></>
-        // <WorkspaceDropdown
-        //   workspaces={workspaces}
-        //   currentWorkspace={currentWorkspace}
-        //   setCurrentWorkspace={(workspace: TWorkspace): void => {
-        //     if (currentWorkspace && workspace.id !== currentWorkspace.id) {
-        //       setFetching(true);
-        //     }
-        //     setCurrentWorkspace(workspace);
-        //   }}
-        // />
+        <WorkspaceDropdown
+          workspaces={workspaces}
+          currentWorkspace={currentWorkspace}
+          setCurrentWorkspace={(workspace: TWorkspace): void => {
+            if (currentWorkspace && workspace.id !== currentWorkspace.id) {
+              setFetching(true);
+            }
+            setCurrentWorkspace(workspace);
+          }}
+        />
       )}
     />
   );

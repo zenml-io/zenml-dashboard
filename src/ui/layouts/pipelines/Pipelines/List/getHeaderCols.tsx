@@ -16,7 +16,7 @@ import {
 import { HeaderCol } from '../../../common/Table';
 import { Status } from './Status';
 // import { WorkspaceName } from './WorkspaceName';
-import { UserName } from './UserName';
+// import { UserName } from './UserName';
 
 export const getHeaderCols = ({
   openPipelineIds,

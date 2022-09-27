@@ -1,4 +1,4 @@
-import { stackActionTypes, stackComponentActionTypes } from '../../actionTypes';
+import { stackComponentActionTypes } from '../../actionTypes';
 
 import getStackComponentByIdApi from '../../../api/stackComponents/getStackComponentByIdApi';
 
