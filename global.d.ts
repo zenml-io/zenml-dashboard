@@ -90,6 +90,7 @@ interface TStack {
   id: TId;
   name: string;
   creationDate: Date;
+  created: Date;
   projectName: string;
   // workspaceId: TId;
   components: any;

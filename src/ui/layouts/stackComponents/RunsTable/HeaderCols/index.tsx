@@ -70,7 +70,7 @@ export const useHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black">
-            RUN NAME
+            RUN ID
           </Paragraph>
         </SortingHeader>
       ),
@@ -82,27 +82,12 @@ export const useHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
-          STACK
+          RUN NAME
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.stack.name}</Paragraph>
-      ),
+      renderRow: (run: TRun) => <Paragraph size="small">{run.name}</Paragraph>,
     },
-
-    {
-      render: () => (
-        <Paragraph size="small" color="black">
-          RUN TIME
-        </Paragraph>
-      ),
-      width: '10%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.duration}</Paragraph>
-      ),
-    },
-
     {
       render: () => (
         <Paragraph size="small" color="black">
@@ -114,6 +99,46 @@ export const useHeaderCols = ({
         <Paragraph size="small">{run.pipeline.name}</Paragraph>
       ),
     },
+
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
+          STATUS
+        </Paragraph>
+      ),
+      width: '10%',
+      renderRow: (run: TRun) => (
+        <Paragraph
+          style={{
+            justifyContent: 'center',
+            backgroundColor: run.status === 'Finished' ? '#47E08B' : '#FF5C93',
+            borderRadius: '50%',
+            height: '25px',
+            width: '25px',
+            paddingTop: '3px',
+            textAlign: 'center',
+          }}
+        >
+          {run.status === 'Finished' ? (
+            <icons.check color={iconColors.white} size={iconSizes.sm} />
+          ) : (
+            <icons.close color={iconColors.white} size={iconSizes.sm} />
+          )}
+        </Paragraph>
+      ),
+    },
+
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
+          STACK NAME
+        </Paragraph>
+      ),
+      width: '10%',
+      renderRow: (run: TRun) => (
+        <Paragraph size="small">{run.stack.name}</Paragraph>
+      ),
+    },
     {
       render: () => (
         <Paragraph size="small" color="black">
@@ -122,7 +147,7 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.userName}</Paragraph>
+        <Paragraph size="small">{run.user.full_name}</Paragraph>
       ),
     },
     {
@@ -158,7 +183,7 @@ export const useHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(run.creationDate)}
+            {formatDateToDisplay(run.created)}
           </Paragraph>
         </FlexBox>
       ),
