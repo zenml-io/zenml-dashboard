@@ -154,19 +154,6 @@ export const useHeaderCols = ({
 
         {
           render: () => (
-            <Paragraph size="small" color="grey">
-              AUTHOR ID
-            </Paragraph>
-          ),
-          width: '15%',
-          renderRow: (run: any) => (
-            <Paragraph size="small">{run.user}</Paragraph>
-          ),
-
-          // <RunUser run={run} />,
-        },
-        {
-          render: () => (
             <SortingHeader
               sorting="createdAt"
               sortMethod={sortMethod('createdAt', {

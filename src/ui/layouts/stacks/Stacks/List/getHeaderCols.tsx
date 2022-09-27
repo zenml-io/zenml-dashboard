@@ -62,6 +62,22 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
+          STACK NAME
+        </Paragraph>
+      ),
+      width: '8%',
+      renderRow: (stack: TStack) => (
+        <Paragraph
+          size="small"
+          style={{ color: '#22BBDD', textDecoration: 'underline' }}
+        >
+          {stack.name}
+        </Paragraph>
+      ),
+    },
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
           SHARED
         </Paragraph>
       ),
@@ -86,22 +102,7 @@ export const getHeaderCols = ({
         </Box>
       ),
     },
-    {
-      render: () => (
-        <Paragraph size="small" color="black">
-          STACK
-        </Paragraph>
-      ),
-      width: '8%',
-      renderRow: (stack: TStack) => (
-        <Paragraph
-          size="small"
-          style={{ color: '#22BBDD', textDecoration: 'underline' }}
-        >
-          {stack.name}
-        </Paragraph>
-      ),
-    },
+
     {
       render: () => (
         <Paragraph size="small" color="black">
@@ -110,7 +111,9 @@ export const getHeaderCols = ({
       ),
       width: '11%',
       renderRow: (stack: TStack) => {
-        const initials = getInitialsFromEmail(stack.user.full_name);
+        const initials = getInitialsFromEmail(
+          stack.user.full_name ? stack.user.full_name : stack.user.name,
+        );
         return (
           <FlexBox alignItems="center">
             <Box paddingRight="sm">
@@ -118,7 +121,9 @@ export const getHeaderCols = ({
                 {initials}
               </ColoredCircle>
             </Box>
-            <Paragraph size="small">{stack.user.full_name}</Paragraph>
+            <Paragraph size="small">
+              {stack.user.full_name ? stack.user.full_name : stack.user.name}
+            </Paragraph>
           </FlexBox>
         );
       },

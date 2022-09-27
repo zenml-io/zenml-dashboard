@@ -34,8 +34,9 @@ export const endpoints = {
   },
   StackComponents: {
     types: '/component-types',
-    my: (type: string): string => `/components?type=${type}`,
-    get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
+    my: (type: string): string => `/components?type=${type}&hydrated=true`,
+    get: (stackComponentId: TId): string =>
+      `/components/${stackComponentId}?hydrated=true`,
   },
   runs: {
     pipeline: {
