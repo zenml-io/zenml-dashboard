@@ -122,14 +122,14 @@ const icons = {
   fileText: createIcon({ Component: FileText, useStroke: true }),
   download: createIcon({ Component: Download, useStroke: true }),
   alertTriangle: createIcon({ Component: AlertTriangle, useStroke: true }),
-  settings: createIcon({ Component: Settings }),
+  settings: createIcon({ Component: Settings, useStroke: true }),
   singleUser: createIcon({ Component: SingleUser }),
   multiUser: createIcon({ Component: MultiUser }),
-  docs: createIcon({ Component: Docs }),
-  example: createIcon({ Component: Example }),
-  pipeline: createIcon({ Component: Pipeline }),
-  stack: createIcon({ Component: Stack }),
-  stackComponent: createIcon({ Component: StackComponent }),
+  docs: createIcon({ Component: Docs, useStroke: true }),
+  example: createIcon({ Component: Example, useStroke: true }),
+  pipeline: createIcon({ Component: Pipeline, useStroke: true }),
+  stack: createIcon({ Component: Stack, useStroke: true }),
+  stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
 };
 
 export { icons };

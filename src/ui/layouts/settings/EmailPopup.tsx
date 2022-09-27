@@ -33,15 +33,13 @@ export const EmailPopup: React.FC<{
   const dispatch = useDispatch()
   const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
-  const [dashboardData, setDashboardData] = useState('')
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
-console.log(authToken)
   const changeEmail = async () => {
     setSubmitting(true);
    
     try {
-      await axios.put(`http://localhost:8080/v1/users/${username}`, {name: username , email: email},
+      await axios.put(`http://localhost:8080/v1/users/${userId}`, {name: username , email: email},
       { headers: { 'Authorization': `Bearer ${authToken}` }
       })
       setSubmitting(false);
@@ -62,7 +60,6 @@ console.log(authToken)
             }),
           );
     }
-
    
     // dispatch(
     //   userActions.updateUserEmail({

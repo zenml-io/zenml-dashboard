@@ -100,7 +100,7 @@ export const Home: React.FC = () => {
                   {data?.map((e, index) => (
                     <Box key={index} marginRight="xxl" style={{ width: '220px', minHeight: '100px', border: '1px solid #C9CBD0', borderRadius: '6px', padding: '13px 14px', backgroundColor: box === e.text ? '#431D93' : '#fff' }} onClick={() => setBox(e.text)} >
                       <Paragraph style={{ fontSize: '24px', fontWeight: "bold", color: box === e.text ? '#fff' : '#431D93' }}>{e.value}</Paragraph>
-                      <Paragraph style={{ fontSize: '14px', fontWeight: "inherit", color:  box === e.text ? '#fff' : '#646972', marginTop: '38px' }}>{e.text}</Paragraph>
+                      <Paragraph style={{ fontSize: '14px', fontWeight: "inherit", color:  box === e.text ? '#fff' : '#646972', marginTop: '38px' }}>Number of {e.text}</Paragraph>
                     </Box>
                   ))}
                 </FlexBox>

@@ -107,7 +107,7 @@ export const Menu: React.FC = () => {
                 // }}
                 subItem={true}
                 Icon={() => (
-                  <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
+                  <icons.stackComponent color={iconColors.darkGrey} size={iconSizes.md} />
                 )}
                 to={routePaths.stackComponents.base(item)}
                 text={item}
