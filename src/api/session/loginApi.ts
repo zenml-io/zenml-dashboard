@@ -3,7 +3,7 @@ import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 import queryString from 'query-string';
-import mockApi from '../mockApiData';
+// import mockApi from '../mockApiData';
 
 export interface Response {
   access_token: string;

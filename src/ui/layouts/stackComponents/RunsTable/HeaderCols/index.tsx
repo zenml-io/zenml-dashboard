@@ -5,13 +5,18 @@ import React from 'react';
 // import styles from '../index.module.scss';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 // import { translate } from '../translate';
-import { formatDateToDisplay, truncate } from '../../../../../utils';
+import {
+  formatDateToDisplay,
+  truncate,
+  getInitialsFromEmail,
+} from '../../../../../utils';
 import {
   FlexBox,
   Paragraph,
   // LinkBox,
   Box,
   icons,
+  ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 // import { RunStatus } from '../RunStatus';
@@ -69,7 +74,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black">
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
             RUN ID
           </Paragraph>
         </SortingHeader>
@@ -81,7 +86,7 @@ export const useHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
           RUN NAME
         </Paragraph>
       ),
@@ -102,7 +107,7 @@ export const useHeaderCols = ({
 
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
           STATUS
         </Paragraph>
       ),
@@ -130,7 +135,7 @@ export const useHeaderCols = ({
 
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
           STACK NAME
         </Paragraph>
       ),
@@ -141,14 +146,24 @@ export const useHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
           AUTHOR
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.user.full_name}</Paragraph>
-      ),
+      renderRow: (run: TRun) => {
+        const initials = getInitialsFromEmail(run.userName);
+        return (
+          <FlexBox alignItems="center">
+            <Box paddingRight="sm">
+              <ColoredCircle color="secondary" size="sm">
+                {initials}
+              </ColoredCircle>
+            </Box>
+            <Paragraph size="small">{run.user.full_name}</Paragraph>
+          </FlexBox>
+        );
+      },
     },
     {
       render: () => (
@@ -171,7 +186,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black">
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
             CREATED AT
           </Paragraph>
         </SortingHeader>

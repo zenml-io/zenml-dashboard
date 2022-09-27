@@ -38,10 +38,10 @@ export const PersonalDetails: React.FC = () => {
   const [submitting, setSubmitting] = useState(false)
   const [popupOpen, setPopupOpen] = useState(false);
   const [email, setEmail] = useState(user?.email)
+  const [username, setUsername] = useState(user?.name)
   const [currentPassword, setCurrentPassword] = useState('')
   const [newPassword, setNewPassword] = useState('')
   const [confirmPassword, setConfirmPassword] = useState('')
-
 
   if (!organization || !user) return null;
 
@@ -85,7 +85,7 @@ export const PersonalDetails: React.FC = () => {
   return (
     <>
     {popupOpen && (
-      <EmailPopup userId={user?.id} email={email} setPopupOpen={setPopupOpen} />
+      <EmailPopup userId={user?.id} email={email} username={username} setPopupOpen={setPopupOpen} />
     )}
     <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
       <FlexBox.Row  alignItems="center">
@@ -114,9 +114,19 @@ export const PersonalDetails: React.FC = () => {
                 />
               </Box>
 
+              <Box marginBottom="lg">
+                <FormTextField
+                  label={translate('form.username.label')}
+                  labelColor='#000'
+                  placeholder={translate('form.username.placeholder')}
+                  value={username ? username : ''}
+                  onChange={(val: string) => setUsername(val)}
+                />
+              </Box>
+
                 <Box style={{ display: 'flex', justifyContent: 'end' }}>
-                  <PrimaryButton style={{ width: '198px' }} onClick={() => setPopupOpen(true)} disabled={email === user.email} >
-                    {translate('emailReset.label')}
+                  <PrimaryButton style={{ width: '278px' }} onClick={() => setPopupOpen(true)} disabled={email === user.email && username === user.name} >
+                    {translate('emailNameReset.label')}
                   </PrimaryButton>
                 </Box>
             </Col>
@@ -170,7 +180,7 @@ export const PersonalDetails: React.FC = () => {
                 </Box>
 
                 <Box marginBottom="xs" style={{ display: 'flex', justifyContent: 'end' }}>
-                  <PrimaryButton onClick={forgotPassword} style={{ width: '198px' }} loading={submitting} disabled={newPassword.trim() === '' || confirmPassword.trim() === ''}>
+                  <PrimaryButton onClick={forgotPassword} style={{ width: '278px' }} loading={submitting} disabled={newPassword.trim() === '' || confirmPassword.trim() === ''}>
                     {translate('passwordReset.button')}
                   </PrimaryButton>
                 </Box>

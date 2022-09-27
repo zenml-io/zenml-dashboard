@@ -40,7 +40,7 @@ const usersReducer = (state: State = initialState, action: Action): State => {
       return { ...state, ...newState(state, [user]) };
     }
 
-    case userActionTypes.updateUserEmail.success: {
+    case userActionTypes.updateUser.success: {
       const user: TUser = camelCaseObject(action.payload);
 
       return { ...state, ...newState(state, [user]) };
