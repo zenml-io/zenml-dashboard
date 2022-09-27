@@ -22,7 +22,7 @@ export const getHeaderCols = ({
 }): HeaderCol[] => {
   return [
     {
-      width: '2%',
+      width: '3%',
       renderRow: (pipeline: TPipeline) => (
         <LinkBox
           onClick={(e: Event) => {
@@ -79,7 +79,7 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
-          AUTHER
+          AUTHOR
         </Paragraph>
       ),
       width: '11%',

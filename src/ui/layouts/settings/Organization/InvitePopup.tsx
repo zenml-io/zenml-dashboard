@@ -60,10 +60,12 @@ export const InvitePopup: React.FC<{
               );
               setSubmitting(false);
             },
-            onSuccess: () => {}         
+            onSuccess: () => {
+              setShowTokField(true)
+            }         
             }),
         );
-        setShowTokField(true)
+        // setShowTokField(true)
      }
   };
 

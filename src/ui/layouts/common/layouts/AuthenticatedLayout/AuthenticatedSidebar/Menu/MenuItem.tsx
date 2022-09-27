@@ -29,11 +29,11 @@ export const MenuItem: React.FC<{
           className={cn(
             to === location.pathname && !subItem
               ? styles.menuItemSideBox
-              : null,
+              : styles.menuItemSideBoxUn,
           )}
         ></Box>
 
-        <FlexBox>
+        <FlexBox style={{ width: '100%' }}>
           <Box paddingLeft={subItem ? 'xl' : 'md'}>
             <Icon />
           </Box>

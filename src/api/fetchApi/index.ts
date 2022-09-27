@@ -51,6 +51,7 @@ export const fetchApiWithAuthRequest = ({
       reject();
     });
   }
+  console.log(url, data, method, authenticationToken, headers)
   return axios({
     method: method || httpMethods.get,
     url,
@@ -59,7 +60,7 @@ export const fetchApiWithAuthRequest = ({
       ...DEFAULT_HEADERS,
       ...headers,
       Authorization: `Bearer ${authenticationToken}`,
-    },
+    }
   });
 };
 
