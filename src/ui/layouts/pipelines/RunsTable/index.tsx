@@ -44,6 +44,7 @@ export const RunsTable: React.FC<{
     setActiveSorting,
     activeSortingDirection,
     setActiveSortingDirection,
+    nestedRuns: pipelineRuns ? true : false,
   });
 
   return (
@@ -52,7 +53,7 @@ export const RunsTable: React.FC<{
       loading={fetching}
       showHeader={true}
       headerCols={headerCols}
-      tableRows={sortedRuns}
+      tableRows={pipelineRuns ? pipelineRuns : sortedRuns}
       emptyState={{ text: emptyStateText }}
       trOnClick={openDetailPage}
     />

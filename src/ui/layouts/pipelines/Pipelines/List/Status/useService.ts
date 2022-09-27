@@ -11,7 +11,7 @@ export const useService = ({
 }: {
   pipeline: TPipeline;
 }): ServiceInterface => {
-  const runs = pipeline.runs;
+  const runs = pipeline.status;
   // debugger;
   const lastThreeRuns = getLastThreeRuns(runs);
 

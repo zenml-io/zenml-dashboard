@@ -11,17 +11,23 @@ import { BasePage } from '../BasePage';
 import { useService } from './useService';
 import { useLocationPath } from '../../../hooks';
 
-const getTabPages = (stackId: TId): TabPage[] => {
+const getTabPages = (stackId: TId, locationPath: any): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration stackId={stackId} />,
-      path: routePaths.stackComponents.configuration(stackId),
+      path: routePaths.stackComponents.configuration(
+        locationPath.split('/')[2],
+        stackId,
+      ),
     },
     {
       text: translate('tabs.runs.text'),
-      Component: () => <Runs stackId={stackId} />,
-      path: routePaths.stackComponents.runs(stackId),
+      Component: () => <Runs stackComponentId={stackId} />,
+      path: routePaths.stackComponents.runs(
+        locationPath.split('/')[2],
+        stackId,
+      ),
     },
   ];
 };
@@ -29,14 +35,17 @@ const getTabPages = (stackId: TId): TabPage[] => {
 const getBreadcrumbs = (stackId: TId, locationPath: any): TBreadcrumb[] => {
   return [
     {
-      name: 'Components',
+      name: locationPath.split('/')[2],
       clickable: true,
       to: routePaths.stackComponents.base(locationPath.split('/')[2]),
     },
     {
-      name: 'alerter',
+      name: stackId,
       clickable: true,
-      to: routePaths.stackComponents.configuration(stackId),
+      to: routePaths.stackComponents.configuration(
+        locationPath.split('/')[2],
+        stackId,
+      ),
     },
   ];
 };
@@ -49,7 +58,7 @@ export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
   const { stackComponent } = useService();
 
-  const tabPages = getTabPages(stackComponent.id);
+  const tabPages = getTabPages(stackComponent.id, locationPath);
   const breadcrumbs = getBreadcrumbs(stackComponent.id, locationPath);
 
   const boxStyle = { backgroundColor: '#E9EAEC', padding: '30px 0', borderRadius: '8px', marginTop: '20px', display: 'flex', justifyContent: 'space-around' }
