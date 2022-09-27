@@ -1,22 +1,20 @@
-import { fetchApiWithAuthRequest } from '../fetchApi';
+import { fetchApiWithAuthRequest, fetchApi } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 import mockApi from '../mockApiData';
 
 const updateUserEmailApi = ({
-  authenticationToken,
-  userId,
-  username,
   email,
+  username,
+  authenticationToken,
 }: {
-  authenticationToken: string;
-  userId:string;
-  username: string;
   email: string;
+  username: string;
+  authenticationToken: string;
 }): Promise<TUser> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.users.updateUser(userId)),
+    url: apiUrl(endpoints.users.updateUser(username)),
     method: httpMethods.put,
     authenticationToken,
     headers: {
@@ -25,13 +23,14 @@ const updateUserEmailApi = ({
     data: JSON.stringify({
      username, email
     }),
-  }).catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.userByIdMockResponse,
-      };
-    }
-    return res;
-  });
+  })
+  // .catch((res) => {
+  //   if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
+  //     res = {
+  //       data: mockApi.userByIdMockResponse,
+  //     };
+  //   }
+  //   return res;
+  // });
 
 export default updateUserEmailApi;

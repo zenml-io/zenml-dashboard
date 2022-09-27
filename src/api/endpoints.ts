@@ -2,10 +2,11 @@ export const endpoints = {
   login: '/login',
   signup: (username: string): string => `/users/${username}/activate`,
   forgot: '/login/email/resetpassword',
+  version: '/version',
   users: {
-    me: '/users/me',
+    me: '/current-user',
     get: (id: TId): string => `/users/${id}`,
-    updateUser: (id: string): string => `/users/${id}`,
+    updateUser: (username: string): string => `/users/${username}`,
   },
   organizations: {
     my: '/organizations/',

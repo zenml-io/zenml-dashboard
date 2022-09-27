@@ -14,13 +14,13 @@ const getMyUserApi = ({
     method: httpMethods.get,
     authenticationToken,
   })
-  .catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.myUserMockResponse,
-      };
-    }
-    return res;
-  });
+  // .catch((res) => {
+  //   if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
+  //     res = {
+  //       data: mockApi.myUserMockResponse,
+  //     };
+  //   }
+  //   return res;
+  // });
 
 export default getMyUserApi;

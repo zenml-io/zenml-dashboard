@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { AuthenticatedLayout } from './common/layouts/AuthenticatedLayout';
 
 import { SidebarContainer } from './common/layouts/SidebarContainer';
@@ -20,8 +20,10 @@ import {
 import { getTranslateByScope } from '../../services';
 
 import styles from './Home.module.scss';
-import { iconColors } from '../../constants';
-import { usePushRoute } from '../hooks';
+import { iconColors, DEFAULT_PROJECT_NAME } from '../../constants';
+import { sessionSelectors } from '../../redux/selectors/session';
+import { usePushRoute, useSelector } from '../hooks';
+import axios from 'axios' 
  
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
@@ -59,12 +61,26 @@ export const Home: React.FC = () => {
 
   const [box, setBox] = useState('')
 
-  const dashData = [
-    { number: 204, text: 'Number of Users' },
-    { number: 124, text: 'Number of Stacks' },
-    { number: 245, text: 'Number of Components' },
-    { number: 434, text: 'Number of Pipelines' }
-  ]  
+  const [dashboardData, setDashboardData] = useState('')
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+
+  useEffect(()  => {  
+    const getDashboardData = async () => {
+      const { data } = await axios.get(`http://localhost:8080/v1/projects/${DEFAULT_PROJECT_NAME}/statistics`, {
+        headers: {
+          'Authorization': `bearer ${authToken}` 
+        }
+      })
+      setDashboardData(data)
+    }
+    getDashboardData()
+  }, [])
+
+  const preData = Object.entries(dashboardData)
+  const data = preData?.map(([key, value]) => {
+    const objData = { text: key, value: value };
+    return objData;
+  });
 
   return (
     <AuthenticatedLayout>
@@ -81,9 +97,9 @@ export const Home: React.FC = () => {
                 </Box>
       
                 <FlexBox>
-                  {dashData.map((e) => (
-                    <Box marginRight="xxl" style={{ width: '220px', minHeight: '100px', border: '1px solid #C9CBD0', borderRadius: '6px', padding: '13px 14px', backgroundColor: box === e.text ? '#431D93' : '#fff' }} onClick={() => setBox(e.text)} >
-                      <Paragraph style={{ fontSize: '24px', fontWeight: "bold", color: box === e.text ? '#fff' : '#431D93' }}>{e.number}</Paragraph>
+                  {data?.map((e, index) => (
+                    <Box key={index} marginRight="xxl" style={{ width: '220px', minHeight: '100px', border: '1px solid #C9CBD0', borderRadius: '6px', padding: '13px 14px', backgroundColor: box === e.text ? '#431D93' : '#fff' }} onClick={() => setBox(e.text)} >
+                      <Paragraph style={{ fontSize: '24px', fontWeight: "bold", color: box === e.text ? '#fff' : '#431D93' }}>{e.value}</Paragraph>
                       <Paragraph style={{ fontSize: '14px', fontWeight: "inherit", color:  box === e.text ? '#fff' : '#646972', marginTop: '38px' }}>{e.text}</Paragraph>
                     </Box>
                   ))}

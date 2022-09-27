@@ -1,12 +1,25 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { MenuItem } from '../Menu/MenuItem';
 import { MenuItemExternal } from './MenuItemExternal';
 import { routePaths } from '../../../../../../../routes/routePaths';
 import { Box, Separator, icons } from '../../../../../../components';
 import { iconSizes, iconColors } from '../../../../../../../constants';
 import { translate } from '../translate';
+import axios from 'axios';
 
 export const SideFooter: React.FC = () => {
+
+  const [apiVersion, setApiVersion] = useState('')
+
+  useEffect(()  => {  
+    const getApiVersion = async () => {
+    const { data } = await axios.get('http://localhost:8080/version')
+    setApiVersion(data)
+    }
+
+    getApiVersion()
+  }, [])
+  
   return (
     <>
      <Box marginHorizontal="md">
@@ -33,7 +46,7 @@ export const SideFooter: React.FC = () => {
 
         <Box style={{ color: '#fff', fontFamily: 'sans-serif' }} paddingLeft='sm' paddingTop="md" paddingBottom="sm">
           <h5>UI Version v{process.env.REACT_APP_VERSION}</h5>
-          <h5>ZenMl v0.14.0</h5>
+          <h5>ZenMl v{apiVersion}</h5>
         </Box>
       </>
   );

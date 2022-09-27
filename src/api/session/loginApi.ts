@@ -29,13 +29,14 @@ const loginApi = ({ account }: Params): Promise<Response> =>
       username: account.username,
       password: account.password,
     }),
-  }).catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.loginMockResponse,
-      };
-    }
-    return res;
-  });
+  })
+  // .catch((res) => {
+  //   if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
+  //     res = {
+  //       data: mockApi.loginMockResponse,
+  //     };
+  //   }
+  //   return res;
+  // });
 
 export default loginApi;
