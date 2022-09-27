@@ -16,6 +16,10 @@ export const RunsForPipelineTable: React.FC<{
   });
 
   if (!isPipelineOpen()) return null;
+  const nestedRunsWithStatus = pipeline.runs.map((item: any, i: number) => ({
+    ...item,
+    status: pipeline.status[i],
+  }));
 
   return (
     <Box marginBottom="md">
@@ -24,7 +28,7 @@ export const RunsForPipelineTable: React.FC<{
         emptyStateText={translate('runsEmptyState.text')}
         pagination={false}
         runIds={runIds}
-        pipelineRuns={pipeline.runs}
+        pipelineRuns={nestedRunsWithStatus}
       />
     </Box>
   );

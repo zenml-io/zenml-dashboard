@@ -19,9 +19,7 @@ export const Menu: React.FC = () => {
   return (
     <>
       <MenuItem
-        Icon={() => (
-          <icons.home color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.home color={iconColors.white} size={iconSizes.md} />}
         to={routePaths.home}
         text={translate('menu.home.text')}
         exact
@@ -62,17 +60,13 @@ export const Menu: React.FC = () => {
             })
           );
         }}
-        Icon={() => (
-          <icons.code color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.code color={iconColors.white} size={iconSizes.md} />}
         to={routePaths.stacks.list}
         text={translate('menu.stacks.text')}
       />
       {/* <div onClick={() => console.log('asdasd')}> */}
       <MenuItem
-        Icon={() => (
-          <icons.data color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.data color={iconColors.white} size={iconSizes.md} />}
         to={routePaths.stackComponents.base(
           stackComponentsTypes ? stackComponentsTypes[0] : '',
         )}

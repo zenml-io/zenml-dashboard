@@ -84,6 +84,7 @@ interface TPipeline {
   runs: Array;
   status: Array;
   configuration: object;
+  spec?: any;
 }
 interface TStack {
   id: TId;
@@ -120,8 +121,11 @@ interface TRun {
   duration?: string;
   owner?: any;
   userName?: any;
+  user?: any;
   creationDate?: any;
   status?: string;
+  created: Date;
+  name?: string;
 }
 
 interface TBreadcrumb {

@@ -39,7 +39,7 @@ export const endpoints = {
   runs: {
     pipeline: {
       get: (pipelineId: TId): string =>
-        `/runs?pipeine_id=${pipelineId}?hydrated=true`,
+        `/runs?pipeine_id=${pipelineId}&hydrated=true`,
     },
     stack: {
       get: (stackId: TId): string =>

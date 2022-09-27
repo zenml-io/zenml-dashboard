@@ -29,6 +29,7 @@ export const useHeaderCols = ({
   activeSortingDirection,
   setActiveSortingDirection,
   setActiveSorting,
+  nestedRuns,
 }: {
   runs: TRun[];
   setRuns: (runs: TRun[]) => void;
@@ -36,6 +37,7 @@ export const useHeaderCols = ({
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
   setActiveSorting: (sorting: Sorting | null) => void;
+  nestedRuns: boolean;
 }): HeaderCol[] => {
   const {
     // toggleSelectRun,
@@ -52,13 +54,14 @@ export const useHeaderCols = ({
     activeSortingDirection,
     runs,
   });
-  // debugger;
-  return [
-    {
-      render: () => (
-        <FlexBox justifyContent="center">
-          <Paragraph size="small" color="grey">
-            {/* <LinkBox
+
+  return nestedRuns
+    ? [
+        {
+          render: () => (
+            <FlexBox justifyContent="center">
+              <Paragraph size="small" color="grey">
+                {/* <LinkBox
               onClick={() => {
                 if (allRunsSelected(runs)) {
                   unselectRuns(runs);
@@ -71,144 +74,308 @@ export const useHeaderCols = ({
                 allRunsSelected(runs) && styles.checkedCheckbox,
               )}
             /> */}
-          </Paragraph>
-        </FlexBox>
-      ),
-      width: '3%',
-      renderRow: (run: TRun) => (
-        <></>
-        // <FlexBox justifyContent="center">
-        //   <LinkBox
-        //     onClick={(e: Event) => {
-        //       e.stopPropagation();
-        //       toggleSelectRun(run);
-        //     }}
-        //     className={cn(
-        //       styles.checkbox,
-        //       isRunSelected(run) && styles.checkedCheckbox,
-        //     )}
-        //   />
-        // </FlexBox>
-      ),
-    },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="id"
-          sortMethod={sortMethod('id', {
-            asc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['asc']),
-            desc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            RUN NAME
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '15%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{truncate(run.id, ID_MAX_LENGTH)}</Paragraph>
-      ),
-    },
-    {
-      render: () => (
-        <Paragraph size="small" color="grey">
-          PIPELINE NAME
-        </Paragraph>
-      ),
-      width: '15%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.pipeline?.name}</Paragraph>
-      ),
+              </Paragraph>
+            </FlexBox>
+          ),
+          width: '3%',
+          renderRow: (run: TRun) => (
+            <></>
+            // <FlexBox justifyContent="center">
+            //   <LinkBox
+            //     onClick={(e: Event) => {
+            //       e.stopPropagation();
+            //       toggleSelectRun(run);
+            //     }}
+            //     className={cn(
+            //       styles.checkbox,
+            //       isRunSelected(run) && styles.checkedCheckbox,
+            //     )}
+            //   />
+            // </FlexBox>
+          ),
+        },
+        {
+          render: () => (
+            <SortingHeader
+              sorting="id"
+              sortMethod={sortMethod('id', {
+                asc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['asc']),
+                desc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph size="small" color="grey">
+                RUN ID
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <Paragraph size="small">
+              {truncate(run.id, ID_MAX_LENGTH)}
+            </Paragraph>
+          ),
+        },
+        {
+          render: () => (
+            <Paragraph size="small" color="grey">
+              RUN NAME
+            </Paragraph>
+          ),
+          width: '15%',
+          renderRow: (run: any) => (
+            <Paragraph size="small">{run.name}</Paragraph>
+          ),
 
-      // <PipelineName run={run.pipeline.name} />,
-    },
+          // <PipelineName run={run.pipeline.name} />,
+        },
 
-    {
-      render: () => (
-        <Paragraph size="small" color="grey">
-          RUM TIME
-        </Paragraph>
-      ),
-      width: '15%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.duration}</Paragraph>
-      ),
-      // <RunTime run={run} />,
-    },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="status"
-          sortMethod={sortMethod('status', {
-            asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
-            desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('status.text')}
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '15%',
+        {
+          render: () => (
+            <SortingHeader
+              sorting="status"
+              sortMethod={sortMethod('status', {
+                asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
+                desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph size="small" color="grey">
+                STATUS
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
 
-      renderRow: (run: TRun) => <RunStatus run={run} />,
-    },
+          renderRow: (run: TRun) => <RunStatus run={run} />,
+        },
 
-    {
-      render: () => (
-        <Paragraph size="small" color="grey">
-          {translate('author.text')}
-        </Paragraph>
-      ),
-      width: '15%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.userName}</Paragraph>
-      ),
+        {
+          render: () => (
+            <Paragraph size="small" color="grey">
+              AUTHOR ID
+            </Paragraph>
+          ),
+          width: '15%',
+          renderRow: (run: any) => (
+            <Paragraph size="small">{run.user}</Paragraph>
+          ),
 
-      // <RunUser run={run} />,
-    },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="createdAt"
-          sortMethod={sortMethod('createdAt', {
-            asc: (runs: TRun[]) =>
-              _.orderBy(
-                runs,
-                (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
-                ['asc'],
-              ),
-            desc: (runs: TRun[]) =>
-              _.orderBy(
-                runs,
-                (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
-                ['desc'],
-              ),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('createdAt.text')}
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '15%',
-      renderRow: (run: TRun) => (
-        <FlexBox alignItems="center">
-          <Box paddingRight="sm">
-            <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box>
-          <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(run.creationDate)}
-          </Paragraph>
-        </FlexBox>
-      ),
-    },
-  ];
+          // <RunUser run={run} />,
+        },
+        {
+          render: () => (
+            <SortingHeader
+              sorting="createdAt"
+              sortMethod={sortMethod('createdAt', {
+                asc: (runs: TRun[]) =>
+                  _.orderBy(
+                    runs,
+                    (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
+                    ['asc'],
+                  ),
+                desc: (runs: TRun[]) =>
+                  _.orderBy(
+                    runs,
+                    (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
+                    ['desc'],
+                  ),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph size="small" color="grey">
+                CREATED AT
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: any) => (
+            <FlexBox alignItems="center">
+              <Box paddingRight="sm">
+                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
+              </Box>
+              <Paragraph color="grey" size="tiny">
+                {formatDateToDisplay(run.created)}
+              </Paragraph>
+            </FlexBox>
+          ),
+        },
+      ]
+    : [
+        {
+          render: () => (
+            <FlexBox justifyContent="center">
+              <Paragraph size="small" color="grey">
+                {/* <LinkBox
+              onClick={() => {
+                if (allRunsSelected(runs)) {
+                  unselectRuns(runs);
+                } else {
+                  selectRuns(runs);
+                }
+              }}
+              className={cn(
+                styles.checkbox,
+                allRunsSelected(runs) && styles.checkedCheckbox,
+              )}
+            /> */}
+              </Paragraph>
+            </FlexBox>
+          ),
+          width: '3%',
+          renderRow: (run: TRun) => (
+            <></>
+            // <FlexBox justifyContent="center">
+            //   <LinkBox
+            //     onClick={(e: Event) => {
+            //       e.stopPropagation();
+            //       toggleSelectRun(run);
+            //     }}
+            //     className={cn(
+            //       styles.checkbox,
+            //       isRunSelected(run) && styles.checkedCheckbox,
+            //     )}
+            //   />
+            // </FlexBox>
+          ),
+        },
+        {
+          render: () => (
+            <SortingHeader
+              sorting="id"
+              sortMethod={sortMethod('id', {
+                asc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['asc']),
+                desc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph size="small" color="grey">
+                RUN ID
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <Paragraph size="small">
+              {truncate(run.id, ID_MAX_LENGTH)}
+            </Paragraph>
+          ),
+        },
+        {
+          render: () => (
+            <Paragraph size="small" color="grey">
+              RUN NAME
+            </Paragraph>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <Paragraph size="small">{run.name}</Paragraph>
+          ),
+
+          // <PipelineName run={run.pipeline.name} />,
+        },
+        {
+          render: () => (
+            <Paragraph size="small" color="grey">
+              PIPELINE NAME
+            </Paragraph>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <Paragraph size="small">{run.pipeline?.name}</Paragraph>
+          ),
+
+          // <PipelineName run={run.pipeline.name} />,
+        },
+
+        {
+          render: () => (
+            <SortingHeader
+              sorting="status"
+              sortMethod={sortMethod('status', {
+                asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
+                desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph size="small" color="grey">
+                {translate('status.text')}
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+
+          renderRow: (run: TRun) => <RunStatus run={run} />,
+        },
+        {
+          render: () => (
+            <Paragraph size="small" color="grey">
+              STACK NAME
+            </Paragraph>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <Paragraph size="small">{run.stack?.name}</Paragraph>
+          ),
+
+          // <PipelineName run={run.pipeline.name} />,
+        },
+
+        {
+          render: () => (
+            <Paragraph size="small" color="grey">
+              {translate('author.text')}
+            </Paragraph>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <Paragraph size="small">{run.user.full_name}</Paragraph>
+          ),
+
+          // <RunUser run={run} />,
+        },
+        {
+          render: () => (
+            <SortingHeader
+              sorting="createdAt"
+              sortMethod={sortMethod('createdAt', {
+                asc: (runs: TRun[]) =>
+                  _.orderBy(
+                    runs,
+                    (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
+                    ['asc'],
+                  ),
+                desc: (runs: TRun[]) =>
+                  _.orderBy(
+                    runs,
+                    (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
+                    ['desc'],
+                  ),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph size="small" color="grey">
+                {translate('createdAt.text')}
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <FlexBox alignItems="center">
+              <Box paddingRight="sm">
+                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
+              </Box>
+              <Paragraph color="grey" size="tiny">
+                {formatDateToDisplay(run.created)}
+              </Paragraph>
+            </FlexBox>
+          ),
+        },
+      ];
 };
