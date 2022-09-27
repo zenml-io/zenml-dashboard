@@ -5,13 +5,18 @@ import React from 'react';
 // import styles from '../index.module.scss';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { translate } from '../translate';
-import { formatDateToDisplay, truncate } from '../../../../../utils';
+import {
+  formatDateToDisplay,
+  getInitialsFromEmail,
+  truncate,
+} from '../../../../../utils';
 import {
   FlexBox,
   Paragraph,
   // LinkBox,
   Box,
   icons,
+  ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
@@ -320,9 +325,29 @@ export const useHeaderCols = ({
             </Paragraph>
           ),
           width: '15%',
-          renderRow: (run: TRun) => (
-            <Paragraph size="small">{run.user.full_name}</Paragraph>
-          ),
+          renderRow: (run: TRun) => {
+            const initials = getInitialsFromEmail(
+              run.user.full_name ? run.user.full_name : run.user.name,
+            );
+            return (
+              <FlexBox alignItems="center">
+                <Box paddingRight="sm">
+                  <ColoredCircle color="secondary" size="sm">
+                    {initials}
+                  </ColoredCircle>
+                </Box>
+                <Paragraph size="small">
+                  {run.user.full_name ? run.user.full_name : run.user.name}
+                </Paragraph>
+              </FlexBox>
+            );
+          },
+          // (
+          //   <Paragraph size="small">
+          //     {run.user.full_name}
+          //     {'asdasd'}
+          //   </Paragraph>
+          // ),
 
           // <RunUser run={run} />,
         },
