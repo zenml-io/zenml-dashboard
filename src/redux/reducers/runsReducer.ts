@@ -57,6 +57,9 @@ const newState = (state: State, runs: TRun[]): State => ({
 
 const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
+    case runActionTypes.getAllRuns.success: {
+      return { ...state };
+    }
     // case pipelineActionTypes.getMyPipelines.success:
     // case workspaceActionTypes.getPipelinesForWorkspaceId.success: {
     //   const payload: PipelinesPayload = action.payload;
