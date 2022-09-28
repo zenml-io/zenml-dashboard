@@ -29,12 +29,7 @@ const BREADCRUMBS = [
 ];
 
 export const Pipelines: React.FC = () => {
-  // const {
-  //   setFetching,
-  //   setCurrentWorkspace,
-  //   currentWorkspace,
-  //   workspaces,
-  // } = useService();
+  // const {} = useService();
 
   return (
     <BasePage

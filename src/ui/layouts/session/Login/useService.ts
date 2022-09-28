@@ -6,7 +6,7 @@ import {
   showToasterAction,
   stackComponentsActions,
   userActions,
-  workspacesActions,
+  // workspacesActions,
 } from '../../../../redux/actions';
 import { loginAction } from '../../../../redux/actions/session/loginAction';
 import { useDispatch } from '../../../hooks';
@@ -55,7 +55,7 @@ export const useService = (): ServiceInterface => {
                   type: toasterTypes.success,
                 }),
               );
-              dispatch(workspacesActions.getMy({}));
+              // dispatch(workspacesActions.getMy({}));
               dispatch(organizationActions.getMy());
               dispatch(userActions.getMy({}));
               dispatch(stackComponentsActions.getTypes());

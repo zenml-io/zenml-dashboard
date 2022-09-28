@@ -10,7 +10,12 @@ import {
   stackPagesSelectors,
   workspaceSelectors,
 } from '../../../../redux/selectors';
-import { useDispatch, useRequestOnMount, useSelector } from '../../../hooks';
+import {
+  useDispatch,
+  useRequestOnMount,
+  useSelector,
+  useLocationPath,
+} from '../../../hooks';
 
 interface ServiceInterface {
   setFetching: (arg: boolean) => void;
@@ -21,7 +26,7 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
-
+  const locationPath = useLocationPath();
   const dispatch = useDispatch();
 
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
@@ -29,19 +34,15 @@ export const useService = (): ServiceInterface => {
   useRequestOnMount(workspacesActions.getMy, {});
 
   useEffect(() => {
-    if (currentWorkspace) {
-      setFetching(true);
-      dispatch(
-        stacksActions.getMy({
-          // id: currentWorkspace.id,
-          onSuccess: () => setFetching(false),
-          onFailure: () => setFetching(false),
-        }),
-      );
-    } else if (workspaces.length > 0) {
-      setCurrentWorkspace(workspaces[0]);
-    }
-  }, []);
+    setFetching(true);
+    dispatch(
+      stacksActions.getMy({
+        // id: currentWorkspace.id,
+        onSuccess: () => setFetching(false),
+        onFailure: () => setFetching(false),
+      }),
+    );
+  }, [locationPath]);
 
   const setFetching = (fetching: boolean) => {
     dispatch(stackPagesActions.setFetching({ fetching }));

@@ -3,12 +3,11 @@ import { runStatus, iconColors, iconSizes } from '../../../../../constants';
 import { ColoredCircle, icons, If } from '../../../../components';
 
 export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
-  // debugger;
   // if (run.status === runStatus.Running) return null;
 
   return (
     <>
-      <If condition={run.status === runStatus.Succeeded}>
+      <If condition={run.status === runStatus.completed}>
         {() => (
           <ColoredCircle color="green" size="xs">
             <icons.check color={iconColors.white} size={iconSizes.xs} />

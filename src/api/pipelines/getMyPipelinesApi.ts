@@ -2,7 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
-import mockApi from '../mockApiData';
+// import mockApi from '../mockApiData';
 
 const getMyPipelinesApi = ({
   authenticationToken,
@@ -13,13 +13,6 @@ const getMyPipelinesApi = ({
     url: apiUrl(endpoints.pipelines.my),
     method: httpMethods.get,
     authenticationToken,
-  }).catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.myPipelinesMockResponse,
-      };
-    }
-    return res;
   });
 
 export default getMyPipelinesApi;

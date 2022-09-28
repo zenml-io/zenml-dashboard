@@ -42,7 +42,7 @@ export const Organization: React.FC = () => {
   const memberHeaderCols = useMemberHeaderCols();
 
   if (!organization) return null;
-
+  
   return (
     <>
       {popupOpen && (

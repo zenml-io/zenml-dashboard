@@ -18,6 +18,26 @@ interface Params {
   account: Account;
 }
 
+// const loginApi = ({ account }: Params): Promise<Response> =>
+//   fetchApi({
+//     url: apiUrl(endpoints.login),
+//     method: httpMethods.post,
+//     headers: {
+//       'Content-Type': 'application/x-www-form-urlencoded',
+//     },
+//     data: queryString.stringify({
+//       username: account.username,
+//       password: account.password,
+//     }),
+//   }).catch((res) => {
+//     // if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
+//       res = {
+//         data: mockApi.loginMockResponse,
+//       };
+//     // }
+//     return res;
+//   });
+
 const loginApi = ({ account }: Params): Promise<Response> =>
   fetchApi({
     url: apiUrl(endpoints.login),
@@ -29,14 +49,5 @@ const loginApi = ({ account }: Params): Promise<Response> =>
       username: account.username,
       password: account.password,
     }),
-  })
-  // .catch((res) => {
-  //   if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-  //     res = {
-  //       data: mockApi.loginMockResponse,
-  //     };
-  //   }
-  //   return res;
-  // });
-
+  });
 export default loginApi;

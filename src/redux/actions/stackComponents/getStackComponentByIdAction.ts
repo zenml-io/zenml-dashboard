@@ -1,22 +1,23 @@
-import { stackActionTypes } from '../../actionTypes';
-import getStackByIdApi from '../../../api/stacks/getStackByIdApi';
+import { stackComponentActionTypes } from '../../actionTypes';
+
+import getStackComponentByIdApi from '../../../api/stackComponents/getStackComponentByIdApi';
 
 export const getStackComponentByIdAction = ({
-  stackId,
+  stackComponentId,
   onSuccess,
   onFailure,
 }: {
-  stackId: TId;
+  stackComponentId: TId;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
-  type: stackActionTypes.getStackForId.request,
+  type: stackComponentActionTypes.getStackComponentForId.request,
   payload: {
-    apiMethod: getStackByIdApi,
+    apiMethod: getStackComponentByIdApi,
     isAuthenticated: true,
-    failureActionType: stackActionTypes.getStackForId.failure,
-    successActionType: stackActionTypes.getStackForId.success,
-    params: { stackId },
+    failureActionType: stackComponentActionTypes.getStackComponentForId.failure,
+    successActionType: stackComponentActionTypes.getStackComponentForId.success,
+    params: { stackComponentId },
     onSuccess,
     onFailure,
   },

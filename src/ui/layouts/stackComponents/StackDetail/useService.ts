@@ -1,7 +1,11 @@
 /* eslint-disable */
 
 import { StackDetailRouteParams } from '.';
-import { pipelinesActions, stacksActions } from '../../../../redux/actions';
+import {
+  pipelinesActions,
+  stackComponentsActions,
+  stacksActions,
+} from '../../../../redux/actions';
 import {
   stackComponentSelectors,
   stackSelectors,
@@ -22,16 +26,16 @@ export const useService = (): ServiceInterface => {
   useEffect(() => {
     setFetching(true);
     // Legacy: previously runs was in pipeline
-    // dispatch(
-    //   pipelinesActions.pipelineForId({
-    //     pipelineId: id,
-    //     onSuccess: () => setFetching(false),
-    //     onFailure: () => setFetching(false),
-    //   }),
-    // );
     dispatch(
-      pipelinesActions.allRunsByPipelineId({
-        pipelineId: id,
+      stackComponentsActions.stackComponentForId({
+        stackComponentId: id,
+        onSuccess: () => setFetching(false),
+        onFailure: () => setFetching(false),
+      }),
+    );
+    dispatch(
+      stackComponentsActions.allRunsByStackComponentId({
+        stackComponentId: id,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

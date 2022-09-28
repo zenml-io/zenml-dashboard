@@ -1,5 +1,5 @@
 export const runStatus: { [key: string]: TRunStatus } = {
-  Succeeded: 'Succeeded',
+  completed: 'completed',
   Running: 'Running',
   Failed: 'Failed',
 };

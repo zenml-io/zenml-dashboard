@@ -27,8 +27,8 @@ export const useService = (): ServiceInterface => {
     //   }),
     // );
     dispatch(
-      pipelinesActions.allRunsByPipelineId({
-        pipelineId: id,
+      stacksActions.allRunsByStackId({
+        stackId: id,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

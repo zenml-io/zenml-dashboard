@@ -62,8 +62,9 @@ export const routePaths = {
   },
   stackComponents: {
     base: (type: string): string => `/components/${type}`,
-    configuration: (id: TId): string => `/components/${id}/configuration`,
-    runs: (id: TId): string => `/components/${id}/runs`,
+    configuration: (type: string, id: TId): string =>
+      `/components/${type}/${id}/configuration`,
+    runs: (type: string, id: TId): string => `/components/${type}/${id}/runs`,
     // list: (type: string): string => `/components/${type}`,
   },
   datasources: '/datasources',

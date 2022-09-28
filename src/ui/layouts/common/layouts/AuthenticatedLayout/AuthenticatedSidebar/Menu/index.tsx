@@ -19,16 +19,14 @@ export const Menu: React.FC = () => {
   return (
     <>
       <MenuItem
-        Icon={() => (
-          <icons.home color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.home color={iconColors.white} size={iconSizes.md} />}
         to={routePaths.home}
         text={translate('menu.home.text')}
         exact
-      />     
+      />
       <Box marginHorizontal="md">
         <Separator.LightNew />
-      </Box> 
+      </Box>
 
       <MenuItem
         isActive={() => {
@@ -115,7 +113,10 @@ export const Menu: React.FC = () => {
                 }}
                 subItem={true}
                 Icon={() => (
-                  <icons.stackComponent color={iconColors.darkGrey} size={iconSizes.md} />
+                  <icons.stackComponent
+                    color={iconColors.darkGrey}
+                    size={iconSizes.md}
+                  />
                 )}
                 to={routePaths.stackComponents.base(item)}
                 text={item}
