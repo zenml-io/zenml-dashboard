@@ -28,8 +28,8 @@ export const useService = (): ServiceInterface => {
       if (email.trim() !== '') {
         dispatch(
           forgotAction({
+            userId: '',
             password: '',
-            email,
             onFailure: () => {
               dispatch(
                 showToasterAction({

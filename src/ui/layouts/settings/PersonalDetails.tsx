@@ -57,7 +57,7 @@ export const PersonalDetails: React.FC = () => {
     setSubmitting(true)
     dispatch(
       sessionActions.forgotPassword({
-        email: user.email,
+        userId: user?.id,
         password: newPassword,
         onFailure: () => {
           setSubmitting(false)
