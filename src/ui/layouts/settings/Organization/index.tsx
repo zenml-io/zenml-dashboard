@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { organizationActions } from '../../../../redux/actions';
 import { organizationSelectors } from '../../../../redux/selectors';
 import { getInitials } from '../../../../utils';
+
 import {
   FlexBox,
   Box,
@@ -11,7 +12,7 @@ import {
   PrimaryButton,
   LinkBox,
 } from '../../../components';
-import { useRequestOnMount } from '../../../hooks';
+import { useRequestOnMount, useDispatch } from '../../../hooks';
 import { Table } from '../../common/Table';
 import { translate } from './translate';
 import { useMemberHeaderCols } from './useHeaderCols';
@@ -21,25 +22,27 @@ type Table = 'members' | 'invites';
 
 export const Organization: React.FC = () => {
   
+  const dispatch = useDispatch()
+
   const [fetchingMembers, setFetchingMembers] = useState(true);
 
   const [popupOpen, setPopupOpen] = useState(false);
   const [currentTable, setCurrentTable] = useState('members');
 
+  const organization = useSelector(organizationSelectors.myOrganization);
+  const members = useSelector(organizationSelectors.myMembers);
+  const memberHeaderCols = useMemberHeaderCols();
+
   useRequestOnMount(organizationActions.getMy);
   useRequestOnMount(organizationActions.getRoles);
 
-  useRequestOnMount(() =>
-    organizationActions.getMembers({
-      onSuccess: () => setFetchingMembers(false),
-      onFailure: () => setFetchingMembers(false),
-    }),
-  );
-
-  const organization = useSelector(organizationSelectors.myOrganization);
-  const members = useSelector(organizationSelectors.myMembers);
-  // const invites = useSelector(organizationSelectors.invites);
-  const memberHeaderCols = useMemberHeaderCols();
+  useEffect(() => {
+    dispatch(organizationActions.getMembers({
+        onSuccess: () => setFetchingMembers(false),
+        onFailure: () => setFetchingMembers(false),
+      }),
+    );
+  }, [dispatch])
 
   if (!organization) return null;
   
@@ -48,7 +51,7 @@ export const Organization: React.FC = () => {
       {popupOpen && (
         <InvitePopup
           setPopupOpen={setPopupOpen}
-        />
+          />
       )}
 
       <FlexBox.Column flex={1} style={{ width: '100%', marginLeft: '40px' }}>

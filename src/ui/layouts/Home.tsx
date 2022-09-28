@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { AuthenticatedLayout } from './common/layouts/AuthenticatedLayout';
-
 import { SidebarContainer } from './common/layouts/SidebarContainer';
 import {
   Box,

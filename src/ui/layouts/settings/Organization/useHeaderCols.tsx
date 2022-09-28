@@ -117,7 +117,7 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="black" size="tiny">
-            {formatDateToDisplay(member.created_at)}
+            {formatDateToDisplay(member.created)}
           </Paragraph>
         </FlexBox>
       ),

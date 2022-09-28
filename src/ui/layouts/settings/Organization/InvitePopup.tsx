@@ -11,7 +11,7 @@ import {
   H3,
   PrimaryButton,
 } from '../../../components';
-import { useDispatch, useSelector } from '../../../hooks';
+import { useSelector, useDispatch } from '../../../hooks';
 import { Popup } from '../../common/Popup';
 import { fieldValidation } from '../../../../utils';
 import { organizationSelectors } from '../../../../redux/selectors';
@@ -25,10 +25,9 @@ const emailErrorText = (email: string) =>
     ? translate('popup.email.invalidEmail')
     : translate('popup.email.required');
 
-export const InvitePopup: React.FC<{
-  setPopupOpen: (attr: boolean) => void;
-}> = ({ setPopupOpen }) => {
- 
+export const InvitePopup: React.FC<{ setPopupOpen: (attr: boolean) => void }> 
+  = ({ setPopupOpen}) => {
+
   const [submitting, setSubmitting] = useState(false);
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
   const [email, setEmail] = useState('')
@@ -61,12 +60,15 @@ export const InvitePopup: React.FC<{
               setSubmitting(false);
             },
             onSuccess: () => {
+              dispatch(organizationActions.getMembers({}));
+              setSubmitting(false);
               setShowTokField(true)
             }         
             }),
         );
      }
   };
+
 
   return (
     <Popup

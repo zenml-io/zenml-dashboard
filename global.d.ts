@@ -60,7 +60,7 @@ interface TMember {
   organizationId: string;
   fullName: string;
   email: string;
-  created_at: Date;
+  created: Date;
   active: boolean;
   activation_token: string;
 }
