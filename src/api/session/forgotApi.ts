@@ -1,4 +1,4 @@
-import { fetchApi } from '../fetchApi';
+import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
@@ -16,14 +16,23 @@ interface Params {
   account: ForgotEmail;
 }
 
-const forgotApi = ({ account }: Params): Promise<Response> =>
-  fetchApi({
-    url: apiUrl(endpoints.users.updateUser(account.email)),
+const forgotApi = ({
+  userId,
+  password,
+  authenticationToken,
+}: {
+  userId: string,
+  password: Params;
+  authenticationToken: string;
+}): Promise<Response> =>
+  fetchApiWithAuthRequest({
+    url: apiUrl(endpoints.users.updateUser(userId)),
     method: httpMethods.put,
+    authenticationToken,
     headers: {
       'Content-Type': 'application/json',
     },
-    params: { password: account.password },
+    data: { password },
   });
 
 export default forgotApi;

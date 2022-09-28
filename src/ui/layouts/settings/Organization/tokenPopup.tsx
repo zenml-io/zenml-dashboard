@@ -43,13 +43,13 @@ export const TokenPopup: React.FC<{
                 }),
               );
               setSubmitting(false);
+              setPopupOpen(false)
             },
             onSuccess: () => {
               setShowTokField(true)
             }         
             }),
         );
-        setShowTokField(true)
   };
 
   const onClose = () => {
@@ -101,7 +101,7 @@ export const TokenPopup: React.FC<{
                   <Box marginTop='lg'>
                     <CopyField
                       label={`Invitation Link - please send this to ${email} for this user to finish their registration`}
-                      value={`${process.env.REACT_APP_BASE_API_URL_LIVE}/signup?user=${id}&email=${email}&token=${inviteCode}`}
+                      value={`${window.location.origin}/signup?user=${id}&email=${email}&token=${inviteCode}`}
                       disabled
                     />
                   </Box>

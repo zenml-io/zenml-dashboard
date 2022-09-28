@@ -65,7 +65,6 @@ export const InvitePopup: React.FC<{
             }         
             }),
         );
-        // setShowTokField(true)
      }
   };
 
@@ -114,7 +113,7 @@ export const InvitePopup: React.FC<{
                 <Box marginTop='lg'>
                   <CopyField
                     label={`Invitation Link - please send this to ${invite?.email} for this user to finish their registration`}
-                    value={`${process.env.REACT_APP_BASE_API_URL_LIVE}/signup?user=${invite?.id}&email=${invite?.email}&token=${invite?.activationToken}`}
+                    value={`${window.location.origin}/signup?user=${invite?.id}&email=${invite?.email}&token=${invite?.activationToken}`}
                     disabled
                   />
                 </Box>
