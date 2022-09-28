@@ -5,7 +5,7 @@ import { AllRuns } from './AllRuns';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 // import { WorkspaceDropdown } from './WorkspaceDropdown';
-// import { useService } from './useService';
+import { useService } from './useService';
 
 const PAGES = [
   {
@@ -29,7 +29,7 @@ const BREADCRUMBS = [
 ];
 
 export const Pipelines: React.FC = () => {
-  // const {} = useService();
+  const {} = useService();
 
   return (
     <BasePage

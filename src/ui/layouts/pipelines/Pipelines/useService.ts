@@ -30,6 +30,7 @@ export const useService = (): ServiceInterface => {
 
   useEffect(() => {
     setFetching(true);
+
     dispatch(
       runsActions.allRuns({
         // id: currentWorkspace.id,

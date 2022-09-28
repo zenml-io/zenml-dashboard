@@ -18,7 +18,7 @@ export const useService = ({
   const runs: TRun[] = useSelector(
     runSelectors.runsForStackComponentId(stackComponentId),
   );
-
+  // debugger;
   const runIds = runs.map((run: TRun) => run.id);
   // debugger;
   return { fetching, runIds };
