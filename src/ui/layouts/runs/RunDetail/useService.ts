@@ -10,7 +10,8 @@ interface ServiceInterface {
 }
 
 export const useService = (): ServiceInterface => {
-  const { id } = useParams<RunDetailRouteParams>();
+  const { id, runId } = useParams<RunDetailRouteParams>();
+
   // debugger;
   // useRequestOnMount(() =>
   //   runsActions.runForId({
@@ -29,5 +30,5 @@ export const useService = (): ServiceInterface => {
   const run = useSelector(runSelectors.runForId(id));
   const billing = useSelector(billingSelectors.billingForRunId(id));
 
-  return { runId: id, run, billing };
+  return { runId: runId, run, billing };
 };

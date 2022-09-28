@@ -56,7 +56,7 @@ const getBreadcrumbs = ({ runId }: { runId: TId }): TBreadcrumb[] => {
 
 export interface RunDetailRouteParams {
   id: TId;
-  stackId: TId;
+  runId: TId;
 }
 
 export const RunDetail: React.FC = () => {
