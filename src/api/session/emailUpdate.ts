@@ -2,24 +2,26 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
-import mockApi from '../mockApiData';
 
-const getMyUserApi = ({
+const emailUpdate = ({
+  userId,
+  email,
+  name,
   authenticationToken,
 }: {
+  userId: string,
+  email: string
+  name: string;
   authenticationToken: string;
 }): Promise<TUser> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.users.me),
-    method: httpMethods.get,
+    url: apiUrl(endpoints.users.updateUser(userId)),
+    method: httpMethods.put,
     authenticationToken,
-  }).catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.myUserMockResponse,
-      };
-    }
-    return res;
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    data: { email, name },
   });
 
-export default getMyUserApi;
+export default emailUpdate;

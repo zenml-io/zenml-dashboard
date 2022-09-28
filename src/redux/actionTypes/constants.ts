@@ -3,12 +3,12 @@ const sessionActionTypes = {
   ACCOUNT_LOGIN: 'ACCOUNT_LOGIN',
   ACCOUNT_SIGNUP: 'ACCOUNT_SIGNUP',
   FORGOT_PASSWORD: 'FORGOT_PASSWORD',
+  UPDATE_EMAIL: 'UPDATE_EMAIL',
 };
 
 const userActionTypes = {
   USERS_GET_MY_USER: 'USERS_GET_MY_USER',
   USERS_GET_USER_FOR_ID: 'USERS_GET_USER_FOR_ID',
-  UPDATE_USER: 'UPDATE_USER',
 };
 
 const organizationActionTypes = {

@@ -65,7 +65,6 @@ export const InvitePopup: React.FC<{
             }         
             }),
         );
-        // setShowTokField(true)
      }
   };
 

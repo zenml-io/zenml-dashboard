@@ -11,15 +11,11 @@ import {
 } from '../../components';
 import { getTranslateByScope } from '../../../services';
 import { Popup } from '../common/Popup';
-import {
-  showToasterAction,
-  userActions,
-} from '../../../redux/actions';
+import { showToasterAction, sessionActions } from '../../../redux/actions';
 import { toasterTypes } from '../../../constants';
 
 import { sessionSelectors } from '../../../redux/selectors/session';
 import { useSelector } from '../../hooks';
-import axios from 'axios';
 
 export const EmailPopup: React.FC<{
   userId: any;
@@ -37,55 +33,32 @@ export const EmailPopup: React.FC<{
 
   const changeEmail = async () => {
     setSubmitting(true);
-   
-    try {
-      await axios.put(`http://localhost:8080/v1/users/${userId}`, {name: username , email: email},
-      { headers: { 'Authorization': `Bearer ${authToken}` }
-      })
-      setSubmitting(false);
-      setPopupOpen(false);
-      dispatch(
-        showToasterAction({
-          description: translate('toasts.successful.text'),
-          type: toasterTypes.success,
-        }),
-      )
-    } catch (err) {
-      setSubmitting(false);
-      setPopupOpen(false);
+    dispatch(
+     sessionActions.emailUpdate({
+        userId,
+        email,
+        name: username,
+        onFailure: () => {
+          setSubmitting(false);
           dispatch(
             showToasterAction({
               description: translate('toasts.failed.text'),
               type: toasterTypes.failure,
             }),
           );
-    }
-   
-    // dispatch(
-    //   userActions.updateUserEmail({
-    //     // email,
-    //     // username,
-    //     onFailure: () => {
-    //       setSubmitting(false);
-    //       dispatch(
-    //         showToasterAction({
-    //           description: translate('toasts.failed.text'),
-    //           type: toasterTypes.failure,
-    //         }),
-    //       );
-    //     },
-    //     onSuccess: () => {
-    //       setSubmitting(false);
-    //       setPopupOpen(false);
-    //       dispatch(
-    //         showToasterAction({
-    //           description: translate('toasts.successful.text'),
-    //           type: toasterTypes.success,
-    //         }),
-    //       );
-    //     },
-    //   }),
-    // );
+        },
+        onSuccess: () => {
+          setSubmitting(false);
+          setPopupOpen(false);
+          dispatch(
+            showToasterAction({
+              description: translate('toasts.successful.text'),
+              type: toasterTypes.success,
+            }),
+          );
+        },
+      }),
+    );
   };
 
   return (
