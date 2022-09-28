@@ -23,7 +23,7 @@ export const RunsForStackTable: React.FC<{
     for (const [key] of Object.entries(stack.components)) {
       nestedRowtiles.push({
         type: key,
-        name: stack.components[key].name,
+        name: stack.components[key][0].name,
       });
     }
 
@@ -34,6 +34,7 @@ export const RunsForStackTable: React.FC<{
     /**
      * return nested rows each row should not exceed more than 4 tiles
      */
+
     return (
       <>
         <NestedRow tiles={nestedRowtiles} />

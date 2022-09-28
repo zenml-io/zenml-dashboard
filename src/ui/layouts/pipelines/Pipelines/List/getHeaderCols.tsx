@@ -1,17 +1,22 @@
 import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-import { formatDateToDisplay, truncate } from '../../../../../utils';
+import {
+  formatDateToDisplay,
+  truncate,
+  getInitialsFromEmail,
+} from '../../../../../utils';
 import {
   Box,
   FlexBox,
   icons,
   LinkBox,
+  ColoredCircle,
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { Status } from './Status';
 // import { WorkspaceName } from './WorkspaceName';
-import { UserName } from './UserName';
+// import { UserName } from './UserName';
 
 export const getHeaderCols = ({
   openPipelineIds,
@@ -83,7 +88,27 @@ export const getHeaderCols = ({
         </Paragraph>
       ),
       width: '11%',
-      renderRow: (pipeline: TPipeline) => <UserName pipeline={pipeline} />,
+      renderRow: (pipeline: TPipeline) => {
+        const initials = getInitialsFromEmail(
+          pipeline.user.full_name
+            ? pipeline.user.full_name
+            : pipeline.user.name,
+        );
+        return (
+          <FlexBox alignItems="center">
+            <Box paddingRight="sm">
+              <ColoredCircle color="secondary" size="sm">
+                {initials}
+              </ColoredCircle>
+            </Box>
+            <Paragraph size="small">
+              {pipeline.user.full_name
+                ? pipeline.user.full_name
+                : pipeline.user.name}
+            </Paragraph>
+          </FlexBox>
+        );
+      },
     },
     {
       render: () => (
@@ -98,7 +123,7 @@ export const getHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(pipeline.creationDate)}
+            {formatDateToDisplay(pipeline.created)}
           </Paragraph>
         </FlexBox>
       ),

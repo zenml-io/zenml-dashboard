@@ -24,7 +24,7 @@ export const Form: React.FC = () => {
     login();
   };
 
-  const BUTTON_DISABLED = username.trim() === '' || password.trim() === ''
+  const BUTTON_DISABLED = username.trim() === '' || password.trim() === '';
 
   useEnterKeyPress(() => {
     if (!BUTTON_DISABLED) login();
@@ -35,7 +35,7 @@ export const Form: React.FC = () => {
       <Box marginBottom="lg">
         <FormEmailField
           label={translate('form.username.label')}
-          labelColor='#ffffff'
+          labelColor="#ffffff"
           placeholder={translate('form.username.placeholder')}
           value={username}
           onChange={(val: string) => setUsername(val)}
@@ -48,7 +48,7 @@ export const Form: React.FC = () => {
       <Box marginBottom="xxl">
         <FormPasswordField
           label={translate('form.password.label')}
-          labelColor='#ffffff'
+          labelColor="#ffffff"
           placeholder={translate('form.password.placeholder')}
           value={password}
           onChange={(val: string) => setPassword(val)}

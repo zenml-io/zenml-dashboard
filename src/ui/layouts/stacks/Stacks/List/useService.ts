@@ -40,7 +40,7 @@ export const useService = (): ServiceInterface => {
     // );
     // debugger;
     setFilteredStacks(orderedStacks);
-  }, []);
+  }, [Stacks]);
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));

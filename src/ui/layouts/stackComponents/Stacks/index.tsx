@@ -3,9 +3,10 @@ import React from 'react';
 import { List } from './List';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
-import { WorkspaceDropdown } from './WorkspaceDropdown';
+// import { WorkspaceDropdown } from './WorkspaceDropdown';
 import { useService } from './useService';
 import { useLocationPath } from '../../../hooks';
+import { WorkspaceDropdown } from './WorkspaceDropdown';
 // const PAGES = [
 //   {
 //     text: 'Alerter',
@@ -19,13 +20,13 @@ import { useLocationPath } from '../../../hooks';
 //   // },
 // ];
 
-const BREADCRUMBS = [
-  {
-    name: 'Components',
-    clickable: true,
-    to: routePaths.stackComponents.base('alerter'),
-  },
-];
+// const BREADCRUMBS = [
+//   {
+//     name: 'Components',
+//     clickable: true,
+//     to: routePaths.stackComponents.base('alerter'),
+//   },
+// ];
 
 export const Stacks: React.FC = () => {
   const locationPath = useLocationPath();
@@ -40,13 +41,19 @@ export const Stacks: React.FC = () => {
     <BasePage
       tabPages={[
         {
-          text: 'Alerter',
+          text: locationPath.split('/')[2],
           Component: List,
           path: routePaths.stackComponents.base(locationPath.split('/')[2]),
         },
       ]}
       tabBasePath={routePaths.stackComponents.base('')}
-      breadcrumbs={BREADCRUMBS}
+      breadcrumbs={[
+        {
+          name: locationPath.split('/')[2],
+          clickable: true,
+          to: routePaths.stackComponents.base(locationPath.split('/')[2]),
+        },
+      ]}
       headerWithButtons
       renderHeaderRight={() => (
         <WorkspaceDropdown
