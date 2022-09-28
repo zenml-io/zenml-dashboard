@@ -5,7 +5,8 @@ import { AllRuns } from './AllRuns';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 // import { WorkspaceDropdown } from './WorkspaceDropdown';
-// import { useService } from './useService';
+import { useService } from './useService';
+import { useLocationPath } from '../../../hooks';
 
 const PAGES = [
   {
@@ -20,27 +21,34 @@ const PAGES = [
   },
 ];
 
-const BREADCRUMBS = [
-  {
-    name: translate('header.breadcrumbs.pipelines.text'),
-    clickable: true,
-    to: routePaths.pipelines.list,
-  },
-];
+// const BREADCRUMBS = [
+//   {
+//     name: translate('header.breadcrumbs.pipelines.text'),
+//     clickable: true,
+//     to: routePaths.pipelines.list,
+//   },
+// ];
 
 export const Pipelines: React.FC = () => {
-  // const {
-  //   setFetching,
-  //   setCurrentWorkspace,
-  //   currentWorkspace,
-  //   workspaces,
-  // } = useService();
+  const { setFetching } = useService();
+  console.log(setFetching);
+  const locationPath = useLocationPath();
 
   return (
     <BasePage
       tabPages={PAGES}
       tabBasePath={routePaths.pipelines.base}
-      breadcrumbs={BREADCRUMBS}
+      breadcrumbs={[
+        {
+          name: locationPath.includes('pipelines/list')
+            ? translate('header.breadcrumbs.pipelines.text')
+            : 'Runs',
+          clickable: true,
+          to: locationPath.includes('pipelines/list')
+            ? routePaths.pipelines.list
+            : routePaths.pipelines.allRuns,
+        },
+      ]}
       headerWithButtons
       renderHeaderRight={() => (
         <></>

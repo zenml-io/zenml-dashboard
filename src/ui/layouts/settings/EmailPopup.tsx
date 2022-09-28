@@ -11,29 +11,32 @@ import {
 } from '../../components';
 import { getTranslateByScope } from '../../../services';
 import { Popup } from '../common/Popup';
-import {
-  showToasterAction,
-  userActions,
-} from '../../../redux/actions';
+import { showToasterAction, sessionActions } from '../../../redux/actions';
 import { toasterTypes } from '../../../constants';
+
+import { sessionSelectors } from '../../../redux/selectors/session';
+import { useSelector } from '../../hooks';
 
 export const EmailPopup: React.FC<{
   userId: any;
   email: any;
+  username: any;
   setPopupOpen: (attr: boolean) => void;
-}> = ({ userId, email, setPopupOpen }) => {
-
+}> = ({ userId, email, username, setPopupOpen }) => {
   const [submitting, setSubmitting] = useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
-  const changeEmail = () => {
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+
+  const changeEmail = async () => {
     setSubmitting(true);
     dispatch(
-      userActions.updateUserEmail({
+      sessionActions.emailUpdate({
         userId,
         email,
+        name: username,
         onFailure: () => {
           setSubmitting(false);
           dispatch(
@@ -57,33 +60,39 @@ export const EmailPopup: React.FC<{
     );
   };
 
-
   return (
-    <Popup onClose={() => setPopupOpen(false)} >
+    <Popup onClose={() => setPopupOpen(false)}>
       <FlexBox.Row justifyContent="center">
         <H3 bold color="darkGrey">
           {translate('popup.title')}
         </H3>
       </FlexBox.Row>
-    
+
       <FlexBox.Row justifyContent="center">
         <Box marginTop="md">
           <Paragraph>{translate('popup.text')}</Paragraph>
         </Box>
       </FlexBox.Row>
-    
+
       <FlexBox justifyContent="center" marginTop="xl" flexWrap>
-            <Box marginRight="sm" marginBottom="md">
-              <GhostButton style={{ width: '150px' }} onClick={() => setPopupOpen(false)}>
-                {translate('popup.cancelButton.text')}
-              </GhostButton>
-            </Box>
-            <Box marginLeft="sm" marginRight="sm" marginBottom="md">
-              <PrimaryButton style={{ width: '150px' }} onClick={changeEmail} loading={submitting} >
-                {translate('popup.successButton.text')}
-              </PrimaryButton>
-            </Box>
-          </FlexBox>
+        <Box marginRight="sm" marginBottom="md">
+          <GhostButton
+            style={{ width: '150px' }}
+            onClick={() => setPopupOpen(false)}
+          >
+            {translate('popup.cancelButton.text')}
+          </GhostButton>
+        </Box>
+        <Box marginLeft="sm" marginRight="sm" marginBottom="md">
+          <PrimaryButton
+            style={{ width: '150px' }}
+            onClick={changeEmail}
+            loading={submitting}
+          >
+            {translate('popup.successButton.text')}
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </Popup>
   );
 };

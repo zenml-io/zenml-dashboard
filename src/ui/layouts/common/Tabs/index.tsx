@@ -27,7 +27,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
           <>
             <FlexBox
               marginTop="xxl"
-              marginBottom="xl"
+              marginBottom="sm"
               className={styles.navigation}
             >
               {pages.map((page, index) => {
@@ -39,7 +39,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                 return (
                   <Box
                     key={index}
-                    paddingBottom="md"
+                    paddingBottom="sm"
                     paddingHorizontal="md"
                     className={joinClassNames(
                       styles.item,

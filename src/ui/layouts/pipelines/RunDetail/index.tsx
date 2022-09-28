@@ -10,9 +10,9 @@ import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
 import { RunTime } from '../RunTime';
 import { KeyValue, RunStatus } from './components';
-import { Results } from './Results';
-import { Statistics } from './Statistics';
-import { Tensorboard } from './Tensorboard';
+// import { Results } from './Results';
+// import { Statistics } from './Statistics';
+// import { Tensorboard } from './Tensorboard';
 import { formatMoney } from '../../../../utils/money';
 import { truncate } from '../../../../utils';
 
@@ -25,20 +25,32 @@ const getTabPages = ({
 }): TabPage[] => {
   return [
     {
-      text: translate('tabs.statistics.text'),
-      Component: () => <Statistics runId={runId} pipelineId={pipelineId} />,
+      text: 'DAG',
+      // <Statistics runId={runId} stackId={stackId} />
+      Component: () => <div>Coming soon</div>,
       path: routePaths.run.pipeline.statistics(runId, pipelineId),
     },
     {
-      text: translate('tabs.results.text'),
-      Component: () => <Results runId={runId} pipelineId={pipelineId} />,
+      text: 'Configuration',
+      // <Results runId={runId} stackId={stackId} />
+      Component: () => <div>Coming soon</div>,
       path: routePaths.run.pipeline.results(runId, pipelineId),
     },
-    {
-      text: translate('tabs.tensorboard.text'),
-      Component: () => <Tensorboard runId={runId} pipelineId={pipelineId} />,
-      path: routePaths.run.pipeline.tensorboard(runId, pipelineId),
-    },
+    // {
+    //   text: translate('tabs.statistics.text'),
+    //   Component: () => <Statistics runId={runId} pipelineId={pipelineId} />,
+    //   path: routePaths.run.pipeline.statistics(runId, pipelineId),
+    // },
+    // {
+    //   text: translate('tabs.results.text'),
+    //   Component: () => <Results runId={runId} pipelineId={pipelineId} />,
+    //   path: routePaths.run.pipeline.results(runId, pipelineId),
+    // },
+    // {
+    //   text: translate('tabs.tensorboard.text'),
+    //   Component: () => <Tensorboard runId={runId} pipelineId={pipelineId} />,
+    //   path: routePaths.run.pipeline.tensorboard(runId, pipelineId),
+    // },
   ];
 };
 
@@ -84,7 +96,7 @@ export const RunDetail: React.FC = () => {
     runId,
     pipelineId,
   });
-
+  // debugger;
   return (
     <BasePage
       tabPages={tabPages}

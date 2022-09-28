@@ -1,7 +1,7 @@
 import React from 'react';
 import { MenuItem } from './MenuItem';
 import { routePaths } from '../../../../../../../routes/routePaths';
-import { icons } from '../../../../../../components';
+import { Box, Separator, icons } from '../../../../../../components';
 import { iconSizes, iconColors } from '../../../../../../../constants';
 import { translate } from '../translate';
 import { useLocationPath } from '../../../../../../hooks';
@@ -19,17 +19,15 @@ export const Menu: React.FC = () => {
   return (
     <>
       <MenuItem
-        Icon={() => (
-          <icons.home color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.home color={iconColors.white} size={iconSizes.md} />}
         to={routePaths.home}
         text={translate('menu.home.text')}
         exact
       />
-      {/* will remove this code later */}
-      {/* <Box marginVertical="md">
-        <Separator.Light />
-      </Box> */}
+      <Box marginHorizontal="md">
+        <Separator.LightNew />
+      </Box>
+
       <MenuItem
         isActive={() => {
           return (
@@ -44,7 +42,7 @@ export const Menu: React.FC = () => {
           );
         }}
         Icon={() => (
-          <icons.stream color={iconColors.white} size={iconSizes.md} />
+          <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.pipelines.list}
         text={translate('menu.pipelines.text')}
@@ -63,15 +61,21 @@ export const Menu: React.FC = () => {
           );
         }}
         Icon={() => (
-          <icons.code color={iconColors.white} size={iconSizes.md} />
+          <icons.stack color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.stacks.list}
         text={translate('menu.stacks.text')}
       />
       {/* <div onClick={() => console.log('asdasd')}> */}
       <MenuItem
+        isActive={() => {
+          return !!matchPath(locationPath, {
+            path: routePaths.stackComponents.base(':id'),
+            exact: false,
+          });
+        }}
         Icon={() => (
-          <icons.data color={iconColors.white} size={iconSizes.md} />
+          <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.stackComponents.base(
           stackComponentsTypes ? stackComponentsTypes[0] : '',
@@ -99,15 +103,18 @@ export const Menu: React.FC = () => {
           {stackComponentsTypes?.map((item) => (
             <>
               <MenuItem
-                // isActive={() => {
-                //   return !!matchPath(locationPath, {
-                //     path: routePaths.stackComponents.base(item),
-                //     exact: false,
-                //   });
-                // }}
+                isActive={() => {
+                  return !!matchPath(locationPath, {
+                    path: routePaths.stackComponents.base(item),
+                    exact: false,
+                  });
+                }}
                 subItem={true}
                 Icon={() => (
-                  <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
+                  <icons.stackComponent
+                    color={iconColors.darkGrey}
+                    size={iconSizes.md}
+                  />
                 )}
                 to={routePaths.stackComponents.base(item)}
                 text={item}

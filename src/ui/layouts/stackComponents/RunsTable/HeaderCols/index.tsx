@@ -5,13 +5,18 @@ import React from 'react';
 // import styles from '../index.module.scss';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 // import { translate } from '../translate';
-import { formatDateToDisplay, truncate } from '../../../../../utils';
+import {
+  formatDateToDisplay,
+  truncate,
+  getInitialsFromEmail,
+} from '../../../../../utils';
 import {
   FlexBox,
   Paragraph,
   // LinkBox,
   Box,
   icons,
+  ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 // import { RunStatus } from '../RunStatus';
@@ -69,8 +74,8 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black">
-            RUN NAME
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            RUN ID
           </Paragraph>
         </SortingHeader>
       ),
@@ -81,28 +86,13 @@ export const useHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
-          STACK
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          RUN NAME
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.stack.name}</Paragraph>
-      ),
+      renderRow: (run: TRun) => <Paragraph size="small">{run.name}</Paragraph>,
     },
-
-    {
-      render: () => (
-        <Paragraph size="small" color="black">
-          RUN TIME
-        </Paragraph>
-      ),
-      width: '10%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.duration}</Paragraph>
-      ),
-    },
-
     {
       render: () => (
         <Paragraph size="small" color="black">
@@ -114,16 +104,70 @@ export const useHeaderCols = ({
         <Paragraph size="small">{run.pipeline.name}</Paragraph>
       ),
     },
+
     {
       render: () => (
-        <Paragraph size="small" color="black">
-          AUTHOR
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          STATUS
         </Paragraph>
       ),
       width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.userName}</Paragraph>
+        <Paragraph
+          style={{
+            justifyContent: 'center',
+            backgroundColor: run.status === 'Finished' ? '#47E08B' : '#FF5C93',
+            borderRadius: '50%',
+            height: '25px',
+            width: '25px',
+            paddingTop: '3px',
+            textAlign: 'center',
+          }}
+        >
+          {run.status === 'Finished' ? (
+            <icons.check color={iconColors.white} size={iconSizes.sm} />
+          ) : (
+            <icons.close color={iconColors.white} size={iconSizes.sm} />
+          )}
+        </Paragraph>
       ),
+    },
+
+    {
+      render: () => (
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          STACK NAME
+        </Paragraph>
+      ),
+      width: '10%',
+      renderRow: (run: TRun) => (
+        <Paragraph size="small">{run.stack.name}</Paragraph>
+      ),
+    },
+    {
+      render: () => (
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          AUTHOR
+        </Paragraph>
+      ),
+      width: '10%',
+      renderRow: (run: TRun) => {
+        const initials = getInitialsFromEmail(
+          run.user.full_name ? run.user.full_name : run.user.name,
+        );
+        return (
+          <FlexBox alignItems="center">
+            <Box paddingRight="sm">
+              <ColoredCircle color="secondary" size="sm">
+                {initials}
+              </ColoredCircle>
+            </Box>
+            <Paragraph size="small">
+              {run.user.full_name ? run.user.full_name : run.user.name}
+            </Paragraph>
+          </FlexBox>
+        );
+      },
     },
     {
       render: () => (
@@ -146,7 +190,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black">
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
             CREATED AT
           </Paragraph>
         </SortingHeader>
@@ -158,7 +202,7 @@ export const useHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(run.creationDate)}
+            {formatDateToDisplay(run.created)}
           </Paragraph>
         </FlexBox>
       ),

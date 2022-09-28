@@ -1,4 +1,4 @@
-import React, { useState, forwardRef } from 'react';
+import React, { useState } from 'react';
 import { translate } from './translate';
 import { List } from './List';
 import { BasePage } from '../BasePage';

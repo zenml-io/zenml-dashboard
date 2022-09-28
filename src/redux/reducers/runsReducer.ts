@@ -1,8 +1,9 @@
 import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
 import {
   pipelineActionTypes,
-  workspaceActionTypes,
   runActionTypes,
+  stackComponentActionTypes,
+  stackActionTypes,
 } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
@@ -10,6 +11,8 @@ export interface State {
   ids: TId[];
   byId: Record<TId, TRun>;
   byPipelineId: Record<TId, TId[]>;
+  byStackId: Record<TId, TId[]>;
+  byStackComponentId: Record<TId, TId[]>;
   myRunIds: TId[];
 }
 
@@ -33,6 +36,8 @@ export type Action = {
   requestParams?: {
     workspaceId: TId;
     pipelineId: TId;
+    stackId: TId;
+    stackComponentId: TId;
   };
 };
 
@@ -40,6 +45,8 @@ export const initialState: State = {
   ids: [],
   byId: {},
   byPipelineId: {},
+  byStackId: {},
+  byStackComponentId: {},
   myRunIds: [],
 };
 
@@ -51,41 +58,44 @@ const newState = (state: State, runs: TRun[]): State => ({
 
 const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
-    case pipelineActionTypes.getMyPipelines.success:
-    case workspaceActionTypes.getPipelinesForWorkspaceId.success: {
-      const payload: PipelinesPayload = action.payload;
+    // case runActionTypes.getAllRuns.success: {
+    //   debugger;
+    //   return { ...state };
+    // }
+    // case pipelineActionTypes.getMyPipelines.success:
+    case runActionTypes.getAllRuns.success: {
+      const payload = action.payload;
+      // debugger;
+      // const byPipelineId: Record<TId, TId[]> = {};
+      let allRuns: TRun[] = payload;
 
-      const byPipelineId: Record<TId, TId[]> = {};
-      let pipelineRuns: TRun[] = [];
+      // payload.forEach(
+      //   (pipeline: { id: TId; pipeline_runs: TRun[]; workspace_id: TId }) => {
+      //     // byPipelineId[pipeline.id] = pipeline.pipeline_runs.map(
+      //     //   (run: TRun) => run.id,
+      //     // );
+      //     byPipelineId[pipeline.id] = (pipeline.pipeline_runs || []).map(
+      //       (run: TRun) => run.id,
+      //     );
 
-      payload.forEach(
-        (pipeline: { id: TId; pipeline_runs: TRun[]; workspace_id: TId }) => {
-          // byPipelineId[pipeline.id] = pipeline.pipeline_runs.map(
-          //   (run: TRun) => run.id,
-          // );
-          byPipelineId[pipeline.id] = (pipeline.pipeline_runs || []).map(
-            (run: TRun) => run.id,
-          );
+      //     const runsFromPipeline = (pipeline.pipeline_runs || []).map(
+      //       (run: TRun) => ({
+      //         ...run,
+      //         workspaceId: pipeline.workspace_id,
+      //         pipelineId: pipeline.id,
+      //       }),
+      //     );
 
-          const runsFromPipeline = (pipeline.pipeline_runs || []).map(
-            (run: TRun) => ({
-              ...run,
-              workspaceId: pipeline.workspace_id,
-              pipelineId: pipeline.id,
-            }),
-          );
+      //     // allRuns = [...allRuns, ...runsFromRun];
+      //   },
+      // );
 
-          pipelineRuns = [...pipelineRuns, ...runsFromPipeline];
-        },
-      );
-
-      const runs: TRun[] = camelCaseArray(pipelineRuns);
+      const runs: TRun[] = camelCaseArray(allRuns);
 
       const myRunIds: TId[] = runs.map((run: TRun) => run.id);
 
-      return { ...newState(state, runs), myRunIds, byPipelineId };
+      return { ...newState(state, runs), myRunIds };
     }
-
     case runActionTypes.getRunForId.success: {
       const payload: RunPayload = action.payload;
 
@@ -103,33 +113,34 @@ const runsReducer = (state: State = initialState, action: Action): State => {
       return { ...state, ...newState(state, [run]) };
     }
 
-    case pipelineActionTypes.getPipelineForId.success: {
-      const payload: PipelinePayload = action.payload;
+    // case pipelineActionTypes.getPipelineForId.success: {
+    //   const payload: PipelinePayload = action.payload;
 
-      const runsFromPipeline = (payload.pipeline_runs || []).map(
-        (run: TRun) => ({
-          ...run,
-          projectName: payload.projectName,
-          pipelineId: payload.id,
-        }),
-      );
+    //   const runsFromPipeline = (payload.pipeline_runs || []).map(
+    //     (run: TRun) => ({
+    //       ...run,
+    //       projectName: payload.projectName,
+    //       pipelineId: payload.id,
+    //     }),
+    //   );
 
-      const runs: TRun[] = camelCaseArray(runsFromPipeline);
+    //   const runs: TRun[] = camelCaseArray(runsFromPipeline);
 
-      const byPipelineId: Record<TId, TId[]> = { ...state.byPipelineId };
+    //   const byPipelineId: Record<TId, TId[]> = { ...state.byPipelineId };
 
-      byPipelineId[payload.id] = runs.map((run: TRun) => run.id);
+    //   byPipelineId[payload.id] = runs.map((run: TRun) => run.id);
 
-      const temp = { ...state, ...newState(state, runs), byPipelineId };
-      return temp;
-    }
+    //   const temp = { ...state, ...newState(state, runs), byPipelineId };
+    //   return temp;
+    // }
     case pipelineActionTypes.getRunsByPipelineId.success: {
       const payload = action.payload;
+      const id = action?.requestParams?.pipelineId;
 
-      const runsFromPipeline = payload.runsByPipeline.map((run: TRun) => ({
+      const runsFromPipeline = payload.map((run: TRun) => ({
         ...run,
         // projectName: payload.projectName,
-        pipelineId: payload.pipelineId,
+        pipelineId: action?.requestParams?.pipelineId,
       }));
 
       const runs: TRun[] = camelCaseArray(runsFromPipeline);
@@ -137,12 +148,61 @@ const runsReducer = (state: State = initialState, action: Action): State => {
 
       const byPipelineId: Record<TId, TId[]> = { ...state.byPipelineId };
 
-      byPipelineId[payload.pipelineId] = runs.map((run: TRun) => run.id);
+      byPipelineId[id as TId] = runs.map((run: TRun) => run.id);
       return {
         ...state,
         ...newState(state, runs),
         myRunIds,
         byPipelineId,
+      };
+    }
+    case stackActionTypes.getRunsByStackId.success: {
+      const payload = action.payload;
+      const id = action?.requestParams?.stackId;
+      const runsFromStack = payload.map((run: TRun) => ({
+        ...run,
+        // projectName: payload.projectName,
+        stackId: id,
+      }));
+
+      const runs: TRun[] = camelCaseArray(runsFromStack);
+      const myRunIds: TId[] = runs.map((run: TRun) => run.id);
+
+      const byStackId: Record<TId, TId[]> = {
+        ...state.byStackId,
+      };
+      // debugger;
+      byStackId[id as TId] = runs.map((run: TRun) => run.id);
+      return {
+        ...state,
+        ...newState(state, runs),
+        myRunIds,
+        byStackId,
+      };
+    }
+    case stackComponentActionTypes.getRunsByStackComponentId.success: {
+      const payload = action.payload;
+      // debugger;
+      const id = action?.requestParams?.stackComponentId;
+      const runsFromStackComponent = payload.map((run: TRun) => ({
+        ...run,
+        // projectName: payload.projectName,
+        stackComponentId: id,
+      }));
+
+      const runs: TRun[] = camelCaseArray(runsFromStackComponent);
+      const myRunIds: TId[] = runs.map((run: TRun) => run.id);
+
+      const byStackComponentId: Record<TId, TId[]> = {
+        ...state.byStackComponentId,
+      };
+
+      byStackComponentId[id as TId] = runs.map((run: TRun) => run.id);
+      return {
+        ...state,
+        ...newState(state, runs),
+        myRunIds,
+        byStackComponentId,
       };
     }
 

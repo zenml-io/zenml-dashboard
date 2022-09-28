@@ -53,7 +53,7 @@ export const useService = (
     }
 
     setFilteredStacks(orderedStacks);
-  }, [filter]);
+  }, [Stacks, filter]);
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));

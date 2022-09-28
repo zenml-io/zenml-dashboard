@@ -14,3 +14,7 @@ export const signupActionTypes = generateApiActionsTypes(
 export const forgotActionTypes = generateApiActionsTypes(
   actionTypes.FORGOT_PASSWORD
 );
+
+export const updateEmailTypes = generateApiActionsTypes(
+  actionTypes.UPDATE_EMAIL
+);

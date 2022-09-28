@@ -31,6 +31,11 @@ import { ReactComponent as AlertTriangle } from './assets/AlertTriangle.svg';
 import { ReactComponent as Settings } from './assets/Settings.svg';
 import { ReactComponent as SingleUser } from './assets/SingleUser.svg';
 import { ReactComponent as MultiUser } from './assets/MultiUser.svg';
+import { ReactComponent as Docs } from './assets/Docs.svg';
+import { ReactComponent as Example } from './assets/Example.svg';
+import { ReactComponent as Pipeline } from './assets/Pipeline.svg';
+import { ReactComponent as Stack } from './assets/Stack.svg';
+import { ReactComponent as StackComponent } from './assets/StackComponent.svg';
 import { ReactComponent as FunnelFill } from './assets/FunnelFill.svg';
 import { ReactComponent as Delete } from './assets/Delete.svg';
 import { ReactComponent as SimplePlus } from './assets/SimplePlus.svg';
@@ -121,9 +126,14 @@ const icons = {
   fileText: createIcon({ Component: FileText, useStroke: true }),
   download: createIcon({ Component: Download, useStroke: true }),
   alertTriangle: createIcon({ Component: AlertTriangle, useStroke: true }),
-  settings: createIcon({ Component: Settings }),
+  settings: createIcon({ Component: Settings, useStroke: true }),
   singleUser: createIcon({ Component: SingleUser }),
   multiUser: createIcon({ Component: MultiUser }),
+  docs: createIcon({ Component: Docs, useStroke: true }),
+  example: createIcon({ Component: Example, useStroke: true }),
+  pipeline: createIcon({ Component: Pipeline, useStroke: true }),
+  stack: createIcon({ Component: Stack, useStroke: true }),
+  stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
   funnelFill: createIcon({ Component: FunnelFill }),
   delete: createIcon({ Component: Delete }),
 };

@@ -36,6 +36,7 @@ export const actionTypesHandledByRequestSaga: string[] = [
   pipelineActionTypes.getPipelineForId.request,
   pipelineActionTypes.getRunsByPipelineId.request,
   stackActionTypes.getMyStacks.request,
+  runActionTypes.getAllRuns.request,
   stackActionTypes.getStackForId.request,
   stackActionTypes.getRunsByStackId.request,
   stackComponentActionTypes.getStackComponentTypes.request,

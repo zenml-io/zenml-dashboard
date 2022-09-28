@@ -5,7 +5,7 @@ $bgColor: rgba(201, 203, 208, 0.2);
 .menuItem {
   display: block;
   text-decoration: none;
-  border-radius: 4px;
+  border-radius: 4px
 }
 
 .menuItem,
@@ -17,22 +17,24 @@ $bgColor: rgba(201, 203, 208, 0.2);
 
 .activeMenuItem,
 .menuItem:hover {
-  // background-color: $whiteColor;
-
   & p {
     color: #E8A562;
   }
-
   & svg path {
-    fill: #E8A562 !important;
+    stroke: #E8A562 !important;
   }
 }
+
 .menuItemSideBox{
+  width: 6px;
+  height: 30px;
+  background: #E8A562 !important;
+  border-top-right-radius: 10.25px;
+  border-bottom-right-radius: 10.25px;
+}
 
-width: 6.56px;
-height: 36.53px;
-background:$primaryColor !important;
-border-top-right-radius: 10.25px;
-border-bottom-right-radius: 10.25px;
-
+.menuItemSideBoxUn {
+  width: 6px;
+  height: 30px;
+  background: transparent !important;
 }

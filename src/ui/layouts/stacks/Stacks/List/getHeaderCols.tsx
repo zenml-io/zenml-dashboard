@@ -1,6 +1,10 @@
 import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-import { formatDateToDisplay, truncate, getInitialsFromEmail } from '../../../../../utils';
+import {
+  formatDateToDisplay,
+  truncate,
+  getInitialsFromEmail,
+} from '../../../../../utils';
 import {
   Box,
   FlexBox,
@@ -22,10 +26,9 @@ export const getHeaderCols = ({
   openStackIds: TId[];
   setOpenStackIds: (ids: TId[]) => void;
 }): HeaderCol[] => {
-
   return [
     {
-      width: '2%',
+      width: '3%',
       renderRow: (stack: TStack) => (
         <LinkBox
           onClick={(e: Event) => {
@@ -40,7 +43,7 @@ export const getHeaderCols = ({
           }}
         >
           <FlexBox justifyContent="center">
-              <icons.chevronDown color={iconColors.grey} size={iconSizes.md} />
+            <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
           </FlexBox>
         </LinkBox>
       ),
@@ -59,29 +62,47 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
+          STACK NAME
+        </Paragraph>
+      ),
+      width: '8%',
+      renderRow: (stack: TStack) => (
+        <Paragraph
+          size="small"
+          style={{ color: '#22BBDD', textDecoration: 'underline' }}
+        >
+          {stack.name}
+        </Paragraph>
+      ),
+    },
+    {
+      render: () => (
+        <Paragraph size="small" color="black">
           SHARED
         </Paragraph>
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
         <Box>
-            <FlexBox justifyContent='center' style={{ backgroundColor: stack.isShared ? '#47E08B' : '#FF5C93', borderRadius: '50%', height: '25px', width: '25px', paddingTop: '3px', textAlign: 'center' }}>
-              {stack.isShared ? <icons.check color={iconColors.white} size={iconSizes.sm} /> : <icons.close color={iconColors.white} size={iconSizes.sm} />} 
-            </FlexBox>    
+          <FlexBox
+            justifyContent="center"
+            style={{
+              borderRadius: '50%',
+              height: '19px',
+              width: '19px',
+              textAlign: 'center',
+            }}
+          >
+            {stack.isShared ? (
+              <icons.multiUser color={iconColors.white} size={iconSizes.sm} />
+            ) : (
+              <icons.singleUser color={iconColors.white} size={iconSizes.sm} />
+            )}
+          </FlexBox>
         </Box>
       ),
     },
-    {
-      render: () => (
-        <Paragraph size="small" color="black">
-          STACK
-        </Paragraph>
-      ),
-      width: '8%',
-      renderRow: (stack: TStack) => (
-        <Paragraph size="small" style={{ color: '#22BBDD', textDecoration: 'underline' }} >{stack.name}</Paragraph>
-      ),
-    },
+
     {
       render: () => (
         <Paragraph size="small" color="black">
@@ -90,7 +111,9 @@ export const getHeaderCols = ({
       ),
       width: '11%',
       renderRow: (stack: TStack) => {
-        const initials = getInitialsFromEmail(stack.userName);
+        const initials = getInitialsFromEmail(
+          stack?.userName ? stack.userName : stack?.user?.name,
+        );
         return (
           <FlexBox alignItems="center">
             <Box paddingRight="sm">
@@ -98,10 +121,12 @@ export const getHeaderCols = ({
                 {initials}
               </ColoredCircle>
             </Box>
-            <Paragraph size="small">{stack.userName}</Paragraph>
+            <Paragraph size="small">
+              {stack.userName ? stack.userName : stack?.user?.name}
+            </Paragraph>
           </FlexBox>
-       )
-      }
+        );
+      },
     },
     {
       render: () => (
@@ -116,7 +141,7 @@ export const getHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph size="tiny">
-            {formatDateToDisplay(stack.creationDate)}
+            {formatDateToDisplay(stack.created)}
           </Paragraph>
         </FlexBox>
       ),

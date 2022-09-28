@@ -31,11 +31,12 @@ export const List: React.FC = () => {
   return (
     <>
       <CollapseTable
-        renderAfterRow={(pipeline: TPipeline) => (
+        renderAfterRow={(pipeline: TPipeline) => ( 
           <RunsForPipelineTable
             pipeline={pipeline}
             openPipelineIds={openPipelineIds}
             fetching={fetching}
+            nestedRow={true}
           />
         )}
         loading={fetching}
