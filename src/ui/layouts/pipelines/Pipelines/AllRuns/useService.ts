@@ -11,7 +11,7 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const fetching = useSelector(pipelinePagesSelectors.fetching);
-  const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
+  // const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
 
   // const runs1 = useSelector((state: any) => {
   //   debugger;

@@ -10,9 +10,9 @@ import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
 import { RunTime } from '../RunTime';
 import { KeyValue, RunStatus } from './components';
-import { Results } from './Results';
-import { Statistics } from './Statistics';
-import { Tensorboard } from './Tensorboard';
+// import { Results } from './Results';
+// import { Statistics } from './Statistics';
+// import { Tensorboard } from './Tensorboard';
 import { formatMoney } from '../../../../utils/money';
 import { truncate } from '../../../../utils';
 

@@ -30,7 +30,8 @@ const PAGES = [
 // ];
 
 export const Pipelines: React.FC = () => {
-  const {} = useService();
+  const { setFetching } = useService();
+  console.log(setFetching);
   const locationPath = useLocationPath();
 
   return (
