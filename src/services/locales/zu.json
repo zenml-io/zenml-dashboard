@@ -448,7 +448,7 @@
                 "text": "Pipelines"
               },
               "allRuns": {
-                "text": "All Runs"
+                "text": "Runs"
               }
             },
             "emptyState": {
@@ -474,7 +474,7 @@
                 "text": "Stacks"
               },
               "allRuns": {
-                "text": "All Runs"
+                "text": " Runs"
               }
             },
             "emptyState": {

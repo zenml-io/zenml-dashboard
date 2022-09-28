@@ -21,6 +21,7 @@ import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
 import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
 import StacksRunDetail from '../ui/layouts/stacks/RunDetail';
+import RunsRunDetail from '../ui/layouts/runs/RunDetail';
 import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
@@ -209,6 +210,38 @@ const routes = [
   {
     path: routePaths.run.stack.tensorboard(':id', ':stackId'),
     Component: StacksRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.run.base(':runId'),
+    Component: RunsRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.run.statistics(':runId'),
+    Component: RunsRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.run.results(':runId'),
+    Component: RunsRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.run.tensorboard(':runId'),
+    Component: RunsRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
