@@ -41,19 +41,15 @@ const getTabPages = ({ runId }: { runId: TId }): TabPage[] => {
 const getBreadcrumbs = ({ runId }: { runId: TId }): TBreadcrumb[] => {
   return [
     {
-      name: 'Stacks',
+      name: 'runs',
       clickable: true,
-      to: routePaths.stacks.list,
+      to: routePaths.pipelines.allRuns,
     },
-    {
-      name: runId,
-      clickable: true,
-      to: routePaths.runs.configuration(runId),
-    },
+
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.stack.statistics(runId, runId),
+      to: routePaths.run.run.statistics(runId),
     },
   ];
 };

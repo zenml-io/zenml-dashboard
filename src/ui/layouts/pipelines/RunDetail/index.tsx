@@ -25,20 +25,32 @@ const getTabPages = ({
 }): TabPage[] => {
   return [
     {
-      text: translate('tabs.statistics.text'),
-      Component: () => <Statistics runId={runId} pipelineId={pipelineId} />,
+      text: 'DAG',
+      // <Statistics runId={runId} stackId={stackId} />
+      Component: () => <div>Coming soon</div>,
       path: routePaths.run.pipeline.statistics(runId, pipelineId),
     },
     {
-      text: translate('tabs.results.text'),
-      Component: () => <Results runId={runId} pipelineId={pipelineId} />,
+      text: 'Configuration',
+      // <Results runId={runId} stackId={stackId} />
+      Component: () => <div>Coming soon</div>,
       path: routePaths.run.pipeline.results(runId, pipelineId),
     },
-    {
-      text: translate('tabs.tensorboard.text'),
-      Component: () => <Tensorboard runId={runId} pipelineId={pipelineId} />,
-      path: routePaths.run.pipeline.tensorboard(runId, pipelineId),
-    },
+    // {
+    //   text: translate('tabs.statistics.text'),
+    //   Component: () => <Statistics runId={runId} pipelineId={pipelineId} />,
+    //   path: routePaths.run.pipeline.statistics(runId, pipelineId),
+    // },
+    // {
+    //   text: translate('tabs.results.text'),
+    //   Component: () => <Results runId={runId} pipelineId={pipelineId} />,
+    //   path: routePaths.run.pipeline.results(runId, pipelineId),
+    // },
+    // {
+    //   text: translate('tabs.tensorboard.text'),
+    //   Component: () => <Tensorboard runId={runId} pipelineId={pipelineId} />,
+    //   path: routePaths.run.pipeline.tensorboard(runId, pipelineId),
+    // },
   ];
 };
 
@@ -84,7 +96,7 @@ export const RunDetail: React.FC = () => {
     runId,
     pipelineId,
   });
-
+  // debugger;
   return (
     <BasePage
       tabPages={tabPages}
