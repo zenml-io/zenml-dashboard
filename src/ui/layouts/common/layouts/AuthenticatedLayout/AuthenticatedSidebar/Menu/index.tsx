@@ -68,6 +68,14 @@ export const Menu: React.FC = () => {
       />
       {/* <div onClick={() => console.log('asdasd')}> */}
       <MenuItem
+        isActive={() => {
+          return (
+            !!matchPath(locationPath, {
+               path: routePaths.stackComponents.base(':id'),
+               exact: false,
+            })
+          );
+        }}
         Icon={() => (
           <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
         )}
@@ -97,12 +105,12 @@ export const Menu: React.FC = () => {
           {stackComponentsTypes?.map((item) => (
             <>
               <MenuItem
-                // isActive={() => {
-                //   return !!matchPath(locationPath, {
-                //     path: routePaths.stackComponents.base(item),
-                //     exact: false,
-                //   });
-                // }}
+                isActive={() => {
+                  return !!matchPath(locationPath, {
+                    path: routePaths.stackComponents.base(item),
+                    exact: false,
+                  });
+                }}
                 subItem={true}
                 Icon={() => (
                   <icons.stackComponent

@@ -13,9 +13,6 @@ const getById = (state: State): Record<TId, TUser> =>
 const getMyUserId = (state: State): TId | null =>
   _.get(stateKey(state), 'myUserId');
 
-const updateUserEmail = (state: State): TId | null =>
-  _.get(stateKey(state), 'updateUserEmail');
-
 export const myUser = (state: State): TUser | null => {
   const myUserId = getMyUserId(state);
   const byId = getById(state);
@@ -30,8 +27,7 @@ export const userForId = (userId: TId): Selector<State, TUser> =>
 
 const userSelectors = {
   myUser: myUser,
-  userForId,
-  updateUserEmail
+  userForId
 };
 
 export { userSelectors };
