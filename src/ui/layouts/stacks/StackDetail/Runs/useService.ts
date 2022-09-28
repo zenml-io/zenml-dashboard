@@ -11,8 +11,8 @@ interface ServiceInterface {
 
 export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
   const fetching = useSelector(stackPagesSelectors.fetching);
-  const runs: TRun[] = useSelector(runSelectors.runsForPipelineId(stackId));
-  // debugger;
+  const runs: TRun[] = useSelector(runSelectors.runsForStackId(stackId));
+
   const runIds = runs.map((run: TRun) => run.id);
 
   return { fetching, runIds };

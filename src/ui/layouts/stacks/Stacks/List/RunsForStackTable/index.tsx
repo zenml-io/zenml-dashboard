@@ -13,20 +13,17 @@ export const RunsForStackTable: React.FC<{
   nestedRow: boolean;
 }> = ({ stack, openStackIds, fetching, nestedRow }) => {
   const { runIds, isStackOpen } = useService({
-    stack,
+    stack, 
     openStackIds,
   });
-  console.log('stack: ', stack);
 
   if (!isStackOpen()) return null;
-
   if (nestedRow) {
     const nestedRowtiles = [];
-
     for (const [key] of Object.entries(stack.components)) {
       nestedRowtiles.push({
         type: key,
-        name: stack.components[key].name,
+        name: stack.components[key][0].name,
       });
     }
 
@@ -37,10 +34,10 @@ export const RunsForStackTable: React.FC<{
     /**
      * return nested rows each row should not exceed more than 4 tiles
      */
+
     return (
       <>
         <NestedRow tiles={nestedRowtiles} />
-        {/* <NestedRow tiles={nestedRowtiles} />; */}
       </>
     );
   }

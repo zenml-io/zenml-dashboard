@@ -31,5 +31,5 @@ fetchApiWithAuthRequest({
     }
     return res;
   });
-
-export default inviteApi;
+  
+  export default inviteApi;

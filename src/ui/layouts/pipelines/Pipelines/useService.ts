@@ -3,6 +3,7 @@
 import { useEffect } from 'react';
 import {
   pipelinePagesActions,
+  runsActions,
   workspacesActions,
 } from '../../../../redux/actions';
 import {
@@ -25,21 +26,17 @@ export const useService = (): ServiceInterface => {
 
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
 
-  useRequestOnMount(workspacesActions.getMy, {});
+  // useRequestOnMount(workspacesActions.getMy, {});
 
   useEffect(() => {
-    // if (currentWorkspace) {
-    //   setFetching(true);
-    //   dispatch(
-    //     workspacesActions.pipelinesForWorkspaceId({
-    //       id: currentWorkspace.id,
-    //       onSuccess: () => setFetching(false),
-    //       onFailure: () => setFetching(false),
-    //     }),
-    //   );
-    // } else if (workspaces.length > 0) {
-    //   setCurrentWorkspace(workspaces[0]);
-    // }
+    setFetching(true);
+    dispatch(
+      runsActions.allRuns({
+        // id: currentWorkspace.id,
+        onSuccess: () => setFetching(false),
+        onFailure: () => setFetching(false),
+      }),
+    );
   }, []);
 
   const setFetching = (fetching: boolean) => {

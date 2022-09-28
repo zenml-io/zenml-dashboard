@@ -33,6 +33,10 @@
                 "label": "Full Name",
                 "placeholder": "John Doe"
               },
+              "username": {
+                "label": "Username",
+                "placeholder": "johndoe"
+              },
               "email": {
                 "label": "Email address",
                 "placeholder": "john.doe@acme.com"
@@ -59,9 +63,9 @@
               "label": "Change Password",
               "button": "Change Password"
             },
-            "emailReset": {
-              "label": "Change Email",
-              "button": "Change Email"
+            "emailNameReset": {
+              "label": "Change Email and Username",
+              "button": "Change Email and Username"
             },
             "toasts": {
               "successful": {
@@ -72,8 +76,8 @@
               }
             },
             "popup": {
-                "title": "Change Email",
-                "text": "Are you sure to change your email",
+                "title": "Change Email and Username",
+                "text": "Are you sure to change your email and username",
                 "successButton": {
                   "text": "Yes"
                 },
@@ -246,25 +250,25 @@
           },
           "Dashboard": {
             "title": "Hello World!",
-            "subtitle": "Here are the first few steps to get you going with ZenML!",
+            "subtitle": "You can find your most important functions here on the dashboard.",
             "cardOne": {
-              "title": "Install client libraries: `pip install zenml`",
+              "title": "Read our documentation",
               "button": {
-                "text": "GitHub",
+                "text": "Read",
                 "href": "https://github.com/maiot-io/zenml"
               }
             },
             "cardTwo": {
-              "title": "Connect your cloud",
+              "title": "Change the settings",
               "button": {
-                "text": "Connect",
+                "text": "Manage",
                 "href": "https://docs.maiot.io/infrastructure/google-cloud-platform"
               }
             },
             "cardThree": {
-              "title": "Try out the quickstart to create your first pipeline",
+              "title": "Invite new members to your organization",
               "button": {
-                "text": "Create",
+                "text": "Invite",
                 "href": "https://docs.maiot.io/getting-started/quickstart"
               }
             }

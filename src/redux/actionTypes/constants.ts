@@ -8,7 +8,7 @@ const sessionActionTypes = {
 const userActionTypes = {
   USERS_GET_MY_USER: 'USERS_GET_MY_USER',
   USERS_GET_USER_FOR_ID: 'USERS_GET_USER_FOR_ID',
-  UPDATE_USER_EMAIL: 'UPDATE_USER_EMAIL'
+  UPDATE_USER: 'UPDATE_USER',
 };
 
 const organizationActionTypes = {
@@ -52,6 +52,7 @@ const stackComponentActionTypes = {
 };
 
 const runActionTypes = {
+  RUNS_GET_ALL_RUNS: 'RUNS_GET_ALL_RUNS',
   RUNS_GET_RUN_FOR_ID: 'RUNS_GET_RUN_FOR_ID',
 };
 
@@ -72,6 +73,10 @@ const pipelinePagesActionTypes = {
   PIPELINE_PAGES_SET_CURRENT_WORKSPACE: 'PIPELINE_PAGES_SET_CURRENT_WORKSPACE',
   PIPELINE_PAGES_SET_SELECTED_RUN_IDS: 'PIPELINE_PAGES_SET_SELECTED_RUN_IDS',
   PIPELINE_PAGES_SET_FETCHING: 'PIPELINE_PAGES_SET_FETCHING',
+};
+
+const runsPagesActionTypes = {
+  RUNS_PAGES_SET_FETCHING: 'RUNS_PAGES_SET_FETCHING',
 };
 
 const stackPagesActionTypes = {
@@ -101,6 +106,7 @@ export const actionTypes = {
   ...pipelineActionTypes,
   ...stackActionTypes,
   ...runActionTypes,
+  ...runsPagesActionTypes,
   ...billingActionTypes,
   ...pipelinePagesActionTypes,
   ...stackPagesActionTypes,

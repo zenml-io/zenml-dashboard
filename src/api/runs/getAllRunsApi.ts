@@ -4,17 +4,15 @@ import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 // import mockApi from '../mockApiData';
 
-const getAllRunsByStackComponentIdApi = ({
+const getAllRunsApi = ({
   authenticationToken,
-  stackComponentId,
 }: {
   authenticationToken: string;
-  stackComponentId: TId;
 }): Promise<TOrganization> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.runs.stackComponent.get(stackComponentId)), // todo: get runs by pipeline id please update endpoint
+    url: apiUrl(endpoints.runs.all),
     method: httpMethods.get,
     authenticationToken,
   });
 
-export default getAllRunsByStackComponentIdApi;
+export default getAllRunsApi;

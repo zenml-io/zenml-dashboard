@@ -35,8 +35,10 @@ type TClickEvent = (arg1: React.MouseEvent) => void;
 interface TUser {
   id: TId;
   fullName: string;
+  name: string;
   email: string;
   organizationId: TId;
+  userName: string;
 }
 
 interface TOrganization {
@@ -72,7 +74,7 @@ interface TWorkspace {
 interface TPipeline {
   id: TId;
   name: string;
-  createdAt: Date;
+  created: Date;
   creationDate: Date;
   projectName: string;
   // workspaceId: TId;
@@ -80,14 +82,20 @@ interface TPipeline {
   owner: string;
   pipelineConfig: any;
   userId: TId;
+  creationDate: Date;
+  isShared: boolean;
+  userName: string;
   user: any;
   runs: Array;
+  status: Array;
   configuration: object;
+  spec?: any;
 }
 interface TStack {
   id: TId;
   name: string;
   creationDate: Date;
+  created: Date;
   projectName: string;
   // workspaceId: TId;
   components: any;
@@ -102,7 +110,12 @@ interface TStack {
   user?: any;
   isShared?: Boolean;
 }
-type TRunStatus = 'Finished' | 'Succeeded' | 'Running' | 'Failed';
+type TRunStatus =
+  | 'Finished'
+  | 'In Progress'
+  | 'completed'
+  | 'Running'
+  | 'Failed';
 
 interface TRun {
   id: TId;
@@ -119,8 +132,11 @@ interface TRun {
   duration?: string;
   owner?: any;
   userName?: any;
+  user?: any;
   creationDate?: any;
   status?: string;
+  created: Date;
+  name?: string;
 }
 
 interface TBreadcrumb {

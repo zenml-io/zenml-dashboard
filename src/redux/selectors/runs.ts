@@ -13,6 +13,10 @@ const getMyRunIds = (state: State): TId[] => _.get(stateKey(state), 'myRunIds');
 
 const getByPipelineId = (state: State): Record<TId, TId[]> =>
   _.get(stateKey(state), 'byPipelineId');
+const getByStackComponentId = (state: State): Record<TId, TId[]> =>
+  _.get(stateKey(state), 'byStackComponentId');
+const getByStackId = (state: State): Record<TId, TId[]> =>
+  _.get(stateKey(state), 'byStackId');
 
 export const myRuns = (state?: State | null): TRun[] => {
   if (!state) return [];
@@ -40,6 +44,26 @@ export const runsForPipelineId = (pipelineId: TId | null | undefined) => (
   if (!byPipelineId[pipelineId]) return [];
   return byPipelineId[pipelineId].map((id: TId) => byId[id]);
 };
+export const runsForStackComponentId = (
+  stackComponentId: TId | null | undefined,
+) => (state?: State | null): TRun[] => {
+  if (!state || !stackComponentId) return [];
+  const byStackComponentId = getByStackComponentId(state);
+  const byId = getById(state);
+
+  if (!byStackComponentId[stackComponentId]) return [];
+  return byStackComponentId[stackComponentId].map((id: TId) => byId[id]);
+};
+export const runsForStackId = (stackId: TId | null | undefined) => (
+  state?: State | null,
+): TRun[] => {
+  if (!state || !stackId) return [];
+  const byStackId = getByStackId(state);
+  const byId = getById(state);
+
+  if (!byStackId[stackId]) return [];
+  return byStackId[stackId].map((id: TId) => byId[id]);
+};
 
 export const runForId = (runId: TId): Selector<any, TRun> =>
   createSelector(getById, extractItemFromById(runId));
@@ -54,6 +78,8 @@ export const forRunIds = (runIds: TId[]) => (state?: State | null): TRun[] => {
 const runSelectors = {
   myRuns,
   runsForPipelineId,
+  runsForStackId,
+  runsForStackComponentId,
   runForId,
   forRunIds,
 };

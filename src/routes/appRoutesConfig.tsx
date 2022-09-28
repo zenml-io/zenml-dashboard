@@ -271,7 +271,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stackComponents.configuration(':id'),
+    path: routePaths.stackComponents.configuration(':type', ':id'),
     Component: stackComponentsDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -279,7 +279,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stackComponents.runs(':id'),
+    path: routePaths.stackComponents.runs(':type', ':id'),
     Component: stackComponentsDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
