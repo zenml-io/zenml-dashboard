@@ -51,6 +51,7 @@ export const endpoints = {
       get: (stackComponentId: TId): string =>
         `/runs?component_id=${stackComponentId}&hydrated=true`,
     },
+    all: `/runs?unlisted=false&hydrated=false`,
     get: (pipelineId: TId, runId: TId): string =>
       `/pipelines/${pipelineId}/runs/${runId}`,
   },

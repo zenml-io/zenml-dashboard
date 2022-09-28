@@ -170,7 +170,9 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => {
-        const initials = getInitialsFromEmail(run.user.full_name);
+        const initials = getInitialsFromEmail(
+          run.user.full_name ? run.user.full_name : run.user.name,
+        );
         console.log(run.status);
         return (
           <FlexBox alignItems="center">
@@ -179,7 +181,9 @@ export const useHeaderCols = ({
                 {initials}
               </ColoredCircle>
             </Box>
-            <Paragraph size="small">{run.user.full_name}</Paragraph>
+            <Paragraph size="small">
+              {run.user.full_name ? run.user.full_name : run.user.name}
+            </Paragraph>
           </FlexBox>
         );
       },
