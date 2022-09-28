@@ -19,11 +19,19 @@ export const fetchApi = ({
   headers?: any;
   params?: any;
 }): Promise<any> => {
+<<<<<<< HEAD
   if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
     return new Promise((resolve, reject) => {
       reject();
     });
   }
+=======
+   if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
+     return new Promise((resolve, reject) => {
+       reject();
+     });
+   }
+>>>>>>> 730d12b05baa772ad34f92002cd4b5010442594b
   return axios({
     method: method || httpMethods.get,
     url,
@@ -46,10 +54,17 @@ export const fetchApiWithAuthRequest = ({
   authenticationToken: string;
   headers?: any;
 }): Promise<any> => {
+<<<<<<< HEAD
   if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
     return new Promise((resolve, reject) => {
       reject();
     });
+=======
+if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
+     return new Promise((resolve, reject) => {
+       reject();
+     });
+>>>>>>> 730d12b05baa772ad34f92002cd4b5010442594b
   }
   return axios({
     method: method || httpMethods.get,
