@@ -46,10 +46,15 @@
   </p>
 </div>
 
-# ⚙ Installation
+# ⚡ Getting Started
+
+## ⚙ Installation
 
 `pip install zenml-dashboard`
 
+## Log In
+
+![img](./assets/screenshot-login.png)
 
 # 🙌 Contributing
 
