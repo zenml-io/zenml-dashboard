@@ -20,7 +20,6 @@ import { InvitePopup } from './InvitePopup';
 type Table = 'members' | 'invites';
 
 export const Organization: React.FC = () => {
-  
   const [fetchingMembers, setFetchingMembers] = useState(true);
 
   const [popupOpen, setPopupOpen] = useState(false);
@@ -42,14 +41,10 @@ export const Organization: React.FC = () => {
   const memberHeaderCols = useMemberHeaderCols();
 
   if (!organization) return null;
-  
+
   return (
     <>
-      {popupOpen && (
-        <InvitePopup
-          setPopupOpen={setPopupOpen}
-        />
-      )}
+      {popupOpen && <InvitePopup setPopupOpen={setPopupOpen} />}
 
       <FlexBox.Column flex={1} style={{ width: '100%', marginLeft: '40px' }}>
         <FlexBox.Row alignItems="center" justifyContent="space-between">

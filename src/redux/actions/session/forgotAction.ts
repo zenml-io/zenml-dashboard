@@ -21,8 +21,8 @@ export const forgotAction = ({
     onSuccess,
     onFailure,
     params: {
-        userId,
-        password
+      userId,
+      password,
     },
   },
 });

@@ -36,6 +36,9 @@ import { ReactComponent as Example } from './assets/Example.svg';
 import { ReactComponent as Pipeline } from './assets/Pipeline.svg';
 import { ReactComponent as Stack } from './assets/Stack.svg';
 import { ReactComponent as StackComponent } from './assets/StackComponent.svg';
+import { ReactComponent as FunnelFill } from './assets/FunnelFill.svg';
+import { ReactComponent as Delete } from './assets/Delete.svg';
+import { ReactComponent as SimplePlus } from './assets/SimplePlus.svg';
 
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
@@ -119,6 +122,7 @@ const icons = {
   bookOpen: createIcon({ Component: BookOpen, useStroke: true }),
   tool: createIcon({ Component: Tool, useStroke: true }),
   plus: createIcon({ Component: Plus }),
+  simplePlus: createIcon({ Component: SimplePlus }),
   fileText: createIcon({ Component: FileText, useStroke: true }),
   download: createIcon({ Component: Download, useStroke: true }),
   alertTriangle: createIcon({ Component: AlertTriangle, useStroke: true }),
@@ -130,6 +134,8 @@ const icons = {
   pipeline: createIcon({ Component: Pipeline, useStroke: true }),
   stack: createIcon({ Component: Stack, useStroke: true }),
   stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
+  funnelFill: createIcon({ Component: FunnelFill }),
+  delete: createIcon({ Component: Delete }),
 };
 
 export { icons };

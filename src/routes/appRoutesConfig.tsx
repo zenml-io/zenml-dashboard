@@ -216,14 +216,6 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.run.base(':runId'),
-    Component: RunsRunDetail,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-    exact: true,
-  },
-  {
     path: routePaths.run.run.statistics(':runId'),
     Component: RunsRunDetail,
     visibility: {
@@ -249,6 +241,14 @@ const routes = [
   },
   {
     path: routePaths.run.component.base(':id', ':stackId'),
+    Component: ComponentRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.component.statistics(':type', ':id', ':stackId'),
     Component: ComponentRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,

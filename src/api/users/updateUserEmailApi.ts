@@ -4,34 +4,32 @@ import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 import mockApi from '../mockApiData';
 
-const inviteApi = ({
+const updateUserEmailApi = ({
   authenticationToken,
-  name,
+  userId,
   email,
 }: {
   authenticationToken: string;
-  name: string;
+  userId:string;
   email: string;
-}): Promise<void> =>
+}): Promise<TUser> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.organizations.invite),
-    method: httpMethods.post,
+    url: apiUrl(endpoints.users.updateUser(userId)),
+    method: httpMethods.put,
     authenticationToken,
     headers: {
       'Content-Type': 'application/json',
     },
     data: JSON.stringify({
-      name,
-      email,
+      email
     }),
   }).catch((res) => {
     if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
       res = {
-        data:
-          mockApi.myOrganizationMockResponse.myOrganizationInviteMockResponse,
+        data: mockApi.userByIdMockResponse,
       };
     }
     return res;
   });
 
-export default inviteApi;
+export default updateUserEmailApi;
