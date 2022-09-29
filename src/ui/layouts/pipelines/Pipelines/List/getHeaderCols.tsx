@@ -53,7 +53,7 @@ export const getHeaderCols = ({
           ID
         </Paragraph>
       ),
-      width: '13%',
+      width: '8%',
       renderRow: (pipeline: TPipeline) => (
         <Paragraph size="small">
           {truncate(pipeline.id, ID_MAX_LENGTH)}
@@ -66,7 +66,7 @@ export const getHeaderCols = ({
           NAME
         </Paragraph>
       ),
-      width: '15%',
+      width: '8%',
       renderRow: (pipeline: TPipeline) => (
         <Paragraph size="small">{pipeline.name}</Paragraph>
       ),
@@ -77,14 +77,14 @@ export const getHeaderCols = ({
           STATUS
         </Paragraph>
       ),
-      width: '10%',
+      width: '8%',
       renderRow: (pipeline: TPipeline) => <Status pipeline={pipeline} />,
     },
 
     {
       render: () => (
         <Paragraph size="small" color="black">
-          AUTHOR
+          OWNER
         </Paragraph>
       ),
       width: '11%',

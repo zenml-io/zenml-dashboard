@@ -29,7 +29,7 @@ export const TokenPopup: React.FC<{
   const dispatch = useDispatch();
   
   const inviteCode = useSelector(organizationSelectors.inviteForCode);
-  
+
   const generateToken = () => {
       setSubmitting(true);
       dispatch(

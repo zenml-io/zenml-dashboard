@@ -32,7 +32,7 @@ export const AuthenticatedSidebar: React.FC<{
       className={cn(styles.sidebar, mobileMenuOpen && styles.mobileSidebarOpen)}
     >
       <FlexBox
-        marginBottom="xxl"
+        marginBottom="xxl" 
         alignItems="center"
         paddingLeft="lg"
         // justifyContent="center"
@@ -46,7 +46,7 @@ export const AuthenticatedSidebar: React.FC<{
         justifyContent='space-between'
         style={{ height: '90%' }}
       >
-        <Box><Menu /></Box>
+        <Box style={{ height: '100%', overflowY: 'auto' }}><Menu /></Box>
         <Box><SideFooter /></Box>
       </FlexBox>
     
