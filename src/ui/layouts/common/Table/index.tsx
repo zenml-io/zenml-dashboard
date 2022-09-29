@@ -34,7 +34,7 @@ export interface TableProps {
   trOnClick?: (arg: any) => void;
 }
 
-const ITEMS_PER_PAGE = 25;
+const ITEMS_PER_PAGE = 5;
 
 export const Table: React.FC<TableProps> = ({
   headerCols,
@@ -72,15 +72,22 @@ export const Table: React.FC<TableProps> = ({
         renderWhenTrue={() => (
           <>
             <table className={styles.table}>
-              <thead style={{ backgroundColor: '#F4F4F4' }} >
+              <thead style={{ backgroundColor: '#F4F4F4' }}>
                 <tr className={showHeader ? styles.tableHeaderRow : ''}>
                   {headerCols.map((headerCol: HeaderCol, index: number) => (
                     <th
                       className={styles.tableHeadingTh}
-                      style={{ width: headerCol.width, color: '#000', fontWeight: 700 }}
+                      style={{
+                        width: headerCol.width,
+                        color: '#000',
+                        fontWeight: 700,
+                      }}
                       key={index}
                     >
-                      <Box paddingVertical={showHeader ? 'sm' : null} paddingLeft='lg' >
+                      <Box
+                        paddingVertical={showHeader ? 'sm' : null}
+                        paddingLeft="lg"
+                      >
                         {headerCol.render && headerCol.render()}
                       </Box>
                     </th>
@@ -111,7 +118,7 @@ export const Table: React.FC<TableProps> = ({
                           style={{ width: headerCol.width }}
                           key={index}
                         >
-                          <Box paddingVertical="md" paddingLeft='lg'>
+                          <Box paddingVertical="md" paddingLeft="lg">
                             <Truncate maxLines={1}>
                               {headerCol.renderRow(headerRow)}
                             </Truncate>
