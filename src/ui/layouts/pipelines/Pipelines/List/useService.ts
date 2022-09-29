@@ -8,6 +8,7 @@ import {
   pipelinePagesSelectors,
   pipelineSelectors,
 } from '../../../../../redux/selectors';
+import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 
 interface ServiceInterface {
   openPipelineIds: TId[];
@@ -17,7 +18,18 @@ interface ServiceInterface {
   setSelectedRunIds: (ids: TId[]) => void;
 }
 
-export const useService = (): ServiceInterface => {
+interface filterValue {
+  label: string;
+  type: string;
+  value: string;
+}
+export const useService = (
+  filter: {
+    column: filterValue;
+    type: filterValue;
+    value: string;
+  }[],
+): ServiceInterface => {
   const dispatch = useDispatch();
 
   const [openPipelineIds, setOpenPipelineIds] = useState<TId[]>([]);
@@ -30,9 +42,14 @@ export const useService = (): ServiceInterface => {
   const pipelines = useSelector(pipelineSelectors.myPipelines);
 
   useEffect(() => {
-    const orderedPipelines = _.sortBy(pipelines, (pipeline: TPipeline) =>
+    let orderedPipelines = _.sortBy(pipelines, (pipeline: TPipeline) =>
       new Date(pipeline.created).getTime(),
     ).reverse();
+
+    const isValidFilter = filter.map((f) => f.value).join('');
+    if (isValidFilter) {
+      orderedPipelines = getFilteredDataForTable(orderedPipelines, filter);
+    }
 
     // const filteredPipelines = orderedPipelines.filter(
     //   (pipeline: TPipeline) =>
@@ -40,7 +57,7 @@ export const useService = (): ServiceInterface => {
     // );
 
     setFilteredPipelines(orderedPipelines);
-  }, []);
+  }, [filter]);
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(pipelinePagesActions.setSelectedRunIds({ runIds }));
