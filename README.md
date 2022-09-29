@@ -5,7 +5,10 @@
     <img src="assets/zenml_logo.png" alt="Logo" width="400">
   </a>
 
-  <h3 align="center">Open-source admin dashboard for ZenML.</h3>
+  <h3 align="center">Open-source companion dashboard for
+   <a href="https://github.com/zenml-io/zenml">ZenML</a>.
+  </h3>
+  
 
   <p align="center">
     Manage and visualize your ML pipelines, stacks and configurations in one place.
@@ -22,7 +25,7 @@
     ·
     <a href="https://zenml.io/roadmap">Roadmap</a>
     ·
-    <a href="https://github.com/zenml-io/zenml/issues">Report Bug</a>
+    <a href="https://github.com/zenml-io/zenml-dashboard/issues">Report Bug</a>
     ·
     <a href="https://zenml.io/discussion">Vote New Features</a>
     ·
@@ -31,7 +34,7 @@
     <a href="#-meet-the-team">Meet the Team</a>
     <br />
     🎉 Version 0.0.1 is out. Check out the release notes
-    <a href="https://github.com/zenml-io/zenml/releases">here</a>.
+    <a href="https://github.com/zenml-io/zenml-dashboard/releases">here</a>.
     <br />
     <br />
     <a href="https://www.linkedin.com/company/zenml/">
