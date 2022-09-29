@@ -16,7 +16,7 @@ interface ServiceInterface {
   setFetching: (arg: boolean) => void;
   setCurrentWorkspace: (arg: TWorkspace | null) => void;
   currentWorkspace: TWorkspace | null;
-  workspaces: TWorkspace[];
+  // workspaces: TWorkspace[];
 }
 
 export const useService = (): ServiceInterface => {
@@ -24,7 +24,7 @@ export const useService = (): ServiceInterface => {
 
   const dispatch = useDispatch();
 
-  const workspaces = useSelector(workspaceSelectors.myWorkspaces);
+  // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
 
   // useRequestOnMount(workspacesActions.getMy, {});
 
@@ -63,6 +63,6 @@ export const useService = (): ServiceInterface => {
     setFetching,
     setCurrentWorkspace,
     currentWorkspace,
-    workspaces,
+    // workspaces,
   };
 };

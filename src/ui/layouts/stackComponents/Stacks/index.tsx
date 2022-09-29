@@ -54,10 +54,11 @@ export const Stacks: React.FC = () => {
   const locationPath = useLocationPath();
   const {
     setFetching,
-    setCurrentWorkspace,
-    currentWorkspace,
-    workspaces,
+    // setCurrentWorkspace,
+    // currentWorkspace,
+    // workspaces,
   } = useService();
+  console.log(setFetching);
 
   return (
     <BasePage
@@ -78,16 +79,17 @@ export const Stacks: React.FC = () => {
       ]}
       headerWithButtons
       renderHeaderRight={() => (
-        <WorkspaceDropdown
-          workspaces={workspaces}
-          currentWorkspace={currentWorkspace}
-          setCurrentWorkspace={(workspace: TWorkspace): void => {
-            if (currentWorkspace && workspace.id !== currentWorkspace.id) {
-              setFetching(true);
-            }
-            setCurrentWorkspace(workspace);
-          }}
-        />
+        <></>
+        // <WorkspaceDropdown
+        //   workspaces={workspaces}
+        //   currentWorkspace={currentWorkspace}
+        //   setCurrentWorkspace={(workspace: TWorkspace): void => {
+        //     if (currentWorkspace && workspace.id !== currentWorkspace.id) {
+        //       setFetching(true);
+        //     }
+        //     setCurrentWorkspace(workspace);
+        //   }}
+        // />
       )}
     />
   );

@@ -57,12 +57,7 @@ const BREADCRUMBS = [
 ];
 
 export const Stacks: React.FC = () => {
-  const {
-    setFetching,
-    setCurrentWorkspace,
-    currentWorkspace,
-    workspaces,
-  } = useService();
+  const { setFetching } = useService();
 
   return (
     <BasePage
@@ -71,16 +66,17 @@ export const Stacks: React.FC = () => {
       breadcrumbs={BREADCRUMBS}
       headerWithButtons
       renderHeaderRight={() => (
-        <WorkspaceDropdown
-          workspaces={workspaces}
-          currentWorkspace={currentWorkspace}
-          setCurrentWorkspace={(workspace: TWorkspace): void => {
-            if (currentWorkspace && workspace.id !== currentWorkspace.id) {
-              setFetching(true);
-            }
-            setCurrentWorkspace(workspace);
-          }}
-        />
+        <></>
+        // <WorkspaceDropdown
+        //   workspaces={workspaces}
+        //   currentWorkspace={currentWorkspace}
+        //   setCurrentWorkspace={(workspace: TWorkspace): void => {
+        //     if (currentWorkspace && workspace.id !== currentWorkspace.id) {
+        //       setFetching(true);
+        //     }
+        //     setCurrentWorkspace(workspace);
+        //   }}
+        // />
       )}
     />
   );
