@@ -5,21 +5,30 @@ import { routePaths } from '../../../../../../../routes/routePaths';
 import { Box, Separator, icons, Paragraph } from '../../../../../../components';
 import { iconSizes, iconColors } from '../../../../../../../constants';
 import { translate } from '../translate';
+import { sessionSelectors } from '../../../../../../../redux/selectors/session';
+import { useSelector } from '../../../../../../hooks';
 import axios from 'axios';
 
 export const SideFooter: React.FC = () => {
 
+  const authToken = useSelector(sessionSelectors.authenticationToken);
   const [apiVersion, setApiVersion] = useState('')
 
   useEffect(()  => {  
     const getApiVersion = async () => {
-    const { data } = await axios.get('http://localhost:8080/version')
+    const { data } = await axios.get('http://localhost:8080/version', {
+      headers: {
+        'Authorization': `bearer ${authToken}` 
+      }
+    })
     setApiVersion(data)
     }
 
     getApiVersion()
+
+     // eslint-disable-next-line
   }, [])
-  
+   
   return (
     <>
      <Box marginHorizontal="md">
