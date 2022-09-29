@@ -126,6 +126,7 @@ interface TRun {
   datasourceCommitId: TId;
   workspaceId: TId;
   pipelineId: TId;
+  pipeline_id: TId;
   userId: TId;
   stack?: any;
   pipeline?: any;

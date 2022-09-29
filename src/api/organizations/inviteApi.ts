@@ -7,13 +7,13 @@ import mockApi from '../mockApiData';
 const inviteApi = ({
   authenticationToken,
   name,
-  email
+  email,
 }: {
   authenticationToken: string;
   name: string;
   email: string;
-}): Promise<void> =>  
-fetchApiWithAuthRequest({
+}): Promise<void> =>
+  fetchApiWithAuthRequest({
     url: apiUrl(endpoints.organizations.invite),
     method: httpMethods.post,
     authenticationToken,
@@ -21,15 +21,17 @@ fetchApiWithAuthRequest({
       'Content-Type': 'application/json',
     },
     data: JSON.stringify({
-      name, email
+      name,
+      email,
     }),
   }).catch((res) => {
     if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
       res = {
-        data: mockApi.myOrganizationMockResponse.myOrganizationInviteMockResponse,
+        data:
+          mockApi.myOrganizationMockResponse.myOrganizationInviteMockResponse,
       };
     }
     return res;
   });
-  
-  export default inviteApi;
+
+export default inviteApi;

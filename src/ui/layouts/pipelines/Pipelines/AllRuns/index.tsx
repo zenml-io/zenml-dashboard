@@ -16,6 +16,7 @@ export const AllRuns: React.FC = () => {
       fetching={fetching}
       emptyStateText={translate('emptyState.text')}
       runIds={runIds}
+      fromAllruns={true}
     />
   );
 };

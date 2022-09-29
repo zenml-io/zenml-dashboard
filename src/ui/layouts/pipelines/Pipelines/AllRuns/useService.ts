@@ -11,7 +11,7 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const fetching = useSelector(pipelinePagesSelectors.fetching);
-  const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
+  // const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
 
   // const runs1 = useSelector((state: any) => {
   //   debugger;
@@ -20,12 +20,12 @@ export const useService = (): ServiceInterface => {
 
   const runs = useSelector(runSelectors.myRuns);
 
-  const filteredRuns = runs.filter(
-    (run: TRun) => currentWorkspace && run.workspaceId === currentWorkspace.id,
-  );
+  // const filteredRuns = runs.filter(
+  //   (run: TRun) => currentWorkspace && run.workspaceId === currentWorkspace.id,
+  // );
 
-  const runIds = filteredRuns.map((run: TRun) => run.id);
-
+  const runIds = runs.map((run: TRun) => run.id);
+  // debugger;
   return {
     fetching,
     runIds,

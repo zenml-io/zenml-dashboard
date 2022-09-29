@@ -42,6 +42,7 @@ export const useService = ({ runIds }: { runIds: TId[] }): ServiceInterface => {
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
   };
+  // debugger;
 
   return {
     sortedRuns,

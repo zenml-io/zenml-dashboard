@@ -69,12 +69,10 @@ export const Menu: React.FC = () => {
       {/* <div onClick={() => console.log('asdasd')}> */}
       <MenuItem
         isActive={() => {
-          return (
-            !!matchPath(locationPath, {
-               path: routePaths.stackComponents.base(':id'),
-               exact: false,
-            })
-          );
+          return !!matchPath(locationPath, {
+            path: routePaths.stackComponents.base(':id'),
+            exact: false,
+          });
         }}
         Icon={() => (
           <icons.stackComponent color={iconColors.white} size={iconSizes.md} />

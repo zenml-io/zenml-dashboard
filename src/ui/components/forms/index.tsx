@@ -37,7 +37,7 @@ export type FieldError = {
 
 export const FormTextField = (props: {
   label: string;
-  labelColor: any;
+  labelColor?: any;
   placeholder: string;
   value: string;
   onChange?: any;
@@ -72,7 +72,7 @@ export const FormTextField = (props: {
 
 export const FormDropdownField = (props: {
   label: string;
-  labelColor: any;
+  labelColor?: any;
   placeholder: string;
   value: string;
   options: any[];
@@ -113,15 +113,14 @@ export const CopyField = (
     value: string;
   } & any,
 ): JSX.Element => {
-
-  const [copied, setCopied] = useState(false)
+  const [copied, setCopied] = useState(false);
   const handleClick = () => {
-    navigator.clipboard.writeText(props.value)
-    setCopied(true)
+    navigator.clipboard.writeText(props.value);
+    setCopied(true);
     setTimeout(() => {
-      setCopied(false)
+      setCopied(false);
     }, 2000);
-  }
+  };
 
   return (
     <FlexBox.Column fullWidth>
@@ -131,28 +130,37 @@ export const CopyField = (
           label={props.label}
           labelColor={props.labelColor}
           InputComponent={
-              <TextInput
-                {...props}
-                value={`${props.value.slice(0, 60)}...`}
-                placeholder={props.placeholder}
-              />
+            <TextInput
+              {...props}
+              value={`${props.value.slice(0, 60)}...`}
+              placeholder={props.placeholder}
+            />
           }
         />
-          <LinkBox
-            style={{ position: 'absolute', right: '10px', top: '30px' }}
-            onClick={handleClick}
-          >
-            <icons.copy color={iconColors.grey} />
-          </LinkBox>
+        <LinkBox
+          style={{ position: 'absolute', right: '10px', top: '30px' }}
+          onClick={handleClick}
+        >
+          <icons.copy color={iconColors.grey} />
+        </LinkBox>
       </FlexBox>
-          {copied && (<div style={{  marginTop: '20px', textAlign: 'right' }} >
-                        <button style={{ backgroundColor: '#F4F4F4', padding: '5px 20px', border: 'none', borderRadius: '5px' }} >Copied</button>
-                      </div>
-          )}
+      {copied && (
+        <div style={{ marginTop: '20px', textAlign: 'right' }}>
+          <button
+            style={{
+              backgroundColor: '#F4F4F4',
+              padding: '5px 20px',
+              border: 'none',
+              borderRadius: '5px',
+            }}
+          >
+            Copied
+          </button>
+        </div>
+      )}
     </FlexBox.Column>
   );
 };
-
 
 export const FormPasswordField = (
   props: {

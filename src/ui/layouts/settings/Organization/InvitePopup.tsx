@@ -1,7 +1,10 @@
 /* eslint-disable */
 import React, { useState } from 'react';
 import { toasterTypes } from '../../../../constants';
-import { organizationActions, showToasterAction } from '../../../../redux/actions';
+import {
+  organizationActions,
+  showToasterAction,
+} from '../../../../redux/actions';
 import { translate } from './translate';
 import {
   Box,
@@ -28,11 +31,10 @@ const emailErrorText = (email: string) =>
 export const InvitePopup: React.FC<{
   setPopupOpen: (attr: boolean) => void;
 }> = ({ setPopupOpen }) => {
- 
   const [submitting, setSubmitting] = useState(false);
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
-  const [email, setEmail] = useState('')
-  const [showTokField, setShowTokField] = useState(false)
+  const [email, setEmail] = useState('');
+  const [showTokField, setShowTokField] = useState(false);
 
   const dispatch = useDispatch();
   const invite = useSelector(organizationSelectors.invite);
@@ -42,30 +44,30 @@ export const InvitePopup: React.FC<{
 
     let error = false;
     if (emailHasError(email || '', true)) {
-        error = true;
+      error = true;
     }
 
     if (!error) {
       setSubmitting(true);
       dispatch(
-          organizationActions.invite({
-            name: email,
-            email: email,
-            onFailure: (errorText: string) => {
-              dispatch(
-                showToasterAction({
-                  description: errorText,
-                  type: toasterTypes.failure,
-                }),
-              );
-              setSubmitting(false);
-            },
-            onSuccess: () => {
-              setShowTokField(true)
-            }         
-            }),
-        );
-     }
+        organizationActions.invite({
+          name: email,
+          email: email,
+          onFailure: (errorText: string) => {
+            dispatch(
+              showToasterAction({
+                description: errorText,
+                type: toasterTypes.failure,
+              }),
+            );
+            setSubmitting(false);
+          },
+          onSuccess: () => {
+            setShowTokField(true);
+          },
+        }),
+      );
+    }
   };
 
   return (
@@ -73,52 +75,54 @@ export const InvitePopup: React.FC<{
       onClose={() => {
         setPopupOpen(false);
         setHasSubmittedWithErrors(false);
-       }}
+      }}
     >
       <FlexBox.Row alignItems="center" justifyContent="space-between">
         <H3 bold color="darkGrey">
-          {showTokField ? translate('popup.invite.text') : translate('popup.title') }
+          {showTokField
+            ? translate('popup.invite.text')
+            : translate('popup.title')}
         </H3>
       </FlexBox.Row>
       <Box marginTop="md">
-          <Box>
-            <FlexBox.Row marginBottom="md">
-              <Box style={{ width: showTokField ? '100%' : '80%' }}>
-                <FormEmailField
-                  label={translate('popup.email.label')}
-                  placeholder={translate('popup.email.placeholder')}
-                  value={email}
-                  onChange={(val: string) => setEmail(val)} 
-                  error={{
-                    hasError: emailHasError(email || '', hasSubmittedWithErrors),
-                    text: emailErrorText(email || ''),
-                  }}
-                />
+        <Box>
+          <FlexBox.Row marginBottom="md">
+            <Box style={{ width: showTokField ? '100%' : '80%' }}>
+              <FormEmailField
+                label={translate('popup.email.label')}
+                placeholder={translate('popup.email.placeholder')}
+                value={email}
+                onChange={(val: string) => setEmail(val)}
+                error={{
+                  hasError: emailHasError(email || '', hasSubmittedWithErrors),
+                  text: emailErrorText(email || ''),
+                }}
+              />
+            </Box>
+
+            {!showTokField && (
+              <Box style={{ width: '10%', marginTop: '22px' }} marginLeft="md">
+                <PrimaryButton
+                  disabled={submitting}
+                  loading={submitting}
+                  onClick={inviteNewMembers}
+                >
+                  {translate('popup.button.text')}
+                </PrimaryButton>
               </Box>
-              
-              {!showTokField && (
-                <Box style={{ width: '10%', marginTop: '22px' }} marginLeft="md">
-                  <PrimaryButton
-                    disabled={submitting}
-                    loading={submitting}
-                    onClick={inviteNewMembers}
-                  >
-                    {translate('popup.button.text')}
-                  </PrimaryButton>
-                </Box>
-              )}
-            </FlexBox.Row>
-            
-            {showTokField && (
-                <Box marginTop='lg'>
-                  <CopyField
-                    label={`Invitation Link - please send this to ${invite?.email} for this user to finish their registration`}
-                    value={`${window.location.origin}/signup?user=${invite?.id}&email=${invite?.email}&token=${invite?.activationToken}`}
-                    disabled
-                  />
-                </Box>
-              )}
-          </Box>
+            )}
+          </FlexBox.Row>
+
+          {showTokField && (
+            <Box marginTop="lg">
+              <CopyField
+                label={`Invitation Link - please send this to ${invite?.email} for this user to finish their registration`}
+                value={`${window.location.origin}/signup?user=${invite?.id}&email=${invite?.email}&token=${invite?.activationToken}`}
+                disabled
+              />
+            </Box>
+          )}
+        </Box>
       </Box>
     </Popup>
   );
