@@ -8,8 +8,11 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { useService } from './useService';
 import { getHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
+interface Props {
+  filter: any;
+}
 
-export const List: React.FC = () => {
+export const List: React.FC<Props> = ({ filter }: Props) => {
   const locationPath = useLocationPath();
   const history = useHistory();
   const {
@@ -18,7 +21,7 @@ export const List: React.FC = () => {
     fetching,
     filteredStacks,
     setSelectedRunIds,
-  } = useService();
+  } = useService(filter);
 
   const headerCols = getHeaderCols({ openStackIds, setOpenStackIds });
 
