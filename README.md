@@ -59,6 +59,9 @@
 ## Home Page
 ![img](./assets/screenshot-home.png)
 
+## Pipelines, Stacks and Components
+![img](./assets/dashboard.gif)
+
 
 # 🙌 Contributing
 
