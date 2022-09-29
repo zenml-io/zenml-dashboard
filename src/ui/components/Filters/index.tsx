@@ -105,6 +105,196 @@ export const getInitialFilterState = () => {
   };
   return JSON.parse(JSON.stringify(initialFilterState));
 };
+export const getInitialFilterStateForPipeline = () => {
+  const initialFilterState = {
+    column: {
+      selectedValue: {
+        value: '',
+        label: '',
+        type: '',
+      },
+      options: [
+        {
+          value: 'name',
+          label: 'Pipeline Name',
+          type: 'string',
+        },
+        {
+          value: 'userName',
+          label: 'Author',
+          type: 'string',
+        },
+        // {
+        //   value: 'isShared',
+        //   label: 'Shared',
+        //   type: 'boolean',
+        // },
+        {
+          value: 'creationDate',
+          label: 'Created at',
+          type: 'date',
+        },
+      ],
+    },
+    contains: {
+      selectedValue: {},
+      options: [
+        {
+          value: 'contains',
+          label: 'Contains',
+          type: 'string',
+        },
+        {
+          value: 'start_with',
+          label: 'Start With',
+          type: 'string',
+        },
+        {
+          value: 'end_with',
+          label: 'End With',
+          type: 'string',
+        },
+        {
+          value: 'equal',
+          label: 'Equal',
+          type: 'string',
+        },
+        {
+          value: 'not_equal',
+          label: 'Not Equal',
+          type: 'string',
+        },
+        {
+          value: 'greater',
+          label: 'Greater than',
+          type: 'date',
+        },
+        {
+          value: 'less',
+          label: 'Less than',
+          type: 'date',
+        },
+        {
+          value: 'equal_date',
+          label: 'Equal',
+          type: 'date',
+        },
+        {
+          value: 'true',
+          label: 'True',
+          type: 'boolean',
+        },
+        {
+          value: 'false',
+          label: 'false',
+          type: 'boolean',
+        },
+      ],
+    },
+    filterValue: '',
+  };
+  return JSON.parse(JSON.stringify(initialFilterState));
+};
+export const getInitialFilterStateForRuns = () => {
+  const initialFilterState = {
+    column: {
+      selectedValue: {
+        value: '',
+        label: '',
+        type: '',
+      },
+      options: [
+        {
+          value: 'name',
+          label: 'Run Name',
+          type: 'string',
+        },
+        {
+          value: 'name',
+          label: 'Pipeline Name',
+          type: 'string',
+        },
+        {
+          value: 'name',
+          label: 'Stack Name',
+          type: 'string',
+        },
+        {
+          value: 'userName',
+          label: 'Author',
+          type: 'string',
+        },
+        // {
+        //   value: 'isShared',
+        //   label: 'Shared',
+        //   type: 'boolean',
+        // },
+        {
+          value: 'creationDate',
+          label: 'Created at',
+          type: 'date',
+        },
+      ],
+    },
+    contains: {
+      selectedValue: {},
+      options: [
+        {
+          value: 'contains',
+          label: 'Contains',
+          type: 'string',
+        },
+        {
+          value: 'start_with',
+          label: 'Start With',
+          type: 'string',
+        },
+        {
+          value: 'end_with',
+          label: 'End With',
+          type: 'string',
+        },
+        {
+          value: 'equal',
+          label: 'Equal',
+          type: 'string',
+        },
+        {
+          value: 'not_equal',
+          label: 'Not Equal',
+          type: 'string',
+        },
+        {
+          value: 'greater',
+          label: 'Greater than',
+          type: 'date',
+        },
+        {
+          value: 'less',
+          label: 'Less than',
+          type: 'date',
+        },
+        {
+          value: 'equal_date',
+          label: 'Equal',
+          type: 'date',
+        },
+        {
+          value: 'true',
+          label: 'True',
+          type: 'boolean',
+        },
+        {
+          value: 'false',
+          label: 'false',
+          type: 'boolean',
+        },
+      ],
+    },
+    filterValue: '',
+  };
+  return JSON.parse(JSON.stringify(initialFilterState));
+};
 const FilterComponent = ({ children, filters, setFilter }: any) => {
   const [applyFilter, setApplyFilter] = useState(false);
 

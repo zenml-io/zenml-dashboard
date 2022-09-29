@@ -1,12 +1,11 @@
 import React from 'react';
 import { Box, ExternalSecondaryLink } from '../../../components';
 import { translate } from './translate';
-
-export const DocumentationLink: React.FC = () => (
+interface Props {
+  text?: string;
+}
+export const DocumentationLink: React.FC<Props> = ({ text }: Props) => (
   <Box className="d-none d-lg-block" paddingVertical="sm" paddingLeft="sm">
-    <ExternalSecondaryLink
-      text={translate('externalLink.text')}
-      href={translate('externalLink.href')}
-    />
+    <ExternalSecondaryLink text={translate('externalLink.text')} href={text} />
   </Box>
 );
