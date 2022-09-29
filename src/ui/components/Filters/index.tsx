@@ -40,7 +40,7 @@ export const getInitialFilterState = () => {
           type: 'boolean',
         },
         {
-          value: 'creationDate',
+          value: 'created',
           label: 'Created at',
           type: 'date',
         },
@@ -130,7 +130,7 @@ export const getInitialFilterStateForPipeline = () => {
         //   type: 'boolean',
         // },
         {
-          value: 'creationDate',
+          value: 'created',
           label: 'Created at',
           type: 'date',
         },
@@ -230,7 +230,7 @@ export const getInitialFilterStateForRuns = () => {
         //   type: 'boolean',
         // },
         {
-          value: 'creationDate',
+          value: 'created',
           label: 'Created at',
           type: 'date',
         },
