@@ -48,13 +48,17 @@
 
 # ⚡ Getting Started
 
-## ⚙ Installation
+## Installation
 
 `pip install zenml-dashboard`
 
 ## Log In
 
 ![img](./assets/screenshot-login.png)
+
+## Home Page
+![img](./assets/screenshot-home.png)
+
 
 # 🙌 Contributing
 
