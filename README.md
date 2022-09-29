@@ -2,7 +2,7 @@
 <br />
 <div align="center">
   <a href="https://zenml.io">
-    <img src="assets/zenml_logo.png" alt="Logo" width="400">
+    <img src="assets/zenml-dashboard-logo.gif" alt="Logo" width="400">
   </a>
 
   <h3 align="center">Open-source companion dashboard for
