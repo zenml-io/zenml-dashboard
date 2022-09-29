@@ -11,7 +11,7 @@
   
 
   <p align="center">
-    Manage and visualize your ML pipelines, stacks and configurations in one place.
+    Manage and visualize your ML pipelines, stacks and artifacts in one place.
     <br />
     <a href="https://docs.zenml.io/"><strong>Explore the docs »</strong></a>
     <br />
@@ -46,7 +46,7 @@
   </p>
 </div>
 
-# Installation
+# ⚙ Installation
 
 `pip install zenml-dashboard`
 
@@ -82,10 +82,10 @@ or subscribe to the [public events calendar](https://calendar.google.com/calenda
 before every community gathering.
 
 # 🆘 Getting Help
+By far the easiest and fastest way to get a response is to:
 
-The first point of call should be [our Slack group](https://zenml.io/slack-invite/).
-Ask your questions about bugs or specific use cases, and someone from the [core team](https://zenml.io/company#CompanyTeam) will respond.
-Or, if you prefer, [open an issue](https://github.com/zenml-io/zenml-dashboard/issues/new/choose) on our GitHub repo.
+1. Ask your questions in [our Slack group](https://zenml.io/slack-invite/).
+2. [Open an issue](https://github.com/zenml-io/zenml-dashboard/issues/new/choose) on our GitHub repo.
 
 
 # 📜 License
