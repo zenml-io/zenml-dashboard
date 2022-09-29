@@ -40,7 +40,10 @@ export const RunsTable: React.FC<{
     fromAllruns
       ? history.push(routePaths.run.run.statistics(run.id))
       : history.push(
-          routePaths.run.pipeline.statistics(run.id, run.pipeline_id),
+          routePaths.run.pipeline.statistics(
+            run.id,
+            run.pipeline_id ? run.pipeline_id : run.pipelineId,
+          ),
         );
   };
 
