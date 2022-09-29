@@ -55,26 +55,55 @@ export const CreatePipelineButton: React.FC = () => {
               Create {locationPath.split('/')[2]}
             </H3>
           </FlexBox.Row>
-          {constantCommandsToCreateComponent.body.map((item): any =>
-            item.isCode ? (
-              <FlexBox alignItems="center" marginTop="md">
-                <CommandBoxWScroll command={item.text} />
-                <Box
-                  className={styles.iconStyle}
-                  style={{ paddingTop: '7px' }}
-                  onClick={handleCopy}
-                >
-                  <icons.copy size={iconSizes.sm} color={iconColors.black} />
-                </Box>
-              </FlexBox>
-            ) : (
-              <FlexBox.Row>
-                <Box marginTop="md">
-                  <Paragraph>{item.text}</Paragraph>
-                </Box>
-              </FlexBox.Row>
-            ),
-          )}
+          {locationPath.split('/')[2] ===
+          constantCommandsToCreateComponent.componentCommand.type
+            ? constantCommandsToCreateComponent.componentCommand.body.map(
+                (item): any =>
+                  item.isCode ? (
+                    <FlexBox alignItems="center" marginTop="md">
+                      <CommandBoxWScroll command={item.text} />
+                      <Box
+                        className={styles.iconStyle}
+                        style={{ paddingTop: '7px' }}
+                        onClick={handleCopy}
+                      >
+                        <icons.copy
+                          size={iconSizes.sm}
+                          color={iconColors.black}
+                        />
+                      </Box>
+                    </FlexBox>
+                  ) : (
+                    <FlexBox.Row>
+                      <Box marginTop="md">
+                        <Paragraph>{item.text}</Paragraph>
+                      </Box>
+                    </FlexBox.Row>
+                  ),
+              )
+            : constantCommandsToCreateComponent.defaultBody.map((item): any =>
+                item.isCode ? (
+                  <FlexBox alignItems="center" marginTop="md">
+                    <CommandBoxWScroll command={item.text} />
+                    <Box
+                      className={styles.iconStyle}
+                      style={{ paddingTop: '7px' }}
+                      onClick={handleCopy}
+                    >
+                      <icons.copy
+                        size={iconSizes.sm}
+                        color={iconColors.black}
+                      />
+                    </Box>
+                  </FlexBox>
+                ) : (
+                  <FlexBox.Row>
+                    <Box marginTop="md">
+                      <Paragraph>{item.text}</Paragraph>
+                    </Box>
+                  </FlexBox.Row>
+                ),
+              )}
 
           {/* <FlexBox.Row>
             <Box marginTop="md">
