@@ -90,7 +90,7 @@ Or, if you prefer, [open an issue](https://github.com/zenml-io/zenml-dashboard/i
 
 # 📜 License
 
-ZenML is distributed under the terms of the Apache License Version 2.0. 
+`zenml-dashboard` is distributed under the terms of the Apache License Version 2.0. 
 A complete version of the license is available in the [LICENSE](LICENSE) file in
 this repository. Any contribution made to this project will be licensed under
 the Apache License Version 2.0.
