@@ -13,7 +13,7 @@ export const RunsForStackTable: React.FC<{
   nestedRow: boolean;
 }> = ({ stack, openStackIds, fetching, nestedRow }) => {
   const { runIds, isStackOpen } = useService({
-    stack, 
+    stack,
     openStackIds,
   });
 
