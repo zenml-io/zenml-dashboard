@@ -1,20 +1,20 @@
 import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import { translate } from './translate';
+// import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 
-import styles from './index.module.scss';
-import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
-import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
-import { RunTime } from '../RunTime';
-import { KeyValue, RunStatus } from './components';
+// import styles from './index.module.scss';
+// import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
+// import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
+// import { RunTime } from '../RunTime';
+// import { KeyValue, RunStatus } from './components';
 // import { Results } from './Results';
 // import { Statistics } from './Statistics';
 // import { Tensorboard } from './Tensorboard';
-import { formatMoney } from '../../../../utils/money';
-import { truncate } from '../../../../utils';
+// import { formatMoney } from '../../../../utils/money';
+// import { truncate } from '../../../../utils';
 
 const getTabPages = ({ runId }: { runId: TId }): TabPage[] => {
   return [
@@ -60,8 +60,8 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, run, billing } = useService();
-
+  // const { runId, run, billing } = useService();
+  const { runId } = useService();
   const tabPages = getTabPages({
     runId,
   });
@@ -75,7 +75,7 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.run.base(runId)}
       breadcrumbs={breadcrumbs}
     >
-      <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
+      {/* <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
         <KeyValue width="10%" label={translate('box.runId.text')}>
           <Truncate maxLines={1}>
             <Paragraph size="small">
@@ -127,7 +127,7 @@ export const RunDetail: React.FC = () => {
             </Paragraph>
           </Truncate>
         </KeyValue>
-      </FlexBox>
+      </FlexBox> */}
     </BasePage>
   );
 };
