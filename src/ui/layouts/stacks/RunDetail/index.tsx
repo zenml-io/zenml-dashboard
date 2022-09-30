@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
@@ -15,11 +15,6 @@ import { Statistics } from './Statistics';
 // import { Tensorboard } from './Tensorboard';
 import { formatMoney } from '../../../../utils/money';
 import { truncate } from '../../../../utils';
-import getDagByRunIdApi from '../../../../api/runs/getDagByRunIdApi';
-import { getDagByRunIdAction } from '../../../../redux/actions/runs/getDagByRunIdAction';
-import { useDispatch } from 'react-redux';
-import { runActionTypes } from '../../../../redux/actionTypes';
-import { runsActions } from '../../../../redux/actions';
 
 const getTabPages = ({
   stackId,
@@ -153,8 +148,3 @@ export const RunDetail: React.FC = () => {
     </BasePage>
   );
 };
-
-export default RunDetail;
-function setFetching(arg0: boolean) {
-  throw new Error('Function not implemented.');
-}
