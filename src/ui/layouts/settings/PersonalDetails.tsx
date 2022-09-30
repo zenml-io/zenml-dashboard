@@ -109,7 +109,7 @@ export const PersonalDetails: React.FC = () => {
               </Box>
 
                 <Box style={{ display: 'flex', justifyContent: 'end' }}>
-                  <PrimaryButton style={{ width: '280px' }} onClick={() => setPopupOpen(true)} disabled={fullName === user.fullName && username === user.name} >
+                  <PrimaryButton style={{ width: '198px' }} onClick={() => setPopupOpen(true)} disabled={fullName === user.fullName && username === user.name} >
                     {translate('nameReset.label')}
                   </PrimaryButton>
                 </Box>
@@ -164,7 +164,7 @@ export const PersonalDetails: React.FC = () => {
                 </Box>
 
                 <Box marginBottom="xs" style={{ display: 'flex', justifyContent: 'end' }}>
-                  <PrimaryButton onClick={forgotPassword} style={{ width: '280px' }} loading={submitting} disabled={newPassword.trim() === '' || confirmPassword.trim() === ''}>
+                  <PrimaryButton onClick={forgotPassword} style={{ width: '198px' }} loading={submitting} disabled={newPassword.trim() === '' || confirmPassword.trim() === ''}>
                     {translate('passwordReset.button')}
                   </PrimaryButton>
                 </Box>

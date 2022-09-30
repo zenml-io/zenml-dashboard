@@ -64,8 +64,8 @@
               "button": "Change Password"
             },
             "nameReset": {
-              "label": "Change Name and Username",
-              "button": "Change Name and Username"
+              "label": "Save Changes",
+              "button": "Save Changes"
             },
             "toasts": {
               "successful": {
