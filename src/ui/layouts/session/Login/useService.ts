@@ -34,7 +34,7 @@ export const useService = (): ServiceInterface => {
     login: () => {
       setLoading(true);
       setHasSubmittedWithErrors(true);
-      if (username.trim() !== '' && password.trim() !== '') {
+      if (username.trim() !== '') {
         dispatch(
           loginAction({
             password,

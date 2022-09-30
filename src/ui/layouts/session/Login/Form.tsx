@@ -25,7 +25,7 @@ export const Form: React.FC = () => {
     login();
   };
 
-  const BUTTON_DISABLED = username.trim() === '' || password.trim() === '';
+  const BUTTON_DISABLED = username.trim() === '';
 
   useEnterKeyPress(() => {
     if (!BUTTON_DISABLED) login();
