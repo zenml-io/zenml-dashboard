@@ -1,14 +1,7 @@
 .layoutflow {
   flex-grow: 1;
   position: relative;
-  height: 100%;
-}
-
-.layoutflow .controls {
-  position: absolute;
-  right: 2rem;
-  top: 2rem;
-  z-index: 10;
+  height: 450px;
 }
 
 .layout {
@@ -16,13 +9,14 @@
   height: 100%;
   display: grid;
   grid-template-columns: 2.8fr 1fr;
+  position: relative;
 }
 
 .controls {
   display: flex;
   position: absolute;
   top: 2rem;
-  right: 4.5rem;
+  right: 0rem;
   gap: 1rem;
   z-index: 100;
 }
@@ -33,6 +27,7 @@
   border-radius: 0.5rem;
   background: #fff;
   cursor: pointer;
+  font-size: 14px;
 }
 
 .detailsPositioning {
@@ -43,8 +38,8 @@
 
 .detailsBox {
   background: #fbfbfc;
-  width: 90%;
-  min-height: 50%;
+  width: 100%;
+  min-height: 80%;
   border-radius: 6px;
   padding: 3rem;
   font-family: Arial, Helvetica, sans-serif;

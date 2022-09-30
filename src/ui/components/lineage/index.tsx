@@ -15,22 +15,6 @@ import StepNode from './StepNode';
 import './index.css';
 import { Analysis, Data, Model, Schema, Service, Statistic } from './icons';
 
-const placeholderData = {
-  status: '',
-  execution_id: '',
-  entrypoint_name: '',
-  name: '',
-  parameters: {},
-  inputs: {},
-  outputs: {},
-  is_cached: true,
-  artifact_type: '',
-  artifact_data_type: '',
-  parent_step_id: '',
-  producer_step_id: '',
-  uri: '',
-};
-
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
@@ -118,37 +102,37 @@ export const LayoutFlow: React.FC = () => {
 
   return (
     <>
-      <div className="controls">
-        <button onClick={() => onLayout('TB')}>Vertical Layout</button>
-        <button onClick={() => onLayout('LR')}>Horizontal Layout</button>
-        <button
-          onClick={() => setLegend(!legend)}
-          style={{ position: 'relative' }}
-        >
-          Legend
-        </button>
-        <div className="legend" style={{ display: legend ? '' : 'none' }}>
-          <span>
-            <Analysis /> <span>Data Analysis Artifact</span>
-          </span>
-          <span>
-            <Data /> <span>Data Artifact</span>
-          </span>
-          <span>
-            <Model /> <span>Model Artifact</span>
-          </span>
-          <span>
-            <Schema /> <span>Schema Artifact</span>
-          </span>
-          <span>
-            <Service /> <span>Service Artifact</span>
-          </span>
-          <span>
-            <Statistic /> <span>Statistic Artifact</span>
-          </span>
-        </div>
-      </div>
       <div className="layout">
+        <div className="controls">
+          <button onClick={() => onLayout('TB')}>Vertical Layout</button>
+          <button onClick={() => onLayout('LR')}>Horizontal Layout</button>
+          <button
+            onClick={() => setLegend(!legend)}
+            style={{ position: 'relative' }}
+          >
+            Legend
+          </button>
+          <div className="legend" style={{ display: legend ? '' : 'none' }}>
+            <span>
+              <Analysis /> <span>Data Analysis Artifact</span>
+            </span>
+            <span>
+              <Data /> <span>Data Artifact</span>
+            </span>
+            <span>
+              <Model /> <span>Model Artifact</span>
+            </span>
+            <span>
+              <Schema /> <span>Schema Artifact</span>
+            </span>
+            <span>
+              <Service /> <span>Service Artifact</span>
+            </span>
+            <span>
+              <Statistic /> <span>Statistic Artifact</span>
+            </span>
+          </div>
+        </div>
         <div className="layoutflow">
           <ReactFlow
             nodes={nodes}
@@ -159,8 +143,6 @@ export const LayoutFlow: React.FC = () => {
             connectionLineType={ConnectionLineType.SmoothStep}
             nodeTypes={nodeTypes}
             onNodeClick={(event, node) => setSelectedNode(node.data)}
-            // onNodeMouseEnter={(event, node) => setSelectedNode(node.data)}
-            // onNodeMouseLeave={() => setSelectedNode(placeholderData)}
             fitView
           >
             <Controls />

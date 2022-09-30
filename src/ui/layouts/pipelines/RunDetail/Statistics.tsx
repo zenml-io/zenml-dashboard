@@ -1,13 +1,11 @@
 import React from 'react';
-import { CommandBox } from '../../common/CommandBox';
-import { BASE_COMMAND } from './constants';
-import {
-  LayoutFlow,
-} from '../../../components';
+import { LayoutFlow } from '../../../components';
 
-export const Statistics: React.FC<{ runId: TId; pipelineId: TId }> = ({
+export const Statistics: React.FC<{ runId: string; pipelineId: string }> = ({
   runId,
   pipelineId,
 }) => (
-  <LayoutFlow />
+  <>
+    <LayoutFlow />
+  </>
 );
