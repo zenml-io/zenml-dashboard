@@ -55,13 +55,9 @@ export const TokenPopup: React.FC<{
           );
           setSubmitting(false);
           setPopupOpen(false);
-        },
-        onSuccess: () => {
-          setShowTokField(true);
-        },
-      }),
-    );
-  };
+        }
+    
+  
 
   const onClose = () => {
     setShowTokField(false);
