@@ -57,7 +57,7 @@ export const useService = (
     // );
 
     setFilteredPipelines(orderedPipelines);
-  }, [filter]);
+  }, [filter, pipelines]);
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(pipelinePagesActions.setSelectedRunIds({ runIds }));

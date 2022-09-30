@@ -2,6 +2,7 @@ import { signupActionTypes } from '../../actionTypes';
 import signUpApi from '../../../api/session/signUpApi';
 
 export const signUpAction = ({
+  userId,
   username,
   email,
   fullName,
@@ -10,6 +11,7 @@ export const signUpAction = ({
   onSuccess,
   onFailure,
 }: {
+  userId: string;
   username: string;
   email: string;
   fullName: string;
@@ -28,6 +30,7 @@ export const signUpAction = ({
     onFailure,
     params: {
       account: {
+        userId,
         username,
         email,
         fullName,

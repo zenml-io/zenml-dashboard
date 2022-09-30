@@ -25,7 +25,11 @@ const FilterWrapper = () => {
     return filterValuesMap;
   }
   return (
-    <FilterComponent filters={filters} setFilter={setFilter}>
+    <FilterComponent
+      getInitials={getInitialFilterStateForPipeline}
+      filters={filters}
+      setFilter={setFilter}
+    >
       <List filter={getFilter(filters)} />
     </FilterComponent>
   );

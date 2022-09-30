@@ -53,11 +53,7 @@ export const useService = (
     if (isValidFilter) {
       orderedStacks = getFilteredDataForTable(orderedStacks, filter);
     }
-    // const filteredPipelines = orderedPipelines.filter(
-    //   (pipeline: TPipeline) =>
-    //     currentWorkspace && pipeline.projectName === currentWorkspace.id,
-    // );
-    // debugger;
+
     setFilteredStacks(orderedStacks);
   }, [stackComponents, filter]);
 

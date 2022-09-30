@@ -3,7 +3,7 @@ import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import { Box, Paragraph, icons } from '../../../components';
 import { iconColors, iconSizes } from '../../../../constants';
-import { formatDateToDisplay } from '../../../../utils';
+import { camelCaseToParagraph, formatDateToDisplay } from '../../../../utils';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
 import { Runs } from './Runs';
@@ -35,7 +35,8 @@ const getTabPages = (stackId: TId, locationPath: any): TabPage[] => {
 const getBreadcrumbs = (stackId: TId, locationPath: any): TBreadcrumb[] => {
   return [
     {
-      name: locationPath.split('/')[2],
+      name: camelCaseToParagraph(locationPath.split('/')[2]),
+
       clickable: true,
       to: routePaths.stackComponents.base(locationPath.split('/')[2]),
     },
@@ -43,7 +44,7 @@ const getBreadcrumbs = (stackId: TId, locationPath: any): TBreadcrumb[] => {
       name: stackId,
       clickable: true,
       to: routePaths.stackComponents.configuration(
-        locationPath.split('/')[2],
+        camelCaseToParagraph(locationPath.split('/')[2]),
         stackId,
       ),
     },

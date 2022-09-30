@@ -3,13 +3,13 @@ import emailUpdateApi from '../../../api/session/emailUpdate';
 
 export const emailUpdateAction = ({
   userId,
-  email,
+  fullName,
   name,
   onSuccess,
   onFailure,
 }: {
   userId: string;
-  email: string;
+  fullName: string;
   name: string;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -22,6 +22,6 @@ export const emailUpdateAction = ({
     successActionType: updateEmailTypes.success,
     onSuccess,
     onFailure,
-    params: { userId, email, name },
+    params: { userId, fullName, name },
   },
 });

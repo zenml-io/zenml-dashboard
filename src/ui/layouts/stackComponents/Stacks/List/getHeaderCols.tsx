@@ -57,7 +57,7 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          FLAVOUR
+          FLAVOR
         </Paragraph>
       ),
       width: '15%',
@@ -68,7 +68,7 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          Shared
+          SHARED
         </Paragraph>
       ),
       width: '15%',
@@ -96,7 +96,7 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          USER
+          OWNER
         </Paragraph>
       ),
       width: '15%',

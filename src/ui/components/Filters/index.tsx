@@ -26,7 +26,7 @@ export const getInitialFilterState = () => {
       options: [
         {
           value: 'name',
-          label: 'Stack Name',
+          label: 'Name',
           type: 'string',
         },
         {
@@ -40,7 +40,7 @@ export const getInitialFilterState = () => {
           type: 'boolean',
         },
         {
-          value: 'creationDate',
+          value: 'created',
           label: 'Created at',
           type: 'date',
         },
@@ -116,7 +116,7 @@ export const getInitialFilterStateForPipeline = () => {
       options: [
         {
           value: 'name',
-          label: 'Pipeline Name',
+          label: 'Name',
           type: 'string',
         },
         {
@@ -130,7 +130,7 @@ export const getInitialFilterStateForPipeline = () => {
         //   type: 'boolean',
         // },
         {
-          value: 'creationDate',
+          value: 'created',
           label: 'Created at',
           type: 'date',
         },
@@ -230,7 +230,7 @@ export const getInitialFilterStateForRuns = () => {
         //   type: 'boolean',
         // },
         {
-          value: 'creationDate',
+          value: 'created',
           label: 'Created at',
           type: 'date',
         },
@@ -295,7 +295,12 @@ export const getInitialFilterStateForRuns = () => {
   };
   return JSON.parse(JSON.stringify(initialFilterState));
 };
-const FilterComponent = ({ children, filters, setFilter }: any) => {
+const FilterComponent = ({
+  children,
+  filters,
+  setFilter,
+  getInitials,
+}: any) => {
   const [applyFilter, setApplyFilter] = useState(false);
 
   function handleChange(filter: any, key: string, value: string) {
@@ -321,7 +326,7 @@ const FilterComponent = ({ children, filters, setFilter }: any) => {
   }
 
   function addAnotherFilter() {
-    setFilter([...filters, getInitialFilterState()]);
+    setFilter([...filters, getInitials()]);
   }
 
   function hanldeDelete(index: number) {
