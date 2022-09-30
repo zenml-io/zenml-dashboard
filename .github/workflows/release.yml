@@ -7,34 +7,31 @@ on:
       - "v*"
 
 jobs:
-  test:
-    uses: fuseml/fuseml/.github/workflows/ci.yml@main
-
   release:
     name: Release
     runs-on: ubuntu-latest
-    needs: test
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - name: Fetch Branch
-        id: branch
-        run: |
-          raw=$(git branch -r --contains ${{ github.ref }})
-          branch=${raw##*/}
-          echo "::set-output name=BRANCH_NAME::$branch"
-      - name: Setup Go
-        uses: actions/setup-go@v2
+      - uses: actions/setup-node@v3
         with:
-          go-version: "^1.16"
-      - name: Setup Ginkgo Test Framework
+          node-version: 14.20.0
+      - name: Install yarn
+        run: npm install --global yarn
+      - name: Build
         run: |
-          go install github.com/onsi/ginkgo/ginkgo
-      - name: Build FuseML
-        run: |
-          make release
+          yarn install
+          yarn build
+        env:
+          REACT_APP_BASE_API_URL: "/api/v1"
+          REACT_APP_MOCKAPI_RESPONSE: false
+
+      - name: Get the version from the github tag ref
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
       - name: Generate Changelog
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
         with:
@@ -44,63 +41,11 @@ jobs:
           stripGeneratorNotice: "true"
           issuesWoLabels: "true"
           stripHeaders: "true"
-      - name: Release FuseML
+      - name: Release to GitHub
         uses: softprops/action-gh-release@v1
         with:
-          files: ./dist/*
+          files: ./build/*
           body_path: ./CHANGELOG.md
           prerelease: "true"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
-  docker-image:
-    name: Docker image
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v2
-
-      - name: Set up Docker Buildx
-        uses: crazy-max/ghaction-docker-buildx@v1
-        with:
-          version: latest
-
-      - name: Login to GHCR
-        uses: docker/login-action@v1
-        with:
-          registry: ghcr.io
-          username: ${{ github.repository_owner }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Setup Go
-        uses: actions/setup-go@v2
-        with:
-          go-version: "^1.16"
-
-      - name: Setup Ginkgo Test Framework
-        run: |
-          go install github.com/onsi/ginkgo/ginkgo
-      - name: Set image name and tag
-        run: |
-          case "${GITHUB_REF}" in
-            refs/heads/main)
-              TAG="dev"
-              ;;
-            refs/tags/v*)
-              TAG=${GITHUB_REF/refs\/tags\//}
-              ;;
-            *)
-              TAG=${GITHUB_REF/refs\/*\//}
-              ;;
-          esac
-          echo "IMG=ghcr.io/fuseml/fuseml-installer:${TAG}" >> $GITHUB_ENV
-      - name: Build image
-        run: |
-          make docker-build
-      - name: Push image
-        run: |
-          make docker-push
-  fetch-installer:
-    uses: fuseml/fuseml/.github/workflows/get-fuseml-installer.yml@main
-    needs: release
