@@ -44,7 +44,7 @@ export const useService = (
 
   useEffect(() => {
     let orderedStacks = _.sortBy(Stacks, (stack: TStack) =>
-      new Date(stack.creationDate).getTime(),
+      new Date(stack.created).getTime(),
     ).reverse();
 
     const isValidFilter = filter.map((f) => f.value).join('');

@@ -9,6 +9,7 @@ import {
   stackPagesSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
+import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 
 interface ServiceInterface {
   openStackIds: TId[];
@@ -17,8 +18,19 @@ interface ServiceInterface {
   filteredStacks: TStack[];
   setSelectedRunIds: (ids: TId[]) => void;
 }
+interface filterValue {
+  label: string;
+  type: string;
+  value: string;
+}
 
-export const useService = (): ServiceInterface => {
+export const useService = (
+  filter: {
+    column: filterValue;
+    type: filterValue;
+    value: string;
+  }[],
+): ServiceInterface => {
   const dispatch = useDispatch();
 
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
@@ -33,17 +45,17 @@ export const useService = (): ServiceInterface => {
   );
 
   useEffect(() => {
-    const orderedStacks = _.sortBy(stackComponents, (stack: TStack) =>
+    let orderedStacks = _.sortBy(stackComponents, (stack: TStack) =>
       new Date(stack.creationDate).getTime(),
     ).reverse();
 
-    // const filteredPipelines = orderedPipelines.filter(
-    //   (pipeline: TPipeline) =>
-    //     currentWorkspace && pipeline.projectName === currentWorkspace.id,
-    // );
-    // debugger;
+    const isValidFilter = filter.map((f) => f.value).join('');
+    if (isValidFilter) {
+      orderedStacks = getFilteredDataForTable(orderedStacks, filter);
+    }
+
     setFilteredStacks(orderedStacks);
-  }, [stackComponents]);
+  }, [stackComponents, filter]);
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));

@@ -24,12 +24,12 @@ export const SecondaryLink = (props: {
 );
 
 export const ExternalSecondaryLink = (props: {
-  href: string;
+  href?: string;
   text: string;
   size?: Sizes;
 }): JSX.Element => (
   <a
-    target="_blank" 
+    target="_blank"
     rel="noopener noreferrer"
     className={styles.link}
     href={props.href}

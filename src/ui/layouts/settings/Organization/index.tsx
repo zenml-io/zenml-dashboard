@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { organizationActions } from '../../../../redux/actions';
 import { organizationSelectors } from '../../../../redux/selectors';
@@ -39,7 +39,9 @@ export const Organization: React.FC = () => {
   const members = useSelector(organizationSelectors.myMembers);
   // const invites = useSelector(organizationSelectors.invites);
   const memberHeaderCols = useMemberHeaderCols();
-
+  useEffect(() => {
+    //This is important
+  }, [members]);
   if (!organization) return null;
 
   return (
