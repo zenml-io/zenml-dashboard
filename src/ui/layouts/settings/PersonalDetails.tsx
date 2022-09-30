@@ -117,13 +117,81 @@ export const PersonalDetails: React.FC = () => {
           </Row>
         </Box>
 
-        <Box marginBottom="xs" style={{ display: 'flex', justifyContent: 'end' }}>
-          <PrimaryButton onClick={forgotPassword} style={{ width: '198px' }} loading={submitting} disabled={newPassword.trim() === '' || confirmPassword.trim() === ''}>
-            {translate('passwordReset.button')}
-          </PrimaryButton>
+        <Box marginBottom="lg" marginTop="xl">
+          <Row>
+            <Col lg={5}>
+              <Box marginBottom="lg">
+                <FormPasswordField
+                  label={translate('form.passwordChange.currentPassword.label')}
+                  labelColor="#000"
+                  placeholder={translate(
+                    'form.passwordChange.currentPassword.placeholder',
+                  )}
+                  value={currentPassword}
+                  onChange={(val: string) => setCurrentPassword(val)}
+                  error={{
+                    hasError: currentPassword.trim() === undefined,
+                    text: translate(
+                      'form.passwordChange.currentPassword.required',
+                    ),
+                  }}
+                  showPasswordOption
+                />
+              </Box>
+              <Box marginBottom="lg">
+                <FormPasswordField
+                  label={translate('form.passwordChange.newPassword.label')}
+                  labelColor="#000"
+                  placeholder={translate(
+                    'form.passwordChange.newPassword.placeholder',
+                  )}
+                  value={newPassword}
+                  onChange={(val: string) => setNewPassword(val)}
+                  error={{
+                    hasError: newPassword.trim() === undefined,
+                    text: translate('form.passwordChange.newPassword.required'),
+                  }}
+                  showPasswordOption
+                />
+              </Box>
+              <Box marginBottom="lg">
+                <FormPasswordField
+                  label={translate('form.passwordChange.confirmPassword.label')}
+                  labelColor="#000"
+                  placeholder={translate(
+                    'form.passwordChange.confirmPassword.placeholder',
+                  )}
+                  value={confirmPassword}
+                  onChange={(val: string) => setConfirmPassword(val)}
+                  error={{
+                    hasError: confirmPassword.trim() === undefined,
+                    text: translate(
+                      'form.passwordChange.confirmPassword.required',
+                    ),
+                  }}
+                  showPasswordOption
+                />
+              </Box>
+
+              <Box
+                marginBottom="xs"
+                style={{ display: 'flex', justifyContent: 'end' }}
+              >
+                <PrimaryButton
+                  onClick={forgotPassword}
+                  style={{ width: '198px' }}
+                  loading={submitting}
+                  disabled={
+                    newPassword.trim() === '' || confirmPassword.trim() === ''
+                  }
+                >
+                  {translate('passwordReset.button')}
+                </PrimaryButton>
+              </Box>
+            </Col>
+          </Row>
         </Box>
-    
-    </FlexBox.Column>
-  </>
+      </FlexBox.Column>
+    </>
   );
 };
