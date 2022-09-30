@@ -165,7 +165,7 @@ export const useHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
-          AUTHOR
+          OWNER
         </Paragraph>
       ),
       width: '10%',
@@ -173,7 +173,6 @@ export const useHeaderCols = ({
         const initials = getInitialsFromEmail(
           run.user.full_name ? run.user.full_name : run.user.name,
         );
-        console.log(run.status);
         return (
           <FlexBox alignItems="center">
             <Box paddingRight="sm">
@@ -210,7 +209,7 @@ export const useHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black">
-            CREATED AT
+            CREATED
           </Paragraph>
         </SortingHeader>
       ),

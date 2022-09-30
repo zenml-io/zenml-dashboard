@@ -52,6 +52,7 @@ interface TInvite {
   organizationName: string;
   code: string;
   email: string;
+  name: string;
   createdAt: Date;
 }
 
@@ -60,6 +61,7 @@ interface TMember {
   organizationId: string;
   fullName: string;
   email: string;
+  name: string;
   created: Date;
   active: boolean;
   activation_token: string;

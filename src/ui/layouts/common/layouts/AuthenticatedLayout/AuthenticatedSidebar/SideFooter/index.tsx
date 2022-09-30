@@ -16,7 +16,7 @@ export const SideFooter: React.FC = () => {
 
   useEffect(()  => {  
     const getApiVersion = async () => {
-    const { data } = await axios.get('http://localhost:8080/version', {
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/version`, {
       headers: {
         'Authorization': `bearer ${authToken}` 
       }
@@ -25,9 +25,7 @@ export const SideFooter: React.FC = () => {
     }
 
     getApiVersion()
-
-     // eslint-disable-next-line
-  }, [])
+  }, [authToken])
    
   return (
     <>
@@ -51,11 +49,11 @@ export const SideFooter: React.FC = () => {
       <MenuItem
         Icon={() => (
           <icons.settings color={iconColors.white} size={iconSizes.md} />
-        )} to={routePaths.settings.personalDetails} text={translate('menu.setting.text')} exact />
+        )} to={routePaths.settings.personalDetails} text={translate('menu.setting.text')} />
 
         <Box paddingLeft='md' paddingTop="md" paddingBottom="sm">
           <Paragraph color='white' style={{ fontSize: '8px' }}>UI Version v{process.env.REACT_APP_VERSION}</Paragraph>
-          <Paragraph color='white' style={{ fontSize: '8px' }}>ZenMl v{apiVersion}</Paragraph>
+          <Paragraph color='white' style={{ fontSize: '8px' }}>ZenML v{apiVersion}</Paragraph>
         </Box>
       </>
   );

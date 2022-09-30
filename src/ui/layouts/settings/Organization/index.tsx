@@ -2,12 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { organizationActions } from '../../../../redux/actions';
 import { organizationSelectors } from '../../../../redux/selectors';
-import { getInitials } from '../../../../utils';
 
 import {
   FlexBox,
   Box,
-  ColoredSquare,
   Paragraph,
   PrimaryButton,
   LinkBox,
@@ -53,21 +51,8 @@ export const Organization: React.FC = () => {
           setPopupOpen={setPopupOpen}
           />
       )}
-
       <FlexBox.Column flex={1} style={{ width: '100%', marginLeft: '40px' }}>
-        <FlexBox.Row alignItems="center" justifyContent="space-between">
-          <FlexBox.Row alignItems="center">
-            <Box>
-              <ColoredSquare size="md" color="secondary">
-                <Paragraph color="white">
-                  {getInitials(organization.name)}
-                </Paragraph>
-              </ColoredSquare>
-            </Box>
-            <Box marginLeft="md">
-              <Paragraph bold>{organization.name}</Paragraph>
-            </Box>
-          </FlexBox.Row>
+        <FlexBox.Row marginTop='lg' alignItems="center" justifyContent="end">
           <Box>
             <PrimaryButton onClick={() => setPopupOpen(true)}>
               {translate('button.text')}

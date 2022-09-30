@@ -19,24 +19,22 @@ import { useSelector } from '../../hooks';
 
 export const EmailPopup: React.FC<{
   userId: any;
-  email: any;
+  fullName: any;
   username: any;
   setPopupOpen: (attr: boolean) => void;
-}> = ({ userId, email, username, setPopupOpen }) => {
+}> = ({ userId, fullName, username, setPopupOpen }) => {
 
   const [submitting, setSubmitting] = useState(false);
 
   const dispatch = useDispatch()
   const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
-  const authToken = useSelector(sessionSelectors.authenticationToken);
-
   const changeEmail = async () => {
     setSubmitting(true);
     dispatch(
      sessionActions.emailUpdate({
         userId,
-        email,
+        fullName,
         name: username,
         onFailure: () => {
           setSubmitting(false);

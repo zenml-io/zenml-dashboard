@@ -23,7 +23,7 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
       ),
       width: '70%',
       renderRow: (invite: TInvite) => {
-        const initials = getInitialsFromEmail(invite.email);
+        const initials = getInitialsFromEmail(invite.name);
         return (
           <FlexBox alignItems="center">
             <Box paddingRight="sm">
@@ -31,7 +31,7 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
                 {initials}
               </ColoredCircle>
             </Box>
-            <Paragraph size="small">{invite.email}</Paragraph>
+            <Paragraph size="small">{invite.name}</Paragraph>
           </FlexBox>
         );
       },
@@ -74,7 +74,7 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
       ),
       width: '15%',
       renderRow: (member: TMember) => {
-        const initials = getInitialsFromEmail(member.email);
+        const initials = getInitialsFromEmail(member.name);
         return (
           <FlexBox alignItems="center">
             <Box paddingRight="sm">
@@ -82,7 +82,7 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
                 {initials}
               </ColoredCircle>
             </Box>
-            <Paragraph size="small">{member.email}</Paragraph>
+            <Paragraph size="small">{member.name}</Paragraph>
           </FlexBox>
         );
       },
@@ -97,7 +97,7 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
       renderRow: (member: TMember) => (
         <Paragraph size="small" >
           {member.active === false ? (
-            <TokenPopup id={member?.id} email={member?.email} active={member?.active} />
+            <TokenPopup id={member?.id} username={member?.name} active={member?.active} />
           ) : (
             <Paragraph>Accepted</Paragraph>
           )}

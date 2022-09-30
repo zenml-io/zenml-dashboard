@@ -109,15 +109,15 @@ export const StackDetail: React.FC = () => {
           <Paragraph
             style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
           >
-            {stack.userName}
+            {stack.user.name}
           </Paragraph>
         </Box>
         <Box>
-          <Paragraph style={headStyle}>CREATED AT</Paragraph>
+          <Paragraph style={headStyle}>CREATED</Paragraph>
           <Paragraph
             style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
           >
-            {formatDateToDisplay(stack.creationDate)}
+            {formatDateToDisplay(stack.created)}
           </Paragraph>
         </Box>
       </Box>

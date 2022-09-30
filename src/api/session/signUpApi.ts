@@ -9,6 +9,7 @@ export interface Response {
 }
 
 interface NewAccount {
+  userId: string;
   username: string;
   fullname: any;
   email: string;
@@ -22,7 +23,7 @@ interface Params {
 
 const signUpApi = ({ account }: Params): Promise<void> =>
   fetchApi({
-    url: apiUrl(endpoints.signup(account.username)),
+    url: apiUrl(endpoints.signup(account.userId)),
     method: httpMethods.put,
     headers: {
       'Content-Type': 'application/json',

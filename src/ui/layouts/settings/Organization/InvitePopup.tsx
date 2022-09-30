@@ -6,50 +6,31 @@ import { translate } from './translate';
 import {
   Box,
   FlexBox,
-  FormEmailField,
+  FormTextField,
   CopyField,
   H3,
   PrimaryButton,
 } from '../../../components';
 import { useSelector, useDispatch } from '../../../hooks';
 import { Popup } from '../../common/Popup';
-import { fieldValidation } from '../../../../utils';
 import { organizationSelectors } from '../../../../redux/selectors';
-
-const emailHasError = (email: string, hasSubmittedWithErrors: boolean) =>
-  (hasSubmittedWithErrors && email.trim() === '') ||
-  (hasSubmittedWithErrors && !fieldValidation(email.trim()).isEmail());
-
-const emailErrorText = (email: string) =>
-  email.trim() !== '' && !fieldValidation(email.trim()).isEmail()
-    ? translate('popup.email.invalidEmail')
-    : translate('popup.email.required');
 
 export const InvitePopup: React.FC<{ setPopupOpen: (attr: boolean) => void }> 
   = ({ setPopupOpen}) => {
 
   const [submitting, setSubmitting] = useState(false);
-  const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
-  const [email, setEmail] = useState('')
+  const [name, setName] = useState('')
   const [showTokField, setShowTokField] = useState(false)
 
   const dispatch = useDispatch();
   const invite = useSelector(organizationSelectors.invite);
 
   const inviteNewMembers = () => {
-    setHasSubmittedWithErrors(true);
-
-    let error = false;
-    if (emailHasError(email || '', true)) {
-        error = true;
-    }
-
-    if (!error) {
+    
       setSubmitting(true);
       dispatch(
           organizationActions.invite({
-            name: email,
-            email: email,
+            name,
             onFailure: (errorText: string) => {
               dispatch(
                 showToasterAction({
@@ -66,7 +47,6 @@ export const InvitePopup: React.FC<{ setPopupOpen: (attr: boolean) => void }>
             }         
             }),
         );
-     }
   };
 
 
@@ -74,7 +54,6 @@ export const InvitePopup: React.FC<{ setPopupOpen: (attr: boolean) => void }>
     <Popup
       onClose={() => {
         setPopupOpen(false);
-        setHasSubmittedWithErrors(false);
        }}
     >
       <FlexBox.Row alignItems="center" justifyContent="space-between">
@@ -86,14 +65,15 @@ export const InvitePopup: React.FC<{ setPopupOpen: (attr: boolean) => void }>
           <Box>
             <FlexBox.Row marginBottom="md">
               <Box style={{ width: showTokField ? '100%' : '80%' }}>
-                <FormEmailField
-                  label={translate('popup.email.label')}
-                  placeholder={translate('popup.email.placeholder')}
-                  value={email}
-                  onChange={(val: string) => setEmail(val)} 
+                <FormTextField
+                  label={translate('popup.username.label')}
+                  labelColor='#000'
+                  placeholder={translate('popup.username.placeholder')}
+                  value={name}
+                  onChange={(val: string) => setName(val)} 
                   error={{
-                    hasError: emailHasError(email || '', hasSubmittedWithErrors),
-                    text: emailErrorText(email || ''),
+                    hasError: false,
+                    text: ''
                   }}
                 />
               </Box>
@@ -114,8 +94,8 @@ export const InvitePopup: React.FC<{ setPopupOpen: (attr: boolean) => void }>
             {showTokField && (
                 <Box marginTop='lg'>
                   <CopyField
-                    label={`Invitation Link - please send this to ${invite?.email} for this user to finish their registration`}
-                    value={`${window.location.origin}/signup?user=${invite?.id}&email=${invite?.email}&token=${invite?.activationToken}`}
+                    label={`Invitation Link - please send this to ${name} for this user to finish their registration`}
+                    value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.activationToken}`}
                     disabled
                   />
                 </Box>

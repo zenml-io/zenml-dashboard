@@ -6,7 +6,7 @@ import { translate } from './translate';
 import {
   Box,
   FlexBox,
-  FormEmailField,
+  FormTextField,
   Paragraph,
   CopyField,
   H3,
@@ -18,9 +18,9 @@ import { organizationSelectors } from '../../../../redux/selectors';
 
 export const TokenPopup: React.FC<{
   id: string; 
-  email: string; 
+  username: string; 
   active: boolean
-}> = ({  id, email, active }) => {
+}> = ({  id, username, active }) => {
  
   const [popupOpen, setPopupOpen] = useState(false)
   const [submitting, setSubmitting] = useState(false);
@@ -34,7 +34,7 @@ export const TokenPopup: React.FC<{
       setSubmitting(true);
       dispatch(
           organizationActions.inviteByCode({
-            username: email,
+            username,
             onFailure: (errorText: string) => {
               dispatch(
                 showToasterAction({
@@ -70,16 +70,17 @@ export const TokenPopup: React.FC<{
           </H3>
         </FlexBox.Row>
         <Box marginTop="md">
-            <Paragraph>{`${translate('popup.generateInviteModal.text')} ${email}`}</Paragraph>
+            <Paragraph>{`${translate('popup.generateInviteModal.text')} ${username}. This will invalidate the currently active token.`}</Paragraph>
           </Box>
         <Box marginTop="xl" >
             <Box>
               <FlexBox.Row marginBottom="md">
                 <Box style={{ width: showTokField ? '100%' : '70%' }}>
-                  <FormEmailField
-                    label={translate('popup.email.label')}
-                    placeholder={translate('popup.email.placeholder')}
-                    value={email}
+                  <FormTextField
+                    label={translate('popup.username.label')}
+                    labelColor='#000'
+                    placeholder={translate('popup.username.placeholder')}
+                    value={username}
                     disabled
                   />
                 </Box>
@@ -100,8 +101,8 @@ export const TokenPopup: React.FC<{
               {showTokField && (
                   <Box marginTop='lg'>
                     <CopyField
-                      label={`Invitation Link - please send this to ${email} for this user to finish their registration`}
-                      value={`${window.location.origin}/signup?user=${id}&email=${email}&token=${inviteCode}`}
+                      label={`Invitation Link - please send this to ${username} for this user to finish their registration`}
+                      value={`${window.location.origin}/signup?user=${id}&username=${username}&token=${inviteCode}`}
                       disabled
                     />
                   </Box>
