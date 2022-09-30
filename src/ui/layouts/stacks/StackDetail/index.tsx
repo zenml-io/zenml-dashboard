@@ -64,12 +64,12 @@ export const StackDetail: React.FC = () => {
     <BasePage
       headerWithButtons={false}
       tabPages={tabPages}
-      tabBasePath={routePaths.stack.base(stack.id)}
+      tabBasePath={routePaths.stack.base(stack.id)} 
       breadcrumbs={breadcrumbs}
     >
       <Box style={boxStyle}>
         <Box>
-          <Paragraph style={headStyle}>Stack ID</Paragraph>
+          <Paragraph style={headStyle}>ID</Paragraph>
           <Paragraph
             style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
           >
@@ -77,7 +77,15 @@ export const StackDetail: React.FC = () => {
           </Paragraph>
         </Box>
         <Box>
-          <Paragraph style={headStyle}>Shared</Paragraph>
+          <Paragraph style={headStyle}>NAME</Paragraph>
+          <Paragraph
+            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
+          >
+            {stack.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>SHARED</Paragraph>
           <Paragraph
             style={{
               marginTop: '10px',
@@ -97,19 +105,19 @@ export const StackDetail: React.FC = () => {
           </Paragraph>
         </Box>
         <Box>
-          <Paragraph style={headStyle}>Author</Paragraph>
+          <Paragraph style={headStyle}>OWNER</Paragraph>
           <Paragraph
             style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
           >
-            {stack.userName}
+            {stack.user.name}
           </Paragraph>
         </Box>
         <Box>
-          <Paragraph style={headStyle}>Created</Paragraph>
+          <Paragraph style={headStyle}>CREATED</Paragraph>
           <Paragraph
             style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
           >
-            {formatDateToDisplay(stack.creationDate)}
+            {formatDateToDisplay(stack.created)}
           </Paragraph>
         </Box>
       </Box>

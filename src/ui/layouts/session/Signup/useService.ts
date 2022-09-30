@@ -9,6 +9,7 @@ import { useLocation } from 'react-router-dom';
 interface ServiceInterface {
   signup: () => void;
   hasSubmittedWithErrors: boolean;
+  userId: string;
   username: string,
   setUsername: (username: string) => void,
   email: string;
@@ -26,8 +27,9 @@ export const useService = (): ServiceInterface => {
   const location = useLocation()
   const params = new URLSearchParams(location.search)
 
-  const preEmail = params.get('email')
+  const preUsername = params.get('username')
   const token = params.get('token')
+  const id = params.get('user')
 
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
@@ -36,13 +38,14 @@ export const useService = (): ServiceInterface => {
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
 
+  const userId = id ? id : username
+
   const dispatch = useDispatch();
   const { push } = usePushRoute();
 
   useEffect(() => {
-    setUsername(preEmail ? preEmail : '');
-    setEmail(preEmail ? preEmail : '');
-  }, [preEmail]);
+    setUsername(preUsername ? preUsername : '');
+  }, [preUsername]);
 
   return {
     signup: () => {
@@ -51,6 +54,7 @@ export const useService = (): ServiceInterface => {
       if (username.trim() !== '' && email.trim() !== '' && password.trim() !== '') {
         dispatch(
           signUpAction({
+            userId,
             username,
             email,
             fullName,
@@ -80,6 +84,7 @@ export const useService = (): ServiceInterface => {
       }
     },
     hasSubmittedWithErrors,
+    userId,
     username,
     setUsername,
     email,

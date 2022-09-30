@@ -123,7 +123,7 @@ export const CopyField = (
   };
 
   return (
-    <FlexBox.Column fullWidth>
+    <FlexBox.Column fullWidth style={{ height: '100px' }}>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
         <InputWithLabel
           name={props.name}

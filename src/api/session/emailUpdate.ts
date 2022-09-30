@@ -5,12 +5,12 @@ import { apiUrl } from '../apiUrl';
 
 const emailUpdate = ({
   userId,
-  email,
+  fullName,
   name,
   authenticationToken,
 }: {
   userId: string,
-  email: string
+  fullName: string
   name: string;
   authenticationToken: string;
 }): Promise<TUser> =>
@@ -21,7 +21,7 @@ const emailUpdate = ({
     headers: {
       'Content-Type': 'application/json',
     },
-    data: { email, name },
+    data: { full_name: fullName, name },
   });
 
 export default emailUpdate;

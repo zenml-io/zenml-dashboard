@@ -30,11 +30,11 @@ interface Params {
 //       password: account.password,
 //     }),
 //   }).catch((res) => {
-//     // if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
+//     if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
 //       res = {
 //         data: mockApi.loginMockResponse,
 //       };
-//     // }
+//     }
 //     return res;
 //   });
 
@@ -50,4 +50,5 @@ const loginApi = ({ account }: Params): Promise<Response> =>
       password: account.password,
     }),
   });
+
 export default loginApi;

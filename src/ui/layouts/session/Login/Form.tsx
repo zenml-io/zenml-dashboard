@@ -57,6 +57,7 @@ export const Form: React.FC = () => {
             hasError: hasSubmittedWithErrors && password.trim() === '',
             text: translate('form.password.required'),
           }}
+          showPasswordOption
         />
       </Box>
       <PrimaryButton
