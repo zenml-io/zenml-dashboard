@@ -295,7 +295,12 @@ export const getInitialFilterStateForRuns = () => {
   };
   return JSON.parse(JSON.stringify(initialFilterState));
 };
-const FilterComponent = ({ children, filters, setFilter }: any) => {
+const FilterComponent = ({
+  children,
+  filters,
+  setFilter,
+  getInitials,
+}: any) => {
   const [applyFilter, setApplyFilter] = useState(false);
 
   function handleChange(filter: any, key: string, value: string) {
@@ -321,7 +326,7 @@ const FilterComponent = ({ children, filters, setFilter }: any) => {
   }
 
   function addAnotherFilter() {
-    setFilter([...filters, getInitialFilterState()]);
+    setFilter([...filters, getInitials()]);
   }
 
   function hanldeDelete(index: number) {
