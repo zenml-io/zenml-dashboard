@@ -3,6 +3,7 @@ import {
   Box,
   FormEmailField,
   FormPasswordField,
+  FormTextField,
   PrimaryButton,
 } from '../../../components';
 import { translate } from './translate';
@@ -33,7 +34,7 @@ export const Form: React.FC = () => {
   return (
     <Box marginTop="xxl">
       <Box marginBottom="lg">
-        <FormEmailField
+        <FormTextField
           label={translate('form.username.label')}
           labelColor="#ffffff"
           placeholder={translate('form.username.placeholder')}

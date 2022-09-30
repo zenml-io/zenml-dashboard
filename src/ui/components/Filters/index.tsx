@@ -26,7 +26,7 @@ export const getInitialFilterState = () => {
       options: [
         {
           value: 'name',
-          label: 'Stack Name',
+          label: 'Name',
           type: 'string',
         },
         {
@@ -116,7 +116,7 @@ export const getInitialFilterStateForPipeline = () => {
       options: [
         {
           value: 'name',
-          label: 'Pipeline Name',
+          label: 'Name',
           type: 'string',
         },
         {
