@@ -3,7 +3,7 @@ import { translate } from './translate';
 import { List } from './List';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
-import { WorkspaceDropdown } from './WorkspaceDropdown';
+// import { WorkspaceDropdown } from './WorkspaceDropdown';
 import { useService } from './useService';
 
 import FilterComponent, {
@@ -58,7 +58,7 @@ const BREADCRUMBS = [
 
 export const Stacks: React.FC = () => {
   const { setFetching } = useService();
-
+  console.log(setFetching);
   return (
     <BasePage
       tabPages={PAGES}

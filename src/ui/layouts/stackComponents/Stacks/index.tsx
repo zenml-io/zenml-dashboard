@@ -6,7 +6,7 @@ import { routePaths } from '../../../../routes/routePaths';
 // import { WorkspaceDropdown } from './WorkspaceDropdown';
 import { useService } from './useService';
 import { useLocationPath } from '../../../hooks';
-import { WorkspaceDropdown } from './WorkspaceDropdown';
+// import { WorkspaceDropdown } from './WorkspaceDropdown';
 import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';

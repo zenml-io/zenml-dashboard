@@ -21,7 +21,7 @@ export const useService = (): ServiceInterface => {
     }, 5000);
 
     return () => clearInterval(intervalId); //This is important
-  }, []);
+  });
   return {
     organization,
   };

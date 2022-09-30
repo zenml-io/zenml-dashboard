@@ -28,7 +28,7 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
     }, 5000);
 
     return () => clearInterval(intervalId); //This is important
-  }, []);
+  });
   const onDelete = () => {
     setSubmitting(true);
     dispatch(

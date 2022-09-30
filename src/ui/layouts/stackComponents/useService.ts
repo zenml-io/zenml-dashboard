@@ -4,7 +4,7 @@ import { organizationSelectors } from '../../../redux/selectors';
 import {
   useDispatch,
   useLocationPath,
-  useRequestOnMount,
+  // useRequestOnMount,
   useSelector,
 } from '../../hooks';
 
@@ -30,7 +30,7 @@ export const useService = (): ServiceInterface => {
     }, 5000);
 
     return () => clearInterval(intervalId);
-  }, []);
+  });
 
   return {
     organization,
