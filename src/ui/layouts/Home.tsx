@@ -2,7 +2,6 @@
 
 import React, { useState, useEffect } from 'react';
 import { AuthenticatedLayout } from './common/layouts/AuthenticatedLayout';
-
 import { SidebarContainer } from './common/layouts/SidebarContainer';
 import {
   Box,
@@ -66,7 +65,7 @@ export const Home: React.FC = () => {
 
   useEffect(()  => {  
     const getDashboardData = async () => {
-      const { data } = await axios.get(`http://localhost:8080/v1/projects/${DEFAULT_PROJECT_NAME}/statistics`, {
+      const { data } = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/projects/${DEFAULT_PROJECT_NAME}/statistics`, {
         headers: {
           'Authorization': `bearer ${authToken}` 
         }
@@ -74,7 +73,7 @@ export const Home: React.FC = () => {
       setDashboardData(data)
     }
     getDashboardData()
-  }, [])
+  }, [authToken])
 
   const preData = Object.entries(dashboardData)
   const data = preData?.map(([key, value]) => {

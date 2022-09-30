@@ -1,12 +1,9 @@
 import React, { useState } from 'react';
-import { getInitials } from '../../../utils';
 import {
   Box,
-  ColoredSquare,
   FlexBox,
   FormTextField,
   FormPasswordField,
-  Paragraph,
   Row,
   Col,
 } from '../../components';
@@ -37,11 +34,11 @@ export const PersonalDetails: React.FC = () => {
 
   const [submitting, setSubmitting] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
-  const [email, setEmail] = useState(user?.email);
-  const [username, setUsername] = useState(user?.name);
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [fullName, setFullName] = useState(user?.fullName)
+  const [username, setUsername] = useState(user?.name)
+  const [currentPassword, setCurrentPassword] = useState('')
+  const [newPassword, setNewPassword] = useState('')
+  const [confirmPassword, setConfirmPassword] = useState('')
 
   if (!organization || !user) return null;
 
@@ -84,38 +81,20 @@ export const PersonalDetails: React.FC = () => {
 
   return (
     <>
-      {popupOpen && (
-        <EmailPopup
-          userId={user?.id}
-          email={email}
-          username={username}
-          setPopupOpen={setPopupOpen}
-        />
-      )}
-      <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
-        <FlexBox.Row alignItems="center">
-          <Box>
-            <ColoredSquare size="md" color="secondary">
-              <Paragraph color="white">
-                {getInitials(organization.name)}
-              </Paragraph>
-            </ColoredSquare>
-          </Box>
-          <Box marginLeft="md">
-            <Paragraph bold>{organization.name}</Paragraph>
-          </Box>
-        </FlexBox.Row>
-
-        <Box marginTop="lg">
+    {popupOpen && (
+      <EmailPopup userId={user?.id} fullName={fullName} username={username} setPopupOpen={setPopupOpen} />
+    )}
+    <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
+        <Box marginTop="lg" >
           <Row>
             <Col lg={5}>
               <Box marginBottom="lg">
                 <FormTextField
-                  label={translate('form.email.label')}
-                  labelColor="#000"
-                  placeholder={translate('form.email.placeholder')}
-                  value={email ? email : ''}
-                  onChange={(val: string) => setEmail(val)}
+                  label={translate('form.fullName.label')}
+                  labelColor='#000'
+                  placeholder={translate('form.fullName.placeholder')}
+                  value={fullName ? fullName : ''}
+                  onChange={(val: string) => setFullName(val)}
                 />
               </Box>
 
@@ -129,15 +108,11 @@ export const PersonalDetails: React.FC = () => {
                 />
               </Box>
 
-              <Box style={{ display: 'flex', justifyContent: 'end' }}>
-                <PrimaryButton
-                  style={{ width: '278px' }}
-                  onClick={() => setPopupOpen(true)}
-                  disabled={email === user.email && username === user.name}
-                >
-                  {translate('emailNameReset.label')}
-                </PrimaryButton>
-              </Box>
+                <Box style={{ display: 'flex', justifyContent: 'end' }}>
+                  <PrimaryButton style={{ width: '198px' }} onClick={() => setPopupOpen(true)} disabled={fullName === user.fullName && username === user.name} >
+                    {translate('nameReset.label')}
+                  </PrimaryButton>
+                </Box>
             </Col>
           </Row>
         </Box>
@@ -204,7 +179,7 @@ export const PersonalDetails: React.FC = () => {
               >
                 <PrimaryButton
                   onClick={forgotPassword}
-                  style={{ width: '278px' }}
+                  style={{ width: '198px' }}
                   loading={submitting}
                   disabled={
                     newPassword.trim() === '' || confirmPassword.trim() === ''

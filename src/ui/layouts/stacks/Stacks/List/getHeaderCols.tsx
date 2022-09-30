@@ -51,7 +51,7 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
-          STACK ID
+          ID
         </Paragraph>
       ),
       width: '8%',
@@ -62,7 +62,7 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
-          STACK NAME
+          NAME
         </Paragraph>
       ),
       width: '8%',

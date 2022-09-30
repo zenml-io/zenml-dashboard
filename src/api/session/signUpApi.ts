@@ -9,8 +9,9 @@ export interface Response {
 }
 
 interface NewAccount {
+  userId: string;
   username: string;
-  fullname: any;
+  fullName: any;
   email: string;
   password: string;
   token: string;
@@ -22,14 +23,14 @@ interface Params {
 
 const signUpApi = ({ account }: Params): Promise<void> =>
   fetchApi({
-    url: apiUrl(endpoints.signup(account.username)),
+    url: apiUrl(endpoints.signup(account.userId)),
     method: httpMethods.put,
     headers: {
       'Content-Type': 'application/json',
     },
     data: JSON.stringify({
       name: account.username,
-      full_name: account.fullname,
+      full_name: account.fullName,
       email: account.email,
       password: account.password,
       activation_token: account.token
