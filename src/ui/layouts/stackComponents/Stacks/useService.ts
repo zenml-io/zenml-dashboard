@@ -20,20 +20,20 @@ import {
 interface ServiceInterface {
   setFetching: (arg: boolean) => void;
   setCurrentWorkspace: (arg: TWorkspace | null) => void;
-  currentWorkspace: TWorkspace | null;
-  workspaces: TWorkspace[];
+  // currentWorkspace: TWorkspace | null;
+  // workspaces: TWorkspace[];
 }
 
 export const useService = (): ServiceInterface => {
   const locationPath = useLocationPath();
 
-  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
+  // const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
   const dispatch = useDispatch();
 
-  const workspaces = useSelector(workspaceSelectors.myWorkspaces);
+  // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
 
-  useRequestOnMount(workspacesActions.getMy, {});
+  // useRequestOnMount(workspacesActions.getMy, {});
 
   useEffect(() => {
     setFetching(true);
@@ -69,7 +69,7 @@ export const useService = (): ServiceInterface => {
   return {
     setFetching,
     setCurrentWorkspace,
-    currentWorkspace,
-    workspaces,
+    // currentWorkspace,
+    // workspaces,
   };
 };

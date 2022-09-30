@@ -18,6 +18,7 @@ import { Popup } from '../../common/Popup';
 import { DocumentationLink } from './DocumentationLink';
 import { CommandBoxWScroll } from '../../common/CommandBox';
 import { constantCommandsToCreateComponent } from '../../../../constants/constantCommands';
+import { camelCaseToParagraph } from '../../../../utils';
 
 export const CreatePipelineButton: React.FC = () => {
   const locationPath = useLocationPath();
@@ -45,14 +46,14 @@ export const CreatePipelineButton: React.FC = () => {
       paddingHorizontal="sm"
     >
       <PrimaryButton onClick={() => setCreatePipelinePopupOpen(true)}>
-        Create {locationPath.split('/')[2]}
+        Create {camelCaseToParagraph(locationPath.split('/')[2])}
       </PrimaryButton>
 
       {createPipelinePopupOpen && (
         <Popup onClose={() => setCreatePipelinePopupOpen(false)}>
           <FlexBox.Row>
             <H3 bold color="darkGrey">
-              Create {locationPath.split('/')[2]}
+              Create {camelCaseToParagraph(locationPath.split('/')[2])}
             </H3>
           </FlexBox.Row>
           {locationPath.split('/')[2] ===

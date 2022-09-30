@@ -6,10 +6,11 @@ import { routePaths } from '../../../../routes/routePaths';
 // import { WorkspaceDropdown } from './WorkspaceDropdown';
 import { useService } from './useService';
 import { useLocationPath } from '../../../hooks';
-import { WorkspaceDropdown } from './WorkspaceDropdown';
+// import { WorkspaceDropdown } from './WorkspaceDropdown';
 import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';
+import { camelCaseToParagraph } from '../../../../utils';
 // const PAGES = [
 //   {
 //     text: 'Alerter',
@@ -54,16 +55,17 @@ export const Stacks: React.FC = () => {
   const locationPath = useLocationPath();
   const {
     setFetching,
-    setCurrentWorkspace,
-    currentWorkspace,
-    workspaces,
+    // setCurrentWorkspace,
+    // currentWorkspace,
+    // workspaces,
   } = useService();
+  console.log(setFetching);
 
   return (
     <BasePage
       tabPages={[
         {
-          text: locationPath.split('/')[2],
+          text: camelCaseToParagraph(locationPath.split('/')[2]),
           Component: FilterWrapper,
           path: routePaths.stackComponents.base(locationPath.split('/')[2]),
         },
@@ -71,23 +73,24 @@ export const Stacks: React.FC = () => {
       tabBasePath={routePaths.stackComponents.base('')}
       breadcrumbs={[
         {
-          name: locationPath.split('/')[2],
+          name: camelCaseToParagraph(locationPath.split('/')[2]),
           clickable: true,
           to: routePaths.stackComponents.base(locationPath.split('/')[2]),
         },
       ]}
       headerWithButtons
       renderHeaderRight={() => (
-        <WorkspaceDropdown
-          workspaces={workspaces}
-          currentWorkspace={currentWorkspace}
-          setCurrentWorkspace={(workspace: TWorkspace): void => {
-            if (currentWorkspace && workspace.id !== currentWorkspace.id) {
-              setFetching(true);
-            }
-            setCurrentWorkspace(workspace);
-          }}
-        />
+        <></>
+        // <WorkspaceDropdown
+        //   workspaces={workspaces}
+        //   currentWorkspace={currentWorkspace}
+        //   setCurrentWorkspace={(workspace: TWorkspace): void => {
+        //     if (currentWorkspace && workspace.id !== currentWorkspace.id) {
+        //       setFetching(true);
+        //     }
+        //     setCurrentWorkspace(workspace);
+        //   }}
+        // />
       )}
     />
   );

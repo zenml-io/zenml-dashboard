@@ -3,7 +3,7 @@ import { formatDateToDisplay } from './date';
 export const getFilteredDataForTable = (data: any, filter: any) => {
   filter.forEach((f: any) => {
     // temporary because api format changed after filter implementation this need to be refactor
-    if (f.column.label === 'Owner') {
+    if (f.column.label === 'Owner' || f.column.label === 'Author') {
       if (f.type.value === 'contains') {
         data = data.filter((os: any) => {
           if (f.column.value && f.value) {
