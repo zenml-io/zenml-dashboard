@@ -29,7 +29,7 @@ export const SideFooter: React.FC = () => {
    
   return (
     <>
-      <Box marginHorizontal="md">
+      <Box marginHorizontal="md" paddingBottom='md'>
         <Separator.LightNew />
       </Box>
 
@@ -55,9 +55,9 @@ export const SideFooter: React.FC = () => {
           <icons.settings color={iconColors.white} size={iconSizes.md} />
         )} to={routePaths.settings.personalDetails} text={translate('menu.setting.text')} />
 
-        <Box paddingLeft='md' paddingTop="md" paddingBottom="sm">
-          <Paragraph color='white' style={{ fontSize: '8px' }}>UI Version v{process.env.REACT_APP_VERSION}</Paragraph>
-          <Paragraph color='white' style={{ fontSize: '8px' }}>ZenML v{apiVersion}</Paragraph>
+        <Box style={{ paddingLeft: '12px' }} paddingTop="md" paddingBottom='lg' >
+          <Paragraph color='white' style={{ fontSize: '8px', fontWeight: 400 }}>UI Version v{process.env.REACT_APP_VERSION}</Paragraph>
+          <Paragraph color='white' style={{ fontSize: '8px', fontWeight: 400 }}>ZenML v{apiVersion}</Paragraph>
         </Box>
       </>
   );
