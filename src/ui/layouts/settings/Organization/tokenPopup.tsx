@@ -1,7 +1,10 @@
 /* eslint-disable */
 import React, { useState } from 'react';
 import { toasterTypes } from '../../../../constants';
-import { organizationActions, showToasterAction } from '../../../../redux/actions';
+import {
+  organizationActions,
+  showToasterAction,
+} from '../../../../redux/actions';
 import { translate } from './translate';
 import {
   Box,
@@ -24,10 +27,10 @@ export const TokenPopup: React.FC<{
  
   const [popupOpen, setPopupOpen] = useState(false)
   const [submitting, setSubmitting] = useState(false);
-  const [showTokField, setShowTokField] = useState(false)
+  const [showTokField, setShowTokField] = useState(false);
 
   const dispatch = useDispatch();
-  
+
   const inviteCode = useSelector(organizationSelectors.inviteForCode);
 
   const generateToken = () => {
@@ -49,14 +52,22 @@ export const TokenPopup: React.FC<{
               setShowTokField(true)
             }         
             }),
-        );
+          );
+          setSubmitting(false);
+          setPopupOpen(false);
+        },
+        onSuccess: () => {
+          setShowTokField(true);
+        },
+      }),
+    );
   };
 
   const onClose = () => {
-    setShowTokField(false)
-    setSubmitting(false)
-    setPopupOpen(false)
-  }
+    setShowTokField(false);
+    setSubmitting(false);
+    setPopupOpen(false);
+  };
 
   return (
     <>
@@ -72,7 +83,7 @@ export const TokenPopup: React.FC<{
         <Box marginTop="md">
             <Paragraph>{`${translate('popup.generateInviteModal.text')} ${username}. This will invalidate the currently active token.`}</Paragraph>
           </Box>
-        <Box marginTop="xl" >
+          <Box marginTop="xl">
             <Box>
               <FlexBox.Row marginBottom="md">
                 <Box style={{ width: showTokField ? '100%' : '70%' }}>
@@ -84,9 +95,12 @@ export const TokenPopup: React.FC<{
                     disabled
                   />
                 </Box>
-                
+
                 {!showTokField && (
-                  <Box style={{ width: '10%', marginTop: '22px' }} marginLeft="md">
+                  <Box
+                    style={{ width: '10%', marginTop: '22px' }}
+                    marginLeft="md"
+                  >
                     <PrimaryButton
                       disabled={submitting}
                       loading={submitting}
@@ -97,7 +111,7 @@ export const TokenPopup: React.FC<{
                   </Box>
                 )}
               </FlexBox.Row>
-              
+
               {showTokField && (
                   <Box marginTop='lg'>
                     <CopyField
@@ -108,9 +122,9 @@ export const TokenPopup: React.FC<{
                   </Box>
                 )}
             </Box>
-        </Box>
-      </Popup>
-    )}
+          </Box>
+        </Popup>
+      )}
     </>
   );
 };

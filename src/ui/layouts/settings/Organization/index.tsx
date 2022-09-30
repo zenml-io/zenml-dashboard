@@ -43,7 +43,7 @@ export const Organization: React.FC = () => {
   }, [dispatch])
 
   if (!organization) return null;
-  
+
   return (
     <>
       {popupOpen && (

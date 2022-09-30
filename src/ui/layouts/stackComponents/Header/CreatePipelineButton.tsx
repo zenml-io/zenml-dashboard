@@ -1,41 +1,43 @@
 import React from 'react';
-import styles from './index.module.scss'
-import { Box, PrimaryButton, FlexBox, H3, Paragraph, icons } from '../../../components';
-import { useService } from './useService';
+import styles from './index.module.scss';
 
-import { useDispatch } from '../../../hooks';
+import { useDispatch, useLocationPath } from '../../../hooks';
 import { showToasterAction } from '../../../../redux/actions';
 import { toasterTypes } from '../../../../constants';
 
-// import { CommandPopup } from '../../common/CommandPopup';
+import {
+  Box,
+  PrimaryButton,
+  FlexBox,
+  H3,
+  Paragraph,
+  icons,
+} from '../../../components';
 import { iconSizes, iconColors } from '../../../../constants';
 import { Popup } from '../../common/Popup';
+import { DocumentationLink } from './DocumentationLink';
 import { CommandBoxWScroll } from '../../common/CommandBox';
-import { DocumentationLink } from './DocumentationLink'
-
+import { constantCommandsToCreateComponent } from '../../../../constants/constantCommands';
+import { camelCaseToParagraph } from '../../../../utils';
 
 export const CreatePipelineButton: React.FC = () => {
-
+  const locationPath = useLocationPath();
   const dispatch = useDispatch();
-  const [createComponentPopupOpen, setCreateComponentPopupOpen] = React.useState<
+  const [createPipelinePopupOpen, setCreatePipelinePopupOpen] = React.useState<
     boolean
   >(false);
 
-  const { currentWorkspace } = useService();
+  const codeString = '#!/bin/bash';
 
-  const commandText = `zenml workspace set ${
-    currentWorkspace && currentWorkspace.id
-  }`;
-
-  const handleCopy = () => { 
-    navigator.clipboard.writeText(commandText)
+  const handleCopy = () => {
+    navigator.clipboard.writeText(codeString);
     dispatch(
       showToasterAction({
         description: 'Command copied to clipboard',
         type: toasterTypes.success,
       }),
     );
-  }
+  };
 
   return (
     <Box
@@ -43,63 +45,130 @@ export const CreatePipelineButton: React.FC = () => {
       paddingVertical="sm"
       paddingHorizontal="sm"
     >
-      <PrimaryButton onClick={() => setCreateComponentPopupOpen(true)}>Create Component</PrimaryButton>
+      <PrimaryButton onClick={() => setCreatePipelinePopupOpen(true)}>
+        Create {camelCaseToParagraph(locationPath.split('/')[2])}
+      </PrimaryButton>
 
-      {createComponentPopupOpen && (
-        <Popup onClose={() => setCreateComponentPopupOpen(false)} >
-          <FlexBox.Row >
-            <H3 bold color="darkGrey">Create Component</H3>
-          </FlexBox.Row>
-        
+      {createPipelinePopupOpen && (
+        <Popup onClose={() => setCreatePipelinePopupOpen(false)}>
           <FlexBox.Row>
+            <H3 bold color="darkGrey">
+              Create {camelCaseToParagraph(locationPath.split('/')[2])}
+            </H3>
+          </FlexBox.Row>
+          {locationPath.split('/')[2] ===
+          constantCommandsToCreateComponent.componentCommand.type
+            ? constantCommandsToCreateComponent.componentCommand.body.map(
+                (item): any =>
+                  item.isCode ? (
+                    <FlexBox alignItems="center" marginTop="md">
+                      <CommandBoxWScroll command={item.text} />
+                      <Box
+                        className={styles.iconStyle}
+                        style={{ paddingTop: '7px' }}
+                        onClick={handleCopy}
+                      >
+                        <icons.copy
+                          size={iconSizes.sm}
+                          color={iconColors.black}
+                        />
+                      </Box>
+                    </FlexBox>
+                  ) : (
+                    <FlexBox.Row>
+                      <Box marginTop="md">
+                        <Paragraph>{item.text}</Paragraph>
+                      </Box>
+                    </FlexBox.Row>
+                  ),
+              )
+            : constantCommandsToCreateComponent.defaultBody.map((item): any =>
+                item.isCode ? (
+                  <FlexBox alignItems="center" marginTop="md">
+                    <CommandBoxWScroll command={item.text} />
+                    <Box
+                      className={styles.iconStyle}
+                      style={{ paddingTop: '7px' }}
+                      onClick={handleCopy}
+                    >
+                      <icons.copy
+                        size={iconSizes.sm}
+                        color={iconColors.black}
+                      />
+                    </Box>
+                  </FlexBox>
+                ) : (
+                  <FlexBox.Row>
+                    <Box marginTop="md">
+                      <Paragraph>{item.text}</Paragraph>
+                    </Box>
+                  </FlexBox.Row>
+                ),
+              )}
+
+          {/* <FlexBox.Row>
             <Box marginTop="md">
               <Paragraph>you can set it active</Paragraph>
             </Box>
           </FlexBox.Row>
-        
-          <FlexBox alignItems='center' marginTop="md">
-            <CommandBoxWScroll command={commandText} />
-            <Box className={styles.iconStyle} style={{ paddingTop: '7px' }} onClick={handleCopy}>
-              <icons.copy size={iconSizes.sm} color={iconColors.black} /></Box>
-          </FlexBox>    
-        
-          <FlexBox alignItems='center' marginTop="sm">
-            <CommandBoxWScroll command={commandText} />
-            <Box className={styles.iconStyle} style={{ paddingTop: '7px' }} onClick={handleCopy}>
-              <icons.copy size={iconSizes.sm} color={iconColors.black} /></Box>
+
+          <FlexBox alignItems="center" marginTop="md">
+            <CommandBoxWScroll command={codeString} />
+            <Box
+              className={styles.iconStyle}
+              style={{ paddingTop: '7px' }}
+              onClick={handleCopy}
+            >
+              <icons.copy size={iconSizes.sm} color={iconColors.black} />
+            </Box>
+          </FlexBox>  */}
+
+          {/* <FlexBox alignItems="center" marginTop="sm">
+            <CommandBoxWScroll command={codeString} />
+            <Box
+              className={styles.iconStyle}
+              style={{ paddingTop: '7px' }}
+              onClick={handleCopy}
+            >
+              <icons.copy size={iconSizes.sm} color={iconColors.black} />
+            </Box>
           </FlexBox>
 
-          <FlexBox alignItems='center' marginTop="sm">
-            <CommandBoxWScroll command={commandText} />
-            <Box className={styles.iconStyle} style={{ paddingTop: '7px' }} onClick={handleCopy}>
-              <icons.copy size={iconSizes.sm} color={iconColors.black} /></Box>
-          </FlexBox>
+          <FlexBox alignItems="center" marginTop="sm">
+            <CommandBoxWScroll command={codeString} />
+            <Box
+              className={styles.iconStyle}
+              style={{ paddingTop: '7px' }}
+              onClick={handleCopy}
+            >
+              <icons.copy size={iconSizes.sm} color={iconColors.black} />
+            </Box>
+          </FlexBox> */}
 
-          <FlexBox.Row>
+          {/* <FlexBox.Row>
             <Box marginTop="md">
               <Paragraph>you can set it active</Paragraph>
             </Box>
-          </FlexBox.Row>
+          </FlexBox.Row> */}
 
-          <FlexBox alignItems='center' marginTop="sm">
-            <CommandBoxWScroll command={commandText} />
-            <Box className={styles.iconStyle} style={{ paddingTop: '7px' }} onClick={handleCopy}>
-              <icons.copy size={iconSizes.sm} color={iconColors.black} /></Box>
-          </FlexBox>
+          {/* <FlexBox alignItems="center" marginTop="sm">
+            <CommandBoxWScroll command={codeString} />
+            <Box
+              className={styles.iconStyle}
+              style={{ paddingTop: '7px' }}
+              onClick={handleCopy}
+            >
+              <icons.copy size={iconSizes.sm} color={iconColors.black} />
+            </Box>
+          </FlexBox> */}
 
           <FlexBox justifyContent="end" marginTop="xl" flexWrap>
-           <DocumentationLink />
+            <DocumentationLink
+              text={constantCommandsToCreateComponent.documentation}
+            />
           </FlexBox>
         </Popup>
-      
       )}
-
-
-      {/* <CommandPopup
-        commandText={commandText}
-        open={createPipelinePopupOpen}
-        setOpen={setCreateComponentPopupOpen}
-      /> */}
     </Box>
   );
 };

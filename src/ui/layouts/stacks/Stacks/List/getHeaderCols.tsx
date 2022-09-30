@@ -111,7 +111,9 @@ export const getHeaderCols = ({
       ),
       width: '11%',
       renderRow: (stack: TStack) => {
-        const initials = getInitialsFromEmail(stack?.userName ? stack.userName : stack?.user?.name);
+        const initials = getInitialsFromEmail(
+          stack?.userName ? stack.userName : stack?.user?.name,
+        );
         return (
           <FlexBox alignItems="center">
             <Box paddingRight="sm">
@@ -139,7 +141,7 @@ export const getHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph size="tiny">
-            {formatDateToDisplay(stack.creationDate)}
+            {formatDateToDisplay(stack.created)}
           </Paragraph>
         </FlexBox>
       ),

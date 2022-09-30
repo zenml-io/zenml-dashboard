@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import OutsideClickHandler from 'react-outside-click-handler';
 
-import {
-  Box,
-  LinkBox,
-  Paragraph,
-  If,
-  Truncate,
-} from '../../../components';
+import { Box, LinkBox, Paragraph, If, Truncate } from '../../../components';
 import styles from './WorkspaceDropdown.module.scss';
 
 export const WorkspaceDropdown: React.FC<{

@@ -16,7 +16,7 @@ const getMyUserId = (state: State): TId | null =>
 export const myUser = (state: State): TUser | null => {
   const myUserId = getMyUserId(state);
   const byId = getById(state);
-  
+
   if (!myUserId || !byId) return null;
 
   return byId[myUserId];
@@ -27,7 +27,7 @@ export const userForId = (userId: TId): Selector<State, TUser> =>
 
 const userSelectors = {
   myUser: myUser,
-  userForId
+  userForId,
 };
 
 export { userSelectors };

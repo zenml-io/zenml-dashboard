@@ -116,7 +116,6 @@ export const useHeaderCols = ({
         </Paragraph>
       ),
     },
-
     {
       render: () => (
         <Paragraph size="small" color="black">
@@ -162,6 +161,7 @@ export const useHeaderCols = ({
         <Paragraph size="small">{run.stack.name}</Paragraph>
       ),
     },
+
     {
       render: () => (
         <Paragraph size="small" color="black">

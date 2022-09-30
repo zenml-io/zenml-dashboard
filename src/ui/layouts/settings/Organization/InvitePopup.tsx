@@ -1,7 +1,10 @@
 /* eslint-disable */
 import React, { useState } from 'react';
 import { toasterTypes } from '../../../../constants';
-import { organizationActions, showToasterAction } from '../../../../redux/actions';
+import {
+  organizationActions,
+  showToasterAction,
+} from '../../../../redux/actions';
 import { translate } from './translate';
 import {
   Box,
@@ -58,7 +61,9 @@ export const InvitePopup: React.FC<{ setPopupOpen: (attr: boolean) => void }>
     >
       <FlexBox.Row alignItems="center" justifyContent="space-between">
         <H3 bold color="darkGrey">
-          {showTokField ? translate('popup.invite.text') : translate('popup.title') }
+          {showTokField
+            ? translate('popup.invite.text')
+            : translate('popup.title')}
         </H3>
       </FlexBox.Row>
       <Box marginTop="md">

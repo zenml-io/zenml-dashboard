@@ -41,7 +41,7 @@ export const endpoints = {
   runs: {
     pipeline: {
       get: (pipelineId: TId): string =>
-        `/runs?pipeine_id=${pipelineId}&hydrated=true`,
+        `/runs?pipeline_id=${pipelineId}&unlisted=false&hydrated=true`,
     },
     stack: {
       get: (stackId: TId): string =>
@@ -51,7 +51,7 @@ export const endpoints = {
       get: (stackComponentId: TId): string =>
         `/runs?component_id=${stackComponentId}&hydrated=true`,
     },
-    all: `/runs?unlisted=false&hydrated=false`,
+    all: `/runs?unlisted=false&hydrated=true`,
     get: (pipelineId: TId, runId: TId): string =>
       `/pipelines/${pipelineId}/runs/${runId}`,
   },

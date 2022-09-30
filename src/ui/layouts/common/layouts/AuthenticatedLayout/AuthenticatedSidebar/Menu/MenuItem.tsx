@@ -3,6 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Paragraph, Box, FlexBox } from '../../../../../../components';
 import cn from 'classnames';
 import styles from './MenuItem.module.scss';
+import { camelCaseToParagraph } from '../../../../../../../utils';
 
 export const MenuItem: React.FC<{
   subItem?: boolean;
@@ -39,7 +40,7 @@ export const MenuItem: React.FC<{
           </Box>
           <Box paddingLeft="md">
             <Paragraph color="darkGrey" size="small">
-              {text}
+              {camelCaseToParagraph(text)}
             </Paragraph>
           </Box>
         </FlexBox>

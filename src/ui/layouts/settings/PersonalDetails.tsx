@@ -5,7 +5,7 @@ import {
   FormTextField,
   FormPasswordField,
   Row,
-  Col
+  Col,
 } from '../../components';
 import { useRequestOnMount, useSelector } from '../../hooks';
 import {
@@ -32,7 +32,7 @@ export const PersonalDetails: React.FC = () => {
   const organization = useSelector(organizationSelectors.myOrganization);
   const user = useSelector(userSelectors.myUser);
 
-  const [submitting, setSubmitting] = useState(false)
+  const [submitting, setSubmitting] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [fullName, setFullName] = useState(user?.fullName)
   const [username, setUsername] = useState(user?.name)
@@ -43,39 +43,39 @@ export const PersonalDetails: React.FC = () => {
   if (!organization || !user) return null;
 
   const forgotPassword = () => {
-
     if (newPassword !== confirmPassword) {
-      dispatch(showToasterAction({
+      dispatch(
+        showToasterAction({
           description: 'Password not Matched',
           type: toasterTypes.failure,
-        })
-      )
+        }),
+      );
     } else {
-    setSubmitting(true)
-    dispatch(
-      sessionActions.forgotPassword({
-        userId: user?.id,
-        password: newPassword,
-        onFailure: () => {
-          setSubmitting(false)
-          dispatch(
-            showToasterAction({
-              description: translate('toasts.failed.text'),
-              type: toasterTypes.failure,
-            }),
-          );
-        },
-        onSuccess: () => {
-          setSubmitting(false)
-          dispatch(
-            showToasterAction({
-              description: translate('toasts.successful.text'),
-              type: toasterTypes.success,
-            }),
-          );
-        },
-      }),
-    );
+      setSubmitting(true);
+      dispatch(
+        sessionActions.forgotPassword({
+          userId: user?.id,
+          password: newPassword,
+          onFailure: () => {
+            setSubmitting(false);
+            dispatch(
+              showToasterAction({
+                description: translate('toasts.failed.text'),
+                type: toasterTypes.failure,
+              }),
+            );
+          },
+          onSuccess: () => {
+            setSubmitting(false);
+            dispatch(
+              showToasterAction({
+                description: translate('toasts.successful.text'),
+                type: toasterTypes.success,
+              }),
+            );
+          },
+        }),
+      );
     }
   };
 
@@ -101,7 +101,7 @@ export const PersonalDetails: React.FC = () => {
               <Box marginBottom="lg">
                 <FormTextField
                   label={translate('form.username.label')}
-                  labelColor='#000'
+                  labelColor="#000"
                   placeholder={translate('form.username.placeholder')}
                   value={username ? username : ''}
                   onChange={(val: string) => setUsername(val)}
@@ -116,62 +116,13 @@ export const PersonalDetails: React.FC = () => {
             </Col>
           </Row>
         </Box>
-   
-      <Box marginBottom="lg" marginTop="xl">
-        <Row>
-          <Col lg={5}>
-                <Box marginBottom="lg">
-                  <FormPasswordField
-                    label={translate('form.passwordChange.currentPassword.label')}
-                    labelColor='#000'
-                    placeholder={translate('form.passwordChange.currentPassword.placeholder')}
-                    value={currentPassword}
-                    onChange={(val: string) => setCurrentPassword(val)}
-                    error={{
-                      hasError: currentPassword.trim() === undefined,
-                      text: translate('form.passwordChange.currentPassword.required'),
-                    }}
-                    showPasswordOption
-                  />
-                </Box>
-                <Box marginBottom="lg">
-                  <FormPasswordField
-                    label={translate('form.passwordChange.newPassword.label')}
-                    labelColor='#000'
-                    placeholder={translate('form.passwordChange.newPassword.placeholder')}
-                    value={newPassword}
-                    onChange={(val: string) => setNewPassword(val)}
-                    error={{
-                      hasError: newPassword.trim() === undefined,
-                      text: translate('form.passwordChange.newPassword.required'),
-                    }}
-                    showPasswordOption
-                  />
-                </Box>
-                <Box marginBottom="lg">
-                  <FormPasswordField
-                    label={translate('form.passwordChange.confirmPassword.label')}
-                    labelColor='#000'
-                    placeholder={translate('form.passwordChange.confirmPassword.placeholder')}
-                    value={confirmPassword}
-                    onChange={(val: string) => setConfirmPassword(val)}
-                    error={{
-                      hasError: confirmPassword.trim() === undefined,
-                      text: translate('form.passwordChange.confirmPassword.required'),
-                    }}
-                    showPasswordOption
-                  />
-                </Box>
 
-                <Box marginBottom="xs" style={{ display: 'flex', justifyContent: 'end' }}>
-                  <PrimaryButton onClick={forgotPassword} style={{ width: '198px' }} loading={submitting} disabled={newPassword.trim() === '' || confirmPassword.trim() === ''}>
-                    {translate('passwordReset.button')}
-                  </PrimaryButton>
-                </Box>
-          </Col>
-       
-        </Row>
-      </Box>
+        <Box marginBottom="xs" style={{ display: 'flex', justifyContent: 'end' }}>
+          <PrimaryButton onClick={forgotPassword} style={{ width: '198px' }} loading={submitting} disabled={newPassword.trim() === '' || confirmPassword.trim() === ''}>
+            {translate('passwordReset.button')}
+          </PrimaryButton>
+        </Box>
+    
     </FlexBox.Column>
   </>
   );

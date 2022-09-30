@@ -9,7 +9,10 @@ import { useService } from './useService';
 import { getHeaderCols } from './getHeaderCols';
 import { RunsForPipelineTable } from './RunsForPipelineTable';
 
-export const List: React.FC = () => {
+interface Props {
+  filter: any;
+}
+export const List: React.FC<Props> = ({ filter }: Props) => {
   const history = useHistory();
   const {
     openPipelineIds,
@@ -17,7 +20,7 @@ export const List: React.FC = () => {
     fetching,
     filteredPipelines,
     setSelectedRunIds,
-  } = useService();
+  } = useService(filter);
 
   const headerCols = getHeaderCols({ openPipelineIds, setOpenPipelineIds });
 
@@ -31,7 +34,7 @@ export const List: React.FC = () => {
   return (
     <>
       <CollapseTable
-        renderAfterRow={(pipeline: TPipeline) => ( 
+        renderAfterRow={(pipeline: TPipeline) => (
           <RunsForPipelineTable
             pipeline={pipeline}
             openPipelineIds={openPipelineIds}

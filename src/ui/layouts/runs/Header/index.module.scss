@@ -1,0 +1,29 @@
+@import '../../../globalStyles.scss';
+
+.header {
+  height: 4rem;
+}
+
+.iconStyle { 
+  background-color: #F4F4F4; 
+  text-align: center;
+  height: 35px; 
+  width: 40px;
+  border-radius: 3px;
+  cursor: pointer;
+} 
+
+@media (max-width: $md-breakpoint) {
+  .dynamicHeaderRight {
+    margin-right: auto !important;
+  }
+  .rightWrapper {
+    width: 100%;
+  }
+}
+
+@media (max-width: $lg-breakpoint) {
+  .header {
+    height: auto;
+  }
+}

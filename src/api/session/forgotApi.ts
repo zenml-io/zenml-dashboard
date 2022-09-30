@@ -21,7 +21,7 @@ const forgotApi = ({
   password,
   authenticationToken,
 }: {
-  userId: string,
+  userId: string;
   password: Params;
   authenticationToken: string;
 }): Promise<Response> =>

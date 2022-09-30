@@ -29,23 +29,27 @@ export const SideFooter: React.FC = () => {
    
   return (
     <>
-     <Box marginHorizontal="md">
+      <Box marginHorizontal="md">
         <Separator.LightNew />
-      </Box> 
+      </Box>
 
       <MenuItemExternal
-        Icon={() => (
-          <icons.docs color={iconColors.white} size={iconSizes.md} />
-        )}
-        to='https://www.google.com/' text="Documentation" />  
+        Icon={() => <icons.docs color={iconColors.white} size={iconSizes.md} />}
+        to="https://www.google.com/"
+        text="Documentation"
+      />
       <MenuItemExternal
         Icon={() => (
           <icons.example color={iconColors.white} size={iconSizes.md} />
-        )} to='https://www.google.com/' text="Example & Tutorials" />  
+        )}
+        to="https://www.google.com/"
+        text="Example & Tutorials"
+      />
       <MenuItemExternal
-        Icon={() => (
-          <icons.tool color={iconColors.white} size={iconSizes.md} /> 
-        )} to='https://www.google.com/' text="Report Issue" />  
+        Icon={() => <icons.tool color={iconColors.white} size={iconSizes.md} />}
+        to="https://www.google.com/"
+        text="Report Issue"
+      />
       <MenuItem
         Icon={() => (
           <icons.settings color={iconColors.white} size={iconSizes.md} />

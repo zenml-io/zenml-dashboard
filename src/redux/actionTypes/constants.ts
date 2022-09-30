@@ -9,6 +9,7 @@ const sessionActionTypes = {
 const userActionTypes = {
   USERS_GET_MY_USER: 'USERS_GET_MY_USER',
   USERS_GET_USER_FOR_ID: 'USERS_GET_USER_FOR_ID',
+  UPDATE_USER_EMAIL: 'UPDATE_USER_EMAIL'
 };
 
 const organizationActionTypes = {

@@ -26,13 +26,13 @@ export const EmailPopup: React.FC<{
 
   const [submitting, setSubmitting] = useState(false);
 
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
   const changeEmail = async () => {
     setSubmitting(true);
     dispatch(
-     sessionActions.emailUpdate({
+      sessionActions.emailUpdate({
         userId,
         fullName,
         name: username,
@@ -60,31 +60,38 @@ export const EmailPopup: React.FC<{
   };
 
   return (
-    <Popup onClose={() => setPopupOpen(false)} >
+    <Popup onClose={() => setPopupOpen(false)}>
       <FlexBox.Row justifyContent="center">
         <H3 bold color="darkGrey">
           {translate('popup.title')}
         </H3>
       </FlexBox.Row>
-    
+
       <FlexBox.Row justifyContent="center">
         <Box marginTop="md">
           <Paragraph>{translate('popup.text')}</Paragraph>
         </Box>
       </FlexBox.Row>
-    
+
       <FlexBox justifyContent="center" marginTop="xl" flexWrap>
-            <Box marginRight="sm" marginBottom="md">
-              <GhostButton style={{ width: '150px' }} onClick={() => setPopupOpen(false)}>
-                {translate('popup.cancelButton.text')}
-              </GhostButton>
-            </Box>
-            <Box marginLeft="sm" marginRight="sm" marginBottom="md">
-              <PrimaryButton style={{ width: '150px' }} onClick={changeEmail} loading={submitting} >
-                {translate('popup.successButton.text')}
-              </PrimaryButton>
-            </Box>
-          </FlexBox>
+        <Box marginRight="sm" marginBottom="md">
+          <GhostButton
+            style={{ width: '150px' }}
+            onClick={() => setPopupOpen(false)}
+          >
+            {translate('popup.cancelButton.text')}
+          </GhostButton>
+        </Box>
+        <Box marginLeft="sm" marginRight="sm" marginBottom="md">
+          <PrimaryButton
+            style={{ width: '150px' }}
+            onClick={changeEmail}
+            loading={submitting}
+          >
+            {translate('popup.successButton.text')}
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </Popup>
   );
 };
