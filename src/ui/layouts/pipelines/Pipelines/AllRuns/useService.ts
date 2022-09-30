@@ -1,8 +1,10 @@
+import { useEffect } from 'react';
+import { pipelinesActions, runsActions } from '../../../../../redux/actions';
 import {
   pipelinePagesSelectors,
   runSelectors,
 } from '../../../../../redux/selectors';
-import { useSelector } from '../../../../hooks';
+import { useSelector, useDispatch } from '../../../../hooks';
 
 interface ServiceInterface {
   fetching: boolean;
@@ -17,15 +19,12 @@ export const useService = (): ServiceInterface => {
   //   debugger;
   //   return state.persisted.runs.allNewRuns || [];
   // });
-
+  const dispatch = useDispatch();
   const runs = useSelector(runSelectors.myRuns);
-
-  // const filteredRuns = runs.filter(
-  //   (run: TRun) => currentWorkspace && run.workspaceId === currentWorkspace.id,
-  // );
+  useEffect(() => {}, [runs]);
 
   const runIds = runs.map((run: TRun) => run.id);
-  // debugger;
+
   return {
     fetching,
     runIds,

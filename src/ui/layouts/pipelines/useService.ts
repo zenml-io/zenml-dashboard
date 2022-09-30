@@ -1,5 +1,7 @@
+import { useEffect } from 'react';
+import { pipelinesActions, runsActions } from '../../../redux/actions';
 import { organizationSelectors } from '../../../redux/selectors';
-import { useSelector } from '../../hooks';
+import { useSelector, useDispatch } from '../../hooks';
 
 interface ServiceInterface {
   organization: TOrganization | null;
@@ -7,7 +9,19 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const organization = useSelector(organizationSelectors.myOrganization);
+  const dispatch = useDispatch();
+  // useEffect(() => {
+  //   dispatch(pipelinesActions.getMy());
+  // }, []);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      //assign interval to a variable to clear it.
+      dispatch(runsActions.allRuns({}));
+      dispatch(pipelinesActions.getMy());
+    }, 5000);
 
+    return () => clearInterval(intervalId); //This is important
+  }, []);
   return {
     organization,
   };

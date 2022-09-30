@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import {
   pipelinePagesActions,
   runsActions,
-  workspacesActions,
+  pipelinesActions,
 } from '../../../../redux/actions';
 import {
   pipelinePagesSelectors,

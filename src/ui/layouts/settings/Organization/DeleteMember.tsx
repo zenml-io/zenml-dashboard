@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -21,6 +21,14 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
   const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      //assign interval to a variable to clear it.
+      dispatch(organizationActions.getMembers({}));
+    }, 5000);
+
+    return () => clearInterval(intervalId); //This is important
+  }, []);
   const onDelete = () => {
     setSubmitting(true);
     dispatch(
@@ -60,7 +68,9 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
             </H3>
           </FlexBox.Row>
           <Box marginTop="md">
-            <Paragraph>{`${translate('deleteMemberPopup.text')} ${member?.email}`}</Paragraph>
+            <Paragraph>{`${translate('deleteMemberPopup.text')} ${
+              member?.email
+            }`}</Paragraph>
           </Box>
           <FlexBox justifyContent="flex-end" marginTop="xl" flexWrap>
             <Box marginRight="sm" marginBottom="md">
@@ -81,7 +91,7 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
         </Popup>
       )}
       <Box>
-        <LinkBox onClick={() => setPopupOpen(true)} >
+        <LinkBox onClick={() => setPopupOpen(true)}>
           <icons.closeWithBorder color={iconColors.grey} />
         </LinkBox>
       </Box>
