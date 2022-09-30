@@ -15,13 +15,6 @@ const getInviteByCodeApi = ({
     url: apiUrl(endpoints.organizations.reGenerateToken(username)),
     method: httpMethods.put,
     authenticationToken,
-  }).catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.myOrganizationMockResponse.myOrganizationInviteMockResponse,
-      };
-    }
-    return res;
   });
 
 export default getInviteByCodeApi;
