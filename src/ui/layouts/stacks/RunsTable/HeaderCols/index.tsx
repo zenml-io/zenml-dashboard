@@ -10,7 +10,8 @@ import {
   truncate,
   getInitialsFromEmail,
 } from '../../../../../utils';
-
+import { useHistory } from '../../../../hooks';
+import { routePaths } from '../../../../../routes/routePaths';
 import {
   FlexBox,
   Paragraph,
@@ -58,6 +59,7 @@ export const useHeaderCols = ({
     activeSortingDirection,
     runs,
   });
+  const history = useHistory();
   return [
     {
       width: '2%',
@@ -94,7 +96,8 @@ export const useHeaderCols = ({
       renderRow: (run: TRun) => (
         <Paragraph
           size="small"
-          style={{ color: '#22BBDD', textDecoration: 'underline' }}
+          color="black"
+          // style={{ color: '#22BBDD', textDecoration: 'underline' }}
         >
           {run.name}
         </Paragraph>
@@ -110,9 +113,17 @@ export const useHeaderCols = ({
       renderRow: (run: TRun) => (
         <Paragraph
           size="small"
-          style={{ color: '#22BBDD', textDecoration: 'underline' }}
+          style={{
+            color: '#22BBDD',
+            textDecoration: 'underline',
+            zIndex: 100,
+          }}
+          onClick={(event) => {
+            event.stopPropagation();
+            history.push(routePaths.pipeline.configuration(run.pipeline?.id));
+          }}
         >
-          {run.pipeline.name}
+          {run.pipeline?.name}
         </Paragraph>
       ),
     },
@@ -158,7 +169,16 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.stack.name}</Paragraph>
+        <Paragraph
+          size="small"
+          style={{ color: '#22BBDD', textDecoration: 'underline' }}
+          onClick={(event) => {
+            event.stopPropagation();
+            history.push(routePaths.stack.configuration(run.stack?.id));
+          }}
+        >
+          {run.stack?.name}
+        </Paragraph>
       ),
     },
 

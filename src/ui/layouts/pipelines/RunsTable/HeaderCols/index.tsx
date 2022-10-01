@@ -25,6 +25,8 @@ import { RunStatus } from '../RunStatus';
 import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
+import { useHistory } from '../../../../hooks';
+import { routePaths } from '../../../../../routes/routePaths';
 // import { PipelineName } from '../PipelineName';
 
 export const useHeaderCols = ({
@@ -59,6 +61,7 @@ export const useHeaderCols = ({
     activeSortingDirection,
     runs,
   });
+  const history = useHistory();
   // debugger;
   return nestedRuns
     ? [
@@ -278,7 +281,23 @@ export const useHeaderCols = ({
           ),
           width: '15%',
           renderRow: (run: TRun) => (
-            <Paragraph size="small">{run.pipeline?.name}</Paragraph>
+            <Paragraph
+              size="small"
+              style={{
+                color: '#22BBDD',
+                textDecoration: 'underline',
+                zIndex: 100,
+              }}
+              onClick={(event) => {
+                event.stopPropagation();
+                history.push(
+                  routePaths.pipeline.configuration(run.pipeline?.id),
+                );
+              }}
+            >
+              {run.pipeline?.name}
+            </Paragraph>
+            // <Paragraph size="small">{run.pipeline?.name}</Paragraph>
           ),
 
           // <PipelineName run={run.pipeline.name} />,
@@ -312,7 +331,17 @@ export const useHeaderCols = ({
           ),
           width: '15%',
           renderRow: (run: TRun) => (
-            <Paragraph size="small">{run.stack?.name}</Paragraph>
+            <Paragraph
+              size="small"
+              style={{ color: '#22BBDD', textDecoration: 'underline' }}
+              onClick={(event) => {
+                event.stopPropagation();
+                history.push(routePaths.stack.configuration(run.stack?.id));
+              }}
+            >
+              {run.stack?.name}
+            </Paragraph>
+            // <Paragraph size="small">{run.stack?.name}</Paragraph>
           ),
 
           // <PipelineName run={run.pipeline.name} />,

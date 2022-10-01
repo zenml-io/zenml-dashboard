@@ -69,7 +69,8 @@ export const getHeaderCols = ({
       renderRow: (stack: TStack) => (
         <Paragraph
           size="small"
-          style={{ color: '#22BBDD', textDecoration: 'underline' }}
+          color="black"
+          // style={{ color: '#black', textDecoration: 'underline' }}
         >
           {stack.name}
         </Paragraph>
