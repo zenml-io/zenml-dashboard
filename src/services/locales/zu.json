@@ -63,9 +63,9 @@
               "label": "Change Password",
               "button": "Change Password"
             },
-            "emailNameReset": {
-              "label": "Change Email and Username",
-              "button": "Change Email and Username"
+            "nameReset": {
+              "label": "Save Changes",
+              "button": "Save Changes"
             },
             "toasts": {
               "successful": {
@@ -76,8 +76,8 @@
               }
             },
             "popup": {
-                "title": "Change Email and Username",
-                "text": "Are you sure to change your email and username",
+                "title": "Change full name and Username",
+                "text": "Are you sure to change your full name and username",
                 "successButton": {
                   "text": "Yes"
                 },
@@ -165,11 +165,10 @@
             },
             "popup": {
               "title": "Add a new Member",
-              "email": {
-                "label": "Email",
-                "placeholder": "Email",
-                "required": "Email is required",
-                "invalidEmail": "Email is not valid"
+              "username": {
+                "label": "Username",
+                "placeholder": "Username",
+                "required": "Username is required"
               },
               "role": {
                 "label": "Role",
@@ -180,8 +179,8 @@
                 "text": "Invite"
               },
               "generateInviteModal": {
-                "title": "Invitation Token",
-                "text": "Click generate token to re-generate invitation for",
+                "title": "New Invitation Token",
+                "text": " Generate a new invite token for",
                 "button": {
                   "text": "Generate Token"
                 }

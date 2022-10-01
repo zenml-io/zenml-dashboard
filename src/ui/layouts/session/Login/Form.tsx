@@ -1,8 +1,9 @@
 import React from 'react';
 import {
   Box,
-  FormEmailField,
+  // FormEmailField,
   FormPasswordField,
+  FormTextField,
   PrimaryButton,
 } from '../../../components';
 import { translate } from './translate';
@@ -24,7 +25,7 @@ export const Form: React.FC = () => {
     login();
   };
 
-  const BUTTON_DISABLED = username.trim() === '' || password.trim() === '';
+  const BUTTON_DISABLED = username.trim() === '';
 
   useEnterKeyPress(() => {
     if (!BUTTON_DISABLED) login();
@@ -33,7 +34,7 @@ export const Form: React.FC = () => {
   return (
     <Box marginTop="xxl">
       <Box marginBottom="lg">
-        <FormEmailField
+        <FormTextField
           label={translate('form.username.label')}
           labelColor="#ffffff"
           placeholder={translate('form.username.placeholder')}
@@ -56,6 +57,7 @@ export const Form: React.FC = () => {
             hasError: hasSubmittedWithErrors && password.trim() === '',
             text: translate('form.password.required'),
           }}
+          showPasswordOption
         />
       </Box>
       <PrimaryButton

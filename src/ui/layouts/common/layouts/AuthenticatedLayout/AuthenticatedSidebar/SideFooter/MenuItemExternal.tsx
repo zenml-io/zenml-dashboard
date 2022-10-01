@@ -10,7 +10,7 @@ export const MenuItemExternal: React.FC<{
 }> = ({ text, to, Icon, subItem }) => {
   
   return (
-    <Box className={styles.menuItem}>
+    <Box className={styles.menuItem} style={{ marginLeft: '6px' }}>
       <FlexBox alignItems="center" paddingVertical="sm" marginVertical="sm">
         <FlexBox style={{ width: '100%' }}>
 

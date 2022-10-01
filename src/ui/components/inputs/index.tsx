@@ -18,7 +18,10 @@ export const InputWithLabel = ({
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <Box paddingBottom="xs">
-      <Paragraph size="body" style={{ color: labelColor ? labelColor : 'black'}}>
+      <Paragraph
+        size="body"
+        style={{ color: labelColor ? labelColor : 'black' }}
+      >
         <label htmlFor={name}>{label}</label>
       </Paragraph>
     </Box>
@@ -121,7 +124,7 @@ export const TextInput = ({
   type?: string;
 }): JSX.Element => (
   <BaseInput
-    {...props} 
+    {...props}
     hasError={hasError}
     onChange={(e: any): void => {
       onChangeText(e.target.value);

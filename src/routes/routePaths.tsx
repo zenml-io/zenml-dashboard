@@ -18,9 +18,9 @@ export const routePaths = {
       base: (id: TId, pipelineId: TId): string =>
         `/pipelines/${pipelineId}/runs/${id}`,
       statistics: (id: TId, pipelineId: TId): string =>
-        `/pipelines/${pipelineId}/runs/${id}/statistics`,
+        `/pipelines/${pipelineId}/runs/${id}/dag`,
       results: (id: TId, pipelineId: TId): string =>
-        `/pipelines/${pipelineId}/runs/${id}/results`,
+        `/pipelines/${pipelineId}/runs/${id}/configuration`,
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/pipelines/${pipelineId}/runs/${id}/tensorboard`,
     },
@@ -28,9 +28,9 @@ export const routePaths = {
       base: (id: TId, pipelineId: TId): string =>
         `/stacks/${pipelineId}/runs/${id}`,
       statistics: (id: TId, stackId: TId): string =>
-        `/stacks/${stackId}/runs/${id}/statistics`,
+        `/stacks/${stackId}/runs/${id}/dag`,
       results: (id: TId, pipelineId: TId): string =>
-        `/stacks/${pipelineId}/runs/${id}/results`,
+        `/stacks/${pipelineId}/runs/${id}/configuration`,
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/stacks/${pipelineId}/runs/${id}/tensorboard`,
     },
@@ -38,7 +38,7 @@ export const routePaths = {
       base: (id: TId, pipelineId: TId): string =>
         `/components/${pipelineId}/runs/${id}`,
       statistics: (type: string, id: TId, pipelineId: TId): string =>
-        `/components/${type}/runs/${id}/statistics`,
+        `/components/${type}/runs/${id}/dag`,
       results: (id: TId, pipelineId: TId): string =>
         `/components/${pipelineId}/runs/${id}/results`,
       tensorboard: (id: TId, pipelineId: TId): string =>
@@ -46,8 +46,8 @@ export const routePaths = {
     },
     run: {
       base: (runId: TId): string => `/runs/${runId}`,
-      statistics: (id: TId, type?: string): string => `/runs/${id}/statistics`,
-      results: (runId: TId): string => `/runs/${runId}/results`,
+      statistics: (id: TId, type?: string): string => `/runs/${id}/dag`,
+      results: (runId: TId): string => `/runs/${runId}/configuration`,
       tensorboard: (runId: TId): string => `/runs/${runId}/tensorboard`,
     },
   },

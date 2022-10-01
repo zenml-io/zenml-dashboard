@@ -37,7 +37,7 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
         onSuccess: () => {
           setPopupOpen(false);
           setSubmitting(false);
-          dispatch(organizationActions.getInvites({}));
+          dispatch(organizationActions.getMembers({}));
           dispatch(
             showToasterAction({
               type: 'success',

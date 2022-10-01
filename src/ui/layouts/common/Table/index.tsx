@@ -10,7 +10,6 @@ import {
   H3,
   Truncate,
   FullWidthSpinner,
-  // FullWidthSpinner,
 } from '../../../components';
 import { getPaginationData } from '../../../../utils/pagination';
 import { Pagination } from '../Pagination';
@@ -69,7 +68,6 @@ export const Table: React.FC<TableProps> = ({
     <FlexBox.Column className={styles.tableWrapper} fullWidth>
       <IfElse
         condition={tableRows.length > 0 && !loading}
-        // condition={tableRows.length > 0}
         renderWhenTrue={() => (
           <>
             <table className={styles.table}>
