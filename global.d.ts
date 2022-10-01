@@ -120,6 +120,7 @@ type TRunStatus =
   | 'Failed';
 
 interface TRun {
+  pipelineConfiguration?: any;
   id: TId;
   status: TRunStatus;
   kubeflowStartTime: Date;

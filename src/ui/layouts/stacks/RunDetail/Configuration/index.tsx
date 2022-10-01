@@ -13,10 +13,8 @@ import { translate } from '../translate';
 import styles from './index.module.scss';
 import { useService } from './useService';
 
-export const Configuration: React.FC<{ pipelineId: TId }> = ({
-  pipelineId,
-}) => {
-  const { downloadYamlFile, pipelineConfig } = useService({ pipelineId });
+export const Configuration: React.FC<{ runId: TId }> = ({ runId }) => {
+  const { downloadYamlFile, pipelineConfig } = useService({ runId });
 
   const dispatch = useDispatch();
   const handleCopy = () => {
@@ -36,13 +34,13 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
         alignItems="center"
         justifyContent="space-between"
       >
-        <H4 bold>{translate('configuration.title.text')}</H4>
+        <H4 bold>YAML Configuration</H4>
         <Box>
           <GhostButton
             style={{ marginRight: '10px' }}
             onClick={downloadYamlFile}
           >
-            {translate('configuration.button.text')}
+            Download
           </GhostButton>
           <GhostButton onClick={handleCopy}>
             <icons.copy color={iconColors.black} size={iconSizes.sm} />

@@ -64,7 +64,7 @@ export const StackDetail: React.FC = () => {
     <BasePage
       headerWithButtons={false}
       tabPages={tabPages}
-      tabBasePath={routePaths.stack.base(stack.id)} 
+      tabBasePath={routePaths.stack.base(stack.id)}
       breadcrumbs={breadcrumbs}
     >
       <Box style={boxStyle}>
@@ -109,7 +109,7 @@ export const StackDetail: React.FC = () => {
           <Paragraph
             style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
           >
-            {stack.user.name}
+            {stack?.user?.name}
           </Paragraph>
         </Box>
         <Box>
