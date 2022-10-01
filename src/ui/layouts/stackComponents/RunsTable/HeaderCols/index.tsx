@@ -131,7 +131,7 @@ export const useHeaderCols = ({
         <Paragraph
           style={{
             justifyContent: 'center',
-            backgroundColor: run.status === 'Finished' ? '#47E08B' : '#FF5C93',
+            backgroundColor: run.status === 'completed' ? '#47E08B' : '#FF5C93',
             borderRadius: '50%',
             height: '25px',
             width: '25px',
@@ -139,7 +139,7 @@ export const useHeaderCols = ({
             textAlign: 'center',
           }}
         >
-          {run.status === 'Finished' ? (
+          {run.status === 'completed' ? (
             <icons.check color={iconColors.white} size={iconSizes.sm} />
           ) : (
             <icons.close color={iconColors.white} size={iconSizes.sm} />

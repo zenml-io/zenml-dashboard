@@ -139,7 +139,7 @@ export const useHeaderCols = ({
           style={{
             justifyContent: 'center',
             backgroundColor:
-              run.status === 'Finished'
+              run.status === 'completed'
                 ? '#431D93'
                 : run.status === 'In Progress'
                 ? '#ffff00'
@@ -150,7 +150,7 @@ export const useHeaderCols = ({
             textAlign: 'center',
           }}
         >
-          {run.status === 'Finished' ? (
+          {run.status === 'completed' ? (
             <icons.check color={iconColors.white} size={iconSizes.xs} />
           ) : run.status === 'In Progress' ? (
             <icons.alertTriangle color={iconColors.white} size={iconSizes.xs} />

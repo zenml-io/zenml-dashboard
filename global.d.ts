@@ -113,11 +113,12 @@ interface TStack {
   isShared?: Boolean;
 }
 type TRunStatus =
-  | 'Finished'
+  | 'finished'
   | 'In Progress'
   | 'completed'
-  | 'Running'
-  | 'Failed';
+  | 'running'
+  | 'failed'
+  | 'cached';
 
 interface TRun {
   pipelineConfiguration?: any;
@@ -138,7 +139,7 @@ interface TRun {
   userName?: any;
   user?: any;
   creationDate?: any;
-  status?: string;
+  // status?: string;
   created: Date;
   name?: string;
 }
