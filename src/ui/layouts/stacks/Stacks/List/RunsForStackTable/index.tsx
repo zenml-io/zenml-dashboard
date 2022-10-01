@@ -5,7 +5,8 @@ import { RunsTable } from '../../../RunsTable';
 import { translate } from '../../translate';
 import { useService } from './useService';
 import styles from './NestedRow.module.scss';
-
+import { useHistory, useLocationPath } from '../../../../../hooks';
+import { routePaths } from '../../../../../../routes/routePaths';
 export const RunsForStackTable: React.FC<{
   stack: TStack;
   openStackIds: TId[];
@@ -24,6 +25,7 @@ export const RunsForStackTable: React.FC<{
       nestedRowtiles.push({
         type: key,
         name: stack.components[key][0].name,
+        id: stack.components[key][0].id,
       });
     }
 
@@ -57,11 +59,13 @@ export const RunsForStackTable: React.FC<{
 interface tile {
   name: string;
   type: string;
+  id: TId;
 }
 interface NestedRowProps {
   tiles: tile[];
 }
 function NestedRow({ tiles }: NestedRowProps) {
+  const history = useHistory();
   return (
     <FlexBox.Row
       marginVertical="sm"
@@ -74,7 +78,14 @@ function NestedRow({ tiles }: NestedRowProps) {
       {tiles &&
         tiles.map((tile: tile, index: number) => (
           <Box key={index} className={styles.tile} color="black">
-            <Paragraph size="small">
+            <Paragraph
+              size="small"
+              onClick={() => {
+                history.push(
+                  routePaths.stackComponents.configuration(tile.type, tile.id),
+                );
+              }}
+            >
               <span>
                 {tile.type} {'>'}{' '}
               </span>{' '}
