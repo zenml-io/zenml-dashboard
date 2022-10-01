@@ -10,18 +10,6 @@ export const AuthenticatedLayout: React.FC = ({ children }) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
   return (
-    <>
-      {/* <AuthenticatedHeader setMobileMenuOpen={setMobileMenuOpen} />
-      <FlexBox>
-        <AuthenticatedSidebar
-          setMobileMenuOpen={setMobileMenuOpen}
-          mobileMenuOpen={mobileMenuOpen}
-        />
-        <FlexBox className={styles.content} flex={1}>
-          {children}
-        </FlexBox>
-      </FlexBox> */}
-
       <FlexBox>
         <AuthenticatedSidebar setMobileMenuOpen={setMobileMenuOpen} mobileMenuOpen={mobileMenuOpen} />
         <FlexBox flexDirection='column' className={styles.content} flex={1}>
@@ -31,6 +19,5 @@ export const AuthenticatedLayout: React.FC = ({ children }) => {
           </FlexBox>
         </FlexBox>
       </FlexBox>
-    </>
   );
 };
