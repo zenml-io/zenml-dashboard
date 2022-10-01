@@ -54,6 +54,24 @@ const getLayoutedElements = (
 
   initialEdges.forEach((edge) => {
     edge.type = isHorizontal ? 'straight' : 'smoothstep';
+
+    initialNodes.find(
+      (node) =>
+        node.id === edge.source &&
+        node.type == 'step' &&
+        node.data.status == 'running',
+    )
+      ? (edge.animated = true)
+      : (edge.animated = false);
+
+    initialNodes
+      .filter((node) => node.type == 'step')
+      .forEach((node) => {
+        if (node.id === edge.target) {
+          console.log(edge);
+        }
+      });
+
     return edge;
   });
 
@@ -102,16 +120,11 @@ export const LayoutFlow: React.FC = () => {
 
   return (
     <>
-      <div className="layout">
-        <div className="controls">
-          <button onClick={() => onLayout('TB')}>Vertical Layout</button>
-          <button onClick={() => onLayout('LR')}>Horizontal Layout</button>
-          <button
-            onClick={() => setLegend(!legend)}
-            style={{ position: 'relative' }}
-          >
-            Legend
-          </button>
+      <div className="controls">
+        <button onClick={() => onLayout('TB')}>Vertical Layout</button>
+        <button onClick={() => onLayout('LR')}>Horizontal Layout</button>
+        <div style={{ position: 'relative' }}>
+          <button onClick={() => setLegend(!legend)}>Legend</button>
           <div className="legend" style={{ display: legend ? '' : 'none' }}>
             <span>
               <Analysis /> <span>Data Analysis Artifact</span>
@@ -133,6 +146,8 @@ export const LayoutFlow: React.FC = () => {
             </span>
           </div>
         </div>
+      </div>
+      <div className="layout">
         <div className="layoutflow">
           <ReactFlow
             nodes={nodes}

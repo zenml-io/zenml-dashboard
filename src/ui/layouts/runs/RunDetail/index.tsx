@@ -3,6 +3,7 @@ import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
+import { Statistics } from './Statistics';
 import { useService } from './useService';
 
 // import styles from './index.module.scss';
@@ -11,7 +12,6 @@ import { useService } from './useService';
 // import { RunTime } from '../RunTime';
 // import { KeyValue, RunStatus } from './components';
 // import { Results } from './Results';
-// import { Statistics } from './Statistics';
 // import { Tensorboard } from './Tensorboard';
 // import { formatMoney } from '../../../../utils/money';
 // import { truncate } from '../../../../utils';
@@ -20,8 +20,7 @@ const getTabPages = ({ runId }: { runId: TId }): TabPage[] => {
   return [
     {
       text: 'DAG',
-      // <Statistics runId={runId} stackId={stackId} />
-      Component: () => <div>Coming soon</div>,
+      Component: () => <Statistics runId={runId} />,
       path: routePaths.run.run.statistics(runId),
     },
     {

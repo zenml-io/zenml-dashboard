@@ -34,7 +34,7 @@ export const initialNodes = [
     id: 'step_45',
     type: 'step',
     data: {
-      status: 'cached',
+      status: 'running',
       execution_id: '45',
       entrypoint_name: 'get_random_int',
       name: 'get_random_int',
@@ -105,30 +105,35 @@ export const initialEdges = [
     source: 'step_44',
     target: 'artifact_33',
     type: '',
+    animated: true,
   },
   {
     id: 'step_45_artifact_44',
     source: 'step_45',
     target: 'artifact_44',
     type: '',
+    animated: false,
   },
   {
     id: 'step_46_artifact_45',
     source: 'step_46',
     target: 'artifact_45',
     type: '',
+    animated: false,
   },
   {
     id: 'step_46_artifact_33',
     source: 'artifact_33',
     target: 'step_46',
     type: '',
+    animated: false,
   },
   {
     id: 'step_46_artifact_44',
     source: 'artifact_44',
     target: 'step_46',
     type: '',
+    animated: false,
   },
 ];
 
