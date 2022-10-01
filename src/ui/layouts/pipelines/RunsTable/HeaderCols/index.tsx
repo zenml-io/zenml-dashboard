@@ -333,7 +333,11 @@ export const useHeaderCols = ({
           renderRow: (run: TRun) => (
             <Paragraph
               size="small"
-              style={{ color: '#22BBDD', textDecoration: 'underline' }}
+              style={{
+                color: '#22BBDD',
+                textDecoration: 'underline',
+                cursor: 'pointer',
+              }}
               onClick={(event) => {
                 event.stopPropagation();
                 history.push(routePaths.stack.configuration(run.stack?.id));

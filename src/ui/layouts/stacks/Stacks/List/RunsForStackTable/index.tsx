@@ -80,6 +80,7 @@ function NestedRow({ tiles }: NestedRowProps) {
           <Box key={index} className={styles.tile} color="black">
             <Paragraph
               size="small"
+              style={{ cursor: 'pointer' }}
               onClick={() => {
                 history.push(
                   routePaths.stackComponents.configuration(tile.type, tile.id),
