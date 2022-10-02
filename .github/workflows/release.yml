@@ -41,10 +41,18 @@ jobs:
           stripGeneratorNotice: "true"
           issuesWoLabels: "true"
           stripHeaders: "true"
+      - name: Create release archive
+        uses: a7ul/tar-action@v1.1.0
+        id: compress
+        with:
+          command: c
+          files: |
+            ./build
+          outPath: zenml-dashboard.tar.gz
       - name: Release to GitHub
         uses: softprops/action-gh-release@v1
         with:
-          files: ./build/*
+          files: zenml-dashboard.tar.gz
           body_path: ./CHANGELOG.md
           prerelease: "true"
         env:
