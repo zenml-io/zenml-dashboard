@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - "v*"
+      - "*"
 
 jobs:
   release:
@@ -27,6 +27,7 @@ jobs:
         env:
           REACT_APP_BASE_API_URL: "/api/v1"
           REACT_APP_MOCKAPI_RESPONSE: false
+          REACT_APP_VERSION: ${{ github.ref }}
 
       - name: Get the version from the github tag ref
         id: get_version
