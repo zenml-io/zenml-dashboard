@@ -13,11 +13,14 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
     stackComponentSelectors.stackComponentForId(stackId),
   );
 
-  // const yamlConfigObj: any = {
-  //   stack_name: stack.name,
-  //   components: {},
-  // };
-  // Object.keys(stack.components).forEach((element) => {
+  const yamlConfigObj: any = {
+    [stackComponent.type as string]: {
+      flavor: stackComponent.flavor,
+      name: stackComponent.name,
+      ...stackComponent.configuration,
+    },
+  };
+  // Object.keys(stackComponent.type).forEach((element) => {
   //   yamlConfigObj.components[element] = {
   //     flavor: stack.components[element].flavor_name,
   //     name: stack.components[element].name,
@@ -25,7 +28,7 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
   //   };
   // });
 
-  const stackConfig = YAML.stringify(stackComponent.configuration);
+  const stackConfig = YAML.stringify(yamlConfigObj);
 
   const downloadYamlFile = () => {
     const element = document.createElement('a');

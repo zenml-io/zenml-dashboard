@@ -9,6 +9,7 @@ import { useService } from './useService';
 import { useLocationPath } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForPipeline,
+  getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 
 const FilterWrapper = () => {
@@ -34,6 +35,29 @@ const FilterWrapper = () => {
     </FilterComponent>
   );
 };
+const FilterWrapperForRun = () => {
+  // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
+  const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
+  function getFilter(values: any) {
+    const filterValuesMap = values.map((v: any) => {
+      return {
+        column: v.column.selectedValue,
+        type: v.contains.selectedValue,
+        value: v.filterValue,
+      };
+    });
+    return filterValuesMap;
+  }
+  return (
+    <FilterComponent
+      getInitials={getInitialFilterStateForRuns}
+      filters={filters}
+      setFilter={setFilter}
+    >
+      <AllRuns filter={getFilter(filters)} />
+    </FilterComponent>
+  );
+};
 const PAGES = [
   {
     text: translate('tabs.pipelines.text'),
@@ -42,7 +66,7 @@ const PAGES = [
   },
   {
     text: translate('tabs.allRuns.text'),
-    Component: AllRuns,
+    Component: FilterWrapperForRun,
     path: routePaths.pipelines.allRuns,
   },
 ];

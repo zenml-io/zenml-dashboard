@@ -3,7 +3,10 @@ import { translate } from '../translate';
 import { RunsTable } from '../../RunsTable';
 import { useService } from './useService';
 
-export const Runs: React.FC<{ stackId: TId }> = ({ stackId }) => {
+export const Runs: React.FC<{ stackId: TId; filter: any }> = ({
+  stackId,
+  filter,
+}) => {
   const { fetching, runIds } = useService({ stackId });
 
   return (
@@ -11,6 +14,7 @@ export const Runs: React.FC<{ stackId: TId }> = ({ stackId }) => {
       fetching={fetching}
       emptyStateText={translate('emptyState.text')}
       runIds={runIds}
+      filter={filter}
     />
   );
 };

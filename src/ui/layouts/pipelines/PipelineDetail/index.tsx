@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Box, Paragraph, icons } from '../../../components';
 import { iconColors, iconSizes } from '../../../../constants';
@@ -9,7 +9,43 @@ import { Configuration } from './Configuration';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
+import FilterComponent, {
+  getInitialFilterStateForRuns,
+} from '../../../components/Filters';
+import { useLocationPath } from '../../../hooks';
 
+interface Props {
+  pipelineId: TId;
+}
+const FilterWrapperForRun = () => {
+  const locationPath = useLocationPath();
+  // debugger;
+
+  // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
+  const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
+  function getFilter(values: any) {
+    const filterValuesMap = values.map((v: any) => {
+      return {
+        column: v.column.selectedValue,
+        type: v.contains.selectedValue,
+        value: v.filterValue,
+      };
+    });
+    return filterValuesMap;
+  }
+  return (
+    <FilterComponent
+      getInitials={getInitialFilterStateForRuns}
+      filters={filters}
+      setFilter={setFilter}
+    >
+      <Runs
+        filter={getFilter(filters)}
+        pipelineId={locationPath.split('/')[2]}
+      />
+    </FilterComponent>
+  );
+};
 const getTabPages = (pipelineId: TId): TabPage[] => {
   return [
     {
@@ -19,7 +55,8 @@ const getTabPages = (pipelineId: TId): TabPage[] => {
     },
     {
       text: translate('tabs.runs.text'),
-      Component: () => <Runs pipelineId={pipelineId} />,
+      Component: FilterWrapperForRun,
+
       path: routePaths.pipeline.runs(pipelineId),
     },
   ];
@@ -121,7 +158,6 @@ export const PipelineDetail: React.FC = () => {
           </Paragraph>
         </Box>
       </Box>
-
     </BasePage>
   );
 };

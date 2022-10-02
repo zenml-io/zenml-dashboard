@@ -12,7 +12,8 @@ export const RunsTable: React.FC<{
   pagination?: boolean;
   emptyStateText: string;
   fetching: boolean;
-}> = ({ runIds, pagination = true, emptyStateText, fetching }) => {
+  filter?: any;
+}> = ({ runIds, pagination = true, emptyStateText, fetching, filter }) => {
   const history = useHistory();
 
   const {
@@ -23,7 +24,7 @@ export const RunsTable: React.FC<{
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService({ runIds });
+  } = useService({ runIds, filter });
 
   const openDetailPage = (run: TRun) => {
     // debugger;

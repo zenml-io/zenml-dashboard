@@ -4,7 +4,8 @@ import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-
+// import { Configuration } from '../PipelineDetail/Configuration';
+import { Configuration } from '../RunDetail/Configuration';
 // import styles from './index.module.scss';
 // import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
 // import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
@@ -33,7 +34,7 @@ const getTabPages = ({
     {
       text: 'Configuration',
       // <Results runId={runId} stackId={stackId} />
-      Component: () => <div>Coming soon</div>,
+      Component: () => <Configuration runId={runId} />,
       path: routePaths.run.pipeline.results(runId, pipelineId),
     },
     // {
