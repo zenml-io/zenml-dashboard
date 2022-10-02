@@ -47,7 +47,7 @@ jobs:
         id: compress
         with:
           command: c
-          cwd: build
+          cwd: ./build
           files: |
             *
           outPath: zenml-dashboard.tar.gz
