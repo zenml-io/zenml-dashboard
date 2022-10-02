@@ -6,8 +6,10 @@ import {
   FormDropdownField,
   FormTextField,
   icons,
+  Paragraph
 } from '../../components';
 import { iconColors, iconSizes } from '../../../constants';
+import { formatDateToDisplay } from '../../../utils';
 import DatePicker from 'react-datepicker';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -363,12 +365,15 @@ const FilterComponent = ({
     switch (filter?.contains.selectedValue.type) {
       case 'string':
         return (
-          <FormTextField
-            label={''}
-            placeholder={''}
-            value={filter.filterValue}
-            onChange={(value: string) => handleValueFieldChange(filter, value)}
-          />
+          <Box style={{ width: '146px' }}>
+            <FormTextField
+              label={''}
+              placeholder={''}
+              value={filter.filterValue}
+              onChange={(value: string) => handleValueFieldChange(filter, value)}
+              style={{ borderRadius: 0, width: '146px', fontSize: '12px', color: '#424240' }}
+            />
+          </Box>
         );
       case 'date':
         const ExampleCustomInput = forwardRef(
@@ -387,20 +392,25 @@ const FilterComponent = ({
         );
         // date-picker
         return (
-          <DatePicker
-            selected={filter.filterValue}
-            onChange={(value: any) => handleValueFieldChange(filter, value)}
-            customInput={<ExampleCustomInput />}
-          />
+          <Box style={{ width: '146px' }}>
+            <DatePicker
+              selected={filter.filterValue}
+              onChange={(value: any) => handleValueFieldChange(filter, value)}
+              customInput={<ExampleCustomInput />}
+            />
+          </Box>
         );
       default:
         return (
-          <FormTextField
-            label={''}
-            placeholder={''}
-            disabled
-            value={filter.filterValue}
-          />
+          <Box style={{ width: '146px' }}>
+            <FormTextField
+              label={''}
+              placeholder={''}
+              disabled
+              value={filter.filterValue}
+              style={{ borderRadius: 0, width: '146px', fontSize: '12px', color: '#424240' }}
+            />
+          </Box>
         );
     }
   };
@@ -432,31 +442,32 @@ const FilterComponent = ({
           />
         </Box>
         {console.log(filters)}
-        <Box style={{ padding: '5px 0px 0px 7px' }} className="text-muted h5">
+        <Box style={{ padding: '5px 0px 0px 7px', display: 'flex' }} className="text-muted h5">
           {/* Filter your stack */}
           {!applyFilter && !filters[0]?.column?.selectedValue?.label
             ? 'Filter your stack'
             : filters[0]?.column?.selectedValue.label && !applyFilter
             ? filters.map((filter: any, index: number) => {
                 return (
-                  <FlexBox.Row>
-                    <Box
-                      onClick={() => hanldeDelete(index)}
-                      style={{
-                        width: '33px',
-                        height: '33px',
-                        // background: '#8045FF',
-                        borderRadius: '4px',
-                      }}
-                    >
-                      {`${filter.column.selectedValue.label} ${filter.filterValue}`}
+                  <FlexBox.Row key={index} className={styles.tile}>
+                    <Box onClick={() => hanldeDelete(index)}>
+                      {`${filter.column.selectedValue.label} ${typeof filter.filterValue === 'string' ? filter.filterValue : formatDateToDisplay(filter.filterValue)}`}
                     </Box>
+
+                    <Box onClick={() => setFilter([])} >
+                      <icons.closeWithBorder
+                        style={{ paddingLeft: '7px' }}
+                        size={iconSizes.sm}
+                        color={iconColors.grey}
+                      />
+                    </Box>
+                    
                   </FlexBox.Row>
                 );
               })
             : 'Filter your stack'}
-          {!applyFilter && !filters[0]?.column?.selectedValue?.label ? (
-            'Filter your stack'
+          {/* {!applyFilter && !filters[0]?.column?.selectedValue?.label ? (
+            null
           ) : filters[0]?.column?.selectedValue.label && !applyFilter ? (
             <Box
               onClick={() => setFilter([])}
@@ -468,27 +479,28 @@ const FilterComponent = ({
                 borderRadius: '4px',
               }}
             >
-              <icons.delete
+              <icons.close
                 style={{ padding: '7px 0px 0px 7px' }}
-                size={iconSizes.md}
+                size={iconSizes.sm}
                 color={iconColors.grey}
               />
             </Box>
           ) : (
-            'Filter your stack'
-          )}
+            null
+          )} */}
         </Box>
       </FlexBox>
       {applyFilter && (
-        <Box className="mb-4">
+        <Box className="mb-4 mt-19">
           <Container>
-            <p className="h3 text-muted">Custom Filtering</p>
+            <Paragraph className="h3 text-muted" color='black' style={{ fontSize: '16px' }}>Custom Filtering</Paragraph>
             {filters.map((filter: any, index: number) => {
               return (
-                <FlexBox.Row key={index} className="align-items-center mb-1">
-                  <Box className="mr-4 mt-5 h4 text-muted">
+                <FlexBox.Row key={index} className="mb-1">
+                  <Box className="mr-4 mt-5 h4 text-muted" style={{ fontSize: '12px', width: '46px', color: '#424240' }}>
                     {index === 0 ? 'Where' : 'And'}
                   </Box>
+                  <Box style={{ width: '146px' }}>
                   <FormDropdownField
                     label={''}
                     onChange={(value: string) =>
@@ -497,7 +509,13 @@ const FilterComponent = ({
                     placeholder={'Column Name'}
                     value={filter.column.selectedValue.value}
                     options={filter.column.options}
+                    style={{ borderTopRightRadius: 0, 
+                      borderBottomRightRadius: 0, width: '146px',
+                      fontSize: '12px', color: '#424240'                  
+                    }}
                   />
+                  </Box>
+                  <Box style={{ width: '146px' }}>
                   <FormDropdownField
                     label={''}
                     disabled={!filter.column.selectedValue.type}
@@ -510,22 +528,17 @@ const FilterComponent = ({
                       filter.contains.options,
                       filter.column.selectedValue.type,
                     )}
-                  />
+                    style={{ borderRadius: 0, width: '146px',
+                             fontSize: '12px', color: '#424240' 
+                    }}
+                 />
+                 </Box>
                   {valueField(filter)}
 
-                  <Box
-                    onClick={() => hanldeDelete(index)}
-                    style={{
-                      marginTop: '23px',
-                      width: '130px',
-                      height: '40px',
-                      border: '1px solid #c9cbd0',
-                      borderRadius: '4px',
-                    }}
-                  >
+                  <Box onClick={() => hanldeDelete(index)} className={styles.removeIcon}>
                     <icons.delete
                       style={{ padding: '7px 0px 0px 7px' }}
-                      size={iconSizes.md}
+                      size={iconSizes.sm}
                       color={iconColors.grey}
                     />
                   </Box>
@@ -534,10 +547,10 @@ const FilterComponent = ({
             })}
             <FlexBox.Row className="mt-5" onClick={addAnotherFilter}>
               <icons.simplePlus
-                size={iconSizes.lg}
+                size={iconSizes.md}
                 color={iconColors.darkGrey}
               />
-              <span className="h3 text-muted ml-1 mt-2">Add Condition</span>
+              <Paragraph className="h3 text-muted ml-1 mt-2" style={{ fontSize: '14px', fontWeight: 'bold', color: '#747474', cursor: 'pointer' }}>Add Condition</Paragraph>
             </FlexBox.Row>
           </Container>
         </Box>
