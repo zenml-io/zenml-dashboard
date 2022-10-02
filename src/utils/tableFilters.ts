@@ -58,8 +58,15 @@ export const getFilteredDataForTable = (data: any, filter: any) => {
       f.column.label !== 'Author'
     ) {
       if (f.type.value === 'contains') {
+        // debugger;
         data = data.filter((os: any) => {
-          if (f.column.value && f.value) {
+          if (f.column.value === 'pipelineName' && f.value) {
+            return os.pipeline.name
+              .toLowerCase()
+              .includes(f.value.toLowerCase());
+          } else if (f.column.value === 'stackName' && f.value) {
+            return os.stack.name.toLowerCase().includes(f.value.toLowerCase());
+          } else if (f.column.value && f.value) {
             return os[f.column.value]
               .toLowerCase()
               .includes(f.value.toLowerCase());
@@ -70,7 +77,15 @@ export const getFilteredDataForTable = (data: any, filter: any) => {
 
       if (f.type.value === 'start_with') {
         data = data.filter((os: any) => {
-          if (f.column.value && f.value) {
+          if (f.column.value === 'pipelineName' && f.value) {
+            return os.pipeline.name
+              .toLowerCase()
+              .includes(f.value.toLowerCase());
+          } else if (f.column.value === 'stackName' && f.value) {
+            return os.stack.name
+              .toLowerCase()
+              .startsWith(f.value.toLowerCase());
+          } else if (f.column.value && f.value) {
             return os[f.column.value]
               .toLowerCase()
               .startsWith(f.value.toLowerCase());
@@ -81,7 +96,13 @@ export const getFilteredDataForTable = (data: any, filter: any) => {
 
       if (f.type.value === 'end_with') {
         data = data.filter((os: any) => {
-          if (f.column.value && f.value) {
+          if (f.column.value === 'pipelineName' && f.value) {
+            return os.pipeline.name
+              .toLowerCase()
+              .includes(f.value.toLowerCase());
+          } else if (f.column.value === 'stackName' && f.value) {
+            return os.stack.name.toLowerCase().endsWith(f.value.toLowerCase());
+          } else if (f.column.value && f.value) {
             return os[f.column.value]
               .toLowerCase()
               .endsWith(f.value.toLowerCase());
@@ -92,7 +113,13 @@ export const getFilteredDataForTable = (data: any, filter: any) => {
 
       if (f.type.value === 'equal') {
         data = data.filter((os: any) => {
-          if (f.column.value && f.value) {
+          if (f.column.value === 'pipelineName' && f.value) {
+            return os.pipeline.name
+              .toLowerCase()
+              .includes(f.value.toLowerCase());
+          } else if (f.column.value === 'stackName' && f.value) {
+            return os.stack.name.toLowerCase() === f.value.toLowerCase();
+          } else if (f.column.value && f.value) {
             return os[f.column.value].toLowerCase() === f.value.toLowerCase();
           }
           return true;
@@ -100,7 +127,13 @@ export const getFilteredDataForTable = (data: any, filter: any) => {
       }
       if (f.type.value === 'not_equal') {
         data = data.filter((os: any) => {
-          if (f.column.value && f.value) {
+          if (f.column.value === 'pipelineName' && f.value) {
+            return os.pipeline.name
+              .toLowerCase()
+              .includes(f.value.toLowerCase());
+          } else if (f.column.value === 'stackName' && f.value) {
+            return os.stack.name.toLowerCase() !== f.value.toLowerCase();
+          } else if (f.column.value && f.value) {
             return os[f.column.value].toLowerCase() !== f.value.toLowerCase();
           }
           return true;
