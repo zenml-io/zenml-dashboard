@@ -8,12 +8,22 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import dagre from 'dagre';
 
-import { initialNodes, initialEdges } from './initial-elements.js';
+import { initialNodes, initialEdges } from './initial-elements';
 import ArtifactNode from './ArtifactNode';
 import StepNode from './StepNode';
 
 import './index.css';
 import { Analysis, Data, Model, Schema, Service, Statistic } from './icons';
+
+interface Edges {
+  id: string;
+  source: string;
+  target: string;
+  type?: string;
+  animated?: boolean;
+}
+
+const edges: Edges[] = initialEdges;
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -23,7 +33,7 @@ const nodeHeight = 36;
 
 const getLayoutedElements = (
   initialNodes: any[],
-  edges: any[],
+  initialEdges: any[],
   direction = 'TB',
 ) => {
   const isHorizontal = direction === 'LR';
@@ -33,7 +43,7 @@ const getLayoutedElements = (
     dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
   });
 
-  edges.forEach((edge) => {
+  initialEdges.forEach((edge) => {
     dagreGraph.setEdge(edge.source, edge.target);
   });
 
@@ -52,35 +62,60 @@ const getLayoutedElements = (
     return node;
   });
 
-  initialEdges.forEach((edge) => {
+  edges.forEach((edge) => {
     edge.type = isHorizontal ? 'straight' : 'smoothstep';
 
-    initialNodes.find(
-      (node) =>
+    initialNodes.find((node) => {
+      if (
+        node.type === 'step' &&
+        node.id === edge.target &&
+        node.data.status == 'running'
+      ) {
+        const n = initialNodes.find((node) => node.id == edge.source);
+        const status = initialNodes.find(
+          (node) => 'step_' + n.data.parent_step_id == node.id,
+        ).data.status;
+        if (status === 'running') {
+          edge.animated = true;
+        }
+      }
+      if (
         node.id === edge.source &&
         node.type == 'step' &&
-        node.data.status == 'running',
-    )
-      ? (edge.animated = true)
-      : (edge.animated = false);
-
-    initialNodes
-      .filter((node) => node.type == 'step')
-      .forEach((node) => {
-        if (node.id === edge.target) {
-          console.log(edge);
+        node.data.status == 'running'
+      ) {
+        const artifact = initialNodes.find((n) => n.id == edge.target);
+        const edge = initialEdges.find((edge) => artifact.id == edge.source);
+        // const status = initialNodes.find((node) => node.id == edge.target).data.status;
+        if (status == 'running') {
+          edge.animated = true;
         }
-      });
+      }
+    });
+
+    // initialNodes
+    //   .filter((node) => node.type == 'step')
+    //   .forEach((node) => {
+    //     if (node.id === edge.target && node.data.status == 'running') {
+    //       const n = initialNodes.find((node) => node.id == edge.source);
+    //       const status = initialNodes.find(
+    //         (node) => 'step_' + n.data.parent_step_id == node.id,
+    //       ).data.status;
+    //       if (status === 'running') {
+    //         edge.animated = true;
+    //       }
+    //     }
+    //   });
 
     return edge;
   });
 
-  return { initialNodes, edges };
+  return { initialNodes, initialEdges };
 };
 
 const {
   initialNodes: layoutedNodes,
-  edges: layoutedEdges,
+  initialEdges: layoutedEdges,
 } = getLayoutedElements(initialNodes, initialEdges);
 
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
@@ -109,8 +144,8 @@ export const LayoutFlow: React.FC = () => {
     (direction) => {
       const {
         initialNodes: layoutedNodes,
-        edges: layoutedEdges,
-      } = getLayoutedElements(initialNodes, edges, direction);
+        initialEdges: layoutedEdges,
+      } = getLayoutedElements(initialNodes, initialEdges, direction);
 
       setNodes([...layoutedNodes]);
       setEdges([...layoutedEdges]);
