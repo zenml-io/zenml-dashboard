@@ -5,6 +5,8 @@ import React from 'react';
 // import styles from '../index.module.scss';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 // import { translate } from '../translate';
+import { useHistory } from '../../../../hooks';
+import { routePaths } from '../../../../../routes/routePaths';
 import {
   formatDateToDisplay,
   truncate,
@@ -57,7 +59,7 @@ export const useHeaderCols = ({
     activeSortingDirection,
     runs,
   });
-
+  const history = useHistory();
   return [
     {
       width: '2%',
@@ -101,7 +103,20 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.pipeline.name}</Paragraph>
+        <Paragraph
+          size="small"
+          style={{
+            color: '#22BBDD',
+            textDecoration: 'underline',
+            zIndex: 100,
+          }}
+          onClick={(event) => {
+            event.stopPropagation();
+            history.push(routePaths.pipeline.configuration(run.pipeline?.id));
+          }}
+        >
+          {run.pipeline?.name}
+        </Paragraph>
       ),
     },
 
@@ -116,7 +131,7 @@ export const useHeaderCols = ({
         <Paragraph
           style={{
             justifyContent: 'center',
-            backgroundColor: run.status === 'Finished' ? '#47E08B' : '#FF5C93',
+            backgroundColor: run.status === 'completed' ? '#47E08B' : '#FF5C93',
             borderRadius: '50%',
             height: '25px',
             width: '25px',
@@ -124,7 +139,7 @@ export const useHeaderCols = ({
             textAlign: 'center',
           }}
         >
-          {run.status === 'Finished' ? (
+          {run.status === 'completed' ? (
             <icons.check color={iconColors.white} size={iconSizes.sm} />
           ) : (
             <icons.close color={iconColors.white} size={iconSizes.sm} />
@@ -141,7 +156,16 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.stack.name}</Paragraph>
+        <Paragraph
+          size="small"
+          style={{ color: '#22BBDD', textDecoration: 'underline' }}
+          onClick={(event) => {
+            event.stopPropagation();
+            history.push(routePaths.stack.configuration(run.stack?.id));
+          }}
+        >
+          {run.stack?.name}
+        </Paragraph>
       ),
     },
     {

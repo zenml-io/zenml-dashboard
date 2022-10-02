@@ -5,6 +5,7 @@ import {
   pipelinesActions,
   showToasterAction,
   stackComponentsActions,
+  stacksActions,
   userActions,
   // workspacesActions,
 } from '../../../../redux/actions';
@@ -60,6 +61,7 @@ export const useService = (): ServiceInterface => {
               dispatch(userActions.getMy({}));
               dispatch(stackComponentsActions.getTypes());
               dispatch(pipelinesActions.getMy());
+              dispatch(stacksActions.getMy({}));
             },
           }),
         );

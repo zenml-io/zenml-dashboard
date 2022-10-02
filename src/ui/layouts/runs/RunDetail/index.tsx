@@ -3,7 +3,11 @@ import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
+<<<<<<< HEAD
 import { Statistics } from './Statistics';
+=======
+import { Configuration } from './Configuration';
+>>>>>>> origin/dev
 import { useService } from './useService';
 
 // import styles from './index.module.scss';
@@ -26,7 +30,7 @@ const getTabPages = ({ runId }: { runId: TId }): TabPage[] => {
     {
       text: 'Configuration',
       // <Results runId={runId} stackId={stackId} />
-      Component: () => <div>Coming soon</div>,
+      Component: () => <Configuration runId={runId} />,
       path: routePaths.run.run.results(runId),
     },
     // {

@@ -8,7 +8,11 @@ import { getTranslateByScope } from '../../../../../services';
 
 export const translate = getTranslateByScope('ui.layouts.AllRuns');
 
-export const AllRuns: React.FC = () => {
+interface Props {
+  filter: any;
+}
+
+export const AllRuns: React.FC<Props> = ({ filter }: Props) => {
   const { fetching, runIds } = useService();
 
   return (
@@ -17,6 +21,7 @@ export const AllRuns: React.FC = () => {
       emptyStateText={translate('emptyState.text')}
       runIds={runIds}
       fromAllruns={true}
+      filter={filter}
     />
   );
 };
