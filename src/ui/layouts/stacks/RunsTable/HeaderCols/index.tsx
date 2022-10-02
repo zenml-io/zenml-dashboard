@@ -21,7 +21,7 @@ import {
   ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
-// import { RunStatus } from '../RunStatus';
+import { RunStatus } from '../RunStatus';
 // import { RunTime } from '../../RunTime';
 // import { RunUser } from '../RunUser';
 import { SortingHeader } from '../SortingHeader';
@@ -134,31 +134,7 @@ export const useHeaderCols = ({
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (run: TRun) => (
-        <Paragraph
-          style={{
-            justifyContent: 'center',
-            backgroundColor:
-              run.status === 'completed'
-                ? '#431D93'
-                : run.status === 'In Progress'
-                ? '#ffff00'
-                : '#FF5C93',
-            borderRadius: '50%',
-            height: '19px',
-            width: '19px',
-            textAlign: 'center',
-          }}
-        >
-          {run.status === 'completed' ? (
-            <icons.check color={iconColors.white} size={iconSizes.xs} />
-          ) : run.status === 'In Progress' ? (
-            <icons.alertTriangle color={iconColors.white} size={iconSizes.xs} />
-          ) : (
-            <icons.close color={iconColors.white} size={iconSizes.xs} />
-          )}
-        </Paragraph>
-      ),
+      renderRow: (run: TRun) => <RunStatus run={run} />,
     },
 
     {
