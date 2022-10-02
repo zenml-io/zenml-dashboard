@@ -5,7 +5,7 @@ import { RunsTable } from '../../../RunsTable';
 import { translate } from '../../translate';
 import { useService } from './useService';
 import styles from './NestedRow.module.scss';
-import { useHistory, useLocationPath } from '../../../../../hooks';
+import { useHistory } from '../../../../../hooks';
 import { routePaths } from '../../../../../../routes/routePaths';
 export const RunsForStackTable: React.FC<{
   stack: TStack;

@@ -9,7 +9,7 @@ import { showToasterAction } from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
 import { iconColors, iconSizes } from '../../../../../constants';
 
-import { translate } from '../translate';
+// import { translate } from '../translate';
 import styles from './index.module.scss';
 import { useService } from './useService';
 
