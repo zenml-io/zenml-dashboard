@@ -13,8 +13,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
           node-version: 14.20.0
@@ -28,11 +26,6 @@ jobs:
           REACT_APP_BASE_API_URL: "/api/v1"
           REACT_APP_MOCKAPI_RESPONSE: false
           REACT_APP_VERSION: ${{ github.ref }}
-
-      - name: Get the version from the github tag ref
-        id: get_version
-        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
-
       - name: Generate Changelog
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
         with:
@@ -43,11 +36,15 @@ jobs:
           issuesWoLabels: "true"
           stripHeaders: "true"
       - name: Create release archive
-        run: tar -zcf zenml-dashboard.tar.gz -C build --transform="s#\.\/##" .
+        run: |
+          tar -zcf zenml-dashboard.tar.gz -C build --transform="s#\.\/##" .
+          sha256sum -b zenml-dashboard.tar.gz > zenml-dashboard.tar.gz.sha256
       - name: Release to GitHub
         uses: softprops/action-gh-release@v1
         with:
-          files: zenml-dashboard.tar.gz
+          files: |
+            zenml-dashboard.tar.gz
+            zenml-dashboard.tar.gz.sha256
           body_path: ./CHANGELOG.md
           prerelease: "true"
         env:
