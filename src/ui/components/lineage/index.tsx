@@ -85,10 +85,15 @@ const getLayoutedElements = (
         node.data.status == 'running'
       ) {
         const artifact = initialNodes.find((n) => n.id == edge.target);
-        const edge = initialEdges.find((edge) => artifact.id == edge.source);
-        // const status = initialNodes.find((node) => node.id == edge.target).data.status;
-        if (status == 'running') {
-          edge.animated = true;
+
+        const e = initialEdges.find((e) => e.source == artifact.id);
+        if (e) {
+          console.log(e.target);
+          const status = initialNodes.find((step) => step.id == e.target);
+          console.log(status);
+          if (status.data.status === 'running') {
+            edge.animated = true;
+          }
         }
       }
     });

@@ -3,11 +3,8 @@ import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
-<<<<<<< HEAD
-import { Statistics } from './Statistics';
-=======
 import { Configuration } from './Configuration';
->>>>>>> origin/dev
+import { Statistics } from './Statistics';
 import { useService } from './useService';
 
 // import styles from './index.module.scss';

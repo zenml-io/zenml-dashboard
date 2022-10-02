@@ -17,6 +17,7 @@
   z-index: 100;
   justify-content: flex-end;
   width: 100%;
+  margin-top: 1rem;
 }
 
 .controls > button,
