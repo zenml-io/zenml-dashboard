@@ -25,6 +25,11 @@ export const getInitialFilterState = () => {
       },
       options: [
         {
+          value: 'id',
+          label: 'ID',
+          type: 'string',
+        },
+        {
           value: 'name',
           label: 'Name',
           type: 'string',
@@ -96,7 +101,7 @@ export const getInitialFilterState = () => {
         },
         {
           value: 'false',
-          label: 'false',
+          label: 'False',
           type: 'boolean',
         },
       ],
@@ -114,6 +119,11 @@ export const getInitialFilterStateForPipeline = () => {
         type: '',
       },
       options: [
+        {
+          value: 'id',
+          label: 'ID',
+          type: 'string',
+        },
         {
           value: 'name',
           label: 'Name',
@@ -186,7 +196,7 @@ export const getInitialFilterStateForPipeline = () => {
         },
         {
           value: 'false',
-          label: 'false',
+          label: 'False',
           type: 'boolean',
         },
       ],
@@ -203,7 +213,34 @@ export const getInitialFilterStateForRuns = () => {
         label: '',
         type: '',
       },
+      statusOption: [
+        {
+          value: 'completed',
+          label: 'Completed',
+          type: 'status',
+        },
+        {
+          value: 'failed',
+          label: 'Failed',
+          type: 'status',
+        },
+        {
+          value: 'running',
+          label: 'Running',
+          type: 'status',
+        },
+        {
+          value: 'cached',
+          label: 'Cached',
+          type: 'status',
+        },
+      ],
       options: [
+        {
+          value: 'id',
+          label: 'Run ID',
+          type: 'string',
+        },
         {
           value: 'name',
           label: 'Run Name',
@@ -243,6 +280,28 @@ export const getInitialFilterStateForRuns = () => {
     },
     contains: {
       selectedValue: {},
+      statusOption: [
+        {
+          value: 'completed',
+          label: 'Completed',
+          type: 'status',
+        },
+        {
+          value: 'failed',
+          label: 'Failed',
+          type: 'status',
+        },
+        {
+          value: 'running',
+          label: 'Running',
+          type: 'status',
+        },
+        {
+          value: 'cached',
+          label: 'Cached',
+          type: 'status',
+        },
+      ],
       options: [
         {
           value: 'contains',
@@ -291,7 +350,7 @@ export const getInitialFilterStateForRuns = () => {
         },
         {
           value: 'false',
-          label: 'false',
+          label: 'False',
           type: 'boolean',
         },
         {
@@ -342,11 +401,40 @@ const FilterComponent = ({
       filter.contains.selectedValue = { value: '', label: '', type: '' };
       filter.filterValue = '';
     }
+
+    setFilter([...filters]);
+  }
+
+  function handleChangeForStatus(filter: any, value: string) {
+    //  handleValueFieldChange(filter, value)
+
+    filter['contains'].selectedValue = filter['contains'].statusOption.filter(
+      (option: any) => option.value === value,
+    )[0];
+
+    filter.filterValue = value;
+
+    setFilter([...filters]);
+  }
+  function handleChangeForShared(filter: any, key: string, value: string) {
+    //  handleValueFieldChange(filter, value)
+
+    filter[key].selectedValue = filter[key].options.filter(
+      (option: any) => option.value === value,
+    )[0];
+
+    if (key === 'contains' && (value === 'true' || value === 'false')) {
+      filter.filterValue = value;
+      setFilter([...filters]);
+      return;
+    }
+
     setFilter([...filters]);
   }
 
   function handleValueFieldChange(field: any, value: string) {
     field.filterValue = value;
+
     setFilter([...filters]);
   }
 
@@ -370,6 +458,7 @@ const FilterComponent = ({
             onChange={(value: string) => handleValueFieldChange(filter, value)}
           />
         );
+
       case 'date':
         const ExampleCustomInput = forwardRef(
           ({ value, onClick }: any, ref: any) => (
@@ -435,7 +524,7 @@ const FilterComponent = ({
         <Box style={{ padding: '5px 0px 0px 7px' }} className="text-muted h5">
           {/* Filter your stack */}
           {!applyFilter && !filters[0]?.column?.selectedValue?.label
-            ? 'Filter your stack'
+            ? 'Filter list'
             : filters[0]?.column?.selectedValue.label && !applyFilter
             ? filters.map((filter: any, index: number) => {
                 return (
@@ -454,10 +543,10 @@ const FilterComponent = ({
                   </FlexBox.Row>
                 );
               })
-            : 'Filter your stack'}
-          {!applyFilter && !filters[0]?.column?.selectedValue?.label ? (
-            'Filter your stack'
-          ) : filters[0]?.column?.selectedValue.label && !applyFilter ? (
+            : 'Filter list'}
+          {!applyFilter &&
+          !filters[0]?.column?.selectedValue?.label ? null : filters[0]?.column
+              ?.selectedValue.label && !applyFilter ? (
             <Box
               onClick={() => setFilter([])}
               style={{
@@ -474,9 +563,7 @@ const FilterComponent = ({
                 color={iconColors.grey}
               />
             </Box>
-          ) : (
-            'Filter your stack'
-          )}
+          ) : null}
         </Box>
       </FlexBox>
       {applyFilter && (
@@ -498,20 +585,64 @@ const FilterComponent = ({
                     value={filter.column.selectedValue.value}
                     options={filter.column.options}
                   />
-                  <FormDropdownField
-                    label={''}
-                    disabled={!filter.column.selectedValue.type}
-                    placeholder={'category'}
-                    onChange={(value: string) =>
-                      handleChange(filter, 'contains', value)
-                    }
-                    value={filter.contains.selectedValue.value}
-                    options={getSecondColumnOptions(
-                      filter.contains.options,
-                      filter.column.selectedValue.type,
-                    )}
-                  />
-                  {valueField(filter)}
+                  {filter?.column?.selectedValue?.value === 'status' ? (
+                    <>
+                      {console.log()}
+                      <FormDropdownField
+                        label={''}
+                        disabled={!filter.column.selectedValue.type}
+                        placeholder={'category'}
+                        onChange={(value: string) =>
+                          // handleChange(filter, 'contains', value)
+                          handleChangeForStatus(filter, value)
+                        }
+                        value={filter.contains.selectedValue.value}
+                        options={filter.column.statusOption}
+                      />
+                    </>
+                  ) : filter?.column?.selectedValue?.value === 'isShared' ? (
+                    <>
+                      <FormTextField
+                        label={''}
+                        placeholder={''}
+                        disabled
+                        value={'is'}
+                      />
+                      {console.log('test', filter)}
+                      <FormDropdownField
+                        label={''}
+                        disabled={!filter?.column?.selectedValue?.type}
+                        placeholder={'category'}
+                        onChange={
+                          (value: string) =>
+                            handleChangeForShared(filter, 'contains', value)
+                          // handleChangeForStatus(filter, value)
+                        }
+                        value={filter?.contains?.selectedValue?.value}
+                        options={getSecondColumnOptions(
+                          filter.contains.options,
+                          filter.column.selectedValue.type,
+                        )}
+                      />
+                    </>
+                  ) : (
+                    <>
+                      <FormDropdownField
+                        label={''}
+                        disabled={!filter.column.selectedValue.type}
+                        placeholder={'category'}
+                        onChange={(value: string) =>
+                          handleChange(filter, 'contains', value)
+                        }
+                        value={filter.contains.selectedValue.value}
+                        options={getSecondColumnOptions(
+                          filter.contains.options,
+                          filter.column.selectedValue.type,
+                        )}
+                      />
+                      {valueField(filter)}
+                    </>
+                  )}
 
                   <Box
                     onClick={() => hanldeDelete(index)}
