@@ -215,6 +215,11 @@ export const getInitialFilterStateForRuns = () => {
           type: 'string',
         },
         {
+          value: 'status',
+          label: 'Status',
+          type: 'status',
+        },
+        {
           value: 'stackName',
           label: 'Stack Name',
           type: 'string',
@@ -288,6 +293,26 @@ export const getInitialFilterStateForRuns = () => {
           value: 'false',
           label: 'false',
           type: 'boolean',
+        },
+        {
+          value: 'completed',
+          label: 'Completed',
+          type: 'status',
+        },
+        {
+          value: 'running',
+          label: 'Running',
+          type: 'status',
+        },
+        {
+          value: 'failed',
+          label: 'Failed',
+          type: 'status',
+        },
+        {
+          value: 'cached',
+          label: 'Cached',
+          type: 'status',
         },
       ],
     },
@@ -386,6 +411,7 @@ const FilterComponent = ({
 
   return (
     <FlexBox.Column fullWidth>
+      {console.log(filters)}
       <FlexBox
         fullWidth
         className="border border-primary rounded rounded-4 p-2 align-item-center mb-3"
@@ -405,9 +431,52 @@ const FilterComponent = ({
             color={iconColors.white}
           />
         </Box>
+        {console.log(filters)}
         <Box style={{ padding: '5px 0px 0px 7px' }} className="text-muted h5">
-          {' '}
-          Filter your stack
+          {/* Filter your stack */}
+          {!applyFilter && !filters[0]?.column?.selectedValue?.label
+            ? 'Filter your stack'
+            : filters[0]?.column?.selectedValue.label && !applyFilter
+            ? filters.map((filter: any, index: number) => {
+                return (
+                  <FlexBox.Row>
+                    <Box
+                      onClick={() => hanldeDelete(index)}
+                      style={{
+                        width: '33px',
+                        height: '33px',
+                        // background: '#8045FF',
+                        borderRadius: '4px',
+                      }}
+                    >
+                      {`${filter.column.selectedValue.label} ${filter.filterValue}`}
+                    </Box>
+                  </FlexBox.Row>
+                );
+              })
+            : 'Filter your stack'}
+          {!applyFilter && !filters[0]?.column?.selectedValue?.label ? (
+            'Filter your stack'
+          ) : filters[0]?.column?.selectedValue.label && !applyFilter ? (
+            <Box
+              onClick={() => setFilter([])}
+              style={{
+                marginTop: '23px',
+                width: '130px',
+                height: '40px',
+                border: '1px solid #c9cbd0',
+                borderRadius: '4px',
+              }}
+            >
+              <icons.delete
+                style={{ padding: '7px 0px 0px 7px' }}
+                size={iconSizes.md}
+                color={iconColors.grey}
+              />
+            </Box>
+          ) : (
+            'Filter your stack'
+          )}
         </Box>
       </FlexBox>
       {applyFilter && (
