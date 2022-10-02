@@ -1,0 +1,35 @@
+@import '../../../../globalStyles.scss';
+
+.header {
+  height: $headerHeight;
+  background-color: $whiteColor;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+
+  // width: calc(100% - $sidebarWidth);
+  width: 100% !important;
+}
+
+$activeBgColor: #fbfbfb;
+$boxShadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+$width: 15rem;
+
+.popup {
+  background-color: $whiteColor;
+  position: absolute;
+  border: 1px solid $lightestGreyColor;
+  border-radius: 4px;
+  box-shadow: $boxShadow;
+  min-width: $width;
+  z-index: 9;
+  top: 5rem;
+  right: 0;
+}
+
+.popupItem {
+  cursor: pointer;
+  transition: 0.2s ease-in all;
+}
+
+.popupItem:hover {
+  background-color: $activeBgColor;
+}

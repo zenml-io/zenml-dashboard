@@ -1,0 +1,94 @@
+@import '../../globalStyles.scss';
+
+.h1 {
+  font-family: $fontFamilyNormal;
+  font-size: $fontSizeH1;
+  line-height: $lineHeightH1;
+  color: $textColor;
+}
+
+.h2 {
+  font-family: $fontFamilyNormal;
+  font-size: $fontSizeH2;
+  line-height: $lineHeightH2;
+  color: $textColor;
+}
+
+.h3 {
+  font-family: $fontFamilyNormal;
+  font-size: $fontSizeH3;
+  color: $textColor;
+  line-height: $lineHeightH3;
+}
+
+.h4 {
+  font-family: $fontFamilyNormal;
+  font-size: $fontSizeH4;
+  line-height: 24px;
+  color: $textColor;
+  line-height: $lineHeightH4;
+}
+
+.baseParagraph {
+  font-family: $fontFamilyNormal;
+  color: $textColor;
+  word-wrap: break-word;
+  margin: 0;
+}
+
+.body {
+  font-size: $fontSizeBody;
+  line-height: $lineHeightBody;
+}
+
+.small {
+  font-size: $fontSizeSmall;
+  line-height: $lineHeightSmall;
+}
+
+.tiny {
+  font-size: $fontSizeTiny;
+  line-height: $lineHeightTiny;
+}
+
+.bold {
+  font-family: $fontFamilyBold;
+}
+
+.truncate {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+}
+
+.grey {
+  color: $greyColor;
+}
+
+.darkGrey {
+  color: $darkGreyColor;
+}
+
+.primary {
+  color: $primaryColor;
+}
+
+.red {
+  color: $redColor;
+}
+
+.green {
+  color: $greenColor;
+}
+
+.secondary {
+  color: $secondaryColor;
+}
+
+.white {
+  color: $whiteColor;
+}
+
+.orange {
+  color: $orangeColor;
+}

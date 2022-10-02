@@ -1,0 +1,94 @@
+@import '../../globalStyles.scss';
+
+.primaryButton {
+  position: relative;
+  font-family: $fontFamilyNormal;
+  background: $primaryColor;
+  color: $whiteColor;
+  border-radius: $buttonBorderRadius;
+  font-size: $buttonFontSize;
+  transition: 200ms ease opacity;
+  cursor: pointer;
+  border: 0;
+  height: $buttonHeight;
+  width: max-content;
+  transition: 0.2s ease-in all;
+  padding: 0 3.2rem !important;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    outline: 0 !important;
+  }
+
+  &:hover {
+    background: #E8A562;
+  }
+}
+
+.orangeButton {
+  position: relative;
+  font-family: $fontFamilyNormal;
+  background: $orangeColor;
+  color: $whiteColor;
+  border-radius: $buttonBorderRadius;
+  font-size: $buttonFontSize;
+  transition: 200ms ease opacity;
+  cursor: pointer;
+  border: 0;
+  height: $buttonHeight;
+  width: max-content;
+  transition: 0.2s ease-in all;
+  padding: 0 3.2rem !important;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    outline: 0 !important;
+  }
+
+  &:hover {
+    background: $darkerOrangeColor;
+  }
+}
+
+.ghostButton {
+  position: relative;
+  font-family: $fontFamilyNormal;
+  background: transparent;
+  color: $blackColor;
+  border-radius: $buttonBorderRadius;
+  font-size: $buttonFontSize;
+  border: 1px solid $blackColor;
+  transition: 200ms ease opacity;
+  cursor: pointer;
+  height: $buttonHeight;
+  width: max-content;
+  transition: 0.2s ease-in all;
+  padding: 0 3.2rem !important;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  &:focus {
+    outline: 0 !important;
+  }
+
+  &:hover {
+    background: $blackColor;
+    color: $whiteColor;
+  }
+}
+
+// .spinner {
+//   position: absolute;
+//   left: 0.7rem;
+// }

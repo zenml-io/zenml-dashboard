@@ -1,0 +1,53 @@
+@import '../../../globalStyles.scss';
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 100vh;
+  table-layout: fixed;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.collapseTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 100vh;
+  table-layout: fixed;
+}
+
+.collapseTable thead tr:first-child {
+  border-top: none;
+}
+
+.collapseTable tbody tr:last-child {
+  border-bottom: 1px solid $lightestGreyColor;
+}
+
+.tableRow {
+  border-top: 1px solid $lightestGreyColor;
+}
+
+.clickableTableRow {
+  cursor: pointer;
+}
+
+.tableHeaderRow {
+  border-top: 1px solid $lightestGreyColor;
+  background-color: $lightestGreyColor ;
+}
+
+.tableHeadingTh {
+  text-align: left;
+  vertical-align: middle;
+}
+
+.tableTd {
+  vertical-align: middle;
+}
+
+.lastTable tbody tr:last-child {
+  border-bottom: 1px solid $lightestGreyColor;
+}

@@ -1,0 +1,37 @@
+@import '../../globalStyles.scss';
+
+.input {
+  height: $inputHeight;
+  background: $inputBgColor;
+  border: 1px solid $inputBorderColor;
+  border-radius: $inputBorderRadius;
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  font-family: $fontFamilyNormal;
+  font-size: $inputFontSize;
+  color: $inputTextColor;
+  padding-left: 1.6rem;
+  padding-right: 1.6rem;
+  outline: 0;
+
+  &:disabled {
+    opacity: 0.4;
+  }
+
+  &.error {
+    border: 1px solid $alertColor;
+  }
+
+  &:focus {
+    border: 1px solid $primaryColor;
+  }
+
+  &:-ms-input-placeholder {
+    color: $inputPlaceholderColor;
+  }
+
+  &::placeholder {
+    color: $inputPlaceholderColor;
+  }
+}

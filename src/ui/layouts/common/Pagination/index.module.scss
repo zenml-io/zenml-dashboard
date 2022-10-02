@@ -1,0 +1,28 @@
+@import '../../../globalStyles.scss';
+
+$paginationSize: 4rem;
+$paginationBorderColor: #eceeef;
+
+.paginationNavigationItem,
+.paginationNumbers {
+  user-select: none;
+  background:$whiteColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  outline: 0;
+  width: $paginationSize;
+  height: $paginationSize;
+  border: 1px solid $paginationBorderColor;
+
+  &.hidden {
+    pointer-events: none;
+    visibility: hidden;
+  }
+}
+
+.paginationNumbers.active {
+  background: $secondaryColor;
+  cursor: initial;
+}

@@ -1,0 +1,11 @@
+@import '../../../globalStyles.scss';
+
+.box {
+  background-color: $lightestGreyColor;
+}
+
+@media (max-width: $xl-breakpoint) {
+  .box {
+    flex-wrap: wrap;
+  }
+}

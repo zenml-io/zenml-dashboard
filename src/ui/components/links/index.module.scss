@@ -1,0 +1,10 @@
+@import '../../globalStyles.scss';
+
+.link {
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+    text-decoration-color: $secondaryColor;
+  }
+}

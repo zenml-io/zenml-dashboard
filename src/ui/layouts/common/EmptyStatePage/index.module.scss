@@ -1,0 +1,35 @@
+@import '../../../globalStyles.scss';
+
+.paragraph {
+  line-height: 2.4rem;
+}
+
+.tabLinksWrapper {
+  position: relative;
+  bottom: -1px;
+}
+
+.tabLink {
+  background-color: $lightestGreyColor;
+  border: 1px solid $lightGreyColor;
+  border-left: none;
+}
+
+.tabLink:first-child {
+  border-left: 1px solid $lightGreyColor;
+}
+
+.activeTabLink,
+.tabLink:hover {
+  background-color: $whiteColor;
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  border-bottom: none;
+}
+
+.tabContent {
+  background-color: #fff;
+  border: 1px solid $lightGreyColor;
+  border-radius: 4px;
+  border-top-left-radius: 0;
+}

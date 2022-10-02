@@ -1,0 +1,934 @@
+[
+  {
+    "translation": {
+      "ui": {
+        "sagas": {
+          "requestSaga": {
+            "unexpectedError": "Unexpected Error",
+            "authenticationError": "Authentication error"
+          }
+        },
+        "layouts": {
+          "Settings": {
+            "title": "Settings",
+            "tabs": {
+              "personalDetails": {
+                "text": "Personal Details"
+              },
+              "yourPlan": {
+                "text": "Your Plan"
+              },
+              "billing": {
+                "text": "Billing"
+              },
+              "organizationSettings": {
+                "text": "Organization Settings"
+              }
+            }
+          },
+          "PersonalDetails": {
+            "accountManagedText": "This account is managed by",
+            "form": {
+              "fullName": {
+                "label": "Full Name",
+                "placeholder": "John Doe"
+              },
+              "username": {
+                "label": "Username",
+                "placeholder": "johndoe"
+              },
+              "email": {
+                "label": "Email address",
+                "placeholder": "john.doe@acme.com"
+              },
+              "passwordChange": {
+                "currentPassword": {
+                  "label": "Current Password",
+                  "placeholder": "Current Password",
+                  "required": "Current Password Required"
+                },
+                "newPassword": {
+                  "label": "New Password",
+                  "placeholder": "New Password",
+                  "required": "New Password Required"
+                },
+                "confirmPassword": {
+                  "label": "Confirm Password",
+                  "placeholder": "Confirm Password",
+                  "required": "Confirm Password Required"
+                }
+              }
+            },
+            "passwordReset": {
+              "label": "Change Password",
+              "button": "Change Password"
+            },
+            "nameReset": {
+              "label": "Save Changes",
+              "button": "Save Changes"
+            },
+            "toasts": {
+              "successful": {
+                "text": "Successfully send Password Reset E-Mail."
+              },
+              "failed": {
+                "text": "Something went wrong. Please try again."
+              }
+            },
+            "popup": {
+                "title": "Change full name and Username",
+                "text": "Are you sure to change your full name and username",
+                "successButton": {
+                  "text": "Yes"
+                },
+                "cancelButton": {
+                  "text": "No"
+                }
+              }
+          },
+          "BillingSettings": {
+            "title": "Billing",
+            "toasters": {
+              "error": "Something went wrong. Please try again.",
+              "success": "Successfully updated Billing."
+            },
+            "creditCard": {
+              "title": "Edit your credit card information",
+              "cardNumber": {
+                "label": "Card Number",
+                "placeholder": "Number"
+              },
+              "expires": {
+                "label": "Expires"
+              },
+              "cvv": {
+                "label": "CVV",
+                "placeholder": "CVV"
+              },
+              "saveButton": "Save",
+              "cancelButton": "Cancel",
+              "changeButton": "Change Payment Method",
+              "reviewPaymentMethod": "Review Payment Method",
+              "creditCardErrorText": "We encountered a problem billing your account."
+            },
+            "invoiceInformation": {
+              "title": "Edit your invoice information",
+              "company": {
+                "label": "Company",
+                "placeholder": "Company Name",
+                "required": "Company Name is required"
+              },
+              "billingAddress": {
+                "label": "Billing Address",
+                "placeholder": "1114 Ingraham Street",
+                "required": "Billing Address is required"
+              },
+              "zipCode": {
+                "label": "Zip Code",
+                "placeholder": "92109",
+                "required": "Zip Code is required"
+              },
+              "city": {
+                "label": "City",
+                "placeholder": "San Francisco",
+                "required": "City is required"
+              },
+              "country": {
+                "label": "Country",
+                "placeholder": "Select country",
+                "required": "Country is required"
+              }
+            },
+            "Invoices": {
+              "title": "Invoices",
+              "table": {
+                "invoiceId": "Invoice ID",
+                "type": "Type",
+                "amount": "Amount",
+                "paid": "Paid",
+                "date": "Date",
+                "emptyState": {
+                  "text": "No invoices."
+                },
+                "tooltips": {
+                  "paid": "Paid",
+                  "uncollectible": "Uncollectible",
+                  "open": "Open",
+                  "draft": "Draft"
+                }
+              }
+            }
+          },
+          "OrganizationSettings": {
+            "button": {
+              "text": "New Invite"
+            },
+            "popup": {
+              "title": "Add a new Member",
+              "username": {
+                "label": "Username",
+                "placeholder": "Username",
+                "required": "Username is required"
+              },
+              "role": {
+                "label": "Role",
+                "placeholder": "Choose",
+                "required": "Role is required"
+              },
+              "button": {
+                "text": "Invite"
+              },
+              "generateInviteModal": {
+                "title": "New Invitation Token",
+                "text": " Generate a new invite token for",
+                "button": {
+                  "text": "Generate Token"
+                }
+              },
+              "plus": {
+                "text": "Invite another user"
+              },
+              "invite": {
+                "text": "Invitation Token"
+              }
+            },
+            "deleteMemberPopup": {
+              "title": "Are you sure?",
+              "text": "Do you want to revoke access for",
+              "successButton": {
+                "text": "Delete"
+              },
+              "cancelButton": {
+                "text": "Cancel"
+              },
+              "errorToaster": "Something went wrong!",
+              "successToaster": "Member deleted"
+            },
+            "deleteInvitePopup": {
+              "title": "Are you sure?",
+              "text": "When you delete the invite the user can't accept the email invitation.",
+              "successButton": {
+                "text": "Delete"
+              },
+              "cancelButton": {
+                "text": "Cancel"
+              },
+              "errorToaster": "Something went wrong!",
+              "successToaster": "Invite deleted"
+            },
+            "status": {
+              "owner": "Owner",
+              "pending": "Pending",
+              "accepted": "Accepted"
+            },
+            "members": "Members",
+            "invites": "Invites",
+            "table": {
+              "member": {
+                "text": "Member"
+              },
+              "status": {
+                "text": "Status"
+              },
+              "role": {
+                "text": "Role"
+              },
+              "joinedAt": {
+                "text": "Joined"
+              },
+              "createdAt": {
+                "text": "Created At"
+              },
+              "sendAt": {
+                "text": "Send"
+              }
+            },
+            "emptyState": {
+              "text": "We could not find any results."
+            }
+          },
+          "Dashboard": {
+            "title": "Hello World!",
+            "subtitle": "You can find your most important functions here on the dashboard.",
+            "cardOne": {
+              "title": "Read our documentation",
+              "button": {
+                "text": "Read",
+                "href": "https://github.com/maiot-io/zenml"
+              }
+            },
+            "cardTwo": {
+              "title": "Change the settings",
+              "button": {
+                "text": "Manage",
+                "href": "https://docs.maiot.io/infrastructure/google-cloud-platform"
+              }
+            },
+            "cardThree": {
+              "title": "Invite new members to your organization",
+              "button": {
+                "text": "Invite",
+                "href": "https://docs.maiot.io/getting-started/quickstart"
+              }
+            }
+          },
+          "NotFound": {
+            "title": "404",
+            "description": "Sorry, the page you are looking doesn't exist."
+          },
+          "AuthenticatedSidebar": {
+            "menu": {
+              "home": {
+                "text": "Home"
+              },
+              "pipelines": {
+                "text": "Pipelines"
+              },
+              "stacks": {
+                "text": "Stacks"
+              },
+              "stackComponents": {
+                "text": "Stack Components"
+              },
+              "setting": {
+                "text": "Setting"
+              }
+            }
+          },
+          "Login": {
+            "title": "Log In",
+            "subtitle": "Enter your details below",
+            "form": {
+              "email": {
+                "label": "Email address",
+                "placeholder": "john.doe@acme.com",
+                "required": "Email is required",
+                "invalidEmail": "Email is not valid"
+              },
+              "username": {
+                "label": "Username",
+                "placeholder": "username",
+                "required": "Username is required"
+              },
+              "password": {
+                "label": "Password",
+                "placeholder": "Password",
+                "required": "Password is required"
+              },
+              "button": {
+                "text": "Log In"
+              }
+            },
+            "signUp": {
+              "text": "Don´t have an account?",
+              "link": "Sign up"
+            },
+            "forgotPassword": {
+              "text": "Forgot your password?"
+            },
+            "toasts": {
+              "successfulLogin": {
+                "text": "Welcome back!"
+              },
+              "failedLogin": {
+                "text": "Incorrect credentials. Please try again."
+              }
+            }
+          },
+          "Signup": {
+            "title": "Register",
+            "subtitle": "Enter your details below",
+            "form": {
+              "username": {
+                "label": "username",
+                "placeholder": "username",
+                "required": "Username is required"
+              },
+              "fullname": {
+                "label": "Fullname",
+                "placeholder": "Full Name",
+                "required": "Fullname is required"
+              },
+              "email": {
+                "label": "Email address",
+                "placeholder": "Email address",
+                "required": "Email is required",
+                "invalidEmail": "Email is not valid"
+              },
+              "password": {
+                "label": "Password",
+                "placeholder": "Password",
+                "required": "Password is required"
+              },
+              "confirmPassword": {
+                "label": "Confirm Password",
+                "placeholder": "Password",
+                "required": "Password is required"
+              },
+              "organization": {
+                "label": "Organization",
+                "placeholder": "Organization",
+                "required": "Organization is required"
+              },
+              "button": {
+                "text": "Register"
+              }
+            },
+            "login": {
+              "text": "Already registered?",
+              "link": "Login"
+            },
+            "toasts": {
+              "successfulSignup": {
+                "text": "Signed up successfully!"
+              },
+              "failedSignup": {
+                "text": "Incorrect credentials. Please try again."
+              },
+              "invalidCode": {
+                "text": "Code is not valid."
+              }
+            }
+          },
+          "Forgot": {
+            "title": "Forgot",
+            "subtitle": "Enter your registered email",
+            "form": {
+              "email": {
+                "label": "Email address",
+                "placeholder": "jane.doe@acme.com",
+                "required": "Email is required",
+                "invalidEmail": "Email is not valid"
+              },
+              "button": {
+                "text": "Reset Password"
+              }
+            },
+            "login": {
+              "text": "Already registered?",
+              "link": "Login"
+            },
+            "toasts": {
+              "successful": {
+                "text": "Password email sent successfully!"
+              },
+              "failed": {
+                "text": "Email could not be found! Please enter a registered email address!"
+              }
+            }
+          },
+          "PipelinesHeader": {
+            "createButton": {
+              "text": "Create pipeline"
+            },
+            "compareButton": {
+              "text": "Compare runs"
+            },
+            "externalLink": {
+              "href": "https://docs.maiot.io/v/wip-docs/run-a-pipeline",
+              "text": "Documentation"
+            },
+            "copyWorkspaceCommand": {
+              "successToaster": {
+                "text": "Command copied!"
+              }
+            }
+          },
+          "Pipelines": {
+            "header": {
+              "breadcrumbs": {
+                "pipelines": {
+                  "text": "Pipelines"
+                }
+              }
+            },
+            "tabs": {
+              "pipelines": {
+                "text": "Pipelines"
+              },
+              "allRuns": {
+                "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            },
+            "runsEmptyState": {
+              "text": "No runs."
+            }
+          },
+          "Stacks": {
+            "header": {
+              "breadcrumbs": {
+                "dashBoard": {
+                  "text": "Dashboard"
+                },
+                "stacks": {
+                  "text": "Stacks"
+                }
+              }
+            },
+            "tabs": {
+              "stacks": {
+                "text": "Stacks"
+              },
+              "allRuns": {
+                "text": " Runs"
+              }
+            },
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            },
+            "runsEmptyState": {
+              "text": "No runs."
+            }
+          },
+          "AllRuns": {
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            }
+          },
+          "StackDetail": {
+            "header": {
+              "breadcrumbs": {
+                "stacks": {
+                  "text": "Stacks"
+                }
+              }
+            },
+            "tabs": {
+              "configuration": {
+                "text": "Configuration"
+              },
+              "runs": {
+                "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "No runs."
+            },
+            "configuration": {
+              "title": {
+                "text": "YAML Configuration"
+              },
+              "button": {
+                "text": "Download"
+              }
+            }
+          },
+          "PipelineDetail": {
+            "header": {
+              "breadcrumbs": {
+                "pipelines": {
+                  "text": "Pipelines"
+                }
+              }
+            },
+            "tabs": {
+              "configuration": {
+                "text": "Configuration"
+              },
+              "runs": {
+                "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "No runs."
+            },
+            "configuration": {
+              "title": {
+                "text": "YAML Configuration"
+              },
+              "button": {
+                "text": "Download"
+              }
+            }
+          },
+          "RunDetail": {
+            "header": {
+              "breadcrumbs": {
+                "pipelines": {
+                  "text": "Pipelines"
+                }
+              }
+            },
+            "tabs": {
+              "statistics": {
+                "text": "Statistics"
+              },
+              "results": {
+                "text": "Results"
+              },
+              "tensorboard": {
+                "text": "Tensorboard"
+              }
+            },
+            "box": {
+              "runId": {
+                "text": "Run ID"
+              },
+              "status": {
+                "text": "Status"
+              },
+              "runtime": {
+                "text": "Runtime"
+              },
+              "type": {
+                "text": "Type"
+              },
+              "datasourceCommit": {
+                "text": "Datasource commit"
+              },
+              "computeCost": {
+                "text": "Compute cost (€)"
+              },
+              "trainingCost": {
+                "text": "Training cost (€)"
+              },
+              "totalCost": {
+                "text": "Total cost (€)"
+              }
+            }
+          },
+          "RunsTable": {
+            "runId": {
+              "text": "Run ID"
+            },
+            "pipelineName": {
+              "text": "Pipeline Name"
+            },
+            "type": {
+              "text": "Type"
+            },
+            "runtime": {
+              "text": "Runtime"
+            },
+            "status": {
+              "text": "Status"
+            },
+            "datasourceCommit": {
+              "text": "Datasource commit"
+            },
+            "author": {
+              "text": "Author"
+            },
+            "createdAt": {
+              "text": "Created At"
+            }
+          },
+          "WorkspacesHeader": {
+            "createButton": {
+              "text": "Create workspace"
+            },
+            "externalLink": {
+              "href": "https://docs.maiot.io/v/wip-docs/collaborate/workspaces",
+              "text": "Documentation"
+            },
+            "copyWorkspaceCommand": {
+              "successToaster": {
+                "text": "Command copied!"
+              }
+            }
+          },
+          "Workspaces": {
+            "header": {
+              "breadcrumbs": {
+                "workspaces": {
+                  "text": "Workspaces"
+                }
+              }
+            },
+            "tabs": {
+              "workspaces": {
+                "text": "Workspaces"
+              },
+              "allWorkspaces": {
+                "text": "All Workspaces"
+              }
+            },
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            },
+            "runsEmptyState": {
+              "text": "No runs."
+            },
+            "workspaceId": {
+              "text": "Workspace ID"
+            },
+            "workspaceName": {
+              "text": "Workspace Name"
+            },
+            "workspaceCreatedAt": {
+              "text": "Created At"
+            }
+          },
+          "AllWorkspaces": {
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            }
+          },
+          "Datasources": {
+            "title": {
+              "text": "This feature is coming soon to the web."
+            },
+            "paragraph": {
+              "text": "In ZenML, you can add multiple datasources into your organization. If the datasource is dynamically changing, you can create commits as a snapshot of the data in the moment in time."
+            },
+            "button": {
+              "text": "View documentation",
+              "href": "https://docs.maiot.io/v/wip-docs/datasources/connecting-datasources"
+            },
+            "tabs": {
+              "cli": {
+                "text": "CLI",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml datasource list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml datasource create [OPTIONS] NAME DS_TYPE SOURCE [ARGS]"
+                  },
+                  "commandThree": {
+                    "text": "zenml datasource set <datasource_id>"
+                  }
+                }
+              },
+              "pythonSDK": {
+                "text": "Python SDK",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml datasource list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml datasource create [OPTIONS] NAME DS_TYPE SOURCE [ARGS]"
+                  },
+                  "commandThree": {
+                    "text": "zenml datasource set <datasource_id>"
+                  }
+                }
+              },
+              "ceDashboard": {
+                "text": "CE Dashboard",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml datasource list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml datasource create [OPTIONS] NAME DS_TYPE SOURCE [ARGS]"
+                  },
+                  "commandThree": {
+                    "text": "zenml datasource set <datasource_id>"
+                  }
+                }
+              }
+            }
+          },
+          "Functions": {
+            "title": {
+              "text": "This feature is coming soon to the web."
+            },
+            "paragraph": {
+              "text": "A pipeline is a collection of processing steps that your data undergoes as it flows through it. You can insert custom functions into at various steps in the process e.g. to preprocess your data or create a model function."
+            },
+            "button": {
+              "text": "View documentation",
+              "href": "https://docs.maiot.io/v/wip-docs/configuration/preprocessing/writing-custom-preprocessing"
+            },
+            "tabs": {
+              "cli": {
+                "text": "CLI",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml function list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml function create [OPTIONS] NAME PATH TYPE UDF_NAME"
+                  },
+                  "commandThree": {
+                    "text": "zenml function versions <function_id>"
+                  }
+                }
+              },
+              "pythonSDK": {
+                "text": "Python SDK",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml function list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml function create [OPTIONS] NAME PATH TYPE UDF_NAME"
+                  },
+                  "commandThree": {
+                    "text": "zenml function versions <function_id>"
+                  }
+                }
+              },
+              "ceDashboard": {
+                "text": "CE Dashboard",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml function list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml function create [OPTIONS] NAME PATH TYPE UDF_NAME"
+                  },
+                  "commandThree": {
+                    "text": "zenml function versions <function_id>"
+                  }
+                }
+              }
+            }
+          },
+          "Models": {
+            "title": {
+              "text": "This feature is coming soon to the web."
+            },
+            "paragraph": {
+              "text": "Each training pipeline yields a model. A model can then be deployed automatically, used in batch inference, or set up for continuous training."
+            },
+            "button": {
+              "text": "View documentation",
+              "href": "https://docs.maiot.io/v/wip-docs/configuration/training-1"
+            },
+            "tabs": {
+              "cli": {
+                "text": "CLI",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml workspace list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml workspace create [NAME]"
+                  },
+                  "commandThree": {
+                    "text": "zenml workspace set <workspace_id>"
+                  }
+                }
+              },
+              "pythonSDK": {
+                "text": "Python SDK",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml workspace list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml workspace create [NAME]"
+                  },
+                  "commandThree": {
+                    "text": "zenml workspace set <workspace_id>"
+                  }
+                }
+              },
+              "ceDashboard": {
+                "text": "CE Dashboard",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml workspace list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml workspace create [NAME]"
+                  },
+                  "commandThree": {
+                    "text": "zenml workspace set <workspace_id>"
+                  }
+                }
+              }
+            }
+          },
+          "Deployments": {
+            "title": {
+              "text": "This feature is coming soon to the web."
+            },
+            "paragraph": {
+              "text": "ZenML is deployed on your cloud. You can configure multiple facets of your deployment, including the orchestrator, the storage, the training and processing environments and much more."
+            },
+            "button": {
+              "text": "View documentation",
+              "href": "https://docs.maiot.io/v/wip-docs/getting-started/architectural-overview"
+            },
+            "tabs": {
+              "cli": {
+                "text": "CLI",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml workspace list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml workspace create [NAME]"
+                  },
+                  "commandThree": {
+                    "text": "zenml workspace set <workspace_id>"
+                  }
+                }
+              },
+              "pythonSDK": {
+                "text": "Python SDK",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml workspace list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml workspace create [NAME]"
+                  },
+                  "commandThree": {
+                    "text": "zenml workspace set <workspace_id>"
+                  }
+                }
+              },
+              "ceDashboard": {
+                "text": "CE Dashboard",
+                "content": {
+                  "title": {
+                    "text": "Basics"
+                  },
+                  "commandOne": {
+                    "text": "zenml workspace list"
+                  },
+                  "commandTwo": {
+                    "text": "zenml workspace create [NAME]"
+                  },
+                  "commandThree": {
+                    "text": "zenml workspace set <workspace_id>"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+]

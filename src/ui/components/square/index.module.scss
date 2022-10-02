@@ -1,0 +1,49 @@
+@import '../../globalStyles.scss';
+
+.coloredSquare {
+  font-family: $fontFamilyNormal;
+  border-radius: 4px;
+  color: $whiteColor;
+}
+
+.xs {
+  width: 1.6rem;
+  height: 1.6rem;
+  font-size: 0.8rem;
+}
+
+.sm {
+  width: 2.4rem;
+  height: 2.4rem;
+  font-size: 1.2rem;
+}
+
+.md {
+  width: 4rem;
+  height: 4rem;
+  font-size: 1.6rem;
+}
+
+.primary {
+  background-color: $primaryColor;
+}
+
+.red {
+  background-color: $redColor;
+}
+
+.green {
+  background-color: $greenColor;
+}
+
+.secondary {
+  background-color: $secondaryColor;
+}
+
+.grey {
+  background-color: $greyColor;
+}
+
+.lightestGrey {
+  background-color: $lightestGreyColor;
+}

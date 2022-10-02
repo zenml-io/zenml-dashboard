@@ -1,0 +1,26 @@
+@import '../../../globalStyles.scss';
+
+// $bgColor: rgba(43, 217, 120, 0.1);
+$bgColor: #FFFF;
+
+.login {
+  overflow: hidden;
+  background: linear-gradient(#433E99, #8F599D);
+}
+
+.loginBox {
+  max-width: 400px;
+  margin: 0 auto !important;
+}
+
+.background {
+  height: 100vh;
+  overflow: hidden;
+  background-color: $bgColor;
+}
+
+.backgroundImage {
+  width: 75%;
+  margin: 0 auto;
+  display: block;
+}
