@@ -8,6 +8,7 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { useService } from './useService';
 import { getHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
+import { camelCaseToParagraph } from '../../../../../utils';
 interface Props {
   filter: any;
 }
@@ -51,7 +52,17 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
         showHeader={true}
         headerCols={headerCols}
         tableRows={filteredStacks}
-        emptyState={{ text: translate('emptyState.text') }}
+        emptyState={
+          filter[0]?.value
+            ? {
+                text: translate('emptyState.text'),
+              }
+            : {
+                text: `Nothing to see here, it seems like no ${camelCaseToParagraph(
+                  locationPath.split('/')[2],
+                )} has been configured yet`,
+              }
+        }
         trOnClick={openDetailPage}
       />
     </>

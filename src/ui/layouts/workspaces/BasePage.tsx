@@ -17,7 +17,7 @@ export const BasePage: React.FC<{
 
   if (!organization) return null;
 
-  const organizationName = organization.name;
+  // const organizationName = organization.name;
 
   return (
     <AuthenticatedLayout>
@@ -25,14 +25,10 @@ export const BasePage: React.FC<{
         <IfElse
           condition={!!headerWithButtons}
           renderWhenTrue={() => (
-            <Header.HeaderWithButtons
-              breadcrumbs={[{ name: organizationName }, ...breadcrumbs]}
-            />
+            <Header.HeaderWithButtons breadcrumbs={[...breadcrumbs]} />
           )}
           renderWhenFalse={() => (
-            <Header.DefaultHeader
-              breadcrumbs={[{ name: organizationName }, ...breadcrumbs]}
-            />
+            <Header.DefaultHeader breadcrumbs={[...breadcrumbs]} />
           )}
         />
 

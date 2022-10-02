@@ -15,24 +15,26 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
 
   return (
     <FlexBox alignItems="center">
-      {lastThreeRuns.map((run: TRun, index: number) => (
+      {lastThreeRuns.map((status: any, index: number) => (
         <Box key={index} paddingHorizontal="xs">
+          {/* {console.log('status', run)} */}
+          {/* {runStatus.COMPLETED} */}
           <>
-            <If condition={run.status === runStatus.Succeeded}>
+            <If condition={status === runStatus.COMPLETED}>
               {() => (
                 <ColoredCircle color="green" size="xs">
                   <icons.check color={iconColors.white} size={iconSizes.xs} />
                 </ColoredCircle>
               )}
             </If>
-            <If condition={run.status === runStatus.Running}>
+            <If condition={status === runStatus.RUNNING}>
               {() => (
                 <ColoredCircle color="orange" size="xs">
                   {/* <icons color={iconColors.orange} size={iconSizes.xs} /> */}
                 </ColoredCircle>
               )}
             </If>
-            <If condition={run.status === runStatus.Failed}>
+            <If condition={status === runStatus.FAILED}>
               {() => (
                 <ColoredCircle color="red" size="xs">
                   <icons.close color={iconColors.white} size={iconSizes.xs} />

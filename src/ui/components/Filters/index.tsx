@@ -210,12 +210,12 @@ export const getInitialFilterStateForRuns = () => {
           type: 'string',
         },
         {
-          value: 'name',
+          value: 'pipelineName',
           label: 'Pipeline Name',
           type: 'string',
         },
         {
-          value: 'name',
+          value: 'stackName',
           label: 'Stack Name',
           type: 'string',
         },

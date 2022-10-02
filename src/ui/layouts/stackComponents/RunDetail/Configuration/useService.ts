@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import {
-  pipelineSelectors,
-  // runSelectors,
+  // pipelineSelectors,
+  runSelectors,
 } from '../../../../../redux/selectors';
 
 import YAML from 'json2yaml';
@@ -11,16 +11,9 @@ interface ServiceInterface {
   pipelineConfig: string;
 }
 
-export const useService = ({
-  pipelineId,
-}: {
-  pipelineId: TId;
-}): ServiceInterface => {
-  const pipeline: TPipeline = useSelector(
-    pipelineSelectors.pipelineForId(pipelineId),
-  );
-
-  const pipelineConfig = YAML.stringify(pipeline.spec);
+export const useService = ({ runId }: { runId: TId }): ServiceInterface => {
+  const run: TRun = useSelector(runSelectors.runForId(runId));
+  const pipelineConfig = YAML.stringify(run.pipelineConfiguration);
 
   const downloadYamlFile = () => {
     const element = document.createElement('a');
@@ -29,7 +22,7 @@ export const useService = ({
       type: 'text/yaml',
     });
     element.href = URL.createObjectURL(file);
-    element.download = `${pipeline.id}-config.yaml`;
+    element.download = `${run.id}-config.yaml`;
     document.body.appendChild(element);
     element.click();
   };
