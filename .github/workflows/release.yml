@@ -47,8 +47,9 @@ jobs:
         id: compress
         with:
           command: c
+          cwd: build
           files: |
-            ./build
+            *
           outPath: zenml-dashboard.tar.gz
       - name: Release to GitHub
         uses: softprops/action-gh-release@v1
