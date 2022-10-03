@@ -55,7 +55,7 @@ export const Form: React.FC = () => {
           onChange={(val: string) => setPassword(val)}
           error={{
             hasError: hasSubmittedWithErrors && password.trim() === '',
-            text: translate('form.password.required'),
+            // text: translate('form.password.required'),
           }}
           showPasswordOption
         />
