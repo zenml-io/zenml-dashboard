@@ -56,7 +56,7 @@ export const useService = ({
       new Date(run.kubeflowStartTime).getTime(),
     ).reverse();
 
-    const isValidFilter = filter.map((f) => f.value).join('');
+    const isValidFilter = filter?.map((f) => f.value).join('');
     if (isValidFilter) {
       orderedRuns = getFilteredDataForTable(orderedRuns, filter);
     }

@@ -2,16 +2,27 @@ import React from 'react';
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { FlexBox, H4, GhostButton } from '../../../../components';
-
+import { iconColors, iconSizes, toasterTypes } from '../../../../../constants';
+import { showToasterAction } from '../../../../../redux/actions';
+import { FlexBox, H4, GhostButton, icons, Box } from '../../../../components';
+import { useDispatch } from '../../../../hooks';
 import { translate } from '../translate';
 
 import styles from './index.module.scss';
 import { useService } from './useService';
 
 export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
+  const dispatch = useDispatch();
   const { downloadYamlFile, stackConfig } = useService({ stackId });
-
+  const handleCopy = () => {
+    navigator.clipboard.writeText(stackConfig);
+    dispatch(
+      showToasterAction({
+        description: 'Config copied to clipboard',
+        type: toasterTypes.success,
+      }),
+    );
+  };
   return (
     <FlexBox.Column fullWidth>
       <FlexBox
@@ -20,9 +31,17 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
         justifyContent="space-between"
       >
         <H4 bold>{translate('configuration.title.text')}</H4>
-        <GhostButton onClick={downloadYamlFile}>
-          {translate('configuration.button.text')}
-        </GhostButton>
+        <Box>
+          <GhostButton
+            style={{ marginRight: '10px' }}
+            onClick={downloadYamlFile}
+          >
+            {translate('configuration.button.text')}
+          </GhostButton>
+          <GhostButton onClick={handleCopy}>
+            <icons.copy color={iconColors.black} size={iconSizes.sm} />
+          </GhostButton>
+        </Box>
       </FlexBox>
       <FlexBox className={styles.code}>
         <SyntaxHighlighter

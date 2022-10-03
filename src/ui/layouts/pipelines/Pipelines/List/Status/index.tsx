@@ -12,7 +12,7 @@ import { useService } from './useService';
 
 export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
   const { lastThreeRuns } = useService({ pipeline });
-
+  // const lastThreeRuns: any[] = ['failed', 'completed', 'running', 'cached'];
   return (
     <FlexBox alignItems="center">
       {lastThreeRuns.map((status: any, index: number) => (
@@ -22,15 +22,18 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
           <>
             <If condition={status === runStatus.COMPLETED}>
               {() => (
-                <ColoredCircle color="green" size="xs">
+                <ColoredCircle color="primary" size="xs">
                   <icons.check color={iconColors.white} size={iconSizes.xs} />
                 </ColoredCircle>
               )}
             </If>
             <If condition={status === runStatus.RUNNING}>
               {() => (
-                <ColoredCircle color="orange" size="xs">
-                  {/* <icons color={iconColors.orange} size={iconSizes.xs} /> */}
+                <ColoredCircle color="secondary" size="xs">
+                  <icons.inProgress
+                    color={iconColors.white}
+                    size={iconSizes.xs}
+                  />
                 </ColoredCircle>
               )}
             </If>
@@ -38,6 +41,13 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
               {() => (
                 <ColoredCircle color="red" size="xs">
                   <icons.close color={iconColors.white} size={iconSizes.xs} />
+                </ColoredCircle>
+              )}
+            </If>
+            <If condition={status === runStatus.CACHED}>
+              {() => (
+                <ColoredCircle color="mustard" size="xs">
+                  <icons.cached color={iconColors.white} size={iconSizes.xs} />
                 </ColoredCircle>
               )}
             </If>

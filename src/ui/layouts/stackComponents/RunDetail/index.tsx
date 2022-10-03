@@ -1,6 +1,8 @@
 import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
+import { camelCaseToParagraph } from '../../../../utils';
+import { useLocationPath } from '../../../hooks';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
@@ -17,19 +19,77 @@ import { useService } from './useService';
 // import { formatMoney } from '../../../../utils/money';
 // import { truncate } from '../../../../utils';
 
-const getTabPages = ({
-  stackId,
-  runId,
-}: {
+// const getTabPages = ({
+//   stackId,
+//   runId,
+// }: {
+//   stackId: TId;
+//   runId: TId;
+// }): TabPage[] => {
+//   const locationPath = useLocationPath();
+//   return [
+//     {
+//       text: 'DAG',
+//       // <Statistics runId={runId} stackId={stackId} />
+//       Component: () => <div>Coming soon</div>,
+//       path: routePaths.run.component.statistics('alerter', runId, stackId),
+//     },
+//     {
+//       text: 'Configuration',
+//       // <Results runId={runId} stackId={stackId} />
+//       Component: () => <Configuration runId={runId} />,
+//       path: routePaths.run.component.results(runId, stackId),
+//     },
+//   ];
+// };
+
+// const getBreadcrumbs = ({
+//   stackId,
+//   runId,
+// }: {
+//   stackId: TId;
+//   runId: TId;
+// }): TBreadcrumb[] => {
+//   return [
+//     {
+//       name: 'Component',
+//       clickable: true,
+//       to: routePaths.stackComponents.base('alerter'),
+//     },
+//     {
+//       name: 'alerteaaar',
+//       clickable: true,
+//       to: routePaths.stackComponents.base('alerter'),
+//     },
+//     {
+//       name: `Run ${runId}`,
+//       clickable: true,
+//       to: routePaths.run.component.statistics('alerter', runId, stackId),
+//     },
+//   ];
+// };
+
+export interface RunDetailRouteParams {
+  id: TId;
   stackId: TId;
-  runId: TId;
-}): TabPage[] => {
-  return [
+}
+
+export const RunDetail: React.FC = () => {
+  const locationPath = useLocationPath();
+  const { runId, stackId } = useService();
+
+  // const { runId, stackId, run, billing } = useService();
+  // debugger;
+  const tabPages = [
     {
       text: 'DAG',
       // <Statistics runId={runId} stackId={stackId} />
       Component: () => <div>Coming soon</div>,
-      path: routePaths.run.component.statistics('alerter', runId, stackId),
+      path: routePaths.run.component.statistics(
+        locationPath.split('/')[2],
+        runId,
+        stackId,
+      ),
     },
     {
       text: 'Configuration',
@@ -38,51 +98,27 @@ const getTabPages = ({
       path: routePaths.run.component.results(runId, stackId),
     },
   ];
-};
-
-const getBreadcrumbs = ({
-  stackId,
-  runId,
-}: {
-  stackId: TId;
-  runId: TId;
-}): TBreadcrumb[] => {
-  return [
+  const breadcrumbs = [
     {
       name: 'Component',
       clickable: true,
-      to: routePaths.stackComponents.base('alerter'),
+      to: routePaths.stackComponents.base(locationPath.split('/')[2]),
     },
     {
-      name: 'alerter',
+      name: camelCaseToParagraph(locationPath.split('/')[2]),
       clickable: true,
-      to: routePaths.stackComponents.base('alerter'),
+      to: routePaths.stackComponents.base(locationPath.split('/')[2]),
     },
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.component.statistics('alerter', runId, stackId),
+      to: routePaths.run.component.statistics(
+        locationPath.split('/')[2],
+        runId,
+        stackId,
+      ),
     },
   ];
-};
-
-export interface RunDetailRouteParams {
-  id: TId;
-  stackId: TId;
-}
-
-export const RunDetail: React.FC = () => {
-  const { runId, stackId } = useService();
-  // const { runId, stackId, run, billing } = useService();
-  // debugger;
-  const tabPages = getTabPages({
-    runId,
-    stackId,
-  });
-  const breadcrumbs = getBreadcrumbs({
-    runId,
-    stackId,
-  });
 
   return (
     <BasePage

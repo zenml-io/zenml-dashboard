@@ -9,15 +9,15 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
     <>
       <If condition={run.status === runStatus.COMPLETED}>
         {() => (
-          <ColoredCircle color="green" size="xs">
+          <ColoredCircle color="primary" size="xs">
             <icons.check color={iconColors.white} size={iconSizes.xs} />
           </ColoredCircle>
         )}
       </If>
       <If condition={run.status === runStatus.RUNNING}>
         {() => (
-          <ColoredCircle color="orange" size="xs">
-            {/* <icons.close color={iconColors.white} size={iconSizes.xs} /> */}
+          <ColoredCircle color="secondary" size="xs">
+            {/* <icons color={iconColors.orange} size={iconSizes.xs} /> */}
           </ColoredCircle>
         )}
       </If>
@@ -25,6 +25,13 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
         {() => (
           <ColoredCircle color="red" size="xs">
             <icons.close color={iconColors.white} size={iconSizes.xs} />
+          </ColoredCircle>
+        )}
+      </If>
+      <If condition={run.status === runStatus.CACHED}>
+        {() => (
+          <ColoredCircle color="primary" size="xs">
+            {/* <icons.close color={iconColors.white} size={iconSizes.xs} /> */}
           </ColoredCircle>
         )}
       </If>
