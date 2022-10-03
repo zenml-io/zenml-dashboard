@@ -207,7 +207,7 @@ export const FormPasswordField = (
         />
         {props.showPasswordOption && (
           <LinkBox
-            style={{ position: 'absolute', right: '10px', top: '30px' }}
+            style={{ position: 'absolute', right: '10px', top: '36px' }}
             onClick={() => setShowPassword(!showPassword)}
           >
             <icons.eye

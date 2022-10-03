@@ -1,9 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.scss';
-
-import { useDispatch } from '../../../hooks';
-import { showToasterAction } from '../../../../redux/actions';
-import { toasterTypes } from '../../../../constants';
 
 import {
   Box,
@@ -20,21 +16,21 @@ import { CommandBoxWScroll } from '../../common/CommandBox';
 import { constantCommandsToCreateStack } from '../../../../constants/constantCommands';
 
 export const CreateStackButton: React.FC = () => {
-  const dispatch = useDispatch();
   const [createStackPopupOpen, setCreateStackPopupOpen] = React.useState<
     boolean
   >(false);
+  const [isCopied, setIsCopied] = useState(false)
 
   const codeString = '#!/bin/bash';
 
   const handleCopy = () => {
     navigator.clipboard.writeText(codeString);
-    dispatch(
-      showToasterAction({
-        description: 'Command copied to clipboard',
-        type: toasterTypes.success,
-      }),
-    );
+   
+    setIsCopied(true)
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 2000);
+
   };
 
   return (
@@ -59,7 +55,7 @@ export const CreateStackButton: React.FC = () => {
               <FlexBox alignItems="center" marginTop="md">
                 <CommandBoxWScroll command={item.text} />
                 <Box
-                  className={styles.iconStyle}
+                  className={styles.iconStyle} 
                   style={{ paddingTop: '7px' }}
                   onClick={handleCopy}
                 >
@@ -131,7 +127,11 @@ export const CreateStackButton: React.FC = () => {
             </Box>
           </FlexBox> */}
 
-          <FlexBox justifyContent="end" marginTop="xl" flexWrap>
+          <FlexBox justifyContent="space-between" marginTop="xl" flexWrap>
+            <Box>
+              {isCopied && (<Paragraph>Copied!</Paragraph>)}
+            </Box>
+
             <DocumentationLink
               text={constantCommandsToCreateStack.documentation}
             />

@@ -69,7 +69,7 @@
             },
             "toasts": {
               "successful": {
-                "text": "Successfully send Password Reset E-Mail."
+                "text": "Successfully Changed username and full name."
               },
               "failed": {
                 "text": "Something went wrong. Please try again."
