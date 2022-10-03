@@ -11,8 +11,8 @@ import {
 import { useService } from './useService';
 
 export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
-  // const { lastThreeRuns } = useService({ pipeline });
-  const lastThreeRuns: any[] = ['failed', 'completed', 'running', 'cached'];
+  const { lastThreeRuns } = useService({ pipeline });
+  // const lastThreeRuns: any[] = ['failed', 'completed', 'running', 'cached'];
   return (
     <FlexBox alignItems="center">
       {lastThreeRuns.map((status: any, index: number) => (
