@@ -48,7 +48,12 @@ const stackComponentsReducer = (
       return { ...newState(state, stackComponents), myStackComponentIds };
     }
     case stackComponentActionTypes.getStackComponentTypes.success: {
-      const stackComponentTypes: any[] = action.payload as StacksPayload;
+      let stackComponentTypes: any[] = action.payload as StacksPayload;
+      stackComponentTypes = stackComponentTypes.filter(
+        (item) => item !== 'artifact_store' && item !== 'orchestrator',
+      );
+      stackComponentTypes.unshift('artifact_store');
+      stackComponentTypes.unshift('orchestrator');
 
       return {
         ...state,
