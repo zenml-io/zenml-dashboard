@@ -102,6 +102,9 @@ With the python package, you can then serve these static build files by doing:
 ```
 zenml up
 ```
+
+![img](./assets/zenml-up.gif)
+
 Which creates a local daemon that serves the files in a FastAPI server!
 
 ## 🪐 Deploying the dashboard
