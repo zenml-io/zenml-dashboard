@@ -36,6 +36,7 @@ export const BaseInput = ({
   type,
   hasError,
   className,
+  style,
   ...props
 }: {
   onChange: any;
@@ -44,6 +45,7 @@ export const BaseInput = ({
   type: string;
   hasError?: boolean;
   className?: string;
+  style?: any;
 }): JSX.Element => (
   <input
     {...props}
@@ -52,6 +54,7 @@ export const BaseInput = ({
     placeholder={placeholder}
     className={cn(styles.input, hasError ? styles.error : null, className)}
     type={type}
+    style={style}
   />
 );
 
@@ -114,6 +117,7 @@ export const TextInput = ({
   value,
   placeholder,
   hasError,
+  style,
   type = 'text',
   ...props
 }: {
@@ -122,6 +126,7 @@ export const TextInput = ({
   placeholder?: string;
   hasError?: boolean;
   type?: string;
+  style?: any;
 }): JSX.Element => (
   <BaseInput
     {...props}
@@ -132,6 +137,7 @@ export const TextInput = ({
     value={value}
     placeholder={placeholder}
     type={type}
+    style={style}
   />
 );
 
@@ -141,6 +147,7 @@ export const DropdownInput = ({
   placeholder,
   hasError,
   options,
+  style,
   ...props
 }: {
   onChange: any;
@@ -148,6 +155,7 @@ export const DropdownInput = ({
   placeholder?: string;
   hasError?: boolean;
   options: Record<string, string>[];
+  style: any;
 }): JSX.Element => (
   <select
     {...props}
@@ -155,6 +163,7 @@ export const DropdownInput = ({
     value={value}
     placeholder={placeholder}
     className={cn(styles.input, hasError ? styles.error : null)}
+    style={style}
   >
     <option selected disabled value="">
       {placeholder}

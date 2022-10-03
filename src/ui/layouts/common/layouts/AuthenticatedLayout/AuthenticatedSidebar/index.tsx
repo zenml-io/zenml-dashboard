@@ -40,6 +40,7 @@ export const AuthenticatedSidebar: React.FC<{
         paddingLeft="lg"
         // justifyContent="center"
         // className="d-md-none"
+        style={{ cursor: 'pointer' }}
         onClick={() => push('/')}
       >
         <MaiotLogoWhite />

@@ -25,9 +25,9 @@ export const MenuItem: React.FC<{
       to={to}
       exact={exact}
     >
-      <FlexBox alignItems="center" paddingVertical="sm" marginVertical="sm">
+      <FlexBox alignItems="center" marginVertical="sm" style={{ height: '40px' }}>
         <Box
-          className={cn(
+          className={cn( 
             to === location.pathname && !subItem
               ? styles.menuItemSideBox
               : styles.menuItemSideBoxUn,
@@ -35,9 +35,7 @@ export const MenuItem: React.FC<{
         ></Box>
 
         <FlexBox style={{ width: '100%' }}>
-          <Box paddingLeft={subItem ? 'xl' : 'md'}>
-            <Icon />
-          </Box>
+          <Box paddingLeft={subItem ? 'xl' : 'md'}><Icon /></Box>
           <Box paddingLeft="md">
             <Paragraph color="darkGrey" size="small">
               {camelCaseToParagraph(text)}

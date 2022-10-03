@@ -2,10 +2,8 @@ import React, { useState } from 'react';
 import styles from './index.module.scss';
 import { toasterTypes } from '../../../../constants';
 import { showToasterAction } from '../../../../redux/actions';
-import { fieldValidation } from '../../../../utils/validations';
 import {
   Box,
-  FormEmailField,
   FormTextField,
   FormPasswordField,
   PrimaryButton,
@@ -14,15 +12,6 @@ import { useDispatch } from '../../../hooks';
 import { translate } from './translate';
 import { useService } from './useService';
 import { useEnterKeyPress } from '../../../hooks';
-
-const emailHasError = (email: string, hasSubmittedWithErrors: boolean) =>
-  (hasSubmittedWithErrors && email.trim() === '') ||
-  (hasSubmittedWithErrors && !fieldValidation(email.trim()).isEmail());
-
-const emailErrorText = (email: string) =>
-  email.trim() !== '' && !fieldValidation(email.trim()).isEmail()
-    ? translate('form.email.invalidEmail')
-    : translate('form.email.required');
 
 export const Form: React.FC = () => {
 
@@ -33,11 +22,9 @@ export const Form: React.FC = () => {
     signup,
     hasSubmittedWithErrors,
     username,
-    email,
     fullName,
     password,
     setUsername,
-    setEmail,
     setFullName,
     setPassword,
     loading,
@@ -55,7 +42,7 @@ export const Form: React.FC = () => {
     }
   };
 
-  const BUTTON_DISABLED = email.trim() === '' || password.trim() === '' || confirmPass.trim() === '' 
+  const BUTTON_DISABLED = username.trim() === '' || password.trim() === '' || confirmPass.trim() === '' 
 
   useEnterKeyPress(() => {
     if (!BUTTON_DISABLED) signup();
@@ -71,24 +58,6 @@ export const Form: React.FC = () => {
             placeholder={translate('form.username.placeholder')}
             value={username} 
             onChange={(val: string) => setUsername(val)}
-            error={{
-              hasError: emailHasError(email, hasSubmittedWithErrors),
-              text: emailErrorText(email),
-            }}
-          />
-      </Box>
-
-      <Box marginBottom="lg">
-          <FormEmailField
-            label={translate('form.email.label')}
-            labelColor='#ffffff'
-            placeholder={translate('form.email.placeholder')}
-            value={email} 
-            onChange={(val: string) => setEmail(val)}
-            error={{
-              hasError: emailHasError(email, hasSubmittedWithErrors),
-              text: emailErrorText(email),
-            }}
           />
       </Box>
 
@@ -99,10 +68,6 @@ export const Form: React.FC = () => {
             placeholder={translate('form.fullname.placeholder')}
             value={fullName} 
             onChange={(val: string) => setFullName(val)}
-            error={{
-              hasError: emailHasError(email, hasSubmittedWithErrors),
-              text: emailErrorText(email),
-            }}
           />
       </Box>
       
