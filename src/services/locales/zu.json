@@ -254,7 +254,7 @@
               "title": "Read our documentation",
               "button": {
                 "text": "Read",
-                "href": "https://github.com/zenml-io/zenml"
+                "href": "https://docs.zenml.io"
               }
             },
             "cardTwo": {
