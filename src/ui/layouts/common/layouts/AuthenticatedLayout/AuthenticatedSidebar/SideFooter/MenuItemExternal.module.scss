@@ -22,6 +22,7 @@ $bgColor: rgba(201, 203, 208, 0.2);
 
 .activeMenuItem,
 .menuItem:hover {
+  text-decoration: none;
   & p {
     color: #E8A562;
   }

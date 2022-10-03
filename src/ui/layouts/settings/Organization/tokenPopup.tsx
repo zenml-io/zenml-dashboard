@@ -49,16 +49,14 @@ export const TokenPopup: React.FC<{
               setPopupOpen(false)
             },
             onSuccess: () => {
+              setSubmitting(false);
               setShowTokField(true)
             }         
             }),
           );
-          setSubmitting(false);
-          setPopupOpen(false);
         }
     
   
-
   const onClose = () => {
     setShowTokField(false);
     setSubmitting(false);

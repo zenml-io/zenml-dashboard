@@ -15,7 +15,7 @@ export const SideHeader: React.FC = () => {
         text={translate('menu.home.text')}
         exact
       />
-      <Box marginHorizontal="md">
+      <Box marginHorizontal="md" paddingTop='md'>
         <Separator.LightNew />
       </Box>
     </>

@@ -12,7 +12,6 @@ interface NewAccount {
   userId: string;
   username: string;
   fullName: any;
-  email: string;
   password: string;
   token: string;
 }
@@ -31,7 +30,6 @@ const signUpApi = ({ account }: Params): Promise<void> =>
     data: JSON.stringify({
       name: account.username,
       full_name: account.fullName,
-      email: account.email,
       password: account.password,
       activation_token: account.token
     }),

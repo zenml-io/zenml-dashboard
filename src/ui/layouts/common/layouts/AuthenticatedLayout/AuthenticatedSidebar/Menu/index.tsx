@@ -56,10 +56,11 @@ export const Menu: React.FC = () => {
         to={routePaths.stacks.list}
         text={translate('menu.stacks.text')}
       />
+
       <MenuItem
         isActive={() => {
           return !!matchPath(locationPath, {
-            path: routePaths.stackComponents.base(':id'),
+            path: routePaths.stackComponents.base(''),
             exact: false,
           });
         }}
@@ -72,46 +73,28 @@ export const Menu: React.FC = () => {
         text={translate('menu.stackComponents.text')}
       />
 
-      {locationPath.includes('components') && ( 
-        <div> 
-          {stackComponentsTypes?.map((item) => (
-            <MenuItem
-              isActive={() => {
-                  return !!matchPath(locationPath, {
-                    path: routePaths.stackComponents.base(item),
-                    exact: false,
-                  });
-                }}
-              subItem={true}
-              Icon={() => (
-                <icons.stackComponent
-                  color={iconColors.white}
-                  size={iconSizes.md}
-                />
-              )}
-              to={routePaths.stackComponents.base(item)}
-              text={item}
-            />
-            )
-          )}
-        </div> 
-        )}
-    
-        {/* <MenuItem
-            // isActive={() => {
-            //   return !!matchPath(locationPath, {
-            //     path: routePaths.stackComponents.base(item),
-            //     exact: false,
-            //   });
-            // }}
+      {locationPath.includes('components') &&  
+        stackComponentsTypes?.map((item) => (
+          <MenuItem
+            isActive={() => {
+              return !!matchPath(locationPath, {
+                path: routePaths.stackComponents.base(item),
+                exact: false,
+              });
+            }}
             subItem={true}
             Icon={() => (
-              <icons.data color={iconColors.darkGrey} size={iconSizes.md} />
+              <icons.stackComponent
+                color={iconColors.white}
+                size={iconSizes.md}
+              />
             )}
-            to={routePaths.stackComponents.base(stackComponentsTypes[0])}
-            text={translate('menu.stackComponents.text')}
-          /> */}
-
+            to={routePaths.stackComponents.base(item)}
+            text={item}
+          />
+        )
+      )}
+      
       {/* <MenuItem
         Icon={() => (
           <icons.settings color={iconColors.white} size={iconSizes.md} />

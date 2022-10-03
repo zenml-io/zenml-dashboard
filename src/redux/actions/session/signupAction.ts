@@ -4,7 +4,6 @@ import signUpApi from '../../../api/session/signUpApi';
 export const signUpAction = ({
   userId,
   username,
-  email,
   fullName,
   password,
   token,
@@ -13,7 +12,6 @@ export const signUpAction = ({
 }: {
   userId: string;
   username: string;
-  email: string;
   fullName: string;
   password: string;
   token: any;
@@ -32,7 +30,6 @@ export const signUpAction = ({
       account: {
         userId,
         username,
-        email,
         fullName,
         password,
         token,    
