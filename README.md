@@ -81,6 +81,14 @@ REACT_APP_BASE_API_URL="<YOUR_ZENML_SERVER_DEPOLOYMENT_URL>/api/v1"
 
 To learn how to get the `YOUR_ZENML_SERVER_DEPOLOYMENT_URL`, read the [deployment guide](https://docs.zenml.io/getting-started/deploying-zenml/deployment).
 
+Lastly, if you would like to use Docker, then the ZenML team provides [DockerHub] images to serve the ZenML Server and Dashboard in one image:
+
+```shell
+docker run -it -d -p 8080:80 zenmldocker/zenml-server
+```
+
+Which will serve the dashboard with the server at `http://localhost:8080`, with username `default` and an empty password.
+
 ## 👨‍👦 Relationship with ZenML
 
 The ZenML Dashboard is a Javascript React-based application that lives inside this repository, which is a sister repository of the main [ZenML Python package repo](https://github.com/zenml-io/zenml).
