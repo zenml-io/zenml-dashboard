@@ -254,21 +254,21 @@
               "title": "Read our documentation",
               "button": {
                 "text": "Read",
-                "href": "https://github.com/maiot-io/zenml"
+                "href": "https://github.com/zenml-io/zenml"
               }
             },
             "cardTwo": {
               "title": "Change the settings",
               "button": {
                 "text": "Manage",
-                "href": "https://docs.maiot.io/infrastructure/google-cloud-platform"
+                "href": "https://docs.zenml.io/infrastructure/google-cloud-platform"
               }
             },
             "cardThree": {
               "title": "Invite new members to your organization",
               "button": {
                 "text": "Invite",
-                "href": "https://docs.maiot.io/getting-started/quickstart"
+                "href": "https://docs.zenml.io/getting-started/quickstart"
               }
             }
           },
@@ -425,7 +425,7 @@
               "text": "Compare runs"
             },
             "externalLink": {
-              "href": "https://docs.maiot.io/v/wip-docs/run-a-pipeline",
+              "href": "https://docs.zenml.io/v/wip-docs/run-a-pipeline",
               "text": "Documentation"
             },
             "copyWorkspaceCommand": {
@@ -621,7 +621,7 @@
               "text": "Create workspace"
             },
             "externalLink": {
-              "href": "https://docs.maiot.io/v/wip-docs/collaborate/workspaces",
+              "href": "https://docs.zenml.io/v/wip-docs/collaborate/workspaces",
               "text": "Documentation"
             },
             "copyWorkspaceCommand": {
@@ -676,7 +676,7 @@
             },
             "button": {
               "text": "View documentation",
-              "href": "https://docs.maiot.io/v/wip-docs/datasources/connecting-datasources"
+              "href": "https://docs.zenml.io/v/wip-docs/datasources/connecting-datasources"
             },
             "tabs": {
               "cli": {
@@ -741,7 +741,7 @@
             },
             "button": {
               "text": "View documentation",
-              "href": "https://docs.maiot.io/v/wip-docs/configuration/preprocessing/writing-custom-preprocessing"
+              "href": "https://docs.zenml.io/v/wip-docs/configuration/preprocessing/writing-custom-preprocessing"
             },
             "tabs": {
               "cli": {
@@ -806,7 +806,7 @@
             },
             "button": {
               "text": "View documentation",
-              "href": "https://docs.maiot.io/v/wip-docs/configuration/training-1"
+              "href": "https://docs.zenml.io/v/wip-docs/configuration/training-1"
             },
             "tabs": {
               "cli": {
@@ -871,7 +871,7 @@
             },
             "button": {
               "text": "View documentation",
-              "href": "https://docs.maiot.io/v/wip-docs/getting-started/architectural-overview"
+              "href": "https://docs.zenml.io/v/wip-docs/getting-started/architectural-overview"
             },
             "tabs": {
               "cli": {
