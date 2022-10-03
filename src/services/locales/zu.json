@@ -419,7 +419,7 @@
           },
           "PipelinesHeader": {
             "createButton": {
-              "text": "Create pipeline"
+              "text": "Pipeline Cheatsheet"
             },
             "compareButton": {
               "text": "Compare runs"
