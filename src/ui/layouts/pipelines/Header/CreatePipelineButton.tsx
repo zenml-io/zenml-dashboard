@@ -34,12 +34,8 @@
 //   );
 // };
 
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.scss';
-
-import { useDispatch } from '../../../hooks';
-import { showToasterAction } from '../../../../redux/actions';
-import { toasterTypes } from '../../../../constants';
 
 import {
   Box,
@@ -56,21 +52,20 @@ import { CommandBoxWScroll } from '../../common/CommandBox';
 import { constantCommandsToCreatePipeline } from '../../../../constants/constantCommands';
 
 export const CreatePipelineButton: React.FC = () => {
-  const dispatch = useDispatch();
   const [createPipelinePopupOpen, setCreatePipelinePopupOpen] = React.useState<
     boolean
   >(false);
+  const [isCopied, setIsCopied] = useState(false)
 
   const codeString = '#!/bin/bash';
 
   const handleCopy = () => {
     navigator.clipboard.writeText(codeString);
-    dispatch(
-      showToasterAction({
-        description: 'Command copied to clipboard',
-        type: toasterTypes.success,
-      }),
-    );
+    
+    setIsCopied(true)
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 2000);
   };
 
   return (
@@ -80,7 +75,7 @@ export const CreatePipelineButton: React.FC = () => {
       paddingHorizontal="sm"
     >
       <PrimaryButton onClick={() => setCreatePipelinePopupOpen(true)}>
-        Create Pipeline
+        Pipeline Cheatsheet
       </PrimaryButton>
 
       {createPipelinePopupOpen && (
@@ -167,7 +162,11 @@ export const CreatePipelineButton: React.FC = () => {
             </Box>
           </FlexBox> */}
 
-          <FlexBox justifyContent="end" marginTop="xl" flexWrap>
+          <FlexBox justifyContent="space-between" marginTop="xl" flexWrap>
+            <Box>
+              {isCopied && (<Paragraph>Copied!</Paragraph>)}
+            </Box>
+
             <DocumentationLink
               text={constantCommandsToCreatePipeline.documentation}
             />

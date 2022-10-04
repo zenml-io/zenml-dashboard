@@ -29,36 +29,37 @@ export const SideFooter: React.FC = () => {
    
   return (
     <>
-      <Box marginHorizontal="md">
+      <Box marginHorizontal="md" paddingBottom='md'>
         <Separator.LightNew />
       </Box>
 
       <MenuItemExternal
         Icon={() => <icons.docs color={iconColors.white} size={iconSizes.md} />}
-        to="https://www.google.com/"
+        to="https://docs.zenml.io"
         text="Documentation"
       />
       <MenuItemExternal
         Icon={() => (
           <icons.example color={iconColors.white} size={iconSizes.md} />
         )}
-        to="https://www.google.com/"
+        to="https://docs.zenml.io/getting-started/examples"
         text="Example & Tutorials"
       />
       <MenuItemExternal
         Icon={() => <icons.tool color={iconColors.white} size={iconSizes.md} />}
-        to="https://www.google.com/"
+        to="https://github.com/zenml-io/zenml-dashboard/issues/new/choose"
         text="Report Issue"
       />
       <MenuItem
         Icon={() => (
           <icons.settings color={iconColors.white} size={iconSizes.md} />
-        )} to={routePaths.settings.personalDetails} text={translate('menu.setting.text')} />
+        )} to={routePaths.settings.personalDetails} text={translate('menu.setting.text')} 
+      />
 
-        <Box paddingLeft='md' paddingTop="md" paddingBottom="sm">
-          <Paragraph color='white' style={{ fontSize: '8px' }}>UI Version v{process.env.REACT_APP_VERSION}</Paragraph>
-          <Paragraph color='white' style={{ fontSize: '8px' }}>ZenML v{apiVersion}</Paragraph>
-        </Box>
+      <Box style={{ paddingLeft: '12px' }} paddingTop="md" paddingBottom='xs' >
+        <Paragraph color='white' style={{ fontSize: '8px', fontWeight: 400 }}>UI Version v{process.env.REACT_APP_VERSION}</Paragraph>
+        <Paragraph color='white' style={{ fontSize: '8px', fontWeight: 400 }}>ZenML v{apiVersion}</Paragraph>
+      </Box>
       </>
   );
 };

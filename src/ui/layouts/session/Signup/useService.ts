@@ -12,8 +12,6 @@ interface ServiceInterface {
   userId: string;
   username: string,
   setUsername: (username: string) => void,
-  email: string;
-  setEmail: (email: string) => void;
   fullName: string,
   setFullName: (fullName: string) => void,
   password: string;
@@ -33,7 +31,6 @@ export const useService = (): ServiceInterface => {
 
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
-  const [email, setEmail] = useState('');
   const [fullName, setFullName] = useState('');
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
@@ -51,12 +48,11 @@ export const useService = (): ServiceInterface => {
     signup: () => {
       setLoading(true);
       setHasSubmittedWithErrors(true);
-      if (username.trim() !== '' && email.trim() !== '' && password.trim() !== '') {
+      if (username.trim() !== '' && password.trim() !== '') {
         dispatch(
           signUpAction({
             userId,
             username,
-            email,
             fullName,
             password,
             token,
@@ -87,8 +83,6 @@ export const useService = (): ServiceInterface => {
     userId,
     username,
     setUsername,
-    email,
-    setEmail,
     fullName,
     setFullName,
     password,

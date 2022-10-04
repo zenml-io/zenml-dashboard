@@ -1,6 +1,6 @@
 import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
-import { useHistory } from '../../../hooks';
+import { useHistory, useLocationPath } from '../../../hooks';
 
 import { Table } from '../../common/Table';
 
@@ -15,7 +15,7 @@ export const RunsTable: React.FC<{
   filter?: any;
 }> = ({ runIds, pagination = true, emptyStateText, fetching, filter }) => {
   const history = useHistory();
-
+  const locationPath = useLocationPath();
   const {
     sortedRuns,
     setSortedRuns,
@@ -27,11 +27,15 @@ export const RunsTable: React.FC<{
   } = useService({ runIds, filter });
 
   const openDetailPage = (run: TRun) => {
-    // debugger;
     setSelectedRunIds([]);
     history.push(
-      routePaths.run.component.statistics('alerter', run.id, run.pipelineId),
+      routePaths.run.component.statistics(
+        locationPath.split('/')[2],
+        run.stackComponentId,
+        run.id,
+      ),
     );
+    // debugger;
   };
 
   const headerCols = useHeaderCols({

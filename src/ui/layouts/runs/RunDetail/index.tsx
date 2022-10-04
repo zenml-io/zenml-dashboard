@@ -4,7 +4,7 @@ import { routePaths } from '../../../../routes/routePaths';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
-import { Statistics } from './Statistics';
+import { DAG } from './DAG';
 import { useService } from './useService';
 
 // import styles from './index.module.scss';
@@ -21,7 +21,8 @@ const getTabPages = ({ runId }: { runId: TId }): TabPage[] => {
   return [
     {
       text: 'DAG',
-      Component: () => <Statistics runId={runId} />,
+      // <Statistics runId={runId} stackId={stackId} />
+      Component: () => <DAG runId={runId} />,
       path: routePaths.run.run.statistics(runId),
     },
     {

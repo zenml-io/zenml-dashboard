@@ -35,7 +35,7 @@ export const RunsTable: React.FC<{
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
-    history.push(routePaths.run.stack.statistics(run.id, run.pipelineId));
+    history.push(routePaths.run.stack.statistics(run.id, run.stack.id));
   };
 
   const headerCols = useHeaderCols({

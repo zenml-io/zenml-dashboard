@@ -13,6 +13,8 @@ const getMyRunIds = (state: State): TId[] => _.get(stateKey(state), 'myRunIds');
 
 const getByPipelineId = (state: State): Record<TId, TId[]> =>
   _.get(stateKey(state), 'byPipelineId');
+const getGraphByRunId = (state: State): Record<any, any> =>
+  _.get(stateKey(state), 'graphForRunId');
 const getByStackComponentId = (state: State): Record<TId, TId[]> =>
   _.get(stateKey(state), 'byStackComponentId');
 const getByStackId = (state: State): Record<TId, TId[]> =>
@@ -33,7 +35,14 @@ export const myRuns = (state?: State | null): TRun[] => {
     return current;
   }, [] as TRun[]);
 };
+export const graphByRunId = (runId: TId | null | undefined) => (
+  state?: State | null,
+): any => {
+  if (!state || !runId) return {};
+  const graph = getGraphByRunId(state);
 
+  return graph;
+};
 export const runsForPipelineId = (pipelineId: TId | null | undefined) => (
   state?: State | null,
 ): TRun[] => {
@@ -81,6 +90,7 @@ const runSelectors = {
   runsForStackId,
   runsForStackComponentId,
   runForId,
+  graphByRunId,
   forRunIds,
 };
 

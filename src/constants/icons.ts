@@ -6,6 +6,7 @@ export enum iconColors {
   primary = 'primary',
   red = 'red',
   orange = 'orange',
+  mustard = 'mustard',
 }
 
 export enum iconSizes {
