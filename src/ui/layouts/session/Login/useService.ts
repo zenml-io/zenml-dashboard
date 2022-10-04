@@ -34,7 +34,7 @@ export const useService = (): ServiceInterface => {
       setLoading(true);
       setHasSubmittedWithErrors(true);
       if (username.trim() !== '') {
-       await dispatch(
+        await dispatch(
           loginAction({
             password,
             username,
@@ -56,7 +56,7 @@ export const useService = (): ServiceInterface => {
               );
               await dispatch(organizationActions.getMy());
               await dispatch(userActions.getMy({}));
-              await push(routePaths.userEmail)
+              await push(routePaths.userEmail);
             },
           }),
         );
