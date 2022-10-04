@@ -43,14 +43,14 @@ export const CreateStackButton: React.FC = () => {
       paddingHorizontal="sm"
     >
       <PrimaryButton onClick={() => setCreateStackPopupOpen(true)}>
-        Create Stack
+        Stack Cheatsheet
       </PrimaryButton>
 
       {createStackPopupOpen && (
         <Popup onClose={() => setCreateStackPopupOpen(false)}>
           <FlexBox.Row>
             <H3 bold color="darkGrey">
-              Create Stack
+              Stack Cheatsheet
             </H3>
           </FlexBox.Row>
 
