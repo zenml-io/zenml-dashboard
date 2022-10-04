@@ -1,5 +1,5 @@
 import React from 'react';
-import { MenuItem } from '../Menu/MenuItem';
+import { MenuItem } from './MenuItem';
 import { routePaths } from '../../../../../../../routes/routePaths';
 import { Box, Separator, icons } from '../../../../../../components';
 import { iconSizes, iconColors } from '../../../../../../../constants';
