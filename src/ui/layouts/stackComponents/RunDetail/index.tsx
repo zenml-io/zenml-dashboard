@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import { camelCaseToParagraph } from '../../../../utils';
+import { camelCaseToParagraph, formatDateToDisplay } from '../../../../utils';
 import { useLocationPath } from '../../../hooks';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
@@ -9,16 +9,11 @@ import { Configuration } from './Configuration';
 import { DAG } from './DAG';
 import { useService } from './useService';
 
-// import styles from './index.module.scss';
-// import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
-// import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
-// import { RunTime } from '../RunTime';
-// import { KeyValue, RunStatus } from './components';
-// import { Results } from './Results';
-// import { Statistics } from './Statistics';
-// import { Tensorboard } from './Tensorboard';
-// import { formatMoney } from '../../../../utils/money';
-// import { truncate } from '../../../../utils';
+import styles from './index.module.scss';
+import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
+import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
+import { RunTime } from '../RunTime';
+import { KeyValue, RunStatus } from './components';
 
 // const getTabPages = ({
 //   stackId,
@@ -78,7 +73,7 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const locationPath = useLocationPath();
-  const { stackComponentId, runId } = useService();
+  const { stackComponentId, runId, run } = useService();
   // debugger;
   // debugger;
   // const { runId, stackId, run, billing } = useService();
@@ -130,6 +125,15 @@ export const RunDetail: React.FC = () => {
       ),
     },
   ];
+  const boxStyle = {
+    backgroundColor: '#E9EAEC',
+    padding: '10px 0',
+    borderRadius: '8px',
+    marginTop: '20px',
+    display: 'flex',
+    justifyContent: 'space-around',
+  };
+  const headStyle = { color: '#828282' };
 
   return (
     <BasePage
@@ -137,59 +141,56 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.component.base(runId, stackComponentId)}
       breadcrumbs={breadcrumbs}
     >
-      {/* <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
-        <KeyValue width="10%" label={translate('box.runId.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">
-              {truncate(run.id, ID_MAX_LENGTH)}
-            </Paragraph>
-          </Truncate>
-        </KeyValue>
-        <KeyValue width="10%" label={translate('box.status.text')}>
-          <RunStatus run={run} />
-        </KeyValue>
-        <KeyValue width="10%" label={translate('box.runtime.text')}>
-          <FlexBox alignItems="center">
-            <Box marginRight="sm">
-              <icons.clock color={iconColors.black} size={iconSizes.sm} />
-            </Box>
-            <RunTime run={run} />
-          </FlexBox>
-        </KeyValue>
-        <KeyValue width="10%" label={translate('box.type.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">{run.pipelineRunType}</Paragraph>
-          </Truncate>
-        </KeyValue>
-        <KeyValue width="15%" label={translate('box.datasourceCommit.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">
-              {truncate(run.datasourceCommitId, ID_MAX_LENGTH)}
-            </Paragraph>
-          </Truncate>
-        </KeyValue>
-        <KeyValue width="15%" label={translate('box.computeCost.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">
-              {formatMoney(billing.computeCost)}
-            </Paragraph>
-          </Truncate>
-        </KeyValue>
-        <KeyValue width="15%" label={translate('box.trainingCost.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">
-              {formatMoney(billing.trainingCost)}
-            </Paragraph>
-          </Truncate>
-        </KeyValue>
-        <KeyValue width="15%" label={translate('box.totalCost.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">
-              {formatMoney(billing.trainingCost + billing.computeCost)}
-            </Paragraph>
-          </Truncate>
-        </KeyValue>
-      </FlexBox> */}
+      <Box style={boxStyle}>
+        <Box>
+          <Paragraph style={headStyle}>RUN ID</Paragraph>
+          <Paragraph
+            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
+          >
+            {run.id}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>RUN NAME</Paragraph>
+          <Paragraph
+            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
+          >
+            {run.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>STATUS</Paragraph>
+          <Paragraph
+            style={{
+              marginTop: '10px',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              height: '25px',
+              width: '25px',
+              paddingTop: '3px',
+              textAlign: 'center',
+            }}
+          >
+            <RunStatus run={run} />
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>AUTHOR</Paragraph>
+          <Paragraph
+            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
+          >
+            {run.user.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>CREATED AT</Paragraph>
+          <Paragraph
+            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
+          >
+            {formatDateToDisplay(run.created)}
+          </Paragraph>
+        </Box>
+      </Box>
     </BasePage>
   );
 };

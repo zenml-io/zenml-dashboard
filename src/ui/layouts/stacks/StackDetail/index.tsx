@@ -82,7 +82,7 @@ export const StackDetail: React.FC = () => {
 
   const boxStyle = {
     backgroundColor: '#E9EAEC',
-    padding: '30px 0',
+    padding: '10px 0',
     borderRadius: '8px',
     marginTop: '20px',
     display: 'flex',

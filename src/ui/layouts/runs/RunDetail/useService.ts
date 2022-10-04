@@ -33,7 +33,8 @@ export const useService = (): ServiceInterface => {
   //   }),
   // );
 
-  const run = useSelector(runSelectors.runForId(id));
+  const run: TRun = useSelector(runSelectors.runForId(runId));
+
   const billing = useSelector(billingSelectors.billingForRunId(id));
 
   return { runId: runId, run, billing };
