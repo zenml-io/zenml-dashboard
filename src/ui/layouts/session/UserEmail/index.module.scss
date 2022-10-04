@@ -1,0 +1,28 @@
+@import '../../../globalStyles.scss';
+
+// $bgColor: rgba(43, 217, 120, 0.1);
+$bgColor: #FFFF;
+
+
+.signUp {
+  height: 100vh;
+  background: linear-gradient(#433E99, #8F599D);
+}
+
+.pageContent {
+  margin: 0 auto !important;
+  align-items: center;
+}
+
+.pageContentBox {
+  max-width: 600px;
+}
+
+.formBox {
+  width: 400px;
+}
+
+.signUpButton {
+  width: 100%;
+  background-color: #E8A562;
+}

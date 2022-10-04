@@ -14,6 +14,7 @@ import {
   useSelector,
   useLocationPath,
   useGetSearchParam,
+  useDispatch
 } from '../ui/hooks';
 
 import { sessionSelectors } from '../redux/selectors/session';
@@ -26,6 +27,11 @@ import { WaitToEnter } from '../ui/components';
 
 import { isRouteFound } from './utils/isRouteFound';
 import { NotFound } from '../ui/layouts/NotFound';
+import { userSelectors } from '../redux/selectors';
+import {
+  userActions,
+} from '../redux/actions';
+
 
 const useReplaceRouteIfNeeded = ({
   currentLocation,
@@ -33,9 +39,15 @@ const useReplaceRouteIfNeeded = ({
 }: any): void => {
   const { replaceRoute } = useReplaceRoute();
 
+  const user = useSelector(userSelectors.myUser);
   const routeFromSearchParam = useGetSearchParam('route');
 
   const isAuthenticated = useSelector(sessionSelectors.authenticationToken);
+
+  // const dispatch = useDispatch();
+  // React.useEffect(() => {
+  //    dispatch(userActions.getMy({}));    
+  // }, [dispatch, userActions, isAuthenticated])
 
   React.useEffect(() => {
     setNotFound(
@@ -47,12 +59,13 @@ const useReplaceRouteIfNeeded = ({
 
   React.useEffect(() => {
     replaceRouteIfNeeded({
+      user,
       currentLocation,
       isAuthenticated,
       replaceRoute,
       routeFromSearchParam,
     });
-  }, [currentLocation, isAuthenticated, replaceRoute]);
+  }, [user, currentLocation, isAuthenticated, replaceRoute]);
 };
 
 export const AppRoute = ({ path, component, exact }: any): JSX.Element => {

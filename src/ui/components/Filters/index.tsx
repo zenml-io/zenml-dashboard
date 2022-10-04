@@ -1,7 +1,6 @@
 import React, { forwardRef, useState } from 'react';
 import {
   Box,
-  Container,
   FlexBox,
   FormDropdownField,
   FormTextField,
@@ -461,12 +460,7 @@ const FilterComponent = ({
               onChange={(value: string) =>
                 handleValueFieldChange(filter, value)
               }
-              style={{
-                borderRadius: 0,
-                width: '146px',
-                fontSize: '12px',
-                color: '#424240',
-              }}
+              style={{ borderRadius: 0, width: '146px', fontSize: '12px', color: '#424240' }}
             />
           </Box>
         );
@@ -504,12 +498,7 @@ const FilterComponent = ({
               placeholder={''}
               disabled
               value={filter.filterValue}
-              style={{
-                borderRadius: 0,
-                width: '146px',
-                fontSize: '12px',
-                color: '#424240',
-              }}
+              style={{ borderRadius: 0, width: '146px', fontSize: '12px', color: '#424240' }}
             />
           </Box>
         );
@@ -522,11 +511,7 @@ const FilterComponent = ({
 
   return (
     <FlexBox.Column fullWidth>
-      {console.log(filters)}
-      <FlexBox
-        fullWidth
-        className="border border-primary rounded rounded-4 p-2 align-item-center mb-3"
-      >
+      <FlexBox className="border border-primary rounded rounded-4 p-2 align-item-center mb-3">
         <Box
           onClick={() => setApplyFilter(!applyFilter)}
           style={{
@@ -542,14 +527,14 @@ const FilterComponent = ({
             color={iconColors.white}
           />
         </Box>
-        {console.log(filters)}
+
         <Box
           style={{ padding: '5px 0px 0px 7px', display: 'flex' }}
           className="text-muted h5"
         >
           {/* Filter your stack */}
           {!applyFilter && !filters[0]?.column?.selectedValue?.label
-            ? 'Filter list'
+            ? <Paragraph className={styles.filterplaceholder}>Filter list</Paragraph>
             : filters[0]?.column?.selectedValue.label && !applyFilter
             ? filters.map((filter: any, index: number) => {
                 return (
@@ -572,7 +557,7 @@ const FilterComponent = ({
                   </FlexBox.Row>
                 );
               })
-            : 'Filter list'}
+            : <Paragraph className={styles.filterplaceholder}>Filter list</Paragraph>}
           {!applyFilter &&
           !filters[0]?.column?.selectedValue?.label ? null : filters[0]?.column
               ?.selectedValue.label && !applyFilter ? (
@@ -586,19 +571,13 @@ const FilterComponent = ({
                 size={iconSizes.sm}
                 color={iconColors.grey}
               />
-              {/* {`${filter.column.selectedValue.label} ${filter.filterValue}`} */}
             </Box>
           ) : null}
         </Box>
       </FlexBox>
       {applyFilter && (
-        <Box className="mb-4 mt-19">
-          <Container>
-            <Paragraph
-              className="h3 text-muted"
-              color="black"
-              style={{ fontSize: '16px' }}
-            >
+        <Box className="mb-4 mt-19" style={{ marginLeft: '20px', width: '530px' }}>
+            <Paragraph className="h3 text-muted" color="black" style={{ fontSize: '16px' }}>
               Custom Filtering
             </Paragraph>
             {filters.map((filter: any, index: number) => {
@@ -670,7 +649,6 @@ const FilterComponent = ({
                             color: '#424240',
                           }}
                         />
-                        {console.log('test', filter)}
                         <FormDropdownField
                           label={''}
                           disabled={!filter?.column?.selectedValue?.type}
@@ -735,7 +713,7 @@ const FilterComponent = ({
                 </FlexBox.Row>
               );
             })}
-            <FlexBox.Row className="mt-5" onClick={addAnotherFilter}>
+            <FlexBox.Row className="mt-5" justifyContent='end' onClick={addAnotherFilter}>
               <icons.simplePlus
                 size={iconSizes.md}
                 color={iconColors.darkGrey}
@@ -752,7 +730,6 @@ const FilterComponent = ({
                 Add Condition
               </Paragraph>
             </FlexBox.Row>
-          </Container>
         </Box>
       )}
       {children}

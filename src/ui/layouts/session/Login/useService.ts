@@ -2,16 +2,13 @@ import { useState } from 'react';
 import { toasterTypes } from '../../../../constants';
 import {
   organizationActions,
-  pipelinesActions,
   showToasterAction,
-  stackComponentsActions,
-  stacksActions,
   userActions,
-  // workspacesActions,
 } from '../../../../redux/actions';
 import { loginAction } from '../../../../redux/actions/session/loginAction';
-import { useDispatch } from '../../../hooks';
+import { useDispatch, usePushRoute } from '../../../hooks';
 import { translate } from './translate';
+import { routePaths } from '../../../../routes/routePaths';
 
 interface ServiceInterface {
   login: () => void;
@@ -29,14 +26,15 @@ export const useService = (): ServiceInterface => {
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
 
+  const { push } = usePushRoute();
   const dispatch = useDispatch();
 
   return {
-    login: () => {
+    login: async () => {
       setLoading(true);
       setHasSubmittedWithErrors(true);
       if (username.trim() !== '') {
-        dispatch(
+       await dispatch(
           loginAction({
             password,
             username,
@@ -49,19 +47,16 @@ export const useService = (): ServiceInterface => {
               );
               setLoading(false);
             },
-            onSuccess: () => {
+            onSuccess: async () => {
               dispatch(
                 showToasterAction({
                   description: translate('toasts.successfulLogin.text'),
                   type: toasterTypes.success,
                 }),
               );
-              // dispatch(workspacesActions.getMy({}));
-              dispatch(organizationActions.getMy());
-              dispatch(userActions.getMy({}));
-              dispatch(stackComponentsActions.getTypes());
-              dispatch(pipelinesActions.getMy());
-              dispatch(stacksActions.getMy({}));
+              await dispatch(organizationActions.getMy());
+              await dispatch(userActions.getMy({}));
+              await push(routePaths.userEmail)
             },
           }),
         );

@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   formatDateToDisplay,
@@ -56,7 +57,25 @@ export const getHeaderCols = ({
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
-        <Paragraph size="small">{truncate(stack.id, ID_MAX_LENGTH)}</Paragraph>
+        // <Paragraph size="small">{truncate(stack.id, ID_MAX_LENGTH)}</Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={stack.id}>
+            <Paragraph size="small">
+              {truncate(stack.id, ID_MAX_LENGTH)}
+            </Paragraph>
+          </div>
+          <ReactTooltip
+            id={stack.id}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {stack.id}
+              {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
       ),
     },
     {
@@ -67,13 +86,31 @@ export const getHeaderCols = ({
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
-        <Paragraph
-          size="small"
-          color="black"
-          // style={{ color: '#black', textDecoration: 'underline' }}
-        >
-          {stack.name}
-        </Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={stack.name}>
+            <Paragraph size="small" color="black">
+              {stack.name}
+            </Paragraph>
+          </div>
+          <ReactTooltip
+            id={stack.name}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {stack.name}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
+        // <Paragraph
+        //   size="small"
+        //   color="black"
+        //   // style={{ color: '#black', textDecoration: 'underline' }}
+        // >
+        //   {stack.name}
+        // </Paragraph>
       ),
     },
     {
@@ -84,23 +121,44 @@ export const getHeaderCols = ({
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
-        <Box>
-          <FlexBox
-            justifyContent="center"
-            style={{
-              borderRadius: '50%',
-              height: '19px',
-              width: '19px',
-              textAlign: 'center',
-            }}
+        <FlexBox alignItems="center">
+          <div data-tip data-for={stack.isShared}>
+            <Box>
+              <FlexBox
+                justifyContent="center"
+                style={{
+                  borderRadius: '50%',
+                  height: '19px',
+                  width: '19px',
+                  textAlign: 'center',
+                }}
+              >
+                {stack.isShared ? (
+                  <icons.multiUser
+                    color={iconColors.white}
+                    size={iconSizes.sm}
+                  />
+                ) : (
+                  <icons.singleUser
+                    color={iconColors.white}
+                    size={iconSizes.sm}
+                  />
+                )}
+              </FlexBox>
+            </Box>
+          </div>
+          <ReactTooltip
+            id={stack.isShared ? 'true' : 'false'}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
           >
-            {stack.isShared ? (
-              <icons.multiUser color={iconColors.white} size={iconSizes.sm} />
-            ) : (
-              <icons.singleUser color={iconColors.white} size={iconSizes.sm} />
-            )}
-          </FlexBox>
-        </Box>
+            <Paragraph color="white">
+              {stack.isShared ? 'True' : 'False'}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
       ),
     },
 
@@ -117,14 +175,36 @@ export const getHeaderCols = ({
         );
         return (
           <FlexBox alignItems="center">
-            <Box paddingRight="sm">
-              <ColoredCircle color="secondary" size="sm">
-                {initials}
-              </ColoredCircle>
-            </Box>
-            <Paragraph size="small">
-              {stack.userName ? stack.userName : stack?.user?.name}
-            </Paragraph>
+            <div
+              data-tip
+              data-for={
+                stack.user.full_name ? stack.user.full_name : stack.user.name
+              }
+            >
+              <FlexBox alignItems="center">
+                <Box paddingRight="sm">
+                  <ColoredCircle color="secondary" size="sm">
+                    {initials}
+                  </ColoredCircle>
+                </Box>
+                <Paragraph size="small">
+                  {stack.user.full_name
+                    ? stack.user.full_name
+                    : stack.user.name}
+                </Paragraph>
+              </FlexBox>
+            </div>
+            <ReactTooltip
+              id={stack.user.full_name ? stack.user.full_name : stack.user.name}
+              place="top"
+              effect="solid"
+              // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+            >
+              <Paragraph color="white">
+                {stack.user.full_name ? stack.user.full_name : stack.user.name}
+                {/* {translate(`tooltips.${invoice.status}`)} */}
+              </Paragraph>
+            </ReactTooltip>
           </FlexBox>
         );
       },
@@ -138,12 +218,27 @@ export const getHeaderCols = ({
       width: '8%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
-          <Box paddingRight="sm">
-            <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box>
-          <Paragraph size="tiny">
-            {formatDateToDisplay(stack.created)}
-          </Paragraph>
+          <div data-tip data-for={formatDateToDisplay(stack.created)}>
+            <FlexBox alignItems="center">
+              <Box paddingRight="sm">
+                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
+              </Box>
+              <Paragraph color="grey" size="tiny">
+                {formatDateToDisplay(stack.created)}
+              </Paragraph>
+            </FlexBox>
+          </div>
+          <ReactTooltip
+            id={formatDateToDisplay(stack.created)}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {stack.created}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
         </FlexBox>
       ),
     },

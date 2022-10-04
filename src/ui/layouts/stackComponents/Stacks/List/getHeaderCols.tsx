@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   formatDateToDisplay,
@@ -38,9 +39,24 @@ export const getHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <Paragraph size="small">
-          {truncate(stackComponent.id, ID_MAX_LENGTH)}
-        </Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={stackComponent.id}>
+            <Paragraph size="small">
+              {truncate(stackComponent.id, ID_MAX_LENGTH)}
+            </Paragraph>
+          </div>
+          <ReactTooltip
+            id={stackComponent.id}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {stackComponent.id}
+              {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
       ),
     },
     {
@@ -51,7 +67,25 @@ export const getHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <Paragraph size="small">{stackComponent.name}</Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={stackComponent.name}>
+            <Paragraph size="small" color="black">
+              {stackComponent.name}
+            </Paragraph>
+          </div>
+          <ReactTooltip
+            id={stackComponent.name}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {stackComponent.name}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
+        // <Paragraph size="small">{stackComponent.name}</Paragraph>
       ),
     },
     {
@@ -62,7 +96,25 @@ export const getHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <Paragraph size="small">{stackComponent.flavor}</Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={stackComponent.flavor}>
+            <Paragraph size="small" color="black">
+              {stackComponent.flavor}
+            </Paragraph>
+          </div>
+          <ReactTooltip
+            id={stackComponent.flavor}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {stackComponent.flavor}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
+        // <Paragraph size="small">{stackComponent.flavor}</Paragraph>
       ),
     },
     {
@@ -73,24 +125,44 @@ export const getHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <Box>
-          <FlexBox
-            justifyContent="center"
-            style={{
-              borderRadius: '50%',
-              height: '25px',
-              width: '25px',
-              paddingTop: '3px',
-              textAlign: 'center',
-            }}
+        <FlexBox alignItems="center">
+          <div data-tip data-for={stackComponent.isShared}>
+            <Box>
+              <FlexBox
+                justifyContent="center"
+                style={{
+                  borderRadius: '50%',
+                  height: '19px',
+                  width: '19px',
+                  textAlign: 'center',
+                }}
+              >
+                {stackComponent.isShared ? (
+                  <icons.multiUser
+                    color={iconColors.white}
+                    size={iconSizes.sm}
+                  />
+                ) : (
+                  <icons.singleUser
+                    color={iconColors.white}
+                    size={iconSizes.sm}
+                  />
+                )}
+              </FlexBox>
+            </Box>
+          </div>
+          <ReactTooltip
+            id={stackComponent.isShared ? 'true' : 'false'}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
           >
-            {stackComponent.isShared ? (
-              <icons.multiUser color={iconColors.white} size={iconSizes.sm} />
-            ) : (
-              <icons.singleUser color={iconColors.white} size={iconSizes.sm} />
-            )}
-          </FlexBox>
-        </Box>
+            <Paragraph color="white">
+              {stackComponent.isShared ? 'True' : 'False'}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
       ),
     },
     {
@@ -108,17 +180,44 @@ export const getHeaderCols = ({
         );
         return (
           <FlexBox alignItems="center">
-            <Box paddingRight="sm">
-              <ColoredCircle color="secondary" size="sm">
-                {initials}
-                {console.log(stackComponent)}
-              </ColoredCircle>
-            </Box>
-            <Paragraph size="small">
-              {stackComponent.user.full_name
-                ? stackComponent.user.full_name
-                : stackComponent.user.name}
-            </Paragraph>
+            <div
+              data-tip
+              data-for={
+                stackComponent.user.full_name
+                  ? stackComponent.user.full_name
+                  : stackComponent.user.name
+              }
+            >
+              <FlexBox alignItems="center">
+                <Box paddingRight="sm">
+                  <ColoredCircle color="secondary" size="sm">
+                    {initials}
+                  </ColoredCircle>
+                </Box>
+                <Paragraph size="small">
+                  {stackComponent.user.full_name
+                    ? stackComponent.user.full_name
+                    : stackComponent.user.name}
+                </Paragraph>
+              </FlexBox>
+            </div>
+            <ReactTooltip
+              id={
+                stackComponent.user.full_name
+                  ? stackComponent.user.full_name
+                  : stackComponent.user.name
+              }
+              place="top"
+              effect="solid"
+              // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+            >
+              <Paragraph color="white">
+                {stackComponent.user.full_name
+                  ? stackComponent.user.full_name
+                  : stackComponent.user.name}
+                {/* {translate(`tooltips.${invoice.status}`)} */}
+              </Paragraph>
+            </ReactTooltip>
           </FlexBox>
         );
       },
@@ -132,12 +231,27 @@ export const getHeaderCols = ({
       width: '15%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
-          <Box paddingRight="sm">
-            <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box>
-          <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(stackComponent.created)}
-          </Paragraph>
+          <div data-tip data-for={formatDateToDisplay(stackComponent.created)}>
+            <FlexBox alignItems="center">
+              <Box paddingRight="sm">
+                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
+              </Box>
+              <Paragraph color="grey" size="tiny">
+                {formatDateToDisplay(stackComponent.created)}
+              </Paragraph>
+            </FlexBox>
+          </div>
+          <ReactTooltip
+            id={formatDateToDisplay(stackComponent.created)}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {stackComponent.created}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
         </FlexBox>
       ),
     },
