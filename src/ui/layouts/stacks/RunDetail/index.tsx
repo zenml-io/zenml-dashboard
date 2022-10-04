@@ -13,7 +13,6 @@ import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
 import { RunTime } from '../RunTime';
 import { KeyValue, RunStatus } from './components';
 // import { Results } from './Results';
-import { Statistics } from './Statistics';
 // import { Tensorboard } from './Tensorboard';
 import { formatMoney } from '../../../../utils/money';
 import { truncate } from '../../../../utils';
@@ -95,7 +94,7 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.stack.base(runId, stackId)}
       breadcrumbs={breadcrumbs}
     >
-      <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
+      {/* <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
         <KeyValue width="10%" label={translate('box.runId.text')}>
           <Truncate maxLines={1}>
             <Paragraph size="small">
@@ -147,7 +146,7 @@ export const RunDetail: React.FC = () => {
             </Paragraph>
           </Truncate>
         </KeyValue>
-      </FlexBox>
+      </FlexBox> */}
     </BasePage>
   );
 };

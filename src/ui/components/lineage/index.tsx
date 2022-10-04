@@ -38,6 +38,10 @@ const getLayoutedElements = (
 ) => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
+  console.log(initialEdges, initialNodes)
+  if ((initialEdges === undefined) && (initialNodes === undefined)) {
+    return { initialNodes, initialEdges };
+  }
 
   initialNodes.forEach((node) => {
     dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
@@ -118,18 +122,21 @@ const getLayoutedElements = (
   return { initialNodes, initialEdges };
 };
 
-const {
-  initialNodes: layoutedNodes,
-  initialEdges: layoutedEdges,
-} = getLayoutedElements(initialNodes, initialEdges);
+
 
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
-export const LayoutFlow: React.FC = () => {
+export const LayoutFlow: React.FC<any> = (graph: any) => {
+  const {
+    initialNodes: layoutedNodes,
+    initialEdges: layoutedEdges,
+  } = getLayoutedElements(graph.graph.nodes, graph.graph.edges);
+
   const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
+
 
   const onConnect = useCallback(
     (params) =>
@@ -150,7 +157,7 @@ export const LayoutFlow: React.FC = () => {
       const {
         initialNodes: layoutedNodes,
         initialEdges: layoutedEdges,
-      } = getLayoutedElements(initialNodes, initialEdges, direction);
+      } = getLayoutedElements(graph.graph.nodes, graph.graph.edges, direction);
 
       setNodes([...layoutedNodes]);
       setEdges([...layoutedEdges]);
