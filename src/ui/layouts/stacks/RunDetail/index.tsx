@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
@@ -14,7 +14,7 @@ import { RunTime } from '../RunTime';
 import { KeyValue, RunStatus } from './components';
 // import { Results } from './Results';
 // import { Tensorboard } from './Tensorboard';
-import { formatMoney } from '../../../../utils/money';
+import { formatMoney } from '../../../../utils';
 import { truncate } from '../../../../utils';
 
 const getTabPages = ({
@@ -94,7 +94,7 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.stack.base(runId, stackId)}
       breadcrumbs={breadcrumbs}
     >
-      {/* <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
+      <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
         <KeyValue width="10%" label={translate('box.runId.text')}>
           <Truncate maxLines={1}>
             <Paragraph size="small">
@@ -146,7 +146,7 @@ export const RunDetail: React.FC = () => {
             </Paragraph>
           </Truncate>
         </KeyValue>
-      </FlexBox> */}
+      </FlexBox>
     </BasePage>
   );
 };
