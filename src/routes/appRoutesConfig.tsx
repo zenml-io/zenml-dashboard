@@ -5,6 +5,7 @@ import {
 } from './RouteVisibility';
 import Login from '../ui/layouts/session/Login';
 import Signup from '../ui/layouts/session/Signup';
+import UserEmail from '../ui/layouts/session/UserEmail';
 import ForgotPassword from '../ui/layouts/session/ForgotPassword';
 import Home from '../ui/layouts/Home';
 
@@ -36,6 +37,13 @@ const routes = [
   {
     path: routePaths.signup,
     Component: Signup,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
+    },
+  },
+  {
+    path: routePaths.userEmail(':userId'),
+    Component: UserEmail,
     visibility: {
       authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
     },

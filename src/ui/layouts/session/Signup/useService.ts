@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
-import { loggedOutRoute, toasterTypes } from '../../../../constants';
+import { toasterTypes } from '../../../../constants';
+import { routePaths } from '../../../../routes/routePaths';
 import { showToasterAction } from '../../../../redux/actions';
 import { signUpAction } from '../../../../redux/actions/session/signupAction';
 import { useDispatch, usePushRoute } from '../../../hooks';
@@ -72,7 +73,7 @@ export const useService = (): ServiceInterface => {
                   type: toasterTypes.success,
                 }),
               );
-              push(loggedOutRoute);
+              push(routePaths.userEmail(userId));
               setLoading(false);
             },
           }),
