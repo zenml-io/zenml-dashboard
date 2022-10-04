@@ -123,6 +123,7 @@ type TRunStatus =
 interface TRun {
   pipelineConfiguration?: any;
   id: TId;
+  stackComponentId: TId;
   status: TRunStatus;
   kubeflowStartTime: Date;
   kubeflowEndTime: Date;
