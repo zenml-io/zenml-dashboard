@@ -27,7 +27,7 @@ export const useService = (): ServiceInterface => {
           type: locationPath.split('/')[2],
         }),
       );
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(intervalId);
   });
