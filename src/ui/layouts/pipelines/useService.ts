@@ -18,7 +18,7 @@ export const useService = (): ServiceInterface => {
       //assign interval to a variable to clear it.
       dispatch(runsActions.allRuns({}));
       dispatch(pipelinesActions.getMy());
-    }, 5000);
+    }, 10000);
 
     return () => clearInterval(intervalId); //This is important
   });
