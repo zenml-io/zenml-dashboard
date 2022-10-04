@@ -532,7 +532,7 @@ const FilterComponent = ({
           style={{
             width: '33px',
             height: '28px',
-            background: '#8045FF',
+            background: '#431D93',
             borderRadius: '4px',
           }}
         >

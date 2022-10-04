@@ -93,7 +93,7 @@ export const StackDetail: React.FC = () => {
 
   const tabPages = getTabPages(stackComponent.id, locationPath);
   const breadcrumbs = getBreadcrumbs(stackComponent.id, locationPath);
-
+  // debugger;
   const boxStyle = {
     backgroundColor: '#E9EAEC',
     padding: '30px 0',

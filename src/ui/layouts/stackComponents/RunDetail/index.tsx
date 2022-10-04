@@ -6,6 +6,7 @@ import { useLocationPath } from '../../../hooks';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
+import { DAG } from './DAG';
 import { useService } from './useService';
 
 // import styles from './index.module.scss';
@@ -70,52 +71,62 @@ import { useService } from './useService';
 // };
 
 export interface RunDetailRouteParams {
+  type: string;
+  stackComponentId: TId;
   id: TId;
-  stackId: TId;
 }
 
 export const RunDetail: React.FC = () => {
   const locationPath = useLocationPath();
-  const { runId, stackId } = useService();
-
+  const { stackComponentId, runId } = useService();
+  // debugger;
+  // debugger;
   // const { runId, stackId, run, billing } = useService();
   // debugger;
   const tabPages = [
     {
       text: 'DAG',
       // <Statistics runId={runId} stackId={stackId} />
-      Component: () => <div>Coming soon</div>,
+      Component: () => <DAG runId={runId} />,
       path: routePaths.run.component.statistics(
         locationPath.split('/')[2],
+        stackComponentId,
         runId,
-        stackId,
       ),
     },
     {
       text: 'Configuration',
       // <Results runId={runId} stackId={stackId} />
       Component: () => <Configuration runId={runId} />,
-      path: routePaths.run.component.results(runId, stackId),
+      path: routePaths.run.component.results(
+        locationPath.split('/')[2],
+        stackComponentId,
+        runId,
+      ),
     },
   ];
   const breadcrumbs = [
-    {
-      name: 'Component',
-      clickable: true,
-      to: routePaths.stackComponents.base(locationPath.split('/')[2]),
-    },
     {
       name: camelCaseToParagraph(locationPath.split('/')[2]),
       clickable: true,
       to: routePaths.stackComponents.base(locationPath.split('/')[2]),
     },
     {
-      name: `Run ${runId}`,
+      name: stackComponentId,
       clickable: true,
-      to: routePaths.run.component.statistics(
+      to: routePaths.stackComponents.configuration(
         locationPath.split('/')[2],
+        stackComponentId,
+      ),
+    },
+    {
+      name: `Run ${runId}`,
+      clickable: false,
+      to: routePaths.run.component.statistics(
+        locationPath.split('/')[3],
+        stackComponentId,
+
         runId,
-        stackId,
       ),
     },
   ];
@@ -123,7 +134,7 @@ export const RunDetail: React.FC = () => {
   return (
     <BasePage
       tabPages={tabPages}
-      tabBasePath={routePaths.run.pipeline.base(runId, stackId)}
+      tabBasePath={routePaths.run.component.base(runId, stackComponentId)}
       breadcrumbs={breadcrumbs}
     >
       {/* <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
