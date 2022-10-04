@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   formatDateToDisplay,
@@ -68,7 +69,23 @@ export const getHeaderCols = ({
       ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
-        <Paragraph size="small">{pipeline.name}</Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={pipeline.id}>
+            <Paragraph size="small">{pipeline.name}</Paragraph>
+          </div>
+          <ReactTooltip
+            id={pipeline.id}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {pipeline.name}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
+        //
       ),
     },
     {

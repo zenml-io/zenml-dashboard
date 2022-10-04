@@ -35,19 +35,19 @@ export const SideFooter: React.FC = () => {
 
       <MenuItemExternal
         Icon={() => <icons.docs color={iconColors.white} size={iconSizes.md} />}
-        to="https://www.google.com/"
+        to="https://docs.zenml.io"
         text="Documentation"
       />
       <MenuItemExternal
         Icon={() => (
           <icons.example color={iconColors.white} size={iconSizes.md} />
         )}
-        to="https://www.google.com/"
+        to="https://docs.zenml.io/getting-started/examples"
         text="Example & Tutorials"
       />
       <MenuItemExternal
         Icon={() => <icons.tool color={iconColors.white} size={iconSizes.md} />}
-        to="https://www.google.com/"
+        to="https://github.com/zenml-io/zenml-dashboard/issues/new/choose"
         text="Report Issue"
       />
       <MenuItem

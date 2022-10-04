@@ -50,7 +50,7 @@ export const AuthenticatedHeader: React.FC<{
       <FlexBox alignItems="center">
         {/* <Box className="d-none d-md-block">
           <Link to={routePaths.home}>
-            <MaiotLogo />
+            <ZenMLLogo />
           </Link>
         </Box> */}
         <Box className="d-md-none">

@@ -514,7 +514,13 @@ const FilterComponent = ({
       <FlexBox className="border border-primary rounded rounded-4 p-2 align-item-center mb-3">
         <Box
           onClick={() => setApplyFilter(!applyFilter)}
-          style={{ width: '33px', height: '28px', background: '#8045FF', borderRadius: '4px' }}>
+          style={{
+            width: '33px',
+            height: '28px',
+            background: '#431D93',
+            borderRadius: '4px',
+          }}
+        >
           <icons.funnelFill
             style={{ padding: '5px 0px 0px 7px' }}
             size={iconSizes.sm}

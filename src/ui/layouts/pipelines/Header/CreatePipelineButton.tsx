@@ -75,7 +75,7 @@ export const CreatePipelineButton: React.FC = () => {
       paddingHorizontal="sm"
     >
       <PrimaryButton onClick={() => setCreatePipelinePopupOpen(true)}>
-        Create Pipeline
+        Pipeline Cheatsheet
       </PrimaryButton>
 
       {createPipelinePopupOpen && (

@@ -3,7 +3,7 @@ import { runStatus, iconColors, iconSizes } from '../../../../../constants';
 import { ColoredCircle, icons, If } from '../../../../components';
 
 export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
-  if (run.status === runStatus.Running) return null;
+  // if (run.status === runStatus.Running) return null;
 
   return (
     <>
@@ -17,7 +17,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
       <If condition={run.status === runStatus.RUNNING}>
         {() => (
           <ColoredCircle color="secondary" size="xs">
-            {/* <icons color={iconColors.orange} size={iconSizes.xs} /> */}
+            <icons.inProgress color={iconColors.white} size={iconSizes.xs} />
           </ColoredCircle>
         )}
       </If>
@@ -30,8 +30,8 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
       </If>
       <If condition={run.status === runStatus.CACHED}>
         {() => (
-          <ColoredCircle color="primary" size="xs">
-            {/* <icons.close color={iconColors.white} size={iconSizes.xs} /> */}
+          <ColoredCircle color="mustard" size="xs">
+            <icons.cached color={iconColors.white} size={iconSizes.xs} />
           </ColoredCircle>
         )}
       </If>

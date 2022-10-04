@@ -56,7 +56,8 @@ export const replaceRouteIfNeeded = ({
       let route = routeToReplace();
 
       if (replaceToLoggedOutRoute && currentLocation) {
-        route = `${route}?route=${currentLocation.path}`;
+        // route = `${route}?route=${currentLocation.path}`;
+        route = `${route}?route=/`;
       } else if (replaceToLoggedInRoute && routeFromSearchParam) {
         route = routeFromSearchParam;
       }

@@ -40,7 +40,7 @@ export const CreateStackButton: React.FC = () => {
       paddingHorizontal="sm"
     >
       <PrimaryButton onClick={() => setCreateStackPopupOpen(true)}>
-        Create Stack
+        Stack Cheatsheet
       </PrimaryButton>
 
       {createStackPopupOpen && (

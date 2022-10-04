@@ -27,15 +27,15 @@ export const RunsTable: React.FC<{
   } = useService({ runIds, filter });
 
   const openDetailPage = (run: TRun) => {
-    // debugger;
     setSelectedRunIds([]);
     history.push(
       routePaths.run.component.statistics(
         locationPath.split('/')[2],
+        run.stackComponentId,
         run.id,
-        run.pipelineId,
       ),
     );
+    // debugger;
   };
 
   const headerCols = useHeaderCols({

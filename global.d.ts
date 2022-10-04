@@ -125,6 +125,7 @@ type TRunStatus =
 interface TRun {
   pipelineConfiguration?: any;
   id: TId;
+  stackComponentId: TId;
   status: TRunStatus;
   kubeflowStartTime: Date;
   kubeflowEndTime: Date;
@@ -142,6 +143,7 @@ interface TRun {
   user?: any;
   creationDate?: any;
   // status?: string;
+  graph?: any;
   created: Date;
   name?: string;
 }

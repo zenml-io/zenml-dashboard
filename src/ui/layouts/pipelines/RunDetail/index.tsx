@@ -6,6 +6,7 @@ import { BasePage } from '../BasePage';
 import { useService } from './useService';
 // import { Configuration } from '../PipelineDetail/Configuration';
 import { Configuration } from '../RunDetail/Configuration';
+import { DAG } from '../RunDetail/DAG';
 // import styles from './index.module.scss';
 // import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
 // import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
@@ -28,7 +29,7 @@ const getTabPages = ({
     {
       text: 'DAG',
       // <Statistics runId={runId} stackId={stackId} />
-      Component: () => <div>Coming soon</div>,
+      Component: () => <DAG runId={runId} />,
       path: routePaths.run.pipeline.statistics(runId, pipelineId),
     },
     {
