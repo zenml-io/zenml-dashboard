@@ -140,6 +140,7 @@ interface TRun {
   user?: any;
   creationDate?: any;
   // status?: string;
+  graph?: any;
   created: Date;
   name?: string;
 }

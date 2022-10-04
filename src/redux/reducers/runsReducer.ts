@@ -13,7 +13,9 @@ export interface State {
   byPipelineId: Record<TId, TId[]>;
   byStackId: Record<TId, TId[]>;
   byStackComponentId: Record<TId, TId[]>;
+  // graphForRunId: any;
   myRunIds: TId[];
+  graphForRunId: any;
 }
 
 type PipelinesPayload = {
@@ -38,6 +40,7 @@ export type Action = {
     pipelineId: TId;
     stackId: TId;
     stackComponentId: TId;
+    runId: TId;
   };
 };
 
@@ -48,6 +51,8 @@ export const initialState: State = {
   byStackId: {},
   byStackComponentId: {},
   myRunIds: [],
+  // graphForRunId: [],
+  graphForRunId: {},
 };
 
 const newState = (state: State, runs: TRun[]): State => ({
@@ -55,6 +60,10 @@ const newState = (state: State, runs: TRun[]): State => ({
   ids: idsInsert(state.ids, runs),
   byId: byKeyInsert(state.byId, runs),
 });
+// const newStateForGraph = (state: State, graph: any): State => ({
+//   ...state,
+//   graph: graph,
+// });
 
 const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
@@ -95,6 +104,30 @@ const runsReducer = (state: State = initialState, action: Action): State => {
       const myRunIds: TId[] = runs.map((run: TRun) => run.id);
 
       return { ...newState(state, runs), myRunIds };
+    }
+
+    case runActionTypes.getGraphForRunId.success: {
+      // debugger;
+      const payload = action.payload;
+      const id = action?.requestParams?.runId;
+
+      const graphFromRun = {
+        ...payload,
+        // projectName: payload.projectName,
+        runId: action?.requestParams?.runId,
+      };
+
+      const graph: any = camelCaseObject(graphFromRun);
+
+      return {
+        ...(state.graphForRunId = graph),
+        ...newState(state, graph),
+      };
+      // const run = camelCaseObject({
+      //   ...payload,
+      //   runId: action.requestParams.runId,
+      // });
+      // console.log(action.payload);
     }
     case runActionTypes.getRunForId.success: {
       const payload: RunPayload = action.payload;

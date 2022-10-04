@@ -6,6 +6,7 @@ import { useLocationPath } from '../../../hooks';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
+import { DAG } from './DAG';
 import { useService } from './useService';
 
 // import styles from './index.module.scss';
@@ -84,7 +85,7 @@ export const RunDetail: React.FC = () => {
     {
       text: 'DAG',
       // <Statistics runId={runId} stackId={stackId} />
-      Component: () => <div>Coming soon</div>,
+      Component: () => <DAG runId={runId} />,
       path: routePaths.run.component.statistics(
         locationPath.split('/')[2],
         runId,
