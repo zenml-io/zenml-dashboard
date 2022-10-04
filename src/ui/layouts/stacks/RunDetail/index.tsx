@@ -4,8 +4,8 @@ import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
-import { DAG } from './DAG';
 import { useService } from './useService';
+import { DAG } from '../../../components/dag';
 
 import styles from './index.module.scss';
 import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';

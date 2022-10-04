@@ -6,7 +6,7 @@ import { BasePage } from '../BasePage';
 import { useService } from './useService';
 // import { Configuration } from '../PipelineDetail/Configuration';
 import { Configuration } from '../RunDetail/Configuration';
-import { DAG } from '../RunDetail/DAG';
+import { DAG } from '../../../components/dag';
 // import styles from './index.module.scss';
 // import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
 // import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';

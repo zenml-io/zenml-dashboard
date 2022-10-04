@@ -6,7 +6,7 @@ import { useLocationPath } from '../../../hooks';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
-import { DAG } from './DAG';
+import { DAG } from '../../../components/dag';
 import { useService } from './useService';
 
 // import styles from './index.module.scss';

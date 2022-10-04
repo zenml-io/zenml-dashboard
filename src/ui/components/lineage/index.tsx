@@ -8,22 +8,19 @@ import ReactFlow, {
 } from 'react-flow-renderer';
 import dagre from 'dagre';
 
-import { initialNodes, initialEdges } from './initial-elements';
 import ArtifactNode from './ArtifactNode';
 import StepNode from './StepNode';
 
 import './index.css';
 import { Analysis, Data, Model, Schema, Service, Statistic } from './icons';
 
-interface Edges {
+interface Edge {
   id: string;
   source: string;
   target: string;
   type?: string;
   animated?: boolean;
 }
-
-const edges: Edges[] = initialEdges;
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -33,13 +30,13 @@ const nodeHeight = 36;
 
 const getLayoutedElements = (
   initialNodes: any[],
-  initialEdges: any[],
+  initialEdges: Edge[],
   direction = 'TB',
 ) => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
-  console.log(initialEdges, initialNodes)
-  if ((initialEdges === undefined) && (initialNodes === undefined)) {
+  console.log(initialEdges, initialNodes);
+  if (initialEdges === undefined && initialNodes === undefined) {
     return { initialNodes, initialEdges };
   }
 
@@ -66,18 +63,18 @@ const getLayoutedElements = (
     return node;
   });
 
-  edges.forEach((edge) => {
+  initialEdges.forEach((edge) => {
     edge.type = isHorizontal ? 'straight' : 'smoothstep';
 
     initialNodes.find((node) => {
       if (
         node.type === 'step' &&
         node.id === edge.target &&
-        node.data.status == 'running'
+        node.data.status === 'running'
       ) {
-        const n = initialNodes.find((node) => node.id == edge.source);
+        const n = initialNodes.find((node) => node.id === edge.source);
         const status = initialNodes.find(
-          (node) => 'step_' + n.data.parent_step_id == node.id,
+          (node) => 'step_' + n.data.parent_step_id === node.id,
         ).data.status;
         if (status === 'running') {
           edge.animated = true;
@@ -85,15 +82,15 @@ const getLayoutedElements = (
       }
       if (
         node.id === edge.source &&
-        node.type == 'step' &&
-        node.data.status == 'running'
+        node.type === 'step' &&
+        node.data.status === 'running'
       ) {
-        const artifact = initialNodes.find((n) => n.id == edge.target);
+        const artifact = initialNodes.find((n) => n.id === edge.target);
 
-        const e = initialEdges.find((e) => e.source == artifact.id);
+        const e = initialEdges.find((e) => e.source === artifact.id);
         if (e) {
           console.log(e.target);
-          const status = initialNodes.find((step) => step.id == e.target);
+          const status = initialNodes.find((step) => step.id === e.target);
           console.log(status);
           if (status.data.status === 'running') {
             edge.animated = true;
@@ -102,27 +99,11 @@ const getLayoutedElements = (
       }
     });
 
-    // initialNodes
-    //   .filter((node) => node.type == 'step')
-    //   .forEach((node) => {
-    //     if (node.id === edge.target && node.data.status == 'running') {
-    //       const n = initialNodes.find((node) => node.id == edge.source);
-    //       const status = initialNodes.find(
-    //         (node) => 'step_' + n.data.parent_step_id == node.id,
-    //       ).data.status;
-    //       if (status === 'running') {
-    //         edge.animated = true;
-    //       }
-    //     }
-    //   });
-
     return edge;
   });
 
   return { initialNodes, initialEdges };
 };
-
-
 
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
@@ -136,7 +117,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
-
 
   const onConnect = useCallback(
     (params) =>
@@ -214,7 +194,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
           <div className="detailsBox">
             <h3 className="detailsTitle">
               {selectedNode?.artifact_type ||
-              selectedNode?.execution_id == '' ? (
+              selectedNode?.execution_id === '' ? (
                 'Details'
               ) : (
                 <span>
@@ -257,12 +237,12 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                       : selectedNode?.entrypoint_name}
                   </p>
                   <p className="detailsLabel">
-                    {selectedNode?.artifact_type ? 'Type' : 'Stack'}
+                    {selectedNode?.artifact_type ? 'Type' : ''}
                   </p>
                   <p className="detailsP">
                     {selectedNode?.artifact_type
                       ? selectedNode?.artifact_type
-                      : 'PLACEHOLDER TEXT'}
+                      : ''}
                   </p>
                   <p className="detailsLabel">
                     {selectedNode?.artifact_type ? 'Data Types' : 'Inputs'}
