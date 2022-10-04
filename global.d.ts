@@ -39,6 +39,8 @@ interface TUser {
   email: string;
   organizationId: TId;
   userName: string;
+  email_opted_in: any;
+  emailOptedIn: any;
 }
 
 interface TOrganization {

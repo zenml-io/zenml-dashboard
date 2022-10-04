@@ -42,10 +42,10 @@ const routes = [
     },
   },
   {
-    path: routePaths.userEmail(':userId'),
+    path: routePaths.userEmail,
     Component: UserEmail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
   },
   {

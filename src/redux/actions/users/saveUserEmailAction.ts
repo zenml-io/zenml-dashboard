@@ -4,21 +4,23 @@ import saveUserEmailApi from '../../../api/session/saveUserEmail';
 export const SaveUserEmailAction = ({
   userId,
   email,
+  email_opted_in,
   onSuccess,
   onFailure,
 }: {
   userId: TId;
   email: string;
+  email_opted_in: any;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
-  type: userActionTypes.updateUserEmail.request,
+  type: userActionTypes.saveUserEmail.request,
   payload: {
     apiMethod: saveUserEmailApi,
-    isAuthenticated: false,
-    failureActionType: userActionTypes.updateUserEmail.failure,
-    successActionType: userActionTypes.updateUserEmail.success,
-    params: { email, userId },
+    isAuthenticated: true,
+    failureActionType: userActionTypes.saveUserEmail.failure,
+    successActionType: userActionTypes.saveUserEmail.success,
+    params: { email, email_opted_in, userId },
     onSuccess,
     onFailure,
   },

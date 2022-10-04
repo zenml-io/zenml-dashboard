@@ -1,7 +1,8 @@
 export const routePaths = {
   login: '/login',
   signup: '/signup',
-  userEmail: (userId: TId): string => `/user-email/${userId}`,
+  // userEmail: (userId: TId): string => `/user-email/${userId}`,
+  userEmail: `/user-email`,
   forgot: '/forgot-password',
   home: '/',
   pipelines: {

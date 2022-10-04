@@ -45,7 +45,7 @@ export const AuthenticatedHeader: React.FC<{
       paddingHorizontal="lg"
       alignItems="center"
       justifyContent="space-between"
-      className={styles.header}
+      className={styles.header} 
     >
       <FlexBox alignItems="center">
         {/* <Box className="d-none d-md-block">

@@ -1,5 +1,4 @@
-import React from 'react';
-
+import React, { useState, useEffect } from 'react';
 import {
   H2,
   Paragraph,
@@ -8,8 +7,8 @@ import {
   Box,
   EaseInBox,
   Image,
+  FullWidthSpinner
 } from '../../../components';
-
 import { Form } from './Form';
 
 import styles from './index.module.scss';
@@ -17,10 +16,45 @@ import image from '../imageNew.png';
 
 import { getTranslateByScope } from '../../../../services';
 import { routePaths } from '../../../../routes/routePaths';
+import { sessionSelectors } from '../../../../redux/selectors/session';
+import { usePushRoute, useSelector } from '../../../hooks';
+import { loggedInRoute } from '../../../../constants';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 const UserEmail: React.FC = () => {
   const translate = getTranslateByScope('ui.layouts.UserEmail');
+  const { push } = usePushRoute();
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+
+  const [pageLoading, setPageLoading] = useState(false)
+
+  useEffect(() => {
+    setPageLoading(true)
+    const getUser = async () => {
+       await axios.get(`${process.env.REACT_APP_BASE_API_URL}/current-user`, {
+          headers: {
+            'Authorization': `bearer ${authToken}` 
+          }
+          })
+          .then((res) => {
+            const data = res.data
+            if (data) {
+              if (data?.email_opted_in !== null) {
+                push(loggedInRoute)
+              }
+            }
+            setPageLoading(false) 
+          })
+      }
+    getUser()
+
+    // eslint-disable-next-line
+  }, [])
+
+  if (pageLoading) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
 
   return (
     <EaseInBox>

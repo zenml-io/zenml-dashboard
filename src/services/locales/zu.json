@@ -410,6 +410,9 @@
                 "successful": {
                   "text": "Saved email successfully!"
                 },
+                "skip": {
+                  "text": "Email Skipped!"
+                },
                 "failed": {
                   "text": "Something went wrong."
                 }

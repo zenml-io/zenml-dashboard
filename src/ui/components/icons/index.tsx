@@ -134,7 +134,7 @@ const icons = {
   singleUser: createIcon({ Component: SingleUser }),
   multiUser: createIcon({ Component: MultiUser }),
   docs: createIcon({ Component: Docs, useStroke: true }),
-  example: createIcon({ Component: Example, useStroke: true }),
+  example: createIcon({ Component: Example, useStroke: true, }),
   pipeline: createIcon({ Component: Pipeline, useStroke: true }),
   stack: createIcon({ Component: Stack, useStroke: true }),
   stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
