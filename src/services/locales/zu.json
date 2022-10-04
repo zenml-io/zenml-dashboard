@@ -390,6 +390,35 @@
               }
             }
           },
+          "UserEmail": {
+            "title": "Help ZenML Improve",
+            "subtitle1": "Here at ZenML we are working hard to produce the best possible MLOps framework, In order to solve real-world problems we want to ask you, the user, for feedback and ideas.",
+            "subtitle2": "If you are interested in helping us shape the world of MLOps please leave your email below. We will only use this for the purpose of reaching out to you for a user interview and to better understand usage. Click here to read more about how we use emails and protect your data",
+            "form": {
+              "email": {
+                "label": "Email address",
+                "placeholder": "Email address",
+                "invalidEmail": "Email is not valid"
+              },
+              "button": {
+                "text": "Save Email"
+              },
+              "skip": {
+                "text": "Skip"
+              },
+              "toasts": {
+                "successful": {
+                  "text": "Saved email successfully!"
+                },
+                "skip": {
+                  "text": "Email Skipped!"
+                },
+                "failed": {
+                  "text": "Something went wrong."
+                }
+              }
+            }
+          },
           "Forgot": {
             "title": "Forgot",
             "subtitle": "Enter your registered email",
