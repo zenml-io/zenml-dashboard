@@ -55,16 +55,16 @@ export const CreatePipelineButton: React.FC = () => {
   const [createPipelinePopupOpen, setCreatePipelinePopupOpen] = React.useState<
     boolean
   >(false);
-  const [isCopied, setIsCopied] = useState(false)
+  const [isCopied, setIsCopied] = useState(false);
 
-  const codeString = '#!/bin/bash';
+  // const codeString = '#!/bin/bash';
 
-  const handleCopy = () => {
+  const handleCopy = (codeString: string) => {
     navigator.clipboard.writeText(codeString);
-    
-    setIsCopied(true)
+
+    setIsCopied(true);
     setTimeout(() => {
-      setIsCopied(false)
+      setIsCopied(false);
     }, 2000);
   };
 
@@ -92,7 +92,7 @@ export const CreatePipelineButton: React.FC = () => {
                 <Box
                   className={styles.iconStyle}
                   style={{ paddingTop: '7px' }}
-                  onClick={handleCopy}
+                  onClick={() => handleCopy(item.text)}
                 >
                   <icons.copy size={iconSizes.sm} color={iconColors.black} />
                 </Box>
@@ -163,9 +163,7 @@ export const CreatePipelineButton: React.FC = () => {
           </FlexBox> */}
 
           <FlexBox justifyContent="space-between" marginTop="xl" flexWrap>
-            <Box>
-              {isCopied && (<Paragraph>Copied!</Paragraph>)}
-            </Box>
+            <Box>{isCopied && <Paragraph>Copied!</Paragraph>}</Box>
 
             <DocumentationLink
               text={constantCommandsToCreatePipeline.documentation}

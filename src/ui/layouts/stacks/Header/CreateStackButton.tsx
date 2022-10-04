@@ -19,18 +19,17 @@ export const CreateStackButton: React.FC = () => {
   const [createStackPopupOpen, setCreateStackPopupOpen] = React.useState<
     boolean
   >(false);
-  const [isCopied, setIsCopied] = useState(false)
+  const [isCopied, setIsCopied] = useState(false);
 
-  const codeString = '#!/bin/bash';
+  // const codeString = '#!/bin/bash';
 
-  const handleCopy = () => {
+  const handleCopy = (codeString: string) => {
     navigator.clipboard.writeText(codeString);
-   
-    setIsCopied(true)
-    setTimeout(() => {
-      setIsCopied(false)
-    }, 2000);
 
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000);
   };
 
   return (
@@ -55,9 +54,9 @@ export const CreateStackButton: React.FC = () => {
               <FlexBox alignItems="center" marginTop="md">
                 <CommandBoxWScroll command={item.text} />
                 <Box
-                  className={styles.iconStyle} 
+                  className={styles.iconStyle}
                   style={{ paddingTop: '7px' }}
-                  onClick={handleCopy}
+                  onClick={() => handleCopy(item.text)}
                 >
                   <icons.copy size={iconSizes.sm} color={iconColors.black} />
                 </Box>
@@ -128,9 +127,7 @@ export const CreateStackButton: React.FC = () => {
           </FlexBox> */}
 
           <FlexBox justifyContent="space-between" marginTop="xl" flexWrap>
-            <Box>
-              {isCopied && (<Paragraph>Copied!</Paragraph>)}
-            </Box>
+            <Box>{isCopied && <Paragraph>Copied!</Paragraph>}</Box>
 
             <DocumentationLink
               text={constantCommandsToCreateStack.documentation}
