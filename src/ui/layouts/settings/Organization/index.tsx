@@ -31,7 +31,7 @@ export const Organization: React.FC = () => {
   const members = useSelector(organizationSelectors.myMembers);
   const memberHeaderCols = useMemberHeaderCols();
 
-  useRequestOnMount(organizationActions.getMy);
+  // useRequestOnMount(organizationActions.getMy); 
   useRequestOnMount(organizationActions.getRoles);
 
   useEffect(() => {

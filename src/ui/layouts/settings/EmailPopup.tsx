@@ -11,7 +11,7 @@ import {
 } from '../../components';
 import { getTranslateByScope } from '../../../services';
 import { Popup } from '../common/Popup';
-import { showToasterAction } from '../../../redux/actions';
+import { showToasterAction, userActions } from '../../../redux/actions';
 import { toasterTypes } from '../../../constants';
 
 import { fetchApiWithAuthRequest } from '../../../api/fetchApi';
@@ -40,7 +40,7 @@ export const EmailPopup: React.FC<{
   const changeEmail = async () => {
     setSubmitting(true);
     try {
-     const v = fetchApiWithAuthRequest({
+      await fetchApiWithAuthRequest({
         url: apiUrl(endpoints.users.updateUser(userId)),
         method: httpMethods.put,
         authenticationToken,
@@ -57,7 +57,7 @@ export const EmailPopup: React.FC<{
           type: toasterTypes.success,
         }),
       );
-  
+     await dispatch(userActions.getMy({}));
     } catch (err) {
       setSubmitting(false);
       setPopupOpen(false);

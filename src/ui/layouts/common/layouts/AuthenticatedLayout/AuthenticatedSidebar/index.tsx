@@ -3,7 +3,7 @@ import cn from 'classnames';
 import {
   FlexBox,
   Box,
-  MaiotLogoWhite,
+  ZenMLLogoWhite,
   LinkBox,
   If,
 } from '../../../../../components';
@@ -43,7 +43,7 @@ export const AuthenticatedSidebar: React.FC<{
         style={{ cursor: 'pointer' }}
         onClick={() => push('/')}
       >
-        <MaiotLogoWhite />
+        <ZenMLLogoWhite />
       </FlexBox>
       
       <FlexBox

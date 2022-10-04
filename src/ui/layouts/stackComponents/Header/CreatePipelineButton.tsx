@@ -1,9 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.scss';
 
-import { useDispatch, useLocationPath } from '../../../hooks';
-import { showToasterAction } from '../../../../redux/actions';
-import { toasterTypes } from '../../../../constants';
+import { useLocationPath } from '../../../hooks';
 
 import {
   Box,
@@ -22,21 +20,20 @@ import { camelCaseToParagraph } from '../../../../utils';
 
 export const CreatePipelineButton: React.FC = () => {
   const locationPath = useLocationPath();
-  const dispatch = useDispatch();
   const [createPipelinePopupOpen, setCreatePipelinePopupOpen] = React.useState<
     boolean
   >(false);
-
+  const [isCopied, setIsCopied] = useState(false)
+  
   const codeString = '#!/bin/bash';
 
   const handleCopy = () => {
     navigator.clipboard.writeText(codeString);
-    dispatch(
-      showToasterAction({
-        description: 'Command copied to clipboard',
-        type: toasterTypes.success,
-      }),
-    );
+    
+    setIsCopied(true)
+    setTimeout(() => {
+      setIsCopied(false)
+    }, 2000);
   };
 
   return (
@@ -46,14 +43,14 @@ export const CreatePipelineButton: React.FC = () => {
       paddingHorizontal="sm"
     >
       <PrimaryButton onClick={() => setCreatePipelinePopupOpen(true)}>
-        Create {camelCaseToParagraph(locationPath.split('/')[2])}
+        {camelCaseToParagraph(locationPath.split('/')[2])} Cheatsheet
       </PrimaryButton>
 
       {createPipelinePopupOpen && (
         <Popup onClose={() => setCreatePipelinePopupOpen(false)}>
           <FlexBox.Row>
             <H3 bold color="darkGrey">
-              Create {camelCaseToParagraph(locationPath.split('/')[2])}
+              {camelCaseToParagraph(locationPath.split('/')[2])} Cheatsheet
             </H3>
           </FlexBox.Row>
           {locationPath.split('/')[2] ===
@@ -162,7 +159,11 @@ export const CreatePipelineButton: React.FC = () => {
             </Box>
           </FlexBox> */}
 
-          <FlexBox justifyContent="end" marginTop="xl" flexWrap>
+          <FlexBox justifyContent="space-between" marginTop="xl" flexWrap>
+            <Box>
+              {isCopied && (<Paragraph>Copied!</Paragraph>)}
+            </Box>
+
             <DocumentationLink
               text={constantCommandsToCreateComponent.documentation}
             />

@@ -152,7 +152,7 @@ export const StackDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>Created</Paragraph>
           <Paragraph style={paraStyle}>
-            {formatDateToDisplay(stackComponent.createdAt)}
+            {formatDateToDisplay(stackComponent.created)}
           </Paragraph>
         </Box>
       </Box>
