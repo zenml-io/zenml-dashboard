@@ -78,7 +78,7 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const locationPath = useLocationPath();
-  const { type, stackComponentId, runId } = useService();
+  const { stackComponentId, runId } = useService();
   // debugger;
   // debugger;
   // const { runId, stackId, run, billing } = useService();

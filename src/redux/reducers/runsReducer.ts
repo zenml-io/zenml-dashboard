@@ -109,7 +109,7 @@ const runsReducer = (state: State = initialState, action: Action): State => {
     case runActionTypes.getGraphForRunId.success: {
       // debugger;
       const payload = action.payload;
-      const id = action?.requestParams?.runId;
+      // const id = action?.requestParams?.runId;
 
       const graphFromRun = {
         ...payload,

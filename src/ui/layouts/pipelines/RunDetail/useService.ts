@@ -1,13 +1,7 @@
-import { useEffect } from 'react';
 import { RunDetailRouteParams } from '.';
-import { billingActions, runsActions } from '../../../../redux/actions';
+import { runsActions } from '../../../../redux/actions';
 import { billingSelectors, runSelectors } from '../../../../redux/selectors';
-import {
-  useDispatch,
-  useParams,
-  useRequestOnMount,
-  useSelector,
-} from '../../../hooks';
+import { useParams, useRequestOnMount, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
   runId: TId;
@@ -18,7 +12,7 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const { id, pipelineId } = useParams<RunDetailRouteParams>();
-  const dispatch = useDispatch();
+
   // useRequestOnMount(() =>
   //   runsActions.runForId({
   //     pipelineId,
