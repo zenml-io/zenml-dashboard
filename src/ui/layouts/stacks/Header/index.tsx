@@ -8,6 +8,7 @@ import { CreateStackButton } from './CreateStackButton';
 import { DocumentationLink } from './DocumentationLink';
 
 import styles from './index.module.scss';
+import { constantCommandsToCreateStack } from '../../../../constants/constantCommands';
 
 const DefaultHeader: React.FC<{
   breadcrumbs: TBreadcrumb[];
@@ -52,7 +53,7 @@ const HeaderWithButtons: React.FC<{
       </Box> */}
       <CreateStackButton />
       <CompareRunsButton />
-      <DocumentationLink />
+      <DocumentationLink text={constantCommandsToCreateStack.documentation} />
     </FlexBox>
   </FlexBox>
 );
