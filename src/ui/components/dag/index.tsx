@@ -10,6 +10,8 @@ const styles = {
 export const DAG: React.FC<{ runId: TId }> = ({ runId }) => {
   const { graph } = useService({ runId });
 
+  console.log(graph);
+
   return (
     <div style={styles.container}>
       <div style={styles.dag}>

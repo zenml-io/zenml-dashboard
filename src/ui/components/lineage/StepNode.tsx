@@ -5,7 +5,7 @@ import { Cached, Completed, Failed, Running } from './icons';
 import styles from './index.module.scss';
 import { NodeProps } from './types';
 
-const ArtifactNode = ({
+const StepNode = ({
   data,
   targetPosition = Position.Top,
   sourcePosition = Position.Bottom,
@@ -57,7 +57,7 @@ const ArtifactNode = ({
         </div>
         <div className={styles.stepText}>
           <p className={styles.stepTitle}>{data.name}</p>
-          <p className={styles.stepSub}>PLACEHOLDER TEXT</p>
+          {/* <p className={styles.stepSub}>{data.status}</p> */}
         </div>
       </div>
       <Handle
@@ -69,4 +69,4 @@ const ArtifactNode = ({
   );
 };
 
-export default memo(ArtifactNode);
+export default memo(StepNode);

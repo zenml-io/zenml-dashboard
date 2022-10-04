@@ -25,6 +25,7 @@
   border-radius: 2px;
   font-size: 8px;
   background: #fff;
+  min-width: 6rem;
 }
 
 .stepIcon {
@@ -35,11 +36,12 @@
 
 .stepText {
   padding: 0.5rem 0.5rem;
+  align-self: center;
 }
 
 .stepTitle {
   font-weight: 600;
-  margin-bottom: 2px;
+  margin: auto;
 }
 
 .stepSub {
