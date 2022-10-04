@@ -39,6 +39,15 @@ export const useService = (): ServiceInterface => {
       }),
     );
   }, []);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      //assign interval to a variable to clear it.
+      dispatch(runsActions.allRuns({}));
+      dispatch(pipelinesActions.getMy());
+    }, 10000);
+
+    return () => clearInterval(intervalId); //This is important
+  });
 
   const setFetching = (fetching: boolean) => {
     dispatch(pipelinePagesActions.setFetching({ fetching }));
