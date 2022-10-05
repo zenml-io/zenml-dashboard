@@ -90,17 +90,13 @@ export const RunDetail: React.FC = () => {
       <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {run.id}
           </Paragraph>
         </Box>
         <Box>
           <Paragraph style={headStyle}>RUN NAME</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {run.name}
           </Paragraph>
         </Box>
@@ -122,17 +118,13 @@ export const RunDetail: React.FC = () => {
         </Box>
         <Box>
           <Paragraph style={headStyle}>AUTHOR</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {run.user.name}
           </Paragraph>
         </Box>
         <Box>
           <Paragraph style={headStyle}>CREATED AT</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {formatDateToDisplay(run.created)}
           </Paragraph>
         </Box>

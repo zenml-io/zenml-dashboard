@@ -107,17 +107,13 @@ export const PipelineDetail: React.FC = () => {
       <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>ID</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {pipeline.id}
           </Paragraph>
         </Box>
         <Box>
           <Paragraph style={headStyle}>NAME</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {pipeline.name}
           </Paragraph>
         </Box>
@@ -143,17 +139,13 @@ export const PipelineDetail: React.FC = () => {
         </Box>
         <Box>
           <Paragraph style={headStyle}>OWNER</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {pipeline.user.name}
           </Paragraph>
         </Box>
         <Box>
           <Paragraph style={headStyle}>CREATED AT</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {formatDateToDisplay(pipeline.created)}
           </Paragraph>
         </Box>
