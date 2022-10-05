@@ -554,8 +554,8 @@ const FilterComponent = ({
                 <FlexBox.Row key={index} className={styles.tile}>
                   <Box onClick={() => hanldeDelete(index)}>
                     {`${filter.column.selectedValue.label} ${
-                      filter.column.selectedValue.label != 'Shared' &&
-                      filter.column.selectedValue.label != 'Status'
+                      filter.column.selectedValue.label !== 'Shared' &&
+                      filter.column.selectedValue.label !== 'Status'
                         ? filter.contains.selectedValue.label
                         : ''
                     } ${
