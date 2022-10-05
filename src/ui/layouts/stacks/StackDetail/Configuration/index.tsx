@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -17,7 +17,7 @@ import { useService } from './useService';
 export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   const dispatch = useDispatch();
   const { downloadYamlFile, stackConfig } = useService({ stackId });
-
+  const [hover, setHover] = useState(false);
   const handleCopy = () => {
     navigator.clipboard.writeText(stackConfig);
     dispatch(
@@ -43,8 +43,19 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           >
             {translate('configuration.button.text')}
           </GhostButton>
-          <GhostButton onClick={handleCopy}>
-            <icons.copy color={iconColors.black} size={iconSizes.sm} />
+          <GhostButton
+            onMouseEnter={() => {
+              setHover(true);
+            }}
+            onMouseLeave={() => {
+              setHover(false);
+            }}
+            onClick={handleCopy}
+          >
+            <icons.copy
+              color={hover ? iconColors.white : iconColors.black}
+              size={iconSizes.sm}
+            />
           </GhostButton>
         </Box>
       </FlexBox>

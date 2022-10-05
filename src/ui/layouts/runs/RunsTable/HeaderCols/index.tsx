@@ -24,6 +24,7 @@ import { RunStatus } from '../RunStatus';
 // import { RunTime } from '../../RunTime';
 // import { RunUser } from '../RunUser';
 import { SortingHeader } from '../SortingHeader';
+// import { translate } from '../translate';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
 // import { PipelineName } from '../PipelineName';
@@ -119,9 +120,19 @@ export const useHeaderCols = ({
 
     {
       render: () => (
-        <Paragraph size="small" color="black">
-          STATUS
-        </Paragraph>
+        <SortingHeader
+          sorting="status"
+          sortMethod={sortMethod('status', {
+            asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
+            desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="grey">
+            STATUS
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '10%',
       renderRow: (run: TRun) => <RunStatus run={run} />,

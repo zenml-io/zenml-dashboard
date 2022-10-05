@@ -133,7 +133,7 @@ export const useHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
           PIPELINE NAME
         </Paragraph>
       ),
@@ -176,9 +176,20 @@ export const useHeaderCols = ({
 
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          STATUS
-        </Paragraph>
+        <SortingHeader
+          sorting="status"
+          sortMethod={sortMethod('status', {
+            asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
+            desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            {/* {translate('status.text')} */}
+            STATUS
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '10%',
       renderRow: (run: TRun) => <RunStatus run={run} />,
@@ -273,17 +284,13 @@ export const useHeaderCols = ({
           sorting="createdAt"
           sortMethod={sortMethod('createdAt', {
             asc: (runs: TRun[]) =>
-              _.orderBy(
-                runs,
-                (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
-                ['asc'],
-              ),
+              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+                'asc',
+              ]),
             desc: (runs: TRun[]) =>
-              _.orderBy(
-                runs,
-                (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
-                ['desc'],
-              ),
+              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+                'desc',
+              ]),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}

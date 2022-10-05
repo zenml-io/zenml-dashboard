@@ -8,6 +8,7 @@ import {
   EaseInBox,
   Image,
   FullWidthSpinner,
+  InnerTextLink,
 } from '../../../components';
 import { Form } from './Form';
 
@@ -60,7 +61,7 @@ const UserEmail: React.FC = () => {
     getUser();
 
     // eslint-disable-next-line
-  }, [])
+  }, []);
 
   if (pageLoading) {
     return <FullWidthSpinner color="black" size="md" />;
@@ -92,13 +93,10 @@ const UserEmail: React.FC = () => {
               <Box marginTop="md" className={styles.pageContentBox}>
                 <Paragraph color="grey">
                   {translate('subtitle2-1')}&nbsp;
-                  <a
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    href="https://docs.zenml.io/misc/usage-analytics"
-                  >
-                    Click Here
-                  </a>
+                  <InnerTextLink
+                    text={'Click Here'}
+                    href={'https://docs.zenml.io/misc/usage-analytics'}
+                  />
                   &nbsp;{translate('subtitle2-2')}
                 </Paragraph>
               </Box>

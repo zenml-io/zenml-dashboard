@@ -70,9 +70,7 @@ export const StackDetail: React.FC = () => {
       <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>Stack ID</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {stack.id}
           </Paragraph>
         </Box>
@@ -98,17 +96,13 @@ export const StackDetail: React.FC = () => {
         </Box>
         <Box>
           <Paragraph style={headStyle}>Author</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {stack.userName}
           </Paragraph>
         </Box>
         <Box>
           <Paragraph style={headStyle}>Created</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {formatDateToDisplay(stack.creationDate)}
           </Paragraph>
         </Box>

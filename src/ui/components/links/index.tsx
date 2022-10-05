@@ -39,3 +39,20 @@ export const ExternalSecondaryLink = (props: {
     </Paragraph>
   </a>
 );
+
+export const InnerTextLink = (props: {
+  href?: string;
+  text: string;
+  size?: Sizes;
+}): JSX.Element => (
+  <a
+    target="_blank"
+    rel="noopener noreferrer"
+    className={styles.link}
+    style={{ color: '#22BBDD' }}
+    href={props.href}
+  >
+    {/* {props.text} */}
+    {props.text}
+  </a>
+);

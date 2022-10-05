@@ -93,6 +93,7 @@ export const useService = ({
       setActiveSortingDirection('DESC');
     }
     setActiveSorting(sorting);
+    debugger;
   };
 
   return {
