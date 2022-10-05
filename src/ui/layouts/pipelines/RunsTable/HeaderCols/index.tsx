@@ -204,13 +204,13 @@ export const useHeaderCols = ({
                 asc: (runs: TRun[]) =>
                   _.orderBy(
                     runs,
-                    (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
+                    (run: TRun) => new Date(run.created).getTime(),
                     ['asc'],
                   ),
                 desc: (runs: TRun[]) =>
                   _.orderBy(
                     runs,
-                    (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
+                    (run: TRun) => new Date(run.created).getTime(),
                     ['desc'],
                   ),
               })}
@@ -417,7 +417,7 @@ export const useHeaderCols = ({
               activeSortingDirection={activeSortingDirection}
             >
               <Paragraph size="small" color="grey">
-                {translate('status.text')}
+                STATUS
               </Paragraph>
             </SortingHeader>
           ),
@@ -531,13 +531,13 @@ export const useHeaderCols = ({
                 asc: (runs: TRun[]) =>
                   _.orderBy(
                     runs,
-                    (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
+                    (run: TRun) => new Date(run.created).getTime(),
                     ['asc'],
                   ),
                 desc: (runs: TRun[]) =>
                   _.orderBy(
                     runs,
-                    (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
+                    (run: TRun) => new Date(run.created).getTime(),
                     ['desc'],
                   ),
               })}
