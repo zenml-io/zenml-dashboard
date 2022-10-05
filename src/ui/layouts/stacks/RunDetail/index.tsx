@@ -135,7 +135,7 @@ export const RunDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>AUTHOR</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {run.user.name}
+            {run?.user?.name}
           </Paragraph>
         </Box>
         <Box>

@@ -140,7 +140,7 @@ export const PipelineDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>OWNER</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {pipeline.user.name}
+            {pipeline?.user?.name}
           </Paragraph>
         </Box>
         <Box>
