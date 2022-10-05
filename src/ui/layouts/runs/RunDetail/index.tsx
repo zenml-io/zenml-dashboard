@@ -4,7 +4,7 @@ import { routePaths } from '../../../../routes/routePaths';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
-import { DAG } from './DAG';
+import { DAG } from '../../../components/dag';
 import { useService } from './useService';
 
 import { Box, Paragraph } from '../../../components';
@@ -12,7 +12,6 @@ import { Box, Paragraph } from '../../../components';
 // import { RunTime } from '../RunTime';
 import { RunStatus } from './components';
 // import { Results } from './Results';
-// import { Statistics } from './Statistics';
 // import { Tensorboard } from './Tensorboard';
 // import { formatMoney } from '../../../../utils/money';
 import { formatDateToDisplay } from '../../../../utils';
