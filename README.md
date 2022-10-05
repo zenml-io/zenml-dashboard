@@ -91,7 +91,7 @@ Which will serve the dashboard with the server at `http://localhost:8080`, with 
 
 ## 👨‍👦 Relationship with ZenML
 
-The ZenML Dashboard is a Javascript React-based application that lives inside this repository, which is a sister repository of the main [ZenML Python package repo](https://github.com/zenml-io/zenml).
+The ZenML Dashboard is a Javascript React-based application that lives inside this repository, which is a sister repository of the main [ZenML Python package repo](https://github.com/zenml-io/zenml). The dashboard is meant to be used with the ZenML Server as a backend and cannot be used standalone.
 
 The dashboard build files come bundled into the [ZenML PyPi package](https://pypi.org/project/zenml/) and can be [served locally](https://docs.zenml.io/getting-started/deploying-zenml/using-cli.md) and/or [deployed on the cloud](https://docs.zenml.io/getting-started/deploying-zenml/deployment.md) through the main ZenML python package.
 
