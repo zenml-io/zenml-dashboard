@@ -549,10 +549,16 @@ const FilterComponent = ({
             </Paragraph>
           ) : filters[0]?.column?.selectedValue.label && !applyFilter ? (
             filters.map((filter: any, index: number) => {
+              debugger;
               return (
                 <FlexBox.Row key={index} className={styles.tile}>
                   <Box onClick={() => hanldeDelete(index)}>
                     {`${filter.column.selectedValue.label} ${
+                      filter.column.selectedValue.label != 'Shared' &&
+                      filter.column.selectedValue.label != 'Status'
+                        ? filter.contains.selectedValue.label
+                        : ''
+                    } ${
                       typeof filter.filterValue === 'string'
                         ? filter.filterValue
                         : formatDateToDisplay(filter.filterValue)
