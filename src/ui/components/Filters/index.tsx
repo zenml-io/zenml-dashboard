@@ -460,7 +460,12 @@ const FilterComponent = ({
               onChange={(value: string) =>
                 handleValueFieldChange(filter, value)
               }
-              style={{ borderRadius: 0, width: '146px', fontSize: '12px', color: '#424240' }}
+              style={{
+                borderRadius: 0,
+                width: '146px',
+                fontSize: '12px',
+                color: '#424240',
+              }}
             />
           </Box>
         );
@@ -498,7 +503,12 @@ const FilterComponent = ({
               placeholder={''}
               disabled
               value={filter.filterValue}
-              style={{ borderRadius: 0, width: '146px', fontSize: '12px', color: '#424240' }}
+              style={{
+                borderRadius: 0,
+                width: '146px',
+                fontSize: '12px',
+                color: '#424240',
+              }}
             />
           </Box>
         );
@@ -533,31 +543,43 @@ const FilterComponent = ({
           className="text-muted h5"
         >
           {/* Filter your stack */}
-          {!applyFilter && !filters[0]?.column?.selectedValue?.label
-            ? <Paragraph className={styles.filterplaceholder}>Filter list</Paragraph>
-            : filters[0]?.column?.selectedValue.label && !applyFilter
-            ? filters.map((filter: any, index: number) => {
-                return (
-                  <FlexBox.Row key={index} className={styles.tile}>
-                    <Box onClick={() => hanldeDelete(index)}>
-                      {`${filter.column.selectedValue.label} ${
-                        typeof filter.filterValue === 'string'
-                          ? filter.filterValue
-                          : formatDateToDisplay(filter.filterValue)
-                      }`}
-                    </Box>
+          {!applyFilter && !filters[0]?.column?.selectedValue?.label ? (
+            <Paragraph className={styles.filterplaceholder}>
+              Filter list
+            </Paragraph>
+          ) : filters[0]?.column?.selectedValue.label && !applyFilter ? (
+            filters.map((filter: any, index: number) => {
+              debugger;
+              return (
+                <FlexBox.Row key={index} className={styles.tile}>
+                  <Box onClick={() => hanldeDelete(index)}>
+                    {`${filter.column.selectedValue.label} ${
+                      filter.column.selectedValue.label !== 'Shared' &&
+                      filter.column.selectedValue.label !== 'Status'
+                        ? filter.contains.selectedValue.label
+                        : ''
+                    } ${
+                      typeof filter.filterValue === 'string'
+                        ? filter.filterValue
+                        : formatDateToDisplay(filter.filterValue)
+                    }`}
+                  </Box>
 
-                    <Box onClick={() => hanldeDelete(index)}>
-                      <icons.closeWithBorder
-                        style={{ paddingLeft: '7px' }}
-                        size={iconSizes.sm}
-                        color={iconColors.grey}
-                      />
-                    </Box>
-                  </FlexBox.Row>
-                );
-              })
-            : <Paragraph className={styles.filterplaceholder}>Filter list</Paragraph>}
+                  <Box onClick={() => hanldeDelete(index)}>
+                    <icons.closeWithBorder
+                      style={{ paddingLeft: '7px' }}
+                      size={iconSizes.sm}
+                      color={iconColors.grey}
+                    />
+                  </Box>
+                </FlexBox.Row>
+              );
+            })
+          ) : (
+            <Paragraph className={styles.filterplaceholder}>
+              Filter list
+            </Paragraph>
+          )}
           {!applyFilter &&
           !filters[0]?.column?.selectedValue?.label ? null : filters[0]?.column
               ?.selectedValue.label && !applyFilter ? (
@@ -576,160 +598,168 @@ const FilterComponent = ({
         </Box>
       </FlexBox>
       {applyFilter && (
-        <Box className="mb-4 mt-19" style={{ marginLeft: '20px', width: '530px' }}>
-            <Paragraph className="h3 text-muted" color="black" style={{ fontSize: '16px' }}>
-              Custom Filtering
-            </Paragraph>
-            {filters.map((filter: any, index: number) => {
-              return (
-                <FlexBox.Row key={index} className="mb-1">
-                  <Box
-                    className="mr-4 mt-5 h4 text-muted"
+        <Box
+          className="mb-4 mt-19"
+          style={{ marginLeft: '20px', width: '530px' }}
+        >
+          <Paragraph
+            className="h3 text-muted"
+            color="black"
+            style={{ fontSize: '16px' }}
+          >
+            Custom Filtering
+          </Paragraph>
+          {filters.map((filter: any, index: number) => {
+            return (
+              <FlexBox.Row key={index} className="mb-1">
+                <Box
+                  className="mr-4 mt-5 h4 text-muted"
+                  style={{
+                    fontSize: '12px',
+                    width: '46px',
+                    color: '#424240',
+                  }}
+                >
+                  {index === 0 ? 'Where' : 'And'}
+                </Box>
+                <Box style={{ width: '146px' }}>
+                  <FormDropdownField
+                    label={''}
+                    onChange={(value: string) =>
+                      handleChange(filter, 'column', value)
+                    }
+                    placeholder={'Column Name'}
+                    value={filter.column.selectedValue.value}
+                    options={filter.column.options}
                     style={{
+                      borderTopRightRadius: 0,
+                      borderBottomRightRadius: 0,
+                      width: '146px',
                       fontSize: '12px',
-                      width: '46px',
                       color: '#424240',
                     }}
-                  >
-                    {index === 0 ? 'Where' : 'And'}
-                  </Box>
-                  <Box style={{ width: '146px' }}>
-                    <FormDropdownField
-                      label={''}
-                      onChange={(value: string) =>
-                        handleChange(filter, 'column', value)
-                      }
-                      placeholder={'Column Name'}
-                      value={filter.column.selectedValue.value}
-                      options={filter.column.options}
-                      style={{
-                        borderTopRightRadius: 0,
-                        borderBottomRightRadius: 0,
-                        width: '146px',
-                        fontSize: '12px',
-                        color: '#424240',
-                      }}
-                    />
-                  </Box>
-                  {/* <Box style={{ width: '146px' }}> */}
-                  {filter?.column?.selectedValue?.value === 'status' ? (
-                    <>
-                      <FlexBox.Row key={index} className="mb-1">
-                        <FormDropdownField
-                          label={''}
-                          disabled={!filter.column.selectedValue.type}
-                          placeholder={'category'}
-                          style={{
-                            borderRadius: 0,
-                            width: '146px',
-                            fontSize: '12px',
-                            color: '#424240',
-                          }}
-                          onChange={(value: string) =>
-                            // handleChange(filter, 'contains', value)
-                            handleChangeForStatus(filter, value)
-                          }
-                          value={filter.contains.selectedValue.value}
-                          options={filter.column.statusOption}
-                        />
-                      </FlexBox.Row>
-                    </>
-                  ) : filter?.column?.selectedValue?.value === 'isShared' ? (
-                    <>
-                      <FlexBox.Row className="mb-1">
-                        <FormTextField
-                          label={''}
-                          placeholder={''}
-                          disabled
-                          value={'is'}
-                          style={{
-                            borderRadius: 0,
-                            width: '146px',
-                            fontSize: '12px',
-                            color: '#424240',
-                          }}
-                        />
-                        <FormDropdownField
-                          label={''}
-                          disabled={!filter?.column?.selectedValue?.type}
-                          placeholder={'category'}
-                          style={{
-                            borderRadius: 0,
-                            width: '146px',
-                            fontSize: '12px',
-                            color: '#424240',
-                          }}
-                          onChange={
-                            (value: string) =>
-                              handleChangeForShared(filter, 'contains', value)
-                            // handleChangeForStatus(filter, value)
-                          }
-                          value={filter?.contains?.selectedValue?.value}
-                          options={getSecondColumnOptions(
-                            filter.contains.options,
-                            filter.column.selectedValue.type,
-                          )}
-                        />
-                      </FlexBox.Row>
-                    </>
-                  ) : (
-                    <>
-                      <FlexBox.Row className="mb-1">
-                        <FormDropdownField
-                          label={''}
-                          disabled={!filter.column.selectedValue.type}
-                          placeholder={'category'}
-                          onChange={(value: string) =>
-                            handleChange(filter, 'contains', value)
-                          }
-                          value={filter.contains.selectedValue.value}
-                          options={getSecondColumnOptions(
-                            filter.contains.options,
-                            filter.column.selectedValue.type,
-                          )}
-                          style={{
-                            borderRadius: 0,
-                            width: '146px',
-                            fontSize: '12px',
-                            color: '#424240',
-                          }}
-                        />
-                        {valueField(filter)}
-                      </FlexBox.Row>
-                    </>
-                  )}
-                  {/* </Box> */}
+                  />
+                </Box>
+                {/* <Box style={{ width: '146px' }}> */}
+                {filter?.column?.selectedValue?.value === 'status' ? (
+                  <>
+                    <FlexBox.Row key={index} className="mb-1">
+                      <FormDropdownField
+                        label={''}
+                        disabled={!filter.column.selectedValue.type}
+                        placeholder={'category'}
+                        style={{
+                          borderRadius: 0,
+                          width: '146px',
+                          fontSize: '12px',
+                          color: '#424240',
+                        }}
+                        onChange={(value: string) =>
+                          // handleChange(filter, 'contains', value)
+                          handleChangeForStatus(filter, value)
+                        }
+                        value={filter.contains.selectedValue.value}
+                        options={filter.column.statusOption}
+                      />
+                    </FlexBox.Row>
+                  </>
+                ) : filter?.column?.selectedValue?.value === 'isShared' ? (
+                  <>
+                    <FlexBox.Row className="mb-1">
+                      <FormTextField
+                        label={''}
+                        placeholder={''}
+                        disabled
+                        value={'is'}
+                        style={{
+                          borderRadius: 0,
+                          width: '146px',
+                          fontSize: '12px',
+                          color: '#424240',
+                        }}
+                      />
+                      <FormDropdownField
+                        label={''}
+                        disabled={!filter?.column?.selectedValue?.type}
+                        placeholder={'category'}
+                        style={{
+                          borderRadius: 0,
+                          width: '146px',
+                          fontSize: '12px',
+                          color: '#424240',
+                        }}
+                        onChange={
+                          (value: string) =>
+                            handleChangeForShared(filter, 'contains', value)
+                          // handleChangeForStatus(filter, value)
+                        }
+                        value={filter?.contains?.selectedValue?.value}
+                        options={getSecondColumnOptions(
+                          filter.contains.options,
+                          filter.column.selectedValue.type,
+                        )}
+                      />
+                    </FlexBox.Row>
+                  </>
+                ) : (
+                  <>
+                    <FlexBox.Row className="mb-1">
+                      <FormDropdownField
+                        label={''}
+                        disabled={!filter.column.selectedValue.type}
+                        placeholder={'category'}
+                        onChange={(value: string) =>
+                          handleChange(filter, 'contains', value)
+                        }
+                        value={filter.contains.selectedValue.value}
+                        options={getSecondColumnOptions(
+                          filter.contains.options,
+                          filter.column.selectedValue.type,
+                        )}
+                        style={{
+                          borderRadius: 0,
+                          width: '146px',
+                          fontSize: '12px',
+                          color: '#424240',
+                        }}
+                      />
+                      {valueField(filter)}
+                    </FlexBox.Row>
+                  </>
+                )}
+                {/* </Box> */}
 
-                  <Box
-                    onClick={() => hanldeDelete(index)}
-                    className={styles.removeIcon}
-                  >
-                    <icons.delete
-                      style={{ padding: '7px 0px 0px 7px' }}
-                      size={iconSizes.sm}
-                      color={iconColors.grey}
-                    />
-                  </Box>
-                </FlexBox.Row>
-              );
-            })}
-            <FlexBox.Row className="mt-5" justifyContent='end' onClick={addAnotherFilter}>
-              <icons.simplePlus
-                size={iconSizes.md}
-                color={iconColors.darkGrey}
-              />
-              <Paragraph
-                className="h3 text-muted ml-1 mt-2"
-                style={{
-                  fontSize: '14px',
-                  fontWeight: 'bold',
-                  color: '#747474',
-                  cursor: 'pointer',
-                }}
-              >
-                Add Condition
-              </Paragraph>
-            </FlexBox.Row>
+                <Box
+                  onClick={() => hanldeDelete(index)}
+                  className={styles.removeIcon}
+                >
+                  <icons.delete
+                    style={{ padding: '7px 0px 0px 7px' }}
+                    size={iconSizes.sm}
+                    color={iconColors.grey}
+                  />
+                </Box>
+              </FlexBox.Row>
+            );
+          })}
+          <FlexBox.Row
+            className="mt-5"
+            justifyContent="end"
+            onClick={addAnotherFilter}
+          >
+            <icons.simplePlus size={iconSizes.md} color={iconColors.darkGrey} />
+            <Paragraph
+              className="h3 text-muted ml-1 mt-2"
+              style={{
+                fontSize: '14px',
+                fontWeight: 'bold',
+                color: '#747474',
+                cursor: 'pointer',
+              }}
+            >
+              Add Condition
+            </Paragraph>
+          </FlexBox.Row>
         </Box>
       )}
       {children}

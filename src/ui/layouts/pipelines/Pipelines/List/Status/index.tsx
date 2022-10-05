@@ -26,7 +26,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
               <div data-tip data-for={status}>
                 <If condition={status === runStatus.COMPLETED}>
                   {() => (
-                    <ColoredCircle color="primary" size="xs">
+                    <ColoredCircle color="green" size="xs">
                       <icons.check
                         color={iconColors.white}
                         size={iconSizes.xs}
