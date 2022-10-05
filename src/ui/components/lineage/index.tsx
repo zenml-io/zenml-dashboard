@@ -97,6 +97,7 @@ const getLayoutedElements = (
           }
         }
       }
+      return initialNodes;
     });
 
     return edge;
@@ -130,6 +131,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
           eds,
         ),
       ),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
   const onLayout = useCallback(
@@ -142,6 +144,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
       setNodes([...layoutedNodes]);
       setEdges([...layoutedEdges]);
     },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     [nodes, edges],
   );
 
