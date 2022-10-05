@@ -123,7 +123,7 @@ Which will serve the dashboard with the server at `http://localhost:8080`, with 
 
 The ZenML Dashboard is a Javascript React-based application that lives inside this repository, which is a sister repository of the main [ZenML Python package repo](https://github.com/zenml-io/zenml). 
 
-> **Note** - The ZenML dashboard is meant to be used with the ZenML Server as a backend and cannot be used standalone.
+> **Note** - The ZenML Dashboard is meant to be used with the ZenML Server as a backend and cannot be used standalone.
 
 The dashboard build files come bundled into the [ZenML PyPi package](https://pypi.org/project/zenml/) and can be [served locally](https://docs.zenml.io/getting-started/deploying-zenml/using-cli.md) and/or [deployed on the cloud](https://docs.zenml.io/getting-started/deploying-zenml/deployment.md) through the main ZenML python package.
 
@@ -180,20 +180,12 @@ Guide](CONTRIBUTING.md) for all relevant details.
 
 ![Meet the Team](./assets/community_meetup.png)
 
-Have a question that's too hard to express on our Slack? Is it just too much effort to say everything on a 
-long GitHub issue? Or are you just curious about what ZenML has been up to in the past week? 
-
-Well, register now for the ZenML Meet the Community session to get your answers!
-It's free and open to everyone.
-
 Every week, the ZenML [core team](https://zenml.io/company#CompanyTeam) will pop in for 30 minutes to interact directly with the community. 
 Sometimes we'll be presenting a feature, other times we'll take questions and have fun. 
 
-Join us if you are curious about ZenML, or just want to talk shop about MLOps.
+[Register now](https://zenml.io/meet) for the ZenML Meet the Community session. It's free and open to everyone.
 
-We will host the gathering every Wednesday 8:30AM PT (5:30PM CET). 
-Register now through [this link](https://www.eventbrite.com/e/zenml-meet-the-community-tickets-354426688767), 
-or subscribe to the [public events calendar](https://calendar.google.com/calendar/u/0/r?cid=Y19iaDJ0Zm44ZzdodXBlbnBzaWplY3UwMmNjZ0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) to get notified 
+Or subscribe to our [public events calendar](https://calendar.google.com/calendar/u/0/r?cid=Y19iaDJ0Zm44ZzdodXBlbnBzaWplY3UwMmNjZ0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) to get notified 
 before every community gathering.
 
 # 🆘 Getting Help
