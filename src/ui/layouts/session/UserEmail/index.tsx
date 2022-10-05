@@ -16,7 +16,7 @@ import image from '../imageNew.png';
 
 import { getTranslateByScope } from '../../../../services';
 import { routePaths } from '../../../../routes/routePaths';
-import { sessionSelectors } from '../../../../redux/selectors/session';
+import { sessionSelectors } from '../../../../redux/selectors';
 import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
 import { loggedInRoute } from '../../../../constants';
 import { Link } from 'react-router-dom';
@@ -90,7 +90,17 @@ const UserEmail: React.FC = () => {
                 <Paragraph color="grey">{translate('subtitle1')}</Paragraph>
               </Box>
               <Box marginTop="md" className={styles.pageContentBox}>
-                <Paragraph color="grey">{translate('subtitle2')}</Paragraph>
+                <Paragraph color="grey">
+                  {translate('subtitle2-1')}&nbsp;
+                  <a
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    href="https://docs.zenml.io/misc/usage-analytics"
+                  >
+                    Click Here
+                  </a>
+                  &nbsp;{translate('subtitle2-2')}
+                </Paragraph>
               </Box>
             </Box>
 

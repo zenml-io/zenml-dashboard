@@ -11,7 +11,7 @@ const formatDateToFormat = (dateString: Date, dateFormat: string): string =>
 
 export const formatDateToDisplay = (dateString: Date): string => {
   if (typeof dateString === 'undefined' || !dateString) return '';
-  return formatDateToFormat(dateString, 'MM.dd.yyyy');
+  return formatDateToFormat(dateString, 'dd.MM.yyyy');
 };
 
 const addLeadingZeros = (number: number) => {

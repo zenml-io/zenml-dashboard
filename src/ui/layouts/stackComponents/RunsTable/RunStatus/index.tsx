@@ -18,7 +18,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.COMPLETED}>
             {() => (
-              <ColoredCircle color="primary" size="xs">
+              <ColoredCircle color="green" size="xs">
                 <icons.check color={iconColors.white} size={iconSizes.xs} />
               </ColoredCircle>
             )}
