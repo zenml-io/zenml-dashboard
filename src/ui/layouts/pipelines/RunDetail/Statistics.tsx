@@ -1,10 +1,13 @@
 import React from 'react';
-import { CommandBox } from '../../common/CommandBox';
-import { BASE_COMMAND } from './constants';
+import { LayoutFlow } from '../../../components';
 
-export const Statistics: React.FC<{ runId: TId; pipelineId: TId }> = ({
+import styles from './components.module.scss';
+
+export const Statistics: React.FC<{ runId: string; pipelineId: string }> = ({
   runId,
   pipelineId,
 }) => (
-  <CommandBox command={`${BASE_COMMAND} statistics ${pipelineId}:${runId}`} />
+  <div className={styles.container}>
+    <LayoutFlow />
+  </div>
 );

@@ -109,7 +109,6 @@ export const RouteConfig: React.FC = () => {
               component={route.Component}
             />
           ))}
-
           <Route exact={true} component={NotFound} />
         </Switch>
       </Router>

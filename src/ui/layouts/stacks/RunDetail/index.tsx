@@ -1,21 +1,13 @@
 import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-// import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
-import { DAG } from './DAG';
 import { useService } from './useService';
+import { DAG } from '../../../components/dag';
 
-// import styles from './index.module.scss';
-import { Box, Paragraph } from '../../../components';
-// import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
-// import { RunTime } from '../RunTime';
+import { Box,Paragraph } from '../../../components';
 import { RunStatus } from './components';
-// import { Results } from './Results';
-// import { Statistics } from './Statistics';
-// import { Tensorboard } from './Tensorboard';
-// import { formatMoney } from '../../../../utils/money';
 import { formatDateToDisplay } from '../../../../utils';
 
 const getTabPages = ({
