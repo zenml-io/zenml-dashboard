@@ -135,7 +135,7 @@ zenml up
 
 ![img](./assets/zenml-up.gif)
 
-Which creates a local daemon that serves the files in a FastAPI server!
+Which creates a local daemon that serves the files in a [FastAPI](https://github.com/tiangolo/fastapi) server!
 
 ## 🪐 Deploying the dashboard
 
