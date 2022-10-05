@@ -53,7 +53,7 @@ export const RunsTable: React.FC<{
   };
 
   const headerCols = useHeaderCols({
-    runs: pipelineRuns ? pipelineRuns : sortedRuns,
+    runs: sortedRuns,
     setRuns: setSortedRuns,
     activeSorting,
     setActiveSorting,
@@ -68,7 +68,7 @@ export const RunsTable: React.FC<{
       loading={fetching}
       showHeader={true}
       headerCols={headerCols}
-      tableRows={pipelineRuns ? pipelineRuns : sortedRuns}
+      tableRows={sortedRuns}
       emptyState={{ text: emptyStateText }}
       trOnClick={openDetailPage}
     />
