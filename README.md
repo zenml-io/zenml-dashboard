@@ -45,6 +45,36 @@
   </p>
 </div>
 
+<!-- TABLE OF CONTENTS -->
+<details>
+  <summary>🏁 Table of Contents</summary>
+  <ol>
+    <li>
+      <a href="#-getting-started">⚡ Getting Started</a>
+      <ul>
+        <li><a href="#-installation">🔋 Installation</a></li>
+        <li><a href="#-relationship-with-zenml">👨‍👦 Relationship with ZenML</a></li>
+        <li><a href="#-deploying-the-dashboard">🪐 Deploying the dashboard</a></li>
+      </ul>
+    </li>
+    <li>
+    <a href="#-user-experience">🏄 User Experience</a>
+    <ul>
+        <li><a href="#-log-in">🔐 Log In</a></li>
+        <li><a href="#-homepage">🏠 Home Page</a></li>
+        <li><a href="#-pipeline-stacks-and-components">🗂 Pipeline, Stacks and Components</a></li>
+      </ul>
+    </li>
+    <li><a href="#-contributing-and-community">🙌 Contributing</a></li>
+    <li><a href="#-meet-the-team">👩‍👩‍👧‍👦 Meet the Team</a></li>
+    <li><a href="#-getting-help">🆘 Getting Help</a></li>
+    <li><a href="#-license">📜 License</a></li>
+  </ol>
+</details>
+
+<br />
+
+
 # ⚡ Getting Started
 
 ## 🔋 Installation
@@ -121,16 +151,16 @@ However, the option to deploy standalone is also available. `yarn build` creates
 
 Just don't forget to the set the `REACT_APP_BASE_API_URL` environment variable!
 
-# :bowtie: User Experience
+# 🏄 User Experience
 
-## Log In
+## 🔐 Log In
 
 ![img](./assets/screenshot-login.png)
 
-## Home Page
+## 🏠 Home Page
 ![img](./assets/screenshot-home.png)
 
-## Pipelines, Stacks and Components
+## 🗂 Pipelines, Stacks and Components
 ![img](./assets/dashboard.gif)
 
 
