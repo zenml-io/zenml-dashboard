@@ -9,11 +9,11 @@ import { Configuration } from './Configuration';
 import { DAG } from './DAG';
 import { useService } from './useService';
 
-import styles from './index.module.scss';
-import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
-import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
-import { RunTime } from '../RunTime';
-import { KeyValue, RunStatus } from './components';
+// import styles from './index.module.scss';
+import { Box, Paragraph } from '../../../components';
+// import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
+// import { RunTime } from '../RunTime';
+import { RunStatus } from './components';
 
 // const getTabPages = ({
 //   stackId,

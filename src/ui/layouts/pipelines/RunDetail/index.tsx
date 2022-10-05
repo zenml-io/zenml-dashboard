@@ -7,14 +7,14 @@ import { useService } from './useService';
 // import { Configuration } from '../PipelineDetail/Configuration';
 import { Configuration } from '../RunDetail/Configuration';
 import { DAG } from '../RunDetail/DAG';
-import styles from './index.module.scss';
-import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
-import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
-import { RunTime } from '../RunTime';
-import { KeyValue, RunStatus } from './components';
+// import styles from './index.module.scss';
+import { Box, Paragraph } from '../../../components';
+// import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
+// import { RunTime } from '../RunTime';
+import { RunStatus } from './components';
 
-import { formatMoney } from '../../../../utils/money';
-import { formatDateToDisplay, truncate } from '../../../../utils';
+// import { formatMoney } from '../../../../utils/money';
+import { formatDateToDisplay } from '../../../../utils';
 
 const getTabPages = ({
   pipelineId,
@@ -87,7 +87,7 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   // const { runId, pipelineId, run, billing } = useService();
-  const { runId, pipelineId, run, billing } = useService();
+  const { runId, pipelineId, run } = useService();
   const tabPages = getTabPages({
     runId,
     pipelineId,
