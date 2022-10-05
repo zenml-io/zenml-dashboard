@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -15,7 +15,7 @@ import { useService } from './useService';
 
 export const Configuration: React.FC<{ runId: TId }> = ({ runId }) => {
   const { downloadYamlFile, pipelineConfig } = useService({ runId });
-
+  const [hover, setHover] = useState(false);
   const dispatch = useDispatch();
   const handleCopy = () => {
     navigator.clipboard.writeText(pipelineConfig);
@@ -42,8 +42,22 @@ export const Configuration: React.FC<{ runId: TId }> = ({ runId }) => {
           >
             Download
           </GhostButton>
-          <GhostButton onClick={handleCopy}>
+          {/* <GhostButton onClick={handleCopy}>
             <icons.copy color={iconColors.black} size={iconSizes.sm} />
+          </GhostButton> */}
+          <GhostButton
+            onMouseEnter={() => {
+              setHover(true);
+            }}
+            onMouseLeave={() => {
+              setHover(false);
+            }}
+            onClick={handleCopy}
+          >
+            <icons.copy
+              color={hover ? iconColors.white : iconColors.black}
+              size={iconSizes.sm}
+            />
           </GhostButton>
         </Box>
       </FlexBox>
