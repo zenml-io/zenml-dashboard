@@ -61,11 +61,11 @@
     <a href="#-user-experience">🏄 User Experience</a>
     <ul>
         <li><a href="#-log-in">🔐 Log In</a></li>
-        <li><a href="#-homepage">🏠 Home Page</a></li>
-        <li><a href="#-pipeline-stacks-and-components">🗂 Pipeline, Stacks and Components</a></li>
+        <li><a href="#-home-page">🏠 Home Page</a></li>
+        <li><a href="#-pipelines-stacks-and-components">🗂 Pipelines, Stacks, and Components</a></li>
       </ul>
     </li>
-    <li><a href="#-contributing-and-community">🙌 Contributing</a></li>
+    <li><a href="#-contributing">🙌 Contributing</a></li>
     <li><a href="#-meet-the-team">👩‍👩‍👧‍👦 Meet the Team</a></li>
     <li><a href="#-getting-help">🆘 Getting Help</a></li>
     <li><a href="#-license">📜 License</a></li>
