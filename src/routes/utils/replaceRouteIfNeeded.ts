@@ -38,9 +38,9 @@ export const replaceRouteIfNeeded = ({
   routeFromSearchParam: null | string;
 }): void => {
   clearTimeout(timeout);
-  
+
   const routeToReplace = () => {
-    const logRoute = user?.email === '' ? `/user-email` : '/'
+    const logRoute = user?.emailOptedIn === null ? `/user-email` : '/';
     return isAuthenticated ? logRoute : loggedOutRoute;
   };
   const replaceToLoggedInRoute =
@@ -49,8 +49,15 @@ export const replaceRouteIfNeeded = ({
   const replaceToLoggedOutRoute =
     !isAuthenticated && isAuthenticatedOrMissingRoute(currentLocation);
 
-  const shouldReplaceRoute = replaceToLoggedInRoute || replaceToLoggedOutRoute;
-
+  const replaceToLoggedInRouteForEmailOptedIn =
+    isAuthenticated &&
+    user?.emailOptedIn === null &&
+    currentLocation?.path !== `/user-email`;
+  const shouldReplaceRoute =
+    replaceToLoggedInRoute ||
+    replaceToLoggedOutRoute ||
+    replaceToLoggedInRouteForEmailOptedIn;
+  // debugger;
   if (shouldReplaceRoute) {
     timeout = setTimeout(() => {
       let route = routeToReplace();
@@ -61,7 +68,7 @@ export const replaceRouteIfNeeded = ({
       } else if (replaceToLoggedInRoute && routeFromSearchParam) {
         route = routeFromSearchParam;
       }
-
+      debugger;
       replaceRoute(route);
     }, 0);
   }
