@@ -39,6 +39,8 @@ import { ReactComponent as StackComponent } from './assets/StackComponent.svg';
 import { ReactComponent as FunnelFill } from './assets/FunnelFill.svg';
 import { ReactComponent as Delete } from './assets/Delete.svg';
 import { ReactComponent as SimplePlus } from './assets/SimplePlus.svg';
+import { ReactComponent as Inprogress } from './assets/InProgress.svg';
+import { ReactComponent as Cached } from './assets/Cached.svg';
 
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
@@ -111,6 +113,8 @@ const icons = {
   table: createIcon({ Component: Table }),
   check: createIcon({ Component: Check, useStroke: true }),
   close: createIcon({ Component: Close, useStroke: true }),
+  cached: createIcon({ Component: Cached, useStroke: true }),
+  inProgress: createIcon({ Component: Inprogress, useStroke: true }),
   chevronLeft: createIcon({ Component: ChevronLeft }),
   chevronRight: createIcon({
     Component: ChevronLeft,
@@ -130,7 +134,7 @@ const icons = {
   singleUser: createIcon({ Component: SingleUser }),
   multiUser: createIcon({ Component: MultiUser }),
   docs: createIcon({ Component: Docs, useStroke: true }),
-  example: createIcon({ Component: Example, useStroke: true }),
+  example: createIcon({ Component: Example, useStroke: true, }),
   pipeline: createIcon({ Component: Pipeline, useStroke: true }),
   stack: createIcon({ Component: Stack, useStroke: true }),
   stackComponent: createIcon({ Component: StackComponent, useStroke: true }),

@@ -3,6 +3,7 @@ export type Sorting =
   | 'pipelineRunType'
   | 'status'
   | 'datasourceCommit'
-  | 'createdAt';
+  | 'createdAt'
+  | 'created';
 
 export type SortingDirection = 'ASC' | 'DESC';

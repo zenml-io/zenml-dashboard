@@ -23,7 +23,7 @@ import { iconColors, DEFAULT_PROJECT_NAME } from '../../constants';
 import { sessionSelectors } from '../../redux/selectors/session';
 import { usePushRoute, useSelector } from '../hooks';
 import axios from 'axios' 
- 
+
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
 const GreyBoxWithIcon: React.FC<{

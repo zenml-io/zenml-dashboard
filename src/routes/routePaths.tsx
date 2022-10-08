@@ -1,6 +1,8 @@
 export const routePaths = {
   login: '/login',
   signup: '/signup',
+  // userEmail: (userId: TId): string => `/user-email/${userId}`,
+  userEmail: `/user-email`,
   forgot: '/forgot-password',
   home: '/',
   pipelines: {
@@ -37,10 +39,10 @@ export const routePaths = {
     component: {
       base: (id: TId, pipelineId: TId): string =>
         `/components/${pipelineId}/runs/${id}`,
-      statistics: (type: string, id: TId, pipelineId: TId): string =>
-        `/components/${type}/runs/${id}/dag`,
-      results: (id: TId, pipelineId: TId): string =>
-        `/components/${pipelineId}/runs/${id}/results`,
+      statistics: (type: string, stackComponentId: TId, id: TId): string =>
+        `/components/${type}/${stackComponentId}/runs/${id}/dag`,
+      results: (type: string, stackComponentId: TId, id: TId): string =>
+        `/components/${type}/${stackComponentId}/runs/${id}/results`,
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/components/${pipelineId}/runs/${id}/tensorboard`,
     },

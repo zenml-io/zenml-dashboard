@@ -1,0 +1,42 @@
+@import '../../../../../../globalStyles.scss';
+
+$bgColor: rgba(201, 203, 208, 0.2);
+
+.menuItem {
+  display: block;
+  text-decoration: none;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+.menuItem,
+.menuItem svg path,
+.menuItem p {
+  transition: 0.2s ease-in all;
+  color: #fff;
+}
+
+.activeMenuItem,
+.menuItem:hover {
+  text-decoration: none;
+  & p {
+    color: #E8A562;
+  }
+  & svg path {
+    fill: #E8A562 !important;
+  }
+}
+
+.menuItemSideBox{
+  width: 6px;
+  height: 30px;
+  background: #E8A562 !important;
+  border-top-right-radius: 10.25px;
+  border-bottom-right-radius: 10.25px;
+}
+
+.menuItemSideBoxUn {
+  width: 6px;
+  height: 30px;
+  background: transparent !important;
+}

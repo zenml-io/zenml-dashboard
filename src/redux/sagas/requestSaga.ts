@@ -32,6 +32,16 @@ function* logoutAndNotifyUserThatSessionExpired(): any {
   );
 }
 
+function* unprocessablEntity(): any {
+  // yield put(sessionActions.logout());
+  yield put(
+    showToasterAction({
+      description: 'Something went wrong',
+      type: toasterTypes.failure,
+    }),
+  );
+}
+
 function* handleUnauthenticated(action: any): any {
   yield put({
     type: action.payload.failureActionType,
@@ -86,6 +96,8 @@ export function* handleRequestSaga(action: any) {
   } catch (e) {
     if (isUnauthenticatedError(e, action)) {
       yield* handleUnauthenticated(action);
+    } else if (e.response.status === httpStatus.unprocessablEntity) {
+      yield* unprocessablEntity();
     } else {
       let errorText = 'Something went wrong!';
       if (e.message.indexOf('Network Error') === -1) {

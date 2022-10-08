@@ -8,6 +8,7 @@ import { CreatePipelineButton } from './CreatePipelineButton';
 import { DocumentationLink } from './DocumentationLink';
 
 import styles from './index.module.scss';
+import { constantCommandsToCreateComponent } from '../../../../constants/constantCommands';
 
 const DefaultHeader: React.FC<{
   breadcrumbs: TBreadcrumb[];
@@ -52,7 +53,9 @@ const HeaderWithButtons: React.FC<{
       </Box>
       <CreatePipelineButton />
       <CompareRunsButton />
-      <DocumentationLink />
+      <DocumentationLink
+        text={constantCommandsToCreateComponent.documentation}
+      />
     </FlexBox>
   </FlexBox>
 );

@@ -10,7 +10,8 @@ import {
   truncate,
   getInitialsFromEmail,
 } from '../../../../../utils';
-
+import { useHistory } from '../../../../hooks';
+import { routePaths } from '../../../../../routes/routePaths';
 import {
   FlexBox,
   Paragraph,
@@ -20,12 +21,13 @@ import {
   ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
-// import { RunStatus } from '../RunStatus';
+import { RunStatus } from '../RunStatus';
 // import { RunTime } from '../../RunTime';
 // import { RunUser } from '../RunUser';
 import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
+import ReactTooltip from 'react-tooltip';
 // import { PipelineName } from '../PipelineName';
 
 export const useHeaderCols = ({
@@ -58,6 +60,7 @@ export const useHeaderCols = ({
     activeSortingDirection,
     runs,
   });
+  const history = useHistory();
   return [
     {
       width: '2%',
@@ -81,7 +84,24 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph size="small">{truncate(run.id, ID_MAX_LENGTH)}</Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={run.id}>
+            <Paragraph size="small">
+              {truncate(run.id, ID_MAX_LENGTH)}
+            </Paragraph>
+          </div>
+          <ReactTooltip
+            id={run.id}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {run.id}
+              {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
       ),
     },
     {
@@ -92,12 +112,23 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph
-          size="small"
-          style={{ color: '#22BBDD', textDecoration: 'underline' }}
-        >
-          {run.name}
-        </Paragraph>
+        <div style={{ alignItems: 'center' }}>
+          <div data-tip data-for={run.name}>
+            <Paragraph size="small">{run.name}</Paragraph>
+            {/* <Paragraph size="small">{pipeline.name}</Paragraph> */}
+          </div>
+          <ReactTooltip
+            id={run.name}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {run.name}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </div>
       ),
     },
     {
@@ -108,46 +139,58 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph
-          size="small"
-          style={{ color: '#22BBDD', textDecoration: 'underline' }}
-        >
-          {run.pipeline.name}
-        </Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={run.pipeline?.name}>
+            <Paragraph
+              size="small"
+              style={{
+                color: '#22BBDD',
+                textDecoration: 'underline',
+                zIndex: 100,
+              }}
+              onClick={(event) => {
+                event.stopPropagation();
+                history.push(
+                  routePaths.pipeline.configuration(run.pipeline?.id),
+                );
+              }}
+            >
+              {run.pipeline?.name}
+            </Paragraph>
+            {/* <Paragraph size="small">{pipeline.name}</Paragraph> */}
+          </div>
+          <ReactTooltip
+            id={run.pipeline?.name}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {run.pipeline?.name}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
       ),
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
-          STATUS
-        </Paragraph>
+        <SortingHeader
+          sorting="status"
+          sortMethod={sortMethod('status', {
+            asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
+            desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="grey">
+            STATUS
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '10%',
-      renderRow: (run: TRun) => (
-        <Paragraph
-          style={{
-            justifyContent: 'center',
-            backgroundColor:
-              run.status === 'Finished'
-                ? '#431D93'
-                : run.status === 'In Progress'
-                ? '#ffff00'
-                : '#FF5C93',
-            borderRadius: '50%',
-            height: '19px',
-            width: '19px',
-            textAlign: 'center',
-          }}
-        >
-          {run.status === 'Finished' ? (
-            <icons.check color={iconColors.white} size={iconSizes.xs} />
-          ) : run.status === 'In Progress' ? (
-            <icons.alertTriangle color={iconColors.white} size={iconSizes.xs} />
-          ) : (
-            <icons.close color={iconColors.white} size={iconSizes.xs} />
-          )}
-        </Paragraph>
-      ),
+      renderRow: (run: TRun) => <RunStatus run={run} />,
     },
 
     {
@@ -158,7 +201,36 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.stack.name}</Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={run.stack?.name}>
+            <Paragraph
+              size="small"
+              style={{
+                color: '#22BBDD',
+                textDecoration: 'underline',
+                cursor: 'pointer',
+              }}
+              onClick={(event) => {
+                event.stopPropagation();
+                history.push(routePaths.stack.configuration(run.stack?.id));
+              }}
+            >
+              {run.stack?.name}
+            </Paragraph>
+            {/* <Paragraph size="small">{pipeline.name}</Paragraph> */}
+          </div>
+          <ReactTooltip
+            id={run.stack?.name}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {run.stack?.name}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
       ),
     },
 
@@ -175,14 +247,32 @@ export const useHeaderCols = ({
         );
         return (
           <FlexBox alignItems="center">
-            <Box paddingRight="sm">
-              <ColoredCircle color="secondary" size="sm">
-                {initials}
-              </ColoredCircle>
-            </Box>
-            <Paragraph size="small">
-              {run.user.full_name ? run.user.full_name : run.user.name}
-            </Paragraph>
+            <div
+              data-tip
+              data-for={run.user.full_name ? run.user.full_name : run.user.name}
+            >
+              <FlexBox alignItems="center">
+                <Box paddingRight="sm">
+                  <ColoredCircle color="secondary" size="sm">
+                    {initials}
+                  </ColoredCircle>
+                </Box>
+                <Paragraph size="small">
+                  {run.user.full_name ? run.user.full_name : run.user.name}
+                </Paragraph>
+              </FlexBox>
+            </div>
+            <ReactTooltip
+              id={run.user.full_name ? run.user.full_name : run.user.name}
+              place="top"
+              effect="solid"
+              // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+            >
+              <Paragraph color="white">
+                {run.user.full_name ? run.user.full_name : run.user.name}
+                {/* {translate(`tooltips.${invoice.status}`)} */}
+              </Paragraph>
+            </ReactTooltip>
           </FlexBox>
         );
       },
@@ -193,17 +283,13 @@ export const useHeaderCols = ({
           sorting="createdAt"
           sortMethod={sortMethod('createdAt', {
             asc: (runs: TRun[]) =>
-              _.orderBy(
-                runs,
-                (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
-                ['asc'],
-              ),
+              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+                'asc',
+              ]),
             desc: (runs: TRun[]) =>
-              _.orderBy(
-                runs,
-                (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
-                ['desc'],
-              ),
+              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+                'desc',
+              ]),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -216,12 +302,27 @@ export const useHeaderCols = ({
       width: '10%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <Box paddingRight="sm">
-            <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box>
-          <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(run.created)}
-          </Paragraph>
+          <div data-tip data-for={formatDateToDisplay(run.created)}>
+            <FlexBox alignItems="center">
+              <Box paddingRight="sm">
+                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
+              </Box>
+              <Paragraph color="grey" size="tiny">
+                {formatDateToDisplay(run.created)}
+              </Paragraph>
+            </FlexBox>
+          </div>
+          <ReactTooltip
+            id={formatDateToDisplay(run.created)}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {run.created}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
         </FlexBox>
       ),
     },

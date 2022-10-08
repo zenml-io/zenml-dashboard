@@ -1,4 +1,5 @@
 import React from 'react';
+import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   formatDateToDisplay,
@@ -55,9 +56,24 @@ export const getHeaderCols = ({
       ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
-        <Paragraph size="small">
-          {truncate(pipeline.id, ID_MAX_LENGTH)}
-        </Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={pipeline.id}>
+            <Paragraph size="small">
+              {truncate(pipeline.id, ID_MAX_LENGTH)}
+            </Paragraph>
+          </div>
+          <ReactTooltip
+            id={pipeline.id}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {pipeline.id}
+              {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
       ),
     },
     {
@@ -68,7 +84,23 @@ export const getHeaderCols = ({
       ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
-        <Paragraph size="small">{pipeline.name}</Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={pipeline.name}>
+            <Paragraph size="small">{pipeline.name}</Paragraph>
+          </div>
+          <ReactTooltip
+            id={pipeline.name}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {pipeline.name}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
+        //
       ),
     },
     {
@@ -96,16 +128,44 @@ export const getHeaderCols = ({
         );
         return (
           <FlexBox alignItems="center">
-            <Box paddingRight="sm">
-              <ColoredCircle color="secondary" size="sm">
-                {initials}
-              </ColoredCircle>
-            </Box>
-            <Paragraph size="small">
-              {pipeline.user.full_name
-                ? pipeline.user.full_name
-                : pipeline.user.name}
-            </Paragraph>
+            <div
+              data-tip
+              data-for={
+                pipeline.user.full_name
+                  ? pipeline.user.full_name
+                  : pipeline.user.name
+              }
+            >
+              <FlexBox alignItems="center">
+                <Box paddingRight="sm">
+                  <ColoredCircle color="secondary" size="sm">
+                    {initials}
+                  </ColoredCircle>
+                </Box>
+                <Paragraph size="small">
+                  {pipeline.user.full_name
+                    ? pipeline.user.full_name
+                    : pipeline.user.name}
+                </Paragraph>
+              </FlexBox>
+            </div>
+            <ReactTooltip
+              id={
+                pipeline.user.full_name
+                  ? pipeline.user.full_name
+                  : pipeline.user.name
+              }
+              place="top"
+              effect="solid"
+              // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+            >
+              <Paragraph color="white">
+                {pipeline.user.full_name
+                  ? pipeline.user.full_name
+                  : pipeline.user.name}
+                {/* {translate(`tooltips.${invoice.status}`)} */}
+              </Paragraph>
+            </ReactTooltip>
           </FlexBox>
         );
       },
@@ -119,12 +179,27 @@ export const getHeaderCols = ({
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
         <FlexBox alignItems="center">
-          <Box paddingRight="sm">
-            <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box>
-          <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(pipeline.created)}
-          </Paragraph>
+          <div data-tip data-for={formatDateToDisplay(pipeline.created)}>
+            <FlexBox alignItems="center">
+              <Box paddingRight="sm">
+                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
+              </Box>
+              <Paragraph color="grey" size="tiny">
+                {formatDateToDisplay(pipeline.created)}
+              </Paragraph>
+            </FlexBox>
+          </div>
+          <ReactTooltip
+            id={formatDateToDisplay(pipeline.created)}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {pipeline.created}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
         </FlexBox>
       ),
     },

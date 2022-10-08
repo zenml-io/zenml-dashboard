@@ -1,7 +1,8 @@
 import { RunDetailRouteParams } from '.';
+import { runsActions } from '../../../../redux/actions';
 // import { runsActions, billingActions } from '../../../../redux/actions';
 import { billingSelectors, runSelectors } from '../../../../redux/selectors';
-import { useParams, useSelector } from '../../../hooks';
+import { useParams, useRequestOnMount, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
   runId: TId;
@@ -19,6 +20,11 @@ export const useService = (): ServiceInterface => {
   //     runId: id,
   //   }),
   // );
+  useRequestOnMount(() =>
+    runsActions.graphForRun({
+      runId: runId,
+    }),
+  );
 
   // useRequestOnMount(() =>
   //   billingActions.billingForRunId({
@@ -27,7 +33,8 @@ export const useService = (): ServiceInterface => {
   //   }),
   // );
 
-  const run = useSelector(runSelectors.runForId(id));
+  const run: TRun = useSelector(runSelectors.runForId(runId));
+
   const billing = useSelector(billingSelectors.billingForRunId(id));
 
   return { runId: runId, run, billing };

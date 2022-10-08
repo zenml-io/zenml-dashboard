@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Box, Paragraph, icons } from '../../../components';
 import { iconColors, iconSizes } from '../../../../constants';
@@ -9,7 +9,37 @@ import { Configuration } from './Configuration';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
+import { useLocationPath } from '../../../hooks';
+import FilterComponent, {
+  getInitialFilterStateForRuns,
+} from '../../../components/Filters';
 
+const FilterWrapperForRun = () => {
+  const locationPath = useLocationPath();
+  // debugger;
+
+  // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
+  const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
+  function getFilter(values: any) {
+    const filterValuesMap = values.map((v: any) => {
+      return {
+        column: v.column.selectedValue,
+        type: v.contains.selectedValue,
+        value: v.filterValue,
+      };
+    });
+    return filterValuesMap;
+  }
+  return (
+    <FilterComponent
+      getInitials={getInitialFilterStateForRuns}
+      filters={filters}
+      setFilter={setFilter}
+    >
+      <Runs filter={getFilter(filters)} stackId={locationPath.split('/')[2]} />
+    </FilterComponent>
+  );
+};
 const getTabPages = (stackId: TId): TabPage[] => {
   return [
     {
@@ -19,7 +49,7 @@ const getTabPages = (stackId: TId): TabPage[] => {
     },
     {
       text: translate('tabs.runs.text'),
-      Component: () => <Runs stackId={stackId} />,
+      Component: FilterWrapperForRun,
       path: routePaths.stack.runs(stackId),
     },
   ];
@@ -52,7 +82,7 @@ export const StackDetail: React.FC = () => {
 
   const boxStyle = {
     backgroundColor: '#E9EAEC',
-    padding: '30px 0',
+    padding: '10px 0',
     borderRadius: '8px',
     marginTop: '20px',
     display: 'flex',
@@ -64,23 +94,19 @@ export const StackDetail: React.FC = () => {
     <BasePage
       headerWithButtons={false}
       tabPages={tabPages}
-      tabBasePath={routePaths.stack.base(stack.id)} 
+      tabBasePath={routePaths.stack.base(stack.id)}
       breadcrumbs={breadcrumbs}
     >
       <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>ID</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {stack.id}
           </Paragraph>
         </Box>
         <Box>
           <Paragraph style={headStyle}>NAME</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {stack.name}
           </Paragraph>
         </Box>
@@ -106,17 +132,13 @@ export const StackDetail: React.FC = () => {
         </Box>
         <Box>
           <Paragraph style={headStyle}>OWNER</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
-            {stack.user.name}
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
+            {stack?.user?.name}
           </Paragraph>
         </Box>
         <Box>
           <Paragraph style={headStyle}>CREATED</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {formatDateToDisplay(stack.created)}
           </Paragraph>
         </Box>

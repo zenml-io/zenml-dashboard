@@ -20,10 +20,11 @@ import {
   ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
-// import { RunStatus } from '../RunStatus';
+import { RunStatus } from '../RunStatus';
 // import { RunTime } from '../../RunTime';
 // import { RunUser } from '../RunUser';
 import { SortingHeader } from '../SortingHeader';
+// import { translate } from '../translate';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
 // import { PipelineName } from '../PipelineName';
@@ -119,36 +120,22 @@ export const useHeaderCols = ({
 
     {
       render: () => (
-        <Paragraph size="small" color="black">
-          STATUS
-        </Paragraph>
+        <SortingHeader
+          sorting="status"
+          sortMethod={sortMethod('status', {
+            asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
+            desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="grey">
+            STATUS
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '10%',
-      renderRow: (run: TRun) => (
-        <Paragraph
-          style={{
-            justifyContent: 'center',
-            backgroundColor:
-              run.status === 'Finished'
-                ? '#431D93'
-                : run.status === 'In Progress'
-                ? '#ffff00'
-                : '#FF5C93',
-            borderRadius: '50%',
-            height: '19px',
-            width: '19px',
-            textAlign: 'center',
-          }}
-        >
-          {run.status === 'Finished' ? (
-            <icons.check color={iconColors.white} size={iconSizes.xs} />
-          ) : run.status === 'In Progress' ? (
-            <icons.alertTriangle color={iconColors.white} size={iconSizes.xs} />
-          ) : (
-            <icons.close color={iconColors.white} size={iconSizes.xs} />
-          )}
-        </Paragraph>
-      ),
+      renderRow: (run: TRun) => <RunStatus run={run} />,
     },
 
     {

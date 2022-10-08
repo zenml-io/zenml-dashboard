@@ -2,7 +2,7 @@ import {
   RouteInterface,
   RouteVisibilityAuthentication,
 } from '../RouteVisibility';
-import { loggedOutRoute, loggedInRoute } from '../../constants';
+import { loggedOutRoute } from '../../constants';
 
 const isUnauthenticatedOrMissingRoute = (
   currentLocation: RouteInterface | undefined,
@@ -25,19 +25,23 @@ const isAuthenticatedOrMissingRoute = (
 let timeout = null as any;
 
 export const replaceRouteIfNeeded = ({
+  user,
   isAuthenticated,
   currentLocation,
   replaceRoute,
   routeFromSearchParam,
 }: {
+  user: any;
   isAuthenticated: any;
   currentLocation: RouteInterface | undefined;
   replaceRoute: (arg1: string) => void;
   routeFromSearchParam: null | string;
 }): void => {
   clearTimeout(timeout);
+  
   const routeToReplace = () => {
-    return isAuthenticated ? loggedInRoute : loggedOutRoute;
+    const logRoute = user?.email === '' ? `/user-email` : '/'
+    return isAuthenticated ? logRoute : loggedOutRoute;
   };
   const replaceToLoggedInRoute =
     isAuthenticated && isUnauthenticatedOrMissingRoute(currentLocation);
@@ -52,7 +56,8 @@ export const replaceRouteIfNeeded = ({
       let route = routeToReplace();
 
       if (replaceToLoggedOutRoute && currentLocation) {
-        route = `${route}?route=${currentLocation.path}`;
+        // route = `${route}?route=${currentLocation.path}`;
+        route = `${route}?route=/`;
       } else if (replaceToLoggedInRoute && routeFromSearchParam) {
         route = routeFromSearchParam;
       }

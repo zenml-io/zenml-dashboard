@@ -47,6 +47,20 @@ export const useService = (): ServiceInterface => {
     );
   }, [locationPath]);
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      //assign interval to a variable to clear it.
+      dispatch(
+        stackComponentsActions.getMy({
+          // id: currentWorkspace.id,
+          type: locationPath.split('/')[2],
+        }),
+      );
+    }, 10000);
+
+    return () => clearInterval(intervalId);
+  });
+
   const setFetching = (fetching: boolean) => {
     dispatch(stackPagesActions.setFetching({ fetching }));
   };

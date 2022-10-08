@@ -7,6 +7,9 @@ import { Table } from '../../common/Table';
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
 
+interface Props {
+  filter: any;
+}
 export const RunsTable: React.FC<{
   runIds: TId[];
   pagination?: boolean;
@@ -14,6 +17,7 @@ export const RunsTable: React.FC<{
   fetching: boolean;
   pipelineRuns?: any;
   fromAllruns?: boolean;
+  filter?: any;
 }> = ({
   runIds,
   pagination = true,
@@ -21,6 +25,7 @@ export const RunsTable: React.FC<{
   fetching,
   pipelineRuns,
   fromAllruns,
+  filter,
 }) => {
   const history = useHistory();
 
@@ -32,15 +37,15 @@ export const RunsTable: React.FC<{
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService({ pipelineRuns, runIds });
+  } = useService({ pipelineRuns, runIds, filter });
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
 
     fromAllruns
-      ? history.push(routePaths.run.run.statistics(run.id))
+      ? history.push(routePaths.run.run.results(run.id))
       : history.push(
-          routePaths.run.pipeline.statistics(
+          routePaths.run.pipeline.results(
             run.id,
             run.pipeline_id ? run.pipeline_id : run.pipelineId,
           ),

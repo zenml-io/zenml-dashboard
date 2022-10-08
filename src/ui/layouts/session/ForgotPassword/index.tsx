@@ -8,7 +8,7 @@ import {
   Col,
   FlexBox,
   Box,
-  MaiotLogo,
+  ZenMLLogo,
   SecondaryLink,
   Image,
   EaseInBox,
@@ -32,7 +32,7 @@ const ForgotPassword: React.FC = () => {
             <Box style={{ overflowY: 'auto', maxHeight: '100vh' }}>
               <Box margin="xxl">
                 <Link to={routePaths.signup}>
-                  <MaiotLogo />
+                  <ZenMLLogo />
                 </Link>
               </Box>
               <FlexBox.Column

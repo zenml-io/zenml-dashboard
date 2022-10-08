@@ -45,6 +45,7 @@ export const FormTextField = (props: {
   disabled?: boolean;
   type?: string;
   name?: string;
+  style?: any;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <FlexBox alignItems="center" fullWidth>
@@ -55,6 +56,7 @@ export const FormTextField = (props: {
         InputComponent={
           <TextInput
             {...props}
+            style={props.style}
             placeholder={props.placeholder}
             hasError={props.error?.hasError}
             value={props.value}
@@ -80,6 +82,7 @@ export const FormDropdownField = (props: {
   error?: FieldError;
   disabled?: boolean;
   name?: string;
+  style?: any;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <FlexBox alignItems="center" fullWidth>
@@ -90,6 +93,7 @@ export const FormDropdownField = (props: {
         InputComponent={
           <DropdownInput
             {...props}
+            style={props.style}
             placeholder={props.placeholder}
             hasError={props.error?.hasError}
             value={props.value}
@@ -203,7 +207,7 @@ export const FormPasswordField = (
         />
         {props.showPasswordOption && (
           <LinkBox
-            style={{ position: 'absolute', right: '10px', top: '30px' }}
+            style={{ position: 'absolute', right: '10px', top: '36px' }}
             onClick={() => setShowPassword(!showPassword)}
           >
             <icons.eye

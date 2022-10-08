@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -17,17 +17,17 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
   pipelineId,
 }) => {
   const { downloadYamlFile, pipelineConfig } = useService({ pipelineId });
-
-  const dispatch = useDispatch()
+  const [hover, setHover] = useState(false);
+  const dispatch = useDispatch();
   const handleCopy = () => {
-    navigator.clipboard.writeText(pipelineConfig)
+    navigator.clipboard.writeText(pipelineConfig);
     dispatch(
       showToasterAction({
         description: 'Config copied to clipboard',
         type: toasterTypes.success,
       }),
     );
-  }
+  };
 
   return (
     <FlexBox.Column fullWidth>
@@ -38,11 +38,28 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
       >
         <H4 bold>{translate('configuration.title.text')}</H4>
         <Box>
-          <GhostButton style={{ marginRight: '10px' }} onClick={downloadYamlFile}>
+          <GhostButton
+            style={{ marginRight: '10px' }}
+            onClick={downloadYamlFile}
+          >
             {translate('configuration.button.text')}
           </GhostButton>
-          <GhostButton onClick={handleCopy}>
-            <icons.copy color={iconColors.black} size={iconSizes.sm} />     
+          {/* <GhostButton onClick={handleCopy}>
+            <icons.copy color={iconColors.black} size={iconSizes.sm} />
+          </GhostButton> */}
+          <GhostButton
+            onMouseEnter={() => {
+              setHover(true);
+            }}
+            onMouseLeave={() => {
+              setHover(false);
+            }}
+            onClick={handleCopy}
+          >
+            <icons.copy
+              color={hover ? iconColors.white : iconColors.black}
+              size={iconSizes.sm}
+            />
           </GhostButton>
         </Box>
       </FlexBox>
@@ -54,7 +71,7 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
           style={okaidia}
         >
           {pipelineConfig}
-        </SyntaxHighlighter> 
+        </SyntaxHighlighter>
       </FlexBox>
     </FlexBox.Column>
   );

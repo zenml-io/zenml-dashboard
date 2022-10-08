@@ -33,24 +33,24 @@ export const AuthenticatedHeader: React.FC<{
 
   if (!user || !organization) return null;
 
-  const userFullName = user.fullName || DEFAULT_FULL_NAME;
+  const userFullName = user.fullName || user.name || DEFAULT_FULL_NAME;
   const userInitials = getInitials(userFullName);
 
   const logout = () => {
     dispatch(sessionActions.logout());
   };
-
+  // debugger;
   return (
     <FlexBox
       paddingHorizontal="lg"
       alignItems="center"
       justifyContent="space-between"
-      className={styles.header}
+      className={styles.header} 
     >
       <FlexBox alignItems="center">
         {/* <Box className="d-none d-md-block">
           <Link to={routePaths.home}>
-            <MaiotLogo />
+            <ZenMLLogo />
           </Link>
         </Box> */}
         <Box className="d-md-none">

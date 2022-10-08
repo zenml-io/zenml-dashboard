@@ -18,7 +18,7 @@ import { ExplorerPlan } from './ExplorerPlan';
 
 export const Plan: React.FC = () => {
   useRequestOnMount(() => stripeActions.getSubscription({}));
-  useRequestOnMount(() => billingActions.getOrganizationBilling({}));
+  // useRequestOnMount(() => billingActions.getOrganizationBilling({}));
   useRequestOnMount(() => stripeActions.getPaymentMethod({}));
 
   const currentSubscription = useSelector(stripeSelectors.currentSubscription);

@@ -7,6 +7,7 @@ import { Sorting, SortingDirection } from './types';
 import { pipelinePagesActions } from '../../../../redux/actions';
 import { useDispatch, useSelector } from '../../../hooks';
 import { runSelectors } from '../../../../redux/selectors';
+import { getFilteredDataForTable } from '../../../../utils/tableFilters';
 
 interface ServiceInterface {
   sortedRuns: TRun[];
@@ -17,13 +18,24 @@ interface ServiceInterface {
   setActiveSortingDirection: (arg: SortingDirection | null) => void;
   setSelectedRunIds: (ids: TId[]) => void;
 }
+interface filterValue {
+  label: string;
+  type: string;
+  value: string;
+}
 
 export const useService = ({
   pipelineRuns,
   runIds,
+  filter,
 }: {
   pipelineRuns: any;
   runIds: TId[];
+  filter: {
+    column: filterValue;
+    type: filterValue;
+    value: string;
+  }[];
 }): ServiceInterface => {
   const dispatch = useDispatch();
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
@@ -40,12 +52,17 @@ export const useService = ({
     : useSelector(runSelectors.forRunIds(runIds));
 
   useEffect(() => {
-    const orderedRuns = _.sortBy(runs, (run: TRun) =>
+    let orderedRuns = _.sortBy(runs, (run: TRun) =>
       new Date(run.kubeflowStartTime).getTime(),
     ).reverse();
 
+    const isValidFilter = filter?.map((f) => f.value).join('');
+    if (isValidFilter) {
+      orderedRuns = getFilteredDataForTable(orderedRuns, filter);
+    }
+
     setSortedRuns(orderedRuns);
-  }, []);
+  }, [filter]);
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(pipelinePagesActions.setSelectedRunIds({ runIds }));

@@ -5,6 +5,7 @@ import {
 } from './RouteVisibility';
 import Login from '../ui/layouts/session/Login';
 import Signup from '../ui/layouts/session/Signup';
+import UserEmail from '../ui/layouts/session/UserEmail';
 import ForgotPassword from '../ui/layouts/session/ForgotPassword';
 import Home from '../ui/layouts/Home';
 
@@ -38,6 +39,13 @@ const routes = [
     Component: Signup,
     visibility: {
       authentication: RouteVisibilityAuthentication.unauthenticatedOnly,
+    },
+  },
+  {
+    path: routePaths.userEmail,
+    Component: UserEmail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
   },
   {
@@ -247,8 +255,13 @@ const routes = [
     },
     exact: true,
   },
+
   {
-    path: routePaths.run.component.statistics(':type', ':id', ':stackId'),
+    path: routePaths.run.component.statistics(
+      ':type',
+      ':stackComponentId',
+      ':id',
+    ),
     Component: ComponentRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -256,15 +269,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.component.statistics(':type', ':id', ':stackId'),
-    Component: ComponentRunDetail,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-    exact: true,
-  },
-  {
-    path: routePaths.run.component.results(':id', ':stackId'),
+    path: routePaths.run.component.results(':type', ':stackComponentId', ':id'),
     Component: ComponentRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,

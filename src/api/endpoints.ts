@@ -1,6 +1,7 @@
 export const endpoints = {
   login: '/login',
   signup: (username: string): string => `/users/${username}/activate`,
+  userEmail: (userId: string): string => `/users/${userId}/email-opt-in`,
   forgot: '/login/email/resetpassword',
   version: '/version',
   users: {
@@ -50,6 +51,9 @@ export const endpoints = {
     stackComponent: {
       get: (stackComponentId: TId): string =>
         `/runs?component_id=${stackComponentId}&hydrated=true`,
+    },
+    graphById: {
+      get: (runId: TId): string => `/runs/${runId}/graph`,
     },
     all: `/runs?unlisted=false&hydrated=true`,
     get: (pipelineId: TId, runId: TId): string =>

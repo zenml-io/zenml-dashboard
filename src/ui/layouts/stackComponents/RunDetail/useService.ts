@@ -1,24 +1,31 @@
 import { RunDetailRouteParams } from '.';
+import { runsActions } from '../../../../redux/actions';
 // import { runsActions, billingActions } from '../../../../redux/actions';
 import { billingSelectors, runSelectors } from '../../../../redux/selectors';
-import { useParams, useSelector } from '../../../hooks';
+import { useParams, useRequestOnMount, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
   runId: TId;
-  stackId: TId;
+  stackComponentId: TId;
   run: TRun;
   billing: TBilling | Record<any, any>;
+  type: string;
 }
 
 export const useService = (): ServiceInterface => {
-  const { id, stackId } = useParams<RunDetailRouteParams>();
-
+  const { type, stackComponentId, id } = useParams<RunDetailRouteParams>();
+  // debugger;
   // useRequestOnMount(() =>
   //   runsActions.runForId({
   //     pipelineId,
   //     runId: id,
   //   }),
   // );
+  useRequestOnMount(() =>
+    runsActions.graphForRun({
+      runId: id,
+    }),
+  );
 
   // useRequestOnMount(() =>
   //   billingActions.billingForRunId({
@@ -30,5 +37,5 @@ export const useService = (): ServiceInterface => {
   const run = useSelector(runSelectors.runForId(id));
   const billing = useSelector(billingSelectors.billingForRunId(id));
 
-  return { runId: id, stackId, run, billing };
+  return { type, runId: id, stackComponentId, run, billing };
 };

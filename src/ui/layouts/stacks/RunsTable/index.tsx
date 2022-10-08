@@ -6,13 +6,21 @@ import { Table } from '../../common/Table';
 
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
-
+interface filterValue {
+  label: string;
+  type: string;
+  value: string;
+}
+interface Props {
+  filter: any;
+}
 export const RunsTable: React.FC<{
   runIds: TId[];
   pagination?: boolean;
   emptyStateText: string;
   fetching: boolean;
-}> = ({ runIds, pagination = true, emptyStateText, fetching }) => {
+  filter?: any;
+}> = ({ runIds, pagination = true, emptyStateText, fetching, filter }) => {
   const history = useHistory();
 
   const {
@@ -23,11 +31,11 @@ export const RunsTable: React.FC<{
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService({ runIds });
+  } = useService({ runIds, filter });
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
-    history.push(routePaths.run.stack.statistics(run.id, run.pipelineId));
+    history.push(routePaths.run.stack.results(run.id, run.stack.id));
   };
 
   const headerCols = useHeaderCols({

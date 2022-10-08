@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { Box, Paragraph, icons } from '../../../components';
 import { iconColors, iconSizes } from '../../../../constants';
@@ -9,7 +9,43 @@ import { Configuration } from './Configuration';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
+import FilterComponent, {
+  getInitialFilterStateForRuns,
+} from '../../../components/Filters';
+import { useLocationPath } from '../../../hooks';
 
+interface Props {
+  pipelineId: TId;
+}
+const FilterWrapperForRun = () => {
+  const locationPath = useLocationPath();
+  // debugger;
+
+  // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
+  const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
+  function getFilter(values: any) {
+    const filterValuesMap = values.map((v: any) => {
+      return {
+        column: v.column.selectedValue,
+        type: v.contains.selectedValue,
+        value: v.filterValue,
+      };
+    });
+    return filterValuesMap;
+  }
+  return (
+    <FilterComponent
+      getInitials={getInitialFilterStateForRuns}
+      filters={filters}
+      setFilter={setFilter}
+    >
+      <Runs
+        filter={getFilter(filters)}
+        pipelineId={locationPath.split('/')[2]}
+      />
+    </FilterComponent>
+  );
+};
 const getTabPages = (pipelineId: TId): TabPage[] => {
   return [
     {
@@ -19,7 +55,8 @@ const getTabPages = (pipelineId: TId): TabPage[] => {
     },
     {
       text: translate('tabs.runs.text'),
-      Component: () => <Runs pipelineId={pipelineId} />,
+      Component: FilterWrapperForRun,
+
       path: routePaths.pipeline.runs(pipelineId),
     },
   ];
@@ -52,7 +89,7 @@ export const PipelineDetail: React.FC = () => {
 
   const boxStyle = {
     backgroundColor: '#E9EAEC',
-    padding: '30px 0',
+    padding: '10px 0',
     borderRadius: '8px',
     marginTop: '20px',
     display: 'flex',
@@ -70,17 +107,13 @@ export const PipelineDetail: React.FC = () => {
       <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>ID</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {pipeline.id}
           </Paragraph>
         </Box>
         <Box>
           <Paragraph style={headStyle}>NAME</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {pipeline.name}
           </Paragraph>
         </Box>
@@ -106,22 +139,17 @@ export const PipelineDetail: React.FC = () => {
         </Box>
         <Box>
           <Paragraph style={headStyle}>OWNER</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
-            {pipeline.user.name}
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
+            {pipeline?.user?.name}
           </Paragraph>
         </Box>
         <Box>
           <Paragraph style={headStyle}>CREATED AT</Paragraph>
-          <Paragraph
-            style={{ color: '#515151', marginTop: '10px', fontWeight: 'bold' }}
-          >
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {formatDateToDisplay(pipeline.created)}
           </Paragraph>
         </Box>
       </Box>
-
     </BasePage>
   );
 };
