@@ -38,6 +38,7 @@ export const useService = (): ServiceInterface => {
         onFailure: () => setFetching(false),
       }),
     );
+    dispatch(pipelinesActions.getMy());
   });
   useEffect(() => {
     const intervalId = setInterval(() => {
