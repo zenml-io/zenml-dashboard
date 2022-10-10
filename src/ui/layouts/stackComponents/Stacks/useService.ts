@@ -54,6 +54,8 @@ export const useService = (): ServiceInterface => {
         stackComponentsActions.getMy({
           // id: currentWorkspace.id,
           type: locationPath.split('/')[2],
+          onSuccess: () => setFetching(false),
+          onFailure: () => setFetching(false),
         }),
       );
     }, 10000);

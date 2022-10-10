@@ -10,7 +10,7 @@ const userActionTypes = {
   USERS_GET_MY_USER: 'USERS_GET_MY_USER',
   USERS_GET_USER_FOR_ID: 'USERS_GET_USER_FOR_ID',
   UPDATE_USER_EMAIL: 'UPDATE_USER_EMAIL',
-  SAVE_USER_EMAIL: 'SAVE_USER_EMAIL'
+  SAVE_USER_EMAIL: 'SAVE_USER_EMAIL',
 };
 
 const organizationActionTypes = {
@@ -78,7 +78,7 @@ const pipelinePagesActionTypes = {
   PIPELINE_PAGES_SET_FETCHING: 'PIPELINE_PAGES_SET_FETCHING',
 };
 
-const runsPagesActionTypes = {
+const runPagesActionTypes = {
   RUNS_PAGES_SET_FETCHING: 'RUNS_PAGES_SET_FETCHING',
 };
 
@@ -109,7 +109,7 @@ export const actionTypes = {
   ...pipelineActionTypes,
   ...stackActionTypes,
   ...runActionTypes,
-  ...runsPagesActionTypes,
+  ...runPagesActionTypes,
   ...billingActionTypes,
   ...pipelinePagesActionTypes,
   ...stackPagesActionTypes,

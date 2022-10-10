@@ -47,7 +47,12 @@ export const useService = (): ServiceInterface => {
   useEffect(() => {
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
-      dispatch(stacksActions.getMy({}));
+      dispatch(
+        stacksActions.getMy({
+          onSuccess: () => setFetching(false),
+          onFailure: () => setFetching(false),
+        }),
+      );
     }, 10000);
 
     return () => clearInterval(intervalId); //This is important
