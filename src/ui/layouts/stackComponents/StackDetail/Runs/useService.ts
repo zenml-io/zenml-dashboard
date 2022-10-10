@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import {
-  stackPagesSelectors,
   runSelectors,
   runPagesSelectors,
 } from '../../../../../redux/selectors';

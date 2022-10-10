@@ -1,6 +1,5 @@
 import { useSelector } from 'react-redux';
 import {
-  pipelinePagesSelectors,
   runPagesSelectors,
   runSelectors,
 } from '../../../../../redux/selectors';

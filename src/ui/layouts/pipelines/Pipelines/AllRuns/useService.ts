@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 // import { pipelinesActions, runsActions } from '../../../../../redux/actions';
 import {
-  pipelinePagesSelectors,
   runSelectors,
   runPagesSelectors,
 } from '../../../../../redux/selectors';
