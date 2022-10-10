@@ -3,7 +3,10 @@ import React, { useState } from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import { Box, Paragraph, icons } from '../../../components';
 import { iconColors, iconSizes } from '../../../../constants';
-import { camelCaseToParagraph, formatDateToDisplay } from '../../../../utils';
+import {
+  camelCaseToParagraph,
+  formatDateForOverviewBar,
+} from '../../../../utils';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
 import { Runs } from './Runs';
@@ -152,7 +155,7 @@ export const StackDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>Created</Paragraph>
           <Paragraph style={paraStyle}>
-            {formatDateToDisplay(stackComponent.created)}
+            {formatDateForOverviewBar(stackComponent.created)}
           </Paragraph>
         </Box>
       </Box>

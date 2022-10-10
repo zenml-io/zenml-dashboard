@@ -14,7 +14,8 @@ import { Box, Paragraph } from '../../../components';
 import { RunStatus } from './components';
 
 // import { formatMoney } from '../../../../utils/money';
-import { formatDateToDisplay } from '../../../../utils';
+import { formatDateForOverviewBar } from '../../../../utils';
+import { useHistory } from '../../../hooks';
 
 const getTabPages = ({
   pipelineId,
@@ -106,7 +107,7 @@ export const RunDetail: React.FC = () => {
     justifyContent: 'space-around',
   };
   const headStyle = { color: '#828282' };
-  // debugger;
+  const history = useHistory();
   return (
     <BasePage
       tabPages={tabPages}
@@ -143,6 +144,24 @@ export const RunDetail: React.FC = () => {
           </Paragraph>
         </Box>
         <Box>
+          <Paragraph style={headStyle}>STACK NAME</Paragraph>
+          <Paragraph
+            size="small"
+            style={{
+              color: '#22BBDD',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              history.push(routePaths.stack.configuration(run.stack?.id));
+            }}
+          >
+            {run.stack?.name}
+          </Paragraph>
+        </Box>
+        <Box>
           <Paragraph style={headStyle}>AUTHOR</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {run?.user?.name}
@@ -151,7 +170,7 @@ export const RunDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>CREATED AT</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateToDisplay(run.created)}
+            {formatDateForOverviewBar(run.created)}
           </Paragraph>
         </Box>
       </Box>

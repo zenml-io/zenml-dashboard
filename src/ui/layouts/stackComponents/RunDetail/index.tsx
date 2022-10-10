@@ -1,7 +1,10 @@
 import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import { camelCaseToParagraph, formatDateToDisplay } from '../../../../utils';
+import {
+  camelCaseToParagraph,
+  formatDateForOverviewBar,
+} from '../../../../utils';
 import { useLocationPath } from '../../../hooks';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
@@ -179,7 +182,7 @@ export const RunDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>CREATED AT</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateToDisplay(run.created)}
+            {formatDateForOverviewBar(run.created)}
           </Paragraph>
         </Box>
       </Box>

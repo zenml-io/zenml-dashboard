@@ -18,6 +18,11 @@ export const formatDateToSort = (dateString: Date): string => {
   return formatDateToFormat(dateString, `dd.MM.yyyy'T'HH:mm:ss.SSS'Z'`);
 };
 
+export const formatDateForOverviewBar = (dateString: Date): string => {
+  if (typeof dateString === 'undefined' || !dateString) return '';
+  return formatDateToFormat(dateString, `dd.MM.yyyy HH:mm:ss`);
+};
+
 const addLeadingZeros = (number: number) => {
   return number.toString().padStart(2, '0');
 };
