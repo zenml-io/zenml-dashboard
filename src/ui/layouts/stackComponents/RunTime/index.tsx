@@ -6,7 +6,7 @@ import { useService } from './useService';
 export const RunTime: React.FC<{ run: TRun }> = ({ run }) => {
   const { endDate } = useService({ run });
 
-  const dateDifference = formateDateDifference(endDate, run.kubeflowStartTime);
+  const dateDifference = formateDateDifference(endDate, run.created);
 
   return <Paragraph size="small">{dateDifference}</Paragraph>;
 };

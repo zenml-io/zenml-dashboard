@@ -181,23 +181,19 @@ export const useHeaderCols = ({
           sorting="createdAt"
           sortMethod={sortMethod('createdAt', {
             asc: (runs: TRun[]) =>
-              _.orderBy(
-                runs,
-                (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
-                ['asc'],
-              ),
+              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+                'asc',
+              ]),
             desc: (runs: TRun[]) =>
-              _.orderBy(
-                runs,
-                (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
-                ['desc'],
-              ),
+              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+                'desc',
+              ]),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black">
-            CREATED AT
+            CREATED ATaaaa
           </Paragraph>
         </SortingHeader>
       ),

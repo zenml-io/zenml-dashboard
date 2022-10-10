@@ -7,6 +7,7 @@ import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { translate } from '../translate';
 import {
   formatDateToDisplay,
+  formatDateToSort,
   getInitialsFromEmail,
   truncate,
 } from '../../../../../utils';
@@ -225,7 +226,7 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: any) => (
             <FlexBox style={{ alignItems: 'center' }}>
-              <div data-tip data-for={formatDateToDisplay(run.created)}>
+              <div data-tip data-for={formatDateToSort(run.created)}>
                 <FlexBox alignItems="center">
                   <Box paddingRight="sm">
                     <icons.calendar
@@ -239,7 +240,7 @@ export const useHeaderCols = ({
                 </FlexBox>
               </div>
               <ReactTooltip
-                id={formatDateToDisplay(run.created)}
+                id={formatDateToSort(run.created)}
                 place="top"
                 effect="solid"
                 // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
@@ -552,7 +553,7 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
-              <div data-tip data-for={formatDateToDisplay(run.created)}>
+              <div data-tip data-for={formatDateToSort(run.created)}>
                 <FlexBox alignItems="center">
                   <Box paddingRight="sm">
                     <icons.calendar
@@ -566,7 +567,7 @@ export const useHeaderCols = ({
                 </FlexBox>
               </div>
               <ReactTooltip
-                id={formatDateToDisplay(run.created)}
+                id={formatDateToSort(run.created)}
                 place="top"
                 effect="solid"
                 // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}

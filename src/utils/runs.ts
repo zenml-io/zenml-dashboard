@@ -3,8 +3,7 @@ export const getLastThreeRuns = (runs?: TRun[] | null): TRun[] => {
 
   const lastThreeRuns = [...runs].sort(
     (a: TRun, b: TRun) =>
-      new Date(b.kubeflowStartTime).getTime() -
-      new Date(a.kubeflowStartTime).getTime(),
+      new Date(b.created).getTime() - new Date(a.created).getTime(),
   );
 
   return lastThreeRuns.slice(0, 3);
