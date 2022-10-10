@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 import { loggedInRoute, toasterTypes } from '../../../../constants';
 import {
   pipelinesActions,
+  runsActions,
   showToasterAction,
   stackComponentsActions,
   stacksActions,
@@ -52,6 +53,7 @@ export const Form: React.FC = () => {
           dispatch(userActions.getMy({}));
           dispatch(stackComponentsActions.getTypes());
           dispatch(pipelinesActions.getMy());
+          dispatch(runsActions.allRuns({}));
           dispatch(stacksActions.getMy({}));
           push(loggedInRoute);
         });
@@ -91,6 +93,7 @@ export const Form: React.FC = () => {
           dispatch(stackComponentsActions.getTypes());
           dispatch(pipelinesActions.getMy());
           dispatch(stacksActions.getMy({}));
+          dispatch(runsActions.allRuns({}));
           push(loggedInRoute);
         });
 
