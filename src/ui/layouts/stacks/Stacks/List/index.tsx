@@ -32,6 +32,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
 
     history.push(routePaths.stack.configuration(stack.id));
   };
+  console.log('testStack', filteredStacks);
 
   return (
     <>

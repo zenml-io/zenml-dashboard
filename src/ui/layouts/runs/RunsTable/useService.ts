@@ -33,7 +33,7 @@ export const useService = ({ runIds }: { runIds: TId[] }): ServiceInterface => {
 
   useEffect(() => {
     const orderedRuns = _.sortBy(runs, (run: TRun) =>
-      new Date(run.kubeflowStartTime).getTime(),
+      new Date(run.created).getTime(),
     ).reverse();
 
     setSortedRuns(orderedRuns);
