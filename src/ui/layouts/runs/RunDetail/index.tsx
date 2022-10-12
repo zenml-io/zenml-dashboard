@@ -101,6 +101,24 @@ export const RunDetail: React.FC = () => {
           </Paragraph>
         </Box>
         <Box>
+          <Paragraph style={headStyle}>PIPELINE NAME</Paragraph>
+          <Paragraph
+            size="small"
+            style={{
+              color: '#22BBDD',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              history.push(routePaths.pipeline.configuration(run.pipeline?.id));
+            }}
+          >
+            {run.pipeline?.name}
+          </Paragraph>
+        </Box>
+        <Box>
           <Paragraph style={headStyle}>STATUS</Paragraph>
           <Paragraph
             style={{
