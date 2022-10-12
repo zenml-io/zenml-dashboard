@@ -1,6 +1,10 @@
 import React from 'react';
 import { translate } from './translate';
-import { formatDateToDisplay, getInitialsFromEmail } from '../../../../utils';
+import {
+  formatDateToDisplay,
+  formatDateToSort,
+  getInitialsFromEmail,
+} from '../../../../utils';
 import {
   Box,
   ColoredCircle,
@@ -12,6 +16,7 @@ import { HeaderCol } from '../../common/Table';
 import { iconColors, iconSizes } from '../../../../constants';
 import { DeleteMember } from './DeleteMember';
 import { TokenPopup } from './tokenPopup';
+import ReactTooltip from 'react-tooltip';
 
 export const useInviteHeaderCols = (): HeaderCol[] => {
   return [
@@ -77,13 +82,29 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
         const initials = getInitialsFromEmail(member.name);
         return (
           <FlexBox alignItems="center">
-            <Box paddingRight="sm">
-              <ColoredCircle color="secondary" size="sm">
-                {initials}
-              </ColoredCircle>
-            </Box>
-            <Paragraph size="small">{member.name}</Paragraph>
+            <div data-tip data-for={member.name}>
+              <Paragraph size="small">{member.name}</Paragraph>
+            </div>
+            <ReactTooltip
+              id={member.name}
+              place="top"
+              effect="solid"
+              // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+            >
+              <Paragraph color="white">
+                {member.name}
+                {/* {translate(`tooltips.${invoice.status}`)} */}
+              </Paragraph>
+            </ReactTooltip>
           </FlexBox>
+          // <FlexBox alignItems="center">
+          //   <Box paddingRight="sm">
+          //     <ColoredCircle color="secondary" size="sm">
+          //       {initials}
+          //     </ColoredCircle>
+          //   </Box>
+          //   <Paragraph size="small">{member.name}</Paragraph>
+          // </FlexBox>
         );
       },
     },
@@ -95,17 +116,32 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
       ),
       width: '15%',
       renderRow: (member: TMember) => (
-        <Paragraph size="small">
-          {member.active === false ? (
-            <TokenPopup
-              id={member?.id}
-              username={member?.name}
-              active={member?.active}
-            />
-          ) : (
-            <Paragraph>Accepted</Paragraph>
-          )}
-        </Paragraph>
+        <FlexBox alignItems="center">
+          <div data-tip data-for={member?.active ? 'Accepted' : 'Pending'}>
+            <Paragraph size="small">
+              {member.active === false ? (
+                <TokenPopup
+                  id={member?.id}
+                  username={member?.name}
+                  active={member?.active}
+                />
+              ) : (
+                <Paragraph>Accepted</Paragraph>
+              )}
+            </Paragraph>
+          </div>
+          <ReactTooltip
+            id={member?.active ? 'Accepted' : 'Pending'}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {member?.active ? 'Accepted' : 'Pending'}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
       ),
     },
     {
@@ -117,19 +153,52 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
       width: '10%',
       renderRow: (member: TMember) => (
         <FlexBox alignItems="center">
-          <Box paddingRight="sm">
-            <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box>
-          <Paragraph color="black" size="tiny">
-            {formatDateToDisplay(member.created)}
-          </Paragraph>
+          <div data-tip data-for={formatDateToSort(member.created)}>
+            <FlexBox alignItems="center">
+              <Box paddingRight="sm">
+                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
+              </Box>
+              <Paragraph color="grey" size="tiny">
+                {formatDateToDisplay(member.created)}
+              </Paragraph>
+            </FlexBox>
+          </div>
+          <ReactTooltip
+            id={formatDateToSort(member.created)}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              {member.created}
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
         </FlexBox>
       ),
     },
     {
       render: () => <Paragraph size="small"></Paragraph>,
       width: '5%',
-      renderRow: (member: TInvite) => <DeleteMember member={member} />,
+      renderRow: (member: TInvite) => (
+        <FlexBox alignItems="center">
+          <div data-tip data-for={member.id}>
+            <DeleteMember member={member} />
+          </div>
+          <ReactTooltip
+            id={member.id}
+            place="top"
+            effect="solid"
+            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
+          >
+            <Paragraph color="white">
+              Delete Member
+              {/* {translate(`tooltips.${invoice.status}`)} */}
+            </Paragraph>
+          </ReactTooltip>
+        </FlexBox>
+      ),
+      //
     },
   ];
 };
