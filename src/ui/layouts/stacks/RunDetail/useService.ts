@@ -9,7 +9,7 @@ import {
 import {
   useDispatch,
   useParams,
-  useRequestOnMount,
+  // useRequestOnMount,
   useSelector,
 } from '../../../hooks';
 
@@ -38,19 +38,20 @@ export const useService = (): ServiceInterface => {
   //     onFailure: () => setFetching(false),
   //   }),
   // );
-  // useEffect(() => {
-  //   if (!isMounted) {
-  //     setFetching(true);
-  //     dispatch(
-  //       runsActions.graphForRun({
-  //         runId: id,
-  //         onSuccess: () => setFetching(false),
-  //         onFailure: () => setFetching(false),
-  //       }),
-  //     );
-  //     setIsMounted(true);
-  //   }
-  // }, [isMounted, setIsMounted]);
+  useEffect(() => {
+    if (!isMounted) {
+      setFetching(true);
+      dispatch(
+        runsActions.graphForRun({
+          runId: id,
+          onSuccess: () => setFetching(false),
+          onFailure: () => setFetching(false),
+        }),
+      );
+      setIsMounted(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMounted, setIsMounted]);
 
   // useEffect(() => {
   //   setFetching(true);

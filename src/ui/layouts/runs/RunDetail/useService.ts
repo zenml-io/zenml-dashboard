@@ -7,12 +7,7 @@ import {
   runPagesSelectors,
   runSelectors,
 } from '../../../../redux/selectors';
-import {
-  useDispatch,
-  useParams,
-  useRequestOnMount,
-  useSelector,
-} from '../../../hooks';
+import { useDispatch, useParams, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
   runId: TId;
@@ -50,6 +45,7 @@ export const useService = (): ServiceInterface => {
       );
       setIsMounted(true);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted, setIsMounted]);
 
   // useRequestOnMount(() =>
