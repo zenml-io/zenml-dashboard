@@ -51,7 +51,7 @@ export const useService = (): ServiceInterface => {
         }),
       );
       dispatch(pipelinesActions.getMy());
-    }, 10000);
+    }, 5000);
 
     return () => clearInterval(intervalId); //This is important
   });

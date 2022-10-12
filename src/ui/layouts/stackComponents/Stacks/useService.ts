@@ -58,7 +58,7 @@ export const useService = (): ServiceInterface => {
           onFailure: () => setFetching(false),
         }),
       );
-    }, 10000);
+    }, 5000);
 
     return () => clearInterval(intervalId);
   });
