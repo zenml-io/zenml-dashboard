@@ -15,13 +15,6 @@ const getGraphRunByIdApi = ({
     url: apiUrl(endpoints.runs.graphById.get(runId)),
     method: httpMethods.get,
     authenticationToken,
-  }).catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.runByIdMockResponse,
-      };
-    }
-    return res;
   });
 };
 

@@ -1,7 +1,13 @@
+import { useEffect } from 'react';
 import { RunDetailRouteParams } from '.';
-import { runsActions } from '../../../../redux/actions';
+import { runPagesActions, runsActions } from '../../../../redux/actions';
 import { billingSelectors, runSelectors } from '../../../../redux/selectors';
-import { useParams, useRequestOnMount, useSelector } from '../../../hooks';
+import {
+  useDispatch,
+  useParams,
+  useRequestOnMount,
+  useSelector,
+} from '../../../hooks';
 
 interface ServiceInterface {
   runId: TId;
@@ -11,6 +17,7 @@ interface ServiceInterface {
 }
 
 export const useService = (): ServiceInterface => {
+  const dispatch = useDispatch();
   const { id, stackId } = useParams<RunDetailRouteParams>();
 
   // useRequestOnMount(() =>
@@ -22,15 +29,25 @@ export const useService = (): ServiceInterface => {
   useRequestOnMount(() =>
     runsActions.graphForRun({
       runId: id,
+      onSuccess: () => setFetching(false),
+      onFailure: () => setFetching(false),
     }),
   );
 
-  // useRequestOnMount(() =>
-  //   billingActions.billingForRunId({
-  //     runId: id,
-  //     pipelineId,
-  //   }),
-  // );
+  // useEffect(() => {
+  //   setFetching(true);
+
+  //   dispatch(
+  //     runsActions.graphForRun({
+  //       runId: id,
+  //       onSuccess: () => setFetching(false),
+  //       onFailure: () => setFetching(false),
+  //     }),
+  //   );
+  // }, [id]);
+  const setFetching = (fetching: boolean) => {
+    dispatch(runPagesActions.setFetching({ fetching }));
+  };
 
   const run = useSelector(runSelectors.runForId(id));
   const billing = useSelector(billingSelectors.billingForRunId(id));

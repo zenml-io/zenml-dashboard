@@ -43,9 +43,9 @@ export const RunsTable: React.FC<{
     setSelectedRunIds([]);
 
     fromAllruns
-      ? history.push(routePaths.run.run.results(run.id))
+      ? history.push(routePaths.run.run.statistics(run.id))
       : history.push(
-          routePaths.run.pipeline.results(
+          routePaths.run.pipeline.statistics(
             run.id,
             run.pipeline_id ? run.pipeline_id : run.pipelineId,
           ),

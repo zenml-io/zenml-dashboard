@@ -56,7 +56,7 @@ const stackComponentActionTypes = {
 const runActionTypes = {
   RUNS_GET_ALL_RUNS: 'RUNS_GET_ALL_RUNS',
   RUNS_GET_RUN_FOR_ID: 'RUNS_GET_RUN_FOR_ID',
-  GRAPH_FOR_RUN_ID: 'RUNS_GET_RUN_FOR_ID',
+  GRAPH_FOR_RUN_ID: 'GRAPH_FOR_RUN_ID',
 };
 
 const billingActionTypes = {

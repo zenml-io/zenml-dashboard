@@ -60,10 +60,10 @@ const newState = (state: State, runs: TRun[]): State => ({
   ids: idsInsert(state.ids, runs),
   byId: byKeyInsert(state.byId, runs),
 });
-// const newStateForGraph = (state: State, graph: any): State => ({
-//   ...state,
-//   graph: graph,
-// });
+const newStateForGraph = (state: State, graph: any): State => ({
+  ...state,
+  graphForRunId: graph,
+});
 
 const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
@@ -121,7 +121,7 @@ const runsReducer = (state: State = initialState, action: Action): State => {
 
       return {
         ...(state.graphForRunId = graph),
-        ...newState(state, graph),
+        ...newStateForGraph(state, graph),
       };
       // const run = camelCaseObject({
       //   ...payload,
