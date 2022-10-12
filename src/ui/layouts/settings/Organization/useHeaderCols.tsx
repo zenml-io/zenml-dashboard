@@ -83,7 +83,14 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
         return (
           <FlexBox alignItems="center">
             <div data-tip data-for={member.name}>
-              <Paragraph size="small">{member.name}</Paragraph>
+              <FlexBox alignItems="center">
+                <Box paddingRight="sm">
+                  <ColoredCircle color="secondary" size="sm">
+                    {initials}
+                  </ColoredCircle>
+                </Box>
+                <Paragraph size="small">{member.name}</Paragraph>
+              </FlexBox>
             </div>
             <ReactTooltip
               id={member.name}
@@ -97,14 +104,6 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
               </Paragraph>
             </ReactTooltip>
           </FlexBox>
-          // <FlexBox alignItems="center">
-          //   <Box paddingRight="sm">
-          //     <ColoredCircle color="secondary" size="sm">
-          //       {initials}
-          //     </ColoredCircle>
-          //   </Box>
-          //   <Paragraph size="small">{member.name}</Paragraph>
-          // </FlexBox>
         );
       },
     },
