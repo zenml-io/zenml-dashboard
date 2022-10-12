@@ -238,7 +238,7 @@ export const useHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
-          OWNER
+          AUTHOR
         </Paragraph>
       ),
       width: '10%',

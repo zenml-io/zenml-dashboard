@@ -169,7 +169,7 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          OWNER
+          AUTHOR
         </Paragraph>
       ),
       width: '15%',
