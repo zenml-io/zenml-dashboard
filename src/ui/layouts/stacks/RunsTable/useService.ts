@@ -49,7 +49,7 @@ export const useService = ({
 
   useEffect(() => {
     let orderedRuns = _.sortBy(runs, (run: TRun) =>
-      new Date(run.kubeflowStartTime).getTime(),
+      new Date(run.created).getTime(),
     ).reverse();
 
     const isValidFilter = filter.map((f) => f.value).join('');

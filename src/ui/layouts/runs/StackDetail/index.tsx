@@ -103,7 +103,7 @@ export const StackDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>Created</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateToDisplay(stack.creationDate)}
+            {formatDateToDisplay(stack.created)}
           </Paragraph>
         </Box>
       </Box>

@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { Box, Paragraph, icons } from '../../../components';
-import { iconColors, iconSizes } from '../../../../constants';
-import { formatDateToDisplay } from '../../../../utils';
+import { Box, Paragraph } from '../../../components';
+// import { iconColors, iconSizes } from '../../../../constants';
+import { formatDateForOverviewBar } from '../../../../utils';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
@@ -117,26 +117,7 @@ export const PipelineDetail: React.FC = () => {
             {pipeline.name}
           </Paragraph>
         </Box>
-        <Box>
-          <Paragraph style={headStyle}>SHARED</Paragraph>
-          <Paragraph
-            style={{
-              marginTop: '10px',
-              justifyContent: 'center',
-              borderRadius: '50%',
-              height: '25px',
-              width: '25px',
-              paddingTop: '3px',
-              textAlign: 'center',
-            }}
-          >
-            {pipeline.isShared ? (
-              <icons.multiUser color={iconColors.white} size={iconSizes.sm} />
-            ) : (
-              <icons.singleUser color={iconColors.white} size={iconSizes.sm} />
-            )}
-          </Paragraph>
-        </Box>
+
         <Box>
           <Paragraph style={headStyle}>OWNER</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
@@ -146,7 +127,7 @@ export const PipelineDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>CREATED AT</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateToDisplay(pipeline.created)}
+            {formatDateForOverviewBar(pipeline.created)}
           </Paragraph>
         </Box>
       </Box>

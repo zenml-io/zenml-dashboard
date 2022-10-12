@@ -62,7 +62,7 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
   ];
 };
 
-const headColStyle = { color: '#000', fontWeight: 700 }
+const headColStyle = { color: '#000', fontWeight: 700 };
 
 export const useMemberHeaderCols = (): HeaderCol[] => {
   return [
@@ -95,9 +95,13 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
       ),
       width: '15%',
       renderRow: (member: TMember) => (
-        <Paragraph size="small" >
+        <Paragraph size="small">
           {member.active === false ? (
-            <TokenPopup id={member?.id} username={member?.name} active={member?.active} />
+            <TokenPopup
+              id={member?.id}
+              username={member?.name}
+              active={member?.active}
+            />
           ) : (
             <Paragraph>Accepted</Paragraph>
           )}
@@ -123,7 +127,7 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
       ),
     },
     {
-      render: () => <Paragraph size="small" ></Paragraph>,
+      render: () => <Paragraph size="small"></Paragraph>,
       width: '5%',
       renderRow: (member: TInvite) => <DeleteMember member={member} />,
     },

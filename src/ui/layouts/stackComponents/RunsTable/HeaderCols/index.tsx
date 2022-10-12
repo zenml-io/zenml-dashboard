@@ -11,6 +11,7 @@ import {
   formatDateToDisplay,
   truncate,
   getInitialsFromEmail,
+  formatDateToSort,
 } from '../../../../../utils';
 import {
   FlexBox,
@@ -303,7 +304,7 @@ export const useHeaderCols = ({
       width: '10%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToDisplay(run.created)}>
+          <div data-tip data-for={formatDateToSort(run.created)}>
             <FlexBox alignItems="center">
               <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
@@ -314,7 +315,7 @@ export const useHeaderCols = ({
             </FlexBox>
           </div>
           <ReactTooltip
-            id={formatDateToDisplay(run.created)}
+            id={formatDateToSort(run.created)}
             place="top"
             effect="solid"
             // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}

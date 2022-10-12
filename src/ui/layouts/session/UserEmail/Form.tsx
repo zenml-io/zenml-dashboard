@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { loggedInRoute, toasterTypes } from '../../../../constants';
 import {
@@ -6,6 +6,7 @@ import {
   showToasterAction,
   stackComponentsActions,
   stacksActions,
+  userActions,
 } from '../../../../redux/actions';
 import { Box, FormEmailField, PrimaryButton } from '../../../components';
 import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
@@ -30,26 +31,30 @@ export const Form: React.FC = () => {
   const submit = async () => {
     setSubmitting(true);
     try {
-      await axios.put(
-        `${process.env.REACT_APP_BASE_API_URL}/users/${userId}/email-opt-in`,
-        { email, email_opted_in: true },
-        {
-          headers: {
-            Authorization: `bearer ${authToken}`,
+      await axios
+        .put(
+          `${process.env.REACT_APP_BASE_API_URL}/users/${userId}/email-opt-in`,
+          { email, email_opted_in: true },
+          {
+            headers: {
+              Authorization: `bearer ${authToken}`,
+            },
           },
-        },
-      );
-      setSubmitting(false);
-      dispatch(
-        showToasterAction({
-          description: translate('form.toasts.successful.text'),
-          type: toasterTypes.success,
-        }),
-      );
-      dispatch(stackComponentsActions.getTypes());
-      dispatch(pipelinesActions.getMy());
-      dispatch(stacksActions.getMy({}));
-      push(loggedInRoute);
+        )
+        .then(() => {
+          setSubmitting(false);
+          dispatch(
+            showToasterAction({
+              description: translate('form.toasts.successful.text'),
+              type: toasterTypes.success,
+            }),
+          );
+          dispatch(userActions.getMy({}));
+          dispatch(stackComponentsActions.getTypes());
+          dispatch(pipelinesActions.getMy());
+          dispatch(stacksActions.getMy({}));
+          push(loggedInRoute);
+        });
     } catch (err) {
       setSubmitting(false);
       dispatch(
@@ -64,26 +69,41 @@ export const Form: React.FC = () => {
   const skip = async () => {
     setSkipSubmitting(true);
     try {
-      await axios.put(
-        `${process.env.REACT_APP_BASE_API_URL}/users/${userId}/email-opt-in`,
-        { email: '', email_opted_in: false },
-        {
-          headers: {
-            Authorization: `bearer ${authToken}`,
+      await axios
+        .put(
+          `${process.env.REACT_APP_BASE_API_URL}/users/${userId}/email-opt-in`,
+          { email: '', email_opted_in: false },
+          {
+            headers: {
+              Authorization: `bearer ${authToken}`,
+            },
           },
-        },
-      );
-      setSkipSubmitting(false);
-      dispatch(
-        showToasterAction({
-          description: translate('form.toasts.skip.text'),
-          type: toasterTypes.success,
-        }),
-      );
-      dispatch(stackComponentsActions.getTypes());
-      dispatch(pipelinesActions.getMy());
-      dispatch(stacksActions.getMy({}));
-      push(loggedInRoute);
+        )
+        .then(() => {
+          setSkipSubmitting(false);
+          dispatch(
+            showToasterAction({
+              description: translate('form.toasts.successful.text'),
+              type: toasterTypes.success,
+            }),
+          );
+          dispatch(userActions.getMy({}));
+          dispatch(stackComponentsActions.getTypes());
+          dispatch(pipelinesActions.getMy());
+          dispatch(stacksActions.getMy({}));
+          push(loggedInRoute);
+        });
+
+      // dispatch(
+      //   showToasterAction({
+      //     description: translate('form.toasts.skip.text'),
+      //     type: toasterTypes.success,
+      //   }),
+      // );
+      // dispatch(stackComponentsActions.getTypes());
+      // dispatch(pipelinesActions.getMy());
+      // dispatch(stacksActions.getMy({}));
+      // push(loggedInRoute);
     } catch (err) {
       setSkipSubmitting(false);
       dispatch(
@@ -95,6 +115,7 @@ export const Form: React.FC = () => {
     }
   };
 
+  useEffect(() => {}, [user]);
   return (
     <Box>
       <Box marginTop="lg">

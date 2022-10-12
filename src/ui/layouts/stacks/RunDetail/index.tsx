@@ -6,9 +6,9 @@ import { Configuration } from './Configuration';
 import { useService } from './useService';
 import { DAG } from '../../../components/dag';
 
-import { Box,Paragraph } from '../../../components';
+import { Box, Paragraph } from '../../../components';
 import { RunStatus } from './components';
-import { formatDateToDisplay } from '../../../../utils';
+import { formatDateForOverviewBar } from '../../../../utils';
 
 const getTabPages = ({
   stackId,
@@ -133,7 +133,7 @@ export const RunDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>CREATED AT</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateToDisplay(run.created)}
+            {formatDateForOverviewBar(run.created)}
           </Paragraph>
         </Box>
       </Box>

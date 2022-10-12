@@ -11,7 +11,16 @@ const formatDateToFormat = (dateString: Date, dateFormat: string): string =>
 
 export const formatDateToDisplay = (dateString: Date): string => {
   if (typeof dateString === 'undefined' || !dateString) return '';
-  return formatDateToFormat(dateString, 'dd.MM.yyyy');
+  return formatDateToFormat(dateString, `dd.MM.yyyy`);
+};
+export const formatDateToSort = (dateString: Date): string => {
+  if (typeof dateString === 'undefined' || !dateString) return '';
+  return formatDateToFormat(dateString, `dd.MM.yyyy'T'HH:mm:ss.SSS'Z'`);
+};
+
+export const formatDateForOverviewBar = (dateString: Date): string => {
+  if (typeof dateString === 'undefined' || !dateString) return '';
+  return formatDateToFormat(dateString, `dd.MM.yyyy HH:mm:ss`);
 };
 
 const addLeadingZeros = (number: number) => {
