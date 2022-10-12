@@ -120,7 +120,6 @@ const runsReducer = (state: State = initialState, action: Action): State => {
       const graph: any = camelCaseObject(graphFromRun);
 
       return {
-        ...(state.graphForRunId = graph),
         ...newStateForGraph(state, graph),
       };
       // const run = camelCaseObject({
