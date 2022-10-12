@@ -110,7 +110,7 @@ const getLayoutedElements = (
 
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
-export const LayoutFlow: React.FC<any> = (graph: any) => {
+export const LayoutFlow: React.FC<any> = (graph: any, runId: any) => {
   const dispatch = useDispatch();
   const {
     initialNodes: layoutedNodes,
@@ -156,10 +156,10 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
       <div className="controls">
         <button
           onClick={() => {
-            console.log('checkGraph', graph.graph.runId);
+            console.log('checkGraph', runId, graph);
             dispatch(
               runsActions.graphForRun({
-                runId: graph.graph.runId,
+                runId: graph.runId,
               }),
             );
           }}

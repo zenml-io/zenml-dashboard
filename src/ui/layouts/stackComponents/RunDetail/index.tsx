@@ -77,7 +77,7 @@ export interface RunDetailRouteParams {
 export const RunDetail: React.FC = () => {
   const locationPath = useLocationPath();
   const history = useHistory();
-  const { stackComponentId, runId, run } = useService();
+  const { stackComponentId, runId, run, fetching } = useService();
   // debugger;
   // debugger;
   // const { runId, stackId, run, billing } = useService();
@@ -86,7 +86,7 @@ export const RunDetail: React.FC = () => {
     {
       text: 'DAG',
       // <Statistics runId={runId} stackId={stackId} />
-      Component: () => <DAG runId={runId} />,
+      Component: () => <DAG runId={runId} fetching={fetching} />,
       path: routePaths.run.component.statistics(
         locationPath.split('/')[2],
         stackComponentId,

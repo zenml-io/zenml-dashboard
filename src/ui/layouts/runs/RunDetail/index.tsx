@@ -17,12 +17,18 @@ import { RunStatus } from './components';
 import { formatDateForOverviewBar } from '../../../../utils';
 import { useHistory } from '../../../hooks';
 
-const getTabPages = ({ runId }: { runId: TId }): TabPage[] => {
+const getTabPages = ({
+  runId,
+  fetching,
+}: {
+  runId: TId;
+  fetching: boolean;
+}): TabPage[] => {
   return [
     {
       text: 'DAG',
       // <Statistics runId={runId} stackId={stackId} />
-      Component: () => <DAG runId={runId} />,
+      Component: () => <DAG runId={runId} fetching={fetching} />,
       path: routePaths.run.run.statistics(runId),
     },
     {
@@ -61,10 +67,11 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, run } = useService();
+  const { runId, run, fetching } = useService();
   // const { runId } = useService();
 
   const tabPages = getTabPages({
+    fetching,
     runId,
   });
   const breadcrumbs = getBreadcrumbs({
