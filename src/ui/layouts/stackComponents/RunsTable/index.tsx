@@ -29,7 +29,7 @@ export const RunsTable: React.FC<{
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
     history.push(
-      routePaths.run.component.results(
+      routePaths.run.component.statistics(
         locationPath.split('/')[2],
         run.stackComponentId,
         run.id,

@@ -13,6 +13,8 @@ import StepNode from './StepNode';
 
 import './index.css';
 import { Analysis, Data, Model, Schema, Service, Statistic } from './icons';
+import { useDispatch } from '../../hooks';
+import { runsActions } from '../../../redux/actions';
 
 interface Edge {
   id: string;
@@ -108,7 +110,8 @@ const getLayoutedElements = (
 
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
-export const LayoutFlow: React.FC<any> = (graph: any) => {
+export const LayoutFlow: React.FC<any> = (graph: any, runId: any) => {
+  const dispatch = useDispatch();
   const {
     initialNodes: layoutedNodes,
     initialEdges: layoutedEdges,
@@ -151,6 +154,18 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   return (
     <>
       <div className="controls">
+        <button
+          onClick={() => {
+            console.log('checkGraph', runId, graph);
+            dispatch(
+              runsActions.graphForRun({
+                runId: graph.runId,
+              }),
+            );
+          }}
+        >
+          Refresh
+        </button>
         <button onClick={() => onLayout('TB')}>Vertical Layout</button>
         <button onClick={() => onLayout('LR')}>Horizontal Layout</button>
         <div style={{ position: 'relative' }}>

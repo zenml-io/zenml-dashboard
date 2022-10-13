@@ -52,7 +52,7 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
           ID
         </Paragraph>
       ),
@@ -81,7 +81,7 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
           NAME
         </Paragraph>
       ),
@@ -116,7 +116,7 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
           SHARED
         </Paragraph>
       ),
@@ -165,8 +165,8 @@ export const getHeaderCols = ({
 
     {
       render: () => (
-        <Paragraph size="small" color="black">
-          OWNER
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          AUTHOR
         </Paragraph>
       ),
       width: '11%',
@@ -212,7 +212,7 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black">
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
           CREATED AT
         </Paragraph>
       ),

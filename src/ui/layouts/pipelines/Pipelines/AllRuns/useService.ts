@@ -1,8 +1,7 @@
-import { useEffect } from 'react';
 // import { pipelinesActions, runsActions } from '../../../../../redux/actions';
 import {
-  pipelinePagesSelectors,
   runSelectors,
+  runPagesSelectors,
 } from '../../../../../redux/selectors';
 import { useSelector } from '../../../../hooks';
 
@@ -12,11 +11,11 @@ interface ServiceInterface {
 }
 
 export const useService = (): ServiceInterface => {
-  const fetching = useSelector(pipelinePagesSelectors.fetching);
-
+  const fetching = useSelector(runPagesSelectors.fetching);
+  console.log('test111', fetching);
   const runs = useSelector(runSelectors.myRuns);
-  useEffect(() => {}, [runs]);
-
+  // useEffect(() => {}, [runs]);
+  // debugger;
   const runIds = runs.map((run: TRun) => run.id);
 
   return {

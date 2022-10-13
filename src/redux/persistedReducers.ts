@@ -41,6 +41,10 @@ import pipelinePagesReducer, {
   initialState as pipelinePagesInitialState,
 } from './reducers/pipelinePagesReducer';
 
+import runPagesReducer, {
+  initialState as runPagesInitialState,
+} from './reducers/runPagesReducer';
+
 import stackPagesReducer, {
   initialState as stackPagesInitialState,
 } from './reducers/stackPagesReducer';
@@ -58,6 +62,7 @@ const initialState = {
   stacks: stacksInitialState,
   stackComponents: stackComponentsInitialState,
   runs: runsInitialState,
+  runPages: runPagesInitialState,
   billing: billingInitialState,
   pipelinePages: pipelinePagesInitialState,
   stacksPages: stackPagesInitialState,
@@ -73,6 +78,7 @@ export const persisted = combineReducers({
   stacks: stacksReducer,
   stackComponents: stackComponentsReducer,
   runs: runsReducer,
+  runPages: runPagesReducer,
   billing: billingReducer,
   pipelinePages: pipelinePagesReducer,
   stackPages: stackPagesReducer,

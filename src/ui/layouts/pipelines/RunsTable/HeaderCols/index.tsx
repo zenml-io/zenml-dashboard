@@ -70,7 +70,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <FlexBox justifyContent="center">
-              <Paragraph size="small" color="grey">
+              <Paragraph size="small" color="grey" style={{ fontSize: '12px' }}>
                 {/* <LinkBox
               onClick={() => {
                 if (allRunsSelected(runs)) {
@@ -115,7 +115,11 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph size="small" color="grey">
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
                 RUN ID
               </Paragraph>
             </SortingHeader>
@@ -147,7 +151,7 @@ export const useHeaderCols = ({
         },
         {
           render: () => (
-            <Paragraph size="small" color="grey">
+            <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
               RUN NAME
             </Paragraph>
           ),
@@ -187,7 +191,11 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph size="small" color="grey">
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
                 STATUS
               </Paragraph>
             </SortingHeader>
@@ -218,7 +226,11 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph size="small" color="grey">
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
                 CREATED AT
               </Paragraph>
             </SortingHeader>
@@ -258,7 +270,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <FlexBox justifyContent="center">
-              <Paragraph size="small" color="grey">
+              <Paragraph size="small" color="grey" style={{ fontSize: '12px' }}>
                 {/* <LinkBox
               onClick={() => {
                 if (allRunsSelected(runs)) {
@@ -303,7 +315,11 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph size="small" color="grey">
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
                 RUN ID
               </Paragraph>
             </SortingHeader>
@@ -332,7 +348,7 @@ export const useHeaderCols = ({
         },
         {
           render: () => (
-            <Paragraph size="small" color="grey">
+            <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
               RUN NAME
             </Paragraph>
           ),
@@ -361,7 +377,7 @@ export const useHeaderCols = ({
         },
         {
           render: () => (
-            <Paragraph size="small" color="grey">
+            <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
               PIPELINE NAME
             </Paragraph>
           ),
@@ -417,7 +433,11 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph size="small" color="grey">
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
                 STATUS
               </Paragraph>
             </SortingHeader>
@@ -428,7 +448,7 @@ export const useHeaderCols = ({
         },
         {
           render: () => (
-            <Paragraph size="small" color="grey">
+            <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
               STACK NAME
             </Paragraph>
           ),
@@ -473,7 +493,7 @@ export const useHeaderCols = ({
 
         {
           render: () => (
-            <Paragraph size="small" color="grey">
+            <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
               {translate('author.text')}
             </Paragraph>
           ),
@@ -545,7 +565,11 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph size="small" color="grey">
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
                 {translate('createdAt.text')}
               </Paragraph>
             </SortingHeader>
