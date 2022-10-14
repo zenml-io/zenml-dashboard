@@ -57,7 +57,7 @@ export const useService = ({
       orderedRuns = getFilteredDataForTable(orderedRuns, filter);
     }
     setSortedRuns(orderedRuns);
-  }, [filter]);
+  }, [filter, runIds]);
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
