@@ -52,9 +52,9 @@ export const Form: React.FC = () => {
           );
           dispatch(userActions.getMy({}));
           dispatch(stackComponentsActions.getTypes());
-          dispatch(pipelinesActions.getMy());
-          dispatch(runsActions.allRuns({}));
-          dispatch(stacksActions.getMy({}));
+          // dispatch(pipelinesActions.getMy({}));
+          // dispatch(runsActions.allRuns({}));
+          // dispatch(stacksActions.getMy({}));
           push(loggedInRoute);
         });
     } catch (err) {
@@ -91,9 +91,9 @@ export const Form: React.FC = () => {
           );
           dispatch(userActions.getMy({}));
           dispatch(stackComponentsActions.getTypes());
-          dispatch(pipelinesActions.getMy());
-          dispatch(stacksActions.getMy({}));
-          dispatch(runsActions.allRuns({}));
+          // dispatch(pipelinesActions.getMy({}));
+          // dispatch(stacksActions.getMy({}));
+          // dispatch(runsActions.allRuns({}));
           push(loggedInRoute);
         });
 

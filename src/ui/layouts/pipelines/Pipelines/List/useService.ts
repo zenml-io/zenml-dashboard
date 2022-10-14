@@ -3,7 +3,10 @@
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { pipelinePagesActions } from '../../../../../redux/actions';
+import {
+  pipelinePagesActions,
+  pipelinesActions,
+} from '../../../../../redux/actions';
 import {
   pipelinePagesSelectors,
   pipelineSelectors,
@@ -58,6 +61,16 @@ export const useService = (
 
     setFilteredPipelines(orderedPipelines);
   }, [filter, pipelines]);
+
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      //assign interval to a variable to clear it.
+
+      dispatch(pipelinesActions.getMy({}));
+    }, 5000);
+
+    return () => clearInterval(intervalId); //This is important
+  });
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(pipelinePagesActions.setSelectedRunIds({ runIds }));

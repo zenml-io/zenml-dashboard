@@ -51,9 +51,9 @@ const UserEmail: React.FC = () => {
           if (data) {
             if (data?.email_opted_in !== null) {
               dispatch(stackComponentsActions.getTypes());
-              dispatch(pipelinesActions.getMy());
-              dispatch(stacksActions.getMy({}));
-              dispatch(runsActions.allRuns({}));
+              // dispatch(pipelinesActions.getMy());
+              // dispatch(stacksActions.getMy({}));
+              // dispatch(runsActions.allRuns({}));
               push(loggedInRoute);
             }
           }
