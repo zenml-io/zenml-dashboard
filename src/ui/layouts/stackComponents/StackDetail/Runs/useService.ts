@@ -1,7 +1,7 @@
 import { useSelector } from 'react-redux';
 import {
-  stackPagesSelectors,
   runSelectors,
+  runPagesSelectors,
 } from '../../../../../redux/selectors';
 
 interface ServiceInterface {
@@ -14,7 +14,7 @@ export const useService = ({
 }: {
   stackComponentId: TId;
 }): ServiceInterface => {
-  const fetching = useSelector(stackPagesSelectors.fetching);
+  const fetching = useSelector(runPagesSelectors.fetching);
   const runs: TRun[] = useSelector(
     runSelectors.runsForStackComponentId(stackComponentId),
   );

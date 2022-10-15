@@ -25,7 +25,7 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
       dispatch(organizationActions.getMembers({}));
-    }, 10000);
+    }, 5000);
 
     return () => clearInterval(intervalId); //This is important
   });

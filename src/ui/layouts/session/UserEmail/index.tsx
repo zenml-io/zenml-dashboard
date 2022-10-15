@@ -24,6 +24,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
   pipelinesActions,
+  runsActions,
   stackComponentsActions,
   stacksActions,
 } from '../../../../redux/actions';
@@ -52,6 +53,7 @@ const UserEmail: React.FC = () => {
               dispatch(stackComponentsActions.getTypes());
               dispatch(pipelinesActions.getMy());
               dispatch(stacksActions.getMy({}));
+              dispatch(runsActions.allRuns({}));
               push(loggedInRoute);
             }
           }

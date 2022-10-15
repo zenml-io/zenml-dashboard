@@ -38,13 +38,20 @@ export const useService = (): ServiceInterface => {
         onFailure: () => setFetching(false),
       }),
     );
-  }, []);
+    dispatch(pipelinesActions.getMy());
+  });
   useEffect(() => {
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
-      dispatch(runsActions.allRuns({}));
+      dispatch(
+        runsActions.allRuns({
+          // id: currentWorkspace.id,
+          onSuccess: () => setFetching(false),
+          onFailure: () => setFetching(false),
+        }),
+      );
       dispatch(pipelinesActions.getMy());
-    }, 10000);
+    }, 5000);
 
     return () => clearInterval(intervalId); //This is important
   });

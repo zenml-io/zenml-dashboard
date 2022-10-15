@@ -5,7 +5,7 @@ import {
   camelCaseToParagraph,
   formatDateForOverviewBar,
 } from '../../../../utils';
-import { useLocationPath } from '../../../hooks';
+import { useHistory, useLocationPath } from '../../../hooks';
 // import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
@@ -76,7 +76,8 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const locationPath = useLocationPath();
-  const { stackComponentId, runId, run } = useService();
+  const history = useHistory();
+  const { stackComponentId, runId, run, fetching } = useService();
   // debugger;
   // debugger;
   // const { runId, stackId, run, billing } = useService();
@@ -85,7 +86,7 @@ export const RunDetail: React.FC = () => {
     {
       text: 'DAG',
       // <Statistics runId={runId} stackId={stackId} />
-      Component: () => <DAG runId={runId} />,
+      Component: () => <DAG runId={runId} fetching={fetching} />,
       path: routePaths.run.component.statistics(
         locationPath.split('/')[2],
         stackComponentId,
@@ -158,6 +159,24 @@ export const RunDetail: React.FC = () => {
           </Paragraph>
         </Box>
         <Box>
+          <Paragraph style={headStyle}>PIPELINE NAME</Paragraph>
+          <Paragraph
+            size="small"
+            style={{
+              color: '#22BBDD',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              history.push(routePaths.pipeline.configuration(run.pipeline?.id));
+            }}
+          >
+            {run.pipeline?.name}
+          </Paragraph>
+        </Box>
+        <Box>
           <Paragraph style={headStyle}>STATUS</Paragraph>
           <Paragraph
             style={{
@@ -171,6 +190,24 @@ export const RunDetail: React.FC = () => {
             }}
           >
             <RunStatus run={run} />
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>STACK NAME</Paragraph>
+          <Paragraph
+            size="small"
+            style={{
+              color: '#22BBDD',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              history.push(routePaths.stack.configuration(run.stack?.id));
+            }}
+          >
+            {run.stack?.name}
           </Paragraph>
         </Box>
         <Box>

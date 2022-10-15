@@ -34,7 +34,7 @@ export interface TableProps {
   trOnClick?: (arg: any) => void;
 }
 
-const ITEMS_PER_PAGE = 5;
+const ITEMS_PER_PAGE = 10;
 
 export const Table: React.FC<TableProps> = ({
   headerCols,

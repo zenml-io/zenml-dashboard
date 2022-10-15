@@ -1,8 +1,13 @@
+import { useEffect, useState } from 'react';
 import { RunDetailRouteParams } from '.';
-import { runsActions } from '../../../../redux/actions';
+import { runPagesActions, runsActions } from '../../../../redux/actions';
 // import { runsActions, billingActions } from '../../../../redux/actions';
-import { billingSelectors, runSelectors } from '../../../../redux/selectors';
-import { useParams, useRequestOnMount, useSelector } from '../../../hooks';
+import {
+  billingSelectors,
+  runPagesSelectors,
+  runSelectors,
+} from '../../../../redux/selectors';
+import { useDispatch, useParams, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
   runId: TId;
@@ -10,10 +15,13 @@ interface ServiceInterface {
   run: TRun;
   billing: TBilling | Record<any, any>;
   type: string;
+  fetching: boolean;
 }
 
 export const useService = (): ServiceInterface => {
+  const dispatch = useDispatch();
   const { type, stackComponentId, id } = useParams<RunDetailRouteParams>();
+  const [isMounted, setIsMounted] = useState(false);
   // debugger;
   // useRequestOnMount(() =>
   //   runsActions.runForId({
@@ -21,11 +29,25 @@ export const useService = (): ServiceInterface => {
   //     runId: id,
   //   }),
   // );
-  useRequestOnMount(() =>
-    runsActions.graphForRun({
-      runId: id,
-    }),
-  );
+  // useRequestOnMount(() =>
+  //   runsActions.graphForRun({
+  //     runId: id,
+  //   }),
+  // );
+  useEffect(() => {
+    if (!isMounted) {
+      setFetching(true);
+      dispatch(
+        runsActions.graphForRun({
+          runId: id,
+          onSuccess: () => setFetching(false),
+          onFailure: () => setFetching(false),
+        }),
+      );
+      setIsMounted(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMounted, setIsMounted]);
 
   // useRequestOnMount(() =>
   //   billingActions.billingForRunId({
@@ -33,9 +55,12 @@ export const useService = (): ServiceInterface => {
   //     pipelineId,
   //   }),
   // );
-
+  const fetching = useSelector(runPagesSelectors.fetching);
+  const setFetching = (fetching: boolean) => {
+    dispatch(runPagesActions.setFetching({ fetching }));
+  };
   const run = useSelector(runSelectors.runForId(id));
   const billing = useSelector(billingSelectors.billingForRunId(id));
 
-  return { type, runId: id, stackComponentId, run, billing };
+  return { type, runId: id, stackComponentId, run, billing, fetching };
 };

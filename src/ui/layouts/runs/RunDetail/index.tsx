@@ -17,12 +17,18 @@ import { RunStatus } from './components';
 import { formatDateForOverviewBar } from '../../../../utils';
 import { useHistory } from '../../../hooks';
 
-const getTabPages = ({ runId }: { runId: TId }): TabPage[] => {
+const getTabPages = ({
+  runId,
+  fetching,
+}: {
+  runId: TId;
+  fetching: boolean;
+}): TabPage[] => {
   return [
     {
       text: 'DAG',
       // <Statistics runId={runId} stackId={stackId} />
-      Component: () => <DAG runId={runId} />,
+      Component: () => <DAG runId={runId} fetching={fetching} />,
       path: routePaths.run.run.statistics(runId),
     },
     {
@@ -61,10 +67,11 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, run } = useService();
+  const { runId, run, fetching } = useService();
   // const { runId } = useService();
 
   const tabPages = getTabPages({
+    fetching,
     runId,
   });
   const breadcrumbs = getBreadcrumbs({
@@ -98,6 +105,24 @@ export const RunDetail: React.FC = () => {
           <Paragraph style={headStyle}>RUN NAME</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {run.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>PIPELINE NAME</Paragraph>
+          <Paragraph
+            size="small"
+            style={{
+              color: '#22BBDD',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              history.push(routePaths.pipeline.configuration(run.pipeline?.id));
+            }}
+          >
+            {run.pipeline?.name}
           </Paragraph>
         </Box>
         <Box>

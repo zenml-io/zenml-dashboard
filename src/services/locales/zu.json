@@ -217,7 +217,7 @@
               "successToaster": "Invite deleted"
             },
             "status": {
-              "owner": "Owner",
+              "owner": "Author",
               "pending": "Pending",
               "accepted": "Accepted"
             },
@@ -640,10 +640,10 @@
               "text": "Datasource commit"
             },
             "author": {
-              "text": "Author"
+              "text": "AUTHOR"
             },
             "createdAt": {
-              "text": "Created At"
+              "text": "CREATED AT"
             }
           },
           "WorkspacesHeader": {

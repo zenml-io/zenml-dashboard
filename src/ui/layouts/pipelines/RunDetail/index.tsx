@@ -20,15 +20,17 @@ import { useHistory } from '../../../hooks';
 const getTabPages = ({
   pipelineId,
   runId,
+  fetching,
 }: {
   pipelineId: TId;
   runId: TId;
+  fetching: boolean;
 }): TabPage[] => {
   return [
     {
       text: 'DAG',
       // <Statistics runId={runId} stackId={stackId} />
-      Component: () => <DAG runId={runId} />,
+      Component: () => <DAG runId={runId} fetching={fetching} />,
       path: routePaths.run.pipeline.statistics(runId, pipelineId),
     },
     {
@@ -88,10 +90,11 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   // const { runId, pipelineId, run, billing } = useService();
-  const { runId, pipelineId, run } = useService();
+  const { runId, pipelineId, run, fetching } = useService();
   const tabPages = getTabPages({
     runId,
     pipelineId,
+    fetching,
   });
   const breadcrumbs = getBreadcrumbs({
     runId,
@@ -125,6 +128,24 @@ export const RunDetail: React.FC = () => {
           <Paragraph style={headStyle}>RUN NAME</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {run.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>PIPELINE NAME</Paragraph>
+          <Paragraph
+            size="small"
+            style={{
+              color: '#22BBDD',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              history.push(routePaths.pipeline.configuration(run.pipeline?.id));
+            }}
+          >
+            {run.pipeline?.name}
           </Paragraph>
         </Box>
         <Box>
