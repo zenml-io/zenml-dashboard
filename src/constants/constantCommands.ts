@@ -62,7 +62,7 @@ export const constantCommandsToCreatePipeline = {
 
 export const constantCommandsToCreateComponent = {
   // title: 'Create Pipeline',
-  documentation: 'https://docs.zenml.io/starter-guide/stacks/stacks-components',
+  documentation: 'https://docs.zenml.io/starter-guide/stacks',
   componentCommand: {
     type: 'alerter',
     body: [
