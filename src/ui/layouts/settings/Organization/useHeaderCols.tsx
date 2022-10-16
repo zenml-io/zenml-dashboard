@@ -17,6 +17,10 @@ import { iconColors, iconSizes } from '../../../../constants';
 import { DeleteMember } from './DeleteMember';
 import { TokenPopup } from './tokenPopup';
 import ReactTooltip from 'react-tooltip';
+import { Sorting, SortingDirection } from './ForSorting/types';
+import { SortingHeader } from './ForSorting/SortingHeader';
+import { useService } from './ForSorting/useServiceForSorting';
+import _ from 'lodash';
 
 export const useInviteHeaderCols = (): HeaderCol[] => {
   return [
@@ -69,13 +73,54 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
 
 const headColStyle = { color: '#000', fontWeight: 700 };
 
-export const useMemberHeaderCols = (): HeaderCol[] => {
+export const useMemberHeaderCols = ({
+  filteredMembers,
+  setFilteredMembers,
+  activeSorting,
+  activeSortingDirection,
+  setActiveSortingDirection,
+  setActiveSorting,
+}: {
+  filteredMembers: TMember[];
+  setFilteredMembers: (members: TMember[]) => void;
+  activeSorting: Sorting | null;
+  activeSortingDirection: SortingDirection | null;
+  setActiveSortingDirection: (direction: SortingDirection | null) => void;
+  setActiveSorting: (sorting: Sorting | null) => void;
+}): HeaderCol[] => {
+  const {
+    // toggleSelectRun,
+    // isRunSelected,
+    // selectRuns,
+    // unselectRuns,
+    // allRunsSelected,
+    sortMethod,
+  } = useService({
+    setActiveSortingDirection,
+    setActiveSorting,
+    setFilteredMembers,
+    activeSorting,
+    activeSortingDirection,
+    filteredMembers,
+  });
   return [
     {
       render: () => (
-        <Paragraph size="small" style={headColStyle}>
-          {translate('table.member.text')}
-        </Paragraph>
+        <SortingHeader
+          sorting="name"
+          sortMethod={sortMethod('name', {
+            asc: (filteredMembers: TMember[]) =>
+              _.orderBy(filteredMembers, ['name'], ['asc']),
+            desc: (filteredMembers: TMember[]) =>
+              _.orderBy(filteredMembers, ['name'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" style={headColStyle}>
+            {translate('table.member.text')}
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '15%',
       renderRow: (member: TMember) => {
@@ -145,9 +190,32 @@ export const useMemberHeaderCols = (): HeaderCol[] => {
     },
     {
       render: () => (
-        <Paragraph size="small" style={headColStyle}>
-          {translate('table.createdAt.text')}
-        </Paragraph>
+        <SortingHeader
+          sorting="createdAt"
+          sortMethod={sortMethod('createdAt', {
+            asc: (filteredMembers: TMember[]) =>
+              _.orderBy(
+                filteredMembers,
+                (member: TMember) => new Date(member.created).getTime(),
+                ['asc'],
+              ),
+            desc: (filteredMembers: TMember[]) =>
+              _.orderBy(
+                filteredMembers,
+                (member: TMember) => new Date(member.created).getTime(),
+                ['desc'],
+              ),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" style={headColStyle}>
+            {translate('table.createdAt.text')}
+          </Paragraph>
+        </SortingHeader>
+        // <Paragraph size="small" style={headColStyle}>
+        //   {translate('table.createdAt.text')}
+        // </Paragraph>
       ),
       width: '10%',
       renderRow: (member: TMember) => (
