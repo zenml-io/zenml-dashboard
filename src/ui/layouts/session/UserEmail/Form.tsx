@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { loggedInRoute, toasterTypes } from '../../../../constants';
 import {
-  pipelinesActions,
-  runsActions,
+  // pipelinesActions,
+  // runsActions,
   showToasterAction,
   stackComponentsActions,
-  stacksActions,
+  // stacksActions,
   userActions,
 } from '../../../../redux/actions';
 import { Box, FormEmailField, PrimaryButton } from '../../../components';

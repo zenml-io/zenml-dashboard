@@ -23,10 +23,10 @@ import { loggedInRoute } from '../../../../constants';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
-  pipelinesActions,
-  runsActions,
+  // pipelinesActions,
+  // runsActions,
   stackComponentsActions,
-  stacksActions,
+  // stacksActions,
 } from '../../../../redux/actions';
 
 const UserEmail: React.FC = () => {
