@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import _ from 'lodash';
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { stackPagesActions } from '../../../../../redux/actions';
@@ -10,12 +11,18 @@ import {
   stackSelectors,
 } from '../../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
+import { Sorting, SortingDirection } from './ForSorting/types';
 
 interface ServiceInterface {
   openStackIds: TId[];
   setOpenStackIds: (ids: TId[]) => void;
   fetching: boolean;
+  setFilteredStacks: (stacks: TStack[]) => void;
   filteredStacks: TStack[];
+  activeSorting: Sorting | null;
+  setActiveSorting: (arg: Sorting | null) => void;
+  activeSortingDirection: SortingDirection | null;
+  setActiveSortingDirection: (arg: SortingDirection | null) => void;
   setSelectedRunIds: (ids: TId[]) => void;
 }
 interface filterValue {
@@ -31,6 +38,13 @@ export const useService = (
     value: string;
   }[],
 ): ServiceInterface => {
+  const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
+    'createdAt',
+  );
+  const [
+    activeSortingDirection,
+    setActiveSortingDirection,
+  ] = React.useState<SortingDirection | null>('DESC');
   const dispatch = useDispatch();
 
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
@@ -62,10 +76,15 @@ export const useService = (
   };
 
   return {
+    filteredStacks,
+    setFilteredStacks,
+    activeSorting,
+    setActiveSorting,
+    activeSortingDirection,
+    setActiveSortingDirection,
+    setSelectedRunIds,
     openStackIds,
     setOpenStackIds,
     fetching,
-    filteredStacks,
-    setSelectedRunIds,
   };
 };
