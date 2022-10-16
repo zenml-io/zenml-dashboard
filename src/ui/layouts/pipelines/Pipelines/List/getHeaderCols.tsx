@@ -16,17 +16,48 @@ import {
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
+import { SortingHeader } from './ForSorting/SortingHeader';
+import { Sorting, SortingDirection } from './ForSorting/types';
 import { Status } from './Status';
+import { useService } from './ForSorting/useServiceForSorting';
+import _ from 'lodash';
 // import { WorkspaceName } from './WorkspaceName';
 // import { UserName } from './UserName';
 
-export const getHeaderCols = ({
+export const GetHeaderCols = ({
   openPipelineIds,
   setOpenPipelineIds,
+  filteredPipelines,
+  setFilteredPipelines,
+  activeSorting,
+  activeSortingDirection,
+  setActiveSortingDirection,
+  setActiveSorting,
 }: {
   openPipelineIds: TId[];
   setOpenPipelineIds: (ids: TId[]) => void;
+  filteredPipelines: TPipeline[];
+  setFilteredPipelines: (pipelines: TPipeline[]) => void;
+  activeSorting: Sorting | null;
+  activeSortingDirection: SortingDirection | null;
+  setActiveSortingDirection: (direction: SortingDirection | null) => void;
+  setActiveSorting: (sorting: Sorting | null) => void;
 }): HeaderCol[] => {
+  const {
+    // toggleSelectRun,
+    // isRunSelected,
+    // selectRuns,
+    // unselectRuns,
+    // allRunsSelected,
+    sortMethod,
+  } = useService({
+    setActiveSortingDirection,
+    setActiveSorting,
+    setFilteredPipelines,
+    activeSorting,
+    activeSortingDirection,
+    filteredPipelines,
+  });
   return [
     {
       width: '3%',
@@ -51,9 +82,21 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          ID
-        </Paragraph>
+        <SortingHeader
+          sorting="id"
+          sortMethod={sortMethod('id', {
+            asc: (filteredPipelines: TPipeline[]) =>
+              _.orderBy(filteredPipelines, ['id'], ['asc']),
+            desc: (filteredPipelines: TPipeline[]) =>
+              _.orderBy(filteredPipelines, ['id'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            ID
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
@@ -79,9 +122,21 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          NAME
-        </Paragraph>
+        <SortingHeader
+          sorting="name"
+          sortMethod={sortMethod('name', {
+            asc: (filteredPipelines: TPipeline[]) =>
+              _.orderBy(filteredPipelines, ['name'], ['asc']),
+            desc: (filteredPipelines: TPipeline[]) =>
+              _.orderBy(filteredPipelines, ['name'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            Name
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
@@ -173,9 +228,29 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          CREATED AT
-        </Paragraph>
+        <SortingHeader
+          sorting="createdAt"
+          sortMethod={sortMethod('createdAt', {
+            asc: (filteredPipelines: TPipeline[]) =>
+              _.orderBy(
+                filteredPipelines,
+                (pipeline: TPipeline) => new Date(pipeline.created).getTime(),
+                ['asc'],
+              ),
+            desc: (filteredPipelines: TPipeline[]) =>
+              _.orderBy(
+                filteredPipelines,
+                (pipeline: TPipeline) => new Date(pipeline.created).getTime(),
+                ['desc'],
+              ),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            CREATED
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
