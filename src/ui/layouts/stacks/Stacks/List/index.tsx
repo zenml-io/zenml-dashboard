@@ -6,7 +6,7 @@ import { useHistory } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
-import { getHeaderCols } from './getHeaderCols';
+import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
 // import { Box } from '../../../../components';
 
@@ -21,11 +21,24 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     setOpenStackIds,
     fetching,
     filteredStacks,
+    setFilteredStacks,
+    activeSorting,
+    setActiveSorting,
+    activeSortingDirection,
+    setActiveSortingDirection,
     setSelectedRunIds,
-    // } = useService();
   } = useService(filter);
 
-  const headerCols = getHeaderCols({ openStackIds, setOpenStackIds });
+  const headerCols = GetHeaderCols({
+    openStackIds,
+    setOpenStackIds,
+    filteredStacks,
+    setFilteredStacks: setFilteredStacks,
+    activeSorting,
+    setActiveSorting,
+    activeSortingDirection,
+    setActiveSortingDirection,
+  });
 
   const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);

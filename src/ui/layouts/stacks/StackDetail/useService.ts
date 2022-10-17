@@ -1,7 +1,11 @@
 /* eslint-disable */
 
 import { StackDetailRouteParams } from '.';
-import { pipelinesActions, stacksActions } from '../../../../redux/actions';
+import {
+  pipelinesActions,
+  runPagesActions,
+  stacksActions,
+} from '../../../../redux/actions';
 import { stackSelectors } from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
@@ -36,7 +40,7 @@ export const useService = (): ServiceInterface => {
   }, [id]);
 
   const setFetching = (fetching: boolean) => {
-    dispatch(stackPagesActions.setFetching({ fetching }));
+    dispatch(runPagesActions.setFetching({ fetching }));
   };
 
   const stack = useSelector(stackSelectors.stackForId(id));

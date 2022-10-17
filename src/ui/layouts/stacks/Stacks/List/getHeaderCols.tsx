@@ -1,3 +1,4 @@
+import _ from 'lodash';
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
@@ -16,18 +17,47 @@ import {
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
-
+import { SortingHeader } from './ForSorting/SortingHeader';
+import { Sorting, SortingDirection } from './ForSorting/types';
+import { useService } from './ForSorting/useServiceForSorting';
 // import { Status } from './Status';
 // import { WorkspaceName } from './WorkspaceName';
 // import { UserName } from './UserName';
 
-export const getHeaderCols = ({
+export const GetHeaderCols = ({
   openStackIds,
   setOpenStackIds,
+  filteredStacks,
+  setFilteredStacks,
+  activeSorting,
+  activeSortingDirection,
+  setActiveSortingDirection,
+  setActiveSorting,
 }: {
   openStackIds: TId[];
   setOpenStackIds: (ids: TId[]) => void;
+  filteredStacks: TStack[];
+  setFilteredStacks: (stacks: TStack[]) => void;
+  activeSorting: Sorting | null;
+  activeSortingDirection: SortingDirection | null;
+  setActiveSortingDirection: (direction: SortingDirection | null) => void;
+  setActiveSorting: (sorting: Sorting | null) => void;
 }): HeaderCol[] => {
+  const {
+    // toggleSelectRun,
+    // isRunSelected,
+    // selectRuns,
+    // unselectRuns,
+    // allRunsSelected,
+    sortMethod,
+  } = useService({
+    setActiveSortingDirection,
+    setActiveSorting,
+    setFilteredStacks,
+    activeSorting,
+    activeSortingDirection,
+    filteredStacks,
+  });
   return [
     {
       width: '3%',
@@ -52,9 +82,21 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          ID
-        </Paragraph>
+        <SortingHeader
+          sorting="id"
+          sortMethod={sortMethod('id', {
+            asc: (filteredStacks: TStack[]) =>
+              _.orderBy(filteredStacks, ['id'], ['asc']),
+            desc: (filteredStacks: TStack[]) =>
+              _.orderBy(filteredStacks, ['id'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            ID
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
@@ -81,9 +123,24 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          NAME
-        </Paragraph>
+        <SortingHeader
+          sorting="name"
+          sortMethod={sortMethod('name', {
+            asc: (filteredStacks: TStack[]) =>
+              _.orderBy(filteredStacks, ['name'], ['asc']),
+            desc: (filteredStacks: TStack[]) =>
+              _.orderBy(filteredStacks, ['name'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            Name
+          </Paragraph>
+        </SortingHeader>
+        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        //   NAME
+        // </Paragraph>
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
@@ -212,9 +269,32 @@ export const getHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          CREATED AT
-        </Paragraph>
+        <SortingHeader
+          sorting="createdAt"
+          sortMethod={sortMethod('createdAt', {
+            asc: (filteredStacks: TStack[]) =>
+              _.orderBy(
+                filteredStacks,
+                (stack: TStack) => new Date(stack.created).getTime(),
+                ['asc'],
+              ),
+            desc: (filteredStacks: TStack[]) =>
+              _.orderBy(
+                filteredStacks,
+                (stack: TStack) => new Date(stack.created).getTime(),
+                ['desc'],
+              ),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            CREATED
+          </Paragraph>
+        </SortingHeader>
+        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        //   CREATED AT
+        // </Paragraph>
       ),
       width: '8%',
       renderRow: (stack: TStack) => (

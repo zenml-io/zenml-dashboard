@@ -15,12 +15,12 @@ import { Table } from '../../common/Table';
 import { translate } from './translate';
 import { useMemberHeaderCols } from './useHeaderCols';
 import { InvitePopup } from './InvitePopup';
+import { useService } from './useService';
 
 type Table = 'members' | 'invites';
 
 export const Organization: React.FC = () => {
-  
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
 
   const [fetchingMembers, setFetchingMembers] = useState(true);
 
@@ -28,31 +28,45 @@ export const Organization: React.FC = () => {
   const [currentTable, setCurrentTable] = useState('members');
 
   const organization = useSelector(organizationSelectors.myOrganization);
-  const members = useSelector(organizationSelectors.myMembers);
-  const memberHeaderCols = useMemberHeaderCols();
+  // const members = useSelector(organizationSelectors.myMembers);
 
-  // useRequestOnMount(organizationActions.getMy); 
+  const {
+    filteredMembers,
+    setFilteredMembers,
+    activeSorting,
+    setActiveSorting,
+    activeSortingDirection,
+    setActiveSortingDirection,
+    // setSelectedRunIds,
+  } = useService();
+
+  const memberHeaderCols = useMemberHeaderCols({
+    filteredMembers,
+    setFilteredMembers: setFilteredMembers,
+    activeSorting,
+    setActiveSorting,
+    activeSortingDirection,
+    setActiveSortingDirection,
+  });
+  // useRequestOnMount(organizationActions.getMy);
   useRequestOnMount(organizationActions.getRoles);
 
   useEffect(() => {
-    dispatch(organizationActions.getMembers({
+    dispatch(
+      organizationActions.getMembers({
         onSuccess: () => setFetchingMembers(false),
         onFailure: () => setFetchingMembers(false),
       }),
     );
-  }, [dispatch])
+  }, [dispatch]);
 
   if (!organization) return null;
 
   return (
     <>
-      {popupOpen && (
-        <InvitePopup
-          setPopupOpen={setPopupOpen}
-          />
-      )}
+      {popupOpen && <InvitePopup setPopupOpen={setPopupOpen} />}
       <FlexBox.Column flex={1} style={{ width: '100%', marginLeft: '40px' }}>
-        <FlexBox.Row marginTop='lg' alignItems="center" justifyContent="end">
+        <FlexBox.Row marginTop="lg" alignItems="center" justifyContent="end">
           <Box>
             <PrimaryButton onClick={() => setPopupOpen(true)}>
               {translate('button.text')}
@@ -67,7 +81,7 @@ export const Organization: React.FC = () => {
                   bold
                   color={currentTable === 'members' ? 'primary' : 'darkGrey'}
                 >
-                  {translate('members')} {`(${members.length})`}
+                  {translate('members')} {`(${filteredMembers.length})`}
                 </Paragraph>
               </LinkBox>
             </Box>
@@ -78,7 +92,7 @@ export const Organization: React.FC = () => {
               headerCols={memberHeaderCols}
               loading={fetchingMembers}
               showHeader={true}
-              tableRows={members}
+              tableRows={filteredMembers}
               emptyState={{ text: translate('emptyState.text') }}
             />
           )}

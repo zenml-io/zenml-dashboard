@@ -1,9 +1,11 @@
 // import { pipelinesActions, runsActions } from '../../../../../redux/actions';
+import { useEffect } from 'react';
+import { runsActions } from '../../../../../redux/actions';
 import {
   runSelectors,
   runPagesSelectors,
 } from '../../../../../redux/selectors';
-import { useSelector } from '../../../../hooks';
+import { useDispatch, useSelector } from '../../../../hooks';
 
 interface ServiceInterface {
   fetching: boolean;
@@ -12,10 +14,17 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const fetching = useSelector(runPagesSelectors.fetching);
-  console.log('test111', fetching);
+  const dispatch = useDispatch();
   const runs = useSelector(runSelectors.myRuns);
   // useEffect(() => {}, [runs]);
-  // debugger;
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      //assign interval to a variable to clear it.
+      dispatch(runsActions.allRuns({}));
+    }, 5000);
+
+    return () => clearInterval(intervalId); //This is important
+  });
   const runIds = runs.map((run: TRun) => run.id);
 
   return {

@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { loggedInRoute, toasterTypes } from '../../../../constants';
 import {
-  pipelinesActions,
-  runsActions,
+  // pipelinesActions,
+  // runsActions,
   showToasterAction,
   stackComponentsActions,
-  stacksActions,
+  // stacksActions,
   userActions,
 } from '../../../../redux/actions';
 import { Box, FormEmailField, PrimaryButton } from '../../../components';
@@ -52,9 +52,9 @@ export const Form: React.FC = () => {
           );
           dispatch(userActions.getMy({}));
           dispatch(stackComponentsActions.getTypes());
-          dispatch(pipelinesActions.getMy());
-          dispatch(runsActions.allRuns({}));
-          dispatch(stacksActions.getMy({}));
+          // dispatch(pipelinesActions.getMy({}));
+          // dispatch(runsActions.allRuns({}));
+          // dispatch(stacksActions.getMy({}));
           push(loggedInRoute);
         });
     } catch (err) {
@@ -91,9 +91,9 @@ export const Form: React.FC = () => {
           );
           dispatch(userActions.getMy({}));
           dispatch(stackComponentsActions.getTypes());
-          dispatch(pipelinesActions.getMy());
-          dispatch(stacksActions.getMy({}));
-          dispatch(runsActions.allRuns({}));
+          // dispatch(pipelinesActions.getMy({}));
+          // dispatch(stacksActions.getMy({}));
+          // dispatch(runsActions.allRuns({}));
           push(loggedInRoute);
         });
 
@@ -142,7 +142,7 @@ export const Form: React.FC = () => {
 
       <PrimaryButton
         marginTop="md"
-        className={styles.signUpButton}
+        className={styles.skipEmailButton}
         loading={skipSubmitting}
         onClick={skip}
       >
