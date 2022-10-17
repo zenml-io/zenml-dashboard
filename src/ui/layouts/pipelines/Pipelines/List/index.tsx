@@ -6,7 +6,7 @@ import { useHistory } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
-import { getHeaderCols } from './getHeaderCols';
+import { GetHeaderCols } from './getHeaderCols';
 import { RunsForPipelineTable } from './RunsForPipelineTable';
 
 interface Props {
@@ -15,14 +15,33 @@ interface Props {
 export const List: React.FC<Props> = ({ filter }: Props) => {
   const history = useHistory();
   const {
+    // openPipelineIds,
+    // setOpenPipelineIds,
+    // fetching,
+    // filteredPipelines,
+    // setSelectedRunIds,
     openPipelineIds,
     setOpenPipelineIds,
     fetching,
     filteredPipelines,
+    setFilteredPipelines,
+    activeSorting,
+    setActiveSorting,
+    activeSortingDirection,
+    setActiveSortingDirection,
     setSelectedRunIds,
   } = useService(filter);
 
-  const headerCols = getHeaderCols({ openPipelineIds, setOpenPipelineIds });
+  const headerCols = GetHeaderCols({
+    openPipelineIds,
+    setOpenPipelineIds,
+    filteredPipelines,
+    setFilteredPipelines: setFilteredPipelines,
+    activeSorting,
+    setActiveSorting,
+    activeSortingDirection,
+    setActiveSortingDirection,
+  });
 
   const openDetailPage = (pipeline: TPipeline) => {
     setSelectedRunIds([]);

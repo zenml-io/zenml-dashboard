@@ -30,7 +30,7 @@ export const useService = (): ServiceInterface => {
 
   useEffect(() => {
     setFetching(true);
-
+    console.log('asdasdasdasd');
     dispatch(
       runsActions.allRuns({
         // id: currentWorkspace.id,
@@ -38,23 +38,28 @@ export const useService = (): ServiceInterface => {
         onFailure: () => setFetching(false),
       }),
     );
-    dispatch(pipelinesActions.getMy());
+    dispatch(
+      pipelinesActions.getMy({
+        onSuccess: () => setFetching(false),
+        onFailure: () => setFetching(false),
+      }),
+    );
   });
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      //assign interval to a variable to clear it.
-      dispatch(
-        runsActions.allRuns({
-          // id: currentWorkspace.id,
-          onSuccess: () => setFetching(false),
-          onFailure: () => setFetching(false),
-        }),
-      );
-      dispatch(pipelinesActions.getMy());
-    }, 5000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     //assign interval to a variable to clear it.
+  //     dispatch(
+  //       runsActions.allRuns({
+  //         // id: currentWorkspace.id,
+  //         onSuccess: () => setFetching(false),
+  //         onFailure: () => setFetching(false),
+  //       }),
+  //     );
+  //     dispatch(pipelinesActions.getMy({}));
+  //   }, 5000);
 
-    return () => clearInterval(intervalId); //This is important
-  });
+  //   return () => clearInterval(intervalId); //This is important
+  // });
 
   const setFetching = (fetching: boolean) => {
     dispatch(pipelinePagesActions.setFetching({ fetching }));

@@ -1,21 +1,31 @@
 /* eslint-disable */
 
 import _ from 'lodash';
+import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { pipelinePagesActions } from '../../../../../redux/actions';
+import {
+  pipelinePagesActions,
+  pipelinesActions,
+} from '../../../../../redux/actions';
 import {
   pipelinePagesSelectors,
   pipelineSelectors,
 } from '../../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
+import { Sorting, SortingDirection } from './ForSorting/types';
 
 interface ServiceInterface {
   openPipelineIds: TId[];
   setOpenPipelineIds: (ids: TId[]) => void;
   fetching: boolean;
   filteredPipelines: TPipeline[];
+  setFilteredPipelines: (pipelines: TPipeline[]) => void;
   setSelectedRunIds: (ids: TId[]) => void;
+  activeSorting: Sorting | null;
+  setActiveSorting: (arg: Sorting | null) => void;
+  activeSortingDirection: SortingDirection | null;
+  setActiveSortingDirection: (arg: SortingDirection | null) => void;
 }
 
 interface filterValue {
@@ -30,6 +40,14 @@ export const useService = (
     value: string;
   }[],
 ): ServiceInterface => {
+  const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
+    null,
+  );
+  const [
+    activeSortingDirection,
+    setActiveSortingDirection,
+  ] = React.useState<SortingDirection | null>('DESC');
+
   const dispatch = useDispatch();
 
   const [openPipelineIds, setOpenPipelineIds] = useState<TId[]>([]);
@@ -59,6 +77,19 @@ export const useService = (
     setFilteredPipelines(orderedPipelines);
   }, [filter, pipelines]);
 
+  useEffect(() => {
+    if (activeSorting === null) {
+      const intervalId = setInterval(() => {
+        //assign interval to a variable to clear it.
+
+        dispatch(pipelinesActions.getMy({}));
+      }, 5000);
+
+      return () => clearInterval(intervalId);
+    }
+    //This is important
+  });
+
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(pipelinePagesActions.setSelectedRunIds({ runIds }));
   };
@@ -69,5 +100,10 @@ export const useService = (
     fetching,
     filteredPipelines,
     setSelectedRunIds,
+    setFilteredPipelines,
+    activeSorting,
+    setActiveSorting,
+    activeSortingDirection,
+    setActiveSortingDirection,
   };
 };

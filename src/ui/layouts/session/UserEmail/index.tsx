@@ -23,10 +23,10 @@ import { loggedInRoute } from '../../../../constants';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
-  pipelinesActions,
-  runsActions,
+  // pipelinesActions,
+  // runsActions,
   stackComponentsActions,
-  stacksActions,
+  // stacksActions,
 } from '../../../../redux/actions';
 
 const UserEmail: React.FC = () => {
@@ -51,9 +51,9 @@ const UserEmail: React.FC = () => {
           if (data) {
             if (data?.email_opted_in !== null) {
               dispatch(stackComponentsActions.getTypes());
-              dispatch(pipelinesActions.getMy());
-              dispatch(stacksActions.getMy({}));
-              dispatch(runsActions.allRuns({}));
+              // dispatch(pipelinesActions.getMy());
+              // dispatch(stacksActions.getMy({}));
+              // dispatch(runsActions.allRuns({}));
               push(loggedInRoute);
             }
           }

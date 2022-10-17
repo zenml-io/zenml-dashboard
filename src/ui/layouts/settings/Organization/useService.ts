@@ -2,16 +2,21 @@
 
 import _ from 'lodash';
 import React from 'react';
-import { useEffect } from 'react';
-import { Sorting, SortingDirection } from './types';
+import { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { stackPagesActions } from '../../../../redux/actions';
-import { useDispatch, useSelector } from '../../../hooks';
-import { runSelectors } from '../../../../redux/selectors';
+import {
+  organizationSelectors,
+  stackComponentSelectors,
+  stackPagesSelectors,
+  stackSelectors,
+} from '../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../utils/tableFilters';
+import { Sorting, SortingDirection } from './ForSorting/types';
 
 interface ServiceInterface {
-  sortedRuns: TRun[];
-  setSortedRuns: (runs: TRun[]) => void;
+  setFilteredMembers: (members: TMember[]) => void;
+  filteredMembers: TMember[];
   activeSorting: Sorting | null;
   setActiveSorting: (arg: Sorting | null) => void;
   activeSortingDirection: SortingDirection | null;
@@ -24,18 +29,7 @@ interface filterValue {
   value: string;
 }
 
-export const useService = ({
-  runIds,
-  filter,
-}: {
-  runIds: TId[];
-  filter: {
-    column: filterValue;
-    type: filterValue;
-    value: string;
-  }[];
-}): ServiceInterface => {
-  const dispatch = useDispatch();
+export const useService = (): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'createdAt',
   );
@@ -43,33 +37,37 @@ export const useService = ({
     activeSortingDirection,
     setActiveSortingDirection,
   ] = React.useState<SortingDirection | null>('DESC');
-  const [sortedRuns, setSortedRuns] = React.useState<TRun[]>([]);
+  const dispatch = useDispatch();
 
-  const runs = useSelector(runSelectors.forRunIds(runIds));
+  const [filteredMembers, setFilteredMembers] = useState<TMember[]>([]);
+
+  // const fetching = useSelector(stackPagesSelectors.fetching);
+
+  // const organization = useSelector(organizationSelectors.myOrganization);
+  const members = useSelector(organizationSelectors.myMembers);
+
+  // const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
   useEffect(() => {
-    let orderedRuns = _.sortBy(runs, (run: TRun) =>
-      new Date(run.created).getTime(),
+    let filteredMembers = _.sortBy(members, (stack: TMember) =>
+      new Date(stack.created).getTime(),
     ).reverse();
 
-    const isValidFilter = filter.map((f) => f.value).join('');
-    if (isValidFilter) {
-      orderedRuns = getFilteredDataForTable(orderedRuns, filter);
-    }
-    setSortedRuns(orderedRuns);
-  }, [filter, runIds]);
+    setFilteredMembers(filteredMembers);
+  }, [members]);
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
   };
 
   return {
-    sortedRuns,
-    setSortedRuns,
+    filteredMembers,
+    setFilteredMembers,
     activeSorting,
     setActiveSorting,
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
+    // fetching,
   };
 };
