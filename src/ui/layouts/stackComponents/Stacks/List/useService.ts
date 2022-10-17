@@ -4,13 +4,17 @@ import _ from 'lodash';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { stackPagesActions } from '../../../../../redux/actions';
+import {
+  stackComponentsActions,
+  stackPagesActions,
+} from '../../../../../redux/actions';
 import {
   stackComponentSelectors,
   stackPagesSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
+import { useLocationPath } from '../../../../hooks';
 import { Sorting, SortingDirection } from './ForSorting/types';
 
 interface ServiceInterface {
@@ -39,14 +43,14 @@ export const useService = (
   }[],
 ): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
-    'createdAt',
+    null,
   );
   const [
     activeSortingDirection,
     setActiveSortingDirection,
   ] = React.useState<SortingDirection | null>('DESC');
   const dispatch = useDispatch();
-
+  const locationPath = useLocationPath();
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
   const [filteredStacks, setFilteredStacks] = useState<TStack[]>([]);
 
@@ -70,6 +74,23 @@ export const useService = (
 
     setFilteredStacks(orderedStacks);
   }, [stackComponents, filter]);
+
+  useEffect(() => {
+    if (activeSorting === null) {
+      // debugger;
+      const intervalId = setInterval(() => {
+        //assign interval to a variable to clear it.
+        dispatch(
+          stackComponentsActions.getMy({
+            // id: currentWorkspace.id,
+            type: locationPath.split('/')[2],
+          }),
+        );
+      }, 5000);
+
+      return () => clearInterval(intervalId);
+    }
+  });
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));

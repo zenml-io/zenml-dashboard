@@ -44,19 +44,19 @@ export const useService = (): ServiceInterface => {
     );
   }, [locationPath]);
 
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      //assign interval to a variable to clear it.
-      dispatch(
-        stacksActions.getMy({
-          onSuccess: () => setFetching(false),
-          onFailure: () => setFetching(false),
-        }),
-      );
-    }, 5000);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     //assign interval to a variable to clear it.
+  //     dispatch(
+  //       stacksActions.getMy({
+  //         onSuccess: () => setFetching(false),
+  //         onFailure: () => setFetching(false),
+  //       }),
+  //     );
+  //   }, 5000);
 
-    return () => clearInterval(intervalId); //This is important
-  });
+  //   return () => clearInterval(intervalId); //This is important
+  // });
 
   const setFetching = (fetching: boolean) => {
     dispatch(stackPagesActions.setFetching({ fetching }));

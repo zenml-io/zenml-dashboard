@@ -41,7 +41,7 @@ export const useService = (
   }[],
 ): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
-    'createdAt',
+    null,
   );
   const [
     activeSortingDirection,
@@ -78,13 +78,16 @@ export const useService = (
   }, [filter, pipelines]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      //assign interval to a variable to clear it.
+    if (activeSorting === null) {
+      const intervalId = setInterval(() => {
+        //assign interval to a variable to clear it.
 
-      dispatch(pipelinesActions.getMy({}));
-    }, 5000);
+        dispatch(pipelinesActions.getMy({}));
+      }, 5000);
 
-    return () => clearInterval(intervalId); //This is important
+      return () => clearInterval(intervalId);
+    }
+    //This is important
   });
 
   const setSelectedRunIds = (runIds: TId[]) => {

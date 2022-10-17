@@ -4,7 +4,7 @@ import _ from 'lodash';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { stackPagesActions } from '../../../../../redux/actions';
+import { stackPagesActions, stacksActions } from '../../../../../redux/actions';
 import {
   stackPagesSelectors,
   stackSelectors,
@@ -38,7 +38,7 @@ export const useService = (
   }[],
 ): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
-    'createdAt',
+    null,
   );
   const [
     activeSortingDirection,
@@ -67,6 +67,18 @@ export const useService = (
 
     setFilteredStacks(orderedStacks);
   }, [Stacks, filter]);
+
+  useEffect(() => {
+    if (activeSorting === null) {
+      const intervalId = setInterval(() => {
+        //assign interval to a variable to clear it.
+        dispatch(stacksActions.getMy({}));
+      }, 5000);
+
+      return () => clearInterval(intervalId);
+    }
+    //This is important
+  });
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
