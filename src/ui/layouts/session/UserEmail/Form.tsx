@@ -142,7 +142,7 @@ export const Form: React.FC = () => {
 
       <PrimaryButton
         marginTop="md"
-        className={styles.signUpButton}
+        className={styles.skipEmailButton}
         loading={skipSubmitting}
         onClick={skip}
       >

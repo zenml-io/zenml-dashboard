@@ -26,3 +26,15 @@ $bgColor: #FFFF;
   width: 100%;
   background-color: #E8A562;
 }
+
+.skipEmailButton {
+  width: 100%;
+
+  background-color:transparent;
+color:#A1A4AB;
+&:hover {
+  background: transparent;
+}
+  // background-color: #E8A562;
+  
+}
