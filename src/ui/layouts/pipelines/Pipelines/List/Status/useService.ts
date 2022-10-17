@@ -3,17 +3,24 @@ import { getLastThreeRuns } from '../../../../../../utils';
 // import { useSelector } from '../../../../../hooks';
 
 interface ServiceInterface {
-  lastThreeRuns: TRun[];
+  lastThreeRuns: any[];
 }
 
 export const useService = ({
   pipeline,
 }: {
-  pipeline: TPipeline;
+  pipeline: any;
 }): ServiceInterface => {
-  const runs = pipeline.status;
-  // debugger;
-  const lastThreeRuns = getLastThreeRuns(runs);
+  let runs: { status: any; run: any }[] = [];
+
+  pipeline.runs.map((item: any, index: string | number) =>
+    runs.push({
+      status: pipeline.status[index],
+      run: pipeline.runs[index],
+    }),
+  );
+
+  const lastThreeRuns = getLastThreeRuns(runs as any);
 
   return { lastThreeRuns };
 };
