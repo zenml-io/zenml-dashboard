@@ -22,7 +22,7 @@ import styles from './Home.module.scss';
 import { iconColors, DEFAULT_PROJECT_NAME } from '../../constants';
 import { sessionSelectors } from '../../redux/selectors/session';
 import { usePushRoute, useSelector } from '../hooks';
-import axios from 'axios' 
+import axios from 'axios';
 
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
@@ -49,7 +49,9 @@ const GreyBoxWithIcon: React.FC<{
         <H4 bold>{title}</H4>
       </FlexBox.Row>
       <Box>
-        <GhostButton style={{ width: '124px' }} onClick={onClick}>{buttonText}</GhostButton>
+        <GhostButton style={{ width: '124px' }} onClick={onClick}>
+          {buttonText}
+        </GhostButton>
       </Box>
     </FlexBox.Row>
   );
@@ -58,24 +60,27 @@ const GreyBoxWithIcon: React.FC<{
 export const Home: React.FC = () => {
   const { push } = usePushRoute();
 
-  const [box, setBox] = useState('')
+  const [box, setBox] = useState('');
 
-  const [dashboardData, setDashboardData] = useState('')
+  const [dashboardData, setDashboardData] = useState('');
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
-  useEffect(()  => {  
+  useEffect(() => {
     const getDashboardData = async () => {
-      const { data } = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/projects/${DEFAULT_PROJECT_NAME}/statistics`, {
-        headers: {
-          'Authorization': `bearer ${authToken}` 
-        }
-      })
-      setDashboardData(data)
-    }
-    getDashboardData()
-  }, [authToken])
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_API_URL}/projects/${DEFAULT_PROJECT_NAME}/statistics`,
+        {
+          headers: {
+            Authorization: `bearer ${authToken}`,
+          },
+        },
+      );
+      setDashboardData(data);
+    };
+    getDashboardData();
+  }, [authToken]);
 
-  const preData = Object.entries(dashboardData)
+  const preData = Object.entries(dashboardData);
   const data = preData?.map(([key, value]) => {
     const objData = { text: key, value: value };
     return objData;
@@ -85,7 +90,7 @@ export const Home: React.FC = () => {
     <AuthenticatedLayout>
       <SidebarContainer>
         <EaseInBox>
-          <Box marginTop="5xl" marginLeft='xl' >
+          <Box marginTop="5xl" marginLeft="xl">
             <Row style={{ alignItems: 'center' }}>
               <Col xs={12} lg={10}>
                 <Box paddingBottom="md">
@@ -94,19 +99,46 @@ export const Home: React.FC = () => {
                 <Box paddingBottom="lg">
                   <H4 bold>{translate('subtitle')}</H4>
                 </Box>
-      
-                <FlexBox>
-                  {data?.map((e, index) => (
-                    <Box key={index} marginRight="xxl" style={{ width: '220px', minHeight: '100px', border: '1px solid #C9CBD0', borderRadius: '6px', padding: '13px 14px', backgroundColor: box === e.text ? '#431D93' : '#fff' }} onClick={() => setBox(e.text)} >
-                      <Paragraph style={{ fontSize: '24px', fontWeight: "bold", color: box === e.text ? '#fff' : '#431D93' }}>{e.value}</Paragraph>
-                      <Paragraph style={{ fontSize: '14px', fontWeight: "inherit", color:  box === e.text ? '#fff' : '#646972', marginTop: '38px' }}>Number of {e.text}</Paragraph>
-                    </Box>
-                  ))}
-                </FlexBox>
               </Col>
-              
+              {data?.map((e, index) => (
+                <Box
+                  key={index}
+                  marginRight="xxl"
+                  style={{
+                    width: '220px',
+                    minHeight: '100px',
+                    border: '1px solid #C9CBD0',
+                    borderRadius: '6px',
+                    padding: '13px 14px',
+                    marginTop: '10px',
+                    backgroundColor: box === e.text ? '#431D93' : '#fff',
+                  }}
+                  onClick={() => setBox(e.text)}
+                >
+                  <Paragraph
+                    style={{
+                      fontSize: '24px',
+                      fontWeight: 'bold',
+                      color: box === e.text ? '#fff' : '#431D93',
+                    }}
+                  >
+                    {e.value}
+                  </Paragraph>
+                  <Paragraph
+                    style={{
+                      fontSize: '14px',
+                      fontWeight: 'inherit',
+                      color: box === e.text ? '#fff' : '#646972',
+                      marginTop: '38px',
+                    }}
+                  >
+                    Number of {e.text}
+                  </Paragraph>
+                </Box>
+              ))}
+
               <Col xs={12} lg={7}>
-                <Box marginTop="xxxl" >                
+                <Box marginTop="xxxl">
                   <GreyBoxWithIcon
                     onClick={() =>
                       window.open(translate('cardOne.button.href'), '_blank')
