@@ -11,10 +11,7 @@ import {
 
 import styles from './AuthenticatedHeader.module.scss';
 import { iconColors, iconSizes } from '../../../../../constants/icons';
-import {
-  userSelectors,
-  organizationSelectors,
-} from '../../../../../redux/selectors';
+import { userSelectors } from '../../../../../redux/selectors';
 import { getInitials } from '../../../../../utils/name';
 import { DEFAULT_FULL_NAME } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
@@ -26,7 +23,7 @@ export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ setMobileMenuOpen }) => {
   const user = useSelector(userSelectors.myUser);
-  // const organization = useSelector(organizationSelectors.myOrganization);
+
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { push } = usePushRoute();

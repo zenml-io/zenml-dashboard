@@ -5,7 +5,6 @@ import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { Tabs } from '../common/Tabs';
 import Header from './Header';
 import Stacks from './Stacks';
-import { useService } from './useService';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
@@ -21,12 +20,6 @@ export const BasePage: React.FC<{
   headerWithButtons,
   children,
 }) => {
-  // const { organization } = useService();
-
-  // if (!organization) return null;
-
-  // const organizationName = organization.name;
-
   return (
     <AuthenticatedLayout>
       <SidebarContainer>

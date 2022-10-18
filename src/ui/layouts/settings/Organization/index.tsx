@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector } from 'react-redux';
 import { organizationActions } from '../../../../redux/actions';
-import { organizationSelectors } from '../../../../redux/selectors';
 
 import {
   FlexBox,
@@ -27,9 +25,6 @@ export const Organization: React.FC = () => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [currentTable, setCurrentTable] = useState('members');
 
-  const organization = useSelector(organizationSelectors.myOrganization);
-  // const members = useSelector(organizationSelectors.myMembers);
-
   const {
     filteredMembers,
     setFilteredMembers,
@@ -48,7 +43,6 @@ export const Organization: React.FC = () => {
     activeSortingDirection,
     setActiveSortingDirection,
   });
-  // useRequestOnMount(organizationActions.getMy);
   useRequestOnMount(organizationActions.getRoles);
 
   useEffect(() => {
@@ -59,8 +53,6 @@ export const Organization: React.FC = () => {
       }),
     );
   }, [dispatch]);
-
-  // if (!organization) return null;
 
   return (
     <>

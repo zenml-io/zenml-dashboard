@@ -9,13 +9,12 @@ import {
 } from '../../components';
 import { useRequestOnMount, useSelector } from '../../hooks';
 import {
-  organizationActions,
   sessionActions,
   showToasterAction,
   userActions,
 } from '../../../redux/actions';
 
-import { organizationSelectors, userSelectors } from '../../../redux/selectors';
+import { userSelectors } from '../../../redux/selectors';
 import { getTranslateByScope } from '../../../services';
 import { useDispatch } from 'react-redux';
 import { toasterTypes } from '../../../constants';
@@ -25,11 +24,9 @@ import { EmailPopup } from './EmailPopup';
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
 export const PersonalDetails: React.FC = () => {
-  // useRequestOnMount(organizationActions.getMy, {});
   useRequestOnMount(userActions.getMy, {});
   const dispatch = useDispatch();
 
-  const organization = useSelector(organizationSelectors.myOrganization);
   const user = useSelector(userSelectors.myUser);
 
   const [submitting, setSubmitting] = useState(false);
