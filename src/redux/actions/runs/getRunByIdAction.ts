@@ -3,14 +3,16 @@ import getRunByIdApi from '../../../api/runs/getRunByIdApi';
 
 export const getRunByIdAction = ({
   runId,
+  stackId,
   pipelineId,
-  workspaceId,
+  stackComponentId,
   onSuccess,
   onFailure,
 }: {
   runId: TId;
-  pipelineId: TId;
-  workspaceId?: TId | null;
+  stackId?: TId;
+  pipelineId?: TId;
+  stackComponentId?: TId;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -20,7 +22,7 @@ export const getRunByIdAction = ({
     isAuthenticated: true,
     failureActionType: runActionTypes.getRunForId.failure,
     successActionType: runActionTypes.getRunForId.success,
-    params: { runId, pipelineId, workspaceId },
+    params: { runId, stackId, pipelineId, stackComponentId },
     onSuccess,
     onFailure,
   },

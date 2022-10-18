@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import {
   runPagesSelectors,
@@ -16,6 +17,7 @@ export const useService = ({
 }): ServiceInterface => {
   const fetching = useSelector(runPagesSelectors.fetching);
   const runs: TRun[] = useSelector(runSelectors.runsForPipelineId(pipelineId));
+  // useEffect(() => {}, [runs]);
 
   const runIds = runs.map((run: TRun) => run.id);
 

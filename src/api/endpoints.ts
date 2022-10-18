@@ -27,15 +27,18 @@ export const endpoints = {
   },
   pipelines: {
     my: '/pipelines?hydrated=true',
-    get: (pipelineId: TId): string => `/pipelines/${pipelineId}&hydrated=true`,
+    get: (pipelineId: TId): string =>
+      `/pipelines/${pipelineId}?unlisted=false&hydrated=true`,
   },
   Stacks: {
     my: '/stacks?hydrated=true',
-    get: (stackId: TId): string => `/Stacks/${stackId}&hydrated=true`,
+    get: (stackId: TId): string =>
+      `/stacks/${stackId}?unlisted=false&hydrated=true`,
   },
   StackComponents: {
     types: '/component-types',
-    my: (type: string): string => `/components?type=${type}&hydrated=true`,
+    my: (type: string): string =>
+      `/components?type=${type}?unlisted=false&hydrated=true`,
     get: (stackComponentId: TId): string =>
       `/components/${stackComponentId}?hydrated=true`,
   },
@@ -50,14 +53,13 @@ export const endpoints = {
     },
     stackComponent: {
       get: (stackComponentId: TId): string =>
-        `/runs?component_id=${stackComponentId}&hydrated=true`,
+        `/runs?component_id=${stackComponentId}&unlisted=false&hydrated=true`,
     },
     graphById: {
       get: (runId: TId): string => `/runs/${runId}/graph`,
     },
     all: `/runs?unlisted=false&hydrated=true`,
-    get: (pipelineId: TId, runId: TId): string =>
-      `/pipelines/${pipelineId}/runs/${runId}`,
+    get: (runId: TId): string => `/runs/${runId}?unlisted=false&hydrated=true`,
   },
   billing: {
     my: '/billing/stripe/session',

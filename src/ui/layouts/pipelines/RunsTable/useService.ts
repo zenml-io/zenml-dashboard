@@ -41,6 +41,7 @@ export const useService = ({
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'createdAt',
   );
+
   const [
     activeSortingDirection,
     setActiveSortingDirection,
@@ -55,13 +56,14 @@ export const useService = ({
     let orderedRuns = _.sortBy(runs, (run: TRun) =>
       new Date(run.created).getTime(),
     ).reverse();
+
     const isValidFilter = filter?.map((f) => f.value).join('');
     if (isValidFilter) {
       orderedRuns = getFilteredDataForTable(orderedRuns, filter);
     }
 
     setSortedRuns(orderedRuns);
-  }, [filter]);
+  }, [filter, runIds]);
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(pipelinePagesActions.setSelectedRunIds({ runIds }));

@@ -38,6 +38,14 @@ export const useService = (): ServiceInterface => {
     if (!isMounted) {
       setFetching(true);
       dispatch(
+        runsActions.runForId({
+          stackComponentId: stackComponentId,
+          runId: id,
+          onSuccess: () => setFetching(false),
+          onFailure: () => setFetching(false),
+        }),
+      );
+      dispatch(
         runsActions.graphForRun({
           runId: id,
           onSuccess: () => setFetching(false),

@@ -14,7 +14,7 @@ const getRunByIdApi = ({
   runId: TId;
 }): Promise<TOrganization> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.runs.get(pipelineId, runId)),
+    url: apiUrl(endpoints.runs.get(runId)),
     method: httpMethods.get,
     authenticationToken,
   }).catch((res) => {
