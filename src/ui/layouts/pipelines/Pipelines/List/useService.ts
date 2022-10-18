@@ -65,8 +65,8 @@ export const useService = (
 
     let orderedPipelines =
       activeSorting === null
-        ? _.sortBy(pipelines, (stack: TStack) =>
-            new Date(stack.created).getTime(),
+        ? _.sortBy(pipelines, (pipeline: TPipeline) =>
+            new Date(pipeline.created).getTime(),
           ).reverse()
         : _.orderBy(
             pipelines,

@@ -107,9 +107,19 @@ export const useHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          RUN NAME
-        </Paragraph>
+        <SortingHeader
+          sorting="runName"
+          sortMethod={sortMethod('runName', {
+            asc: (run: TRun[]) => _.orderBy(run, ['name'], ['asc']),
+            desc: (run: TRun[]) => _.orderBy(run, ['name'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            RUN NAME
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '10%',
       renderRow: (run: TRun) => (
@@ -134,9 +144,19 @@ export const useHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          PIPELINE NAME
-        </Paragraph>
+        <SortingHeader
+          sorting="pipelineName"
+          sortMethod={sortMethod('pipelineName', {
+            asc: (run: TRun[]) => _.orderBy(run, ['pipeline.name'], ['asc']),
+            desc: (run: TRun[]) => _.orderBy(run, ['pipeline.name'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            PIPEPLINE NAME
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '10%',
       renderRow: (run: TRun) => (
@@ -196,9 +216,19 @@ export const useHeaderCols = ({
 
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          STACK NAME
-        </Paragraph>
+        <SortingHeader
+          sorting="stackName"
+          sortMethod={sortMethod('stackName', {
+            asc: (run: TRun[]) => _.orderBy(run, ['stack.name'], ['asc']),
+            desc: (run: TRun[]) => _.orderBy(run, ['stack.name'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            STACK NAME
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '10%',
       renderRow: (run: TRun) => (
@@ -237,9 +267,23 @@ export const useHeaderCols = ({
 
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          AUTHOR
-        </Paragraph>
+        <SortingHeader
+          sorting="author"
+          sortMethod={sortMethod('author', {
+            asc: (run: TRun[]) => _.orderBy(run, ['user.full_name'], ['asc']),
+            desc: (run: TRun[]) =>
+              _.orderBy(run, ['stack.full_name'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            AUTHOR
+          </Paragraph>
+        </SortingHeader>
+        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        //   AUTHOR
+        // </Paragraph>
       ),
       width: '10%',
       renderRow: (run: TRun) => {
