@@ -54,7 +54,7 @@ export const useService = (): ServiceInterface => {
                   type: toasterTypes.success,
                 }),
               );
-              await dispatch(organizationActions.getMy());
+              // await dispatch(organizationActions.getMy());
               await dispatch(userActions.getMy({}));
               await push(routePaths.userEmail);
             },

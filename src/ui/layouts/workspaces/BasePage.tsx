@@ -13,9 +13,9 @@ export const BasePage: React.FC<{
   renderHeaderRight?: () => JSX.Element;
   headerWithButtons?: boolean;
 }> = ({ tabPages, breadcrumbs, tabBasePath, headerWithButtons, children }) => {
-  const { organization } = useService();
+  // const { organization } = useService();
 
-  if (!organization) return null;
+  // if (!organization) return null;
 
   // const organizationName = organization.name;
 

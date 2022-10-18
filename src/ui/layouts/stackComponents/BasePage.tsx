@@ -21,9 +21,9 @@ export const BasePage: React.FC<{
   headerWithButtons,
   children,
 }) => {
-  const { organization } = useService();
+  // const { organization } = useService();
 
-  if (!organization) return null;
+  // if (!organization) return null;
 
   // const organizationName = organization.name;
 

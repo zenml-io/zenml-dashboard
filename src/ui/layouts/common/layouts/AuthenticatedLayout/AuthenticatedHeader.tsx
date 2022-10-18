@@ -26,12 +26,12 @@ export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ setMobileMenuOpen }) => {
   const user = useSelector(userSelectors.myUser);
-  const organization = useSelector(organizationSelectors.myOrganization);
+  // const organization = useSelector(organizationSelectors.myOrganization);
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { push } = usePushRoute();
 
-  if (!user || !organization) return null;
+  if (!user) return null;
 
   const userFullName = user.fullName || user.name || DEFAULT_FULL_NAME;
   const userInitials = getInitials(userFullName);
@@ -45,7 +45,7 @@ export const AuthenticatedHeader: React.FC<{
       paddingHorizontal="lg"
       alignItems="center"
       justifyContent="space-between"
-      className={styles.header} 
+      className={styles.header}
     >
       <FlexBox alignItems="center">
         {/* <Box className="d-none d-md-block">

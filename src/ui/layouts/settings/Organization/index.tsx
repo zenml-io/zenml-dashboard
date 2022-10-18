@@ -60,7 +60,7 @@ export const Organization: React.FC = () => {
     );
   }, [dispatch]);
 
-  if (!organization) return null;
+  // if (!organization) return null;
 
   return (
     <>
