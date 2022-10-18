@@ -16,7 +16,6 @@ import FilterComponent, {
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
-  // debugger;
 
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
   const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);

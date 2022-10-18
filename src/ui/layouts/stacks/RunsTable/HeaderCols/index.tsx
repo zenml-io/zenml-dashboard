@@ -1,10 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
-// import cn from 'classnames';
 
-// import styles from '../index.module.scss';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-// import { translate } from '../translate';
+
 import {
   formatDateToDisplay,
   truncate,
@@ -16,20 +14,17 @@ import { routePaths } from '../../../../../routes/routePaths';
 import {
   FlexBox,
   Paragraph,
-  // LinkBox,
   Box,
   icons,
   ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
-// import { RunTime } from '../../RunTime';
-// import { RunUser } from '../RunUser';
+
 import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
 import ReactTooltip from 'react-tooltip';
-// import { PipelineName } from '../PipelineName';
 
 export const useHeaderCols = ({
   runs,
@@ -46,14 +41,7 @@ export const useHeaderCols = ({
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
   setActiveSorting: (sorting: Sorting | null) => void;
 }): HeaderCol[] => {
-  const {
-    // toggleSelectRun,
-    // isRunSelected,
-    // selectRuns,
-    // unselectRuns,
-    // allRunsSelected,
-    sortMethod,
-  } = useService({
+  const { sortMethod } = useService({
     setActiveSortingDirection,
     setActiveSorting,
     setRuns,
@@ -91,16 +79,8 @@ export const useHeaderCols = ({
               {truncate(run.id, ID_MAX_LENGTH)}
             </Paragraph>
           </div>
-          <ReactTooltip
-            id={run.id}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
-            <Paragraph color="white">
-              {run.id}
-              {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-            </Paragraph>
+          <ReactTooltip id={run.id} place="top" effect="solid">
+            <Paragraph color="white">{run.id}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -126,18 +106,9 @@ export const useHeaderCols = ({
         <div style={{ alignItems: 'center' }}>
           <div data-tip data-for={run.name}>
             <Paragraph size="small">{run.name}</Paragraph>
-            {/* <Paragraph size="small">{pipeline.name}</Paragraph> */}
           </div>
-          <ReactTooltip
-            id={run.name}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
-            <Paragraph color="white">
-              {run.name}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+          <ReactTooltip id={run.name} place="top" effect="solid">
+            <Paragraph color="white">{run.name}</Paragraph>
           </ReactTooltip>
         </div>
       ),
@@ -178,18 +149,9 @@ export const useHeaderCols = ({
             >
               {run.pipeline?.name}
             </Paragraph>
-            {/* <Paragraph size="small">{pipeline.name}</Paragraph> */}
           </div>
-          <ReactTooltip
-            id={run.pipeline?.name}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
-            <Paragraph color="white">
-              {run.pipeline?.name}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+          <ReactTooltip id={run.pipeline?.name} place="top" effect="solid">
+            <Paragraph color="white">{run.pipeline?.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -248,18 +210,9 @@ export const useHeaderCols = ({
             >
               {run.stack?.name}
             </Paragraph>
-            {/* <Paragraph size="small">{pipeline.name}</Paragraph> */}
           </div>
-          <ReactTooltip
-            id={run.stack?.name}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
-            <Paragraph color="white">
-              {run.stack?.name}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+          <ReactTooltip id={run.stack?.name} place="top" effect="solid">
+            <Paragraph color="white">{run.stack?.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -281,9 +234,6 @@ export const useHeaderCols = ({
             AUTHOR
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-        //   AUTHOR
-        // </Paragraph>
       ),
       width: '10%',
       renderRow: (run: TRun) => {
@@ -311,11 +261,9 @@ export const useHeaderCols = ({
               id={run.user.full_name ? run.user.full_name : run.user.name}
               place="top"
               effect="solid"
-              // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
             >
               <Paragraph color="white">
                 {run.user.full_name ? run.user.full_name : run.user.name}
-                {/* {translate(`tooltips.${invoice.status}`)} */}
               </Paragraph>
             </ReactTooltip>
           </FlexBox>
@@ -361,12 +309,8 @@ export const useHeaderCols = ({
             id={formatDateToSort(run.created)}
             place="top"
             effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
           >
-            <Paragraph color="white">
-              {run.created}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+            <Paragraph color="white"></Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

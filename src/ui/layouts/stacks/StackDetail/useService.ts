@@ -22,7 +22,7 @@ export const useService = (): ServiceInterface => {
 
   useEffect(() => {
     setFetching(true);
-    // Legacy: previously runs was in pipeline
+
     dispatch(
       stacksActions.stackForId({
         stackId: id,
@@ -30,6 +30,7 @@ export const useService = (): ServiceInterface => {
         onFailure: () => setFetching(false),
       }),
     );
+    // Legacy: previously runs was in pipeline
     dispatch(
       stacksActions.allRunsByStackId({
         stackId: id,

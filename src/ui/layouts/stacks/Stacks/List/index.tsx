@@ -8,13 +8,11 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
-// import { Box } from '../../../../components';
 
 interface Props {
   filter: any;
 }
 export const List: React.FC<Props> = ({ filter }: Props) => {
-  // export const List: React.FC = () => {
   const history = useHistory();
   const {
     openStackIds,

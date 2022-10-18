@@ -20,9 +20,6 @@ import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { useService } from './ForSorting/useServiceForSorting';
-// import { Status } from './Status';
-// import { WorkspaceName } from './WorkspaceName';
-// import { UserName } from './UserName';
 
 export const GetHeaderCols = ({
   openStackIds,
@@ -43,14 +40,7 @@ export const GetHeaderCols = ({
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
   setActiveSorting: (sorting: Sorting | null) => void;
 }): HeaderCol[] => {
-  const {
-    // toggleSelectRun,
-    // isRunSelected,
-    // selectRuns,
-    // unselectRuns,
-    // allRunsSelected,
-    sortMethod,
-  } = useService({
+  const { sortMethod } = useService({
     setActiveSortingDirection,
     setActiveSorting,
     setFilteredStacks,
@@ -100,19 +90,13 @@ export const GetHeaderCols = ({
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
-        // <Paragraph size="small">{truncate(stack.id, ID_MAX_LENGTH)}</Paragraph>
         <FlexBox alignItems="center">
           <div data-tip data-for={stack.id}>
             <Paragraph size="small">
               {truncate(stack.id, ID_MAX_LENGTH)}
             </Paragraph>
           </div>
-          <ReactTooltip
-            id={stack.id}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
+          <ReactTooltip id={stack.id} place="top" effect="solid">
             <Paragraph color="white">
               {stack.id}
               {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
@@ -138,9 +122,6 @@ export const GetHeaderCols = ({
             NAME
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-        //   NAME
-        // </Paragraph>
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
@@ -150,25 +131,13 @@ export const GetHeaderCols = ({
               {stack.name}
             </Paragraph>
           </div>
-          <ReactTooltip
-            id={stack.name}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
+          <ReactTooltip id={stack.name} place="top" effect="solid">
             <Paragraph color="white">
               {stack.name}
               {/* {translate(`tooltips.${invoice.status}`)} */}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
-        // <Paragraph
-        //   size="small"
-        //   color="black"
-        //   // style={{ color: '#black', textDecoration: 'underline' }}
-        // >
-        //   {stack.name}
-        // </Paragraph>
       ),
     },
     {
@@ -188,9 +157,6 @@ export const GetHeaderCols = ({
             SHARED
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-        //   SHARED
-        // </Paragraph>
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
@@ -224,7 +190,6 @@ export const GetHeaderCols = ({
             id={stack.isShared ? 'true' : 'false'}
             place="top"
             effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
           >
             <Paragraph color="white">
               {stack.isShared ? 'True' : 'False'}
@@ -252,9 +217,6 @@ export const GetHeaderCols = ({
             AUTHOR
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-        //   AUTHOR
-        // </Paragraph>
       ),
       width: '11%',
       renderRow: (stack: TStack) => {
@@ -286,7 +248,6 @@ export const GetHeaderCols = ({
               id={stack.user.full_name ? stack.user.full_name : stack.user.name}
               place="top"
               effect="solid"
-              // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
             >
               <Paragraph color="white">
                 {stack.user.full_name ? stack.user.full_name : stack.user.name}
@@ -322,9 +283,6 @@ export const GetHeaderCols = ({
             CREATED
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-        //   CREATED AT
-        // </Paragraph>
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
@@ -343,7 +301,6 @@ export const GetHeaderCols = ({
             id={formatDateToSort(stack.created)}
             place="top"
             effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
           >
             <Paragraph color="white">
               {stack.created}
