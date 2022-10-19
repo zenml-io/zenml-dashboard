@@ -81,7 +81,7 @@
 
 The installation is as follows:
 
-First, there is a pre-requisite to use [`npm`](https://www.npmjs.com/) version 14.20.0 exactly. One can do this by installing the [`nvm`](https://github.com/nvm-sh/nvm) utility and then doing 
+First, there is a pre-requisite to use [`node`](https://www.npmjs.com/) version 14.20.0 exactly. One can do this by installing the [`nvm`](https://github.com/nvm-sh/nvm) utility and then doing 
 
 ```
 nvm install 14.20.0
