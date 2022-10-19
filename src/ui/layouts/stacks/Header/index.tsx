@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { FlexBox, Box } from '../../../components';
 import { Breadcrumbs } from '../../common/Breadcrumbs';
-import { CompareRunsButton } from './CompareRunsButton';
+
 import { CreateStackButton } from './CreateStackButton';
 import { DocumentationLink } from './DocumentationLink';
 
@@ -48,8 +48,10 @@ const HeaderWithButtons: React.FC<{
       justifyContent="flex-end"
       className={styles.rightWrapper}
     >
-      <CreateStackButton />
-      <CompareRunsButton />
+      <Box marginRight="lg" className={styles.dynamicHeaderRight}>
+        {renderRight && renderRight()}
+      </Box>
+
       <DocumentationLink text={constantCommandsToCreateStack.documentation} />
     </FlexBox>
   </FlexBox>

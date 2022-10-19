@@ -17,13 +17,8 @@ export const useService = ({
   openPipelineIds: TId[];
 }): ServiceInterface => {
   const runs = useSelector(runSelectors.runsForPipelineId(pipeline.id));
-  const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
 
-  const filteredRuns = runs.filter(
-    (run: TRun) => currentWorkspace && run.workspaceId === currentWorkspace.id,
-  );
-
-  const runIds = filteredRuns.map((run: TRun) => run.id);
+  const runIds = runs.map((run: TRun) => run.id);
 
   return {
     runIds,

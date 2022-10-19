@@ -3,7 +3,7 @@ import cn from 'classnames';
 
 import { FlexBox, Box } from '../../../components';
 import { Breadcrumbs } from '../../common/Breadcrumbs';
-import { CompareRunsButton } from './CompareRunsButton';
+
 import { CreatePipelineButton } from './CreatePipelineButton';
 import { DocumentationLink } from './DocumentationLink';
 
@@ -52,7 +52,7 @@ const HeaderWithButtons: React.FC<{
         {renderRight && renderRight()}
       </Box>
       <CreatePipelineButton />
-      <CompareRunsButton />
+
       <DocumentationLink
         text={constantCommandsToCreatePipeline.documentation}
       />
