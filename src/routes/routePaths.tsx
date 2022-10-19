@@ -80,10 +80,7 @@ export const routePaths = {
     runs: (type: string, id: TId): string => `/components/${type}/${id}/runs`,
     // list: (type: string): string => `/components/${type}`,
   },
-  datasources: '/datasources',
-  functions: '/functions',
-  models: '/models',
-  deployments: '/deployments',
+
   settings: {
     base: '/settings',
     personalDetails: '/settings/personal-details',
