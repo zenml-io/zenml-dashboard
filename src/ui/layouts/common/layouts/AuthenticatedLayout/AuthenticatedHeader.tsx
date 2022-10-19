@@ -36,7 +36,6 @@ export const AuthenticatedHeader: React.FC<{
   const logout = () => {
     dispatch(sessionActions.logout());
   };
-  // debugger;
   return (
     <FlexBox
       paddingHorizontal="lg"
@@ -45,19 +44,11 @@ export const AuthenticatedHeader: React.FC<{
       className={styles.header}
     >
       <FlexBox alignItems="center">
-        {/* <Box className="d-none d-md-block">
-          <Link to={routePaths.home}>
-            <ZenMLLogo />
-          </Link>
-        </Box> */}
         <Box className="d-md-none">
           <LinkBox onClick={() => setMobileMenuOpen(true)}>
             <icons.burger size={iconSizes.md} />
           </LinkBox>
         </Box>
-        {/* <Box marginLeft="xxl" className="d-none d-md-block">
-          <Paragraph bold>{organizationName}</Paragraph>
-        </Box> */}
       </FlexBox>
       <If condition={!!userFullName}>
         {() => (

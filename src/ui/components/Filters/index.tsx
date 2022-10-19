@@ -640,7 +640,7 @@ const FilterComponent = ({
                     }}
                   />
                 </Box>
-                {/* <Box style={{ width: '146px' }}> */}
+
                 {filter?.column?.selectedValue?.value === 'status' ? (
                   <>
                     <FlexBox.Row key={index} className="mb-1">
@@ -727,7 +727,6 @@ const FilterComponent = ({
                     </FlexBox.Row>
                   </>
                 )}
-                {/* </Box> */}
 
                 <Box
                   onClick={() => hanldeDelete(index)}

@@ -2,10 +2,7 @@ import React from 'react';
 import { Row, Col, FlexBox } from '../../../components';
 
 import { useRequestOnMount } from '../../../hooks/store';
-import {
-  stripeActions,
-  billingActions,
-} from '../../../../redux/actions/billing/index';
+import { stripeActions } from '../../../../redux/actions/billing/index';
 import { useSelector } from 'react-redux';
 import { stripeSelectors } from '../../../../redux/selectors';
 
@@ -18,7 +15,7 @@ import { ExplorerPlan } from './ExplorerPlan';
 
 export const Plan: React.FC = () => {
   useRequestOnMount(() => stripeActions.getSubscription({}));
-  // useRequestOnMount(() => billingActions.getOrganizationBilling({}));
+
   useRequestOnMount(() => stripeActions.getPaymentMethod({}));
 
   const currentSubscription = useSelector(stripeSelectors.currentSubscription);

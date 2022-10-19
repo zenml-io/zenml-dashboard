@@ -1,10 +1,8 @@
 import _ from 'lodash';
 import React from 'react';
-// import cn from 'classnames';
 
-// import styles from '../index.module.scss';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-// import { translate } from '../translate';
+
 import {
   formatDateToDisplay,
   truncate,
@@ -14,20 +12,17 @@ import {
 import {
   FlexBox,
   Paragraph,
-  // LinkBox,
   Box,
   icons,
   ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
-// import { RunTime } from '../../RunTime';
-// import { RunUser } from '../RunUser';
+
 import { SortingHeader } from '../SortingHeader';
-// import { translate } from '../translate';
+
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
-// import { PipelineName } from '../PipelineName';
 
 export const useHeaderCols = ({
   runs,
@@ -44,14 +39,7 @@ export const useHeaderCols = ({
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
   setActiveSorting: (sorting: Sorting | null) => void;
 }): HeaderCol[] => {
-  const {
-    // toggleSelectRun,
-    // isRunSelected,
-    // selectRuns,
-    // unselectRuns,
-    // allRunsSelected,
-    sortMethod,
-  } = useService({
+  const { sortMethod } = useService({
     setActiveSortingDirection,
     setActiveSorting,
     setRuns,

@@ -22,12 +22,7 @@ import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
 import { loggedInRoute } from '../../../../constants';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import {
-  // pipelinesActions,
-  // runsActions,
-  stackComponentsActions,
-  // stacksActions,
-} from '../../../../redux/actions';
+import { stackComponentsActions } from '../../../../redux/actions';
 
 const UserEmail: React.FC = () => {
   const translate = getTranslateByScope('ui.layouts.UserEmail');
@@ -51,9 +46,6 @@ const UserEmail: React.FC = () => {
           if (data) {
             if (data?.email_opted_in !== null) {
               dispatch(stackComponentsActions.getTypes());
-              // dispatch(pipelinesActions.getMy());
-              // dispatch(stacksActions.getMy({}));
-              // dispatch(runsActions.allRuns({}));
               push(loggedInRoute);
             }
           }

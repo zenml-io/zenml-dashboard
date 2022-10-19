@@ -1,19 +1,16 @@
 import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-// import { translate } from './translate';
+
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
 import { DAG } from '../../../components/dag';
 import { useService } from './useService';
 
 import { Box, Paragraph } from '../../../components';
-// import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
-// import { RunTime } from '../RunTime';
+
 import { RunStatus } from './components';
-// import { Results } from './Results';
-// import { Tensorboard } from './Tensorboard';
-// import { formatMoney } from '../../../../utils/money';
+
 import { formatDateForOverviewBar } from '../../../../utils';
 import { useHistory } from '../../../hooks';
 
@@ -27,21 +24,16 @@ const getTabPages = ({
   return [
     {
       text: 'DAG',
-      // <Statistics runId={runId} stackId={stackId} />
+
       Component: () => <DAG runId={runId} fetching={fetching} />,
       path: routePaths.run.run.statistics(runId),
     },
     {
       text: 'Configuration',
-      // <Results runId={runId} stackId={stackId} />
+
       Component: () => <Configuration runId={runId} />,
       path: routePaths.run.run.results(runId),
     },
-    // {
-    //   text: translate('tabs.tensorboard.text'),
-    //   Component: () => <Tensorboard runId={runId} stackId={stackId} />,
-    //   path: routePaths.run.stack.tensorboard(runId, stackId),
-    // },
   ];
 };
 
@@ -68,7 +60,6 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const { runId, run, fetching } = useService();
-  // const { runId } = useService();
 
   const tabPages = getTabPages({
     fetching,

@@ -35,7 +35,6 @@ export const RunsTable: React.FC<{
         run.id,
       ),
     );
-    // debugger;
   };
 
   const headerCols = useHeaderCols({

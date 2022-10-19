@@ -2,13 +2,7 @@ import React, { useState } from 'react';
 import cn from 'classnames';
 import OutsideClickHandler from 'react-outside-click-handler';
 
-import {
-  Box,
-  LinkBox,
-  Paragraph,
-  If,
-  Truncate,
-} from '../../../components';
+import { Box, LinkBox, Paragraph, If, Truncate } from '../../../components';
 import styles from './WorkspaceDropdown.module.scss';
 
 export const WorkspaceDropdown: React.FC<{
@@ -27,22 +21,6 @@ export const WorkspaceDropdown: React.FC<{
 
   return (
     <Box style={{ position: 'relative' }}>
-      {/* <LinkBox onClick={() => setDropdownOpen(!dropdownOpen)}>
-        <FlexBox.Row alignItems="center">
-          <Truncate maxLines={1}>
-            <Paragraph color="primary" size="small">
-              {currentWorkspace && currentWorkspace.name}
-            </Paragraph>
-          </Truncate>
-
-          <Box paddingLeft="xs">
-            <icons.chevronDownLight
-              size={iconSizes.xs}
-              color={iconColors.primary}
-            />
-          </Box>
-        </FlexBox.Row>
-      </LinkBox> */}
       <If condition={dropdownOpen}>
         {() => (
           <OutsideClickHandler onOutsideClick={() => setDropdownOpen(false)}>

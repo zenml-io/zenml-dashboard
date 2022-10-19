@@ -1,8 +1,5 @@
 import { useSelector } from 'react-redux';
-import {
-  pipelineSelectors,
-  // runSelectors,
-} from '../../../../../redux/selectors';
+import { pipelineSelectors } from '../../../../../redux/selectors';
 
 import YAML from 'json2yaml';
 

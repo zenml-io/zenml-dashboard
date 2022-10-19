@@ -34,11 +34,6 @@ export const useService = (): ServiceInterface => {
       new Date(stack.created).getTime(),
     ).reverse();
 
-    // const filteredPipelines = orderedPipelines.filter(
-    //   (pipeline: TPipeline) =>
-    //     currentWorkspace && pipeline.projectName === currentWorkspace.id,
-    // );
-    // debugger;
     setFilteredStacks(orderedStacks);
   }, [Stacks]);
 

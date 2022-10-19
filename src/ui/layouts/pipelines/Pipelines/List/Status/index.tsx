@@ -16,15 +16,13 @@ import { useService } from './useService';
 
 export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
   const { lastThreeRuns } = useService({ pipeline });
-  // debugger;
+
   const history = useHistory();
-  // const lastThreeRuns: any[] = ['failed', 'completed', 'running', 'cached'];
+
   return (
     <FlexBox alignItems="center">
       {lastThreeRuns.map((item: any, index: number) => (
         <Box key={index} paddingHorizontal="xs">
-          {/* {console.log('status', run)} */}
-          {/* {runStatus.COMPLETED} */}
           <>
             <div>
               <div data-tip data-for={item.status}>
@@ -51,12 +49,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                   )}
                 </If>
               </div>
-              <ReactTooltip
-                id={item.status}
-                place="top"
-                effect="solid"
-                // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-              >
+              <ReactTooltip id={item.status} place="top" effect="solid">
                 <Paragraph color="white">
                   {item.status}
                   {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
@@ -89,12 +82,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                   )}
                 </If>
               </div>
-              <ReactTooltip
-                id={item.runId}
-                place="top"
-                effect="solid"
-                // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-              >
+              <ReactTooltip id={item.runId} place="top" effect="solid">
                 <Paragraph color="white">
                   {item.status}
                   {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
@@ -135,12 +123,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                   )}
                 </If>
               </div>
-              <ReactTooltip
-                id={item.runId}
-                place="top"
-                effect="solid"
-                // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-              >
+              <ReactTooltip id={item.runId} place="top" effect="solid">
                 <Paragraph color="white">
                   {item.status}
                   {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
@@ -173,12 +156,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                   )}
                 </If>
               </div>
-              <ReactTooltip
-                id={item.runId}
-                place="top"
-                effect="solid"
-                // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-              >
+              <ReactTooltip id={item.runId} place="top" effect="solid">
                 <Paragraph color="white">
                   {item.status}
                   {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}

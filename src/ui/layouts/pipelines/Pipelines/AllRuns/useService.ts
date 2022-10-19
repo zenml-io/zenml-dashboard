@@ -1,4 +1,3 @@
-// import { pipelinesActions, runsActions } from '../../../../../redux/actions';
 import { useEffect } from 'react';
 import { runsActions } from '../../../../../redux/actions';
 import {
@@ -16,7 +15,7 @@ export const useService = (): ServiceInterface => {
   const fetching = useSelector(runPagesSelectors.fetching);
   const dispatch = useDispatch();
   const runs = useSelector(runSelectors.myRuns);
-  // useEffect(() => {}, [runs]);
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.

@@ -25,8 +25,6 @@ export const CreatePipelineButton: React.FC = () => {
   >(false);
   const [isCopied, setIsCopied] = useState(false);
 
-  // const codeString = '#!/bin/bash';
-
   const handleCopy = (codeString: string) => {
     navigator.clipboard.writeText(codeString);
 
@@ -102,62 +100,6 @@ export const CreatePipelineButton: React.FC = () => {
                   </FlexBox.Row>
                 ),
               )}
-
-          {/* <FlexBox.Row>
-            <Box marginTop="md">
-              <Paragraph>you can set it active</Paragraph>
-            </Box>
-          </FlexBox.Row>
-
-          <FlexBox alignItems="center" marginTop="md">
-            <CommandBoxWScroll command={codeString} />
-            <Box
-              className={styles.iconStyle}
-              style={{ paddingTop: '7px' }}
-              onClick={handleCopy}
-            >
-              <icons.copy size={iconSizes.sm} color={iconColors.black} />
-            </Box>
-          </FlexBox>  */}
-
-          {/* <FlexBox alignItems="center" marginTop="sm">
-            <CommandBoxWScroll command={codeString} />
-            <Box
-              className={styles.iconStyle}
-              style={{ paddingTop: '7px' }}
-              onClick={handleCopy}
-            >
-              <icons.copy size={iconSizes.sm} color={iconColors.black} />
-            </Box>
-          </FlexBox>
-
-          <FlexBox alignItems="center" marginTop="sm">
-            <CommandBoxWScroll command={codeString} />
-            <Box
-              className={styles.iconStyle}
-              style={{ paddingTop: '7px' }}
-              onClick={handleCopy}
-            >
-              <icons.copy size={iconSizes.sm} color={iconColors.black} />
-            </Box>
-          </FlexBox> */}
-
-          {/* <FlexBox.Row>
-            <Box marginTop="md">
-              <Paragraph>you can set it active</Paragraph>
-            </Box>
-          </FlexBox.Row> */}
-
-          {/* <FlexBox alignItems="center" marginTop="sm">
-            <CommandBoxWScroll command={codeString} />
-            <Box
-              className={styles.iconStyle}
-              style={{ paddingTop: '7px' }}
-              onClick={handleCopy}
-            >
-              <icons.copy size={iconSizes.sm} color={iconColors.black} />
-            </Box>
-          </FlexBox> */}
 
           <FlexBox justifyContent="space-between" marginTop="xl" flexWrap>
             <Box>{isCopied && <Paragraph>Copied!</Paragraph>}</Box>

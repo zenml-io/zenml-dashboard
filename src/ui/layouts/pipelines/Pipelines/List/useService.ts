@@ -79,16 +79,10 @@ export const useService = (
       orderedPipelines = getFilteredDataForTable(orderedPipelines, filter);
     }
 
-    // const filteredPipelines = orderedPipelines.filter(
-    //   (pipeline: TPipeline) =>
-    //     currentWorkspace && pipeline.projectName === currentWorkspace.id,
-    // );
-
     setFilteredPipelines(orderedPipelines as TPipeline[]);
   }, [filter, pipelines]);
 
   useEffect(() => {
-    // if (activeSorting === null) {
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
 
@@ -96,7 +90,7 @@ export const useService = (
     }, 5000);
 
     return () => clearInterval(intervalId);
-    // }
+
     //This is important
   });
 

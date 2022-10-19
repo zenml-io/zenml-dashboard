@@ -47,9 +47,6 @@ const HeaderWithButtons: React.FC<{
       justifyContent="flex-end"
       className={styles.rightWrapper}
     >
-      {/* <Box marginRight="lg" className={styles.dynamicHeaderRight}>
-        {renderRight && renderRight()}
-      </Box> */}
       <CreateStackButton />
       <CompareRunsButton />
       <DocumentationLink />

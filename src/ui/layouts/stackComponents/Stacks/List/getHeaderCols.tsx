@@ -18,9 +18,7 @@ import {
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
-// import { Status } from './Status';
-// import { WorkspaceName } from './WorkspaceName';
-// import { UserName } from './UserName';
+
 import { useService } from './ForSorting/useServiceForSorting';
 
 export const GetHeaderCols = ({
@@ -42,14 +40,7 @@ export const GetHeaderCols = ({
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
   setActiveSorting: (sorting: Sorting | null) => void;
 }): HeaderCol[] => {
-  const {
-    // toggleSelectRun,
-    // isRunSelected,
-    // selectRuns,
-    // unselectRuns,
-    // allRunsSelected,
-    sortMethod,
-  } = useService({
+  const { sortMethod } = useService({
     setActiveSortingDirection,
     setActiveSorting,
     setFilteredStacks,
@@ -89,12 +80,7 @@ export const GetHeaderCols = ({
               {truncate(stackComponent.id, ID_MAX_LENGTH)}
             </Paragraph>
           </div>
-          <ReactTooltip
-            id={stackComponent.id}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
+          <ReactTooltip id={stackComponent.id} place="top" effect="solid">
             <Paragraph color="white">
               {stackComponent.id}
               {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
@@ -120,9 +106,6 @@ export const GetHeaderCols = ({
             NAME
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-        //   NAME
-        // </Paragraph>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
@@ -132,19 +115,13 @@ export const GetHeaderCols = ({
               {stackComponent.name}
             </Paragraph>
           </div>
-          <ReactTooltip
-            id={stackComponent.name}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
+          <ReactTooltip id={stackComponent.name} place="top" effect="solid">
             <Paragraph color="white">
               {stackComponent.name}
               {/* {translate(`tooltips.${invoice.status}`)} */}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
-        // <Paragraph size="small">{stackComponent.name}</Paragraph>
       ),
     },
     {
@@ -164,9 +141,6 @@ export const GetHeaderCols = ({
             FLAVOR
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-        //   FLAVOR
-        // </Paragraph>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
@@ -176,19 +150,10 @@ export const GetHeaderCols = ({
               {stackComponent.flavor}
             </Paragraph>
           </div>
-          <ReactTooltip
-            id={stackComponent.flavor}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
-            <Paragraph color="white">
-              {stackComponent.flavor}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+          <ReactTooltip id={stackComponent.flavor} place="top" effect="solid">
+            <Paragraph color="white">{stackComponent.flavor}</Paragraph>
           </ReactTooltip>
         </FlexBox>
-        // <Paragraph size="small">{stackComponent.flavor}</Paragraph>
       ),
     },
     {
@@ -208,9 +173,6 @@ export const GetHeaderCols = ({
             SHARED
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-        //   SHARED
-        // </Paragraph>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
@@ -244,11 +206,9 @@ export const GetHeaderCols = ({
             id={stackComponent.isShared ? 'true' : 'false'}
             place="top"
             effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
           >
             <Paragraph color="white">
               {stackComponent.isShared ? 'True' : 'False'}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
@@ -271,9 +231,6 @@ export const GetHeaderCols = ({
             AUTHOR
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-        //   AUTHOR
-        // </Paragraph>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => {
@@ -313,13 +270,11 @@ export const GetHeaderCols = ({
               }
               place="top"
               effect="solid"
-              // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
             >
               <Paragraph color="white">
                 {stackComponent.user.full_name
                   ? stackComponent.user.full_name
                   : stackComponent.user.name}
-                {/* {translate(`tooltips.${invoice.status}`)} */}
               </Paragraph>
             </ReactTooltip>
           </FlexBox>
@@ -351,9 +306,6 @@ export const GetHeaderCols = ({
             CREATED
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-        //   CREATED AT
-        // </Paragraph>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
@@ -372,12 +324,8 @@ export const GetHeaderCols = ({
             id={formatDateToSort(stackComponent.created)}
             place="top"
             effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
           >
-            <Paragraph color="white">
-              {stackComponent.created}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+            <Paragraph color="white">{stackComponent.created}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

@@ -62,7 +62,6 @@ export const useService = ({
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
   };
-  // debugger;
 
   return {
     sortedRuns,

@@ -4,16 +4,14 @@ import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-// import { Configuration } from '../PipelineDetail/Configuration';
+
 import { Configuration } from '../RunDetail/Configuration';
 import { DAG } from '../../../components/dag';
-// import styles from './index.module.scss';
+
 import { Box, Paragraph } from '../../../components';
-// import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
-// import { RunTime } from '../RunTime';
+
 import { RunStatus } from './components';
 
-// import { formatMoney } from '../../../../utils/money';
 import { formatDateForOverviewBar } from '../../../../utils';
 import { useHistory } from '../../../hooks';
 
@@ -29,31 +27,16 @@ const getTabPages = ({
   return [
     {
       text: 'DAG',
-      // <Statistics runId={runId} stackId={stackId} />
+
       Component: () => <DAG runId={runId} fetching={fetching} />,
       path: routePaths.run.pipeline.statistics(runId, pipelineId),
     },
     {
       text: 'Configuration',
-      // <Results runId={runId} stackId={stackId} />
+
       Component: () => <Configuration runId={runId} />,
       path: routePaths.run.pipeline.results(runId, pipelineId),
     },
-    // {
-    //   text: translate('tabs.statistics.text'),
-    //   Component: () => <Statistics runId={runId} pipelineId={pipelineId} />,
-    //   path: routePaths.run.pipeline.statistics(runId, pipelineId),
-    // },
-    // {
-    //   text: translate('tabs.results.text'),
-    //   Component: () => <Results runId={runId} pipelineId={pipelineId} />,
-    //   path: routePaths.run.pipeline.results(runId, pipelineId),
-    // },
-    // {
-    //   text: translate('tabs.tensorboard.text'),
-    //   Component: () => <Tensorboard runId={runId} pipelineId={pipelineId} />,
-    //   path: routePaths.run.pipeline.tensorboard(runId, pipelineId),
-    // },
   ];
 };
 
@@ -89,7 +72,6 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  // const { runId, pipelineId, run, billing } = useService();
   const { runId, pipelineId, run, fetching } = useService();
   const tabPages = getTabPages({
     runId,

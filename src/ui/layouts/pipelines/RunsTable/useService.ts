@@ -68,7 +68,7 @@ export const useService = ({
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(pipelinePagesActions.setSelectedRunIds({ runIds }));
   };
-  // debugger;
+
   return {
     sortedRuns,
     setSortedRuns,

@@ -132,10 +132,7 @@ export const GetHeaderCols = ({
             </Paragraph>
           </div>
           <ReactTooltip id={stack.name} place="top" effect="solid">
-            <Paragraph color="white">
-              {stack.name}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+            <Paragraph color="white">{stack.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -193,7 +190,6 @@ export const GetHeaderCols = ({
           >
             <Paragraph color="white">
               {stack.isShared ? 'True' : 'False'}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
@@ -251,7 +247,6 @@ export const GetHeaderCols = ({
             >
               <Paragraph color="white">
                 {stack.user.full_name ? stack.user.full_name : stack.user.name}
-                {/* {translate(`tooltips.${invoice.status}`)} */}
               </Paragraph>
             </ReactTooltip>
           </FlexBox>
@@ -302,10 +297,7 @@ export const GetHeaderCols = ({
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">
-              {stack.created}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+            <Paragraph color="white">{stack.created}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

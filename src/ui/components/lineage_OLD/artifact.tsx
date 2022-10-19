@@ -35,9 +35,6 @@ export const ArtifactNode = (data: ArtifactNodeData) => {
           <line x1="10" y1="3" x2="8" y2="21" />
           <line x1="16" y1="3" x2="14" y2="21" />
         </svg>
-        {/* <p className={styles.artifactTitle}>
-          Artifact: {data.data.execution_id}
-        </p> */}
       </div>
       <Handle
         type="source"

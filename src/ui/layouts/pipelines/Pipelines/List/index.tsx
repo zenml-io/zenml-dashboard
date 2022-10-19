@@ -15,11 +15,6 @@ interface Props {
 export const List: React.FC<Props> = ({ filter }: Props) => {
   const history = useHistory();
   const {
-    // openPipelineIds,
-    // setOpenPipelineIds,
-    // fetching,
-    // filteredPipelines,
-    // setSelectedRunIds,
     openPipelineIds,
     setOpenPipelineIds,
     fetching,
@@ -49,7 +44,6 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     history.push(routePaths.pipeline.configuration(pipeline.id));
   };
 
-  // debugger;
   return (
     <>
       <CollapseTable
