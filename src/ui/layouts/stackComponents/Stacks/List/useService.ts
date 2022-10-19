@@ -63,9 +63,16 @@ export const useService = (
   );
 
   useEffect(() => {
-    let orderedStacks = _.sortBy(stackComponents, (stack: TStack) =>
-      new Date(stack.created).getTime(),
-    ).reverse();
+    let orderedStacks =
+      activeSorting === null
+        ? _.sortBy(stackComponents, (stack: TStack) =>
+            new Date(stack.created).getTime(),
+          ).reverse()
+        : _.orderBy(
+            stackComponents,
+            [activeSorting],
+            [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
+          );
 
     const isValidFilter = filter.map((f) => f.value).join('');
     if (isValidFilter) {
@@ -76,20 +83,20 @@ export const useService = (
   }, [stackComponents, filter]);
 
   useEffect(() => {
-    if (activeSorting === null) {
-      // debugger;
-      const intervalId = setInterval(() => {
-        //assign interval to a variable to clear it.
-        dispatch(
-          stackComponentsActions.getMy({
-            // id: currentWorkspace.id,
-            type: locationPath.split('/')[2],
-          }),
-        );
-      }, 5000);
+    // if (activeSorting === null) {
+    // debugger;
+    const intervalId = setInterval(() => {
+      //assign interval to a variable to clear it.
+      dispatch(
+        stackComponentsActions.getMy({
+          // id: currentWorkspace.id,
+          type: locationPath.split('/')[2],
+        }),
+      );
+    }, 5000);
 
-      return () => clearInterval(intervalId);
-    }
+    return () => clearInterval(intervalId);
+    // }
   });
 
   const setSelectedRunIds = (runIds: TId[]) => {

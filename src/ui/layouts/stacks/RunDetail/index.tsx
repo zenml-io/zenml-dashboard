@@ -23,21 +23,16 @@ const getTabPages = ({
   return [
     {
       text: 'DAG',
-      // <Statistics runId={runId} stackId={stackId} />
+
       Component: () => <DAG runId={runId} fetching={fetching} />,
       path: routePaths.run.stack.statistics(runId, stackId),
     },
     {
       text: 'Configuration',
-      // <Results runId={runId} stackId={stackId} />
+
       Component: () => <Configuration runId={runId} />,
       path: routePaths.run.stack.results(runId, stackId),
     },
-    // {
-    //   text: translate('tabs.tensorboard.text'),
-    //   Component: () => <Tensorboard runId={runId} stackId={stackId} />,
-    //   path: routePaths.run.stack.tensorboard(runId, stackId),
-    // },
   ];
 };
 
@@ -73,7 +68,6 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  // const { runId, stackId } = useService();
   const { runId, stackId, run, fetching } = useService();
   const history = useHistory();
   const tabPages = getTabPages({

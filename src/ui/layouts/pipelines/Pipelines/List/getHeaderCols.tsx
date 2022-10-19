@@ -51,6 +51,8 @@ export const GetHeaderCols = ({
     // allRunsSelected,
     sortMethod,
   } = useService({
+    openPipelineIds,
+    setOpenPipelineIds,
     setActiveSortingDirection,
     setActiveSorting,
     setFilteredPipelines,
@@ -134,7 +136,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            Name
+            NAME
           </Paragraph>
         </SortingHeader>
       ),
@@ -171,9 +173,24 @@ export const GetHeaderCols = ({
 
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          AUTHOR
-        </Paragraph>
+        <SortingHeader
+          sorting="author"
+          sortMethod={sortMethod('author', {
+            asc: (filteredPipelines: TPipeline[]) =>
+              _.orderBy(filteredPipelines, ['user.name'], ['asc']),
+            desc: (filteredPipelines: TPipeline[]) =>
+              _.orderBy(filteredPipelines, ['user.name'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            AUTHOR {console.log('filteredPipelines', filteredPipelines)}
+          </Paragraph>
+        </SortingHeader>
+        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        //   AUTHOR
+        // </Paragraph>
       ),
       width: '11%',
       renderRow: (pipeline: TPipeline) => {

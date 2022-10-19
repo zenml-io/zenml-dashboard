@@ -74,7 +74,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             : {
                 text: `Nothing to see here, it seems like no ${camelCaseToParagraph(
                   locationPath.split('/')[2],
-                )} has been configured yet`,
+                )} has been configured yet.`,
               }
         }
         trOnClick={openDetailPage}

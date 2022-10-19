@@ -2,7 +2,6 @@ import { fetchApi } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
-import mockApi from '../mockApiData';
 
 export interface Response {
   access_token: string;
@@ -31,15 +30,8 @@ const signUpApi = ({ account }: Params): Promise<void> =>
       name: account.username,
       full_name: account.fullName,
       password: account.password,
-      activation_token: account.token
+      activation_token: account.token,
     }),
-  }).catch((res) => {
-    if (process.env.REACT_APP_MOCKAPI_RESPONSE) {
-      res = {
-        data: mockApi.signupMockResponse,
-      };
-    }
-    return res;
   });
 
 export default signUpApi;

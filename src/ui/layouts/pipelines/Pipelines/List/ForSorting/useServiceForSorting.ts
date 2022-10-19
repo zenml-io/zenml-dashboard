@@ -24,6 +24,8 @@ interface ServiceInterface {
 }
 
 export const useService = ({
+  openPipelineIds,
+  setOpenPipelineIds,
   activeSorting,
   activeSortingDirection,
   setActiveSortingDirection,
@@ -31,6 +33,8 @@ export const useService = ({
   setFilteredPipelines,
   filteredPipelines,
 }: {
+  openPipelineIds: TId[];
+  setOpenPipelineIds: (ids: TId[]) => void;
   activeSorting: Sorting | null;
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (arg: SortingDirection | null) => void;

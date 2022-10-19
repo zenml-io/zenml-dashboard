@@ -100,42 +100,44 @@ export const Home: React.FC = () => {
                   <H4 bold>{translate('subtitle')}</H4>
                 </Box>
               </Col>
-              {data?.map((e, index) => (
-                <Box
-                  key={index}
-                  marginRight="xxl"
-                  style={{
-                    width: '220px',
-                    minHeight: '100px',
-                    border: '1px solid #C9CBD0',
-                    borderRadius: '6px',
-                    padding: '13px 14px',
-                    marginTop: '10px',
-                    backgroundColor: box === e.text ? '#431D93' : '#fff',
-                  }}
-                  onClick={() => setBox(e.text)}
-                >
-                  <Paragraph
+              <Row style={{ alignItems: 'center', marginLeft: '15px' }}>
+                {data?.map((e, index) => (
+                  <Box
+                    key={index}
+                    marginRight="xxl"
                     style={{
-                      fontSize: '24px',
-                      fontWeight: 'bold',
-                      color: box === e.text ? '#fff' : '#431D93',
+                      width: '220px',
+                      minHeight: '100px',
+                      border: '1px solid #C9CBD0',
+                      borderRadius: '6px',
+                      padding: '13px 14px',
+                      marginTop: '10px',
+                      backgroundColor: box === e.text ? '#431D93' : '#fff',
                     }}
+                    onClick={() => setBox(e.text)}
                   >
-                    {e.value}
-                  </Paragraph>
-                  <Paragraph
-                    style={{
-                      fontSize: '14px',
-                      fontWeight: 'inherit',
-                      color: box === e.text ? '#fff' : '#646972',
-                      marginTop: '38px',
-                    }}
-                  >
-                    Number of {e.text}
-                  </Paragraph>
-                </Box>
-              ))}
+                    <Paragraph
+                      style={{
+                        fontSize: '24px',
+                        fontWeight: 'bold',
+                        color: box === e.text ? '#fff' : '#431D93',
+                      }}
+                    >
+                      {e.value}
+                    </Paragraph>
+                    <Paragraph
+                      style={{
+                        fontSize: '14px',
+                        fontWeight: 'inherit',
+                        color: box === e.text ? '#fff' : '#646972',
+                        marginTop: '38px',
+                      }}
+                    >
+                      Number of {e.text}
+                    </Paragraph>
+                  </Box>
+                ))}
+              </Row>
 
               <Col xs={12} lg={7}>
                 <Box marginTop="xxxl">

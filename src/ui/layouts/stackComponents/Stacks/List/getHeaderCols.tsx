@@ -117,7 +117,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            Name
+            NAME
           </Paragraph>
         </SortingHeader>
         // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
@@ -149,9 +149,24 @@ export const GetHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          FLAVOR
-        </Paragraph>
+        <SortingHeader
+          sorting="flavor"
+          sortMethod={sortMethod('flavor', {
+            asc: (filteredStacks: TStack[]) =>
+              _.orderBy(filteredStacks, ['flavor'], ['asc']),
+            desc: (filteredStacks: TStack[]) =>
+              _.orderBy(filteredStacks, ['flavor'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            FLAVOR
+          </Paragraph>
+        </SortingHeader>
+        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        //   FLAVOR
+        // </Paragraph>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
@@ -178,9 +193,24 @@ export const GetHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          SHARED
-        </Paragraph>
+        <SortingHeader
+          sorting="shared"
+          sortMethod={sortMethod('shared', {
+            asc: (filteredStacks: TStack[]) =>
+              _.orderBy(filteredStacks, ['isShared'], ['asc']),
+            desc: (filteredStacks: TStack[]) =>
+              _.orderBy(filteredStacks, ['isShared'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            SHARED
+          </Paragraph>
+        </SortingHeader>
+        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        //   SHARED
+        // </Paragraph>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
@@ -226,9 +256,24 @@ export const GetHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          AUTHOR
-        </Paragraph>
+        <SortingHeader
+          sorting="author"
+          sortMethod={sortMethod('author', {
+            asc: (filteredStacks: TStack[]) =>
+              _.orderBy(filteredStacks, ['user.full_name'], ['asc']),
+            desc: (filteredStacks: TStack[]) =>
+              _.orderBy(filteredStacks, ['user.full_name'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            AUTHOR
+          </Paragraph>
+        </SortingHeader>
+        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        //   AUTHOR
+        // </Paragraph>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => {

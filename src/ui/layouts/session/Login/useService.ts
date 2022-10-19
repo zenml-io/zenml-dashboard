@@ -1,10 +1,6 @@
 import { useState } from 'react';
 import { toasterTypes } from '../../../../constants';
-import {
-  organizationActions,
-  showToasterAction,
-  userActions,
-} from '../../../../redux/actions';
+import { showToasterAction, userActions } from '../../../../redux/actions';
 import { loginAction } from '../../../../redux/actions/session/loginAction';
 import { useDispatch, usePushRoute } from '../../../hooks';
 import { translate } from './translate';
@@ -54,7 +50,7 @@ export const useService = (): ServiceInterface => {
                   type: toasterTypes.success,
                 }),
               );
-              await dispatch(organizationActions.getMy());
+              // await dispatch(organizationActions.getMy());
               await dispatch(userActions.getMy({}));
               await push(routePaths.userEmail);
             },

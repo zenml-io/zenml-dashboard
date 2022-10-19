@@ -56,9 +56,16 @@ export const useService = (
   const Stacks = useSelector(stackSelectors.mystacks);
 
   useEffect(() => {
-    let orderedStacks = _.sortBy(Stacks, (stack: TStack) =>
-      new Date(stack.created).getTime(),
-    ).reverse();
+    let orderedStacks =
+      activeSorting === null
+        ? _.sortBy(Stacks, (stack: TStack) =>
+            new Date(stack.created).getTime(),
+          ).reverse()
+        : _.orderBy(
+            Stacks,
+            [activeSorting],
+            [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
+          );
 
     const isValidFilter = filter.map((f) => f.value).join('');
     if (isValidFilter) {
@@ -69,15 +76,11 @@ export const useService = (
   }, [Stacks, filter]);
 
   useEffect(() => {
-    if (activeSorting === null) {
-      const intervalId = setInterval(() => {
-        //assign interval to a variable to clear it.
-        dispatch(stacksActions.getMy({}));
-      }, 5000);
+    const intervalId = setInterval(() => {
+      dispatch(stacksActions.getMy({}));
+    }, 5000);
 
-      return () => clearInterval(intervalId);
-    }
-    //This is important
+    return () => clearInterval(intervalId); //This is important
   });
 
   const setSelectedRunIds = (runIds: TId[]) => {
@@ -95,7 +98,5 @@ export const useService = (
     openStackIds,
     setOpenStackIds,
     fetching,
-    // filteredStacks,
-    // setSelectedRunIds,
   };
 };

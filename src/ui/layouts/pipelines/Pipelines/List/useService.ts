@@ -60,9 +60,19 @@ export const useService = (
   const pipelines = useSelector(pipelineSelectors.myPipelines);
 
   useEffect(() => {
-    let orderedPipelines = _.sortBy(pipelines, (pipeline: TPipeline) =>
-      new Date(pipeline.created).getTime(),
-    ).reverse();
+    console.log(activeSorting);
+    console.log(activeSortingDirection);
+
+    let orderedPipelines =
+      activeSorting === null
+        ? _.sortBy(pipelines, (pipeline: TPipeline) =>
+            new Date(pipeline.created).getTime(),
+          ).reverse()
+        : _.orderBy(
+            pipelines,
+            [activeSorting],
+            [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
+          );
 
     const isValidFilter = filter.map((f) => f.value).join('');
     if (isValidFilter) {
@@ -74,19 +84,19 @@ export const useService = (
     //     currentWorkspace && pipeline.projectName === currentWorkspace.id,
     // );
 
-    setFilteredPipelines(orderedPipelines);
+    setFilteredPipelines(orderedPipelines as TPipeline[]);
   }, [filter, pipelines]);
 
   useEffect(() => {
-    if (activeSorting === null) {
-      const intervalId = setInterval(() => {
-        //assign interval to a variable to clear it.
+    // if (activeSorting === null) {
+    const intervalId = setInterval(() => {
+      //assign interval to a variable to clear it.
 
-        dispatch(pipelinesActions.getMy({}));
-      }, 5000);
+      dispatch(pipelinesActions.getMy({}));
+    }, 5000);
 
-      return () => clearInterval(intervalId);
-    }
+    return () => clearInterval(intervalId);
+    // }
     //This is important
   });
 

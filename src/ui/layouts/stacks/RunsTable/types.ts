@@ -1,7 +1,11 @@
 export type Sorting =
   | 'id'
   | 'stackRunType'
+  | 'runName'
+  | 'pipelineName'
   | 'status'
+  | 'stackName'
+  | 'author'
   | 'datasourceCommit'
   | 'createdAt';
 

@@ -29,14 +29,6 @@ export const RunsForStackTable: React.FC<{
       });
     }
 
-    // const nestedRowtiles = pipeline.components.map((c: any) => ({
-    //   name: c.name,
-    //   type: c.type,
-    // }));
-    /**
-     * return nested rows each row should not exceed more than 4 tiles
-     */
-
     return (
       <>
         <NestedRow tiles={nestedRowtiles} />
@@ -73,7 +65,6 @@ function NestedRow({ tiles }: NestedRowProps) {
       className={styles.nestedrow}
       padding="md"
       alignItems="center"
-      // justifyContent="center"
     >
       {tiles &&
         tiles.map((tile: tile, index: number) => (

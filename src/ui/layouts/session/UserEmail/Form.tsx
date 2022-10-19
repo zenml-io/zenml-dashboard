@@ -9,7 +9,12 @@ import {
   // stacksActions,
   userActions,
 } from '../../../../redux/actions';
-import { Box, FormEmailField, PrimaryButton } from '../../../components';
+import {
+  Box,
+  FormEmailField,
+  Paragraph,
+  PrimaryButton,
+} from '../../../components';
 import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
 import { getTranslateByScope } from '../../../../services';
 import { sessionSelectors } from '../../../../redux/selectors/session';
@@ -141,12 +146,14 @@ export const Form: React.FC = () => {
       </PrimaryButton>
 
       <PrimaryButton
-        marginTop="md"
+        marginTop="sm"
         className={styles.skipEmailButton}
         loading={skipSubmitting}
-        onClick={skip}
+        // onClick={skip}
       >
-        {translate('form.skip.text')}
+        <Paragraph onClick={skip} color="grey" style={{ fontSize: 12 }}>
+          {translate('form.skip.text')}
+        </Paragraph>
       </PrimaryButton>
     </Box>
   );

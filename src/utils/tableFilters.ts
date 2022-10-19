@@ -66,7 +66,6 @@ export const getFilteredDataForTable = (data: any, filter: any) => {
       f.column.label !== 'Author'
     ) {
       if (f.type.value === 'contains') {
-        // debugger;
         data = data.filter((os: any) => {
           if (f.column.value === 'pipelineName' && f.value) {
             return os.pipeline.name

@@ -9,13 +9,12 @@ import {
 } from '../../components';
 import { useRequestOnMount, useSelector } from '../../hooks';
 import {
-  organizationActions,
   sessionActions,
   showToasterAction,
   userActions,
 } from '../../../redux/actions';
 
-import { organizationSelectors, userSelectors } from '../../../redux/selectors';
+import { userSelectors } from '../../../redux/selectors';
 import { getTranslateByScope } from '../../../services';
 import { useDispatch } from 'react-redux';
 import { toasterTypes } from '../../../constants';
@@ -25,22 +24,20 @@ import { EmailPopup } from './EmailPopup';
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
 export const PersonalDetails: React.FC = () => {
-  useRequestOnMount(organizationActions.getMy, {});
   useRequestOnMount(userActions.getMy, {});
   const dispatch = useDispatch();
 
-  const organization = useSelector(organizationSelectors.myOrganization);
   const user = useSelector(userSelectors.myUser);
 
   const [submitting, setSubmitting] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
-  const [fullName, setFullName] = useState(user?.fullName)
-  const [username, setUsername] = useState(user?.name)
-  const [currentPassword, setCurrentPassword] = useState('')
-  const [newPassword, setNewPassword] = useState('')
-  const [confirmPassword, setConfirmPassword] = useState('')
+  const [fullName, setFullName] = useState(user?.fullName);
+  const [username, setUsername] = useState(user?.name);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
 
-  if (!organization || !user) return null;
+  if (!user) return null;
 
   const forgotPassword = () => {
     if (newPassword !== confirmPassword) {
@@ -81,17 +78,22 @@ export const PersonalDetails: React.FC = () => {
 
   return (
     <>
-    {popupOpen && (
-      <EmailPopup userId={user?.id} fullName={fullName} username={username} setPopupOpen={setPopupOpen} />
-    )}
-    <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
-        <Box marginTop="lg" >
+      {popupOpen && (
+        <EmailPopup
+          userId={user?.id}
+          fullName={fullName}
+          username={username}
+          setPopupOpen={setPopupOpen}
+        />
+      )}
+      <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
+        <Box marginTop="lg">
           <Row>
             <Col lg={5}>
               <Box marginBottom="lg">
                 <FormTextField
                   label={translate('form.fullName.label')}
-                  labelColor='#000'
+                  labelColor="#000"
                   placeholder={translate('form.fullName.placeholder')}
                   value={fullName ? fullName : ''}
                   onChange={(val: string) => setFullName(val)}
@@ -108,11 +110,17 @@ export const PersonalDetails: React.FC = () => {
                 />
               </Box>
 
-                <Box style={{ display: 'flex', justifyContent: 'end' }}>
-                  <PrimaryButton style={{ width: '198px' }} onClick={() => setPopupOpen(true)} disabled={fullName === user.fullName && username === user.name} >
-                    {translate('nameReset.label')}
-                  </PrimaryButton>
-                </Box>
+              <Box style={{ display: 'flex', justifyContent: 'end' }}>
+                <PrimaryButton
+                  style={{ width: '198px' }}
+                  onClick={() => setPopupOpen(true)}
+                  disabled={
+                    fullName === user.fullName && username === user.name
+                  }
+                >
+                  {translate('nameReset.label')}
+                </PrimaryButton>
+              </Box>
             </Col>
           </Row>
         </Box>
