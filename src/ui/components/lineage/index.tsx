@@ -166,8 +166,8 @@ export const LayoutFlow: React.FC<any> = (graph: any, runId: any) => {
         >
           Refresh
         </button>
-        <button onClick={() => onLayout('TB')}>Vertical Layout</button>
-        <button onClick={() => onLayout('LR')}>Horizontal Layout</button>
+        {/* <button onClick={() => onLayout('TB')}>Vertical Layout</button>
+        <button onClick={() => onLayout('LR')}>Horizontal Layout</button> */}
         <div style={{ position: 'relative' }}>
           <button onClick={() => setLegend(!legend)}>Legend</button>
           <div className="legend" style={{ display: legend ? '' : 'none' }}>

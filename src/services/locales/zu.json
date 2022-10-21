@@ -248,7 +248,7 @@
             }
           },
           "Dashboard": {
-            "title": "Hello World!",
+            "title": "Hi there!",
             "subtitle": "You can find your most important functions here on the dashboard.",
             "cardOne": {
               "title": "Read our documentation",
