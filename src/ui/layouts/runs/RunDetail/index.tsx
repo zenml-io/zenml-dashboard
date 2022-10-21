@@ -48,7 +48,7 @@ const getTabPages = ({
 const getBreadcrumbs = ({ runId }: { runId: TId }): TBreadcrumb[] => {
   return [
     {
-      name: 'runs',
+      name: 'Runs',
       clickable: true,
       to: routePaths.pipelines.allRuns,
     },

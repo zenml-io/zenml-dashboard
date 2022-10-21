@@ -69,7 +69,8 @@
             },
             "toasts": {
               "successful": {
-                "text": "Successfully Changed username and full name."
+                "text": "Successfully Changed username and full name.",
+                "passwordText": "Successfully Changed password."
               },
               "failed": {
                 "text": "Something went wrong. Please try again."
