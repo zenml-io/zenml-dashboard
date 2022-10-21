@@ -117,7 +117,8 @@ export const LayoutFlow: React.FC<any> = (graph: any, runId: any) => {
     initialEdges: layoutedEdges,
   } = getLayoutedElements(graph.graph.nodes, graph.graph.edges);
 
-  const [nodes, setNodes, onNodesChange] = useNodesState(layoutedNodes);
+  // eslint-disable-next-line
+  const [nodes, _, onNodesChange] = useNodesState(layoutedNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
