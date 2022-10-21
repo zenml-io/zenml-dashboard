@@ -137,19 +137,6 @@ export const LayoutFlow: React.FC<any> = (graph: any, runId: any) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
-  const onLayout = useCallback(
-    (direction) => {
-      const {
-        initialNodes: layoutedNodes,
-        initialEdges: layoutedEdges,
-      } = getLayoutedElements(graph.graph.nodes, graph.graph.edges, direction);
-
-      setNodes([...layoutedNodes]);
-      setEdges([...layoutedEdges]);
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [nodes, edges],
-  );
 
   return (
     <>
@@ -166,8 +153,7 @@ export const LayoutFlow: React.FC<any> = (graph: any, runId: any) => {
         >
           Refresh
         </button>
-        {/* <button onClick={() => onLayout('TB')}>Vertical Layout</button>
-        <button onClick={() => onLayout('LR')}>Horizontal Layout</button> */}
+
         <div style={{ position: 'relative' }}>
           <button onClick={() => setLegend(!legend)}>Legend</button>
           <div className="legend" style={{ display: legend ? '' : 'none' }}>
