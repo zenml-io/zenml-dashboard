@@ -441,12 +441,10 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
-              sorting="author"
-              sortMethod={sortMethod('author', {
-                asc: (run: TRun[]) =>
-                  _.orderBy(run, ['user.full_name'], ['asc']),
-                desc: (run: TRun[]) =>
-                  _.orderBy(run, ['stack.full_name'], ['desc']),
+              sorting="user.name"
+              sortMethod={sortMethod('user.name', {
+                asc: (run: TRun[]) => _.orderBy(run, ['user.name'], ['asc']),
+                desc: (run: TRun[]) => _.orderBy(run, ['user.name'], ['desc']),
               })}
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}

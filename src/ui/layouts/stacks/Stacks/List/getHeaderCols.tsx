@@ -140,8 +140,8 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="shared"
-          sortMethod={sortMethod('shared', {
+          sorting="isShared"
+          sortMethod={sortMethod('isShared', {
             asc: (filteredStacks: TStack[]) =>
               _.orderBy(filteredStacks, ['isShared'], ['asc']),
             desc: (filteredStacks: TStack[]) =>
@@ -199,12 +199,12 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="author"
-          sortMethod={sortMethod('author', {
+          sorting="user.name"
+          sortMethod={sortMethod('user.name', {
             asc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['user.full_name '], ['asc']),
+              _.orderBy(filteredStacks, ['user.name'], ['asc']),
             desc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['user.full_name '], ['desc']),
+              _.orderBy(filteredStacks, ['user.name'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}

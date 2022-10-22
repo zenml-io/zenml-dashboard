@@ -4,6 +4,7 @@ export type Sorting =
   | 'status'
   | 'datasourceCommit'
   | 'createdAt'
-  | 'created';
+  | 'created'
+  | 'user.name';
 
 export type SortingDirection = 'ASC' | 'DESC';

@@ -2,8 +2,8 @@ export type Sorting =
   | 'id'
   | 'name'
   | 'status'
-  | 'shared'
-  | 'author'
+  | 'isShared'
+  | 'user.name'
   | 'datasourceCommit'
   | 'createdAt'
   | 'created';

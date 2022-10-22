@@ -5,7 +5,7 @@ export type Sorting =
   | 'stackRunType'
   | 'status'
   | 'stackName'
-  | 'author'
+  | 'user.name'
   | 'datasourceCommit'
   | 'createdAt'
   | 'created';
