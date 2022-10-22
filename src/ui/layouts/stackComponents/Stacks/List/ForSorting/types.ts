@@ -6,6 +6,7 @@ export type Sorting =
   | 'shared'
   | 'author'
   | 'datasourceCommit'
-  | 'createdAt';
+  | 'createdAt'
+  | 'created';
 
 export type SortingDirection = 'ASC' | 'DESC';

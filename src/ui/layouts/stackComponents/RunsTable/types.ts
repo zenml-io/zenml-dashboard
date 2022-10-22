@@ -7,6 +7,7 @@ export type Sorting =
   | 'stackName'
   | 'author'
   | 'datasourceCommit'
-  | 'createdAt';
+  | 'createdAt'
+  | 'created';
 
 export type SortingDirection = 'ASC' | 'DESC';

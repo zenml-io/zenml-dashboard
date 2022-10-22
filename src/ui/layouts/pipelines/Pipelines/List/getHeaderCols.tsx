@@ -154,8 +154,8 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="author"
-          sortMethod={sortMethod('author', {
+          sorting="user.name"
+          sortMethod={sortMethod('user.name', {
             asc: (filteredPipelines: TPipeline[]) =>
               _.orderBy(filteredPipelines, ['user.name'], ['asc']),
             desc: (filteredPipelines: TPipeline[]) =>
@@ -165,7 +165,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            AUTHOR {console.log('filteredPipelines', filteredPipelines)}
+            AUTHOR
           </Paragraph>
         </SortingHeader>
       ),
@@ -222,8 +222,8 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="createdAt"
-          sortMethod={sortMethod('createdAt', {
+          sorting="created"
+          sortMethod={sortMethod('created', {
             asc: (filteredPipelines: TPipeline[]) =>
               _.orderBy(
                 filteredPipelines,

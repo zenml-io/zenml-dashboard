@@ -2,8 +2,8 @@ export type Sorting =
   | 'id'
   | 'name'
   | 'status'
-  | 'author'
+  | 'user.name'
   | 'datasourceCommit'
-  | 'createdAt';
+  | 'created';
 
 export type SortingDirection = 'ASC' | 'DESC';
