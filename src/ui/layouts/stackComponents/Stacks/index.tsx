@@ -3,34 +3,15 @@ import React, { useState } from 'react';
 import { List } from './List';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
-// import { WorkspaceDropdown } from './WorkspaceDropdown';
+
 import { useService } from './useService';
 import { useLocationPath } from '../../../hooks';
-// import { WorkspaceDropdown } from './WorkspaceDropdown';
+
 import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';
 import { camelCaseToParagraph } from '../../../../utils';
-// const PAGES = [
-//   {
-//     text: 'Alerter',
-//     Component: List,
-//     path: routePaths.stackComponents.base('alerter'),
-//   },
-//   // {
-//   //   text: translate('tabs.allRuns.text'),
-//   //   Component: AllRuns,
-//   //   path: routePaths.stacks.allRuns,
-//   // },
-// ];
 
-// const BREADCRUMBS = [
-//   {
-//     name: 'Components',
-//     clickable: true,
-//     to: routePaths.stackComponents.base('alerter'),
-//   },
-// ];
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
   const [filters, setFilter] = useState([getInitialFilterState()]);
@@ -57,12 +38,7 @@ const FilterWrapper = () => {
 
 export const Stacks: React.FC = () => {
   const locationPath = useLocationPath();
-  const {
-    setFetching,
-    // setCurrentWorkspace,
-    // currentWorkspace,
-    // workspaces,
-  } = useService();
+  const { setFetching } = useService();
   console.log(setFetching);
 
   return (
@@ -83,19 +59,7 @@ export const Stacks: React.FC = () => {
         },
       ]}
       headerWithButtons
-      renderHeaderRight={() => (
-        <></>
-        // <WorkspaceDropdown
-        //   workspaces={workspaces}
-        //   currentWorkspace={currentWorkspace}
-        //   setCurrentWorkspace={(workspace: TWorkspace): void => {
-        //     if (currentWorkspace && workspace.id !== currentWorkspace.id) {
-        //       setFetching(true);
-        //     }
-        //     setCurrentWorkspace(workspace);
-        //   }}
-        // />
-      )}
+      renderHeaderRight={() => <></>}
     />
   );
 };

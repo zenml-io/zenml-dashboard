@@ -56,8 +56,6 @@ export const useService = (
 
   const fetching = useSelector(stackPagesSelectors.fetching);
 
-  // const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
-
   const stackComponents = useSelector(
     stackComponentSelectors.mystackComponents,
   );
@@ -83,20 +81,16 @@ export const useService = (
   }, [stackComponents, filter]);
 
   useEffect(() => {
-    // if (activeSorting === null) {
-    // debugger;
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
       dispatch(
         stackComponentsActions.getMy({
-          // id: currentWorkspace.id,
           type: locationPath.split('/')[2],
         }),
       );
     }, 5000);
 
     return () => clearInterval(intervalId);
-    // }
   });
 
   const setSelectedRunIds = (runIds: TId[]) => {

@@ -8,7 +8,6 @@ export const Runs: React.FC<{ stackComponentId: TId; filter?: any }> = ({
   filter,
 }) => {
   const { fetching, runIds } = useService({ stackComponentId });
-  // debugger;
 
   return (
     <RunsTable

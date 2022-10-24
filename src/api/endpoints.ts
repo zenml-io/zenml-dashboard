@@ -21,10 +21,7 @@ export const endpoints = {
     deleteInvite: (id: string): string => `/users/${id}`,
     getInvoices: `/billing/organization/invoices`,
   },
-  workspaces: {
-    my: '/workspaces/',
-    pipelinesForId: (id: TId): string => `/workspaces/${id}/pipelines`,
-  },
+
   pipelines: {
     my: '/pipelines?hydrated=true',
     get: (pipelineId: TId): string =>
@@ -37,8 +34,7 @@ export const endpoints = {
   },
   StackComponents: {
     types: '/component-types',
-    my: (type: string): string =>
-      `/components?type=${type}?unlisted=false&hydrated=true`,
+    my: (type: string): string => `/components?type=${type}&hydrated=true`,
     get: (stackComponentId: TId): string =>
       `/components/${stackComponentId}?hydrated=true`,
   },

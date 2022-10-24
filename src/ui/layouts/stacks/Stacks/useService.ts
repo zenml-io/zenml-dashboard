@@ -7,12 +7,9 @@ import { useDispatch, useSelector, useLocationPath } from '../../../hooks';
 
 interface ServiceInterface {
   setFetching: (arg: boolean) => void;
-  setCurrentWorkspace: (arg: TWorkspace | null) => void;
-  currentWorkspace: TWorkspace | null;
 }
 
 export const useService = (): ServiceInterface => {
-  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
   const locationPath = useLocationPath();
   const dispatch = useDispatch();
 
@@ -30,13 +27,7 @@ export const useService = (): ServiceInterface => {
     dispatch(stackPagesActions.setFetching({ fetching }));
   };
 
-  const setCurrentWorkspace = (workspace: TWorkspace | null) => {
-    dispatch(stackPagesActions.setCurrentWorkspace({ workspace }));
-  };
-
   return {
     setFetching,
-    setCurrentWorkspace,
-    currentWorkspace,
   };
 };

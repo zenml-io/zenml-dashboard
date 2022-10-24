@@ -132,10 +132,7 @@ export const GetHeaderCols = ({
             </Paragraph>
           </div>
           <ReactTooltip id={stack.name} place="top" effect="solid">
-            <Paragraph color="white">
-              {stack.name}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+            <Paragraph color="white">{stack.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -143,8 +140,8 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="shared"
-          sortMethod={sortMethod('shared', {
+          sorting="isShared"
+          sortMethod={sortMethod('isShared', {
             asc: (filteredStacks: TStack[]) =>
               _.orderBy(filteredStacks, ['isShared'], ['asc']),
             desc: (filteredStacks: TStack[]) =>
@@ -193,7 +190,6 @@ export const GetHeaderCols = ({
           >
             <Paragraph color="white">
               {stack.isShared ? 'True' : 'False'}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
@@ -203,12 +199,12 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="author"
-          sortMethod={sortMethod('author', {
+          sorting="user.name"
+          sortMethod={sortMethod('user.name', {
             asc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['user.full_name '], ['asc']),
+              _.orderBy(filteredStacks, ['user.name'], ['asc']),
             desc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['user.full_name '], ['desc']),
+              _.orderBy(filteredStacks, ['user.name'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -251,7 +247,6 @@ export const GetHeaderCols = ({
             >
               <Paragraph color="white">
                 {stack.user.full_name ? stack.user.full_name : stack.user.name}
-                {/* {translate(`tooltips.${invoice.status}`)} */}
               </Paragraph>
             </ReactTooltip>
           </FlexBox>
@@ -302,10 +297,7 @@ export const GetHeaderCols = ({
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">
-              {stack.created}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+            <Paragraph color="white">{stack.created}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

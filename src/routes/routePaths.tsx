@@ -69,10 +69,6 @@ export const routePaths = {
     runs: (id: TId): string => `/stacks/${id}/runs`,
   },
 
-  workspaces: {
-    base: '/workspaces',
-    list: '/workspaces/list',
-  },
   stackComponents: {
     base: (type: string): string => `/components/${type}`,
     configuration: (type: string, id: TId): string =>
@@ -80,10 +76,7 @@ export const routePaths = {
     runs: (type: string, id: TId): string => `/components/${type}/${id}/runs`,
     // list: (type: string): string => `/components/${type}`,
   },
-  datasources: '/datasources',
-  functions: '/functions',
-  models: '/models',
-  deployments: '/deployments',
+
   settings: {
     base: '/settings',
     personalDetails: '/settings/personal-details',

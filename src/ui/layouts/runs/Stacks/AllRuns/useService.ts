@@ -12,15 +12,10 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const fetching = useSelector(runPagesSelectors.fetching);
-  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
   const runs = useSelector(runSelectors.myRuns);
 
-  const filteredRuns = runs.filter(
-    (run: TRun) => currentWorkspace && run.workspaceId === currentWorkspace.id,
-  );
-
-  const runIds = filteredRuns.map((run: TRun) => run.id);
+  const runIds = runs.map((run: TRun) => run.id);
 
   return {
     fetching,

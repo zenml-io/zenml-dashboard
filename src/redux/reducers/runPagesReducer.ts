@@ -1,13 +1,11 @@
 import { pipelinePagesActionTypes, runPagesActionTypes } from '../actionTypes';
 
 export interface State {
-  currentWorkspace: TWorkspace | null;
   selectedRunIds: TId[];
   fetching: boolean;
 }
 
 export const initialState: State = {
-  currentWorkspace: null,
   selectedRunIds: [],
   fetching: false,
 };
@@ -15,7 +13,6 @@ export const initialState: State = {
 export type Action = {
   type: string;
   payload: {
-    workspace?: TWorkspace | null;
     runIds?: TId[];
     fetching?: boolean;
   };
@@ -26,16 +23,6 @@ const runPagesReducer = (
   action: Action,
 ): State => {
   switch (action.type) {
-    case pipelinePagesActionTypes.setCurrentWorkspace: {
-      const currentWorkspace = action.payload.workspace;
-
-      if (currentWorkspace === undefined) {
-        return state;
-      }
-
-      return { ...state, currentWorkspace };
-    }
-
     case pipelinePagesActionTypes.setSelectedRunIds: {
       const selectedRunIds = action.payload.runIds;
 

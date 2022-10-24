@@ -55,13 +55,11 @@ export const useService = (
 
   const fetching = useSelector(pipelinePagesSelectors.fetching);
 
-  const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
-
   const pipelines = useSelector(pipelineSelectors.myPipelines);
 
   useEffect(() => {
-    console.log(activeSorting);
-    console.log(activeSortingDirection);
+    console.log('activeSorting', activeSorting);
+    console.log('activeSorting', activeSortingDirection);
 
     let orderedPipelines =
       activeSorting === null
@@ -79,16 +77,10 @@ export const useService = (
       orderedPipelines = getFilteredDataForTable(orderedPipelines, filter);
     }
 
-    // const filteredPipelines = orderedPipelines.filter(
-    //   (pipeline: TPipeline) =>
-    //     currentWorkspace && pipeline.projectName === currentWorkspace.id,
-    // );
-
-    setFilteredPipelines(orderedPipelines as TPipeline[]);
+    setFilteredPipelines(orderedPipelines as any[]);
   }, [filter, pipelines]);
 
   useEffect(() => {
-    // if (activeSorting === null) {
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
 
@@ -96,7 +88,7 @@ export const useService = (
     }, 5000);
 
     return () => clearInterval(intervalId);
-    // }
+
     //This is important
   });
 

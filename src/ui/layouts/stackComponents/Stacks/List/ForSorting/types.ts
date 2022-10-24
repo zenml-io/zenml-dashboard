@@ -3,9 +3,10 @@ export type Sorting =
   | 'name'
   | 'status'
   | 'flavor'
-  | 'shared'
-  | 'author'
+  | 'isShared'
+  | 'user.name'
   | 'datasourceCommit'
-  | 'createdAt';
+  | 'createdAt'
+  | 'created';
 
 export type SortingDirection = 'ASC' | 'DESC';

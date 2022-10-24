@@ -47,7 +47,6 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
 
   return (
     <>
-      {/* <Box>a</Box> */}
       <CollapseTable
         renderAfterRow={(stack: TStack) => (
           <>

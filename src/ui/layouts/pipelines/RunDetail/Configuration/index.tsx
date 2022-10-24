@@ -9,7 +9,6 @@ import { showToasterAction } from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
 import { iconColors, iconSizes } from '../../../../../constants';
 
-// import { translate } from '../translate';
 import styles from './index.module.scss';
 import { useService } from './useService';
 
@@ -42,9 +41,7 @@ export const Configuration: React.FC<{ runId: TId }> = ({ runId }) => {
           >
             Download
           </GhostButton>
-          {/* <GhostButton onClick={handleCopy}>
-            <icons.copy color={iconColors.black} size={iconSizes.sm} />
-          </GhostButton> */}
+
           <GhostButton
             onMouseEnter={() => {
               setHover(true);

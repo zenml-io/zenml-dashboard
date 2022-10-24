@@ -73,7 +73,7 @@ export const Menu: React.FC = () => {
         text={translate('menu.stackComponents.text')}
       />
 
-      {locationPath.includes('components') &&  
+      {locationPath.includes('components') &&
         stackComponentsTypes?.map((item) => (
           <MenuItem
             isActive={() => {
@@ -92,31 +92,7 @@ export const Menu: React.FC = () => {
             to={routePaths.stackComponents.base(item)}
             text={item}
           />
-        )
-      )}
-      
-      {/* <MenuItem
-        Icon={() => (
-          <icons.settings color={iconColors.white} size={iconSizes.md} />
-        )}
-        to={routePaths.settings.personalDetails}
-        text={translate('menu.setting.text')}
-      /> */}
-      {/* will remove this code later */}
-      {/* <MenuItem
-        Icon={() => (
-          <icons.table color={iconColors.white} size={iconSizes.md} />
-        )}
-        to={routePaths.models}
-        text={translate('menu.models.text')}
-      />
-      <MenuItem
-        Icon={() => (
-          <icons.dashboard color={iconColors.white} size={iconSizes.md} />
-        )}
-        to={routePaths.deployments}
-        text={translate('menu.deployments.text')}
-      /> */}
+        ))}
     </>
   );
 };

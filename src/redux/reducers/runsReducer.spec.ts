@@ -7,12 +7,10 @@ const run = {
 } as TRun;
 
 const pipelineId = 'pipelineId';
-const workspaceId = 'workspaceId';
 
 const actionPayload = [
   {
     id: pipelineId,
-    workspace_id: workspaceId,
     pipeline_runs: [run],
   },
 ];
@@ -42,7 +40,7 @@ const testStateAfterSuccessfulMyPipelinesFetch = (state: {
 
   it('byIds is added to the store', () => {
     const byId = {
-      [run.id]: { ...run, workspaceId, pipelineId },
+      [run.id]: { ...run, pipelineId },
       ['other-id']: run,
     };
     expect(nextState.byId).toEqual(byId);
@@ -72,7 +70,6 @@ const runForIdSuccessful = (currentState: any): any => {
     type: runActionTypes.getRunForId.success,
     payload: run,
     requestParams: {
-      workspaceId,
       pipelineId,
     },
   };
@@ -92,7 +89,7 @@ const testStateAfterSuccessfulRunForId = (state: {
 
   it('byIds is added to the store', () => {
     const byId = {
-      [run.id]: { ...run, workspaceId, pipelineId },
+      [run.id]: { ...run, pipelineId },
       ['other-id']: run,
     };
     expect(nextState.byId).toEqual(byId);
@@ -118,7 +115,6 @@ const pipelineForIdSuccessful = (currentState: any): any => {
     payload: {
       pipeline_runs: [run],
       id: pipelineId,
-      workspace_id: workspaceId,
     },
   };
 
@@ -137,7 +133,7 @@ const testStateAfterSuccessfulPipelineForId = (state: {
 
   it('byIds is added to the store', () => {
     const byId = {
-      [run.id]: { ...run, workspaceId, pipelineId },
+      [run.id]: { ...run, pipelineId },
       ['other-id']: run,
     };
     expect(nextState.byId).toEqual(byId);

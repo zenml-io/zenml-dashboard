@@ -5,8 +5,9 @@ export type Sorting =
   | 'pipelineName'
   | 'status'
   | 'stackName'
-  | 'author'
+  | 'user.name'
   | 'datasourceCommit'
-  | 'createdAt';
+  | 'createdAt'
+  | 'created';
 
 export type SortingDirection = 'ASC' | 'DESC';

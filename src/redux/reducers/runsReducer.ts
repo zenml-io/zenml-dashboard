@@ -20,7 +20,7 @@ export interface State {
 
 type PipelinesPayload = {
   id: TId;
-  workspace_id: TId;
+
   pipeline_runs: TRun[];
 }[];
 
@@ -36,7 +36,6 @@ export type Action = {
   type: string;
   payload: any;
   requestParams?: {
-    workspaceId: TId;
     pipelineId: TId;
     stackId: TId;
     stackComponentId: TId;
@@ -74,30 +73,8 @@ const runsReducer = (state: State = initialState, action: Action): State => {
     // case pipelineActionTypes.getMyPipelines.success:
     case runActionTypes.getAllRuns.success: {
       const payload = action.payload;
-      // debugger;
-      // const byPipelineId: Record<TId, TId[]> = {};
+
       let allRuns: TRun[] = payload;
-
-      // payload.forEach(
-      //   (pipeline: { id: TId; pipeline_runs: TRun[]; workspace_id: TId }) => {
-      //     // byPipelineId[pipeline.id] = pipeline.pipeline_runs.map(
-      //     //   (run: TRun) => run.id,
-      //     // );
-      //     byPipelineId[pipeline.id] = (pipeline.pipeline_runs || []).map(
-      //       (run: TRun) => run.id,
-      //     );
-
-      //     const runsFromPipeline = (pipeline.pipeline_runs || []).map(
-      //       (run: TRun) => ({
-      //         ...run,
-      //         workspaceId: pipeline.workspace_id,
-      //         pipelineId: pipeline.id,
-      //       }),
-      //     );
-
-      //     // allRuns = [...allRuns, ...runsFromRun];
-      //   },
-      // );
 
       const runs: TRun[] = camelCaseArray(allRuns);
 
@@ -137,10 +114,6 @@ const runsReducer = (state: State = initialState, action: Action): State => {
         ...payload,
         pipelineId: action.requestParams.pipelineId,
       });
-
-      if (action.requestParams.workspaceId) {
-        run.workspaceId = action.requestParams.workspaceId;
-      }
 
       return { ...state, ...newState(state, [run]) };
     }

@@ -85,25 +85,6 @@ function NestedRow({ tiles }: NestedRowProps) {
             </Paragraph>
           </Box>
         ))}
-
-      {/* <Box className={styles.tile} color="black">
-        <Paragraph size="small">
-          <span>artifact_store {'>'} </span>{' '}
-          <span className={styles.name}>s3_aws</span>
-        </Paragraph>
-      </Box>
-      <Box className={styles.tile} color="black">
-        <Paragraph size="small">
-          <span>secret_manager {'>'} </span>{' '}
-          <span className={styles.name}>azure_key_vault</span>
-        </Paragraph>
-      </Box>
-      <Box className={styles.tile} color="black">
-        <Paragraph size="small">
-          <span>experiment_tracker {'>'} </span>{' '}
-          <span className={styles.name}>mlflow_prd</span>
-        </Paragraph>
-      </Box> */}
     </FlexBox.Row>
   );
 }

@@ -32,7 +32,6 @@ export const Organization: React.FC = () => {
     setActiveSorting,
     activeSortingDirection,
     setActiveSortingDirection,
-    // setSelectedRunIds,
   } = useService();
 
   const memberHeaderCols = useMemberHeaderCols({

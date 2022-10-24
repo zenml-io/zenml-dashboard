@@ -52,7 +52,6 @@ export const InnerTextLink = (props: {
     style={{ color: '#22BBDD' }}
     href={props.href}
   >
-    {/* {props.text} */}
     {props.text}
   </a>
 );

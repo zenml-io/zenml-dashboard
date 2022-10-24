@@ -1,5 +1,5 @@
 import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
-import { pipelineActionTypes, workspaceActionTypes } from '../actionTypes';
+import { pipelineActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
 export interface State {
@@ -34,8 +34,7 @@ const pipelinesReducer = (
   action: Action,
 ): State => {
   switch (action.type) {
-    case pipelineActionTypes.getMyPipelines.success:
-    case workspaceActionTypes.getPipelinesForWorkspaceId.success: {
+    case pipelineActionTypes.getMyPipelines.success: {
       const pipelines: TPipeline[] = camelCaseArray(
         action.payload as PipelinesPayload,
       );

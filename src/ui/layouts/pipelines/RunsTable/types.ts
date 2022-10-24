@@ -6,7 +6,7 @@ export type Sorting =
   | 'pipelineName'
   | 'datasourceCommit'
   | 'stackName'
-  | 'author'
+  | 'user.name'
   | 'createdAt'
   | 'created';
 

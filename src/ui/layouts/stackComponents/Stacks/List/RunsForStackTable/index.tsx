@@ -30,17 +30,9 @@ export const RunsForStackTable: React.FC<{
       });
     }
 
-    // const nestedRowtiles = pipeline.components.map((c: any) => ({
-    //   name: c.name,
-    //   type: c.type,
-    // }));
-    /**
-     * return nested rows each row should not exceed more than 4 tiles
-     */
     return (
       <>
         <NestedRow tiles={nestedRowtiles} />
-        {/* <NestedRow tiles={nestedRowtiles} />; */}
       </>
     );
   }
@@ -72,7 +64,6 @@ function NestedRow({ tiles }: NestedRowProps) {
       className={styles.nestedrow}
       padding="md"
       alignItems="center"
-      // justifyContent="center"
     >
       {tiles &&
         tiles.map((tile: tile, index: number) => (
@@ -85,25 +76,6 @@ function NestedRow({ tiles }: NestedRowProps) {
             </Paragraph>
           </Box>
         ))}
-
-      {/* <Box className={styles.tile} color="black">
-        <Paragraph size="small">
-          <span>artifact_store {'>'} </span>{' '}
-          <span className={styles.name}>s3_aws</span>
-        </Paragraph>
-      </Box>
-      <Box className={styles.tile} color="black">
-        <Paragraph size="small">
-          <span>secret_manager {'>'} </span>{' '}
-          <span className={styles.name}>azure_key_vault</span>
-        </Paragraph>
-      </Box>
-      <Box className={styles.tile} color="black">
-        <Paragraph size="small">
-          <span>experiment_tracker {'>'} </span>{' '}
-          <span className={styles.name}>mlflow_prd</span>
-        </Paragraph>
-      </Box> */}
     </FlexBox.Row>
   );
 }

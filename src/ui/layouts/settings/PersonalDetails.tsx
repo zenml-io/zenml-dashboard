@@ -20,6 +20,7 @@ import { useDispatch } from 'react-redux';
 import { toasterTypes } from '../../../constants';
 import { PrimaryButton } from '../../components/buttons/index';
 import { EmailPopup } from './EmailPopup';
+import { loginAction } from '../../../redux/actions/session/loginAction';
 
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
@@ -50,24 +51,41 @@ export const PersonalDetails: React.FC = () => {
     } else {
       setSubmitting(true);
       dispatch(
-        sessionActions.forgotPassword({
-          userId: user?.id,
-          password: newPassword,
-          onFailure: () => {
-            setSubmitting(false);
+        loginAction({
+          password: currentPassword,
+          username: username,
+          onFailure: (errorText) => {
             dispatch(
               showToasterAction({
-                description: translate('toasts.failed.text'),
+                description: 'Current Password is incorrect',
                 type: toasterTypes.failure,
               }),
             );
-          },
-          onSuccess: () => {
             setSubmitting(false);
+          },
+          onSuccess: async () => {
             dispatch(
-              showToasterAction({
-                description: translate('toasts.successful.text'),
-                type: toasterTypes.success,
+              sessionActions.forgotPassword({
+                userId: user?.id,
+                password: newPassword,
+                onFailure: () => {
+                  setSubmitting(false);
+                  dispatch(
+                    showToasterAction({
+                      description: translate('toasts.failed.text'),
+                      type: toasterTypes.failure,
+                    }),
+                  );
+                },
+                onSuccess: () => {
+                  setSubmitting(false);
+                  dispatch(
+                    showToasterAction({
+                      description: translate('toasts.successful.text'),
+                      type: toasterTypes.success,
+                    }),
+                  );
+                },
               }),
             );
           },

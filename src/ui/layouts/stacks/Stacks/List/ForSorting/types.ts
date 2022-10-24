@@ -2,9 +2,10 @@ export type Sorting =
   | 'id'
   | 'name'
   | 'status'
-  | 'shared'
-  | 'author'
+  | 'isShared'
+  | 'user.name'
   | 'datasourceCommit'
-  | 'createdAt';
+  | 'createdAt'
+  | 'created';
 
 export type SortingDirection = 'ASC' | 'DESC';

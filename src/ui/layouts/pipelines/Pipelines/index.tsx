@@ -4,7 +4,6 @@ import { List } from './List';
 import { AllRuns } from './AllRuns';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
-// import { WorkspaceDropdown } from './WorkspaceDropdown';
 import { useService } from './useService';
 import { useLocationPath } from '../../../hooks';
 import FilterComponent, {
@@ -71,14 +70,6 @@ const PAGES = [
   },
 ];
 
-// const BREADCRUMBS = [
-//   {
-//     name: translate('header.breadcrumbs.pipelines.text'),
-//     clickable: true,
-//     to: routePaths.pipelines.list,
-//   },
-// ];
-
 export const Pipelines: React.FC = () => {
   const { setFetching } = useService();
   console.log(setFetching);
@@ -100,19 +91,7 @@ export const Pipelines: React.FC = () => {
         },
       ]}
       headerWithButtons
-      renderHeaderRight={() => (
-        <></>
-        // <WorkspaceDropdown
-        //   workspaces={workspaces}
-        //   currentWorkspace={currentWorkspace}
-        //   setCurrentWorkspace={(workspace: TWorkspace): void => {
-        //     if (currentWorkspace && workspace.id !== currentWorkspace.id) {
-        //       setFetching(true);
-        //     }
-        //     setCurrentWorkspace(workspace);
-        //   }}
-        // />
-      )}
+      renderHeaderRight={() => <></>}
     />
   );
 };

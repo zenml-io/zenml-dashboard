@@ -47,16 +47,8 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip
-          id={run.status}
-          place="top"
-          effect="solid"
-          // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-        >
-          <Paragraph color="white">
-            {run.status}
-            {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-          </Paragraph>
+        <ReactTooltip id={run.status} place="top" effect="solid">
+          <Paragraph color="white">{run.status}</Paragraph>
         </ReactTooltip>
       </FlexBox>
 
@@ -73,26 +65,10 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip
-          id={run.status}
-          place="top"
-          effect="solid"
-          // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-        >
-          <Paragraph color="white">
-            {run.status}
-            {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-          </Paragraph>
+        <ReactTooltip id={run.status} place="top" effect="solid">
+          <Paragraph color="white">{run.status}</Paragraph>
         </ReactTooltip>
       </FlexBox>
-
-      {/* <If condition={status === runStatus.FAILED}>
-              {() => (
-                <ColoredCircle color="red" size="xs">
-                  <icons.close color={iconColors.white} size={iconSizes.xs} />
-                </ColoredCircle>
-              )}
-            </If> */}
 
       <FlexBox alignItems="center">
         <div data-tip data-for={run.status}>
@@ -104,16 +80,8 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip
-          id={run.status}
-          place="top"
-          effect="solid"
-          // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-        >
-          <Paragraph color="white">
-            {run.status}
-            {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-          </Paragraph>
+        <ReactTooltip id={run.status} place="top" effect="solid">
+          <Paragraph color="white">{run.status}</Paragraph>
         </ReactTooltip>
       </FlexBox>
 
@@ -127,16 +95,8 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip
-          id={run.status}
-          place="top"
-          effect="solid"
-          // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-        >
-          <Paragraph color="white">
-            {run.status}
-            {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-          </Paragraph>
+        <ReactTooltip id={run.status} place="top" effect="solid">
+          <Paragraph color="white">{run.status}</Paragraph>
         </ReactTooltip>
       </FlexBox>
     </>

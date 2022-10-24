@@ -1,5 +1,5 @@
 import pipelinesReducer from './pipelinesReducer';
-import { pipelineActionTypes, workspaceActionTypes } from '../actionTypes';
+import { pipelineActionTypes } from '../actionTypes';
 
 const pipeline = {
   id: '1245',
@@ -59,23 +59,6 @@ describe('given a successful getMyPipelines action', () => {
         myPipelineIds: ['other-id'],
       },
       pipelineActionTypes.getMyPipelines.success,
-    );
-  });
-});
-
-describe('given a successful getPipelinesForWorkspaceId action', () => {
-  describe('The store has data, adds the pipelines', () => {
-    const byId = {
-      ['other-id']: pipeline,
-    };
-    const ids = ['other-id'];
-    testStateAfterSuccessfulPipelinesFetch(
-      {
-        byId,
-        ids,
-        myPipelineIds: ['other-id'],
-      },
-      workspaceActionTypes.getPipelinesForWorkspaceId.success,
     );
   });
 });

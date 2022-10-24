@@ -11,11 +11,7 @@ import Home from '../ui/layouts/Home';
 
 import Pipelines from '../ui/layouts/pipelines/Pipelines';
 import stacks from '../ui/layouts/stacks/Stacks';
-import Datasources from '../ui/layouts/datasources/Datasources';
-import Deployments from '../ui/layouts/deployments/Deployments';
-import Functions from '../ui/layouts/functions/Functions';
-import Models from '../ui/layouts/models/Models';
-import Workspaces from '../ui/layouts/workspaces/Workspaces';
+
 import stackComponents from '../ui/layouts/stackComponents/Stacks';
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
 import StackDetail from '../ui/layouts/stacks/StackDetail/index';
@@ -284,22 +280,7 @@ const routes = [
     },
     exact: true,
   },
-  {
-    path: routePaths.workspaces.base,
-    Component: Workspaces,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-    exact: true,
-  },
-  {
-    path: routePaths.workspaces.list,
-    Component: Workspaces,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-    exact: true,
-  },
+
   {
     path: routePaths.stackComponents.base(':type'),
     Component: stackComponents,
@@ -324,34 +305,7 @@ const routes = [
     },
     exact: true,
   },
-  {
-    path: routePaths.datasources,
-    Component: Datasources,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-  },
-  {
-    path: routePaths.functions,
-    Component: Functions,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-  },
-  {
-    path: routePaths.models,
-    Component: Models,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-  },
-  {
-    path: routePaths.deployments,
-    Component: Deployments,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-  },
+
   {
     path: routePaths.settings.base,
     Component: SettingsPage,

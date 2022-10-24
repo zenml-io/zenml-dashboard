@@ -51,8 +51,6 @@ export const useService = (
 
   const fetching = useSelector(stackPagesSelectors.fetching);
 
-  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
-
   const Stacks = useSelector(stackSelectors.mystacks);
 
   useEffect(() => {

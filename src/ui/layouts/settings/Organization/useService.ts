@@ -41,12 +41,7 @@ export const useService = (): ServiceInterface => {
 
   const [filteredMembers, setFilteredMembers] = useState<TMember[]>([]);
 
-  // const fetching = useSelector(stackPagesSelectors.fetching);
-
-  // const organization = useSelector(organizationSelectors.myOrganization);
   const members = useSelector(organizationSelectors.myMembers);
-
-  // const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
   useEffect(() => {
     let filteredMembers = _.sortBy(members, (stack: TMember) =>
@@ -68,6 +63,5 @@ export const useService = (): ServiceInterface => {
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-    // fetching,
   };
 };
