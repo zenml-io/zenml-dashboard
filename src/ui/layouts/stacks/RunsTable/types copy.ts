@@ -3,6 +3,8 @@ export type Sorting =
   | 'stackRunType'
   | 'status'
   | 'datasourceCommit'
-  | 'createdAt';
+  | 'createdAt'
+  | 'created'
+  | 'user.name';
 
 export type SortingDirection = 'ASC' | 'DESC';

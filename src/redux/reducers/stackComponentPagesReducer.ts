@@ -1,13 +1,11 @@
 import { stackComponentPagesActionTypes } from '../actionTypes';
 
 export interface State {
-  currentWorkspace: TWorkspace | null;
   selectedRunIds: TId[];
   fetching: boolean;
 }
 
 export const initialState: State = {
-  currentWorkspace: null,
   selectedRunIds: [],
   fetching: false,
 };
@@ -15,7 +13,6 @@ export const initialState: State = {
 export type Action = {
   type: string;
   payload: {
-    workspace?: TWorkspace | null;
     runIds?: TId[];
     fetching?: boolean;
   };
@@ -26,16 +23,6 @@ const stackComponentPagesReducer = (
   action: Action,
 ): State => {
   switch (action.type) {
-    case stackComponentPagesActionTypes.setCurrentWorkspace: {
-      const currentWorkspace = action.payload.workspace;
-
-      if (currentWorkspace === undefined) {
-        return state;
-      }
-
-      return { ...state, currentWorkspace };
-    }
-
     case stackComponentPagesActionTypes.setSelectedRunIds: {
       const selectedRunIds = action.payload.runIds;
 

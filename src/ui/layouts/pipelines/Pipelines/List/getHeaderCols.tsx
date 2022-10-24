@@ -21,8 +21,6 @@ import { Sorting, SortingDirection } from './ForSorting/types';
 import { Status } from './Status';
 import { useService } from './ForSorting/useServiceForSorting';
 import _ from 'lodash';
-// import { WorkspaceName } from './WorkspaceName';
-// import { UserName } from './UserName';
 
 export const GetHeaderCols = ({
   openPipelineIds,
@@ -43,14 +41,7 @@ export const GetHeaderCols = ({
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
   setActiveSorting: (sorting: Sorting | null) => void;
 }): HeaderCol[] => {
-  const {
-    // toggleSelectRun,
-    // isRunSelected,
-    // selectRuns,
-    // unselectRuns,
-    // allRunsSelected,
-    sortMethod,
-  } = useService({
+  const { sortMethod } = useService({
     openPipelineIds,
     setOpenPipelineIds,
     setActiveSortingDirection,
@@ -108,12 +99,7 @@ export const GetHeaderCols = ({
               {truncate(pipeline.id, ID_MAX_LENGTH)}
             </Paragraph>
           </div>
-          <ReactTooltip
-            id={pipeline.id}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
+          <ReactTooltip id={pipeline.id} place="top" effect="solid">
             <Paragraph color="white">
               {pipeline.id}
               {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
@@ -146,19 +132,13 @@ export const GetHeaderCols = ({
           <div data-tip data-for={pipeline.name}>
             <Paragraph size="small">{pipeline.name}</Paragraph>
           </div>
-          <ReactTooltip
-            id={pipeline.name}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
+          <ReactTooltip id={pipeline.name} place="top" effect="solid">
             <Paragraph color="white">
               {pipeline.name}
               {/* {translate(`tooltips.${invoice.status}`)} */}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
-        //
       ),
     },
     {
@@ -174,8 +154,8 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="author"
-          sortMethod={sortMethod('author', {
+          sorting="user.name"
+          sortMethod={sortMethod('user.name', {
             asc: (filteredPipelines: TPipeline[]) =>
               _.orderBy(filteredPipelines, ['user.name'], ['asc']),
             desc: (filteredPipelines: TPipeline[]) =>
@@ -185,12 +165,9 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            AUTHOR {console.log('filteredPipelines', filteredPipelines)}
+            AUTHOR
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-        //   AUTHOR
-        // </Paragraph>
       ),
       width: '11%',
       renderRow: (pipeline: TPipeline) => {
@@ -230,7 +207,6 @@ export const GetHeaderCols = ({
               }
               place="top"
               effect="solid"
-              // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
             >
               <Paragraph color="white">
                 {pipeline.user.full_name
@@ -246,8 +222,8 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="createdAt"
-          sortMethod={sortMethod('createdAt', {
+          sorting="created"
+          sortMethod={sortMethod('created', {
             asc: (filteredPipelines: TPipeline[]) =>
               _.orderBy(
                 filteredPipelines,
@@ -286,7 +262,6 @@ export const GetHeaderCols = ({
             id={formatDateToSort(pipeline.created)}
             place="top"
             effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
           >
             <Paragraph color="white">
               {pipeline.created}

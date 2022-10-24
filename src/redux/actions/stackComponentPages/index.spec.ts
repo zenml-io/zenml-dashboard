@@ -1,28 +1,11 @@
 import { pipelinePagesActionTypes } from '../../actionTypes';
-import { pipelinePagesActions } from './index';
-
-describe(pipelinePagesActionTypes.setCurrentWorkspace, () => {
-  const workspace = {
-    id: 'id',
-  };
-  const onAction = () =>
-    pipelinePagesActions.setCurrentWorkspace({ workspace });
-
-  it('has correct type', () => {
-    expect(onAction().type).toEqual(
-      pipelinePagesActionTypes.setCurrentWorkspace,
-    );
-  });
-
-  it('has correct payload', () => {
-    expect(onAction().payload).toEqual({ workspace });
-  });
-});
+import { stackComponentPagesActions } from './index';
 
 describe(pipelinePagesActionTypes.setSelectedRunIds, () => {
   const runIds = ['id'];
 
-  const onAction = () => pipelinePagesActions.setSelectedRunIds({ runIds });
+  const onAction = () =>
+    stackComponentPagesActions.setSelectedRunIds({ runIds });
 
   it('has correct type', () => {
     expect(onAction().type).toEqual(pipelinePagesActionTypes.setSelectedRunIds);
@@ -34,7 +17,8 @@ describe(pipelinePagesActionTypes.setSelectedRunIds, () => {
 });
 
 describe(pipelinePagesActionTypes.setFetching, () => {
-  const onAction = () => pipelinePagesActions.setFetching({ fetching: true });
+  const onAction = () =>
+    stackComponentPagesActions.setFetching({ fetching: true });
 
   it('has correct type', () => {
     expect(onAction().type).toEqual(pipelinePagesActionTypes.setFetching);

@@ -23,6 +23,8 @@ import { iconColors, DEFAULT_PROJECT_NAME } from '../../constants';
 import { sessionSelectors } from '../../redux/selectors/session';
 import { usePushRoute, useSelector } from '../hooks';
 import axios from 'axios';
+import { routePaths } from '../../routes/routePaths';
+import { stackComponentSelectors } from '../../redux/selectors';
 
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
@@ -61,7 +63,9 @@ export const Home: React.FC = () => {
   const { push } = usePushRoute();
 
   const [box, setBox] = useState('');
-
+  const stackComponentsTypes: any[] = useSelector(
+    stackComponentSelectors.stackComponentTypes,
+  );
   const [dashboardData, setDashboardData] = useState('');
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
@@ -114,7 +118,22 @@ export const Home: React.FC = () => {
                       marginTop: '10px',
                       backgroundColor: box === e.text ? '#431D93' : '#fff',
                     }}
-                    onClick={() => setBox(e.text)}
+                    onClick={() => {
+                      setBox(e.text);
+                      if (e.text === 'stacks') {
+                        push(routePaths.stacks.base);
+                      } else if (e.text === 'pipelines') {
+                        push(routePaths.pipelines.base);
+                      } else if (e.text === 'runs') {
+                        push(routePaths.pipelines.allRuns);
+                      } else if (e.text === 'components') {
+                        push(
+                          routePaths.stackComponents.base(
+                            stackComponentsTypes[0],
+                          ),
+                        );
+                      }
+                    }}
                   >
                     <Paragraph
                       style={{

@@ -1,7 +1,6 @@
 import React from 'react';
 import {
   Box,
-  // FormEmailField,
   FormPasswordField,
   FormTextField,
   PrimaryButton,
@@ -53,12 +52,7 @@ export const Form: React.FC = () => {
           placeholder={translate('form.password.placeholder')}
           value={password}
           onChange={(val: string) => setPassword(val)}
-          error={
-            {
-              // hasError: hasSubmittedWithErrors && password.trim() === '',
-              // text: translate('form.password.required'),
-            }
-          }
+          error={{}}
           showPasswordOption
         />
       </Box>

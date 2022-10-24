@@ -8,8 +8,6 @@ import { getTranslateByScope } from '../../../services';
 import { routePaths } from '../../../routes/routePaths';
 import { PersonalDetails } from './PersonalDetails';
 import { Organization } from './Organization';
-// import { Plan } from './Plan';
-// import { Billing } from './Billing';
 
 export const translate = getTranslateByScope('ui.layouts.Settings');
 
@@ -25,7 +23,6 @@ const PAGES = [
     path: routePaths.settings.organizationSettings,
   },
 ];
-
 
 export const SettingsPage: React.FC = () => {
   return (

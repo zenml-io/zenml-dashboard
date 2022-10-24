@@ -57,7 +57,6 @@ const StepNode = ({
         </div>
         <div className={styles.stepText}>
           <p className={styles.stepTitle}>{data.name}</p>
-          {/* <p className={styles.stepSub}>{data.status}</p> */}
         </div>
       </div>
       <Handle

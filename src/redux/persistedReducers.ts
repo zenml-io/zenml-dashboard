@@ -13,10 +13,6 @@ import organizationsReducer, {
   initialState as organizationsInitialState,
 } from './reducers/organizationsReducer';
 
-import workspacesReducer, {
-  initialState as workspacesInitialState,
-} from './reducers/workspacesReducer';
-
 import pipelinesReducer, {
   initialState as pipelinesInitialState,
 } from './reducers/pipelinesReducer';
@@ -57,7 +53,7 @@ const initialState = {
   session: sessionInitialState,
   users: usersInitialState,
   organizations: organizationsInitialState,
-  workspaces: workspacesInitialState,
+
   pipelines: pipelinesInitialState,
   stacks: stacksInitialState,
   stackComponents: stackComponentsInitialState,
@@ -73,7 +69,7 @@ export const persisted = combineReducers({
   session: sessionReducer,
   users: usersReducer,
   organizations: organizationsReducer,
-  workspaces: workspacesReducer,
+
   pipelines: pipelinesReducer,
   stacks: stacksReducer,
   stackComponents: stackComponentsReducer,

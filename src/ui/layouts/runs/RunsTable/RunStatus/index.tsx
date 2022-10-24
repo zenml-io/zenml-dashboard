@@ -3,8 +3,6 @@ import { runStatus, iconColors, iconSizes } from '../../../../../constants';
 import { ColoredCircle, icons, If } from '../../../../components';
 
 export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
-  // if (run.status === runStatus.Running) return null;
-
   return (
     <>
       <If condition={run.status === runStatus.COMPLETED}>

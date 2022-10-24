@@ -44,9 +44,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           >
             {translate('configuration.button.text')}
           </GhostButton>
-          {/* <GhostButton onClick={handleCopy}>
-            <icons.copy color={iconColors.black} size={iconSizes.sm} />     
-          </GhostButton> */}
+
           <GhostButton
             onMouseEnter={() => {
               setHover(true);

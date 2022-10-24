@@ -6,13 +6,12 @@ import { testApiAction } from '../testUtils/testApiAction';
 
 const runId = 'runId';
 const pipelineId = 'pipelineId';
-const workspaceId = 'workspaceId';
 
 const onSuccess = jest.fn();
 const onFailure = jest.fn();
 
 export const onAction = (): any =>
-  getRunByIdAction({ pipelineId, runId, workspaceId, onSuccess, onFailure });
+  getRunByIdAction({ pipelineId, runId, onSuccess, onFailure });
 
 testApiAction({
   onAction,
@@ -22,7 +21,7 @@ testApiAction({
     isAuthenticated: true,
     failureActionType: runActionTypes.getRunForId.failure,
     successActionType: runActionTypes.getRunForId.success,
-    params: { pipelineId, runId, workspaceId },
+    params: { pipelineId, runId },
     onSuccess,
     onFailure,
   },

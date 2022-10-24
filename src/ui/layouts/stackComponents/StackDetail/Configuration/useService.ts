@@ -20,13 +20,6 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
       ...stackComponent.configuration,
     },
   };
-  // Object.keys(stackComponent.type).forEach((element) => {
-  //   yamlConfigObj.components[element] = {
-  //     flavor: stack.components[element].flavor_name,
-  //     name: stack.components[element].name,
-  //     ...stack.components[element].configuration,
-  //   };
-  // });
 
   const stackConfig = YAML.stringify(yamlConfigObj);
 

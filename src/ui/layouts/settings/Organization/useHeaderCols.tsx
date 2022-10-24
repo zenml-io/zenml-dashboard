@@ -88,14 +88,7 @@ export const useMemberHeaderCols = ({
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
   setActiveSorting: (sorting: Sorting | null) => void;
 }): HeaderCol[] => {
-  const {
-    // toggleSelectRun,
-    // isRunSelected,
-    // selectRuns,
-    // unselectRuns,
-    // allRunsSelected,
-    sortMethod,
-  } = useService({
+  const { sortMethod } = useService({
     setActiveSortingDirection,
     setActiveSorting,
     setFilteredMembers,
@@ -137,12 +130,7 @@ export const useMemberHeaderCols = ({
                 <Paragraph size="small">{member.name}</Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip
-              id={member.name}
-              place="top"
-              effect="solid"
-              // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-            >
+            <ReactTooltip id={member.name} place="top" effect="solid">
               <Paragraph color="white">
                 {member.name}
                 {/* {translate(`tooltips.${invoice.status}`)} */}
@@ -178,7 +166,6 @@ export const useMemberHeaderCols = ({
             id={member?.active ? 'Accepted' : 'Pending'}
             place="top"
             effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
           >
             <Paragraph color="white">
               {member?.active ? 'Accepted' : 'Pending'}
@@ -234,7 +221,6 @@ export const useMemberHeaderCols = ({
             id={formatDateToSort(member.created)}
             place="top"
             effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
           >
             <Paragraph color="white">
               {member.created}
@@ -252,12 +238,7 @@ export const useMemberHeaderCols = ({
           <div data-tip data-for={member.id}>
             <DeleteMember member={member} />
           </div>
-          <ReactTooltip
-            id={member.id}
-            place="top"
-            effect="solid"
-            // backgroundColor={getBGColorFromInvoiceStatus(invoice.status)}
-          >
+          <ReactTooltip id={member.id} place="top" effect="solid">
             <Paragraph color="white">
               Delete Member
               {/* {translate(`tooltips.${invoice.status}`)} */}
@@ -265,7 +246,6 @@ export const useMemberHeaderCols = ({
           </ReactTooltip>
         </FlexBox>
       ),
-      //
     },
   ];
 };

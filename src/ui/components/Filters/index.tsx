@@ -549,7 +549,6 @@ const FilterComponent = ({
             </Paragraph>
           ) : filters[0]?.column?.selectedValue.label && !applyFilter ? (
             filters.map((filter: any, index: number) => {
-              debugger;
               return (
                 <FlexBox.Row key={index} className={styles.tile}>
                   <Box onClick={() => hanldeDelete(index)}>
@@ -640,7 +639,7 @@ const FilterComponent = ({
                     }}
                   />
                 </Box>
-                {/* <Box style={{ width: '146px' }}> */}
+
                 {filter?.column?.selectedValue?.value === 'status' ? (
                   <>
                     <FlexBox.Row key={index} className="mb-1">
@@ -727,7 +726,6 @@ const FilterComponent = ({
                     </FlexBox.Row>
                   </>
                 )}
-                {/* </Box> */}
 
                 <Box
                   onClick={() => hanldeDelete(index)}

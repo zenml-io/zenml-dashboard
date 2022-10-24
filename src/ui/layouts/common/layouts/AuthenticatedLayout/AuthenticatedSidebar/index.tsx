@@ -17,46 +17,51 @@ export const AuthenticatedSidebar: React.FC<{
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ mobileMenuOpen, setMobileMenuOpen }) => {
-
   const { push } = usePushRoute();
 
   return (
-  <>
-    <If condition={mobileMenuOpen}>
-      {() => (
-        <LinkBox
-          onClick={() => setMobileMenuOpen(false)}
-          className={cn('d-md-none', styles.dimmer)}
-        />
-      )}
-    </If>
-    <Box
-      paddingTop="lg"
-      className={cn(styles.sidebar, mobileMenuOpen && styles.mobileSidebarOpen)}
-    >
-      <FlexBox
-        marginBottom="xxl" 
-        alignItems="center"
-        paddingLeft="lg"
-        // justifyContent="center"
-        // className="d-md-none"
-        style={{ cursor: 'pointer' }}
-        onClick={() => push('/')}
+    <>
+      <If condition={mobileMenuOpen}>
+        {() => (
+          <LinkBox
+            onClick={() => setMobileMenuOpen(false)}
+            className={cn('d-md-none', styles.dimmer)}
+          />
+        )}
+      </If>
+      <Box
+        paddingTop="lg"
+        className={cn(
+          styles.sidebar,
+          mobileMenuOpen && styles.mobileSidebarOpen,
+        )}
       >
-        <ZenMLLogoWhite />
-      </FlexBox>
-      
-      <FlexBox
-        flexDirection='column'
-        justifyContent='space-between'
-        style={{ height: '90%' }}
-      >
-        <Box><SideHeader /></Box>
-        <Box style={{ height: '100%', overflowY: 'auto' }}><Menu /></Box>
-        <Box><SideFooter /></Box>
-      </FlexBox>
-    
-    </Box>
-  </>
-)
-}
+        <FlexBox
+          marginBottom="xxl"
+          alignItems="center"
+          paddingLeft="lg"
+          style={{ cursor: 'pointer' }}
+          onClick={() => push('/')}
+        >
+          <ZenMLLogoWhite />
+        </FlexBox>
+
+        <FlexBox
+          flexDirection="column"
+          justifyContent="space-between"
+          style={{ height: '90%' }}
+        >
+          <Box>
+            <SideHeader />
+          </Box>
+          <Box style={{ height: '100%', overflowY: 'auto' }}>
+            <Menu />
+          </Box>
+          <Box>
+            <SideFooter />
+          </Box>
+        </FlexBox>
+      </Box>
+    </>
+  );
+};

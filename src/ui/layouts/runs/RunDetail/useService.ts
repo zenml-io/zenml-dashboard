@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RunDetailRouteParams } from '.';
 import { runPagesActions, runsActions } from '../../../../redux/actions';
-// import { runsActions, billingActions } from '../../../../redux/actions';
+
 import {
   billingSelectors,
   runPagesSelectors,
@@ -20,18 +20,6 @@ export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const { id, runId } = useParams<RunDetailRouteParams>();
   const [isMounted, setIsMounted] = useState(false);
-  // debugger;
-  // useRequestOnMount(() =>
-  //   runsActions.runForId({
-  //     pipelineId,
-  //     runId: id,
-  //   }),
-  // );
-  // useRequestOnMount(() =>
-  //   runsActions.graphForRun({
-  //     runId: runId,
-  //   }),
-  // );
 
   useEffect(() => {
     if (!isMounted) {
@@ -48,12 +36,6 @@ export const useService = (): ServiceInterface => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted, setIsMounted]);
 
-  // useRequestOnMount(() =>
-  //   billingActions.billingForRunId({
-  //     runId: id,
-  //     pipelineId,
-  //   }),
-  // );
   const fetching = useSelector(runPagesSelectors.fetching);
   const setFetching = (fetching: boolean) => {
     dispatch(runPagesActions.setFetching({ fetching }));

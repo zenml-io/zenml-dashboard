@@ -1,16 +1,5 @@
 import { pipelinePagesActionTypes } from '../../actionTypes';
 
-const setCurrentWorkspaceAction = ({
-  workspace,
-}: {
-  workspace: TWorkspace | null;
-}): TAction => ({
-  type: pipelinePagesActionTypes.setCurrentWorkspace,
-  payload: {
-    workspace,
-  },
-});
-
 const setSelectedRunIdsAction = ({ runIds }: { runIds: TId[] }): TAction => ({
   type: pipelinePagesActionTypes.setSelectedRunIds,
   payload: {
@@ -26,7 +15,6 @@ const setFetchingAction = ({ fetching }: { fetching: boolean }): TAction => ({
 });
 
 export const pipelinePagesActions = {
-  setCurrentWorkspace: setCurrentWorkspaceAction,
   setSelectedRunIds: setSelectedRunIdsAction,
   setFetching: setFetchingAction,
 };

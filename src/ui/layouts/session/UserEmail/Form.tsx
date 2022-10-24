@@ -2,11 +2,8 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { loggedInRoute, toasterTypes } from '../../../../constants';
 import {
-  // pipelinesActions,
-  // runsActions,
   showToasterAction,
   stackComponentsActions,
-  // stacksActions,
   userActions,
 } from '../../../../redux/actions';
 import {
@@ -57,9 +54,6 @@ export const Form: React.FC = () => {
           );
           dispatch(userActions.getMy({}));
           dispatch(stackComponentsActions.getTypes());
-          // dispatch(pipelinesActions.getMy({}));
-          // dispatch(runsActions.allRuns({}));
-          // dispatch(stacksActions.getMy({}));
           push(loggedInRoute);
         });
     } catch (err) {
@@ -96,22 +90,8 @@ export const Form: React.FC = () => {
           );
           dispatch(userActions.getMy({}));
           dispatch(stackComponentsActions.getTypes());
-          // dispatch(pipelinesActions.getMy({}));
-          // dispatch(stacksActions.getMy({}));
-          // dispatch(runsActions.allRuns({}));
           push(loggedInRoute);
         });
-
-      // dispatch(
-      //   showToasterAction({
-      //     description: translate('form.toasts.skip.text'),
-      //     type: toasterTypes.success,
-      //   }),
-      // );
-      // dispatch(stackComponentsActions.getTypes());
-      // dispatch(pipelinesActions.getMy());
-      // dispatch(stacksActions.getMy({}));
-      // push(loggedInRoute);
     } catch (err) {
       setSkipSubmitting(false);
       dispatch(
@@ -149,7 +129,6 @@ export const Form: React.FC = () => {
         marginTop="sm"
         className={styles.skipEmailButton}
         loading={skipSubmitting}
-        // onClick={skip}
       >
         <Paragraph onClick={skip} color="grey" style={{ fontSize: 12 }}>
           {translate('form.skip.text')}
@@ -158,32 +137,3 @@ export const Form: React.FC = () => {
     </Box>
   );
 };
-
-// await dispatch(SaveUserEmail({ userId, email: '', email_opted_in: false, authenticationToken: authToken ? authToken : '' }))
-// dispatch(SaveUserEmail({ userId, email, email_opted_in: true, authenticationToken: authToken ? authToken : '' }))
-// import { SaveUserEmailAction } from '../../../../redux/actions/users/saveUserEmailAction';
-// dispatch(
-//   SaveUserEmailAction({
-//     userId,
-//     email,
-//     onFailure: () => {
-//       setSubmitting(false);
-//       dispatch(
-//         showToasterAction({
-//           description: translate('toasts.failed.text'),
-//           type: toasterTypes.failure,
-//         }),
-//       );
-//     },
-//     onSuccess: () => {
-//       setSubmitting(false);
-//       dispatch(
-//         showToasterAction({
-//           description: translate('toasts.successful.text'),
-//           type: toasterTypes.success,
-//         }),
-//       );
-//       push(loggedOutRoute);
-//     },
-//   }),
-// );

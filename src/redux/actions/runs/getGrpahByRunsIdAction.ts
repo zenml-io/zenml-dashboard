@@ -3,14 +3,12 @@ import getGraphRunByIdApi from '../../../api/runs/getGraphRunByIdApi';
 
 export const getGrpahByRunsIdAction = ({
   runId,
-  // pipelineId,
-  // workspaceId,
+
   onSuccess,
   onFailure,
 }: {
   runId: TId;
-  // pipelineId: TId;
-  // workspaceId?: TId | null;
+
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({

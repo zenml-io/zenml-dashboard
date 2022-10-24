@@ -20,12 +20,6 @@ export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const { id, pipelineId } = useParams<RunDetailRouteParams>();
   const [isMounted, setIsMounted] = useState(false);
-  // useRequestOnMount(() =>
-  //   runsActions.runForId({
-  //     pipelineId,
-  //     runId: id,
-  //   }),
-  // );
 
   useEffect(() => {
     if (!isMounted) {
@@ -49,29 +43,9 @@ export const useService = (): ServiceInterface => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted, setIsMounted]);
-  // useRequestOnMount(() =>
-  //   runsActions.graphForRun({
-  //     runId: id,
-  //     onSuccess: () => setFetching(false),
-  //     onFailure: () => setFetching(false),
-  //   }),
-  // );
-  // useEffect(() => {
-  //   dispatch(
-  //     runsActions.graphForRun({
-  //       runId: id,
 
-  //     }),
-  //   );
-  // });
   const run = useSelector(runSelectors.runForId(id));
 
-  // useRequestOnMount(() =>
-  //   billingActions.billingForRunId({
-  //     runId: id,
-  //     pipelineId,
-  //   }),
-  // );
   const setFetching = (fetching: boolean) => {
     dispatch(runPagesActions.setFetching({ fetching }));
   };

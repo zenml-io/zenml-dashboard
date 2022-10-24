@@ -1,24 +1,6 @@
 import { pipelinePagesActionTypes } from '../../actionTypes';
 import { pipelinePagesActions } from './index';
 
-describe(pipelinePagesActionTypes.setCurrentWorkspace, () => {
-  const workspace = {
-    id: 'id',
-  };
-  const onAction = () =>
-    pipelinePagesActions.setCurrentWorkspace({ workspace });
-
-  it('has correct type', () => {
-    expect(onAction().type).toEqual(
-      pipelinePagesActionTypes.setCurrentWorkspace,
-    );
-  });
-
-  it('has correct payload', () => {
-    expect(onAction().payload).toEqual({ workspace });
-  });
-});
-
 describe(pipelinePagesActionTypes.setSelectedRunIds, () => {
   const runIds = ['id'];
 

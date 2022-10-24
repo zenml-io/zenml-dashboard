@@ -2,7 +2,6 @@ import {
   loginActionTypes,
   userActionTypes,
   organizationActionTypes,
-  workspaceActionTypes,
   pipelineActionTypes,
   stackActionTypes,
   stackComponentActionTypes,
@@ -30,8 +29,7 @@ export const actionTypesHandledByRequestSaga: string[] = [
   organizationActionTypes.getInvoices.request,
   organizationActionTypes.retryInvoice.request,
   organizationActionTypes.invite.request,
-  workspaceActionTypes.getMyWorkspaces.request,
-  workspaceActionTypes.getPipelinesForWorkspaceId.request,
+
   pipelineActionTypes.getMyPipelines.request,
   pipelineActionTypes.getPipelineForId.request,
   pipelineActionTypes.getRunsByPipelineId.request,

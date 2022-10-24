@@ -1,7 +1,4 @@
-import {
-  stackPagesSelectors,
-  runSelectors,
-} from '../../../../../../redux/selectors';
+import { runSelectors } from '../../../../../../redux/selectors';
 import { useSelector } from '../../../../../hooks';
 
 interface ServiceInterface {
@@ -17,13 +14,8 @@ export const useService = ({
   openStackIds: TId[];
 }): ServiceInterface => {
   const runs = useSelector(runSelectors.runsForPipelineId(stack.id));
-  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
 
-  const filteredRuns = runs.filter(
-    (run: TRun) => currentWorkspace && run.workspaceId === currentWorkspace.id,
-  );
-
-  const runIds = filteredRuns.map((run: TRun) => run.id);
+  const runIds = runs.map((run: TRun) => run.id);
 
   return {
     runIds,

@@ -15,10 +15,6 @@ import {
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 
-// import { Status } from './Status';
-// import { WorkspaceName } from './WorkspaceName';
-// import { UserName } from './UserName';
-
 export const getHeaderCols = ({
   openStackIds,
   setOpenStackIds,

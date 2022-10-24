@@ -1,6 +1,4 @@
-// import { runSelectors } from '../../../../../../redux/selectors';
 import { getLastThreeRuns } from '../../../../../../utils';
-// import { useSelector } from '../../../../../hooks';
 
 interface ServiceInterface {
   lastThreeRuns: any[];

@@ -81,7 +81,6 @@ interface TPipeline {
   created: Date;
   creationDate: Date;
   projectName: string;
-  // workspaceId: TId;
   components: any;
   owner: string;
   pipelineConfig: any;
@@ -101,7 +100,6 @@ interface TStack {
   creationDate: Date;
   created: Date;
   projectName: string;
-  // workspaceId: TId;
   components: any;
   userName: string;
   pipelineConfig: any;
@@ -131,7 +129,6 @@ interface TRun {
   kubeflowEndTime: Date;
   pipelineRunType: string;
   datasourceCommitId: TId;
-  workspaceId: TId;
   pipelineId: TId;
   pipeline_id: TId;
   userId: TId;

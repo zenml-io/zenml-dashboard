@@ -25,8 +25,6 @@ export const useService = (): ServiceInterface => {
 
   const fetching = useSelector(stackPagesSelectors.fetching);
 
-  const currentWorkspace = useSelector(stackPagesSelectors.currentWorkspace);
-
   const Stacks = useSelector(stackSelectors.mystacks);
 
   useEffect(() => {
@@ -34,11 +32,6 @@ export const useService = (): ServiceInterface => {
       new Date(stack.created).getTime(),
     ).reverse();
 
-    // const filteredPipelines = orderedPipelines.filter(
-    //   (pipeline: TPipeline) =>
-    //     currentWorkspace && pipeline.projectName === currentWorkspace.id,
-    // );
-    // debugger;
     setFilteredStacks(orderedStacks);
   }, [Stacks]);
 
