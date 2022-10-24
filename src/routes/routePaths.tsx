@@ -69,10 +69,6 @@ export const routePaths = {
     runs: (id: TId): string => `/stacks/${id}/runs`,
   },
 
-  workspaces: {
-    base: '/workspaces',
-    list: '/workspaces/list',
-  },
   stackComponents: {
     base: (type: string): string => `/components/${type}`,
     configuration: (type: string, id: TId): string =>

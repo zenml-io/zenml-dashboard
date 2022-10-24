@@ -21,10 +21,7 @@ export const endpoints = {
     deleteInvite: (id: string): string => `/users/${id}`,
     getInvoices: `/billing/organization/invoices`,
   },
-  workspaces: {
-    my: '/workspaces/',
-    pipelinesForId: (id: TId): string => `/workspaces/${id}/pipelines`,
-  },
+
   pipelines: {
     my: '/pipelines?hydrated=true',
     get: (pipelineId: TId): string =>

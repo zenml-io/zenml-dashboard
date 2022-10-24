@@ -55,8 +55,6 @@ export const useService = (
 
   const fetching = useSelector(pipelinePagesSelectors.fetching);
 
-  const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
-
   const pipelines = useSelector(pipelineSelectors.myPipelines);
 
   useEffect(() => {

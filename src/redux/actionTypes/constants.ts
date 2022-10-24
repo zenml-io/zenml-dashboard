@@ -26,12 +26,6 @@ const organizationActionTypes = {
   ORGANIZATIONS_RETRY_INVOICE: 'ORGANIZATIONS_RETRY_INVOICE',
 };
 
-const workspaceActionTypes = {
-  WORKSPACES_GET_MY_WORKSPACES: 'WORKSPACES_GET_MY_WORKSPACES',
-  WORKSPACES_GET_PIPELINES_FOR_WORKSPACE_ID:
-    'WORKSPACES_GET_PIPELINES_FOR_WORKSPACE_ID',
-};
-
 const pipelineActionTypes = {
   PIPELINES_GET_MY_PIPELINES: 'PIPELINES_GET_MY_PIPELINES',
   PIPELINES_GET_PIPELINE_FOR_ID: 'PIPELINES_GET_PIPELINE_FOR_ID',
@@ -73,7 +67,6 @@ const stripeActionTypes = {
 };
 
 const pipelinePagesActionTypes = {
-  PIPELINE_PAGES_SET_CURRENT_WORKSPACE: 'PIPELINE_PAGES_SET_CURRENT_WORKSPACE',
   PIPELINE_PAGES_SET_SELECTED_RUN_IDS: 'PIPELINE_PAGES_SET_SELECTED_RUN_IDS',
   PIPELINE_PAGES_SET_FETCHING: 'PIPELINE_PAGES_SET_FETCHING',
 };
@@ -83,21 +76,14 @@ const runPagesActionTypes = {
 };
 
 const stackPagesActionTypes = {
-  STACK_PAGES_SET_CURRENT_WORKSPACE: 'STACK_PAGES_SET_CURRENT_WORKSPACE',
   STACK_PAGES_SET_SELECTED_RUN_IDS: 'STACK_PAGES_SET_SELECTED_RUN_IDS',
   STACK_PAGES_SET_FETCHING: 'STACK_PAGES_SET_FETCHING',
 };
 
 const stackComponentPagesActionTypes = {
-  STACKCOMPONENT_PAGES_SET_CURRENT_WORKSPACE:
-    'STACKCOMPONENT_PAGES_SET_CURRENT_WORKSPACE',
   STACKCOMPONENT_PAGES_SET_SELECTED_RUN_IDS:
     'STACKCOMPONENT_PAGES_SET_SELECTED_RUN_IDS',
   STACKCOMPONENT_PAGES_SET_FETCHING: 'STACKCOMPONENT_PAGES_SET_FETCHING',
-};
-
-const workspacePagesActionTypes = {
-  WORKSPACE_PAGES_SET_FETCHING: 'WORKSPACE_PAGES_SET_FETCHING',
 };
 
 export const actionTypes = {
@@ -105,7 +91,7 @@ export const actionTypes = {
   ...sessionActionTypes,
   ...userActionTypes,
   ...organizationActionTypes,
-  ...workspaceActionTypes,
+
   ...pipelineActionTypes,
   ...stackActionTypes,
   ...runActionTypes,
@@ -116,7 +102,6 @@ export const actionTypes = {
   ...stackComponentPagesActionTypes,
   ...stackComponentActionTypes,
   ...stripeActionTypes,
-  ...workspacePagesActionTypes,
 };
 
 export const REQUESTED = 'REQUESTED';

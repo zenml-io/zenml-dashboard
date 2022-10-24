@@ -4,22 +4,12 @@ import { useEffect } from 'react';
 import {
   stackComponentsActions,
   stackPagesActions,
-  workspacesActions,
 } from '../../../../redux/actions';
-import {
-  stackPagesSelectors,
-  workspaceSelectors,
-} from '../../../../redux/selectors';
-import {
-  useDispatch,
-  useLocationPath,
-  useRequestOnMount,
-  useSelector,
-} from '../../../hooks';
+
+import { useDispatch, useLocationPath } from '../../../hooks';
 
 interface ServiceInterface {
   setFetching: (arg: boolean) => void;
-  setCurrentWorkspace: (arg: TWorkspace | null) => void;
 }
 
 export const useService = (): ServiceInterface => {
@@ -42,12 +32,7 @@ export const useService = (): ServiceInterface => {
     dispatch(stackPagesActions.setFetching({ fetching }));
   };
 
-  const setCurrentWorkspace = (workspace: TWorkspace | null) => {
-    dispatch(stackPagesActions.setCurrentWorkspace({ workspace }));
-  };
-
   return {
     setFetching,
-    setCurrentWorkspace,
   };
 };

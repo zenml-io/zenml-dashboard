@@ -1,5 +1,5 @@
 import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
-import { stackActionTypes, workspaceActionTypes } from '../actionTypes';
+import { stackActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
 export interface State {
@@ -31,8 +31,7 @@ const newState = (state: State, stacks: TStack[]): State => ({
 
 const stacksReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
-    case stackActionTypes.getMyStacks.success:
-    case workspaceActionTypes.getPipelinesForWorkspaceId.success: {
+    case stackActionTypes.getMyStacks.success: {
       const stacks: TStack[] = camelCaseArray(action.payload as StacksPayload);
 
       const myStackIds: TId[] = stacks.map((stack: TStack) => stack.id);

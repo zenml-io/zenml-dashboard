@@ -2,7 +2,6 @@ import {
   loginActionTypes,
   userActionTypes,
   organizationActionTypes,
-  workspaceActionTypes,
   pipelineActionTypes,
   runActionTypes,
   billingActionTypes,
@@ -24,8 +23,7 @@ export const expectedActionTypes = [
   organizationActionTypes.deleteInvite.request,
   organizationActionTypes.getInvoices.request,
   organizationActionTypes.retryInvoice.request,
-  workspaceActionTypes.getMyWorkspaces.request,
-  workspaceActionTypes.getPipelinesForWorkspaceId.request,
+
   pipelineActionTypes.getMyPipelines.request,
   pipelineActionTypes.getPipelineForId.request,
   runActionTypes.getRunForId.request,
