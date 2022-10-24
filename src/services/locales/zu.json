@@ -69,7 +69,8 @@
             },
             "toasts": {
               "successful": {
-                "text": "Successfully Changed username and full name."
+                "text": "Successfully Changed username and full name.",
+                "passwordText": "Successfully Changed password."
               },
               "failed": {
                 "text": "Something went wrong. Please try again."
@@ -248,7 +249,7 @@
             }
           },
           "Dashboard": {
-            "title": "Hello World!",
+            "title": "Hi there!",
             "subtitle": "You can find your most important functions here on the dashboard.",
             "cardOne": {
               "title": "Read our documentation",
