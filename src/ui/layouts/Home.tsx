@@ -116,6 +116,7 @@ export const Home: React.FC = () => {
                       borderRadius: '6px',
                       padding: '13px 14px',
                       marginTop: '10px',
+                      cursor: 'pointer',
                       backgroundColor: box === e.text ? '#431D93' : '#fff',
                     }}
                     onClick={() => {
