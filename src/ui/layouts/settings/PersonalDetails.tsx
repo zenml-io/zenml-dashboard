@@ -81,7 +81,7 @@ export const PersonalDetails: React.FC = () => {
                   setSubmitting(false);
                   dispatch(
                     showToasterAction({
-                      description: translate('toasts.successful.text'),
+                      description: translate('toasts.successful.passwordText'),
                       type: toasterTypes.success,
                     }),
                   );
