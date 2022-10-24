@@ -37,7 +37,7 @@ export const useService = ({
 }): ServiceInterface => {
   const dispatch = useDispatch();
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
-    'createdAt',
+    null,
   );
   const [
     activeSortingDirection,
@@ -48,9 +48,16 @@ export const useService = ({
   const runs = useSelector(runSelectors.forRunIds(runIds));
 
   useEffect(() => {
-    let orderedRuns = _.sortBy(runs, (run: TRun) =>
-      new Date(run.created).getTime(),
-    ).reverse();
+    let orderedRuns =
+      activeSorting === null
+        ? _.sortBy(runs, (runs: TRun) =>
+            new Date(runs.created).getTime(),
+          ).reverse()
+        : _.orderBy(
+            runs,
+            [activeSorting],
+            [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
+          );
 
     const isValidFilter = filter.map((f) => f.value).join('');
     if (isValidFilter) {
