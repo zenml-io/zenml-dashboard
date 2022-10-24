@@ -34,6 +34,7 @@ export const useService = ({
     return () => clearInterval(intervalId);
 
     //This is important
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [pipelineId]);
 
   const runIds = runs.map((run: TRun) => run.id);

@@ -29,6 +29,7 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
     return () => clearInterval(intervalId);
 
     //This is important
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stackId]);
   const runIds = runs.map((run: TRun) => run.id);
 

@@ -1,7 +1,4 @@
-import {
-  pipelinePagesSelectors,
-  runSelectors,
-} from '../../../../../../redux/selectors';
+import { runSelectors } from '../../../../../../redux/selectors';
 import { useSelector } from '../../../../../hooks';
 
 interface ServiceInterface {

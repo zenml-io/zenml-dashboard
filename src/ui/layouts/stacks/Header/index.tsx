@@ -51,6 +51,7 @@ const HeaderWithButtons: React.FC<{
       <Box marginRight="lg" className={styles.dynamicHeaderRight}>
         {renderRight && renderRight()}
       </Box>
+      <CreateStackButton />
 
       <DocumentationLink text={constantCommandsToCreateStack.documentation} />
     </FlexBox>
