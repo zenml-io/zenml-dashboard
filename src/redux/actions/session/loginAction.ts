@@ -7,8 +7,8 @@ export const loginAction = ({
   onSuccess,
   onFailure,
 }: {
-  password: string;
-  username: string;
+  password?: string;
+  username?: string;
   onSuccess?: () => void;
   onFailure?: (errorText: string) => void;
 }): TRequestAction => ({
