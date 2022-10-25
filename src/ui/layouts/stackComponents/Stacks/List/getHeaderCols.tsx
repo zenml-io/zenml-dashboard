@@ -81,10 +81,7 @@ export const GetHeaderCols = ({
             </Paragraph>
           </div>
           <ReactTooltip id={stackComponent.id} place="top" effect="solid">
-            <Paragraph color="white">
-              {stackComponent.id}
-              {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-            </Paragraph>
+            <Paragraph color="white">{stackComponent.id}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -116,10 +113,7 @@ export const GetHeaderCols = ({
             </Paragraph>
           </div>
           <ReactTooltip id={stackComponent.name} place="top" effect="solid">
-            <Paragraph color="white">
-              {stackComponent.name}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+            <Paragraph color="white">{stackComponent.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

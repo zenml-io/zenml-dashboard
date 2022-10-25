@@ -48,9 +48,6 @@ export const useService = ({
   const runs = useSelector(runSelectors.forRunIds(runIds));
 
   useEffect(() => {
-    // let orderedRuns = _.sortBy(runs, (run: TRun) =>
-    //   new Date(run.created).getTime(),
-    // ).reverse();
     let orderedRuns = _.orderBy(
       runs,
       [activeSorting],

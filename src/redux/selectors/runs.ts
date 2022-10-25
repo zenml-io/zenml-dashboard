@@ -24,7 +24,7 @@ export const myRuns = (state?: State | null): TRun[] => {
   if (!state) return [];
   const myRunIds = getMyRunIds(state);
   const byId = getById(state);
-  // debugger;
+
   return (myRunIds || []).reduce((current: TRun[], id: TId) => {
     const run = byId[id];
 
@@ -59,7 +59,7 @@ export const runsForStackComponentId = (
   if (!state || !stackComponentId) return [];
   const byStackComponentId = getByStackComponentId(state);
   const byId = getById(state);
-  // debugger;
+
   if (!byStackComponentId[stackComponentId]) return [];
   return byStackComponentId[stackComponentId].map((id: TId) => byId[id]);
 };

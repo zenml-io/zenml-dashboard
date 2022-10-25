@@ -547,10 +547,7 @@ export const useHeaderCols = ({
                 place="top"
                 effect="solid"
               >
-                <Paragraph color="white">
-                  {run.created}
-                  {/* {translate(`tooltips.${invoice.status}`)} */}
-                </Paragraph>
+                <Paragraph color="white">{run.created}</Paragraph>
               </ReactTooltip>
             </FlexBox>
           ),

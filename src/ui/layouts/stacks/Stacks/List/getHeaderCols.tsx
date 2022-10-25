@@ -97,10 +97,7 @@ export const GetHeaderCols = ({
             </Paragraph>
           </div>
           <ReactTooltip id={stack.id} place="top" effect="solid">
-            <Paragraph color="white">
-              {stack.id}
-              {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-            </Paragraph>
+            <Paragraph color="white">{stack.id}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

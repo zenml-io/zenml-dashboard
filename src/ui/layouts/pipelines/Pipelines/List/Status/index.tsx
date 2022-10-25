@@ -50,10 +50,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                 </If>
               </div>
               <ReactTooltip id={item.status} place="top" effect="solid">
-                <Paragraph color="white">
-                  {item.status}
-                  {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-                </Paragraph>
+                <Paragraph color="white">{item.status}</Paragraph>
               </ReactTooltip>
             </div>
 
@@ -83,20 +80,9 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                 </If>
               </div>
               <ReactTooltip id={item.runId} place="top" effect="solid">
-                <Paragraph color="white">
-                  {item.status}
-                  {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-                </Paragraph>
+                <Paragraph color="white">{item.status}</Paragraph>
               </ReactTooltip>
             </div>
-
-            {/* <If condition={status === runStatus.FAILED}>
-              {() => (
-                <ColoredCircle color="red" size="xs">
-                  <icons.close color={iconColors.white} size={iconSizes.xs} />
-                </ColoredCircle>
-              )}
-            </If> */}
 
             <div>
               <div data-tip data-for={item.runId}>
@@ -124,10 +110,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                 </If>
               </div>
               <ReactTooltip id={item.runId} place="top" effect="solid">
-                <Paragraph color="white">
-                  {item.status}
-                  {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-                </Paragraph>
+                <Paragraph color="white">{item.status}</Paragraph>
               </ReactTooltip>
             </div>
 
@@ -157,10 +140,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                 </If>
               </div>
               <ReactTooltip id={item.runId} place="top" effect="solid">
-                <Paragraph color="white">
-                  {item.status}
-                  {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-                </Paragraph>
+                <Paragraph color="white">{item.status}</Paragraph>
               </ReactTooltip>
             </div>
           </>

@@ -33,7 +33,6 @@ function* logoutAndNotifyUserThatSessionExpired(): any {
 }
 
 function* unprocessablEntity(): any {
-  // yield put(sessionActions.logout());
   yield put(
     showToasterAction({
       description: 'Something went wrong',
