@@ -8,7 +8,7 @@ import pipelinesReducer from './reducers/pipelinesReducer';
 import stacksReducer from './reducers/stacksReducer';
 import stackComponentReducer from './reducers/stackComponentsReducer';
 import runsReducer from './reducers/runsReducer';
-import billingReducer from './reducers/billingReducer';
+
 import pipelinePagesReducer from './reducers/pipelinePagesReducer';
 import runPagesReducer from './reducers/runPagesReducer';
 import stackPagesReducer from './reducers/stackPagesReducer';
@@ -29,13 +29,11 @@ describe('expect to map keys', () => {
   expectToMap('session', sessionReducer);
   expectToMap('users', usersReducer);
   expectToMap('organizations', organizationsReducer);
-
   expectToMap('pipelines', pipelinesReducer);
   expectToMap('stacks', stacksReducer);
   expectToMap('stackComponents', stackComponentReducer);
   expectToMap('runs', runsReducer);
   expectToMap('run', runPagesReducer);
-  expectToMap('billing', billingReducer);
   expectToMap('pipelinePages', pipelinePagesReducer);
   expectToMap('stackPages', stackPagesReducer);
 });

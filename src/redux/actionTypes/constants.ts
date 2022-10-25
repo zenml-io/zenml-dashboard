@@ -50,19 +50,6 @@ const runActionTypes = {
   GRAPH_FOR_RUN_ID: 'GRAPH_FOR_RUN_ID',
 };
 
-const billingActionTypes = {
-  BILLING_GET_BILLING_FOR_RUN_ID: 'BILLING_GET_BILLING_FOR_RUN_ID',
-  BILLING_GET_ORGANIZATION_BILLING: 'BILLING_GET_ORGANIZATION_BILLING',
-};
-
-const stripeActionTypes = {
-  STRIPE_GET_PORTAL_URL: 'STRIPE_GET_PORTAL_URL',
-  STRIPE_GET_PAYMENT_METHOD: 'STRIPE_GET_PAYMENT_METHOD',
-  STRIPE_UPDATE_PAYMENT_METHOD: 'STRIPE_UPDATE_PAYMENT_METHOD',
-  STRIPE_GET_SUBSCRIPTION: 'STRIPE_GET_SUBSCRIPTION',
-  STRIPE_UPDATE_SUBSCRIPTION: 'STRIPE_UPDATE_SUBSCRIPTION',
-};
-
 const pipelinePagesActionTypes = {
   PIPELINE_PAGES_SET_SELECTED_RUN_IDS: 'PIPELINE_PAGES_SET_SELECTED_RUN_IDS',
   PIPELINE_PAGES_SET_FETCHING: 'PIPELINE_PAGES_SET_FETCHING',
@@ -93,12 +80,11 @@ export const actionTypes = {
   ...stackActionTypes,
   ...runActionTypes,
   ...runPagesActionTypes,
-  ...billingActionTypes,
+
   ...pipelinePagesActionTypes,
   ...stackPagesActionTypes,
   ...stackComponentPagesActionTypes,
   ...stackComponentActionTypes,
-  ...stripeActionTypes,
 };
 
 export const REQUESTED = 'REQUESTED';

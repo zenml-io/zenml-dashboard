@@ -2,17 +2,12 @@ import { useEffect, useState } from 'react';
 import { RunDetailRouteParams } from '.';
 import { runPagesActions, runsActions } from '../../../../redux/actions';
 
-import {
-  billingSelectors,
-  runPagesSelectors,
-  runSelectors,
-} from '../../../../redux/selectors';
+import { runPagesSelectors, runSelectors } from '../../../../redux/selectors';
 import { useDispatch, useParams, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
   runId: TId;
   run: TRun;
-  billing: TBilling | Record<any, any>;
   fetching: boolean;
 }
 
@@ -43,7 +38,5 @@ export const useService = (): ServiceInterface => {
 
   const run: TRun = useSelector(runSelectors.runForId(runId));
 
-  const billing = useSelector(billingSelectors.billingForRunId(id));
-
-  return { runId: runId, run, billing, fetching };
+  return { runId: runId, run, fetching };
 };
