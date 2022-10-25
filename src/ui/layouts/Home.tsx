@@ -15,6 +15,7 @@ import {
   icons,
   GhostButton,
   Paragraph,
+  FullWidthSpinner,
 } from '../components';
 import { getTranslateByScope } from '../../services';
 
@@ -66,11 +67,13 @@ export const Home: React.FC = () => {
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
+  const [fetching, setFetching] = useState(false);
   const [dashboardData, setDashboardData] = useState('');
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
   useEffect(() => {
     const getDashboardData = async () => {
+      setFetching(true);
       const { data } = await axios.get(
         `${process.env.REACT_APP_BASE_API_URL}/projects/${DEFAULT_PROJECT_NAME}/statistics`,
         {
@@ -79,7 +82,9 @@ export const Home: React.FC = () => {
           },
         },
       );
+
       setDashboardData(data);
+      setFetching(false);
     };
     getDashboardData();
   }, [authToken]);
@@ -114,62 +119,66 @@ export const Home: React.FC = () => {
                   <H4 bold>{translate('subtitle')}</H4>
                 </Box>
               </Col>
-              <Row style={{ alignItems: 'center', marginLeft: '15px' }}>
-                {data?.map((e, index) => (
-                  <Box
-                    onMouseEnter={() => handleMouseEnter(e)}
-                    onMouseLeave={handleMouseLeave}
-                    key={index}
-                    marginRight="xxl"
-                    style={{
-                      width: '220px',
-                      minHeight: '100px',
-                      border: '1px solid #C9CBD0',
-                      borderRadius: '6px',
-                      padding: '13px 14px',
-                      marginTop: '10px',
-                      cursor: 'pointer',
-                      backgroundColor:
-                        box === e.text && isHover ? '#431D93' : '#fff',
-                    }}
-                    onClick={() => {
-                      if (e.text === 'stacks') {
-                        push(routePaths.stacks.base);
-                      } else if (e.text === 'pipelines') {
-                        push(routePaths.pipelines.base);
-                      } else if (e.text === 'runs') {
-                        push(routePaths.pipelines.allRuns);
-                      } else if (e.text === 'components') {
-                        push(
-                          routePaths.stackComponents.base(
-                            stackComponentsTypes[0],
-                          ),
-                        );
-                      }
-                    }}
-                  >
-                    <Paragraph
+              {fetching ? (
+                <FullWidthSpinner color="black" size="md" />
+              ) : (
+                <Row style={{ alignItems: 'center', marginLeft: '15px' }}>
+                  {data?.map((e, index) => (
+                    <Box
+                      onMouseEnter={() => handleMouseEnter(e)}
+                      onMouseLeave={handleMouseLeave}
+                      key={index}
+                      marginRight="xxl"
                       style={{
-                        fontSize: '24px',
-                        fontWeight: 'bold',
-                        color: box === e.text ? '#fff' : '#431D93',
+                        width: '220px',
+                        minHeight: '100px',
+                        border: '1px solid #C9CBD0',
+                        borderRadius: '6px',
+                        padding: '13px 14px',
+                        marginTop: '10px',
+                        cursor: 'pointer',
+                        backgroundColor:
+                          box === e.text && isHover ? '#431D93' : '#fff',
+                      }}
+                      onClick={() => {
+                        if (e.text === 'stacks') {
+                          push(routePaths.stacks.base);
+                        } else if (e.text === 'pipelines') {
+                          push(routePaths.pipelines.base);
+                        } else if (e.text === 'runs') {
+                          push(routePaths.pipelines.allRuns);
+                        } else if (e.text === 'components') {
+                          push(
+                            routePaths.stackComponents.base(
+                              stackComponentsTypes[0],
+                            ),
+                          );
+                        }
                       }}
                     >
-                      {e.value}
-                    </Paragraph>
-                    <Paragraph
-                      style={{
-                        fontSize: '14px',
-                        fontWeight: 'inherit',
-                        color: box === e.text ? '#fff' : '#646972',
-                        marginTop: '38px',
-                      }}
-                    >
-                      Number of {e.text}
-                    </Paragraph>
-                  </Box>
-                ))}
-              </Row>
+                      <Paragraph
+                        style={{
+                          fontSize: '24px',
+                          fontWeight: 'bold',
+                          color: box === e.text ? '#fff' : '#431D93',
+                        }}
+                      >
+                        {e.value}
+                      </Paragraph>
+                      <Paragraph
+                        style={{
+                          fontSize: '14px',
+                          fontWeight: 'inherit',
+                          color: box === e.text ? '#fff' : '#646972',
+                          marginTop: '38px',
+                        }}
+                      >
+                        Number of {e.text}
+                      </Paragraph>
+                    </Box>
+                  ))}
+                </Row>
+              )}
 
               <Col xs={12} lg={7}>
                 <Box marginTop="xxxl">
