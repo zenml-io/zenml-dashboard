@@ -42,7 +42,6 @@ export const Organization: React.FC = () => {
     activeSortingDirection,
     setActiveSortingDirection,
   });
-  useRequestOnMount(organizationActions.getRoles);
 
   useEffect(() => {
     dispatch(

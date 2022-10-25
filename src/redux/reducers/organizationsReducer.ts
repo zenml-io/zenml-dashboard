@@ -12,7 +12,7 @@ export interface State {
   myOrganizationId: TId | null;
   roles: string[];
   invoices: TInvoice[];
-  invite: { id: null, activationToken: null, email: null }
+  invite: { id: null; activationToken: null; email: null };
 }
 
 export type Action = {
@@ -24,7 +24,7 @@ export type Action = {
     | TMember
     | any[]
     | string[]
-    | TInvoice[]
+    | TInvoice[];
 };
 
 export const initialState: State = {
@@ -64,8 +64,11 @@ const organizationsReducer = (
 
     case organizationActionTypes.getInviteForCode.success: {
       const inviteCode: any = camelCaseObject(action.payload);
-      
-      return { ...newState(state, []), inviteCode: inviteCode?.activationToken };
+
+      return {
+        ...newState(state, []),
+        inviteCode: inviteCode?.activationToken,
+      };
     }
 
     case organizationActionTypes.getInvites.success: {
@@ -74,28 +77,10 @@ const organizationsReducer = (
       return { ...newState(state, []), invites: invites || [] };
     }
 
-    case organizationActionTypes.getOwner.success: {
-      const owner: TMember = camelCaseObject(action.payload);
-
-      return { ...newState(state, []), owner: owner };
-    }
-
     case organizationActionTypes.getMembers.success: {
       const members: TMember[] = camelCaseArray(action.payload as TMember[]);
-  
+
       return { ...newState(state, []), members: members || [] };
-    }
-
-    case organizationActionTypes.getRoles.success: {
-      const roles: string[] = action.payload as string[];
-
-      return { ...newState(state, []), roles: roles || [] };
-    }
-
-    case organizationActionTypes.getInvoices.success: {
-      const invoices: TInvoice[] = camelCaseArray(action.payload as TInvoice[]);
-
-      return { ...newState(state, []), invoices: invoices || [] };
     }
 
     case organizationActionTypes.invite.success: {

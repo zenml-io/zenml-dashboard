@@ -14,12 +14,9 @@ export const endpoints = {
     reGenerateToken: (username: string): string =>
       `/users/${username}/deactivate`,
     invites: '/organizations/invite?status=pending',
-    owner: '/organizations/creator',
     members: '/users',
-    roles: '/organizations/roles',
     invite: '/users',
     deleteInvite: (id: string): string => `/users/${id}`,
-    getInvoices: `/billing/organization/invoices`,
   },
 
   pipelines: {

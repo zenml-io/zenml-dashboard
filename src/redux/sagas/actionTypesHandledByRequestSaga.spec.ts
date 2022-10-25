@@ -16,12 +16,9 @@ export const expectedActionTypes = [
   organizationActionTypes.getMyOrganization.request,
   organizationActionTypes.getInviteForCode.request,
   organizationActionTypes.getInvites.request,
-  organizationActionTypes.getOwner.request,
   organizationActionTypes.getMembers.request,
-  organizationActionTypes.getRoles.request,
   organizationActionTypes.invite.request,
   organizationActionTypes.deleteInvite.request,
-  organizationActionTypes.getInvoices.request,
   organizationActionTypes.retryInvoice.request,
 
   pipelineActionTypes.getMyPipelines.request,

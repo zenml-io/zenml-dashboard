@@ -30,11 +30,8 @@ export const myOrganization = (state: State): TOrganization | null => {
 //     return invite;
 //   });
 
-const inviteForCode = (state: State): any[] =>  
+const inviteForCode = (state: State): any[] =>
   _.get(stateKey(state), 'inviteCode');
-
-const getOwner = (state: State): TMember | null =>
-  _.get(stateKey(state), 'owner');
 
 const myMembers = (state: State): TMember[] =>
   _.get(stateKey(state), 'members');
@@ -42,12 +39,9 @@ const myMembers = (state: State): TMember[] =>
 const getInvites = (state: State): TInvite[] =>
   _.get(stateKey(state), 'invites');
 
-const getRoles = (state: State): string[] => _.get(stateKey(state), 'roles');
-
-const getInvoices = (state: State): TInvoice[] =>
-  _.get(stateKey(state), 'invoices');
-
-const invite = (state: State): { id: null, activationToken: null, email: null } =>
+const invite = (
+  state: State,
+): { id: null; activationToken: null; email: null } =>
   _.get(stateKey(state), 'invite');
 
 const organizationSelectors = {
@@ -55,9 +49,6 @@ const organizationSelectors = {
   myMembers: myMembers,
   inviteForCode: inviteForCode,
   invites: getInvites,
-  roles: getRoles,
-  owner: getOwner,
-  invoices: getInvoices,
   invite,
 };
 

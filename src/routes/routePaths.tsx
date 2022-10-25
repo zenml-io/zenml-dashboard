@@ -80,8 +80,6 @@ export const routePaths = {
   settings: {
     base: '/settings',
     personalDetails: '/settings/personal-details',
-    yourPlan: '/settings/plan',
-    billing: '/settings/billing',
     organizationSettings: '/settings/organization',
   },
 };
