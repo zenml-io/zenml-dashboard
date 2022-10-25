@@ -256,8 +256,8 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="createdAt"
-          sortMethod={sortMethod('createdAt', {
+          sorting="created"
+          sortMethod={sortMethod('created', {
             asc: (filteredStacks: TStack[]) =>
               _.orderBy(
                 filteredStacks,
@@ -275,7 +275,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            CREATED
+            CREATED AT
           </Paragraph>
         </SortingHeader>
       ),

@@ -104,7 +104,7 @@ export const StackDetail: React.FC = () => {
     display: 'flex',
     justifyContent: 'space-around',
   };
-  const headStyle = { color: '#828282', fontSize: '12px' };
+  const headStyle = { color: '#828282' };
   const paraStyle = { color: '#515151', marginTop: '10px' };
 
   return (

@@ -21,7 +21,7 @@ interface ServiceInterface {
 export const useService = ({ runIds }: { runIds: TId[] }): ServiceInterface => {
   const dispatch = useDispatch();
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
-    'createdAt',
+    'created',
   );
   const [
     activeSortingDirection,
@@ -32,11 +32,13 @@ export const useService = ({ runIds }: { runIds: TId[] }): ServiceInterface => {
   const runs = useSelector(runSelectors.forRunIds(runIds));
 
   useEffect(() => {
-    const orderedRuns = _.sortBy(runs, (run: TRun) =>
-      new Date(run.created).getTime(),
-    ).reverse();
+    const orderedRuns = _.orderBy(
+      runs,
+      [activeSorting],
+      [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
+    );
 
-    setSortedRuns(orderedRuns);
+    setSortedRuns(orderedRuns as TRun[]);
   }, []);
 
   const setSelectedRunIds = (runIds: TId[]) => {

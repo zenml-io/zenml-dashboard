@@ -123,7 +123,7 @@ export const PipelineDetail: React.FC = () => {
           </Paragraph>
         </Box>
         <Box>
-          <Paragraph style={headStyle}>CREATED AT</Paragraph>
+          <Paragraph style={headStyle}>CREATED</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
             {formatDateForOverviewBar(pipeline.created)}
           </Paragraph>

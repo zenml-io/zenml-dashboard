@@ -178,8 +178,8 @@ export const useMemberHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="createdAt"
-          sortMethod={sortMethod('createdAt', {
+          sorting="created"
+          sortMethod={sortMethod('created', {
             asc: (filteredMembers: TMember[]) =>
               _.orderBy(
                 filteredMembers,

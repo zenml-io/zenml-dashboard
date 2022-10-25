@@ -127,7 +127,7 @@ export const getHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
-          CREATED AT
+          CREATED
         </Paragraph>
       ),
       width: '8%',

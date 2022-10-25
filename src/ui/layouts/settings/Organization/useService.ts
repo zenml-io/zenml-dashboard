@@ -30,8 +30,9 @@ interface filterValue {
 }
 
 export const useService = (): ServiceInterface => {
+  const [filteredMembers, setFilteredMembers] = useState<TMember[]>([]);
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
-    'createdAt',
+    'created',
   );
   const [
     activeSortingDirection,
@@ -39,16 +40,16 @@ export const useService = (): ServiceInterface => {
   ] = React.useState<SortingDirection | null>('DESC');
   const dispatch = useDispatch();
 
-  const [filteredMembers, setFilteredMembers] = useState<TMember[]>([]);
-
   const members = useSelector(organizationSelectors.myMembers);
 
   useEffect(() => {
-    let filteredMembers = _.sortBy(members, (stack: TMember) =>
-      new Date(stack.created).getTime(),
-    ).reverse();
+    let filteredMembers = _.orderBy(
+      members,
+      [activeSorting],
+      [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
+    );
 
-    setFilteredMembers(filteredMembers);
+    setFilteredMembers(filteredMembers as any);
   }, [members]);
 
   const setSelectedRunIds = (runIds: TId[]) => {

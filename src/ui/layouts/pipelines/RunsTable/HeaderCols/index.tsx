@@ -169,8 +169,8 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
-              sorting="createdAt"
-              sortMethod={sortMethod('createdAt', {
+              sorting="created"
+              sortMethod={sortMethod('created', {
                 asc: (runs: TRun[]) =>
                   _.orderBy(
                     runs,
@@ -192,7 +192,7 @@ export const useHeaderCols = ({
                 color="black"
                 style={{ fontSize: '12px' }}
               >
-                CREATED AT
+                CREATED
               </Paragraph>
             </SortingHeader>
           ),
@@ -499,8 +499,8 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
-              sorting="createdAt"
-              sortMethod={sortMethod('createdAt', {
+              sorting="created"
+              sortMethod={sortMethod('created', {
                 asc: (runs: TRun[]) =>
                   _.orderBy(
                     runs,
