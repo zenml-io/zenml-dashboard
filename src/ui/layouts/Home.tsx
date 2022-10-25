@@ -61,7 +61,7 @@ const GreyBoxWithIcon: React.FC<{
 
 export const Home: React.FC = () => {
   const { push } = usePushRoute();
-
+  const [isHover, setIsHover] = useState(false);
   const [box, setBox] = useState('');
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
@@ -90,6 +90,16 @@ export const Home: React.FC = () => {
     return objData;
   });
 
+  const handleMouseEnter = (e: { text: any; value?: string }) => {
+    setBox(e.text);
+    setIsHover(true);
+  };
+
+  const handleMouseLeave = () => {
+    setBox('');
+    setIsHover(false);
+  };
+
   return (
     <AuthenticatedLayout>
       <SidebarContainer>
@@ -107,6 +117,8 @@ export const Home: React.FC = () => {
               <Row style={{ alignItems: 'center', marginLeft: '15px' }}>
                 {data?.map((e, index) => (
                   <Box
+                    onMouseEnter={() => handleMouseEnter(e)}
+                    onMouseLeave={handleMouseLeave}
                     key={index}
                     marginRight="xxl"
                     style={{
@@ -117,10 +129,10 @@ export const Home: React.FC = () => {
                       padding: '13px 14px',
                       marginTop: '10px',
                       cursor: 'pointer',
-                      backgroundColor: box === e.text ? '#431D93' : '#fff',
+                      backgroundColor:
+                        box === e.text && isHover ? '#431D93' : '#fff',
                     }}
                     onClick={() => {
-                      setBox(e.text);
                       if (e.text === 'stacks') {
                         push(routePaths.stacks.base);
                       } else if (e.text === 'pipelines') {
