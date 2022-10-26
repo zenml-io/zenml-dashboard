@@ -1,7 +1,6 @@
 export const routePaths = {
   login: '/login',
   signup: '/signup',
-  // userEmail: (userId: TId): string => `/user-email/${userId}`,
   userEmail: `/user-email`,
   forgot: '/forgot-password',
   home: '/',
@@ -74,14 +73,11 @@ export const routePaths = {
     configuration: (type: string, id: TId): string =>
       `/components/${type}/${id}/configuration`,
     runs: (type: string, id: TId): string => `/components/${type}/${id}/runs`,
-    // list: (type: string): string => `/components/${type}`,
   },
 
   settings: {
     base: '/settings',
     personalDetails: '/settings/personal-details',
-    yourPlan: '/settings/plan',
-    billing: '/settings/billing',
     organizationSettings: '/settings/organization',
   },
 };

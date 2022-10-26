@@ -14,12 +14,9 @@ export const endpoints = {
     reGenerateToken: (username: string): string =>
       `/users/${username}/deactivate`,
     invites: '/organizations/invite?status=pending',
-    owner: '/organizations/creator',
     members: '/users',
-    roles: '/organizations/roles',
     invite: '/users',
     deleteInvite: (id: string): string => `/users/${id}`,
-    getInvoices: `/billing/organization/invoices`,
   },
 
   pipelines: {
@@ -56,19 +53,5 @@ export const endpoints = {
     },
     all: `/runs?unlisted=false&hydrated=true`,
     get: (runId: TId): string => `/runs/${runId}?unlisted=false&hydrated=true`,
-  },
-  billing: {
-    my: '/billing/stripe/session',
-    getOrganizationBilling: '/billing/organization',
-    getPaymentMethod: '/billing/organization/get-payment-method',
-    getSubscription: '/billing/stripe/get-subscription',
-    updatePaymentMethod: (id: TId): string =>
-      `/billing/stripe/update-payment-method?payment_method_id=${id}`,
-    updateSubscription: (id: TId): string =>
-      `/billing/stripe/update-subscription?plan_type=${id}`,
-    get: (pipelineId: TId, runId: TId): string =>
-      `/billing/${pipelineId}/runs/${runId}`,
-    retryInvoice: (invoiceId: TId, paymentMethodId: TId): string =>
-      `/billing/stripe/retry-invoice?invoice_id=${invoiceId}&payment_method_id=${paymentMethodId}`,
   },
 };

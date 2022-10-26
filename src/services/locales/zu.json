@@ -15,12 +15,7 @@
               "personalDetails": {
                 "text": "Personal Details"
               },
-              "yourPlan": {
-                "text": "Your Plan"
-              },
-              "billing": {
-                "text": "Billing"
-              },
+        
               "organizationSettings": {
                 "text": "Project Settings"
               }

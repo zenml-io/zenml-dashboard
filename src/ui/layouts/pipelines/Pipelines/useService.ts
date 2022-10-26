@@ -18,7 +18,7 @@ export const useService = (): ServiceInterface => {
 
   useEffect(() => {
     setFetching(true);
-    console.log('asdasdasdasd');
+
     dispatch(
       runsActions.allRuns({
         onSuccess: () => setFetching(false),

@@ -76,14 +76,6 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
         </ReactTooltip>
       </FlexBox>
 
-      {/* <If condition={status === runStatus.FAILED}>
-              {() => (
-                <ColoredCircle color="red" size="xs">
-                  <icons.close color={iconColors.white} size={iconSizes.xs} />
-                </ColoredCircle>
-              )}
-            </If> */}
-
       <FlexBox alignItems="center">
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.FAILED}>

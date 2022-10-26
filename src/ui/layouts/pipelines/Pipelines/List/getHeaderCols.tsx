@@ -241,7 +241,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            CREATED
+            CREATED AT
           </Paragraph>
         </SortingHeader>
       ),

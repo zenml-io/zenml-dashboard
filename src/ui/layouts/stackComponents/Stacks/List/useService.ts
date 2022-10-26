@@ -43,7 +43,7 @@ export const useService = (
   }[],
 ): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
-    null,
+    'created',
   );
   const [
     activeSortingDirection,
@@ -61,23 +61,18 @@ export const useService = (
   );
 
   useEffect(() => {
-    let orderedStacks =
-      activeSorting === null
-        ? _.sortBy(stackComponents, (stack: TStack) =>
-            new Date(stack.created).getTime(),
-          ).reverse()
-        : _.orderBy(
-            stackComponents,
-            [activeSorting],
-            [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
-          );
+    let orderedStacks = _.orderBy(
+      stackComponents,
+      [activeSorting],
+      [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
+    );
 
     const isValidFilter = filter.map((f) => f.value).join('');
     if (isValidFilter) {
       orderedStacks = getFilteredDataForTable(orderedStacks, filter);
     }
 
-    setFilteredStacks(orderedStacks);
+    setFilteredStacks(orderedStacks as TStack[]);
   }, [stackComponents, filter]);
 
   useEffect(() => {

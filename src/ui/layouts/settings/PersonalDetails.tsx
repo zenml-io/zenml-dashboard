@@ -85,6 +85,9 @@ export const PersonalDetails: React.FC = () => {
                       type: toasterTypes.success,
                     }),
                   );
+                  setNewPassword('');
+                  setConfirmPassword('');
+                  setCurrentPassword('');
                 },
               }),
             );

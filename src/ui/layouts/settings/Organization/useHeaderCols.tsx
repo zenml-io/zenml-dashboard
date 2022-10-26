@@ -131,10 +131,7 @@ export const useMemberHeaderCols = ({
               </FlexBox>
             </div>
             <ReactTooltip id={member.name} place="top" effect="solid">
-              <Paragraph color="white">
-                {member.name}
-                {/* {translate(`tooltips.${invoice.status}`)} */}
-              </Paragraph>
+              <Paragraph color="white">{member.name}</Paragraph>
             </ReactTooltip>
           </FlexBox>
         );
@@ -169,7 +166,6 @@ export const useMemberHeaderCols = ({
           >
             <Paragraph color="white">
               {member?.active ? 'Accepted' : 'Pending'}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
@@ -178,8 +174,8 @@ export const useMemberHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="createdAt"
-          sortMethod={sortMethod('createdAt', {
+          sorting="created"
+          sortMethod={sortMethod('created', {
             asc: (filteredMembers: TMember[]) =>
               _.orderBy(
                 filteredMembers,
@@ -200,9 +196,6 @@ export const useMemberHeaderCols = ({
             {translate('table.createdAt.text')}
           </Paragraph>
         </SortingHeader>
-        // <Paragraph size="small" style={headColStyle}>
-        //   {translate('table.createdAt.text')}
-        // </Paragraph>
       ),
       width: '10%',
       renderRow: (member: TMember) => (
@@ -222,10 +215,7 @@ export const useMemberHeaderCols = ({
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">
-              {member.created}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+            <Paragraph color="white">{member.created}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -239,10 +229,7 @@ export const useMemberHeaderCols = ({
             <DeleteMember member={member} />
           </div>
           <ReactTooltip id={member.id} place="top" effect="solid">
-            <Paragraph color="white">
-              Delete Member
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
+            <Paragraph color="white">Delete Member</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

@@ -14,7 +14,6 @@ export const DAG: React.FC<{ runId: TId; fetching?: boolean }> = ({
 }) => {
   const { graph } = useService({ runId });
 
-  console.log('runId', graph, runId);
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }

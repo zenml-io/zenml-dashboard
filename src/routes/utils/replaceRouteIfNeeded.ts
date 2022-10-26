@@ -57,13 +57,12 @@ export const replaceRouteIfNeeded = ({
     replaceToLoggedInRoute ||
     replaceToLoggedOutRoute ||
     replaceToLoggedInRouteForEmailOptedIn;
-  // debugger;
+
   if (shouldReplaceRoute) {
     timeout = setTimeout(() => {
       let route = routeToReplace();
 
       if (replaceToLoggedOutRoute && currentLocation) {
-        // route = `${route}?route=${currentLocation.path}`;
         route = `${route}?route=/`;
       } else if (replaceToLoggedInRoute && routeFromSearchParam) {
         route = routeFromSearchParam;

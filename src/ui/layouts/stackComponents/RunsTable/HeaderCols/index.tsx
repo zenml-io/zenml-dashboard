@@ -2,7 +2,7 @@ import _ from 'lodash';
 import React from 'react';
 
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-// import { translate } from '../translate';
+
 import { useHistory } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import {
@@ -80,10 +80,7 @@ export const useHeaderCols = ({
             </Paragraph>
           </div>
           <ReactTooltip id={run.id} place="top" effect="solid">
-            <Paragraph color="white">
-              {run.id}
-              {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-            </Paragraph>
+            <Paragraph color="white">{run.id}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -172,7 +169,6 @@ export const useHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            {/* {translate('status.text')} */}
             STATUS
           </Paragraph>
         </SortingHeader>
@@ -276,8 +272,8 @@ export const useHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="createdAt"
-          sortMethod={sortMethod('createdAt', {
+          sorting="created"
+          sortMethod={sortMethod('created', {
             asc: (runs: TRun[]) =>
               _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
                 'asc',

@@ -8,7 +8,7 @@ import {
   PrimaryButton,
   LinkBox,
 } from '../../../components';
-import { useRequestOnMount, useDispatch } from '../../../hooks';
+import { useDispatch } from '../../../hooks';
 import { Table } from '../../common/Table';
 import { translate } from './translate';
 import { useMemberHeaderCols } from './useHeaderCols';
@@ -42,7 +42,6 @@ export const Organization: React.FC = () => {
     activeSortingDirection,
     setActiveSortingDirection,
   });
-  useRequestOnMount(organizationActions.getRoles);
 
   useEffect(() => {
     dispatch(

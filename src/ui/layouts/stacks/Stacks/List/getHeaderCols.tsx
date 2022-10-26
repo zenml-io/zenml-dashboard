@@ -97,10 +97,7 @@ export const GetHeaderCols = ({
             </Paragraph>
           </div>
           <ReactTooltip id={stack.id} place="top" effect="solid">
-            <Paragraph color="white">
-              {stack.id}
-              {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-            </Paragraph>
+            <Paragraph color="white">{stack.id}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -256,8 +253,8 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="createdAt"
-          sortMethod={sortMethod('createdAt', {
+          sorting="created"
+          sortMethod={sortMethod('created', {
             asc: (filteredStacks: TStack[]) =>
               _.orderBy(
                 filteredStacks,
@@ -275,7 +272,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            CREATED
+            CREATED AT
           </Paragraph>
         </SortingHeader>
       ),

@@ -14,7 +14,7 @@ import {
   useSelector,
   useLocationPath,
   useGetSearchParam,
-  useDispatch
+  useDispatch,
 } from '../ui/hooks';
 
 import { sessionSelectors } from '../redux/selectors/session';
@@ -28,10 +28,7 @@ import { WaitToEnter } from '../ui/components';
 import { isRouteFound } from './utils/isRouteFound';
 import { NotFound } from '../ui/layouts/NotFound';
 import { userSelectors } from '../redux/selectors';
-import {
-  userActions,
-} from '../redux/actions';
-
+import { userActions } from '../redux/actions';
 
 const useReplaceRouteIfNeeded = ({
   currentLocation,
@@ -43,11 +40,6 @@ const useReplaceRouteIfNeeded = ({
   const routeFromSearchParam = useGetSearchParam('route');
 
   const isAuthenticated = useSelector(sessionSelectors.authenticationToken);
-
-  // const dispatch = useDispatch();
-  // React.useEffect(() => {
-  //    dispatch(userActions.getMy({}));    
-  // }, [dispatch, userActions, isAuthenticated])
 
   React.useEffect(() => {
     setNotFound(

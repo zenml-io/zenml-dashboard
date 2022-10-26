@@ -322,22 +322,7 @@ const routes = [
     },
     exact: true,
   },
-  {
-    path: routePaths.settings.yourPlan,
-    Component: SettingsPage,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-    exact: true,
-  },
-  {
-    path: routePaths.settings.billing,
-    Component: SettingsPage,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-    exact: true,
-  },
+
   {
     path: routePaths.settings.organizationSettings,
     Component: SettingsPage,

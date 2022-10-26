@@ -16,7 +16,6 @@ export const RunsForStackTable: React.FC<{
     stack,
     openStackIds,
   });
-  console.log('stack: ', stack);
 
   if (!isStackOpen()) return null;
 

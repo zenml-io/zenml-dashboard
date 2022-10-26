@@ -272,8 +272,8 @@ export const useHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="createdAt"
-          sortMethod={sortMethod('createdAt', {
+          sorting="created"
+          sortMethod={sortMethod('created', {
             asc: (runs: TRun[]) =>
               _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
                 'asc',
@@ -287,7 +287,7 @@ export const useHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            CREATED
+            CREATED AT
           </Paragraph>
         </SortingHeader>
       ),

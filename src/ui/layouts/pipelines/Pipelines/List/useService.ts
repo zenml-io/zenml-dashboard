@@ -41,7 +41,7 @@ export const useService = (
   }[],
 ): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
-    null,
+    'created',
   );
   const [
     activeSortingDirection,
@@ -58,19 +58,11 @@ export const useService = (
   const pipelines = useSelector(pipelineSelectors.myPipelines);
 
   useEffect(() => {
-    console.log('activeSorting', activeSorting);
-    console.log('activeSorting', activeSortingDirection);
-
-    let orderedPipelines =
-      activeSorting === null
-        ? _.sortBy(pipelines, (pipeline: TPipeline) =>
-            new Date(pipeline.created).getTime(),
-          ).reverse()
-        : _.orderBy(
-            pipelines,
-            [activeSorting],
-            [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
-          );
+    let orderedPipelines = _.orderBy(
+      pipelines,
+      [activeSorting],
+      [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
+    );
 
     const isValidFilter = filter.map((f) => f.value).join('');
     if (isValidFilter) {

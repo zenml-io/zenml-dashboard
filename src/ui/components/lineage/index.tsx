@@ -144,7 +144,6 @@ export const LayoutFlow: React.FC<any> = (graph: any, runId: any) => {
       <div className="controls">
         <button
           onClick={() => {
-            console.log('checkGraph', runId, graph);
             dispatch(
               runsActions.graphForRun({
                 runId: graph.runId,

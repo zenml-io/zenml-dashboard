@@ -6,10 +6,8 @@ import {
   stackActionTypes,
   stackComponentActionTypes,
   runActionTypes,
-  billingActionTypes,
   signupActionTypes,
   forgotActionTypes,
-  stripeActionTypes,
 } from '../actionTypes';
 
 export const actionTypesHandledByRequestSaga: string[] = [
@@ -21,15 +19,11 @@ export const actionTypesHandledByRequestSaga: string[] = [
   organizationActionTypes.getMyOrganization.request,
   organizationActionTypes.getInviteForCode.request,
   organizationActionTypes.getInvites.request,
-  organizationActionTypes.getOwner.request,
   organizationActionTypes.getMembers.request,
-  organizationActionTypes.getRoles.request,
   organizationActionTypes.invite.request,
   organizationActionTypes.deleteInvite.request,
-  organizationActionTypes.getInvoices.request,
   organizationActionTypes.retryInvoice.request,
   organizationActionTypes.invite.request,
-
   pipelineActionTypes.getMyPipelines.request,
   pipelineActionTypes.getPipelineForId.request,
   pipelineActionTypes.getRunsByPipelineId.request,
@@ -43,11 +37,4 @@ export const actionTypesHandledByRequestSaga: string[] = [
   runActionTypes.getAllRuns.request,
   runActionTypes.getRunForId.request,
   runActionTypes.getGraphForRunId.request,
-  billingActionTypes.getBillingForRunId.request,
-  billingActionTypes.getOrganizationBilling.request,
-  stripeActionTypes.getStripePortalUrl.request,
-  stripeActionTypes.getPaymentMethod.request,
-  stripeActionTypes.updatePaymentMethod.request,
-  stripeActionTypes.updateSubscription.request,
-  stripeActionTypes.getSubscription.request,
 ];

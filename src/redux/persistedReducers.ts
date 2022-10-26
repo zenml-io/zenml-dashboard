@@ -29,10 +29,6 @@ import runsReducer, {
   initialState as runsInitialState,
 } from './reducers/runsReducer';
 
-import billingReducer, {
-  initialState as billingInitialState,
-} from './reducers/billingReducer';
-
 import pipelinePagesReducer, {
   initialState as pipelinePagesInitialState,
 } from './reducers/pipelinePagesReducer';
@@ -45,40 +41,30 @@ import stackPagesReducer, {
   initialState as stackPagesInitialState,
 } from './reducers/stackPagesReducer';
 
-import stripeReducer, {
-  initialState as sripeInitialState,
-} from './reducers/stripeReducer';
-
 const initialState = {
   session: sessionInitialState,
   users: usersInitialState,
   organizations: organizationsInitialState,
-
   pipelines: pipelinesInitialState,
   stacks: stacksInitialState,
   stackComponents: stackComponentsInitialState,
   runs: runsInitialState,
   runPages: runPagesInitialState,
-  billing: billingInitialState,
   pipelinePages: pipelinePagesInitialState,
   stacksPages: stackPagesInitialState,
-  stripe: sripeInitialState,
 };
 
 export const persisted = combineReducers({
   session: sessionReducer,
   users: usersReducer,
   organizations: organizationsReducer,
-
   pipelines: pipelinesReducer,
   stacks: stacksReducer,
   stackComponents: stackComponentsReducer,
   runs: runsReducer,
   runPages: runPagesReducer,
-  billing: billingReducer,
   pipelinePages: pipelinePagesReducer,
   stackPages: stackPagesReducer,
-  stripe: stripeReducer,
 });
 
 export default (state: any, action: any) => {
