@@ -13,7 +13,7 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
-  const { id, runId } = useParams<RunDetailRouteParams>();
+  const { runId } = useParams<RunDetailRouteParams>();
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
