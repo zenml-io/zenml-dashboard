@@ -31,7 +31,7 @@ export const useService = (): ServiceInterface => {
         onFailure: () => setFetching(false),
       }),
     );
-  });
+  }, []);
 
   const setFetching = (fetching: boolean) => {
     dispatch(pipelinePagesActions.setFetching({ fetching }));
