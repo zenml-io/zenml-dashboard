@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { httpMethods } from '../constants';
+export const source = axios.CancelToken.source();
 
 export const DEFAULT_HEADERS = {
   Accept: 'application/json',
@@ -45,6 +46,7 @@ export const fetchApiWithAuthRequest = ({
     method: method || httpMethods.get,
     url,
     data,
+    cancelToken: source.token,
     headers: {
       ...DEFAULT_HEADERS,
       ...headers,
