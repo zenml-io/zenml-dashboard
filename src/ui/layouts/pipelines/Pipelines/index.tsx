@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { translate } from './translate';
 import { List } from './List';
 import { AllRuns } from './AllRuns';
@@ -10,6 +10,7 @@ import FilterComponent, {
   getInitialFilterStateForPipeline,
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
+import { source } from '../../../../api/fetchApi';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -71,8 +72,9 @@ const PAGES = [
 ];
 
 export const Pipelines: React.FC = () => {
-  const { setFetching } = useService();
-  console.log(setFetching);
+  const { setFetchingForAllRuns } = useService();
+
+  console.log(setFetchingForAllRuns);
   const locationPath = useLocationPath();
 
   return (

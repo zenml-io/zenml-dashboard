@@ -95,11 +95,11 @@ export function* handleRequestSaga(action: any) {
   } catch (e) {
     if (isUnauthenticatedError(e, action)) {
       yield* handleUnauthenticated(action);
-    } else if (e.response.status === httpStatus.unprocessablEntity) {
+    } else if (e?.response?.status === httpStatus.unprocessablEntity) {
       yield* unprocessablEntity();
     } else {
       let errorText = 'Something went wrong!';
-      if (e.message.indexOf('Network Error') === -1) {
+      if (e?.message?.indexOf('Network Error') === -1) {
         // this means its not a generic message from the server
         errorText = e.response ? e.response.data.detail : '';
       }

@@ -7,6 +7,7 @@ import { Sorting, SortingDirection } from './types';
 import { stackPagesActions } from '../../../../redux/actions';
 import { useDispatch, useSelector } from '../../../hooks';
 import { runSelectors } from '../../../../redux/selectors';
+import { source } from '../../../../api/fetchApi';
 
 interface ServiceInterface {
   sortedRuns: TRun[];
@@ -39,6 +40,13 @@ export const useService = ({ runIds }: { runIds: TId[] }): ServiceInterface => {
     );
 
     setSortedRuns(orderedRuns as TRun[]);
+  }, []);
+  useEffect(() => {
+    return () => {
+      source.cancel.forEach((element: any) => {
+        element();
+      });
+    };
   }, []);
 
   const setSelectedRunIds = (runIds: TId[]) => {

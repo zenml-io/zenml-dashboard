@@ -1,43 +1,53 @@
 /* eslint-disable */
 
+import axios from 'axios';
 import { useEffect } from 'react';
+import { source } from '../../../../api/fetchApi';
+// import { cancel } from '../../../../api/fetchApi';
+
 import {
   pipelinePagesActions,
   runsActions,
   pipelinesActions,
+  runPagesActions,
 } from '../../../../redux/actions';
 
 import { useDispatch } from '../../../hooks';
 
 interface ServiceInterface {
-  setFetching: (arg: boolean) => void;
+  setFetchingForPipeline: (arg: boolean) => void;
+  setFetchingForAllRuns: (arg: boolean) => void;
 }
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    setFetching(true);
-
+    setFetchingForPipeline(true);
+    setFetchingForAllRuns(true);
     dispatch(
       runsActions.allRuns({
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
+        onSuccess: () => setFetchingForAllRuns(false),
+        onFailure: () => setFetchingForAllRuns(false),
       }),
     );
     dispatch(
       pipelinesActions.getMy({
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
+        onSuccess: () => setFetchingForPipeline(false),
+        onFailure: () => setFetchingForPipeline(false),
       }),
     );
   }, []);
 
-  const setFetching = (fetching: boolean) => {
+  const setFetchingForPipeline = (fetching: boolean) => {
     dispatch(pipelinePagesActions.setFetching({ fetching }));
+  };
+  const setFetchingForAllRuns = (fetching: boolean) => {
+    dispatch(runPagesActions.setFetching({ fetching }));
   };
 
   return {
-    setFetching,
+    setFetchingForPipeline,
+    setFetchingForAllRuns,
   };
 };
