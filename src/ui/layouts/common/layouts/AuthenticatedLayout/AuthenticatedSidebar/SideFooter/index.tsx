@@ -10,26 +10,30 @@ import { useSelector } from '../../../../../../hooks';
 import axios from 'axios';
 
 export const SideFooter: React.FC = () => {
-
   const authToken = useSelector(sessionSelectors.authenticationToken);
-  const [apiVersion, setApiVersion] = useState('')
+  const [apiVersion, setApiVersion] = useState('');
 
-  useEffect(()  => {  
-    const getApiVersion = async () => {
-    const { data } = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/version`, {
-      headers: {
-        'Authorization': `bearer ${authToken}` 
-      }
-    })
-    setApiVersion(data)
+  useEffect(() => {
+    if (authToken) {
+      const getApiVersion = async () => {
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_BASE_API_URL}/version`,
+          {
+            headers: {
+              Authorization: `bearer ${authToken}`,
+            },
+          },
+        );
+        setApiVersion(data);
+      };
+
+      getApiVersion();
     }
+  }, [authToken]);
 
-    getApiVersion()
-  }, [authToken])
-   
   return (
     <>
-      <Box marginHorizontal="md" paddingBottom='md'>
+      <Box marginHorizontal="md" paddingBottom="md">
         <Separator.LightNew />
       </Box>
 
@@ -53,13 +57,19 @@ export const SideFooter: React.FC = () => {
       <MenuItem
         Icon={() => (
           <icons.settings color={iconColors.white} size={iconSizes.md} />
-        )} to={routePaths.settings.personalDetails} text={translate('menu.setting.text')} 
+        )}
+        to={routePaths.settings.personalDetails}
+        text={translate('menu.setting.text')}
       />
 
-      <Box style={{ paddingLeft: '12px' }} paddingTop="md" paddingBottom='xs' >
-        <Paragraph color='white' style={{ fontSize: '8px', fontWeight: 400 }}>UI Version v{process.env.REACT_APP_VERSION}</Paragraph>
-        <Paragraph color='white' style={{ fontSize: '8px', fontWeight: 400 }}>ZenML v{apiVersion}</Paragraph>
+      <Box style={{ paddingLeft: '12px' }} paddingTop="md" paddingBottom="xs">
+        <Paragraph color="white" style={{ fontSize: '8px', fontWeight: 400 }}>
+          UI Version v{process.env.REACT_APP_VERSION}
+        </Paragraph>
+        <Paragraph color="white" style={{ fontSize: '8px', fontWeight: 400 }}>
+          ZenML v{apiVersion}
+        </Paragraph>
       </Box>
-      </>
+    </>
   );
 };
