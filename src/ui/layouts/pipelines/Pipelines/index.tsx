@@ -71,8 +71,9 @@ const PAGES = [
 ];
 
 export const Pipelines: React.FC = () => {
-  const { setFetching } = useService();
-  console.log(setFetching);
+  const { setFetchingForAllRuns } = useService();
+
+  console.log(setFetchingForAllRuns);
   const locationPath = useLocationPath();
 
   return (

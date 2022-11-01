@@ -8,6 +8,7 @@ import { stackPagesActions } from '../../../../redux/actions';
 import { useDispatch, useSelector } from '../../../hooks';
 import { runSelectors } from '../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../utils/tableFilters';
+import { source } from '../../../../api/fetchApi';
 
 interface ServiceInterface {
   sortedRuns: TRun[];
@@ -60,7 +61,13 @@ export const useService = ({
     }
     setSortedRuns(orderedRuns as TRun[]);
   }, [filter, runIds]);
-
+  useEffect(() => {
+    return () => {
+      source.cancel.forEach((element: any) => {
+        element();
+      });
+    };
+  }, []);
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
   };

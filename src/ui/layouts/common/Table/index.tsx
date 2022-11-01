@@ -35,6 +35,7 @@ export interface TableProps {
 }
 
 const ITEMS_PER_PAGE = parseInt(process.env.REACT_APP_ITEMS_PER_PAGE as string);
+const DEFAULT_ITEMS_PER_PAGE = 10;
 
 export const Table: React.FC<TableProps> = ({
   headerCols,
@@ -50,7 +51,7 @@ export const Table: React.FC<TableProps> = ({
 
   const { itemsForPage, pages, totalOfPages } = getPaginationData({
     pageIndex,
-    itemsPerPage: ITEMS_PER_PAGE,
+    itemsPerPage: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
     items: tableRows,
   });
 

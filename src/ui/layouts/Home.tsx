@@ -72,21 +72,23 @@ export const Home: React.FC = () => {
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
   useEffect(() => {
-    const getDashboardData = async () => {
-      setFetching(true);
-      const { data } = await axios.get(
-        `${process.env.REACT_APP_BASE_API_URL}/projects/${DEFAULT_PROJECT_NAME}/statistics`,
-        {
-          headers: {
-            Authorization: `bearer ${authToken}`,
+    if (authToken) {
+      const getDashboardData = async () => {
+        setFetching(true);
+        const { data } = await axios.get(
+          `${process.env.REACT_APP_BASE_API_URL}/projects/${DEFAULT_PROJECT_NAME}/statistics`,
+          {
+            headers: {
+              Authorization: `bearer ${authToken}`,
+            },
           },
-        },
-      );
+        );
 
-      setDashboardData(data);
-      setFetching(false);
-    };
-    getDashboardData();
+        setDashboardData(data);
+        setFetching(false);
+      };
+      getDashboardData();
+    }
   }, [authToken]);
 
   const preData = Object.entries(dashboardData);
