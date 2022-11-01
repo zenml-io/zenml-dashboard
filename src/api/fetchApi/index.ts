@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { httpMethods } from '../constants';
+export let source: any = { cancel: [] };
 
 export const DEFAULT_HEADERS = {
   Accept: 'application/json',
@@ -41,10 +42,16 @@ export const fetchApiWithAuthRequest = ({
   authenticationToken: string;
   headers?: any;
 }): Promise<any> => {
+  const CancelToken = axios.CancelToken;
+
   return axios({
     method: method || httpMethods.get,
     url,
     data,
+    cancelToken: new CancelToken(function executor(c) {
+      // An executor function receives a cancel function as a parameter
+      source.cancel.push(c);
+    }),
     headers: {
       ...DEFAULT_HEADERS,
       ...headers,
