@@ -1,9 +1,6 @@
 /* eslint-disable */
 
-import axios from 'axios';
 import { useEffect } from 'react';
-import { source } from '../../../../api/fetchApi';
-// import { cancel } from '../../../../api/fetchApi';
 
 import {
   pipelinePagesActions,
