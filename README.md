@@ -32,10 +32,6 @@
     ·
     <a href="#-meet-the-team">Meet the Team</a>
     <br />
-    🎉 Version 0.1.0 is out. Check out the release notes
-    <a href="https://github.com/zenml-io/zenml-dashboard/releases">here</a>.
-    <br />
-    <br />
     <a href="https://www.linkedin.com/company/zenml/">
     <img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555" alt="Logo">
     </a>
