@@ -19,10 +19,18 @@ export const useService = (): ServiceInterface => {
   useEffect(() => {
     if (!isMounted) {
       setFetching(true);
+
       dispatch(
-        runsActions.graphForRun({
+        runsActions.runForId({
           runId: runId,
-          onSuccess: () => setFetching(false),
+          onSuccess: () =>
+            dispatch(
+              runsActions.graphForRun({
+                runId: runId,
+                onSuccess: () => setFetching(false),
+                onFailure: () => setFetching(false),
+              }),
+            ),
           onFailure: () => setFetching(false),
         }),
       );
