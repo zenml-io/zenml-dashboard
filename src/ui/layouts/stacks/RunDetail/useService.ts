@@ -23,17 +23,18 @@ export const useService = (): ServiceInterface => {
         runsActions.runForId({
           stackId: stackId,
           runId: id,
-          onSuccess: () => setFetching(false),
+          onSuccess: () =>
+            dispatch(
+              runsActions.graphForRun({
+                runId: id,
+                onSuccess: () => setFetching(false),
+                onFailure: () => setFetching(false),
+              }),
+            ),
           onFailure: () => setFetching(false),
         }),
       );
-      dispatch(
-        runsActions.graphForRun({
-          runId: id,
-          onSuccess: () => setFetching(false),
-          onFailure: () => setFetching(false),
-        }),
-      );
+
       setIsMounted(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
