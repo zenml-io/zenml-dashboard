@@ -87,24 +87,26 @@ export const AuthenticatedHeader: React.FC<{
                         <Paragraph size="small">Settings</Paragraph>
                       </FlexBox>
                     </LinkBox>
-                    <LinkBox onClick={logout}>
-                      <FlexBox
-                        className={styles.popupItem}
-                        paddingHorizontal="md"
-                        paddingVertical="sm"
-                        alignItems="center"
-                      >
-                        <Box paddingRight="sm">
-                          <icons.signOut
-                            size={iconSizes.sm}
-                            color={iconColors.red}
-                          />
-                        </Box>
-                        <Paragraph color="red" size="small">
-                          Logout
-                        </Paragraph>
-                      </FlexBox>
-                    </LinkBox>
+                    {process.env.REACT_APP_DEMO_SETUP === 'true' ? null : (
+                      <LinkBox onClick={logout}>
+                        <FlexBox
+                          className={styles.popupItem}
+                          paddingHorizontal="md"
+                          paddingVertical="sm"
+                          alignItems="center"
+                        >
+                          <Box paddingRight="sm">
+                            <icons.signOut
+                              size={iconSizes.sm}
+                              color={iconColors.red}
+                            />
+                          </Box>
+                          <Paragraph color="red" size="small">
+                            Logout
+                          </Paragraph>
+                        </FlexBox>
+                      </LinkBox>
+                    )}
                   </Box>
                 </OutsideClickHandler>
               )}
