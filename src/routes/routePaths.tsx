@@ -80,4 +80,5 @@ export const routePaths = {
     personalDetails: '/settings/personal-details',
     organizationSettings: '/settings/organization',
   },
+  logout: '/logout',
 };
