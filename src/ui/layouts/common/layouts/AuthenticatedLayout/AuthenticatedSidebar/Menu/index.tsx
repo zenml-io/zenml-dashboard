@@ -41,6 +41,25 @@ export const Menu: React.FC = () => {
         isActive={() => {
           return (
             !!matchPath(locationPath, {
+              path: routePaths.pipelines.allRuns,
+              exact: false,
+            }) ||
+            !!matchPath(locationPath, {
+              path: routePaths.run.run.base(':id'),
+              exact: false,
+            })
+          );
+        }}
+        Icon={() => (
+          <icons.pipeline color={iconColors.white} size={iconSizes.md} />
+        )}
+        to={routePaths.pipelines.allRuns}
+        text={'Runs'}
+      />
+      <MenuItem
+        isActive={() => {
+          return (
+            !!matchPath(locationPath, {
               path: routePaths.stacks.base,
               exact: false,
             }) ||
