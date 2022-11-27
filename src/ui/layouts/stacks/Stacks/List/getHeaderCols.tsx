@@ -65,7 +65,7 @@ export const GetHeaderCols = ({
           }}
         >
           <FlexBox justifyContent="center">
-            <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+            <icons.rightArrow color={iconColors.grey} size={iconSizes.md} />
           </FlexBox>
         </LinkBox>
       ),
