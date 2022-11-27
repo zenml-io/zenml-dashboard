@@ -2,6 +2,7 @@ import React from 'react';
 import { translate } from './translate';
 import {
   formatDateToDisplay,
+  formatDateToDisplayOnTable,
   formatDateToSort,
   getInitialsFromEmail,
 } from '../../../../utils';
@@ -206,7 +207,7 @@ export const useMemberHeaderCols = ({
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
               </Box>
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplay(member.created)}
+                {formatDateToDisplayOnTable(member.created)}
               </Paragraph>
             </FlexBox>
           </div>

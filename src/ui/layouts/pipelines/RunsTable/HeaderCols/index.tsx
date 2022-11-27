@@ -4,7 +4,7 @@ import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { translate } from '../translate';
 import {
-  formatDateToDisplay,
+  formatDateToDisplayOnTable,
   formatDateToSort,
   getInitialsFromEmail,
   truncate,
@@ -208,7 +208,7 @@ export const useHeaderCols = ({
                     />
                   </Box>
                   <Paragraph color="grey" size="tiny">
-                    {formatDateToDisplay(run.created)}
+                    {formatDateToDisplayOnTable(run.created)}
                   </Paragraph>
                 </FlexBox>
               </div>
@@ -538,7 +538,7 @@ export const useHeaderCols = ({
                     />
                   </Box>
                   <Paragraph color="grey" size="tiny">
-                    {formatDateToDisplay(run.created)}
+                    {formatDateToDisplayOnTable(run.created)}
                   </Paragraph>
                 </FlexBox>
               </div>
