@@ -209,7 +209,7 @@ export const FormPasswordField = (
           <LinkBox
             style={{ position: 'absolute', right: '10px', top: '36px' }}
             onClick={(event: any) => {
-              event.preventDefault();
+              if (!event) return null;
               setShowPassword(!showPassword);
             }}
           >
