@@ -54,4 +54,7 @@ export const endpoints = {
     all: `/runs?unlisted=false&hydrated=true`,
     get: (runId: TId): string => `/runs/${runId}?unlisted=false&hydrated=true`,
   },
+  roles: {
+    all: `/roles`,
+  },
 };

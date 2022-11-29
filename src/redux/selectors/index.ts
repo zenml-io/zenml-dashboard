@@ -1,6 +1,7 @@
 export * from './session';
 export * from './toaster';
 export * from './users';
+export * from './roles';
 export * from './organizations';
 export * from './pipelines';
 export * from './stacks';

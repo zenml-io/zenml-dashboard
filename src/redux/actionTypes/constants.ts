@@ -34,6 +34,10 @@ const stackActionTypes = {
   RUNS_GET_STACK_FOR_ID: 'RUNS_GET_STACK_FOR_ID',
 };
 
+const rolesActionTypes = {
+  ROLES_GET_ALL_ROLES: 'ROLES_GET_ALL_ROLES',
+};
+
 const stackComponentActionTypes = {
   STACKCOMPONENTS_GET_STACKCOMPONENTS_TYPE:
     'STACKCOMPONENTS_GET_STACKCOMPONENTS_TYPE',
@@ -75,12 +79,11 @@ export const actionTypes = {
   ...sessionActionTypes,
   ...userActionTypes,
   ...organizationActionTypes,
-
   ...pipelineActionTypes,
   ...stackActionTypes,
   ...runActionTypes,
   ...runPagesActionTypes,
-
+  ...rolesActionTypes,
   ...pipelinePagesActionTypes,
   ...stackPagesActionTypes,
   ...stackComponentPagesActionTypes,
