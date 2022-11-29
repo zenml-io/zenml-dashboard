@@ -18,6 +18,8 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, usePushRoute, useSelector } from '../../../../hooks';
 import { sessionActions } from '../../../../../redux/actions';
 import { routePaths } from '../../../../../routes/routePaths';
+import cn from 'classnames';
+import css from './../../../../../ui/components/inputs/index.module.scss';
 
 export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
@@ -48,6 +50,30 @@ export const AuthenticatedHeader: React.FC<{
           <LinkBox onClick={() => setMobileMenuOpen(true)}>
             <icons.burger size={iconSizes.md} />
           </LinkBox>
+        </Box>
+        <Box marginLeft="xxl" className="d-none d-md-block">
+          <select
+            // onChange={(e: any) => handleChange(e.target.value)}
+            value={['default']}
+            placeholder={'Roles'}
+            className={cn(css.input)}
+            style={{
+              // borderTopRightRadius: 0,
+              // borderBottomRightRadius: 0,
+              width: '146px',
+              fontSize: '12px',
+              color: '#424240',
+            }}
+          >
+            <option selected disabled value="">
+              {'Roles'}
+            </option>
+            {['default'].map((option, index) => (
+              <option key={index} value={option}>
+                {option.toUpperCase()}
+              </option>
+            ))}
+          </select>
         </Box>
       </FlexBox>
       <If condition={!!userFullName}>
