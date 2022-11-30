@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React from 'react';
+import React, { useState } from 'react';
 import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
@@ -48,12 +48,15 @@ export const GetHeaderCols = ({
     activeSortingDirection,
     filteredStacks,
   });
+
+  const [toggle, setToggle] = useState(false);
   return [
     {
       width: '3%',
       renderRow: (stack: TStack) => (
         <LinkBox
           onClick={(e: Event) => {
+            setToggle(!toggle);
             e.stopPropagation();
             if (openStackIds.indexOf(stack.id) === -1) {
               setOpenStackIds([...openStackIds, stack.id]);
@@ -65,7 +68,11 @@ export const GetHeaderCols = ({
           }}
         >
           <FlexBox justifyContent="center">
-            <icons.rightArrow color={iconColors.grey} size={iconSizes.md} />
+            {openStackIds.indexOf(stack.id) === -1 ? (
+              <icons.rightArrow color={iconColors.grey} size={iconSizes.md} />
+            ) : (
+              <icons.chevronDown color={iconColors.grey} size={iconSizes.md} />
+            )}
           </FlexBox>
         </LinkBox>
       ),
