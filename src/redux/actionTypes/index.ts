@@ -2,8 +2,9 @@ import { actionTypes } from './constants';
 
 export * from './session';
 export * from './users';
+export * from './projects';
 export * from './organizations';
-
+export * from './projects';
 export * from './pipelines';
 export * from './stacks';
 export * from './stackComponents';

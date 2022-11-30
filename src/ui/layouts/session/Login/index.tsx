@@ -22,7 +22,11 @@ import { Link } from 'react-router-dom';
 import { useDispatch, usePushRoute } from '../../../hooks';
 
 import { loginAction } from '../../../../redux/actions/session/loginAction';
-import { showToasterAction, userActions } from '../../../../redux/actions';
+import {
+  projectsActions,
+  showToasterAction,
+  userActions,
+} from '../../../../redux/actions';
 import { toasterTypes } from '../../../../constants';
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -54,7 +58,7 @@ const Login: React.FC = () => {
             }),
           );
           setLoading(false);
-
+          await dispatch(projectsActions.getMy({}));
           await dispatch(userActions.getMy({}));
           await push(routePaths.userEmail);
         },

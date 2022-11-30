@@ -8,8 +8,9 @@ import {
   pipelinesActions,
   runPagesActions,
 } from '../../../../redux/actions';
+import { projectSelectors } from '../../../../redux/selectors';
 
-import { useDispatch } from '../../../hooks';
+import { useDispatch, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
   setFetchingForPipeline: (arg: boolean) => void;
@@ -18,7 +19,7 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   useEffect(() => {
     setFetchingForPipeline(true);
     setFetchingForAllRuns(true);
@@ -30,6 +31,7 @@ export const useService = (): ServiceInterface => {
     );
     dispatch(
       pipelinesActions.getMy({
+        project: selectedProject,
         onSuccess: () => setFetchingForPipeline(false),
         onFailure: () => setFetchingForPipeline(false),
       }),

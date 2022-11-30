@@ -48,7 +48,6 @@ export const InvitePopup: React.FC<{
         organizationActions.invite({
           name,
           onFailure: (errorText: string) => {
-            debugger;
             dispatch(
               showToasterAction({
                 description: errorText,

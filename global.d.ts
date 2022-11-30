@@ -74,7 +74,13 @@ interface TWorkspace {
   name: string;
   createdAt: Date;
 }
-
+interface Projects {
+  id: TId;
+  created: Date;
+  updated: Date;
+  name: string;
+  description: string;
+}
 interface TPipeline {
   id: TId;
   name: string;

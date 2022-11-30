@@ -3,17 +3,15 @@ import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 
-const getMyPipelinesApi = ({
+const getMyProjectApi = ({
   authenticationToken,
-  project,
 }: {
   authenticationToken: string;
-  project: string;
 }): Promise<TPipeline> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.pipelines.my(project)),
+    url: apiUrl(endpoints.projects.my),
     method: httpMethods.get,
     authenticationToken,
   });
 
-export default getMyPipelinesApi;
+export default getMyProjectApi;

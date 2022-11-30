@@ -11,12 +11,15 @@ import {
 
 import styles from './AuthenticatedHeader.module.scss';
 import { iconColors, iconSizes } from '../../../../../constants/icons';
-import { userSelectors } from '../../../../../redux/selectors';
+import {
+  projectSelectors,
+  userSelectors,
+} from '../../../../../redux/selectors';
 import { getInitials } from '../../../../../utils/name';
 import { DEFAULT_FULL_NAME } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, usePushRoute, useSelector } from '../../../../hooks';
-import { sessionActions } from '../../../../../redux/actions';
+import { projectsActions, sessionActions } from '../../../../../redux/actions';
 import { routePaths } from '../../../../../routes/routePaths';
 import cn from 'classnames';
 import css from './../../../../../ui/components/inputs/index.module.scss';
@@ -25,6 +28,8 @@ export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ setMobileMenuOpen }) => {
   const user = useSelector(userSelectors.myUser);
+  const projects = useSelector(projectSelectors.myProjects);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -51,11 +56,20 @@ export const AuthenticatedHeader: React.FC<{
             <icons.burger size={iconSizes.md} />
           </LinkBox>
         </Box>
+
         <Box marginLeft="xxl" className="d-none d-md-block">
           <select
-            // onChange={(e: any) => handleChange(e.target.value)}
-            value={['default']}
-            placeholder={'Roles'}
+            onChange={(e: any) =>
+              dispatch(
+                projectsActions.getSelectedProject({
+                  allProjects: projects,
+                  seletecdProject: e.target.value,
+                }),
+              )
+            }
+            defaultValue={selectedProject}
+            // value={projects}
+            placeholder={'Projects'}
             className={cn(css.input)}
             style={{
               // borderTopRightRadius: 0,
@@ -66,11 +80,11 @@ export const AuthenticatedHeader: React.FC<{
             }}
           >
             <option selected disabled value="">
-              {'Roles'}
+              {'Select Project'}
             </option>
-            {['default'].map((option, index) => (
-              <option key={index} value={option}>
-                {option.toUpperCase()}
+            {projects.map((option, index) => (
+              <option key={index} value={option.name}>
+                {option.name}
               </option>
             ))}
           </select>

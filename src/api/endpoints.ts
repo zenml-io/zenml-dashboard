@@ -19,8 +19,13 @@ export const endpoints = {
     deleteInvite: (id: string): string => `/users/${id}`,
   },
 
+  projects: {
+    my: '/projects',
+  },
+
   pipelines: {
-    my: '/pipelines?hydrated=true',
+    my: (project: string): string =>
+      `/projects/${project}/pipelines?hydrated=true`,
     get: (pipelineId: TId): string =>
       `/pipelines/${pipelineId}?unlisted=false&hydrated=true`,
   },

@@ -28,6 +28,11 @@ const pipelineActionTypes = {
   PIPELINES_GET_PIPELINE_FOR_ID: 'PIPELINES_GET_PIPELINE_FOR_ID',
   RUNS_GET_PIPELINE_FOR_ID: 'RUNS_GET_PIPELINE_FOR_ID',
 };
+
+const projectActionTypes = {
+  PROJECTS_GET_MY_PROJECTS: 'PROJECTS_GET_MY_PROJECTS',
+  SELECT_PROJECT_FROM_MY_PROJECTS: 'SELECT_PROJECT_FROM_MY_PROJECTS',
+};
 const stackActionTypes = {
   STACKS_GET_MY_STACKS: 'STACKS_GET_MY_STACKS',
   STACKS_GET_STACK_FOR_ID: 'STACKS_GET_STACK_FOR_ID',
@@ -79,6 +84,7 @@ export const actionTypes = {
   ...sessionActionTypes,
   ...userActionTypes,
   ...organizationActionTypes,
+  ...projectActionTypes,
   ...pipelineActionTypes,
   ...stackActionTypes,
   ...runActionTypes,
