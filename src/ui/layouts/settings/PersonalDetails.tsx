@@ -14,13 +14,14 @@ import {
   userActions,
 } from '../../../redux/actions';
 
-import { userSelectors } from '../../../redux/selectors';
+import { sessionSelectors, userSelectors } from '../../../redux/selectors';
 import { getTranslateByScope } from '../../../services';
 import { useDispatch } from 'react-redux';
 import { toasterTypes } from '../../../constants';
 import { PrimaryButton } from '../../components/buttons/index';
 import { EmailPopup } from './EmailPopup';
 import { loginAction } from '../../../redux/actions/session/loginAction';
+import jwt_decode from 'jwt-decode';
 
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
@@ -38,6 +39,8 @@ export const PersonalDetails: React.FC = () => {
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
 
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+  var decoded: any = jwt_decode(authToken as any);
   if (!user) return null;
 
   const forgotPassword = () => {
@@ -113,6 +116,7 @@ export const PersonalDetails: React.FC = () => {
             <Col lg={5}>
               <Box marginBottom="lg">
                 <FormTextField
+                  disabled={!decoded.permissions.includes('me')}
                   label={translate('form.fullName.label')}
                   labelColor="#000"
                   placeholder={translate('form.fullName.placeholder')}
@@ -123,6 +127,7 @@ export const PersonalDetails: React.FC = () => {
 
               <Box marginBottom="lg">
                 <FormTextField
+                  disabled={!decoded.permissions.includes('me')}
                   label={translate('form.username.label')}
                   labelColor="#000"
                   placeholder={translate('form.username.placeholder')}
@@ -151,6 +156,7 @@ export const PersonalDetails: React.FC = () => {
             <Col lg={5}>
               <Box marginBottom="lg">
                 <FormPasswordField
+                  disabled={!decoded.permissions.includes('me')}
                   label={translate('form.passwordChange.currentPassword.label')}
                   labelColor="#000"
                   placeholder={translate(
@@ -169,6 +175,7 @@ export const PersonalDetails: React.FC = () => {
               </Box>
               <Box marginBottom="lg">
                 <FormPasswordField
+                  disabled={!decoded.permissions.includes('me')}
                   label={translate('form.passwordChange.newPassword.label')}
                   labelColor="#000"
                   placeholder={translate(
@@ -185,6 +192,7 @@ export const PersonalDetails: React.FC = () => {
               </Box>
               <Box marginBottom="lg">
                 <FormPasswordField
+                  disabled={!decoded.permissions.includes('me')}
                   label={translate('form.passwordChange.confirmPassword.label')}
                   labelColor="#000"
                   placeholder={translate(
