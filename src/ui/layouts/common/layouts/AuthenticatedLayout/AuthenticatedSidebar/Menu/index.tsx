@@ -7,7 +7,10 @@ import { translate } from '../translate';
 import { useLocationPath } from '../../../../../../hooks';
 import { matchPath } from 'react-router-dom';
 import { useSelector } from './../../../../../../../ui/hooks';
-import { stackComponentSelectors } from '../../../../../../../redux/selectors';
+import {
+  projectSelectors,
+  stackComponentSelectors,
+} from '../../../../../../../redux/selectors';
 
 export const Menu: React.FC = () => {
   const locationPath = useLocationPath();
@@ -15,6 +18,7 @@ export const Menu: React.FC = () => {
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
   return (
     <>
@@ -34,14 +38,14 @@ export const Menu: React.FC = () => {
         Icon={() => (
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.pipelines.list}
+        to={routePaths.pipelines.list(selectedProject)}
         text={translate('menu.pipelines.text')}
       />
       <MenuItem
         isActive={() => {
           return (
             !!matchPath(locationPath, {
-              path: routePaths.pipelines.allRuns,
+              path: routePaths.pipelines.allRuns(selectedProject),
               exact: false,
             }) ||
             !!matchPath(locationPath, {
@@ -53,7 +57,7 @@ export const Menu: React.FC = () => {
         Icon={() => (
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.pipelines.allRuns}
+        to={routePaths.pipelines.allRuns(selectedProject)}
         text={'Runs'}
       />
       <MenuItem
@@ -79,7 +83,7 @@ export const Menu: React.FC = () => {
       <MenuItem
         isActive={() => {
           return !!matchPath(locationPath, {
-            path: routePaths.stackComponents.base(''),
+            path: routePaths.stackComponents.base('', selectedProject),
             exact: false,
           });
         }}
@@ -88,6 +92,7 @@ export const Menu: React.FC = () => {
         )}
         to={routePaths.stackComponents.base(
           stackComponentsTypes ? stackComponentsTypes[0] : '',
+          selectedProject,
         )}
         text={translate('menu.stackComponents.text')}
       />
@@ -97,7 +102,7 @@ export const Menu: React.FC = () => {
           <MenuItem
             isActive={() => {
               return !!matchPath(locationPath, {
-                path: routePaths.stackComponents.base(item),
+                path: routePaths.stackComponents.base(item, selectedProject),
                 exact: false,
               });
             }}
@@ -108,7 +113,7 @@ export const Menu: React.FC = () => {
                 size={iconSizes.md}
               />
             )}
-            to={routePaths.stackComponents.base(item)}
+            to={routePaths.stackComponents.base(item, selectedProject)}
             text={item}
           />
         ))}

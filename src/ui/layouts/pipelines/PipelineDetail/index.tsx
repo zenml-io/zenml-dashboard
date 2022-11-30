@@ -11,7 +11,8 @@ import { useService } from './useService';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
-import { useLocationPath } from '../../../hooks';
+import { useLocationPath, useSelector } from '../../../hooks';
+import { projectSelectors } from '../../../../redux/selectors';
 
 interface Props {
   pipelineId: TId;
@@ -60,12 +61,15 @@ const getTabPages = (pipelineId: TId): TabPage[] => {
   ];
 };
 
-const getBreadcrumbs = (pipelineId: TId): TBreadcrumb[] => {
+const getBreadcrumbs = (
+  pipelineId: TId,
+  selectedProject: string,
+): TBreadcrumb[] => {
   return [
     {
       name: translate('header.breadcrumbs.pipelines.text'),
       clickable: true,
-      to: routePaths.pipelines.list,
+      to: routePaths.pipelines.list(selectedProject),
     },
     {
       name: pipelineId,
@@ -81,9 +85,9 @@ export interface PipelineDetailRouteParams {
 
 export const PipelineDetail: React.FC = () => {
   const { pipeline } = useService();
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const tabPages = getTabPages(pipeline.id);
-  const breadcrumbs = getBreadcrumbs(pipeline.id);
+  const breadcrumbs = getBreadcrumbs(pipeline.id, selectedProject);
 
   const boxStyle = {
     backgroundColor: '#E9EAEC',

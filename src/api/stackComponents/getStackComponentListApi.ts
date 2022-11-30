@@ -6,12 +6,14 @@ import { apiUrl } from '../apiUrl';
 const getMyStackComponentsApi = ({
   authenticationToken,
   type,
+  project,
 }: {
+  project: string;
   authenticationToken: string;
   type: string;
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.StackComponents.my(type)),
+    url: apiUrl(endpoints.StackComponents.my(type, project)),
     method: httpMethods.get,
     authenticationToken,
   });

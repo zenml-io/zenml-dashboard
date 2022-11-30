@@ -30,13 +30,15 @@ export const endpoints = {
       `/pipelines/${pipelineId}?unlisted=false&hydrated=true`,
   },
   Stacks: {
-    my: '/stacks?hydrated=true',
+    my: (project: string): string =>
+      `/projects/${project}/stacks?hydrated=true`,
     get: (stackId: TId): string =>
       `/stacks/${stackId}?unlisted=false&hydrated=true`,
   },
   StackComponents: {
     types: '/component-types',
-    my: (type: string): string => `/components?type=${type}&hydrated=true`,
+    my: (type: string, project: string): string =>
+      `/projects/${project}/components?type=${type}&hydrated=true`,
     get: (stackComponentId: TId): string =>
       `/components/${stackComponentId}?hydrated=true`,
   },
