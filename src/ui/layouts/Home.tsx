@@ -80,7 +80,7 @@ export const Home: React.FC = () => {
       const getDashboardData = async () => {
         setFetching(true);
         const { data } = await axios.get(
-          `${process.env.REACT_APP_BASE_API_URL}/projects/${DEFAULT_PROJECT_NAME}/statistics`,
+          `${process.env.REACT_APP_BASE_API_URL}/projects/${selectedProject}/statistics`,
           {
             headers: {
               Authorization: `bearer ${authToken}`,
