@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   FlexBox,
   Box,
@@ -34,7 +34,19 @@ export const AuthenticatedHeader: React.FC<{
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
   const { push } = usePushRoute();
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      //assign interval to a variable to clear it.
 
+      dispatch(
+        projectsActions.getMy({ selectDefault: false, selectedProject }),
+      );
+    }, 5000);
+
+    return () => clearInterval(intervalId);
+
+    //This is important
+  });
   if (!user) return null;
 
   const userFullName = user.fullName || user.name || DEFAULT_FULL_NAME;

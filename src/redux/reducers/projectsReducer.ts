@@ -14,6 +14,7 @@ type ProjectsPayload = Projects[];
 type ProjectPayload = Projects;
 
 export type Action = {
+  requestParams: any;
   type: string;
   payload: any;
 };
@@ -49,12 +50,19 @@ const projectsReducer = (
       const myProjectIds: TId[] = projects.map(
         (project: Projects) => project.id,
       );
-      const defaultSelectedProject = projects[0].name;
+      if (action.requestParams.selectDefault === undefined) {
+        const defaultSelectedProject = projects[0].name;
 
-      return {
-        ...newState(state, projects, defaultSelectedProject),
-        myProjectIds,
-      };
+        return {
+          ...newState(state, projects, defaultSelectedProject),
+          myProjectIds,
+        };
+      } else {
+        return {
+          ...newState(state, projects, action.requestParams.selectedProject),
+          myProjectIds,
+        };
+      }
     }
     case projectActionTypes.selectProject.success: {
       const { seletecdProject, allProjects } = action.payload as any;
