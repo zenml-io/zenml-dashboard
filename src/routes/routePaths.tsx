@@ -56,7 +56,7 @@ export const routePaths = {
   },
   stacks: {
     base: '/stacks',
-    list: '/stacks/list',
+    list: (project: string): string => `/projects/${project}/stacks/list`,
     allRuns: '/stacks/all-runs',
   },
   stack: {

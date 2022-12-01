@@ -117,7 +117,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stacks.list,
+    path: routePaths.stacks.list(':string'),
     Component: stacks,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,

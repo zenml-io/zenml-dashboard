@@ -69,9 +69,9 @@ export const GetHeaderCols = ({
         >
           <FlexBox justifyContent="center">
             {openPipelineIds.indexOf(pipeline.id) === -1 ? (
-              <icons.rightArrow color={iconColors.grey} size={iconSizes.md} />
+              <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
             ) : (
-              <icons.chevronDown color={iconColors.grey} size={iconSizes.md} />
+              <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
             )}
           </FlexBox>
         </LinkBox>

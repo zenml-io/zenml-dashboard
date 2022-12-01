@@ -25,6 +25,7 @@ export const useService = (): ServiceInterface => {
     setFetchingForAllRuns(true);
     dispatch(
       runsActions.allRuns({
+        project: selectedProject,
         onSuccess: () => setFetchingForAllRuns(false),
         onFailure: () => setFetchingForAllRuns(false),
       }),

@@ -76,7 +76,7 @@ export const Menu: React.FC = () => {
         Icon={() => (
           <icons.stack color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.stacks.list}
+        to={routePaths.stacks.list(selectedProject)}
         text={translate('menu.stacks.text')}
       />
 
