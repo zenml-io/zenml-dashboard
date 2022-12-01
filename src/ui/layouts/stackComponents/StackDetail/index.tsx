@@ -12,10 +12,11 @@ import { Configuration } from './Configuration';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-import { useLocationPath } from '../../../hooks';
+import { useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
+import { projectSelectors } from '../../../../redux/selectors';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -66,13 +67,20 @@ const getTabPages = (stackId: TId, locationPath: any): TabPage[] => {
   ];
 };
 
-const getBreadcrumbs = (stackId: TId, locationPath: any): TBreadcrumb[] => {
+const getBreadcrumbs = (
+  stackId: TId,
+  locationPath: any,
+  selectedProject: string,
+): TBreadcrumb[] => {
   return [
     {
       name: camelCaseToParagraph(locationPath.split('/')[2]),
 
       clickable: true,
-      to: routePaths.stackComponents.base(locationPath.split('/')[2]),
+      to: routePaths.stackComponents.base(
+        locationPath.split('/')[2],
+        selectedProject,
+      ),
     },
     {
       name: stackId,
@@ -92,9 +100,13 @@ export interface StackDetailRouteParams {
 export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
   const { stackComponent } = useService();
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const tabPages = getTabPages(stackComponent.id, locationPath);
-  const breadcrumbs = getBreadcrumbs(stackComponent.id, locationPath);
+  const breadcrumbs = getBreadcrumbs(
+    stackComponent.id,
+    locationPath,
+    selectedProject,
+  );
 
   const boxStyle = {
     backgroundColor: '#E9EAEC',
@@ -111,7 +123,10 @@ export const StackDetail: React.FC = () => {
     <BasePage
       headerWithButtons
       tabPages={tabPages}
-      tabBasePath={routePaths.stackComponents.base(stackComponent.id)}
+      tabBasePath={routePaths.stackComponents.base(
+        stackComponent.id,
+        selectedProject,
+      )}
       breadcrumbs={breadcrumbs}
     >
       <Box style={boxStyle}>

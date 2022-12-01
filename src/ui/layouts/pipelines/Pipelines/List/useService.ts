@@ -11,6 +11,7 @@ import {
 import {
   pipelinePagesSelectors,
   pipelineSelectors,
+  projectSelectors,
 } from '../../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -54,7 +55,7 @@ export const useService = (
   const [filteredPipelines, setFilteredPipelines] = useState<TPipeline[]>([]);
 
   const fetching = useSelector(pipelinePagesSelectors.fetching);
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const pipelines = useSelector(pipelineSelectors.myPipelines);
 
   useEffect(() => {
@@ -76,7 +77,7 @@ export const useService = (
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
 
-      dispatch(pipelinesActions.getMy({}));
+      dispatch(pipelinesActions.getMy({ project: selectedProject }));
     }, 5000);
 
     return () => clearInterval(intervalId);

@@ -2,7 +2,10 @@
 
 import { useEffect } from 'react';
 import { stackPagesActions, stacksActions } from '../../../../redux/actions';
-import { stackPagesSelectors } from '../../../../redux/selectors';
+import {
+  projectSelectors,
+  stackPagesSelectors,
+} from '../../../../redux/selectors';
 import { useDispatch, useSelector, useLocationPath } from '../../../hooks';
 
 interface ServiceInterface {
@@ -12,11 +15,12 @@ interface ServiceInterface {
 export const useService = (): ServiceInterface => {
   const locationPath = useLocationPath();
   const dispatch = useDispatch();
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   useEffect(() => {
     setFetching(true);
     dispatch(
       stacksActions.getMy({
+        project: selectedProject as string,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

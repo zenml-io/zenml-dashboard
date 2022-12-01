@@ -19,39 +19,42 @@ export const endpoints = {
     deleteInvite: (id: string): string => `/users/${id}`,
   },
 
+  projects: {
+    my: '/projects',
+  },
+
   pipelines: {
-    my: '/pipelines?hydrated=true',
-    get: (pipelineId: TId): string =>
-      `/pipelines/${pipelineId}?unlisted=false&hydrated=true`,
+    my: (project: string): string => `/projects/${project}/pipelines`,
+    get: (pipelineId: TId): string => `/pipelines/${pipelineId}`,
   },
   Stacks: {
-    my: '/stacks?hydrated=true',
-    get: (stackId: TId): string =>
-      `/stacks/${stackId}?unlisted=false&hydrated=true`,
+    my: (project: string): string => `/projects/${project}/stacks`,
+    get: (stackId: TId): string => `/stacks/${stackId}`,
   },
   StackComponents: {
     types: '/component-types',
-    my: (type: string): string => `/components?type=${type}&hydrated=true`,
-    get: (stackComponentId: TId): string =>
-      `/components/${stackComponentId}?hydrated=true`,
+    my: (type: string, project: string): string =>
+      `/projects/${project}/components?type=${type}`,
+    get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
   },
   runs: {
     pipeline: {
-      get: (pipelineId: TId): string =>
-        `/runs?pipeline_id=${pipelineId}&unlisted=false&hydrated=true`,
+      get: (pipelineId: TId): string => `/runs?pipeline_id=${pipelineId}`,
     },
     stack: {
-      get: (stackId: TId): string =>
-        `/runs?stack_id=${stackId}&unlisted=false&hydrated=true`,
+      get: (stackId: TId): string => `/runs?stack_id=${stackId}`,
     },
     stackComponent: {
       get: (stackComponentId: TId): string =>
-        `/runs?component_id=${stackComponentId}&unlisted=false&hydrated=true`,
+        `/runs?component_id=${stackComponentId}`,
     },
     graphById: {
       get: (runId: TId): string => `/runs/${runId}/graph`,
     },
-    all: `/runs?unlisted=false&hydrated=true`,
-    get: (runId: TId): string => `/runs/${runId}?unlisted=false&hydrated=true`,
+    all: (project: string): string => `/projects/${project}/runs`,
+    get: (runId: TId): string => `/runs/${runId}`,
+  },
+  roles: {
+    all: `/roles`,
   },
 };

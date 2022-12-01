@@ -9,6 +9,8 @@ import { useService } from './useService';
 import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';
+import { useSelector } from '../../../hooks';
+import { projectSelectors } from '../../../../redux/selectors';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -34,30 +36,27 @@ const FilterWrapper = () => {
   );
 };
 
-const PAGES = [
-  {
-    text: translate('tabs.stacks.text'),
-    Component: FilterWrapper,
-    path: routePaths.stacks.list,
-  },
-];
-
-const BREADCRUMBS = [
-  {
-    name: translate('header.breadcrumbs.stacks.text'),
-    clickable: true,
-    to: routePaths.stacks.list,
-  },
-];
-
 export const Stacks: React.FC = () => {
   const { setFetching } = useService();
   console.log(setFetching);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   return (
     <BasePage
-      tabPages={PAGES}
+      tabPages={[
+        {
+          text: translate('tabs.stacks.text'),
+          Component: FilterWrapper,
+          path: routePaths.stacks.list(selectedProject),
+        },
+      ]}
       tabBasePath={routePaths.stacks.base}
-      breadcrumbs={BREADCRUMBS}
+      breadcrumbs={[
+        {
+          name: translate('header.breadcrumbs.stacks.text'),
+          clickable: true,
+          to: routePaths.stacks.list(selectedProject),
+        },
+      ]}
       headerWithButtons
       renderHeaderRight={() => <></>}
     />

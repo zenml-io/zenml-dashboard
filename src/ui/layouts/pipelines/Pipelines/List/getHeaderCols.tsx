@@ -2,10 +2,10 @@ import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
-  formatDateToDisplay,
   truncate,
   getInitialsFromEmail,
   formatDateToSort,
+  formatDateToDisplayOnTable,
 } from '../../../../../utils';
 import {
   Box,
@@ -68,7 +68,11 @@ export const GetHeaderCols = ({
           }}
         >
           <FlexBox justifyContent="center">
-            <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+            {openPipelineIds.indexOf(pipeline.id) === -1 ? (
+              <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+            ) : (
+              <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+            )}
           </FlexBox>
         </LinkBox>
       ),
@@ -254,7 +258,7 @@ export const GetHeaderCols = ({
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
               </Box>
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplay(pipeline.created)}
+                {formatDateToDisplayOnTable(pipeline.created)}
               </Paragraph>
             </FlexBox>
           </div>

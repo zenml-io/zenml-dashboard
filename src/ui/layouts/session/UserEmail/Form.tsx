@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { loggedInRoute, toasterTypes } from '../../../../constants';
 import {
+  projectsActions,
   showToasterAction,
   stackComponentsActions,
   userActions,
@@ -53,6 +54,7 @@ export const Form: React.FC = () => {
             }),
           );
           dispatch(userActions.getMy({}));
+          dispatch(projectsActions.getMy({}));
           dispatch(stackComponentsActions.getTypes());
           push(loggedInRoute);
         });
@@ -89,6 +91,7 @@ export const Form: React.FC = () => {
             }),
           );
           dispatch(userActions.getMy({}));
+          dispatch(projectsActions.getMy({}));
           dispatch(stackComponentsActions.getTypes());
           push(loggedInRoute);
         });

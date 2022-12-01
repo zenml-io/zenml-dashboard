@@ -19,6 +19,7 @@ export const AuthenticatedLayout: React.FC = ({ children }) => {
         setMobileMenuOpen={setMobileMenuOpen}
         mobileMenuOpen={mobileMenuOpen}
       />
+
       <FlexBox flexDirection="column" className={styles.content} flex={1}>
         <Box>
           <AuthenticatedHeader setMobileMenuOpen={setMobileMenuOpen} />

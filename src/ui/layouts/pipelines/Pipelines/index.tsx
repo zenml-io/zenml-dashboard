@@ -5,11 +5,12 @@ import { AllRuns } from './AllRuns';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 import { useService } from './useService';
-import { useLocationPath } from '../../../hooks';
+import { useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForPipeline,
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
+import { projectSelectors } from '../../../../redux/selectors/projects';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -57,28 +58,27 @@ const FilterWrapperForRun = () => {
     </FilterComponent>
   );
 };
-const PAGES = [
-  {
-    text: translate('tabs.pipelines.text'),
-    Component: FilterWrapper,
-    path: routePaths.pipelines.list,
-  },
-  {
-    text: translate('tabs.allRuns.text'),
-    Component: FilterWrapperForRun,
-    path: routePaths.pipelines.allRuns,
-  },
-];
 
 export const Pipelines: React.FC = () => {
   const { setFetchingForAllRuns } = useService();
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   console.log(setFetchingForAllRuns);
   const locationPath = useLocationPath();
 
   return (
     <BasePage
-      tabPages={PAGES}
+      tabPages={[
+        {
+          text: translate('tabs.pipelines.text'),
+          Component: FilterWrapper,
+          path: routePaths.pipelines.list(selectedProject),
+        },
+        {
+          text: translate('tabs.allRuns.text'),
+          Component: FilterWrapperForRun,
+          path: routePaths.pipelines.allRuns(selectedProject),
+        },
+      ]}
       tabBasePath={routePaths.pipelines.base}
       breadcrumbs={[
         {
@@ -87,8 +87,8 @@ export const Pipelines: React.FC = () => {
             : 'Runs',
           clickable: true,
           to: locationPath.includes('pipelines/list')
-            ? routePaths.pipelines.list
-            : routePaths.pipelines.allRuns,
+            ? routePaths.pipelines.list(selectedProject)
+            : routePaths.pipelines.allRuns(selectedProject),
         },
       ]}
       headerWithButtons

@@ -12,7 +12,9 @@ import usersReducer, {
 import organizationsReducer, {
   initialState as organizationsInitialState,
 } from './reducers/organizationsReducer';
-
+import projectsReducer, {
+  initialState as projectsInitialState,
+} from './reducers/projectsReducer';
 import pipelinesReducer, {
   initialState as pipelinesInitialState,
 } from './reducers/pipelinesReducer';
@@ -20,6 +22,10 @@ import pipelinesReducer, {
 import stacksReducer, {
   initialState as stacksInitialState,
 } from './reducers/stacksReducer';
+
+import rolesReducer, {
+  initialState as rolesInitialState,
+} from './reducers/rolesReducer';
 
 import stackComponentsReducer, {
   initialState as stackComponentsInitialState,
@@ -46,9 +52,11 @@ const initialState = {
   users: usersInitialState,
   organizations: organizationsInitialState,
   pipelines: pipelinesInitialState,
+  projects: projectsInitialState,
   stacks: stacksInitialState,
   stackComponents: stackComponentsInitialState,
   runs: runsInitialState,
+  roles: rolesInitialState,
   runPages: runPagesInitialState,
   pipelinePages: pipelinePagesInitialState,
   stacksPages: stackPagesInitialState,
@@ -57,7 +65,9 @@ const initialState = {
 export const persisted = combineReducers({
   session: sessionReducer,
   users: usersReducer,
+  roles: rolesReducer,
   organizations: organizationsReducer,
+  projects: projectsReducer,
   pipelines: pipelinesReducer,
   stacks: stacksReducer,
   stackComponents: stackComponentsReducer,

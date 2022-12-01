@@ -9,6 +9,7 @@ import {
   stackPagesActions,
 } from '../../../../../redux/actions';
 import {
+  projectSelectors,
   stackComponentSelectors,
   stackPagesSelectors,
   stackSelectors,
@@ -59,6 +60,7 @@ export const useService = (
   const stackComponents = useSelector(
     stackComponentSelectors.mystackComponents,
   );
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
   useEffect(() => {
     let orderedStacks = _.orderBy(
@@ -80,7 +82,8 @@ export const useService = (
       //assign interval to a variable to clear it.
       dispatch(
         stackComponentsActions.getMy({
-          type: locationPath.split('/')[2],
+          type: locationPath.split('/')[4],
+          project: selectedProject,
         }),
       );
     }, 5000);

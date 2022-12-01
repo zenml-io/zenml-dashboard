@@ -41,6 +41,7 @@ import { ReactComponent as Delete } from './assets/Delete.svg';
 import { ReactComponent as SimplePlus } from './assets/SimplePlus.svg';
 import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 import { ReactComponent as Cached } from './assets/Cached.svg';
+import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
 
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
@@ -120,6 +121,7 @@ const icons = {
     Component: ChevronLeft,
     transform: 'rotate(180deg)',
   }),
+  rightArrow: createIcon({ Component: RightArrow }),
   copy: createIcon({ Component: Copy }),
   eye: createIcon({ Component: Eye, useStroke: true }),
   userPlus: createIcon({ Component: UserPlus, useStroke: true }),
@@ -134,7 +136,7 @@ const icons = {
   singleUser: createIcon({ Component: SingleUser }),
   multiUser: createIcon({ Component: MultiUser }),
   docs: createIcon({ Component: Docs, useStroke: true }),
-  example: createIcon({ Component: Example, useStroke: true, }),
+  example: createIcon({ Component: Example, useStroke: true }),
   pipeline: createIcon({ Component: Pipeline, useStroke: true }),
   stack: createIcon({ Component: Stack, useStroke: true }),
   stackComponent: createIcon({ Component: StackComponent, useStroke: true }),

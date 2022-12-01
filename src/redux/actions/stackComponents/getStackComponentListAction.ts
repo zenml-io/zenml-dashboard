@@ -2,10 +2,12 @@ import { stackComponentActionTypes } from '../../actionTypes';
 import getStackComponentListApi from '../../../api/stackComponents/getStackComponentListApi';
 
 export const getStackComponentListAction = ({
+  project,
   type,
   onSuccess,
   onFailure,
 }: {
+  project: string;
   type: TId;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -16,7 +18,7 @@ export const getStackComponentListAction = ({
     isAuthenticated: true,
     failureActionType: stackComponentActionTypes.getStackComponentList.failure,
     successActionType: stackComponentActionTypes.getStackComponentList.success,
-    params: { type },
+    params: { type, project },
     onSuccess,
     onFailure,
   },

@@ -3,10 +3,10 @@ import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
-  formatDateToDisplay,
   truncate,
   getInitialsFromEmail,
   formatDateToSort,
+  formatDateToDisplayOnTable,
 } from '../../../../../utils';
 import {
   Box,
@@ -310,7 +310,7 @@ export const GetHeaderCols = ({
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
               </Box>
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplay(stackComponent.created)}
+                {formatDateToDisplayOnTable(stackComponent.created)}
               </Paragraph>
             </FlexBox>
           </div>

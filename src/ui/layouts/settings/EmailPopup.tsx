@@ -11,7 +11,11 @@ import {
 } from '../../components';
 import { getTranslateByScope } from '../../../services';
 import { Popup } from '../common/Popup';
-import { showToasterAction, userActions } from '../../../redux/actions';
+import {
+  projectsActions,
+  showToasterAction,
+  userActions,
+} from '../../../redux/actions';
 import { toasterTypes } from '../../../constants';
 
 import { fetchApiWithAuthRequest } from '../../../api/fetchApi';
@@ -21,21 +25,19 @@ import { apiUrl } from '../../../api/apiUrl';
 import { sessionSelectors } from '../../../redux/selectors/session';
 import { useSelector } from '../../hooks';
 
-
 export const EmailPopup: React.FC<{
   userId: any;
   fullName: any;
   username: any;
   setPopupOpen: (attr: boolean) => void;
 }> = ({ userId, fullName, username, setPopupOpen }) => {
-
   const [submitting, setSubmitting] = useState(false);
 
   const dispatch = useDispatch();
   const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
   const authToken = useSelector(sessionSelectors.authenticationToken);
-  const authenticationToken = authToken ? authToken : ''
+  const authenticationToken = authToken ? authToken : '';
 
   const changeEmail = async () => {
     setSubmitting(true);
@@ -57,7 +59,8 @@ export const EmailPopup: React.FC<{
           type: toasterTypes.success,
         }),
       );
-     await dispatch(userActions.getMy({}));
+      await dispatch(projectsActions.getMy({}));
+      await dispatch(userActions.getMy({}));
     } catch (err) {
       setSubmitting(false);
       setPopupOpen(false);
@@ -69,7 +72,6 @@ export const EmailPopup: React.FC<{
       );
     }
   };
-
 
   return (
     <Popup onClose={() => setPopupOpen(false)}>

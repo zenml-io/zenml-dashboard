@@ -4,12 +4,14 @@ import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 
 const getAllRunsApi = ({
+  project,
   authenticationToken,
 }: {
+  project: string;
   authenticationToken: string;
 }): Promise<TOrganization> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.runs.all),
+    url: apiUrl(endpoints.runs.all(project)),
     method: httpMethods.get,
     authenticationToken,
   });
