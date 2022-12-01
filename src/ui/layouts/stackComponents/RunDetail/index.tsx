@@ -5,7 +5,7 @@ import {
   camelCaseToParagraph,
   formatDateForOverviewBar,
 } from '../../../../utils';
-import { useHistory, useLocationPath } from '../../../hooks';
+import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
@@ -15,6 +15,7 @@ import { useService } from './useService';
 import { Box, Paragraph } from '../../../components';
 
 import { RunStatus } from './components';
+import { projectSelectors } from '../../../../redux/selectors';
 
 export interface RunDetailRouteParams {
   type: string;
@@ -26,7 +27,7 @@ export const RunDetail: React.FC = () => {
   const locationPath = useLocationPath();
   const history = useHistory();
   const { stackComponentId, runId, run, fetching } = useService();
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const tabPages = [
     {
       text: 'DAG',
@@ -53,7 +54,10 @@ export const RunDetail: React.FC = () => {
     {
       name: camelCaseToParagraph(locationPath.split('/')[2]),
       clickable: true,
-      to: routePaths.stackComponents.base(locationPath.split('/')[2]),
+      to: routePaths.stackComponents.base(
+        locationPath.split('/')[2],
+        selectedProject,
+      ),
     },
     {
       name: stackComponentId,

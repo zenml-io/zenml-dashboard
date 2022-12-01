@@ -5,11 +5,13 @@ import { apiUrl } from '../apiUrl';
 
 const getMyPipelinesApi = ({
   authenticationToken,
+  project,
 }: {
   authenticationToken: string;
+  project: string;
 }): Promise<TPipeline> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.pipelines.my),
+    url: apiUrl(endpoints.pipelines.my(project)),
     method: httpMethods.get,
     authenticationToken,
   });

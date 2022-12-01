@@ -5,9 +5,11 @@ export const routePaths = {
   forgot: '/forgot-password',
   home: '/',
   pipelines: {
-    base: '/pipelines',
-    list: '/pipelines/list',
-    allRuns: '/pipelines/all-runs',
+    // base: '/pipelines',
+    base: `/pipelines`,
+    list: (project: string): string => `/projects/${project}/pipelines/list`,
+    allRuns: (project: string): string =>
+      `/projects/${project}/pipelines/all-runs`,
   },
   pipeline: {
     base: (id: TId): string => `/pipelines/${id}`,
@@ -54,7 +56,7 @@ export const routePaths = {
   },
   stacks: {
     base: '/stacks',
-    list: '/stacks/list',
+    list: (project: string): string => `/projects/${project}/stacks/list`,
     allRuns: '/stacks/all-runs',
   },
   stack: {
@@ -69,7 +71,8 @@ export const routePaths = {
   },
 
   stackComponents: {
-    base: (type: string): string => `/components/${type}`,
+    base: (type: string, project: string): string =>
+      `/projects/${project}/components/${type}`,
     configuration: (type: string, id: TId): string =>
       `/components/${type}/${id}/configuration`,
     runs: (type: string, id: TId): string => `/components/${type}/${id}/runs`,
@@ -80,4 +83,5 @@ export const routePaths = {
     personalDetails: '/settings/personal-details',
     organizationSettings: '/settings/organization',
   },
+  logout: '/logout',
 };

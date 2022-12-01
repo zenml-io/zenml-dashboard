@@ -6,10 +6,10 @@ import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { useHistory } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import {
-  formatDateToDisplay,
   truncate,
   getInitialsFromEmail,
   formatDateToSort,
+  formatDateToDisplayOnTable,
 } from '../../../../../utils';
 import {
   FlexBox,
@@ -300,7 +300,7 @@ export const useHeaderCols = ({
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
               </Box>
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplay(run.created)}
+                {formatDateToDisplayOnTable(run.created)}
               </Paragraph>
             </FlexBox>
           </div>

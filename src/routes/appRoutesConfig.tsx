@@ -21,6 +21,7 @@ import StacksRunDetail from '../ui/layouts/stacks/RunDetail';
 import RunsRunDetail from '../ui/layouts/runs/RunDetail';
 import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
+import { Logout } from '../ui/components/Logout';
 
 const routes = [
   {
@@ -68,7 +69,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.pipelines.list,
+    path: routePaths.pipelines.list(':string'),
     Component: Pipelines,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -76,7 +77,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.pipelines.allRuns,
+    path: routePaths.pipelines.allRuns(':string'),
     Component: Pipelines,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -116,7 +117,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stacks.list,
+    path: routePaths.stacks.list(':string'),
     Component: stacks,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -282,7 +283,7 @@ const routes = [
   },
 
   {
-    path: routePaths.stackComponents.base(':type'),
+    path: routePaths.stackComponents.base(':type', ':string'),
     Component: stackComponents,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -326,6 +327,14 @@ const routes = [
   {
     path: routePaths.settings.organizationSettings,
     Component: SettingsPage,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.logout,
+    Component: Logout,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

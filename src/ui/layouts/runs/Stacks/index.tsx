@@ -5,32 +5,30 @@ import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 
 import { useService } from './useService';
-
-const PAGES = [
-  {
-    text: translate('tabs.stacks.text'),
-    Component: List,
-    path: routePaths.stacks.list,
-  },
-];
-
-const BREADCRUMBS = [
-  {
-    name: translate('header.breadcrumbs.stacks.text'),
-    clickable: true,
-    to: routePaths.stacks.list,
-  },
-];
+import { useSelector } from '../../../hooks';
+import { projectSelectors } from '../../../../redux/selectors';
 
 export const Stacks: React.FC = () => {
   const { setFetching } = useService();
   console.log(setFetching);
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   return (
     <BasePage
-      tabPages={PAGES}
+      tabPages={[
+        {
+          text: translate('tabs.stacks.text'),
+          Component: List,
+          path: routePaths.stacks.list(selectedProject),
+        },
+      ]}
       tabBasePath={routePaths.stacks.base}
-      breadcrumbs={BREADCRUMBS}
+      breadcrumbs={[
+        {
+          name: translate('header.breadcrumbs.stacks.text'),
+          clickable: true,
+          to: routePaths.stacks.list(selectedProject),
+        },
+      ]}
       headerWithButtons
       renderHeaderRight={() => <></>}
     />

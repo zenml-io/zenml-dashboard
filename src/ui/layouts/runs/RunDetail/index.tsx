@@ -12,7 +12,8 @@ import { Box, Paragraph } from '../../../components';
 import { RunStatus } from './components';
 
 import { formatDateForOverviewBar } from '../../../../utils';
-import { useHistory } from '../../../hooks';
+import { useHistory, useSelector } from '../../../hooks';
+import { projectSelectors } from '../../../../redux/selectors';
 
 const getTabPages = ({
   runId,
@@ -37,12 +38,18 @@ const getTabPages = ({
   ];
 };
 
-const getBreadcrumbs = ({ runId }: { runId: TId }): TBreadcrumb[] => {
+const getBreadcrumbs = ({
+  runId,
+  selectedProject,
+}: {
+  runId: TId;
+  selectedProject: string;
+}): TBreadcrumb[] => {
   return [
     {
       name: 'Runs',
       clickable: true,
-      to: routePaths.pipelines.allRuns,
+      to: routePaths.pipelines.allRuns(selectedProject),
     },
 
     {
@@ -60,13 +67,14 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const { runId, run, fetching } = useService();
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const tabPages = getTabPages({
     fetching,
     runId,
   });
   const breadcrumbs = getBreadcrumbs({
     runId,
+    selectedProject,
   });
 
   const boxStyle = {

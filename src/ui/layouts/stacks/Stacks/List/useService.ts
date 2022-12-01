@@ -6,6 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { stackPagesActions, stacksActions } from '../../../../../redux/actions';
 import {
+  projectSelectors,
   stackPagesSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
@@ -52,6 +53,7 @@ export const useService = (
   const fetching = useSelector(stackPagesSelectors.fetching);
 
   const Stacks = useSelector(stackSelectors.mystacks);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
   useEffect(() => {
     let orderedStacks = _.orderBy(
@@ -70,7 +72,7 @@ export const useService = (
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(stacksActions.getMy({}));
+      dispatch(stacksActions.getMy({ project: selectedProject }));
     }, 5000);
 
     return () => clearInterval(intervalId); //This is important

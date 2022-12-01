@@ -5,13 +5,9 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { stackPagesActions } from '../../../../redux/actions';
-import {
-  organizationSelectors,
-  stackComponentSelectors,
-  stackPagesSelectors,
-  stackSelectors,
-} from '../../../../redux/selectors';
-import { getFilteredDataForTable } from '../../../../utils/tableFilters';
+
+import { organizationSelectors } from '../../../../redux/selectors';
+
 import { Sorting, SortingDirection } from './ForSorting/types';
 
 interface ServiceInterface {

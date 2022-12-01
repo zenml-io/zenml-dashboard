@@ -13,6 +13,11 @@ export const formatDateToDisplay = (dateString: Date): string => {
   if (typeof dateString === 'undefined' || !dateString) return '';
   return formatDateToFormat(dateString, `dd.MM.yyyy`);
 };
+
+export const formatDateToDisplayOnTable = (dateString: Date): string => {
+  if (typeof dateString === 'undefined' || !dateString) return '';
+  return formatDateToFormat(dateString, `dd.MM.yyyy HH:mm:ss`);
+};
 export const formatDateToSort = (dateString: Date): string => {
   if (typeof dateString === 'undefined' || !dateString) return '';
   return formatDateToFormat(dateString, `dd.MM.yyyy'T'HH:mm:ss.SSS'Z'`);

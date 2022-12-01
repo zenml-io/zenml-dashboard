@@ -8,7 +8,7 @@ export const inviteAction = ({
 }: {
   name: string;
   onFailure?: (err: any) => void;
-  onSuccess?: () => void;
+  onSuccess?: (res: any) => void;
 }): TRequestAction => ({
   type: organizationActionTypes.invite.request,
   payload: {

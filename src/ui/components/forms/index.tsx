@@ -208,7 +208,10 @@ export const FormPasswordField = (
         {props.showPasswordOption && (
           <LinkBox
             style={{ position: 'absolute', right: '10px', top: '36px' }}
-            onClick={() => setShowPassword(!showPassword)}
+            onClick={(event: any) => {
+              if (!event) return null;
+              setShowPassword(!showPassword);
+            }}
           >
             <icons.eye
               color={showPassword ? iconColors.black : iconColors.grey}

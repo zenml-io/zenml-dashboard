@@ -2,6 +2,7 @@ import React from 'react';
 import { translate } from './translate';
 import {
   formatDateToDisplay,
+  formatDateToDisplayOnTable,
   formatDateToSort,
   getInitialsFromEmail,
 } from '../../../../utils';
@@ -74,6 +75,7 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
 const headColStyle = { color: '#000', fontWeight: 700 };
 
 export const useMemberHeaderCols = ({
+  decoded,
   filteredMembers,
   setFilteredMembers,
   activeSorting,
@@ -81,6 +83,7 @@ export const useMemberHeaderCols = ({
   setActiveSortingDirection,
   setActiveSorting,
 }: {
+  decoded: any;
   filteredMembers: TMember[];
   setFilteredMembers: (members: TMember[]) => void;
   activeSorting: Sorting | null;
@@ -206,7 +209,7 @@ export const useMemberHeaderCols = ({
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
               </Box>
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplay(member.created)}
+                {formatDateToDisplayOnTable(member.created)}
               </Paragraph>
             </FlexBox>
           </div>
@@ -220,7 +223,7 @@ export const useMemberHeaderCols = ({
         </FlexBox>
       ),
     },
-    {
+    decoded.permissions.includes('write') && {
       render: () => <Paragraph size="small"></Paragraph>,
       width: '5%',
       renderRow: (member: TInvite) => (

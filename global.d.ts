@@ -16,7 +16,7 @@ interface TRequestActionPayload {
   failureActionType?: string;
   successActionType?: string;
   params?: Record<string, unknown>;
-  onSuccess?: () => void;
+  onSuccess?: (res: any) => void;
   onFailure?: (errorText: string) => void;
 }
 
@@ -74,7 +74,13 @@ interface TWorkspace {
   name: string;
   createdAt: Date;
 }
-
+interface Projects {
+  id: TId;
+  created: Date;
+  updated: Date;
+  name: string;
+  description: string;
+}
 interface TPipeline {
   id: TId;
   name: string;
@@ -111,6 +117,13 @@ interface TStack {
   project?: string;
   user?: any;
   isShared?: Boolean;
+}
+interface Roles {
+  id: TId;
+  created: Date;
+  updated: Date;
+  name: string;
+  permissions: Array;
 }
 type TRunStatus =
   | 'finished'
