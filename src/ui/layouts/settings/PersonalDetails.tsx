@@ -40,7 +40,10 @@ export const PersonalDetails: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState('');
 
   const authToken = useSelector(sessionSelectors.authenticationToken);
-  var decoded: any = jwt_decode(authToken as any);
+  if (authToken) {
+    var decoded: any = jwt_decode(authToken as any);
+  }
+
   if (!user) return null;
 
   const forgotPassword = () => {

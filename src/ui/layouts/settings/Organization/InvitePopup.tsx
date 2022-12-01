@@ -38,7 +38,8 @@ export const InvitePopup: React.FC<{
   const invite = useSelector(organizationSelectors.invite);
   const roles = useSelector(rolesSelectors.getRoles);
 
-  const [role, setrole] = useState('');
+  const [role, setRole] = useState('');
+
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
   const inviteNewMembers = () => {
@@ -62,8 +63,12 @@ export const InvitePopup: React.FC<{
             };
             axios
               .post(
-                `${process.env.REACT_APP_BASE_API_URL}/users/${user.id}/roles?role_name_or_id=${role}`,
-                {},
+                // users/${user.id}/roles?role_name_or_id=${role}
+                `${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
+                {
+                  user: user.id,
+                  role: role,
+                },
                 { headers },
               )
               .then(() => {
@@ -93,8 +98,8 @@ export const InvitePopup: React.FC<{
       );
     }
   };
-  function handleChange(value: any) {
-    setrole(value);
+  function handleChange(value: string) {
+    setRole(value);
   }
 
   return (
@@ -126,37 +131,40 @@ export const InvitePopup: React.FC<{
                 }}
               />
             </Box>
-            <Box marginLeft="md">
-              <FlexBox.Column fullWidth>
-                <Box paddingBottom="xs">
-                  <Paragraph size="body" style={{ color: 'black' }}>
-                    <label htmlFor={name}>{'Roles'}</label>
-                  </Paragraph>
-                </Box>
-                <select
-                  onChange={(e: any) => handleChange(e.target.value)}
-                  value={role}
-                  placeholder={'Roles'}
-                  className={cn(styles.input)}
-                  style={{
-                    // borderTopRightRadius: 0,
-                    // borderBottomRightRadius: 0,
-                    width: '146px',
-                    fontSize: '12px',
-                    color: '#424240',
-                  }}
-                >
-                  <option selected disabled value="">
-                    {'Roles'}
-                  </option>
-                  {roles.map((option, index) => (
-                    <option key={index} value={option.name}>
-                      {option.name.toUpperCase()}
+            {!showTokField && (
+              <Box marginLeft="md">
+                <FlexBox.Column fullWidth>
+                  <Box paddingBottom="xs">
+                    <Paragraph size="body" style={{ color: 'black' }}>
+                      <label htmlFor={name}>{'Roles'}</label>
+                    </Paragraph>
+                  </Box>
+
+                  <select
+                    onChange={(e: any) => handleChange(e.target.value)}
+                    value={role}
+                    placeholder={'Roles'}
+                    className={cn(styles.input)}
+                    style={{
+                      // borderTopRightRadius: 0,
+                      // borderBottomRightRadius: 0,
+                      width: '146px',
+                      fontSize: '12px',
+                      color: '#424240',
+                    }}
+                  >
+                    <option selected disabled value="">
+                      {'Roles'}
                     </option>
-                  ))}
-                </select>
-              </FlexBox.Column>
-            </Box>
+                    {roles.map((option) => (
+                      <option key={option.id} value={option.id}>
+                        {option.name.toUpperCase()}
+                      </option>
+                    ))}
+                  </select>
+                </FlexBox.Column>
+              </Box>
+            )}
 
             {!showTokField && (
               <Box style={{ width: '10%', marginTop: '27px' }} marginLeft="md">

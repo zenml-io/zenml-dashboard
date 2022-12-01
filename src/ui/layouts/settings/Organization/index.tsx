@@ -23,7 +23,9 @@ type Table = 'members' | 'invites';
 export const Organization: React.FC = () => {
   const dispatch = useDispatch();
   const authToken = useSelector(sessionSelectors.authenticationToken);
-  var decoded: any = jwt_decode(authToken as any);
+  if (authToken) {
+    var decoded: any = jwt_decode(authToken as any);
+  }
   const [fetchingMembers, setFetchingMembers] = useState(true);
 
   const [popupOpen, setPopupOpen] = useState(false);
@@ -39,6 +41,7 @@ export const Organization: React.FC = () => {
   } = useService();
 
   const memberHeaderCols = useMemberHeaderCols({
+    decoded,
     filteredMembers,
     setFilteredMembers: setFilteredMembers,
     activeSorting,

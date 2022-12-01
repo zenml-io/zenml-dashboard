@@ -75,6 +75,7 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
 const headColStyle = { color: '#000', fontWeight: 700 };
 
 export const useMemberHeaderCols = ({
+  decoded,
   filteredMembers,
   setFilteredMembers,
   activeSorting,
@@ -82,6 +83,7 @@ export const useMemberHeaderCols = ({
   setActiveSortingDirection,
   setActiveSorting,
 }: {
+  decoded: any;
   filteredMembers: TMember[];
   setFilteredMembers: (members: TMember[]) => void;
   activeSorting: Sorting | null;
@@ -221,7 +223,7 @@ export const useMemberHeaderCols = ({
         </FlexBox>
       ),
     },
-    {
+    decoded.permissions.includes('write') && {
       render: () => <Paragraph size="small"></Paragraph>,
       width: '5%',
       renderRow: (member: TInvite) => (
