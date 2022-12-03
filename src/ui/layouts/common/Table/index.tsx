@@ -65,13 +65,14 @@ export const Table: React.FC<TableProps> = ({
     return <FullWidthSpinner color="black" size="md" />;
   }
 
+
   return (
     <FlexBox.Column className={styles.tableWrapper} fullWidth>
       <IfElse
         condition={tableRows.length > 0 && !loading}
         renderWhenTrue={() => (
           <>
-            <table className={styles.table}>
+            <table className={styles.table} id="resizeMe">
               <thead style={{ backgroundColor: '#F4F4F4' }}>
                 <tr className={showHeader ? styles.tableHeaderRow : ''}>
                   {headerCols.map((headerCol: HeaderCol, index: number) => (

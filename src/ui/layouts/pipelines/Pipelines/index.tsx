@@ -68,16 +68,15 @@ export const Pipelines: React.FC = () => {
   return (
     <BasePage
       tabPages={[
-        {
-          text: translate('tabs.pipelines.text'),
-          Component: FilterWrapper,
-          path: routePaths.pipelines.list(selectedProject),
-        },
-        {
-          text: translate('tabs.allRuns.text'),
-          Component: FilterWrapperForRun,
-          path: routePaths.pipelines.allRuns(selectedProject),
-        },
+        window.location.href?.includes('runs') ?    {
+            text: translate('tabs.allRuns.text'),
+            Component: FilterWrapperForRun,
+            path: routePaths.pipelines.allRuns(selectedProject),
+          } : {
+            text: translate('tabs.pipelines.text'),
+            Component: FilterWrapper,
+            path: routePaths.pipelines.list(selectedProject),
+          }
       ]}
       tabBasePath={routePaths.pipelines.base}
       breadcrumbs={[
