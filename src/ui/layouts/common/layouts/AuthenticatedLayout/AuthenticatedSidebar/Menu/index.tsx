@@ -23,6 +23,7 @@ export const Menu: React.FC = () => {
   return (
     <>
       <MenuItem
+        id='pipelines'
         isActive={() => {
           return (
             !!matchPath(locationPath, {
@@ -42,6 +43,7 @@ export const Menu: React.FC = () => {
         text={translate('menu.pipelines.text')}
       />
       <MenuItem
+        id='runs'
         isActive={() => {
           return (
             !!matchPath(locationPath, {
@@ -61,6 +63,7 @@ export const Menu: React.FC = () => {
         text={'Runs'}
       />
       <MenuItem
+        id='stack'
         isActive={() => {
           return (
             !!matchPath(locationPath, {
@@ -81,6 +84,7 @@ export const Menu: React.FC = () => {
       />
 
       <MenuItem
+        id='stack-component'
         isActive={() => {
           return !!matchPath(locationPath, {
             path: routePaths.stackComponents.base('', selectedProject),

@@ -16,6 +16,7 @@ import {
 import { HeaderCol } from '../../common/Table';
 import { iconColors, iconSizes } from '../../../../constants';
 import { DeleteMember } from './DeleteMember';
+import { UpdateMember } from './UpdateMember';
 import { TokenPopup } from './tokenPopup';
 import ReactTooltip from 'react-tooltip';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -228,12 +229,19 @@ export const useMemberHeaderCols = ({
       width: '5%',
       renderRow: (member: TInvite) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={member.id}>
-            <DeleteMember member={member} />
-          </div>
-          <ReactTooltip id={member.id} place="top" effect="solid">
-            <Paragraph color="white">Delete Member</Paragraph>
-          </ReactTooltip>
+          <FlexBox >
+            <div data-tip data-for={member.id}>
+              <DeleteMember member={member} />
+            </div>
+            {/* <ReactTooltip id={member.id} place="top" effect="solid">
+              <Paragraph color="white">Delete Member</Paragraph>
+            </ReactTooltip> */}
+          </FlexBox>
+          <FlexBox >
+            <div data-tip data-for={member.id}>
+              <UpdateMember member={member} />
+            </div>
+          </FlexBox> 
         </FlexBox>
       ),
     },

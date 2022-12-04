@@ -30,6 +30,8 @@ import {
   stackComponentSelectors,
 } from '../../redux/selectors';
 
+import Tour from './Tour'
+
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
 const GreyBoxWithIcon: React.FC<{
@@ -114,6 +116,7 @@ export const Home: React.FC = () => {
   return (
     <AuthenticatedLayout>
       <SidebarContainer>
+        <Tour />
         <EaseInBox>
           <Box marginTop="5xl" marginLeft="xl">
             <Row style={{ alignItems: 'center' }}>

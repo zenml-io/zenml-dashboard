@@ -72,7 +72,7 @@ export const Table: React.FC<TableProps> = ({
         condition={tableRows.length > 0 && !loading}
         renderWhenTrue={() => (
           <>
-            <table className={styles.table} id="resizeMe">
+            <table className={styles.table}>
               <thead style={{ backgroundColor: '#F4F4F4' }}>
                 <tr className={showHeader ? styles.tableHeaderRow : ''}>
                   {headerCols.map((headerCol: HeaderCol, index: number) => (

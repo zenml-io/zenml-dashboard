@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   FlexBox,
   Box,
@@ -24,12 +25,15 @@ import { routePaths } from '../../../../../routes/routePaths';
 import cn from 'classnames';
 import css from './../../../../../ui/components/inputs/index.module.scss';
 
+
 export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ setMobileMenuOpen }) => {
   const user = useSelector(userSelectors.myUser);
   const projects = useSelector(projectSelectors.myProjects);
   const selectedProject = useSelector(projectSelectors.selectedProject);
+
+  const history = useHistory();
 
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const dispatch = useDispatch();
@@ -54,13 +58,16 @@ export const AuthenticatedHeader: React.FC<{
 
   const logout = () => {
     dispatch(sessionActions.logout());
+    history.push('/login')
   };
+
   return (
     <FlexBox
       paddingHorizontal="lg"
       alignItems="center"
       justifyContent="space-between"
       className={styles.header}
+      id='header'
     >
       <FlexBox alignItems="center">
         <Box className="d-md-none">
@@ -71,12 +78,12 @@ export const AuthenticatedHeader: React.FC<{
 
         <Box marginLeft="xxl" className="d-none d-md-block">
           <select
-            onChange={(e: any) =>
+            onChange={(e: any) => 
               dispatch(
                 projectsActions.getSelectedProject({
                   allProjects: projects,
                   seletecdProject: e.target.value,
-                }),
+                })
               )
             }
             defaultValue={selectedProject}

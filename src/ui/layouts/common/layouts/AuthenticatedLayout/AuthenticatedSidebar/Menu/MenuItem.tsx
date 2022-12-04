@@ -11,11 +11,13 @@ export const MenuItem: React.FC<{
   to: string;
   exact?: boolean;
   Icon: React.ComponentType;
+  id?: any;
   isActive?: ({ match, location }: { match: any; location: any }) => boolean;
-}> = ({ text, to, exact = false, Icon, isActive, subItem }) => {
+}> = ({ id, text, to, exact = false, Icon, isActive, subItem }) => {
   let location = useLocation();
   return (
     <NavLink
+      id={id}
       isActive={(match, location) => {
         if (!isActive) return !!match;
         return isActive({ match, location });

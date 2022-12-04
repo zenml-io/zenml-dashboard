@@ -23,6 +23,8 @@ import { EmailPopup } from './EmailPopup';
 import { loginAction } from '../../../redux/actions/session/loginAction';
 import jwt_decode from 'jwt-decode';
 
+import Tour from './Tour'
+
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
 export const PersonalDetails: React.FC = () => {
@@ -113,6 +115,7 @@ export const PersonalDetails: React.FC = () => {
           setPopupOpen={setPopupOpen}
         />
       )}
+      <Tour />
       <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
         <Box marginTop="lg">
           <Row>
@@ -141,6 +144,7 @@ export const PersonalDetails: React.FC = () => {
 
               <Box style={{ display: 'flex', justifyContent: 'end' }}>
                 <PrimaryButton
+                  id='change'
                   style={{ width: '198px' }}
                   onClick={() => setPopupOpen(true)}
                   disabled={
@@ -218,6 +222,7 @@ export const PersonalDetails: React.FC = () => {
                 style={{ display: 'flex', justifyContent: 'end' }}
               >
                 <PrimaryButton
+                  id='pwReset'
                   onClick={forgotPassword}
                   style={{ width: '198px' }}
                   loading={submitting}
