@@ -49,7 +49,7 @@ const Tour = () => {
             showProgress
             styles={{
                 options: {
-                    primaryColor: '#fff',
+                    primaryColor: '#000',
                     zIndex: 1000,
                 }
             }}

@@ -8,6 +8,7 @@ import {
   LinkBox,
   icons,
   If,
+  PrimaryButton
 } from '../../../../components';
 
 import styles from './AuthenticatedHeader.module.scss';
@@ -24,7 +25,7 @@ import { projectsActions, sessionActions } from '../../../../../redux/actions';
 import { routePaths } from '../../../../../routes/routePaths';
 import cn from 'classnames';
 import css from './../../../../../ui/components/inputs/index.module.scss';
-
+import { ProjectPopup } from './ProjectPopup';
 
 export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
@@ -34,21 +35,20 @@ export const AuthenticatedHeader: React.FC<{
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
   const history = useHistory();
-
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
+  const [createPopupOpen, setCreatePopupOpen] = useState<boolean>(false);
+ 
   const dispatch = useDispatch();
   const { push } = usePushRoute();
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
-
       dispatch(
         projectsActions.getMy({ selectDefault: false, selectedProject }),
       );
     }, 5000);
-
     return () => clearInterval(intervalId);
-
     //This is important
   });
   if (!user) return null;
@@ -62,6 +62,8 @@ export const AuthenticatedHeader: React.FC<{
   };
 
   return (
+    <>
+    {createPopupOpen && <ProjectPopup setPopupOpen={setCreatePopupOpen} />}
     <FlexBox
       paddingHorizontal="lg"
       alignItems="center"
@@ -108,6 +110,13 @@ export const AuthenticatedHeader: React.FC<{
             ))}
           </select>
         </Box>
+
+        <Box marginLeft="md" className="d-none d-md-block">
+            <PrimaryButton onClick={() => setCreatePopupOpen(true)}>
+              Create
+            </PrimaryButton>
+        </Box>
+
       </FlexBox>
       <If condition={!!userFullName}>
         {() => (
@@ -174,5 +183,6 @@ export const AuthenticatedHeader: React.FC<{
         )}
       </If>
     </FlexBox>
+    </>
   );
 };
