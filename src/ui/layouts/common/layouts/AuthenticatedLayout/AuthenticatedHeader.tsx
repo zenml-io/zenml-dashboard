@@ -21,7 +21,7 @@ import { getInitials } from '../../../../../utils/name';
 import { DEFAULT_FULL_NAME } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, usePushRoute, useSelector } from '../../../../hooks';
-import { projectsActions, sessionActions } from '../../../../../redux/actions';
+import { projectsActions, sessionActions, pipelinesActions, pipelinePagesActions, runPagesActions } from '../../../../../redux/actions';
 import { routePaths } from '../../../../../routes/routePaths';
 import cn from 'classnames';
 import css from './../../../../../ui/components/inputs/index.module.scss';
@@ -61,6 +61,30 @@ export const AuthenticatedHeader: React.FC<{
     history.push('/login')
   };
 
+  const startLoad = () => {
+    dispatch(pipelinePagesActions.setFetching({ fetching: true }))
+    dispatch(runPagesActions.setFetching({ fetching: true }));
+  }
+
+  const stopLoad = () => {
+    dispatch(pipelinePagesActions.setFetching({ fetching: false }))
+    dispatch(runPagesActions.setFetching({ fetching: false }))
+  }
+
+  const onChange = (e: any) => {
+    e.preventDefault()
+    history.push('/')
+    startLoad()
+    dispatch(projectsActions.getSelectedProject({
+                                allProjects: projects,
+                                seletecdProject: e.target.value,                          
+            }))
+    dispatch(pipelinesActions.getMy({ project: e.target.value,
+      onSuccess: () => stopLoad(),
+      onFailure: () => stopLoad(),
+    })) 
+  }
+
   return (
     <>
     {createPopupOpen && <ProjectPopup setPopupOpen={setCreatePopupOpen} />}
@@ -78,25 +102,19 @@ export const AuthenticatedHeader: React.FC<{
           </LinkBox>
         </Box>
 
-        <Box marginLeft="xxl" className="d-none d-md-block">
+        <Box marginLeft="md" className="d-none d-md-block">
           <select
-            onChange={(e: any) => 
-              dispatch(
-                projectsActions.getSelectedProject({
-                  allProjects: projects,
-                  seletecdProject: e.target.value,
-                })
-              )
-            }
+            onChange={(e: any) => onChange(e)}
             defaultValue={selectedProject}
             // value={projects}
             placeholder={'Projects'}
             className={cn(css.input)}
             style={{
-              // borderTopRightRadius: 0,
-              // borderBottomRightRadius: 0,
+              border: 'none',
+              outline: 'none',
               width: '146px',
-              fontSize: '12px',
+              fontSize: '16px',
+              fontWeight: 'bold',
               color: '#424240',
             }}
           >
@@ -112,9 +130,7 @@ export const AuthenticatedHeader: React.FC<{
         </Box>
 
         <Box marginLeft="md" className="d-none d-md-block">
-            <PrimaryButton onClick={() => setCreatePopupOpen(true)}>
-              Create
-            </PrimaryButton>
+            <PrimaryButton onClick={() => setCreatePopupOpen(true)}>+</PrimaryButton>
         </Box>
 
       </FlexBox>

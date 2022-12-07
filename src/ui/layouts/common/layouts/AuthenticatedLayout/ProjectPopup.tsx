@@ -1,5 +1,7 @@
 /* eslint-disable */
 import React, { useState } from 'react';
+import cn from 'classnames';
+import styles from './index.module.scss'
 import { toasterTypes } from '../../../../../constants';
 import { showToasterAction } from '../../../../../redux/actions';
 import {
@@ -7,6 +9,7 @@ import {
   FlexBox,
   FormTextField,
   H3,
+  Paragraph,
   GhostButton,
   PrimaryButton,
 } from '../../../../components';
@@ -72,17 +75,19 @@ export const ProjectPopup: React.FC<{
           />
         </Box>
         <Box marginTop="md" style={{ width: '100%' }}>
-          <FormTextField
-              label='Project Description'
-              labelColor="#000"
-              placeholder='Project Description'
-              value={description}
-              onChange={(val: string) => setDescription(val)}
-              error={{
-                hasError: false,
-                text: '',
-              }}
-            />
+            <FlexBox.Column fullWidth>
+              <Box paddingBottom="xs">
+                <Paragraph
+                  size="body"
+                  style={{ color: 'black' }}
+                >
+                <label htmlFor='desc'>Project Description</label>
+                </Paragraph>
+              </Box>
+
+              <textarea name="desc" placeholder='Project Description'  value={description} onChange={(val: any) => setDescription(val.target.value)}
+              className={cn(styles.inputText)}></textarea>
+            </FlexBox.Column>
         </Box>
 
         <FlexBox justifyContent="end" marginTop="md" flexWrap>

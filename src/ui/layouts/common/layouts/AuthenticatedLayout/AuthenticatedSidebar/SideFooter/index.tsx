@@ -58,7 +58,7 @@ export const SideFooter: React.FC = () => {
         text="Report Issue"
       />
       <MenuItem
-        id='settings'
+        id='settings' 
         Icon={() => (
           <icons.settings color={iconColors.white} size={iconSizes.md} />
         )}

@@ -24,18 +24,18 @@ export const Menu: React.FC = () => {
     <>
       <MenuItem
         id='pipelines'
-        isActive={() => {
-          return (
-            !!matchPath(locationPath, {
-              path: routePaths.pipelines.base,
-              exact: false,
-            }) ||
-            !!matchPath(locationPath, {
-              path: routePaths.pipeline.base(':id'),
-              exact: false,
-            })
-          );
-        }}
+        // isActive={() => {
+        //   return (
+        //     !!matchPath(locationPath, {
+        //       path: routePaths.pipelines.base,
+        //       exact: false,
+        //     }) ||
+        //     !!matchPath(locationPath, {
+        //       path: routePaths.pipeline.base(':id'),
+        //       exact: false,
+        //     })
+        //   );
+        // }}
         Icon={() => (
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
@@ -44,18 +44,18 @@ export const Menu: React.FC = () => {
       />
       <MenuItem
         id='runs'
-        isActive={() => {
-          return (
-            !!matchPath(locationPath, {
-              path: routePaths.pipelines.allRuns(selectedProject),
-              exact: false,
-            }) ||
-            !!matchPath(locationPath, {
-              path: routePaths.run.run.base(':id'),
-              exact: false,
-            })
-          );
-        }}
+        // isActive={() => {
+        //   return (
+        //     !!matchPath(locationPath, {
+        //       path: routePaths.pipelines.allRuns(selectedProject),
+        //       exact: false,
+        //     }) ||
+        //     !!matchPath(locationPath, {
+        //       path: routePaths.run.run.base(':id'),
+        //       exact: false,
+        //     })
+        //   );
+        // }}
         Icon={() => (
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
@@ -64,18 +64,18 @@ export const Menu: React.FC = () => {
       />
       <MenuItem
         id='stack'
-        isActive={() => {
-          return (
-            !!matchPath(locationPath, {
-              path: routePaths.stacks.base,
-              exact: false,
-            }) ||
-            !!matchPath(locationPath, {
-              path: routePaths.stack.base(':id'),
-              exact: false,
-            })
-          );
-        }}
+        // isActive={() => {
+        //   return (
+        //     !!matchPath(locationPath, {
+        //       path: routePaths.stacks.base,
+        //       exact: false,
+        //     }) ||
+        //     !!matchPath(locationPath, {
+        //       path: routePaths.stack.base(':id'),
+        //       exact: false,
+        //     })
+        //   );
+        // }}
         Icon={() => (
           <icons.stack color={iconColors.white} size={iconSizes.md} />
         )}
@@ -104,12 +104,12 @@ export const Menu: React.FC = () => {
       {locationPath.includes('components') &&
         stackComponentsTypes?.map((item) => (
           <MenuItem
-            isActive={() => {
-              return !!matchPath(locationPath, {
-                path: routePaths.stackComponents.base(item, selectedProject),
-                exact: false,
-              });
-            }}
+            // isActive={() => {
+            //   return !!matchPath(locationPath, {
+            //     path: routePaths.stackComponents.base(item, selectedProject),
+            //     exact: false,
+            //   });
+            // }}
             subItem={true}
             Icon={() => (
               <icons.stackComponent
