@@ -33,7 +33,7 @@ export const AuthenticatedHeader: React.FC<{
   const user = useSelector(userSelectors.myUser);
   const projects = useSelector(projectSelectors.myProjects);
   const selectedProject = useSelector(projectSelectors.selectedProject);
-
+ 
   const history = useHistory();
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const [createPopupOpen, setCreatePopupOpen] = useState<boolean>(false);

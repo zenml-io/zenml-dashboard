@@ -95,7 +95,7 @@ export const Home: React.FC = () => {
       };
       getDashboardData();
     }
-  }, [authToken]);
+  }, [selectedProject, authToken]);
 
   const preData = Object.entries(dashboardData);
   const data = preData?.map(([key, value]) => {

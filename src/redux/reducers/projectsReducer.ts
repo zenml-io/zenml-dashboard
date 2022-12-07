@@ -7,6 +7,7 @@ export interface State {
   byId: Record<TId, Projects>;
   myProjectIds: TId[];
   selectedProject: string;
+  projectStats: any
 }
 
 type ProjectsPayload = Projects[];
@@ -24,17 +25,20 @@ export const initialState: State = {
   byId: {},
   myProjectIds: [],
   selectedProject: '',
+  projectStats: {}
 };
 
 const newState = (
   state: State,
   projects: Projects[],
   defaultSelectedProject?: string,
+  projectStats?: object
 ): State => ({
   ...state,
   ids: idsInsert(state.ids, projects),
   byId: byKeyInsert(state.byId, projects),
   selectedProject: defaultSelectedProject as string,
+  projectStats: projectStats
 });
 
 const projectsReducer = (
@@ -52,7 +56,6 @@ const projectsReducer = (
       );
       if (action.requestParams.selectDefault === undefined) {
         const defaultSelectedProject = projects[0].name;
-
         return {
           ...newState(state, projects, defaultSelectedProject),
           myProjectIds,
@@ -70,14 +73,22 @@ const projectsReducer = (
       const myProjectIds: TId[] = allProjects.map(
         (project: Projects) => project.id,
       );
-
+    
       return {
         ...newState(state, allProjects, seletecdProject),
         myProjectIds,
       };
     }
 
-    default:
+
+    case projectActionTypes.getMyProjectStats.success: {
+      // const { projectStats } = action.payload as any;
+      const projectStats = action.payload;
+     
+      return { ...newState(state,  projectStats) };
+    }
+
+  default:
       return state;
   }
 };
