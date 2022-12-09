@@ -34,12 +34,13 @@ export const ProjectPopup: React.FC<{
       await axios.post(`${process.env.REACT_APP_BASE_API_URL}/projects`, { name, description }, { headers: { Authorization: `Bearer ${authToken}` }})
             .then(async () => {
               await dispatch(projectsActions.getMy({ selectDefault: false }));
+              localStorage.setItem('projectName', name)
               setSubmitting(false);
               setPopupOpen(false)
             }).catch(async (errorText) => {
               await dispatch(
                   showToasterAction({
-                    description: errorText.message, 
+                    description: errorText.message === 'Request failed with status code 403' ? 'Not enough permissions' : errorText.message, 
                     type: toasterTypes.failure,
                   }),
                 );
@@ -98,7 +99,7 @@ export const ProjectPopup: React.FC<{
           </Box>
           <Box marginLeft="sm" marginRight="sm" marginBottom="md">
             <PrimaryButton
-              disabled={submitting}
+              disabled={name === '' || submitting}
               loading={submitting}
               onClick={handleCreateProject}
             >Create

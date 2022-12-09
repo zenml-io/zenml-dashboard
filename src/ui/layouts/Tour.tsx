@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import JoyRide from "react-joyride";
 
 // Tour steps
@@ -40,9 +40,27 @@ const TOUR_STEPS = [
 
 // Tour component
 const Tour = () => {
+
+    const [run, setRun] = useState(true)
+
+    const node = document.querySelector('[title="Skip"]');
+    // eslint-disable-next-line
+    const skipTour = () => localStorage.setItem('runTour', 'false')
+    node?.addEventListener("click", skipTour);
+
+    useEffect(() => {
+        // eslint-disable-next-line
+        if (localStorage.getItem('runTour') == 'false') {
+            setRun(false)
+        } else {
+            setRun(true)
+        }  
+    }, [skipTour])
+
     return (
         <JoyRide
             steps={TOUR_STEPS}
+            run={run}
             hideCloseButton
             continuous
             showSkipButton

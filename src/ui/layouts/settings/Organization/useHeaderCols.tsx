@@ -100,6 +100,7 @@ export const useMemberHeaderCols = ({
     activeSortingDirection,
     filteredMembers,
   });
+
   return [
     {
       render: () => (
@@ -224,12 +225,14 @@ export const useMemberHeaderCols = ({
         </FlexBox>
       ),
     },
-    decoded.permissions.includes('write') && {
+    {
       render: () => <Paragraph size="small"></Paragraph>,
-      width: '5%',
+      width: decoded.permissions.includes('write') ? '5%' :'0%',
       renderRow: (member: TInvite) => (
         <FlexBox alignItems="center">
-          <FlexBox >
+          {decoded.permissions.includes('write') && (
+          <>
+          <FlexBox>
             <div data-tip data-for={member.id}>
               <DeleteMember member={member} />
             </div>
@@ -241,9 +244,11 @@ export const useMemberHeaderCols = ({
             <div data-tip data-for={member.id}>
               <UpdateMember member={member} />
             </div>
-          </FlexBox> 
+          </FlexBox>
+          </> 
+          )}
         </FlexBox>
-      ),
-    },
+        )      
+    }
   ];
 };

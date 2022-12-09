@@ -18,7 +18,7 @@ import {
   userSelectors,
 } from '../../../../../redux/selectors';
 import { getInitials } from '../../../../../utils/name';
-import { DEFAULT_FULL_NAME } from '../../../../../constants';
+import { DEFAULT_FULL_NAME, DEFAULT_PROJECT_NAME } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, usePushRoute, useSelector } from '../../../../hooks';
 import { projectsActions, sessionActions, pipelinesActions, pipelinePagesActions, runPagesActions } from '../../../../../redux/actions';
@@ -74,7 +74,7 @@ export const AuthenticatedHeader: React.FC<{
   const onChange = (e: any) => {
     e.preventDefault()
     history.push('/')
-    startLoad()
+    startLoad() 
     dispatch(projectsActions.getSelectedProject({
                                 allProjects: projects,
                                 seletecdProject: e.target.value,                          
@@ -105,8 +105,8 @@ export const AuthenticatedHeader: React.FC<{
         <Box marginLeft="md" className="d-none d-md-block">
           <select
             onChange={(e: any) => onChange(e)}
-            defaultValue={selectedProject}
-            // value={projects}
+            defaultValue={selectedProject ? selectedProject : localStorage.getItem('projectName') ? DEFAULT_PROJECT_NAME : ''}
+            value={selectedProject ? selectedProject : localStorage.getItem('projectName') ? DEFAULT_PROJECT_NAME : ''}
             placeholder={'Projects'}
             className={cn(css.input)}
             style={{
