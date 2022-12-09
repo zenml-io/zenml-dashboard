@@ -147,9 +147,7 @@ export const PersonalDetails: React.FC = () => {
                   id='change'
                   style={{ width: '198px' }}
                   onClick={() => setPopupOpen(true)}
-                  disabled={
-                    fullName === user.fullName && username === user.name
-                  }
+                  disabled={fullName === user.fullName && username === user.name && !decoded.permissions.includes('me')}
                 >
                   {translate('nameReset.label')}
                 </PrimaryButton>
@@ -226,9 +224,8 @@ export const PersonalDetails: React.FC = () => {
                   onClick={forgotPassword}
                   style={{ width: '198px' }}
                   loading={submitting}
-                  disabled={
-                    newPassword.trim() === '' || confirmPassword.trim() === ''
-                  }
+                  // eslint-disable-next-line
+                  disabled={newPassword.trim() === '' || confirmPassword.trim() === '' && !decoded.permissions.includes('me')}
                 >
                   {translate('passwordReset.button')}
                 </PrimaryButton>
