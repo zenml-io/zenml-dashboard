@@ -148,7 +148,7 @@ export const PersonalDetails: React.FC = () => {
                   style={{ width: '198px' }}
                   onClick={() => setPopupOpen(true)}
                   disabled={
-                    fullName === user.fullName && username === user.name
+                    fullName === user.fullName && username === user.name && !decoded.permissions.includes('me')
                   }
                 >
                   {translate('nameReset.label')}
@@ -227,7 +227,7 @@ export const PersonalDetails: React.FC = () => {
                   style={{ width: '198px' }}
                   loading={submitting}
                   disabled={
-                    newPassword.trim() === '' || confirmPassword.trim() === ''
+                    newPassword.trim() === '' || confirmPassword.trim() === '' && !decoded.permissions.includes('me')
                   }
                 >
                   {translate('passwordReset.button')}

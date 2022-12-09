@@ -43,7 +43,7 @@ export const EmailPopup: React.FC<{
     setSubmitting(true);
     try {
       await fetchApiWithAuthRequest({
-        url: apiUrl(endpoints.users.updateUser(userId)),
+        url: apiUrl(endpoints.users.me),
         method: httpMethods.put,
         authenticationToken,
         headers: {
