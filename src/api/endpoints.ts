@@ -21,6 +21,7 @@ export const endpoints = {
 
   projects: {
     my: '/projects',
+    stats: (project: string) => `/projects/${project}/statistics`
   },
 
   pipelines: {

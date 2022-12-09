@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import {
   FlexBox,
   Box,
@@ -7,6 +8,7 @@ import {
   LinkBox,
   icons,
   If,
+  PrimaryButton
 } from '../../../../components';
 
 import styles from './AuthenticatedHeader.module.scss';
@@ -16,13 +18,14 @@ import {
   userSelectors,
 } from '../../../../../redux/selectors';
 import { getInitials } from '../../../../../utils/name';
-import { DEFAULT_FULL_NAME } from '../../../../../constants';
+import { DEFAULT_FULL_NAME, DEFAULT_PROJECT_NAME } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, usePushRoute, useSelector } from '../../../../hooks';
-import { projectsActions, sessionActions } from '../../../../../redux/actions';
+import { projectsActions, sessionActions, pipelinesActions, pipelinePagesActions, runPagesActions } from '../../../../../redux/actions';
 import { routePaths } from '../../../../../routes/routePaths';
 import cn from 'classnames';
 import css from './../../../../../ui/components/inputs/index.module.scss';
+import { ProjectPopup } from './ProjectPopup';
 
 export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
@@ -30,21 +33,22 @@ export const AuthenticatedHeader: React.FC<{
   const user = useSelector(userSelectors.myUser);
   const projects = useSelector(projectSelectors.myProjects);
   const selectedProject = useSelector(projectSelectors.selectedProject);
-
+ 
+  const history = useHistory();
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
+  const [createPopupOpen, setCreatePopupOpen] = useState<boolean>(false);
+ 
   const dispatch = useDispatch();
   const { push } = usePushRoute();
+
   useEffect(() => {
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
-
       dispatch(
         projectsActions.getMy({ selectDefault: false, selectedProject }),
       );
     }, 5000);
-
     return () => clearInterval(intervalId);
-
     //This is important
   });
   if (!user) return null;
@@ -54,13 +58,42 @@ export const AuthenticatedHeader: React.FC<{
 
   const logout = () => {
     dispatch(sessionActions.logout());
+    history.push('/login')
   };
+
+  const startLoad = () => {
+    dispatch(pipelinePagesActions.setFetching({ fetching: true }))
+    dispatch(runPagesActions.setFetching({ fetching: true }));
+  }
+
+  const stopLoad = () => {
+    dispatch(pipelinePagesActions.setFetching({ fetching: false }))
+    dispatch(runPagesActions.setFetching({ fetching: false }))
+  }
+
+  const onChange = (e: any) => {
+    e.preventDefault()
+    history.push('/')
+    startLoad() 
+    dispatch(projectsActions.getSelectedProject({
+                                allProjects: projects,
+                                seletecdProject: e.target.value,                          
+            }))
+    dispatch(pipelinesActions.getMy({ project: e.target.value,
+      onSuccess: () => stopLoad(),
+      onFailure: () => stopLoad(),
+    })) 
+  }
+
   return (
+    <>
+    {createPopupOpen && <ProjectPopup setPopupOpen={setCreatePopupOpen} />}
     <FlexBox
       paddingHorizontal="lg"
       alignItems="center"
       justifyContent="space-between"
       className={styles.header}
+      id='header'
     >
       <FlexBox alignItems="center">
         <Box className="d-md-none">
@@ -69,25 +102,19 @@ export const AuthenticatedHeader: React.FC<{
           </LinkBox>
         </Box>
 
-        <Box marginLeft="xxl" className="d-none d-md-block">
+        <Box marginLeft="md" className="d-none d-md-block">
           <select
-            onChange={(e: any) =>
-              dispatch(
-                projectsActions.getSelectedProject({
-                  allProjects: projects,
-                  seletecdProject: e.target.value,
-                }),
-              )
-            }
-            defaultValue={selectedProject}
-            // value={projects}
+            onChange={(e: any) => onChange(e)}
+            defaultValue={selectedProject ? selectedProject : localStorage.getItem('projectName') ? DEFAULT_PROJECT_NAME : ''}
+            value={selectedProject ? selectedProject : localStorage.getItem('projectName') ? DEFAULT_PROJECT_NAME : ''}
             placeholder={'Projects'}
             className={cn(css.input)}
             style={{
-              // borderTopRightRadius: 0,
-              // borderBottomRightRadius: 0,
+              border: 'none',
+              outline: 'none',
               width: '146px',
-              fontSize: '12px',
+              fontSize: '16px',
+              fontWeight: 'bold',
               color: '#424240',
             }}
           >
@@ -101,6 +128,11 @@ export const AuthenticatedHeader: React.FC<{
             ))}
           </select>
         </Box>
+
+        <Box marginLeft="md" className="d-none d-md-block">
+            <PrimaryButton onClick={() => setCreatePopupOpen(true)}>+</PrimaryButton>
+        </Box>
+
       </FlexBox>
       <If condition={!!userFullName}>
         {() => (
@@ -167,5 +199,6 @@ export const AuthenticatedHeader: React.FC<{
         )}
       </If>
     </FlexBox>
+    </>
   );
 };

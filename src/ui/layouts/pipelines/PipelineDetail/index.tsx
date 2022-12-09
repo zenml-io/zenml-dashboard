@@ -55,7 +55,6 @@ const getTabPages = (pipelineId: TId): TabPage[] => {
     {
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
-
       path: routePaths.pipeline.runs(pipelineId),
     },
   ];

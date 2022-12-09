@@ -67,7 +67,7 @@ export const GetHeaderCols = ({
             }
           }}
         >
-          <FlexBox justifyContent="center">
+          <FlexBox justifyContent="center" style={{ paddingTop: '5px', paddingBottom: '5px' }}>
             {openStackIds.indexOf(stack.id) === -1 ? (
               <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
             ) : (

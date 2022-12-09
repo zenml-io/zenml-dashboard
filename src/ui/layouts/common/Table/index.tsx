@@ -65,6 +65,7 @@ export const Table: React.FC<TableProps> = ({
     return <FullWidthSpinner color="black" size="md" />;
   }
 
+
   return (
     <FlexBox.Column className={styles.tableWrapper} fullWidth>
       <IfElse

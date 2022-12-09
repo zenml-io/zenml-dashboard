@@ -212,6 +212,28 @@
               "errorToaster": "Something went wrong!",
               "successToaster": "Invite deleted"
             },
+            "updateMemberPopup": {
+              "title": "Change member details",
+              "text": "Change the username and password of",
+              "form": {
+                "username": {
+                  "label": "username",
+                  "placeholder": "username"
+                },
+                "password": {
+                  "label": "password",
+                  "placeholder": "password"
+                }
+              },
+              "successButton": {
+                "text": "Update"
+              },
+              "cancelButton": {
+                "text": "Cancel"
+              },
+              "errorToaster": "Something went wrong!",
+              "successToaster": "Member Updated"
+            },
             "status": {
               "owner": "Author",
               "pending": "Pending",

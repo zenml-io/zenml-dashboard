@@ -22,13 +22,16 @@ import { getTranslateByScope } from '../../services';
 import styles from './Home.module.scss';
 import { iconColors, DEFAULT_PROJECT_NAME } from '../../constants';
 import { sessionSelectors } from '../../redux/selectors/session';
-import { usePushRoute, useSelector } from '../hooks';
+import { useDispatch, usePushRoute, useSelector } from '../hooks';
 import axios from 'axios';
 import { routePaths } from '../../routes/routePaths';
 import {
   projectSelectors,
   stackComponentSelectors,
 } from '../../redux/selectors';
+import { projectsActions, pipelinesActions, pipelinePagesActions, runPagesActions } from '../../redux/actions';
+
+import Tour from './Tour'
 
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
@@ -65,22 +68,35 @@ const GreyBoxWithIcon: React.FC<{
 
 export const Home: React.FC = () => {
   const { push } = usePushRoute();
+  const dispatch = useDispatch();
   const [isHover, setIsHover] = useState(false);
   const [box, setBox] = useState('');
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
   const selectedProject = useSelector(projectSelectors.selectedProject);
+  const projects = useSelector(projectSelectors.myProjects);
   const [fetching, setFetching] = useState(false);
   const [dashboardData, setDashboardData] = useState('');
   const authToken = useSelector(sessionSelectors.authenticationToken);
+
+  const startLoad = () => {
+    dispatch(pipelinePagesActions.setFetching({ fetching: true }))
+    dispatch(runPagesActions.setFetching({ fetching: true }));
+  }
+
+  const stopLoad = () => {
+    dispatch(pipelinePagesActions.setFetching({ fetching: false }))
+    dispatch(runPagesActions.setFetching({ fetching: false }))
+  }
 
   useEffect(() => {
     if (authToken) {
       const getDashboardData = async () => {
         setFetching(true);
+        startLoad()
         const { data } = await axios.get(
-          `${process.env.REACT_APP_BASE_API_URL}/projects/${selectedProject}/statistics`,
+          `${process.env.REACT_APP_BASE_API_URL}/projects/${selectedProject ? selectedProject : localStorage.getItem('projectName')}/statistics`,
           {
             headers: {
               Authorization: `bearer ${authToken}`,
@@ -88,12 +104,39 @@ export const Home: React.FC = () => {
           },
         );
 
+        await dispatch(projectsActions.getSelectedProject({ allProjects: projects, seletecdProject: selectedProject ? selectedProject : localStorage.getItem('projectName') }))
+        await dispatch(pipelinesActions.getMy({ project: selectedProject ? selectedProject : localStorage.getItem('projectName') ? DEFAULT_PROJECT_NAME : '',
+          onSuccess: () => stopLoad(),
+          onFailure: () => stopLoad(),
+        })) 
+
         setDashboardData(data);
         setFetching(false);
+        await localStorage.removeItem('projectName')
       };
       getDashboardData();
     }
-  }, [authToken]);
+  }, [authToken, selectedProject]);
+
+  // useEffect(() => {
+  //   if (authToken) {
+  //     const getDashboardData = async () => {
+  //       setFetching(true);
+  //       const { data } = await axios.get(
+  //         `${process.env.REACT_APP_BASE_API_URL}/projects/${localStorage.getItem('projectName')}/statistics`,
+  //         {
+  //           headers: {
+  //             Authorization: `bearer ${authToken}`,
+  //           },
+  //         },
+  //       );
+
+  //       setDashboardData(data);
+  //       setFetching(false);
+  //     };
+  //     getDashboardData();
+  //   }
+  // }, [selectedProject]);
 
   const preData = Object.entries(dashboardData);
   const data = preData?.map(([key, value]) => {
@@ -114,6 +157,7 @@ export const Home: React.FC = () => {
   return (
     <AuthenticatedLayout>
       <SidebarContainer>
+        <Tour />
         <EaseInBox>
           <Box marginTop="5xl" marginLeft="xl">
             <Row style={{ alignItems: 'center' }}>

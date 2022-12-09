@@ -55,7 +55,8 @@ export const GetHeaderCols = ({
     {
       width: '3%',
       renderRow: (pipeline: TPipeline) => (
-        <LinkBox
+        <LinkBox    
+          style={{ padding: 0 }}
           onClick={(e: Event) => {
             e.stopPropagation();
             if (openPipelineIds.indexOf(pipeline.id) === -1) {
@@ -67,7 +68,10 @@ export const GetHeaderCols = ({
             }
           }}
         >
-          <FlexBox justifyContent="center">
+          <FlexBox 
+            justifyContent="center" 
+            style={{ paddingTop: '5px', paddingBottom: '5px' }}
+          >
             {openPipelineIds.indexOf(pipeline.id) === -1 ? (
               <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
             ) : (
