@@ -21,7 +21,7 @@ import { getInitials } from '../../../../../utils/name';
 import { DEFAULT_FULL_NAME, DEFAULT_PROJECT_NAME } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
 import { useDispatch, usePushRoute, useSelector } from '../../../../hooks';
-import { projectsActions, sessionActions, pipelinesActions, pipelinePagesActions, runPagesActions } from '../../../../../redux/actions';
+import { projectsActions, sessionActions, pipelinesActions, pipelinePagesActions, runPagesActions, stackPagesActions } from '../../../../../redux/actions';
 import { routePaths } from '../../../../../routes/routePaths';
 import cn from 'classnames';
 import css from './../../../../../ui/components/inputs/index.module.scss';
@@ -40,6 +40,15 @@ export const AuthenticatedHeader: React.FC<{
  
   const dispatch = useDispatch();
   const { push } = usePushRoute();
+
+  const url_string = window.location.href; 
+  const url = new URL(url_string);
+  const projectName = url.searchParams.get("project");
+
+  useEffect(() => {
+    const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?project=${projectName ? projectName : selectedProject}`;
+    window.history.pushState({path:newurl},'',newurl);  
+  }, [])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -64,22 +73,27 @@ export const AuthenticatedHeader: React.FC<{
   const startLoad = () => {
     dispatch(pipelinePagesActions.setFetching({ fetching: true }))
     dispatch(runPagesActions.setFetching({ fetching: true }));
+    dispatch(stackPagesActions.setFetching({ fetching: true }));
   }
 
   const stopLoad = () => {
     dispatch(pipelinePagesActions.setFetching({ fetching: false }))
     dispatch(runPagesActions.setFetching({ fetching: false }))
+    dispatch(stackPagesActions.setFetching({ fetching: false }));  
   }
 
   const onChange = (e: any) => {
     e.preventDefault()
-    history.push('/')
     startLoad() 
+
+    const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?project=${e?.target?.value}`;
+    window.history.pushState({path:newurl},'',newurl);
+
     dispatch(projectsActions.getSelectedProject({
                                 allProjects: projects,
-                                seletecdProject: e.target.value,                          
+                                seletecdProject: e?.target?.value,                          
             }))
-    dispatch(pipelinesActions.getMy({ project: e.target.value,
+    dispatch(pipelinesActions.getMy({ project: e?.target?.value,
       onSuccess: () => stopLoad(),
       onFailure: () => stopLoad(),
     })) 
@@ -102,37 +116,40 @@ export const AuthenticatedHeader: React.FC<{
           </LinkBox>
         </Box>
 
-        <Box marginLeft="md" className="d-none d-md-block">
-          <select
-            onChange={(e: any) => onChange(e)}
-            defaultValue={selectedProject ? selectedProject : localStorage.getItem('projectName') ? DEFAULT_PROJECT_NAME : ''}
-            value={selectedProject ? selectedProject : localStorage.getItem('projectName') ? DEFAULT_PROJECT_NAME : ''}
-            placeholder={'Projects'}
-            className={cn(css.input)}
-            style={{
-              border: 'none',
-              outline: 'none',
-              width: '146px',
-              fontSize: '16px',
-              fontWeight: 'bold',
-              color: '#424240',
-            }}
-          >
-            <option selected disabled value="">
-              {'Select Project'}
-            </option>
-            {projects.map((option, index) => (
-              <option key={index} value={option.name}>
-                {option.name}
-              </option>
-            ))}
-          </select>
-        </Box>
+        {!window.location.href?.includes('settings') && (
+          <>
+            <Box marginLeft="md" className="d-none d-md-block">
+              <select
+                onChange={(e: any) => onChange(e)}
+                defaultValue={projectName ? projectName : DEFAULT_PROJECT_NAME}
+                value={projectName ? projectName : DEFAULT_PROJECT_NAME}
+                placeholder={'Projects'}
+                className={cn(css.input)}
+                style={{
+                  border: 'none',
+                  outline: 'none',
+                  width: '146px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  color: '#424240',
+                }}
+              >
+                <option selected disabled value="">
+                  {'Select Project'}
+                </option>
+                {projects.map((option, index) => (
+                  <option key={index} value={option.name}>
+                    {option.name}
+                  </option>
+                ))}
+              </select>
+            </Box>
 
-        <Box marginLeft="md" className="d-none d-md-block">
-            <PrimaryButton onClick={() => setCreatePopupOpen(true)}>+</PrimaryButton>
-        </Box>
-
+            <Box marginLeft="md" className="d-none d-md-block">
+                <PrimaryButton onClick={() => setCreatePopupOpen(true)}>+</PrimaryButton>
+            </Box>
+          </>
+        )}
       </FlexBox>
       <If condition={!!userFullName}>
         {() => (

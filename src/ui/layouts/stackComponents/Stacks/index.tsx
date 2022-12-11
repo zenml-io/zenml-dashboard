@@ -5,13 +5,14 @@ import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 
 import { useService } from './useService';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { useLocationPath } from '../../../hooks';
 
 import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';
 import { camelCaseToParagraph } from '../../../../utils';
-import { projectSelectors } from '../../../../redux/selectors';
+// import { projectSelectors } from '../../../../redux/selectors';
+import { DEFAULT_PROJECT_NAME } from '../../../../constants';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -41,7 +42,14 @@ export const Stacks: React.FC = () => {
   const locationPath = useLocationPath();
   const { setFetching } = useService();
   console.log(setFetching);
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const selectedProject = useSelector(projectSelectors.selectedProject);
+
+  const url_string = window.location.href; 
+  const url = new URL(url_string);
+  const projectName = url.searchParams.get("project");
+
+  const project = projectName ? projectName : DEFAULT_PROJECT_NAME
+
   return (
     <BasePage
       tabPages={[
@@ -49,20 +57,17 @@ export const Stacks: React.FC = () => {
           text: camelCaseToParagraph(locationPath.split('/')[4]),
           Component: FilterWrapper,
           path: routePaths.stackComponents.base(
-            locationPath.split('/')[4],
-            selectedProject,
-          ),
+                   locationPath.split('/')[4], project),
         },
       ]}
-      tabBasePath={routePaths.stackComponents.base('', selectedProject)}
+      // tabBasePath={routePaths.stackComponents.base('', project) + `?project=${project}`}
+      tabBasePath={routePaths.stackComponents.base(locationPath.split('/')[4], project) + `?project=${project}`}
       breadcrumbs={[
         {
           name: camelCaseToParagraph(locationPath.split('/')[4]),
           clickable: true,
           to: routePaths.stackComponents.base(
-            locationPath.split('/')[4],
-            selectedProject,
-          ),
+                locationPath.split('/')[4], project) + `?project=${project}`
         },
       ]}
       headerWithButtons

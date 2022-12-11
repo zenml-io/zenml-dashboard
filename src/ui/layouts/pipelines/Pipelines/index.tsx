@@ -11,6 +11,7 @@ import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 import { projectSelectors } from '../../../../redux/selectors/projects';
+import { DEFAULT_PROJECT_NAME } from '../../../../constants';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -61,33 +62,42 @@ const FilterWrapperForRun = () => {
 
 export const Pipelines: React.FC = () => {
   const { setFetchingForAllRuns } = useService();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const selectedProject = useSelector(projectSelectors.selectedProject);
   console.log(setFetchingForAllRuns);
   const locationPath = useLocationPath();
+
+  const url_string = window.location.href; 
+  const url = new URL(url_string);
+  const projectName = url.searchParams.get("project");
+  const project = projectName ? projectName : DEFAULT_PROJECT_NAME
 
   return (
     <BasePage
       tabPages={[
-        window.location.href?.includes('runs') ?    {
+        window.location.href?.includes('all-runs') ?    {
             text: translate('tabs.allRuns.text'),
             Component: FilterWrapperForRun,
-            path: routePaths.pipelines.allRuns(selectedProject),
+            path: routePaths.pipelines.allRuns(project) + `?project=${project}`,
           } : {
             text: translate('tabs.pipelines.text'),
             Component: FilterWrapper,
-            path: routePaths.pipelines.list(selectedProject),
-          }
+            path: routePaths.pipelines.base,
+            // path: routePaths.pipelines.list(selectedProject),
+        }
       ]}
-      tabBasePath={routePaths.pipelines.base}
+      tabBasePath={routePaths.pipelines.base + `?project=${project}`}
       breadcrumbs={[
         {
-          name: locationPath.includes('pipelines/list')
+          name: locationPath.includes('pipelines')
             ? translate('header.breadcrumbs.pipelines.text')
             : 'Runs',
           clickable: true,
-          to: locationPath.includes('pipelines/list')
-            ? routePaths.pipelines.list(selectedProject)
-            : routePaths.pipelines.allRuns(selectedProject),
+          to: locationPath.includes('pipelines')
+          ? routePaths.pipelines.base + `?project=${project}`
+          : routePaths.pipelines.allRuns(project) + `?project=${project}`,
+          // to: locationPath.includes('pipelines/list')
+          //   ? routePaths.pipelines.list(project)
+          //   : routePaths.pipelines.allRuns(project),
         },
       ]}
       headerWithButtons

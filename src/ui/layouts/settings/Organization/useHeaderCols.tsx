@@ -205,7 +205,7 @@ export const useMemberHeaderCols = ({
       width: '10%',
       renderRow: (member: TMember) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(member.created)}>
+          <div data-tip data-for={formatDateToSort(member.created)}>         
             <FlexBox alignItems="center">
               <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />

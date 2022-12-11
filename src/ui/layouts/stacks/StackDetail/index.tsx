@@ -14,6 +14,7 @@ import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 import { projectSelectors } from '../../../../redux/selectors';
+import { DEFAULT_PROJECT_NAME } from '../../../../constants';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -55,6 +56,11 @@ const getTabPages = (stackId: TId): TabPage[] => {
   ];
 };
 
+const url_string = window.location.href; 
+const url = new URL(url_string);
+const projectName = url.searchParams.get("project");
+const project = projectName ? projectName : DEFAULT_PROJECT_NAME
+
 const getBreadcrumbs = (
   stackId: TId,
   selectedProject: string,
@@ -63,7 +69,8 @@ const getBreadcrumbs = (
     {
       name: translate('header.breadcrumbs.stacks.text'),
       clickable: true,
-      to: routePaths.stacks.list(selectedProject),
+      to: routePaths.stacks.base + `?project=${project}`
+      // to: routePaths.stacks.list(selectedProject),
     },
     {
       name: stackId,

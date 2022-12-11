@@ -1,3 +1,9 @@
+
+const url_string = window.location.href; 
+const url = new URL(url_string);
+const projectName = url.searchParams.get("project");
+
+
 export const routePaths = {
   login: '/login',
   signup: '/signup',
@@ -9,7 +15,7 @@ export const routePaths = {
     base: `/pipelines`,
     list: (project: string): string => `/projects/${project}/pipelines/list`,
     allRuns: (project: string): string =>
-      `/projects/${project}/pipelines/all-runs`,
+      `/projects/${projectName ? projectName : project}/pipelines/all-runs`,
   },
   pipeline: {
     base: (id: TId): string => `/pipelines/${id}`,

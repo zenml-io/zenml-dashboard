@@ -39,7 +39,7 @@ export const BasePage: React.FC<{
           )}
         />
         <Box>
-          {children}
+          {children}   
           <Tabs pages={tabPages} basePath={tabBasePath} />
         </Box>
       </SidebarContainer>
