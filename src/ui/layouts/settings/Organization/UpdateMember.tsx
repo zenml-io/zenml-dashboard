@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import cn from 'classnames';
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -23,13 +24,14 @@ import { fetchApiWithAuthRequest } from '../../../../api/fetchApi';
 import { endpoints } from '../../../../api/endpoints';
 import { httpMethods } from '../../../../api/constants';
 import { apiUrl } from '../../../../api/apiUrl';
-import { sessionSelectors } from '../../../../redux/selectors/session';
+import { sessionSelectors, rolesSelectors } from '../../../../redux/selectors';
 import { useSelector } from '../../../hooks';
+import styles from './../../../../ui/components/inputs/index.module.scss';
+// import axios from 'axios'
 
+export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
 
-export const UpdateMember: React.FC<{ member: TInvite }> = ({ member }) => {
-
-  const [username, setUsername] = useState(member?.name)
+  const [username, setUsername] = useState(member?.user?.name)
   const [password, setPassword] = useState('')
   const [popupOpen, setPopupOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -43,7 +45,7 @@ export const UpdateMember: React.FC<{ member: TInvite }> = ({ member }) => {
 
     try {
       await fetchApiWithAuthRequest({
-        url: apiUrl(endpoints.users.updateUser(member.id)),
+        url: apiUrl(endpoints.users.updateUser(member.user.id)),
         method: httpMethods.put,
         authenticationToken,
         headers: {
@@ -51,6 +53,13 @@ export const UpdateMember: React.FC<{ member: TInvite }> = ({ member }) => {
         },
         data: { name: username, password: password },
       });
+
+
+      // await axios.post(`${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
+      //           { user: member.user.id, role: role },
+      //           { headers: { Authorization: `Bearer ${authToken}` }}
+      //         )
+              
       setSubmitting(false);
       setPopupOpen(false);
       dispatch(
@@ -72,6 +81,15 @@ export const UpdateMember: React.FC<{ member: TInvite }> = ({ member }) => {
     }
   };
 
+  const roles = useSelector(rolesSelectors.getRoles);
+
+  const [role, setRole] = useState('');
+
+  function handleChange(value: string) {
+    setRole(value);
+  }
+
+
   return (
     <>
       {popupOpen && (
@@ -88,7 +106,8 @@ export const UpdateMember: React.FC<{ member: TInvite }> = ({ member }) => {
           </Box>
 
           <Box marginTop='lg'>
-            <Box marginTop="md">
+          <FlexBox.Row alignItems='center' marginTop="md" style={{ width: '100%' }} >
+            <Box style={{ width: '80%' }}>
               <FormTextField
                 label={translate('updateMemberPopup.form.username.label')}
                 labelColor="#000"
@@ -97,6 +116,31 @@ export const UpdateMember: React.FC<{ member: TInvite }> = ({ member }) => {
                 onChange={(val: string) => setUsername(val)}
               />
             </Box>
+            <Box style={{ marginLeft: '20px' }} >
+              <Paragraph style={{ marginBottom: '10px' }} >role</Paragraph>
+              <select
+                onChange={(e: any) => handleChange(e.target.value)}
+                value={role}
+                placeholder={'Roles'}
+                className={cn(styles.input)}
+                style={{
+                  width: '146px',
+                  fontSize: '12px',
+                  color: '#424240',
+                }}
+                >
+                  <option selected disabled value="">
+                    {'Roles'}
+                  </option>
+                  {roles.map((option) => (
+                    <option key={option.id} value={option.id}>
+                      {option.name.toUpperCase()}
+                    </option>
+                  ))}
+                </select>
+            </Box>
+          </FlexBox.Row>
+
             <Box marginTop="md">
               <FormPasswordField
                 label={translate('updateMemberPopup.form.password.label')}

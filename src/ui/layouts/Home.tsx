@@ -90,22 +90,22 @@ export const Home: React.FC = () => {
     dispatch(runPagesActions.setFetching({ fetching: false }))
   }
 
+  const url_string = window.location.href; 
+  const url = new URL(url_string);
+  const projectName = url.searchParams.get("project");
+
   useEffect(() => {
     if (authToken) {
       const getDashboardData = async () => {
         setFetching(true);
         startLoad()
         const { data } = await axios.get(
-          `${process.env.REACT_APP_BASE_API_URL}/projects/${selectedProject ? selectedProject : localStorage.getItem('projectName')}/statistics`,
-          {
-            headers: {
-              Authorization: `bearer ${authToken}`,
-            },
-          },
+          `${process.env.REACT_APP_BASE_API_URL}/projects/${projectName ? projectName : DEFAULT_PROJECT_NAME}/statistics`,
+            { headers: { Authorization: `bearer ${authToken}` }},
         );
 
-        await dispatch(projectsActions.getSelectedProject({ allProjects: projects, seletecdProject: selectedProject ? selectedProject : localStorage.getItem('projectName') }))
-        await dispatch(pipelinesActions.getMy({ project: selectedProject ? selectedProject : localStorage.getItem('projectName') ? DEFAULT_PROJECT_NAME : '',
+        await dispatch(projectsActions.getSelectedProject({ allProjects: projects, seletecdProject: projectName ? projectName : DEFAULT_PROJECT_NAME }))
+        await dispatch(pipelinesActions.getMy({ project: projectName ? projectName : DEFAULT_PROJECT_NAME,
           onSuccess: () => stopLoad(),
           onFailure: () => stopLoad(),
         })) 
@@ -116,27 +116,7 @@ export const Home: React.FC = () => {
       };
       getDashboardData();
     }
-  }, [authToken, selectedProject]);
-
-  // useEffect(() => {
-  //   if (authToken) {
-  //     const getDashboardData = async () => {
-  //       setFetching(true);
-  //       const { data } = await axios.get(
-  //         `${process.env.REACT_APP_BASE_API_URL}/projects/${localStorage.getItem('projectName')}/statistics`,
-  //         {
-  //           headers: {
-  //             Authorization: `bearer ${authToken}`,
-  //           },
-  //         },
-  //       );
-
-  //       setDashboardData(data);
-  //       setFetching(false);
-  //     };
-  //     getDashboardData();
-  //   }
-  // }, [selectedProject]);
+  }, [authToken, projectName]);
 
   const preData = Object.entries(dashboardData);
   const data = preData?.map(([key, value]) => {

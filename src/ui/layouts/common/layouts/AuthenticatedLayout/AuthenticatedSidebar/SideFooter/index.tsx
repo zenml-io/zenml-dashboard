@@ -3,7 +3,7 @@ import { MenuItem } from '../Menu/MenuItem';
 import { MenuItemExternal } from './MenuItemExternal';
 import { routePaths } from '../../../../../../../routes/routePaths';
 import { Box, Separator, icons, Paragraph } from '../../../../../../components';
-import { iconSizes, iconColors } from '../../../../../../../constants';
+import { iconSizes, iconColors, DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
 import { translate } from '../translate';
 import { sessionSelectors } from '../../../../../../../redux/selectors/session';
 import { useSelector } from '../../../../../../hooks';
@@ -30,6 +30,10 @@ export const SideFooter: React.FC = () => {
       getApiVersion();
     }
   }, [authToken]);
+
+  const url_string = window.location.href; 
+  const url = new URL(url_string);
+  const projectName = url.searchParams.get("project");
 
   return (
     <>
@@ -62,7 +66,8 @@ export const SideFooter: React.FC = () => {
         Icon={() => (
           <icons.settings color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.settings.personalDetails}
+        isActive={() => window.location.href?.includes('settings')}
+        to={routePaths.settings.personalDetails + `?project=${projectName ? projectName : DEFAULT_PROJECT_NAME}`}
         text={translate('menu.setting.text')}
       />
 

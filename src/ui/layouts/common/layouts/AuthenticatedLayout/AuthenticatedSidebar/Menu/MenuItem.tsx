@@ -4,6 +4,7 @@ import { Paragraph, Box, FlexBox } from '../../../../../../components';
 import cn from 'classnames';
 import styles from './MenuItem.module.scss';
 import { camelCaseToParagraph } from '../../../../../../../utils';
+import { DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
 
 export const MenuItem: React.FC<{
   subItem?: boolean;
@@ -15,6 +16,13 @@ export const MenuItem: React.FC<{
   isActive?: ({ match, location }: { match: any; location: any }) => boolean;
 }> = ({ id, text, to, exact = false, Icon, isActive, subItem }) => {
   let location = useLocation();
+
+  const url_string = window.location.href; 
+  const url = new URL(url_string);
+  const projectName = url.searchParams.get("project");
+
+  const project = projectName ? projectName : DEFAULT_PROJECT_NAME
+ 
   return (
     <NavLink
       id={id}
@@ -30,7 +38,7 @@ export const MenuItem: React.FC<{
       <FlexBox alignItems="center" marginVertical="sm" style={{ height: '40px' }}>
         <Box
           className={cn( 
-            to === location.pathname && !subItem
+            to === location.pathname + `?project=${project}` && !subItem
               ? styles.menuItemSideBox
               : styles.menuItemSideBoxUn,
           )}

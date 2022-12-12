@@ -13,6 +13,7 @@ import FilterComponent, {
 } from '../../../components/Filters';
 import { useLocationPath, useSelector } from '../../../hooks';
 import { projectSelectors } from '../../../../redux/selectors';
+import { DEFAULT_PROJECT_NAME } from '../../../../constants';
 
 interface Props {
   pipelineId: TId;
@@ -60,6 +61,10 @@ const getTabPages = (pipelineId: TId): TabPage[] => {
   ];
 };
 
+const url_string = window.location.href; 
+const url = new URL(url_string);
+const projectName = url.searchParams.get("project");
+
 const getBreadcrumbs = (
   pipelineId: TId,
   selectedProject: string,
@@ -68,7 +73,8 @@ const getBreadcrumbs = (
     {
       name: translate('header.breadcrumbs.pipelines.text'),
       clickable: true,
-      to: routePaths.pipelines.list(selectedProject),
+      // to: routePaths.pipelines.list(selectedProject),
+      to: routePaths.pipelines.base + `?project=${projectName ? projectName : DEFAULT_PROJECT_NAME}`
     },
     {
       name: pipelineId,
@@ -78,7 +84,7 @@ const getBreadcrumbs = (
   ];
 };
 
-export interface PipelineDetailRouteParams {
+export interface PipelineDetailRouteParams { 
   id: TId;
 }
 

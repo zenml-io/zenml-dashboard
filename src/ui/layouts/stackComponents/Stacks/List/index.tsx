@@ -9,6 +9,8 @@ import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
 import { camelCaseToParagraph } from '../../../../../utils';
+import { DEFAULT_PROJECT_NAME } from '../../../../../constants';
+
 interface Props {
   filter: any;
 }
@@ -51,6 +53,11 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     );
   };
 
+  const url_string = window.location.href; 
+  const url = new URL(url_string);
+  const projectName = url.searchParams.get("project");
+  const project = projectName ? projectName : DEFAULT_PROJECT_NAME
+
   return (
     <>
       <CollapseTable
@@ -73,7 +80,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
               }
             : {
                 text: `Nothing to see here, it seems like no ${camelCaseToParagraph(
-                  locationPath.split('/')[2],
+                  project,
                 )} has been configured yet.`,
               }
         }
