@@ -9,7 +9,7 @@ const getMembersApi = ({
   authenticationToken: string;
 }): Promise<TMember[]> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.organizations.membersWithRole),
+    url: apiUrl(endpoints.organizations.members),
     method: httpMethods.get,
     authenticationToken,
   });
