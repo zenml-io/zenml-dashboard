@@ -27,7 +27,6 @@ export const Organization: React.FC = () => {
     var decoded: any = jwt_decode(authToken as any);
   }
   const [fetchingMembers, setFetchingMembers] = useState(true);
-
   const [popupOpen, setPopupOpen] = useState(false);
   const [currentTable, setCurrentTable] = useState('members');
 
@@ -59,6 +58,7 @@ export const Organization: React.FC = () => {
       }),
     );
   }, [dispatch]);
+
 
   return (
     <>

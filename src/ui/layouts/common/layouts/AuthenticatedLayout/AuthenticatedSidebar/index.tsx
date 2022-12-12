@@ -46,7 +46,7 @@ export const AuthenticatedSidebar: React.FC<{
           alignItems="center"
           paddingLeft="lg"
           style={{ cursor: 'pointer' }}
-          onClick={() => push('/' + `?project=${projectName ? projectName : DEFAULT_PROJECT_NAME}`)}
+          onClick={() => push(`/?project=${projectName ? projectName : DEFAULT_PROJECT_NAME}`)}
         >
           <ZenMLLogoWhite />
         </FlexBox>

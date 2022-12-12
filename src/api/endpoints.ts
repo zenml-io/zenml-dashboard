@@ -15,6 +15,7 @@ export const endpoints = {
       `/users/${username}/deactivate`,
     invites: '/organizations/invite?status=pending',
     members: '/users',
+    membersWithRole: '/role_assignments',
     invite: '/users',
     deleteInvite: (id: string): string => `/users/${id}`,
   },

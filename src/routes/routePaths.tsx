@@ -11,7 +11,6 @@ export const routePaths = {
   forgot: '/forgot-password',
   home: '/',
   pipelines: {
-    // base: '/pipelines',
     base: `/pipelines`,
     list: (project: string): string => `/projects/${project}/pipelines/list`,
     allRuns: (project: string): string =>

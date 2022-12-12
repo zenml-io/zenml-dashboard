@@ -67,6 +67,19 @@ interface TMember {
   created: Date;
   active: boolean;
   activation_token: string;
+  user: { 
+    id: TId;
+    organizationId: any;
+    fullName: any;
+    email: any;
+    name: any;
+    created: Date;
+    active: boolean;
+    activation_token: any;
+  },
+  role: { 
+    permissions: array 
+  }
 }
 
 interface TWorkspace {

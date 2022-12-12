@@ -5,10 +5,10 @@ import { icons } from '../../../../../../components';
 import { iconSizes, iconColors, DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
 import { translate } from '../translate';
 import { useLocationPath } from '../../../../../../hooks';
-import { matchPath } from 'react-router-dom';
+// import { matchPath } from 'react-router-dom';
 import { useSelector } from './../../../../../../../ui/hooks';
 import {
-  projectSelectors,
+  // projectSelectors,
   stackComponentSelectors,
 } from '../../../../../../../redux/selectors';
 
@@ -18,7 +18,7 @@ export const Menu: React.FC = () => {
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const selectedProject = useSelector(projectSelectors.selectedProject);
 
   const url_string = window.location.href; 
   const url = new URL(url_string);
@@ -55,6 +55,7 @@ export const Menu: React.FC = () => {
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.pipelines.allRuns(project) + `?project=${projectName}`}
+        isActive={() => window.location.href?.includes('runs')}
         text={'Runs'}
         // isActive={() => {
         //   return (
@@ -93,12 +94,13 @@ export const Menu: React.FC = () => {
 
       <MenuItem
         id='stack-component'
-        isActive={() => {
-          return !!matchPath(locationPath, {
-            path: routePaths.stackComponents.base('', project) + `?project=${project}`,
-            exact: false,
-          });
-        }}
+        // isActive={() => {
+        //   return !!matchPath(locationPath, {
+        //     path: routePaths.stackComponents.base('', project) + `?project=${project}`,
+        //     exact: false,
+        //   });
+        // }}
+        isActive={() => window.location.href?.includes('components')}
         Icon={() => (
           <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
         )}
@@ -109,12 +111,13 @@ export const Menu: React.FC = () => {
       {locationPath.includes('components') &&
         stackComponentsTypes?.map((item) => (
           <MenuItem
-            isActive={() => {
-              return !!matchPath(locationPath, {
-                path: routePaths.stackComponents.base(item, selectedProject),
-                exact: false,
-              });
-            }}
+            // isActive={() => {
+            //   return !!matchPath(locationPath, {
+            //     path: routePaths.stackComponents.base(item, selectedProject),
+            //     exact: false,
+            //   });
+            // }}
+            isActive={() => window.location.href?.includes(item)}
             subItem={true}
             Icon={() => (
               <icons.stackComponent color={iconColors.white} size={iconSizes.md} />

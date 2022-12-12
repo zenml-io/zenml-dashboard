@@ -26,7 +26,8 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
         {() => (
           <>
             <FlexBox
-              marginTop="md"
+              marginTop="xxl"
+              marginBottom="sm"
               className={styles.navigation}
             >
               {pages.map((page, index) => {
@@ -38,6 +39,8 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                 return (
                   <Box
                     key={index}
+                    paddingBottom="sm"
+                    paddingHorizontal="md"
                     className={joinClassNames(
                       styles.item,
                       isActive ? styles.activeItem : '',
@@ -48,12 +51,12 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                         condition={isActive}
                         renderWhenFalse={() => (
                           <Truncate maxLines={1}>
-                            <Paragraph color="white">{page.text}</Paragraph>
+                            <Paragraph color="grey">{page.text}</Paragraph>
                           </Truncate>
                         )}
                         renderWhenTrue={() => (
                           <Truncate maxLines={1}>
-                            <Paragraph color="white">{page.text}</Paragraph>
+                            <Paragraph color="primary">{page.text}</Paragraph>
                           </Truncate>
                         )}
                       />
@@ -62,7 +65,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                 );
               })}
             </FlexBox>
-            <FlexBox>
+            <FlexBox marginBottom="xxl">
               <Switch>
                 <Redirect exact from={basePath} to={pages[0].path} />
 

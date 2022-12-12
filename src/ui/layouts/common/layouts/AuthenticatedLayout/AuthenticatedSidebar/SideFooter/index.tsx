@@ -66,6 +66,7 @@ export const SideFooter: React.FC = () => {
         Icon={() => (
           <icons.settings color={iconColors.white} size={iconSizes.md} />
         )}
+        isActive={() => window.location.href?.includes('settings')}
         to={routePaths.settings.personalDetails + `?project=${projectName ? projectName : DEFAULT_PROJECT_NAME}`}
         text={translate('menu.setting.text')}
       />

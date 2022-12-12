@@ -5,12 +5,12 @@ import { AllRuns } from './AllRuns';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 import { useService } from './useService';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { useLocationPath } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForPipeline,
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
-import { projectSelectors } from '../../../../redux/selectors/projects';
+// import { projectSelectors } from '../../../../redux/selectors/projects';
 import { DEFAULT_PROJECT_NAME } from '../../../../constants';
 
 const FilterWrapper = () => {
@@ -77,7 +77,7 @@ export const Pipelines: React.FC = () => {
         window.location.href?.includes('all-runs') ?    {
             text: translate('tabs.allRuns.text'),
             Component: FilterWrapperForRun,
-            path: routePaths.pipelines.allRuns(project) + `?project=${project}`,
+            path: routePaths.pipelines.allRuns(project),
           } : {
             text: translate('tabs.pipelines.text'),
             Component: FilterWrapper,

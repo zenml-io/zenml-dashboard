@@ -46,8 +46,10 @@ export const AuthenticatedHeader: React.FC<{
   const projectName = url.searchParams.get("project");
 
   useEffect(() => {
-    const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?project=${projectName ? projectName : selectedProject}`;
+    const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?project=${projectName ? projectName : DEFAULT_PROJECT_NAME}`;
     window.history.pushState({path:newurl},'',newurl);  
+  
+   // eslint-disable-next-line
   }, [])
 
   useEffect(() => {

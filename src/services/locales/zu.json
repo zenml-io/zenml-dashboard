@@ -214,7 +214,7 @@
             },
             "updateMemberPopup": {
               "title": "Change member details",
-              "text": "Change the username and password of",
+              "text": "Change the username, role and password of",
               "form": {
                 "username": {
                   "label": "username",
