@@ -1,12 +1,21 @@
 @import '../../../globalStyles.scss';
 
+$tabWidth: 15rem;
+
+.navigation {
+  border-bottom: 1px solid $lightestGreyColor;
+}
 
 .item {
   border-bottom: 2px solid transparent;
   margin-bottom: -2px !important;
-  min-width: 15rem;
+  min-width: $tabWidth;
   text-align: center;
-  color: #fff
+}
+
+.activeItem {
+  color: $primaryColor;
+  border-bottom: 2px solid $primaryColor;
 }
 
 .link {

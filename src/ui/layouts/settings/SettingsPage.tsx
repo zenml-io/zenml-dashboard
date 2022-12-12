@@ -2,7 +2,7 @@ import React from 'react';
 import { Box, Paragraph } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
-import { Tabs } from '../common/TabsNew';
+import { Tabs } from '../common/Tabs';
 
 import { getTranslateByScope } from '../../../services';
 import { routePaths } from '../../../routes/routePaths';
