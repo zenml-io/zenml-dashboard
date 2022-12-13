@@ -4,6 +4,7 @@ import { AppRoute } from '../../../routes';
 import { Box, FlexBox, IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
+import { Tabs } from '../common/Tabs';
 import Header from './Header';
 import Stacks from './Stacks';
 
@@ -42,21 +43,27 @@ export const BasePage: React.FC<{
 
         <Box>
           {children}
-          <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
-          <FlexBox marginBottom="xxl">
-            <Switch>
-              <Redirect exact from={tabBasePath} to={tabPages[0].path} />
+          {tabPages.length > 1 ? (
+            <Tabs pages={tabPages} basePath={tabBasePath} />
+          ) : (
+            <>
+              <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
+              <FlexBox marginBottom="xxl">
+                <Switch>
+                  <Redirect exact from={tabBasePath} to={tabPages[0].path} />
 
-              {tabPages.map((page, index) => (
-                <AppRoute
-                  key={index}
-                  path={page.path}
-                  exact={true}
-                  component={page.Component}
-                />
-              ))}
-            </Switch>
-          </FlexBox>
+                  {tabPages.map((page, index) => (
+                    <AppRoute
+                      key={index}
+                      path={page.path}
+                      exact={true}
+                      component={page.Component}
+                    />
+                  ))}
+                </Switch>
+              </FlexBox>
+            </>
+          )}
         </Box>
       </SidebarContainer>
     </AuthenticatedLayout>
