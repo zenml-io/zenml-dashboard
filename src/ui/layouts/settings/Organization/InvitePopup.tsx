@@ -27,6 +27,7 @@ import {
 import styles from './../../../../ui/components/inputs/index.module.scss';
 import axios from 'axios';
 
+
 export const InvitePopup: React.FC<{
   setPopupOpen: (attr: boolean) => void;
 }> = ({ setPopupOpen }) => {
@@ -102,6 +103,19 @@ export const InvitePopup: React.FC<{
     setRole(value);
   }
 
+// const colourStyles: StylesConfig<any> = {
+//   control: (styles: any) => ({ ...styles, width: '100%', backgroundColor: 'white' }),
+//   option: (styles: any) => {
+//     return {
+//       ...styles,
+//       // backgroundColor: , 
+//       width: '100%',
+//       // height: 400,
+//       // position: 'absolute'
+//     };
+//   },
+// };
+
   return (
     <Popup
       onClose={() => {
@@ -115,7 +129,7 @@ export const InvitePopup: React.FC<{
             : translate('popup.title')}
         </H3>
       </FlexBox.Row>
-      <Box marginTop="md">
+      <Box marginTop="md" style={{ width: '100%' }}>
         <Box>
           <FlexBox.Row marginBottom="md">
             <Box style={{ width: showTokField ? '100%' : '50%' }}>
@@ -140,14 +154,14 @@ export const InvitePopup: React.FC<{
                     </Paragraph>
                   </Box>
 
+
+                  {/* <Select options={ban} placeholder={'Roles'} isMulti styles={colourStyles} value={role} /> */}
                   <select
                     onChange={(e: any) => handleChange(e.target.value)}
                     value={role}
                     placeholder={'Roles'}
                     className={cn(styles.input)}
                     style={{
-                      // borderTopRightRadius: 0,
-                      // borderBottomRightRadius: 0,
                       width: '146px',
                       fontSize: '12px',
                       color: '#424240',

@@ -40,7 +40,7 @@ const HeaderWithButtons: React.FC<{
     className={styles.header}
   >
     <FlexBox className="d-none d-md-flex">
-      <Breadcrumbs breadcrumbs={breadcrumbs} />
+      {/* <Breadcrumbs breadcrumbs={breadcrumbs} /> */}
     </FlexBox>
     <FlexBox
       alignItems="center"

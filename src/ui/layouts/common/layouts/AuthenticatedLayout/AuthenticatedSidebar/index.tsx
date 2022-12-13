@@ -12,12 +12,17 @@ import { Menu } from './Menu';
 import styles from './index.module.scss';
 import { SideHeader } from './SideHeader';
 import { SideFooter } from './SideFooter';
+import { DEFAULT_PROJECT_NAME } from '../../../../../../constants';
 
 export const AuthenticatedSidebar: React.FC<{
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const { push } = usePushRoute();
+
+  const url_string = window.location.href; 
+  const url = new URL(url_string);
+  const projectName = url.searchParams.get("project");
 
   return (
     <>
@@ -41,7 +46,7 @@ export const AuthenticatedSidebar: React.FC<{
           alignItems="center"
           paddingLeft="lg"
           style={{ cursor: 'pointer' }}
-          onClick={() => push('/')}
+          onClick={() => push(`/?project=${projectName ? projectName : DEFAULT_PROJECT_NAME}`)}
         >
           <ZenMLLogoWhite />
         </FlexBox>
