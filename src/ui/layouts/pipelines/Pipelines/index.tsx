@@ -66,35 +66,37 @@ export const Pipelines: React.FC = () => {
   console.log(setFetchingForAllRuns);
   const locationPath = useLocationPath();
 
-  const url_string = window.location.href; 
+  const url_string = window.location.href;
   const url = new URL(url_string);
-  const projectName = url.searchParams.get("project");
-  const project = projectName ? projectName : DEFAULT_PROJECT_NAME
+  const projectName = url.searchParams.get('project');
+  const project = projectName ? projectName : DEFAULT_PROJECT_NAME;
 
   return (
     <BasePage
       tabPages={[
-        window.location.href?.includes('all-runs') ?    {
-            text: translate('tabs.allRuns.text'),
-            Component: FilterWrapperForRun,
-            path: routePaths.pipelines.allRuns(project),
-          } : {
-            text: translate('tabs.pipelines.text'),
-            Component: FilterWrapper,
-            path: routePaths.pipelines.base,
-            // path: routePaths.pipelines.list(selectedProject),
-        }
+        window.location.href?.includes('all-runs')
+          ? {
+              text: translate('tabs.allRuns.text'),
+              Component: FilterWrapperForRun,
+              path: routePaths.pipelines.allRuns(project),
+            }
+          : {
+              text: translate('tabs.pipelines.text'),
+              Component: FilterWrapper,
+              path: routePaths.pipelines.base,
+              // path: routePaths.pipelines.list(selectedProject),
+            },
       ]}
       tabBasePath={routePaths.pipelines.base + `?project=${project}`}
       breadcrumbs={[
         {
-          name: locationPath.includes('pipelines')
-            ? translate('header.breadcrumbs.pipelines.text')
-            : 'Runs',
+          name: locationPath.includes('all-runs')
+            ? 'Runs'
+            : translate('header.breadcrumbs.pipelines.text'),
           clickable: true,
           to: locationPath.includes('pipelines')
-          ? routePaths.pipelines.base + `?project=${project}`
-          : routePaths.pipelines.allRuns(project) + `?project=${project}`,
+            ? routePaths.pipelines.base + `?project=${project}`
+            : routePaths.pipelines.allRuns(project) + `?project=${project}`,
           // to: locationPath.includes('pipelines/list')
           //   ? routePaths.pipelines.list(project)
           //   : routePaths.pipelines.allRuns(project),
