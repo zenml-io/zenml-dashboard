@@ -42,6 +42,7 @@ import { ReactComponent as SimplePlus } from './assets/SimplePlus.svg';
 import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 import { ReactComponent as Cached } from './assets/Cached.svg';
 import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
+import { ReactComponent as Edit } from './assets/Edit.svg';
 
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
@@ -142,6 +143,7 @@ const icons = {
   stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
   funnelFill: createIcon({ Component: FunnelFill }),
   delete: createIcon({ Component: Delete }),
+  edit: createIcon({ Component: Edit }),
 };
 
 export { icons };

@@ -6,7 +6,6 @@ import {
   showToasterAction,
 } from '../../../../redux/actions';
 import { translate } from './translate';
-import cn from 'classnames';
 import {
   Box,
   FlexBox,
@@ -15,6 +14,7 @@ import {
   H3,
   PrimaryButton,
   Paragraph,
+  GhostButton
 } from '../../../components';
 import { useSelector, useDispatch } from '../../../hooks';
 import { Popup } from '../../common/Popup';
@@ -23,12 +23,10 @@ import {
   rolesSelectors,
   sessionSelectors,
 } from '../../../../redux/selectors';
-
-import styles from './../../../../ui/components/inputs/index.module.scss';
 import axios from 'axios';
+import Select, { StylesConfig } from 'react-select'
 
-
-export const InvitePopup: React.FC<{
+export const InvitePopup: React.FC<{ 
   setPopupOpen: (attr: boolean) => void;
 }> = ({ setPopupOpen }) => {
   const [submitting, setSubmitting] = useState(false);
@@ -38,10 +36,13 @@ export const InvitePopup: React.FC<{
   const dispatch = useDispatch();
   const invite = useSelector(organizationSelectors.invite);
   const roles = useSelector(rolesSelectors.getRoles);
+  const authToken = useSelector(sessionSelectors.authenticationToken);
 
   const [role, setRole] = useState('');
 
-  const authToken = useSelector(sessionSelectors.authenticationToken);
+  const allRoles = roles?.map((e) => {
+    return { value: e.id, label: e.name }
+  })
 
   const inviteNewMembers = () => {
     if (role) {
@@ -58,35 +59,34 @@ export const InvitePopup: React.FC<{
             );
             setSubmitting(false);
           },
-          onSuccess: (user: any) => {
+          onSuccess: async (user: any) => {
             const headers = {
               Authorization: `Bearer ${authToken}`,
             };
-            axios
-              .post(
-                // users/${user.id}/roles?role_name_or_id=${role}
-                `${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
-                {
-                  user: user.id,
-                  role: role,
-                },
-                { headers },
-              )
-              .then(() => {
-                dispatch(organizationActions.getMembers({}));
+            
+            try {
+                for (let index = 0; index < role.length; index++) {
+                  const singleRole = role[index];
+                  await axios.post(`${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
+                                // @ts-ignore
+                                { user: user.id, role: singleRole?.value },
+                                { headers },
+                  )
+                }      
                 setSubmitting(false);
                 setShowTokField(true);
-              })
-              .catch((errorText) => {
+            } catch (err) {
+                setSubmitting(false);
+                setPopupOpen(false)
                 dispatch(
                   showToasterAction({
-                    description: errorText,
+                    // @ts-ignore
+                    description: err.response?.data?.detail[1],
                     type: toasterTypes.failure,
                   }),
-                );
-                setShowTokField(true);
-                setSubmitting(false);
-              });
+                );              
+            }
+            await dispatch(organizationActions.getMembers({}));
           },
         }),
       );
@@ -99,89 +99,84 @@ export const InvitePopup: React.FC<{
       );
     }
   };
-  function handleChange(value: string) {
+
+  function handleChange(value: any) {
     setRole(value);
   }
 
-// const colourStyles: StylesConfig<any> = {
-//   control: (styles: any) => ({ ...styles, width: '100%', backgroundColor: 'white' }),
-//   option: (styles: any) => {
-//     return {
-//       ...styles,
-//       // backgroundColor: , 
-//       width: '100%',
-//       // height: 400,
-//       // position: 'absolute'
-//     };
-//   },
-// };
+  const colourStyles: StylesConfig<any> = {
+    control: (styles: any) => ({ ...styles, width: '160px', fontSize: '12px', color: '#424240' }),
+    option: (styles: any) => {
+      return {
+        ...styles,
+        fontSize: '12px', color: '#424240'
+      };
+    }
+  }
 
   return (
-    <Popup
-      onClose={() => {
-        setPopupOpen(false);
-      }}
-    >
-      <FlexBox.Row alignItems="center" justifyContent="space-between">
-        <H3 bold color="darkGrey">
-          {showTokField
-            ? translate('popup.invite.text')
-            : translate('popup.title')}
-        </H3>
-      </FlexBox.Row>
-      <Box marginTop="md" style={{ width: '100%' }}>
-        <Box>
-          <FlexBox.Row marginBottom="md">
-            <Box style={{ width: showTokField ? '100%' : '50%' }}>
-              <FormTextField
-                label={translate('popup.username.label')}
-                labelColor="#000"
-                placeholder={translate('popup.username.placeholder')}
-                value={name}
-                onChange={(val: string) => setName(val)}
-                error={{
-                  hasError: false,
-                  text: '',
-                }}
-              />
-            </Box>
-            {!showTokField && (
-              <Box marginLeft="md">
-                <FlexBox.Column fullWidth>
-                  <Box paddingBottom="xs">
-                    <Paragraph size="body" style={{ color: 'black' }}>
-                      <label htmlFor={name}>{'Roles'}</label>
-                    </Paragraph>
-                  </Box>
-
-
-                  {/* <Select options={ban} placeholder={'Roles'} isMulti styles={colourStyles} value={role} /> */}
-                  <select
-                    onChange={(e: any) => handleChange(e.target.value)}
-                    value={role}
-                    placeholder={'Roles'}
-                    className={cn(styles.input)}
-                    style={{
-                      width: '146px',
-                      fontSize: '12px',
-                      color: '#424240',
-                    }}
-                  >
-                    <option selected disabled value="">
-                      {'Roles'}
-                    </option>
-                    {roles.map((option) => (
-                      <option key={option.id} value={option.id}>
-                        {option.name.toUpperCase()}
-                      </option>
-                    ))}
-                  </select>
-                </FlexBox.Column>
+    <>
+  
+      <Popup onClose={() => setPopupOpen(false)} >
+        <FlexBox.Row alignItems="center" justifyContent="space-between">
+          <H3 bold color="darkGrey">{showTokField ? translate('popup.invite.text') : translate('popup.title')}</H3>
+        </FlexBox.Row>
+        
+        <Box marginTop="lg">
+            <FlexBox.Row alignItems='center' marginTop="md" style={{ width: '100%' }} >
+              <Box style={{ width: showTokField ? '100%' : '70%' }}>
+                <FormTextField
+                  label={translate('popup.username.label')}
+                  labelColor="#000"
+                  placeholder={translate('popup.username.placeholder')}
+                  value={name}
+                  onChange={(val: string) => setName(val)}
+                  error={{
+                    hasError: false,
+                    text: '',
+                  }}
+                />
               </Box>
-            )}
 
-            {!showTokField && (
-              <Box style={{ width: '10%', marginTop: '27px' }} marginLeft="md">
+             {!showTokField && ( 
+              <Box style={{ marginLeft: '20px' }}>
+                <Paragraph size="body" style={{ color: 'black' }}><label htmlFor={name}>{'Roles'}</label></Paragraph>
+                <Select 
+                  options={allRoles} 
+                  isMulti  
+                  onChange={(e: any) => handleChange(e)}
+                  value={role}
+                  placeholder={'Roles'}
+                  styles={colourStyles}
+                  isClearable={false}
+                />
+              </Box>
+             )} 
+            </FlexBox.Row>
+        </Box>
+
+
+        {showTokField && (
+          <Box marginTop="lg">
+            <CopyField
+              label={`Invitation Link - please send this to ${name} for this user to finish their registration`}
+              value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.activationToken}`}
+              disabled
+            />
+          </Box>
+        )}
+
+
+
+        <FlexBox justifyContent="flex-end" marginTop="xl" flexWrap>
+          {!showTokField && (
+            <>
+              <Box marginRight="sm" marginBottom="md">
+                <GhostButton onClick={() => setPopupOpen(false)}>
+                  {translate('updateMemberPopup.cancelButton.text')}
+                </GhostButton>
+              </Box>
+              <Box marginBottom='md' >
                 <PrimaryButton
                   disabled={submitting}
                   loading={submitting}
@@ -190,20 +185,11 @@ export const InvitePopup: React.FC<{
                   {translate('popup.button.text')}
                 </PrimaryButton>
               </Box>
-            )}
-          </FlexBox.Row>
-
-          {showTokField && (
-            <Box marginTop="lg">
-              <CopyField
-                label={`Invitation Link - please send this to ${name} for this user to finish their registration`}
-                value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.activationToken}`}
-                disabled
-              />
-            </Box>
+            </>
           )}
-        </Box>
-      </Box>
-    </Popup>
+        </FlexBox>
+      
+      </Popup>
+    </>
   );
 };

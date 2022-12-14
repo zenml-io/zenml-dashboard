@@ -20,7 +20,7 @@ import {
 import { getTranslateByScope } from '../../services';
 
 import styles from './Home.module.scss';
-import { iconColors, DEFAULT_PROJECT_NAME } from '../../constants';
+import { iconColors, DEFAULT_PROJECT_NAME, toasterTypes } from '../../constants';
 import { sessionSelectors } from '../../redux/selectors/session';
 import { useDispatch, usePushRoute, useSelector } from '../hooks';
 import axios from 'axios';
@@ -29,7 +29,7 @@ import {
   projectSelectors,
   stackComponentSelectors,
 } from '../../redux/selectors';
-import { projectsActions, pipelinesActions, pipelinePagesActions, runPagesActions } from '../../redux/actions';
+import { showToasterAction, projectsActions, pipelinesActions, pipelinePagesActions, runPagesActions } from '../../redux/actions';
 
 import Tour from './Tour'
 
@@ -99,20 +99,31 @@ export const Home: React.FC = () => {
       const getDashboardData = async () => {
         setFetching(true);
         startLoad()
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_BASE_API_URL}/projects/${projectName ? projectName : DEFAULT_PROJECT_NAME}/statistics`,
-            { headers: { Authorization: `bearer ${authToken}` }},
-        );
+       
+       try {
+          const { data } = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/projects/${projectName ? projectName : DEFAULT_PROJECT_NAME}/statistics`,
+              { headers: { Authorization: `bearer ${authToken}` }},
+          )
 
-        await dispatch(projectsActions.getSelectedProject({ allProjects: projects, seletecdProject: projectName ? projectName : DEFAULT_PROJECT_NAME }))
-        await dispatch(pipelinesActions.getMy({ project: projectName ? projectName : DEFAULT_PROJECT_NAME,
-          onSuccess: () => stopLoad(),
-          onFailure: () => stopLoad(),
-        })) 
+          await dispatch(projectsActions.getSelectedProject({ allProjects: projects, seletecdProject: projectName ? projectName : DEFAULT_PROJECT_NAME }))
+          await dispatch(pipelinesActions.getMy({ project: projectName ? projectName : DEFAULT_PROJECT_NAME,
+            onSuccess: () => stopLoad(),
+            onFailure: () => stopLoad(),
+          })) 
+  
+          setDashboardData(data);
+          setFetching(false);  
+        } catch (err) {
+          // @ts-ignore
+          dispatch(
+            showToasterAction({
+              description: translate('toasts.successful.passwordText'),
+              type: toasterTypes.success,
+            }),
+          )
+        }
 
-        setDashboardData(data);
-        setFetching(false);
-        await localStorage.removeItem('projectName')
       };
       getDashboardData();
     }

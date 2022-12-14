@@ -33,8 +33,11 @@ export const ProjectPopup: React.FC<{
       setSubmitting(true);
       await axios.post(`${process.env.REACT_APP_BASE_API_URL}/projects`, { name, description }, { headers: { Authorization: `Bearer ${authToken}` }})
             .then(async () => {
+
+              const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?project=${name}`;
+              window.history.pushState({path:newurl},'',newurl);  
+
               await dispatch(projectsActions.getMy({ selectDefault: false }));
-              localStorage.setItem('projectName', name)
               setSubmitting(false);
               setPopupOpen(false)
             }).catch(async (errorText) => {
