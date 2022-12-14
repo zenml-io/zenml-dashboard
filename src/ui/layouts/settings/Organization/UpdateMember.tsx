@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -30,7 +30,7 @@ import Select, { StylesConfig } from 'react-select'
 
 export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
 
-  const [username, setUsername] = useState(member?.name)
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [popupOpen, setPopupOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
@@ -49,9 +49,12 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
     setRole(value);
   }
 
+  useEffect(() => {
+    setUsername(member?.name)
+  }, [member])
+  
   const onUpdate = async () => {
     setSubmitting(true);
-
     try {
       await fetchApiWithAuthRequest({
         url: apiUrl(endpoints.users.updateUser(member.id)),
