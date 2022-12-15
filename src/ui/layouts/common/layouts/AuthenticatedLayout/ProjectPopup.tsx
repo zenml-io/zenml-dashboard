@@ -15,8 +15,8 @@ import {
 } from '../../../../components';
 import { useSelector, useDispatch } from '../../../../hooks';
 import { Popup } from '../../../common/Popup';
-import { projectsActions } from '../../../../../redux/actions';
-import { sessionSelectors } from '../../../../../redux/selectors';
+import { projectsActions, pipelinesActions, pipelinePagesActions, runPagesActions, stackPagesActions } from '../../../../../redux/actions';
+import { sessionSelectors, projectSelectors } from '../../../../../redux/selectors';
 import axios from 'axios';
 
 export const ProjectPopup: React.FC<{
@@ -28,22 +28,45 @@ export const ProjectPopup: React.FC<{
   
   const dispatch = useDispatch();
   const authToken = useSelector(sessionSelectors.authenticationToken);
+  const projects = useSelector(projectSelectors.myProjects);
+
+  const startLoad = () => {
+    dispatch(pipelinePagesActions.setFetching({ fetching: true }))
+    dispatch(runPagesActions.setFetching({ fetching: true }));
+    dispatch(stackPagesActions.setFetching({ fetching: true }));
+  }
+
+  const stopLoad = () => {
+    dispatch(pipelinePagesActions.setFetching({ fetching: false }))
+    dispatch(runPagesActions.setFetching({ fetching: false }))
+    dispatch(stackPagesActions.setFetching({ fetching: false }));  
+  }
 
   const handleCreateProject = async () => {
       setSubmitting(true);
       await axios.post(`${process.env.REACT_APP_BASE_API_URL}/projects`, { name, description }, { headers: { Authorization: `Bearer ${authToken}` }})
             .then(async () => {
-
+             
+              startLoad()
               const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?project=${name}`;
               window.history.pushState({path:newurl},'',newurl);  
 
+              await dispatch(projectsActions.getSelectedProject({
+                allProjects: projects,
+                seletecdProject: name,                          
+              }))
               await dispatch(projectsActions.getMy({ selectDefault: false }));
+              await dispatch(pipelinesActions.getMy({ project: name,
+                onSuccess: () => stopLoad(),
+                onFailure: () => stopLoad(),
+              })) 
+           
               setSubmitting(false);
               setPopupOpen(false)
-            }).catch(async (errorText) => {
+            }).catch(async (err) => {
               await dispatch(
                   showToasterAction({
-                    description: errorText.message === 'Request failed with status code 403' ? 'Not enough permissions' : errorText.message, 
+                    description: err?.response?.data?.detail, 
                     type: toasterTypes.failure,
                   }),
                 );
