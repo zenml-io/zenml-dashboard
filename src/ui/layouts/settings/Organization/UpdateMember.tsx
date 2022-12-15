@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import cn from 'classnames';
+import React, { useState, useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -26,26 +25,43 @@ import { httpMethods } from '../../../../api/constants';
 import { apiUrl } from '../../../../api/apiUrl';
 import { sessionSelectors, rolesSelectors } from '../../../../redux/selectors';
 import { useSelector } from '../../../hooks';
-import styles from './../../../../ui/components/inputs/index.module.scss';
-// import axios from 'axios'
+import axios from 'axios'
+import Select, { StylesConfig } from 'react-select'
 
 export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
 
-  const [username, setUsername] = useState(member?.user?.name)
+  const preRole = member?.roles?.map((e: any) => {
+    return { value: e.id, label: e.name }
+  })
+
+  const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [popupOpen, setPopupOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const dispatch = useDispatch();
+  const [role, setRole] = useState(preRole);
 
+  const dispatch = useDispatch();
+  const roles = useSelector(rolesSelectors.getRoles);
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const authenticationToken = authToken ? authToken : '';
 
+  const allRoles = roles?.map((e) => {
+    return { value: e.id, label: e.name }
+  })
+
+  function handleChange(value: string) {
+    setRole(value);
+  }
+
+  useEffect(() => {
+    setUsername(member?.name)
+  }, [member])
+  
   const onUpdate = async () => {
     setSubmitting(true);
-
     try {
       await fetchApiWithAuthRequest({
-        url: apiUrl(endpoints.users.updateUser(member.user.id)),
+        url: apiUrl(endpoints.users.updateUser(member.id)),
         method: httpMethods.put,
         authenticationToken,
         headers: {
@@ -54,11 +70,14 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
         data: { name: username, password: password },
       });
 
-
-      // await axios.post(`${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
-      //           { user: member.user.id, role: role },
-      //           { headers: { Authorization: `Bearer ${authToken}` }}
-      //         )
+      for (let index = 0; index < role.length; index++) {
+        const singleRole = role[index];
+        await axios.post(`${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
+                // @ts-ignore
+                { user: member.id, role: singleRole?.value },
+                { headers: { Authorization: `Bearer ${authToken}` }}
+              )
+      }
               
       setSubmitting(false);
       setPopupOpen(false);
@@ -72,21 +91,33 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
     } catch (err) {
       setSubmitting(false);
       setPopupOpen(false);
+       
       dispatch(
         showToasterAction({
-          description: 'Something went wrong',
+          // @ts-ignore
+          description: err?.response?.data?.detail,
           type: toasterTypes.failure,
         }),
       );
+      dispatch(
+        showToasterAction({
+          // @ts-ignore
+          description: err.response?.data?.detail[1],
+          type: toasterTypes.failure,
+        }),
+      )
     }
   };
 
-  const roles = useSelector(rolesSelectors.getRoles);
 
-  const [role, setRole] = useState('');
-
-  function handleChange(value: string) {
-    setRole(value);
+  const colourStyles: StylesConfig<any> = {
+    control: (styles: any) => ({ ...styles, width: '146px', fontSize: '12px', color: '#424240' }),
+    option: (styles: any) => {
+      return {
+        ...styles,
+        fontSize: '12px', color: '#424240'
+      };
+    }
   }
 
 
@@ -94,52 +125,35 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
     <>
       {popupOpen && (
         <Popup onClose={() => setPopupOpen(false)}>
+          
           <FlexBox.Row alignItems="center" justifyContent="space-between">
-            <H3 bold color="darkGrey">
-              {translate('updateMemberPopup.title')}
-            </H3>
+            <H3 bold color="darkGrey">{translate('updateMemberPopup.title')}</H3>
           </FlexBox.Row>
-          <Box marginTop="sm">
-            <Paragraph>{`${translate('updateMemberPopup.text')} ${
-              member?.name
-            }.`}</Paragraph>
-          </Box>
+          <Box marginTop="sm"><Paragraph>{`${translate('updateMemberPopup.text')} ${member?.name}.`}</Paragraph></Box>
 
           <Box marginTop='lg'>
-          <FlexBox.Row alignItems='center' marginTop="md" style={{ width: '100%' }} >
-            <Box style={{ width: '80%' }}>
-              <FormTextField
-                label={translate('updateMemberPopup.form.username.label')}
-                labelColor="#000"
-                placeholder={translate('updateMemberPopup.form.username.placeholder')}
-                value={username ? username : ''}
-                onChange={(val: string) => setUsername(val)}
-              />
-            </Box>
-            <Box style={{ marginLeft: '20px' }} >
-              <Paragraph style={{ marginBottom: '10px' }} >role</Paragraph>
-              <select
-                onChange={(e: any) => handleChange(e.target.value)}
-                value={role}
-                placeholder={'Roles'}
-                className={cn(styles.input)}
-                style={{
-                  width: '146px',
-                  fontSize: '12px',
-                  color: '#424240',
-                }}
-                >
-                  <option selected disabled value="">
-                    {'Roles'}
-                  </option>
-                  {roles.map((option) => (
-                    <option key={option.id} value={option.id}>
-                      {option.name.toUpperCase()}
-                    </option>
-                  ))}
-                </select>
-            </Box>
-          </FlexBox.Row>
+           
+            <FlexBox.Row alignItems='center' marginTop="md" style={{ width: '100%' }} >
+              <Box style={{ width: '80%' }}>
+                <FormTextField
+                  label={translate('updateMemberPopup.form.username.label')}
+                  labelColor="#000"
+                  placeholder={translate('updateMemberPopup.form.username.placeholder')}
+                  value={username ? username : ''}
+                  onChange={(val: string) => setUsername(val)}
+                />
+              </Box>
+
+              <Box style={{ marginLeft: '20px' }}>
+                <Paragraph size="body" style={{ color: 'black' }}><label htmlFor={username}>{'Roles'}</label></Paragraph>
+                <Select options={allRoles} isMulti  onChange={(e: any) => handleChange(e)}
+                  value={role}
+                  placeholder={'Roles'}
+                  styles={colourStyles}
+                  isClearable={false}
+                />
+             </Box>
+            </FlexBox.Row>
 
             <Box marginTop="md">
               <FormPasswordField
@@ -176,7 +190,7 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
       )}
       <Box>
         <LinkBox onClick={() => setPopupOpen(true)}>
-          <icons.settings color={iconColors.grey} />
+          <icons.edit color={iconColors.grey} />
         </LinkBox>
       </Box>
     </>

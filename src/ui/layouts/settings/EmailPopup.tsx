@@ -66,7 +66,8 @@ export const EmailPopup: React.FC<{
       setPopupOpen(false);
       dispatch(
         showToasterAction({
-          description: translate('toasts.failed.text'),
+          // @ts-ignore
+          description: err?.response?.data?.detail,
           type: toasterTypes.failure,
         }),
       );

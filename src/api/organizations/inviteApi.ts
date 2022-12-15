@@ -11,7 +11,7 @@ const inviteApi = ({
   name: string;
 }): Promise<void> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.organizations.invite),
+    url: apiUrl(`${endpoints.organizations.invite}?assign_default_role=false`),
     method: httpMethods.post,
     authenticationToken,
     headers: {

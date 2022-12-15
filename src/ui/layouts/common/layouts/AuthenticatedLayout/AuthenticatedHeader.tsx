@@ -26,6 +26,7 @@ import { routePaths } from '../../../../../routes/routePaths';
 import cn from 'classnames';
 import css from './../../../../../ui/components/inputs/index.module.scss';
 import { ProjectPopup } from './ProjectPopup';
+import CookieConsent from "react-cookie-consent";
 
 export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
@@ -40,17 +41,6 @@ export const AuthenticatedHeader: React.FC<{
  
   const dispatch = useDispatch();
   const { push } = usePushRoute();
-
-  const url_string = window.location.href; 
-  const url = new URL(url_string);
-  const projectName = url.searchParams.get("project");
-
-  useEffect(() => {
-    const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?project=${projectName ? projectName : DEFAULT_PROJECT_NAME}`;
-    window.history.pushState({path:newurl},'',newurl);  
-  
-   // eslint-disable-next-line
-  }, [])
 
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -87,10 +77,6 @@ export const AuthenticatedHeader: React.FC<{
   const onChange = (e: any) => {
     e.preventDefault()
     startLoad() 
-
-    const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?project=${e?.target?.value}`;
-    window.history.pushState({path:newurl},'',newurl);
-
     dispatch(projectsActions.getSelectedProject({
                                 allProjects: projects,
                                 seletecdProject: e?.target?.value,                          
@@ -123,8 +109,8 @@ export const AuthenticatedHeader: React.FC<{
             <Box marginLeft="md" className="d-none d-md-block">
               <select
                 onChange={(e: any) => onChange(e)}
-                defaultValue={projectName ? projectName : DEFAULT_PROJECT_NAME}
-                value={projectName ? projectName : DEFAULT_PROJECT_NAME}
+                defaultValue={selectedProject ? selectedProject : DEFAULT_PROJECT_NAME}
+                value={selectedProject ? selectedProject : DEFAULT_PROJECT_NAME}
                 placeholder={'Projects'}
                 className={cn(css.input)}
                 style={{
@@ -218,6 +204,29 @@ export const AuthenticatedHeader: React.FC<{
         )}
       </If>
     </FlexBox>
+    
+    <CookieConsent 
+     location="bottom"
+     buttonText="I understand"
+     cookieName="My Cookie"
+     style={{ 
+      background: "#fff", 
+      borderRadius: '15px', 
+      border: '2px solid #431D93', 
+      marginBottom: '50px',
+      color: '#424240',
+      fontSize: "1.6rem",
+      fontWeight: "bold",
+      maxWidth: `${window.innerWidth - 200}px`,
+      marginLeft: '100px'
+    }}
+     buttonStyle={{ backgroundColor: '#431D93',  color: "#fff", fontSize: "1.6rem", height: '4rem', borderRadius: '4px', padding: '0 3.2rem' }}
+     declineButtonStyle={{ backgroundColor: '#fff',  color: "#424240", border: '1px solid #424240',  fontSize: "1.6rem", height: '4rem', borderRadius: '4px', padding: '0 3.2rem' }}
+     enableDeclineButton
+     expires={120}
+    >ZenML uses cookies to enhance the user experience.
+    </CookieConsent>
+
     </>
   );
 };

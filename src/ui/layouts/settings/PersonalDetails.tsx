@@ -62,10 +62,10 @@ export const PersonalDetails: React.FC = () => {
         loginAction({
           password: currentPassword,
           username: username,
-          onFailure: (errorText) => {
+          onFailure: (err) => {
             dispatch(
               showToasterAction({
-                description: 'Current Password is incorrect',
+                description: err,
                 type: toasterTypes.failure,
               }),
             );
@@ -76,11 +76,12 @@ export const PersonalDetails: React.FC = () => {
               sessionActions.forgotPassword({
                 userId: user?.id,
                 password: newPassword,
-                onFailure: () => {
+                // @ts-ignore
+                onFailure: (errorText) => {
                   setSubmitting(false);
                   dispatch(
                     showToasterAction({
-                      description: translate('toasts.failed.text'),
+                      description: errorText,
                       type: toasterTypes.failure,
                     }),
                   );

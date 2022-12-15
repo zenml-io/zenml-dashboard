@@ -5,13 +5,12 @@ import { AllRuns } from './AllRuns';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 import { useService } from './useService';
-import { useLocationPath } from '../../../hooks';
+import { useSelector, useLocationPath } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForPipeline,
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
-// import { projectSelectors } from '../../../../redux/selectors/projects';
-import { DEFAULT_PROJECT_NAME } from '../../../../constants';
+import { projectSelectors } from '../../../../redux/selectors/projects';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -62,32 +61,25 @@ const FilterWrapperForRun = () => {
 
 export const Pipelines: React.FC = () => {
   const { setFetchingForAllRuns } = useService();
-  // const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   console.log(setFetchingForAllRuns);
   const locationPath = useLocationPath();
-
-  const url_string = window.location.href;
-  const url = new URL(url_string);
-  const projectName = url.searchParams.get('project');
-  const project = projectName ? projectName : DEFAULT_PROJECT_NAME;
 
   return (
     <BasePage
       tabPages={[
-        window.location.href?.includes('all-runs')
-          ? {
-              text: translate('tabs.allRuns.text'),
-              Component: FilterWrapperForRun,
-              path: routePaths.pipelines.allRuns(project),
-            }
-          : {
-              text: translate('tabs.pipelines.text'),
-              Component: FilterWrapper,
-              path: routePaths.pipelines.base,
-              // path: routePaths.pipelines.list(selectedProject),
-            },
+        window.location.href?.includes('all-runs') ?    {
+            text: translate('tabs.allRuns.text'),
+            Component: FilterWrapperForRun,
+            path: routePaths.pipelines.allRuns(selectedProject),
+          } : {
+            text: translate('tabs.pipelines.text'),
+            Component: FilterWrapper,
+            path: routePaths.pipelines.base,
+            // path: routePaths.pipelines.list(selectedProject),
+        }
       ]}
-      tabBasePath={routePaths.pipelines.base + `?project=${project}`}
+      tabBasePath={routePaths.pipelines.base}
       breadcrumbs={[
         {
           name: locationPath.includes('all-runs')
@@ -95,8 +87,8 @@ export const Pipelines: React.FC = () => {
             : translate('header.breadcrumbs.pipelines.text'),
           clickable: true,
           to: locationPath.includes('pipelines')
-            ? routePaths.pipelines.base + `?project=${project}`
-            : routePaths.pipelines.allRuns(project) + `?project=${project}`,
+          ? routePaths.pipelines.base
+          : routePaths.pipelines.allRuns(selectedProject),
           // to: locationPath.includes('pipelines/list')
           //   ? routePaths.pipelines.list(project)
           //   : routePaths.pipelines.allRuns(project),

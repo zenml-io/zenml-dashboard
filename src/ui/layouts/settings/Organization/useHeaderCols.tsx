@@ -121,8 +121,8 @@ export const useMemberHeaderCols = ({
         </SortingHeader>
       ),
       width: '12%',
-      renderRow: (member: any) => {
-        const initials = getInitialsFromEmail(member.user.name);
+      renderRow: (member: TMember) => {
+        const initials = getInitialsFromEmail(member.name);
         return (
           <FlexBox alignItems="center">
             <div data-tip data-for={member.name}>
@@ -132,11 +132,11 @@ export const useMemberHeaderCols = ({
                     {initials}
                   </ColoredCircle>
                 </Box>
-                <Paragraph size="small">{member.user.name}</Paragraph>
+                <Paragraph size="small">{member.name}</Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip id={member.user.name} place="top" effect="solid">
-              <Paragraph color="white">{member.user.name}</Paragraph>
+            <ReactTooltip id={member.name} place="top" effect="solid">
+              <Paragraph color="white">{member.name}</Paragraph>
             </ReactTooltip>
           </FlexBox>
         );
@@ -149,15 +149,15 @@ export const useMemberHeaderCols = ({
         </Paragraph>
       ),
       width: '12%',
-      renderRow: (member: any) => (
+      renderRow: (member: TMember) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={member?.user?.active ? 'Accepted' : 'Pending'}>
+          <div data-tip data-for={member?.active ? 'Accepted' : 'Pending'}>
             <Paragraph size="small">
-              {member?.user?.active === false ? (
+              {member?.active === false ? (
                 <TokenPopup
-                  id={member?.user?.id}
-                  username={member?.user?.name}
-                  active={member?.user?.active}
+                  id={member?.id}
+                  username={member?.name}
+                  active={member?.active}
                 />
               ) : (
                 <Paragraph>Accepted</Paragraph>
@@ -165,12 +165,12 @@ export const useMemberHeaderCols = ({
             </Paragraph>
           </div>
           <ReactTooltip
-            id={member?.user?.active ? 'Accepted' : 'Pending'}
+            id={member?.active ? 'Accepted' : 'Pending'}
             place="top"
             effect="solid"
           >
             <Paragraph color="white">
-              {member?.user?.active ? 'Accepted' : 'Pending'}
+              {member?.active ? 'Accepted' : 'Pending'}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
@@ -179,14 +179,14 @@ export const useMemberHeaderCols = ({
     {
       render: () => (<Paragraph size="small" style={headColStyle}>Roles</Paragraph>),
       width: '15%',
-      renderRow: (member: any) => {
-        const roles = [...member?.role?.permissions]?.sort((a, b) =>
-            a > b ? 1 : -1,
-        )
+      renderRow: (member: TMember) => {
+        const role = member?.roles?.map((e) => {
+          return e.name
+        })
         return (
           <FlexBox alignItems="center">  
               <Paragraph size="small">
-                <Paragraph>{roles?.toString()}</Paragraph>  
+                <Paragraph>{role?.toString()}</Paragraph>  
               </Paragraph>
           </FlexBox>
         )
@@ -200,13 +200,13 @@ export const useMemberHeaderCols = ({
             asc: (filteredMembers: any[]) =>
               _.orderBy(
                 filteredMembers,
-                (member: any) => new Date(member?.user?.created).getTime(),
+                (member: any) => new Date(member?.created).getTime(),
                 ['asc'],
               ),
             desc: (filteredMembers: any[]) =>
               _.orderBy(
                 filteredMembers,
-                (member: any) => new Date(member?.user?.created).getTime(),
+                (member: any) => new Date(member?.created).getTime(),
                 ['desc'],
               ),
           })}
@@ -219,24 +219,24 @@ export const useMemberHeaderCols = ({
         </SortingHeader>
       ),
       width: '13%',
-      renderRow: (member: any) => (
+      renderRow: (member: TMember) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(member?.user?.created)}>         
+          <div data-tip data-for={formatDateToSort(member?.created)}>         
             <FlexBox alignItems="center">
               <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
               </Box>
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(member?.user?.created)}
+                {formatDateToDisplayOnTable(member?.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <ReactTooltip
-            id={formatDateToSort(member?.user?.created)}
+            id={formatDateToSort(member?.created)}
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{member?.user?.created}</Paragraph>
+            <Paragraph color="white">{member?.created}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -248,18 +248,19 @@ export const useMemberHeaderCols = ({
         <FlexBox alignItems="center">
           {decoded.permissions.includes('write') && (
           <>
+          <FlexBox >
+            <div data-tip data-for={member?.id}>
+              <UpdateMember member={member} />
+            </div>
+          </FlexBox>
+
           <FlexBox>
-            <div data-tip data-for={member?.user?.id}>
-              <DeleteMember member={member?.user} />
+            <div data-tip data-for={member?.id}>
+              <DeleteMember member={member} />
             </div>
             {/* <ReactTooltip id={member.id} place="top" effect="solid">
               <Paragraph color="white">Delete Member</Paragraph>
             </ReactTooltip> */}
-          </FlexBox>
-          <FlexBox >
-            <div data-tip data-for={member?.user?.id}>
-              <UpdateMember member={member} />
-            </div>
           </FlexBox>
           </> 
           )}

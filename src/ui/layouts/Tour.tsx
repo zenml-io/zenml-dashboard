@@ -42,11 +42,12 @@ const TOUR_STEPS = [
 const Tour = () => {
 
     const [run, setRun] = useState(true)
-
     const node = document.querySelector('[title="Skip"]');
+
     // eslint-disable-next-line
     const skipTour = () => localStorage.setItem('runTour', 'false')
     node?.addEventListener("click", skipTour);
+    
 
     useEffect(() => {
         // eslint-disable-next-line
@@ -65,11 +66,15 @@ const Tour = () => {
             continuous
             showSkipButton
             showProgress
+
             styles={{
+                buttonNext: {
+                    backgroundColor: '#433E99'
+                },
                 options: {
-                    primaryColor: '#433E99',
+                    primaryColor: '#fff',
                     zIndex: 1000,
-                }
+                },
             }}
         />
     );

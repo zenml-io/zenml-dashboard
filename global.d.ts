@@ -77,9 +77,12 @@ interface TMember {
     active: boolean;
     activation_token: any;
   },
-  role: { 
-    permissions: array 
-  }
+  roles: [
+   { 
+    id: string; 
+    name: string
+   } 
+  ]
 }
 
 interface TWorkspace {

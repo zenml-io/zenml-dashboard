@@ -2,13 +2,13 @@ import React from 'react';
 import { MenuItem } from './MenuItem';
 import { routePaths } from '../../../../../../../routes/routePaths';
 import { icons } from '../../../../../../components';
-import { iconSizes, iconColors, DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
+import { iconSizes, iconColors } from '../../../../../../../constants';
 import { translate } from '../translate';
 import { useLocationPath } from '../../../../../../hooks';
 // import { matchPath } from 'react-router-dom';
 import { useSelector } from './../../../../../../../ui/hooks';
 import {
-  // projectSelectors,
+  projectSelectors,
   stackComponentSelectors,
 } from '../../../../../../../redux/selectors';
 
@@ -18,13 +18,7 @@ export const Menu: React.FC = () => {
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
-  // const selectedProject = useSelector(projectSelectors.selectedProject);
-
-  const url_string = window.location.href; 
-  const url = new URL(url_string);
-  const projectName = url.searchParams.get("project");
-
-  const project = projectName ? projectName : DEFAULT_PROJECT_NAME
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
   return (
     <>
@@ -33,7 +27,7 @@ export const Menu: React.FC = () => {
         Icon={() => (
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.pipelines.base + `?project=${projectName}`}
+        to={routePaths.pipelines.base}
         text={translate('menu.pipelines.text')}
         // isActive={() => {
         //   return (
@@ -47,14 +41,14 @@ export const Menu: React.FC = () => {
         //     })
         //   );
         // }}
-        // to={routePaths.pipelines.list(projectName ? projectName : DEFAULT_PROJECT_NAME) + `?project=${projectName}`}
+        // to={routePaths.pipelines.list(projectName ? projectName : DEFAULT_PROJECT_NAME)}
       />
       <MenuItem
         id='runs'
         Icon={() => (
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.pipelines.allRuns(project) + `?project=${projectName}`}
+        to={routePaths.pipelines.allRuns(selectedProject)}
         isActive={() => window.location.href?.includes('runs')}
         text={'Runs'}
         // isActive={() => {
@@ -75,7 +69,7 @@ export const Menu: React.FC = () => {
         Icon={() => (
           <icons.stack color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.stacks.base + `?project=${projectName}`}
+        to={routePaths.stacks.base}
         text={translate('menu.stacks.text')}
         // isActive={() => {
         //   return (
@@ -104,7 +98,7 @@ export const Menu: React.FC = () => {
         Icon={() => (
           <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.stackComponents.base(stackComponentsTypes ? stackComponentsTypes[0] : '', project) + `?project=${projectName}`}
+        to={routePaths.stackComponents.base(stackComponentsTypes ? stackComponentsTypes[0] : '', selectedProject)}
         text={translate('menu.stackComponents.text')}
       />
 
@@ -122,7 +116,7 @@ export const Menu: React.FC = () => {
             Icon={() => (
               <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
             )}
-            to={routePaths.stackComponents.base(item, project) + `?project=${projectName}`}
+            to={routePaths.stackComponents.base(item, selectedProject)}
             text={item}
           />
         ))}

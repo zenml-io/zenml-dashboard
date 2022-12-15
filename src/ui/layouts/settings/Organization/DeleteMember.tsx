@@ -45,12 +45,12 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
             }),
           );
         },
-        onFailure: () => {
+        onFailure: (err) => {
           setSubmitting(false);
           dispatch(
             showToasterAction({
               type: 'failure',
-              description: translate('deleteMemberPopup.errorToaster'),
+              description: err,
             }),
           );
         },
