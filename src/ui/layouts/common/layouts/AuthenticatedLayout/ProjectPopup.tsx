@@ -48,9 +48,6 @@ export const ProjectPopup: React.FC<{
             .then(async () => {
              
               startLoad()
-              const newurl = window.location.protocol + "//" + window.location.host + window.location.pathname + `?project=${name}`;
-              window.history.pushState({path:newurl},'',newurl);  
-
               await dispatch(projectsActions.getSelectedProject({
                 allProjects: projects,
                 seletecdProject: name,                          

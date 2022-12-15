@@ -11,7 +11,6 @@ import FilterComponent, {
 } from '../../../components/Filters';
 // import { useSelector } from '../../../hooks';
 // import { projectSelectors } from '../../../../redux/selectors';
-import { DEFAULT_PROJECT_NAME } from '../../../../constants';
 
 
 const FilterWrapper = () => {
@@ -43,11 +42,6 @@ export const Stacks: React.FC = () => {
   console.log(setFetching);
   // const selectedProject = useSelector(projectSelectors.selectedProject);
  
-  const url_string = window.location.href; 
-  const url = new URL(url_string);
-  const projectName = url.searchParams.get("project");
-  const project = projectName ? projectName : DEFAULT_PROJECT_NAME
- 
   return (
     <BasePage
       tabPages={[
@@ -58,12 +52,12 @@ export const Stacks: React.FC = () => {
           // path: routePaths.stacks.list(selectedProject),
         },
       ]}
-      tabBasePath={routePaths.stacks.base + `?project=${project}`}
+      tabBasePath={routePaths.stacks.base}
       breadcrumbs={[
         {
           name: translate('header.breadcrumbs.stacks.text'),
           clickable: true,
-          to: routePaths.stacks.base  + `?project=${project}`,
+          to: routePaths.stacks.base,
           // to: routePaths.stacks.list(selectedProject),
         },
       ]}
