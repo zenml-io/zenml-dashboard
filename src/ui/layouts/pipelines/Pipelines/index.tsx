@@ -82,9 +82,9 @@ export const Pipelines: React.FC = () => {
       tabBasePath={routePaths.pipelines.base}
       breadcrumbs={[
         {
-          name: locationPath.includes('pipelines')
-            ? translate('header.breadcrumbs.pipelines.text')
-            : 'Runs',
+          name: locationPath.includes('all-runs')
+            ? 'Runs'
+            : translate('header.breadcrumbs.pipelines.text'),
           clickable: true,
           to: locationPath.includes('pipelines')
           ? routePaths.pipelines.base
