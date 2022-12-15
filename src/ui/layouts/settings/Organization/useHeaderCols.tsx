@@ -180,10 +180,13 @@ export const useMemberHeaderCols = ({
       render: () => (<Paragraph size="small" style={headColStyle}>Roles</Paragraph>),
       width: '15%',
       renderRow: (member: TMember) => {
+        const role = member?.roles?.map((e) => {
+          return e.name
+        })
         return (
           <FlexBox alignItems="center">  
               <Paragraph size="small">
-                <Paragraph>{member?.role}</Paragraph>  
+                <Paragraph>{role?.toString()}</Paragraph>  
               </Paragraph>
           </FlexBox>
         )

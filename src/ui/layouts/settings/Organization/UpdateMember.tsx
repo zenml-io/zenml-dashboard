@@ -30,11 +30,15 @@ import Select, { StylesConfig } from 'react-select'
 
 export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
 
+  const preRole = member?.roles?.map((e: any) => {
+    return { value: e.id, label: e.name }
+  })
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [popupOpen, setPopupOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState(preRole);
 
   const dispatch = useDispatch();
   const roles = useSelector(rolesSelectors.getRoles);
