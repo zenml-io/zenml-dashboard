@@ -1,11 +1,8 @@
-import {
-  RouteInterface,
-  RouteVisibilityAuthentication,
-} from '../RouteVisibility';
-import { loggedOutRoute } from '../../constants';
+import { RouteVisibilityAuthentication } from '../RouteVisibility';
+import { loggedOutRoute, loggedInRoute } from '../../constants';
 
 const isUnauthenticatedOrMissingRoute = (
-  currentLocation: RouteInterface | undefined,
+  currentLocation: any | undefined,
 ): boolean =>
   currentLocation
     ? currentLocation.visibility &&
@@ -14,7 +11,7 @@ const isUnauthenticatedOrMissingRoute = (
     : false;
 
 const isAuthenticatedOrMissingRoute = (
-  currentLocation: RouteInterface | undefined,
+  currentLocation: any | undefined,
 ): boolean =>
   currentLocation
     ? currentLocation.visibility &&
@@ -33,15 +30,14 @@ export const replaceRouteIfNeeded = ({
 }: {
   user: any;
   isAuthenticated: any;
-  currentLocation: RouteInterface | undefined;
+  currentLocation: any | undefined;
   replaceRoute: (arg1: string) => void;
   routeFromSearchParam: null | string;
 }): void => {
   clearTimeout(timeout);
 
   const routeToReplace = () => {
-    const logRoute = user?.emailOptedIn === null ? `/user-email` : '/';
-    return isAuthenticated ? logRoute : loggedOutRoute;
+    return isAuthenticated ? loggedInRoute : loggedOutRoute;
   };
   const replaceToLoggedInRoute =
     isAuthenticated && isUnauthenticatedOrMissingRoute(currentLocation);
@@ -61,9 +57,13 @@ export const replaceRouteIfNeeded = ({
   if (shouldReplaceRoute) {
     timeout = setTimeout(() => {
       let route = routeToReplace();
+      if (user?.emailOptedIn === null) {
+        route = `/user-email`;
+      }
+      console.log(currentLocation, 'currentLocation', routeFromSearchParam);
 
       if (replaceToLoggedOutRoute && currentLocation) {
-        route = `${route}?route=/`;
+        route = `${route}?route=${currentLocation.path}`;
       } else if (replaceToLoggedInRoute && routeFromSearchParam) {
         route = routeFromSearchParam;
       }
