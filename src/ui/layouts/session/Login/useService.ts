@@ -7,9 +7,9 @@ import {
   userActions,
 } from '../../../../redux/actions';
 import { loginAction } from '../../../../redux/actions/session/loginAction';
-import { useDispatch, usePushRoute } from '../../../hooks';
+import { useDispatch } from '../../../hooks';
 import { translate } from './translate';
-import { routePaths } from '../../../../routes/routePaths';
+// import { routePaths } from '../../../../routes/routePaths';
 
 interface ServiceInterface {
   login: () => void;
@@ -27,7 +27,7 @@ export const useService = (): ServiceInterface => {
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
 
-  const { push } = usePushRoute();
+  // const { push } = usePushRoute();
   const dispatch = useDispatch();
 
   return {

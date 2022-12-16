@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { translate } from './translate';
 import { List } from './List';
 import { AllRuns } from './AllRuns';

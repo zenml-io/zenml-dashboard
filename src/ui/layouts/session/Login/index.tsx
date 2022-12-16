@@ -19,7 +19,7 @@ import image from '../imageNew.png';
 import { translate } from './translate';
 import { routePaths } from '../../../../routes/routePaths';
 import { Link } from 'react-router-dom';
-import { useDispatch, useLocationPath, usePushRoute } from '../../../hooks';
+import { useDispatch } from '../../../hooks';
 
 import { loginAction } from '../../../../redux/actions/session/loginAction';
 import {
@@ -34,7 +34,7 @@ const Login: React.FC = () => {
   const dispatch = useDispatch();
   const password = process.env.REACT_APP_PASSWORD;
   const username = process.env.REACT_APP_USERNAME;
-  const { push } = usePushRoute();
+  // const { push } = usePushRoute();
   const login = async () => {
     setLoading(true);
 
