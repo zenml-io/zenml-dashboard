@@ -41,7 +41,7 @@ const Tour = () => {
                 showSkipButton
                 showProgress
                 styles={{
-                    options: { primaryColor: '#fff', zIndex: 1000, textColor: '#004a14' },
+                    options: { primaryColor: '#fff', zIndex: 1000, textColor: '#004a14', width: 380 },
                     buttonNext: { outline: 'none', backgroundColor: '#431D93',  color: "#fff", fontSize: "1.6rem", height: '4rem', borderRadius: '4px', padding: '0 3.2rem' },
                     buttonSkip: { backgroundColor: '#fff',  color: "#424240", border: '1px solid #424240',  fontSize: "1.6rem", height: '4rem', borderRadius: '4px', padding: '0 3.2rem',  marginLeft: '50%' }    
                   }}

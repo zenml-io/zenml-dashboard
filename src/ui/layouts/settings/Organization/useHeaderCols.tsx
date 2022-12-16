@@ -239,7 +239,7 @@ export const useMemberHeaderCols = ({
             <Paragraph color="white">{member?.created}</Paragraph>
           </ReactTooltip>
         </FlexBox>
-      ),
+        )
     },
     {
       render: () => <Paragraph size="small"></Paragraph>,
