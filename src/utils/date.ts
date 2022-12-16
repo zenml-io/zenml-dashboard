@@ -1,23 +1,31 @@
-import deLocale from 'date-fns/locale/de';
+// import deLocale from 'date-fns/locale/de';
 import {
   differenceInSeconds,
   format,
   addSeconds,
   differenceInDays,
 } from 'date-fns';
+import moment from 'moment'
 
-const formatDateToFormat = (dateString: Date, dateFormat: string): string =>
-  format(new Date(dateString), dateFormat, { locale: deLocale });
+const UTCformatter = (preDate: any) => moment(preDate).format('YYYY/MM/DD HH:mm:ss') + ' +0000'
+const dateformat = (date: any) => new Date(UTCformatter(date)).getTime()
 
+const formatDateToFormat = (dateString: any, dateFormat: string): string =>
+  format(new Date(dateString), dateFormat);
+  // , { locale: deLocale }
 export const formatDateToDisplay = (dateString: Date): string => {
   if (typeof dateString === 'undefined' || !dateString) return '';
   return formatDateToFormat(dateString, `dd.MM.yyyy`);
 };
 
-export const formatDateToDisplayOnTable = (dateString: Date): string => {
+export const formatDateToDisplayOnTable = (dateString: any): any => {
   if (typeof dateString === 'undefined' || !dateString) return '';
-  return formatDateToFormat(dateString, `dd.MM.yyyy HH:mm:ss`);
+  return formatDateToFormat(dateformat(dateString), `dd.MM.yyyy hh:mm:ss`);
 };
+// export const formatDateToDisplayOnTable = (dateString: Date): string => {
+//   if (typeof dateString === 'undefined' || !dateString) return '';
+//   return formatDateToFormat(dateString, `dd.MM.yyyy HH:mm:ss`);
+// };
 export const formatDateToSort = (dateString: Date): string => {
   if (typeof dateString === 'undefined' || !dateString) return '';
   return formatDateToFormat(dateString, `dd.MM.yyyy'T'HH:mm:ss.SSS'Z'`);
