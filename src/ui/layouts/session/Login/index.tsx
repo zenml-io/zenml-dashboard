@@ -19,12 +19,13 @@ import image from '../imageNew.png';
 import { translate } from './translate';
 import { routePaths } from '../../../../routes/routePaths';
 import { Link } from 'react-router-dom';
-import { useDispatch, usePushRoute } from '../../../hooks';
+import { useDispatch, useLocationPath, usePushRoute } from '../../../hooks';
 
 import { loginAction } from '../../../../redux/actions/session/loginAction';
 import {
   projectsActions,
   showToasterAction,
+  stackComponentsActions,
   userActions,
 } from '../../../../redux/actions';
 import { toasterTypes } from '../../../../constants';
@@ -58,9 +59,11 @@ const Login: React.FC = () => {
             }),
           );
           setLoading(false);
+
           await dispatch(projectsActions.getMy({}));
           await dispatch(userActions.getMy({}));
-          await push(routePaths.userEmail);
+          await dispatch(stackComponentsActions.getTypes());
+          // await push(routePaths.userEmail);
         },
       }),
     );

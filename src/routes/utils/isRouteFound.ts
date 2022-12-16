@@ -1,9 +1,7 @@
-import { RouteInterface } from '../RouteVisibility';
-
 export function isRouteFound({
   currentLocation,
 }: {
-  currentLocation: RouteInterface | undefined;
+  currentLocation: any | undefined;
 }): boolean {
   if (!currentLocation) return true;
 

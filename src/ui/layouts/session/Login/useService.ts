@@ -3,6 +3,7 @@ import { toasterTypes } from '../../../../constants';
 import {
   projectsActions,
   showToasterAction,
+  stackComponentsActions,
   userActions,
 } from '../../../../redux/actions';
 import { loginAction } from '../../../../redux/actions/session/loginAction';
@@ -57,7 +58,8 @@ export const useService = (): ServiceInterface => {
 
               await dispatch(userActions.getMy({}));
               await dispatch(projectsActions.getMy({}));
-              await push(routePaths.userEmail);
+              await dispatch(stackComponentsActions.getTypes());
+              // await push(routePaths.userEmail);
             },
           }),
         );

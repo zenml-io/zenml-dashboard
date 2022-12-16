@@ -49,18 +49,18 @@ export const BasePage: React.FC<{
             <>
               <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
               <FlexBox marginBottom="xxl">
-                <Switch>
-                  <Redirect exact from={tabBasePath} to={tabPages[0].path} />
+                {/* <Switch> */}
+                <Redirect exact from={tabBasePath} to={tabPages[0].path} />
 
-                  {tabPages.map((page, index) => (
-                    <AppRoute
-                      key={index}
-                      path={page.path}
-                      exact={true}
-                      component={page.Component}
-                    />
-                  ))}
-                </Switch>
+                {tabPages.map((page, index) => (
+                  <AppRoute
+                    key={index}
+                    path={page.path}
+                    exact={true}
+                    component={page.Component}
+                  />
+                ))}
+                {/* </Switch> */}
               </FlexBox>
             </>
           )}

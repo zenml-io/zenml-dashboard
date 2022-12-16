@@ -40,6 +40,7 @@ export const BasePage: React.FC<{
             />
           )}
         />
+
         <Box>
           {children}
           {tabPages.length > 1 ? (
@@ -48,18 +49,17 @@ export const BasePage: React.FC<{
             <>
               <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
               <FlexBox marginBottom="xxl">
-                <Switch>
-                  <Redirect exact from={tabBasePath} to={tabPages[0].path} />
-
-                  {tabPages.map((page, index) => (
-                    <AppRoute
-                      key={index}
-                      path={page.path}
-                      exact={true}
-                      component={page.Component}
-                    />
-                  ))}
-                </Switch>
+                {/* <Switch> */}
+                <Redirect exact from={tabBasePath} to={tabPages[0].path} />
+                {tabPages.map((page, index) => (
+                  <AppRoute
+                    key={index}
+                    path={page.path}
+                    exact={true}
+                    component={page.Component}
+                  />
+                ))}
+                {/* </Switch> */}
               </FlexBox>
             </>
           )}
