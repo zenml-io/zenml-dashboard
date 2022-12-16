@@ -1,8 +1,5 @@
 import { routePaths } from './routePaths';
-import {
-  RouteInterface,
-  RouteVisibilityAuthentication,
-} from './RouteVisibility';
+import { RouteVisibilityAuthentication } from './RouteVisibility';
 import Login from '../ui/layouts/session/Login';
 import Signup from '../ui/layouts/session/Signup';
 import UserEmail from '../ui/layouts/session/UserEmail';
@@ -342,4 +339,4 @@ const routes = [
   },
 ];
 
-export const appRoutesConfig = [...routes] as RouteInterface[];
+export const appRoutesConfig = [...routes] as any[];

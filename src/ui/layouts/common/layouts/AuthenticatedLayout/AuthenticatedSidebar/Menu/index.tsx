@@ -2,7 +2,11 @@ import React from 'react';
 import { MenuItem } from './MenuItem';
 import { routePaths } from '../../../../../../../routes/routePaths';
 import { icons } from '../../../../../../components';
-import { iconSizes, iconColors } from '../../../../../../../constants';
+import {
+  iconSizes,
+  iconColors,
+  DEFAULT_PROJECT_NAME,
+} from '../../../../../../../constants';
 import { translate } from '../translate';
 import { useLocationPath } from '../../../../../../hooks';
 // import { matchPath } from 'react-router-dom';
@@ -11,6 +15,7 @@ import {
   projectSelectors,
   stackComponentSelectors,
 } from '../../../../../../../redux/selectors';
+import { matchPath } from 'react-router-dom';
 
 export const Menu: React.FC = () => {
   const locationPath = useLocationPath();
@@ -23,28 +28,30 @@ export const Menu: React.FC = () => {
   return (
     <>
       <MenuItem
-        id='pipelines'
+        id="pipelines"
         Icon={() => (
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.pipelines.base}
+        // to={routePaths.pipelines.base}
         text={translate('menu.pipelines.text')}
-        // isActive={() => {
-        //   return (
-        //     !!matchPath(locationPath, {
-        //       path: routePaths.pipelines.base,
-        //       exact: false,
-        //     }) ||
-        //     !!matchPath(locationPath, {
-        //       path: routePaths.pipeline.base(':id'),
-        //       exact: false,
-        //     })
-        //   );
-        // }}
-        // to={routePaths.pipelines.list(projectName ? projectName : DEFAULT_PROJECT_NAME)}
+        isActive={() => {
+          return (
+            !!matchPath(locationPath, {
+              path: routePaths.pipelines.base,
+              exact: false,
+            }) ||
+            !!matchPath(locationPath, {
+              path: routePaths.pipeline.base(':id'),
+              exact: false,
+            })
+          );
+        }}
+        to={routePaths.pipelines.list(
+          selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
+        )}
       />
       <MenuItem
-        id='runs'
+        id="runs"
         Icon={() => (
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
@@ -65,29 +72,29 @@ export const Menu: React.FC = () => {
         // }}
       />
       <MenuItem
-        id='stack'
+        id="stack"
         Icon={() => (
           <icons.stack color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.stacks.base}
+        // to={routePaths.stacks.base}
         text={translate('menu.stacks.text')}
-        // isActive={() => {
-        //   return (
-        //     !!matchPath(locationPath, {
-        //       path: routePaths.stacks.base,
-        //       exact: false,
-        //     }) ||
-        //     !!matchPath(locationPath, {
-        //       path: routePaths.stack.base(':id'),
-        //       exact: false,
-        //     })
-        //   );
-        // }}
-        // to={routePaths.stacks.list(selectedProject)}
+        isActive={() => {
+          return (
+            !!matchPath(locationPath, {
+              path: routePaths.stacks.base,
+              exact: false,
+            }) ||
+            !!matchPath(locationPath, {
+              path: routePaths.stack.base(':id'),
+              exact: false,
+            })
+          );
+        }}
+        to={routePaths.stacks.list(selectedProject)}
       />
 
       <MenuItem
-        id='stack-component'
+        id="stack-component"
         // isActive={() => {
         //   return !!matchPath(locationPath, {
         //     path: routePaths.stackComponents.base('', project) + `?project=${project}`,
@@ -98,7 +105,10 @@ export const Menu: React.FC = () => {
         Icon={() => (
           <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.stackComponents.base(stackComponentsTypes ? stackComponentsTypes[0] : '', selectedProject)}
+        to={routePaths.stackComponents.base(
+          stackComponentsTypes ? stackComponentsTypes[0] : '',
+          selectedProject,
+        )}
         text={translate('menu.stackComponents.text')}
       />
 
@@ -114,7 +124,10 @@ export const Menu: React.FC = () => {
             isActive={() => window.location.href?.includes(item)}
             subItem={true}
             Icon={() => (
-              <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
+              <icons.stackComponent
+                color={iconColors.white}
+                size={iconSizes.md}
+              />
             )}
             to={routePaths.stackComponents.base(item, selectedProject)}
             text={item}

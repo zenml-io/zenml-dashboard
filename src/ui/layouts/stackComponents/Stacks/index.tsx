@@ -5,7 +5,7 @@ import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 
 import { useService } from './useService';
-import { useLocationPath } from '../../../hooks';
+import { useLocationPath, useSelector } from '../../../hooks';
 
 import FilterComponent, {
   getInitialFilterState,
@@ -13,6 +13,7 @@ import FilterComponent, {
 import { camelCaseToParagraph } from '../../../../utils';
 // import { projectSelectors } from '../../../../redux/selectors';
 import { DEFAULT_PROJECT_NAME } from '../../../../constants';
+import { projectSelectors } from '../../../../redux/selectors';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -42,14 +43,14 @@ export const Stacks: React.FC = () => {
   const locationPath = useLocationPath();
   const { setFetching } = useService();
   console.log(setFetching);
-  // const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
-  const url_string = window.location.href; 
-  const url = new URL(url_string);
-  const projectName = url.searchParams.get("project");
+  // const url_string = window.location.href;
+  // const url = new URL(url_string);
+  // const projectName = url.pathname.split('/')[2];
 
-  const project = projectName ? projectName : DEFAULT_PROJECT_NAME
-
+  const project = selectedProject ? selectedProject : DEFAULT_PROJECT_NAME;
+  // debugger;
   return (
     <BasePage
       tabPages={[
@@ -57,17 +58,29 @@ export const Stacks: React.FC = () => {
           text: camelCaseToParagraph(locationPath.split('/')[4]),
           Component: FilterWrapper,
           path: routePaths.stackComponents.base(
-                   locationPath.split('/')[4], project),
+            locationPath.split('/')[4],
+            project as string,
+          ),
         },
       ]}
-      // tabBasePath={routePaths.stackComponents.base('', project) + `?project=${project}`}
-      tabBasePath={routePaths.stackComponents.base(locationPath.split('/')[4], project) + `?project=${project}`}
+      // tabBasePath={
+      //   routePaths.stackComponents.base('', project) + `?project=${project}`
+      // }
+      tabBasePath={
+        routePaths.stackComponents.base(
+          locationPath.split('/')[4],
+          project as string,
+        ) + `?project=${project}`
+      }
       breadcrumbs={[
         {
           name: camelCaseToParagraph(locationPath.split('/')[4]),
           clickable: true,
-          to: routePaths.stackComponents.base(
-                locationPath.split('/')[4], project) + `?project=${project}`
+          to:
+            routePaths.stackComponents.base(
+              locationPath.split('/')[4],
+              project as string,
+            ) + `?project=${project}`,
         },
       ]}
       headerWithButtons

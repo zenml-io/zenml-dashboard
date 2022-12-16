@@ -47,16 +47,16 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
 
     history.push(
       routePaths.stackComponents.configuration(
-        locationPath.split('/')[2],
+        locationPath.split('/')[4],
         stackComponent.id,
       ),
     );
   };
 
-  const url_string = window.location.href; 
+  const url_string = window.location.href;
   const url = new URL(url_string);
-  const projectName = url.searchParams.get("project");
-  const project = projectName ? projectName : DEFAULT_PROJECT_NAME
+  const projectName = url.searchParams.get('project');
+  const project = projectName ? projectName : DEFAULT_PROJECT_NAME;
 
   return (
     <>
