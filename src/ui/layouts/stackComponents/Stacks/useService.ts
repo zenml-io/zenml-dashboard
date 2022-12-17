@@ -18,16 +18,16 @@ export const useService = (): ServiceInterface => {
   // const selectedProject = useSelector(projectSelectors.selectedProject);
   const dispatch = useDispatch();
 
-  const url_string = window.location.href; 
+  const url_string = window.location.href;
   const url = new URL(url_string);
-  const projectName = url.searchParams.get("project");
+  const projectName = url.searchParams.get('project');
 
   useEffect(() => {
     setFetching(true);
     dispatch(
       stackComponentsActions.getMy({
         project: projectName ? projectName : DEFAULT_PROJECT_NAME,
-        type: locationPath.split('/')[2],
+        type: locationPath.split('/')[4],
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

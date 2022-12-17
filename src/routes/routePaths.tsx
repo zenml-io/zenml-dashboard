@@ -45,10 +45,20 @@ export const routePaths = {
     component: {
       base: (id: TId, pipelineId: TId): string =>
         `/components/${pipelineId}/runs/${id}`,
-      statistics: (type: string, stackComponentId: TId, id: TId): string =>
-        `/components/${type}/${stackComponentId}/runs/${id}/dag`,
-      results: (type: string, stackComponentId: TId, id: TId): string =>
-        `/components/${type}/${stackComponentId}/runs/${id}/results`,
+      statistics: (
+        type: string,
+        stackComponentId: TId,
+        id: TId,
+        project: string,
+      ): string =>
+        `/projects/${project}/components/${type}/${stackComponentId}/runs/${id}/dag`,
+      results: (
+        type: string,
+        stackComponentId: TId,
+        id: TId,
+        project: string,
+      ): string =>
+        `/projects/${project}/components/${type}/${stackComponentId}/runs/${id}/results`,
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/components/${pipelineId}/runs/${id}/tensorboard`,
     },
@@ -82,9 +92,10 @@ export const routePaths = {
   stackComponents: {
     base: (type: string, project: string): string =>
       `/projects/${project}/components/${type}`,
-    configuration: (type: string, id: TId): string =>
-      `/components/${type}/${id}/configuration`,
-    runs: (type: string, id: TId): string => `/components/${type}/${id}/runs`,
+    configuration: (type: string, id: TId, project: string): string =>
+      `/projects/${project}/components/${type}/${id}/configuration`,
+    runs: (type: string, id: TId, project: string): string =>
+      `/projects/${project}/components/${type}/${id}/runs`,
   },
 
   settings: {

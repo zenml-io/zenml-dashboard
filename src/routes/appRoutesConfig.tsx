@@ -258,6 +258,7 @@ const routes = [
       ':type',
       ':stackComponentId',
       ':id',
+      ':string',
     ),
     Component: ComponentRunDetail,
     visibility: {
@@ -266,7 +267,12 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.component.results(':type', ':stackComponentId', ':id'),
+    path: routePaths.run.component.results(
+      ':type',
+      ':stackComponentId',
+      ':id',
+      ':string',
+    ),
     Component: ComponentRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -291,7 +297,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stackComponents.configuration(':type', ':id'),
+    path: routePaths.stackComponents.configuration(':type', ':id', ':string'),
     Component: stackComponentsDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -299,7 +305,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stackComponents.runs(':type', ':id'),
+    path: routePaths.stackComponents.runs(':type', ':id', ':string'),
     Component: stackComponentsDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
