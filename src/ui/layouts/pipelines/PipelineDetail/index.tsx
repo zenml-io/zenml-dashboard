@@ -41,22 +41,22 @@ const FilterWrapperForRun = () => {
     >
       <Runs
         filter={getFilter(filters)}
-        pipelineId={locationPath.split('/')[2]}
+        pipelineId={locationPath.split('/')[4]}
       />
     </FilterComponent>
   );
 };
-const getTabPages = (pipelineId: TId): TabPage[] => {
+const getTabPages = (pipelineId: TId, selectedProject: string): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration pipelineId={pipelineId} />,
-      path: routePaths.pipeline.configuration(pipelineId),
+      path: routePaths.pipeline.configuration(pipelineId, selectedProject),
     },
     {
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
-      path: routePaths.pipeline.runs(pipelineId),
+      path: routePaths.pipeline.runs(selectedProject, pipelineId),
     },
   ];
 };
@@ -81,7 +81,7 @@ const getBreadcrumbs = (
     {
       name: pipelineId,
       clickable: true,
-      to: routePaths.pipeline.configuration(pipelineId),
+      to: routePaths.pipeline.configuration(pipelineId, selectedProject),
     },
   ];
 };
@@ -92,8 +92,9 @@ export interface PipelineDetailRouteParams {
 
 export const PipelineDetail: React.FC = () => {
   const { pipeline } = useService();
+
   const selectedProject = useSelector(projectSelectors.selectedProject);
-  const tabPages = getTabPages(pipeline.id);
+  const tabPages = getTabPages(pipeline.id, selectedProject);
   const breadcrumbs = getBreadcrumbs(pipeline.id, selectedProject);
 
   const boxStyle = {
@@ -145,3 +146,6 @@ export const PipelineDetail: React.FC = () => {
 };
 
 export default PipelineDetail;
+function useParams<T>(): { id: any } {
+  throw new Error('Function not implemented.');
+}

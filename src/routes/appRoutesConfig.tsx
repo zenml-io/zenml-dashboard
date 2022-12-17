@@ -93,7 +93,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.pipeline.configuration(':id'),
+    path: routePaths.pipeline.configuration(':id', ':string'),
     Component: PipelineDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -101,7 +101,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.pipeline.runs(':id'),
+    path: routePaths.pipeline.runs(':string', ':id'),
     Component: PipelineDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -165,7 +165,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.pipeline.statistics(':id', ':pipelineId'),
+    path: routePaths.run.pipeline.statistics(':string', ':id', ':pipelineId'),
     Component: PipelineRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -173,7 +173,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.pipeline.results(':id', ':pipelineId'),
+    path: routePaths.run.pipeline.results(':string', ':id', ':pipelineId'),
     Component: PipelineRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,

@@ -118,7 +118,12 @@ export const RunDetail: React.FC = () => {
             }}
             onClick={(event) => {
               event.stopPropagation();
-              history.push(routePaths.pipeline.configuration(run.pipeline?.id));
+              history.push(
+                routePaths.pipeline.configuration(
+                  run.pipeline?.id,
+                  selectedProject,
+                ),
+              );
             }}
           >
             {run.pipeline?.name}

@@ -145,7 +145,7 @@ export const replaceRouteIfNeeded = ({
         // debugger;
       } else if (replaceToLoggedInRoute && routeFromSearchParam) {
         route = routeFromSearchParam;
-        debugger;
+        // debugger;
       }
 
       replaceRoute(route);

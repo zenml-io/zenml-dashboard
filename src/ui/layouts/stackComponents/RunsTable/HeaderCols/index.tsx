@@ -146,7 +146,10 @@ export const useHeaderCols = ({
               onClick={(event) => {
                 event.stopPropagation();
                 history.push(
-                  routePaths.pipeline.configuration(run.pipeline?.id),
+                  routePaths.pipeline.configuration(
+                    run.pipeline?.id,
+                    selectedProject,
+                  ),
                 );
               }}
             >
