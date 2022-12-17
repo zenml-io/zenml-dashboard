@@ -13,7 +13,12 @@ import {
   Paragraph,
   PrimaryButton,
 } from '../../../components';
-import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
+import {
+  useDispatch,
+  useLocationPath,
+  usePushRoute,
+  useSelector,
+} from '../../../hooks';
 import { getTranslateByScope } from '../../../../services';
 import { sessionSelectors } from '../../../../redux/selectors/session';
 import { userSelectors } from '../../../../redux/selectors';
@@ -21,6 +26,7 @@ import axios from 'axios';
 
 export const Form: React.FC = () => {
   const { push } = usePushRoute();
+  const locationPath = useLocationPath();
   const dispatch = useDispatch();
   const translate = getTranslateByScope('ui.layouts.UserEmail');
 
@@ -34,6 +40,8 @@ export const Form: React.FC = () => {
 
   const submit = async () => {
     setSubmitting(true);
+    console.log(locationPath);
+
     try {
       await axios
         .put(
@@ -54,7 +62,17 @@ export const Form: React.FC = () => {
             }),
           );
           dispatch(userActions.getMy({}));
-          dispatch(projectsActions.getMy({}));
+          if (window.location.search.includes('projects')) {
+            const selectedProject = window.location.search.split('/')[2];
+            dispatch(
+              projectsActions.getMy({
+                selectDefault: false,
+                selectedProject,
+              }),
+            );
+          } else {
+            dispatch(projectsActions.getMy({}));
+          }
           dispatch(stackComponentsActions.getTypes());
           push(loggedInRoute);
         });
@@ -71,6 +89,8 @@ export const Form: React.FC = () => {
 
   const skip = async () => {
     setSkipSubmitting(true);
+    console.log(locationPath);
+
     try {
       await axios
         .put(
