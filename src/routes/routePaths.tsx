@@ -54,8 +54,10 @@ export const routePaths = {
     },
     run: {
       base: (runId: TId): string => `/runs/${runId}`,
-      statistics: (id: TId, type?: string): string => `/runs/${id}/dag`,
-      results: (runId: TId): string => `/runs/${runId}/configuration`,
+      statistics: (project: string, id: TId, type?: string): string =>
+        `/projects/${project}/runs/${id}/dag`,
+      results: (project: string, runId: TId): string =>
+        `/projects/${project}/runs/${runId}/configuration`,
       tensorboard: (runId: TId): string => `/runs/${runId}/tensorboard`,
     },
   },

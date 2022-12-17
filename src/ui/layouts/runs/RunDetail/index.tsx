@@ -16,9 +16,11 @@ import { useHistory, useSelector } from '../../../hooks';
 import { projectSelectors } from '../../../../redux/selectors';
 
 const getTabPages = ({
+  selectedProject,
   runId,
   fetching,
 }: {
+  selectedProject: string;
   runId: TId;
   fetching: boolean;
 }): TabPage[] => {
@@ -27,13 +29,13 @@ const getTabPages = ({
       text: 'DAG',
 
       Component: () => <DAG runId={runId} fetching={fetching} />,
-      path: routePaths.run.run.statistics(runId),
+      path: routePaths.run.run.statistics(selectedProject, runId),
     },
     {
       text: 'Configuration',
 
       Component: () => <Configuration runId={runId} />,
-      path: routePaths.run.run.results(runId),
+      path: routePaths.run.run.results(selectedProject, runId),
     },
   ];
 };
@@ -55,7 +57,7 @@ const getBreadcrumbs = ({
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.run.statistics(runId),
+      to: routePaths.run.run.statistics(selectedProject, runId),
     },
   ];
 };
@@ -69,6 +71,7 @@ export const RunDetail: React.FC = () => {
   const { runId, run, fetching } = useService();
   const selectedProject = useSelector(projectSelectors.selectedProject);
   const tabPages = getTabPages({
+    selectedProject,
     fetching,
     runId,
   });

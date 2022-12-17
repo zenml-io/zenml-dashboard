@@ -221,7 +221,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.run.statistics(':runId'),
+    path: routePaths.run.run.statistics(':string', ':runId'),
     Component: RunsRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -229,7 +229,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.run.results(':runId'),
+    path: routePaths.run.run.results(':string', ':runId'),
     Component: RunsRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
