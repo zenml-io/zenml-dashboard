@@ -105,11 +105,10 @@ export const InvitePopup: React.FC<{
   }
 
   const colourStyles: StylesConfig<any> = {
-    control: (styles: any) => ({ ...styles, width: '160px', fontSize: '12px', color: '#424240' }),
+    control: (styles: any) => ({ ...styles, width: '160px',  fontSize: '1.6rem', fontFamily: 'Rubik', color: '#424240' }),
     option: (styles: any) => {
       return {
-        ...styles,
-        fontSize: '12px', color: '#424240'
+        ...styles, fontSize: '1.6rem', fontFamily: 'Rubik', color: '#424240'
       };
     }
   }

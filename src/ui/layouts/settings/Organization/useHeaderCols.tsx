@@ -3,7 +3,6 @@ import { translate } from './translate';
 import {
   formatDateToDisplay,
   formatDateToDisplayOnTable,
-  formatDateToSort,
   getInitialsFromEmail,
 } from '../../../../utils';
 import {
@@ -183,6 +182,7 @@ export const useMemberHeaderCols = ({
         const role = member?.roles?.map((e) => {
           return e.name
         })
+        
         return (
           <FlexBox alignItems="center">  
               <Paragraph size="small">
@@ -219,9 +219,9 @@ export const useMemberHeaderCols = ({
         </SortingHeader>
       ),
       width: '13%',
-      renderRow: (member: TMember) => (
+      renderRow: (member: TMember) => ( 
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(member?.created)}>         
+          <div data-tip data-for={formatDateToDisplayOnTable(member?.created)}>         
             <FlexBox alignItems="center">
               <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
@@ -232,14 +232,14 @@ export const useMemberHeaderCols = ({
             </FlexBox>
           </div>
           <ReactTooltip
-            id={formatDateToSort(member?.created)}
+            id={formatDateToDisplayOnTable(member?.created)}
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{member?.created}</Paragraph>
+            <Paragraph color="white">{formatDateToDisplayOnTable(member?.created)}</Paragraph>
           </ReactTooltip>
         </FlexBox>
-        )
+      )
     },
     {
       render: () => <Paragraph size="small"></Paragraph>,

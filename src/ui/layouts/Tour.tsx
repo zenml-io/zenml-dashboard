@@ -62,16 +62,16 @@ const Tour = () => {
         <JoyRide
             steps={TOUR_STEPS}
             run={run}
-            hideCloseButton
             continuous
             showSkipButton
-            hideBackButton={false}
             showProgress
+            hideBackButton
             styles={{
-                options: { primaryColor: '#fff', zIndex: 1000, textColor: '#004a14', width: 380 },
-                buttonNext: { outline: 'none', backgroundColor: '#431D93',  color: "#fff", fontSize: "1.6rem", height: '4rem', borderRadius: '4px', padding: '0 3.2rem' },
-                buttonSkip: { backgroundColor: '#fff',  color: "#424240", border: '1px solid #424240',  fontSize: "1.6rem", height: '4rem', borderRadius: '4px', padding: '0 3.2rem',  marginLeft: '50%' }
-            }}
+                options: { primaryColor: '#fff', zIndex: 1000, textColor: '#004a14' },
+                buttonNext: { outline: 'none', backgroundColor: '#431D93',  color: "#fff", fontFamily: 'Rubik', fontSize: "1.6rem", height: '4rem', borderRadius: '4px', padding: '0 3.2rem' },
+                buttonSkip: { backgroundColor: '#fff',  color: "#424240", border: '1px solid #424240',  fontFamily: 'Rubik', fontSize: "1.6rem", height: '4rem', borderRadius: '4px', padding: '0 3.2rem' },
+                buttonBack: { border: '1px solid #424240',  fontFamily: 'Rubik', fontSize: "1.6rem", color: '#000' }
+        }}
         />
     );
 };

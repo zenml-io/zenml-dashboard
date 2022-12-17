@@ -7,8 +7,8 @@ import {
 } from 'date-fns';
 import moment from 'moment'
 
-const UTCformatter = (preDate: any) => moment(preDate).format('YYYY/MM/DD HH:mm:ss') + ' +0000'
-const dateformat = (date: any) => new Date(UTCformatter(date)).getTime()
+const UTCformatter = (preDate: any) => moment.utc(preDate).toDate();
+const dateformat = (date: any) => moment(UTCformatter(date)).local().format('YYYY-MM-DD hh:mm:ss');
 
 const formatDateToFormat = (dateString: any, dateFormat: string): string =>
   format(new Date(dateString), dateFormat);
