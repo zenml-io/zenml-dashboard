@@ -1,5 +1,8 @@
 import { routePaths } from './routePaths';
-import { RouteVisibilityAuthentication } from './RouteVisibility';
+import {
+  RouteInterface,
+  RouteVisibilityAuthentication,
+} from './RouteVisibility';
 import Login from '../ui/layouts/session/Login';
 import Signup from '../ui/layouts/session/Signup';
 import UserEmail from '../ui/layouts/session/UserEmail';
@@ -138,7 +141,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stack.configuration(':id'),
+    path: routePaths.stack.configuration(':id', ':string'),
     Component: StackDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -146,7 +149,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stack.runs(':id'),
+    path: routePaths.stack.runs(':string', ':id'),
     Component: StackDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -194,7 +197,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.stack.statistics(':id', ':stackId'),
+    path: routePaths.run.stack.statistics(':string', ':id', ':stackId'),
     Component: StacksRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -202,7 +205,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.stack.results(':id', ':stackId'),
+    path: routePaths.run.stack.results(':string', ':id', ':stackId'),
     Component: StacksRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -339,4 +342,4 @@ const routes = [
   },
 ];
 
-export const appRoutesConfig = [...routes] as any[];
+export const appRoutesConfig = [...routes] as RouteInterface[];

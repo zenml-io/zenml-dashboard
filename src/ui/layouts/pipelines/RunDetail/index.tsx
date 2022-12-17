@@ -163,7 +163,9 @@ export const RunDetail: React.FC = () => {
             }}
             onClick={(event) => {
               event.stopPropagation();
-              history.push(routePaths.stack.configuration(run.stack?.id));
+              history.push(
+                routePaths.stack.configuration(run.stack?.id, selectedProject),
+              );
             }}
           >
             {run.stack?.name}

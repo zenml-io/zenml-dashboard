@@ -32,6 +32,7 @@ import { userSelectors } from '../redux/selectors';
 import { userActions } from '../redux/actions';
 
 const useReplaceRouteIfNeeded = ({
+  locationPath,
   currentLocation,
   setNotFound,
 }: any): void => {
@@ -52,6 +53,7 @@ const useReplaceRouteIfNeeded = ({
 
   React.useEffect(() => {
     replaceRouteIfNeeded({
+      locationPath,
       user,
       currentLocation,
       isAuthenticated,
@@ -69,15 +71,16 @@ export const AppRoute = ({ path, component, exact }: any): JSX.Element => {
 
   const currentLocation = findRouteByLocationPath(locationPath);
 
-  if (currentLocation.path.includes(':id')) {
-    currentLocation.path = locationPath;
-  }
+  // if (currentLocation.path.includes(':id', ':string')) {
+  //   currentLocation.path = locationPath;
+  // }
 
   // if (currentLocation.path.includes(':type')) {
   //   currentLocation.path = locationPath + locationPath.split('/')[4];
   // }
 
   useReplaceRouteIfNeeded({
+    locationPath,
     currentLocation,
     setNotFound,
   });

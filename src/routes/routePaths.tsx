@@ -1,8 +1,6 @@
-
-const url_string = window.location.href; 
+const url_string = window.location.href;
 const url = new URL(url_string);
-const projectName = url.searchParams.get("project");
-
+const projectName = url.searchParams.get('project');
 
 export const routePaths = {
   login: '/login',
@@ -35,10 +33,10 @@ export const routePaths = {
     stack: {
       base: (id: TId, pipelineId: TId): string =>
         `/stacks/${pipelineId}/runs/${id}`,
-      statistics: (id: TId, stackId: TId): string =>
-        `/stacks/${stackId}/runs/${id}/dag`,
-      results: (id: TId, pipelineId: TId): string =>
-        `/stacks/${pipelineId}/runs/${id}/configuration`,
+      statistics: (project: string, id: TId, stackId: TId): string =>
+        `/projects/${project}/stacks/${stackId}/runs/${id}/dag`,
+      results: (project: string, id: TId, pipelineId: TId): string =>
+        `/projects/${project}/stacks/${pipelineId}/runs/${id}/configuration`,
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/stacks/${pipelineId}/runs/${id}/tensorboard`,
     },
@@ -66,8 +64,10 @@ export const routePaths = {
   },
   stack: {
     base: (id: TId): string => `/stacks/${id}`,
-    configuration: (id: TId): string => `/stacks/${id}/configuration`,
-    runs: (id: TId): string => `/stacks/${id}/runs`,
+    configuration: (id: TId, project: string): string =>
+      `/projects/${project}/stacks/${id}/configuration`,
+    runs: (project: string, id: TId): string =>
+      `/projects/${project}/stacks/${id}/runs`,
   },
   runs: {
     base: (id: TId): string => `/stacks/${id}`,

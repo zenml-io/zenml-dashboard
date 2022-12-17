@@ -17,23 +17,25 @@ const getTabPages = ({
   stackId,
   runId,
   fetching,
+  selectedProject,
 }: {
   stackId: TId;
   runId: TId;
   fetching: boolean;
+  selectedProject: string;
 }): TabPage[] => {
   return [
     {
       text: 'DAG',
 
       Component: () => <DAG runId={runId} fetching={fetching} />,
-      path: routePaths.run.stack.statistics(runId, stackId),
+      path: routePaths.run.stack.statistics(selectedProject, runId, stackId),
     },
     {
       text: 'Configuration',
 
       Component: () => <Configuration runId={runId} />,
-      path: routePaths.run.stack.results(runId, stackId),
+      path: routePaths.run.stack.results(selectedProject, runId, stackId),
     },
   ];
 };
@@ -56,12 +58,12 @@ const getBreadcrumbs = ({
     {
       name: stackId,
       clickable: true,
-      to: routePaths.stack.configuration(stackId),
+      to: routePaths.stack.configuration(stackId, selectedProject),
     },
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.stack.statistics(runId, stackId),
+      to: routePaths.run.stack.statistics(runId, stackId, selectedProject),
     },
   ];
 };
@@ -80,6 +82,7 @@ export const RunDetail: React.FC = () => {
     runId,
     stackId,
     fetching,
+    selectedProject,
   });
   const breadcrumbs = getBreadcrumbs({
     runId,
@@ -160,7 +163,9 @@ export const RunDetail: React.FC = () => {
             }}
             onClick={(event) => {
               event.stopPropagation();
-              history.push(routePaths.stack.configuration(run.stack?.id));
+              history.push(
+                routePaths.stack.configuration(run.stack?.id, selectedProject),
+              );
             }}
           >
             {run.stack?.name}
