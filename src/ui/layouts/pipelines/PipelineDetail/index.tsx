@@ -146,6 +146,3 @@ export const PipelineDetail: React.FC = () => {
 };
 
 export default PipelineDetail;
-function useParams<T>(): { id: any } {
-  throw new Error('Function not implemented.');
-}

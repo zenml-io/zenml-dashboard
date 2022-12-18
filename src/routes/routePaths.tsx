@@ -1,6 +1,6 @@
-const url_string = window.location.href;
-const url = new URL(url_string);
-const projectName = url.searchParams.get('project');
+// const url_string = window.location.href;
+// const url = new URL(url_string);
+// const projectName = url.searchParams.get('project');
 
 export const routePaths = {
   login: '/login',

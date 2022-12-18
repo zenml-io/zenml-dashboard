@@ -4,13 +4,13 @@ import { Paragraph, Box, FlexBox } from '../../../../../../components';
 import cn from 'classnames';
 import styles from './MenuItem.module.scss';
 import { camelCaseToParagraph } from '../../../../../../../utils';
-import { DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
+// import { DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
 import { useSelector } from '../../../../../../hooks';
 import { projectSelectors } from '../../../../../../../redux/selectors';
 
-const url_string = window.location.href;
-const url = new URL(url_string);
-const projectName = url.searchParams.get('project');
+// const url_string = window.location.href;
+// const url = new URL(url_string);
+// const projectName = url.searchParams.get('project');
 
 // debugger;
 export const MenuItem: React.FC<{

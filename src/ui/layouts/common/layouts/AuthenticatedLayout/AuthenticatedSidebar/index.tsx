@@ -21,9 +21,9 @@ export const AuthenticatedSidebar: React.FC<{
 }> = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const { push } = usePushRoute();
 
-  const url_string = window.location.href;
-  const url = new URL(url_string);
-  const projectName = url.searchParams.get('project');
+  // const url_string = window.location.href;
+  // const url = new URL(url_string);
+  // const projectName = url.searchParams.get('project');
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
   return (
