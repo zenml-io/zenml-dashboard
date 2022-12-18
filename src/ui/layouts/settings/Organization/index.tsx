@@ -93,7 +93,34 @@ export const Organization: React.FC = () => {
               headerCols={memberHeaderCols}
               loading={fetchingMembers}
               showHeader={true}
-              tableRows={filteredMembers}
+              tableRows={
+                [{
+                id: "3fa85f64-5717-4562-b3fc-2c963f66afa6",
+                created: "2022-12-18T21:27:21.121Z",
+                updated: "2022-12-18T21:27:21.121Z",
+                name: "string",
+                full_name: "",
+                email_opted_in: true,
+                active: false,
+                activation_token: "string",
+                roles: [
+                  {
+                    id: "29f499dc-bbe8-40ae-8406-a9fd43c6d350",
+                    created: "2022-12-18T21:27:21.121Z",
+                    updated: "2022-12-18T21:27:21.121Z",
+                    name: "guest",
+                  },
+                  {
+                    id: "8e9a0301-75d6-4746-b37f-062a9b33d329",
+                    created: "2022-12-18T21:27:21.121Z",
+                    updated: "2022-12-18T21:27:21.121Z",
+                    name: "admin",
+                  }
+                ],
+              }
+            ]
+          }
+              // tableRows={filteredMembers}
               emptyState={{ text: translate('emptyState.text') }}
             />
           )}

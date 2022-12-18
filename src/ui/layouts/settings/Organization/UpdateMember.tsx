@@ -51,7 +51,17 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
 
   function handleChange(value: string) {
     setRole(value);
-  }
+  
+    // if (role.length < preRole.length) {
+    //   member.roles.map((meme: any) => {
+    //     // @ts-ignore
+    //     	if (meme?.id !== value[0]?.value) 
+    //         return console.log(role)
+          
+    //   })
+    // }
+  
+  }  
 
   useEffect(() => {
     setUsername(member?.name)
@@ -59,22 +69,34 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
   
   const onUpdate = async () => {
     setSubmitting(true);
-    try {
-      await fetchApiWithAuthRequest({
-        url: apiUrl(endpoints.users.updateUser(member.id)),
-        method: httpMethods.put,
-        authenticationToken,
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        data: { name: username, password: password },
-      });
+      try {
+        if (password) {
+          await fetchApiWithAuthRequest({
+            url: apiUrl(endpoints.users.updateUser(member.id)),
+            method: httpMethods.put,
+            authenticationToken,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            data: { name: username, password: password },
+          });
+        } else {
+          await fetchApiWithAuthRequest({
+            url: apiUrl(endpoints.users.updateUser(member.id)),
+            method: httpMethods.put,
+            authenticationToken,
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            data: { name: username },
+          })
+      }
 
       for (let index = 0; index < role.length; index++) {
         const singleRole = role[index];
         await axios.post(`${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
                 // @ts-ignore
-                { user: member.id, role: singleRole?.value },
+                 { user: member.id, role: singleRole?.value },
                 { headers: { Authorization: `Bearer ${authToken}` }}
               )
       }
@@ -111,7 +133,7 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
 
 
   const colourStyles: StylesConfig<any> = {
-    control: (styles: any) => ({ ...styles, width: '146px', fontSize: '1.6rem', fontFamily: 'Rubik', color: '#424240' }),
+    control: (styles: any) => ({ ...styles, fontSize: '1.6rem', fontFamily: 'Rubik', color: '#424240' }),
     option: (styles: any) => {
       return {
         ...styles,
@@ -133,27 +155,25 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
 
           <Box marginTop='lg'>
            
-            <FlexBox.Row alignItems='center' marginTop="md" style={{ width: '100%' }} >
-              <Box style={{ width: '80%' }}>
-                <FormTextField
-                  label={translate('updateMemberPopup.form.username.label')}
-                  labelColor="#000"
-                  placeholder={translate('updateMemberPopup.form.username.placeholder')}
-                  value={username ? username : ''}
-                  onChange={(val: string) => setUsername(val)}
-                />
-              </Box>
+            <Box>
+              <FormTextField
+                label={translate('updateMemberPopup.form.username.label')}
+                labelColor="#000"
+                placeholder={translate('updateMemberPopup.form.username.placeholder')}
+                value={username ? username : ''}
+                onChange={(val: string) => setUsername(val)}
+              />
+            </Box>
 
-              <Box style={{ marginLeft: '20px' }}>
+            <Box marginTop='md'>
                 <Paragraph size="body" style={{ color: 'black' }}><label htmlFor={username}>{'Roles'}</label></Paragraph>
-                <Select options={allRoles} isMulti  onChange={(e: any) => handleChange(e)}
+                <Select options={allRoles} isMulti onChange={(e: any) => handleChange(e)}
                   value={role}
                   placeholder={'Roles'}
                   styles={colourStyles}
                   isClearable={false}
                 />
-             </Box>
-            </FlexBox.Row>
+            </Box>
 
             <Box marginTop="md">
               <FormPasswordField

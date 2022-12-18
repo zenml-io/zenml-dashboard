@@ -8,7 +8,7 @@ import {
 import moment from 'moment'
 
 const UTCformatter = (preDate: any) => moment.utc(preDate).toDate();
-const dateformat = (date: any) => moment(UTCformatter(date)).local().format('YYYY-MM-DD hh:mm:ss');
+const dateformat = (date: any) => moment(UTCformatter(date)).local().format('YYYY-MM-DD HH:mm:ss');
 
 const formatDateToFormat = (dateString: any, dateFormat: string): string =>
   format(new Date(dateString), dateFormat);
@@ -20,7 +20,7 @@ export const formatDateToDisplay = (dateString: Date): string => {
 
 export const formatDateToDisplayOnTable = (dateString: any): any => {
   if (typeof dateString === 'undefined' || !dateString) return '';
-  return formatDateToFormat(dateformat(dateString), `dd.MM.yyyy hh:mm:ss`);
+  return formatDateToFormat(dateformat(dateString), `dd.MM.yyyy HH:mm:ss`);
 };
 // export const formatDateToDisplayOnTable = (dateString: Date): string => {
 //   if (typeof dateString === 'undefined' || !dateString) return '';
