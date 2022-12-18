@@ -35,7 +35,7 @@ import { ReactComponent as Docs } from './assets/Docs.svg';
 import { ReactComponent as Example } from './assets/Example.svg';
 import { ReactComponent as Pipeline } from './assets/Pipeline.svg';
 import { ReactComponent as Stack } from './assets/Stack.svg';
-import { ReactComponent as StackComponent } from './assets/StackComponent.svg';
+// import { ReactComponent as StackComponent } from './assets/StackComponent.svg';
 import { ReactComponent as FunnelFill } from './assets/FunnelFill.svg';
 import { ReactComponent as Delete } from './assets/Delete.svg';
 import { ReactComponent as SimplePlus } from './assets/SimplePlus.svg';
