@@ -12,7 +12,7 @@ export const routePaths = {
     base: `/pipelines`,
     list: (project: string): string => `/projects/${project}/pipelines/list`,
     allRuns: (project: string): string =>
-      `/projects/${projectName ? projectName : project}/pipelines/all-runs`,
+      `/projects/${project}/pipelines/all-runs`,
   },
   pipeline: {
     base: (id: TId): string => `/pipelines/${id}`,

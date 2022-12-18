@@ -23,7 +23,12 @@ import {
   DEFAULT_PROJECT_NAME,
 } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { useDispatch, usePushRoute, useSelector } from '../../../../hooks';
+import {
+  useDispatch,
+  useLocationPath,
+  usePushRoute,
+  useSelector,
+} from '../../../../hooks';
 import {
   projectsActions,
   sessionActions,
@@ -51,7 +56,7 @@ export const AuthenticatedHeader: React.FC<{
 
   const dispatch = useDispatch();
   const { push } = usePushRoute();
-
+  const locationPath = useLocationPath();
   useEffect(() => {
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
@@ -67,6 +72,19 @@ export const AuthenticatedHeader: React.FC<{
       console.log(`You changed the page to: ${location.pathname}`);
     });
   }, [history]);
+
+  useEffect(() => {
+    if (locationPath.includes('projects')) {
+      const selectedProject = locationPath.split('/')[2];
+      dispatch(
+        projectsActions.getMy({
+          selectDefault: false,
+          selectedProject,
+        }),
+      );
+    }
+    // debugger;
+  }, []);
   if (!user) return null;
 
   const userFullName = user.fullName || user.name || DEFAULT_FULL_NAME;
@@ -92,6 +110,8 @@ export const AuthenticatedHeader: React.FC<{
   const onChange = (e: any) => {
     e.preventDefault();
     startLoad();
+    console.log(locationPath, 'test');
+    history.push('/');
     dispatch(
       projectsActions.getSelectedProject({
         allProjects: projects,

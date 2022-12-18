@@ -83,7 +83,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
               }
             : {
                 text: `Nothing to see here, it seems like no ${camelCaseToParagraph(
-                  project,
+                  selectedProject,
                 )} has been configured yet.`,
               }
         }

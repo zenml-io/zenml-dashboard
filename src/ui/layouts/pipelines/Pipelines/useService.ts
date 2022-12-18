@@ -37,7 +37,7 @@ export const useService = (): ServiceInterface => {
         onFailure: () => setFetchingForPipeline(false),
       }),
     );
-  }, []);
+  }, [selectedProject]);
 
   const setFetchingForPipeline = (fetching: boolean) => {
     dispatch(pipelinePagesActions.setFetching({ fetching }));

@@ -111,7 +111,17 @@ export const Form: React.FC = () => {
             }),
           );
           dispatch(userActions.getMy({}));
-          dispatch(projectsActions.getMy({}));
+          if (window.location.search.includes('projects')) {
+            const selectedProject = window.location.search.split('/')[2];
+            dispatch(
+              projectsActions.getMy({
+                selectDefault: false,
+                selectedProject,
+              }),
+            );
+          } else {
+            dispatch(projectsActions.getMy({}));
+          }
           dispatch(stackComponentsActions.getTypes());
           push(loggedInRoute);
         });

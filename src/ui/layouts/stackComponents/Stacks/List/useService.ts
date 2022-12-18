@@ -83,7 +83,9 @@ export const useService = (
       dispatch(
         stackComponentsActions.getMy({
           type: locationPath.split('/')[4],
-          project: selectedProject,
+          project: selectedProject
+            ? selectedProject
+            : locationPath.split('/')[2],
         }),
       );
     }, 5000);
