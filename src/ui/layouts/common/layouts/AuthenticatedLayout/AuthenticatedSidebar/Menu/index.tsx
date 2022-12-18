@@ -111,9 +111,10 @@ export const Menu: React.FC = () => {
         )}
         text={translate('menu.stackComponents.text')}
       />
+      {console.log(stackComponentsTypes, 'test')}
 
       {locationPath.includes('components') &&
-        stackComponentsTypes?.map((item) => (
+        stackComponentsTypes?.map((item: any) => (
           <MenuItem
             // isActive={() => {
             //   return !!matchPath(locationPath, {
@@ -124,10 +125,72 @@ export const Menu: React.FC = () => {
             isActive={() => window.location.href?.includes(item)}
             subItem={true}
             Icon={() => (
-              <icons.stackComponent
-                color={iconColors.white}
-                size={iconSizes.md}
-              />
+              <>
+                {item === 'artifact_store' && (
+                  <icons.artifact_store
+                    color={iconColors.white}
+                    size={iconSizes.md}
+                  />
+                )}
+                {item === 'alerter' && (
+                  <icons.alerter color={iconColors.white} size={iconSizes.md} />
+                )}
+                {item === 'annotator' && (
+                  <icons.annotator
+                    color={iconColors.white}
+                    size={iconSizes.md}
+                  />
+                )}
+                {item === 'container_registry' && (
+                  <icons.container_registry
+                    color={iconColors.white}
+                    size={iconSizes.md}
+                  />
+                )}
+                {item === 'experiment_tracker' && (
+                  <icons.experiment_tracker
+                    color={iconColors.white}
+                    size={iconSizes.md}
+                  />
+                )}
+
+                {item === 'feature_store' && (
+                  <icons.feature_store
+                    color={iconColors.white}
+                    size={iconSizes.md}
+                  />
+                )}
+                {item === 'model_deployer' && (
+                  <icons.model_deployer
+                    color={iconColors.white}
+                    size={iconSizes.md}
+                  />
+                )}
+                {item === 'secrets_manager' && (
+                  <icons.secrets_manager
+                    color={iconColors.white}
+                    size={iconSizes.md}
+                  />
+                )}
+                {item === 'orchestrator' && (
+                  <icons.orchestrator
+                    color={iconColors.white}
+                    size={iconSizes.md}
+                  />
+                )}
+                {item === 'step_operator' && (
+                  <icons.step_operator
+                    color={iconColors.white}
+                    size={iconSizes.md}
+                  />
+                )}
+                {item === 'data_validator' && (
+                  <icons.data_validator
+                    color={iconColors.white}
+                    size={iconSizes.md}
+                  />
+                )}
+              </>
             )}
             to={routePaths.stackComponents.base(item, selectedProject)}
             text={item}
