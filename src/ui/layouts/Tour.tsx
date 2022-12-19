@@ -69,8 +69,8 @@ const Tour = () => {
             styles={{
                 options: { primaryColor: '#fff', zIndex: 1000, textColor: '#004a14' },
                 buttonNext: { outline: 'none', backgroundColor: '#431D93',  color: "#fff", fontFamily: 'Rubik', fontSize: "1.3rem", height: '3rem', borderRadius: '4px', padding: '0 2rem' },
-                buttonSkip: { backgroundColor: '#fff',  color: "#424240", border: '1px solid #424240',  fontFamily: 'Rubik', fontSize: "1.3rem", height: '3rem', borderRadius: '4px', padding: '0 2rem' },
-                buttonBack: { color: '#000', border: '1px solid #424240' }
+                buttonSkip: { backgroundColor: '#fff',  color: "#424240", border: '1px solid #424240', fontFamily: 'Rubik', fontSize: "1.3rem", height: '3rem', borderRadius: '4px', padding: '0 2rem' },
+                buttonBack: { color: '#000', fontFamily: 'Rubik', fontSize: "1.3rem", height: '3rem' }
             }}
         />
     );
