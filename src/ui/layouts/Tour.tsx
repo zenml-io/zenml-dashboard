@@ -47,11 +47,17 @@ const Tour = () => {
     // eslint-disable-next-line
     const skipTour = () => localStorage.setItem('runTour', 'false')
     node?.addEventListener("click", skipTour);
-    
+
+    const handleJoyrideCallback = (data: any) => {
+        const { status } = data;
+        if (status === 'finished') {
+            localStorage.setItem('runTourHome', 'false')
+        }
+    }
 
     useEffect(() => {
         // eslint-disable-next-line
-        if (localStorage.getItem('runTour') == 'false') {
+        if (localStorage.getItem('runTour') == 'false' || localStorage.getItem('runTourHome') == 'false') {
             setRun(false)
         } else {
             setRun(true)
@@ -66,7 +72,7 @@ const Tour = () => {
             showSkipButton
             showProgress
             hideBackButton={false}
-        
+            callback={handleJoyrideCallback}
             styles={{
                 options: { primaryColor: '#fff', zIndex: 1000, textColor: '#004a14' },
                 buttonNext: { outline: 'none', backgroundColor: '#431D93',  color: "#fff", fontFamily: 'Rubik', fontSize: "1.3rem", height: '3rem', borderRadius: '4px', padding: '0 2rem' },
