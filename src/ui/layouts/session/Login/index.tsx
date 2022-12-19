@@ -19,7 +19,7 @@ import image from '../imageNew.png';
 import { translate } from './translate';
 import { routePaths } from '../../../../routes/routePaths';
 import { Link } from 'react-router-dom';
-import { useDispatch } from '../../../hooks';
+import { useDispatch, useLocationPath } from '../../../hooks';
 
 import { loginAction } from '../../../../redux/actions/session/loginAction';
 import {
@@ -35,8 +35,10 @@ const Login: React.FC = () => {
   const password = process.env.REACT_APP_PASSWORD;
   const username = process.env.REACT_APP_USERNAME;
   // const { push } = usePushRoute();
+  const locationPath = useLocationPath();
   const login = async () => {
     setLoading(true);
+    console.log(locationPath);
 
     await dispatch(
       loginAction({
@@ -60,7 +62,17 @@ const Login: React.FC = () => {
           );
           setLoading(false);
 
-          await dispatch(projectsActions.getMy({}));
+          if (window.location.search.includes('projects')) {
+            const selectedProject = window.location.search.split('/')[2];
+            await dispatch(
+              projectsActions.getMy({
+                selectDefault: false,
+                selectedProject,
+              }),
+            );
+          } else {
+            await dispatch(projectsActions.getMy({}));
+          }
           await dispatch(userActions.getMy({}));
           await dispatch(stackComponentsActions.getTypes());
           // await push(routePaths.userEmail);

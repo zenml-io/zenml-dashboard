@@ -26,7 +26,7 @@ export const useService = (): ServiceInterface => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
-
+  // const locationPath = useLocationPath();
   // const { push } = usePushRoute();
   const dispatch = useDispatch();
 
@@ -55,9 +55,18 @@ export const useService = (): ServiceInterface => {
                   type: toasterTypes.success,
                 }),
               );
-
+              if (window.location.search.includes('projects')) {
+                const selectedProject = window.location.search.split('/')[2];
+                await dispatch(
+                  projectsActions.getMy({
+                    selectDefault: false,
+                    selectedProject,
+                  }),
+                );
+              } else {
+                await dispatch(projectsActions.getMy({}));
+              }
               await dispatch(userActions.getMy({}));
-              await dispatch(projectsActions.getMy({}));
               await dispatch(stackComponentsActions.getTypes());
               // await push(routePaths.userEmail);
             },

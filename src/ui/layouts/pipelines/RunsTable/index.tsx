@@ -1,11 +1,12 @@
 import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
-import { useHistory } from '../../../hooks';
+import { useHistory, useSelector } from '../../../hooks';
 
 import { Table } from '../../common/Table';
 
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
+import { projectSelectors } from '../../../../redux/selectors';
 
 interface Props {
   filter: any;
@@ -28,7 +29,7 @@ export const RunsTable: React.FC<{
   filter,
 }) => {
   const history = useHistory();
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const {
     sortedRuns,
     setSortedRuns,
@@ -43,9 +44,10 @@ export const RunsTable: React.FC<{
     setSelectedRunIds([]);
 
     fromAllruns
-      ? history.push(routePaths.run.run.statistics(run.id))
+      ? history.push(routePaths.run.run.statistics(selectedProject, run.id))
       : history.push(
           routePaths.run.pipeline.statistics(
+            selectedProject,
             run.id,
             run.pipeline_id ? run.pipeline_id : run.pipelineId,
           ),

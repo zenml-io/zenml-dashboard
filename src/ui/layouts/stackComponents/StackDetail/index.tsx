@@ -41,27 +41,33 @@ const FilterWrapperForRun = () => {
     >
       <Runs
         filter={getFilter(filters)}
-        stackComponentId={locationPath.split('/')[3]}
+        stackComponentId={locationPath.split('/')[5]}
       />
     </FilterComponent>
   );
 };
-const getTabPages = (stackId: TId, locationPath: any): TabPage[] => {
+const getTabPages = (
+  stackId: TId,
+  locationPath: any,
+  selectedProject: string,
+): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration stackId={stackId} />,
       path: routePaths.stackComponents.configuration(
-        locationPath.split('/')[2],
+        locationPath.split('/')[4],
         stackId,
+        selectedProject,
       ),
     },
     {
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
       path: routePaths.stackComponents.runs(
-        locationPath.split('/')[2],
+        locationPath.split('/')[4],
         stackId,
+        selectedProject,
       ),
     },
   ];
@@ -74,11 +80,11 @@ const getBreadcrumbs = (
 ): TBreadcrumb[] => {
   return [
     {
-      name: camelCaseToParagraph(locationPath.split('/')[2]),
+      name: camelCaseToParagraph(locationPath.split('/')[4]),
 
       clickable: true,
       to: routePaths.stackComponents.base(
-        locationPath.split('/')[2],
+        locationPath.split('/')[4],
         selectedProject,
       ),
     },
@@ -86,8 +92,9 @@ const getBreadcrumbs = (
       name: stackId,
       clickable: true,
       to: routePaths.stackComponents.configuration(
-        camelCaseToParagraph(locationPath.split('/')[2]),
+        camelCaseToParagraph(locationPath.split('/')[4]),
         stackId,
+        selectedProject,
       ),
     },
   ];
@@ -101,7 +108,11 @@ export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
   const { stackComponent } = useService();
   const selectedProject = useSelector(projectSelectors.selectedProject);
-  const tabPages = getTabPages(stackComponent.id, locationPath);
+  const tabPages = getTabPages(
+    stackComponent.id,
+    locationPath,
+    selectedProject,
+  );
   const breadcrumbs = getBreadcrumbs(
     stackComponent.id,
     locationPath,

@@ -5,8 +5,9 @@ import { RunsTable } from '../../../RunsTable';
 import { translate } from '../../translate';
 import { useService } from './useService';
 import styles from './NestedRow.module.scss';
-import { useHistory } from '../../../../../hooks';
+import { useHistory, useSelector } from '../../../../../hooks';
 import { routePaths } from '../../../../../../routes/routePaths';
+import { projectSelectors } from '../../../../../../redux/selectors';
 export const RunsForStackTable: React.FC<{
   stack: TStack;
   openStackIds: TId[];
@@ -58,6 +59,8 @@ interface NestedRowProps {
 }
 function NestedRow({ tiles }: NestedRowProps) {
   const history = useHistory();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+
   return (
     <FlexBox.Row
       marginVertical="sm"
@@ -74,7 +77,11 @@ function NestedRow({ tiles }: NestedRowProps) {
               style={{ cursor: 'pointer' }}
               onClick={() => {
                 history.push(
-                  routePaths.stackComponents.configuration(tile.type, tile.id),
+                  routePaths.stackComponents.configuration(
+                    tile.type,
+                    tile.id,
+                    selectedProject,
+                  ),
                 );
               }}
             >

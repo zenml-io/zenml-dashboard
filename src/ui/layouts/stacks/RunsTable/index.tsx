@@ -1,6 +1,7 @@
 import React from 'react';
+import { projectSelectors } from '../../../../redux/selectors';
 import { routePaths } from '../../../../routes/routePaths';
-import { useHistory } from '../../../hooks';
+import { useHistory, useSelector } from '../../../hooks';
 
 import { Table } from '../../common/Table';
 
@@ -32,10 +33,13 @@ export const RunsTable: React.FC<{
     setActiveSortingDirection,
     setSelectedRunIds,
   } = useService({ runIds, filter });
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
-    history.push(routePaths.run.stack.statistics(run.id, run.stack.id));
+    history.push(
+      routePaths.run.stack.statistics(selectedProject, run.id, run.stack.id),
+    );
   };
 
   const headerCols = useHeaderCols({

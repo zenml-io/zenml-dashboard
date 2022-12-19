@@ -59,7 +59,9 @@ export const Stacks: React.FC = () => {
           Component: FilterWrapper,
           path: routePaths.stackComponents.base(
             locationPath.split('/')[4],
-            project as string,
+            selectedProject
+              ? selectedProject
+              : (locationPath.split('/')[2] as string),
           ),
         },
       ]}
@@ -69,7 +71,9 @@ export const Stacks: React.FC = () => {
       tabBasePath={
         routePaths.stackComponents.base(
           locationPath.split('/')[4],
-          project as string,
+          selectedProject
+            ? selectedProject
+            : (locationPath.split('/')[2] as string),
         ) + `?project=${project}`
       }
       breadcrumbs={[
