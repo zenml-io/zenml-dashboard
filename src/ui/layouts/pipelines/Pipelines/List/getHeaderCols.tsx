@@ -4,7 +4,6 @@ import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   truncate,
   getInitialsFromEmail,
-  formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
 import {
@@ -256,7 +255,7 @@ export const GetHeaderCols = ({
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(pipeline.created)}>
+          <div data-tip data-for={formatDateToDisplayOnTable(pipeline.created)}>
             <FlexBox alignItems="center">
               <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
@@ -267,12 +266,12 @@ export const GetHeaderCols = ({
             </FlexBox>
           </div>
           <ReactTooltip
-            id={formatDateToSort(pipeline.created)}
+            id={formatDateToDisplayOnTable(pipeline.created)}
             place="top"
             effect="solid"
           >
             <Paragraph color="white">
-              {pipeline.created}
+              {formatDateToDisplayOnTable(pipeline.created)}
               {/* {translate(`tooltips.${invoice.status}`)} */}
             </Paragraph>
           </ReactTooltip>

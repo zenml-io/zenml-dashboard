@@ -264,6 +264,7 @@ export const AuthenticatedHeader: React.FC<{
           border: '2px solid #431D93',
           marginBottom: '50px',
           color: '#424240',
+          fontFamily: 'Rubik',
           fontSize: '1.6rem',
           fontWeight: 'bold',
           maxWidth: `${window.innerWidth - 200}px`,
@@ -272,6 +273,7 @@ export const AuthenticatedHeader: React.FC<{
         buttonStyle={{
           backgroundColor: '#431D93',
           color: '#fff',
+          fontFamily: 'Rubik',
           fontSize: '1.6rem',
           height: '4rem',
           borderRadius: '4px',
@@ -281,6 +283,7 @@ export const AuthenticatedHeader: React.FC<{
           backgroundColor: '#fff',
           color: '#424240',
           border: '1px solid #424240',
+          fontFamily: 'Rubik',
           fontSize: '1.6rem',
           height: '4rem',
           borderRadius: '4px',

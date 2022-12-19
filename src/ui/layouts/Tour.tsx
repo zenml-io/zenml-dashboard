@@ -47,11 +47,17 @@ const Tour = () => {
     // eslint-disable-next-line
     const skipTour = () => localStorage.setItem('runTour', 'false')
     node?.addEventListener("click", skipTour);
-    
+
+    const handleJoyrideCallback = (data: any) => {
+        const { status } = data;
+        if (status === 'finished') {
+            localStorage.setItem('runTourHome', 'false')
+        }
+    }
 
     useEffect(() => {
         // eslint-disable-next-line
-        if (localStorage.getItem('runTour') == 'false') {
+        if (localStorage.getItem('runTour') == 'false' || localStorage.getItem('runTourHome') == 'false') {
             setRun(false)
         } else {
             setRun(true)
@@ -62,15 +68,16 @@ const Tour = () => {
         <JoyRide
             steps={TOUR_STEPS}
             run={run}
-            hideCloseButton
             continuous
             showSkipButton
-            hideBackButton={false}
             showProgress
+            hideBackButton={false}
+            callback={handleJoyrideCallback}
             styles={{
-                options: { primaryColor: '#fff', zIndex: 1000, textColor: '#004a14', width: 380 },
-                buttonNext: { outline: 'none', backgroundColor: '#431D93',  color: "#fff", fontSize: "1.6rem", height: '4rem', borderRadius: '4px', padding: '0 3.2rem' },
-                buttonSkip: { backgroundColor: '#fff',  color: "#424240", border: '1px solid #424240',  fontSize: "1.6rem", height: '4rem', borderRadius: '4px', padding: '0 3.2rem',  marginLeft: '50%' }
+                options: { primaryColor: '#fff', zIndex: 1000, textColor: '#004a14' },
+                buttonNext: { outline: 'none', backgroundColor: '#431D93',  color: "#fff", fontFamily: 'Rubik', fontSize: "1.3rem", height: '3rem', borderRadius: '4px', padding: '0 2rem' },
+                buttonSkip: { backgroundColor: '#fff',  color: "#424240", border: '1px solid #424240', fontFamily: 'Rubik', fontSize: "1.3rem", height: '3rem', borderRadius: '4px', padding: '0 2rem' },
+                buttonBack: { color: '#000', fontFamily: 'Rubik', fontSize: "1.3rem", height: '3rem' }
             }}
         />
     );

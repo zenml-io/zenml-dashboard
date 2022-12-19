@@ -105,11 +105,10 @@ export const InvitePopup: React.FC<{
   }
 
   const colourStyles: StylesConfig<any> = {
-    control: (styles: any) => ({ ...styles, width: '160px', fontSize: '12px', color: '#424240' }),
+    control: (styles: any) => ({ ...styles,  fontSize: '1.6rem', fontFamily: 'Rubik', color: '#424240' }),
     option: (styles: any) => {
       return {
-        ...styles,
-        fontSize: '12px', color: '#424240'
+        ...styles, fontSize: '1.6rem', fontFamily: 'Rubik', color: '#424240'
       };
     }
   }
@@ -123,38 +122,36 @@ export const InvitePopup: React.FC<{
         </FlexBox.Row>
         
         <Box marginTop="lg">
-            <FlexBox.Row alignItems='center' marginTop="md" style={{ width: '100%' }} >
-              <Box style={{ width: showTokField ? '100%' : '70%' }}>
-                <FormTextField
-                  label={translate('popup.username.label')}
-                  labelColor="#000"
-                  placeholder={translate('popup.username.placeholder')}
-                  value={name}
-                  onChange={(val: string) => setName(val)}
-                  error={{
-                    hasError: false,
-                    text: '',
-                  }}
-                />
-              </Box>
-
-             {!showTokField && ( 
-              <Box style={{ marginLeft: '20px' }}>
-                <Paragraph size="body" style={{ color: 'black' }}><label htmlFor={name}>{'Roles'}</label></Paragraph>
-                <Select 
-                  options={allRoles} 
-                  isMulti  
-                  onChange={(e: any) => handleChange(e)}
-                  value={role}
-                  placeholder={'Roles'}
-                  styles={colourStyles}
-                  isClearable={false}
-                />
-              </Box>
-             )} 
-            </FlexBox.Row>
+          <Box>
+            <FormTextField
+              label={translate('popup.username.label')}
+              labelColor="#000"
+              placeholder={translate('popup.username.placeholder')}
+              value={name}
+              onChange={(val: string) => setName(val)}
+              error={{
+                hasError: false,
+                text: '',
+                }}
+              />
+          </Box>
         </Box>
 
+        {!showTokField && ( 
+          <Box marginTop="md">
+            <Paragraph size="body" style={{ color: 'black' }}><label htmlFor={name}>{'Roles'}</label></Paragraph>
+              <Select 
+                options={allRoles} 
+                isMulti  
+                onChange={(e: any) => handleChange(e)}
+                value={role}
+                placeholder={'Roles'}
+                styles={colourStyles}
+                isClearable={false}
+              />
+          </Box>
+        )} 
+          
 
         {showTokField && (
           <Box marginTop="lg">

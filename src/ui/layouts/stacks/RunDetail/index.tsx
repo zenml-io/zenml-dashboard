@@ -8,7 +8,7 @@ import { DAG } from '../../../components/dag';
 
 import { Box, Paragraph } from '../../../components';
 import { RunStatus } from './components';
-import { formatDateForOverviewBar } from '../../../../utils';
+import { formatDateToDisplayOnTable } from '../../../../utils';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from '../../../hooks';
 import { projectSelectors } from '../../../../redux/selectors';
@@ -185,7 +185,7 @@ export const RunDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>CREATED</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateForOverviewBar(run.created)}
+            {formatDateToDisplayOnTable(run.created)}
           </Paragraph>
         </Box>
       </Box>

@@ -148,7 +148,8 @@ export const PersonalDetails: React.FC = () => {
                   id='change'
                   style={{ width: '198px' }}
                   onClick={() => setPopupOpen(true)}
-                  disabled={fullName === user.fullName && username === user.name && !decoded.permissions.includes('me')}
+                  // eslint-disable-next-line
+                  disabled={fullName === user.fullName && username === user.name || !decoded.permissions.includes('me')}
                 >
                   {translate('nameReset.label')}
                 </PrimaryButton>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { Box, Paragraph } from '../../../components';
-import { formatDateForOverviewBar } from '../../../../utils';
+import { formatDateToDisplayOnTable } from '../../../../utils';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
@@ -137,7 +137,7 @@ export const PipelineDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>CREATED</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateForOverviewBar(pipeline.created)}
+            {formatDateToDisplayOnTable(pipeline.created)}
           </Paragraph>
         </Box>
       </Box>
