@@ -49,18 +49,16 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
     return { value: e.id, label: e.name }
   })
 
-  function handleChange(value: string) {
+  const handleChange = (value: string) => {
     setRole(value);
-  
-    // if (role.length < preRole.length) {
-    //   member.roles.map((meme: any) => {
+
+    // if (role.length < member?.roles?.length) {
+    //   member?.roles?.map((meme: any) => {
     //     // @ts-ignore
     //     	if (meme?.id !== value[0]?.value) 
     //         return console.log(role)
-          
     //   })
     // }
-  
   }  
 
   useEffect(() => {
