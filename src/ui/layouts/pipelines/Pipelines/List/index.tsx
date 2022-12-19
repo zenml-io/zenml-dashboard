@@ -2,18 +2,20 @@ import React from 'react';
 
 import { translate } from '../translate';
 import { CollapseTable } from '../../../common/CollapseTable';
-import { useHistory } from '../../../../hooks';
+import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForPipelineTable } from './RunsForPipelineTable';
+import { projectSelectors } from '../../../../../redux/selectors';
 
 interface Props {
   filter: any;
 }
 export const List: React.FC<Props> = ({ filter }: Props) => {
   const history = useHistory();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const {
     openPipelineIds,
     setOpenPipelineIds,
@@ -41,7 +43,9 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
   const openDetailPage = (pipeline: TPipeline) => {
     setSelectedRunIds([]);
 
-    history.push(routePaths.pipeline.configuration(pipeline.id));
+    history.push(
+      routePaths.pipeline.configuration(pipeline.id, selectedProject),
+    );
   };
 
   return (

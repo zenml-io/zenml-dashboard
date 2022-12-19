@@ -35,7 +35,7 @@ import { ReactComponent as Docs } from './assets/Docs.svg';
 import { ReactComponent as Example } from './assets/Example.svg';
 import { ReactComponent as Pipeline } from './assets/Pipeline.svg';
 import { ReactComponent as Stack } from './assets/Stack.svg';
-import { ReactComponent as StackComponent } from './assets/StackComponent.svg';
+// import { ReactComponent as StackComponent } from './assets/StackComponent.svg';
 import { ReactComponent as FunnelFill } from './assets/FunnelFill.svg';
 import { ReactComponent as Delete } from './assets/Delete.svg';
 import { ReactComponent as SimplePlus } from './assets/SimplePlus.svg';
@@ -43,6 +43,23 @@ import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 import { ReactComponent as Cached } from './assets/Cached.svg';
 import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
 import { ReactComponent as Edit } from './assets/Edit.svg';
+
+//icons for stackComponents
+import { ReactComponent as PuzzlePiece } from './assets/PuzzlePiece.svg';
+import { ReactComponent as Folders } from './assets/Folders.svg';
+import { ReactComponent as BoundingBox } from './assets/BoundingBox.svg';
+import { ReactComponent as CloudArrowUp } from './assets/CloudArrowUp.svg';
+import { ReactComponent as ChartBarHorizontal } from './assets/ChartBarHorizontal.svg';
+import { ReactComponent as ChartLine } from './assets/ChartLine.svg';
+import { ReactComponent as RocketLaunch } from './assets/RocketLaunch.svg';
+import { ReactComponent as LockKey } from './assets/LockKey.svg';
+import { ReactComponent as Graph } from './assets/Graph.svg';
+import { ReactComponent as GitCommit } from './assets/GitCommit.svg';
+import { ReactComponent as ChatDots } from './assets/ChatDots.svg';
+// import { ReactComponent as Inprogress } from './assets/InProgress.svg';
+// import { ReactComponent as Cached } from './assets/Cached.svg';
+// import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
+// import { ReactComponent as Edit } from './assets/Edit.svg';
 
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
@@ -140,10 +157,26 @@ const icons = {
   example: createIcon({ Component: Example, useStroke: true }),
   pipeline: createIcon({ Component: Pipeline, useStroke: true }),
   stack: createIcon({ Component: Stack, useStroke: true }),
-  stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
+  stackComponent: createIcon({ Component: PuzzlePiece, useStroke: true }),
   funnelFill: createIcon({ Component: FunnelFill }),
   delete: createIcon({ Component: Delete }),
   edit: createIcon({ Component: Edit }),
+
+  //icons for stackComponents
+  artifact_store: createIcon({ Component: Folders, useStroke: true }),
+  alerter: createIcon({ Component: ChatDots, useStroke: true }),
+  annotator: createIcon({ Component: BoundingBox, useStroke: true }),
+  container_registry: createIcon({ Component: CloudArrowUp, useStroke: true }),
+  experiment_tracker: createIcon({ Component: ChartLine, useStroke: true }),
+  feature_store: createIcon({ Component: Table, useStroke: true }),
+  model_deployer: createIcon({ Component: RocketLaunch, useStroke: true }),
+  secrets_manager: createIcon({ Component: LockKey, useStroke: true }),
+  orchestrator: createIcon({ Component: Graph, useStroke: true }),
+  step_operator: createIcon({ Component: GitCommit, useStroke: true }),
+  data_validator: createIcon({
+    Component: ChartBarHorizontal,
+    useStroke: true,
+  }),
 };
 
 export { icons };

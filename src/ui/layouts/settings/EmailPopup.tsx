@@ -23,7 +23,7 @@ import { endpoints } from '../../../api/endpoints';
 import { httpMethods } from '../../../api/constants';
 import { apiUrl } from '../../../api/apiUrl';
 import { sessionSelectors } from '../../../redux/selectors/session';
-import { useSelector } from '../../hooks';
+import { useLocationPath, useSelector } from '../../hooks';
 
 export const EmailPopup: React.FC<{
   userId: any;
@@ -34,6 +34,7 @@ export const EmailPopup: React.FC<{
   const [submitting, setSubmitting] = useState(false);
 
   const dispatch = useDispatch();
+  const locationPath = useLocationPath();
   const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
   const authToken = useSelector(sessionSelectors.authenticationToken);
@@ -41,6 +42,8 @@ export const EmailPopup: React.FC<{
 
   const changeEmail = async () => {
     setSubmitting(true);
+    console.log(locationPath);
+
     try {
       await fetchApiWithAuthRequest({
         url: apiUrl(endpoints.users.me),
@@ -59,7 +62,17 @@ export const EmailPopup: React.FC<{
           type: toasterTypes.success,
         }),
       );
-      await dispatch(projectsActions.getMy({}));
+      if (window.location.search.includes('projects')) {
+        const selectedProject = window.location.search.split('/')[2];
+        await dispatch(
+          projectsActions.getMy({
+            selectDefault: false,
+            selectedProject,
+          }),
+        );
+      } else {
+        await dispatch(projectsActions.getMy({}));
+      }
       await dispatch(userActions.getMy({}));
     } catch (err) {
       setSubmitting(false);

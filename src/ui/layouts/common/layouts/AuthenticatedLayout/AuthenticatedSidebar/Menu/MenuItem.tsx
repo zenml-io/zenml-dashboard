@@ -4,7 +4,9 @@ import { Paragraph, Box, FlexBox } from '../../../../../../components';
 import cn from 'classnames';
 import styles from './MenuItem.module.scss';
 import { camelCaseToParagraph } from '../../../../../../../utils';
-import { DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
+// import { DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
+import { useSelector } from '../../../../../../hooks';
+import { projectSelectors } from '../../../../../../../redux/selectors';
 
 export const MenuItem: React.FC<{
   subItem?: boolean;
@@ -17,12 +19,12 @@ export const MenuItem: React.FC<{
 }> = ({ id, text, to, exact = false, Icon, isActive, subItem }) => {
   let location = useLocation();
 
-  const url_string = window.location.href; 
-  const url = new URL(url_string);
-  const projectName = url.searchParams.get("project");
+  // const url_string = window.location.href;
+  // const url = new URL(url_string);
+  // const projectName = url.searchParams.get('project');
 
-  const project = projectName ? projectName : DEFAULT_PROJECT_NAME
- 
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+
   return (
     <NavLink
       id={id}
@@ -35,17 +37,23 @@ export const MenuItem: React.FC<{
       to={to}
       exact={exact}
     >
-      <FlexBox alignItems="center" marginVertical="sm" style={{ height: '40px' }}>
+      <FlexBox
+        alignItems="center"
+        marginVertical="sm"
+        style={{ height: '40px' }}
+      >
         <Box
-          className={cn( 
-            to === location.pathname + `?project=${project}` && !subItem
+          className={cn(
+            to === location.pathname + `?project=${selectedProject}` && !subItem
               ? styles.menuItemSideBox
               : styles.menuItemSideBoxUn,
           )}
         ></Box>
 
         <FlexBox style={{ width: '100%' }}>
-          <Box paddingLeft={subItem ? 'xl' : 'md'}><Icon /></Box>
+          <Box paddingLeft={subItem ? 'xl' : 'md'}>
+            <Icon />
+          </Box>
           <Box paddingLeft="md">
             <Paragraph color="darkGrey" size="small">
               {camelCaseToParagraph(text)}

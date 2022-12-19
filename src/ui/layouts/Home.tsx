@@ -20,7 +20,11 @@ import {
 import { getTranslateByScope } from '../../services';
 
 import styles from './Home.module.scss';
-import { iconColors, DEFAULT_PROJECT_NAME, toasterTypes } from '../../constants';
+import {
+  iconColors,
+  DEFAULT_PROJECT_NAME,
+  toasterTypes,
+} from '../../constants';
 import { sessionSelectors } from '../../redux/selectors/session';
 import { useDispatch, usePushRoute, useSelector } from '../hooks';
 import axios from 'axios';
@@ -29,9 +33,15 @@ import {
   projectSelectors,
   stackComponentSelectors,
 } from '../../redux/selectors';
-import { showToasterAction, projectsActions, pipelinesActions, pipelinePagesActions, runPagesActions } from '../../redux/actions';
+import {
+  showToasterAction,
+  projectsActions,
+  pipelinesActions,
+  pipelinePagesActions,
+  runPagesActions,
+} from '../../redux/actions';
 
-import Tour from './Tour'
+import Tour from './Tour';
 
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
@@ -74,6 +84,7 @@ export const Home: React.FC = () => {
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
+
   const selectedProject = useSelector(projectSelectors.selectedProject);
   const projects = useSelector(projectSelectors.myProjects);
   const [fetching, setFetching] = useState(false);
@@ -81,39 +92,51 @@ export const Home: React.FC = () => {
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
   const startLoad = () => {
-    dispatch(pipelinePagesActions.setFetching({ fetching: true }))
+    dispatch(pipelinePagesActions.setFetching({ fetching: true }));
     dispatch(runPagesActions.setFetching({ fetching: true }));
-  }
+  };
 
   const stopLoad = () => {
-    dispatch(pipelinePagesActions.setFetching({ fetching: false }))
-    dispatch(runPagesActions.setFetching({ fetching: false }))
-  }
+    dispatch(pipelinePagesActions.setFetching({ fetching: false }));
+    dispatch(runPagesActions.setFetching({ fetching: false }));
+  };
 
-  const url_string = window.location.href; 
+  const url_string = window.location.href;
   const url = new URL(url_string);
-  const projectName = url.searchParams.get("project");
+  const projectName = url.searchParams.get('project');
 
   useEffect(() => {
     if (authToken) {
       const getDashboardData = async () => {
         setFetching(true);
-        startLoad()
-       
-       try {
-          const { data } = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/projects/${projectName ? projectName : DEFAULT_PROJECT_NAME}/statistics`,
-              { headers: { Authorization: `bearer ${authToken}` }},
-          )
+        startLoad();
 
-          await dispatch(projectsActions.getSelectedProject({ allProjects: projects, seletecdProject: projectName ? projectName : DEFAULT_PROJECT_NAME }))
-          await dispatch(pipelinesActions.getMy({ project: projectName ? projectName : DEFAULT_PROJECT_NAME,
-            onSuccess: () => stopLoad(),
-            onFailure: () => stopLoad(),
-          })) 
-  
+        try {
+          const { data } = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/projects/${
+              selectedProject ? selectedProject : DEFAULT_PROJECT_NAME
+            }/statistics`,
+            { headers: { Authorization: `bearer ${authToken}` } },
+          );
+
+          await dispatch(
+            projectsActions.getSelectedProject({
+              allProjects: projects,
+              seletecdProject: selectedProject
+                ? selectedProject
+                : DEFAULT_PROJECT_NAME,
+            }),
+          );
+          await dispatch(
+            pipelinesActions.getMy({
+              project: selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
+              onSuccess: () => stopLoad(),
+              onFailure: () => stopLoad(),
+            }),
+          );
+
           setDashboardData(data);
-          setFetching(false);  
+          setFetching(false);
         } catch (err) {
           // @ts-ignore
           dispatch(
@@ -121,13 +144,12 @@ export const Home: React.FC = () => {
               description: translate('toasts.successful.passwordText'),
               type: toasterTypes.success,
             }),
-          )
+          );
         }
-
       };
       getDashboardData();
     }
-  }, [authToken, projectName]);
+  }, [authToken, selectedProject]);
 
   const preData = Object.entries(dashboardData);
   const data = preData?.map(([key, value]) => {
