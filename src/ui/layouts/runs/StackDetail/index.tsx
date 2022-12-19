@@ -12,17 +12,17 @@ import { useService } from './useService';
 import { useSelector } from '../../../hooks';
 import { projectSelectors } from '../../../../redux/selectors';
 
-const getTabPages = (stackId: TId): TabPage[] => {
+const getTabPages = (stackId: TId, selectedProject: string): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration stackId={stackId} />,
-      path: routePaths.stack.configuration(stackId),
+      path: routePaths.stack.configuration(selectedProject, stackId),
     },
     {
       text: translate('tabs.runs.text'),
       Component: () => <Runs stackId={stackId} />,
-      path: routePaths.stack.runs(stackId),
+      path: routePaths.stack.runs(selectedProject, stackId),
     },
   ];
 };
@@ -40,7 +40,7 @@ const getBreadcrumbs = (
     {
       name: stackId,
       clickable: true,
-      to: routePaths.stack.configuration(stackId),
+      to: routePaths.stack.configuration(selectedProject, stackId),
     },
   ];
 };
@@ -52,7 +52,7 @@ export interface StackDetailRouteParams {
 export const StackDetail: React.FC = () => {
   const { stack } = useService();
   const selectedProject = useSelector(projectSelectors.selectedProject);
-  const tabPages = getTabPages(stack.id);
+  const tabPages = getTabPages(stack.id, selectedProject);
   const breadcrumbs = getBreadcrumbs(stack.id, selectedProject);
 
   const boxStyle = {

@@ -9,7 +9,7 @@ import {
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
-import { useHistory } from '../../../../hooks';
+import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import {
   FlexBox,
@@ -25,6 +25,7 @@ import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
 import ReactTooltip from 'react-tooltip';
+import { projectSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
   runs,
@@ -50,6 +51,8 @@ export const useHeaderCols = ({
     runs,
   });
   const history = useHistory();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+
   return [
     {
       width: '2%',
@@ -143,7 +146,10 @@ export const useHeaderCols = ({
               onClick={(event) => {
                 event.stopPropagation();
                 history.push(
-                  routePaths.pipeline.configuration(run.pipeline?.id),
+                  routePaths.pipeline.configuration(
+                    run.pipeline?.id,
+                    selectedProject,
+                  ),
                 );
               }}
             >
@@ -205,7 +211,12 @@ export const useHeaderCols = ({
               }}
               onClick={(event) => {
                 event.stopPropagation();
-                history.push(routePaths.stack.configuration(run.stack?.id));
+                history.push(
+                  routePaths.stack.configuration(
+                    run.stack?.id,
+                    selectedProject,
+                  ),
+                );
               }}
             >
               {run.stack?.name}
