@@ -4,9 +4,9 @@ import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 
 import {
-  formatDateToDisplay,
   truncate,
   getInitialsFromEmail,
+  formatDateToDisplayOnTable,
 } from '../../../../../utils';
 
 import {
@@ -192,7 +192,7 @@ export const useHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(run.created)}
+            {formatDateToDisplayOnTable(run.created)}
           </Paragraph>
         </FlexBox>
       ),

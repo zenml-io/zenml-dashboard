@@ -5,7 +5,7 @@ import { Box, Paragraph, icons } from '../../../components';
 import { iconColors, iconSizes } from '../../../../constants';
 import {
   camelCaseToParagraph,
-  formatDateForOverviewBar,
+  formatDateToDisplayOnTable,
 } from '../../../../utils';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
@@ -169,7 +169,7 @@ export const StackDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>Created</Paragraph>
           <Paragraph style={paraStyle}>
-            {formatDateForOverviewBar(stackComponent.created)}
+            {formatDateToDisplayOnTable(stackComponent.created)}
           </Paragraph>
         </Box>
       </Box>

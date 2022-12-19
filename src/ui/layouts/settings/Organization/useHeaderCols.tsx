@@ -1,7 +1,6 @@
 import React from 'react';
 import { translate } from './translate';
 import {
-  formatDateToDisplay,
   formatDateToDisplayOnTable,
   getInitialsFromEmail,
 } from '../../../../utils';
@@ -59,7 +58,7 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(invite.createdAt)}
+            {formatDateToDisplayOnTable(invite.createdAt)}
           </Paragraph>
         </FlexBox>
       ),

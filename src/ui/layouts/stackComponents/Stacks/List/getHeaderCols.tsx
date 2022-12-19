@@ -319,7 +319,7 @@ export const GetHeaderCols = ({
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{stackComponent.created}</Paragraph>
+            <Paragraph color="white">{formatDateToDisplayOnTable(stackComponent.created)}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
