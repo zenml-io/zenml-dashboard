@@ -13,15 +13,21 @@ const dateformat = (date: any) => moment(UTCformatter(date)).local().format('YYY
 const formatDateToFormat = (dateString: any, dateFormat: string): string =>
   format(new Date(dateString), dateFormat);
   // , { locale: deLocale }
+
 export const formatDateToDisplay = (dateString: Date): string => {
-  if (typeof dateString === 'undefined' || !dateString) return '';
-  return formatDateToFormat(dateString, `dd.MM.yyyy`);
-};
+    if (typeof dateString === 'undefined' || !dateString) return '';
+    return formatDateToFormat(dateformat(dateString), `dd.MM.yyyy HH:mm:ss`);
+  };
 
 export const formatDateToDisplayOnTable = (dateString: any): any => {
   if (typeof dateString === 'undefined' || !dateString) return '';
   return formatDateToFormat(dateformat(dateString), `dd.MM.yyyy HH:mm:ss`);
 };
+
+// export const formatDateToDisplay = (dateString: Date): string => {
+//   if (typeof dateString === 'undefined' || !dateString) return '';
+//   return formatDateToFormat(dateString, `dd.MM.yyyy`);
+// };
 // export const formatDateToDisplayOnTable = (dateString: Date): string => {
 //   if (typeof dateString === 'undefined' || !dateString) return '';
 //   return formatDateToFormat(dateString, `dd.MM.yyyy HH:mm:ss`);

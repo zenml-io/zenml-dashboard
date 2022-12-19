@@ -66,6 +66,7 @@ const Tour = () => {
             showSkipButton
             showProgress
             hideBackButton={false}
+        
             styles={{
                 options: { primaryColor: '#fff', zIndex: 1000, textColor: '#004a14' },
                 buttonNext: { outline: 'none', backgroundColor: '#431D93',  color: "#fff", fontFamily: 'Rubik', fontSize: "1.3rem", height: '3rem', borderRadius: '4px', padding: '0 2rem' },
