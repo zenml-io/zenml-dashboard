@@ -109,7 +109,7 @@ export const Home: React.FC = () => {
     if (authToken) {
       const getDashboardData = async () => {
         setFetching(true);
-        startLoad();
+        // startLoad();
 
         try {
           const { data } = await axios.get(
@@ -119,21 +119,31 @@ export const Home: React.FC = () => {
             { headers: { Authorization: `bearer ${authToken}` } },
           );
 
-          await dispatch(
-            projectsActions.getSelectedProject({
-              allProjects: projects,
-              seletecdProject: selectedProject
-                ? selectedProject
-                : DEFAULT_PROJECT_NAME,
-            }),
-          );
-          await dispatch(
-            pipelinesActions.getMy({
-              project: selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
-              onSuccess: () => stopLoad(),
-              onFailure: () => stopLoad(),
-            }),
-          );
+          // await dispatch(
+          //   projectsActions.getMy({
+          //     selectDefault: false,
+          //     selectedProject: selectedProject,
+          //     onSuccess: () => stopLoad(),
+          //     onFailure: () => stopLoad(),
+          //   }),
+          // );
+
+          // await dispatch(
+          //   projectsActions.getSelectedProject({
+          //     allProjects: projects,
+          //     seletecdProject: selectedProject
+          //       ? selectedProject
+          //       : DEFAULT_PROJECT_NAME,
+          //   }),
+          // );
+
+          // await dispatch(
+          //   pipelinesActions.getMy({
+          //     project: selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
+          //     onSuccess: () => stopLoad(),
+          //     onFailure: () => stopLoad(),
+          //   }),
+          // );
 
           setDashboardData(data);
           setFetching(false);

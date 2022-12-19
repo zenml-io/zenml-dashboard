@@ -74,16 +74,16 @@ export const AuthenticatedHeader: React.FC<{
   }, [history]);
 
   useEffect(() => {
+    // debugger;
     if (locationPath.includes('projects')) {
-      const selectedProject = locationPath.split('/')[2];
+      const projectFromUrl = locationPath.split('/')[2];
       dispatch(
         projectsActions.getMy({
           selectDefault: false,
-          selectedProject,
+          selectedProject: projectFromUrl ? projectFromUrl : selectedProject,
         }),
       );
     }
-    // debugger;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (!user) return null;
@@ -148,6 +148,11 @@ export const AuthenticatedHeader: React.FC<{
           {!window.location.href?.includes('settings') && (
             <>
               <Box marginLeft="md" className="d-none d-md-block">
+                {console.log(
+                  selectedProject,
+                  DEFAULT_PROJECT_NAME,
+                  'locationPath',
+                )}
                 <select
                   onChange={(e: any) => onChange(e)}
                   defaultValue={
