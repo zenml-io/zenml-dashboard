@@ -67,11 +67,12 @@ export const AuthenticatedHeader: React.FC<{
     return () => clearInterval(intervalId);
     //This is important
   });
-  useEffect(() => {
-    return history.listen((location) => {
-      console.log(`You changed the page to: ${location.pathname}`);
-    });
-  }, [history]);
+  //   useEffect(() => {
+  //     return history.listen((location) => {
+  //       console.log(location)
+  //       //  window._mfq.push(['newPageView', location.pathname]);
+  //     })
+  //  }, [history])
 
   useEffect(() => {
     // debugger;
@@ -112,7 +113,7 @@ export const AuthenticatedHeader: React.FC<{
     e.preventDefault();
     startLoad();
     console.log(locationPath, 'test');
-    history.push('/');
+    history.push(routePaths.home(e?.target?.value));
     dispatch(
       projectsActions.getSelectedProject({
         allProjects: projects,

@@ -46,7 +46,7 @@ const UserEmail: React.FC = () => {
           if (data) {
             if (data?.email_opted_in !== null) {
               dispatch(stackComponentsActions.getTypes());
-              push(loggedInRoute);
+              // push(loggedInRoute);
             }
           }
           setPageLoading(false);

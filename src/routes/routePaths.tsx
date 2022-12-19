@@ -7,7 +7,7 @@ export const routePaths = {
   signup: '/signup',
   userEmail: `/user-email`,
   forgot: '/forgot-password',
-  home: '/',
+  home: (project: string): string => `/projects/${project}`,
   pipelines: {
     base: `/pipelines`,
     list: (project: string): string => `/projects/${project}/pipelines/list`,

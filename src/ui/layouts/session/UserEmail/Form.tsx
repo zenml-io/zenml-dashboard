@@ -123,7 +123,7 @@ export const Form: React.FC = () => {
             dispatch(projectsActions.getMy({}));
           }
           dispatch(stackComponentsActions.getTypes());
-          push(loggedInRoute);
+          // push(loggedInRoute);
         });
     } catch (err) {
       setSkipSubmitting(false);

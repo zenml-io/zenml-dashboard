@@ -6,15 +6,17 @@ import { iconSizes, iconColors } from '../../../../../../../constants';
 import { translate } from '../translate';
 
 export const SideHeader: React.FC = () => {
+  const url = window.location.pathname;
+
   return (
     <>
       <MenuItem
         Icon={() => <icons.home color={iconColors.white} size={iconSizes.md} />}
-        to={routePaths.home}
+        to={routePaths.home(url.split('/')[2])}
         text={translate('menu.home.text')}
         exact
       />
-      <Box marginHorizontal="md" paddingTop='md'>
+      <Box marginHorizontal="md" paddingTop="md">
         <Separator.LightNew />
       </Box>
     </>

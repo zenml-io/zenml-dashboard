@@ -77,7 +77,12 @@ import {
   RouteInterface,
   RouteVisibilityAuthentication,
 } from '../RouteVisibility';
-import { loggedOutRoute } from '../../constants';
+import {
+  loggedOutRoute,
+  loggedInRoute,
+  DEFAULT_PROJECT_NAME,
+} from '../../constants';
+import { routePaths } from '../routePaths';
 
 const isUnauthenticatedOrMissingRoute = (
   currentLocation: RouteInterface | undefined,
@@ -117,7 +122,12 @@ export const replaceRouteIfNeeded = ({
   clearTimeout(timeout);
 
   const routeToReplace = () => {
-    const logRoute = user?.emailOptedIn === null ? `/user-email` : '/';
+    const url = window.location.search;
+    const logRoute =
+      user?.emailOptedIn === null
+        ? `/user-email`
+        : routePaths.home(DEFAULT_PROJECT_NAME);
+
     return isAuthenticated ? logRoute : loggedOutRoute;
   };
   const replaceToLoggedInRoute =

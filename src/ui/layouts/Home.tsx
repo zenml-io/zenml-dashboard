@@ -137,13 +137,13 @@ export const Home: React.FC = () => {
           //   }),
           // );
 
-          // await dispatch(
-          //   pipelinesActions.getMy({
-          //     project: selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
-          //     onSuccess: () => stopLoad(),
-          //     onFailure: () => stopLoad(),
-          //   }),
-          // );
+          await dispatch(
+            pipelinesActions.getMy({
+              project: selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
+              onSuccess: () => stopLoad(),
+              onFailure: () => stopLoad(),
+            }),
+          );
 
           setDashboardData(data);
           setFetching(false);
