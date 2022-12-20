@@ -41,7 +41,7 @@ export const MenuItem: React.FC<{
       >
         <Box
           className={cn(
-            to === location.pathname + `?project=${selectedProject}` && !subItem
+            to === location.pathname && !subItem
               ? styles.menuItemSideBox
               : styles.menuItemSideBoxUn,
           )}

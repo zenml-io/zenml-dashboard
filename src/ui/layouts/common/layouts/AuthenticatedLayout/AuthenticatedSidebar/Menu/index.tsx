@@ -34,18 +34,7 @@ export const Menu: React.FC = () => {
         )}
         // to={routePaths.pipelines.base}
         text={translate('menu.pipelines.text')}
-        isActive={() => {
-          return (
-            !!matchPath(locationPath, {
-              path: routePaths.pipelines.base,
-              exact: false,
-            }) ||
-            !!matchPath(locationPath, {
-              path: routePaths.pipeline.base(':id'),
-              exact: false,
-            })
-          );
-        }}
+        isActive={() => window.location.href?.includes('pipelines')}
         to={routePaths.pipelines.list(
           selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
         )}
@@ -56,7 +45,7 @@ export const Menu: React.FC = () => {
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.pipelines.allRuns(selectedProject)}
-        isActive={() => window.location.href?.includes('runs')}
+        isActive={() => window.location.href?.includes('all-runs')}
         text={'Runs'}
         // isActive={() => {
         //   return (
@@ -78,18 +67,7 @@ export const Menu: React.FC = () => {
         )}
         // to={routePaths.stacks.base}
         text={translate('menu.stacks.text')}
-        isActive={() => {
-          return (
-            !!matchPath(locationPath, {
-              path: routePaths.stacks.base,
-              exact: false,
-            }) ||
-            !!matchPath(locationPath, {
-              path: routePaths.stack.base(':id'),
-              exact: false,
-            })
-          );
-        }}
+        isActive={() => window.location.href?.includes('stacks')}
         to={routePaths.stacks.list(selectedProject)}
       />
 
@@ -101,10 +79,12 @@ export const Menu: React.FC = () => {
         //     exact: false,
         //   });
         // }}
+
         isActive={() => window.location.href?.includes('components')}
         Icon={() => (
           <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
         )}
+        innerItem={window.location.href?.includes('components')}
         to={routePaths.stackComponents.base(
           stackComponentsTypes ? stackComponentsTypes[0] : '',
           selectedProject,
@@ -122,6 +102,7 @@ export const Menu: React.FC = () => {
             //     exact: false,
             //   });
             // }}
+
             isActive={() => window.location.href?.includes(item)}
             subItem={true}
             Icon={() => (

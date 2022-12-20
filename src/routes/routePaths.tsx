@@ -11,8 +11,7 @@ export const routePaths = {
   pipelines: {
     base: `/pipelines`,
     list: (project: string): string => `/projects/${project}/pipelines/list`,
-    allRuns: (project: string): string =>
-      `/projects/${project}/pipelines/all-runs`,
+    allRuns: (project: string): string => `/projects/${project}/all-runs`,
   },
   pipeline: {
     base: (id: TId): string => `/pipelines/${id}`,
@@ -63,11 +62,11 @@ export const routePaths = {
         `/components/${pipelineId}/runs/${id}/tensorboard`,
     },
     run: {
-      base: (runId: TId): string => `/runs/${runId}`,
+      base: (runId: TId): string => `/all-runs/${runId}`,
       statistics: (project: string, id: TId, type?: string): string =>
-        `/projects/${project}/runs/${id}/dag`,
+        `/projects/${project}/all-runs/${id}/dag`,
       results: (project: string, runId: TId): string =>
-        `/projects/${project}/runs/${runId}/configuration`,
+        `/projects/${project}/all-runs/${runId}/configuration`,
       tensorboard: (runId: TId): string => `/runs/${runId}/tensorboard`,
     },
   },

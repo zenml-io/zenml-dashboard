@@ -3,7 +3,11 @@ import { MenuItem } from '../Menu/MenuItem';
 import { MenuItemExternal } from './MenuItemExternal';
 import { routePaths } from '../../../../../../../routes/routePaths';
 import { Box, Separator, icons, Paragraph } from '../../../../../../components';
-import { iconSizes, iconColors, DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
+import {
+  iconSizes,
+  iconColors,
+  DEFAULT_PROJECT_NAME,
+} from '../../../../../../../constants';
 import { translate } from '../translate';
 import { sessionSelectors } from '../../../../../../../redux/selectors/session';
 import { useSelector } from '../../../../../../hooks';
@@ -31,9 +35,9 @@ export const SideFooter: React.FC = () => {
     }
   }, [authToken]);
 
-  const url_string = window.location.href; 
+  const url_string = window.location.href;
   const url = new URL(url_string);
-  const projectName = url.searchParams.get("project");
+  const projectName = url.searchParams.get('project');
 
   return (
     <>
@@ -42,13 +46,13 @@ export const SideFooter: React.FC = () => {
       </Box>
 
       <MenuItemExternal
-        id='documentation'
+        id="documentation"
         Icon={() => <icons.docs color={iconColors.white} size={iconSizes.md} />}
         to="https://docs.zenml.io"
         text="Documentation"
       />
       <MenuItemExternal
-        id='example'
+        id="example"
         Icon={() => (
           <icons.example color={iconColors.white} size={iconSizes.md} />
         )}
@@ -56,18 +60,19 @@ export const SideFooter: React.FC = () => {
         text="Example & Tutorials"
       />
       <MenuItemExternal
-        id='report'
+        id="report"
         Icon={() => <icons.tool color={iconColors.white} size={iconSizes.md} />}
         to="https://github.com/zenml-io/zenml-dashboard/issues/new/choose"
         text="Report Issue"
       />
       <MenuItem
-        id='settings' 
+        id="settings"
         Icon={() => (
           <icons.settings color={iconColors.white} size={iconSizes.md} />
         )}
+        innerItem={window.location.href?.includes('settings')}
         isActive={() => window.location.href?.includes('settings')}
-        to={routePaths.settings.personalDetails + `?project=${projectName ? projectName : DEFAULT_PROJECT_NAME}`}
+        to={routePaths.settings.personalDetails}
         text={translate('menu.setting.text')}
       />
 
