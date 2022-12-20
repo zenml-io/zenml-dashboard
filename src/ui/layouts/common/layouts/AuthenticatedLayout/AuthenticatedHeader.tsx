@@ -191,10 +191,21 @@ export const AuthenticatedHeader: React.FC<{
                   }
                   onChange={(e: any) => onChange(e)}
                   defaultValue={
-                    selectedProject ? selectedProject : DEFAULT_PROJECT_NAME
+                    projects.some(
+                      (project) =>
+                        project['name'] === locationPath.split('/')[2],
+                    )
+                      ? locationPath.split('/')[2]
+                      : DEFAULT_PROJECT_NAME
+                    // projects ? selectedProject : DEFAULT_PROJECT_NAME
                   }
                   value={
-                    selectedProject ? selectedProject : DEFAULT_PROJECT_NAME
+                    projects.some(
+                      (project) =>
+                        project['name'] === locationPath.split('/')[2],
+                    )
+                      ? locationPath.split('/')[2]
+                      : DEFAULT_PROJECT_NAME
                   }
                   placeholder={'Projects'}
                   className={cn(css.input)}
@@ -207,6 +218,7 @@ export const AuthenticatedHeader: React.FC<{
                     color: '#424240',
                   }}
                 >
+                  {console.log(projects, 'projects')}
                   <option selected disabled value="">
                     {'Select Project'}
                   </option>

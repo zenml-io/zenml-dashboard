@@ -32,6 +32,7 @@ export const Menu: React.FC = () => {
         Icon={() => (
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
+        innerItem={window.location.href?.includes('pipelines')}
         // to={routePaths.pipelines.base}
         text={translate('menu.pipelines.text')}
         isActive={() => window.location.href?.includes('pipelines')}
@@ -47,6 +48,7 @@ export const Menu: React.FC = () => {
         to={routePaths.pipelines.allRuns(selectedProject)}
         isActive={() => window.location.href?.includes('all-runs')}
         text={'Runs'}
+        innerItem={window.location.href?.includes('all-runs')}
         // isActive={() => {
         //   return (
         //     !!matchPath(locationPath, {
@@ -65,6 +67,7 @@ export const Menu: React.FC = () => {
         Icon={() => (
           <icons.stack color={iconColors.white} size={iconSizes.md} />
         )}
+        innerItem={window.location.href?.includes('stacks')}
         // to={routePaths.stacks.base}
         text={translate('menu.stacks.text')}
         isActive={() => window.location.href?.includes('stacks')}

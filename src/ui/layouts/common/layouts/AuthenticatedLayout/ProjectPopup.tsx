@@ -79,6 +79,7 @@ export const ProjectPopup: React.FC<{
           projectsActions.getMy({
             selectDefault: false,
             selectedProject: name,
+            onSuccess: () => push(routePaths.home(name)),
           }),
         );
         // await dispatch(
@@ -88,7 +89,7 @@ export const ProjectPopup: React.FC<{
         //     onFailure: () => stopLoad(),
         //   }),
         // );
-        push(routePaths.home(name));
+
         setSubmitting(false);
         setPopupOpen(false);
       })
