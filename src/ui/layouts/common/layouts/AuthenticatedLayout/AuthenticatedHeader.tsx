@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { Key, useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   FlexBox,
@@ -42,6 +42,7 @@ import cn from 'classnames';
 import css from './../../../../../ui/components/inputs/index.module.scss';
 import { ProjectPopup } from './ProjectPopup';
 import CookieConsent from 'react-cookie-consent';
+import { endpoints } from '../../../../../api/endpoints';
 
 export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
@@ -75,9 +76,13 @@ export const AuthenticatedHeader: React.FC<{
   //  }, [history])
 
   useEffect(() => {
-    // debugger;
     if (locationPath.includes('projects')) {
       const projectFromUrl = locationPath.split('/')[2];
+
+      if (selectedProject != projectFromUrl && user) {
+        push(routePaths.home(projectFromUrl));
+      }
+
       dispatch(
         projectsActions.getMy({
           selectDefault: false,
@@ -87,6 +92,26 @@ export const AuthenticatedHeader: React.FC<{
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // useEffect(() => {
+  //   return () => {
+  //     if (window.performance) {
+  //       console.info('window.performance works fine on this browser');
+  //     }
+  //     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+  //       console.info('This page is reloaded');
+  //     } else {
+  //       if (selectedProject != window.location.pathname.split('/')[2]) {
+  //         console.log(
+  //           'reloaded',
+  //           selectedProject,
+  //           window.location.pathname.split('/')[2],
+  //         );
+  //         push(routePaths.home(window.location.pathname.split('/')[2]));
+  //       }
+  //     }
+  //   };
+  // });
   if (!user) return null;
 
   const userFullName = user.fullName || user.name || DEFAULT_FULL_NAME;
@@ -98,6 +123,7 @@ export const AuthenticatedHeader: React.FC<{
   };
 
   const startLoad = () => {
+    // debugger;
     dispatch(pipelinePagesActions.setFetching({ fetching: true }));
     dispatch(runPagesActions.setFetching({ fetching: true }));
     dispatch(stackPagesActions.setFetching({ fetching: true }));
@@ -112,7 +138,7 @@ export const AuthenticatedHeader: React.FC<{
   const onChange = (e: any) => {
     e.preventDefault();
     startLoad();
-    console.log(locationPath, 'test');
+
     history.push(routePaths.home(e?.target?.value));
     dispatch(
       projectsActions.getSelectedProject({
