@@ -15,7 +15,7 @@ import {
   projectSelectors,
   stackComponentSelectors,
 } from '../../../../../../../redux/selectors';
-import { matchPath } from 'react-router-dom';
+// import { matchPath } from 'react-router-dom';
 
 export const Menu: React.FC = () => {
   const locationPath = useLocationPath();

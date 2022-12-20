@@ -5,8 +5,6 @@ import cn from 'classnames';
 import styles from './MenuItem.module.scss';
 import { camelCaseToParagraph } from '../../../../../../../utils';
 // import { DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
-import { useSelector } from '../../../../../../hooks';
-import { projectSelectors } from '../../../../../../../redux/selectors';
 
 export const MenuItem: React.FC<{
   innerItem?: boolean;
@@ -24,7 +22,7 @@ export const MenuItem: React.FC<{
   // const url = new URL(url_string);
   // const projectName = url.searchParams.get('project');
 
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const selectedProject = useSelector(projectSelectors.selectedProject);
   console.log(location, 'test111');
   return (
     <NavLink

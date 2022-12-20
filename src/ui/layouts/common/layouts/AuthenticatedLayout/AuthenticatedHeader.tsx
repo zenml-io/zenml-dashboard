@@ -1,4 +1,4 @@
-import React, { Key, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import {
   FlexBox,
@@ -42,7 +42,7 @@ import cn from 'classnames';
 import css from './../../../../../ui/components/inputs/index.module.scss';
 import { ProjectPopup } from './ProjectPopup';
 import CookieConsent from 'react-cookie-consent';
-import { endpoints } from '../../../../../api/endpoints';
+// import { endpoints } from '../../../../../api/endpoints';
 
 export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
@@ -79,7 +79,7 @@ export const AuthenticatedHeader: React.FC<{
     if (locationPath.includes('projects')) {
       const projectFromUrl = locationPath.split('/')[2];
 
-      if (selectedProject != projectFromUrl && user) {
+      if (selectedProject !== projectFromUrl && user) {
         push(routePaths.home(projectFromUrl));
       }
 

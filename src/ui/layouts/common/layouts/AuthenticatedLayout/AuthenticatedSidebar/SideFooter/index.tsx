@@ -3,11 +3,7 @@ import { MenuItem } from '../Menu/MenuItem';
 import { MenuItemExternal } from './MenuItemExternal';
 import { routePaths } from '../../../../../../../routes/routePaths';
 import { Box, Separator, icons, Paragraph } from '../../../../../../components';
-import {
-  iconSizes,
-  iconColors,
-  DEFAULT_PROJECT_NAME,
-} from '../../../../../../../constants';
+import { iconSizes, iconColors } from '../../../../../../../constants';
 import { translate } from '../translate';
 import { sessionSelectors } from '../../../../../../../redux/selectors/session';
 import { useSelector } from '../../../../../../hooks';
@@ -35,9 +31,9 @@ export const SideFooter: React.FC = () => {
     }
   }, [authToken]);
 
-  const url_string = window.location.href;
-  const url = new URL(url_string);
-  const projectName = url.searchParams.get('project');
+  // const url_string = window.location.href;
+  // const url = new URL(url_string);
+  // const projectName = url.searchParams.get('project');
 
   return (
     <>
