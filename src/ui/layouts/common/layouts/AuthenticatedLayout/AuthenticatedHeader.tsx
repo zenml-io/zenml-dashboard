@@ -58,16 +58,16 @@ export const AuthenticatedHeader: React.FC<{
   const dispatch = useDispatch();
   const { push } = usePushRoute();
   const locationPath = useLocationPath();
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      //assign interval to a variable to clear it.
-      dispatch(
-        projectsActions.getMy({ selectDefault: false, selectedProject }),
-      );
-    }, 5000);
-    return () => clearInterval(intervalId);
-    //This is important
-  });
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     //assign interval to a variable to clear it.
+  // dispatch(
+  //   projectsActions.getMy({ selectDefault: false, selectedProject }),
+  // );
+  //   }, 5000);
+  //   return () => clearInterval(intervalId);
+  //   //This is important
+  // });
   //   useEffect(() => {
   //     return history.listen((location) => {
   //       console.log(location)
@@ -181,6 +181,14 @@ export const AuthenticatedHeader: React.FC<{
                   'locationPath',
                 )}
                 <select
+                  onClick={() =>
+                    dispatch(
+                      projectsActions.getMy({
+                        selectDefault: false,
+                        selectedProject,
+                      }),
+                    )
+                  }
                   onChange={(e: any) => onChange(e)}
                   defaultValue={
                     selectedProject ? selectedProject : DEFAULT_PROJECT_NAME
