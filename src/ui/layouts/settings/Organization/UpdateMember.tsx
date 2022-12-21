@@ -51,54 +51,56 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
 
   const handleChange = (value: string) => {
     setRole(value);
-
-    // if (role.length < member?.roles?.length) {
-    //   member?.roles?.map((meme: any) => {
-    //     // @ts-ignore
-    //     	if (meme?.id !== value[0]?.value) 
-    //         return console.log(role)
-    //   })
-    // }
-  }  
+  }
 
   useEffect(() => {
     setUsername(member?.name)
-  }, [member])
-  
+    // eslint-disable-next-line
+  }, [])
+
   const onUpdate = async () => {
     setSubmitting(true);
-      try {
-        if (password) {
-          await fetchApiWithAuthRequest({
-            url: apiUrl(endpoints.users.updateUser(member.id)),
-            method: httpMethods.put,
-            authenticationToken,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            data: { name: username, password: password },
-          });
-        } else {
-          await fetchApiWithAuthRequest({
-            url: apiUrl(endpoints.users.updateUser(member.id)),
-            method: httpMethods.put,
-            authenticationToken,
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            data: { name: username },
-          })
+    try {
+      if (password) {
+        await fetchApiWithAuthRequest({
+          url: apiUrl(endpoints.users.updateUser(member.id)),
+          method: httpMethods.put,
+          authenticationToken,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: { name: username, password: password },
+        });
+      } else {
+        await fetchApiWithAuthRequest({
+          url: apiUrl(endpoints.users.updateUser(member.id)),
+          method: httpMethods.put,
+          authenticationToken,
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          data: { name: username },
+        })
+      }
+
+      const { data } = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_name_or_id=${member?.name}`, { headers: { Authorization: `Bearer ${authToken}` } })
+      
+      for (let index = 0; index < data?.length; index++) {
+        const singleDelRole = data[index];
+        await axios.delete(`https://appserver.zenml.io/api/v1/role_assignments/${singleDelRole?.id}`,
+          { headers: { Authorization: `Bearer ${authToken}` } }
+        )
       }
 
       for (let index = 0; index < role.length; index++) {
         const singleRole = role[index];
         await axios.post(`${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
-                // @ts-ignore
-                 { user: member.id, role: singleRole?.value },
-                { headers: { Authorization: `Bearer ${authToken}` }}
-              )
+          // @ts-ignore
+          { user: member.id, role: singleRole?.value },
+          { headers: { Authorization: `Bearer ${authToken}` } }
+        )
       }
-              
+
       setSubmitting(false);
       setPopupOpen(false);
       dispatch(
@@ -107,11 +109,11 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
           type: toasterTypes.success,
         }),
       );
-      await dispatch(organizationActions.getMembers({}));    
+      await dispatch(organizationActions.getMembers({}));
     } catch (err) {
       setSubmitting(false);
       setPopupOpen(false);
-       
+
       dispatch(
         showToasterAction({
           // @ts-ignore
@@ -145,14 +147,14 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
     <>
       {popupOpen && (
         <Popup onClose={() => setPopupOpen(false)}>
-          
+
           <FlexBox.Row alignItems="center" justifyContent="space-between">
             <H3 bold color="darkGrey">{translate('updateMemberPopup.title')}</H3>
           </FlexBox.Row>
           <Box marginTop="sm"><Paragraph>{`${translate('updateMemberPopup.text')} ${member?.name}.`}</Paragraph></Box>
 
           <Box marginTop='lg'>
-           
+
             <Box>
               <FormTextField
                 label={translate('updateMemberPopup.form.username.label')}
@@ -164,13 +166,13 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
             </Box>
 
             <Box marginTop='md'>
-                <Paragraph size="body" style={{ color: 'black' }}><label htmlFor={username}>{'Roles'}</label></Paragraph>
-                <Select options={allRoles} isMulti onChange={(e: any) => handleChange(e)}
-                  value={role}
-                  placeholder={'Roles'}
-                  styles={colourStyles}
-                  isClearable={false}
-                />
+              <Paragraph size="body" style={{ color: 'black' }}><label htmlFor={username}>{'Roles'}</label></Paragraph>
+              <Select options={allRoles} isMulti onChange={(e: any) => handleChange(e)}
+                value={role}
+                placeholder={'Roles'}
+                styles={colourStyles}
+                isClearable={false}
+              />
             </Box>
 
             <Box marginTop="md">
@@ -185,7 +187,7 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
                 }}
                 showPasswordOption
               />
-              </Box>
+            </Box>
           </Box>
 
           <FlexBox justifyContent="flex-end" marginTop="xl" flexWrap>
