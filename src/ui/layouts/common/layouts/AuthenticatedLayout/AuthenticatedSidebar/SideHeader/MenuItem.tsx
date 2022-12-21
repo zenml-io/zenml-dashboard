@@ -5,8 +5,8 @@ import cn from 'classnames';
 import styles from './MenuItem.module.scss';
 import { camelCaseToParagraph } from '../../../../../../../utils';
 // import { DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
-import { useSelector } from '../../../../../../hooks';
-import { projectSelectors } from '../../../../../../../redux/selectors';
+// import { useSelector } from '../../../../../../hooks';
+// import { projectSelectors } from '../../../../../../../redux/selectors';
 
 // const url_string = window.location.href;
 // const url = new URL(url_string);
@@ -21,7 +21,7 @@ export const MenuItem: React.FC<{
   Icon: React.ComponentType;
   isActive?: ({ match, location }: { match: any; location: any }) => boolean;
 }> = ({ text, to, exact = false, Icon, isActive, subItem }) => {
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const selectedProject = useSelector(projectSelectors.selectedProject);
   let location = useLocation();
   return (
     <NavLink
@@ -41,7 +41,7 @@ export const MenuItem: React.FC<{
       >
         <Box
           className={cn(
-            to === location.pathname + `?project=${selectedProject}` && !subItem
+            to === location.pathname && !subItem
               ? styles.menuItemSideBox
               : styles.menuItemSideBoxUn,
           )}

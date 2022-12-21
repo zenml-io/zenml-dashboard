@@ -40,6 +40,7 @@ import {
   pipelinePagesActions,
   runPagesActions,
 } from '../../redux/actions';
+import { NotFound } from '../../ui/layouts/NotFound';
 
 import Tour from './Tour';
 
@@ -84,6 +85,7 @@ export const Home: React.FC = () => {
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
+  const [notFound, setNotFound] = useState(false);
 
   const selectedProject = useSelector(projectSelectors.selectedProject);
   const projects = useSelector(projectSelectors.myProjects);
@@ -119,32 +121,52 @@ export const Home: React.FC = () => {
             { headers: { Authorization: `bearer ${authToken}` } },
           );
 
-          await dispatch(
-            projectsActions.getSelectedProject({
-              allProjects: projects,
-              seletecdProject: selectedProject
-                ? selectedProject
-                : DEFAULT_PROJECT_NAME,
+          // await dispatch(
+          //   projectsActions.getMy({
+          //     selectDefault: false,
+          //     selectedProject: selectedProject,
+          //     onSuccess: () => stopLoad(),
+          //     onFailure: () => stopLoad(),
+          //   }),
+          // );
+
+          // await dispatch(
+          //   projectsActions.getSelectedProject({
+          //     allProjects: projects,
+          //     seletecdProject: selectedProject
+          //       ? selectedProject
+          //       : DEFAULT_PROJECT_NAME,
+          //   }),
+          // );
+
+          // await dispatch(
+          //   pipelinesActions.getMy({
+          //     project: selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
+          //     onSuccess: () => stopLoad(),
+          //     onFailure: () => stopLoad(),
+          //   }),
+          // );
+
+          setDashboardData(data);
+          setFetching(false);
+        } catch (e) {
+          dispatch(
+            showToasterAction({
+              description: 'Not found',
+              type: toasterTypes.failure,
             }),
           );
+
           await dispatch(
-            pipelinesActions.getMy({
-              project: selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
-              onSuccess: () => stopLoad(),
+            projectsActions.getMy({
+              selectDefault: false,
+              selectedProject: DEFAULT_PROJECT_NAME,
+              onSuccess: () => setNotFound(true),
               onFailure: () => stopLoad(),
             }),
           );
 
-          setDashboardData(data);
-          setFetching(false);
-        } catch (err) {
-          // @ts-ignore
-          dispatch(
-            showToasterAction({
-              description: translate('toasts.successful.passwordText'),
-              type: toasterTypes.success,
-            }),
-          );
+          // push(routePaths.home(DEFAULT_PROJECT_NAME));
         }
       };
       getDashboardData();
@@ -166,6 +188,8 @@ export const Home: React.FC = () => {
     setBox('');
     setIsHover(false);
   };
+  console.log(notFound, 'notFound');
+  if (notFound) return <NotFound />;
 
   return (
     <AuthenticatedLayout>

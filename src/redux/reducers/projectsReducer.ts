@@ -1,3 +1,4 @@
+import { DEFAULT_PROJECT_NAME } from '../../constants';
 import { camelCaseArray } from '../../utils/camelCase';
 import { projectActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
@@ -7,7 +8,7 @@ export interface State {
   byId: Record<TId, Projects>;
   myProjectIds: TId[];
   selectedProject: string;
-  projectStats: any
+  projectStats: any;
 }
 
 type ProjectsPayload = Projects[];
@@ -25,20 +26,20 @@ export const initialState: State = {
   byId: {},
   myProjectIds: [],
   selectedProject: '',
-  projectStats: {}
+  projectStats: {},
 };
 
 const newState = (
   state: State,
   projects: Projects[],
   defaultSelectedProject?: string,
-  projectStats?: object
+  projectStats?: object,
 ): State => ({
   ...state,
   ids: idsInsert(state.ids, projects),
   byId: byKeyInsert(state.byId, projects),
   selectedProject: defaultSelectedProject as string,
-  projectStats: projectStats
+  projectStats: projectStats,
 });
 
 const projectsReducer = (
@@ -55,7 +56,7 @@ const projectsReducer = (
         (project: Projects) => project.id,
       );
       if (action.requestParams.selectDefault === undefined) {
-        const defaultSelectedProject = projects[0].name;
+        const defaultSelectedProject = DEFAULT_PROJECT_NAME;
         return {
           ...newState(state, projects, defaultSelectedProject),
           myProjectIds,
@@ -73,22 +74,21 @@ const projectsReducer = (
       const myProjectIds: TId[] = allProjects.map(
         (project: Projects) => project.id,
       );
-    
+
       return {
         ...newState(state, allProjects, seletecdProject),
         myProjectIds,
       };
     }
 
-
     case projectActionTypes.getMyProjectStats.success: {
       // const { projectStats } = action.payload as any;
       const projectStats = action.payload;
-     
-      return { ...newState(state,  projectStats) };
+
+      return { ...newState(state, projectStats) };
     }
 
-  default:
+    default:
       return state;
   }
 };

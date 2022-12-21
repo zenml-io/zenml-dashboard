@@ -18,15 +18,15 @@ import image from '../imageNew.png';
 import { getTranslateByScope } from '../../../../services';
 import { routePaths } from '../../../../routes/routePaths';
 import { sessionSelectors } from '../../../../redux/selectors';
-import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
-import { loggedInRoute } from '../../../../constants';
+import { useDispatch, useSelector } from '../../../hooks';
+// import { loggedInRoute } from '../../../../constants';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { stackComponentsActions } from '../../../../redux/actions';
 
 const UserEmail: React.FC = () => {
   const translate = getTranslateByScope('ui.layouts.UserEmail');
-  const { push } = usePushRoute();
+  // const { push } = usePushRoute();
   const dispatch = useDispatch();
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
@@ -46,7 +46,7 @@ const UserEmail: React.FC = () => {
           if (data) {
             if (data?.email_opted_in !== null) {
               dispatch(stackComponentsActions.getTypes());
-              push(loggedInRoute);
+              // push(loggedInRoute);
             }
           }
           setPageLoading(false);

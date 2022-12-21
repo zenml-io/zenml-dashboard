@@ -78,6 +78,7 @@
     "tslint": "tsc",
     "all": "eslint './src/**/*.ts*' & react-scripts test --all & tsc"
   },
+  "homepage": "/login",
   "browserslist": {
     "production": [
       ">0.2%",

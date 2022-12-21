@@ -53,7 +53,7 @@ const routes = [
     },
   },
   {
-    path: routePaths.home,
+    path: routePaths.home(':string'),
     Component: Home,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
