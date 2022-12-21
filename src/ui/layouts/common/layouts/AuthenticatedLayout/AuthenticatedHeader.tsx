@@ -80,7 +80,7 @@ export const AuthenticatedHeader: React.FC<{
       const projectFromUrl = locationPath.split('/')[2];
 
       if (selectedProject !== projectFromUrl && user) {
-        push(routePaths.home(projectFromUrl));
+        push(routePaths.dashboard(projectFromUrl));
       }
 
       dispatch(
@@ -139,7 +139,7 @@ export const AuthenticatedHeader: React.FC<{
     e.preventDefault();
     startLoad();
 
-    history.push(routePaths.home(e?.target?.value));
+    history.push(routePaths.dashboard(e?.target?.value));
     dispatch(
       projectsActions.getSelectedProject({
         allProjects: projects,

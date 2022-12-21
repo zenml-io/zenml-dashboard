@@ -8,6 +8,7 @@ import Signup from '../ui/layouts/session/Signup';
 import UserEmail from '../ui/layouts/session/UserEmail';
 import ForgotPassword from '../ui/layouts/session/ForgotPassword';
 import Home from '../ui/layouts/Home';
+import DashBoard from '../ui/layouts/DashBoard';
 
 import Pipelines from '../ui/layouts/pipelines/Pipelines';
 import stacks from '../ui/layouts/stacks/Stacks';
@@ -53,7 +54,15 @@ const routes = [
     },
   },
   {
-    path: routePaths.home(':string'),
+    path: routePaths.dashboard(':string'),
+    Component: DashBoard,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.home,
     Component: Home,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
