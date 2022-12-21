@@ -7,9 +7,10 @@ import {
   userActions,
 } from '../../../../redux/actions';
 import { loginAction } from '../../../../redux/actions/session/loginAction';
-import { useDispatch, useSelector } from '../../../hooks';
+import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
 import { translate } from './translate';
 import { projectSelectors } from '../../../../redux/selectors';
+import { routePaths } from '../../../../routes/routePaths';
 // import { routePaths } from '../../../../routes/routePaths';
 
 interface ServiceInterface {
@@ -29,7 +30,7 @@ export const useService = (): ServiceInterface => {
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
   // const locationPath = useLocationPath();
-  // const { push } = usePushRoute();
+  const { push } = usePushRoute();
   const dispatch = useDispatch();
 
   return {
@@ -81,6 +82,9 @@ export const useService = (): ServiceInterface => {
 
               await dispatch(userActions.getMy({}));
               await dispatch(stackComponentsActions.getTypes());
+              if (window.location.pathname === '/') {
+                push(routePaths.dashboard(DEFAULT_PROJECT_NAME));
+              }
               // await push(routePaths.userEmail);
             },
           }),

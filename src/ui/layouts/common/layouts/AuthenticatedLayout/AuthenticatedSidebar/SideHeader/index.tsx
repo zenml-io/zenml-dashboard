@@ -14,7 +14,7 @@ export const SideHeader: React.FC = () => {
     <>
       <MenuItem
         Icon={() => <icons.home color={iconColors.white} size={iconSizes.md} />}
-        to={routePaths.home(
+        to={routePaths.dashboard(
           url.includes('projects') ? url.split('/')[2] : selectedProject,
         )}
         text={translate('menu.home.text')}

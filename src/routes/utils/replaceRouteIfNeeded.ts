@@ -47,7 +47,7 @@ export const replaceRouteIfNeeded = ({
     const logRoute =
       user?.emailOptedIn === null
         ? `/user-email`
-        : routePaths.home(DEFAULT_PROJECT_NAME);
+        : routePaths.dashboard(DEFAULT_PROJECT_NAME);
 
     return isAuthenticated ? logRoute : loggedOutRoute;
   };

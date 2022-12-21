@@ -19,7 +19,12 @@ import image from '../imageNew.png';
 import { translate } from './translate';
 import { routePaths } from '../../../../routes/routePaths';
 import { Link } from 'react-router-dom';
-import { useDispatch, useLocationPath, useSelector } from '../../../hooks';
+import {
+  useDispatch,
+  useLocationPath,
+  usePushRoute,
+  useSelector,
+} from '../../../hooks';
 
 import { loginAction } from '../../../../redux/actions/session/loginAction';
 import {
@@ -28,7 +33,7 @@ import {
   stackComponentsActions,
   userActions,
 } from '../../../../redux/actions';
-import { toasterTypes } from '../../../../constants';
+import { DEFAULT_PROJECT_NAME, toasterTypes } from '../../../../constants';
 import { projectSelectors } from '../../../../redux/selectors';
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
@@ -36,7 +41,7 @@ const Login: React.FC = () => {
   const password = process.env.REACT_APP_PASSWORD;
   const username = process.env.REACT_APP_USERNAME;
   const selectedProject = useSelector(projectSelectors.selectedProject);
-  // const { push } = usePushRoute();
+  const { push } = usePushRoute();
   const locationPath = useLocationPath();
   const login = async () => {
     setLoading(true);
@@ -82,6 +87,9 @@ const Login: React.FC = () => {
           // debugger;
           await dispatch(userActions.getMy({}));
           await dispatch(stackComponentsActions.getTypes());
+          if (window.location.pathname === '/') {
+            push(routePaths.dashboard(DEFAULT_PROJECT_NAME));
+          }
           // await push(routePaths.userEmail);
         },
       }),
