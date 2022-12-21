@@ -42,6 +42,7 @@ import cn from 'classnames';
 import css from './../../../../../ui/components/inputs/index.module.scss';
 import { ProjectPopup } from './ProjectPopup';
 import CookieConsent from 'react-cookie-consent';
+// import { endpoints } from '../../../../../api/endpoints';
 
 export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
@@ -57,35 +58,60 @@ export const AuthenticatedHeader: React.FC<{
   const dispatch = useDispatch();
   const { push } = usePushRoute();
   const locationPath = useLocationPath();
-  useEffect(() => {
-    const intervalId = setInterval(() => {
-      //assign interval to a variable to clear it.
-      dispatch(
-        projectsActions.getMy({ selectDefault: false, selectedProject }),
-      );
-    }, 5000);
-    return () => clearInterval(intervalId);
-    //This is important
-  });
-  useEffect(() => {
-    return history.listen((location) => {
-      console.log(`You changed the page to: ${location.pathname}`);
-    });
-  }, [history]);
+  // useEffect(() => {
+  //   const intervalId = setInterval(() => {
+  //     //assign interval to a variable to clear it.
+  // dispatch(
+  //   projectsActions.getMy({ selectDefault: false, selectedProject }),
+  // );
+  //   }, 5000);
+  //   return () => clearInterval(intervalId);
+  //   //This is important
+  // });
+  //   useEffect(() => {
+  //     return history.listen((location) => {
+  //       console.log(location)
+  //       //  window._mfq.push(['newPageView', location.pathname]);
+  //     })
+  //  }, [history])
 
   useEffect(() => {
     if (locationPath.includes('projects')) {
-      const selectedProject = locationPath.split('/')[2];
+      const projectFromUrl = locationPath.split('/')[2];
+
+      if (selectedProject !== projectFromUrl && user) {
+        push(routePaths.home(projectFromUrl));
+      }
+
       dispatch(
         projectsActions.getMy({
           selectDefault: false,
-          selectedProject,
+          selectedProject: projectFromUrl ? projectFromUrl : selectedProject,
         }),
       );
     }
-    // debugger;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  // useEffect(() => {
+  //   return () => {
+  //     if (window.performance) {
+  //       console.info('window.performance works fine on this browser');
+  //     }
+  //     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
+  //       console.info('This page is reloaded');
+  //     } else {
+  //       if (selectedProject != window.location.pathname.split('/')[2]) {
+  //         console.log(
+  //           'reloaded',
+  //           selectedProject,
+  //           window.location.pathname.split('/')[2],
+  //         );
+  //         push(routePaths.home(window.location.pathname.split('/')[2]));
+  //       }
+  //     }
+  //   };
+  // });
   if (!user) return null;
 
   const userFullName = user.fullName || user.name || DEFAULT_FULL_NAME;
@@ -97,6 +123,7 @@ export const AuthenticatedHeader: React.FC<{
   };
 
   const startLoad = () => {
+    // debugger;
     dispatch(pipelinePagesActions.setFetching({ fetching: true }));
     dispatch(runPagesActions.setFetching({ fetching: true }));
     dispatch(stackPagesActions.setFetching({ fetching: true }));
@@ -111,8 +138,8 @@ export const AuthenticatedHeader: React.FC<{
   const onChange = (e: any) => {
     e.preventDefault();
     startLoad();
-    console.log(locationPath, 'test');
-    history.push('/');
+
+    history.push(routePaths.home(e?.target?.value));
     dispatch(
       projectsActions.getSelectedProject({
         allProjects: projects,
@@ -148,13 +175,37 @@ export const AuthenticatedHeader: React.FC<{
           {!window.location.href?.includes('settings') && (
             <>
               <Box marginLeft="md" className="d-none d-md-block">
+                {console.log(
+                  selectedProject,
+                  DEFAULT_PROJECT_NAME,
+                  'locationPath',
+                )}
                 <select
+                  onClick={() =>
+                    dispatch(
+                      projectsActions.getMy({
+                        selectDefault: false,
+                        selectedProject,
+                      }),
+                    )
+                  }
                   onChange={(e: any) => onChange(e)}
                   defaultValue={
-                    selectedProject ? selectedProject : DEFAULT_PROJECT_NAME
+                    projects.some(
+                      (project) =>
+                        project['name'] === locationPath.split('/')[2],
+                    )
+                      ? locationPath.split('/')[2]
+                      : DEFAULT_PROJECT_NAME
+                    // projects ? selectedProject : DEFAULT_PROJECT_NAME
                   }
                   value={
-                    selectedProject ? selectedProject : DEFAULT_PROJECT_NAME
+                    projects.some(
+                      (project) =>
+                        project['name'] === locationPath.split('/')[2],
+                    )
+                      ? locationPath.split('/')[2]
+                      : DEFAULT_PROJECT_NAME
                   }
                   placeholder={'Projects'}
                   className={cn(css.input)}
@@ -167,6 +218,7 @@ export const AuthenticatedHeader: React.FC<{
                     color: '#424240',
                   }}
                 >
+                  {console.log(projects, 'projects')}
                   <option selected disabled value="">
                     {'Select Project'}
                   </option>

@@ -19,7 +19,7 @@ import image from '../imageNew.png';
 import { translate } from './translate';
 import { routePaths } from '../../../../routes/routePaths';
 import { Link } from 'react-router-dom';
-import { useDispatch, useLocationPath } from '../../../hooks';
+import { useDispatch, useLocationPath, useSelector } from '../../../hooks';
 
 import { loginAction } from '../../../../redux/actions/session/loginAction';
 import {
@@ -29,11 +29,13 @@ import {
   userActions,
 } from '../../../../redux/actions';
 import { toasterTypes } from '../../../../constants';
+import { projectSelectors } from '../../../../redux/selectors';
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const password = process.env.REACT_APP_PASSWORD;
   const username = process.env.REACT_APP_USERNAME;
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   // const { push } = usePushRoute();
   const locationPath = useLocationPath();
   const login = async () => {
@@ -63,16 +65,21 @@ const Login: React.FC = () => {
           setLoading(false);
 
           if (window.location.search.includes('projects')) {
-            const selectedProject = window.location.search.split('/')[2];
+            const projectFromUrl = window.location.search.split('/')[2];
             await dispatch(
               projectsActions.getMy({
                 selectDefault: false,
-                selectedProject,
+                selectedProject: projectFromUrl
+                  ? projectFromUrl
+                  : selectedProject,
               }),
             );
           } else {
-            await dispatch(projectsActions.getMy({}));
+            await dispatch(
+              projectsActions.getMy({ selectDefault: false, selectedProject }),
+            );
           }
+          // debugger;
           await dispatch(userActions.getMy({}));
           await dispatch(stackComponentsActions.getTypes());
           // await push(routePaths.userEmail);

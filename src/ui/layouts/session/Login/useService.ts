@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { toasterTypes } from '../../../../constants';
+import { DEFAULT_PROJECT_NAME, toasterTypes } from '../../../../constants';
 import {
   projectsActions,
   showToasterAction,
@@ -7,8 +7,9 @@ import {
   userActions,
 } from '../../../../redux/actions';
 import { loginAction } from '../../../../redux/actions/session/loginAction';
-import { useDispatch } from '../../../hooks';
+import { useDispatch, useSelector } from '../../../hooks';
 import { translate } from './translate';
+import { projectSelectors } from '../../../../redux/selectors';
 // import { routePaths } from '../../../../routes/routePaths';
 
 interface ServiceInterface {
@@ -23,6 +24,7 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const [loading, setLoading] = useState(false);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
@@ -55,17 +57,28 @@ export const useService = (): ServiceInterface => {
                   type: toasterTypes.success,
                 }),
               );
+
               if (window.location.search.includes('projects')) {
-                const selectedProject = window.location.search.split('/')[2];
+                const projectFromUrl = window.location.search.split('/')[2];
                 await dispatch(
                   projectsActions.getMy({
                     selectDefault: false,
-                    selectedProject,
+                    selectedProject: projectFromUrl
+                      ? projectFromUrl
+                      : selectedProject,
                   }),
                 );
               } else {
-                await dispatch(projectsActions.getMy({}));
+                await dispatch(
+                  projectsActions.getMy({
+                    selectDefault: false,
+                    selectedProject: selectedProject
+                      ? selectedProject
+                      : DEFAULT_PROJECT_NAME,
+                  }),
+                );
               }
+
               await dispatch(userActions.getMy({}));
               await dispatch(stackComponentsActions.getTypes());
               // await push(routePaths.userEmail);

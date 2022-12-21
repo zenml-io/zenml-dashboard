@@ -2,7 +2,10 @@
 
 import { PipelineDetailRouteParams } from '.';
 import { pipelinesActions } from '../../../../redux/actions';
-import { pipelineSelectors } from '../../../../redux/selectors';
+import {
+  pipelineSelectors,
+  projectSelectors,
+} from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { pipelinePagesActions } from '../../../../redux/actions';
@@ -14,6 +17,7 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const { id } = useParams<PipelineDetailRouteParams>();
 
   useEffect(() => {
