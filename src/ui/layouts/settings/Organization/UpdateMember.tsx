@@ -25,17 +25,16 @@ import { httpMethods } from '../../../../api/constants';
 import { apiUrl } from '../../../../api/apiUrl';
 import { sessionSelectors, rolesSelectors } from '../../../../redux/selectors';
 import { useSelector } from '../../../hooks';
-import axios from 'axios'
-import Select, { StylesConfig } from 'react-select'
+import axios from 'axios';
+import Select, { StylesConfig } from 'react-select';
 
 export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
-
   const preRole = member?.roles?.map((e: any) => {
-    return { value: e.id, label: e.name }
-  })
+    return { value: e.id, label: e.name };
+  });
 
-  const [username, setUsername] = useState('')
-  const [password, setPassword] = useState('')
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [popupOpen, setPopupOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [role, setRole] = useState(preRole);
@@ -46,17 +45,17 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
   const authenticationToken = authToken ? authToken : '';
 
   const allRoles = roles?.map((e) => {
-    return { value: e.id, label: e.name }
-  })
+    return { value: e.id, label: e.name };
+  });
 
   const handleChange = (value: string) => {
     setRole(value);
-  }
+  };
 
   useEffect(() => {
-    setUsername(member?.name)
+    setUsername(member?.name);
     // eslint-disable-next-line
-  }, [])
+  }, [member]);
 
   const onUpdate = async () => {
     setSubmitting(true);
@@ -80,25 +79,32 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
             'Content-Type': 'application/json',
           },
           data: { name: username },
-        })
+        });
       }
 
-      const { data } = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_name_or_id=${member?.name}`, { headers: { Authorization: `Bearer ${authToken}` } })
-      
+      const {
+        data,
+      } = await axios.get(
+        `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_name_or_id=${member?.name}`,
+        { headers: { Authorization: `Bearer ${authToken}` } },
+      );
+
       for (let index = 0; index < data?.length; index++) {
         const singleDelRole = data[index];
-        await axios.delete(`https://appserver.zenml.io/api/v1/role_assignments/${singleDelRole?.id}`,
-          { headers: { Authorization: `Bearer ${authToken}` } }
-        )
+        await axios.delete(
+          `https://appserver.zenml.io/api/v1/role_assignments/${singleDelRole?.id}`,
+          { headers: { Authorization: `Bearer ${authToken}` } },
+        );
       }
 
       for (let index = 0; index < role.length; index++) {
         const singleRole = role[index];
-        await axios.post(`${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
+        await axios.post(
+          `${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
           // @ts-ignore
           { user: member.id, role: singleRole?.value },
-          { headers: { Authorization: `Bearer ${authToken}` } }
-        )
+          { headers: { Authorization: `Bearer ${authToken}` } },
+        );
       }
 
       setSubmitting(false);
@@ -127,47 +133,63 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
           description: err.response?.data?.detail[1],
           type: toasterTypes.failure,
         }),
-      )
+      );
     }
   };
 
-
   const colourStyles: StylesConfig<any> = {
-    control: (styles: any) => ({ ...styles, fontSize: '1.6rem', fontFamily: 'Rubik', color: '#424240' }),
+    control: (styles: any) => ({
+      ...styles,
+      fontSize: '1.6rem',
+      fontFamily: 'Rubik',
+      color: '#424240',
+    }),
     option: (styles: any) => {
       return {
         ...styles,
-        fontSize: '1.6rem', fontFamily: 'Rubik', color: '#424240'
+        fontSize: '1.6rem',
+        fontFamily: 'Rubik',
+        color: '#424240',
       };
-    }
-  }
-
+    },
+  };
 
   return (
     <>
       {popupOpen && (
         <Popup onClose={() => setPopupOpen(false)}>
-
           <FlexBox.Row alignItems="center" justifyContent="space-between">
-            <H3 bold color="darkGrey">{translate('updateMemberPopup.title')}</H3>
+            <H3 bold color="darkGrey">
+              {translate('updateMemberPopup.title')}
+            </H3>
           </FlexBox.Row>
-          <Box marginTop="sm"><Paragraph>{`${translate('updateMemberPopup.text')} ${member?.name}.`}</Paragraph></Box>
+          <Box marginTop="sm">
+            <Paragraph>{`${translate('updateMemberPopup.text')} ${
+              member?.name
+            }.`}</Paragraph>
+          </Box>
 
-          <Box marginTop='lg'>
-
+          <Box marginTop="lg">
             <Box>
               <FormTextField
                 label={translate('updateMemberPopup.form.username.label')}
                 labelColor="#000"
-                placeholder={translate('updateMemberPopup.form.username.placeholder')}
+                placeholder={translate(
+                  'updateMemberPopup.form.username.placeholder',
+                )}
                 value={username ? username : ''}
                 onChange={(val: string) => setUsername(val)}
               />
             </Box>
 
-            <Box marginTop='md'>
-              <Paragraph size="body" style={{ color: 'black' }}><label htmlFor={username}>{'Roles'}</label></Paragraph>
-              <Select options={allRoles} isMulti onChange={(e: any) => handleChange(e)}
+            <Box marginTop="md">
+              <Paragraph size="body" style={{ color: 'black' }}>
+                <label htmlFor={username}>{'Roles'}</label>
+              </Paragraph>
+              <Select
+                options={allRoles}
+                isMulti
+                onChange={(e: any) => handleChange(e)}
                 value={role}
                 placeholder={'Roles'}
                 styles={colourStyles}
@@ -179,7 +201,9 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
               <FormPasswordField
                 label={translate('updateMemberPopup.form.password.label')}
                 labelColor="#000"
-                placeholder={translate('updateMemberPopup.form.password.placeholder')}
+                placeholder={translate(
+                  'updateMemberPopup.form.password.placeholder',
+                )}
                 value={password}
                 onChange={(val: string) => setPassword(val)}
                 error={{
