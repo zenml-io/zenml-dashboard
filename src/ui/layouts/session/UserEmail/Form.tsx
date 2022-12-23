@@ -79,9 +79,7 @@ export const Form: React.FC = () => {
             dispatch(projectsActions.getMy({}));
           }
           dispatch(stackComponentsActions.getTypes());
-          if (window.location.pathname === '/') {
-            push(routePaths.dashboard(DEFAULT_PROJECT_NAME));
-          }
+          push(loggedInRoute);
         });
     } catch (err) {
       setSubmitting(false);
