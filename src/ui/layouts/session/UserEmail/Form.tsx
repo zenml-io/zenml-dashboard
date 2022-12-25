@@ -1,10 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
-import {
-  DEFAULT_PROJECT_NAME,
-  loggedInRoute,
-  toasterTypes,
-} from '../../../../constants';
+import { loggedInRoute, toasterTypes } from '../../../../constants';
 import {
   projectsActions,
   showToasterAction,
@@ -27,7 +23,7 @@ import { getTranslateByScope } from '../../../../services';
 import { sessionSelectors } from '../../../../redux/selectors/session';
 import { userSelectors } from '../../../../redux/selectors';
 import axios from 'axios';
-import { routePaths } from '../../../../routes/routePaths';
+// import { routePaths } from '../../../../routes/routePaths';
 
 export const Form: React.FC = () => {
   const { push } = usePushRoute();
@@ -79,9 +75,7 @@ export const Form: React.FC = () => {
             dispatch(projectsActions.getMy({}));
           }
           dispatch(stackComponentsActions.getTypes());
-          if (window.location.pathname === '/') {
-            push(routePaths.dashboard(DEFAULT_PROJECT_NAME));
-          }
+          push(loggedInRoute);
         });
     } catch (err) {
       setSubmitting(false);

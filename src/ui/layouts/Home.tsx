@@ -2,10 +2,11 @@
 
 import React, { useEffect } from 'react';
 
-import { useLocationPath, usePushRoute } from '../hooks';
+import { useLocationPath, usePushRoute, useSelector } from '../hooks';
 
 import { routePaths } from '../../routes/routePaths';
 import { DEFAULT_PROJECT_NAME } from '../../constants';
+import { projectSelectors } from '../../redux/selectors';
 
 const GreyBoxWithIcon: React.FC<{
   title: string;
@@ -17,6 +18,7 @@ const GreyBoxWithIcon: React.FC<{
 };
 
 export const DashBoard: React.FC = () => {
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const { push } = usePushRoute();
   const locationPath = useLocationPath();
   const url = window.location.pathname;
@@ -32,6 +34,12 @@ export const DashBoard: React.FC = () => {
       push(
         routePaths.dashboard(
           projectFromUrl ? projectFromUrl : DEFAULT_PROJECT_NAME,
+        ),
+      );
+    } else {
+      push(
+        routePaths.dashboard(
+          selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
         ),
       );
     }

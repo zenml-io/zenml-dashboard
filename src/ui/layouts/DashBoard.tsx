@@ -136,9 +136,12 @@ export const DashBoard: React.FC = () => {
         startLoad();
 
         try {
+          const projectFromUrl = locationPath.split('/')[2];
           const { data } = await axios.get(
             `${process.env.REACT_APP_BASE_API_URL}/projects/${
-              selectedProject ? selectedProject : DEFAULT_PROJECT_NAME
+              projectFromUrl !== selectedProject
+                ? projectFromUrl
+                : selectedProject
             }/statistics`,
             { headers: { Authorization: `bearer ${authToken}` } },
           );
