@@ -157,7 +157,12 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
   return (
     <>
       {popupOpen && (
-        <Popup onClose={() => setPopupOpen(false)}>
+        <Popup
+          onClose={() => {
+            setPopupOpen(false);
+            setRole(preRole);
+          }}
+        >
           <FlexBox.Row alignItems="center" justifyContent="space-between">
             <H3 bold color="darkGrey">
               {translate('updateMemberPopup.title')}
@@ -233,7 +238,12 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
         </Popup>
       )}
       <Box>
-        <LinkBox onClick={() => setPopupOpen(true)}>
+        <LinkBox
+          onClick={() => {
+            setPopupOpen(true);
+            setRole(preRole);
+          }}
+        >
           <icons.edit color={iconColors.grey} />
         </LinkBox>
       </Box>
