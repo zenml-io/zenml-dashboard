@@ -8,7 +8,7 @@ import {
   LinkBox,
   icons,
   If,
-  PrimaryButton,
+  Separator
 } from '../../../../components';
 
 import styles from './AuthenticatedHeader.module.scss';
@@ -38,10 +38,9 @@ import {
   stackPagesActions,
 } from '../../../../../redux/actions';
 import { routePaths } from '../../../../../routes/routePaths';
-import cn from 'classnames';
-import css from './../../../../../ui/components/inputs/index.module.scss';
 import { ProjectPopup } from './ProjectPopup';
 import CookieConsent from 'react-cookie-consent';
+import cookieImage from '../../../../assets/cookie.svg'
 // import { endpoints } from '../../../../../api/endpoints';
 
 export const AuthenticatedHeader: React.FC<{
@@ -54,6 +53,7 @@ export const AuthenticatedHeader: React.FC<{
   const history = useHistory();
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const [createPopupOpen, setCreatePopupOpen] = useState<boolean>(false);
+  const [showProjects, setShowProjects] = useState<boolean>(false);
 
   const dispatch = useDispatch();
   const { push } = usePushRoute();
@@ -139,20 +139,21 @@ export const AuthenticatedHeader: React.FC<{
     e.preventDefault();
     startLoad();
 
-    history.push(routePaths.dashboard(e?.target?.value));
+    history.push(routePaths.dashboard(e?.name));
     dispatch(
       projectsActions.getSelectedProject({
         allProjects: projects,
-        seletecdProject: e?.target?.value,
+        seletecdProject: e?.name,
       }),
     );
     dispatch(
       pipelinesActions.getMy({
-        project: e?.target?.value,
+        project: e?.name,
         onSuccess: () => stopLoad(),
         onFailure: () => stopLoad(),
       }),
     );
+    dispatch(projectsActions.getMy({ selectDefault: false, selectedProject }))
   };
 
   return (
@@ -171,72 +172,6 @@ export const AuthenticatedHeader: React.FC<{
               <icons.burger size={iconSizes.md} />
             </LinkBox>
           </Box>
-
-          {!window.location.href?.includes('settings') && (
-            <>
-              <Box marginLeft="md" className="d-none d-md-block">
-                {console.log(
-                  selectedProject,
-                  DEFAULT_PROJECT_NAME,
-                  'locationPath',
-                )}
-                <select
-                  onClick={() =>
-                    dispatch(
-                      projectsActions.getMy({
-                        selectDefault: false,
-                        selectedProject,
-                      }),
-                    )
-                  }
-                  onChange={(e: any) => onChange(e)}
-                  defaultValue={
-                    projects.some(
-                      (project) =>
-                        project['name'] === locationPath.split('/')[2],
-                    )
-                      ? locationPath.split('/')[2]
-                      : DEFAULT_PROJECT_NAME
-                    // projects ? selectedProject : DEFAULT_PROJECT_NAME
-                  }
-                  value={
-                    projects.some(
-                      (project) =>
-                        project['name'] === locationPath.split('/')[2],
-                    )
-                      ? locationPath.split('/')[2]
-                      : DEFAULT_PROJECT_NAME
-                  }
-                  placeholder={'Projects'}
-                  className={cn(css.input)}
-                  style={{
-                    border: 'none',
-                    outline: 'none',
-                    width: '146px',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    color: '#424240',
-                  }}
-                >
-                  {console.log(projects, 'projects')}
-                  <option selected disabled value="">
-                    {'Select Project'}
-                  </option>
-                  {projects.map((option, index) => (
-                    <option key={index} value={option.name}>
-                      {option.name}
-                    </option>
-                  ))}
-                </select>
-              </Box>
-
-              <Box marginLeft="md" className="d-none d-md-block">
-                <PrimaryButton onClick={() => setCreatePopupOpen(true)}>
-                  +
-                </PrimaryButton>
-              </Box>
-            </>
-          )}
         </FlexBox>
         <If condition={!!userFullName}>
           {() => (
@@ -277,6 +212,38 @@ export const AuthenticatedHeader: React.FC<{
                           <Paragraph size="small">Settings</Paragraph>
                         </FlexBox>
                       </LinkBox>
+                
+                
+                      <Box marginHorizontal='md'><Separator.LightNew /></Box>
+                      <Box marginTop='sm' marginHorizontal="md" ><Paragraph color='grey' style={{ fontSize: '14px' }} >Your workspaces</Paragraph></Box>
+                      <Box marginVertical='sm' marginHorizontal='md' className="d-none d-md-block">          
+                        <LinkBox onClick={() => setShowProjects(!showProjects)}>
+                          <FlexBox alignItems="center">
+                            <FlexBox style={{ width: '100%' }}  alignItems="center" justifyContent='space-between' className="d-none d-md-flex">
+                              <Box paddingRight="md">
+                                <Paragraph>{projects.some((project) => project['name'] === locationPath.split('/')[2])
+                                  ? locationPath.split('/')[2].substring(0, 10)
+                                  : DEFAULT_PROJECT_NAME.substring(0, 10)}</Paragraph>
+                              </Box>
+                              <Box>
+                                {showProjects ? <icons.chevronUpLight size={iconSizes.xs} color={iconColors.black} /> : <icons.chevronDownLight size={iconSizes.xs} color={iconColors.black} />}
+                              </Box>
+                            </FlexBox>
+                          </FlexBox>
+                        </LinkBox>
+                        
+                        {showProjects && 
+                          <Box marginTop='md'>  
+                            <Paragraph color='grey'>Select Project</Paragraph>  
+                              {projects.slice(0, 10).map((option, index) => (
+                                <Box marginTop='sm' onClick={(option) => onChange(option) } key={index} >
+                                  <Paragraph style={{ fontSize: '16px', color: '#424240', cursor: 'pointer' }} >{option.name.substring(0, 10)}</Paragraph>
+                                </Box>
+                              ))}
+                        </Box>}      
+                      </Box>
+                      <Box marginHorizontal='md'><Separator.LightNew /></Box>
+              
                       {process.env.REACT_APP_DEMO_SETUP === 'true' ? null : (
                         <LinkBox onClick={logout}>
                           <FlexBox
@@ -307,45 +274,106 @@ export const AuthenticatedHeader: React.FC<{
       </FlexBox>
 
       <CookieConsent
-        location="bottom"
-        buttonText="I understand"
+        buttonText="Accept"
         cookieName="My Cookie"
         style={{
           background: '#fff',
           borderRadius: '15px',
-          border: '2px solid #431D93',
-          marginBottom: '50px',
+          border: '1px solid #8045FF',
           color: '#424240',
           fontFamily: 'Rubik',
           fontSize: '1.6rem',
           fontWeight: 'bold',
-          maxWidth: `${window.innerWidth - 200}px`,
-          marginLeft: '100px',
+          maxWidth: `300px`,
+          maxHeight: '300px',
+
+          display: 'flex',
+          justifyContent: 'center',
+          position: 'absolute',
+          margin: '0 auto 0 auto',
+          top: '30%',
+          left: '42%'
         }}
         buttonStyle={{
-          backgroundColor: '#431D93',
-          color: '#fff',
-          fontFamily: 'Rubik',
-          fontSize: '1.6rem',
-          height: '4rem',
-          borderRadius: '4px',
-          padding: '0 3.2rem',
-        }}
-        declineButtonStyle={{
           backgroundColor: '#fff',
-          color: '#424240',
-          border: '1px solid #424240',
+          color: '#8045FF',
           fontFamily: 'Rubik',
           fontSize: '1.6rem',
-          height: '4rem',
+          fontWeight: 'bold',
           borderRadius: '4px',
-          padding: '0 3.2rem',
+          padding: '0 3.2rem'
         }}
-        enableDeclineButton
         expires={120}
       >
-        ZenML uses cookies to enhance the user experience.
-      </CookieConsent>
+      <FlexBox
+        alignItems="center"
+        justifyContent="space-between"
+        flexDirection='column'
+      >
+      <Box style={{ height: '130px', width: '130px' }} >
+        <img src={cookieImage} alt='cookie' />
+      </Box>
+      <Box marginTop='sm' style={{ maxWidth: '180px' }}>
+        <Paragraph size="small">
+          This website uses cookies 
+          to ensure you get the best
+          experience on our website.
+        </Paragraph>
+      </Box>
+      </FlexBox>
+    </CookieConsent>
     </>
   );
 };
+
+
+// {!window.location.href?.includes('settings') && (
+//   <Box marginLeft="md" className="d-none d-md-block">
+//     <select
+//         onClick={() =>
+//           dispatch(
+//             projectsActions.getMy({
+//               selectDefault: false,
+//               selectedProject,
+//             }),
+//           )
+//         }
+//         onChange={(e: any) => onChange(e)}
+//         defaultValue={
+//           projects.some(
+//             (project) =>
+//               project['name'] === locationPath.split('/')[2],
+//           )
+//             ? locationPath.split('/')[2]
+//             : DEFAULT_PROJECT_NAME
+//         }
+//         value={
+//           projects.some(
+//             (project) =>
+//               project['name'] === locationPath.split('/')[2],
+//           )
+//             ? locationPath.split('/')[2]
+//             : DEFAULT_PROJECT_NAME
+//         }
+//         placeholder={'Projects'}
+//         className={cn(css.input)}
+//         style={{
+//           border: 'none',
+//           outline: 'none',
+//           width: '146px',
+//           fontSize: '16px',
+//           fontWeight: 'bold',
+//           color: '#424240',
+//         }}
+//       >
+//         <option selected disabled value="">
+//           {'Select Project'}
+//         </option>
+//         {projects.map((option, index) => (
+//           <option key={index} value={option.name}>
+//             {option.name}
+//           </option>
+//         ))}
+//       </select>
+//     </Box>
+// )}

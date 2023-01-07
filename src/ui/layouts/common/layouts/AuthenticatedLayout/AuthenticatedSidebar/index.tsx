@@ -3,9 +3,9 @@ import cn from 'classnames';
 import {
   FlexBox,
   Box,
-  ZenMLLogoWhite,
   LinkBox,
   If,
+  ZenMLLogoSmall,
 } from '../../../../../components';
 import { usePushRoute, useSelector } from '../../../../../hooks';
 import { Menu } from './Menu';
@@ -20,10 +20,6 @@ export const AuthenticatedSidebar: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const { push } = usePushRoute();
-
-  // const url_string = window.location.href;
-  // const url = new URL(url_string);
-  // const projectName = url.searchParams.get('project');
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
   return (
@@ -46,8 +42,7 @@ export const AuthenticatedSidebar: React.FC<{
         <FlexBox
           marginBottom="xxl"
           alignItems="center"
-          paddingLeft="lg"
-          style={{ cursor: 'pointer' }}
+          style={{ cursor: 'pointer', width: '100%', alignItems: 'center' }} flexDirection='column'
           onClick={() =>
             push(
               `/?project=${
@@ -56,7 +51,7 @@ export const AuthenticatedSidebar: React.FC<{
             )
           }
         >
-          <ZenMLLogoWhite />
+          <ZenMLLogoSmall />
         </FlexBox>
 
         <FlexBox

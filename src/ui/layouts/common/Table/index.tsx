@@ -47,6 +47,91 @@ export const Table: React.FC<TableProps> = ({
   renderAfterRow,
   trOnClick,
 }) => {
+
+  // const [tableHeight, setTableHeight] = useState("auto");
+  // const [activeIndex, setActiveIndex] = useState(null);
+  // const tableElement = useRef(null);
+  // const createHeaders = (headers: any) => {
+  //   return headerCols?.map((item: any) => ({
+  //     text: item,
+  //     ref: tableElement
+  //   }));
+  // };
+  
+  // const columns = createHeaders(headerCols?.length);
+
+  // const minCellWidth = 120
+
+  // useEffect(() => {
+  //   // @ts-ignore
+  //   // console.log(tableElement && tableElement.current.offsetHeight);
+  //   setTableHeight(tableElement?.current?.offsetHeight);
+  // }, []);
+
+  // const mouseDown = (index: any) => {
+  //   setActiveIndex(index);
+  // };
+
+
+  // const mouseMove = useCallback(
+  //   (e) => {
+  //     const gridColumns = columns.map((col: any, i: any) => {
+  //       if (i === activeIndex) {
+  //         const width = e.clientX - col.ref.current.offsetLeft;
+
+  //         if (width >= minCellWidth) {
+  //           return `${width}px`;
+  //         }
+  //       }
+  //       return `${col.ref.current.offsetWidth}px`;
+  //     });
+
+  //     // @ts-ignore
+  //     tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
+  //       " "
+  //     )}`;
+  //   },
+  //   [activeIndex, columns, minCellWidth]
+  // );
+
+  // const removeListeners = useCallback(() => {
+  //   window.removeEventListener("mousemove", mouseMove);
+  //   window.removeEventListener("mouseup", removeListeners);
+  // }, [mouseMove]);
+
+  // const mouseUp = useCallback(() => {
+  //   setActiveIndex(null);
+  //   removeListeners();
+  // }, [setActiveIndex, removeListeners]);
+
+  // useEffect(() => {
+  //   if (activeIndex !== null) {
+  //     window.addEventListener("mousemove", mouseMove);
+  //     window.addEventListener("mouseup", mouseUp);
+  //   }
+
+  //   return () => {
+  //     removeListeners();
+  //   };
+  // }, [activeIndex, mouseMove, mouseUp, removeListeners]);
+
+  // // Demo only
+  // const resetTableCells = () => {
+  //   // @ts-ignore
+  //   tableElement.current.style.gridTemplateColumns = "";
+  // };
+
+
+
+
+
+
+
+
+
+
+
+
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
 
   const { itemsForPage, pages, totalOfPages } = getPaginationData({
@@ -64,8 +149,7 @@ export const Table: React.FC<TableProps> = ({
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-
-
+  
   return (
     <FlexBox.Column className={styles.tableWrapper} fullWidth>
       <IfElse
@@ -73,22 +157,20 @@ export const Table: React.FC<TableProps> = ({
         renderWhenTrue={() => (
           <>
             <table className={styles.table}>
-              <thead style={{ backgroundColor: '#F4F4F4' }}>
+              <thead>
                 <tr className={showHeader ? styles.tableHeaderRow : ''}>
-                  {headerCols.map((headerCol: HeaderCol, index: number) => (
+                  {headerCols.map((headerCol: HeaderCol, index: number, i) => (
                     <th
-                      className={styles.tableHeadingTh}
+                      className={styles.tableHeadingTh}                
                       style={{
                         width: headerCol.width,
-                        color: '#000',
+                        color: '#424240',
+                        fontSize: '14px',
                         fontWeight: 700,
                       }}
                       key={index}
                     >
-                      <Box
-                        paddingVertical={showHeader ? 'sm' : null}
-                        paddingLeft="lg"
-                      >
+                      <Box style={{ backgroundColor: 'rgba(217, 217, 217, 0.2)' }} paddingVertical={showHeader ? 'sm' : null} paddingLeft="lg">
                         {headerCol.render && headerCol.render()}
                       </Box>
                     </th>
@@ -111,6 +193,7 @@ export const Table: React.FC<TableProps> = ({
                         styles.tableRow,
                         trOnClick && styles.clickableTableRow,
                       )}
+                      style={{ backgroundColor: index % 2 !== 0 ? '#F5F3F9' : 'white' }}
                       key={index}
                     >
                       {headerCols.map((headerCol: HeaderCol, index: number) => (
@@ -119,7 +202,7 @@ export const Table: React.FC<TableProps> = ({
                           style={{ width: headerCol.width }}
                           key={index}
                         >
-                          <Box paddingVertical="md" paddingLeft="lg">
+                          <Box paddingVertical="sm" paddingLeft="lg">
                             <Truncate maxLines={1}>
                               {headerCol.renderRow(headerRow)}
                             </Truncate>
