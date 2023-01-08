@@ -166,6 +166,43 @@ export const CopyField = (
   );
 };
 
+export const SearchInputField = (
+  props: {
+    label?: string;
+    labelColor?: any;
+    placeholder: any;
+    onChange?: any;
+    value: string;
+  } & any,
+): JSX.Element => {
+  return (
+    <FlexBox.Column fullWidth style={{ height: '100px' }}>
+      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+
+      <LinkBox style={{ position: 'absolute', left: '7px', top: '30px' }} onClick={() => {}}>
+          <icons.search color={iconColors.grey} />
+      </LinkBox>
+
+      <InputWithLabel
+        name={props.name}
+        label={props.label}
+        labelColor={props.labelColor}
+        InputComponent={
+          <TextInput
+            {...props}
+            style={{ paddingLeft: '40px' }}
+            value={props.value}
+            onChangeText={props.onChange}
+            placeholder={props.placeholder}
+          />
+        }
+      />
+
+      </FlexBox>
+    </FlexBox.Column>
+  );
+};
+
 export const FormPasswordField = (
   props: {
     label: string;

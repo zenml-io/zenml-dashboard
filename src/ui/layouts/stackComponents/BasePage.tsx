@@ -7,6 +7,7 @@ import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { Tabs } from '../common/Tabs';
 import Header from './Header';
 import Stacks from './Stacks';
+import Component from './Component';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
@@ -22,9 +23,12 @@ export const BasePage: React.FC<{
   headerWithButtons,
   children,
 }) => {
+
   return (
     <AuthenticatedLayout>
-      <SidebarContainer>
+      <Component />
+
+      <SidebarContainer>      
         <IfElse
           condition={!!headerWithButtons}
           renderWhenTrue={() => (

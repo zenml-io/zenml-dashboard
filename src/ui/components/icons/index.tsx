@@ -43,6 +43,7 @@ import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 import { ReactComponent as Cached } from './assets/Cached.svg';
 import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
 import { ReactComponent as Edit } from './assets/Edit.svg';
+import { ReactComponent as Search } from './assets/Search.svg';
 
 //icons for stackComponents
 import { ReactComponent as PuzzlePiece } from './assets/PuzzlePiece.svg';
@@ -161,6 +162,7 @@ const icons = {
   funnelFill: createIcon({ Component: FunnelFill }),
   delete: createIcon({ Component: Delete }),
   edit: createIcon({ Component: Edit }),
+  search: createIcon({ Component: Search }),
 
   //icons for stackComponents
   artifact_store: createIcon({ Component: Folders, useStroke: true }),

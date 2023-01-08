@@ -135,25 +135,24 @@ export const AuthenticatedHeader: React.FC<{
     dispatch(stackPagesActions.setFetching({ fetching: false }));
   };
 
-  const onChange = (e: any) => {
-    e.preventDefault();
+  const onChange = async (e: any) => {
     startLoad();
 
-    history.push(routePaths.dashboard(e?.name));
-    dispatch(
+    await history.push(routePaths.dashboard(e?.name));
+    await dispatch(
       projectsActions.getSelectedProject({
         allProjects: projects,
         seletecdProject: e?.name,
       }),
     );
-    dispatch(
+    await dispatch(
       pipelinesActions.getMy({
         project: e?.name,
         onSuccess: () => stopLoad(),
         onFailure: () => stopLoad(),
       }),
     );
-    dispatch(projectsActions.getMy({ selectDefault: false, selectedProject }))
+    await dispatch(projectsActions.getMy({ selectDefault: false, selectedProject }))
   };
 
   return (
@@ -236,7 +235,7 @@ export const AuthenticatedHeader: React.FC<{
                           <Box marginTop='md'>  
                             <Paragraph color='grey'>Select Project</Paragraph>  
                               {projects.slice(0, 10).map((option, index) => (
-                                <Box marginTop='sm' onClick={(option) => onChange(option) } key={index} >
+                                <Box marginTop='sm' onClick={() => onChange(option) } key={index} >
                                   <Paragraph style={{ fontSize: '16px', color: '#424240', cursor: 'pointer' }} >{option.name.substring(0, 10)}</Paragraph>
                                 </Box>
                               ))}
