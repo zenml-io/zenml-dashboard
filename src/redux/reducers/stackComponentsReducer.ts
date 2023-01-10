@@ -7,6 +7,7 @@ export interface State {
   byId: Record<TId, TStack>;
   myStackComponentIds: TId[];
   stackComponentTypes: any[];
+  paginated: any;
 }
 
 type StacksPayload = TStack[];
@@ -23,12 +24,19 @@ export const initialState: State = {
   byId: {},
   myStackComponentIds: [],
   stackComponentTypes: [],
+  paginated: {},
 };
 
-const newState = (state: State, stacks: TStack[]): State => ({
+const newState = (state: State, stacks: TStack[], pagination?: any): State => ({
   ...state,
   ids: idsInsert(state.ids, stacks),
   byId: byKeyInsert(state.byId, stacks),
+  paginated: {
+    page: pagination.page,
+    size: pagination.size,
+    totalPages: pagination.total_pages,
+    totalitem: pagination.total,
+  },
 });
 
 const stackComponentsReducer = (
@@ -38,14 +46,17 @@ const stackComponentsReducer = (
   switch (action.type) {
     case stackComponentActionTypes.getStackComponentList.success: {
       const stackComponents: TStack[] = camelCaseArray(
-        action.payload as StacksPayload,
+        action.payload.items as StacksPayload,
       );
 
       const myStackComponentIds: TId[] = stackComponents.map(
         (stack: TStack) => stack.id,
       );
 
-      return { ...newState(state, stackComponents), myStackComponentIds };
+      return {
+        ...newState(state, stackComponents, action.payload),
+        myStackComponentIds,
+      };
     }
     case stackComponentActionTypes.getStackComponentTypes.success: {
       let stackComponentTypes: any[] = action.payload as StacksPayload;
