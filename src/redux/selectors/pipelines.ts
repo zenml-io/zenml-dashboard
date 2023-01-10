@@ -14,6 +14,9 @@ const getById = (state: State): Record<TId, TPipeline> =>
 const getMyPipelineIds = (state: State): TId[] =>
   _.get(stateKey(state), 'myPipelineIds');
 
+const getMyPiplinesPaginated = (state: State): any =>
+  _.get(stateKey(state), 'paginated');
+
 export const myPipelines = (state?: State | null): TPipeline[] => {
   if (!state) return [];
   const myPipelineIds = getMyPipelineIds(state);
@@ -30,10 +33,18 @@ export const myPipelines = (state?: State | null): TPipeline[] => {
   }, [] as TPipeline[]);
 };
 
+export const myPipelinesPaginated = (state?: State | null): any => {
+  if (!state) return {};
+  const paginated = getMyPiplinesPaginated(state);
+
+  return paginated;
+};
+
 export const pipelineForId = (pipelineId: TId): Selector<any, TPipeline> =>
   createSelector(getById, extractItemFromById(pipelineId));
 
 const pipelineSelectors = {
+  myPipelinesPaginated: myPipelinesPaginated,
   myPipelines: myPipelines,
   pipelineForId,
 };
