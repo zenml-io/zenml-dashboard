@@ -22,21 +22,23 @@ export const endpoints = {
 
   projects: {
     my: '/projects',
-    stats: (project: string) => `/projects/${project}/statistics`
+    stats: (project: string) => `/projects/${project}/statistics`,
   },
 
   pipelines: {
-    my: (project: string): string => `/projects/${project}/pipelines`,
+    my: (project: string, page: number, size: number): string =>
+      `/projects/${project}/pipelines?page=${page}&size=${size}`,
     get: (pipelineId: TId): string => `/pipelines/${pipelineId}`,
   },
   Stacks: {
-    my: (project: string): string => `/projects/${project}/stacks`,
+    my: (project: string, page: number, size: number): string =>
+      `/projects/${project}/stacks?page=${page}&size=${size}`,
     get: (stackId: TId): string => `/stacks/${stackId}`,
   },
   StackComponents: {
     types: '/component-types',
-    my: (type: string, project: string): string =>
-      `/projects/${project}/components?type=${type}`,
+    my: (type: string, project: string, page: number, size: number): string =>
+      `/projects/${project}/components?type=${type}&page=${page}&size=${size}`,
     get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
   },
   runs: {
