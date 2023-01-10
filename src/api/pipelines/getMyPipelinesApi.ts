@@ -6,12 +6,16 @@ import { apiUrl } from '../apiUrl';
 const getMyPipelinesApi = ({
   authenticationToken,
   project,
+  page,
+  size,
 }: {
+  page: number;
+  size: number;
   authenticationToken: string;
   project: string;
 }): Promise<TPipeline> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.pipelines.my(project)),
+    url: apiUrl(endpoints.pipelines.my(project, page, size)),
     method: httpMethods.get,
     authenticationToken,
   });

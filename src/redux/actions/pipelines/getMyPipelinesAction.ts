@@ -2,10 +2,14 @@ import { pipelineActionTypes } from '../../actionTypes';
 import getMyPipelinesApi from '../../../api/pipelines/getMyPipelinesApi';
 
 export const getMyPipelinesAction = ({
+  page,
+  size,
   project,
   onSuccess,
   onFailure,
 }: {
+  page: number;
+  size: number;
   project: string;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -16,7 +20,7 @@ export const getMyPipelinesAction = ({
     isAuthenticated: true,
     failureActionType: pipelineActionTypes.getMyPipelines.failure,
     successActionType: pipelineActionTypes.getMyPipelines.success,
-    params: { project },
+    params: { project, page, size },
     onSuccess,
     onFailure,
   },

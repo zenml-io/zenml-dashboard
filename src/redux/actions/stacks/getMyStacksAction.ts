@@ -3,10 +3,14 @@ import getMyStacksApi from '../../../api/stacks/getMyStacksApi';
 
 export const getMyStacksAction = ({
   project,
+  page,
+  size,
   onSuccess,
   onFailure,
 }: {
   project: string;
+  page: number;
+  size: number;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -16,7 +20,7 @@ export const getMyStacksAction = ({
     isAuthenticated: true,
     failureActionType: stackActionTypes.getMyStacks.failure,
     successActionType: stackActionTypes.getMyStacks.success,
-    params: { project },
+    params: { project, page, size },
     onSuccess,
     onFailure,
   },
