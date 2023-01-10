@@ -18,6 +18,8 @@ export const useService = (): ServiceInterface => {
     setFetching(true);
     dispatch(
       stacksActions.getMy({
+        page: 1,
+        size: 2,
         project: selectedProject as string,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),

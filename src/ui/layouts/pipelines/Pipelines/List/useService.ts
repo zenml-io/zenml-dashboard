@@ -57,7 +57,9 @@ export const useService = (
   const fetching = useSelector(pipelinePagesSelectors.fetching);
   const selectedProject = useSelector(projectSelectors.selectedProject);
   const pipelines = useSelector(pipelineSelectors.myPipelines);
-
+  const pipelinesPaginated = useSelector(
+    pipelineSelectors.myPipelinesPaginated,
+  );
   useEffect(() => {
     let orderedPipelines = _.orderBy(
       pipelines,
@@ -77,7 +79,13 @@ export const useService = (
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
 
-      dispatch(pipelinesActions.getMy({ project: selectedProject }));
+      dispatch(
+        pipelinesActions.getMy({
+          project: selectedProject,
+          page: pipelinesPaginated.page,
+          size: pipelinesPaginated.size,
+        }),
+      );
     }, 5000);
 
     return () => clearInterval(intervalId);

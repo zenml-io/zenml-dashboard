@@ -53,8 +53,9 @@ export const useService = (
   const fetching = useSelector(stackPagesSelectors.fetching);
 
   const Stacks = useSelector(stackSelectors.mystacks);
+  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
   const selectedProject = useSelector(projectSelectors.selectedProject);
-
+  console.log(stacksPaginated, 'mystacks');
   useEffect(() => {
     let orderedStacks = _.orderBy(
       Stacks,
@@ -72,7 +73,13 @@ export const useService = (
 
   useEffect(() => {
     const intervalId = setInterval(() => {
-      dispatch(stacksActions.getMy({ project: selectedProject }));
+      dispatch(
+        stacksActions.getMy({
+          project: selectedProject,
+          page: stacksPaginated.page,
+          size: stacksPaginated.size,
+        }),
+      );
     }, 5000);
 
     return () => clearInterval(intervalId); //This is important

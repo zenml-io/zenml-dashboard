@@ -32,6 +32,8 @@ export const useService = (): ServiceInterface => {
     );
     dispatch(
       pipelinesActions.getMy({
+        page: 1,
+        size: 5,
         project: selectedProject,
         onSuccess: () => setFetchingForPipeline(false),
         onFailure: () => setFetchingForPipeline(false),
@@ -49,5 +51,32 @@ export const useService = (): ServiceInterface => {
   return {
     setFetchingForPipeline,
     setFetchingForAllRuns,
+  };
+};
+
+export const callActionForPipelinesForPagination = () => {
+  const dispatch = useDispatch();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+
+  function dispatchPipelineData(page: number, size: number) {
+    setFetchingForPipeline(true);
+    dispatch(
+      pipelinesActions.getMy({
+        page: page,
+        size: size,
+        project: selectedProject,
+        onSuccess: () => setFetchingForPipeline(false),
+        onFailure: () => setFetchingForPipeline(false),
+      }),
+    );
+  }
+
+  const setFetchingForPipeline = (fetching: boolean) => {
+    dispatch(pipelinePagesActions.setFetching({ fetching }));
+  };
+
+  return {
+    setFetchingForPipeline,
+    dispatchPipelineData,
   };
 };

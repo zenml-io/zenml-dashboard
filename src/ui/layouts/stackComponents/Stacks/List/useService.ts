@@ -61,7 +61,9 @@ export const useService = (
     stackComponentSelectors.mystackComponents,
   );
   const selectedProject = useSelector(projectSelectors.selectedProject);
-
+  const stackComponentsPaginated = useSelector(
+    stackComponentSelectors.mystackComponentsPaginated,
+  );
   useEffect(() => {
     let orderedStacks = _.orderBy(
       stackComponents,
@@ -82,6 +84,8 @@ export const useService = (
       //assign interval to a variable to clear it.
       dispatch(
         stackComponentsActions.getMy({
+          page: stackComponentsPaginated.page,
+          size: stackComponentsPaginated.size,
           type: locationPath.split('/')[4],
           project: selectedProject
             ? selectedProject

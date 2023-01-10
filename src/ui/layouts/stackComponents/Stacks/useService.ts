@@ -29,6 +29,8 @@ export const useService = (): ServiceInterface => {
       stackComponentsActions.getMy({
         project: selectedProject ? selectedProject : locationPath.split('/')[2],
         type: locationPath.split('/')[4],
+        page: 1,
+        size: 5,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),
@@ -41,5 +43,34 @@ export const useService = (): ServiceInterface => {
 
   return {
     setFetching,
+  };
+};
+
+export const callActionForStackComponentsForPagination = () => {
+  const locationPath = useLocationPath();
+  const dispatch = useDispatch();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+
+  function dispatchStackComponentsData(page: number, size: number) {
+    setFetching(true);
+    dispatch(
+      stackComponentsActions.getMy({
+        project: selectedProject ? selectedProject : locationPath.split('/')[2],
+        type: locationPath.split('/')[4],
+        page: page,
+        size: size,
+        onSuccess: () => setFetching(false),
+        onFailure: () => setFetching(false),
+      }),
+    );
+  }
+
+  const setFetching = (fetching: boolean) => {
+    dispatch(stackPagesActions.setFetching({ fetching }));
+  };
+
+  return {
+    setFetching,
+    dispatchStackComponentsData,
   };
 };
