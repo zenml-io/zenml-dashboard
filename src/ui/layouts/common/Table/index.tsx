@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
 import styles from './index.module.scss';
@@ -14,6 +14,7 @@ import {
 import { getPaginationData } from '../../../../utils/pagination';
 import { Pagination } from '../Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
+import { useLocation } from '../../../hooks';
 
 export interface HeaderCol {
   render?: () => JSX.Element;
@@ -24,6 +25,7 @@ export interface HeaderCol {
 export interface TableProps {
   headerCols: HeaderCol[];
   tableRows: any[];
+  paginated?: any;
   showHeader?: boolean;
   pagination?: boolean;
   loading?: boolean;
@@ -35,11 +37,11 @@ export interface TableProps {
 }
 
 const ITEMS_PER_PAGE = parseInt(process.env.REACT_APP_ITEMS_PER_PAGE as string);
-const DEFAULT_ITEMS_PER_PAGE = 10;
 
 export const Table: React.FC<TableProps> = ({
   headerCols,
   tableRows,
+  paginated,
   showHeader = true,
   pagination = true,
   loading = false,
@@ -48,24 +50,42 @@ export const Table: React.FC<TableProps> = ({
   trOnClick,
 }) => {
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
-
+  const locationPath = useLocation();
+  // const childRef = React.useRef(null);
+  const initialRef: any = null;
+  const childRef = React.useRef(initialRef);
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 5;
+  // const itemPerPage = ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE;
+  const [itemPerPage, setItemPerPage] = useState(
+    ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+  );
   const { itemsForPage, pages, totalOfPages } = getPaginationData({
     pageIndex,
-    itemsPerPage: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+    itemsPerPage: itemPerPage,
     items: tableRows,
   });
+  useEffect(() => {
+    console.log(locationPath.pathname.split('/')[4], 'locationPath1');
+    setItemPerPage(DEFAULT_ITEMS_PER_PAGE);
+  }, [locationPath.pathname.split('/')[4]]);
 
   let rowsToDisplay = tableRows;
 
   if (pagination) {
-    rowsToDisplay = itemsForPage;
+    rowsToDisplay = tableRows;
   }
 
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-
-
+  const onChangePagePerItem = (p: number, size: number) => {
+    // onChange(p + 1, size);
+    setItemPerPage(size);
+  };
+  console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
   return (
     <FlexBox.Column className={styles.tableWrapper} fullWidth>
       <IfElse
@@ -137,10 +157,12 @@ export const Table: React.FC<TableProps> = ({
             <If condition={pagination}>
               {() => (
                 <Pagination
+                  ref={childRef}
+                  itemPerPage={itemPerPage}
                   pageIndex={pageIndex}
                   setPageIndex={setPageIndex}
-                  pages={pages}
-                  totalOfPages={totalOfPages}
+                  pages={paginated?.totalPages}
+                  totalOfPages={paginated?.totalPages}
                   totalLength={tableRows.length}
                 />
               )}
@@ -156,6 +178,42 @@ export const Table: React.FC<TableProps> = ({
           </Box>
         )}
       />
+      <If condition={tableRows.length > 0 && paginated?.totalitem > 5}>
+        {() => (
+          <>
+            {/* {console.log(paginated.totalPages, '1111', tableRows.length > 0)} */}
+            <Box marginLeft="md" className="d-none d-md-block">
+              <select
+                onChange={(e: any) => {
+                  onChangePagePerItem(pageIndex, parseInt(e.target.value));
+                  childRef?.current?.showAlert(
+                    pageIndex,
+                    parseInt(e.target.value),
+                  );
+                }}
+                // defaultValue={itemPerPage}
+                value={itemPerPage}
+                placeholder={'Item per Page'}
+                // className={cn(css.input)}
+                style={{
+                  border: 'none',
+                  outline: 'none',
+                  width: '146px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  color: '#424240',
+                }}
+              >
+                {[5, 10, 15, 20].map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </Box>
+          </>
+        )}
+      </If>
     </FlexBox.Column>
   );
 };
