@@ -8,7 +8,10 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForPipelineTable } from './RunsForPipelineTable';
-import { projectSelectors } from '../../../../../redux/selectors';
+import {
+  pipelineSelectors,
+  projectSelectors,
+} from '../../../../../redux/selectors';
 
 interface Props {
   filter: any;
@@ -16,6 +19,9 @@ interface Props {
 export const List: React.FC<Props> = ({ filter }: Props) => {
   const history = useHistory();
   const selectedProject = useSelector(projectSelectors.selectedProject);
+  const pipelinesPaginated = useSelector(
+    pipelineSelectors.myPipelinesPaginated,
+  );
   const {
     openPipelineIds,
     setOpenPipelineIds,
@@ -59,6 +65,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             nestedRow={true}
           />
         )}
+        paginated={pipelinesPaginated}
         loading={fetching}
         showHeader={true}
         headerCols={headerCols}

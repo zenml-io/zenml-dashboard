@@ -8,7 +8,10 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
-import { projectSelectors } from '../../../../../redux/selectors';
+import {
+  projectSelectors,
+  stackSelectors,
+} from '../../../../../redux/selectors';
 
 interface Props {
   filter: any;
@@ -39,7 +42,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     setActiveSortingDirection,
   });
   const selectedProject = useSelector(projectSelectors.selectedProject);
-
+  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
   const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);
 
@@ -59,6 +62,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             />
           </>
         )}
+        paginated={stacksPaginated}
         loading={fetching}
         showHeader={true}
         headerCols={headerCols}
