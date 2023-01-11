@@ -170,7 +170,7 @@ export const Table: React.FC<TableProps> = ({
                       }}
                       key={index}
                     >
-                      <Box style={{ backgroundColor: 'rgba(217, 217, 217, 0.2)' }} paddingVertical={showHeader ? 'sm' : null} paddingLeft="lg">
+                      <Box style={{ backgroundColor: '#f6f67' }} paddingVertical={showHeader ? 'sm' : null} paddingLeft="lg">
                         {headerCol.render && headerCol.render()}
                       </Box>
                     </th>
