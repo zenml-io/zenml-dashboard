@@ -156,38 +156,38 @@ export const getInitialFilterStateForPipeline = () => {
           type: 'string',
         },
         {
-          value: 'start_with',
+          value: 'startswith',
           label: 'Start With',
           type: 'string',
         },
         {
-          value: 'end_with',
+          value: 'endswith',
           label: 'End With',
           type: 'string',
         },
         {
-          value: 'equal',
+          value: 'equals',
           label: 'Equal',
           type: 'string',
         },
+        // {
+        //   value: 'not_equal',
+        //   label: 'Not Equal',
+        //   type: 'string',
+        // },
         {
-          value: 'not_equal',
-          label: 'Not Equal',
-          type: 'string',
-        },
-        {
-          value: 'greater',
+          value: 'gt',
           label: 'Greater than',
           type: 'date',
         },
         {
-          value: 'less',
+          value: 'lt',
           label: 'Less than',
           type: 'date',
         },
         {
           value: 'equal_date',
-          label: 'Equal',
+          label: 'equals',
           type: 'date',
         },
         {
