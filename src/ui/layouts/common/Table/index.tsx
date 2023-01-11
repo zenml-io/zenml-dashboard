@@ -96,6 +96,7 @@ export const Table: React.FC<TableProps> = ({
         dispatchStackComponentsData(1, 5, filters as any);
         break;
       case 'pipelines':
+        if (!renderAfterRow) break;
         dispatchPipelineData(1, 5, filters as any);
         break;
       case 'all-runs':
