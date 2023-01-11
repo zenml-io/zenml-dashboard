@@ -6,6 +6,7 @@ export const getStackComponentListAction = ({
   type,
   page,
   size,
+  filtersParam,
   onSuccess,
   onFailure,
 }: {
@@ -13,6 +14,7 @@ export const getStackComponentListAction = ({
   type: TId;
   page: number;
   size: number;
+  filtersParam?: object;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -22,7 +24,7 @@ export const getStackComponentListAction = ({
     isAuthenticated: true,
     failureActionType: stackComponentActionTypes.getStackComponentList.failure,
     successActionType: stackComponentActionTypes.getStackComponentList.success,
-    params: { type, project, page, size },
+    params: { type, project, page, size, filtersParam },
     onSuccess,
     onFailure,
   },

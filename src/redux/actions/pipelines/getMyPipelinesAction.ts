@@ -4,13 +4,17 @@ import getMyPipelinesApi from '../../../api/pipelines/getMyPipelinesApi';
 export const getMyPipelinesAction = ({
   page,
   size,
+  name,
+  filtersParam,
   project,
   onSuccess,
   onFailure,
 }: {
   page: number;
   size: number;
+  name?: string;
   project: string;
+  filtersParam?: object;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -20,7 +24,7 @@ export const getMyPipelinesAction = ({
     isAuthenticated: true,
     failureActionType: pipelineActionTypes.getMyPipelines.failure,
     successActionType: pipelineActionTypes.getMyPipelines.success,
-    params: { project, page, size },
+    params: { project, page, size, name, filtersParam },
     onSuccess,
     onFailure,
   },

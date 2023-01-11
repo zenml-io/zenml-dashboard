@@ -8,16 +8,19 @@ const getMyStackComponentsApi = ({
   page,
   size,
   type,
+  filtersParam,
   project,
 }: {
   project: string;
   authenticationToken: string;
   type: string;
+  filtersParam?: object;
   page: number;
   size: number;
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.StackComponents.my(type, project, page, size)),
+    url: apiUrl(endpoints.StackComponents.my(type, project)),
+    params: { page, size, ...filtersParam },
     method: httpMethods.get,
     authenticationToken,
   });

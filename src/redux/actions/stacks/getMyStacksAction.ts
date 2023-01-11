@@ -5,12 +5,14 @@ export const getMyStacksAction = ({
   project,
   page,
   size,
+  filtersParam,
   onSuccess,
   onFailure,
 }: {
   project: string;
   page: number;
   size: number;
+  filtersParam?: object;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -20,7 +22,7 @@ export const getMyStacksAction = ({
     isAuthenticated: true,
     failureActionType: stackActionTypes.getMyStacks.failure,
     successActionType: stackActionTypes.getMyStacks.success,
-    params: { project, page, size },
+    params: { project, page, size, filtersParam },
     onSuccess,
     onFailure,
   },
