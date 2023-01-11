@@ -33,10 +33,12 @@ export const fetchApiWithAuthRequest = ({
   url,
   data,
   method,
+  params,
   authenticationToken,
   headers,
 }: {
   url: string;
+  params?: any;
   data?: any;
   method: any;
   authenticationToken: string;
@@ -47,6 +49,7 @@ export const fetchApiWithAuthRequest = ({
   return axios({
     method: method || httpMethods.get,
     url,
+    params,
     data,
     cancelToken: new CancelToken(function executor(c) {
       // An executor function receives a cancel function as a parameter

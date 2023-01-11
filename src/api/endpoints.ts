@@ -26,19 +26,17 @@ export const endpoints = {
   },
 
   pipelines: {
-    my: (project: string, page: number, size: number): string =>
-      `/projects/${project}/pipelines?page=${page}&size=${size}`,
+    my: (project: string): string => `/projects/${project}/pipelines`,
     get: (pipelineId: TId): string => `/pipelines/${pipelineId}`,
   },
   Stacks: {
-    my: (project: string, page: number, size: number): string =>
-      `/projects/${project}/stacks?page=${page}&size=${size}`,
+    my: (project: string): string => `/projects/${project}/stacks`,
     get: (stackId: TId): string => `/stacks/${stackId}`,
   },
   StackComponents: {
     types: '/component-types',
-    my: (type: string, project: string, page: number, size: number): string =>
-      `/projects/${project}/components?type=${type}&page=${page}&size=${size}`,
+    my: (type: string, project: string): string =>
+      `/projects/${project}/components?type=${type}`,
     get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
   },
   runs: {
