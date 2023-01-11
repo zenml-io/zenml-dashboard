@@ -34,6 +34,7 @@ export const useService = (): ServiceInterface => {
       pipelinesActions.getMy({
         page: 1,
         size: 5,
+        name: '',
         project: selectedProject,
         onSuccess: () => setFetchingForPipeline(false),
         onFailure: () => setFetchingForPipeline(false),
@@ -58,12 +59,23 @@ export const callActionForPipelinesForPagination = () => {
   const dispatch = useDispatch();
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
-  function dispatchPipelineData(page: number, size: number) {
+  function dispatchPipelineData(page: number, size: number, filters?: any[]) {
+    let filtersParam = filters?.reduce(
+      (obj, item) =>
+        Object.assign(obj, {
+          [item.column.value]: item.type.value + ':' + item.value,
+        }),
+      {},
+    );
+
+    // console.log('aaaa', filters);
     setFetchingForPipeline(true);
     dispatch(
       pipelinesActions.getMy({
         page: page,
         size: size,
+        filtersParam,
+        // name: name ? name : '',
         project: selectedProject,
         onSuccess: () => setFetchingForPipeline(false),
         onFailure: () => setFetchingForPipeline(false),

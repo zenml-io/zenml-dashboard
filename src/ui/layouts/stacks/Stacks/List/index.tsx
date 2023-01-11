@@ -65,6 +65,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
         paginated={stacksPaginated}
         loading={fetching}
         showHeader={true}
+        filters={filter}
         headerCols={headerCols}
         tableRows={filteredStacks}
         emptyState={{ text: translate('emptyState.text') }}

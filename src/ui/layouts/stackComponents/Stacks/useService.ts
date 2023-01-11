@@ -51,7 +51,18 @@ export const callActionForStackComponentsForPagination = () => {
   const dispatch = useDispatch();
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
-  function dispatchStackComponentsData(page: number, size: number) {
+  function dispatchStackComponentsData(
+    page: number,
+    size: number,
+    filters?: any[],
+  ) {
+    let filtersParam = filters?.reduce(
+      (obj, item) =>
+        Object.assign(obj, {
+          [item.column.value]: item.type.value + ':' + item.value,
+        }),
+      {},
+    );
     setFetching(true);
     dispatch(
       stackComponentsActions.getMy({
@@ -59,6 +70,7 @@ export const callActionForStackComponentsForPagination = () => {
         type: locationPath.split('/')[4],
         page: page,
         size: size,
+        filtersParam,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

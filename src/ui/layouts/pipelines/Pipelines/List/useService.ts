@@ -60,6 +60,7 @@ export const useService = (
   const pipelinesPaginated = useSelector(
     pipelineSelectors.myPipelinesPaginated,
   );
+  const isValidFilter = filter.map((f) => f.value).join('');
   useEffect(() => {
     let orderedPipelines = _.orderBy(
       pipelines,
@@ -67,29 +68,31 @@ export const useService = (
       [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
     );
 
-    const isValidFilter = filter.map((f) => f.value).join('');
-    if (isValidFilter) {
-      orderedPipelines = getFilteredDataForTable(orderedPipelines, filter);
-    }
+    // const isValidFilter = filter.map((f) => f.value).join('');
+    // if (isValidFilter) {
+    //  orderedPipelines = getFilteredDataForTable(orderedPipelines, filter);
+    // }
 
     setFilteredPipelines(orderedPipelines as any[]);
   }, [filter, pipelines]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      //assign interval to a variable to clear it.
+    if (!isValidFilter) {
+      const intervalId = setInterval(() => {
+        //assign interval to a variable to clear it.
 
-      dispatch(
-        pipelinesActions.getMy({
-          project: selectedProject,
-          page: pipelinesPaginated.page,
-          size: pipelinesPaginated.size,
-        }),
-      );
-    }, 5000);
+        dispatch(
+          pipelinesActions.getMy({
+            // name: '',
+            project: selectedProject,
+            page: pipelinesPaginated.page,
+            size: pipelinesPaginated.size,
+          }),
+        );
+      }, 5000);
 
-    return () => clearInterval(intervalId);
-
+      return () => clearInterval(intervalId);
+    }
     //This is important
   });
 

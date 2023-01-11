@@ -15,6 +15,9 @@ import { getPaginationData } from '../../../../utils/pagination';
 import { Pagination } from '../Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
 import { useLocation } from '../../../hooks';
+import { callActionForStacksForPagination } from '../../stacks/Stacks/useService';
+import { callActionForStackComponentsForPagination } from '../../stackComponents/Stacks/useService';
+import { callActionForPipelinesForPagination } from '../../pipelines/Pipelines/useService';
 
 export interface HeaderCol {
   render?: () => JSX.Element;
@@ -26,6 +29,7 @@ export interface TableProps {
   headerCols: HeaderCol[];
   tableRows: any[];
   paginated?: any;
+  filters?: any[];
   showHeader?: boolean;
   pagination?: boolean;
   loading?: boolean;
@@ -42,6 +46,7 @@ export const Table: React.FC<TableProps> = ({
   headerCols,
   tableRows,
   paginated,
+  filters,
   showHeader = true,
   pagination = true,
   loading = false,
@@ -67,11 +72,33 @@ export const Table: React.FC<TableProps> = ({
     itemsPerPage: itemPerPage,
     items: tableRows,
   });
-  useEffect(() => {
-    console.log(locationPath.pathname.split('/')[4], 'locationPath1');
-    setItemPerPage(DEFAULT_ITEMS_PER_PAGE);
-  }, [locationPath.pathname.split('/')[4]]);
+  const isValidFilter = filters?.map((f) => f.value).join('');
+  const { dispatchStackData } = callActionForStacksForPagination();
+  const {
+    dispatchStackComponentsData,
+  } = callActionForStackComponentsForPagination();
 
+  const { dispatchPipelineData } = callActionForPipelinesForPagination();
+
+  const componentName = locationPath.pathname.split('/')[3];
+  useEffect(() => {
+    // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
+    setItemPerPage(DEFAULT_ITEMS_PER_PAGE);
+    switch (componentName) {
+      case 'stacks':
+        dispatchStackData(1, 5, filters as any);
+        break;
+      case 'components':
+        dispatchStackComponentsData(1, 5, filters as any);
+        break;
+      case 'pipelines':
+        dispatchPipelineData(1, 5, filters as any);
+        break;
+
+      default:
+        break;
+    }
+  }, [locationPath.pathname.split('/')[4], isValidFilter]);
   let rowsToDisplay = tableRows;
 
   if (pagination) {
@@ -158,6 +185,7 @@ export const Table: React.FC<TableProps> = ({
               {() => (
                 <Pagination
                   ref={childRef}
+                  filters={filters}
                   itemPerPage={itemPerPage}
                   pageIndex={pageIndex}
                   setPageIndex={setPageIndex}
@@ -186,9 +214,10 @@ export const Table: React.FC<TableProps> = ({
               <select
                 onChange={(e: any) => {
                   onChangePagePerItem(pageIndex, parseInt(e.target.value));
-                  childRef?.current?.showAlert(
+                  childRef?.current?.callOnChange(
                     pageIndex,
                     parseInt(e.target.value),
+                    filters,
                   );
                 }}
                 // defaultValue={itemPerPage}

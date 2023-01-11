@@ -53,6 +53,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
       routePaths.pipeline.configuration(pipeline.id, selectedProject),
     );
   };
+  // console.log(filter, 'filters data');
 
   return (
     <>
@@ -68,6 +69,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
         paginated={pipelinesPaginated}
         loading={fetching}
         showHeader={true}
+        filters={filter}
         headerCols={headerCols}
         tableRows={filteredPipelines}
         emptyState={{ text: translate('emptyState.text') }}

@@ -64,6 +64,7 @@ export const useService = (
   const stackComponentsPaginated = useSelector(
     stackComponentSelectors.mystackComponentsPaginated,
   );
+  const isValidFilter = filter.map((f) => f.value).join('');
   useEffect(() => {
     let orderedStacks = _.orderBy(
       stackComponents,
@@ -80,21 +81,23 @@ export const useService = (
   }, [stackComponents, filter]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      //assign interval to a variable to clear it.
-      dispatch(
-        stackComponentsActions.getMy({
-          page: stackComponentsPaginated.page,
-          size: stackComponentsPaginated.size,
-          type: locationPath.split('/')[4],
-          project: selectedProject
-            ? selectedProject
-            : locationPath.split('/')[2],
-        }),
-      );
-    }, 5000);
+    if (!isValidFilter) {
+      const intervalId = setInterval(() => {
+        //assign interval to a variable to clear it.
+        dispatch(
+          stackComponentsActions.getMy({
+            page: stackComponentsPaginated.page,
+            size: stackComponentsPaginated.size,
+            type: locationPath.split('/')[4],
+            project: selectedProject
+              ? selectedProject
+              : locationPath.split('/')[2],
+          }),
+        );
+      }, 5000);
 
-    return () => clearInterval(intervalId);
+      return () => clearInterval(intervalId);
+    }
   });
 
   const setSelectedRunIds = (runIds: TId[]) => {

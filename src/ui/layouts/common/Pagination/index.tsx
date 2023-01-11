@@ -58,6 +58,7 @@ interface Props {
   pageIndex: number;
   setPageIndex: (arg1: number) => void;
   pages: any;
+  filters?: any[];
   totalOfPages: number;
   totalLength: number;
   itemPerPage: number;
@@ -72,23 +73,29 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
   const { dispatchPipelineData } = callActionForPipelinesForPagination();
   const locationPath = useLocation();
   const componentName = locationPath.pathname.split('/')[3];
-  console.log(ref, '1111');
+  // const isValidFilter = props.filters?.map((f) => f.value).join('');
+
   useImperativeHandle(ref, () => ({
-    showAlert(page: number, size: number) {
-      onChange(page + 1, size, componentName);
+    callOnChange(page: number, size: number, filters: any) {
+      onChange(page + 1, size, componentName, filters);
     },
   }));
 
-  const onChange = (page: any, size: number, componentName: string) => {
+  const onChange = (
+    page: any,
+    size: number,
+    componentName: string,
+    filters: any,
+  ) => {
     switch (componentName) {
       case 'stacks':
-        dispatchStackData(page, size);
+        dispatchStackData(page, size, filters as any);
         break;
       case 'components':
-        dispatchStackComponentsData(page, size);
+        dispatchStackComponentsData(page, size, filters as any);
         break;
       case 'pipelines':
-        dispatchPipelineData(page, size);
+        dispatchPipelineData(page, size, filters as any);
         break;
 
       default:
@@ -118,7 +125,12 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
             //     break;
             // }
 
-            onChange(props.pageIndex, props.itemPerPage, componentName);
+            onChange(
+              props.pageIndex,
+              props.itemPerPage,
+              componentName,
+              props.filters,
+            );
 
             props.setPageIndex(props.pageIndex - 1);
           }}
@@ -129,7 +141,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
             <Box key={p}>
               <PaginationItem
                 onClick={() => {
-                  onChange(p, props.itemPerPage, componentName);
+                  onChange(p, props.itemPerPage, componentName, props.filters);
 
                   props.setPageIndex(p - 1);
                 }}
@@ -144,7 +156,12 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
             style={{ paddingLeft: 2 }}
             hasNext={props.pageIndex + 1 < props.totalOfPages}
             onClick={() => {
-              onChange(props.pageIndex + 2, props.itemPerPage, componentName);
+              onChange(
+                props.pageIndex + 2,
+                props.itemPerPage,
+                componentName,
+                props.filters,
+              );
               props.setPageIndex(props.pageIndex + 1);
             }}
             icon={icons.chevronRight}

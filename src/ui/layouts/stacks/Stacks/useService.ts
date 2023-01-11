@@ -43,13 +43,22 @@ export const callActionForStacksForPagination = () => {
   const dispatch = useDispatch();
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
-  function dispatchStackData(page: number, size: number) {
+  function dispatchStackData(page: number, size: number, filters?: any[]) {
+    let filtersParam = filters?.reduce(
+      (obj, item) =>
+        Object.assign(obj, {
+          [item.column.value]: item.type.value + ':' + item.value,
+        }),
+      {},
+    );
+
     setFetching(true);
     dispatch(
       stacksActions.getMy({
         project: selectedProject,
         page: page,
         size: size,
+        filtersParam,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),
