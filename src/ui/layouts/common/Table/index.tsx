@@ -17,7 +17,10 @@ import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryPa
 import { useLocation } from '../../../hooks';
 import { callActionForStacksForPagination } from '../../stacks/Stacks/useService';
 import { callActionForStackComponentsForPagination } from '../../stackComponents/Stacks/useService';
-import { callActionForPipelinesForPagination } from '../../pipelines/Pipelines/useService';
+import {
+  callActionForAllrunsForPagination,
+  callActionForPipelinesForPagination,
+} from '../../pipelines/Pipelines/useService';
 
 export interface HeaderCol {
   render?: () => JSX.Element;
@@ -73,13 +76,14 @@ export const Table: React.FC<TableProps> = ({
     items: tableRows,
   });
   const isValidFilter = filters?.map((f) => f.value).join('');
+
   const { dispatchStackData } = callActionForStacksForPagination();
   const {
     dispatchStackComponentsData,
   } = callActionForStackComponentsForPagination();
 
   const { dispatchPipelineData } = callActionForPipelinesForPagination();
-
+  const { dispatchAllrunsData } = callActionForAllrunsForPagination();
   const componentName = locationPath.pathname.split('/')[3];
   useEffect(() => {
     // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
@@ -93,6 +97,9 @@ export const Table: React.FC<TableProps> = ({
         break;
       case 'pipelines':
         dispatchPipelineData(1, 5, filters as any);
+        break;
+      case 'all-runs':
+        dispatchAllrunsData(1, 5, filters as any);
         break;
 
       default:

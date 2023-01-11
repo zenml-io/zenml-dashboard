@@ -13,6 +13,7 @@ interface Props {
 }
 export const RunsTable: React.FC<{
   runIds: TId[];
+  paginated?: any;
   pagination?: boolean;
   emptyStateText: string;
   fetching: boolean;
@@ -24,6 +25,7 @@ export const RunsTable: React.FC<{
   pagination = true,
   emptyStateText,
   fetching,
+  paginated,
   pipelineRuns,
   fromAllruns,
   filter,
@@ -68,9 +70,11 @@ export const RunsTable: React.FC<{
     <Table
       pagination={pagination}
       loading={fetching}
+      paginated={paginated}
       showHeader={true}
       headerCols={headerCols}
       tableRows={sortedRuns}
+      filters={filter}
       emptyState={{ text: emptyStateText }}
       trOnClick={openDetailPage}
     />

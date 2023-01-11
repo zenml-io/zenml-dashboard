@@ -12,7 +12,10 @@ import { joinClassNames, addStyle } from '../../../../utils';
 import { useLocation } from 'react-router-dom';
 import { callActionForStacksForPagination } from '../../stacks/Stacks/useService';
 import { callActionForStackComponentsForPagination } from '../../stackComponents/Stacks/useService';
-import { callActionForPipelinesForPagination } from '../../pipelines/Pipelines/useService';
+import {
+  callActionForAllrunsForPagination,
+  callActionForPipelinesForPagination,
+} from '../../pipelines/Pipelines/useService';
 
 const PaginationItem = (props: {
   isActive: boolean;
@@ -71,6 +74,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
   } = callActionForStackComponentsForPagination();
 
   const { dispatchPipelineData } = callActionForPipelinesForPagination();
+  const { dispatchAllrunsData } = callActionForAllrunsForPagination();
   const locationPath = useLocation();
   const componentName = locationPath.pathname.split('/')[3];
   // const isValidFilter = props.filters?.map((f) => f.value).join('');
@@ -96,6 +100,9 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
         break;
       case 'pipelines':
         dispatchPipelineData(page, size, filters as any);
+        break;
+      case 'all-runs':
+        dispatchAllrunsData(page, size, filters as any);
         break;
 
       default:
