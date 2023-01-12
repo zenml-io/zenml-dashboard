@@ -115,6 +115,7 @@ const runsReducer = (state: State = initialState, action: Action): State => {
     case pipelineActionTypes.getRunsByPipelineId.success: {
       const payload = action.payload.items;
       const id = action?.requestParams?.pipelineId;
+
       const runsFromPipeline = payload.map((run: TRun) => ({
         ...run,
 
@@ -127,9 +128,10 @@ const runsReducer = (state: State = initialState, action: Action): State => {
       const byPipelineId: Record<TId, TId[]> = { ...state.byPipelineId };
 
       byPipelineId[id as TId] = runs.map((run: TRun) => run.id);
+
       return {
         ...state,
-        ...newState(state, runs),
+        ...newState(state, runs, action.payload),
         myRunIds,
         byPipelineId,
       };
@@ -153,7 +155,7 @@ const runsReducer = (state: State = initialState, action: Action): State => {
       byStackId[id as TId] = runs.map((run: TRun) => run.id);
       return {
         ...state,
-        ...newState(state, runs),
+        ...newState(state, runs, action.payload),
         myRunIds,
         byStackId,
       };
@@ -177,7 +179,7 @@ const runsReducer = (state: State = initialState, action: Action): State => {
       byStackComponentId[id as TId] = runs.map((run: TRun) => run.id);
       return {
         ...state,
-        ...newState(state, runs),
+        ...newState(state, runs, action.payload),
         myRunIds,
         byStackComponentId,
       };

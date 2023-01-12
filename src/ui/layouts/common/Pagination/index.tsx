@@ -16,6 +16,9 @@ import {
   callActionForAllrunsForPagination,
   callActionForPipelinesForPagination,
 } from '../../pipelines/Pipelines/useService';
+import { callActionForPipelineRunsForPagination } from '../../pipelines/PipelineDetail/useService';
+import { callActionForStackRunsForPagination } from '../../stacks/StackDetail/useService';
+import { callActionForStackComponentRunsForPagination } from '../../stackComponents/StackDetail/useService';
 
 const PaginationItem = (props: {
   isActive: boolean;
@@ -75,8 +78,21 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
 
   const { dispatchPipelineData } = callActionForPipelinesForPagination();
   const { dispatchAllrunsData } = callActionForAllrunsForPagination();
+  const { dispatchPipelineRunsData } = callActionForPipelineRunsForPagination();
+  const { dispatchStackRunsData } = callActionForStackRunsForPagination();
+  const {
+    dispatchStackComponentRunsData,
+  } = callActionForStackComponentRunsForPagination();
   const locationPath = useLocation();
   const componentName = locationPath.pathname.split('/')[3];
+  const CheckIfRun =
+    componentName === 'components'
+      ? locationPath.pathname.split('/')[6]
+      : locationPath.pathname.split('/')[5];
+  const id =
+    componentName === 'components'
+      ? locationPath.pathname.split('/')[5]
+      : locationPath.pathname.split('/')[4];
   // const isValidFilter = props.filters?.map((f) => f.value).join('');
 
   useImperativeHandle(ref, () => ({
@@ -93,14 +109,30 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
   ) => {
     switch (componentName) {
       case 'stacks':
-        dispatchStackData(page, size, filters as any);
-        break;
+        if (CheckIfRun) {
+          dispatchStackRunsData(id, page, size, filters as any);
+          break;
+        } else {
+          dispatchStackData(1, 5, filters as any);
+          break;
+        }
       case 'components':
-        dispatchStackComponentsData(page, size, filters as any);
-        break;
+        if (CheckIfRun) {
+          dispatchStackComponentRunsData(id, page, size, filters as any);
+          break;
+        } else {
+          dispatchStackComponentsData(1, 5, filters as any);
+          break;
+        }
       case 'pipelines':
-        dispatchPipelineData(page, size, filters as any);
-        break;
+        if (CheckIfRun) {
+          dispatchPipelineRunsData(id, page, size, filters as any);
+          break;
+        } else {
+          dispatchPipelineData(page, size, filters as any);
+          break;
+        }
+
       case 'all-runs':
         dispatchAllrunsData(page, size, filters as any);
         break;

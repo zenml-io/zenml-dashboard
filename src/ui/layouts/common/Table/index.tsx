@@ -21,6 +21,9 @@ import {
   callActionForAllrunsForPagination,
   callActionForPipelinesForPagination,
 } from '../../pipelines/Pipelines/useService';
+import { callActionForPipelineRunsForPagination } from '../../pipelines/PipelineDetail/useService';
+import { callActionForStackRunsForPagination } from '../../stacks/StackDetail/useService';
+import { callActionForStackComponentRunsForPagination } from '../../stackComponents/StackDetail/useService';
 
 export interface HeaderCol {
   render?: () => JSX.Element;
@@ -84,21 +87,51 @@ export const Table: React.FC<TableProps> = ({
 
   const { dispatchPipelineData } = callActionForPipelinesForPagination();
   const { dispatchAllrunsData } = callActionForAllrunsForPagination();
+  const { dispatchPipelineRunsData } = callActionForPipelineRunsForPagination();
+  const { dispatchStackRunsData } = callActionForStackRunsForPagination();
+  const {
+    dispatchStackComponentRunsData,
+  } = callActionForStackComponentRunsForPagination();
   const componentName = locationPath.pathname.split('/')[3];
+  const CheckIfRun =
+    componentName === 'components'
+      ? locationPath.pathname.split('/')[6]
+      : locationPath.pathname.split('/')[5];
+  const id =
+    componentName === 'components'
+      ? locationPath.pathname.split('/')[5]
+      : locationPath.pathname.split('/')[4];
+  // console.log(check, '333');
   useEffect(() => {
     // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
     setItemPerPage(DEFAULT_ITEMS_PER_PAGE);
     switch (componentName) {
       case 'stacks':
-        dispatchStackData(1, 5, filters as any);
-        break;
+        if (CheckIfRun) {
+          dispatchStackRunsData(id, 1, 5, filters as any);
+          break;
+        } else {
+          dispatchStackData(1, 5, filters as any);
+          break;
+        }
       case 'components':
-        dispatchStackComponentsData(1, 5, filters as any);
-        break;
+        if (CheckIfRun) {
+          dispatchStackComponentRunsData(id, 1, 5, filters as any);
+          break;
+        } else {
+          dispatchStackComponentsData(1, 5, filters as any);
+          break;
+        }
       case 'pipelines':
-        if (!renderAfterRow) break;
-        dispatchPipelineData(1, 5, filters as any);
-        break;
+        if (CheckIfRun) {
+          dispatchPipelineRunsData(id, 1, 5, filters as any);
+          break;
+        } else {
+          if (!renderAfterRow) break;
+          dispatchPipelineData(1, 5, filters as any);
+          break;
+        }
+
       case 'all-runs':
         dispatchAllrunsData(1, 5, filters as any);
         break;
@@ -106,6 +139,7 @@ export const Table: React.FC<TableProps> = ({
       default:
         break;
     }
+    //for runs
   }, [locationPath.pathname.split('/')[4], isValidFilter]);
   let rowsToDisplay = tableRows;
 

@@ -10,11 +10,19 @@ import { projectSelectors } from '../../../../redux/selectors';
 
 export const RunsTable: React.FC<{
   runIds: TId[];
+  paginated?: any;
   pagination?: boolean;
   emptyStateText: string;
   fetching: boolean;
   filter?: any;
-}> = ({ runIds, pagination = true, emptyStateText, fetching, filter }) => {
+}> = ({
+  runIds,
+  pagination = true,
+  paginated,
+  emptyStateText,
+  fetching,
+  filter,
+}) => {
   const history = useHistory();
   const locationPath = useLocationPath();
   const selectedProject = useSelector(projectSelectors.selectedProject);
@@ -55,6 +63,8 @@ export const RunsTable: React.FC<{
       pagination={pagination}
       loading={fetching}
       showHeader={true}
+      filters={filter}
+      paginated={paginated}
       headerCols={headerCols}
       tableRows={sortedRuns}
       emptyState={{ text: emptyStateText }}

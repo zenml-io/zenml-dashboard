@@ -55,10 +55,10 @@ export const useService = ({
       [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
     );
 
-    const isValidFilter = filter.map((f) => f.value).join('');
-    if (isValidFilter) {
-      orderedRuns = getFilteredDataForTable(orderedRuns, filter);
-    }
+    // const isValidFilter = filter.map((f) => f.value).join('');
+    // if (isValidFilter) {
+    //   orderedRuns = getFilteredDataForTable(orderedRuns, filter);
+    // }
     setSortedRuns(orderedRuns as TRun[]);
   }, [filter, runIds]);
   useEffect(() => {
