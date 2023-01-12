@@ -49,9 +49,9 @@ const projectsReducer = (
   switch (action.type) {
     case projectActionTypes.getMyProjects.success: {
       const projects: Projects[] = camelCaseArray(
-        action.payload as ProjectsPayload,
+        action.payload.items as ProjectsPayload,
       );
-
+      
       const myProjectIds: TId[] = projects.map(
         (project: Projects) => project.id,
       );
@@ -83,7 +83,7 @@ const projectsReducer = (
 
     case projectActionTypes.getMyProjectStats.success: {
       // const { projectStats } = action.payload as any;
-      const projectStats = action.payload;
+      const projectStats = action.payload.items;
 
       return { ...newState(state, projectStats) };
     }

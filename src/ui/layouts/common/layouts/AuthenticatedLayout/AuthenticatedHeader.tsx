@@ -39,8 +39,9 @@ import {
 } from '../../../../../redux/actions';
 import { routePaths } from '../../../../../routes/routePaths';
 import { ProjectPopup } from './ProjectPopup';
-import CookieConsent from 'react-cookie-consent';
-import cookieImage from '../../../../assets/cookie.svg'
+import ReactTooltip from 'react-tooltip';
+import { CookiePopup } from './CookiePopup'
+
 // import { endpoints } from '../../../../../api/endpoints';
 
 export const AuthenticatedHeader: React.FC<{
@@ -53,8 +54,8 @@ export const AuthenticatedHeader: React.FC<{
   const history = useHistory();
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const [createPopupOpen, setCreatePopupOpen] = useState<boolean>(false);
-  const [showProjects, setShowProjects] = useState<boolean>(false);
-
+  const [showCookiePopup, setShowCookiePopup] = useState<any>(localStorage.getItem('showCookie'));
+  
   const dispatch = useDispatch();
   const { push } = usePushRoute();
   const locationPath = useLocationPath();
@@ -155,6 +156,11 @@ export const AuthenticatedHeader: React.FC<{
     await dispatch(projectsActions.getMy({ selectDefault: false, selectedProject }))
   };
 
+
+const selected =  projects.some((project) => project['name'] === locationPath.split('/')[2])
+                        ? locationPath.split('/')[2].substring(0, 10)
+                        : DEFAULT_PROJECT_NAME.substring(0, 10)
+
   return (
     <>
       {createPopupOpen && <ProjectPopup setPopupOpen={setCreatePopupOpen} />}
@@ -215,32 +221,26 @@ export const AuthenticatedHeader: React.FC<{
                 
                       <Box marginHorizontal='md'><Separator.LightNew /></Box>
                       <Box marginTop='sm' marginHorizontal="md" ><Paragraph color='grey' style={{ fontSize: '14px' }} >Your workspaces</Paragraph></Box>
-                      <Box marginVertical='sm' marginHorizontal='md' className="d-none d-md-block">          
-                        <LinkBox onClick={() => setShowProjects(!showProjects)}>
-                          <FlexBox alignItems="center">
-                            <FlexBox style={{ width: '100%' }}  alignItems="center" justifyContent='space-between' className="d-none d-md-flex">
-                              <Box paddingRight="md">
-                                <Paragraph>{projects.some((project) => project['name'] === locationPath.split('/')[2])
-                                  ? locationPath.split('/')[2].substring(0, 10)
-                                  : DEFAULT_PROJECT_NAME.substring(0, 10)}</Paragraph>
-                              </Box>
-                              <Box>
-                                {showProjects ? <icons.chevronUpLight size={iconSizes.xs} color={iconColors.black} /> : <icons.chevronDownLight size={iconSizes.xs} color={iconColors.black} />}
-                              </Box>
-                            </FlexBox>
-                          </FlexBox>
-                        </LinkBox>
-                        
-                        {showProjects && 
-                          <Box marginTop='md'>  
-                            <Paragraph color='grey'>Select Project</Paragraph>  
-                              {projects.slice(0, 10).map((option, index) => (
+                      
+                      <Box marginVertical='sm' marginLeft='md' className="d-none d-md-block">            
+                        <Box marginTop='sm' style={{ maxHeight: '290px', overflow: projects?.length > 10 ? 'auto' :'hidden' }} >  
+                              {projects.map((option, index) => (
                                 <Box marginTop='sm' onClick={() => onChange(option) } key={index} >
-                                  <Paragraph style={{ fontSize: '16px', color: '#424240', cursor: 'pointer' }} >{option.name.substring(0, 10)}</Paragraph>
+                                  <div data-tip data-for={option.name}>
+                                    <Paragraph style={{ fontSize: '16px', color: '#443E99', cursor: 'pointer', fontWeight: selected === option.name ? 'bold' : 'normal' }} >
+                                      {option.name.substring(0, 10)} {selected === option.name && <>&#x2022;</>} 
+                                    </Paragraph>
+                                  </div>
+
+                                  <ReactTooltip id={option.name} place="top" effect="solid">
+                                    <Paragraph color="white">{option.name}</Paragraph>
+                                  </ReactTooltip>
+
                                 </Box>
                               ))}
-                        </Box>}      
+                        </Box>
                       </Box>
+
                       <Box marginHorizontal='md'><Separator.LightNew /></Box>
               
                       {process.env.REACT_APP_DEMO_SETUP === 'true' ? null : (
@@ -272,107 +272,7 @@ export const AuthenticatedHeader: React.FC<{
         </If>
       </FlexBox>
 
-      <CookieConsent
-        buttonText="Accept"
-        cookieName="My Cookie"
-        style={{
-          background: '#fff',
-          borderRadius: '15px',
-          border: '1px solid #8045FF',
-          color: '#424240',
-          fontFamily: 'Rubik',
-          fontSize: '1.6rem',
-          fontWeight: 'bold',
-          maxWidth: `300px`,
-          maxHeight: '300px',
-
-          display: 'flex',
-          justifyContent: 'center',
-          position: 'absolute',
-          margin: '0 auto 0 auto',
-          top: '30%',
-          left: '42%'
-        }}
-        buttonStyle={{
-          backgroundColor: '#fff',
-          color: '#8045FF',
-          fontFamily: 'Rubik',
-          fontSize: '1.6rem',
-          fontWeight: 'bold',
-          borderRadius: '4px',
-          padding: '0 3.2rem'
-        }}
-        expires={120}
-      >
-      <FlexBox
-        alignItems="center"
-        justifyContent="space-between"
-        flexDirection='column'
-      >
-      <Box style={{ height: '130px', width: '130px' }} >
-        <img src={cookieImage} alt='cookie' />
-      </Box>
-      <Box marginTop='sm' style={{ maxWidth: '180px' }}>
-        <Paragraph size="small">
-          This website uses cookies 
-          to ensure you get the best
-          experience on our website.
-        </Paragraph>
-      </Box>
-      </FlexBox>
-    </CookieConsent>
+      {showCookiePopup !== 'false' && <CookiePopup setShowCookie={setShowCookiePopup} />}
     </>
   );
 };
-
-
-// {!window.location.href?.includes('settings') && (
-//   <Box marginLeft="md" className="d-none d-md-block">
-//     <select
-//         onClick={() =>
-//           dispatch(
-//             projectsActions.getMy({
-//               selectDefault: false,
-//               selectedProject,
-//             }),
-//           )
-//         }
-//         onChange={(e: any) => onChange(e)}
-//         defaultValue={
-//           projects.some(
-//             (project) =>
-//               project['name'] === locationPath.split('/')[2],
-//           )
-//             ? locationPath.split('/')[2]
-//             : DEFAULT_PROJECT_NAME
-//         }
-//         value={
-//           projects.some(
-//             (project) =>
-//               project['name'] === locationPath.split('/')[2],
-//           )
-//             ? locationPath.split('/')[2]
-//             : DEFAULT_PROJECT_NAME
-//         }
-//         placeholder={'Projects'}
-//         className={cn(css.input)}
-//         style={{
-//           border: 'none',
-//           outline: 'none',
-//           width: '146px',
-//           fontSize: '16px',
-//           fontWeight: 'bold',
-//           color: '#424240',
-//         }}
-//       >
-//         <option selected disabled value="">
-//           {'Select Project'}
-//         </option>
-//         {projects.map((option, index) => (
-//           <option key={index} value={option.name}>
-//             {option.name}
-//           </option>
-//         ))}
-//       </select>
-//     </Box>
-// )}

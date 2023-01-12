@@ -11,7 +11,8 @@ export const SideFooter: React.FC = () => {
       <Box marginHorizontal="md" paddingBottom="md">
         <Separator.LightNew />
       </Box>
-
+      
+      <div style={{ marginBottom: '-11px' }} >
       <MenuItemExternal
         id="documentation"
         Icon={() => <icons.docs color={iconColors.white} size={iconSizes.md} />}
@@ -32,6 +33,7 @@ export const SideFooter: React.FC = () => {
         to="https://github.com/zenml-io/zenml-dashboard/issues/new/choose"
         text="Report Issue"
       />
+      </div>
       <MenuItem
         id="settings"
         Icon={() => (

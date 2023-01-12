@@ -1,0 +1,44 @@
+@import '../../../../../globalStyles.scss';
+
+.dimmer {
+  position: fixed;
+  background: #424240;
+  opacity: 0.5;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
+.popup {
+  background: #ffffff;
+  border-radius: 4px;
+  position: fixed;
+  max-height: 70vh;
+  min-height: 200px;
+  min-width: 700px;
+  overflow-x: auto;
+}
+
+@media (max-width: $md-breakpoint) {
+  .popup {
+    max-width: 80vw;
+    min-width: 0;
+  }
+}
+
+.popupContainer {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+}
+
+.popupClose {
+  position: absolute;
+  top: 1.5em;
+  right: 1.5rem;
+}
