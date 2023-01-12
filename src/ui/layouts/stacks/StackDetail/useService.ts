@@ -11,6 +11,7 @@ import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { stackPagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
+import { filterObjectForParam } from '../../../../utils';
 
 interface ServiceInterface {
   stack: TStack;
@@ -61,13 +62,7 @@ export const callActionForStackRunsForPagination = () => {
     size: number,
     filters?: any[],
   ) {
-    let filtersParam = filters?.reduce(
-      (obj, item) =>
-        Object.assign(obj, {
-          [item.column.value]: item.type.value + ':' + item.value,
-        }),
-      {},
-    );
+    let filtersParam = filterObjectForParam(filters);
 
     console.log('aaaa', filters);
     setFetching(true);

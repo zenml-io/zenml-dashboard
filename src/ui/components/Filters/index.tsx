@@ -41,7 +41,7 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
-          value: 'isShared',
+          value: 'is_shared',
           label: 'Shared',
           type: 'boolean',
         },
@@ -81,18 +81,28 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
-          value: 'greater',
+          value: 'gt',
           label: 'Greater than',
           type: 'date',
         },
         {
-          value: 'less',
+          value: 'lt',
           label: 'Less than',
           type: 'date',
         },
         {
+          value: 'gte',
+          label: 'Greater than and Equal',
+          type: 'date',
+        },
+        {
+          value: 'lte',
+          label: 'Less than and Equal',
+          type: 'date',
+        },
+        {
           value: 'equal_date',
-          label: 'Equal',
+          label: 'Equals',
           type: 'date',
         },
         {
@@ -186,8 +196,18 @@ export const getInitialFilterStateForPipeline = () => {
           type: 'date',
         },
         {
+          value: 'gte',
+          label: 'Greater than and Equal',
+          type: 'date',
+        },
+        {
+          value: 'lte',
+          label: 'Less than and Equal',
+          type: 'date',
+        },
+        {
           value: 'equal_date',
-          label: 'equals',
+          label: 'Equals',
           type: 'date',
         },
         {
@@ -330,18 +350,28 @@ export const getInitialFilterStateForRuns = () => {
           type: 'string',
         },
         {
-          value: 'greater',
+          value: 'gt',
           label: 'Greater than',
           type: 'date',
         },
         {
-          value: 'less',
+          value: 'lt',
           label: 'Less than',
           type: 'date',
         },
         {
+          value: 'gte',
+          label: 'Greater than and Equal',
+          type: 'date',
+        },
+        {
+          value: 'lte',
+          label: 'Less than and Equal',
+          type: 'date',
+        },
+        {
           value: 'equal_date',
-          label: 'Equal',
+          label: 'Equals',
           type: 'date',
         },
         {
@@ -490,7 +520,9 @@ const FilterComponent = ({
           <Box style={{ width: '146px' }}>
             <DatePicker
               selected={filter.filterValue}
-              onChange={(value: any) => handleValueFieldChange(filter, value)}
+              onChange={(value: any) => {
+                handleValueFieldChange(filter, value);
+              }}
               customInput={<ExampleCustomInput />}
             />
           </Box>
@@ -662,7 +694,7 @@ const FilterComponent = ({
                       />
                     </FlexBox.Row>
                   </>
-                ) : filter?.column?.selectedValue?.value === 'isShared' ? (
+                ) : filter?.column?.selectedValue?.value === 'is_shared' ? (
                   <>
                     <FlexBox.Row className="mb-1">
                       <FormTextField

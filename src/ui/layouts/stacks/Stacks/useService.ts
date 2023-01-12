@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { stackPagesActions, stacksActions } from '../../../../redux/actions';
 import { projectSelectors } from '../../../../redux/selectors';
 import { useDispatch, useSelector, useLocationPath } from '../../../hooks';
+import { filterObjectForParam } from '../../../../utils';
 
 interface ServiceInterface {
   setFetching: (arg: boolean) => void;
@@ -44,13 +45,7 @@ export const callActionForStacksForPagination = () => {
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
   function dispatchStackData(page: number, size: number, filters?: any[]) {
-    let filtersParam = filters?.reduce(
-      (obj, item) =>
-        Object.assign(obj, {
-          [item.column.value]: item.type.value + ':' + item.value,
-        }),
-      {},
-    );
+    let filtersParam = filterObjectForParam(filters);
 
     setFetching(true);
     dispatch(
