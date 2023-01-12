@@ -33,6 +33,8 @@ export const useService = (): ServiceInterface => {
     // Legacy: previously runs was in pipeline
     dispatch(
       stacksActions.allRunsByStackId({
+        page: 1,
+        size: 5,
         stackId: id,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
@@ -47,4 +49,46 @@ export const useService = (): ServiceInterface => {
   const stack = useSelector(stackSelectors.stackForId(id));
 
   return { stack };
+};
+
+export const callActionForStackRunsForPagination = () => {
+  const dispatch = useDispatch();
+  // const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const { id } = useParams<PipelineDetailRouteParams>();
+  function dispatchStackRunsData(
+    id: any,
+    page: number,
+    size: number,
+    filters?: any[],
+  ) {
+    let filtersParam = filters?.reduce(
+      (obj, item) =>
+        Object.assign(obj, {
+          [item.column.value]: item.type.value + ':' + item.value,
+        }),
+      {},
+    );
+
+    console.log('aaaa', filters);
+    setFetching(true);
+    dispatch(
+      stacksActions.allRunsByStackId({
+        stackId: id,
+        page: page,
+        size: size,
+        filtersParam,
+        onSuccess: () => setFetching(false),
+        onFailure: () => setFetching(false),
+      }),
+    );
+  }
+
+  const setFetching = (fetching: boolean) => {
+    dispatch(runPagesActions.setFetching({ fetching }));
+  };
+
+  return {
+    setFetching,
+    dispatchStackRunsData,
+  };
 };

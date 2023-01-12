@@ -53,7 +53,9 @@ export const useService = (
   const fetching = useSelector(stackPagesSelectors.fetching);
 
   const Stacks = useSelector(stackSelectors.mystacks);
+  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
   const selectedProject = useSelector(projectSelectors.selectedProject);
+  const isValidFilter = filter.map((f) => f.value).join('');
 
   useEffect(() => {
     let orderedStacks = _.orderBy(
@@ -62,20 +64,28 @@ export const useService = (
       [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
     );
 
-    const isValidFilter = filter.map((f) => f.value).join('');
-    if (isValidFilter) {
-      orderedStacks = getFilteredDataForTable(orderedStacks, filter);
-    }
+    // const isValidFilter = filter.map((f) => f.value).join('');
+    // if (isValidFilter) {
+    //   orderedStacks = getFilteredDataForTable(orderedStacks, filter);
+    // }
 
     setFilteredStacks(orderedStacks as TStack[]);
   }, [Stacks, filter]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      dispatch(stacksActions.getMy({ project: selectedProject }));
-    }, 5000);
+    if (!isValidFilter) {
+      const intervalId = setInterval(() => {
+        dispatch(
+          stacksActions.getMy({
+            project: selectedProject,
+            page: stacksPaginated.page,
+            size: stacksPaginated.size,
+          }),
+        );
+      }, 5000);
 
-    return () => clearInterval(intervalId); //This is important
+      return () => clearInterval(intervalId); //This is important
+    }
   });
 
   const setSelectedRunIds = (runIds: TId[]) => {

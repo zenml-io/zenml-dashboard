@@ -13,6 +13,8 @@ export const CollapseTable: React.FC<TableProps & CollapseTableProps> = ({
   pagination = true,
   loading = false,
   emptyState,
+  filters,
+  paginated,
   renderAfterRow,
   trOnClick,
 }) => {
@@ -23,6 +25,8 @@ export const CollapseTable: React.FC<TableProps & CollapseTableProps> = ({
       showHeader={showHeader}
       pagination={pagination}
       loading={loading}
+      filters={filters}
+      paginated={paginated}
       renderAfterRow={renderAfterRow}
       emptyState={emptyState}
       trOnClick={trOnClick}

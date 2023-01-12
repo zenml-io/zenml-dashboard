@@ -13,10 +13,11 @@ interface Props {
 }
 
 export const AllRuns: React.FC<Props> = ({ filter }: Props) => {
-  const { fetching, runIds } = useService();
+  const { fetching, runIds, runsPaginated } = useService(filter);
 
   return (
     <RunsTable
+      paginated={runsPaginated}
       fetching={fetching}
       emptyStateText={translate('emptyState.text')}
       runIds={runIds}

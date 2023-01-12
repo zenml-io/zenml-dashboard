@@ -15,6 +15,7 @@ export interface State {
   byStackComponentId: Record<TId, TId[]>;
   myRunIds: TId[];
   graphForRunId: any;
+  paginated: any;
 }
 
 type PipelinesPayload = {
@@ -50,12 +51,19 @@ export const initialState: State = {
   byStackComponentId: {},
   myRunIds: [],
   graphForRunId: {},
+  paginated: {},
 };
 
-const newState = (state: State, runs: TRun[]): State => ({
+const newState = (state: State, runs: TRun[], pagination?: any): State => ({
   ...state,
   ids: idsInsert(state.ids, runs),
   byId: byKeyInsert(state.byId, runs),
+  paginated: {
+    page: pagination.page,
+    size: pagination.size,
+    totalPages: pagination.total_pages,
+    totalitem: pagination.total,
+  },
 });
 const newStateForGraph = (state: State, graph: any): State => ({
   ...state,
@@ -65,7 +73,7 @@ const newStateForGraph = (state: State, graph: any): State => ({
 const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case runActionTypes.getAllRuns.success: {
-      const payload = action.payload;
+      const payload = action.payload.items;
 
       let allRuns: TRun[] = payload;
 
@@ -73,7 +81,7 @@ const runsReducer = (state: State = initialState, action: Action): State => {
 
       const myRunIds: TId[] = runs.map((run: TRun) => run.id);
 
-      return { ...newState(state, runs), myRunIds };
+      return { ...newState(state, runs, action.payload), myRunIds };
     }
 
     case runActionTypes.getGraphForRunId.success: {
@@ -105,7 +113,7 @@ const runsReducer = (state: State = initialState, action: Action): State => {
     }
 
     case pipelineActionTypes.getRunsByPipelineId.success: {
-      const payload = action.payload;
+      const payload = action.payload.items;
       const id = action?.requestParams?.pipelineId;
 
       const runsFromPipeline = payload.map((run: TRun) => ({
@@ -120,15 +128,16 @@ const runsReducer = (state: State = initialState, action: Action): State => {
       const byPipelineId: Record<TId, TId[]> = { ...state.byPipelineId };
 
       byPipelineId[id as TId] = runs.map((run: TRun) => run.id);
+
       return {
         ...state,
-        ...newState(state, runs),
+        ...newState(state, runs, action.payload),
         myRunIds,
         byPipelineId,
       };
     }
     case stackActionTypes.getRunsByStackId.success: {
-      const payload = action.payload;
+      const payload = action.payload.items;
       const id = action?.requestParams?.stackId;
       const runsFromStack = payload.map((run: TRun) => ({
         ...run,
@@ -146,13 +155,13 @@ const runsReducer = (state: State = initialState, action: Action): State => {
       byStackId[id as TId] = runs.map((run: TRun) => run.id);
       return {
         ...state,
-        ...newState(state, runs),
+        ...newState(state, runs, action.payload),
         myRunIds,
         byStackId,
       };
     }
     case stackComponentActionTypes.getRunsByStackComponentId.success: {
-      const payload = action.payload;
+      const payload = action.payload.items;
 
       const id = action?.requestParams?.stackComponentId;
       const runsFromStackComponent = payload.map((run: TRun) => ({
@@ -170,7 +179,7 @@ const runsReducer = (state: State = initialState, action: Action): State => {
       byStackComponentId[id as TId] = runs.map((run: TRun) => run.id);
       return {
         ...state,
-        ...newState(state, runs),
+        ...newState(state, runs, action.payload),
         myRunIds,
         byStackComponentId,
       };

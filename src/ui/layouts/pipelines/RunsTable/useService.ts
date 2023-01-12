@@ -61,9 +61,9 @@ export const useService = ({
     );
 
     const isValidFilter = filter?.map((f) => f.value).join('');
-    if (isValidFilter) {
-      orderedRuns = getFilteredDataForTable(orderedRuns, filter);
-    }
+    // if (isValidFilter) {
+    //   orderedRuns = getFilteredDataForTable(orderedRuns, filter);
+    // }
 
     setSortedRuns(orderedRuns);
   }, [filter, runIds]);

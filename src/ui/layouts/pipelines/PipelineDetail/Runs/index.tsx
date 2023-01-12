@@ -7,10 +7,14 @@ export const Runs: React.FC<{ pipelineId: TId; filter: any }> = ({
   pipelineId,
   filter,
 }) => {
-  const { fetching, runIds } = useService({ pipelineId });
+  const { fetching, runIds, runsPaginated } = useService({
+    pipelineId,
+    filter,
+  });
 
   return (
     <RunsTable
+      paginated={runsPaginated}
       fetching={fetching}
       emptyStateText={translate('emptyState.text')}
       runIds={runIds}

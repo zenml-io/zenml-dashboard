@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 
 import styles from './index.module.scss';
@@ -14,6 +14,16 @@ import {
 import { getPaginationData } from '../../../../utils/pagination';
 import { Pagination } from '../Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
+import { useLocation } from '../../../hooks';
+import { callActionForStacksForPagination } from '../../stacks/Stacks/useService';
+import { callActionForStackComponentsForPagination } from '../../stackComponents/Stacks/useService';
+import {
+  callActionForAllrunsForPagination,
+  callActionForPipelinesForPagination,
+} from '../../pipelines/Pipelines/useService';
+import { callActionForPipelineRunsForPagination } from '../../pipelines/PipelineDetail/useService';
+import { callActionForStackRunsForPagination } from '../../stacks/StackDetail/useService';
+import { callActionForStackComponentRunsForPagination } from '../../stackComponents/StackDetail/useService';
 
 export interface HeaderCol {
   render?: () => JSX.Element;
@@ -24,6 +34,8 @@ export interface HeaderCol {
 export interface TableProps {
   headerCols: HeaderCol[];
   tableRows: any[];
+  paginated?: any;
+  filters?: any[];
   showHeader?: boolean;
   pagination?: boolean;
   loading?: boolean;
@@ -35,11 +47,12 @@ export interface TableProps {
 }
 
 const ITEMS_PER_PAGE = parseInt(process.env.REACT_APP_ITEMS_PER_PAGE as string);
-const DEFAULT_ITEMS_PER_PAGE = 10;
 
 export const Table: React.FC<TableProps> = ({
   headerCols,
   tableRows,
+  paginated,
+  filters,
   showHeader = true,
   pagination = true,
   loading = false,
@@ -133,23 +146,100 @@ export const Table: React.FC<TableProps> = ({
 
 
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
-
+  const locationPath = useLocation();
+  // const childRef = React.useRef(null);
+  const initialRef: any = null;
+  const childRef = React.useRef(initialRef);
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 5;
+  // const itemPerPage = ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE;
+  const [itemPerPage, setItemPerPage] = useState(
+    ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+  );
   const { itemsForPage, pages, totalOfPages } = getPaginationData({
     pageIndex,
-    itemsPerPage: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+    itemsPerPage: itemPerPage,
     items: tableRows,
   });
+  const isValidFilter = filters?.map((f) => f.value).join('');
 
+  const { dispatchStackData } = callActionForStacksForPagination();
+  const {
+    dispatchStackComponentsData,
+  } = callActionForStackComponentsForPagination();
+
+  const { dispatchPipelineData } = callActionForPipelinesForPagination();
+  const { dispatchAllrunsData } = callActionForAllrunsForPagination();
+  const { dispatchPipelineRunsData } = callActionForPipelineRunsForPagination();
+  const { dispatchStackRunsData } = callActionForStackRunsForPagination();
+  const {
+    dispatchStackComponentRunsData,
+  } = callActionForStackComponentRunsForPagination();
+  const componentName = locationPath.pathname.split('/')[3];
+  const CheckIfRun =
+    componentName === 'components'
+      ? locationPath.pathname.split('/')[6]
+      : locationPath.pathname.split('/')[5];
+  const id =
+    componentName === 'components'
+      ? locationPath.pathname.split('/')[5]
+      : locationPath.pathname.split('/')[4];
+  // console.log(check, '333');
+  useEffect(() => {
+    // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
+    setItemPerPage(DEFAULT_ITEMS_PER_PAGE);
+    switch (componentName) {
+      case 'stacks':
+        if (CheckIfRun) {
+          dispatchStackRunsData(id, 1, 5, filters as any);
+          break;
+        } else {
+          dispatchStackData(1, 5, filters as any);
+          break;
+        }
+      case 'components':
+        if (CheckIfRun) {
+          dispatchStackComponentRunsData(id, 1, 5, filters as any);
+          break;
+        } else {
+          dispatchStackComponentsData(1, 5, filters as any);
+          break;
+        }
+      case 'pipelines':
+        if (CheckIfRun) {
+          dispatchPipelineRunsData(id, 1, 5, filters as any);
+          break;
+        } else {
+          if (!renderAfterRow) break;
+          dispatchPipelineData(1, 5, filters as any);
+          break;
+        }
+
+      case 'all-runs':
+        dispatchAllrunsData(1, 5, filters as any);
+        break;
+
+      default:
+        break;
+    }
+    //for runs
+  }, [locationPath.pathname.split('/')[4], isValidFilter]);
   let rowsToDisplay = tableRows;
 
   if (pagination) {
-    rowsToDisplay = itemsForPage;
+    rowsToDisplay = tableRows;
   }
 
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  
+  const onChangePagePerItem = (p: number, size: number) => {
+    // onChange(p + 1, size);
+    setItemPerPage(size);
+  };
+  console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
   return (
     <FlexBox.Column className={styles.tableWrapper} fullWidth>
       <IfElse
@@ -220,10 +310,13 @@ export const Table: React.FC<TableProps> = ({
             <If condition={pagination}>
               {() => (
                 <Pagination
+                  ref={childRef}
+                  filters={filters}
+                  itemPerPage={itemPerPage}
                   pageIndex={pageIndex}
                   setPageIndex={setPageIndex}
-                  pages={pages}
-                  totalOfPages={totalOfPages}
+                  pages={paginated?.totalPages}
+                  totalOfPages={paginated?.totalPages}
                   totalLength={tableRows.length}
                 />
               )}
@@ -239,6 +332,43 @@ export const Table: React.FC<TableProps> = ({
           </Box>
         )}
       />
+      <If condition={tableRows.length > 0 && paginated?.totalitem > 5}>
+        {() => (
+          <>
+            {/* {console.log(paginated.totalPages, '1111', tableRows.length > 0)} */}
+            <Box marginLeft="md" className="d-none d-md-block">
+              <select
+                onChange={(e: any) => {
+                  onChangePagePerItem(pageIndex, parseInt(e.target.value));
+                  childRef?.current?.callOnChange(
+                    pageIndex,
+                    parseInt(e.target.value),
+                    filters,
+                  );
+                }}
+                // defaultValue={itemPerPage}
+                value={itemPerPage}
+                placeholder={'Item per Page'}
+                // className={cn(css.input)}
+                style={{
+                  border: 'none',
+                  outline: 'none',
+                  width: '146px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  color: '#424240',
+                }}
+              >
+                {[5, 10, 15, 20].map((option, index) => (
+                  <option key={index} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </Box>
+          </>
+        )}
+      </If>
     </FlexBox.Column>
   );
 };

@@ -3,10 +3,16 @@ import getAllRunsApi from '../../../api/runs/getAllRunsApi';
 
 export const getAllRunsAction = ({
   project,
+  page,
+  size,
+  filtersParam,
   onSuccess,
   onFailure,
 }: {
+  page: number;
+  size: number;
   project: string;
+  filtersParam?: object;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -16,7 +22,7 @@ export const getAllRunsAction = ({
     isAuthenticated: true,
     failureActionType: runActionTypes.getAllRuns.failure,
     successActionType: runActionTypes.getAllRuns.success,
-    params: { project },
+    params: { project, page, size, filtersParam },
     onSuccess,
     onFailure,
   },
