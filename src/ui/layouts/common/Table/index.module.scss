@@ -53,3 +53,50 @@
 .lastTable tbody tr:last-child {
   border-bottom: 1px solid $lightestGreyColor;
 }
+
+
+.dropdown {
+  border: 1px solid #A8A8A8;
+  border-radius: 4px;
+  outline: none;
+  width: 59px;
+  height: 32px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #333333;
+  padding-left: 7px;
+  cursor: pointer;
+}
+
+
+.popup {
+  background-color: $whiteColor;
+  border: 1px solid $lightestGreyColor;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  width: 5.8rem;
+  z-index: 9;
+  position: relative;
+}
+
+.popupItem {
+  cursor: pointer;
+  transition: 0.2s ease-in all;
+}
+
+.popupItem:hover {
+  background-color: #fbfbfb;
+}
+
+.itemText1 {
+  font-size: 16px; 
+  font-weight: 600; 
+  line-height: 18px;
+  
+}
+
+.itemText {
+  font-size: 16px; 
+  font-weight: 600; 
+  line-height: 18px
+}

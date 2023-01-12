@@ -1,12 +1,5 @@
-import React, {
-  forwardRef,
-  useEffect,
-  useImperativeHandle,
-  useState,
-} from 'react';
-
-import { FlexBox, Box, Paragraph, icons } from '../../../components';
-
+import React, { forwardRef, useImperativeHandle } from 'react';
+import { FlexBox, Box, icons } from '../../../components';
 import styles from './index.module.scss';
 import { joinClassNames, addStyle } from '../../../../utils';
 import { useLocation } from 'react-router-dom';
@@ -34,9 +27,12 @@ const PaginationItem = (props: {
       addStyle(props.isActive, styles.active),
     )}
   >
-    <Paragraph color={props.isActive ? 'white' : 'grey'}>
+    <span
+      className={styles.paginationText}
+      style={{ color: props.isActive ? '#fff' : '#333' }}
+    >
       {props.index}
-    </Paragraph>
+    </span>
   </div>
 );
 
@@ -55,7 +51,7 @@ const PaginationNavigationItem = (props: {
       addStyle(!props.hasNext, styles.hidden),
     )}
   >
-    <props.icon color="grey" size="md" />
+    <props.icon color="black" size="sml" />
   </div>
 );
 
@@ -152,7 +148,6 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
     <FlexBox.Column justifyContent="center" alignItems="center">
       <FlexBox marginTop="xxxl" marginBottom="xxxl" justifyContent="center">
         <PaginationNavigationItem
-          style={{ paddingRight: 2 }}
           hasNext={props.pageIndex !== 0}
           onClick={() => {
             // switch (componentName) {
@@ -173,8 +168,23 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
 
             props.setPageIndex(props.pageIndex - 1);
           }}
-          icon={icons.chevronLeft}
+          icon={icons.paginationFirst}
         />
+        <PaginationNavigationItem
+          hasNext={props.pageIndex !== 0}
+          onClick={() => {
+            onChange(
+              props.pageIndex,
+              props.itemPerPage,
+              componentName,
+              props.filters,
+            );
+
+            props.setPageIndex(props.pageIndex - 1);
+          }}
+          icon={icons.paginationPrev}
+        />
+
         <FlexBox>
           {pageNumbers.map((p: any) => (
             <Box key={p}>
@@ -190,22 +200,33 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
             </Box>
           ))}
         </FlexBox>
-        <Box>
-          <PaginationNavigationItem
-            style={{ paddingLeft: 2 }}
-            hasNext={props.pageIndex + 1 < props.totalOfPages}
-            onClick={() => {
-              onChange(
-                props.pageIndex + 2,
-                props.itemPerPage,
-                componentName,
-                props.filters,
-              );
-              props.setPageIndex(props.pageIndex + 1);
-            }}
-            icon={icons.chevronRight}
-          />
-        </Box>
+
+        <PaginationNavigationItem
+          hasNext={props.pageIndex + 1 < props.totalOfPages}
+          onClick={() => {
+            onChange(
+              props.pageIndex + 2,
+              props.itemPerPage,
+              componentName,
+              props.filters,
+            );
+            props.setPageIndex(props.pageIndex + 1);
+          }}
+          icon={icons.paginationNext}
+        />
+        <PaginationNavigationItem
+          hasNext={props.pageIndex + 1 < props.totalOfPages}
+          onClick={() => {
+            onChange(
+              props.pageIndex + 2,
+              props.itemPerPage,
+              componentName,
+              props.filters,
+            );
+            props.setPageIndex(props.pageIndex + 1);
+          }}
+          icon={icons.paginationLast}
+        />
       </FlexBox>
     </FlexBox.Column>
   );
