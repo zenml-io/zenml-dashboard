@@ -62,6 +62,11 @@ import { ReactComponent as ChatDots } from './assets/ChatDots.svg';
 // import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
 // import { ReactComponent as Edit } from './assets/Edit.svg';
 
+import { ReactComponent as PaginationFirst } from './assets/PaginationFirst.svg';
+import { ReactComponent as PaginationLast } from './assets/PaginationLast.svg';
+import { ReactComponent as PaginationNext } from './assets/PaginationNext.svg';
+import { ReactComponent as PaginationPrev } from './assets/PaginationPrev.svg';
+
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
 import { iconColors, iconSizes } from '../../../constants';
@@ -76,6 +81,7 @@ interface Props {
 const mapSizes = {
   xs: 12,
   sm: 18,
+  sml: 16,
   md: 24,
   lg: 30,
   xl: 36,
@@ -179,6 +185,12 @@ const icons = {
     Component: ChartBarHorizontal,
     useStroke: true,
   }),
+
+  // paginations
+  paginationFirst: createIcon({ Component: PaginationFirst, useStroke: true }),
+  paginationLast: createIcon({ Component: PaginationLast, useStroke: true }),
+  paginationNext: createIcon({ Component: PaginationNext, useStroke: true }),
+  paginationPrev: createIcon({ Component: PaginationPrev, useStroke: true }),
 };
 
 export { icons };

@@ -16,18 +16,18 @@ export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const { id } = useParams<StackDetailRouteParams>();
 
-  useEffect(() => {
-    setFetching(true);
-    // Legacy: previously runs was in pipeline
+  // useEffect(() => {
+  //   setFetching(true);
+  //   // Legacy: previously runs was in pipeline
 
-    dispatch(
-      stacksActions.allRunsByStackId({
-        stackId: id,
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
-      }),
-    );
-  }, [id]);
+  //   dispatch(
+  //     stacksActions.allRunsByStackId({
+  //       stackId: id,
+  //       onSuccess: () => setFetching(false),
+  //       onFailure: () => setFetching(false),
+  //     }),
+  //   );
+  // }, [id]);
 
   const setFetching = (fetching: boolean) => {
     dispatch(stackPagesActions.setFetching({ fetching }));

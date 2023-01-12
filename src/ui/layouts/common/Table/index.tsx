@@ -10,6 +10,9 @@ import {
   H3,
   Truncate,
   FullWidthSpinner,
+
+  Paragraph,
+  icons
 } from '../../../components';
 import { getPaginationData } from '../../../../utils/pagination';
 import { Pagination } from '../Pagination';
@@ -24,6 +27,8 @@ import {
 import { callActionForPipelineRunsForPagination } from '../../pipelines/PipelineDetail/useService';
 import { callActionForStackRunsForPagination } from '../../stacks/StackDetail/useService';
 import { callActionForStackComponentRunsForPagination } from '../../stackComponents/StackDetail/useService';
+import { iconColors, iconSizes } from '../../../../constants/icons';
+import OutsideClickHandler from 'react-outside-click-handler';
 
 export interface HeaderCol {
   render?: () => JSX.Element;
@@ -144,7 +149,7 @@ export const Table: React.FC<TableProps> = ({
 
 
 
-
+  const [showItems, setShowItems] = useState(false)
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
   const locationPath = useLocation();
   // const childRef = React.useRef(null);
@@ -335,36 +340,60 @@ export const Table: React.FC<TableProps> = ({
       <If condition={tableRows.length > 0 && paginated?.totalitem > 5}>
         {() => (
           <>
-            {/* {console.log(paginated.totalPages, '1111', tableRows.length > 0)} */}
             <Box marginLeft="md" className="d-none d-md-block">
-              <select
-                onChange={(e: any) => {
-                  onChangePagePerItem(pageIndex, parseInt(e.target.value));
-                  childRef?.current?.callOnChange(
-                    pageIndex,
-                    parseInt(e.target.value),
-                    filters,
-                  );
-                }}
-                // defaultValue={itemPerPage}
-                value={itemPerPage}
-                placeholder={'Item per Page'}
-                // className={cn(css.input)}
-                style={{
-                  border: 'none',
-                  outline: 'none',
-                  width: '146px',
-                  fontSize: '16px',
-                  fontWeight: 'bold',
-                  color: '#424240',
-                }}
-              >
-                {[5, 10, 15, 20].map((option, index) => (
-                  <option key={index} value={option}>
-                    {option}
-                  </option>
-                ))}
-              </select>
+            <Box>                 
+              <FlexBox>
+                <Box style={{ marginTop: '4px', marginRight: '10px' }}>
+                  <span className={styles.itemText1}>Items Showing</span>
+                </Box>
+              
+                <FlexBox flexDirection='column'>
+                  <Box>
+                    <FlexBox alignItems="center" justifyContent='space-between' paddingHorizontal='sm' className={styles.dropdown} onClick={() => setShowItems(!showItems)}>
+                      <Box paddingRight="sm">
+                        <span className={styles.itemText}>{itemPerPage}</span>
+                      </Box>
+                      <Box>
+                        <icons.chevronDownLight
+                          size={iconSizes.xs}
+                          color={iconColors.black}
+                        />
+                      </Box>
+                    </FlexBox>
+                  </Box>
+                  <Box>
+                  <If condition={showItems}>
+                    {() => (
+                      <OutsideClickHandler onOutsideClick={() => {}} >
+                        <Box className={styles.popup} marginTop='sm' >              
+                          <Box marginVertical='sm' marginLeft='md' className="d-none d-md-block">            
+                            <Box marginTop='sm'>
+                                {[5, 10, 15, 20].map((option, index) => (
+                                  <Box 
+                                    marginTop='sm' 
+                                    key={index}                 
+                                    onClick={() => {
+                                      onChangePagePerItem(pageIndex, parseInt(`${option}`));
+                                      childRef?.current?.callOnChange(
+                                        pageIndex,
+                                        parseInt(`${option}`),
+                                        filters,
+                                      );
+                                    }}  
+                                  >
+                                    <span className={styles.itemText} style={{ cursor: 'pointer' }}>{option}</span>
+                                  </Box>
+                                ))}
+                            </Box>
+                        </Box>
+                    </Box>
+                   </OutsideClickHandler>
+                  )} 
+                </If>
+              </Box>
+              </FlexBox>
+              </FlexBox>
+              </Box>         
             </Box>
           </>
         )}
