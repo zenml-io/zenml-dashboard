@@ -148,6 +148,8 @@ export const AuthenticatedHeader: React.FC<{
     );
     dispatch(
       pipelinesActions.getMy({
+        page: 1,
+        size: 5,
         project: e?.target?.value,
         onSuccess: () => stopLoad(),
         onFailure: () => stopLoad(),

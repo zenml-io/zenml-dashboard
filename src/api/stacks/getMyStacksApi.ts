@@ -5,13 +5,20 @@ import { apiUrl } from '../apiUrl';
 
 const getMyStacksApi = ({
   project,
+  page,
+  size,
+  filtersParam,
   authenticationToken,
 }: {
   project: string;
+  page: number;
+  size: number;
+  filtersParam?: object;
   authenticationToken: string;
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.Stacks.my(project)),
+    params: { page, size, ...filtersParam },
     method: httpMethods.get,
     authenticationToken,
   });

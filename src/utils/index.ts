@@ -8,4 +8,5 @@ export * from './validations';
 export * from './date';
 export * from './runs';
 export * from './money';
+export * from './filterObjectForParam';
 export * from './string';

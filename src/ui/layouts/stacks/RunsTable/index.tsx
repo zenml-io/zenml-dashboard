@@ -17,11 +17,19 @@ interface Props {
 }
 export const RunsTable: React.FC<{
   runIds: TId[];
+  paginated?: any;
   pagination?: boolean;
   emptyStateText: string;
   fetching: boolean;
   filter?: any;
-}> = ({ runIds, pagination = true, emptyStateText, fetching, filter }) => {
+}> = ({
+  runIds,
+  pagination = true,
+  paginated,
+  emptyStateText,
+  fetching,
+  filter,
+}) => {
   const history = useHistory();
 
   const {
@@ -55,7 +63,9 @@ export const RunsTable: React.FC<{
     <Table
       pagination={pagination}
       loading={fetching}
+      filters={filter}
       showHeader={true}
+      paginated={paginated}
       headerCols={headerCols}
       tableRows={sortedRuns}
       emptyState={{ text: emptyStateText }}

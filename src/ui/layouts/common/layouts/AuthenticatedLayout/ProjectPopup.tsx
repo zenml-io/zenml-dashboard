@@ -64,7 +64,7 @@ export const ProjectPopup: React.FC<{
     await axios
       .post(
         `${process.env.REACT_APP_BASE_API_URL}/projects`,
-        { name, description },
+        { name, description }, //payload
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
       .then(async () => {

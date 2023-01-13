@@ -14,6 +14,7 @@ import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { stackPagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
+import { filterObjectForParam } from '../../../../utils';
 
 interface ServiceInterface {
   stackComponent: TStack;
@@ -36,6 +37,8 @@ export const useService = (): ServiceInterface => {
     dispatch(
       stackComponentsActions.allRunsByStackComponentId({
         stackComponentId: id,
+        page: 1,
+        size: 5,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),
@@ -51,4 +54,39 @@ export const useService = (): ServiceInterface => {
   );
 
   return { stackComponent };
+};
+
+export const callActionForStackComponentRunsForPagination = () => {
+  const dispatch = useDispatch();
+  // const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const { id } = useParams<PipelineDetailRouteParams>();
+  function dispatchStackComponentRunsData(
+    id: any,
+    page: number,
+    size: number,
+    filters?: any[],
+  ) {
+    let filtersParam = filterObjectForParam(filters);
+
+    // debugger;
+    setFetching(true);
+    dispatch(
+      stackComponentsActions.allRunsByStackComponentId({
+        stackComponentId: id,
+        page: page,
+        size: size,
+        filtersParam,
+        onSuccess: () => setFetching(false),
+        onFailure: () => setFetching(false),
+      }),
+    );
+  }
+
+  const setFetching = (fetching: boolean) => {
+    dispatch(stackPagesActions.setFetching({ fetching }));
+  };
+  return {
+    setFetching,
+    dispatchStackComponentRunsData,
+  };
 };

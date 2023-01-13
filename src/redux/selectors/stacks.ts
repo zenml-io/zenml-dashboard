@@ -14,6 +14,9 @@ const getById = (state: State): Record<TId, TStack> =>
 const getMyStackIds = (state: State): TId[] =>
   _.get(stateKey(state), 'myStackIds');
 
+const getMyStackPaginated = (state: State): any =>
+  _.get(stateKey(state), 'paginated');
+
 export const mystacks = (state?: State | null): TStack[] => {
   if (!state) return [];
   const myStackIds = getMyStackIds(state);
@@ -30,10 +33,18 @@ export const mystacks = (state?: State | null): TStack[] => {
   }, [] as TStack[]);
 };
 
+export const mystacksPaginated = (state?: State | null): any => {
+  if (!state) return {};
+  const paginated = getMyStackPaginated(state);
+
+  return paginated;
+};
+
 export const stackForId = (stackId: TId): Selector<any, TStack> =>
   createSelector(getById, extractItemFromById(stackId));
 
 const stackSelectors = {
+  mystacksPaginated: mystacksPaginated,
   mystacks: mystacks,
   stackForId,
 };

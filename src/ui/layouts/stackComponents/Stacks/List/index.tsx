@@ -10,7 +10,10 @@ import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
 import { camelCaseToParagraph } from '../../../../../utils';
 // import { DEFAULT_PROJECT_NAME } from '../../../../../constants';
-import { projectSelectors } from '../../../../../redux/selectors';
+import {
+  projectSelectors,
+  stackComponentSelectors,
+} from '../../../../../redux/selectors';
 
 interface Props {
   filter: any;
@@ -19,6 +22,10 @@ interface Props {
 export const List: React.FC<Props> = ({ filter }: Props) => {
   const locationPath = useLocationPath();
   const selectedProject = useSelector(projectSelectors.selectedProject);
+  const stackComponentsPaginated = useSelector(
+    stackComponentSelectors.mystackComponentsPaginated,
+  );
+
   const history = useHistory();
   const {
     openStackIds,
@@ -72,8 +79,10 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             fetching={fetching}
           />
         )}
+        paginated={stackComponentsPaginated}
         loading={fetching}
         showHeader={true}
+        filters={filter}
         headerCols={headerCols}
         tableRows={filteredStacks}
         emptyState={

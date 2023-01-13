@@ -9,11 +9,22 @@ import {
 interface ServiceInterface {
   fetching: boolean;
   runIds: TId[];
+  runsPaginated: any;
 }
-
+interface filterValue {
+  label: string;
+  type: string;
+  value: string;
+}
 export const useService = ({
+  filter,
   stackComponentId,
 }: {
+  filter: {
+    column: filterValue;
+    type: filterValue;
+    value: string;
+  }[];
   stackComponentId: TId;
 }): ServiceInterface => {
   const dispatch = useDispatch();
@@ -21,23 +32,29 @@ export const useService = ({
   const runs: TRun[] = useSelector(
     runSelectors.runsForStackComponentId(stackComponentId),
   );
+  const runsPaginated = useSelector(runSelectors.myRunsPaginated);
+  const isValidFilter = filter.map((f) => f.value).join('');
+  console.log(runsPaginated, 'runsPaginated');
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      //assign interval to a variable to clear it.
+    if (!isValidFilter) {
+      const intervalId = setInterval(() => {
+        //assign interval to a variable to clear it.
 
-      dispatch(
-        stackComponentsActions.allRunsByStackComponentId({
-          stackComponentId: stackComponentId,
-        }),
-      );
-    }, 5000);
+        dispatch(
+          stackComponentsActions.allRunsByStackComponentId({
+            stackComponentId: stackComponentId,
+            page: runsPaginated.page,
+            size: runsPaginated.size,
+          }),
+        );
+      }, 5000);
 
-    return () => clearInterval(intervalId);
-
+      return () => clearInterval(intervalId);
+    }
     //This is important
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stackComponentId]);
+  }, [stackComponentId, runsPaginated]);
   const runIds = runs.map((run: TRun) => run.id);
 
-  return { fetching, runIds };
+  return { fetching, runIds, runsPaginated };
 };

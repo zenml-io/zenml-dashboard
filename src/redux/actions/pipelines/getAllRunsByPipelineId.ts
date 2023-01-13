@@ -3,10 +3,16 @@ import getAllRunsByPipelineIdApi from '../../../api/pipelines/getAllRunsByPipeli
 
 export const getAllRunsByPipelineId = ({
   pipelineId,
+  page,
+  size,
+  filtersParam,
   onSuccess,
   onFailure,
 }: {
   pipelineId: TId;
+  page: number;
+  size: number;
+  filtersParam?: any;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => {
@@ -17,7 +23,7 @@ export const getAllRunsByPipelineId = ({
       isAuthenticated: true,
       failureActionType: pipelineActionTypes.getRunsByPipelineId.failure,
       successActionType: pipelineActionTypes.getRunsByPipelineId.success,
-      params: { pipelineId },
+      params: { pipelineId, page, size, filtersParam },
       onSuccess,
       onFailure,
     },

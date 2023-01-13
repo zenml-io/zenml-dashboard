@@ -49,7 +49,7 @@ const projectsReducer = (
   switch (action.type) {
     case projectActionTypes.getMyProjects.success: {
       const projects: Projects[] = camelCaseArray(
-        action.payload as ProjectsPayload,
+        action.payload.items as ProjectsPayload,
       );
 
       const myProjectIds: TId[] = projects.map(

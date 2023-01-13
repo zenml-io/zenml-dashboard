@@ -17,6 +17,9 @@ const getMyStackComponentIds = (state: State): TId[] =>
 const getStackComponentTypes = (state: State): TId[] =>
   _.get(stateKey(state), 'stackComponentTypes');
 
+const getMyStackComponentsPaginated = (state: State): any =>
+  _.get(stateKey(state), 'paginated');
+
 export const mystackComponents = (state?: State | null): TStack[] => {
   if (!state) return [];
   const myStackComponentIds = getMyStackComponentIds(state);
@@ -37,6 +40,12 @@ export const stackComponentTypes = (state?: State | null) => {
   const stackComponentTypes = getStackComponentTypes(state);
   return stackComponentTypes;
 };
+export const mystackComponentsPaginated = (state?: State | null): any => {
+  if (!state) return {};
+  const paginated = getMyStackComponentsPaginated(state);
+
+  return paginated;
+};
 
 export const stackComponentForId = (
   stackComponentId: TId,
@@ -46,6 +55,7 @@ export const stackComponentForId = (
 const stackComponentSelectors = {
   stackComponentTypes: stackComponentTypes,
   mystackComponents: mystackComponents,
+  mystackComponentsPaginated: mystackComponentsPaginated,
   stackComponentForId,
 };
 

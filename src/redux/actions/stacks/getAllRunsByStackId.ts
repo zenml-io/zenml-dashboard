@@ -3,9 +3,15 @@ import getAllRunsByStackIdApi from '../../../api/stacks/getAllRunsByStackIdApi';
 
 export const getAllRunsByStackId = ({
   stackId,
+  page,
+  size,
+  filtersParam,
   onSuccess,
   onFailure,
 }: {
+  page: number;
+  size: number;
+  filtersParam?: any;
   stackId: TId;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -17,7 +23,7 @@ export const getAllRunsByStackId = ({
       isAuthenticated: true,
       failureActionType: stackActionTypes.getRunsByStackId.failure,
       successActionType: stackActionTypes.getRunsByStackId.success,
-      params: { stackId },
+      params: { stackId, page, size, filtersParam },
       onSuccess,
       onFailure,
     },

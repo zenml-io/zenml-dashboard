@@ -9,35 +9,52 @@ import {
 interface ServiceInterface {
   fetching: boolean;
   runIds: TId[];
+  runsPaginated: any;
+}
+interface filterValue {
+  label: string;
+  type: string;
+  value: string;
 }
 
 export const useService = ({
+  filter,
   pipelineId,
 }: {
+  filter: {
+    column: filterValue;
+    type: filterValue;
+    value: string;
+  }[];
   pipelineId: TId;
 }): ServiceInterface => {
   const dispatch = useDispatch();
   const fetching = useSelector(runPagesSelectors.fetching);
   const runs: TRun[] = useSelector(runSelectors.runsForPipelineId(pipelineId));
-
+  const runsPaginated = useSelector(runSelectors.myRunsPaginated);
+  const isValidFilter = filter.map((f) => f.value).join('');
+  console.log(runsPaginated, 'runsPaginated');
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      //assign interval to a variable to clear it.
+    if (!isValidFilter) {
+      const intervalId = setInterval(() => {
+        //assign interval to a variable to clear it.
 
-      dispatch(
-        pipelinesActions.allRunsByPipelineId({
-          pipelineId: pipelineId,
-        }),
-      );
-    }, 5000);
+        dispatch(
+          pipelinesActions.allRunsByPipelineId({
+            pipelineId: pipelineId,
+            page: runsPaginated.page,
+            size: runsPaginated.size,
+          }),
+        );
+      }, 5000);
 
-    return () => clearInterval(intervalId);
-
+      return () => clearInterval(intervalId);
+    }
     //This is important
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [pipelineId]);
+  }, [pipelineId, runsPaginated]);
 
   const runIds = runs.map((run: TRun) => run.id);
 
-  return { fetching, runIds };
+  return { fetching, runIds, runsPaginated };
 };
