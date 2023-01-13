@@ -73,7 +73,6 @@ export const Table: React.FC<TableProps> = ({
   //     ref: tableElement
   //   }));
   // };
-
   // const columns = createHeaders(headerCols?.length);
 
   // const minCellWidth = 120
@@ -240,22 +239,20 @@ export const Table: React.FC<TableProps> = ({
         renderWhenTrue={() => (
           <>
             <table className={styles.table}>
-              <thead style={{ backgroundColor: '#F4F4F4' }}>
+              <thead>
                 <tr className={showHeader ? styles.tableHeaderRow : ''}>
-                  {headerCols.map((headerCol: HeaderCol, index: number) => (
+                  {headerCols.map((headerCol: HeaderCol, index: number, i) => (
                     <th
-                      className={styles.tableHeadingTh}
+                      className={styles.tableHeadingTh}                
                       style={{
                         width: headerCol.width,
-                        color: '#000',
+                        color: '#424240',
+                        fontSize: '14px',
                         fontWeight: 700,
                       }}
                       key={index}
                     >
-                      <Box
-                        paddingVertical={showHeader ? 'sm' : null}
-                        paddingLeft="lg"
-                      >
+                      <Box style={{ backgroundColor: '#f6f67' }} paddingVertical={showHeader ? 'sm' : null} paddingLeft="lg">
                         {headerCol.render && headerCol.render()}
                       </Box>
                     </th>
@@ -278,6 +275,7 @@ export const Table: React.FC<TableProps> = ({
                         styles.tableRow,
                         trOnClick && styles.clickableTableRow,
                       )}
+                      style={{ backgroundColor: index % 2 !== 0 ? '#F5F3F9' : 'white' }}
                       key={index}
                     >
                       {headerCols.map((headerCol: HeaderCol, index: number) => (
@@ -286,7 +284,7 @@ export const Table: React.FC<TableProps> = ({
                           style={{ width: headerCol.width }}
                           key={index}
                         >
-                          <Box paddingVertical="md" paddingLeft="lg">
+                          <Box paddingVertical="sm" paddingLeft="lg">
                             <Truncate maxLines={1}>
                               {headerCol.renderRow(headerRow)}
                             </Truncate>

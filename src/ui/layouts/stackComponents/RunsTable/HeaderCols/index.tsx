@@ -7,7 +7,6 @@ import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import {
   truncate,
-  getInitialsFromEmail,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
 import {
@@ -15,7 +14,6 @@ import {
   Paragraph,
   Box,
   icons,
-  ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
@@ -246,9 +244,7 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => {
-        const initials = getInitialsFromEmail(
-          run.user.full_name ? run.user.full_name : run.user.name,
-        );
+        
         return (
           <FlexBox alignItems="center">
             <div
@@ -256,11 +252,6 @@ export const useHeaderCols = ({
               data-for={run.user.full_name ? run.user.full_name : run.user.name}
             >
               <FlexBox alignItems="center">
-                <Box paddingRight="sm">
-                  <ColoredCircle color="secondary" size="sm">
-                    {initials}
-                  </ColoredCircle>
-                </Box>
                 <Paragraph size="small">
                   {run.user.full_name ? run.user.full_name : run.user.name}
                 </Paragraph>

@@ -36,18 +36,21 @@
 
 .tableHeaderRow {
   border-top: 1px solid $lightestGreyColor;
-  background-color: $lightestGreyColor ;
+  background-color: #F6F6F7 !important;
 }
 
 .tableHeadingTh {
   text-align: left;
   vertical-align: middle;
-
+  color: #424240 !important;
+  font-size: 14px !important;
+  font-weight: 400
 }
 
 
 .tableTd {
   vertical-align: middle;
+  height: 53px !important
 }
 
 .lastTable tbody tr:last-child {
