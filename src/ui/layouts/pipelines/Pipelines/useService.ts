@@ -12,6 +12,7 @@ import { projectSelectors } from '../../../../redux/selectors';
 
 import { useDispatch, useSelector } from '../../../hooks';
 
+import { filterObjectForParam } from '../../../../utils';
 interface ServiceInterface {
   setFetchingForPipeline: (arg: boolean) => void;
   setFetchingForAllRuns: (arg: boolean) => void;
@@ -62,15 +63,7 @@ export const callActionForPipelinesForPagination = () => {
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
   function dispatchPipelineData(page: number, size: number, filters?: any[]) {
-    let filtersParam = filters?.reduce(
-      (obj, item) =>
-        Object.assign(obj, {
-          [item.column.value]: item.type.value + ':' + item.value,
-        }),
-      {},
-    );
-
-    // console.log('aaaa', filters);
+    let filtersParam = filterObjectForParam(filters);
     setFetchingForPipeline(true);
     dispatch(
       pipelinesActions.getMy({
@@ -100,15 +93,8 @@ export const callActionForAllrunsForPagination = () => {
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
   function dispatchAllrunsData(page: number, size: number, filters?: any[]) {
-    let filtersParam = filters?.reduce(
-      (obj, item) =>
-        Object.assign(obj, {
-          [item.column.value]: item.type.value + ':' + item.value,
-        }),
-      {},
-    );
+    let filtersParam = filterObjectForParam(filters);
 
-    // console.log('aaaa', filters);
     setFetchingForAllRuns(true);
     dispatch(
       runsActions.allRuns({

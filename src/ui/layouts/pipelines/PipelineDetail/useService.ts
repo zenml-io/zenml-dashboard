@@ -11,6 +11,7 @@ import { useDispatch } from 'react-redux';
 import { pipelinePagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
 import { sign } from 'crypto';
+import { filterObjectForParam } from '../../../../utils';
 
 interface ServiceInterface {
   pipeline: TPipeline;
@@ -61,14 +62,7 @@ export const callActionForPipelineRunsForPagination = () => {
     size: number,
     filters?: any[],
   ) {
-    let filtersParam = filters?.reduce(
-      (obj, item) =>
-        Object.assign(obj, {
-          [item.column.value]: item.type.value + ':' + item.value,
-        }),
-      {},
-    );
-
+    let filtersParam = filterObjectForParam(filters);
     // console.log('aaaa', filters);
     setFetching(true);
     dispatch(

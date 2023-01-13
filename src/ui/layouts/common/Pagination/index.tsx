@@ -1,7 +1,4 @@
-import React, {
-  forwardRef,
-  useImperativeHandle,
-} from 'react';
+import React, { forwardRef, useImperativeHandle } from 'react';
 import { FlexBox, Box, icons } from '../../../components';
 import styles from './index.module.scss';
 import { joinClassNames, addStyle } from '../../../../utils';
@@ -30,7 +27,10 @@ const PaginationItem = (props: {
       addStyle(props.isActive, styles.active),
     )}
   >
-    <span className={styles.paginationText} style={{ color: props.isActive ? '#fff' : '#333' }} >
+    <span
+      className={styles.paginationText}
+      style={{ color: props.isActive ? '#fff' : '#333' }}
+    >
       {props.index}
     </span>
   </div>
@@ -51,7 +51,7 @@ const PaginationNavigationItem = (props: {
       addStyle(!props.hasNext, styles.hidden),
     )}
   >
-      <props.icon color="black" size="sml" />
+    <props.icon color="black" size="sml" />
   </div>
 );
 
@@ -200,21 +200,20 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
             </Box>
           ))}
         </FlexBox>
-        
-     
+
         <PaginationNavigationItem
-            hasNext={props.pageIndex + 1 < props.totalOfPages}
-            onClick={() => {
-              onChange(
-                props.pageIndex + 2,
-                props.itemPerPage,
-                componentName,
-                props.filters,
-              );
-              props.setPageIndex(props.pageIndex + 1);
-            }}
-            icon={icons.paginationNext}
-          />
+          hasNext={props.pageIndex + 1 < props.totalOfPages}
+          onClick={() => {
+            onChange(
+              props.pageIndex + 2,
+              props.itemPerPage,
+              componentName,
+              props.filters,
+            );
+            props.setPageIndex(props.pageIndex + 1);
+          }}
+          icon={icons.paginationNext}
+        />
         <PaginationNavigationItem
           hasNext={props.pageIndex + 1 < props.totalOfPages}
           onClick={() => {
