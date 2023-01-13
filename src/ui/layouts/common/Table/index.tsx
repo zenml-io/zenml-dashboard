@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import cn from 'classnames';
 
 import styles from './index.module.scss';
@@ -10,10 +10,10 @@ import {
   H3,
   Truncate,
   FullWidthSpinner,
-  Paragraph,
+  // Paragraph,
   icons,
 } from '../../../components';
-import { getPaginationData } from '../../../../utils/pagination';
+// import { getPaginationData } from '../../../../utils/pagination';
 import { Pagination } from '../Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
 import { useLocation } from '../../../hooks';
@@ -50,7 +50,7 @@ export interface TableProps {
   trOnClick?: (arg: any) => void;
 }
 
-const ITEMS_PER_PAGE = parseInt(process.env.REACT_APP_ITEMS_PER_PAGE as string);
+// const ITEMS_PER_PAGE = parseInt(process.env.REACT_APP_ITEMS_PER_PAGE as string);
 
 export const Table: React.FC<TableProps> = ({
   headerCols,
@@ -150,11 +150,11 @@ export const Table: React.FC<TableProps> = ({
   const [itemPerPage, setItemPerPage] = useState(
     ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
   );
-  const { itemsForPage, pages, totalOfPages } = getPaginationData({
-    pageIndex,
-    itemsPerPage: itemPerPage,
-    items: tableRows,
-  });
+  // const { itemsForPage, pages, totalOfPages } = getPaginationData({
+  //   pageIndex,
+  //   itemsPerPage: itemPerPage,
+  //   items: tableRows,
+  // });
   const isValidFilter = filters?.map((f) => f.value).join('');
 
   const { dispatchStackData } = callActionForStacksForPagination();
@@ -216,7 +216,8 @@ export const Table: React.FC<TableProps> = ({
       default:
         break;
     }
-    //for runs
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath.pathname.split('/')[4], isValidFilter]);
   let rowsToDisplay = tableRows;
 
