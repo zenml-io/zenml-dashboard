@@ -146,6 +146,7 @@ export const Table: React.FC<TableProps> = ({
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
   const DEFAULT_ITEMS_PER_PAGE = 5;
+  const itemPerPageOptions = [5, 10, 15, 20];
   // const itemPerPage = ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE;
   const [itemPerPage, setItemPerPage] = useState(
     ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
@@ -312,9 +313,11 @@ export const Table: React.FC<TableProps> = ({
                   pages={paginated?.totalPages}
                   totalOfPages={paginated?.totalPages}
                   totalLength={tableRows.length}
+                  totalCount={paginated.totalitem}
                 />
               )}
             </If>
+            {console.log(paginated, 'paginated')}
           </>
         )}
         renderWhenFalse={() => (
@@ -356,6 +359,7 @@ export const Table: React.FC<TableProps> = ({
                         </Box>
                       </FlexBox>
                     </Box>
+
                     <Box>
                       <If condition={showItems}>
                         {() => (
@@ -367,7 +371,7 @@ export const Table: React.FC<TableProps> = ({
                                 className="d-none d-md-block"
                               >
                                 <Box marginTop="sm">
-                                  {[5, 10, 15, 20].map((option, index) => (
+                                  {itemPerPageOptions.map((option, index) => (
                                     <Box
                                       marginTop="sm"
                                       key={index}
@@ -377,10 +381,11 @@ export const Table: React.FC<TableProps> = ({
                                           parseInt(`${option}`),
                                         );
                                         childRef?.current?.callOnChange(
-                                          pageIndex,
+                                          1,
                                           parseInt(`${option}`),
                                           filters,
                                         );
+                                        setShowItems(false);
                                       }}
                                     >
                                       <span
