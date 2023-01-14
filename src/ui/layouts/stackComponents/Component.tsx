@@ -14,8 +14,8 @@ const Component = () => {
     const stackComponentsTypes: any[] = useSelector(
       stackComponentSelectors.stackComponentTypes,
     );
-  
-    const [selectedComp, setSelectedComp] = useState(stackComponentsTypes ? stackComponentsTypes[0] : '')
+
+    const [selectedComp, setSelectedComp] = useState(window.location.href.split('/')[6])
     const [search, setSearch] = useState('')
   
     useEffect(() => {
@@ -38,6 +38,18 @@ const Component = () => {
         return searchFil()
       })
 
+    const formatText = (text: string) => {
+        return text.charAt(0).toUpperCase() + text.slice(1).replace('_', ' ')
+    }
+
+    const formatSectionColor = (text: string) => {
+        return selectedComp === text ? '#443E99' : '#fff'
+    }
+
+    const formatTextColor = (text: string) => {
+        return selectedComp === text ? '#fff' : '#443E99'
+    }
+
     return (
     <Box style={{ borderRight: '1px solid #A8A8A8', padding: '0 50px 0 33px', marginTop: '12rem' }} >
 
@@ -49,70 +61,70 @@ const Component = () => {
             {stacks?.map((item: any, index: number) => (
             <Box key={index}>
                     {item === 'artifact_store' && (
-                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, backgroundColor: selectedComp === item ? '#443E99' : '#fff' }} marginTop='sm' >
+                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, backgroundColor: formatSectionColor(item) }} marginTop='sm' >
                         <Box><icons.artifact_store color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
-                        <Box><Paragraph style={{ color: selectedComp === item ? '#fff' : '#443E99', ...textStyle }} >{item.replace('_', ' ')}</Paragraph></Box>
+                        <Box><Paragraph style={{ color: formatTextColor(item), ...textStyle }}>{formatText(item)}</Paragraph></Box>
                     </FlexBox>
                     )}
                     {item === 'alerter' && (
-                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: selectedComp === item ? '#443E99' : '#fff' }} marginTop='sm' >
+                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: formatSectionColor(item) }} marginTop='sm' >
                         <Box><icons.alerter color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
-                        <Box><Paragraph style={{ color: selectedComp === item ? '#fff' : '#443E99', ...textStyle }} >{item.replace('_', ' ')}</Paragraph></Box>
+                        <Box><Paragraph style={{ color: formatTextColor(item), ...textStyle }} >{formatText(item)}</Paragraph></Box>
                     </FlexBox>  
                     )}
                     {item === 'annotator' && (
-                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: selectedComp === item ? '#443E99' : '#fff' }} marginTop='sm' >
-                    <Box><icons.annotator color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
-                    <Box><Paragraph style={{ color: selectedComp === item ? '#fff' : '#443E99', ...textStyle }} >{item.replace('_', ' ')}</Paragraph></Box>
+                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: formatSectionColor(item) }} marginTop='sm' >
+                        <Box><icons.annotator color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
+                        <Box><Paragraph style={{ color: formatTextColor(item), ...textStyle }} >{formatText(item)}</Paragraph></Box>
                     </FlexBox>
                     )}
                     {item === 'container_registry' && (
-                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: selectedComp === item ? '#443E99' : '#fff' }} marginTop='sm' >
+                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: formatSectionColor(item) }} marginTop='sm' >
                         <Box><icons.container_registry color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
-                        <Box><Paragraph style={{ color: selectedComp === item ? '#fff' : '#443E99', ...textStyle }} >{item.replace('_', ' ')}</Paragraph></Box>
+                        <Box><Paragraph style={{ color: formatTextColor(item), ...textStyle }} >{formatText(item)}</Paragraph></Box>
                     </FlexBox>
                     )}
                     {item === 'experiment_tracker' && (
-                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: selectedComp === item ? '#443E99' : '#fff' }} marginTop='sm' >
+                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: formatSectionColor(item) }} marginTop='sm' >
                         <Box><icons.experiment_tracker color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
-                        <Box><Paragraph style={{ color: selectedComp === item ? '#fff' : '#443E99', ...textStyle }} >{item.replace('_', ' ')}</Paragraph></Box>
+                        <Box><Paragraph style={{ color: formatTextColor(item), ...textStyle }} >{formatText(item)}</Paragraph></Box>
                     </FlexBox>
                     )}
 
                     {item === 'feature_store' && (
-                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: selectedComp === item ? '#443E99' : '#fff' }} marginTop='sm' >
+                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: formatSectionColor(item) }} marginTop='sm' >
                         <Box><icons.feature_store color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
-                        <Box><Paragraph style={{ color: selectedComp === item ? '#fff' : '#443E99', ...textStyle }} >{item.replace('_', ' ')}</Paragraph></Box>
+                        <Box><Paragraph style={{ color: formatTextColor(item), ...textStyle }} >{formatText(item)}</Paragraph></Box>
                     </FlexBox>
                     )}
                     {item === 'model_deployer' && (
-                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: selectedComp === item ? '#443E99' : '#fff' }} marginTop='sm' >
+                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: formatSectionColor(item) }} marginTop='sm' >
                         <Box><icons.model_deployer color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
-                        <Box><Paragraph style={{ color: selectedComp === item ? '#fff' : '#443E99', ...textStyle }} >{item.replace('_', ' ')}</Paragraph></Box>
+                        <Box><Paragraph style={{ color: formatTextColor(item), ...textStyle }} >{formatText(item)}</Paragraph></Box>
                     </FlexBox>
                     )}
                     {item === 'secrets_manager' && (
-                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: selectedComp === item ? '#443E99' : '#fff' }} marginTop='sm' >
+                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: formatSectionColor(item) }} marginTop='sm' >
                         <Box><icons.secrets_manager color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
-                        <Box><Paragraph style={{ color: selectedComp === item ? '#fff' : '#443E99', ...textStyle }} >{item.replace('_', ' ')}</Paragraph></Box>
+                        <Box><Paragraph style={{ color: formatTextColor(item), ...textStyle }} >{formatText(item)}</Paragraph></Box>
                     </FlexBox>
                     )}
                     {item === 'orchestrator' && (
-                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: selectedComp === item ? '#443E99' : '#fff' }} marginTop='sm' >
+                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: formatSectionColor(item) }} marginTop='sm' >
                         <Box><icons.orchestrator color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
-                        <Box><Paragraph style={{ color: selectedComp === item ? '#fff' : '#443E99', ...textStyle }} >{item.replace('_', ' ')}</Paragraph></Box>
+                        <Box><Paragraph style={{ color: formatTextColor(item), ...textStyle }} >{formatText(item)}</Paragraph></Box>
                     </FlexBox>
                     )}
                     {item === 'step_operator' && (
-                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: selectedComp === item ? '#443E99' : '#fff' }} marginTop='sm' >
+                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: formatSectionColor(item) }} marginTop='sm' >
                         <Box><icons.step_operator color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
-                        <Box><Paragraph style={{ color: selectedComp === item ? '#fff' : '#443E99', ...textStyle }} >{item.replace('_', ' ')}</Paragraph></Box>
+                        <Box><Paragraph style={{ color: formatTextColor(item), ...textStyle }} >{formatText(item)}</Paragraph></Box>
                     </FlexBox>
                     )}
                     {item === 'data_validator' && (
-                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: selectedComp === item ? '#443E99' : '#fff' }} marginTop='sm' >
+                    <FlexBox onClick={() => selectSection(item)} style={{ ...sectionStyle, background: formatSectionColor(item) }} marginTop='sm' >
                         <Box><icons.data_validator color={selectedComp === item ? iconColors.white : iconColors.primary} size={iconSizes.md} /></Box>
-                        <Box><Paragraph style={{ color: selectedComp === item ? '#fff' : '#443E99', ...textStyle }} >{item.replace('_', ' ')}</Paragraph></Box>
+                        <Box><Paragraph style={{ color: formatTextColor(item), ...textStyle }} >{formatText(item)}</Paragraph></Box>
                     </FlexBox>
                     )}
                 </Box>

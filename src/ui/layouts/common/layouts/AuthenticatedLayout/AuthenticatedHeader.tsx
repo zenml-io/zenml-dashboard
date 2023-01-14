@@ -183,24 +183,25 @@ const selected =  projects.some((project) => project['name'] === locationPath.sp
         <If condition={!!userFullName}>
           {() => (
             <Box style={{ position: 'relative' }}>
-              <LinkBox onClick={() => setPopupOpen(true)}>
+              <LinkBox onClick={() => setPopupOpen(!popupOpen)}>
                 <FlexBox alignItems="center">
                   <FlexBox alignItems="center" className="d-none d-md-flex">
-                    <Box paddingRight="sm">
+                    <Box paddingRight="sm" style={{ textAlign: 'end' }} >
                       <Paragraph>{userFullName}</Paragraph>
+                      <span className={styles.selectedProject} >{selected}</span>
                     </Box>
-                    <Box>
+                  </FlexBox>
+                  <Box marginRight="sm">
+                    <ColoredCircle size="md" color="secondary">
+                      {userInitials}
+                    </ColoredCircle>
+                  </Box>
+                  <Box>
                       <icons.chevronDownLight
                         size={iconSizes.xs}
                         color={iconColors.black}
                       />
                     </Box>
-                  </FlexBox>
-                  <Box marginLeft="md">
-                    <ColoredCircle size="md" color="secondary">
-                      {userInitials}
-                    </ColoredCircle>
-                  </Box>
                 </FlexBox>
               </LinkBox>
               <If condition={popupOpen}>

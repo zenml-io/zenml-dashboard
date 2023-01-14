@@ -55,7 +55,7 @@ export const CookiePopup: React.FC<{ setShowCookie: any }> = ({ setShowCookie })
         >
           <>
             <LinkBox style={{ position: 'absolute', top: '10px', left: '10px' }} onClick={onClose}>
-              <icons.closeWithBorder />
+              <icons.close />
             </LinkBox>
           </>
 
