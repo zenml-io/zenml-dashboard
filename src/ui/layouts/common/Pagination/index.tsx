@@ -179,8 +179,8 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
   //   const visiblePages = getVisiblePages(page, this.props.pages);
 
   return (
-    <FlexBox.Column justifyContent="center" alignItems="center">
-      <FlexBox marginTop="xxxl" marginBottom="xxxl" justifyContent="center">
+    <FlexBox.Column alignItems="center">
+      <FlexBox>
         <PaginationNavigationItem
           hasNext={props.pageIndex !== 0}
           onClick={() => {

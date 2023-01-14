@@ -304,17 +304,127 @@ export const Table: React.FC<TableProps> = ({
             ))}
             <If condition={pagination}>
               {() => (
-                <Pagination
-                  ref={childRef}
-                  filters={filters}
-                  itemPerPage={itemPerPage}
-                  pageIndex={pageIndex}
-                  setPageIndex={setPageIndex}
-                  pages={paginated?.totalPages}
-                  totalOfPages={paginated?.totalPages}
-                  totalLength={tableRows.length}
-                  totalCount={paginated.totalitem}
-                />
+                <FlexBox
+                  marginTop="xxxl"
+                  marginBottom="xxxl"
+                  justifyContent="center"
+                >
+                  <Pagination
+                    ref={childRef}
+                    filters={filters}
+                    itemPerPage={itemPerPage}
+                    pageIndex={pageIndex}
+                    setPageIndex={setPageIndex}
+                    pages={paginated?.totalPages}
+                    totalOfPages={paginated?.totalPages}
+                    totalLength={tableRows.length}
+                    totalCount={paginated.totalitem}
+                  />
+
+                  <If
+                    condition={tableRows.length > 0 && paginated?.totalitem > 5}
+                  >
+                    {() => (
+                      <>
+                        <Box marginLeft="xxxl" className="d-none d-md-block">
+                          <Box>
+                            <FlexBox>
+                              <Box
+                                style={{
+                                  marginTop: '4px',
+                                  marginRight: '10px',
+                                }}
+                              >
+                                <span className={styles.itemText1}>
+                                  Items Showing
+                                </span>
+                              </Box>
+
+                              <FlexBox flexDirection="column">
+                                <Box>
+                                  <FlexBox
+                                    alignItems="center"
+                                    justifyContent="space-between"
+                                    paddingHorizontal="sm"
+                                    className={styles.dropdown}
+                                    onClick={() => setShowItems(!showItems)}
+                                  >
+                                    <Box paddingRight="sm">
+                                      <span className={styles.itemText}>
+                                        {itemPerPage}
+                                      </span>
+                                    </Box>
+                                    <Box>
+                                      <icons.chevronDownLight
+                                        size={iconSizes.xs}
+                                        color={iconColors.black}
+                                      />
+                                    </Box>
+                                  </FlexBox>
+                                </Box>
+
+                                <Box>
+                                  <If condition={showItems}>
+                                    {() => (
+                                      <OutsideClickHandler
+                                        onOutsideClick={() => {}}
+                                      >
+                                        <Box
+                                          className={styles.popup}
+                                          marginTop="sm"
+                                        >
+                                          <Box
+                                            marginVertical="sm"
+                                            marginLeft="md"
+                                            className="d-none d-md-block"
+                                          >
+                                            <Box marginTop="sm">
+                                              {itemPerPageOptions.map(
+                                                (option, index) => (
+                                                  <Box
+                                                    marginTop="sm"
+                                                    key={index}
+                                                    onClick={() => {
+                                                      onChangePagePerItem(
+                                                        pageIndex,
+                                                        parseInt(`${option}`),
+                                                      );
+                                                      childRef?.current?.callOnChange(
+                                                        1,
+                                                        parseInt(`${option}`),
+                                                        filters,
+                                                      );
+                                                      setShowItems(false);
+                                                    }}
+                                                  >
+                                                    <span
+                                                      className={
+                                                        styles.itemText
+                                                      }
+                                                      style={{
+                                                        cursor: 'pointer',
+                                                      }}
+                                                    >
+                                                      {option}
+                                                    </span>
+                                                  </Box>
+                                                ),
+                                              )}
+                                            </Box>
+                                          </Box>
+                                        </Box>
+                                      </OutsideClickHandler>
+                                    )}
+                                  </If>
+                                </Box>
+                              </FlexBox>
+                            </FlexBox>
+                          </Box>
+                        </Box>
+                      </>
+                    )}
+                  </If>
+                </FlexBox>
               )}
             </If>
             {console.log(paginated, 'paginated')}
@@ -329,87 +439,6 @@ export const Table: React.FC<TableProps> = ({
           </Box>
         )}
       />
-      <If condition={tableRows.length > 0 && paginated?.totalitem > 5}>
-        {() => (
-          <>
-            <Box marginLeft="md" className="d-none d-md-block">
-              <Box>
-                <FlexBox>
-                  <Box style={{ marginTop: '4px', marginRight: '10px' }}>
-                    <span className={styles.itemText1}>Items Showing</span>
-                  </Box>
-
-                  <FlexBox flexDirection="column">
-                    <Box>
-                      <FlexBox
-                        alignItems="center"
-                        justifyContent="space-between"
-                        paddingHorizontal="sm"
-                        className={styles.dropdown}
-                        onClick={() => setShowItems(!showItems)}
-                      >
-                        <Box paddingRight="sm">
-                          <span className={styles.itemText}>{itemPerPage}</span>
-                        </Box>
-                        <Box>
-                          <icons.chevronDownLight
-                            size={iconSizes.xs}
-                            color={iconColors.black}
-                          />
-                        </Box>
-                      </FlexBox>
-                    </Box>
-
-                    <Box>
-                      <If condition={showItems}>
-                        {() => (
-                          <OutsideClickHandler onOutsideClick={() => {}}>
-                            <Box className={styles.popup} marginTop="sm">
-                              <Box
-                                marginVertical="sm"
-                                marginLeft="md"
-                                className="d-none d-md-block"
-                              >
-                                <Box marginTop="sm">
-                                  {itemPerPageOptions.map((option, index) => (
-                                    <Box
-                                      marginTop="sm"
-                                      key={index}
-                                      onClick={() => {
-                                        onChangePagePerItem(
-                                          pageIndex,
-                                          parseInt(`${option}`),
-                                        );
-                                        childRef?.current?.callOnChange(
-                                          1,
-                                          parseInt(`${option}`),
-                                          filters,
-                                        );
-                                        setShowItems(false);
-                                      }}
-                                    >
-                                      <span
-                                        className={styles.itemText}
-                                        style={{ cursor: 'pointer' }}
-                                      >
-                                        {option}
-                                      </span>
-                                    </Box>
-                                  ))}
-                                </Box>
-                              </Box>
-                            </Box>
-                          </OutsideClickHandler>
-                        )}
-                      </If>
-                    </Box>
-                  </FlexBox>
-                </FlexBox>
-              </Box>
-            </Box>
-          </>
-        )}
-      </If>
     </FlexBox.Column>
   );
 };
