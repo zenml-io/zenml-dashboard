@@ -417,6 +417,7 @@ const FilterComponent = ({
   getInitials,
 }: any) => {
   const [applyFilter, setApplyFilter] = useState(false);
+  const [searchText, setSearchText] = useState(false);
 
   function handleChange(filter: any, key: string, value: string) {
     filter[key].selectedValue = filter[key].options.filter(
@@ -467,6 +468,8 @@ const FilterComponent = ({
     field.filterValue = value;
 
     setFilter([...filters]);
+
+    console.log(filters, 'field');
   }
 
   function addAnotherFilter() {
@@ -547,15 +550,70 @@ const FilterComponent = ({
     }
   };
 
+  function handleValueFieldChangeOnSearch(value: string) {
+    if (value) {
+      setFilter([
+        {
+          column: {
+            selectedValue: { value: 'id', label: 'ID', type: 'string' },
+          },
+          contains: {
+            selectedValue: {
+              value: 'contains',
+              label: 'Contains',
+              type: 'string',
+            },
+          },
+          filterValue: value,
+        },
+        {
+          column: {
+            selectedValue: { value: 'name', label: 'Name', type: 'string' },
+          },
+          contains: {
+            selectedValue: {
+              value: 'contains',
+              label: 'Contains',
+              type: 'string',
+            },
+          },
+          filterValue: value,
+        },
+      ]);
+    } else {
+      setFilter([getInitials()]);
+    }
+  }
+
   function getSecondColumnOptions(options: any, type: any) {
     return options.filter((o: any) => o.type === type);
   }
 
   return (
     <FlexBox.Column fullWidth>
+      <Box marginBottom="lg">
+        <FormTextField
+          label={''}
+          placeholder={''}
+          value={searchText ? filters[0]?.filterValue : ''}
+          disabled={applyFilter}
+          onChange={(value: string) => {
+            setSearchText(value ? true : false);
+            handleValueFieldChangeOnSearch(value);
+          }}
+          style={{
+            borderRadius: 0,
+            width: '146px',
+            fontSize: '12px',
+            color: '#424240',
+          }}
+        />
+      </Box>
       <FlexBox className="border border-primary rounded rounded-4 p-2 align-item-center mb-3">
         <Box
-          onClick={() => setApplyFilter(!applyFilter)}
+          onClick={() => {
+            !searchText && setApplyFilter(!applyFilter);
+          }}
           style={{
             width: '33px',
             height: '28px',
@@ -569,7 +627,6 @@ const FilterComponent = ({
             color={iconColors.white}
           />
         </Box>
-
         <Box
           style={{ padding: '5px 0px 0px 7px', display: 'flex' }}
           className="text-muted h5"
@@ -579,7 +636,9 @@ const FilterComponent = ({
             <Paragraph className={styles.filterplaceholder}>
               Filter list
             </Paragraph>
-          ) : filters[0]?.column?.selectedValue.label && !applyFilter ? (
+          ) : filters[0]?.column?.selectedValue.label &&
+            !applyFilter &&
+            !searchText ? (
             filters.map((filter: any, index: number) => {
               return (
                 <FlexBox.Row key={index} className={styles.tile}>
@@ -613,10 +672,12 @@ const FilterComponent = ({
           )}
           {!applyFilter &&
           !filters[0]?.column?.selectedValue?.label ? null : filters[0]?.column
-              ?.selectedValue.label && !applyFilter ? (
+              ?.selectedValue.label &&
+            !applyFilter &&
+            !searchText ? (
             <Box
               onClick={() => {
-                setFilter([]);
+                setFilter([getInitials()]);
               }}
             >
               <icons.closeWithBorder

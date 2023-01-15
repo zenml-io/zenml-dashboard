@@ -26,6 +26,8 @@ export const useService = (): ServiceInterface => {
     setFetchingForAllRuns(true);
     dispatch(
       runsActions.allRuns({
+        sort_by: 'created',
+        logical_operator: 'and',
         project: selectedProject,
         page: 1,
         size: 5,
@@ -35,6 +37,8 @@ export const useService = (): ServiceInterface => {
     );
     dispatch(
       pipelinesActions.getMy({
+        sort_by: 'created',
+        logical_operator: 'and',
         page: 1,
         size: 5,
         name: '',
@@ -63,10 +67,13 @@ export const callActionForPipelinesForPagination = () => {
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
   function dispatchPipelineData(page: number, size: number, filters?: any[]) {
-    let filtersParam = filterObjectForParam(filters);
+    let filtersParam: any = filterObjectForParam(filters);
     setFetchingForPipeline(true);
+
     dispatch(
       pipelinesActions.getMy({
+        sort_by: 'created',
+        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         page: page,
         size: size,
         filtersParam,
@@ -99,6 +106,8 @@ export const callActionForAllrunsForPagination = () => {
     dispatch(
       runsActions.allRuns({
         project: selectedProject,
+        sort_by: 'created',
+        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         page: page,
         size: size,
         filtersParam,

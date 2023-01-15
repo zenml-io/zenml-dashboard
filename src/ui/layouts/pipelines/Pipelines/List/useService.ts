@@ -83,6 +83,8 @@ export const useService = (
 
         dispatch(
           pipelinesActions.getMy({
+            sort_by: 'created',
+            logical_operator: 'and',
             // name: '',
             project: selectedProject,
             page: pipelinesPaginated.page,
