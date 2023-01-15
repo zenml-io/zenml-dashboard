@@ -56,6 +56,7 @@ const PaginationNavigationItem = (props: {
 );
 
 interface Props {
+  activeSorting?: any;
   ref: any;
   pageIndex: number;
   setPageIndex: (arg1: number) => void;
@@ -93,9 +94,9 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
   // const isValidFilter = props.filters?.map((f) => f.value).join('');
 
   useImperativeHandle(ref, () => ({
-    callOnChange(page: number, size: number, filters: any) {
+    callOnChange(page: number, size: number, filters: any, activeSorting: any) {
       props.setPageIndex(page - 1);
-      onChange(page, size, componentName, filters);
+      onChange(page, size, componentName, filters, activeSorting);
       // debugger;
     },
   }));
@@ -118,30 +119,43 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
     size: number,
     componentName: string,
     filters: any,
+    activeSorting: any,
   ) => {
     switch (componentName) {
       case 'stacks':
         if (CheckIfRun) {
-          dispatchStackRunsData(id, page, size, filters as any);
+          dispatchStackRunsData(id, page, size, filters as any, activeSorting);
           break;
         } else {
-          dispatchStackData(1, 5, filters as any);
+          dispatchStackData(1, 5, filters as any, activeSorting);
           break;
         }
       case 'components':
         if (CheckIfRun) {
-          dispatchStackComponentRunsData(id, page, size, filters as any);
+          dispatchStackComponentRunsData(
+            id,
+            page,
+            size,
+            filters as any,
+            activeSorting,
+          );
           break;
         } else {
-          dispatchStackComponentsData(1, 5, filters as any);
+          dispatchStackComponentsData(1, 5, filters as any, activeSorting);
           break;
         }
       case 'pipelines':
         if (CheckIfRun) {
-          dispatchPipelineRunsData(id, page, size, filters as any);
+          dispatchPipelineRunsData(
+            id,
+            page,
+            size,
+            filters as any,
+            activeSorting,
+          );
           break;
         } else {
-          dispatchPipelineData(page, size, filters as any);
+          dispatchPipelineData(page, size, filters as any, activeSorting);
           break;
         }
 
@@ -193,7 +207,13 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
             //     break;
             // }
 
-            onChange(1, props.itemPerPage, componentName, props.filters);
+            onChange(
+              1,
+              props.itemPerPage,
+              componentName,
+              props.filters,
+              props.activeSorting,
+            );
 
             props.setPageIndex(0);
           }}
@@ -207,6 +227,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
               props.itemPerPage,
               componentName,
               props.filters,
+              props.activeSorting,
             );
 
             props.setPageIndex(props.pageIndex - 1);
@@ -238,6 +259,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
                       props.itemPerPage,
                       componentName,
                       props.filters,
+                      props.activeSorting,
                     );
 
                     props.setPageIndex(pageNumber - 1);
@@ -280,6 +302,8 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
               props.itemPerPage,
               componentName,
               props.filters,
+
+              props.activeSorting,
             );
             props.setPageIndex(props.pageIndex + 1);
           }}
@@ -293,6 +317,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
               props.itemPerPage,
               componentName,
               props.filters,
+              props.activeSorting,
             );
             props.setPageIndex(props.totalOfPages - 1);
           }}

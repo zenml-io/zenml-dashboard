@@ -319,6 +319,7 @@ export const Table: React.FC<TableProps> = ({
                 >
                   <Pagination
                     ref={childRef}
+                    activeSorting={activeSorting}
                     filters={filters}
                     itemPerPage={itemPerPage}
                     pageIndex={pageIndex}
@@ -401,6 +402,7 @@ export const Table: React.FC<TableProps> = ({
                                                         1,
                                                         parseInt(`${option}`),
                                                         filters,
+                                                        activeSorting,
                                                       );
                                                       setShowItems(false);
                                                     }}
