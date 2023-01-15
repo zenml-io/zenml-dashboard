@@ -34,6 +34,8 @@ export const useService = (): ServiceInterface => {
     // Legacy: previously runs was in pipeline
     dispatch(
       stacksActions.allRunsByStackId({
+        sort_by: 'created',
+        logical_operator: 'and',
         page: 1,
         size: 5,
         stackId: id,
@@ -68,6 +70,8 @@ export const callActionForStackRunsForPagination = () => {
     setFetching(true);
     dispatch(
       stacksActions.allRunsByStackId({
+        sort_by: 'created',
+        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         stackId: id,
         page: page,
         size: size,

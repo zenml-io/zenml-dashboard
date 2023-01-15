@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { FlexBox, Box, icons } from '../../../components';
+import { FlexBox, icons } from '../../../components';
 import styles from './index.module.scss';
 import { joinClassNames, addStyle } from '../../../../utils';
 import { useLocation } from 'react-router-dom';
@@ -13,28 +13,28 @@ import { callActionForPipelineRunsForPagination } from '../../pipelines/Pipeline
 import { callActionForStackRunsForPagination } from '../../stacks/StackDetail/useService';
 import { callActionForStackComponentRunsForPagination } from '../../stackComponents/StackDetail/useService';
 import { usePagination, DOTS } from '../../../hooks';
-const PaginationItem = (props: {
-  isActive: boolean;
-  index: string;
-  onClick: any;
-}) => (
-  <div
-    tabIndex={props.isActive ? -1 : 0}
-    role="button"
-    onClick={props.onClick}
-    className={joinClassNames(
-      styles.paginationNumbers,
-      addStyle(props.isActive, styles.active),
-    )}
-  >
-    <span
-      className={styles.paginationText}
-      style={{ color: props.isActive ? '#fff' : '#333' }}
-    >
-      {props.index}
-    </span>
-  </div>
-);
+// const PaginationItem = (props: {
+//   isActive: boolean;
+//   index: string;
+//   onClick: any;
+// }) => (
+//   <div
+//     tabIndex={props.isActive ? -1 : 0}
+//     role="button"
+//     onClick={props.onClick}
+//     className={joinClassNames(
+//       styles.paginationNumbers,
+//       addStyle(props.isActive, styles.active),
+//     )}
+//   >
+//     <span
+//       className={styles.paginationText}
+//       style={{ color: props.isActive ? '#fff' : '#333' }}
+//     >
+//       {props.index}
+//     </span>
+//   </div>
+// );
 
 const PaginationNavigationItem = (props: {
   onClick: any;

@@ -3,6 +3,8 @@ import getMyStacksApi from '../../../api/stacks/getMyStacksApi';
 
 export const getMyStacksAction = ({
   project,
+  sort_by,
+  logical_operator,
   page,
   size,
   filtersParam,
@@ -10,6 +12,8 @@ export const getMyStacksAction = ({
   onFailure,
 }: {
   project: string;
+  sort_by: string;
+  logical_operator: string;
   page: number;
   size: number;
   filtersParam?: object;
@@ -22,7 +26,7 @@ export const getMyStacksAction = ({
     isAuthenticated: true,
     failureActionType: stackActionTypes.getMyStacks.failure,
     successActionType: stackActionTypes.getMyStacks.success,
-    params: { project, page, size, filtersParam },
+    params: { project, sort_by, logical_operator, page, size, filtersParam },
     onSuccess,
     onFailure,
   },

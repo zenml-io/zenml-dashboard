@@ -5,6 +5,8 @@ import { apiUrl } from '../apiUrl';
 
 const getMyStackComponentsApi = ({
   authenticationToken,
+  sort_by,
+  logical_operator,
   page,
   size,
   type,
@@ -13,6 +15,8 @@ const getMyStackComponentsApi = ({
 }: {
   project: string;
   authenticationToken: string;
+  sort_by: string;
+  logical_operator: string;
   type: string;
   filtersParam?: object;
   page: number;
@@ -20,7 +24,7 @@ const getMyStackComponentsApi = ({
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.StackComponents.my(type, project)),
-    params: { page, size, ...filtersParam },
+    params: { sort_by, logical_operator, page, size, ...filtersParam },
     method: httpMethods.get,
     authenticationToken,
   });

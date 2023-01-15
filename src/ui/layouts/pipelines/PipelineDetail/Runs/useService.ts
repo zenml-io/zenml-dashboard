@@ -41,6 +41,8 @@ export const useService = ({
 
         dispatch(
           pipelinesActions.allRunsByPipelineId({
+            sort_by: 'created',
+            logical_operator: 'and',
             pipelineId: pipelineId,
             page: runsPaginated.page,
             size: runsPaginated.size,

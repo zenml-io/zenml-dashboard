@@ -40,6 +40,8 @@ export const useService = ({
 
         dispatch(
           stacksActions.allRunsByStackId({
+            sort_by: 'created',
+            logical_operator: 'and',
             stackId: stackId,
             page: runsPaginated.page,
             size: runsPaginated.size,

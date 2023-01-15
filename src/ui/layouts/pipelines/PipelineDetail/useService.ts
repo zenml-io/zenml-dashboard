@@ -34,6 +34,8 @@ export const useService = (): ServiceInterface => {
     );
     dispatch(
       pipelinesActions.allRunsByPipelineId({
+        sort_by: 'created',
+        logical_operator: 'and',
         pipelineId: id,
         page: 1,
         size: 5,
@@ -67,6 +69,8 @@ export const callActionForPipelineRunsForPagination = () => {
     setFetching(true);
     dispatch(
       pipelinesActions.allRunsByPipelineId({
+        sort_by: 'created',
+        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         pipelineId: id,
         page: page,
         size: size,

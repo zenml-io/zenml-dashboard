@@ -20,6 +20,8 @@ export const useService = (): ServiceInterface => {
     console.log('locationPath111', locationPath);
     dispatch(
       stacksActions.getMy({
+        sort_by: 'created',
+        logical_operator: 'and',
         page: 1,
         size: 5,
         project: selectedProject,
@@ -51,6 +53,8 @@ export const callActionForStacksForPagination = () => {
     dispatch(
       stacksActions.getMy({
         project: selectedProject,
+        sort_by: 'created',
+        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         page: page,
         size: size,
         filtersParam,

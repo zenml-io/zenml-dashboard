@@ -86,6 +86,8 @@ export const useService = (
         //assign interval to a variable to clear it.
         dispatch(
           stackComponentsActions.getMy({
+            sort_by: 'created',
+            logical_operator: 'and',
             page: stackComponentsPaginated.page,
             size: stackComponentsPaginated.size,
             type: locationPath.split('/')[4],

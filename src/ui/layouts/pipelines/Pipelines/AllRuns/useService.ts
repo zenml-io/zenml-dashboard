@@ -37,6 +37,8 @@ export const useService = (
         //assign interval to a variable to clear it.
         dispatch(
           runsActions.allRuns({
+            sort_by: 'created',
+            logical_operator: 'and',
             project: selectedProject,
             page: runsPaginated.page,
             size: runsPaginated.size,

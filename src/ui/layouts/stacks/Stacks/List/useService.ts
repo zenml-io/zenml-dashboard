@@ -77,6 +77,8 @@ export const useService = (
       const intervalId = setInterval(() => {
         dispatch(
           stacksActions.getMy({
+            sort_by: 'created',
+            logical_operator: 'and',
             project: selectedProject,
             page: stacksPaginated.page,
             size: stacksPaginated.size,

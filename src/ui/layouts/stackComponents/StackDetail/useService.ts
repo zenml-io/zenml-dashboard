@@ -36,6 +36,8 @@ export const useService = (): ServiceInterface => {
     );
     dispatch(
       stackComponentsActions.allRunsByStackComponentId({
+        sort_by: 'created',
+        logical_operator: 'and',
         stackComponentId: id,
         page: 1,
         size: 5,
@@ -72,6 +74,8 @@ export const callActionForStackComponentRunsForPagination = () => {
     setFetching(true);
     dispatch(
       stackComponentsActions.allRunsByStackComponentId({
+        sort_by: 'created',
+        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         stackComponentId: id,
         page: page,
         size: size,
