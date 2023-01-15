@@ -153,12 +153,12 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="isShared"
-          sortMethod={sortMethod('isShared', {
+          sorting="is_shared"
+          sortMethod={sortMethod('is_shared', {
             asc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['isShared'], ['asc']),
+              _.orderBy(filteredStacks, ['is_shared'], ['asc']),
             desc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['isShared'], ['desc']),
+              _.orderBy(filteredStacks, ['is_shared'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -211,12 +211,12 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="user.name"
-          sortMethod={sortMethod('user.name', {
+          sorting="user_id"
+          sortMethod={sortMethod('user_id', {
             asc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['user.name'], ['asc']),
+              _.orderBy(filteredStacks, ['user_id'], ['asc']),
             desc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['user.name'], ['desc']),
+              _.orderBy(filteredStacks, ['user_id'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -319,7 +319,9 @@ export const GetHeaderCols = ({
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{formatDateToDisplayOnTable(stackComponent.created)}</Paragraph>
+            <Paragraph color="white">
+              {formatDateToDisplayOnTable(stackComponent.created)}
+            </Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

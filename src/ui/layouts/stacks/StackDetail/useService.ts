@@ -63,6 +63,7 @@ export const callActionForStackRunsForPagination = () => {
     page: number,
     size: number,
     filters?: any[],
+    sortby?: string,
   ) {
     let filtersParam = filterObjectForParam(filters);
 
@@ -70,7 +71,7 @@ export const callActionForStackRunsForPagination = () => {
     setFetching(true);
     dispatch(
       stacksActions.allRunsByStackId({
-        sort_by: 'created',
+        sort_by: sortby ? sortby : 'created',
         logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         stackId: id,
         page: page,

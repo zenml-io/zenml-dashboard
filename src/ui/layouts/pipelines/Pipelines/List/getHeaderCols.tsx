@@ -54,7 +54,7 @@ export const GetHeaderCols = ({
     {
       width: '3%',
       renderRow: (pipeline: TPipeline) => (
-        <LinkBox    
+        <LinkBox
           style={{ padding: 0 }}
           onClick={(e: Event) => {
             e.stopPropagation();
@@ -67,8 +67,8 @@ export const GetHeaderCols = ({
             }
           }}
         >
-          <FlexBox 
-            justifyContent="center" 
+          <FlexBox
+            justifyContent="center"
             style={{ paddingTop: '5px', paddingBottom: '5px' }}
           >
             {openPipelineIds.indexOf(pipeline.id) === -1 ? (
@@ -161,8 +161,8 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="user.name"
-          sortMethod={sortMethod('user.name', {
+          sorting="user_id"
+          sortMethod={sortMethod('user_id', {
             asc: (filteredPipelines: TPipeline[]) =>
               _.orderBy(filteredPipelines, ['user.name'], ['asc']),
             desc: (filteredPipelines: TPipeline[]) =>

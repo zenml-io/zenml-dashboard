@@ -58,18 +58,7 @@ export const useService = (
   const isValidFilter = filter.map((f) => f.value).join('');
 
   useEffect(() => {
-    let orderedStacks = _.orderBy(
-      Stacks,
-      [activeSorting],
-      [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
-    );
-
-    // const isValidFilter = filter.map((f) => f.value).join('');
-    // if (isValidFilter) {
-    //   orderedStacks = getFilteredDataForTable(orderedStacks, filter);
-    // }
-
-    setFilteredStacks(orderedStacks as TStack[]);
+    setFilteredStacks(Stacks as TStack[]);
   }, [Stacks, filter]);
 
   useEffect(() => {
@@ -77,7 +66,7 @@ export const useService = (
       const intervalId = setInterval(() => {
         dispatch(
           stacksActions.getMy({
-            sort_by: 'created',
+            sort_by: activeSorting ? activeSorting : 'created',
             logical_operator: 'and',
             project: selectedProject,
             page: stacksPaginated.page,

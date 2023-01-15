@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 
@@ -9,6 +9,7 @@ import { useService } from './useService';
 import { projectSelectors } from '../../../../redux/selectors';
 
 export const RunsTable: React.FC<{
+  getSorted?: any;
   runIds: TId[];
   paginated?: any;
   pagination?: boolean;
@@ -16,6 +17,7 @@ export const RunsTable: React.FC<{
   fetching: boolean;
   filter?: any;
 }> = ({
+  getSorted,
   runIds,
   pagination = true,
   paginated,
@@ -58,8 +60,16 @@ export const RunsTable: React.FC<{
     setActiveSortingDirection,
   });
 
+  useEffect(() => {
+    getSorted(activeSorting, activeSortingDirection);
+  }, [getSorted]);
   return (
     <Table
+      activeSorting={
+        activeSorting != 'created' && activeSortingDirection != 'ASC'
+          ? activeSorting
+          : 'created'
+      }
       pagination={pagination}
       loading={fetching}
       showHeader={true}

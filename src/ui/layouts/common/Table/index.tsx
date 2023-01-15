@@ -38,6 +38,7 @@ export interface HeaderCol {
 export interface TableProps {
   headerCols: HeaderCol[];
   tableRows: any[];
+  activeSorting?: any;
   paginated?: any;
   filters?: any[];
   showHeader?: boolean;
@@ -56,6 +57,7 @@ export const Table: React.FC<TableProps> = ({
   headerCols,
   tableRows,
   paginated,
+  activeSorting,
   filters,
   showHeader = true,
   pagination = true,
@@ -186,32 +188,38 @@ export const Table: React.FC<TableProps> = ({
     switch (componentName) {
       case 'stacks':
         if (CheckIfRun) {
-          dispatchStackRunsData(id, 1, 5, filters as any);
+          dispatchStackRunsData(id, 1, 5, filters as any, activeSorting);
           break;
         } else {
-          dispatchStackData(1, 5, filters as any);
+          dispatchStackData(1, 5, filters as any, activeSorting);
           break;
         }
       case 'components':
         if (CheckIfRun) {
-          dispatchStackComponentRunsData(id, 1, 5, filters as any);
+          dispatchStackComponentRunsData(
+            id,
+            1,
+            5,
+            filters as any,
+            activeSorting,
+          );
           break;
         } else {
-          dispatchStackComponentsData(1, 5, filters as any);
+          dispatchStackComponentsData(1, 5, filters as any, activeSorting);
           break;
         }
       case 'pipelines':
         if (CheckIfRun) {
-          dispatchPipelineRunsData(id, 1, 5, filters as any);
+          dispatchPipelineRunsData(id, 1, 5, filters as any, activeSorting);
           break;
         } else {
           if (!renderAfterRow) break;
-          dispatchPipelineData(1, 5, filters as any);
+          dispatchPipelineData(1, 5, filters as any, activeSorting);
           break;
         }
 
       case 'all-runs':
-        dispatchAllrunsData(1, 5, filters as any);
+        dispatchAllrunsData(1, 5, filters as any, activeSorting);
         break;
 
       default:
@@ -219,7 +227,7 @@ export const Table: React.FC<TableProps> = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationPath.pathname.split('/')[4], isValidFilter]);
+  }, [locationPath.pathname.split('/')[4], isValidFilter, activeSorting]);
   let rowsToDisplay = tableRows;
 
   if (pagination) {

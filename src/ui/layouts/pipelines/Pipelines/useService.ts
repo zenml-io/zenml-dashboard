@@ -66,13 +66,18 @@ export const callActionForPipelinesForPagination = () => {
   const dispatch = useDispatch();
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
-  function dispatchPipelineData(page: number, size: number, filters?: any[]) {
+  function dispatchPipelineData(
+    page: number,
+    size: number,
+    filters?: any[],
+    sortby?: string,
+  ) {
     let filtersParam: any = filterObjectForParam(filters);
     setFetchingForPipeline(true);
-
+    // debugger;
     dispatch(
       pipelinesActions.getMy({
-        sort_by: 'created',
+        sort_by: sortby ? sortby : 'created',
         logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         page: page,
         size: size,
@@ -99,14 +104,19 @@ export const callActionForAllrunsForPagination = () => {
   const dispatch = useDispatch();
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
-  function dispatchAllrunsData(page: number, size: number, filters?: any[]) {
+  function dispatchAllrunsData(
+    page: number,
+    size: number,
+    filters?: any[],
+    sortby?: string,
+  ) {
     let filtersParam = filterObjectForParam(filters);
 
     setFetchingForAllRuns(true);
     dispatch(
       runsActions.allRuns({
         project: selectedProject,
-        sort_by: 'created',
+        sort_by: sortby ? sortby : 'created',
         logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         page: page,
         size: size,

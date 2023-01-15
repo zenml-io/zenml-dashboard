@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import { useHistory, useSelector } from '../../../hooks';
 
@@ -13,6 +13,7 @@ interface Props {
 }
 export const RunsTable: React.FC<{
   runIds: TId[];
+  getSorted?: any;
   paginated?: any;
   pagination?: boolean;
   emptyStateText: string;
@@ -21,6 +22,7 @@ export const RunsTable: React.FC<{
   fromAllruns?: boolean;
   filter?: any;
 }> = ({
+  getSorted,
   runIds,
   pagination = true,
   emptyStateText,
@@ -66,8 +68,17 @@ export const RunsTable: React.FC<{
     nestedRuns: pipelineRuns ? true : false,
   });
 
+  useEffect(() => {
+    getSorted(activeSorting, activeSortingDirection);
+  }, [getSorted]);
+
   return (
     <Table
+      activeSorting={
+        activeSorting != 'created' && activeSortingDirection != 'ASC'
+          ? activeSorting
+          : 'created'
+      }
       pagination={pagination}
       loading={fetching}
       paginated={paginated}

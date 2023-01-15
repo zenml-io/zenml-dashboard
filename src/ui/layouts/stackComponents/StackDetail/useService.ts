@@ -67,6 +67,7 @@ export const callActionForStackComponentRunsForPagination = () => {
     page: number,
     size: number,
     filters?: any[],
+    sortby?: string,
   ) {
     let filtersParam = filterObjectForParam(filters);
 
@@ -74,7 +75,7 @@ export const callActionForStackComponentRunsForPagination = () => {
     setFetching(true);
     dispatch(
       stackComponentsActions.allRunsByStackComponentId({
-        sort_by: 'created',
+        sort_by: sortby ? sortby : 'created',
         logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         stackComponentId: id,
         page: page,

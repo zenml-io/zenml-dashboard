@@ -46,14 +46,19 @@ export const callActionForStacksForPagination = () => {
   const dispatch = useDispatch();
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
-  function dispatchStackData(page: number, size: number, filters?: any[]) {
+  function dispatchStackData(
+    page: number,
+    size: number,
+    filters?: any[],
+    sortby?: string,
+  ) {
     let filtersParam = filterObjectForParam(filters);
 
     setFetching(true);
     dispatch(
       stacksActions.getMy({
         project: selectedProject,
-        sort_by: 'created',
+        sort_by: sortby ? sortby : 'created',
         logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         page: page,
         size: size,

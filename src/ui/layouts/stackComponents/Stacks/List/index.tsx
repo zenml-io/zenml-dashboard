@@ -79,6 +79,11 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             fetching={fetching}
           />
         )}
+        activeSorting={
+          activeSorting != 'created' && activeSortingDirection != 'ASC'
+            ? activeSorting
+            : 'created'
+        }
         paginated={stackComponentsPaginated}
         loading={fetching}
         showHeader={true}

@@ -15,6 +15,7 @@ import {
 } from '../../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 import { Sorting, SortingDirection } from './ForSorting/types';
+import { callActionForPipelinesForPagination } from '../useService';
 
 interface ServiceInterface {
   openPipelineIds: TId[];
@@ -61,29 +62,18 @@ export const useService = (
     pipelineSelectors.myPipelinesPaginated,
   );
   const isValidFilter = filter.map((f) => f.value).join('');
+  const { dispatchPipelineData } = callActionForPipelinesForPagination();
   useEffect(() => {
-    let orderedPipelines = _.orderBy(
-      pipelines,
-      [activeSorting],
-      [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
-    );
-
-    // const isValidFilter = filter.map((f) => f.value).join('');
-    // if (isValidFilter) {
-    //  orderedPipelines = getFilteredDataForTable(orderedPipelines, filter);
-    // }
-
-    setFilteredPipelines(orderedPipelines as any[]);
+    setFilteredPipelines(pipelines as any[]);
   }, [filter, pipelines]);
 
   useEffect(() => {
     if (!isValidFilter) {
       const intervalId = setInterval(() => {
         //assign interval to a variable to clear it.
-
         dispatch(
           pipelinesActions.getMy({
-            sort_by: 'created',
+            sort_by: activeSorting ? activeSorting : 'created',
             logical_operator: 'and',
             // name: '',
             project: selectedProject,
@@ -92,10 +82,9 @@ export const useService = (
           }),
         );
       }, 5000);
-
       return () => clearInterval(intervalId);
     }
-    //This is important
+    // This is important
   });
 
   const setSelectedRunIds = (runIds: TId[]) => {

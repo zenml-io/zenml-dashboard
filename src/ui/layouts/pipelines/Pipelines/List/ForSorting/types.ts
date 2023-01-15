@@ -2,7 +2,7 @@ export type Sorting =
   | 'id'
   | 'name'
   | 'status'
-  | 'user.name'
+  | 'user_id'
   | 'datasourceCommit'
   | 'created'
   | 'createdAt';

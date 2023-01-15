@@ -108,8 +108,8 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
-              sorting="runName"
-              sortMethod={sortMethod('runName', {
+              sorting="name"
+              sortMethod={sortMethod('name', {
                 asc: (run: TRun[]) => _.orderBy(run, ['name'], ['asc']),
                 desc: (run: TRun[]) => _.orderBy(run, ['name'], ['desc']),
               })}
@@ -280,8 +280,8 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
-              sorting="runName"
-              sortMethod={sortMethod('runName', {
+              sorting="name"
+              sortMethod={sortMethod('name', {
                 asc: (run: TRun[]) => _.orderBy(run, ['name'], ['asc']),
                 desc: (run: TRun[]) => _.orderBy(run, ['name'], ['desc']),
               })}
@@ -315,12 +315,11 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
-              sorting="pipelineName"
-              sortMethod={sortMethod('pipelineName', {
-                asc: (run: TRun[]) =>
-                  _.orderBy(run, ['pipeline.name'], ['asc']),
+              sorting="pipeline_id"
+              sortMethod={sortMethod('pipeline_id', {
+                asc: (run: TRun[]) => _.orderBy(run, ['pipeline_id'], ['asc']),
                 desc: (run: TRun[]) =>
-                  _.orderBy(run, ['pipeline.name'], ['desc']),
+                  _.orderBy(run, ['pipeline_id'], ['desc']),
               })}
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
@@ -395,10 +394,10 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
-              sorting="stackName"
-              sortMethod={sortMethod('stackName', {
-                asc: (run: TRun[]) => _.orderBy(run, ['stack.name'], ['asc']),
-                desc: (run: TRun[]) => _.orderBy(run, ['stack.name'], ['desc']),
+              sorting="stack_id"
+              sortMethod={sortMethod('stack_id', {
+                asc: (run: TRun[]) => _.orderBy(run, ['stack_id'], ['asc']),
+                desc: (run: TRun[]) => _.orderBy(run, ['stack_id'], ['desc']),
               })}
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
@@ -449,10 +448,10 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
-              sorting="user.name"
-              sortMethod={sortMethod('user.name', {
-                asc: (run: TRun[]) => _.orderBy(run, ['user.name'], ['asc']),
-                desc: (run: TRun[]) => _.orderBy(run, ['user.name'], ['desc']),
+              sorting="user_id"
+              sortMethod={sortMethod('user_id', {
+                asc: (run: TRun[]) => _.orderBy(run, ['user_id'], ['asc']),
+                desc: (run: TRun[]) => _.orderBy(run, ['user_id'], ['desc']),
               })}
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
@@ -555,7 +554,9 @@ export const useHeaderCols = ({
                 place="top"
                 effect="solid"
               >
-                <Paragraph color="white">{formatDateToDisplayOnTable(run.created)}</Paragraph>
+                <Paragraph color="white">
+                  {formatDateToDisplayOnTable(run.created)}
+                </Paragraph>
               </ReactTooltip>
             </FlexBox>
           ),
