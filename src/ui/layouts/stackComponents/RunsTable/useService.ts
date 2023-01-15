@@ -50,7 +50,7 @@ export const useService = ({
 
   useEffect(() => {
     setSortedRuns(runs as TRun[]);
-  }, [filter]);
+  }, [filter, runIds]);
   useEffect(() => {
     return () => {
       source.cancel.forEach((element: any) => {

@@ -3,6 +3,8 @@
 import { StackDetailRouteParams } from '.';
 import {
   pipelinesActions,
+  runPagesActions,
+  stackComponentPagesActions,
   stackComponentsActions,
   stacksActions,
 } from '../../../../redux/actions';
@@ -70,7 +72,7 @@ export const callActionForStackComponentRunsForPagination = () => {
     sortby?: string,
   ) {
     let filtersParam = filterObjectForParam(filters);
-
+    console.log(page, size, 'page,size');
     // debugger;
     setFetching(true);
     dispatch(
@@ -88,7 +90,7 @@ export const callActionForStackComponentRunsForPagination = () => {
   }
 
   const setFetching = (fetching: boolean) => {
-    dispatch(stackPagesActions.setFetching({ fetching }));
+    dispatch(runPagesActions.setFetching({ fetching }));
   };
   return {
     setFetching,
