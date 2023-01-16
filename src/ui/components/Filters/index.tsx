@@ -431,7 +431,7 @@ const FilterComponent = ({
   const dispatch = useDispatch();
   const [applyFilter, setApplyFilter] = useState(false);
   const [searchText, setSearchText] = useState(false);
-  const [isClearable, setIsClearable] = useState(true);
+
   const members = useSelector(organizationSelectors.myMembers);
   const pipelines = useSelector(pipelineSelectors.myPipelines);
   const stacks = useSelector(stackSelectors.mystacks);
@@ -870,7 +870,7 @@ const FilterComponent = ({
                               handleChangeForSearchable(filter, value.id);
                             }
                           }}
-                          isClearable={isClearable}
+                          isClearable={true}
                           // value={'role'}
                           className={styles.searchableInput}
                           // classNamePrefix="select"
@@ -888,7 +888,7 @@ const FilterComponent = ({
                               handleChangeForSearchable(filter, value.id);
                             }
                           }}
-                          isClearable={isClearable}
+                          isClearable={true}
                           // value={'role'}
                           className={styles.searchableInput}
                           // classNamePrefix="select"
@@ -905,7 +905,7 @@ const FilterComponent = ({
                               handleChangeForSearchable(filter, value.id);
                             }
                           }}
-                          isClearable={isClearable}
+                          isClearable={true}
                           // value={'role'}
                           className={styles.searchableInput}
                           // classNamePrefix="select"
