@@ -6,16 +6,18 @@ export const getMyStacksAction = ({
   sort_by,
   logical_operator,
   page,
+  name,
   size,
   filtersParam,
   onSuccess,
   onFailure,
 }: {
-  project: string;
-  sort_by: string;
-  logical_operator: string;
-  page: number;
-  size: number;
+  name?: string;
+  project?: string;
+  sort_by?: string;
+  logical_operator?: string;
+  page?: number;
+  size?: number;
   filtersParam?: object;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -26,7 +28,15 @@ export const getMyStacksAction = ({
     isAuthenticated: true,
     failureActionType: stackActionTypes.getMyStacks.failure,
     successActionType: stackActionTypes.getMyStacks.success,
-    params: { project, sort_by, logical_operator, page, size, filtersParam },
+    params: {
+      project,
+      name,
+      sort_by,
+      logical_operator,
+      page,
+      size,
+      filtersParam,
+    },
     onSuccess,
     onFailure,
   },

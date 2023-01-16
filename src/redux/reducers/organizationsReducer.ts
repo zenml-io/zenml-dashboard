@@ -17,14 +17,15 @@ export interface State {
 
 export type Action = {
   type: string;
-  payload:
-    | TOrganization
-    | TInvite
-    | TInvite[]
-    | TMember
-    | any[]
-    | string[]
-    | TInvoice[];
+  payload: any;
+
+  // | TOrganization
+  // | TInvite
+  // | TInvite[]
+  // | TMember
+  // | any[]
+  // | string[]
+  // | TInvoice[];
 };
 
 export const initialState: State = {
@@ -78,7 +79,9 @@ const organizationsReducer = (
     }
 
     case organizationActionTypes.getMembers.success: {
-      const members: TMember[] = camelCaseArray(action.payload as TMember[]);
+      const members: TMember[] = camelCaseArray(
+        action.payload.items as TMember[],
+      );
 
       return { ...newState(state, []), members: members || [] };
     }

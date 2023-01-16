@@ -14,6 +14,18 @@ import DatePicker from 'react-datepicker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './filter.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
+import Select from 'react-select';
+import { useDispatch, useSelector } from '../../hooks';
+import {
+  organizationSelectors,
+  pipelineSelectors,
+  stackSelectors,
+} from '../../../redux/selectors';
+import {
+  organizationActions,
+  pipelinesActions,
+  stacksActions,
+} from '../../../redux/actions';
 
 // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
 export const getInitialFilterState = () => {
@@ -36,7 +48,7 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
-          value: 'userName',
+          value: 'user_id',
           label: 'Owner',
           type: 'string',
         },
@@ -71,7 +83,7 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
-          value: 'equal',
+          value: 'equals',
           label: 'Equal',
           type: 'string',
         },
@@ -141,7 +153,7 @@ export const getInitialFilterStateForPipeline = () => {
           type: 'string',
         },
         {
-          value: 'userName',
+          value: 'user_id',
           label: 'Author',
           type: 'string',
         },
@@ -268,7 +280,7 @@ export const getInitialFilterStateForRuns = () => {
           type: 'string',
         },
         {
-          value: 'pipelineName',
+          value: 'pipeline_id',
           label: 'Pipeline Name',
           type: 'string',
         },
@@ -278,12 +290,12 @@ export const getInitialFilterStateForRuns = () => {
           type: 'status',
         },
         {
-          value: 'stackName',
+          value: 'stack_id',
           label: 'Stack Name',
           type: 'string',
         },
         {
-          value: 'userName',
+          value: 'user_id',
           label: 'Author',
           type: 'string',
         },
@@ -416,9 +428,13 @@ const FilterComponent = ({
   setFilter,
   getInitials,
 }: any) => {
+  const dispatch = useDispatch();
   const [applyFilter, setApplyFilter] = useState(false);
   const [searchText, setSearchText] = useState(false);
-
+  const members = useSelector(organizationSelectors.myMembers);
+  const pipelines = useSelector(pipelineSelectors.myPipelines);
+  const stacks = useSelector(stackSelectors.mystacks);
+  console.log(members, 'members');
   function handleChange(filter: any, key: string, value: string) {
     filter[key].selectedValue = filter[key].options.filter(
       (option: any) => option.value === value,
@@ -463,6 +479,34 @@ const FilterComponent = ({
 
     setFilter([...filters]);
   }
+  function handleChangeForSearchable(field: any, value: string) {
+    // filter[key].selectedValue =
+    field.filterValue = value;
+
+    setFilter([...filters]);
+  }
+  function callActionForUsers(name: string) {
+    if (name) {
+      dispatch(organizationActions.getMembers({ name: 'contains:' + name }));
+    } else {
+      dispatch(organizationActions.getMembers({}));
+    }
+  }
+
+  function callActionForPipelines(name: string) {
+    if (name) {
+      dispatch(pipelinesActions.getMy({ name: 'contains:' + name }));
+    } else {
+      dispatch(pipelinesActions.getMy({}));
+    }
+  }
+  function callActionForStacks(name: string) {
+    if (name) {
+      stacksActions.getMy({ name: 'contains:' + name });
+    } else {
+      stacksActions.getMy({});
+    }
+  }
 
   function handleValueFieldChange(field: any, value: string) {
     field.filterValue = value;
@@ -480,6 +524,13 @@ const FilterComponent = ({
     filters.splice(index, 1);
     setFilter([...filters]);
   }
+
+  const selectStyles = {
+    control: (base: any) => ({
+      width: '146px',
+      ...base,
+    }),
+  };
 
   const valueField = (filter: any) => {
     switch (filter?.contains.selectedValue.type) {
@@ -755,42 +806,98 @@ const FilterComponent = ({
                       />
                     </FlexBox.Row>
                   </>
-                ) : filter?.column?.selectedValue?.value === 'is_shared' ? (
+                ) : filter?.column?.selectedValue?.value === 'is_shared' ||
+                  filter?.column?.selectedValue?.value === 'user_id' ||
+                  filter?.column?.selectedValue?.value === 'pipeline_id' ||
+                  filter?.column?.selectedValue?.value === 'stack_id' ? (
                   <>
                     <FlexBox.Row className="mb-1">
                       <FormTextField
                         label={''}
                         placeholder={''}
                         disabled
-                        value={'is'}
-                        style={{
-                          borderRadius: 0,
-                          width: '146px',
-                          fontSize: '12px',
-                          color: '#424240',
-                        }}
-                      />
-                      <FormDropdownField
-                        label={''}
-                        disabled={!filter?.column?.selectedValue?.type}
-                        placeholder={'category'}
-                        style={{
-                          borderRadius: 0,
-                          width: '146px',
-                          fontSize: '12px',
-                          color: '#424240',
-                        }}
-                        onChange={
-                          (value: string) =>
-                            handleChangeForShared(filter, 'contains', value)
-                          // handleChangeForStatus(filter, value)
+                        value={
+                          filter?.column?.selectedValue?.value === 'is_shared'
+                            ? 'is'
+                            : 'equals'
                         }
-                        value={filter?.contains?.selectedValue?.value}
-                        options={getSecondColumnOptions(
-                          filter.contains.options,
-                          filter.column.selectedValue.type,
-                        )}
+                        style={{
+                          borderRadius: 0,
+                          width: '146px',
+                          fontSize: '12px',
+                          color: '#424240',
+                        }}
                       />
+                      {filter?.column?.selectedValue?.value === 'is_shared' ? (
+                        <FormDropdownField
+                          label={''}
+                          disabled={!filter?.column?.selectedValue?.type}
+                          placeholder={'category'}
+                          style={{
+                            borderRadius: 0,
+                            width: '146px',
+                            fontSize: '12px',
+                            color: '#424240',
+                          }}
+                          onChange={
+                            (value: string) =>
+                              handleChangeForShared(filter, 'contains', value)
+                            // handleChangeForStatus(filter, value)
+                          }
+                          value={filter?.contains?.selectedValue?.value}
+                          options={getSecondColumnOptions(
+                            filter.contains.options,
+                            filter.column.selectedValue.type,
+                          )}
+                        />
+                      ) : // <></>
+                      filter?.column?.selectedValue?.value === 'pipeline_id' ? (
+                        <Select
+                          getOptionLabel={(option: any) => option.name}
+                          getOptionValue={(option: any) => option.id}
+                          options={pipelines as any}
+                          styles={selectStyles}
+                          onInputChange={(e: any) => callActionForPipelines(e)}
+                          onChange={(value: any) =>
+                            handleChangeForSearchable(filter, value.id)
+                          }
+                          // value={'role'}
+                          className={styles.searchableInput}
+                          // classNamePrefix="select"
+                          isClearable={false}
+                        />
+                      ) : filter?.column?.selectedValue?.value ===
+                        'stack_id' ? (
+                        <Select
+                          getOptionLabel={(option: any) => option.name}
+                          getOptionValue={(option: any) => option.id}
+                          options={stacks as any}
+                          styles={selectStyles}
+                          onInputChange={(e: any) => callActionForStacks(e)}
+                          onChange={(value: any) =>
+                            handleChangeForSearchable(filter, value.id)
+                          }
+                          // value={'role'}
+                          className={styles.searchableInput}
+                          // classNamePrefix="select"
+                          isClearable={false}
+                        />
+                      ) : (
+                        <Select
+                          getOptionLabel={(option: any) => option.name}
+                          getOptionValue={(option: any) => option.id}
+                          options={members as any}
+                          styles={selectStyles}
+                          onInputChange={(e: any) => callActionForUsers(e)}
+                          onChange={(value: any) =>
+                            handleChangeForSearchable(filter, value.id)
+                          }
+                          // value={'role'}
+                          className={styles.searchableInput}
+                          // classNamePrefix="select"
+                          isClearable={false}
+                        />
+                      )}
                     </FlexBox.Row>
                   </>
                 ) : (

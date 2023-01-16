@@ -12,12 +12,12 @@ export const getMyPipelinesAction = ({
   onSuccess,
   onFailure,
 }: {
-  sort_by: string;
-  logical_operator: string;
-  page: number;
-  size: number;
+  sort_by?: string;
+  logical_operator?: string;
+  page?: number;
+  size?: number;
   name?: string;
-  project: string;
+  project?: string;
   filtersParam?: object;
   onSuccess?: () => void;
   onFailure?: () => void;

@@ -17,6 +17,10 @@ export const filterObjectForParam = (filters: any): object => {
                 moment(UTCformatter(item.value)).format('YYYY-MM-DD HH:mm:ss')
             : item.type.type === 'status' || item.type.type === 'boolean'
             ? item.type.value
+            : item.column.value === 'user_id' ||
+              item.column.value === 'pipeline_id' ||
+              item.column.value === 'stack_id'
+            ? item.value
             : item.type.value + ':' + item.value,
       }),
     {},
