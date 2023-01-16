@@ -431,6 +431,7 @@ const FilterComponent = ({
   const dispatch = useDispatch();
   const [applyFilter, setApplyFilter] = useState(false);
   const [searchText, setSearchText] = useState(false);
+  const [isClearable, setIsClearable] = useState(true);
   const members = useSelector(organizationSelectors.myMembers);
   const pipelines = useSelector(pipelineSelectors.myPipelines);
   const stacks = useSelector(stackSelectors.mystacks);
@@ -864,13 +865,15 @@ const FilterComponent = ({
                           options={pipelines as any}
                           styles={selectStyles}
                           onInputChange={(e: any) => callActionForPipelines(e)}
-                          onChange={(value: any) =>
-                            handleChangeForSearchable(filter, value.id)
-                          }
+                          onChange={(value: any) => {
+                            if (value) {
+                              handleChangeForSearchable(filter, value.id);
+                            }
+                          }}
+                          isClearable={isClearable}
                           // value={'role'}
                           className={styles.searchableInput}
                           // classNamePrefix="select"
-                          isClearable={false}
                         />
                       ) : filter?.column?.selectedValue?.value ===
                         'stack_id' ? (
@@ -880,13 +883,15 @@ const FilterComponent = ({
                           options={stacks as any}
                           styles={selectStyles}
                           onInputChange={(e: any) => callActionForStacks(e)}
-                          onChange={(value: any) =>
-                            handleChangeForSearchable(filter, value.id)
-                          }
+                          onChange={(value: any) => {
+                            if (value) {
+                              handleChangeForSearchable(filter, value.id);
+                            }
+                          }}
+                          isClearable={isClearable}
                           // value={'role'}
                           className={styles.searchableInput}
                           // classNamePrefix="select"
-                          isClearable={false}
                         />
                       ) : (
                         <Select
@@ -895,13 +900,16 @@ const FilterComponent = ({
                           options={members as any}
                           styles={selectStyles}
                           onInputChange={(e: any) => callActionForUsers(e)}
-                          onChange={(value: any) =>
-                            handleChangeForSearchable(filter, value.id)
-                          }
+                          onChange={(value: any) => {
+                            if (value) {
+                              handleChangeForSearchable(filter, value.id);
+                            }
+                          }}
+                          isClearable={isClearable}
                           // value={'role'}
                           className={styles.searchableInput}
                           // classNamePrefix="select"
-                          isClearable={false}
+                          // isClearable={false}
                         />
                       )}
                     </FlexBox.Row>
