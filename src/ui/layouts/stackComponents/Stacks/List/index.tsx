@@ -80,7 +80,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
           />
         )}
         activeSorting={
-          activeSorting != 'created' && activeSortingDirection != 'ASC'
+          activeSorting !== 'created' && activeSortingDirection !== 'ASC'
             ? activeSorting
             : 'created'
         }

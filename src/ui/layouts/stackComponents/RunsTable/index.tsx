@@ -62,11 +62,12 @@ export const RunsTable: React.FC<{
 
   useEffect(() => {
     getSorted(activeSorting, activeSortingDirection);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getSorted]);
   return (
     <Table
       activeSorting={
-        activeSorting != 'created' && activeSortingDirection != 'ASC'
+        activeSorting !== 'created' && activeSortingDirection !== 'ASC'
           ? activeSorting
           : 'created'
       }
