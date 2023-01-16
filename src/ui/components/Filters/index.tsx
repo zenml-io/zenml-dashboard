@@ -642,104 +642,110 @@ const FilterComponent = ({
 
   return (
     <FlexBox.Column fullWidth>
-      <Box marginBottom="lg">
-        <FormTextField
-          label={''}
-          placeholder={''}
-          value={searchText ? filters[0]?.filterValue : ''}
-          disabled={applyFilter}
-          onChange={(value: string) => {
-            setSearchText(value ? true : false);
-            handleValueFieldChangeOnSearch(value);
-          }}
-          style={{
-            borderRadius: 0,
-            width: '146px',
-            fontSize: '12px',
-            color: '#424240',
-          }}
-        />
-      </Box>
-      <FlexBox className="border border-primary rounded rounded-4 p-2 align-item-center mb-3">
-        <Box
-          onClick={() => {
-            !searchText && setApplyFilter(!applyFilter);
-          }}
-          style={{
-            width: '33px',
-            height: '28px',
-            background: '#431D93',
-            borderRadius: '4px',
-          }}
-        >
-          <icons.funnelFill
-            style={{ padding: '5px 0px 0px 7px' }}
-            size={iconSizes.sm}
-            color={iconColors.white}
+      <div className={styles.inputRow}>
+        <Box marginBottom="lg" marginRight="md">
+          <FormTextField
+            label={''}
+            placeholder={'Search'}
+            value={searchText ? filters[0]?.filterValue : ''}
+            disabled={applyFilter}
+            onChange={(value: string) => {
+              setSearchText(value ? true : false);
+              handleValueFieldChangeOnSearch(value);
+            }}
+            style={{
+              borderRadius: '4px',
+              width: '205px',
+              fontSize: '12px',
+              color: '#424240',
+            }}
           />
         </Box>
-        <Box
-          style={{ padding: '5px 0px 0px 7px', display: 'flex' }}
-          className="text-muted h5"
+        <FlexBox
+          fullWidth
+          className="border border-primary rounded rounded-4 p-2 align-item-center"
         >
-          {/* Filter your stack */}
-          {!applyFilter && !filters[0]?.column?.selectedValue?.label ? (
-            <Paragraph className={styles.filterplaceholder}>
-              Filter list
-            </Paragraph>
-          ) : filters[0]?.column?.selectedValue.label &&
-            !applyFilter &&
-            !searchText ? (
-            filters.map((filter: any, index: number) => {
-              return (
-                <FlexBox.Row key={index} className={styles.tile}>
-                  <Box onClick={() => hanldeDelete(index)}>
-                    {`${filter.column.selectedValue.label} ${
-                      filter.column.selectedValue.label !== 'Shared' &&
-                      filter.column.selectedValue.label !== 'Status'
-                        ? filter.contains.selectedValue.label
-                        : ''
-                    } ${
-                      typeof filter.filterValue === 'string'
-                        ? filter.filterValue
-                        : formatDateToDisplay(filter.filterValue)
-                    }`}
-                  </Box>
+          <Box
+            onClick={() => {
+              !searchText && setApplyFilter(!applyFilter);
+            }}
+            style={{
+              width: '33px',
+              height: '28px',
+              background: '#431D93',
+              borderRadius: '4px',
+            }}
+          >
+            <icons.funnelFill
+              style={{ padding: '5px 0px 0px 7px' }}
+              size={iconSizes.sm}
+              color={iconColors.white}
+            />
+          </Box>
+          <Box
+            style={{ padding: '5px 0px 0px 7px', display: 'flex' }}
+            className="text-muted h5"
+          >
+            {/* Filter your stack */}
+            {!applyFilter && !filters[0]?.column?.selectedValue?.label ? (
+              <Paragraph className={styles.filterplaceholder}>
+                Filter list
+              </Paragraph>
+            ) : filters[0]?.column?.selectedValue.label &&
+              !applyFilter &&
+              !searchText ? (
+              filters.map((filter: any, index: number) => {
+                return (
+                  <FlexBox.Row key={index} className={styles.tile}>
+                    <Box onClick={() => hanldeDelete(index)}>
+                      {`${filter.column.selectedValue.label} ${
+                        filter.column.selectedValue.label !== 'Shared' &&
+                        filter.column.selectedValue.label !== 'Status'
+                          ? filter.contains.selectedValue.label
+                          : ''
+                      } ${
+                        typeof filter.filterValue === 'string'
+                          ? filter.filterValue
+                          : formatDateToDisplay(filter.filterValue)
+                      }`}
+                    </Box>
 
-                  <Box onClick={() => hanldeDelete(index)}>
-                    <icons.closeWithBorder
-                      style={{ paddingLeft: '7px' }}
-                      size={iconSizes.sm}
-                      color={iconColors.grey}
-                    />
-                  </Box>
-                </FlexBox.Row>
-              );
-            })
-          ) : (
-            <Paragraph className={styles.filterplaceholder}>
-              Filter list
-            </Paragraph>
-          )}
-          {!applyFilter &&
-          !filters[0]?.column?.selectedValue?.label ? null : filters[0]?.column
-              ?.selectedValue.label &&
-            !applyFilter &&
-            !searchText ? (
-            <Box
-              onClick={() => {
-                setFilter([getInitials()]);
-              }}
-            >
-              <icons.closeWithBorder
-                style={{ paddingLeft: '7px' }}
-                size={iconSizes.sm}
-                color={iconColors.grey}
-              />
-            </Box>
-          ) : null}
-        </Box>
-      </FlexBox>
+                    <Box onClick={() => hanldeDelete(index)}>
+                      <icons.closeWithBorder
+                        style={{ paddingLeft: '7px' }}
+                        size={iconSizes.sm}
+                        color={iconColors.grey}
+                      />
+                    </Box>
+                  </FlexBox.Row>
+                );
+              })
+            ) : (
+              <Paragraph className={styles.filterplaceholder}>
+                Filter list
+              </Paragraph>
+            )}
+            {!applyFilter &&
+            !filters[0]?.column?.selectedValue?.label ? null : filters[0]
+                ?.column?.selectedValue.label &&
+              !applyFilter &&
+              !searchText ? (
+              <Box
+                onClick={() => {
+                  setFilter([getInitials()]);
+                }}
+              >
+                <icons.closeWithBorder
+                  style={{ paddingLeft: '7px' }}
+                  size={iconSizes.sm}
+                  color={iconColors.grey}
+                />
+              </Box>
+            ) : null}
+          </Box>
+        </FlexBox>
+      </div>
+
       {applyFilter && (
         <Box
           className="mb-4 mt-19"
