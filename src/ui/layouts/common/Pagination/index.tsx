@@ -323,7 +323,16 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
           }}
           icon={icons.paginationLast}
         />
+     
       </FlexBox>
+
+
+
+
+
+
+
+
     </FlexBox.Column>
   );
 });

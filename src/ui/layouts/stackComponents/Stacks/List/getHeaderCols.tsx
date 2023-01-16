@@ -4,7 +4,6 @@ import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   truncate,
-  getInitialsFromEmail,
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
@@ -13,7 +12,6 @@ import {
   FlexBox,
   icons,
   Paragraph,
-  ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
@@ -228,11 +226,7 @@ export const GetHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => {
-        const initials = getInitialsFromEmail(
-          stackComponent.user.full_name
-            ? stackComponent.user.full_name
-            : stackComponent.user.name,
-        );
+        
         return (
           <FlexBox alignItems="center">
             <div
@@ -244,11 +238,6 @@ export const GetHeaderCols = ({
               }
             >
               <FlexBox alignItems="center">
-                <Box paddingRight="sm">
-                  <ColoredCircle color="secondary" size="sm">
-                    {initials}
-                  </ColoredCircle>
-                </Box>
                 <Paragraph size="small">
                   {stackComponent.user.full_name
                     ? stackComponent.user.full_name

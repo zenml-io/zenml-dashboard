@@ -1,46 +1,18 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { MenuItem } from '../Menu/MenuItem';
 import { MenuItemExternal } from './MenuItemExternal';
 import { routePaths } from '../../../../../../../routes/routePaths';
-import { Box, Separator, icons, Paragraph } from '../../../../../../components';
+import { Box, Separator, icons } from '../../../../../../components';
 import { iconSizes, iconColors } from '../../../../../../../constants';
-import { translate } from '../translate';
-import { sessionSelectors } from '../../../../../../../redux/selectors/session';
-import { useSelector } from '../../../../../../hooks';
-import axios from 'axios';
 
 export const SideFooter: React.FC = () => {
-  const authToken = useSelector(sessionSelectors.authenticationToken);
-  const [apiVersion, setApiVersion] = useState('');
-
-  useEffect(() => {
-    if (authToken) {
-      const getApiVersion = async () => {
-        const { data } = await axios.get(
-          `${process.env.REACT_APP_BASE_API_URL}/version`,
-          {
-            headers: {
-              Authorization: `bearer ${authToken}`,
-            },
-          },
-        );
-        setApiVersion(data);
-      };
-
-      getApiVersion();
-    }
-  }, [authToken]);
-
-  // const url_string = window.location.href;
-  // const url = new URL(url_string);
-  // const projectName = url.searchParams.get('project');
-
   return (
     <>
       <Box marginHorizontal="md" paddingBottom="md">
         <Separator.LightNew />
       </Box>
-
+      
+      <div style={{ marginBottom: '-11px' }} >
       <MenuItemExternal
         id="documentation"
         Icon={() => <icons.docs color={iconColors.white} size={iconSizes.md} />}
@@ -61,6 +33,7 @@ export const SideFooter: React.FC = () => {
         to="https://github.com/zenml-io/zenml-dashboard/issues/new/choose"
         text="Report Issue"
       />
+      </div>
       <MenuItem
         id="settings"
         Icon={() => (
@@ -69,17 +42,8 @@ export const SideFooter: React.FC = () => {
         innerItem={window.location.href?.includes('settings')}
         isActive={() => window.location.href?.includes('settings')}
         to={routePaths.settings.personalDetails}
-        text={translate('menu.setting.text')}
+        text=''
       />
-
-      <Box style={{ paddingLeft: '12px' }} paddingTop="md" paddingBottom="xs">
-        <Paragraph color="white" style={{ fontSize: '8px', fontWeight: 400 }}>
-          UI Version v{process.env.REACT_APP_VERSION}
-        </Paragraph>
-        <Paragraph color="white" style={{ fontSize: '8px', fontWeight: 400 }}>
-          ZenML v{apiVersion}
-        </Paragraph>
-      </Box>
     </>
   );
 };
