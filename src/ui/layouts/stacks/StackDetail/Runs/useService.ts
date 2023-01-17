@@ -17,10 +17,12 @@ interface filterValue {
   value: string;
 }
 export const useService = ({
+  sortBy,
   stackId,
   filter,
 }: {
   stackId: TId;
+  sortBy: string;
   filter: {
     column: filterValue;
     type: filterValue;
@@ -32,7 +34,7 @@ export const useService = ({
   const runs: TRun[] = useSelector(runSelectors.runsForStackId(stackId));
   const runsPaginated = useSelector(runSelectors.myRunsPaginated);
   const isValidFilter = filter.map((f) => f.value).join('');
-  console.log(runsPaginated, 'runsPaginated');
+  useEffect(() => {}, [runs]);
   useEffect(() => {
     if (!isValidFilter) {
       const intervalId = setInterval(() => {
@@ -40,6 +42,8 @@ export const useService = ({
 
         dispatch(
           stacksActions.allRunsByStackId({
+            sort_by: sortBy,
+            logical_operator: 'and',
             stackId: stackId,
             page: runsPaginated.page,
             size: runsPaginated.size,

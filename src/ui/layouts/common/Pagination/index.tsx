@@ -1,5 +1,5 @@
 import React, { forwardRef, useImperativeHandle } from 'react';
-import { FlexBox, Box, icons } from '../../../components';
+import { FlexBox, icons } from '../../../components';
 import styles from './index.module.scss';
 import { joinClassNames, addStyle } from '../../../../utils';
 import { useLocation } from 'react-router-dom';
@@ -12,29 +12,29 @@ import {
 import { callActionForPipelineRunsForPagination } from '../../pipelines/PipelineDetail/useService';
 import { callActionForStackRunsForPagination } from '../../stacks/StackDetail/useService';
 import { callActionForStackComponentRunsForPagination } from '../../stackComponents/StackDetail/useService';
-
-const PaginationItem = (props: {
-  isActive: boolean;
-  index: string;
-  onClick: any;
-}) => (
-  <div
-    tabIndex={props.isActive ? -1 : 0}
-    role="button"
-    onClick={props.onClick}
-    className={joinClassNames(
-      styles.paginationNumbers,
-      addStyle(props.isActive, styles.active),
-    )}
-  >
-    <span
-      className={styles.paginationText}
-      style={{ color: props.isActive ? '#fff' : '#333' }}
-    >
-      {props.index}
-    </span>
-  </div>
-);
+import { usePagination, DOTS } from '../../../hooks';
+// const PaginationItem = (props: {
+//   isActive: boolean;
+//   index: string;
+//   onClick: any;
+// }) => (
+//   <div
+//     tabIndex={props.isActive ? -1 : 0}
+//     role="button"
+//     onClick={props.onClick}
+//     className={joinClassNames(
+//       styles.paginationNumbers,
+//       addStyle(props.isActive, styles.active),
+//     )}
+//   >
+//     <span
+//       className={styles.paginationText}
+//       style={{ color: props.isActive ? '#fff' : '#333' }}
+//     >
+//       {props.index}
+//     </span>
+//   </div>
+// );
 
 const PaginationNavigationItem = (props: {
   onClick: any;
@@ -56,6 +56,7 @@ const PaginationNavigationItem = (props: {
 );
 
 interface Props {
+  activeSorting?: any;
   ref: any;
   pageIndex: number;
   setPageIndex: (arg1: number) => void;
@@ -63,6 +64,7 @@ interface Props {
   filters?: any[];
   totalOfPages: number;
   totalLength: number;
+  totalCount: number;
   itemPerPage: number;
 }
 
@@ -92,40 +94,68 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
   // const isValidFilter = props.filters?.map((f) => f.value).join('');
 
   useImperativeHandle(ref, () => ({
-    callOnChange(page: number, size: number, filters: any) {
-      onChange(page + 1, size, componentName, filters);
+    callOnChange(page: number, size: number, filters: any, activeSorting: any) {
+      props.setPageIndex(page - 1);
+      onChange(page, size, componentName, filters, activeSorting);
+      // debugger;
     },
   }));
 
+  const paginationRange = usePagination({
+    currentPage: props.pageIndex + 1,
+    totalCount: props.totalCount,
+    siblingCount: 1,
+    pageSize: props.itemPerPage,
+  });
+  console.log(paginationRange, 'paginationRange1');
+  // if (
+  //   props.pageIndex === 0 ||
+  //   (paginationRange && paginationRange.length < 2)
+  // ) {
+  //   return null;
+  // }
   const onChange = (
     page: any,
     size: number,
     componentName: string,
     filters: any,
+    activeSorting: any,
   ) => {
     switch (componentName) {
       case 'stacks':
         if (CheckIfRun) {
-          dispatchStackRunsData(id, page, size, filters as any);
+          dispatchStackRunsData(id, page, size, filters as any, activeSorting);
           break;
         } else {
-          dispatchStackData(1, 5, filters as any);
+          dispatchStackData(1, 5, filters as any, activeSorting);
           break;
         }
       case 'components':
         if (CheckIfRun) {
-          dispatchStackComponentRunsData(id, page, size, filters as any);
+          dispatchStackComponentRunsData(
+            id,
+            page,
+            size,
+            filters as any,
+            activeSorting,
+          );
           break;
         } else {
-          dispatchStackComponentsData(1, 5, filters as any);
+          dispatchStackComponentsData(1, 5, filters as any, activeSorting);
           break;
         }
       case 'pipelines':
         if (CheckIfRun) {
-          dispatchPipelineRunsData(id, page, size, filters as any);
+          dispatchPipelineRunsData(
+            id,
+            page,
+            size,
+            filters as any,
+            activeSorting,
+          );
           break;
         } else {
-          dispatchPipelineData(page, size, filters as any);
+          dispatchPipelineData(page, size, filters as any, activeSorting);
           break;
         }
 
@@ -143,10 +173,28 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
   for (let i = 1; i <= Math.ceil(props.totalOfPages); i++) {
     pageNumbers.push(i);
   }
+  //  function filterPages = (visiblePages, totalPages) => {
+  //     return visiblePages.filter(page => page <= totalPages);
+  //   };
+  //   function getVisiblePages = (page, total) => {
+  //     if (total < 7) {
+  //       return filterPages([1, 2, 3, 4, 5, 6], total) as;
+  //     } else {
+  //       if (page % 5 >= 0 && page > 4 && page + 2 < total) {
+  //         return [1, page - 1, page, page + 1, total];
+  //       } else if (page % 5 >= 0 && page > 4 && page + 2 >= total) {
+  //         return [1, total - 3, total - 2, total - 1, total];
+  //       } else {
+  //         return [1, 2, 3, 4, 5, total];
+  //       }
+  //     }
+  //   };
+
+  //   const visiblePages = getVisiblePages(page, this.props.pages);
 
   return (
-    <FlexBox.Column justifyContent="center" alignItems="center">
-      <FlexBox marginTop="xxxl" marginBottom="xxxl" justifyContent="center">
+    <FlexBox.Column alignItems="center">
+      <FlexBox>
         <PaginationNavigationItem
           hasNext={props.pageIndex !== 0}
           onClick={() => {
@@ -160,13 +208,14 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
             // }
 
             onChange(
-              props.pageIndex,
+              1,
               props.itemPerPage,
               componentName,
               props.filters,
+              props.activeSorting,
             );
 
-            props.setPageIndex(props.pageIndex - 1);
+            props.setPageIndex(0);
           }}
           icon={icons.paginationFirst}
         />
@@ -178,6 +227,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
               props.itemPerPage,
               componentName,
               props.filters,
+              props.activeSorting,
             );
 
             props.setPageIndex(props.pageIndex - 1);
@@ -186,7 +236,50 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
         />
 
         <FlexBox>
-          {pageNumbers.map((p: any) => (
+          {console.log(paginationRange, 'paginationRange')}
+          {paginationRange &&
+            paginationRange.map((pageNumber: any) => {
+              if (pageNumber === DOTS) {
+                return (
+                  <div className={joinClassNames(styles.paginationDots)}>
+                    ...
+                  </div>
+                );
+              }
+
+              return (
+                <li
+                  className={joinClassNames(
+                    styles.paginationNumbers,
+                    addStyle(props.pageIndex === pageNumber - 1, styles.active),
+                  )}
+                  onClick={() => {
+                    onChange(
+                      pageNumber,
+                      props.itemPerPage,
+                      componentName,
+                      props.filters,
+                      props.activeSorting,
+                    );
+
+                    props.setPageIndex(pageNumber - 1);
+                  }}
+                >
+                  {/* {pageNumber} */}
+                  <span
+                    className={styles.paginationText}
+                    style={{
+                      color:
+                        props.pageIndex === pageNumber - 1 ? '#fff' : '#333',
+                    }}
+                  >
+                    {pageNumber}
+                  </span>
+                </li>
+              );
+            })}
+
+          {/* {pageNumbers.map((p: any) => (
             <Box key={p}>
               <PaginationItem
                 onClick={() => {
@@ -198,7 +291,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
                 isActive={props.pageIndex === p - 1}
               />
             </Box>
-          ))}
+          ))} */}
         </FlexBox>
 
         <PaginationNavigationItem
@@ -209,6 +302,8 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
               props.itemPerPage,
               componentName,
               props.filters,
+
+              props.activeSorting,
             );
             props.setPageIndex(props.pageIndex + 1);
           }}
@@ -218,12 +313,13 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
           hasNext={props.pageIndex + 1 < props.totalOfPages}
           onClick={() => {
             onChange(
-              props.pageIndex + 2,
+              props.totalOfPages,
               props.itemPerPage,
               componentName,
               props.filters,
+              props.activeSorting,
             );
-            props.setPageIndex(props.pageIndex + 1);
+            props.setPageIndex(props.totalOfPages - 1);
           }}
           icon={icons.paginationLast}
         />

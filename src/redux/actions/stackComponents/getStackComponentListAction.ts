@@ -3,6 +3,8 @@ import getStackComponentListApi from '../../../api/stackComponents/getStackCompo
 
 export const getStackComponentListAction = ({
   project,
+  sort_by,
+  logical_operator,
   type,
   page,
   size,
@@ -11,6 +13,8 @@ export const getStackComponentListAction = ({
   onFailure,
 }: {
   project: string;
+  sort_by: string;
+  logical_operator: string;
   type: TId;
   page: number;
   size: number;
@@ -24,7 +28,15 @@ export const getStackComponentListAction = ({
     isAuthenticated: true,
     failureActionType: stackComponentActionTypes.getStackComponentList.failure,
     successActionType: stackComponentActionTypes.getStackComponentList.success,
-    params: { type, project, page, size, filtersParam },
+    params: {
+      type,
+      sort_by,
+      logical_operator,
+      project,
+      page,
+      size,
+      filtersParam,
+    },
     onSuccess,
     onFailure,
   },

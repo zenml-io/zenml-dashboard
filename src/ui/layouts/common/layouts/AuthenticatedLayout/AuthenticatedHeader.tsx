@@ -148,6 +148,8 @@ export const AuthenticatedHeader: React.FC<{
     );
     await dispatch(
       pipelinesActions.getMy({
+        sort_by: 'created',
+        logical_operator: 'and',
         page: 1,
         size: 5,
         project: e?.name,

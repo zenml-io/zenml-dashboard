@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { projectSelectors } from '../../../../redux/selectors';
 import { routePaths } from '../../../../routes/routePaths';
 import { useHistory, useSelector } from '../../../hooks';
@@ -16,6 +16,7 @@ interface Props {
   filter: any;
 }
 export const RunsTable: React.FC<{
+  getSorted?: any;
   runIds: TId[];
   paginated?: any;
   pagination?: boolean;
@@ -23,6 +24,7 @@ export const RunsTable: React.FC<{
   fetching: boolean;
   filter?: any;
 }> = ({
+  getSorted,
   runIds,
   pagination = true,
   paginated,
@@ -58,9 +60,17 @@ export const RunsTable: React.FC<{
     activeSortingDirection,
     setActiveSortingDirection,
   });
-
+  useEffect(() => {
+    getSorted(activeSorting, activeSortingDirection);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getSorted]);
   return (
     <Table
+      activeSorting={
+        activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+          ? activeSorting
+          : 'created'
+      }
       pagination={pagination}
       loading={fetching}
       filters={filter}

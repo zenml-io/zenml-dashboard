@@ -24,6 +24,26 @@ $paginationBorderColor: #F1F1F1;
     visibility: hidden;
   }
 }
+.paginationDots {
+  user-select: none;
+  // background:$whiteColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+  cursor: pointer;
+  outline: 0;
+  width: $paginationSize;
+  height: $paginationSize;
+  // border: 1px solid $paginationBorderColor;
+  border-radius: 8px;
+  margin-right: 5px;
+
+  &.hidden {
+    pointer-events: none;
+    visibility: hidden;
+  }
+}
 
 
 .paginationNumbers.active {
@@ -34,7 +54,7 @@ $paginationBorderColor: #F1F1F1;
 .paginationText {
   color: #333;
   font-size: 13px;
-  font-weight: 600;
+  font-weight: 400;
   font-family: Rubik;
 }
 .paginationText.active {
