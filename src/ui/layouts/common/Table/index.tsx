@@ -253,7 +253,7 @@ export const Table: React.FC<TableProps> = ({
                       key={index}
                     >
                       <Box style={{ backgroundColor: '#f6f67' }} paddingVertical={showHeader ? 'sm' : null} paddingLeft="lg">
-                        {headerCol.render && headerCol.render()}
+                          {headerCol.render && headerCol.render()}
                       </Box>
                     </th>
                   ))}
@@ -286,7 +286,7 @@ export const Table: React.FC<TableProps> = ({
                         >
                           <Box paddingVertical="sm" paddingLeft="lg">
                             <Truncate maxLines={1}>
-                              {headerCol.renderRow(headerRow)}
+                                {headerCol.renderRow(headerRow)}
                             </Truncate>
                           </Box>
                         </td>
