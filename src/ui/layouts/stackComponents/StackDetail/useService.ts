@@ -3,6 +3,8 @@
 import { StackDetailRouteParams } from '.';
 import {
   pipelinesActions,
+  runPagesActions,
+  stackComponentPagesActions,
   stackComponentsActions,
   stacksActions,
 } from '../../../../redux/actions';
@@ -36,6 +38,8 @@ export const useService = (): ServiceInterface => {
     );
     dispatch(
       stackComponentsActions.allRunsByStackComponentId({
+        sort_by: 'created',
+        logical_operator: 'and',
         stackComponentId: id,
         page: 1,
         size: 5,
@@ -65,13 +69,16 @@ export const callActionForStackComponentRunsForPagination = () => {
     page: number,
     size: number,
     filters?: any[],
+    sortby?: string,
   ) {
     let filtersParam = filterObjectForParam(filters);
-
+    console.log(page, size, 'page,size');
     // debugger;
     setFetching(true);
     dispatch(
       stackComponentsActions.allRunsByStackComponentId({
+        sort_by: sortby ? sortby : 'created',
+        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         stackComponentId: id,
         page: page,
         size: size,
@@ -83,7 +90,7 @@ export const callActionForStackComponentRunsForPagination = () => {
   }
 
   const setFetching = (fetching: boolean) => {
-    dispatch(stackPagesActions.setFetching({ fetching }));
+    dispatch(runPagesActions.setFetching({ fetching }));
   };
   return {
     setFetching,

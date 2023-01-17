@@ -2,6 +2,8 @@ import { pipelineActionTypes } from '../../actionTypes';
 import getMyPipelinesApi from '../../../api/pipelines/getMyPipelinesApi';
 
 export const getMyPipelinesAction = ({
+  sort_by,
+  logical_operator,
   page,
   size,
   name,
@@ -10,10 +12,12 @@ export const getMyPipelinesAction = ({
   onSuccess,
   onFailure,
 }: {
-  page: number;
-  size: number;
+  sort_by?: string;
+  logical_operator?: string;
+  page?: number;
+  size?: number;
   name?: string;
-  project: string;
+  project?: string;
   filtersParam?: object;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -24,7 +28,15 @@ export const getMyPipelinesAction = ({
     isAuthenticated: true,
     failureActionType: pipelineActionTypes.getMyPipelines.failure,
     successActionType: pipelineActionTypes.getMyPipelines.success,
-    params: { project, page, size, name, filtersParam },
+    params: {
+      project,
+      sort_by,
+      logical_operator,
+      page,
+      size,
+      name,
+      filtersParam,
+    },
     onSuccess,
     onFailure,
   },

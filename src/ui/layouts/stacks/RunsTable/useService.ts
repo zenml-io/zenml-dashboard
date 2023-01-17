@@ -49,17 +49,7 @@ export const useService = ({
   const runs = useSelector(runSelectors.forRunIds(runIds));
 
   useEffect(() => {
-    let orderedRuns = _.orderBy(
-      runs,
-      [activeSorting],
-      [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
-    );
-
-    // const isValidFilter = filter.map((f) => f.value).join('');
-    // if (isValidFilter) {
-    //   orderedRuns = getFilteredDataForTable(orderedRuns, filter);
-    // }
-    setSortedRuns(orderedRuns as TRun[]);
+    setSortedRuns(runs as TRun[]);
   }, [filter, runIds]);
   useEffect(() => {
     return () => {

@@ -44,10 +44,12 @@ import {
   pipelinesActions,
   pipelinePagesActions,
   runPagesActions,
+  organizationActions,
 } from '../../redux/actions';
 import { NotFound } from './NotFound';
 
 import Tour from './Tour';
+import { rolesActions } from '../../redux/actions/roles';
 
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
@@ -131,6 +133,9 @@ export const DashBoard: React.FC = () => {
       );
     }
     if (authToken) {
+      dispatch(rolesActions.getRoles({}));
+      dispatch(organizationActions.getMembers({}));
+
       const getDashboardData = async () => {
         setFetching(true);
         startLoad();

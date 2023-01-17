@@ -79,6 +79,11 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             fetching={fetching}
           />
         )}
+        activeSorting={
+          activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+            ? activeSorting
+            : 'created'
+        }
         paginated={stackComponentsPaginated}
         loading={fetching}
         showHeader={true}
@@ -92,7 +97,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
               }
             : {
                 text: `Nothing to see here, it seems like no ${camelCaseToParagraph(
-                  selectedProject,
+                  locationPath.split('/')[4],
                 )} has been configured yet.`,
               }
         }

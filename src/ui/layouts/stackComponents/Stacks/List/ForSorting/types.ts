@@ -3,8 +3,8 @@ export type Sorting =
   | 'name'
   | 'status'
   | 'flavor'
-  | 'isShared'
-  | 'user.name'
+  | 'is_shared'
+  | 'user_id'
   | 'datasourceCommit'
   | 'createdAt'
   | 'created';

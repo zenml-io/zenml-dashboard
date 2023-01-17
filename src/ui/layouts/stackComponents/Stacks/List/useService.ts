@@ -66,18 +66,7 @@ export const useService = (
   );
   const isValidFilter = filter.map((f) => f.value).join('');
   useEffect(() => {
-    let orderedStacks = _.orderBy(
-      stackComponents,
-      [activeSorting],
-      [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
-    );
-
-    const isValidFilter = filter.map((f) => f.value).join('');
-    if (isValidFilter) {
-      orderedStacks = getFilteredDataForTable(orderedStacks, filter);
-    }
-
-    setFilteredStacks(orderedStacks as TStack[]);
+    setFilteredStacks(stackComponents as TStack[]);
   }, [stackComponents, filter]);
 
   useEffect(() => {
@@ -86,6 +75,8 @@ export const useService = (
         //assign interval to a variable to clear it.
         dispatch(
           stackComponentsActions.getMy({
+            sort_by: activeSorting ? activeSorting : 'created',
+            logical_operator: 'and',
             page: stackComponentsPaginated.page,
             size: stackComponentsPaginated.size,
             type: locationPath.split('/')[4],

@@ -18,6 +18,8 @@ export const useService = (): ServiceInterface => {
     setFetching(true);
     dispatch(
       stacksActions.getMy({
+        sort_by: 'created',
+        logical_operator: 'and',
         page: 1,
         size: 2,
         project: selectedProject as string,

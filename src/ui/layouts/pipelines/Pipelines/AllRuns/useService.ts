@@ -18,13 +18,31 @@ interface filterValue {
   value: string;
 }
 
-export const useService = (
+// export const useService = ({
+//   sortBy,
+//   filter,
+//   pipelineId,
+// }: {
+//   filter: {
+//     column: filterValue;
+//     type: filterValue;
+//     value: string;
+//   }[];
+//   sortBy: string;
+//   pipelineId: TId;
+// }): ServiceInterface => {
+
+export const useService = ({
+  filter,
+  sortBy,
+}: {
+  sortBy: string;
   filter: {
     column: filterValue;
     type: filterValue;
     value: string;
-  }[],
-): ServiceInterface => {
+  }[];
+}): ServiceInterface => {
   const fetching = useSelector(runPagesSelectors.fetching);
   const dispatch = useDispatch();
   const runs = useSelector(runSelectors.myRuns);
@@ -37,6 +55,8 @@ export const useService = (
         //assign interval to a variable to clear it.
         dispatch(
           runsActions.allRuns({
+            sort_by: sortBy,
+            logical_operator: 'and',
             project: selectedProject,
             page: runsPaginated.page,
             size: runsPaginated.size,

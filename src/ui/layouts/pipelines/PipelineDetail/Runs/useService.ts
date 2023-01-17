@@ -18,6 +18,7 @@ interface filterValue {
 }
 
 export const useService = ({
+  sortBy,
   filter,
   pipelineId,
 }: {
@@ -26,6 +27,7 @@ export const useService = ({
     type: filterValue;
     value: string;
   }[];
+  sortBy: string;
   pipelineId: TId;
 }): ServiceInterface => {
   const dispatch = useDispatch();
@@ -34,6 +36,7 @@ export const useService = ({
   const runsPaginated = useSelector(runSelectors.myRunsPaginated);
   const isValidFilter = filter.map((f) => f.value).join('');
   console.log(runsPaginated, 'runsPaginated');
+  useEffect(() => {}, [runs]);
   useEffect(() => {
     if (!isValidFilter) {
       const intervalId = setInterval(() => {
@@ -41,6 +44,8 @@ export const useService = ({
 
         dispatch(
           pipelinesActions.allRunsByPipelineId({
+            sort_by: sortBy,
+            logical_operator: 'and',
             pipelineId: pipelineId,
             page: runsPaginated.page,
             size: runsPaginated.size,

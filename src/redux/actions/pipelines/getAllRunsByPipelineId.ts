@@ -3,12 +3,16 @@ import getAllRunsByPipelineIdApi from '../../../api/pipelines/getAllRunsByPipeli
 
 export const getAllRunsByPipelineId = ({
   pipelineId,
+  sort_by,
+  logical_operator,
   page,
   size,
   filtersParam,
   onSuccess,
   onFailure,
 }: {
+  sort_by: string;
+  logical_operator: string;
   pipelineId: TId;
   page: number;
   size: number;
@@ -23,7 +27,14 @@ export const getAllRunsByPipelineId = ({
       isAuthenticated: true,
       failureActionType: pipelineActionTypes.getRunsByPipelineId.failure,
       successActionType: pipelineActionTypes.getRunsByPipelineId.success,
-      params: { pipelineId, page, size, filtersParam },
+      params: {
+        pipelineId,
+        sort_by,
+        logical_operator,
+        page,
+        size,
+        filtersParam,
+      },
       onSuccess,
       onFailure,
     },

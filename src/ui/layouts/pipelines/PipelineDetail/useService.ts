@@ -12,6 +12,7 @@ import { pipelinePagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
 import { sign } from 'crypto';
 import { filterObjectForParam } from '../../../../utils';
+import { Sort } from '@table-library/react-table-library/types/sort';
 
 interface ServiceInterface {
   pipeline: TPipeline;
@@ -34,6 +35,8 @@ export const useService = (): ServiceInterface => {
     );
     dispatch(
       pipelinesActions.allRunsByPipelineId({
+        sort_by: 'created',
+        logical_operator: 'and',
         pipelineId: id,
         page: 1,
         size: 5,
@@ -61,12 +64,15 @@ export const callActionForPipelineRunsForPagination = () => {
     page: number,
     size: number,
     filters?: any[],
+    sortby?: string,
   ) {
     let filtersParam = filterObjectForParam(filters);
     // console.log('aaaa', filters);
     setFetching(true);
     dispatch(
       pipelinesActions.allRunsByPipelineId({
+        sort_by: sortby ? sortby : 'created',
+        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         pipelineId: id,
         page: page,
         size: size,

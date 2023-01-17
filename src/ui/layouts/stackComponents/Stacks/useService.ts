@@ -30,6 +30,8 @@ export const useService = (): ServiceInterface => {
       stackComponentsActions.getMy({
         project: selectedProject ? selectedProject : locationPath.split('/')[2],
         type: locationPath.split('/')[4],
+        sort_by: 'created',
+        logical_operator: 'and',
         page: 1,
         size: 5,
         onSuccess: () => setFetching(false),
@@ -56,6 +58,7 @@ export const callActionForStackComponentsForPagination = () => {
     page: number,
     size: number,
     filters?: any[],
+    sortby?: string,
   ) {
     let filtersParam = filterObjectForParam(filters);
     setFetching(true);
@@ -63,6 +66,8 @@ export const callActionForStackComponentsForPagination = () => {
       stackComponentsActions.getMy({
         project: selectedProject ? selectedProject : locationPath.split('/')[2],
         type: locationPath.split('/')[4],
+        sort_by: sortby ? sortby : 'created',
+        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
         page: page,
         size: size,
         filtersParam,

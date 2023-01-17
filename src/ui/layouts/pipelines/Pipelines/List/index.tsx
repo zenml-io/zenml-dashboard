@@ -53,7 +53,6 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
       routePaths.pipeline.configuration(pipeline.id, selectedProject),
     );
   };
-  // console.log(filter, 'filters data');
 
   return (
     <>
@@ -66,6 +65,11 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             nestedRow={true}
           />
         )}
+        activeSorting={
+          activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+            ? activeSorting
+            : 'created'
+        }
         paginated={pipelinesPaginated}
         loading={fetching}
         showHeader={true}

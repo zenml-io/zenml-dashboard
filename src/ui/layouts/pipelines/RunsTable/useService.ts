@@ -52,20 +52,13 @@ export const useService = ({
   const runs = pipelineRuns
     ? pipelineRuns
     : useSelector(runSelectors.forRunIds(runIds));
-
+  const isValidFilter = filter?.map((f) => f.value).join('');
   useEffect(() => {
-    let orderedRuns = _.orderBy(
-      runs,
-      [activeSorting],
-      [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
-    );
-
-    const isValidFilter = filter?.map((f) => f.value).join('');
     // if (isValidFilter) {
     //   orderedRuns = getFilteredDataForTable(orderedRuns, filter);
     // }
 
-    setSortedRuns(orderedRuns);
+    setSortedRuns(runs);
   }, [filter, runIds]);
 
   useEffect(() => {
