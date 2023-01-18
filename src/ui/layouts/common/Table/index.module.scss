@@ -27,7 +27,7 @@
 }
 
 .tableRow {
-  border-top: 1px solid $lightestGreyColor;
+  // border-top: 1px solid $lightestGreyColor;
 }
 
 .clickableTableRow {
@@ -35,7 +35,6 @@
 }
 
 .tableHeaderRow {
-  border-top: 1px solid $lightestGreyColor;
   background-color: #F6F6F7 !important;
 }
 
@@ -45,6 +44,8 @@
   color: #424240 !important;
   font-size: 14px !important;
   font-weight: 400;
+  border: 0;
+  outline: none;
 }
 
 
