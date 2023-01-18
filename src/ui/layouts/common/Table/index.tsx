@@ -183,14 +183,23 @@ export const Table: React.FC<TableProps> = ({
   // console.log(check, '333');
   useEffect(() => {
     // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
-    setItemPerPage(DEFAULT_ITEMS_PER_PAGE);
+    setItemPerPage(itemPerPage);
+    if (filters) {
+      setPageIndex(0);
+    }
     switch (componentName) {
       case 'stacks':
         if (CheckIfRun) {
-          dispatchStackRunsData(id, 1, 5, filters as any, activeSorting);
+          dispatchStackRunsData(
+            id,
+            1,
+            itemPerPage,
+            filters as any,
+            activeSorting,
+          );
           break;
         } else {
-          dispatchStackData(1, 5, filters as any, activeSorting);
+          dispatchStackData(1, itemPerPage, filters as any, activeSorting);
           break;
         }
       case 'components':
@@ -198,27 +207,39 @@ export const Table: React.FC<TableProps> = ({
           dispatchStackComponentRunsData(
             id,
             1,
-            5,
+            itemPerPage,
             filters as any,
             activeSorting,
           );
           break;
         } else {
-          dispatchStackComponentsData(1, 5, filters as any, activeSorting);
+          dispatchStackComponentsData(
+            1,
+            itemPerPage,
+            filters as any,
+            activeSorting,
+          );
           break;
         }
       case 'pipelines':
         if (CheckIfRun) {
-          dispatchPipelineRunsData(id, 1, 5, filters as any, activeSorting);
+          dispatchPipelineRunsData(
+            id,
+            1,
+            itemPerPage,
+            filters as any,
+            activeSorting,
+          );
           break;
         } else {
+          console.log(itemPerPage, 'itemPerPage');
           if (!renderAfterRow) break;
-          dispatchPipelineData(1, 5, filters as any, activeSorting);
+          dispatchPipelineData(1, itemPerPage, filters as any, activeSorting);
           break;
         }
 
       case 'all-runs':
-        dispatchAllrunsData(1, 5, filters as any, activeSorting);
+        dispatchAllrunsData(1, itemPerPage, filters as any, activeSorting);
         break;
 
       default:
@@ -252,7 +273,7 @@ export const Table: React.FC<TableProps> = ({
                 <tr className={showHeader ? styles.tableHeaderRow : ''}>
                   {headerCols.map((headerCol: HeaderCol, index: number, i) => (
                     <th
-                      className={styles.tableHeadingTh}                
+                      className={styles.tableHeadingTh}
                       style={{
                         width: headerCol.width,
                         color: '#424240',
@@ -261,8 +282,12 @@ export const Table: React.FC<TableProps> = ({
                       }}
                       key={index}
                     >
-                      <Box style={{ backgroundColor: '#f6f67' }} paddingVertical={showHeader ? 'sm' : null} paddingLeft="lg">
-                          {headerCol.render && headerCol.render()}
+                      <Box
+                        style={{ backgroundColor: '#f6f67' }}
+                        paddingVertical={showHeader ? 'sm' : null}
+                        paddingLeft="lg"
+                      >
+                        {headerCol.render && headerCol.render()}
                       </Box>
                     </th>
                   ))}
@@ -284,7 +309,9 @@ export const Table: React.FC<TableProps> = ({
                         styles.tableRow,
                         trOnClick && styles.clickableTableRow,
                       )}
-                      style={{ backgroundColor: index % 2 !== 0 ? '#F5F3F9' : 'white' }}
+                      style={{
+                        backgroundColor: index % 2 !== 0 ? '#F5F3F9' : 'white',
+                      }}
                       key={index}
                     >
                       {headerCols.map((headerCol: HeaderCol, index: number) => (
@@ -295,7 +322,7 @@ export const Table: React.FC<TableProps> = ({
                         >
                           <Box paddingVertical="sm" paddingLeft="lg">
                             <Truncate maxLines={1}>
-                                {headerCol.renderRow(headerRow)}
+                              {headerCol.renderRow(headerRow)}
                             </Truncate>
                           </Box>
                         </td>
