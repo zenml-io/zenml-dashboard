@@ -530,7 +530,12 @@ const FilterComponent = ({
   const selectStyles = {
     control: (base: any) => ({
       width: '146px',
-      ...base,
+      borderRadius: 0,
+      border: '1px solid grey',
+      height: '40px',
+      fontSize: '12px',
+      display: 'flex'
+      // ...base,
     }),
   };
 
@@ -645,17 +650,21 @@ const FilterComponent = ({
   return (
     <FlexBox.Column fullWidth>
       <div className={styles.inputRow}>
-        <Box marginRight="md" marginTop='md'>
-          <SearchInputField 
-              placeholder={'Search'}
-              value={searchText ? filters[0]?.filterValue : ''}
-              disabled={applyFilter}
-              onChange={(value: string) => {
-                setSearchText(value ? true : false);
-                handleValueFieldChangeOnSearch(value);
-              }}
-          />
-        </Box>
+        
+        {!window.location.href?.includes('components') && (
+          <Box marginRight="md" marginTop='md'>
+            <SearchInputField 
+                placeholder={'Search'}
+                value={searchText ? filters[0]?.filterValue : ''}
+                disabled={applyFilter}
+                onChange={(value: string) => {
+                  setSearchText(value ? true : false);
+                  handleValueFieldChangeOnSearch(value);
+                }}
+            />
+          </Box>
+        )}
+
 
         <FlexBox
           fullWidth
@@ -902,7 +911,7 @@ const FilterComponent = ({
                           }}
                           isClearable={true}
                           // value={'role'}
-                          className={styles.searchableInput}
+                          className={styles.searchableInput} 
                           // classNamePrefix="select"
                           // isClearable={false}
                         />
