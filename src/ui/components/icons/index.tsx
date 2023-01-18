@@ -57,6 +57,7 @@ import { ReactComponent as LockKey } from './assets/LockKey.svg';
 import { ReactComponent as Graph } from './assets/Graph.svg';
 import { ReactComponent as GitCommit } from './assets/GitCommit.svg';
 import { ReactComponent as ChatDots } from './assets/ChatDots.svg';
+import { ReactComponent as Run } from './assets/Run.svg';
 // import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 // import { ReactComponent as Cached } from './assets/Cached.svg';
 // import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
@@ -169,6 +170,7 @@ const icons = {
   delete: createIcon({ Component: Delete }),
   edit: createIcon({ Component: Edit }),
   search: createIcon({ Component: Search }),
+  run: createIcon({ Component: Run, useStroke: true }),
 
   //icons for stackComponents
   artifact_store: createIcon({ Component: Folders, useStroke: true }),

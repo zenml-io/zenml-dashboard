@@ -3,6 +3,7 @@ import {
   Box,
   FlexBox,
   FormDropdownField,
+  SearchInputField,
   FormTextField,
   icons,
   Paragraph,
@@ -529,7 +530,12 @@ const FilterComponent = ({
   const selectStyles = {
     control: (base: any) => ({
       width: '146px',
-      ...base,
+      borderRadius: 0,
+      border: '1px solid grey',
+      height: '40px',
+      fontSize: '12px',
+      display: 'flex'
+      // ...base,
     }),
   };
 
@@ -644,24 +650,22 @@ const FilterComponent = ({
   return (
     <FlexBox.Column fullWidth>
       <div className={styles.inputRow}>
-        <Box marginBottom="lg" marginRight="md">
-          <FormTextField
-            label={''}
-            placeholder={'Search'}
-            value={searchText ? filters[0]?.filterValue : ''}
-            disabled={applyFilter}
-            onChange={(value: string) => {
-              setSearchText(value ? true : false);
-              handleValueFieldChangeOnSearch(value);
-            }}
-            style={{
-              borderRadius: '4px',
-              width: '205px',
-              fontSize: '12px',
-              color: '#424240',
-            }}
-          />
-        </Box>
+        
+        {!window.location.href?.includes('components') && (
+          <Box marginRight="md" marginTop='md'>
+            <SearchInputField 
+                placeholder={'Search'}
+                value={searchText ? filters[0]?.filterValue : ''}
+                disabled={applyFilter}
+                onChange={(value: string) => {
+                  setSearchText(value ? true : false);
+                  handleValueFieldChangeOnSearch(value);
+                }}
+            />
+          </Box>
+        )}
+
+
         <FlexBox
           fullWidth
           className="border border-primary rounded rounded-4 p-2 align-item-center"
@@ -673,14 +677,14 @@ const FilterComponent = ({
             style={{
               width: '33px',
               height: '28px',
-              background: '#431D93',
+              background: '#fff',
               borderRadius: '4px',
             }}
           >
             <icons.funnelFill
               style={{ padding: '5px 0px 0px 7px' }}
               size={iconSizes.sm}
-              color={iconColors.white}
+              color={iconColors.primary}
             />
           </Box>
           <Box
@@ -688,13 +692,12 @@ const FilterComponent = ({
             className="text-muted h5"
           >
             {/* Filter your stack */}
-            {!applyFilter && !filters[0]?.column?.selectedValue?.label ? (
+            {!applyFilter && !filters[0]?.filterValue ? (
               <Paragraph className={styles.filterplaceholder}>
                 Filter list
+                {console.log(filters, 'filters1')}
               </Paragraph>
-            ) : filters[0]?.column?.selectedValue.label &&
-              !applyFilter &&
-              !searchText ? (
+            ) : filters[0]?.filterValue && !applyFilter && !searchText ? (
               filters.map((filter: any, index: number) => {
                 return (
                   <FlexBox.Row key={index} className={styles.tile}>
@@ -726,8 +729,7 @@ const FilterComponent = ({
                 Filter list
               </Paragraph>
             )}
-            {!applyFilter &&
-            !filters[0]?.column?.selectedValue?.label ? null : filters[0]
+            {!applyFilter && !filters[0]?.filterValue ? null : filters[0]
                 ?.column?.selectedValue.label &&
               !applyFilter &&
               !searchText ? (
@@ -907,7 +909,7 @@ const FilterComponent = ({
                           }}
                           isClearable={true}
                           // value={'role'}
-                          className={styles.searchableInput}
+                          className={styles.searchableInput} 
                           // classNamePrefix="select"
                           // isClearable={false}
                         />

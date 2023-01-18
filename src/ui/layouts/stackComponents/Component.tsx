@@ -39,7 +39,8 @@ const Component = () => {
       })
 
     const formatText = (text: string) => {
-        return text.charAt(0).toUpperCase() + text.slice(1).replace('_', ' ')
+        const removeUnderscore = text.replace('_', ' ')
+        return removeUnderscore.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase());
     }
 
     const formatSectionColor = (text: string) => {

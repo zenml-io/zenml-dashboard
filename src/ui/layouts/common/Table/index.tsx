@@ -188,14 +188,23 @@ export const Table: React.FC<TableProps> = ({
   // console.log(check, '333');
   useEffect(() => {
     // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
-    setItemPerPage(DEFAULT_ITEMS_PER_PAGE);
+    setItemPerPage(itemPerPage);
+    if (filters) {
+      setPageIndex(0);
+    }
     switch (componentName) {
       case 'stacks':
         if (CheckIfRun) {
-          dispatchStackRunsData(id, 1, 5, filters as any, activeSorting);
+          dispatchStackRunsData(
+            id,
+            1,
+            itemPerPage,
+            filters as any,
+            activeSorting,
+          );
           break;
         } else {
-          dispatchStackData(1, 5, filters as any, activeSorting);
+          dispatchStackData(1, itemPerPage, filters as any, activeSorting);
           break;
         }
       case 'components':
@@ -203,27 +212,39 @@ export const Table: React.FC<TableProps> = ({
           dispatchStackComponentRunsData(
             id,
             1,
-            5,
+            itemPerPage,
             filters as any,
             activeSorting,
           );
           break;
         } else {
-          dispatchStackComponentsData(1, 5, filters as any, activeSorting);
+          dispatchStackComponentsData(
+            1,
+            itemPerPage,
+            filters as any,
+            activeSorting,
+          );
           break;
         }
       case 'pipelines':
         if (CheckIfRun) {
-          dispatchPipelineRunsData(id, 1, 5, filters as any, activeSorting);
+          dispatchPipelineRunsData(
+            id,
+            1,
+            itemPerPage,
+            filters as any,
+            activeSorting,
+          );
           break;
         } else {
+          console.log(itemPerPage, 'itemPerPage');
           if (!renderAfterRow) break;
-          dispatchPipelineData(1, 5, filters as any, activeSorting);
+          dispatchPipelineData(1, itemPerPage, filters as any, activeSorting);
           break;
         }
 
       case 'all-runs':
-        dispatchAllrunsData(1, 5, filters as any, activeSorting);
+        dispatchAllrunsData(1, itemPerPage, filters as any, activeSorting);
         break;
 
       default:

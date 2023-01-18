@@ -40,7 +40,7 @@ export const Menu: React.FC = () => {
       <MenuItem
         id="runs"
         Icon={() => (
-          <icons.pipeline color={iconColors.white} size={iconSizes.md} />
+          <icons.run color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.pipelines.allRuns(selectedProject)}
         isActive={() => window.location.href?.includes('all-runs')}
