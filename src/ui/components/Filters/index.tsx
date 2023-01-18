@@ -692,13 +692,12 @@ const FilterComponent = ({
             className="text-muted h5"
           >
             {/* Filter your stack */}
-            {!applyFilter && !filters[0]?.column?.selectedValue?.label ? (
+            {!applyFilter && !filters[0]?.filterValue ? (
               <Paragraph className={styles.filterplaceholder}>
                 Filter list
+                {console.log(filters, 'filters1')}
               </Paragraph>
-            ) : filters[0]?.column?.selectedValue.label &&
-              !applyFilter &&
-              !searchText ? (
+            ) : filters[0]?.filterValue && !applyFilter && !searchText ? (
               filters.map((filter: any, index: number) => {
                 return (
                   <FlexBox.Row key={index} className={styles.tile}>
@@ -730,8 +729,7 @@ const FilterComponent = ({
                 Filter list
               </Paragraph>
             )}
-            {!applyFilter &&
-            !filters[0]?.column?.selectedValue?.label ? null : filters[0]
+            {!applyFilter && !filters[0]?.filterValue ? null : filters[0]
                 ?.column?.selectedValue.label &&
               !applyFilter &&
               !searchText ? (
