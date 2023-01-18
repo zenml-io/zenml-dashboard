@@ -27,11 +27,13 @@ $width: 15rem;
   z-index: 9;
   top: 5rem;
   right: 0;
+  text-align: end;
 }
 
 .popupItem {
   cursor: pointer;
   transition: 0.2s ease-in all;
+  justify-content: end;
 }
 
 .popupItem:hover {

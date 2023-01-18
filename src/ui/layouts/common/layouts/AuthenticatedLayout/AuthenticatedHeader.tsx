@@ -20,7 +20,6 @@ import {
 import { getInitials } from '../../../../../utils/name';
 import {
   DEFAULT_FULL_NAME,
-  DEFAULT_PROJECT_NAME,
 } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
 import {
@@ -157,13 +156,13 @@ export const AuthenticatedHeader: React.FC<{
         onFailure: () => stopLoad(),
       }),
     );
-    await dispatch(projectsActions.getMy({ selectDefault: false, selectedProject }))
+    await dispatch(projectsActions.getMy({ selectDefault: false, selectedProject: e?.name }))
   };
 
+  const selected =  projects.some((project) => project['name'] === locationPath.split('/')[2])
+                          ? locationPath.split('/')[2].substring(0, 10)
+                          : selectedProject
 
-const selected =  projects.some((project) => project['name'] === locationPath.split('/')[2])
-                        ? locationPath.split('/')[2].substring(0, 10)
-                        : DEFAULT_PROJECT_NAME.substring(0, 10)
 
   return (
     <>
@@ -207,7 +206,7 @@ const selected =  projects.some((project) => project['name'] === locationPath.sp
                 </FlexBox>
               </LinkBox>
               <If condition={popupOpen}>
-                {() => (
+                {() => ( 
                   <OutsideClickHandler
                     onOutsideClick={() => setPopupOpen(false)}
                   >
@@ -217,7 +216,6 @@ const selected =  projects.some((project) => project['name'] === locationPath.sp
                           className={styles.popupItem}
                           paddingHorizontal="md"
                           paddingVertical="sm"
-                          alignItems="center"
                         >
                           <Paragraph size="small">Settings</Paragraph>
                         </FlexBox>
@@ -227,13 +225,13 @@ const selected =  projects.some((project) => project['name'] === locationPath.sp
                       <Box marginHorizontal='md'><Separator.LightNew /></Box>
                       <Box marginTop='sm' marginHorizontal="md" ><Paragraph color='grey' style={{ fontSize: '14px' }} >Your workspaces</Paragraph></Box>
                       
-                      <Box marginVertical='sm' marginLeft='md' className="d-none d-md-block">            
+                      <Box marginVertical='sm' marginHorizontal='md' className="d-none d-md-block">            
                         <Box marginTop='sm' style={{ maxHeight: '290px', overflow: projects?.length > 10 ? 'auto' :'hidden' }} >  
                               {projects.map((option, index) => (
                                 <Box marginTop='sm' onClick={() => onChange(option) } key={index} >
                                   <div data-tip data-for={option.name}>
                                     <Paragraph style={{ fontSize: '16px', color: '#443E99', cursor: 'pointer', fontWeight: selected === option.name ? 'bold' : 'normal' }} >
-                                      {option.name.substring(0, 10)} {selected === option.name && <>&#x2022;</>} 
+                                      {option.name.substring(0, 10)} <span style={{ color: selected === option.name ? '#443E99' : '#fff' }}  >&#x2022;</span> 
                                     </Paragraph>
                                   </div>
 
@@ -254,7 +252,7 @@ const selected =  projects.some((project) => project['name'] === locationPath.sp
                             className={styles.popupItem}
                             paddingHorizontal="md"
                             paddingVertical="sm"
-                            alignItems="center"
+                            // alignItems="center"
                           >
                             <Box paddingRight="sm">
                               <icons.signOut

@@ -3,6 +3,7 @@ import {
   Box,
   FlexBox,
   FormDropdownField,
+  SearchInputField,
   FormTextField,
   icons,
   Paragraph,
@@ -644,24 +645,18 @@ const FilterComponent = ({
   return (
     <FlexBox.Column fullWidth>
       <div className={styles.inputRow}>
-        <Box marginBottom="lg" marginRight="md">
-          <FormTextField
-            label={''}
-            placeholder={'Search'}
-            value={searchText ? filters[0]?.filterValue : ''}
-            disabled={applyFilter}
-            onChange={(value: string) => {
-              setSearchText(value ? true : false);
-              handleValueFieldChangeOnSearch(value);
-            }}
-            style={{
-              borderRadius: '4px',
-              width: '205px',
-              fontSize: '12px',
-              color: '#424240',
-            }}
+        <Box marginRight="md" marginTop='md'>
+          <SearchInputField 
+              placeholder={'Search'}
+              value={searchText ? filters[0]?.filterValue : ''}
+              disabled={applyFilter}
+              onChange={(value: string) => {
+                setSearchText(value ? true : false);
+                handleValueFieldChangeOnSearch(value);
+              }}
           />
         </Box>
+
         <FlexBox
           fullWidth
           className="border border-primary rounded rounded-4 p-2 align-item-center"
@@ -673,14 +668,14 @@ const FilterComponent = ({
             style={{
               width: '33px',
               height: '28px',
-              background: '#431D93',
+              background: '#fff',
               borderRadius: '4px',
             }}
           >
             <icons.funnelFill
               style={{ padding: '5px 0px 0px 7px' }}
               size={iconSizes.sm}
-              color={iconColors.white}
+              color={iconColors.primary}
             />
           </Box>
           <Box
