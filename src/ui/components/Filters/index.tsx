@@ -74,12 +74,12 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
-          value: 'start_with',
+          value: 'startswith',
           label: 'Start With',
           type: 'string',
         },
         {
-          value: 'end_with',
+          value: 'endswith',
           label: 'End With',
           type: 'string',
         },
@@ -343,12 +343,12 @@ export const getInitialFilterStateForRuns = () => {
           type: 'string',
         },
         {
-          value: 'start_with',
+          value: 'startswith',
           label: 'Start With',
           type: 'string',
         },
         {
-          value: 'end_with',
+          value: 'endswith',
           label: 'End With',
           type: 'string',
         },
