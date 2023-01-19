@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import { Box, Paragraph, icons } from '../../../components';
-import { iconColors, iconSizes } from '../../../../constants';
-import {
-  camelCaseToParagraph,
-  formatDateToDisplayOnTable,
-} from '../../../../utils';
+import { Box } from '../../../components';
+// import { iconColors, iconSizes } from '../../../../constants';
+import { camelCaseToParagraph } from '../../../../utils';
+// import styles from './index.module.scss';
+// import cn from 'classnames';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
 import { Runs } from './Runs';
@@ -17,6 +16,7 @@ import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 import { projectSelectors } from '../../../../redux/selectors';
+import { List } from '../Stacks/List';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -119,16 +119,22 @@ export const StackDetail: React.FC = () => {
     selectedProject,
   );
 
-  const boxStyle = {
-    backgroundColor: '#E9EAEC',
-    padding: '10px 0',
-    borderRadius: '8px',
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'space-around',
-  };
-  const headStyle = { color: '#828282' };
-  const paraStyle = { color: '#515151', marginTop: '10px' };
+  // const boxStyle = {
+  //   backgroundColor: '#E9EAEC',
+  //   padding: '10px 0',
+  //   borderRadius: '8px',
+  //   marginTop: '20px',
+  //   display: 'flex',
+  //   justifyContent: 'space-around',
+  // };
+  // const headStyle = { color: '#828282' };
+  // const paraStyle = { color: '#515151', marginTop: '10px' };
+  // const data = [
+  //   { name: 'Anom', age: 19, gender: 'Male' },
+  //   { name: 'Megha', age: 19, gender: 'Female' },
+  //   { name: 'Subham', age: 25, gender: 'Male' },
+  // ];
+  // const history = useHistory();
 
   return (
     <BasePage
@@ -140,7 +146,7 @@ export const StackDetail: React.FC = () => {
       )}
       breadcrumbs={breadcrumbs}
     >
-      <Box style={boxStyle}>
+      {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>ID</Paragraph>
           <Paragraph style={paraStyle}>{stackComponent.id}</Paragraph>
@@ -183,6 +189,36 @@ export const StackDetail: React.FC = () => {
             {formatDateToDisplayOnTable(stackComponent.created)}
           </Paragraph>
         </Box>
+      </Box> */}
+      <Box paddingTop={'xl'}>
+        <List
+          filter={[]}
+          pagination={false}
+          isExpended
+          id={stackComponent.id}
+        ></List>
+        {/* <>
+          <table className={cn(styles.table)}>
+            <tbody>
+              <tr className={cn(styles.tableHeader)}>
+                <th className={cn(styles.tableHeaderText)}>Id</th>
+                <th className={cn(styles.tableHeaderText)}>Name</th>
+                <th className={cn(styles.tableHeaderText)}>Flavor</th>
+                <th className={cn(styles.tableHeaderText)}>Shared</th>
+                <th className={cn(styles.tableHeaderText)}>Author</th>
+                <th className={cn(styles.tableHeaderText)}>Created</th>
+              </tr>
+              <tr className={cn(styles.tableRow)}>
+                <td>{stackComponent.id}</td>
+                <td>{stackComponent.name}</td>
+                <td>{stackComponent.flavor}</td>
+                <td>{stackComponent.isShared}</td>
+                <td>{stackComponent.user.name}</td>
+                <td> {formatDateToDisplayOnTable(stackComponent.created)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </> */}
       </Box>
     </BasePage>
   );
