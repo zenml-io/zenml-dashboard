@@ -13,6 +13,7 @@ export interface State {
   roles: string[];
   invoices: TInvoice[];
   invite: { id: null; activationToken: null; email: null };
+  paginated: any;
 }
 
 export type Action = {
@@ -39,12 +40,23 @@ export const initialState: State = {
   invoices: [],
   myOrganizationId: null,
   invite: { id: null, activationToken: null, email: null },
+  paginated: {},
 };
 
-const newState = (state: State, organizations: TOrganization[]): State => ({
+const newState = (
+  state: State,
+  organizations: TOrganization[],
+  pagination?: any,
+): State => ({
   ...state,
   ids: idsInsert(state.ids, organizations),
   byId: byKeyInsert(state.byId, organizations),
+  paginated: {
+    page: pagination.page,
+    size: pagination.size,
+    totalPages: pagination.total_pages,
+    totalitem: pagination.total,
+  },
 });
 
 const organizationsReducer = (
@@ -83,8 +95,20 @@ const organizationsReducer = (
         action.payload.items as TMember[],
       );
 
-      return { ...newState(state, []), members: members || [] };
+      return { ...newState(state, [], action.payload), members: members || [] };
     }
+
+    // case pipelineActionTypes.getMyPipelines.success: {
+    //   const pipelines: TPipeline[] = camelCaseArray(
+    //     action.payload.items as PipelinesPayload,
+    //   );
+
+    //   const myPipelineIds: TId[] = pipelines.map(
+    //     (pipeline: TPipeline) => pipeline.id,
+    //   );
+
+    //   return { ...newState(state, pipelines, action.payload), myPipelineIds };
+    // }
 
     case organizationActionTypes.invite.success: {
       const inviteUser = camelCaseObject(action.payload);

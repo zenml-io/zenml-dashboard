@@ -16,7 +16,7 @@ import {
 // import { getPaginationData } from '../../../../utils/pagination';
 import { Pagination } from '../Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
-import { useLocation } from '../../../hooks';
+import { useDispatch, useLocation } from '../../../hooks';
 import { callActionForStacksForPagination } from '../../stacks/Stacks/useService';
 import { callActionForStackComponentsForPagination } from '../../stackComponents/Stacks/useService';
 import {
@@ -28,6 +28,8 @@ import { callActionForStackRunsForPagination } from '../../stacks/StackDetail/us
 import { callActionForStackComponentRunsForPagination } from '../../stackComponents/StackDetail/useService';
 import { iconColors, iconSizes } from '../../../../constants/icons';
 import OutsideClickHandler from 'react-outside-click-handler';
+
+import { organizationActions } from '../../../../redux/actions';
 
 export interface HeaderCol {
   render?: () => JSX.Element;
@@ -138,8 +140,11 @@ export const Table: React.FC<TableProps> = ({
   // };
 
   const [showItems, setShowItems] = useState(false);
+  const [fetchingMembers, setFetchingMembers] = useState(false);
+
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
   const locationPath = useLocation();
+  const dispatch = useDispatch();
   // const childRef = React.useRef(null);
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
@@ -245,11 +250,27 @@ export const Table: React.FC<TableProps> = ({
       default:
         break;
     }
+    if (locationPath.pathname.split('/')[2] === 'organization') {
+      // debugger;
+      setFetchingMembers(true);
+      dispatch(
+        organizationActions.getMembers({
+          page: 1,
+          size: 5,
+          sort_by: activeSorting,
+          onSuccess: () => setFetchingMembers(false),
+          onFailure: () => setFetchingMembers(false),
+        }),
+      );
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath.pathname.split('/')[4], isValidFilter, activeSorting]);
   let rowsToDisplay = tableRows;
-
+  // function getFetchedState(state: any) {
+  //   setFetchingMembers(state);
+  //   // console.log(activeSorting, activeSortingDirection, 'aaaaaaa');
+  // }
   if (pagination) {
     rowsToDisplay = tableRows;
   }
@@ -257,6 +278,10 @@ export const Table: React.FC<TableProps> = ({
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
+  if (fetchingMembers) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
+  console.log(fetchingMembers, activeSorting, 'fetchingMembers');
   const onChangePagePerItem = (p: number, size: number) => {
     // onChange(p + 1, size);
     setItemPerPage(size);
@@ -344,6 +369,7 @@ export const Table: React.FC<TableProps> = ({
                 >
                   <Pagination
                     ref={childRef}
+                    // getFetchedState={getFetchedState}
                     activeSorting={activeSorting}
                     filters={filters}
                     itemPerPage={itemPerPage}
@@ -351,8 +377,8 @@ export const Table: React.FC<TableProps> = ({
                     setPageIndex={setPageIndex}
                     pages={paginated?.totalPages}
                     totalOfPages={paginated?.totalPages}
-                    totalLength={tableRows.length}
-                    totalCount={paginated.totalitem}
+                    totalLength={tableRows?.length}
+                    totalCount={paginated?.totalitem}
                   />
 
                   <If

@@ -12,7 +12,8 @@ import {
 import { callActionForPipelineRunsForPagination } from '../../pipelines/PipelineDetail/useService';
 import { callActionForStackRunsForPagination } from '../../stacks/StackDetail/useService';
 import { callActionForStackComponentRunsForPagination } from '../../stackComponents/StackDetail/useService';
-import { usePagination, DOTS } from '../../../hooks';
+import { usePagination, DOTS, useDispatch } from '../../../hooks';
+import { organizationActions } from '../../../../redux/actions';
 // const PaginationItem = (props: {
 //   isActive: boolean;
 //   index: string;
@@ -73,7 +74,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
   const {
     dispatchStackComponentsData,
   } = callActionForStackComponentsForPagination();
-
+  const dispatch = useDispatch();
   const { dispatchPipelineData } = callActionForPipelinesForPagination();
   const { dispatchAllrunsData } = callActionForAllrunsForPagination();
   const { dispatchPipelineRunsData } = callActionForPipelineRunsForPagination();
@@ -92,7 +93,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
       ? locationPath.pathname.split('/')[5]
       : locationPath.pathname.split('/')[4];
   // const isValidFilter = props.filters?.map((f) => f.value).join('');
-
+  // const [fetchingMembers, setFetchingMembers] = useState(true);
   useImperativeHandle(ref, () => ({
     callOnChange(page: number, size: number, filters: any, activeSorting: any) {
       props.setPageIndex(page - 1);
@@ -100,6 +101,9 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
       // debugger;
     },
   }));
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [fetchingMembers]);
 
   const paginationRange = usePagination({
     currentPage: props.pageIndex + 1,
@@ -165,6 +169,20 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
 
       default:
         break;
+    }
+
+    if (locationPath.pathname.split('/')[2] === 'organization') {
+      // debugger;
+      // setFetchingMembers(true);
+      dispatch(
+        organizationActions.getMembers({
+          page: page,
+          size: size,
+          sort_by: activeSorting,
+          // onSuccess: () => setFetchingMembers(false),
+          // onFailure: () => setFetchingMembers(false),
+        }),
+      );
     }
   };
   // console.log(itemPerPage, 'itemPerPage');
@@ -323,16 +341,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
           }}
           icon={icons.paginationLast}
         />
-     
       </FlexBox>
-
-
-
-
-
-
-
-
     </FlexBox.Column>
   );
 });
