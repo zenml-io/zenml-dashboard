@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   FlexBox,
@@ -15,16 +15,24 @@ import { translate } from './translate';
 import { organizationActions } from '../../../../redux/actions/organizations/index';
 import { showToasterAction } from '../../../../redux/actions/showToasterAction';
 import { iconColors } from '../../../../constants/icons';
+import { organizationSelectors } from '../../../../redux/selectors';
 
 export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const dispatch = useDispatch();
-
+  const membersPaginated = useSelector(
+    organizationSelectors.myMembersPaginated,
+  );
   useEffect(() => {
     const intervalId = setInterval(() => {
       //assign interval to a variable to clear it.
-      dispatch(organizationActions.getMembers({}));
+      dispatch(
+        organizationActions.getMembers({
+          page: membersPaginated.page,
+          size: membersPaginated.size,
+        }),
+      );
     }, 5000);
 
     return () => clearInterval(intervalId); //This is important

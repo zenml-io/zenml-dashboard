@@ -16,7 +16,7 @@ import {
 // import { getPaginationData } from '../../../../utils/pagination';
 import { Pagination } from '../Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
-import { useLocation } from '../../../hooks';
+import { useDispatch, useLocation } from '../../../hooks';
 import { callActionForStacksForPagination } from '../../stacks/Stacks/useService';
 import { callActionForStackComponentsForPagination } from '../../stackComponents/Stacks/useService';
 import {
@@ -28,6 +28,8 @@ import { callActionForStackRunsForPagination } from '../../stacks/StackDetail/us
 import { callActionForStackComponentRunsForPagination } from '../../stackComponents/StackDetail/useService';
 import { iconColors, iconSizes } from '../../../../constants/icons';
 import OutsideClickHandler from 'react-outside-click-handler';
+
+import { organizationActions } from '../../../../redux/actions';
 
 export interface HeaderCol {
   render?: () => JSX.Element;
@@ -138,8 +140,11 @@ export const Table: React.FC<TableProps> = ({
   // };
 
   const [showItems, setShowItems] = useState(false);
+  const [fetchingMembers, setFetchingMembers] = useState(false);
+
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
   const locationPath = useLocation();
+  const dispatch = useDispatch();
   // const childRef = React.useRef(null);
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
@@ -183,14 +188,23 @@ export const Table: React.FC<TableProps> = ({
   // console.log(check, '333');
   useEffect(() => {
     // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
-    setItemPerPage(DEFAULT_ITEMS_PER_PAGE);
+    setItemPerPage(itemPerPage);
+    if (filters) {
+      setPageIndex(0);
+    }
     switch (componentName) {
       case 'stacks':
         if (CheckIfRun) {
-          dispatchStackRunsData(id, 1, 5, filters as any, activeSorting);
+          dispatchStackRunsData(
+            id,
+            1,
+            itemPerPage,
+            filters as any,
+            activeSorting,
+          );
           break;
         } else {
-          dispatchStackData(1, 5, filters as any, activeSorting);
+          dispatchStackData(1, itemPerPage, filters as any, activeSorting);
           break;
         }
       case 'components':
@@ -198,37 +212,65 @@ export const Table: React.FC<TableProps> = ({
           dispatchStackComponentRunsData(
             id,
             1,
-            5,
+            itemPerPage,
             filters as any,
             activeSorting,
           );
           break;
         } else {
-          dispatchStackComponentsData(1, 5, filters as any, activeSorting);
+          dispatchStackComponentsData(
+            1,
+            itemPerPage,
+            filters as any,
+            activeSorting,
+          );
           break;
         }
       case 'pipelines':
         if (CheckIfRun) {
-          dispatchPipelineRunsData(id, 1, 5, filters as any, activeSorting);
+          dispatchPipelineRunsData(
+            id,
+            1,
+            itemPerPage,
+            filters as any,
+            activeSorting,
+          );
           break;
         } else {
+          console.log(itemPerPage, 'itemPerPage');
           if (!renderAfterRow) break;
-          dispatchPipelineData(1, 5, filters as any, activeSorting);
+          dispatchPipelineData(1, itemPerPage, filters as any, activeSorting);
           break;
         }
 
       case 'all-runs':
-        dispatchAllrunsData(1, 5, filters as any, activeSorting);
+        dispatchAllrunsData(1, itemPerPage, filters as any, activeSorting);
         break;
 
       default:
         break;
     }
+    if (locationPath.pathname.split('/')[2] === 'organization') {
+      // debugger;
+      setFetchingMembers(true);
+      dispatch(
+        organizationActions.getMembers({
+          page: 1,
+          size: 5,
+          sort_by: activeSorting,
+          onSuccess: () => setFetchingMembers(false),
+          onFailure: () => setFetchingMembers(false),
+        }),
+      );
+    }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath.pathname.split('/')[4], isValidFilter, activeSorting]);
   let rowsToDisplay = tableRows;
-
+  // function getFetchedState(state: any) {
+  //   setFetchingMembers(state);
+  //   // console.log(activeSorting, activeSortingDirection, 'aaaaaaa');
+  // }
   if (pagination) {
     rowsToDisplay = tableRows;
   }
@@ -236,6 +278,10 @@ export const Table: React.FC<TableProps> = ({
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
+  if (fetchingMembers) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
+  console.log(fetchingMembers, activeSorting, 'fetchingMembers');
   const onChangePagePerItem = (p: number, size: number) => {
     // onChange(p + 1, size);
     setItemPerPage(size);
@@ -252,7 +298,7 @@ export const Table: React.FC<TableProps> = ({
                 <tr className={showHeader ? styles.tableHeaderRow : ''}>
                   {headerCols.map((headerCol: HeaderCol, index: number, i) => (
                     <th
-                      className={styles.tableHeadingTh}                
+                      className={styles.tableHeadingTh}
                       style={{
                         width: headerCol.width,
                         color: '#424240',
@@ -261,8 +307,12 @@ export const Table: React.FC<TableProps> = ({
                       }}
                       key={index}
                     >
-                      <Box style={{ backgroundColor: '#f6f67' }} paddingVertical={showHeader ? 'sm' : null} paddingLeft="lg">
-                          {headerCol.render && headerCol.render()}
+                      <Box
+                        style={{ backgroundColor: '#f6f67' }}
+                        paddingVertical={showHeader ? 'sm' : null}
+                        paddingLeft="lg"
+                      >
+                        {headerCol.render && headerCol.render()}
                       </Box>
                     </th>
                   ))}
@@ -284,7 +334,9 @@ export const Table: React.FC<TableProps> = ({
                         styles.tableRow,
                         trOnClick && styles.clickableTableRow,
                       )}
-                      style={{ backgroundColor: index % 2 !== 0 ? '#F5F3F9' : 'white' }}
+                      style={{
+                        backgroundColor: index % 2 !== 0 ? '#F5F3F9' : 'white',
+                      }}
                       key={index}
                     >
                       {headerCols.map((headerCol: HeaderCol, index: number) => (
@@ -295,7 +347,7 @@ export const Table: React.FC<TableProps> = ({
                         >
                           <Box paddingVertical="sm" paddingLeft="lg">
                             <Truncate maxLines={1}>
-                                {headerCol.renderRow(headerRow)}
+                              {headerCol.renderRow(headerRow)}
                             </Truncate>
                           </Box>
                         </td>
@@ -317,6 +369,7 @@ export const Table: React.FC<TableProps> = ({
                 >
                   <Pagination
                     ref={childRef}
+                    // getFetchedState={getFetchedState}
                     activeSorting={activeSorting}
                     filters={filters}
                     itemPerPage={itemPerPage}
@@ -324,8 +377,8 @@ export const Table: React.FC<TableProps> = ({
                     setPageIndex={setPageIndex}
                     pages={paginated?.totalPages}
                     totalOfPages={paginated?.totalPages}
-                    totalLength={tableRows.length}
-                    totalCount={paginated.totalitem}
+                    totalLength={tableRows?.length}
+                    totalCount={paginated?.totalitem}
                   />
 
                   <If
