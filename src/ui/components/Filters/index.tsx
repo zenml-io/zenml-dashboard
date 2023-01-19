@@ -432,7 +432,7 @@ const FilterComponent = ({
   const dispatch = useDispatch();
   const [applyFilter, setApplyFilter] = useState(false);
   const [searchText, setSearchText] = useState(false);
-
+  const [showInBar, setShowInbar] = useState(false);
   const members = useSelector(organizationSelectors.myMembers);
   const pipelines = useSelector(pipelineSelectors.myPipelines);
   const stacks = useSelector(stackSelectors.mystacks);
@@ -658,7 +658,7 @@ const FilterComponent = ({
             <SearchInputField
               placeholder={'Search'}
               value={searchText ? filters[0]?.filterValue : ''}
-              disabled={applyFilter}
+              disabled={applyFilter || showInBar}
               onChange={(value: string) => {
                 setSearchText(value ? true : false);
                 handleValueFieldChangeOnSearch(value);
@@ -666,7 +666,6 @@ const FilterComponent = ({
             />
           </Box>
         )}
-
         <FlexBox
           fullWidth
           className="border  rounded rounded-4 p-2 align-item-center"
@@ -715,7 +714,14 @@ const FilterComponent = ({
                       }`}
                     </Box>
 
-                    <Box onClick={() => hanldeDelete(index)}>
+                    <Box
+                      onClick={() => {
+                        if (filters.length === 1) {
+                          setShowInbar(false);
+                        }
+                        hanldeDelete(index);
+                      }}
+                    >
                       <icons.closeWithBorder
                         style={{ paddingLeft: '7px' }}
                         size={iconSizes.sm}
@@ -737,6 +743,7 @@ const FilterComponent = ({
               <Box
                 onClick={() => {
                   setFilter([getInitials()]);
+                  setShowInbar(false);
                 }}
               >
                 <icons.closeWithBorder
@@ -778,9 +785,10 @@ const FilterComponent = ({
                 <Box style={{ width: '146px' }}>
                   <FormDropdownField
                     label={''}
-                    onChange={(value: string) =>
-                      handleChange(filter, 'column', value)
-                    }
+                    onChange={(value: string) => {
+                      setShowInbar(true);
+                      handleChange(filter, 'column', value);
+                    }}
                     placeholder={'Column Name'}
                     value={filter.column.selectedValue.value}
                     options={filter.column.options}
@@ -949,7 +957,9 @@ const FilterComponent = ({
                 )}
 
                 <Box
-                  onClick={() => hanldeDelete(index)}
+                  onClick={() => {
+                    hanldeDelete(index);
+                  }}
                   className={styles.removeIcon}
                 >
                   <icons.delete
