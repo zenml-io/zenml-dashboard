@@ -23,7 +23,10 @@ export const useService = (): ServiceInterface => {
   const url_string = window.location.href;
   const url = new URL(url_string);
   const projectName = url.searchParams.get('project');
-  // debugger;
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
     setFetching(true);
     dispatch(
@@ -33,7 +36,7 @@ export const useService = (): ServiceInterface => {
         sort_by: 'created',
         logical_operator: 'and',
         page: 1,
-        size: 5,
+        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

@@ -20,7 +20,10 @@ interface ServiceInterface {
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const { id } = useParams<StackDetailRouteParams>();
-
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
     setFetching(true);
 
@@ -37,7 +40,7 @@ export const useService = (): ServiceInterface => {
         sort_by: 'created',
         logical_operator: 'and',
         page: 1,
-        size: 5,
+        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         stackId: id,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
