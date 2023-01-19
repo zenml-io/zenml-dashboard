@@ -39,7 +39,7 @@ import {
 import { routePaths } from '../../../../../routes/routePaths';
 import { ProjectPopup } from './ProjectPopup';
 import ReactTooltip from 'react-tooltip';
-import { CookiePopup } from './CookiePopup'
+// import { CookiePopup } from './CookiePopup'
 
 // import { endpoints } from '../../../../../api/endpoints';
 
@@ -53,7 +53,7 @@ export const AuthenticatedHeader: React.FC<{
   const history = useHistory();
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const [createPopupOpen, setCreatePopupOpen] = useState<boolean>(false);
-  const [showCookiePopup, setShowCookiePopup] = useState<any>(localStorage.getItem('showCookie'));
+  // const [showCookiePopup, setShowCookiePopup] = useState<any>(localStorage.getItem('showCookie'));
   
   const dispatch = useDispatch();
   const { push } = usePushRoute();
@@ -275,7 +275,7 @@ export const AuthenticatedHeader: React.FC<{
         </If>
       </FlexBox>
 
-      {showCookiePopup !== 'false' && <CookiePopup setShowCookie={setShowCookiePopup} />}
+      {/* {showCookiePopup !== 'false' && <CookiePopup setShowCookie={setShowCookiePopup} />} */}
     </>
   );
 };
