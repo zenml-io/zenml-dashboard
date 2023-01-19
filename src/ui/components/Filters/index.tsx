@@ -653,19 +653,18 @@ const FilterComponent = ({
   return (
     <FlexBox.Column fullWidth>
       <div className={styles.inputRow}>
-        {!window.location.href?.includes('components') && (
-          <Box marginRight="md" marginTop="md">
-            <SearchInputField
-              placeholder={'Search'}
-              value={searchText ? filters[0]?.filterValue : ''}
-              disabled={applyFilter || showInBar}
-              onChange={(value: string) => {
-                setSearchText(value ? true : false);
-                handleValueFieldChangeOnSearch(value);
-              }}
-            />
-          </Box>
-        )}
+        <Box marginRight="md" marginTop="md">
+          <SearchInputField
+            placeholder={'Search'}
+            value={searchText ? filters[0]?.filterValue : ''}
+            disabled={applyFilter || showInBar}
+            onChange={(value: string) => {
+              setSearchText(value ? true : false);
+              handleValueFieldChangeOnSearch(value);
+            }}
+          />
+        </Box>
+
         <FlexBox
           fullWidth
           className="border  rounded rounded-4 p-2 align-item-center"
