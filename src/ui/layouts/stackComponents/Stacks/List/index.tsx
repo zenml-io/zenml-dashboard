@@ -17,14 +17,25 @@ import {
 
 interface Props {
   filter: any;
+  pagination?: boolean;
+  id?: string;
+  isExpended?: boolean;
 }
 
-export const List: React.FC<Props> = ({ filter }: Props) => {
+export const List: React.FC<Props> = ({
+  filter,
+  pagination,
+  isExpended,
+  id,
+}: // isExpended = false,
+Props) => {
   const locationPath = useLocationPath();
   const selectedProject = useSelector(projectSelectors.selectedProject);
   const stackComponentsPaginated = useSelector(
     stackComponentSelectors.mystackComponentsPaginated,
   );
+
+  // const [selectedComponentId, setSelectedComponentId] = useState('');
 
   const history = useHistory();
   const {
@@ -54,19 +65,25 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
   const openDetailPage = (stackComponent: TStack) => {
     setSelectedRunIds([]);
 
-    history.push(
-      routePaths.stackComponents.configuration(
-        locationPath.split('/')[4],
-        stackComponent.id,
-        selectedProject,
-      ),
-    );
+    if (id) {
+      history.push(
+        routePaths.stackComponents.base(
+          locationPath.split('/')[4],
+          selectedProject,
+        ),
+      );
+    } else {
+      history.push(
+        routePaths.stackComponents.configuration(
+          locationPath.split('/')[4],
+          stackComponent.id,
+          selectedProject,
+        ),
+      );
+    }
   };
 
-  // const url_string = window.location.href;
-  // const url = new URL(url_string);
-  // const projectName = url.searchParams.get('project');
-  // const project = projectName ? projectName : DEFAULT_PROJECT_NAME;
+  const expendedRow = filteredStacks.filter((item) => item.id === id);
 
   return (
     <>
@@ -84,12 +101,13 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             ? activeSorting
             : 'created'
         }
+        pagination={pagination}
         paginated={stackComponentsPaginated}
-        loading={fetching}
+        loading={expendedRow.length > 0 ? false : fetching}
         showHeader={true}
         filters={filter}
         headerCols={headerCols}
-        tableRows={filteredStacks}
+        tableRows={expendedRow.length > 0 ? expendedRow : filteredStacks}
         emptyState={
           filter[0]?.value
             ? {
@@ -103,6 +121,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
         }
         trOnClick={openDetailPage}
       />
+      {/* {isExpend ?  : <></>} */}
     </>
   );
 };
