@@ -535,6 +535,9 @@ const FilterComponent = ({
       height: '40px',
       fontSize: '12px',
       display: 'flex',
+      fontFamily: 'Rubik',
+      // color: 'red',
+
       // ...base,
     }),
   };
@@ -787,6 +790,7 @@ const FilterComponent = ({
                       width: '146px',
                       fontSize: '12px',
                       color: '#424240',
+                      fontFamily: 'Rubik',
                     }}
                   />
                 </Box>
@@ -803,6 +807,7 @@ const FilterComponent = ({
                           width: '146px',
                           fontSize: '12px',
                           color: '#424240',
+                          fontFamily: 'Rubik',
                         }}
                         onChange={(value: string) =>
                           // handleChange(filter, 'contains', value)
@@ -845,6 +850,7 @@ const FilterComponent = ({
                             width: '146px',
                             fontSize: '12px',
                             color: '#424240',
+                            fontFamily: 'Rubik',
                           }}
                           onChange={
                             (value: string) =>
@@ -934,6 +940,7 @@ const FilterComponent = ({
                           width: '146px',
                           fontSize: '12px',
                           color: '#424240',
+                          fontFamily: 'Rubik',
                         }}
                       />
                       {valueField(filter)}
