@@ -35,7 +35,7 @@ import { ReactComponent as Docs } from './assets/Docs.svg';
 import { ReactComponent as Example } from './assets/Example.svg';
 import { ReactComponent as Pipeline } from './assets/Pipeline.svg';
 import { ReactComponent as Stack } from './assets/Stack.svg';
-// import { ReactComponent as StackComponent } from './assets/StackComponent.svg';
+import { ReactComponent as StackComponent } from './assets/StackComponent.svg';
 import { ReactComponent as FunnelFill } from './assets/FunnelFill.svg';
 import { ReactComponent as Delete } from './assets/Delete.svg';
 import { ReactComponent as SimplePlus } from './assets/SimplePlus.svg';
@@ -46,7 +46,7 @@ import { ReactComponent as Edit } from './assets/Edit.svg';
 import { ReactComponent as Search } from './assets/Search.svg';
 
 //icons for stackComponents
-import { ReactComponent as PuzzlePiece } from './assets/PuzzlePiece.svg';
+// import { ReactComponent as PuzzlePiece } from './assets/PuzzlePiece.svg';
 import { ReactComponent as Folders } from './assets/Folders.svg';
 import { ReactComponent as BoundingBox } from './assets/BoundingBox.svg';
 import { ReactComponent as CloudArrowUp } from './assets/CloudArrowUp.svg';
@@ -165,7 +165,7 @@ const icons = {
   example: createIcon({ Component: Example, useStroke: true }),
   pipeline: createIcon({ Component: Pipeline, useStroke: true }),
   stack: createIcon({ Component: Stack, useStroke: true }),
-  stackComponent: createIcon({ Component: PuzzlePiece, useStroke: true }),
+  stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
   funnelFill: createIcon({ Component: FunnelFill }),
   delete: createIcon({ Component: Delete }),
   edit: createIcon({ Component: Edit }),

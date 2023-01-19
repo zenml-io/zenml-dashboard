@@ -23,7 +23,7 @@ import { EmailPopup } from './EmailPopup';
 import { loginAction } from '../../../redux/actions/session/loginAction';
 import jwt_decode from 'jwt-decode';
 
-import Tour from './Tour'
+// import Tour from './Tour'
 
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
@@ -116,7 +116,7 @@ export const PersonalDetails: React.FC = () => {
           setPopupOpen={setPopupOpen}
         />
       )}
-      <Tour />
+      {/* <Tour /> */}
       <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
         <Box marginTop="lg">
           <Row>

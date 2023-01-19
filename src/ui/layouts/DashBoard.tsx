@@ -41,14 +41,14 @@ import {
 import {
   showToasterAction,
   projectsActions,
-  pipelinesActions,
+  // pipelinesActions,
   pipelinePagesActions,
   runPagesActions,
   organizationActions,
 } from '../../redux/actions';
 import { NotFound } from './NotFound';
 
-import Tour from './Tour';
+// import Tour from './Tour';
 import { rolesActions } from '../../redux/actions/roles';
 
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
@@ -224,7 +224,7 @@ export const DashBoard: React.FC = () => {
   return (
     <AuthenticatedLayout>
       <SidebarContainer>
-        <Tour />
+        {/* <Tour /> */}
         <EaseInBox>
           <Box marginTop="5xl" marginLeft="xl">
             <Row style={{ alignItems: 'center' }}>
