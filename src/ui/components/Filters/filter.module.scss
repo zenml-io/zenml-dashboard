@@ -24,13 +24,19 @@
 }
 
 .tile {
+  align-items: center;
+  font-size: 12px;
+  font-weight: 400;
+  font-family: Rubik;
+  color: $primaryColor;
    height: 28px;
-   background-color: #EDE4FF; 
+   background-color:#FBFBFB; 
    margin-top: -5px !important; 
    margin-left: 7px !important;
    border-radius: 4px; 
    padding: 5px 11px !important
 }
+
 
 .removeIcon {
     margin-top: 23px !important;
