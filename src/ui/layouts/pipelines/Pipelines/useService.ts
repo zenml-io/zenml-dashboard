@@ -1,70 +1,138 @@
 /* eslint-disable */
 
 import { useEffect } from 'react';
+
 import {
   pipelinePagesActions,
-  workspacesActions,
+  runsActions,
+  pipelinesActions,
+  runPagesActions,
 } from '../../../../redux/actions';
-import {
-  pipelinePagesSelectors,
-  workspaceSelectors,
-} from '../../../../redux/selectors';
-import { useDispatch, useRequestOnMount, useSelector } from '../../../hooks';
+import { projectSelectors } from '../../../../redux/selectors';
 
+import { useDispatch, useSelector } from '../../../hooks';
+
+import { filterObjectForParam } from '../../../../utils';
 interface ServiceInterface {
-  setFetching: (arg: boolean) => void;
-  setCurrentWorkspace: (arg: TWorkspace | null) => void;
-  currentWorkspace: TWorkspace | null;
-  workspaces: TWorkspace[];
+  setFetchingForPipeline: (arg: boolean) => void;
+  setFetchingForAllRuns: (arg: boolean) => void;
 }
 
 export const useService = (): ServiceInterface => {
-  const currentWorkspace = useSelector(pipelinePagesSelectors.currentWorkspace);
-
   const dispatch = useDispatch();
-
-  const workspaces = useSelector(workspaceSelectors.myWorkspaces);
-
-  useRequestOnMount(workspacesActions.getMy, {});
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   useEffect(() => {
-    if (currentWorkspace) {
-      setFetching(true);
-      dispatch(
-        workspacesActions.pipelinesForWorkspaceId({
-          id: currentWorkspace.id,
-          onSuccess: () => setFetching(false),
-          onFailure: () => setFetching(false),
-        }),
-      );
-    } else if (workspaces.length > 0) {
-      setCurrentWorkspace(workspaces[0]);
-    }
-  }, []);
+    setFetchingForPipeline(true);
+    setFetchingForAllRuns(true);
+    dispatch(
+      runsActions.allRuns({
+        sort_by: 'created',
+        logical_operator: 'and',
+        project: selectedProject,
+        page: 1,
+        size: 5,
+        onSuccess: () => setFetchingForAllRuns(false),
+        onFailure: () => setFetchingForAllRuns(false),
+      }),
+    );
+    dispatch(
+      pipelinesActions.getMy({
+        sort_by: 'created',
+        logical_operator: 'and',
+        page: 1,
+        size: 5,
+        name: '',
+        project: selectedProject,
+        onSuccess: () => setFetchingForPipeline(false),
+        onFailure: () => setFetchingForPipeline(false),
+      }),
+    );
+  }, [selectedProject]);
 
-  const setFetching = (fetching: boolean) => {
+  const setFetchingForPipeline = (fetching: boolean) => {
     dispatch(pipelinePagesActions.setFetching({ fetching }));
   };
-
-  const setCurrentWorkspace = (workspace: TWorkspace | null) => {
-    dispatch(pipelinePagesActions.setCurrentWorkspace({ workspace }));
-
-    if (workspace) {
-      setFetching(true);
-      dispatch(
-        workspacesActions.pipelinesForWorkspaceId({
-          id: workspace.id,
-          onSuccess: () => setFetching(false),
-          onFailure: () => setFetching(false),
-        }),
-      );
-    }
+  const setFetchingForAllRuns = (fetching: boolean) => {
+    dispatch(runPagesActions.setFetching({ fetching }));
   };
 
   return {
-    setFetching,
-    setCurrentWorkspace,
-    currentWorkspace,
-    workspaces,
+    setFetchingForPipeline,
+    setFetchingForAllRuns,
+  };
+};
+
+export const callActionForPipelinesForPagination = () => {
+  const dispatch = useDispatch();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+
+  function dispatchPipelineData(
+    page: number,
+    size: number,
+    filters?: any[],
+    sortby?: string,
+  ) {
+    let filtersParam: any = filterObjectForParam(filters);
+    setFetchingForPipeline(true);
+    // debugger;
+    dispatch(
+      pipelinesActions.getMy({
+        sort_by: sortby ? sortby : 'created',
+        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
+        page: page,
+        size: size,
+        filtersParam,
+        // name: name ? name : '',
+        project: selectedProject,
+        onSuccess: () => setFetchingForPipeline(false),
+        onFailure: () => setFetchingForPipeline(false),
+      }),
+    );
+  }
+
+  const setFetchingForPipeline = (fetching: boolean) => {
+    dispatch(pipelinePagesActions.setFetching({ fetching }));
+  };
+
+  return {
+    setFetchingForPipeline,
+    dispatchPipelineData,
+  };
+};
+
+export const callActionForAllrunsForPagination = () => {
+  const dispatch = useDispatch();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+
+  function dispatchAllrunsData(
+    page: number,
+    size: number,
+    filters?: any[],
+    sortby?: string,
+  ) {
+    let filtersParam = filterObjectForParam(filters);
+
+    setFetchingForAllRuns(true);
+    dispatch(
+      runsActions.allRuns({
+        project: selectedProject,
+        sort_by: sortby ? sortby : 'created',
+        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
+        page: page,
+        size: size,
+        filtersParam,
+        onSuccess: () => setFetchingForAllRuns(false),
+        onFailure: () => setFetchingForAllRuns(false),
+      }),
+    );
+  }
+
+  const setFetchingForAllRuns = (fetching: boolean) => {
+    dispatch(runPagesActions.setFetching({ fetching }));
+  };
+
+  return {
+    setFetchingForAllRuns,
+    dispatchAllrunsData,
   };
 };

@@ -5,20 +5,20 @@ import { apiUrl } from '../apiUrl';
 
 const inviteApi = ({
   authenticationToken,
-  email,
+  name,
 }: {
   authenticationToken: string;
-  email: string;
+  name: string;
 }): Promise<void> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.organizations.invite),
+    url: apiUrl(`${endpoints.organizations.invite}?assign_default_role=false`),
     method: httpMethods.post,
     authenticationToken,
     headers: {
       'Content-Type': 'application/json',
     },
     data: JSON.stringify({
-      email: email,
+      name,
     }),
   });
 

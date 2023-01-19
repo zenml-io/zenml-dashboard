@@ -12,13 +12,13 @@ import {
 import { useService } from './useService';
 
 export const UserName: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
-  const { fetching, user } = useService({ pipeline });
+  const { fetching } = useService({ pipeline });
 
   if (fetching) {
     return <Spinner size="xs" color="black" />;
   }
 
-  const userFullName = user.fullName || DEFAULT_FULL_NAME;
+  const userFullName = pipeline.userName || DEFAULT_FULL_NAME;
   const initials = getInitials(userFullName);
 
   return (

@@ -1,46 +1,62 @@
 export const endpoints = {
-  login: '/login/access-token',
-  signup: '/users/',
+  login: '/login',
+  signup: (username: string): string => `/users/${username}/activate`,
+  userEmail: (userId: string): string => `/users/${userId}/email-opt-in`,
   forgot: '/login/email/resetpassword',
+  version: '/version',
   users: {
-    me: '/users/me',
+    me: '/current-user',
     get: (id: TId): string => `/users/${id}`,
+    updateUser: (username: string): string => `/users/${username}`,
   },
   organizations: {
     my: '/organizations/',
-    inviteForCode: (code: string): string => `/organizations/invite/${code}`,
+    reGenerateToken: (username: string): string =>
+      `/users/${username}/deactivate`,
     invites: '/organizations/invite?status=pending',
-    owner: '/organizations/creator',
-    members: '/organizations/users',
-    roles: '/organizations/roles',
-    invite: '/organizations/invite',
-    deleteInvite: (id: string): string => `/organizations/invite/${id}`,
-    getInvoices: `/billing/organization/invoices`,
+    members: '/users',
+    membersWithRole: '/role_assignments',
+    invite: '/users',
+    deleteInvite: (id: string): string => `/users/${id}`,
   },
-  workspaces: {
-    my: '/workspaces/',
-    pipelinesForId: (id: TId): string => `/workspaces/${id}/pipelines`,
+
+  projects: {
+    my: '/projects',
+    stats: (project: string) => `/projects/${project}/statistics`,
   },
+
   pipelines: {
-    my: '/pipelines/',
+    my: (project: string): string => `/projects/${project}/pipelines`,
     get: (pipelineId: TId): string => `/pipelines/${pipelineId}`,
   },
-  runs: {
-    get: (pipelineId: TId, runId: TId): string =>
-      `/pipelines/${pipelineId}/runs/${runId}`,
+  Stacks: {
+    my: (project: string): string => `/projects/${project}/stacks`,
+    get: (stackId: TId): string => `/stacks/${stackId}`,
   },
-  billing: {
-    my: '/billing/stripe/session',
-    getOrganizationBilling: '/billing/organization',
-    getPaymentMethod: '/billing/organization/get-payment-method',
-    getSubscription: '/billing/stripe/get-subscription',
-    updatePaymentMethod: (id: TId): string =>
-      `/billing/stripe/update-payment-method?payment_method_id=${id}`,
-    updateSubscription: (id: TId): string =>
-      `/billing/stripe/update-subscription?plan_type=${id}`,
-    get: (pipelineId: TId, runId: TId): string =>
-      `/billing/${pipelineId}/runs/${runId}`,
-    retryInvoice: (invoiceId: TId, paymentMethodId: TId): string =>
-      `/billing/stripe/retry-invoice?invoice_id=${invoiceId}&payment_method_id=${paymentMethodId}`,
+  StackComponents: {
+    types: '/component-types',
+    my: (type: string, project: string): string =>
+      `/projects/${project}/components?type=${type}`,
+    get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
+  },
+  runs: {
+    pipeline: {
+      get: (pipelineId: TId): string => `/runs?pipeline_id=${pipelineId}`,
+    },
+    stack: {
+      get: (stackId: TId): string => `/runs?stack_id=${stackId}`,
+    },
+    stackComponent: {
+      get: (stackComponentId: TId): string =>
+        `/runs?component_id=${stackComponentId}`,
+    },
+    graphById: {
+      get: (runId: TId): string => `/runs/${runId}/graph`,
+    },
+    all: (project: string): string => `/projects/${project}/runs`,
+    get: (runId: TId): string => `/runs/${runId}`,
+  },
+  roles: {
+    all: `/roles`,
   },
 };

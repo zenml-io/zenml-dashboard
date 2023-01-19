@@ -7,6 +7,8 @@ import { Sorting, SortingDirection } from './types';
 import { pipelinePagesActions } from '../../../../redux/actions';
 import { useDispatch, useSelector } from '../../../hooks';
 import { runSelectors } from '../../../../redux/selectors';
+import { getFilteredDataForTable } from '../../../../utils/tableFilters';
+import { source } from '../../../../api/fetchApi';
 
 interface ServiceInterface {
   sortedRuns: TRun[];
@@ -17,26 +19,54 @@ interface ServiceInterface {
   setActiveSortingDirection: (arg: SortingDirection | null) => void;
   setSelectedRunIds: (ids: TId[]) => void;
 }
+interface filterValue {
+  label: string;
+  type: string;
+  value: string;
+}
 
-export const useService = ({ runIds }: { runIds: TId[] }): ServiceInterface => {
+export const useService = ({
+  pipelineRuns,
+  runIds,
+  filter,
+}: {
+  pipelineRuns: any;
+  runIds: TId[];
+  filter: {
+    column: filterValue;
+    type: filterValue;
+    value: string;
+  }[];
+}): ServiceInterface => {
   const dispatch = useDispatch();
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
-    'createdAt',
+    'created',
   );
+
   const [
     activeSortingDirection,
     setActiveSortingDirection,
   ] = React.useState<SortingDirection | null>('DESC');
   const [sortedRuns, setSortedRuns] = React.useState<TRun[]>([]);
 
-  const runs = useSelector(runSelectors.forRunIds(runIds));
+  const runs = pipelineRuns
+    ? pipelineRuns
+    : useSelector(runSelectors.forRunIds(runIds));
+  const isValidFilter = filter?.map((f) => f.value).join('');
+  useEffect(() => {
+    // if (isValidFilter) {
+    //   orderedRuns = getFilteredDataForTable(orderedRuns, filter);
+    // }
+
+    setSortedRuns(runs);
+  }, [filter, runIds]);
 
   useEffect(() => {
-    const orderedRuns = _.sortBy(runs, (run: TRun) =>
-      new Date(run.kubeflowStartTime).getTime(),
-    ).reverse();
-
-    setSortedRuns(orderedRuns);
+    return () => {
+      source.cancel.forEach((element: any) => {
+        element();
+      });
+    };
   }, []);
 
   const setSelectedRunIds = (runIds: TId[]) => {

@@ -16,7 +16,7 @@ interface TRequestActionPayload {
   failureActionType?: string;
   successActionType?: string;
   params?: Record<string, unknown>;
-  onSuccess?: () => void;
+  onSuccess?: (res: any) => void;
   onFailure?: (errorText: string) => void;
 }
 
@@ -35,8 +35,12 @@ type TClickEvent = (arg1: React.MouseEvent) => void;
 interface TUser {
   id: TId;
   fullName: string;
+  name: string;
   email: string;
   organizationId: TId;
+  userName: string;
+  email_opted_in: any;
+  emailOptedIn: any;
 }
 
 interface TOrganization {
@@ -50,6 +54,7 @@ interface TInvite {
   organizationName: string;
   code: string;
   email: string;
+  name: string;
   createdAt: Date;
 }
 
@@ -58,8 +63,26 @@ interface TMember {
   organizationId: string;
   fullName: string;
   email: string;
-  createdAt: Date;
-  role: string;
+  name: string;
+  created: Date;
+  active: boolean;
+  activation_token: string;
+  user: { 
+    id: TId;
+    organizationId: any;
+    fullName: any;
+    email: any;
+    name: any;
+    created: Date;
+    active: boolean;
+    activation_token: any;
+  },
+  roles: [
+   { 
+    id: string; 
+    name: string
+   } 
+  ]
 }
 
 interface TWorkspace {
@@ -67,28 +90,88 @@ interface TWorkspace {
   name: string;
   createdAt: Date;
 }
-
+interface Projects {
+  id: TId;
+  created: Date;
+  updated: Date;
+  name: string;
+  description: string;
+}
 interface TPipeline {
   id: TId;
   name: string;
-  createdAt: Date;
-  workspaceId: TId;
+  created: Date;
+  creationDate: Date;
+  projectName: string;
+  components: any;
+  owner: string;
   pipelineConfig: any;
   userId: TId;
+  creationDate: Date;
+  isShared: boolean;
+  userName: string;
+  user: any;
+  runs: Array;
+  status: Array;
+  configuration: object;
+  spec?: any;
 }
-
-type TRunStatus = 'Succeeded' | 'Running' | 'Failed';
+interface TStack {
+  id: TId;
+  name: string;
+  creationDate: Date;
+  created: Date;
+  projectName: string;
+  components: any;
+  userName: string;
+  pipelineConfig: any;
+  userId: TId;
+  createdAt: Date;
+  type?: string;
+  flavor?: string;
+  configuration?: any;
+  project?: string;
+  user?: any;
+  isShared?: Boolean;
+}
+interface Roles {
+  id: TId;
+  created: Date;
+  updated: Date;
+  name: string;
+  permissions: Array;
+}
+type TRunStatus =
+  | 'finished'
+  | 'In Progress'
+  | 'completed'
+  | 'running'
+  | 'failed'
+  | 'cached';
 
 interface TRun {
+  pipelineConfiguration?: any;
   id: TId;
+  stackComponentId: TId;
   status: TRunStatus;
   kubeflowStartTime: Date;
   kubeflowEndTime: Date;
   pipelineRunType: string;
   datasourceCommitId: TId;
-  workspaceId: TId;
   pipelineId: TId;
+  pipeline_id: TId;
   userId: TId;
+  stack?: any;
+  pipeline?: any;
+  duration?: string;
+  owner?: any;
+  userName?: any;
+  user?: any;
+  creationDate?: any;
+  // status?: string;
+  graph?: any;
+  created: Date;
+  name?: string;
 }
 
 interface TBreadcrumb {

@@ -5,6 +5,7 @@ export * from './grid';
 export * from './animated';
 export * from './images';
 export * from './logos';
+export * from './lineage';
 export * from './links';
 export * from './forms';
 export * from './inputs';

@@ -26,12 +26,11 @@ export const PrimaryButton: React.FC<
     )}
     {...props}
   >
-    {loading && (
+    {loading ? (
       <div className={styles.spinner}>
         <Spinner size="xs" color="white" />
       </div>
-    )}
-    {children}
+    ) : (children)}
   </button>
 );
 

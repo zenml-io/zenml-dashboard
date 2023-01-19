@@ -37,6 +37,7 @@ export type FieldError = {
 
 export const FormTextField = (props: {
   label: string;
+  labelColor?: any;
   placeholder: string;
   value: string;
   onChange?: any;
@@ -44,15 +45,18 @@ export const FormTextField = (props: {
   disabled?: boolean;
   type?: string;
   name?: string;
+  style?: any;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <FlexBox alignItems="center" fullWidth>
       <InputWithLabel
         name={props.name}
         label={props.label}
+        labelColor={props.labelColor}
         InputComponent={
           <TextInput
             {...props}
+            style={props.style}
             placeholder={props.placeholder}
             hasError={props.error?.hasError}
             value={props.value}
@@ -70,6 +74,7 @@ export const FormTextField = (props: {
 
 export const FormDropdownField = (props: {
   label: string;
+  labelColor?: any;
   placeholder: string;
   value: string;
   options: any[];
@@ -77,15 +82,18 @@ export const FormDropdownField = (props: {
   error?: FieldError;
   disabled?: boolean;
   name?: string;
+  style?: any;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <FlexBox alignItems="center" fullWidth>
       <InputWithLabel
         name={props.name}
         label={props.label}
+        labelColor={props.labelColor}
         InputComponent={
           <DropdownInput
             {...props}
+            style={props.style}
             placeholder={props.placeholder}
             hasError={props.error?.hasError}
             value={props.value}
@@ -101,9 +109,104 @@ export const FormDropdownField = (props: {
   </FlexBox.Column>
 );
 
+export const CopyField = (
+  props: {
+    label: string;
+    labelColor: any;
+    placeholder: any;
+    value: string;
+  } & any,
+): JSX.Element => {
+  const [copied, setCopied] = useState(false);
+  const handleClick = () => {
+    navigator.clipboard.writeText(props.value);
+    setCopied(true);
+    setTimeout(() => {
+      setCopied(false);
+    }, 2000);
+  };
+
+  return (
+    <FlexBox.Column fullWidth style={{ height: '100px' }}>
+      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+        <InputWithLabel
+          name={props.name}
+          label={props.label}
+          labelColor={props.labelColor}
+          InputComponent={
+            <TextInput
+              {...props}
+              value={`${props.value.slice(0, 60)}...`}
+              placeholder={props.placeholder}
+            />
+          }
+        />
+        <LinkBox
+          style={{ position: 'absolute', right: '10px', top: '30px' }}
+          onClick={handleClick}
+        >
+          <icons.copy color={iconColors.grey} />
+        </LinkBox>
+      </FlexBox>
+      {copied && (
+        <div style={{ marginTop: '20px', textAlign: 'right' }}>
+          <button
+            style={{
+              backgroundColor: '#F4F4F4',
+              padding: '5px 20px',
+              border: 'none',
+              borderRadius: '5px',
+            }}
+          >
+            Copied
+          </button>
+        </div>
+      )}
+    </FlexBox.Column>
+  );
+};
+
+export const SearchInputField = (
+  props: {
+    label?: string;
+    labelColor?: any;
+    placeholder: any;
+    onChange?: any;
+    value: string;
+  } & any,
+): JSX.Element => {
+  return (
+    <FlexBox.Column fullWidth style={{ height: '100px' }}>
+      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+
+      <LinkBox style={{ position: 'absolute', left: '7px', top: '30px' }} onClick={() => {}}>
+          <icons.search color={iconColors.grey} />
+      </LinkBox>
+
+      <InputWithLabel
+        name={props.name}
+        label={props.label}
+        labelColor={props.labelColor}
+        InputComponent={
+          <TextInput
+            {...props}
+            style={{ paddingLeft: '40px' }}
+            value={props.value}
+            onChangeText={props.onChange}
+            placeholder={props.placeholder}
+          />
+        }
+      />
+
+      </FlexBox>
+    </FlexBox.Column>
+  );
+};
+
 export const FormPasswordField = (
   props: {
     label: string;
+    labelColor: any;
     placeholder: string;
     value: string;
     onChange: any;
@@ -118,6 +221,7 @@ export const FormPasswordField = (
         <InputWithLabel
           name={props.name}
           label={props.label}
+          labelColor={props.labelColor}
           InputComponent={
             !showPassword ? (
               <PasswordInput
@@ -140,8 +244,11 @@ export const FormPasswordField = (
         />
         {props.showPasswordOption && (
           <LinkBox
-            style={{ position: 'absolute', right: '10px', top: '30px' }}
-            onClick={() => setShowPassword(!showPassword)}
+            style={{ position: 'absolute', right: '10px', top: '36px' }}
+            onClick={(event: any) => {
+              if (!event) return null;
+              setShowPassword(!showPassword);
+            }}
           >
             <icons.eye
               color={showPassword ? iconColors.black : iconColors.grey}
@@ -160,6 +267,7 @@ export const FormPasswordField = (
 export const FormEmailField = (
   props: {
     label: string;
+    labelColor: any;
     placeholder: string;
     value: string;
     onChange: any;
@@ -170,6 +278,7 @@ export const FormEmailField = (
     <FlexBox alignItems="center" fullWidth>
       <InputWithLabel
         label={props.label}
+        labelColor={props.labelColor}
         InputComponent={
           <EmailInput
             onChangeText={props.onChange}
@@ -190,6 +299,7 @@ export const FormEmailField = (
 
 export const FormNumberField = (props: {
   label: string;
+  labelColor: any;
   placeholder: string;
   error: any;
   value: string;
@@ -199,6 +309,7 @@ export const FormNumberField = (props: {
     <FlexBox alignItems="center" fullWidth>
       <InputWithLabel
         label={props.label}
+        labelColor={props.labelColor}
         InputComponent={
           <TextInput
             type="number"

@@ -3,11 +3,12 @@ import cn from 'classnames';
 
 import { FlexBox, Box } from '../../../components';
 import { Breadcrumbs } from '../../common/Breadcrumbs';
-import { CompareRunsButton } from './CompareRunsButton';
+
 import { CreatePipelineButton } from './CreatePipelineButton';
 import { DocumentationLink } from './DocumentationLink';
 
 import styles from './index.module.scss';
+import { constantCommandsToCreatePipeline } from '../../../../constants/constantCommands';
 
 const DefaultHeader: React.FC<{
   breadcrumbs: TBreadcrumb[];
@@ -51,8 +52,10 @@ const HeaderWithButtons: React.FC<{
         {renderRight && renderRight()}
       </Box>
       <CreatePipelineButton />
-      <CompareRunsButton />
-      <DocumentationLink />
+
+      <DocumentationLink
+        text={constantCommandsToCreatePipeline.documentation}
+      />
     </FlexBox>
   </FlexBox>
 );

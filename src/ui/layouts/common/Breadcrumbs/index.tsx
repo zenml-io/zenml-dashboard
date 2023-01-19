@@ -52,7 +52,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsInterface> = ({
           <If condition={breadcrumbs.length > index + 1}>
             {() => (
               <Box paddingHorizontal="sm">
-                <Paragraph color="grey">/</Paragraph>
+                <Paragraph color="grey">{'>'}</Paragraph>
               </Box>
             )}
           </If>

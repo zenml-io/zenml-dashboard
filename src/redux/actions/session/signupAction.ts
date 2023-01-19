@@ -2,17 +2,19 @@ import { signupActionTypes } from '../../actionTypes';
 import signUpApi from '../../../api/session/signUpApi';
 
 export const signUpAction = ({
+  userId,
+  username,
+  fullName,
   password,
-  email,
-  fullname,
-  organizationName,
+  token,
   onSuccess,
   onFailure,
 }: {
+  userId: string;
+  username: string;
+  fullName: string;
   password: string;
-  email: string;
-  fullname: string;
-  organizationName: string;
+  token: any;
   onSuccess?: () => void;
   onFailure?: (errorMessage: string) => void;
 }): TRequestAction => ({
@@ -26,10 +28,11 @@ export const signUpAction = ({
     onFailure,
     params: {
       account: {
-        email,
+        userId,
+        username,
+        fullName,
         password,
-        fullname,
-        organizationName,
+        token,    
       },
     },
   },

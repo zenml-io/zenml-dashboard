@@ -1,26 +1,31 @@
 import React, { useState } from 'react';
 
-import { FlexBox } from '../../../../components';
+import { FlexBox, Box } from '../../../../components';
+import { useLocationPath } from '../../../../hooks';
 import { AuthenticatedHeader } from './AuthenticatedHeader';
 import { AuthenticatedSidebar } from './AuthenticatedSidebar';
 
 import styles from './index.module.scss';
 
 export const AuthenticatedLayout: React.FC = ({ children }) => {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const locationPath = useLocationPath();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(
+    locationPath.includes('components') ? true : false,
+  );
 
   return (
-    <>
-      <AuthenticatedHeader setMobileMenuOpen={setMobileMenuOpen} />
-      <FlexBox>
-        <AuthenticatedSidebar
-          setMobileMenuOpen={setMobileMenuOpen}
-          mobileMenuOpen={mobileMenuOpen}
-        />
-        <FlexBox className={styles.content} flex={1}>
-          {children}
-        </FlexBox>
+    <FlexBox>
+      <AuthenticatedSidebar
+        setMobileMenuOpen={setMobileMenuOpen}
+        mobileMenuOpen={mobileMenuOpen}
+      />
+
+      <FlexBox flexDirection="column" className={styles.content} flex={1}>
+        <Box>
+          <AuthenticatedHeader setMobileMenuOpen={setMobileMenuOpen} />
+        </Box>
+        <FlexBox>{children}</FlexBox>
       </FlexBox>
-    </>
+    </FlexBox>
   );
 };

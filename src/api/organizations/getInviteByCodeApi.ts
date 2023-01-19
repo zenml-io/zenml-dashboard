@@ -4,15 +4,15 @@ import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 
 const getInviteByCodeApi = ({
-  code,
+  username,
   authenticationToken,
 }: {
-  code: string;
+  username: string;
   authenticationToken: string;
 }): Promise<TOrganization> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.organizations.inviteForCode(code)),
-    method: httpMethods.get,
+    url: apiUrl(endpoints.organizations.reGenerateToken(username)),
+    method: httpMethods.put,
     authenticationToken,
   });
 

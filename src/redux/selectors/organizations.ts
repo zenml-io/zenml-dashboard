@@ -1,7 +1,4 @@
 import _ from 'lodash';
-import { Selector } from 'reselect';
-import { createSelector } from './createSelector';
-
 import { State } from '../reducers/organizationsReducer';
 
 const stateKey = (state: State): State =>
@@ -13,6 +10,9 @@ const getById = (state: State): Record<TId, TOrganization> =>
 const getMyOrganizationId = (state: State): TId | null =>
   _.get(stateKey(state), 'myOrganizationId');
 
+const getMyMembersPaginated = (state: State): any =>
+  _.get(stateKey(state), 'paginated');
+
 export const myOrganization = (state: State): TOrganization | null => {
   const myOrganizationId = getMyOrganizationId(state);
   const byId = getById(state);
@@ -21,18 +21,14 @@ export const myOrganization = (state: State): TOrganization | null => {
 
   return byId[myOrganizationId];
 };
+export const myMembersPaginated = (state?: State | null): any => {
+  if (!state) return {};
+  const paginated = getMyMembersPaginated(state);
 
-export const inviteForCode = (
-  code: string | null,
-): Selector<any, TInvite | undefined> =>
-  createSelector(getInvites, (invites): TInvite | undefined => {
-    const invite = invites && invites.find((i) => i.code === code);
-
-    return invite;
-  });
-
-const getOwner = (state: State): TMember | null =>
-  _.get(stateKey(state), 'owner');
+  return paginated;
+};
+const inviteForCode = (state: State): any[] =>
+  _.get(stateKey(state), 'inviteCode');
 
 const myMembers = (state: State): TMember[] =>
   _.get(stateKey(state), 'members');
@@ -40,19 +36,18 @@ const myMembers = (state: State): TMember[] =>
 const getInvites = (state: State): TInvite[] =>
   _.get(stateKey(state), 'invites');
 
-const getRoles = (state: State): string[] => _.get(stateKey(state), 'roles');
-
-const getInvoices = (state: State): TInvoice[] =>
-  _.get(stateKey(state), 'invoices');
+const invite = (
+  state: State,
+): { id: null; activationToken: null; email: null } =>
+  _.get(stateKey(state), 'invite');
 
 const organizationSelectors = {
+  myMembersPaginated: myMembersPaginated,
   myOrganization: myOrganization,
   myMembers: myMembers,
   inviteForCode: inviteForCode,
   invites: getInvites,
-  roles: getRoles,
-  owner: getOwner,
-  invoices: getInvoices,
+  invite,
 };
 
 export { organizationSelectors };

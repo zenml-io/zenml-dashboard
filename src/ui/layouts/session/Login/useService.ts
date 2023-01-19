@@ -1,20 +1,23 @@
 import { useState } from 'react';
-import { toasterTypes } from '../../../../constants';
+import { DEFAULT_PROJECT_NAME, toasterTypes } from '../../../../constants';
 import {
-  organizationActions,
+  projectsActions,
   showToasterAction,
+  stackComponentsActions,
   userActions,
-  workspacesActions,
 } from '../../../../redux/actions';
 import { loginAction } from '../../../../redux/actions/session/loginAction';
-import { useDispatch } from '../../../hooks';
+import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
 import { translate } from './translate';
+import { projectSelectors } from '../../../../redux/selectors';
+import { routePaths } from '../../../../routes/routePaths';
+// import { routePaths } from '../../../../routes/routePaths';
 
 interface ServiceInterface {
   login: () => void;
   hasSubmittedWithErrors: boolean;
-  email: string;
-  setEmail: (password: string) => void;
+  username: string;
+  setUsername: (password: string) => void;
   password: string;
   setPassword: (password: string) => void;
   loading: boolean;
@@ -22,21 +25,23 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
-
+  // const locationPath = useLocationPath();
+  const { push } = usePushRoute();
   const dispatch = useDispatch();
 
   return {
-    login: () => {
+    login: async () => {
       setLoading(true);
       setHasSubmittedWithErrors(true);
-      if (email.trim() !== '' && password.trim() !== '') {
-        dispatch(
+      if (username.trim() !== '') {
+        await dispatch(
           loginAction({
             password,
-            email,
+            username,
             onFailure: (errorText) => {
               dispatch(
                 showToasterAction({
@@ -46,24 +51,49 @@ export const useService = (): ServiceInterface => {
               );
               setLoading(false);
             },
-            onSuccess: () => {
+            onSuccess: async () => {
               dispatch(
                 showToasterAction({
                   description: translate('toasts.successfulLogin.text'),
                   type: toasterTypes.success,
                 }),
               );
-              dispatch(workspacesActions.getMy({}));
-              dispatch(organizationActions.getMy());
-              dispatch(userActions.getMy({}));
+
+              if (window.location.search.includes('projects')) {
+                const projectFromUrl = window.location.search.split('/')[2];
+                await dispatch(
+                  projectsActions.getMy({
+                    selectDefault: false,
+                    selectedProject: projectFromUrl
+                      ? projectFromUrl
+                      : selectedProject,
+                  }),
+                );
+              } else {
+                await dispatch(
+                  projectsActions.getMy({
+                    selectDefault: false,
+                    selectedProject: selectedProject
+                      ? selectedProject
+                      : DEFAULT_PROJECT_NAME,
+                  }),
+                );
+              }
+
+              await dispatch(userActions.getMy({}));
+              await dispatch(stackComponentsActions.getTypes());
+              if (window.location.pathname === '/') {
+                push(routePaths.dashboard(DEFAULT_PROJECT_NAME));
+              }
+              // await push(routePaths.userEmail);
             },
           }),
         );
       }
     },
     hasSubmittedWithErrors,
-    email,
-    setEmail,
+    username,
+    setUsername,
     password,
     setPassword,
     loading,

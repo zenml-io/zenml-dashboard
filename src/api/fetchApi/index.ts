@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { httpMethods } from '../constants';
+export let source: any = { cancel: [] };
 
 export const DEFAULT_HEADERS = {
   Accept: 'application/json',
@@ -18,38 +19,49 @@ export const fetchApi = ({
   method: any;
   headers?: any;
   params?: any;
-}): Promise<any> =>
-  axios({
+}): Promise<any> => {
+  return axios({
     method: method || httpMethods.get,
     url,
     data,
     headers: { ...DEFAULT_HEADERS, ...headers },
     params: params,
   });
+};
 
 export const fetchApiWithAuthRequest = ({
   url,
   data,
   method,
+  params,
   authenticationToken,
   headers,
 }: {
   url: string;
+  params?: any;
   data?: any;
   method: any;
   authenticationToken: string;
   headers?: any;
-}): Promise<any> =>
-  axios({
+}): Promise<any> => {
+  const CancelToken = axios.CancelToken;
+
+  return axios({
     method: method || httpMethods.get,
     url,
+    params,
     data,
+    cancelToken: new CancelToken(function executor(c) {
+      // An executor function receives a cancel function as a parameter
+      source.cancel.push(c);
+    }),
     headers: {
       ...DEFAULT_HEADERS,
       ...headers,
       Authorization: `Bearer ${authenticationToken}`,
     },
   });
+};
 
 export const fetchApiForAWS = ({
   url,

@@ -12,53 +12,69 @@ import usersReducer, {
 import organizationsReducer, {
   initialState as organizationsInitialState,
 } from './reducers/organizationsReducer';
-
-import workspacesReducer, {
-  initialState as workspacesInitialState,
-} from './reducers/workspacesReducer';
-
+import projectsReducer, {
+  initialState as projectsInitialState,
+} from './reducers/projectsReducer';
 import pipelinesReducer, {
   initialState as pipelinesInitialState,
 } from './reducers/pipelinesReducer';
+
+import stacksReducer, {
+  initialState as stacksInitialState,
+} from './reducers/stacksReducer';
+
+import rolesReducer, {
+  initialState as rolesInitialState,
+} from './reducers/rolesReducer';
+
+import stackComponentsReducer, {
+  initialState as stackComponentsInitialState,
+} from './reducers/stackComponentsReducer';
 
 import runsReducer, {
   initialState as runsInitialState,
 } from './reducers/runsReducer';
 
-import billingReducer, {
-  initialState as billingInitialState,
-} from './reducers/billingReducer';
-
 import pipelinePagesReducer, {
   initialState as pipelinePagesInitialState,
 } from './reducers/pipelinePagesReducer';
 
-import stripeReducer, {
-  initialState as sripeInitialState,
-} from './reducers/stripeReducer';
+import runPagesReducer, {
+  initialState as runPagesInitialState,
+} from './reducers/runPagesReducer';
+
+import stackPagesReducer, {
+  initialState as stackPagesInitialState,
+} from './reducers/stackPagesReducer';
 
 const initialState = {
   session: sessionInitialState,
   users: usersInitialState,
   organizations: organizationsInitialState,
-  workspaces: workspacesInitialState,
   pipelines: pipelinesInitialState,
+  projects: projectsInitialState,
+  stacks: stacksInitialState,
+  stackComponents: stackComponentsInitialState,
   runs: runsInitialState,
-  billing: billingInitialState,
+  roles: rolesInitialState,
+  runPages: runPagesInitialState,
   pipelinePages: pipelinePagesInitialState,
-  stripe: sripeInitialState,
+  stacksPages: stackPagesInitialState,
 };
 
 export const persisted = combineReducers({
   session: sessionReducer,
   users: usersReducer,
+  roles: rolesReducer,
   organizations: organizationsReducer,
-  workspaces: workspacesReducer,
+  projects: projectsReducer,
   pipelines: pipelinesReducer,
+  stacks: stacksReducer,
+  stackComponents: stackComponentsReducer,
   runs: runsReducer,
-  billing: billingReducer,
+  runPages: runPagesReducer,
   pipelinePages: pipelinePagesReducer,
-  stripe: stripeReducer,
+  stackPages: stackPagesReducer,
 });
 
 export default (state: any, action: any) => {

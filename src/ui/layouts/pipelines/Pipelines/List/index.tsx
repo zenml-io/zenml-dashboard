@@ -2,32 +2,57 @@ import React from 'react';
 
 import { translate } from '../translate';
 import { CollapseTable } from '../../../common/CollapseTable';
-import { useHistory } from '../../../../hooks';
+import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
-import { getHeaderCols } from './getHeaderCols';
+import { GetHeaderCols } from './getHeaderCols';
 import { RunsForPipelineTable } from './RunsForPipelineTable';
+import {
+  pipelineSelectors,
+  projectSelectors,
+} from '../../../../../redux/selectors';
 
-export const List: React.FC = () => {
+interface Props {
+  filter: any;
+}
+export const List: React.FC<Props> = ({ filter }: Props) => {
   const history = useHistory();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const pipelinesPaginated = useSelector(
+    pipelineSelectors.myPipelinesPaginated,
+  );
   const {
     openPipelineIds,
     setOpenPipelineIds,
     fetching,
     filteredPipelines,
+    setFilteredPipelines,
+    activeSorting,
+    setActiveSorting,
+    activeSortingDirection,
+    setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService();
+  } = useService(filter);
 
-  const headerCols = getHeaderCols({ openPipelineIds, setOpenPipelineIds });
+  const headerCols = GetHeaderCols({
+    openPipelineIds,
+    setOpenPipelineIds,
+    filteredPipelines,
+    setFilteredPipelines: setFilteredPipelines,
+    activeSorting,
+    setActiveSorting,
+    activeSortingDirection,
+    setActiveSortingDirection,
+  });
 
   const openDetailPage = (pipeline: TPipeline) => {
     setSelectedRunIds([]);
 
-    history.push(routePaths.pipeline.configuration(pipeline.id));
+    history.push(
+      routePaths.pipeline.configuration(pipeline.id, selectedProject),
+    );
   };
-
-  console.log('test');
 
   return (
     <>
@@ -37,10 +62,18 @@ export const List: React.FC = () => {
             pipeline={pipeline}
             openPipelineIds={openPipelineIds}
             fetching={fetching}
+            nestedRow={true}
           />
         )}
+        activeSorting={
+          activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+            ? activeSorting
+            : 'created'
+        }
+        paginated={pipelinesPaginated}
         loading={fetching}
-        showHeader={false}
+        showHeader={true}
+        filters={filter}
         headerCols={headerCols}
         tableRows={filteredPipelines}
         emptyState={{ text: translate('emptyState.text') }}

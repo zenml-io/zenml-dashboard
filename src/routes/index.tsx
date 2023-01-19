@@ -7,6 +7,7 @@ import {
   Route,
   withRouter,
   Switch,
+  useLocation,
 } from 'react-router-dom';
 
 import {
@@ -14,6 +15,7 @@ import {
   useSelector,
   useLocationPath,
   useGetSearchParam,
+  useDispatch,
 } from '../ui/hooks';
 
 import { sessionSelectors } from '../redux/selectors/session';
@@ -26,13 +28,17 @@ import { WaitToEnter } from '../ui/components';
 
 import { isRouteFound } from './utils/isRouteFound';
 import { NotFound } from '../ui/layouts/NotFound';
+import { userSelectors } from '../redux/selectors';
+import { userActions } from '../redux/actions';
 
 const useReplaceRouteIfNeeded = ({
+  locationPath,
   currentLocation,
   setNotFound,
 }: any): void => {
   const { replaceRoute } = useReplaceRoute();
 
+  const user = useSelector(userSelectors.myUser);
   const routeFromSearchParam = useGetSearchParam('route');
 
   const isAuthenticated = useSelector(sessionSelectors.authenticationToken);
@@ -47,22 +53,34 @@ const useReplaceRouteIfNeeded = ({
 
   React.useEffect(() => {
     replaceRouteIfNeeded({
+      locationPath,
+      user,
       currentLocation,
       isAuthenticated,
       replaceRoute,
       routeFromSearchParam,
     });
-  }, [currentLocation, isAuthenticated, replaceRoute]);
+  }, [user, currentLocation, isAuthenticated, replaceRoute]);
 };
 
 export const AppRoute = ({ path, component, exact }: any): JSX.Element => {
-  const [notFound, setNotFound] = React.useState();
+  console.log(path, 'tabPages', '111');
 
+  const [notFound, setNotFound] = React.useState();
   const locationPath = useLocationPath();
 
   const currentLocation = findRouteByLocationPath(locationPath);
 
+  // if (currentLocation.path.includes(':id', ':string')) {
+  //   currentLocation.path = locationPath;
+  // }
+
+  // if (currentLocation.path.includes(':type')) {
+  //   currentLocation.path = locationPath + locationPath.split('/')[4];
+  // }
+
   useReplaceRouteIfNeeded({
+    locationPath,
     currentLocation,
     setNotFound,
   });
@@ -96,7 +114,6 @@ export const RouteConfig: React.FC = () => {
               component={route.Component}
             />
           ))}
-
           <Route exact={true} component={NotFound} />
         </Switch>
       </Router>

@@ -9,7 +9,7 @@ export interface Response {
 }
 
 interface Account {
-  email: string;
+  username: string;
   password: string;
 }
 
@@ -25,7 +25,7 @@ const loginApi = ({ account }: Params): Promise<Response> =>
       'Content-Type': 'application/x-www-form-urlencoded',
     },
     data: queryString.stringify({
-      username: account.email,
+      username: account.username,
       password: account.password,
     }),
   });

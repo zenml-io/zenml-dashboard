@@ -5,47 +5,54 @@ import { translate } from './translate';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 
-import styles from './index.module.scss';
-import { Box, FlexBox, icons, Paragraph, Truncate } from '../../../components';
-import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
-import { RunTime } from '../RunTime';
-import { KeyValue, RunStatus } from './components';
-import { Results } from './Results';
-import { Statistics } from './Statistics';
-import { Tensorboard } from './Tensorboard';
-import { formatMoney } from '../../../../utils/money';
-import { truncate } from '../../../../utils';
+import { Configuration } from '../RunDetail/Configuration';
+import { DAG } from '../../../components/dag';
+
+import { Box, Paragraph } from '../../../components';
+
+import { RunStatus } from './components';
+
+import { formatDateToDisplayOnTable } from '../../../../utils';
+import { useHistory, useSelector } from '../../../hooks';
+import { projectSelectors } from '../../../../redux/selectors';
 
 const getTabPages = ({
+  selectedProject,
   pipelineId,
   runId,
+  fetching,
 }: {
+  selectedProject: string;
   pipelineId: TId;
   runId: TId;
+  fetching: boolean;
 }): TabPage[] => {
   return [
     {
-      text: translate('tabs.statistics.text'),
-      Component: () => <Statistics runId={runId} pipelineId={pipelineId} />,
-      path: routePaths.run.statistics(runId, pipelineId),
+      text: 'DAG',
+
+      Component: () => <DAG runId={runId} fetching={fetching} />,
+      path: routePaths.run.pipeline.statistics(
+        selectedProject,
+        runId,
+        pipelineId,
+      ),
     },
     {
-      text: translate('tabs.results.text'),
-      Component: () => <Results runId={runId} pipelineId={pipelineId} />,
-      path: routePaths.run.results(runId, pipelineId),
-    },
-    {
-      text: translate('tabs.tensorboard.text'),
-      Component: () => <Tensorboard runId={runId} pipelineId={pipelineId} />,
-      path: routePaths.run.tensorboard(runId, pipelineId),
+      text: 'Configuration',
+
+      Component: () => <Configuration runId={runId} />,
+      path: routePaths.run.pipeline.results(selectedProject, runId, pipelineId),
     },
   ];
 };
 
 const getBreadcrumbs = ({
+  selectedProject,
   pipelineId,
   runId,
 }: {
+  selectedProject: string;
   pipelineId: TId;
   runId: TId;
 }): TBreadcrumb[] => {
@@ -53,17 +60,21 @@ const getBreadcrumbs = ({
     {
       name: translate('header.breadcrumbs.pipelines.text'),
       clickable: true,
-      to: routePaths.pipelines.list,
+      to: routePaths.pipelines.list(selectedProject),
     },
     {
       name: pipelineId,
       clickable: true,
-      to: routePaths.pipeline.configuration(pipelineId),
+      to: routePaths.pipeline.configuration(pipelineId, selectedProject),
     },
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.statistics(runId, pipelineId),
+      to: routePaths.run.pipeline.statistics(
+        runId,
+        pipelineId,
+        selectedProject,
+      ),
     },
   ];
 };
@@ -74,76 +85,121 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, pipelineId, run, billing } = useService();
-
+  const { runId, pipelineId, run, fetching } = useService();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const tabPages = getTabPages({
+    selectedProject,
     runId,
     pipelineId,
+    fetching,
   });
   const breadcrumbs = getBreadcrumbs({
     runId,
     pipelineId,
+    selectedProject,
   });
 
+  const boxStyle = {
+    backgroundColor: '#E9EAEC',
+    padding: '10px 0',
+    borderRadius: '8px',
+    marginTop: '20px',
+    display: 'flex',
+    justifyContent: 'space-around',
+  };
+  const headStyle = { color: '#828282' };
+  const history = useHistory();
   return (
     <BasePage
       tabPages={tabPages}
-      tabBasePath={routePaths.run.base(runId, pipelineId)}
+      tabBasePath={routePaths.run.pipeline.base(runId, pipelineId)}
       breadcrumbs={breadcrumbs}
     >
-      <FlexBox marginTop="xxl" padding="lg" className={styles.box}>
-        <KeyValue width="10%" label={translate('box.runId.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">
-              {truncate(run.id, ID_MAX_LENGTH)}
-            </Paragraph>
-          </Truncate>
-        </KeyValue>
-        <KeyValue width="10%" label={translate('box.status.text')}>
-          <RunStatus run={run} />
-        </KeyValue>
-        <KeyValue width="10%" label={translate('box.runtime.text')}>
-          <FlexBox alignItems="center">
-            <Box marginRight="sm">
-              <icons.clock color={iconColors.black} size={iconSizes.sm} />
-            </Box>
-            <RunTime run={run} />
-          </FlexBox>
-        </KeyValue>
-        <KeyValue width="10%" label={translate('box.type.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">{run.pipelineRunType}</Paragraph>
-          </Truncate>
-        </KeyValue>
-        <KeyValue width="15%" label={translate('box.datasourceCommit.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">
-              {truncate(run.datasourceCommitId, ID_MAX_LENGTH)}
-            </Paragraph>
-          </Truncate>
-        </KeyValue>
-        <KeyValue width="15%" label={translate('box.computeCost.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">
-              {formatMoney(billing.computeCost)}
-            </Paragraph>
-          </Truncate>
-        </KeyValue>
-        <KeyValue width="15%" label={translate('box.trainingCost.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">
-              {formatMoney(billing.trainingCost)}
-            </Paragraph>
-          </Truncate>
-        </KeyValue>
-        <KeyValue width="15%" label={translate('box.totalCost.text')}>
-          <Truncate maxLines={1}>
-            <Paragraph size="small">
-              {formatMoney(billing.trainingCost + billing.computeCost)}
-            </Paragraph>
-          </Truncate>
-        </KeyValue>
-      </FlexBox>
+      <Box style={boxStyle}>
+        <Box>
+          <Paragraph style={headStyle}>RUN ID</Paragraph>
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
+            {run.id}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>RUN NAME</Paragraph>
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
+            {run.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>PIPELINE NAME</Paragraph>
+          <Paragraph
+            size="small"
+            style={{
+              color: '#22BBDD',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              history.push(
+                routePaths.pipeline.configuration(
+                  run.pipeline?.id,
+                  selectedProject,
+                ),
+              );
+            }}
+          >
+            {run.pipeline?.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>STATUS</Paragraph>
+          <Paragraph
+            style={{
+              marginTop: '10px',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              height: '25px',
+              width: '25px',
+              paddingTop: '3px',
+              textAlign: 'center',
+            }}
+          >
+            <RunStatus run={run} />
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>STACK NAME</Paragraph>
+          <Paragraph
+            size="small"
+            style={{
+              color: '#22BBDD',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              history.push(
+                routePaths.stack.configuration(run.stack?.id, selectedProject),
+              );
+            }}
+          >
+            {run.stack?.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>AUTHOR</Paragraph>
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
+            {run?.user?.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>CREATED</Paragraph>
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
+            {formatDateToDisplayOnTable(run.created)}
+          </Paragraph>
+        </Box>
+      </Box>
     </BasePage>
   );
 };

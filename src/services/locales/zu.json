@@ -15,14 +15,9 @@
               "personalDetails": {
                 "text": "Personal Details"
               },
-              "yourPlan": {
-                "text": "Your Plan"
-              },
-              "billing": {
-                "text": "Billing"
-              },
+        
               "organizationSettings": {
-                "text": "Organization Settings"
+                "text": "Project Settings"
               }
             }
           },
@@ -33,23 +28,59 @@
                 "label": "Full Name",
                 "placeholder": "John Doe"
               },
+              "username": {
+                "label": "Username",
+                "placeholder": "johndoe"
+              },
               "email": {
                 "label": "Email address",
                 "placeholder": "john.doe@acme.com"
+              },
+              "passwordChange": {
+                "currentPassword": {
+                  "label": "Current Password",
+                  "placeholder": "Current Password",
+                  "required": "Current Password Required"
+                },
+                "newPassword": {
+                  "label": "New Password",
+                  "placeholder": "New Password",
+                  "required": "New Password Required"
+                },
+                "confirmPassword": {
+                  "label": "Confirm Password",
+                  "placeholder": "Confirm Password",
+                  "required": "Confirm Password Required"
+                }
               }
             },
             "passwordReset": {
-              "label": "Password",
+              "label": "Change Password",
               "button": "Change Password"
+            },
+            "nameReset": {
+              "label": "Save Changes",
+              "button": "Save Changes"
             },
             "toasts": {
               "successful": {
-                "text": "Successfully send Password Reset E-Mail."
+                "text": "Successfully Changed username and full name.",
+                "passwordText": "Successfully Changed password."
               },
               "failed": {
                 "text": "Something went wrong. Please try again."
               }
-            }
+            },
+            "popup": {
+                "title": "Change full name and Username",
+                "text": "Are you sure to change your full name and username",
+                "successButton": {
+                  "text": "Yes"
+                },
+                "cancelButton": {
+                  "text": "No"
+                }
+              }
           },
           "BillingSettings": {
             "title": "Billing",
@@ -126,15 +157,14 @@
           },
           "OrganizationSettings": {
             "button": {
-              "text": "Invite  new Member"
+              "text": "New Invite"
             },
             "popup": {
               "title": "Add a new Member",
-              "email": {
-                "label": "Email",
-                "placeholder": "Email",
-                "required": "Email is required",
-                "invalidEmail": "Email is not valid"
+              "username": {
+                "label": "Username",
+                "placeholder": "Username",
+                "required": "Username is required"
               },
               "role": {
                 "label": "Role",
@@ -142,11 +172,33 @@
                 "required": "Role is required"
               },
               "button": {
-                "text": "Invite  new Member"
+                "text": "Invite"
+              },
+              "generateInviteModal": {
+                "title": "New Invitation Token",
+                "text": " Generate a new invite token for",
+                "button": {
+                  "text": "Generate Token"
+                }
               },
               "plus": {
                 "text": "Invite another user"
+              },
+              "invite": {
+                "text": "Invitation Token"
               }
+            },
+            "deleteMemberPopup": {
+              "title": "Are you sure?",
+              "text": "Do you want to revoke access for",
+              "successButton": {
+                "text": "Delete"
+              },
+              "cancelButton": {
+                "text": "Cancel"
+              },
+              "errorToaster": "Something went wrong!",
+              "successToaster": "Member deleted"
             },
             "deleteInvitePopup": {
               "title": "Are you sure?",
@@ -160,8 +212,30 @@
               "errorToaster": "Something went wrong!",
               "successToaster": "Invite deleted"
             },
+            "updateMemberPopup": {
+              "title": "Change member details",
+              "text": "Change the username, role and password of",
+              "form": {
+                "username": {
+                  "label": "username",
+                  "placeholder": "username"
+                },
+                "password": {
+                  "label": "password",
+                  "placeholder": "password"
+                }
+              },
+              "successButton": {
+                "text": "Update"
+              },
+              "cancelButton": {
+                "text": "Cancel"
+              },
+              "errorToaster": "Something went wrong!",
+              "successToaster": "Member Updated"
+            },
             "status": {
-              "owner": "Owner",
+              "owner": "Author",
               "pending": "Pending",
               "accepted": "Accepted"
             },
@@ -180,6 +254,9 @@
               "joinedAt": {
                 "text": "Joined"
               },
+              "createdAt": {
+                "text": "Created At"
+              },
               "sendAt": {
                 "text": "Send"
               }
@@ -189,27 +266,27 @@
             }
           },
           "Dashboard": {
-            "title": "Hello World!",
-            "subtitle": "Here are the first few steps to get you going with ZenML!",
+            "title": "Hi there!",
+            "subtitle": "You can find your most important functions here on the dashboard.",
             "cardOne": {
-              "title": "Install client libraries: `pip install zenml`",
+              "title": "Read our documentation",
               "button": {
-                "text": "GitHub",
-                "href": "https://github.com/maiot-io/zenml"
+                "text": "Read",
+                "href": "https://docs.zenml.io"
               }
             },
             "cardTwo": {
-              "title": "Connect your cloud",
+              "title": "Change the settings",
               "button": {
-                "text": "Connect",
-                "href": "https://docs.maiot.io/infrastructure/google-cloud-platform"
+                "text": "Manage",
+                "href": "https://docs.zenml.io/infrastructure/google-cloud-platform"
               }
             },
             "cardThree": {
-              "title": "Try out the quickstart to create your first pipeline",
+              "title": "Invite new members to your organization",
               "button": {
-                "text": "Create",
-                "href": "https://docs.maiot.io/getting-started/quickstart"
+                "text": "Invite",
+                "href": "https://docs.zenml.io/getting-started/quickstart"
               }
             }
           },
@@ -225,20 +302,14 @@
               "pipelines": {
                 "text": "Pipelines"
               },
-              "workspaces": {
-                "text": "Workspaces"
+              "stacks": {
+                "text": "Stacks"
               },
-              "datasources": {
-                "text": "Datasources"
+              "stackComponents": {
+                "text": "Stack Components"
               },
-              "functions": {
-                "text": "Functions"
-              },
-              "models": {
-                "text": "Models"
-              },
-              "deployments": {
-                "text": "Deployments"
+              "setting": {
+                "text": "Settings"
               }
             }
           },
@@ -251,6 +322,11 @@
                 "placeholder": "john.doe@acme.com",
                 "required": "Email is required",
                 "invalidEmail": "Email is not valid"
+              },
+              "username": {
+                "label": "Username",
+                "placeholder": "username",
+                "required": "Username is required"
               },
               "password": {
                 "label": "Password",
@@ -278,22 +354,32 @@
             }
           },
           "Signup": {
-            "title": "Sign Up",
+            "title": "Register",
             "subtitle": "Enter your details below",
             "form": {
+              "username": {
+                "label": "username",
+                "placeholder": "username",
+                "required": "Username is required"
+              },
               "fullname": {
                 "label": "Fullname",
-                "placeholder": "Jane Doe",
+                "placeholder": "Full Name",
                 "required": "Fullname is required"
               },
               "email": {
                 "label": "Email address",
-                "placeholder": "jane.doe@acme.com",
+                "placeholder": "Email address",
                 "required": "Email is required",
                 "invalidEmail": "Email is not valid"
               },
               "password": {
                 "label": "Password",
+                "placeholder": "Password",
+                "required": "Password is required"
+              },
+              "confirmPassword": {
+                "label": "Confirm Password",
                 "placeholder": "Password",
                 "required": "Password is required"
               },
@@ -303,7 +389,7 @@
                 "required": "Organization is required"
               },
               "button": {
-                "text": "Sign Up"
+                "text": "Register"
               }
             },
             "login": {
@@ -312,13 +398,43 @@
             },
             "toasts": {
               "successfulSignup": {
-                "text": "Signed up successfully! Please verify your email before logging in."
+                "text": "Signed up successfully!"
               },
               "failedSignup": {
                 "text": "Incorrect credentials. Please try again."
               },
               "invalidCode": {
                 "text": "Code is not valid."
+              }
+            }
+          },
+          "UserEmail": {
+            "title": "Help ZenML Improve",
+            "subtitle1": "Here at ZenML we are working hard to produce the best possible MLOps framework, In order to solve real-world problems we want to ask you, the user, for feedback and ideas.",
+            "subtitle2-1": "If you are interested in helping us shape the world of MLOps please leave your email below. We will only use this for the purpose of reaching out to you for a user interview and to better understand usage.",
+            "subtitle2-2": "to read more about how we use emails and protect your data",
+            "form": {
+              "email": {
+                "label": "Email address",
+                "placeholder": "Email address",
+                "invalidEmail": "Email is not valid"
+              },
+              "button": {
+                "text": "Save Email"
+              },
+              "skip": {
+                "text": "Skip"
+              },
+              "toasts": {
+                "successful": {
+                  "text": "Saved email successfully!"
+                },
+                "skip": {
+                  "text": "Email Skipped!"
+                },
+                "failed": {
+                  "text": "Something went wrong."
+                }
               }
             }
           },
@@ -351,13 +467,13 @@
           },
           "PipelinesHeader": {
             "createButton": {
-              "text": "Create pipeline"
+              "text": "Pipeline Cheatsheet"
             },
             "compareButton": {
               "text": "Compare runs"
             },
             "externalLink": {
-              "href": "https://docs.maiot.io/v/wip-docs/run-a-pipeline",
+              "href": "https://docs.zenml.io/v/wip-docs/run-a-pipeline",
               "text": "Documentation"
             },
             "copyWorkspaceCommand": {
@@ -379,7 +495,33 @@
                 "text": "Pipelines"
               },
               "allRuns": {
-                "text": "All Runs"
+                "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            },
+            "runsEmptyState": {
+              "text": "No runs."
+            }
+          },
+          "Stacks": {
+            "header": {
+              "breadcrumbs": {
+                "dashBoard": {
+                  "text": "Dashboard"
+                },
+                "stacks": {
+                  "text": "Stacks"
+                }
+              }
+            },
+            "tabs": {
+              "stacks": {
+                "text": "Stacks"
+              },
+              "allRuns": {
+                "text": " Runs"
               }
             },
             "emptyState": {
@@ -392,6 +534,34 @@
           "AllRuns": {
             "emptyState": {
               "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            }
+          },
+          "StackDetail": {
+            "header": {
+              "breadcrumbs": {
+                "stacks": {
+                  "text": "Stacks"
+                }
+              }
+            },
+            "tabs": {
+              "configuration": {
+                "text": "Configuration"
+              },
+              "runs": {
+                "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "No runs."
+            },
+            "configuration": {
+              "title": {
+                "text": "YAML Configuration"
+              },
+              "button": {
+                "text": "Download"
+              }
             }
           },
           "PipelineDetail": {
@@ -488,10 +658,10 @@
               "text": "Datasource commit"
             },
             "author": {
-              "text": "Author"
+              "text": "AUTHOR"
             },
             "createdAt": {
-              "text": "Created At"
+              "text": "CREATED AT"
             }
           },
           "WorkspacesHeader": {
@@ -499,7 +669,7 @@
               "text": "Create workspace"
             },
             "externalLink": {
-              "href": "https://docs.maiot.io/v/wip-docs/collaborate/workspaces",
+              "href": "https://docs.zenml.io/v/wip-docs/collaborate/workspaces",
               "text": "Documentation"
             },
             "copyWorkspaceCommand": {
@@ -543,266 +713,6 @@
           "AllWorkspaces": {
             "emptyState": {
               "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
-            }
-          },
-          "Datasources": {
-            "title": {
-              "text": "This feature is coming soon to the web."
-            },
-            "paragraph": {
-              "text": "In ZenML, you can add multiple datasources into your organization. If the datasource is dynamically changing, you can create commits as a snapshot of the data in the moment in time."
-            },
-            "button": {
-              "text": "View documentation",
-              "href": "https://docs.maiot.io/v/wip-docs/datasources/connecting-datasources"
-            },
-            "tabs": {
-              "cli": {
-                "text": "CLI",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml datasource list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml datasource create [OPTIONS] NAME DS_TYPE SOURCE [ARGS]"
-                  },
-                  "commandThree": {
-                    "text": "zenml datasource set <datasource_id>"
-                  }
-                }
-              },
-              "pythonSDK": {
-                "text": "Python SDK",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml datasource list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml datasource create [OPTIONS] NAME DS_TYPE SOURCE [ARGS]"
-                  },
-                  "commandThree": {
-                    "text": "zenml datasource set <datasource_id>"
-                  }
-                }
-              },
-              "ceDashboard": {
-                "text": "CE Dashboard",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml datasource list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml datasource create [OPTIONS] NAME DS_TYPE SOURCE [ARGS]"
-                  },
-                  "commandThree": {
-                    "text": "zenml datasource set <datasource_id>"
-                  }
-                }
-              }
-            }
-          },
-          "Functions": {
-            "title": {
-              "text": "This feature is coming soon to the web."
-            },
-            "paragraph": {
-              "text": "A pipeline is a collection of processing steps that your data undergoes as it flows through it. You can insert custom functions into at various steps in the process e.g. to preprocess your data or create a model function."
-            },
-            "button": {
-              "text": "View documentation",
-              "href": "https://docs.maiot.io/v/wip-docs/configuration/preprocessing/writing-custom-preprocessing"
-            },
-            "tabs": {
-              "cli": {
-                "text": "CLI",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml function list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml function create [OPTIONS] NAME PATH TYPE UDF_NAME"
-                  },
-                  "commandThree": {
-                    "text": "zenml function versions <function_id>"
-                  }
-                }
-              },
-              "pythonSDK": {
-                "text": "Python SDK",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml function list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml function create [OPTIONS] NAME PATH TYPE UDF_NAME"
-                  },
-                  "commandThree": {
-                    "text": "zenml function versions <function_id>"
-                  }
-                }
-              },
-              "ceDashboard": {
-                "text": "CE Dashboard",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml function list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml function create [OPTIONS] NAME PATH TYPE UDF_NAME"
-                  },
-                  "commandThree": {
-                    "text": "zenml function versions <function_id>"
-                  }
-                }
-              }
-            }
-          },
-          "Models": {
-            "title": {
-              "text": "This feature is coming soon to the web."
-            },
-            "paragraph": {
-              "text": "Each training pipeline yields a model. A model can then be deployed automatically, used in batch inference, or set up for continuous training."
-            },
-            "button": {
-              "text": "View documentation",
-              "href": "https://docs.maiot.io/v/wip-docs/configuration/training-1"
-            },
-            "tabs": {
-              "cli": {
-                "text": "CLI",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml workspace list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml workspace create [NAME]"
-                  },
-                  "commandThree": {
-                    "text": "zenml workspace set <workspace_id>"
-                  }
-                }
-              },
-              "pythonSDK": {
-                "text": "Python SDK",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml workspace list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml workspace create [NAME]"
-                  },
-                  "commandThree": {
-                    "text": "zenml workspace set <workspace_id>"
-                  }
-                }
-              },
-              "ceDashboard": {
-                "text": "CE Dashboard",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml workspace list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml workspace create [NAME]"
-                  },
-                  "commandThree": {
-                    "text": "zenml workspace set <workspace_id>"
-                  }
-                }
-              }
-            }
-          },
-          "Deployments": {
-            "title": {
-              "text": "This feature is coming soon to the web."
-            },
-            "paragraph": {
-              "text": "ZenML is deployed on your cloud. You can configure multiple facets of your deployment, including the orchestrator, the storage, the training and processing environments and much more."
-            },
-            "button": {
-              "text": "View documentation",
-              "href": "https://docs.maiot.io/v/wip-docs/getting-started/architectural-overview"
-            },
-            "tabs": {
-              "cli": {
-                "text": "CLI",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml workspace list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml workspace create [NAME]"
-                  },
-                  "commandThree": {
-                    "text": "zenml workspace set <workspace_id>"
-                  }
-                }
-              },
-              "pythonSDK": {
-                "text": "Python SDK",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml workspace list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml workspace create [NAME]"
-                  },
-                  "commandThree": {
-                    "text": "zenml workspace set <workspace_id>"
-                  }
-                }
-              },
-              "ceDashboard": {
-                "text": "CE Dashboard",
-                "content": {
-                  "title": {
-                    "text": "Basics"
-                  },
-                  "commandOne": {
-                    "text": "zenml workspace list"
-                  },
-                  "commandTwo": {
-                    "text": "zenml workspace create [NAME]"
-                  },
-                  "commandThree": {
-                    "text": "zenml workspace set <workspace_id>"
-                  }
-                }
-              }
             }
           }
         }

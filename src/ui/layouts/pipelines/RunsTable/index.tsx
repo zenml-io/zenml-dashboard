@@ -1,20 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { routePaths } from '../../../../routes/routePaths';
-import { useHistory } from '../../../hooks';
+import { useHistory, useSelector } from '../../../hooks';
 
 import { Table } from '../../common/Table';
 
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
+import { projectSelectors } from '../../../../redux/selectors';
 
+interface Props {
+  filter: any;
+}
 export const RunsTable: React.FC<{
   runIds: TId[];
+  getSorted?: any;
+  paginated?: any;
   pagination?: boolean;
   emptyStateText: string;
   fetching: boolean;
-}> = ({ runIds, pagination = true, emptyStateText, fetching }) => {
+  pipelineRuns?: any;
+  fromAllruns?: boolean;
+  filter?: any;
+}> = ({
+  getSorted,
+  runIds,
+  pagination = true,
+  emptyStateText,
+  fetching,
+  paginated,
+  pipelineRuns,
+  fromAllruns,
+  filter,
+}) => {
   const history = useHistory();
-
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const {
     sortedRuns,
     setSortedRuns,
@@ -23,11 +42,20 @@ export const RunsTable: React.FC<{
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService({ runIds });
+  } = useService({ pipelineRuns, runIds, filter });
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
-    history.push(routePaths.run.statistics(run.id, run.pipelineId));
+
+    fromAllruns
+      ? history.push(routePaths.run.run.statistics(selectedProject, run.id))
+      : history.push(
+          routePaths.run.pipeline.statistics(
+            selectedProject,
+            run.id,
+            run.pipeline_id ? run.pipeline_id : run.pipelineId,
+          ),
+        );
   };
 
   const headerCols = useHeaderCols({
@@ -37,15 +65,30 @@ export const RunsTable: React.FC<{
     setActiveSorting,
     activeSortingDirection,
     setActiveSortingDirection,
+    nestedRuns: pipelineRuns ? true : false,
   });
+
+  useEffect(() => {
+    if (getSorted) {
+      getSorted(activeSorting, activeSortingDirection);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getSorted]);
 
   return (
     <Table
+      activeSorting={
+        activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+          ? activeSorting
+          : 'created'
+      }
       pagination={pagination}
       loading={fetching}
+      paginated={paginated}
       showHeader={true}
       headerCols={headerCols}
       tableRows={sortedRuns}
+      filters={filter}
       emptyState={{ text: emptyStateText }}
       trOnClick={openDetailPage}
     />

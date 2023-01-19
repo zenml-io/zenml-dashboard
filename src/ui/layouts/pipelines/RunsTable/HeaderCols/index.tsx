@@ -1,26 +1,30 @@
 import _ from 'lodash';
 import React from 'react';
-import cn from 'classnames';
 
-import styles from '../index.module.scss';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { translate } from '../translate';
-import { formatDateToDisplay, truncate } from '../../../../../utils';
+import {
+  formatDateToDisplayOnTable,
+  getInitialsFromEmail,
+  truncate,
+} from '../../../../../utils';
 import {
   FlexBox,
   Paragraph,
-  LinkBox,
   Box,
   icons,
+  ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
-import { RunTime } from '../../RunTime';
-import { RunUser } from '../RunUser';
+
 import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
-import { PipelineName } from '../PipelineName';
+import { useHistory, useSelector } from '../../../../hooks';
+import { routePaths } from '../../../../../routes/routePaths';
+import ReactTooltip from 'react-tooltip';
+import { projectSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
   runs,
@@ -29,6 +33,7 @@ export const useHeaderCols = ({
   activeSortingDirection,
   setActiveSortingDirection,
   setActiveSorting,
+  nestedRuns,
 }: {
   runs: TRun[];
   setRuns: (runs: TRun[]) => void;
@@ -36,15 +41,9 @@ export const useHeaderCols = ({
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
   setActiveSorting: (sorting: Sorting | null) => void;
+  nestedRuns: boolean;
 }): HeaderCol[] => {
-  const {
-    toggleSelectRun,
-    isRunSelected,
-    selectRuns,
-    unselectRuns,
-    allRunsSelected,
-    sortMethod,
-  } = useService({
+  const { sortMethod } = useService({
     setActiveSortingDirection,
     setActiveSorting,
     setRuns,
@@ -52,196 +51,515 @@ export const useHeaderCols = ({
     activeSortingDirection,
     runs,
   });
+  const history = useHistory();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+  return nestedRuns
+    ? [
+        {
+          render: () => (
+            <FlexBox justifyContent="center">
+              <Paragraph
+                size="small"
+                color="grey"
+                style={{ fontSize: '12px' }}
+              ></Paragraph>
+            </FlexBox>
+          ),
+          width: '3%',
+          renderRow: (run: TRun) => <></>,
+        },
+        {
+          render: () => (
+            <SortingHeader
+              sorting="id"
+              sortMethod={sortMethod('id', {
+                asc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['asc']),
+                desc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
+                RUN ID
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <FlexBox alignItems="center">
+              <div data-tip data-for={run.id}>
+                <Paragraph size="small">
+                  {truncate(run.id, ID_MAX_LENGTH)}
+                </Paragraph>
+              </div>
+              <ReactTooltip id={run.id} place="top" effect="solid">
+                <Paragraph color="white">
+                  {run.id}
+                  {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
+                </Paragraph>
+              </ReactTooltip>
+            </FlexBox>
+          ),
+        },
+        {
+          render: () => (
+            <SortingHeader
+              sorting="name"
+              sortMethod={sortMethod('name', {
+                asc: (run: TRun[]) => _.orderBy(run, ['name'], ['asc']),
+                desc: (run: TRun[]) => _.orderBy(run, ['name'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
+                RUN NAME
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: any) => (
+            <div style={{ alignItems: 'center' }}>
+              <div data-tip data-for={run.name}>
+                <Paragraph size="small">{run.name}</Paragraph>
+              </div>
+              <ReactTooltip id={run.name} place="top" effect="solid">
+                <Paragraph color="white">
+                  {run.name}
+                  {/* {translate(`tooltips.${invoice.status}`)} */}
+                </Paragraph>
+              </ReactTooltip>
+            </div>
+          ),
+        },
 
-  return [
-    {
-      render: () => (
-        <FlexBox justifyContent="center">
-          <Paragraph size="small" color="grey">
-            <LinkBox
-              onClick={() => {
-                if (allRunsSelected(runs)) {
-                  unselectRuns(runs);
-                } else {
-                  selectRuns(runs);
-                }
-              }}
-              className={cn(
-                styles.checkbox,
-                allRunsSelected(runs) && styles.checkedCheckbox,
-              )}
-            />
-          </Paragraph>
-        </FlexBox>
-      ),
-      width: '3%',
-      renderRow: (run: TRun) => (
-        <FlexBox justifyContent="center">
-          <LinkBox
-            onClick={(e: Event) => {
-              e.stopPropagation();
-              toggleSelectRun(run);
-            }}
-            className={cn(
-              styles.checkbox,
-              isRunSelected(run) && styles.checkedCheckbox,
-            )}
-          />
-        </FlexBox>
-      ),
-    },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="id"
-          sortMethod={sortMethod('id', {
-            asc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['asc']),
-            desc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('runId.text')}
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '10%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{truncate(run.id, ID_MAX_LENGTH)}</Paragraph>
-      ),
-    },
-    {
-      render: () => (
-        <Paragraph size="small" color="grey">
-          {translate('pipelineName.text')}
-        </Paragraph>
-      ),
-      width: '10%',
-      renderRow: (run: TRun) => <PipelineName run={run} />,
-    },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="pipelineRunType"
-          sortMethod={sortMethod('pipelineRunType', {
-            asc: (runs: TRun[]) =>
-              _.orderBy(runs, ['pipelineRunType'], ['asc']),
-            desc: (runs: TRun[]) =>
-              _.orderBy(runs, ['pipelineRunType'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('type.text')}
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '8%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.pipelineRunType}</Paragraph>
-      ),
-    },
-    {
-      render: () => (
-        <Paragraph size="small" color="grey">
-          {translate('runtime.text')}
-        </Paragraph>
-      ),
-      width: '8%',
-      renderRow: (run: TRun) => <RunTime run={run} />,
-    },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="status"
-          sortMethod={sortMethod('status', {
-            asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
-            desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('status.text')}
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '13%',
-      renderRow: (run: TRun) => <RunStatus run={run} />,
-    },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="datasourceCommit"
-          sortMethod={sortMethod('datasourceCommit', {
-            asc: (runs: TRun[]) =>
-              _.orderBy(runs, ['datasourceCommitId'], ['asc']),
-            desc: (runs: TRun[]) =>
-              _.orderBy(runs, ['datasourceCommitId'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('datasourceCommit.text')}
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '20%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">
-          {truncate(run.datasourceCommitId, ID_MAX_LENGTH)}
-        </Paragraph>
-      ),
-    },
-    {
-      render: () => (
-        <Paragraph size="small" color="grey">
-          {translate('author.text')}
-        </Paragraph>
-      ),
-      width: '15%',
-      renderRow: (run: TRun) => <RunUser run={run} />,
-    },
-    {
-      render: () => (
-        <SortingHeader
-          sorting="createdAt"
-          sortMethod={sortMethod('createdAt', {
-            asc: (runs: TRun[]) =>
-              _.orderBy(
-                runs,
-                (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
-                ['asc'],
-              ),
-            desc: (runs: TRun[]) =>
-              _.orderBy(
-                runs,
-                (run: TRun) => new Date(run.kubeflowStartTime).getTime(),
-                ['desc'],
-              ),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="grey">
-            {translate('createdAt.text')}
-          </Paragraph>
-        </SortingHeader>
-      ),
-      width: '10%',
-      renderRow: (run: TRun) => (
-        <FlexBox alignItems="center">
-          <Box paddingRight="sm">
-            <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box>
-          <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(run.kubeflowStartTime)}
-          </Paragraph>
-        </FlexBox>
-      ),
-    },
-  ];
+        {
+          render: () => (
+            <SortingHeader
+              sorting="status"
+              sortMethod={sortMethod('status', {
+                asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
+                desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
+                STATUS
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+
+          renderRow: (run: TRun) => <RunStatus run={run} />,
+        },
+
+        {
+          render: () => (
+            <SortingHeader
+              sorting="created"
+              sortMethod={sortMethod('created', {
+                asc: (runs: TRun[]) =>
+                  _.orderBy(
+                    runs,
+                    (run: TRun) => new Date(run.created).getTime(),
+                    ['asc'],
+                  ),
+                desc: (runs: TRun[]) =>
+                  _.orderBy(
+                    runs,
+                    (run: TRun) => new Date(run.created).getTime(),
+                    ['desc'],
+                  ),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
+                CREATED
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: any) => (
+            <FlexBox style={{ alignItems: 'center' }}>
+              <div data-tip data-for={formatDateToDisplayOnTable(run.created)}>
+                <FlexBox alignItems="center">
+                  <Box paddingRight="sm">
+                    <icons.calendar
+                      color={iconColors.grey}
+                      size={iconSizes.sm}
+                    />
+                  </Box>
+                  <Paragraph color="grey" size="tiny">
+                    {formatDateToDisplayOnTable(run.created)}
+                  </Paragraph>
+                </FlexBox>
+              </div>
+              <ReactTooltip
+                id={formatDateToDisplayOnTable(run.created)}
+                place="top"
+                effect="solid"
+              >
+                <Paragraph color="white">
+                  {formatDateToDisplayOnTable(run.created)}
+                  {/* {translate(`tooltips.${invoice.status}`)} */}
+                </Paragraph>
+              </ReactTooltip>
+            </FlexBox>
+          ),
+        },
+      ]
+    : [
+        {
+          render: () => (
+            <FlexBox justifyContent="center">
+              <Paragraph
+                size="small"
+                color="grey"
+                style={{ fontSize: '12px' }}
+              ></Paragraph>
+            </FlexBox>
+          ),
+          width: '3%',
+          renderRow: (run: TRun) => <></>,
+        },
+        {
+          render: () => (
+            <SortingHeader
+              sorting="id"
+              sortMethod={sortMethod('id', {
+                asc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['asc']),
+                desc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
+                RUN ID
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <FlexBox alignItems="center">
+              <div data-tip data-for={run.id}>
+                <Paragraph size="small">
+                  {truncate(run.id, ID_MAX_LENGTH)}
+                </Paragraph>
+              </div>
+              <ReactTooltip id={run.id} place="top" effect="solid">
+                <Paragraph color="white">
+                  {run.id}
+                  {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
+                </Paragraph>
+              </ReactTooltip>
+            </FlexBox>
+          ),
+        },
+        {
+          render: () => (
+            <SortingHeader
+              sorting="name"
+              sortMethod={sortMethod('name', {
+                asc: (run: TRun[]) => _.orderBy(run, ['name'], ['asc']),
+                desc: (run: TRun[]) => _.orderBy(run, ['name'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
+                RUN NAME
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <div style={{ alignItems: 'center' }}>
+              <div data-tip data-for={run.name}>
+                <Paragraph size="small">{run.name}</Paragraph>
+              </div>
+              <ReactTooltip id={run.name} place="top" effect="solid">
+                <Paragraph color="white">
+                  {run.name}
+                  {/* {translate(`tooltips.${invoice.status}`)} */}
+                </Paragraph>
+              </ReactTooltip>
+            </div>
+          ),
+        },
+        {
+          render: () => (
+            <SortingHeader
+              sorting="pipeline_id"
+              sortMethod={sortMethod('pipeline_id', {
+                asc: (run: TRun[]) => _.orderBy(run, ['pipeline_id'], ['asc']),
+                desc: (run: TRun[]) =>
+                  _.orderBy(run, ['pipeline_id'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
+                PIPEPLINE NAME
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <FlexBox alignItems="center">
+              <div data-tip data-for={run.pipeline?.name}>
+                <Paragraph
+                  size="small"
+                  style={{
+                    color: '#22BBDD',
+                    textDecoration: 'underline',
+                    zIndex: 100,
+                  }}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    history.push(
+                      routePaths.pipeline.configuration(
+                        run.pipeline?.id,
+                        selectedProject,
+                      ),
+                    );
+                  }}
+                >
+                  {run.pipeline?.name}
+                </Paragraph>
+              </div>
+              <ReactTooltip id={run.pipeline?.name} place="top" effect="solid">
+                <Paragraph color="white">
+                  {run.pipeline?.name}
+                  {/* {translate(`tooltips.${invoice.status}`)} */}
+                </Paragraph>
+              </ReactTooltip>
+            </FlexBox>
+          ),
+        },
+
+        {
+          render: () => (
+            <SortingHeader
+              sorting="status"
+              sortMethod={sortMethod('status', {
+                asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
+                desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
+                STATUS
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+
+          renderRow: (run: TRun) => <RunStatus run={run} />,
+        },
+        {
+          render: () => (
+            <SortingHeader
+              sorting="stack_id"
+              sortMethod={sortMethod('stack_id', {
+                asc: (run: TRun[]) => _.orderBy(run, ['stack_id'], ['asc']),
+                desc: (run: TRun[]) => _.orderBy(run, ['stack_id'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
+                STACK NAME
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <FlexBox alignItems="center">
+              <div data-tip data-for={run.stack?.name}>
+                <Paragraph
+                  size="small"
+                  style={{
+                    color: '#22BBDD',
+                    textDecoration: 'underline',
+                    cursor: 'pointer',
+                  }}
+                  onClick={(event) => {
+                    event.stopPropagation();
+                    history.push(
+                      routePaths.stack.configuration(
+                        run.stack?.id,
+                        selectedProject,
+                      ),
+                    );
+                  }}
+                >
+                  {run.stack?.name}
+                </Paragraph>
+              </div>
+              <ReactTooltip id={run.stack?.name} place="top" effect="solid">
+                <Paragraph color="white">
+                  {run.stack?.name}
+                  {/* {translate(`tooltips.${invoice.status}`)} */}
+                </Paragraph>
+              </ReactTooltip>
+            </FlexBox>
+          ),
+        },
+
+        {
+          render: () => (
+            <SortingHeader
+              sorting="user_id"
+              sortMethod={sortMethod('user_id', {
+                asc: (run: TRun[]) => _.orderBy(run, ['user_id'], ['asc']),
+                desc: (run: TRun[]) => _.orderBy(run, ['user_id'], ['desc']),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
+                {translate('author.text')}
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => {
+            const initials = getInitialsFromEmail(
+              run.user.full_name ? run.user.full_name : run.user.name,
+            );
+            return (
+              <FlexBox alignItems="center">
+                <div
+                  data-tip
+                  data-for={
+                    run.user.full_name ? run.user.full_name : run.user.name
+                  }
+                >
+                  <FlexBox alignItems="center">
+                    <Box paddingRight="sm">
+                      <ColoredCircle color="secondary" size="sm">
+                        {initials}
+                      </ColoredCircle>
+                    </Box>
+                    <Paragraph size="small">
+                      {run.user.full_name ? run.user.full_name : run.user.name}
+                    </Paragraph>
+                  </FlexBox>
+                </div>
+                <ReactTooltip
+                  id={run.user.full_name ? run.user.full_name : run.user.name}
+                  place="top"
+                  effect="solid"
+                >
+                  <Paragraph color="white">
+                    {run.user.full_name ? run.user.full_name : run.user.name}
+                    {/* {translate(`tooltips.${invoice.status}`)} */}
+                  </Paragraph>
+                </ReactTooltip>
+              </FlexBox>
+            );
+          },
+        },
+        {
+          render: () => (
+            <SortingHeader
+              sorting="created"
+              sortMethod={sortMethod('created', {
+                asc: (runs: TRun[]) =>
+                  _.orderBy(
+                    runs,
+                    (run: TRun) => new Date(run.created).getTime(),
+                    ['asc'],
+                  ),
+                desc: (runs: TRun[]) =>
+                  _.orderBy(
+                    runs,
+                    (run: TRun) => new Date(run.created).getTime(),
+                    ['desc'],
+                  ),
+              })}
+              activeSorting={activeSorting}
+              activeSortingDirection={activeSortingDirection}
+            >
+              <Paragraph
+                size="small"
+                color="black"
+                style={{ fontSize: '12px' }}
+              >
+                {translate('createdAt.text')}
+              </Paragraph>
+            </SortingHeader>
+          ),
+          width: '15%',
+          renderRow: (run: TRun) => (
+            <FlexBox alignItems="center">
+              <div data-tip data-for={formatDateToDisplayOnTable(run.created)}>
+                <FlexBox alignItems="center">
+                  <Box paddingRight="sm">
+                    <icons.calendar
+                      color={iconColors.grey}
+                      size={iconSizes.sm}
+                    />
+                  </Box>
+                  <Paragraph color="grey" size="tiny">
+                    {formatDateToDisplayOnTable(run.created)}
+                  </Paragraph>
+                </FlexBox>
+              </div>
+              <ReactTooltip
+                id={formatDateToDisplayOnTable(run.created)}
+                place="top"
+                effect="solid"
+              >
+                <Paragraph color="white">
+                  {formatDateToDisplayOnTable(run.created)}
+                </Paragraph>
+              </ReactTooltip>
+            </FlexBox>
+          ),
+        },
+      ];
 };

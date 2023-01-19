@@ -8,10 +8,11 @@ export interface Response {
 }
 
 interface NewAccount {
-  email: string;
+  userId: string;
+  username: string;
+  fullName: any;
   password: string;
-  fullname: string;
-  organizationName: string;
+  token: string;
 }
 
 interface Params {
@@ -20,20 +21,16 @@ interface Params {
 
 const signUpApi = ({ account }: Params): Promise<void> =>
   fetchApi({
-    url: apiUrl(endpoints.signup),
-    method: httpMethods.post,
+    url: apiUrl(endpoints.signup(account.userId)),
+    method: httpMethods.put,
     headers: {
       'Content-Type': 'application/json',
     },
     data: JSON.stringify({
-      email: account.email,
+      name: account.username,
+      full_name: account.fullName,
       password: account.password,
-      full_name: account.fullname,
-      organization_name: account.organizationName,
-      organization_id: null,
-      n_pipelines_executed: 0,
-      firebase_id: null,
-      role: null,
+      activation_token: account.token,
     }),
   });
 

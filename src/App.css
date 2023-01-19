@@ -13,7 +13,10 @@
   src: url('./ui/assets/SourceCodePro-Regular.ttf') format('truetype');
 }
 
-html  , #root, body, .App {
+html,
+#root,
+body,
+.App {
   height: 100%;
   -webkit-tap-highlight-color: transparent;
 }
@@ -23,7 +26,9 @@ html {
   box-sizing: border-box;
 }
 
-*, *:before, *:after {
+*,
+*:before,
+*:after {
   box-sizing: inherit;
 }
 

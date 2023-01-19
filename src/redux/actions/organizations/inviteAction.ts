@@ -2,13 +2,13 @@ import { organizationActionTypes } from '../../actionTypes';
 import inviteApi from '../../../api/organizations/inviteApi';
 
 export const inviteAction = ({
-  email,
+  name,
   onFailure,
   onSuccess,
 }: {
-  email: string;
+  name: string;
   onFailure?: (err: any) => void;
-  onSuccess?: () => void;
+  onSuccess?: (res: any) => void;
 }): TRequestAction => ({
   type: organizationActionTypes.invite.request,
   payload: {
@@ -16,7 +16,7 @@ export const inviteAction = ({
     isAuthenticated: true,
     failureActionType: organizationActionTypes.invite.failure,
     successActionType: organizationActionTypes.invite.success,
-    params: { email },
+    params: { name },
     onFailure,
     onSuccess,
   },

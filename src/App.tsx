@@ -11,6 +11,15 @@ import './App.css';
 import './ui/default.css';
 
 const { store, persistor } = configureStore();
+if (
+  process.env.REACT_APP_DEMO_SETUP === 'true' &&
+  (process.env.REACT_APP_USERNAME === undefined ||
+    process.env.REACT_APP_PASSWORD === undefined)
+) {
+  console.warn(
+    'You need to add process.env.REACT_APP_USERNAME and process.env.REACT_APP_PASSWORD in .env file.',
+  );
+}
 
 const App: React.FC = () => {
   return (

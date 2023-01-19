@@ -7,7 +7,7 @@ import { showToasterAction } from '../actions';
 import { httpStatus } from '../../constants';
 import { actionTypesHandledByRequestSaga } from './actionTypesHandledByRequestSaga';
 
-const translate = getTranslateByScope('sagas.requestSaga');
+const translate = getTranslateByScope('Authentication error');
 
 export const isRequestAction = (action: any): boolean => {
   return actionTypesHandledByRequestSaga.includes(action.type);
@@ -26,7 +26,16 @@ function* logoutAndNotifyUserThatSessionExpired(): any {
   yield put(sessionActions.logout());
   yield put(
     showToasterAction({
-      description: translate('authenticationError'),
+      description: translate(''),
+      type: toasterTypes.failure,
+    }),
+  );
+}
+
+function* unprocessablEntity(): any {
+  yield put(
+    showToasterAction({
+      description: 'Something went wrong',
       type: toasterTypes.failure,
     }),
   );
@@ -46,9 +55,9 @@ function* callFailureCallback(action: any): any {
   }
 }
 
-function* callSuccessCallback(action: any): any {
+function* callSuccessCallback(action: any, response: any): any {
   if (action.payload.onSuccess) {
-    yield call(action.payload.onSuccess);
+    yield call(action.payload.onSuccess, response.data);
   }
 }
 
@@ -81,14 +90,16 @@ export function* handleRequestSaga(action: any) {
         requestParams: action.payload.params,
       });
 
-      yield* callSuccessCallback(action);
+      yield* callSuccessCallback(action, response);
     }
   } catch (e) {
     if (isUnauthenticatedError(e, action)) {
       yield* handleUnauthenticated(action);
+    } else if (e?.response?.status === httpStatus.unprocessablEntity) {
+      yield* unprocessablEntity();
     } else {
       let errorText = 'Something went wrong!';
-      if (e.message.indexOf('Network Error') === -1) {
+      if (e?.message?.indexOf('Network Error') === -1) {
         // this means its not a generic message from the server
         errorText = e.response ? e.response.data.detail : '';
       }

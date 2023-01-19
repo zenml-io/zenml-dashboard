@@ -4,6 +4,13 @@
   height: $headerHeight;
   background-color: $whiteColor;
   box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  width: 100% !important;
+}
+
+.selectedProject {
+  font-size: 10px;
+  font-weight: 400;
+  line-height: 12px;
 }
 
 $activeBgColor: #fbfbfb;
@@ -20,11 +27,13 @@ $width: 15rem;
   z-index: 9;
   top: 5rem;
   right: 0;
+  text-align: end;
 }
 
 .popupItem {
   cursor: pointer;
   transition: 0.2s ease-in all;
+  justify-content: end;
 }
 
 .popupItem:hover {

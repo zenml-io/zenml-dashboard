@@ -1,177 +1,81 @@
-import React from 'react';
-import { fieldValidation } from '../../../../utils/validations';
+import React, { useState } from 'react';
+import styles from './index.module.scss';
+import { toasterTypes } from '../../../../constants';
+import { showToasterAction } from '../../../../redux/actions';
 import {
   Box,
-  FormEmailField,
-  FormPasswordField,
   FormTextField,
-  Paragraph,
+  FormPasswordField,
   PrimaryButton,
-  ColoredSquare,
-  FlexBox,
-  TextInput,
-  FormValidationError,
 } from '../../../components';
+import { useDispatch } from '../../../hooks';
 import { translate } from './translate';
 import { useService } from './useService';
 import { useEnterKeyPress } from '../../../hooks';
-import { getInitials } from '../../../../utils/name';
-
-const fullNameHasError = (fullname: string, hasSubmittedWithErrors: boolean) =>
-  hasSubmittedWithErrors && fullname.trim() === '';
-
-const organizationNameHasError = (
-  organizationName: string,
-  hasSubmittedWithErrors: boolean,
-) => hasSubmittedWithErrors && organizationName.trim() === '';
-
-const emailHasError = (email: string, hasSubmittedWithErrors: boolean) =>
-  (hasSubmittedWithErrors && email.trim() === '') ||
-  (hasSubmittedWithErrors && !fieldValidation(email.trim()).isEmail());
-
-const emailErrorText = (email: string) =>
-  email.trim() !== '' && !fieldValidation(email.trim()).isEmail()
-    ? translate('form.email.invalidEmail')
-    : translate('form.email.required');
 
 export const Form: React.FC = () => {
+
+  const dispatch = useDispatch();
+  const [confirmPass, setConfirmPass] = useState('')
+
   const {
     signup,
     hasSubmittedWithErrors,
-    email,
+    username,
+    fullName,
     password,
-    fullname,
-    setEmail,
-    setPassword,
+    setUsername,
     setFullName,
-    organizationName,
-    setOrganizationName,
+    setPassword,
     loading,
-    invite,
   } = useService();
 
   const submit = () => {
-    signup();
+    if (password !== confirmPass) {
+      dispatch(showToasterAction({
+          description: 'Password not Matched',
+          type: toasterTypes.failure,
+        }),
+      )
+    } else {
+      signup();
+    }
   };
 
-  const BUTTON_DISABLED =
-    fullname.trim() === '' ||
-    email.trim() === '' ||
-    password.trim() === '' ||
-    (organizationName.trim() === '' && !invite) ||
-    (organizationName.trim() !== '' && !!invite);
+  const BUTTON_DISABLED = username.trim() === '' || password.trim() === '' || confirmPass.trim() === '' 
 
   useEnterKeyPress(() => {
     if (!BUTTON_DISABLED) signup();
   });
 
+
   return (
-    <Box marginTop="xxl">
+    <Box >
       <Box marginBottom="lg">
-        {invite ? (
-          <Box>
-            <Paragraph size="body" color="black">
-              {translate('form.organization.label')}
-            </Paragraph>
-            <FlexBox.Row alignItems="center" marginTop="sm">
-              <Box>
-                <ColoredSquare size="md" color="secondary">
-                  <Paragraph color="white">
-                    {getInitials(invite.organizationName)}
-                  </Paragraph>
-                </ColoredSquare>
-              </Box>
-              <Box marginLeft="sm">
-                <Paragraph bold>{invite.organizationName}</Paragraph>
-              </Box>
-            </FlexBox.Row>
-          </Box>
-        ) : (
-          <FlexBox.Column fullWidth>
-            <Box paddingBottom="xs">
-              <Paragraph size="body" color="black">
-                <label>{translate('form.organization.label')}</label>
-              </Paragraph>
-            </Box>
-            <FlexBox.Row>
-              <Box>
-                <ColoredSquare
-                  size="md"
-                  color={
-                    organizationName.trim() !== ''
-                      ? 'secondary'
-                      : 'lightestGrey'
-                  }
-                >
-                  <Paragraph color="white">
-                    {getInitials(organizationName)}
-                  </Paragraph>
-                </ColoredSquare>
-              </Box>
-              <FlexBox flex={1} marginLeft="sm">
-                <TextInput
-                  placeholder={translate('form.organization.placeholder')}
-                  value={organizationName}
-                  onChangeText={(val: string) => setOrganizationName(val)}
-                  hasError={organizationNameHasError(
-                    organizationName,
-                    hasSubmittedWithErrors,
-                  )}
-                />
-                <FormValidationError
-                  text={translate('form.organization.required')}
-                  hasError={organizationNameHasError(
-                    organizationName,
-                    hasSubmittedWithErrors,
-                  )}
-                />
-              </FlexBox>
-            </FlexBox.Row>
-          </FlexBox.Column>
-        )}
-      </Box>
-      <Box marginBottom="lg">
-        <FormTextField
-          label={translate('form.fullname.label')}
-          placeholder={translate('form.fullname.placeholder')}
-          value={fullname}
-          onChange={(val: string) => setFullName(val)}
-          error={{
-            hasError: fullNameHasError(fullname, hasSubmittedWithErrors),
-            text: translate('form.email.required'),
-          }}
-        />
-      </Box>
-      <Box marginBottom="lg">
-        {!!invite ? (
-          <Box>
-            <Box paddingBottom="sm">
-              <Paragraph size="body" color="black">
-                <label>{translate('form.email.label')}</label>
-              </Paragraph>
-            </Box>
-            <Box>
-              <Paragraph size="body" color="black">
-                {email}
-              </Paragraph>
-            </Box>
-          </Box>
-        ) : (
-          <FormEmailField
-            label={translate('form.email.label')}
-            placeholder={translate('form.email.placeholder')}
-            value={email}
-            onChange={(val: string) => setEmail(val)}
-            error={{
-              hasError: emailHasError(email, hasSubmittedWithErrors),
-              text: emailErrorText(email),
-            }}
+          <FormTextField
+            label={translate('form.username.label')}
+            labelColor='#ffffff'
+            placeholder={translate('form.username.placeholder')}
+            value={username} 
+            onChange={(val: string) => setUsername(val)}
           />
-        )}
       </Box>
-      <Box marginBottom="md">
+
+      <Box marginBottom="lg">
+          <FormTextField
+            label={translate('form.fullname.label')}
+            labelColor='#ffffff'
+            placeholder={translate('form.fullname.placeholder')}
+            value={fullName} 
+            onChange={(val: string) => setFullName(val)}
+          />
+      </Box>
+      
+
+      <Box marginBottom="lg">
         <FormPasswordField
           label={translate('form.password.label')}
+          labelColor='#ffffff'
           placeholder={translate('form.password.placeholder')}
           value={password}
           onChange={(val: string) => setPassword(val)}
@@ -182,11 +86,26 @@ export const Form: React.FC = () => {
           showPasswordOption
         />
       </Box>
+      <Box marginBottom="lg">
+        <FormPasswordField
+          label={translate('form.confirmPassword.label')}
+          labelColor='#fff'
+          placeholder={translate('form.confirmPassword.placeholder')}
+          value={confirmPass}
+          onChange={(val: string) => setConfirmPass(val)}
+          error={{
+            hasError: hasSubmittedWithErrors && confirmPass.trim() === '',
+            text: translate('form.confirmPassword.required'),
+          }}
+          showPasswordOption
+        />
+      </Box>
       <PrimaryButton
+        marginTop='md'
+        className={styles.signUpButton}
         loading={loading}
         disabled={BUTTON_DISABLED || loading}
-        onClick={submit}
-      >
+        onClick={submit} >
         {translate('form.button.text')}
       </PrimaryButton>
     </Box>

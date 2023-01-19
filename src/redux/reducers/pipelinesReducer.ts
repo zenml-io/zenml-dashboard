@@ -1,11 +1,12 @@
 import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
-import { pipelineActionTypes, workspaceActionTypes } from '../actionTypes';
+import { pipelineActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
 export interface State {
   ids: TId[];
   byId: Record<TId, TPipeline>;
   myPipelineIds: TId[];
+  paginated: any;
 }
 
 type PipelinesPayload = TPipeline[];
@@ -21,12 +22,23 @@ export const initialState: State = {
   ids: [],
   byId: {},
   myPipelineIds: [],
+  paginated: {},
 };
 
-const newState = (state: State, pipelines: TPipeline[]): State => ({
+const newState = (
+  state: State,
+  pipelines: TPipeline[],
+  pagination?: any,
+): State => ({
   ...state,
   ids: idsInsert(state.ids, pipelines),
   byId: byKeyInsert(state.byId, pipelines),
+  paginated: {
+    page: pagination.page,
+    size: pagination.size,
+    totalPages: pagination.total_pages,
+    totalitem: pagination.total,
+  },
 });
 
 const pipelinesReducer = (
@@ -34,17 +46,16 @@ const pipelinesReducer = (
   action: Action,
 ): State => {
   switch (action.type) {
-    case pipelineActionTypes.getMyPipelines.success:
-    case workspaceActionTypes.getPipelinesForWorkspaceId.success: {
+    case pipelineActionTypes.getMyPipelines.success: {
       const pipelines: TPipeline[] = camelCaseArray(
-        action.payload as PipelinesPayload,
+        action.payload.items as PipelinesPayload,
       );
 
       const myPipelineIds: TId[] = pipelines.map(
         (pipeline: TPipeline) => pipeline.id,
       );
 
-      return { ...newState(state, pipelines), myPipelineIds };
+      return { ...newState(state, pipelines, action.payload), myPipelineIds };
     }
 
     case pipelineActionTypes.getPipelineForId.success: {

@@ -1,20 +1,34 @@
-import React from 'react';
-import { translate } from './translate';
-import { Box, PrimaryButton } from '../../../components';
-import { useService } from './useService';
+import React, { useState } from 'react';
+import styles from './index.module.scss';
 
-import { CommandPopup } from '../../common/CommandPopup';
+import {
+  Box,
+  PrimaryButton,
+  FlexBox,
+  H3,
+  Paragraph,
+  icons,
+} from '../../../components';
+import { iconSizes, iconColors } from '../../../../constants';
+import { Popup } from '../../common/Popup';
+import { DocumentationLink } from './DocumentationLink';
+import { CommandBoxWScroll } from '../../common/CommandBox';
+import { constantCommandsToCreatePipeline, constantCommandsToCreateRuns } from '../../../../constants/constantCommands';
 
 export const CreatePipelineButton: React.FC = () => {
   const [createPipelinePopupOpen, setCreatePipelinePopupOpen] = React.useState<
     boolean
   >(false);
+  const [isCopied, setIsCopied] = useState(false);
 
-  const { currentWorkspace } = useService();
+  const handleCopy = (codeString: string) => {
+    navigator.clipboard.writeText(codeString);
 
-  const commandText = `zenml workspace set ${
-    currentWorkspace && currentWorkspace.id
-  }`;
+    setIsCopied(true);
+    setTimeout(() => {
+      setIsCopied(false);
+    }, 2000);
+  };
 
   return (
     <Box
@@ -23,13 +37,69 @@ export const CreatePipelineButton: React.FC = () => {
       paddingHorizontal="sm"
     >
       <PrimaryButton onClick={() => setCreatePipelinePopupOpen(true)}>
-        {translate('createButton.text')}
+        {window.location.href?.includes('runs') ? constantCommandsToCreateRuns?.title : constantCommandsToCreatePipeline?.title}
       </PrimaryButton>
-      <CommandPopup
-        commandText={commandText}
-        open={createPipelinePopupOpen}
-        setOpen={setCreatePipelinePopupOpen}
-      />
+
+      {createPipelinePopupOpen && (
+        <Popup onClose={() => setCreatePipelinePopupOpen(false)}>
+          <FlexBox.Row>
+            <H3 bold color="darkGrey">
+             {window.location.href?.includes('runs') ? constantCommandsToCreateRuns?.title : constantCommandsToCreatePipeline.title}
+            </H3>
+          </FlexBox.Row>
+          
+          {window.location.href?.includes('runs') ?  
+            constantCommandsToCreateRuns.body.map((item): any =>
+              item.isCode ? (
+                <FlexBox alignItems="center" marginTop="md">
+                  <CommandBoxWScroll command={item.text} />
+                  <Box
+                    className={styles.iconStyle}
+                    style={{ paddingTop: '7px' }}
+                    onClick={() => handleCopy(item.text)}
+                  >
+                    <icons.copy size={iconSizes.sm} color={iconColors.black} />
+                  </Box>
+                </FlexBox>
+              ) : (
+                <FlexBox.Row>
+                  <Box marginTop="md">
+                    <Paragraph>{item.text}</Paragraph>
+                  </Box>
+                </FlexBox.Row>
+              ),
+            )
+          :  
+          constantCommandsToCreatePipeline.body.map((item): any =>
+            item.isCode ? (
+              <FlexBox alignItems="center" marginTop="md">
+                <CommandBoxWScroll command={item.text} />
+                <Box
+                  className={styles.iconStyle}
+                  style={{ paddingTop: '7px' }}
+                  onClick={() => handleCopy(item.text)}
+                >
+                  <icons.copy size={iconSizes.sm} color={iconColors.black} />
+                </Box>
+              </FlexBox>
+            ) : (
+              <FlexBox.Row>
+                <Box marginTop="md">
+                  <Paragraph>{item.text}</Paragraph>
+                </Box>
+              </FlexBox.Row>
+            ),
+          )}
+
+          <FlexBox justifyContent="space-between" marginTop="xl" flexWrap>
+            <Box>{isCopied && <Paragraph>Copied!</Paragraph>}</Box>
+
+            <DocumentationLink
+              text={constantCommandsToCreatePipeline.documentation}
+            />
+          </FlexBox>
+        </Popup>
+      )}
     </Box>
   );
 };

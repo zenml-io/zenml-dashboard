@@ -2,26 +2,27 @@ import { forgotActionTypes } from '../../actionTypes';
 import forgotApi from '../../../api/session/forgotApi';
 
 export const forgotAction = ({
-  email,
+  userId,
+  password,
   onSuccess,
   onFailure,
 }: {
-  email: string;
+  userId: string;
+  password: string;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
   type: forgotActionTypes.request,
   payload: {
     apiMethod: forgotApi,
-    isAuthenticated: false,
+    isAuthenticated: true,
     failureActionType: forgotActionTypes.failure,
     successActionType: forgotActionTypes.success,
     onSuccess,
     onFailure,
     params: {
-      account: {
-        email,
-      },
+      userId,
+      password,
     },
   },
 });

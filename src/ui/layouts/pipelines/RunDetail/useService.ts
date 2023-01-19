@@ -1,34 +1,51 @@
+import { useEffect, useState } from 'react';
 import { RunDetailRouteParams } from '.';
-import { runsActions, billingActions } from '../../../../redux/actions';
-import { billingSelectors, runSelectors } from '../../../../redux/selectors';
-import { useParams, useRequestOnMount, useSelector } from '../../../hooks';
+import { runPagesActions, runsActions } from '../../../../redux/actions';
+import { runPagesSelectors, runSelectors } from '../../../../redux/selectors';
+import { useDispatch, useParams, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
   runId: TId;
   pipelineId: TId;
   run: TRun;
-  billing: TBilling | Record<any, any>;
+  fetching: boolean;
 }
 
 export const useService = (): ServiceInterface => {
+  const dispatch = useDispatch();
   const { id, pipelineId } = useParams<RunDetailRouteParams>();
+  const [isMounted, setIsMounted] = useState(false);
 
-  useRequestOnMount(() =>
-    runsActions.runForId({
-      pipelineId,
-      runId: id,
-    }),
-  );
+  useEffect(() => {
+    if (!isMounted) {
+      setFetching(true);
 
-  useRequestOnMount(() =>
-    billingActions.billingForRunId({
-      runId: id,
-      pipelineId,
-    }),
-  );
+      dispatch(
+        runsActions.runForId({
+          pipelineId: pipelineId,
+          runId: id,
+          onSuccess: () =>
+            dispatch(
+              runsActions.graphForRun({
+                runId: id,
+                onSuccess: () => setFetching(false),
+                onFailure: () => setFetching(false),
+              }),
+            ),
+          onFailure: () => setFetching(false),
+        }),
+      );
+      setIsMounted(true);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isMounted, setIsMounted]);
 
   const run = useSelector(runSelectors.runForId(id));
-  const billing = useSelector(billingSelectors.billingForRunId(id));
 
-  return { runId: id, pipelineId, run, billing };
+  const setFetching = (fetching: boolean) => {
+    dispatch(runPagesActions.setFetching({ fetching }));
+  };
+  const fetching = useSelector(runPagesSelectors.fetching);
+
+  return { runId: id, pipelineId, run, fetching };
 };

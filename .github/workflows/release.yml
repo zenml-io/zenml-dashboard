@@ -1,0 +1,54 @@
+name: Release-pipeline
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "*"
+
+jobs:
+  release:
+    name: Release
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+      - name: Get the version from the github tag ref
+        id: get_version
+        run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 14.20.0
+      - name: Install yarn
+        run: npm install --global yarn
+      - name: Build
+        run: |
+          yarn install
+          yarn build
+        env:
+          REACT_APP_BASE_API_URL: "/api/v1"
+          REACT_APP_MOCKAPI_RESPONSE: false
+          REACT_APP_VERSION: ${{ steps.get_version.outputs.VERSION }}
+      - name: Generate Changelog
+        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          pullRequests: "false"
+          onlyLastTag: "true"
+          stripGeneratorNotice: "true"
+          issuesWoLabels: "true"
+          stripHeaders: "true"
+      - name: Create release archive
+        run: |
+          tar -zcf zenml-dashboard.tar.gz -C build --transform="s#\.\/##" .
+          sha256sum -b zenml-dashboard.tar.gz > zenml-dashboard.tar.gz.sha256
+      - name: Release to GitHub
+        uses: softprops/action-gh-release@v1
+        with:
+          files: |
+            zenml-dashboard.tar.gz
+            zenml-dashboard.tar.gz.sha256
+          body_path: ./CHANGELOG.md
+          prerelease: "true"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

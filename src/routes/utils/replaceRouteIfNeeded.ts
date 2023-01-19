@@ -2,7 +2,8 @@ import {
   RouteInterface,
   RouteVisibilityAuthentication,
 } from '../RouteVisibility';
-import { loggedOutRoute, loggedInRoute } from '../../constants';
+import { loggedOutRoute, DEFAULT_PROJECT_NAME } from '../../constants';
+import { routePaths } from '../routePaths';
 
 const isUnauthenticatedOrMissingRoute = (
   currentLocation: RouteInterface | undefined,
@@ -25,19 +26,30 @@ const isAuthenticatedOrMissingRoute = (
 let timeout = null as any;
 
 export const replaceRouteIfNeeded = ({
+  locationPath,
+  user,
   isAuthenticated,
   currentLocation,
   replaceRoute,
   routeFromSearchParam,
 }: {
+  locationPath?: any;
+  user: any;
   isAuthenticated: any;
   currentLocation: RouteInterface | undefined;
   replaceRoute: (arg1: string) => void;
   routeFromSearchParam: null | string;
 }): void => {
   clearTimeout(timeout);
+
   const routeToReplace = () => {
-    return isAuthenticated ? loggedInRoute : loggedOutRoute;
+    // const url = window.location.search;
+    const logRoute =
+      user?.emailOptedIn === null
+        ? `/user-email`
+        : routePaths.dashboard(DEFAULT_PROJECT_NAME);
+
+    return isAuthenticated ? logRoute : loggedOutRoute;
   };
   const replaceToLoggedInRoute =
     isAuthenticated && isUnauthenticatedOrMissingRoute(currentLocation);
@@ -45,16 +57,26 @@ export const replaceRouteIfNeeded = ({
   const replaceToLoggedOutRoute =
     !isAuthenticated && isAuthenticatedOrMissingRoute(currentLocation);
 
-  const shouldReplaceRoute = replaceToLoggedInRoute || replaceToLoggedOutRoute;
+  const replaceToLoggedInRouteForEmailOptedIn =
+    isAuthenticated &&
+    user?.emailOptedIn === null &&
+    currentLocation?.path !== `/user-email`;
+  const shouldReplaceRoute =
+    replaceToLoggedInRoute ||
+    replaceToLoggedOutRoute ||
+    replaceToLoggedInRouteForEmailOptedIn;
 
   if (shouldReplaceRoute) {
     timeout = setTimeout(() => {
       let route = routeToReplace();
 
       if (replaceToLoggedOutRoute && currentLocation) {
-        route = `${route}?route=${currentLocation.path}`;
+        console.log(locationPath);
+        route = `${route}?route=${locationPath}`;
+        // debugger;
       } else if (replaceToLoggedInRoute && routeFromSearchParam) {
         route = routeFromSearchParam;
+        // debugger;
       }
 
       replaceRoute(route);
