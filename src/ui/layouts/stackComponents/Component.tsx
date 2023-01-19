@@ -26,7 +26,7 @@ const Component = () => {
   const [selectedComp, setSelectedComp] = useState(
     window.location.href.split('/')[6],
   );
-  const [search, setSearch] = useState('');
+  // const [search, setSearch] = useState('');
 
   useEffect(() => {
     dispatch(stackComponentsActions.getTypes());
