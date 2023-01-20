@@ -78,11 +78,11 @@ export const callActionForPipelinesForPagination = () => {
   ) {
     let filtersParam: any = filterObjectForParam(filters);
     setFetchingForPipeline(true);
-    // debugger;
+    const logicalOperator = localStorage.getItem('logical_operator');
     dispatch(
       pipelinesActions.getMy({
         sort_by: sortby ? sortby : 'created',
-        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
+        logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
         page: page,
         size: size,
         filtersParam,
@@ -114,6 +114,7 @@ export const callActionForAllrunsForPagination = () => {
     filters?: any[],
     sortby?: string,
   ) {
+    const logicalOperator = localStorage.getItem('logical_operator');
     let filtersParam = filterObjectForParam(filters);
 
     setFetchingForAllRuns(true);
@@ -121,7 +122,7 @@ export const callActionForAllrunsForPagination = () => {
       runsActions.allRuns({
         project: selectedProject,
         sort_by: sortby ? sortby : 'created',
-        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
+        logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
         page: page,
         size: size,
         filtersParam,

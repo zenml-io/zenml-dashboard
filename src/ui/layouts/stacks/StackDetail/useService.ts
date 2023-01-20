@@ -68,6 +68,7 @@ export const callActionForStackRunsForPagination = () => {
     filters?: any[],
     sortby?: string,
   ) {
+    const logicalOperator = localStorage.getItem('logical_operator');
     let filtersParam = filterObjectForParam(filters);
 
     console.log('aaaa', filters);
@@ -75,7 +76,7 @@ export const callActionForStackRunsForPagination = () => {
     dispatch(
       stacksActions.allRunsByStackId({
         sort_by: sortby ? sortby : 'created',
-        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
+        logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
         stackId: id,
         page: page,
         size: size,

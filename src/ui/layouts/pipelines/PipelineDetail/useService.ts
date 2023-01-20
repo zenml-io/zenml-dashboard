@@ -69,13 +69,14 @@ export const callActionForPipelineRunsForPagination = () => {
     filters?: any[],
     sortby?: string,
   ) {
+    const logicalOperator = localStorage.getItem('logical_operator');
     let filtersParam = filterObjectForParam(filters);
     // console.log('aaaa', filters);
     setFetching(true);
     dispatch(
       pipelinesActions.allRunsByPipelineId({
         sort_by: sortby ? sortby : 'created',
-        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
+        logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
         pipelineId: id,
         page: page,
         size: size,
