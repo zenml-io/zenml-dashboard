@@ -455,6 +455,7 @@ const FilterComponent = ({
     }
 
     setFilter([...filters]);
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
 
   function handleChangeForStatus(filter: any, value: string) {
@@ -467,6 +468,7 @@ const FilterComponent = ({
     filter.filterValue = value;
 
     setFilter([...filters]);
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
   function handleChangeForShared(filter: any, key: string, value: string) {
     //  handleValueFieldChange(filter, value)
@@ -482,6 +484,7 @@ const FilterComponent = ({
     }
 
     setFilter([...filters]);
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
   function handleChangeForSearchable(field: any, value: string) {
     // filter[key].selectedValue =
@@ -527,7 +530,7 @@ const FilterComponent = ({
 
     setFilter([...filters]);
 
-    console.log(filters, 'field');
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
 
   function addAnotherFilter() {
@@ -548,9 +551,18 @@ const FilterComponent = ({
       fontSize: '12px',
       display: 'flex',
       fontFamily: 'Rubik',
-      // color: 'red',
 
       // ...base,
+    }),
+    singleValue: (provided: any) => ({
+      ...provided,
+      fontSize: '12px',
+      fontFamily: 'Rubik',
+    }),
+    option: (provided: any) => ({
+      ...provided,
+      fontSize: '12px',
+      fontFamily: 'Rubik',
     }),
   };
 
@@ -696,8 +708,10 @@ const FilterComponent = ({
           filterValue: value,
         },
       ]);
+      localStorage.setItem('logical_operator', JSON.stringify('or'));
     } else {
       setFilter([getInitials()]);
+      localStorage.setItem('logical_operator', JSON.stringify('and'));
     }
   }
 
@@ -738,7 +752,7 @@ const FilterComponent = ({
             <icons.funnelFill
               style={{ padding: '5px 0px 0px 7px' }}
               size={iconSizes.sm}
-              color={iconColors.primary}
+              color={searchText ? iconColors.grey : iconColors.primary}
             />
           </Box>
           <Box
@@ -755,7 +769,14 @@ const FilterComponent = ({
               filters.map((filter: any, index: number) => {
                 return (
                   <FlexBox.Row key={index} className={styles.tile}>
-                    <Box onClick={() => hanldeDelete(index)}>
+                    <Box
+                      onClick={() => {
+                        if (filters.length === 1) {
+                          setShowInbar(false);
+                        }
+                        hanldeDelete(index);
+                      }}
+                    >
                       {`${filter.column.selectedValue.label} ${
                         filter.column.selectedValue.label === 'Shared' ||
                         filter.column.selectedValue.label === 'Status'
@@ -1021,6 +1042,9 @@ const FilterComponent = ({
 
                 <Box
                   onClick={() => {
+                    if (filters.length === 1) {
+                      setShowInbar(false);
+                    }
                     hanldeDelete(index);
                   }}
                   className={styles.removeIcon}
