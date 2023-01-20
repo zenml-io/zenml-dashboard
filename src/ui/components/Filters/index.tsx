@@ -548,9 +548,18 @@ const FilterComponent = ({
       fontSize: '12px',
       display: 'flex',
       fontFamily: 'Rubik',
-      // color: 'red',
 
       // ...base,
+    }),
+    singleValue: (provided: any) => ({
+      ...provided,
+      fontSize: '12px',
+      fontFamily: 'Rubik',
+    }),
+    option: (provided: any) => ({
+      ...provided,
+      fontSize: '12px',
+      fontFamily: 'Rubik',
     }),
   };
 
