@@ -8,7 +8,7 @@ import {
   LinkBox,
   icons,
   If,
-  Separator
+  Separator,
 } from '../../../../components';
 
 import styles from './AuthenticatedHeader.module.scss';
@@ -18,9 +18,7 @@ import {
   userSelectors,
 } from '../../../../../redux/selectors';
 import { getInitials } from '../../../../../utils/name';
-import {
-  DEFAULT_FULL_NAME,
-} from '../../../../../constants';
+import { DEFAULT_FULL_NAME } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
 import {
   useDispatch,
@@ -39,7 +37,7 @@ import {
 import { routePaths } from '../../../../../routes/routePaths';
 import { ProjectPopup } from './ProjectPopup';
 import ReactTooltip from 'react-tooltip';
-import { CookiePopup } from './CookiePopup'
+// import { CookiePopup } from './CookiePopup'
 
 // import { endpoints } from '../../../../../api/endpoints';
 
@@ -53,8 +51,8 @@ export const AuthenticatedHeader: React.FC<{
   const history = useHistory();
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const [createPopupOpen, setCreatePopupOpen] = useState<boolean>(false);
-  const [showCookiePopup, setShowCookiePopup] = useState<any>(localStorage.getItem('showCookie'));
-  
+  // const [showCookiePopup, setShowCookiePopup] = useState<any>(localStorage.getItem('showCookie'));
+
   const dispatch = useDispatch();
   const { push } = usePushRoute();
   const locationPath = useLocationPath();
@@ -116,7 +114,10 @@ export const AuthenticatedHeader: React.FC<{
 
   const userFullName = user.fullName || user.name || DEFAULT_FULL_NAME;
   const userInitials = getInitials(userFullName);
-
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   const logout = () => {
     dispatch(sessionActions.logout());
     history.push('/login');
@@ -150,19 +151,22 @@ export const AuthenticatedHeader: React.FC<{
         sort_by: 'created',
         logical_operator: 'and',
         page: 1,
-        size: 5,
+        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         project: e?.name,
         onSuccess: () => stopLoad(),
         onFailure: () => stopLoad(),
       }),
     );
-    await dispatch(projectsActions.getMy({ selectDefault: false, selectedProject: e?.name }))
+    await dispatch(
+      projectsActions.getMy({ selectDefault: false, selectedProject: e?.name }),
+    );
   };
 
-  const selected =  projects.some((project) => project['name'] === locationPath.split('/')[2])
-                          ? locationPath.split('/')[2].substring(0, 10)
-                          : selectedProject
-
+  const selected = projects.some(
+    (project) => project['name'] === locationPath.split('/')[2],
+  )
+    ? locationPath.split('/')[2].substring(0, 10)
+    : selectedProject;
 
   return (
     <>
@@ -187,9 +191,9 @@ export const AuthenticatedHeader: React.FC<{
               <LinkBox onClick={() => setPopupOpen(!popupOpen)}>
                 <FlexBox alignItems="center">
                   <FlexBox alignItems="center" className="d-none d-md-flex">
-                    <Box paddingRight="sm" style={{ textAlign: 'end' }} >
+                    <Box paddingRight="sm" style={{ textAlign: 'end' }}>
                       <Paragraph>{userFullName}</Paragraph>
-                      <span className={styles.selectedProject} >{selected}</span>
+                      <span className={styles.selectedProject}>{selected}</span>
                     </Box>
                   </FlexBox>
                   <Box marginRight="sm">
@@ -198,15 +202,15 @@ export const AuthenticatedHeader: React.FC<{
                     </ColoredCircle>
                   </Box>
                   <Box>
-                      <icons.chevronDownLight
-                        size={iconSizes.xs}
-                        color={iconColors.black}
-                      />
-                    </Box>
+                    <icons.chevronDownLight
+                      size={iconSizes.xs}
+                      color={iconColors.black}
+                    />
+                  </Box>
                 </FlexBox>
               </LinkBox>
               <If condition={popupOpen}>
-                {() => ( 
+                {() => (
                   <OutsideClickHandler
                     onOutsideClick={() => setPopupOpen(false)}
                   >
@@ -220,32 +224,78 @@ export const AuthenticatedHeader: React.FC<{
                           <Paragraph size="small">Settings</Paragraph>
                         </FlexBox>
                       </LinkBox>
-                
-                
-                      <Box marginHorizontal='md'><Separator.LightNew /></Box>
-                      <Box marginTop='sm' marginHorizontal="md" ><Paragraph color='grey' style={{ fontSize: '14px' }} >Your workspaces</Paragraph></Box>
-                      
-                      <Box marginVertical='sm' marginHorizontal='md' className="d-none d-md-block">            
-                        <Box marginTop='sm' style={{ maxHeight: '290px', overflow: projects?.length > 10 ? 'auto' :'hidden' }} >  
-                              {projects.map((option, index) => (
-                                <Box marginTop='sm' onClick={() => onChange(option) } key={index} >
-                                  <div data-tip data-for={option.name}>
-                                    <Paragraph style={{ fontSize: '16px', color: '#443E99', cursor: 'pointer', fontWeight: selected === option.name ? 'bold' : 'normal' }} >
-                                      {option.name.substring(0, 10)} <span style={{ color: selected === option.name ? '#443E99' : '#fff' }}  >&#x2022;</span> 
-                                    </Paragraph>
-                                  </div>
 
-                                  <ReactTooltip id={option.name} place="top" effect="solid">
-                                    <Paragraph color="white">{option.name}</Paragraph>
-                                  </ReactTooltip>
+                      <Box marginHorizontal="md">
+                        <Separator.LightNew />
+                      </Box>
+                      <Box marginTop="sm" marginHorizontal="md">
+                        <Paragraph color="grey" style={{ fontSize: '14px' }}>
+                          Your workspaces
+                        </Paragraph>
+                      </Box>
 
-                                </Box>
-                              ))}
+                      <Box
+                        marginVertical="sm"
+                        marginHorizontal="md"
+                        className="d-none d-md-block"
+                      >
+                        <Box
+                          marginTop="sm"
+                          style={{
+                            maxHeight: '290px',
+                            overflow: projects?.length > 10 ? 'auto' : 'hidden',
+                          }}
+                        >
+                          {projects.map((option, index) => (
+                            <Box
+                              marginTop="sm"
+                              onClick={() => onChange(option)}
+                              key={index}
+                            >
+                              <div data-tip data-for={option.name}>
+                                <Paragraph
+                                  style={{
+                                    fontSize: '16px',
+                                    color: '#443E99',
+                                    cursor: 'pointer',
+                                    fontWeight:
+                                      selected === option.name
+                                        ? 'bold'
+                                        : 'normal',
+                                  }}
+                                >
+                                  {option.name.substring(0, 10)}{' '}
+                                  <span
+                                    style={{
+                                      color:
+                                        selected === option.name
+                                          ? '#443E99'
+                                          : '#fff',
+                                    }}
+                                  >
+                                    &#x2022;
+                                  </span>
+                                </Paragraph>
+                              </div>
+
+                              <ReactTooltip
+                                id={option.name}
+                                place="top"
+                                effect="solid"
+                              >
+                                <Paragraph color="white">
+                                  {option.name}
+                                </Paragraph>
+                              </ReactTooltip>
+                            </Box>
+                          ))}
                         </Box>
                       </Box>
 
-                      <Box marginHorizontal='md'><Separator.LightNew /></Box>
-              
+                      <Box marginHorizontal="md">
+                        <Separator.LightNew />
+                      </Box>
+
                       {process.env.REACT_APP_DEMO_SETUP === 'true' ? null : (
                         <LinkBox onClick={logout}>
                           <FlexBox
@@ -275,7 +325,7 @@ export const AuthenticatedHeader: React.FC<{
         </If>
       </FlexBox>
 
-      {showCookiePopup !== 'false' && <CookiePopup setShowCookie={setShowCookiePopup} />}
+      {/* {showCookiePopup !== 'false' && <CookiePopup setShowCookie={setShowCookiePopup} />} */}
     </>
   );
 };

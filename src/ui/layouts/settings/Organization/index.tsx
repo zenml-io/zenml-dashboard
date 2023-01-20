@@ -32,6 +32,10 @@ export const Organization: React.FC = () => {
   const [fetchingMembers, setFetchingMembers] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
   const [currentTable, setCurrentTable] = useState('members');
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   const membersPaginated = useSelector(
     organizationSelectors.myMembersPaginated,
   );
@@ -61,11 +65,12 @@ export const Organization: React.FC = () => {
     dispatch(
       organizationActions.getMembers({
         page: 1,
-        size: 5,
+        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         onSuccess: () => setFetchingMembers(false),
         onFailure: () => setFetchingMembers(false),
       }),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [dispatch]);
 
   return (
