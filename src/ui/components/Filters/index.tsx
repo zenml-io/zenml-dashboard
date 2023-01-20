@@ -738,7 +738,7 @@ const FilterComponent = ({
             <icons.funnelFill
               style={{ padding: '5px 0px 0px 7px' }}
               size={iconSizes.sm}
-              color={iconColors.primary}
+              color={searchText ? iconColors.grey : iconColors.primary}
             />
           </Box>
           <Box
@@ -755,7 +755,14 @@ const FilterComponent = ({
               filters.map((filter: any, index: number) => {
                 return (
                   <FlexBox.Row key={index} className={styles.tile}>
-                    <Box onClick={() => hanldeDelete(index)}>
+                    <Box
+                      onClick={() => {
+                        if (filters.length === 1) {
+                          setShowInbar(false);
+                        }
+                        hanldeDelete(index);
+                      }}
+                    >
                       {`${filter.column.selectedValue.label} ${
                         filter.column.selectedValue.label === 'Shared' ||
                         filter.column.selectedValue.label === 'Status'
@@ -1021,6 +1028,9 @@ const FilterComponent = ({
 
                 <Box
                   onClick={() => {
+                    if (filters.length === 1) {
+                      setShowInbar(false);
+                    }
                     hanldeDelete(index);
                   }}
                   className={styles.removeIcon}
