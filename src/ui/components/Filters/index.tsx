@@ -20,6 +20,7 @@ import { useDispatch, useSelector } from '../../hooks';
 import {
   organizationSelectors,
   pipelineSelectors,
+  projectSelectors,
   stackSelectors,
 } from '../../../redux/selectors';
 import {
@@ -50,7 +51,7 @@ export const getInitialFilterState = () => {
         },
         {
           value: 'user_id',
-          label: 'Owner',
+          label: 'Author',
           type: 'string',
         },
         {
@@ -74,12 +75,12 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
-          value: 'start_with',
+          value: 'startswith',
           label: 'Start With',
           type: 'string',
         },
         {
-          value: 'end_with',
+          value: 'endswith',
           label: 'End With',
           type: 'string',
         },
@@ -343,12 +344,12 @@ export const getInitialFilterStateForRuns = () => {
           type: 'string',
         },
         {
-          value: 'start_with',
+          value: 'startswith',
           label: 'Start With',
           type: 'string',
         },
         {
-          value: 'end_with',
+          value: 'endswith',
           label: 'End With',
           type: 'string',
         },
@@ -432,10 +433,11 @@ const FilterComponent = ({
   const dispatch = useDispatch();
   const [applyFilter, setApplyFilter] = useState(false);
   const [searchText, setSearchText] = useState(false);
-
+  const [showInBar, setShowInbar] = useState(false);
   const members = useSelector(organizationSelectors.myMembers);
   const pipelines = useSelector(pipelineSelectors.myPipelines);
   const stacks = useSelector(stackSelectors.mystacks);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   console.log(members, 'members');
   function handleChange(filter: any, key: string, value: string) {
     filter[key].selectedValue = filter[key].options.filter(
@@ -497,16 +499,26 @@ const FilterComponent = ({
 
   function callActionForPipelines(name: string) {
     if (name) {
-      dispatch(pipelinesActions.getMy({ name: 'contains:' + name }));
+      dispatch(
+        pipelinesActions.getMy({
+          project: selectedProject,
+          name: 'contains:' + name,
+        }),
+      );
     } else {
-      dispatch(pipelinesActions.getMy({}));
+      dispatch(pipelinesActions.getMy({ project: selectedProject }));
     }
   }
   function callActionForStacks(name: string) {
     if (name) {
-      stacksActions.getMy({ name: 'contains:' + name });
+      dispatch(
+        stacksActions.getMy({
+          project: selectedProject,
+          name: 'contains:' + name,
+        }),
+      );
     } else {
-      stacksActions.getMy({});
+      dispatch(stacksActions.getMy({ project: selectedProject }));
     }
   }
 
@@ -535,10 +547,56 @@ const FilterComponent = ({
       height: '40px',
       fontSize: '12px',
       display: 'flex',
+      fontFamily: 'Rubik',
+      // color: 'red',
+
       // ...base,
     }),
   };
 
+  function checkForName(typeName: string, value: string) {
+    if (typeName === 'Author') {
+      const member = members.filter((item) => item.id === value);
+
+      return member[0].name;
+    }
+    if (typeName === 'Pipeline Name') {
+      const pipeline = pipelines.filter((item) => item.id === value);
+      return pipeline[0].name;
+    }
+    if (typeName === 'Stack Name') {
+      const stack = stacks.filter((item) => item.id === value);
+      return stack[0].name;
+    } else {
+      return value;
+    }
+    // switch (typeName) {
+    //   case 'Author':
+    //     members.filter((item) => {
+    //       if (item.id === value) {
+    //         return item.name;
+    //       }
+    //     });
+    //     break;
+    //   case 'Pipeline Name':
+    //     pipelines.filter((item) => {
+    //       if (item.id === value) {
+    //         return item.name;
+    //       }
+    //     });
+    //     break;
+    //   case 'Stack Name':
+    //     stacks.filter((item) => {
+    //       if (item.id === value) {
+    //         return item.name;
+    //       }
+    //     });
+    //     break;
+
+    //   default:
+    //     break;
+    // }
+  }
   const valueField = (filter: any) => {
     switch (filter?.contains.selectedValue.type) {
       case 'string':
@@ -650,19 +708,17 @@ const FilterComponent = ({
   return (
     <FlexBox.Column fullWidth>
       <div className={styles.inputRow}>
-        {!window.location.href?.includes('components') && (
-          <Box marginRight="md" marginTop="md">
-            <SearchInputField
-              placeholder={'Search'}
-              value={searchText ? filters[0]?.filterValue : ''}
-              disabled={applyFilter}
-              onChange={(value: string) => {
-                setSearchText(value ? true : false);
-                handleValueFieldChangeOnSearch(value);
-              }}
-            />
-          </Box>
-        )}
+        <Box marginRight="md" marginTop="md">
+          <SearchInputField
+            placeholder={'Search'}
+            value={searchText ? filters[0]?.filterValue : ''}
+            disabled={applyFilter || showInBar}
+            onChange={(value: string) => {
+              setSearchText(value ? true : false);
+              handleValueFieldChangeOnSearch(value);
+            }}
+          />
+        </Box>
 
         <FlexBox
           fullWidth
@@ -701,18 +757,34 @@ const FilterComponent = ({
                   <FlexBox.Row key={index} className={styles.tile}>
                     <Box onClick={() => hanldeDelete(index)}>
                       {`${filter.column.selectedValue.label} ${
-                        filter.column.selectedValue.label !== 'Shared' &&
-                        filter.column.selectedValue.label !== 'Status'
-                          ? filter.contains.selectedValue.label
-                          : ''
+                        filter.column.selectedValue.label === 'Shared' ||
+                        filter.column.selectedValue.label === 'Status'
+                          ? 'is'
+                          : filter.column.selectedValue.label ===
+                              'Pipeline Name' ||
+                            filter.column.selectedValue.label ===
+                              'Stack Name' ||
+                            filter.column.selectedValue.label === 'Author'
+                          ? 'Equals'
+                          : filter.contains.selectedValue.label
                       } ${
                         typeof filter.filterValue === 'string'
-                          ? filter.filterValue
+                          ? checkForName(
+                              filter.column.selectedValue.label,
+                              filter.filterValue,
+                            )
                           : formatDateToDisplay(filter.filterValue)
                       }`}
                     </Box>
 
-                    <Box onClick={() => hanldeDelete(index)}>
+                    <Box
+                      onClick={() => {
+                        if (filters.length === 1) {
+                          setShowInbar(false);
+                        }
+                        hanldeDelete(index);
+                      }}
+                    >
                       <icons.closeWithBorder
                         style={{ paddingLeft: '7px' }}
                         size={iconSizes.sm}
@@ -734,6 +806,7 @@ const FilterComponent = ({
               <Box
                 onClick={() => {
                   setFilter([getInitials()]);
+                  setShowInbar(false);
                 }}
               >
                 <icons.closeWithBorder
@@ -775,9 +848,10 @@ const FilterComponent = ({
                 <Box style={{ width: '146px' }}>
                   <FormDropdownField
                     label={''}
-                    onChange={(value: string) =>
-                      handleChange(filter, 'column', value)
-                    }
+                    onChange={(value: string) => {
+                      setShowInbar(true);
+                      handleChange(filter, 'column', value);
+                    }}
                     placeholder={'Column Name'}
                     value={filter.column.selectedValue.value}
                     options={filter.column.options}
@@ -787,6 +861,7 @@ const FilterComponent = ({
                       width: '146px',
                       fontSize: '12px',
                       color: '#424240',
+                      fontFamily: 'Rubik',
                     }}
                   />
                 </Box>
@@ -803,6 +878,7 @@ const FilterComponent = ({
                           width: '146px',
                           fontSize: '12px',
                           color: '#424240',
+                          fontFamily: 'Rubik',
                         }}
                         onChange={(value: string) =>
                           // handleChange(filter, 'contains', value)
@@ -845,6 +921,7 @@ const FilterComponent = ({
                             width: '146px',
                             fontSize: '12px',
                             color: '#424240',
+                            fontFamily: 'Rubik',
                           }}
                           onChange={
                             (value: string) =>
@@ -934,6 +1011,7 @@ const FilterComponent = ({
                           width: '146px',
                           fontSize: '12px',
                           color: '#424240',
+                          fontFamily: 'Rubik',
                         }}
                       />
                       {valueField(filter)}
@@ -942,7 +1020,9 @@ const FilterComponent = ({
                 )}
 
                 <Box
-                  onClick={() => hanldeDelete(index)}
+                  onClick={() => {
+                    hanldeDelete(index);
+                  }}
                   className={styles.removeIcon}
                 >
                   <icons.delete
