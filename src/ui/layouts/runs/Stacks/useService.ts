@@ -14,6 +14,10 @@ export const useService = (): ServiceInterface => {
   const locationPath = useLocationPath();
   const dispatch = useDispatch();
   const selectedProject = useSelector(projectSelectors.selectedProject);
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
     setFetching(true);
     dispatch(
@@ -21,7 +25,7 @@ export const useService = (): ServiceInterface => {
         sort_by: 'created',
         logical_operator: 'and',
         page: 1,
-        size: 2,
+        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         project: selectedProject as string,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
