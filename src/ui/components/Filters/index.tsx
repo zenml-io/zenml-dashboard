@@ -455,6 +455,7 @@ const FilterComponent = ({
     }
 
     setFilter([...filters]);
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
 
   function handleChangeForStatus(filter: any, value: string) {
@@ -467,6 +468,7 @@ const FilterComponent = ({
     filter.filterValue = value;
 
     setFilter([...filters]);
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
   function handleChangeForShared(filter: any, key: string, value: string) {
     //  handleValueFieldChange(filter, value)
@@ -482,6 +484,7 @@ const FilterComponent = ({
     }
 
     setFilter([...filters]);
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
   function handleChangeForSearchable(field: any, value: string) {
     // filter[key].selectedValue =
@@ -527,7 +530,7 @@ const FilterComponent = ({
 
     setFilter([...filters]);
 
-    console.log(filters, 'field');
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
 
   function addAnotherFilter() {
@@ -705,8 +708,10 @@ const FilterComponent = ({
           filterValue: value,
         },
       ]);
+      localStorage.setItem('logical_operator', JSON.stringify('or'));
     } else {
       setFilter([getInitials()]);
+      localStorage.setItem('logical_operator', JSON.stringify('and'));
     }
   }
 

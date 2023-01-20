@@ -63,6 +63,8 @@ export const callActionForStackComponentsForPagination = () => {
     filters?: any[],
     sortby?: string,
   ) {
+    const logicalOperator = localStorage.getItem('logical_operator');
+
     let filtersParam = filterObjectForParam(filters);
     setFetching(true);
     dispatch(
@@ -70,7 +72,7 @@ export const callActionForStackComponentsForPagination = () => {
         project: selectedProject ? selectedProject : locationPath.split('/')[2],
         type: locationPath.split('/')[4],
         sort_by: sortby ? sortby : 'created',
-        logical_operator: Object.keys(filtersParam).length > 1 ? 'or' : 'and',
+        logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
         page: page,
         size: size,
         filtersParam,
