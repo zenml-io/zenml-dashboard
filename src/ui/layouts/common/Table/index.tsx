@@ -53,8 +53,6 @@ export interface TableProps {
   trOnClick?: (arg: any) => void;
 }
 
-// const ITEMS_PER_PAGE = parseInt(process.env.REACT_APP_ITEMS_PER_PAGE as string);
-
 export const Table: React.FC<TableProps> = ({
   headerCols,
   tableRows,
@@ -151,7 +149,7 @@ export const Table: React.FC<TableProps> = ({
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
-  const DEFAULT_ITEMS_PER_PAGE = 5;
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   const itemPerPageOptions = [5, 10, 15, 20];
   // const itemPerPage = ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE;
   const [itemPerPage, setItemPerPage] = useState(
@@ -256,7 +254,7 @@ export const Table: React.FC<TableProps> = ({
       dispatch(
         organizationActions.getMembers({
           page: 1,
-          size: 5,
+          size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
           sort_by: activeSorting,
           onSuccess: () => setFetchingMembers(false),
           onFailure: () => setFetchingMembers(false),

@@ -21,6 +21,10 @@ interface ServiceInterface {
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const selectedProject = useSelector(projectSelectors.selectedProject);
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
     setFetchingForPipeline(true);
     setFetchingForAllRuns(true);
@@ -30,7 +34,7 @@ export const useService = (): ServiceInterface => {
         logical_operator: 'and',
         project: selectedProject,
         page: 1,
-        size: 5,
+        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         onSuccess: () => setFetchingForAllRuns(false),
         onFailure: () => setFetchingForAllRuns(false),
       }),
@@ -40,7 +44,7 @@ export const useService = (): ServiceInterface => {
         sort_by: 'created',
         logical_operator: 'and',
         page: 1,
-        size: 5,
+        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         name: '',
         project: selectedProject,
         onSuccess: () => setFetchingForPipeline(false),
