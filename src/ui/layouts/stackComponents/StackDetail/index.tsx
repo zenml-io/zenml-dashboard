@@ -1,12 +1,11 @@
 import React, { useState } from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import { Box, Paragraph, icons } from '../../../components';
-import { iconColors, iconSizes } from '../../../../constants';
-import {
-  camelCaseToParagraph,
-  formatDateForOverviewBar,
-} from '../../../../utils';
+import { Box } from '../../../components';
+// import { iconColors, iconSizes } from '../../../../constants';
+import { camelCaseToParagraph } from '../../../../utils';
+// import styles from './index.module.scss';
+// import cn from 'classnames';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
 import { Runs } from './Runs';
@@ -17,6 +16,7 @@ import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 import { projectSelectors } from '../../../../redux/selectors';
+import { List } from '../Stacks/List';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -41,27 +41,33 @@ const FilterWrapperForRun = () => {
     >
       <Runs
         filter={getFilter(filters)}
-        stackComponentId={locationPath.split('/')[3]}
+        stackComponentId={locationPath.split('/')[5]}
       />
     </FilterComponent>
   );
 };
-const getTabPages = (stackId: TId, locationPath: any): TabPage[] => {
+const getTabPages = (
+  stackId: TId,
+  locationPath: any,
+  selectedProject: string,
+): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration stackId={stackId} />,
       path: routePaths.stackComponents.configuration(
-        locationPath.split('/')[2],
+        locationPath.split('/')[4],
         stackId,
+        selectedProject,
       ),
     },
     {
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
       path: routePaths.stackComponents.runs(
-        locationPath.split('/')[2],
+        locationPath.split('/')[4],
         stackId,
+        selectedProject,
       ),
     },
   ];
@@ -74,11 +80,11 @@ const getBreadcrumbs = (
 ): TBreadcrumb[] => {
   return [
     {
-      name: camelCaseToParagraph(locationPath.split('/')[2]),
+      name: camelCaseToParagraph(locationPath.split('/')[4]),
 
       clickable: true,
       to: routePaths.stackComponents.base(
-        locationPath.split('/')[2],
+        locationPath.split('/')[4],
         selectedProject,
       ),
     },
@@ -86,8 +92,9 @@ const getBreadcrumbs = (
       name: stackId,
       clickable: true,
       to: routePaths.stackComponents.configuration(
-        camelCaseToParagraph(locationPath.split('/')[2]),
+        camelCaseToParagraph(locationPath.split('/')[4]),
         stackId,
+        selectedProject,
       ),
     },
   ];
@@ -101,23 +108,33 @@ export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
   const { stackComponent } = useService();
   const selectedProject = useSelector(projectSelectors.selectedProject);
-  const tabPages = getTabPages(stackComponent.id, locationPath);
+  const tabPages = getTabPages(
+    stackComponent.id,
+    locationPath,
+    selectedProject,
+  );
   const breadcrumbs = getBreadcrumbs(
     stackComponent.id,
     locationPath,
     selectedProject,
   );
 
-  const boxStyle = {
-    backgroundColor: '#E9EAEC',
-    padding: '10px 0',
-    borderRadius: '8px',
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'space-around',
-  };
-  const headStyle = { color: '#828282' };
-  const paraStyle = { color: '#515151', marginTop: '10px' };
+  // const boxStyle = {
+  //   backgroundColor: '#E9EAEC',
+  //   padding: '10px 0',
+  //   borderRadius: '8px',
+  //   marginTop: '20px',
+  //   display: 'flex',
+  //   justifyContent: 'space-around',
+  // };
+  // const headStyle = { color: '#828282' };
+  // const paraStyle = { color: '#515151', marginTop: '10px' };
+  // const data = [
+  //   { name: 'Anom', age: 19, gender: 'Male' },
+  //   { name: 'Megha', age: 19, gender: 'Female' },
+  //   { name: 'Subham', age: 25, gender: 'Male' },
+  // ];
+  // const history = useHistory();
 
   return (
     <BasePage
@@ -129,7 +146,7 @@ export const StackDetail: React.FC = () => {
       )}
       breadcrumbs={breadcrumbs}
     >
-      <Box style={boxStyle}>
+      {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>ID</Paragraph>
           <Paragraph style={paraStyle}>{stackComponent.id}</Paragraph>
@@ -169,9 +186,39 @@ export const StackDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>Created</Paragraph>
           <Paragraph style={paraStyle}>
-            {formatDateForOverviewBar(stackComponent.created)}
+            {formatDateToDisplayOnTable(stackComponent.created)}
           </Paragraph>
         </Box>
+      </Box> */}
+      <Box paddingTop={'xl'}>
+        <List
+          filter={[]}
+          pagination={false}
+          isExpended
+          id={stackComponent.id}
+        ></List>
+        {/* <>
+          <table className={cn(styles.table)}>
+            <tbody>
+              <tr className={cn(styles.tableHeader)}>
+                <th className={cn(styles.tableHeaderText)}>Id</th>
+                <th className={cn(styles.tableHeaderText)}>Name</th>
+                <th className={cn(styles.tableHeaderText)}>Flavor</th>
+                <th className={cn(styles.tableHeaderText)}>Shared</th>
+                <th className={cn(styles.tableHeaderText)}>Author</th>
+                <th className={cn(styles.tableHeaderText)}>Created</th>
+              </tr>
+              <tr className={cn(styles.tableRow)}>
+                <td>{stackComponent.id}</td>
+                <td>{stackComponent.name}</td>
+                <td>{stackComponent.flavor}</td>
+                <td>{stackComponent.isShared}</td>
+                <td>{stackComponent.user.name}</td>
+                <td> {formatDateToDisplayOnTable(stackComponent.created)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </> */}
       </Box>
     </BasePage>
   );

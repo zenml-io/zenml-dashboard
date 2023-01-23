@@ -1,11 +1,11 @@
 export type Sorting =
   | 'id'
-  | 'runName'
-  | 'pipelineName'
+  | 'name'
+  | 'pipeline_id'
   | 'stackRunType'
   | 'status'
-  | 'stackName'
-  | 'user.name'
+  | 'stack_id'
+  | 'user_id'
   | 'datasourceCommit'
   | 'createdAt'
   | 'created';

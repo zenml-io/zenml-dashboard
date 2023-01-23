@@ -1,5 +1,7 @@
 import React from 'react';
-import { Box, IfElse } from '../../components';
+import { Redirect } from 'react-router-dom';
+import { AppRoute } from '../../../routes';
+import { Box, FlexBox, IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { Tabs } from '../common/Tabs';
@@ -41,7 +43,28 @@ export const BasePage: React.FC<{
 
         <Box>
           {children}
-          <Tabs pages={tabPages} basePath={tabBasePath} />
+          {tabPages.length > 1 ? (
+            <Tabs pages={tabPages} basePath={tabBasePath} />
+          ) : (
+            <>
+              <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
+              <FlexBox marginBottom="xxl">
+                {/* <Switch> */}
+                {console.log(tabPages, 'tabPages')}
+                <Redirect exact from={tabBasePath} to={tabPages[0].path} />
+
+                {tabPages.map((page, index) => (
+                  <AppRoute
+                    key={index}
+                    path={page.path}
+                    exact={true}
+                    component={page.Component}
+                  />
+                ))}
+                {/* </Switch> */}
+              </FlexBox>
+            </>
+          )}
         </Box>
       </SidebarContainer>
     </AuthenticatedLayout>

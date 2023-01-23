@@ -1,10 +1,14 @@
 import React from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
-import { Paragraph, Box, FlexBox } from '../../../../../../components';
+import { Box, FlexBox } from '../../../../../../components';
 import cn from 'classnames';
 import styles from './MenuItem.module.scss';
-import { camelCaseToParagraph } from '../../../../../../../utils';
+// import { DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
+// import { useSelector } from '../../../../../../hooks';
+// import { projectSelectors } from '../../../../../../../redux/selectors';
 
+
+// debugger;
 export const MenuItem: React.FC<{
   subItem?: boolean;
   text: string;
@@ -13,6 +17,7 @@ export const MenuItem: React.FC<{
   Icon: React.ComponentType;
   isActive?: ({ match, location }: { match: any; location: any }) => boolean;
 }> = ({ text, to, exact = false, Icon, isActive, subItem }) => {
+  // const selectedProject = useSelector(projectSelectors.selectedProject);
   let location = useLocation();
   return (
     <NavLink
@@ -25,22 +30,21 @@ export const MenuItem: React.FC<{
       to={to}
       exact={exact}
     >
-      <FlexBox alignItems="center" marginVertical="sm" style={{ height: '40px' }}>
+      <FlexBox
+        alignItems="center"
+        marginVertical="sm"
+        style={{ height: '40px' }}
+      >
         <Box
-          className={cn( 
+          className={cn(
             to === location.pathname && !subItem
               ? styles.menuItemSideBox
               : styles.menuItemSideBoxUn,
           )}
         ></Box>
 
-        <FlexBox style={{ width: '100%' }}>
-          <Box paddingLeft={subItem ? 'xl' : 'md'}><Icon /></Box>
-          <Box paddingLeft="md">
-            <Paragraph color="darkGrey" size="small">
-              {camelCaseToParagraph(text)}
-            </Paragraph>
-          </Box>
+        <FlexBox style={{ width: '100%', alignItems: 'center' }} flexDirection='column' >
+          <Box><Icon /></Box>
         </FlexBox>
       </FlexBox>
     </NavLink>

@@ -19,23 +19,33 @@ import image from '../imageNew.png';
 import { translate } from './translate';
 import { routePaths } from '../../../../routes/routePaths';
 import { Link } from 'react-router-dom';
-import { useDispatch, usePushRoute } from '../../../hooks';
+import {
+  useDispatch,
+  useLocationPath,
+  usePushRoute,
+  useSelector,
+} from '../../../hooks';
 
 import { loginAction } from '../../../../redux/actions/session/loginAction';
 import {
   projectsActions,
   showToasterAction,
+  stackComponentsActions,
   userActions,
 } from '../../../../redux/actions';
-import { toasterTypes } from '../../../../constants';
+import { DEFAULT_PROJECT_NAME, toasterTypes } from '../../../../constants';
+import { projectSelectors } from '../../../../redux/selectors';
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const password = process.env.REACT_APP_PASSWORD;
   const username = process.env.REACT_APP_USERNAME;
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const { push } = usePushRoute();
+  const locationPath = useLocationPath();
   const login = async () => {
     setLoading(true);
+    console.log(locationPath);
 
     await dispatch(
       loginAction({
@@ -58,9 +68,29 @@ const Login: React.FC = () => {
             }),
           );
           setLoading(false);
-          await dispatch(projectsActions.getMy({}));
+
+          if (window.location.search.includes('projects')) {
+            const projectFromUrl = window.location.search.split('/')[2];
+            await dispatch(
+              projectsActions.getMy({
+                selectDefault: false,
+                selectedProject: projectFromUrl
+                  ? projectFromUrl
+                  : selectedProject,
+              }),
+            );
+          } else {
+            await dispatch(
+              projectsActions.getMy({ selectDefault: false, selectedProject }),
+            );
+          }
+          // debugger;
           await dispatch(userActions.getMy({}));
-          await push(routePaths.userEmail);
+          await dispatch(stackComponentsActions.getTypes());
+          if (window.location.pathname === '/') {
+            push(routePaths.dashboard(DEFAULT_PROJECT_NAME));
+          }
+          // await push(routePaths.userEmail);
         },
       }),
     );

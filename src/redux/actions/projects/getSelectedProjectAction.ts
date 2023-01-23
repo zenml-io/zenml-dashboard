@@ -6,7 +6,6 @@ export const getSelectedProjectAction = ({
 }: {
   allProjects: any;
   seletecdProject: any;
-
   onSuccess?: () => void;
   onFailure?: () => void;
 }): any => ({

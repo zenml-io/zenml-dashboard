@@ -60,6 +60,38 @@ export const constantCommandsToCreatePipeline = {
   ],
 };
 
+export const constantCommandsToCreateRuns = {
+  title: 'Runs Cheatsheet',
+  documentation: 'https://docs.zenml.io/starter-guide/runs',
+  body: [
+    {
+      text: 'Create a runs',
+      isCode: false,
+    },
+    {
+      text: 'zenml runs run -c config.yaml run.py',
+      isCode: true,
+    },
+    {
+      text: 'List Runs',
+      isCode: false,
+    },
+    {
+      text: 'zenml runs list',
+      isCode: true,
+    },
+    {
+      text: 'List runs',
+      isCode: false,
+    },
+    {
+      text: 'zenml runs list',
+      isCode: true,
+    },
+  ],
+};
+
+
 export const constantCommandsToCreateComponent = {
   documentation: 'https://docs.zenml.io/starter-guide/stacks',
   componentCommand: {

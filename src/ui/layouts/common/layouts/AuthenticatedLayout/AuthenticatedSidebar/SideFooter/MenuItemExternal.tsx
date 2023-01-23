@@ -1,33 +1,28 @@
 import React from 'react';
-import { Paragraph, Box, FlexBox } from '../../../../../../components';
+import { Box, FlexBox } from '../../../../../../components';
 import styles from './MenuItemExternal.module.scss';
 
 export const MenuItemExternal: React.FC<{
+  id?: any;
   subItem?: boolean;
   text: string;
   to: string;
   Icon: React.ComponentType;
-}> = ({ text, to, Icon, subItem }) => {
+}> = ({ id, text, to, Icon, subItem }) => {
   
   return (
-    <Box className={styles.menuItem} style={{ marginLeft: '6px' }}>
+    <Box id={id} className={styles.menuItem} style={{ marginLeft: '6px' }}>
       <FlexBox alignItems="center" paddingVertical="sm" marginVertical="sm" >
        
-        <FlexBox style={{ width: '100%' }}>
-          <Box paddingLeft={subItem ? 'xl' : 'md'}><Icon /></Box>
-          <Box paddingLeft="md">
+        <FlexBox style={{ width: '100%', alignItems: 'center' }} flexDirection='column'>
           <a
             target="__blank" 
             rel="noopener noreferrer"
             className={styles.link}
             href={to}
           >
-            <Paragraph color="darkGrey" size="small">
-              {text}
-            </Paragraph>
+            <Box><Icon /></Box>
           </a>
-          </Box>
-
         </FlexBox>
       </FlexBox>
     </Box>

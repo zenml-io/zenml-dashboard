@@ -3,9 +3,19 @@ import getAllRunsByStackComponentIdApi from '../../../api/stackComponents/getAll
 
 export const getAllRunsByStackComponentId = ({
   stackComponentId,
+  sort_by,
+  logical_operator,
+  page,
+  size,
+  filtersParam,
   onSuccess,
   onFailure,
 }: {
+  sort_by: string;
+  logical_operator: string;
+  page: number;
+  size: number;
+  filtersParam?: any;
   stackComponentId: TId;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -19,7 +29,14 @@ export const getAllRunsByStackComponentId = ({
         stackComponentActionTypes.getRunsByStackComponentId.failure,
       successActionType:
         stackComponentActionTypes.getRunsByStackComponentId.success,
-      params: { stackComponentId },
+      params: {
+        sort_by,
+        logical_operator,
+        stackComponentId,
+        page,
+        size,
+        filtersParam,
+      },
       onSuccess,
       onFailure,
     },

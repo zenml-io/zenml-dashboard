@@ -1,7 +1,7 @@
 @import '../../../globalStyles.scss';
 
-$paginationSize: 4rem;
-$paginationBorderColor: #eceeef;
+$paginationSize: 32px;
+$paginationBorderColor: #F1F1F1;
 
 .paginationNavigationItem,
 .paginationNumbers {
@@ -10,11 +10,34 @@ $paginationBorderColor: #eceeef;
   display: flex;
   justify-content: center;
   align-items: center;
+  align-items: center;
   cursor: pointer;
   outline: 0;
   width: $paginationSize;
   height: $paginationSize;
   border: 1px solid $paginationBorderColor;
+  border-radius: 8px;
+  margin-right: 5px;
+
+  &.hidden {
+    pointer-events: none;
+    visibility: hidden;
+  }
+}
+.paginationDots {
+  user-select: none;
+  // background:$whiteColor;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  align-items: center;
+  cursor: pointer;
+  outline: 0;
+  width: $paginationSize;
+  height: $paginationSize;
+  // border: 1px solid $paginationBorderColor;
+  border-radius: 8px;
+  margin-right: 5px;
 
   &.hidden {
     pointer-events: none;
@@ -22,7 +45,19 @@ $paginationBorderColor: #eceeef;
   }
 }
 
+
 .paginationNumbers.active {
-  background: $secondaryColor;
+  background: #443E99;
+  cursor: initial;
+}
+
+.paginationText {
+  color: #333;
+  font-size: 13px;
+  font-weight: 400;
+  font-family: Rubik;
+}
+.paginationText.active {
+  background: #fff;
   cursor: initial;
 }

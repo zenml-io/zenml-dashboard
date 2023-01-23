@@ -23,6 +23,8 @@ import { EmailPopup } from './EmailPopup';
 import { loginAction } from '../../../redux/actions/session/loginAction';
 import jwt_decode from 'jwt-decode';
 
+// import Tour from './Tour'
+
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
 export const PersonalDetails: React.FC = () => {
@@ -60,10 +62,10 @@ export const PersonalDetails: React.FC = () => {
         loginAction({
           password: currentPassword,
           username: username,
-          onFailure: (errorText) => {
+          onFailure: (err) => {
             dispatch(
               showToasterAction({
-                description: 'Current Password is incorrect',
+                description: err,
                 type: toasterTypes.failure,
               }),
             );
@@ -74,11 +76,12 @@ export const PersonalDetails: React.FC = () => {
               sessionActions.forgotPassword({
                 userId: user?.id,
                 password: newPassword,
-                onFailure: () => {
+                // @ts-ignore
+                onFailure: (errorText) => {
                   setSubmitting(false);
                   dispatch(
                     showToasterAction({
-                      description: translate('toasts.failed.text'),
+                      description: errorText,
                       type: toasterTypes.failure,
                     }),
                   );
@@ -113,6 +116,7 @@ export const PersonalDetails: React.FC = () => {
           setPopupOpen={setPopupOpen}
         />
       )}
+      {/* <Tour /> */}
       <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
         <Box marginTop="lg">
           <Row>
@@ -141,11 +145,11 @@ export const PersonalDetails: React.FC = () => {
 
               <Box style={{ display: 'flex', justifyContent: 'end' }}>
                 <PrimaryButton
+                  id='change'
                   style={{ width: '198px' }}
                   onClick={() => setPopupOpen(true)}
-                  disabled={
-                    fullName === user.fullName && username === user.name
-                  }
+                  // eslint-disable-next-line
+                  disabled={fullName === user.fullName && username === user.name || !decoded.permissions.includes('me')}
                 >
                   {translate('nameReset.label')}
                 </PrimaryButton>
@@ -218,12 +222,12 @@ export const PersonalDetails: React.FC = () => {
                 style={{ display: 'flex', justifyContent: 'end' }}
               >
                 <PrimaryButton
+                  id='pwReset'
                   onClick={forgotPassword}
                   style={{ width: '198px' }}
                   loading={submitting}
-                  disabled={
-                    newPassword.trim() === '' || confirmPassword.trim() === ''
-                  }
+                  // eslint-disable-next-line
+                  disabled={newPassword.trim() === '' || confirmPassword.trim() === '' && !decoded.permissions.includes('me')}
                 >
                   {translate('passwordReset.button')}
                 </PrimaryButton>

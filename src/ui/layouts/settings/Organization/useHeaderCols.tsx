@@ -1,9 +1,7 @@
 import React from 'react';
 import { translate } from './translate';
 import {
-  formatDateToDisplay,
   formatDateToDisplayOnTable,
-  formatDateToSort,
   getInitialsFromEmail,
 } from '../../../../utils';
 import {
@@ -16,6 +14,7 @@ import {
 import { HeaderCol } from '../../common/Table';
 import { iconColors, iconSizes } from '../../../../constants';
 import { DeleteMember } from './DeleteMember';
+import { UpdateMember } from './UpdateMember';
 import { TokenPopup } from './tokenPopup';
 import ReactTooltip from 'react-tooltip';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -59,7 +58,7 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(invite.createdAt)}
+            {formatDateToDisplayOnTable(invite.createdAt)}
           </Paragraph>
         </FlexBox>
       ),
@@ -99,6 +98,7 @@ export const useMemberHeaderCols = ({
     activeSortingDirection,
     filteredMembers,
   });
+
   return [
     {
       render: () => (
@@ -118,7 +118,7 @@ export const useMemberHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '15%',
+      width: '12%',
       renderRow: (member: TMember) => {
         const initials = getInitialsFromEmail(member.name);
         return (
@@ -146,12 +146,12 @@ export const useMemberHeaderCols = ({
           {translate('table.status.text')}
         </Paragraph>
       ),
-      width: '15%',
+      width: '12%',
       renderRow: (member: TMember) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={member?.active ? 'Accepted' : 'Pending'}>
             <Paragraph size="small">
-              {member.active === false ? (
+              {member?.active === false ? (
                 <TokenPopup
                   id={member?.id}
                   username={member?.name}
@@ -175,20 +175,37 @@ export const useMemberHeaderCols = ({
       ),
     },
     {
+      render: () => (<Paragraph size="small" style={headColStyle}>Roles</Paragraph>),
+      width: '15%',
+      renderRow: (member: TMember) => {
+        const role = member?.roles?.map((e) => {
+          return e.name
+        })
+        
+        return (
+          <FlexBox alignItems="center">  
+              <Paragraph size="small">
+                <Paragraph>{role?.toString()}</Paragraph>  
+              </Paragraph>
+          </FlexBox>
+        )
+      }
+    },
+    {
       render: () => (
         <SortingHeader
           sorting="created"
           sortMethod={sortMethod('created', {
-            asc: (filteredMembers: TMember[]) =>
+            asc: (filteredMembers: any[]) =>
               _.orderBy(
                 filteredMembers,
-                (member: TMember) => new Date(member.created).getTime(),
+                (member: any) => new Date(member?.created).getTime(),
                 ['asc'],
               ),
-            desc: (filteredMembers: TMember[]) =>
+            desc: (filteredMembers: any[]) =>
               _.orderBy(
                 filteredMembers,
-                (member: TMember) => new Date(member.created).getTime(),
+                (member: any) => new Date(member?.created).getTime(),
                 ['desc'],
               ),
           })}
@@ -200,42 +217,54 @@ export const useMemberHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '10%',
-      renderRow: (member: TMember) => (
+      width: '13%',
+      renderRow: (member: TMember) => ( 
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(member.created)}>
+          <div data-tip data-for={formatDateToDisplayOnTable(member?.created)}>         
             <FlexBox alignItems="center">
               <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
               </Box>
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(member.created)}
+                {formatDateToDisplayOnTable(member?.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <ReactTooltip
-            id={formatDateToSort(member.created)}
+            id={formatDateToDisplayOnTable(member?.created)}
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{member.created}</Paragraph>
+            <Paragraph color="white">{formatDateToDisplayOnTable(member?.created)}</Paragraph>
           </ReactTooltip>
         </FlexBox>
-      ),
+      )
     },
-    decoded.permissions.includes('write') && {
+    {
       render: () => <Paragraph size="small"></Paragraph>,
-      width: '5%',
-      renderRow: (member: TInvite) => (
+      width: decoded.permissions.includes('write') ? '5%' :'0%',
+      renderRow: (member: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={member.id}>
-            <DeleteMember member={member} />
-          </div>
-          <ReactTooltip id={member.id} place="top" effect="solid">
-            <Paragraph color="white">Delete Member</Paragraph>
-          </ReactTooltip>
+          {decoded.permissions.includes('write') && (
+          <>
+          <FlexBox >
+            <div data-tip data-for={member?.id}>
+              <UpdateMember member={member} />
+            </div>
+          </FlexBox>
+
+          <FlexBox>
+            <div data-tip data-for={member?.id}>
+              <DeleteMember member={member} />
+            </div>
+            {/* <ReactTooltip id={member.id} place="top" effect="solid">
+              <Paragraph color="white">Delete Member</Paragraph>
+            </ReactTooltip> */}
+          </FlexBox>
+          </> 
+          )}
         </FlexBox>
-      ),
-    },
+        )      
+    }
   ];
 };

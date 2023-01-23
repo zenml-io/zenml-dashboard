@@ -4,7 +4,6 @@ import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   truncate,
-  getInitialsFromEmail,
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
@@ -13,7 +12,6 @@ import {
   FlexBox,
   icons,
   Paragraph,
-  ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
@@ -153,12 +151,12 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="isShared"
-          sortMethod={sortMethod('isShared', {
+          sorting="is_shared"
+          sortMethod={sortMethod('is_shared', {
             asc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['isShared'], ['asc']),
+              _.orderBy(filteredStacks, ['is_shared'], ['asc']),
             desc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['isShared'], ['desc']),
+              _.orderBy(filteredStacks, ['is_shared'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -211,12 +209,12 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="user.name"
-          sortMethod={sortMethod('user.name', {
+          sorting="user_id"
+          sortMethod={sortMethod('user_id', {
             asc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['user.name'], ['asc']),
+              _.orderBy(filteredStacks, ['user_id'], ['asc']),
             desc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['user.name'], ['desc']),
+              _.orderBy(filteredStacks, ['user_id'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -228,11 +226,7 @@ export const GetHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => {
-        const initials = getInitialsFromEmail(
-          stackComponent.user.full_name
-            ? stackComponent.user.full_name
-            : stackComponent.user.name,
-        );
+        
         return (
           <FlexBox alignItems="center">
             <div
@@ -244,11 +238,6 @@ export const GetHeaderCols = ({
               }
             >
               <FlexBox alignItems="center">
-                <Box paddingRight="sm">
-                  <ColoredCircle color="secondary" size="sm">
-                    {initials}
-                  </ColoredCircle>
-                </Box>
                 <Paragraph size="small">
                   {stackComponent.user.full_name
                     ? stackComponent.user.full_name
@@ -319,7 +308,9 @@ export const GetHeaderCols = ({
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{stackComponent.created}</Paragraph>
+            <Paragraph color="white">
+              {formatDateToDisplayOnTable(stackComponent.created)}
+            </Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

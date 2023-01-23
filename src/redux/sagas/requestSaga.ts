@@ -7,7 +7,7 @@ import { showToasterAction } from '../actions';
 import { httpStatus } from '../../constants';
 import { actionTypesHandledByRequestSaga } from './actionTypesHandledByRequestSaga';
 
-const translate = getTranslateByScope('sagas.requestSaga');
+const translate = getTranslateByScope('Authentication error');
 
 export const isRequestAction = (action: any): boolean => {
   return actionTypesHandledByRequestSaga.includes(action.type);
@@ -26,7 +26,7 @@ function* logoutAndNotifyUserThatSessionExpired(): any {
   yield put(sessionActions.logout());
   yield put(
     showToasterAction({
-      description: translate('authenticationError'),
+      description: translate(''),
       type: toasterTypes.failure,
     }),
   );

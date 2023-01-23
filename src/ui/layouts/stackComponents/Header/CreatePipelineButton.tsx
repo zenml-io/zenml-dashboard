@@ -41,17 +41,17 @@ export const CreatePipelineButton: React.FC = () => {
       paddingHorizontal="sm"
     >
       <PrimaryButton onClick={() => setCreatePipelinePopupOpen(true)}>
-        {camelCaseToParagraph(locationPath.split('/')[2])} Cheatsheet
+        {camelCaseToParagraph(locationPath.split('/')[4])} Cheatsheet
       </PrimaryButton>
 
       {createPipelinePopupOpen && (
         <Popup onClose={() => setCreatePipelinePopupOpen(false)}>
           <FlexBox.Row>
             <H3 bold color="darkGrey">
-              {camelCaseToParagraph(locationPath.split('/')[2])} Cheatsheet
+              {camelCaseToParagraph(locationPath.split('/')[4])} Cheatsheet
             </H3>
           </FlexBox.Row>
-          {locationPath.split('/')[2] ===
+          {locationPath.split('/')[4] ===
           constantCommandsToCreateComponent.componentCommand.type
             ? constantCommandsToCreateComponent.componentCommand.body.map(
                 (item): any =>

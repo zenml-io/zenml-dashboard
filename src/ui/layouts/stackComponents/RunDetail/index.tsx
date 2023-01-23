@@ -3,7 +3,7 @@ import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import {
   camelCaseToParagraph,
-  formatDateForOverviewBar,
+  formatDateToDisplayOnTable
 } from '../../../../utils';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 
@@ -34,9 +34,10 @@ export const RunDetail: React.FC = () => {
 
       Component: () => <DAG runId={runId} fetching={fetching} />,
       path: routePaths.run.component.statistics(
-        locationPath.split('/')[2],
+        locationPath.split('/')[4],
         stackComponentId,
         runId,
+        selectedProject,
       ),
     },
     {
@@ -44,18 +45,19 @@ export const RunDetail: React.FC = () => {
 
       Component: () => <Configuration runId={runId} />,
       path: routePaths.run.component.results(
-        locationPath.split('/')[2],
+        locationPath.split('/')[4],
         stackComponentId,
         runId,
+        selectedProject,
       ),
     },
   ];
   const breadcrumbs = [
     {
-      name: camelCaseToParagraph(locationPath.split('/')[2]),
+      name: camelCaseToParagraph(locationPath.split('/')[4]),
       clickable: true,
       to: routePaths.stackComponents.base(
-        locationPath.split('/')[2],
+        locationPath.split('/')[4],
         selectedProject,
       ),
     },
@@ -63,18 +65,19 @@ export const RunDetail: React.FC = () => {
       name: stackComponentId,
       clickable: true,
       to: routePaths.stackComponents.configuration(
-        locationPath.split('/')[2],
+        locationPath.split('/')[4],
         stackComponentId,
+        selectedProject,
       ),
     },
     {
       name: `Run ${runId}`,
       clickable: false,
       to: routePaths.run.component.statistics(
-        locationPath.split('/')[3],
+        locationPath.split('/')[5],
         stackComponentId,
-
         runId,
+        selectedProject,
       ),
     },
   ];
@@ -119,7 +122,12 @@ export const RunDetail: React.FC = () => {
             }}
             onClick={(event) => {
               event.stopPropagation();
-              history.push(routePaths.pipeline.configuration(run.pipeline?.id));
+              history.push(
+                routePaths.pipeline.configuration(
+                  run.pipeline?.id,
+                  selectedProject,
+                ),
+              );
             }}
           >
             {run.pipeline?.name}
@@ -153,7 +161,9 @@ export const RunDetail: React.FC = () => {
             }}
             onClick={(event) => {
               event.stopPropagation();
-              history.push(routePaths.stack.configuration(run.stack?.id));
+              history.push(
+                routePaths.stack.configuration(run.stack?.id, selectedProject),
+              );
             }}
           >
             {run.stack?.name}
@@ -168,7 +178,7 @@ export const RunDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>CREATED</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateForOverviewBar(run.created)}
+            {formatDateToDisplayOnTable(run.created)}
           </Paragraph>
         </Box>
       </Box>

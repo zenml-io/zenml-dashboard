@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { RunsTable } from '../../RunsTable';
 
@@ -13,10 +13,18 @@ interface Props {
 }
 
 export const AllRuns: React.FC<Props> = ({ filter }: Props) => {
-  const { fetching, runIds } = useService();
+  const [sortBy, setSortBy] = useState('created');
+  function getSorted(activeSorting: any, activeSortingDirection: any) {
+    setSortBy(activeSorting);
+    // console.log(activeSorting, activeSortingDirection, 'aaaaaaa');
+  }
+
+  const { fetching, runIds, runsPaginated } = useService({ filter, sortBy });
 
   return (
     <RunsTable
+      getSorted={getSorted}
+      paginated={runsPaginated}
       fetching={fetching}
       emptyStateText={translate('emptyState.text')}
       runIds={runIds}

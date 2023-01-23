@@ -14,6 +14,10 @@ const getMyProjectIds = (state: State): TId[] =>
 const getSelectedProjectIds = (state: State): string =>
   _.get(stateKey(state), 'selectedProject');
 
+const getProjectStats = (state: State): any =>
+  _.get(stateKey(state), 'projectStats');
+
+
 export const myProjects = (state?: State | null): Projects[] => {
   if (!state) return [];
   const myProjectIds = getMyProjectIds(state);
@@ -35,9 +39,17 @@ export const selectedProject = (state?: State | null): string => {
   return project;
 };
 
+export const projectStats = (state?: State | null): string => {
+  if (!state) return '';
+  const projectStats = getProjectStats(state);
+  return projectStats;
+};
+
+
 const projectSelectors = {
   myProjects: myProjects,
   selectedProject: selectedProject,
+  myProjectStats: projectStats
 };
 
 export { projectSelectors };

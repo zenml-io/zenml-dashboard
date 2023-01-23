@@ -31,6 +31,7 @@ const pipelineActionTypes = {
 
 const projectActionTypes = {
   PROJECTS_GET_MY_PROJECTS: 'PROJECTS_GET_MY_PROJECTS',
+  GET_MY_PROJECT_STATS: 'GET_MY_PROJECT_STATS',
   SELECT_PROJECT_FROM_MY_PROJECTS: 'SELECT_PROJECT_FROM_MY_PROJECTS',
 };
 const stackActionTypes = {

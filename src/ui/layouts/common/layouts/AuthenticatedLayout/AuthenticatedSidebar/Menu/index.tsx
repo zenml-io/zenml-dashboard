@@ -2,19 +2,21 @@ import React from 'react';
 import { MenuItem } from './MenuItem';
 import { routePaths } from '../../../../../../../routes/routePaths';
 import { icons } from '../../../../../../components';
-import { iconSizes, iconColors } from '../../../../../../../constants';
+import {
+  iconSizes,
+  iconColors,
+  DEFAULT_PROJECT_NAME,
+} from '../../../../../../../constants';
 import { translate } from '../translate';
-import { useLocationPath } from '../../../../../../hooks';
-import { matchPath } from 'react-router-dom';
 import { useSelector } from './../../../../../../../ui/hooks';
 import {
   projectSelectors,
   stackComponentSelectors,
 } from '../../../../../../../redux/selectors';
+// import { matchPath } from 'react-router-dom';
 
 export const Menu: React.FC = () => {
-  const locationPath = useLocationPath();
-
+  
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
@@ -23,100 +25,158 @@ export const Menu: React.FC = () => {
   return (
     <>
       <MenuItem
-        isActive={() => {
-          return (
-            !!matchPath(locationPath, {
-              path: routePaths.pipelines.base,
-              exact: false,
-            }) ||
-            !!matchPath(locationPath, {
-              path: routePaths.pipeline.base(':id'),
-              exact: false,
-            })
-          );
-        }}
+        id="pipelines"
         Icon={() => (
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.pipelines.list(selectedProject)}
+        innerItem={window.location.href?.includes('pipelines')}
+        // to={routePaths.pipelines.base}
         text={translate('menu.pipelines.text')}
+        isActive={() => window.location.href?.includes('pipelines')}
+        to={routePaths.pipelines.list(
+          selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
+        )}
       />
       <MenuItem
-        isActive={() => {
-          return (
-            !!matchPath(locationPath, {
-              path: routePaths.pipelines.allRuns(selectedProject),
-              exact: false,
-            }) ||
-            !!matchPath(locationPath, {
-              path: routePaths.run.run.base(':id'),
-              exact: false,
-            })
-          );
-        }}
+        id="runs"
         Icon={() => (
-          <icons.pipeline color={iconColors.white} size={iconSizes.md} />
+          <icons.run color={iconColors.white} size={iconSizes.md} />
         )}
         to={routePaths.pipelines.allRuns(selectedProject)}
+        isActive={() => window.location.href?.includes('all-runs')}
         text={'Runs'}
+        innerItem={window.location.href?.includes('all-runs')}
+        // isActive={() => {
+        //   return (
+        //     !!matchPath(locationPath, {
+        //       path: routePaths.pipelines.allRuns(selectedProject),
+        //       exact: false,
+        //     }) ||
+        //     !!matchPath(locationPath, {
+        //       path: routePaths.run.run.base(':id'),
+        //       exact: false,
+        //     })
+        //   );
+        // }}
       />
       <MenuItem
-        isActive={() => {
-          return (
-            !!matchPath(locationPath, {
-              path: routePaths.stacks.base,
-              exact: false,
-            }) ||
-            !!matchPath(locationPath, {
-              path: routePaths.stack.base(':id'),
-              exact: false,
-            })
-          );
-        }}
+        id="stack"
         Icon={() => (
           <icons.stack color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.stacks.list(selectedProject)}
+        innerItem={window.location.href?.includes('stacks')}
+        // to={routePaths.stacks.base}
         text={translate('menu.stacks.text')}
+        isActive={() => window.location.href?.includes('stacks')}
+        to={routePaths.stacks.list(selectedProject)}
       />
 
       <MenuItem
-        isActive={() => {
-          return !!matchPath(locationPath, {
-            path: routePaths.stackComponents.base('', selectedProject),
-            exact: false,
-          });
-        }}
+        id="stack-component"
+        // isActive={() => {
+        //   return !!matchPath(locationPath, {
+        //     path: routePaths.stackComponents.base('', project) + `?project=${project}`,
+        //     exact: false,
+        //   });
+        // }}
+
+        isActive={() => window.location.href?.includes('components')}
         Icon={() => (
           <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
         )}
+        innerItem={window.location.href?.includes('components')}
         to={routePaths.stackComponents.base(
           stackComponentsTypes ? stackComponentsTypes[0] : '',
           selectedProject,
         )}
         text={translate('menu.stackComponents.text')}
       />
-
-      {locationPath.includes('components') &&
-        stackComponentsTypes?.map((item) => (
-          <MenuItem
-            isActive={() => {
-              return !!matchPath(locationPath, {
-                path: routePaths.stackComponents.base(item, selectedProject),
-                exact: false,
-              });
-            }}
-            subItem={true}
-            Icon={() => (
-              <icons.stackComponent
-                color={iconColors.white}
-                size={iconSizes.md}
-              />
-            )}
-            to={routePaths.stackComponents.base(item, selectedProject)}
-            text={item}
-          />
-        ))}
     </>
   );
 };
+
+
+// {locationPath.includes('components') &&
+// stackComponentsTypes?.map((item: any) => (
+//   <MenuItem
+//     // isActive={() => {
+//     //   return !!matchPath(locationPath, {
+//     //     path: routePaths.stackComponents.base(item, selectedProject),
+//     //     exact: false,
+//     //   });
+//     // }}
+
+//     isActive={() => window.location.href?.includes(item)}
+//     subItem={true}
+//     Icon={() => (
+//       <>
+//         {item === 'artifact_store' && (
+//           <icons.artifact_store
+//             color={iconColors.white}
+//             size={iconSizes.md}
+//           />
+//         )}
+//         {item === 'alerter' && (
+//           <icons.alerter color={iconColors.white} size={iconSizes.md} />
+//         )}
+//         {item === 'annotator' && (
+//           <icons.annotator
+//             color={iconColors.white}
+//             size={iconSizes.md}
+//           />
+//         )}
+//         {item === 'container_registry' && (
+//           <icons.container_registry
+//             color={iconColors.white}
+//             size={iconSizes.md}
+//           />
+//         )}
+//         {item === 'experiment_tracker' && (
+//           <icons.experiment_tracker
+//             color={iconColors.white}
+//             size={iconSizes.md}
+//           />
+//         )}
+
+//         {item === 'feature_store' && (
+//           <icons.feature_store
+//             color={iconColors.white}
+//             size={iconSizes.md}
+//           />
+//         )}
+//         {item === 'model_deployer' && (
+//           <icons.model_deployer
+//             color={iconColors.white}
+//             size={iconSizes.md}
+//           />
+//         )}
+//         {item === 'secrets_manager' && (
+//           <icons.secrets_manager
+//             color={iconColors.white}
+//             size={iconSizes.md}
+//           />
+//         )}
+//         {item === 'orchestrator' && (
+//           <icons.orchestrator
+//             color={iconColors.white}
+//             size={iconSizes.md}
+//           />
+//         )}
+//         {item === 'step_operator' && (
+//           <icons.step_operator
+//             color={iconColors.white}
+//             size={iconSizes.md}
+//           />
+//         )}
+//         {item === 'data_validator' && (
+//           <icons.data_validator
+//             color={iconColors.white}
+//             size={iconSizes.md}
+//           />
+//         )}
+//       </>
+//     )}
+//     to={routePaths.stackComponents.base(item, selectedProject)}
+//     text={item}
+//   />
+// ))}

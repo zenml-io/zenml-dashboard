@@ -3,6 +3,8 @@
 import { StackDetailRouteParams } from '.';
 import {
   pipelinesActions,
+  runPagesActions,
+  stackComponentPagesActions,
   stackComponentsActions,
   stacksActions,
 } from '../../../../redux/actions';
@@ -14,6 +16,7 @@ import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { stackPagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
+import { filterObjectForParam } from '../../../../utils';
 
 interface ServiceInterface {
   stackComponent: TStack;
@@ -22,7 +25,10 @@ interface ServiceInterface {
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const { id } = useParams<StackDetailRouteParams>();
-
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
     setFetching(true);
     // Legacy: previously runs was in pipeline
@@ -35,7 +41,11 @@ export const useService = (): ServiceInterface => {
     );
     dispatch(
       stackComponentsActions.allRunsByStackComponentId({
+        sort_by: 'created',
+        logical_operator: 'and',
         stackComponentId: id,
+        page: 1,
+        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),
@@ -51,4 +61,43 @@ export const useService = (): ServiceInterface => {
   );
 
   return { stackComponent };
+};
+
+export const callActionForStackComponentRunsForPagination = () => {
+  const dispatch = useDispatch();
+  // const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const { id } = useParams<PipelineDetailRouteParams>();
+  function dispatchStackComponentRunsData(
+    id: any,
+    page: number,
+    size: number,
+    filters?: any[],
+    sortby?: string,
+  ) {
+    const logicalOperator = localStorage.getItem('logical_operator');
+    let filtersParam = filterObjectForParam(filters);
+    console.log(page, size, 'page,size');
+    // debugger;
+    setFetching(true);
+    dispatch(
+      stackComponentsActions.allRunsByStackComponentId({
+        sort_by: sortby ? sortby : 'created',
+        logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
+        stackComponentId: id,
+        page: page,
+        size: size,
+        filtersParam,
+        onSuccess: () => setFetching(false),
+        onFailure: () => setFetching(false),
+      }),
+    );
+  }
+
+  const setFetching = (fetching: boolean) => {
+    dispatch(runPagesActions.setFetching({ fetching }));
+  };
+  return {
+    setFetching,
+    dispatchStackComponentRunsData,
+  };
 };

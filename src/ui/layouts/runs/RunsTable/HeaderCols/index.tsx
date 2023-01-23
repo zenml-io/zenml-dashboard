@@ -4,9 +4,8 @@ import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 
 import {
-  formatDateToDisplay,
   truncate,
-  getInitialsFromEmail,
+  formatDateToDisplayOnTable,
 } from '../../../../../utils';
 
 import {
@@ -14,7 +13,6 @@ import {
   Paragraph,
   Box,
   icons,
-  ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
@@ -145,17 +143,8 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => {
-        const initials = getInitialsFromEmail(
-          run.user.full_name ? run.user.full_name : run.user.name,
-        );
-
         return (
           <FlexBox alignItems="center">
-            <Box paddingRight="sm">
-              <ColoredCircle color="secondary" size="sm">
-                {initials}
-              </ColoredCircle>
-            </Box>
             <Paragraph size="small">
               {run.user.full_name ? run.user.full_name : run.user.name}
             </Paragraph>
@@ -192,7 +181,7 @@ export const useHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplay(run.created)}
+            {formatDateToDisplayOnTable(run.created)}
           </Paragraph>
         </FlexBox>
       ),

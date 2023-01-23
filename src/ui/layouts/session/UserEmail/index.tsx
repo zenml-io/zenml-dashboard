@@ -19,10 +19,11 @@ import { getTranslateByScope } from '../../../../services';
 import { routePaths } from '../../../../routes/routePaths';
 import { sessionSelectors } from '../../../../redux/selectors';
 import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
-import { loggedInRoute } from '../../../../constants';
+// import { loggedInRoute } from '../../../../constants';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { stackComponentsActions } from '../../../../redux/actions';
+import { loggedInRoute } from '../../../../constants';
 
 const UserEmail: React.FC = () => {
   const translate = getTranslateByScope('ui.layouts.UserEmail');

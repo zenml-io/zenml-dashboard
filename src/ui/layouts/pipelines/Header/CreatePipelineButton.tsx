@@ -13,7 +13,7 @@ import { iconSizes, iconColors } from '../../../../constants';
 import { Popup } from '../../common/Popup';
 import { DocumentationLink } from './DocumentationLink';
 import { CommandBoxWScroll } from '../../common/CommandBox';
-import { constantCommandsToCreatePipeline } from '../../../../constants/constantCommands';
+import { constantCommandsToCreatePipeline, constantCommandsToCreateRuns } from '../../../../constants/constantCommands';
 
 export const CreatePipelineButton: React.FC = () => {
   const [createPipelinePopupOpen, setCreatePipelinePopupOpen] = React.useState<
@@ -37,17 +37,40 @@ export const CreatePipelineButton: React.FC = () => {
       paddingHorizontal="sm"
     >
       <PrimaryButton onClick={() => setCreatePipelinePopupOpen(true)}>
-        Pipeline Cheatsheet
+        {window.location.href?.includes('runs') ? constantCommandsToCreateRuns?.title : constantCommandsToCreatePipeline?.title}
       </PrimaryButton>
 
       {createPipelinePopupOpen && (
         <Popup onClose={() => setCreatePipelinePopupOpen(false)}>
           <FlexBox.Row>
             <H3 bold color="darkGrey">
-              {constantCommandsToCreatePipeline.title}
+             {window.location.href?.includes('runs') ? constantCommandsToCreateRuns?.title : constantCommandsToCreatePipeline.title}
             </H3>
           </FlexBox.Row>
-          {constantCommandsToCreatePipeline.body.map((item): any =>
+          
+          {window.location.href?.includes('runs') ?  
+            constantCommandsToCreateRuns.body.map((item): any =>
+              item.isCode ? (
+                <FlexBox alignItems="center" marginTop="md">
+                  <CommandBoxWScroll command={item.text} />
+                  <Box
+                    className={styles.iconStyle}
+                    style={{ paddingTop: '7px' }}
+                    onClick={() => handleCopy(item.text)}
+                  >
+                    <icons.copy size={iconSizes.sm} color={iconColors.black} />
+                  </Box>
+                </FlexBox>
+              ) : (
+                <FlexBox.Row>
+                  <Box marginTop="md">
+                    <Paragraph>{item.text}</Paragraph>
+                  </Box>
+                </FlexBox.Row>
+              ),
+            )
+          :  
+          constantCommandsToCreatePipeline.body.map((item): any =>
             item.isCode ? (
               <FlexBox alignItems="center" marginTop="md">
                 <CommandBoxWScroll command={item.text} />

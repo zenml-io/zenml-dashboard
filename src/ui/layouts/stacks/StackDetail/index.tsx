@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 import { Box, Paragraph, icons } from '../../../components';
 import { iconColors, iconSizes } from '../../../../constants';
-import { formatDateForOverviewBar } from '../../../../utils';
+import { formatDateToDisplayOnTable } from '../../../../utils';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
@@ -14,6 +14,7 @@ import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 import { projectSelectors } from '../../../../redux/selectors';
+import { DEFAULT_PROJECT_NAME } from '../../../../constants';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -36,24 +37,29 @@ const FilterWrapperForRun = () => {
       filters={filters}
       setFilter={setFilter}
     >
-      <Runs filter={getFilter(filters)} stackId={locationPath.split('/')[2]} />
+      <Runs filter={getFilter(filters)} stackId={locationPath.split('/')[4]} />
     </FilterComponent>
   );
 };
-const getTabPages = (stackId: TId): TabPage[] => {
+const getTabPages = (stackId: TId, selectedProject: string): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration stackId={stackId} />,
-      path: routePaths.stack.configuration(stackId),
+      path: routePaths.stack.configuration(stackId, selectedProject),
     },
     {
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
-      path: routePaths.stack.runs(stackId),
+      path: routePaths.stack.runs(selectedProject, stackId),
     },
   ];
 };
+
+const url_string = window.location.href;
+const url = new URL(url_string);
+const projectName = url.searchParams.get('project');
+const project = projectName ? projectName : DEFAULT_PROJECT_NAME;
 
 const getBreadcrumbs = (
   stackId: TId,
@@ -63,12 +69,13 @@ const getBreadcrumbs = (
     {
       name: translate('header.breadcrumbs.stacks.text'),
       clickable: true,
-      to: routePaths.stacks.list(selectedProject),
+      to: routePaths.stacks.base + `?project=${project}`,
+      // to: routePaths.stacks.list(selectedProject),
     },
     {
       name: stackId,
       clickable: true,
-      to: routePaths.stack.configuration(stackId),
+      to: routePaths.stack.configuration(stackId, selectedProject),
     },
   ];
 };
@@ -81,7 +88,7 @@ export const StackDetail: React.FC = () => {
   const { stack } = useService();
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
-  const tabPages = getTabPages(stack.id);
+  const tabPages = getTabPages(stack.id, selectedProject);
   const breadcrumbs = getBreadcrumbs(stack.id, selectedProject);
 
   const boxStyle = {
@@ -143,7 +150,7 @@ export const StackDetail: React.FC = () => {
         <Box>
           <Paragraph style={headStyle}>CREATED</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateForOverviewBar(stack.created)}
+            {formatDateToDisplayOnTable(stack.created)}
           </Paragraph>
         </Box>
       </Box>

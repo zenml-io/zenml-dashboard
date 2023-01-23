@@ -53,29 +53,30 @@ export const useService = (
   const fetching = useSelector(stackPagesSelectors.fetching);
 
   const Stacks = useSelector(stackSelectors.mystacks);
+  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
   const selectedProject = useSelector(projectSelectors.selectedProject);
+  const isValidFilter = filter.map((f) => f.value).join('');
 
   useEffect(() => {
-    let orderedStacks = _.orderBy(
-      Stacks,
-      [activeSorting],
-      [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
-    );
-
-    const isValidFilter = filter.map((f) => f.value).join('');
-    if (isValidFilter) {
-      orderedStacks = getFilteredDataForTable(orderedStacks, filter);
-    }
-
-    setFilteredStacks(orderedStacks as TStack[]);
+    setFilteredStacks(Stacks as TStack[]);
   }, [Stacks, filter]);
 
   useEffect(() => {
-    const intervalId = setInterval(() => {
-      dispatch(stacksActions.getMy({ project: selectedProject }));
-    }, 5000);
+    if (!isValidFilter) {
+      const intervalId = setInterval(() => {
+        dispatch(
+          stacksActions.getMy({
+            sort_by: activeSorting ? activeSorting : 'created',
+            logical_operator: 'and',
+            project: selectedProject,
+            page: stacksPaginated.page,
+            size: stacksPaginated.size,
+          }),
+        );
+      }, 5000);
 
-    return () => clearInterval(intervalId); //This is important
+      return () => clearInterval(intervalId); //This is important
+    }
   });
 
   const setSelectedRunIds = (runIds: TId[]) => {

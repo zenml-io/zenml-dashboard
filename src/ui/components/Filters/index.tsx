@@ -3,6 +3,7 @@ import {
   Box,
   FlexBox,
   FormDropdownField,
+  SearchInputField,
   FormTextField,
   icons,
   Paragraph,
@@ -14,6 +15,19 @@ import DatePicker from 'react-datepicker';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './filter.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
+import Select from 'react-select';
+import { useDispatch, useSelector } from '../../hooks';
+import {
+  organizationSelectors,
+  pipelineSelectors,
+  projectSelectors,
+  stackSelectors,
+} from '../../../redux/selectors';
+import {
+  organizationActions,
+  pipelinesActions,
+  stacksActions,
+} from '../../../redux/actions';
 
 // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
 export const getInitialFilterState = () => {
@@ -36,12 +50,12 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
-          value: 'userName',
-          label: 'Owner',
+          value: 'user_id',
+          label: 'Author',
           type: 'string',
         },
         {
-          value: 'isShared',
+          value: 'is_shared',
           label: 'Shared',
           type: 'boolean',
         },
@@ -61,17 +75,17 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
-          value: 'start_with',
+          value: 'startswith',
           label: 'Start With',
           type: 'string',
         },
         {
-          value: 'end_with',
+          value: 'endswith',
           label: 'End With',
           type: 'string',
         },
         {
-          value: 'equal',
+          value: 'equals',
           label: 'Equal',
           type: 'string',
         },
@@ -81,18 +95,28 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
-          value: 'greater',
+          value: 'gt',
           label: 'Greater than',
           type: 'date',
         },
         {
-          value: 'less',
+          value: 'lt',
           label: 'Less than',
           type: 'date',
         },
         {
+          value: 'gte',
+          label: 'Greater than and Equal',
+          type: 'date',
+        },
+        {
+          value: 'lte',
+          label: 'Less than and Equal',
+          type: 'date',
+        },
+        {
           value: 'equal_date',
-          label: 'Equal',
+          label: 'Equals',
           type: 'date',
         },
         {
@@ -131,7 +155,7 @@ export const getInitialFilterStateForPipeline = () => {
           type: 'string',
         },
         {
-          value: 'userName',
+          value: 'user_id',
           label: 'Author',
           type: 'string',
         },
@@ -156,38 +180,48 @@ export const getInitialFilterStateForPipeline = () => {
           type: 'string',
         },
         {
-          value: 'start_with',
+          value: 'startswith',
           label: 'Start With',
           type: 'string',
         },
         {
-          value: 'end_with',
+          value: 'endswith',
           label: 'End With',
           type: 'string',
         },
         {
-          value: 'equal',
+          value: 'equals',
           label: 'Equal',
           type: 'string',
         },
+        // {
+        //   value: 'not_equal',
+        //   label: 'Not Equal',
+        //   type: 'string',
+        // },
         {
-          value: 'not_equal',
-          label: 'Not Equal',
-          type: 'string',
-        },
-        {
-          value: 'greater',
+          value: 'gt',
           label: 'Greater than',
           type: 'date',
         },
         {
-          value: 'less',
+          value: 'lt',
           label: 'Less than',
           type: 'date',
         },
         {
+          value: 'gte',
+          label: 'Greater than and Equal',
+          type: 'date',
+        },
+        {
+          value: 'lte',
+          label: 'Less than and Equal',
+          type: 'date',
+        },
+        {
           value: 'equal_date',
-          label: 'Equal',
+          label: 'Equals',
           type: 'date',
         },
         {
@@ -248,7 +282,7 @@ export const getInitialFilterStateForRuns = () => {
           type: 'string',
         },
         {
-          value: 'pipelineName',
+          value: 'pipeline_id',
           label: 'Pipeline Name',
           type: 'string',
         },
@@ -258,12 +292,12 @@ export const getInitialFilterStateForRuns = () => {
           type: 'status',
         },
         {
-          value: 'stackName',
+          value: 'stack_id',
           label: 'Stack Name',
           type: 'string',
         },
         {
-          value: 'userName',
+          value: 'user_id',
           label: 'Author',
           type: 'string',
         },
@@ -310,12 +344,12 @@ export const getInitialFilterStateForRuns = () => {
           type: 'string',
         },
         {
-          value: 'start_with',
+          value: 'startswith',
           label: 'Start With',
           type: 'string',
         },
         {
-          value: 'end_with',
+          value: 'endswith',
           label: 'End With',
           type: 'string',
         },
@@ -330,18 +364,28 @@ export const getInitialFilterStateForRuns = () => {
           type: 'string',
         },
         {
-          value: 'greater',
+          value: 'gt',
           label: 'Greater than',
           type: 'date',
         },
         {
-          value: 'less',
+          value: 'lt',
           label: 'Less than',
           type: 'date',
         },
         {
+          value: 'gte',
+          label: 'Greater than and Equal',
+          type: 'date',
+        },
+        {
+          value: 'lte',
+          label: 'Less than and Equal',
+          type: 'date',
+        },
+        {
           value: 'equal_date',
-          label: 'Equal',
+          label: 'Equals',
           type: 'date',
         },
         {
@@ -386,8 +430,15 @@ const FilterComponent = ({
   setFilter,
   getInitials,
 }: any) => {
+  const dispatch = useDispatch();
   const [applyFilter, setApplyFilter] = useState(false);
-
+  const [searchText, setSearchText] = useState(false);
+  const [showInBar, setShowInbar] = useState(false);
+  const members = useSelector(organizationSelectors.myMembers);
+  const pipelines = useSelector(pipelineSelectors.myPipelines);
+  const stacks = useSelector(stackSelectors.mystacks);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+  console.log(members, 'members');
   function handleChange(filter: any, key: string, value: string) {
     filter[key].selectedValue = filter[key].options.filter(
       (option: any) => option.value === value,
@@ -404,6 +455,7 @@ const FilterComponent = ({
     }
 
     setFilter([...filters]);
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
 
   function handleChangeForStatus(filter: any, value: string) {
@@ -416,6 +468,7 @@ const FilterComponent = ({
     filter.filterValue = value;
 
     setFilter([...filters]);
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
   function handleChangeForShared(filter: any, key: string, value: string) {
     //  handleValueFieldChange(filter, value)
@@ -431,12 +484,53 @@ const FilterComponent = ({
     }
 
     setFilter([...filters]);
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
+  }
+  function handleChangeForSearchable(field: any, value: string) {
+    // filter[key].selectedValue =
+    field.filterValue = value;
+
+    setFilter([...filters]);
+  }
+  function callActionForUsers(name: string) {
+    if (name) {
+      dispatch(organizationActions.getMembers({ name: 'contains:' + name }));
+    } else {
+      dispatch(organizationActions.getMembers({}));
+    }
+  }
+
+  function callActionForPipelines(name: string) {
+    if (name) {
+      dispatch(
+        pipelinesActions.getMy({
+          project: selectedProject,
+          name: 'contains:' + name,
+        }),
+      );
+    } else {
+      dispatch(pipelinesActions.getMy({ project: selectedProject }));
+    }
+  }
+  function callActionForStacks(name: string) {
+    if (name) {
+      dispatch(
+        stacksActions.getMy({
+          project: selectedProject,
+          name: 'contains:' + name,
+        }),
+      );
+    } else {
+      dispatch(stacksActions.getMy({ project: selectedProject }));
+    }
   }
 
   function handleValueFieldChange(field: any, value: string) {
     field.filterValue = value;
 
     setFilter([...filters]);
+
+    localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
 
   function addAnotherFilter() {
@@ -448,6 +542,73 @@ const FilterComponent = ({
     setFilter([...filters]);
   }
 
+  const selectStyles = {
+    control: (base: any) => ({
+      width: '146px',
+      borderRadius: 0,
+      border: '1px solid grey',
+      height: '40px',
+      fontSize: '12px',
+      display: 'flex',
+      fontFamily: 'Rubik',
+
+      // ...base,
+    }),
+    singleValue: (provided: any) => ({
+      ...provided,
+      fontSize: '12px',
+      fontFamily: 'Rubik',
+    }),
+    option: (provided: any) => ({
+      ...provided,
+      fontSize: '12px',
+      fontFamily: 'Rubik',
+    }),
+  };
+
+  function checkForName(typeName: string, value: string) {
+    if (typeName === 'Author') {
+      const member = members.filter((item) => item.id === value);
+
+      return member[0].name;
+    }
+    if (typeName === 'Pipeline Name') {
+      const pipeline = pipelines.filter((item) => item.id === value);
+      return pipeline[0].name;
+    }
+    if (typeName === 'Stack Name') {
+      const stack = stacks.filter((item) => item.id === value);
+      return stack[0].name;
+    } else {
+      return value;
+    }
+    // switch (typeName) {
+    //   case 'Author':
+    //     members.filter((item) => {
+    //       if (item.id === value) {
+    //         return item.name;
+    //       }
+    //     });
+    //     break;
+    //   case 'Pipeline Name':
+    //     pipelines.filter((item) => {
+    //       if (item.id === value) {
+    //         return item.name;
+    //       }
+    //     });
+    //     break;
+    //   case 'Stack Name':
+    //     stacks.filter((item) => {
+    //       if (item.id === value) {
+    //         return item.name;
+    //       }
+    //     });
+    //     break;
+
+    //   default:
+    //     break;
+    // }
+  }
   const valueField = (filter: any) => {
     switch (filter?.contains.selectedValue.type) {
       case 'string':
@@ -490,7 +651,9 @@ const FilterComponent = ({
           <Box style={{ width: '146px' }}>
             <DatePicker
               selected={filter.filterValue}
-              onChange={(value: any) => handleValueFieldChange(filter, value)}
+              onChange={(value: any) => {
+                handleValueFieldChange(filter, value);
+              }}
               customInput={<ExampleCustomInput />}
             />
           </Box>
@@ -515,87 +678,169 @@ const FilterComponent = ({
     }
   };
 
+  function handleValueFieldChangeOnSearch(value: string) {
+    if (value) {
+      setFilter([
+        {
+          column: {
+            selectedValue: { value: 'id', label: 'ID', type: 'string' },
+          },
+          contains: {
+            selectedValue: {
+              value: 'contains',
+              label: 'Contains',
+              type: 'string',
+            },
+          },
+          filterValue: value,
+        },
+        {
+          column: {
+            selectedValue: { value: 'name', label: 'Name', type: 'string' },
+          },
+          contains: {
+            selectedValue: {
+              value: 'contains',
+              label: 'Contains',
+              type: 'string',
+            },
+          },
+          filterValue: value,
+        },
+      ]);
+      localStorage.setItem('logical_operator', JSON.stringify('or'));
+    } else {
+      setFilter([getInitials()]);
+      localStorage.setItem('logical_operator', JSON.stringify('and'));
+    }
+  }
+
   function getSecondColumnOptions(options: any, type: any) {
     return options.filter((o: any) => o.type === type);
   }
 
   return (
     <FlexBox.Column fullWidth>
-      <FlexBox className="border border-primary rounded rounded-4 p-2 align-item-center mb-3">
-        <Box
-          onClick={() => setApplyFilter(!applyFilter)}
-          style={{
-            width: '33px',
-            height: '28px',
-            background: '#431D93',
-            borderRadius: '4px',
-          }}
-        >
-          <icons.funnelFill
-            style={{ padding: '5px 0px 0px 7px' }}
-            size={iconSizes.sm}
-            color={iconColors.white}
+      <div className={styles.inputRow}>
+        <Box marginRight="md" marginTop="md">
+          <SearchInputField
+            placeholder={'Search'}
+            value={searchText ? filters[0]?.filterValue : ''}
+            disabled={applyFilter || showInBar}
+            onChange={(value: string) => {
+              setSearchText(value ? true : false);
+              handleValueFieldChangeOnSearch(value);
+            }}
           />
         </Box>
 
-        <Box
-          style={{ padding: '5px 0px 0px 7px', display: 'flex' }}
-          className="text-muted h5"
+        <FlexBox
+          fullWidth
+          className="border  rounded rounded-4 p-2 align-item-center"
         >
-          {/* Filter your stack */}
-          {!applyFilter && !filters[0]?.column?.selectedValue?.label ? (
-            <Paragraph className={styles.filterplaceholder}>
-              Filter list
-            </Paragraph>
-          ) : filters[0]?.column?.selectedValue.label && !applyFilter ? (
-            filters.map((filter: any, index: number) => {
-              return (
-                <FlexBox.Row key={index} className={styles.tile}>
-                  <Box onClick={() => hanldeDelete(index)}>
-                    {`${filter.column.selectedValue.label} ${
-                      filter.column.selectedValue.label !== 'Shared' &&
-                      filter.column.selectedValue.label !== 'Status'
-                        ? filter.contains.selectedValue.label
-                        : ''
-                    } ${
-                      typeof filter.filterValue === 'string'
-                        ? filter.filterValue
-                        : formatDateToDisplay(filter.filterValue)
-                    }`}
-                  </Box>
+          <Box
+            onClick={() => {
+              !searchText && setApplyFilter(!applyFilter);
+            }}
+            style={{
+              width: '33px',
+              height: '28px',
+              background: '#fff',
+              borderRadius: '4px',
+            }}
+          >
+            <icons.funnelFill
+              style={{ padding: '5px 0px 0px 7px' }}
+              size={iconSizes.sm}
+              color={searchText ? iconColors.grey : iconColors.primary}
+            />
+          </Box>
+          <Box
+            style={{ padding: '5px 0px 0px 7px', display: 'flex' }}
+            className="text-muted h5"
+          >
+            {/* Filter your stack */}
+            {!applyFilter && !filters[0]?.filterValue ? (
+              <Paragraph className={styles.filterplaceholder}>
+                Filter list
+                {console.log(filters, 'filters1')}
+              </Paragraph>
+            ) : filters[0]?.filterValue && !applyFilter && !searchText ? (
+              filters.map((filter: any, index: number) => {
+                return (
+                  <FlexBox.Row key={index} className={styles.tile}>
+                    <Box
+                      onClick={() => {
+                        if (filters.length === 1) {
+                          setShowInbar(false);
+                        }
+                        hanldeDelete(index);
+                      }}
+                    >
+                      {`${filter.column.selectedValue.label} ${
+                        filter.column.selectedValue.label === 'Shared' ||
+                        filter.column.selectedValue.label === 'Status'
+                          ? 'is'
+                          : filter.column.selectedValue.label ===
+                              'Pipeline Name' ||
+                            filter.column.selectedValue.label ===
+                              'Stack Name' ||
+                            filter.column.selectedValue.label === 'Author'
+                          ? 'Equals'
+                          : filter.contains.selectedValue.label
+                      } ${
+                        typeof filter.filterValue === 'string'
+                          ? checkForName(
+                              filter.column.selectedValue.label,
+                              filter.filterValue,
+                            )
+                          : formatDateToDisplay(filter.filterValue)
+                      }`}
+                    </Box>
 
-                  <Box onClick={() => hanldeDelete(index)}>
-                    <icons.closeWithBorder
-                      style={{ paddingLeft: '7px' }}
-                      size={iconSizes.sm}
-                      color={iconColors.grey}
-                    />
-                  </Box>
-                </FlexBox.Row>
-              );
-            })
-          ) : (
-            <Paragraph className={styles.filterplaceholder}>
-              Filter list
-            </Paragraph>
-          )}
-          {!applyFilter &&
-          !filters[0]?.column?.selectedValue?.label ? null : filters[0]?.column
-              ?.selectedValue.label && !applyFilter ? (
-            <Box
-              onClick={() => {
-                setFilter([]);
-              }}
-            >
-              <icons.closeWithBorder
-                style={{ paddingLeft: '7px' }}
-                size={iconSizes.sm}
-                color={iconColors.grey}
-              />
-            </Box>
-          ) : null}
-        </Box>
-      </FlexBox>
+                    <Box
+                      onClick={() => {
+                        if (filters.length === 1) {
+                          setShowInbar(false);
+                        }
+                        hanldeDelete(index);
+                      }}
+                    >
+                      <icons.closeWithBorder
+                        style={{ paddingLeft: '7px' }}
+                        size={iconSizes.sm}
+                        color={iconColors.grey}
+                      />
+                    </Box>
+                  </FlexBox.Row>
+                );
+              })
+            ) : (
+              <Paragraph className={styles.filterplaceholder}>
+                Filter list
+              </Paragraph>
+            )}
+            {!applyFilter && !filters[0]?.filterValue ? null : filters[0]
+                ?.column?.selectedValue.label &&
+              !applyFilter &&
+              !searchText ? (
+              <Box
+                onClick={() => {
+                  setFilter([getInitials()]);
+                  setShowInbar(false);
+                }}
+              >
+                <icons.closeWithBorder
+                  style={{ paddingLeft: '7px' }}
+                  size={iconSizes.sm}
+                  color={iconColors.grey}
+                />
+              </Box>
+            ) : null}
+          </Box>
+        </FlexBox>
+      </div>
+
       {applyFilter && (
         <Box
           className="mb-4 mt-19"
@@ -624,9 +869,10 @@ const FilterComponent = ({
                 <Box style={{ width: '146px' }}>
                   <FormDropdownField
                     label={''}
-                    onChange={(value: string) =>
-                      handleChange(filter, 'column', value)
-                    }
+                    onChange={(value: string) => {
+                      setShowInbar(true);
+                      handleChange(filter, 'column', value);
+                    }}
                     placeholder={'Column Name'}
                     value={filter.column.selectedValue.value}
                     options={filter.column.options}
@@ -636,6 +882,7 @@ const FilterComponent = ({
                       width: '146px',
                       fontSize: '12px',
                       color: '#424240',
+                      fontFamily: 'Rubik',
                     }}
                   />
                 </Box>
@@ -652,6 +899,7 @@ const FilterComponent = ({
                           width: '146px',
                           fontSize: '12px',
                           color: '#424240',
+                          fontFamily: 'Rubik',
                         }}
                         onChange={(value: string) =>
                           // handleChange(filter, 'contains', value)
@@ -662,42 +910,106 @@ const FilterComponent = ({
                       />
                     </FlexBox.Row>
                   </>
-                ) : filter?.column?.selectedValue?.value === 'isShared' ? (
+                ) : filter?.column?.selectedValue?.value === 'is_shared' ||
+                  filter?.column?.selectedValue?.value === 'user_id' ||
+                  filter?.column?.selectedValue?.value === 'pipeline_id' ||
+                  filter?.column?.selectedValue?.value === 'stack_id' ? (
                   <>
                     <FlexBox.Row className="mb-1">
                       <FormTextField
                         label={''}
                         placeholder={''}
                         disabled
-                        value={'is'}
-                        style={{
-                          borderRadius: 0,
-                          width: '146px',
-                          fontSize: '12px',
-                          color: '#424240',
-                        }}
-                      />
-                      <FormDropdownField
-                        label={''}
-                        disabled={!filter?.column?.selectedValue?.type}
-                        placeholder={'category'}
-                        style={{
-                          borderRadius: 0,
-                          width: '146px',
-                          fontSize: '12px',
-                          color: '#424240',
-                        }}
-                        onChange={
-                          (value: string) =>
-                            handleChangeForShared(filter, 'contains', value)
-                          // handleChangeForStatus(filter, value)
+                        value={
+                          filter?.column?.selectedValue?.value === 'is_shared'
+                            ? 'is'
+                            : 'equals'
                         }
-                        value={filter?.contains?.selectedValue?.value}
-                        options={getSecondColumnOptions(
-                          filter.contains.options,
-                          filter.column.selectedValue.type,
-                        )}
+                        style={{
+                          borderRadius: 0,
+                          width: '146px',
+                          fontSize: '12px',
+                          color: '#424240',
+                        }}
                       />
+                      {filter?.column?.selectedValue?.value === 'is_shared' ? (
+                        <FormDropdownField
+                          label={''}
+                          disabled={!filter?.column?.selectedValue?.type}
+                          placeholder={'category'}
+                          style={{
+                            borderRadius: 0,
+                            width: '146px',
+                            fontSize: '12px',
+                            color: '#424240',
+                            fontFamily: 'Rubik',
+                          }}
+                          onChange={
+                            (value: string) =>
+                              handleChangeForShared(filter, 'contains', value)
+                            // handleChangeForStatus(filter, value)
+                          }
+                          value={filter?.contains?.selectedValue?.value}
+                          options={getSecondColumnOptions(
+                            filter.contains.options,
+                            filter.column.selectedValue.type,
+                          )}
+                        />
+                      ) : // <></>
+                      filter?.column?.selectedValue?.value === 'pipeline_id' ? (
+                        <Select
+                          getOptionLabel={(option: any) => option.name}
+                          getOptionValue={(option: any) => option.id}
+                          options={pipelines as any}
+                          styles={selectStyles}
+                          onInputChange={(e: any) => callActionForPipelines(e)}
+                          onChange={(value: any) => {
+                            if (value) {
+                              handleChangeForSearchable(filter, value.id);
+                            }
+                          }}
+                          isClearable={true}
+                          // value={'role'}
+                          className={styles.searchableInput}
+                          // classNamePrefix="select"
+                        />
+                      ) : filter?.column?.selectedValue?.value ===
+                        'stack_id' ? (
+                        <Select
+                          getOptionLabel={(option: any) => option.name}
+                          getOptionValue={(option: any) => option.id}
+                          options={stacks as any}
+                          styles={selectStyles}
+                          onInputChange={(e: any) => callActionForStacks(e)}
+                          onChange={(value: any) => {
+                            if (value) {
+                              handleChangeForSearchable(filter, value.id);
+                            }
+                          }}
+                          isClearable={true}
+                          // value={'role'}
+                          className={styles.searchableInput}
+                          // classNamePrefix="select"
+                        />
+                      ) : (
+                        <Select
+                          getOptionLabel={(option: any) => option.name}
+                          getOptionValue={(option: any) => option.id}
+                          options={members as any}
+                          styles={selectStyles}
+                          onInputChange={(e: any) => callActionForUsers(e)}
+                          onChange={(value: any) => {
+                            if (value) {
+                              handleChangeForSearchable(filter, value.id);
+                            }
+                          }}
+                          isClearable={true}
+                          // value={'role'}
+                          className={styles.searchableInput}
+                          // classNamePrefix="select"
+                          // isClearable={false}
+                        />
+                      )}
                     </FlexBox.Row>
                   </>
                 ) : (
@@ -720,6 +1032,7 @@ const FilterComponent = ({
                           width: '146px',
                           fontSize: '12px',
                           color: '#424240',
+                          fontFamily: 'Rubik',
                         }}
                       />
                       {valueField(filter)}
@@ -728,7 +1041,12 @@ const FilterComponent = ({
                 )}
 
                 <Box
-                  onClick={() => hanldeDelete(index)}
+                  onClick={() => {
+                    if (filters.length === 1) {
+                      setShowInbar(false);
+                    }
+                    hanldeDelete(index);
+                  }}
                   className={styles.removeIcon}
                 >
                   <icons.delete

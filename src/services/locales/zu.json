@@ -212,6 +212,28 @@
               "errorToaster": "Something went wrong!",
               "successToaster": "Invite deleted"
             },
+            "updateMemberPopup": {
+              "title": "Change member details",
+              "text": "Change the username, role and password of",
+              "form": {
+                "username": {
+                  "label": "username",
+                  "placeholder": "username"
+                },
+                "password": {
+                  "label": "password",
+                  "placeholder": "password"
+                }
+              },
+              "successButton": {
+                "text": "Update"
+              },
+              "cancelButton": {
+                "text": "Cancel"
+              },
+              "errorToaster": "Something went wrong!",
+              "successToaster": "Member Updated"
+            },
             "status": {
               "owner": "Author",
               "pending": "Pending",
@@ -284,7 +306,7 @@
                 "text": "Stacks"
               },
               "stackComponents": {
-                "text": "Stack Components"
+                "text": "Components"
               },
               "setting": {
                 "text": "Settings"

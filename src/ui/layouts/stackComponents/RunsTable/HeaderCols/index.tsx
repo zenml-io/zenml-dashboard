@@ -3,12 +3,10 @@ import React from 'react';
 
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 
-import { useHistory } from '../../../../hooks';
+import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import {
   truncate,
-  getInitialsFromEmail,
-  formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
 import {
@@ -16,7 +14,6 @@ import {
   Paragraph,
   Box,
   icons,
-  ColoredCircle,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
@@ -25,6 +22,7 @@ import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
 import ReactTooltip from 'react-tooltip';
+import { projectSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
   runs,
@@ -50,6 +48,8 @@ export const useHeaderCols = ({
     runs,
   });
   const history = useHistory();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+
   return [
     {
       width: '2%',
@@ -88,8 +88,8 @@ export const useHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="runName"
-          sortMethod={sortMethod('runName', {
+          sorting="name"
+          sortMethod={sortMethod('name', {
             asc: (run: TRun[]) => _.orderBy(run, ['name'], ['asc']),
             desc: (run: TRun[]) => _.orderBy(run, ['name'], ['desc']),
           })}
@@ -116,10 +116,10 @@ export const useHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="pipelineName"
-          sortMethod={sortMethod('pipelineName', {
-            asc: (run: TRun[]) => _.orderBy(run, ['pipeline.name'], ['asc']),
-            desc: (run: TRun[]) => _.orderBy(run, ['pipeline.name'], ['desc']),
+          sorting="pipeline_id"
+          sortMethod={sortMethod('pipeline_id', {
+            asc: (run: TRun[]) => _.orderBy(run, ['pipeline_id'], ['asc']),
+            desc: (run: TRun[]) => _.orderBy(run, ['pipeline_id'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -143,7 +143,10 @@ export const useHeaderCols = ({
               onClick={(event) => {
                 event.stopPropagation();
                 history.push(
-                  routePaths.pipeline.configuration(run.pipeline?.id),
+                  routePaths.pipeline.configuration(
+                    run.pipeline?.id,
+                    selectedProject,
+                  ),
                 );
               }}
             >
@@ -180,10 +183,10 @@ export const useHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="stackName"
-          sortMethod={sortMethod('stackName', {
-            asc: (run: TRun[]) => _.orderBy(run, ['stack.name'], ['asc']),
-            desc: (run: TRun[]) => _.orderBy(run, ['stack.name'], ['desc']),
+          sorting="stack_id"
+          sortMethod={sortMethod('stack_id', {
+            asc: (run: TRun[]) => _.orderBy(run, ['stack_id'], ['asc']),
+            desc: (run: TRun[]) => _.orderBy(run, ['stack_id'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -206,7 +209,12 @@ export const useHeaderCols = ({
               }}
               onClick={(event) => {
                 event.stopPropagation();
-                history.push(routePaths.stack.configuration(run.stack?.id));
+                history.push(
+                  routePaths.stack.configuration(
+                    run.stack?.id,
+                    selectedProject,
+                  ),
+                );
               }}
             >
               {run.stack?.name}
@@ -221,10 +229,10 @@ export const useHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="user.name"
-          sortMethod={sortMethod('user.name', {
-            asc: (run: TRun[]) => _.orderBy(run, ['user.name'], ['asc']),
-            desc: (run: TRun[]) => _.orderBy(run, ['user.name'], ['desc']),
+          sorting="user_id"
+          sortMethod={sortMethod('user_id', {
+            asc: (run: TRun[]) => _.orderBy(run, ['user_id'], ['asc']),
+            desc: (run: TRun[]) => _.orderBy(run, ['user_id'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -236,9 +244,7 @@ export const useHeaderCols = ({
       ),
       width: '10%',
       renderRow: (run: TRun) => {
-        const initials = getInitialsFromEmail(
-          run.user.full_name ? run.user.full_name : run.user.name,
-        );
+        
         return (
           <FlexBox alignItems="center">
             <div
@@ -246,11 +252,6 @@ export const useHeaderCols = ({
               data-for={run.user.full_name ? run.user.full_name : run.user.name}
             >
               <FlexBox alignItems="center">
-                <Box paddingRight="sm">
-                  <ColoredCircle color="secondary" size="sm">
-                    {initials}
-                  </ColoredCircle>
-                </Box>
                 <Paragraph size="small">
                   {run.user.full_name ? run.user.full_name : run.user.name}
                 </Paragraph>
@@ -294,7 +295,7 @@ export const useHeaderCols = ({
       width: '10%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(run.created)}>
+          <div data-tip data-for={formatDateToDisplayOnTable(run.created)}>
             <FlexBox alignItems="center">
               <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
@@ -305,11 +306,13 @@ export const useHeaderCols = ({
             </FlexBox>
           </div>
           <ReactTooltip
-            id={formatDateToSort(run.created)}
+            id={formatDateToDisplayOnTable(run.created)}
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{run.created}</Paragraph>
+            <Paragraph color="white">
+              {formatDateToDisplayOnTable(run.created)}
+            </Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

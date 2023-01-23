@@ -4,14 +4,12 @@ import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   truncate,
-  getInitialsFromEmail,
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
 import {
   Box,
   FlexBox,
-  ColoredCircle,
   icons,
   LinkBox,
   Paragraph,
@@ -67,7 +65,10 @@ export const GetHeaderCols = ({
             }
           }}
         >
-          <FlexBox justifyContent="center">
+          <FlexBox
+            justifyContent="center"
+            style={{ paddingTop: '5px', paddingBottom: '5px' }}
+          >
             {openStackIds.indexOf(stack.id) === -1 ? (
               <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
             ) : (
@@ -144,12 +145,12 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="isShared"
-          sortMethod={sortMethod('isShared', {
+          sorting="is_shared"
+          sortMethod={sortMethod('is_shared', {
             asc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['isShared'], ['asc']),
+              _.orderBy(filteredStacks, ['is_shared'], ['asc']),
             desc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['isShared'], ['desc']),
+              _.orderBy(filteredStacks, ['is_shared'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -203,12 +204,12 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="user.name"
-          sortMethod={sortMethod('user.name', {
+          sorting="user_id"
+          sortMethod={sortMethod('user_id', {
             asc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['user.name'], ['asc']),
+              _.orderBy(filteredStacks, ['user_id'], ['asc']),
             desc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['user.name'], ['desc']),
+              _.orderBy(filteredStacks, ['user_id'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -220,9 +221,7 @@ export const GetHeaderCols = ({
       ),
       width: '11%',
       renderRow: (stack: TStack) => {
-        const initials = getInitialsFromEmail(
-          stack?.userName ? stack.userName : stack?.user?.name,
-        );
+        
         return (
           <FlexBox alignItems="center">
             <div
@@ -232,11 +231,6 @@ export const GetHeaderCols = ({
               }
             >
               <FlexBox alignItems="center">
-                <Box paddingRight="sm">
-                  <ColoredCircle color="secondary" size="sm">
-                    {initials}
-                  </ColoredCircle>
-                </Box>
                 <Paragraph size="small">
                   {stack.user.full_name
                     ? stack.user.full_name
@@ -301,7 +295,9 @@ export const GetHeaderCols = ({
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{stack.created}</Paragraph>
+            <Paragraph color="white">
+              {formatDateToDisplayOnTable(stack.created)}
+            </Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

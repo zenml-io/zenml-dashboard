@@ -8,6 +8,7 @@ import Signup from '../ui/layouts/session/Signup';
 import UserEmail from '../ui/layouts/session/UserEmail';
 import ForgotPassword from '../ui/layouts/session/ForgotPassword';
 import Home from '../ui/layouts/Home';
+import DashBoard from '../ui/layouts/DashBoard';
 
 import Pipelines from '../ui/layouts/pipelines/Pipelines';
 import stacks from '../ui/layouts/stacks/Stacks';
@@ -53,6 +54,14 @@ const routes = [
     },
   },
   {
+    path: routePaths.dashboard(':string'),
+    Component: DashBoard,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
     path: routePaths.home,
     Component: Home,
     visibility: {
@@ -93,7 +102,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.pipeline.configuration(':id'),
+    path: routePaths.pipeline.configuration(':id', ':string'),
     Component: PipelineDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -101,7 +110,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.pipeline.runs(':id'),
+    path: routePaths.pipeline.runs(':string', ':id'),
     Component: PipelineDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -141,7 +150,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stack.configuration(':id'),
+    path: routePaths.stack.configuration(':id', ':string'),
     Component: StackDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -149,7 +158,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stack.runs(':id'),
+    path: routePaths.stack.runs(':string', ':id'),
     Component: StackDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -165,7 +174,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.pipeline.statistics(':id', ':pipelineId'),
+    path: routePaths.run.pipeline.statistics(':string', ':id', ':pipelineId'),
     Component: PipelineRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -173,7 +182,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.pipeline.results(':id', ':pipelineId'),
+    path: routePaths.run.pipeline.results(':string', ':id', ':pipelineId'),
     Component: PipelineRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -197,7 +206,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.stack.statistics(':id', ':stackId'),
+    path: routePaths.run.stack.statistics(':string', ':id', ':stackId'),
     Component: StacksRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -205,7 +214,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.stack.results(':id', ':stackId'),
+    path: routePaths.run.stack.results(':string', ':id', ':stackId'),
     Component: StacksRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -221,7 +230,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.run.statistics(':runId'),
+    path: routePaths.run.run.statistics(':string', ':runId'),
     Component: RunsRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -229,7 +238,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.run.results(':runId'),
+    path: routePaths.run.run.results(':string', ':runId'),
     Component: RunsRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -258,6 +267,7 @@ const routes = [
       ':type',
       ':stackComponentId',
       ':id',
+      ':string',
     ),
     Component: ComponentRunDetail,
     visibility: {
@@ -266,7 +276,12 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.run.component.results(':type', ':stackComponentId', ':id'),
+    path: routePaths.run.component.results(
+      ':type',
+      ':stackComponentId',
+      ':id',
+      ':string',
+    ),
     Component: ComponentRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -291,7 +306,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stackComponents.configuration(':type', ':id'),
+    path: routePaths.stackComponents.configuration(':type', ':id', ':string'),
     Component: stackComponentsDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -299,7 +314,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.stackComponents.runs(':type', ':id'),
+    path: routePaths.stackComponents.runs(':type', ':id', ':string'),
     Component: stackComponentsDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,

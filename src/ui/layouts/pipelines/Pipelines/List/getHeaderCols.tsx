@@ -3,8 +3,6 @@ import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   truncate,
-  getInitialsFromEmail,
-  formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
 import {
@@ -12,7 +10,6 @@ import {
   FlexBox,
   icons,
   LinkBox,
-  ColoredCircle,
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
@@ -56,6 +53,7 @@ export const GetHeaderCols = ({
       width: '3%',
       renderRow: (pipeline: TPipeline) => (
         <LinkBox
+          style={{ padding: 0 }}
           onClick={(e: Event) => {
             e.stopPropagation();
             if (openPipelineIds.indexOf(pipeline.id) === -1) {
@@ -67,11 +65,14 @@ export const GetHeaderCols = ({
             }
           }}
         >
-          <FlexBox justifyContent="center">
+          <FlexBox
+            justifyContent="center"
+            style={{ paddingTop: '5px', paddingBottom: '5px' }}
+          >
             {openPipelineIds.indexOf(pipeline.id) === -1 ? (
-              <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+              <icons.chevronDownLight color={iconColors.grey} size={iconSizes.sm} />
             ) : (
-              <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+              <icons.chevronUpLight color={iconColors.grey} size={iconSizes.sm} />
             )}
           </FlexBox>
         </LinkBox>
@@ -158,8 +159,8 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          sorting="user.name"
-          sortMethod={sortMethod('user.name', {
+          sorting="user_id"
+          sortMethod={sortMethod('user_id', {
             asc: (filteredPipelines: TPipeline[]) =>
               _.orderBy(filteredPipelines, ['user.name'], ['asc']),
             desc: (filteredPipelines: TPipeline[]) =>
@@ -175,11 +176,6 @@ export const GetHeaderCols = ({
       ),
       width: '11%',
       renderRow: (pipeline: TPipeline) => {
-        const initials = getInitialsFromEmail(
-          pipeline.user.full_name
-            ? pipeline.user.full_name
-            : pipeline.user.name,
-        );
         return (
           <FlexBox alignItems="center">
             <div
@@ -191,11 +187,6 @@ export const GetHeaderCols = ({
               }
             >
               <FlexBox alignItems="center">
-                <Box paddingRight="sm">
-                  <ColoredCircle color="secondary" size="sm">
-                    {initials}
-                  </ColoredCircle>
-                </Box>
                 <Paragraph size="small">
                   {pipeline.user.full_name
                     ? pipeline.user.full_name
@@ -252,7 +243,7 @@ export const GetHeaderCols = ({
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(pipeline.created)}>
+          <div data-tip data-for={formatDateToDisplayOnTable(pipeline.created)}>
             <FlexBox alignItems="center">
               <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
@@ -263,12 +254,12 @@ export const GetHeaderCols = ({
             </FlexBox>
           </div>
           <ReactTooltip
-            id={formatDateToSort(pipeline.created)}
+            id={formatDateToDisplayOnTable(pipeline.created)}
             place="top"
             effect="solid"
           >
             <Paragraph color="white">
-              {pipeline.created}
+              {formatDateToDisplayOnTable(pipeline.created)}
               {/* {translate(`tooltips.${invoice.status}`)} */}
             </Paragraph>
           </ReactTooltip>

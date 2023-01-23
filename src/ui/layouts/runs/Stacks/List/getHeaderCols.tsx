@@ -1,14 +1,12 @@
 import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
-  formatDateToDisplay,
   truncate,
-  getInitialsFromEmail,
+  formatDateToDisplayOnTable,
 } from '../../../../../utils';
 import {
   Box,
   FlexBox,
-  ColoredCircle,
   icons,
   LinkBox,
   Paragraph,
@@ -107,16 +105,9 @@ export const getHeaderCols = ({
       ),
       width: '11%',
       renderRow: (stack: TStack) => {
-        const initials = getInitialsFromEmail(
-          stack.user.full_name ? stack.user.full_name : stack.user.name,
-        );
+        
         return (
           <FlexBox alignItems="center">
-            <Box paddingRight="sm">
-              <ColoredCircle color="secondary" size="sm">
-                {initials}
-              </ColoredCircle>
-            </Box>
             <Paragraph size="small">
               {stack.user.full_name ? stack.user.full_name : stack.user.name}
             </Paragraph>
@@ -137,7 +128,7 @@ export const getHeaderCols = ({
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
           </Box>
           <Paragraph size="tiny">
-            {formatDateToDisplay(stack.created)}
+            {formatDateToDisplayOnTable(stack.created)}
           </Paragraph>
         </FlexBox>
       ),

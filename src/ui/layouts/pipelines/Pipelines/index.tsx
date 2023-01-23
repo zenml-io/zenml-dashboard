@@ -5,7 +5,7 @@ import { AllRuns } from './AllRuns';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 import { useService } from './useService';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { useSelector, useLocationPath } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForPipeline,
   getInitialFilterStateForRuns,
@@ -68,27 +68,40 @@ export const Pipelines: React.FC = () => {
   return (
     <BasePage
       tabPages={[
-        {
-          text: translate('tabs.pipelines.text'),
-          Component: FilterWrapper,
-          path: routePaths.pipelines.list(selectedProject),
-        },
-        {
-          text: translate('tabs.allRuns.text'),
-          Component: FilterWrapperForRun,
-          path: routePaths.pipelines.allRuns(selectedProject),
-        },
+        window.location.href?.includes('all-runs')
+          ? {
+              text: translate('tabs.allRuns.text'),
+              Component: FilterWrapperForRun,
+              path: routePaths.pipelines.allRuns(
+                selectedProject ? selectedProject : locationPath.split('/')[2],
+              ),
+            }
+          : {
+              text: translate('tabs.pipelines.text'),
+              Component: FilterWrapper,
+              // path: routePaths.pipelines.base,
+              path: routePaths.pipelines.list(
+                selectedProject ? selectedProject : locationPath.split('/')[2],
+              ),
+            },
       ]}
       tabBasePath={routePaths.pipelines.base}
       breadcrumbs={[
         {
-          name: locationPath.includes('pipelines/list')
-            ? translate('header.breadcrumbs.pipelines.text')
-            : 'Runs',
+          name: locationPath.includes('all-runs')
+            ? 'Runs'
+            : translate('header.breadcrumbs.pipelines.text'),
           clickable: true,
+          // to: locationPath.includes('pipelines')
+          // ? routePaths.pipelines.base
+          // : routePaths.pipelines.allRuns(selectedProject),
           to: locationPath.includes('pipelines/list')
-            ? routePaths.pipelines.list(selectedProject)
-            : routePaths.pipelines.allRuns(selectedProject),
+            ? routePaths.pipelines.list(
+                selectedProject ? selectedProject : locationPath.split('/')[2],
+              )
+            : routePaths.pipelines.allRuns(
+                selectedProject ? selectedProject : locationPath.split('/')[2],
+              ),
         },
       ]}
       headerWithButtons

@@ -26,7 +26,7 @@ const forgotApi = ({
   authenticationToken: string;
 }): Promise<Response> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.users.updateUser(userId)),
+    url: apiUrl(endpoints.users.me),
     method: httpMethods.put,
     authenticationToken,
     headers: {

@@ -9,7 +9,7 @@ const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
 export const Popup: React.FC<{ onClose: () => void }> = ({
   children,
-  onClose,
+  onClose, 
 }) => (
   <>
     <Dimmer />

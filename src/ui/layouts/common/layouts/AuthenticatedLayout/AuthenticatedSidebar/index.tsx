@@ -3,21 +3,24 @@ import cn from 'classnames';
 import {
   FlexBox,
   Box,
-  ZenMLLogoWhite,
   LinkBox,
   If,
+  ZenMLLogoSmall,
 } from '../../../../../components';
-import { usePushRoute } from '../../../../../hooks';
+import { usePushRoute, useSelector } from '../../../../../hooks';
 import { Menu } from './Menu';
 import styles from './index.module.scss';
 import { SideHeader } from './SideHeader';
 import { SideFooter } from './SideFooter';
+import { DEFAULT_PROJECT_NAME } from '../../../../../../constants';
+import { projectSelectors } from '../../../../../../redux/selectors';
 
 export const AuthenticatedSidebar: React.FC<{
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const { push } = usePushRoute();
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
   return (
     <>
@@ -39,11 +42,16 @@ export const AuthenticatedSidebar: React.FC<{
         <FlexBox
           marginBottom="xxl"
           alignItems="center"
-          paddingLeft="lg"
-          style={{ cursor: 'pointer' }}
-          onClick={() => push('/')}
+          style={{ cursor: 'pointer', width: '100%', alignItems: 'center' }} flexDirection='column'
+          onClick={() =>
+            push(
+              `/?project=${
+                selectedProject ? selectedProject : DEFAULT_PROJECT_NAME
+              }`,
+            )
+          }
         >
-          <ZenMLLogoWhite />
+          <ZenMLLogoSmall />
         </FlexBox>
 
         <FlexBox

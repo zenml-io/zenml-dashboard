@@ -20,6 +20,9 @@ const getByStackComponentId = (state: State): Record<TId, TId[]> =>
 const getByStackId = (state: State): Record<TId, TId[]> =>
   _.get(stateKey(state), 'byStackId');
 
+const getMyRunsPaginated = (state: State): any =>
+  _.get(stateKey(state), 'paginated');
+
 export const myRuns = (state?: State | null): TRun[] => {
   if (!state) return [];
   const myRunIds = getMyRunIds(state);
@@ -84,7 +87,15 @@ export const forRunIds = (runIds: TId[]) => (state?: State | null): TRun[] => {
   return runIds.map((id: TId) => byId[id]);
 };
 
+export const myRunsPaginated = (state?: State | null): any => {
+  if (!state) return {};
+  const paginated = getMyRunsPaginated(state);
+
+  return paginated;
+};
+
 const runSelectors = {
+  myRunsPaginated,
   myRuns,
   runsForPipelineId,
   runsForStackId,
