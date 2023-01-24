@@ -51,7 +51,9 @@ Props) => {
     setSelectedRunIds,
   } = useService(filter);
 
+  const expendedRow = filteredStacks.filter((item) => item.id === id);
   const headerCols = GetHeaderCols({
+    expendedRow,
     openStackIds,
     setOpenStackIds,
     filteredStacks,
@@ -82,8 +84,6 @@ Props) => {
       );
     }
   };
-
-  const expendedRow = filteredStacks.filter((item) => item.id === id);
 
   return (
     <>
