@@ -59,10 +59,10 @@ const newState = (state: State, runs: TRun[], pagination?: any): State => ({
   ids: idsInsert(state.ids, runs),
   byId: byKeyInsert(state.byId, runs),
   paginated: {
-    page: pagination.page,
-    size: pagination.size,
-    totalPages: pagination.total_pages,
-    totalitem: pagination.total,
+    page: pagination?.page,
+    size: pagination?.size,
+    totalPages: pagination?.total_pages,
+    totalitem: pagination?.total,
   },
 });
 const newStateForGraph = (state: State, graph: any): State => ({
