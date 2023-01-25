@@ -96,11 +96,13 @@ Props) => {
             fetching={fetching}
           />
         )}
-        activeSorting={
-          activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-            ? activeSorting
-            : 'created'
-        }
+        activeSortingDirection={activeSortingDirection}
+        activeSorting={activeSorting}
+        // activeSorting={
+        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+        //     ? activeSorting
+        //     : 'created'
+        // }
         pagination={pagination}
         paginated={stackComponentsPaginated}
         loading={expendedRow.length > 0 ? false : fetching}

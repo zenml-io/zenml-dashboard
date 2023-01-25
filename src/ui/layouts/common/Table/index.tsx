@@ -40,6 +40,7 @@ export interface HeaderCol {
 export interface TableProps {
   headerCols: HeaderCol[];
   tableRows: any[];
+  activeSortingDirection?: any;
   activeSorting?: any;
   paginated?: any;
   filters?: any[];
@@ -58,6 +59,7 @@ export const Table: React.FC<TableProps> = ({
   tableRows,
   paginated,
   activeSorting,
+  activeSortingDirection,
   filters,
   showHeader = true,
   pagination = true,
@@ -183,7 +185,7 @@ export const Table: React.FC<TableProps> = ({
     componentName === 'components'
       ? locationPath.pathname.split('/')[5]
       : locationPath.pathname.split('/')[4];
-  // console.log(check, '333');
+  const checkForLocationPath = locationPath.pathname.split('/')[4];
   useEffect(() => {
     // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
     setItemPerPage(itemPerPage);
@@ -263,7 +265,12 @@ export const Table: React.FC<TableProps> = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationPath.pathname.split('/')[4], isValidFilter, activeSorting]);
+  }, [
+    checkForLocationPath,
+    isValidFilter,
+    activeSorting,
+    activeSortingDirection,
+  ]);
   let rowsToDisplay = tableRows;
   // function getFetchedState(state: any) {
   //   setFetchingMembers(state);

@@ -66,11 +66,13 @@ export const RunsTable: React.FC<{
   }, [getSorted]);
   return (
     <Table
-      activeSorting={
-        activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-          ? activeSorting
-          : 'created'
-      }
+      activeSortingDirection={activeSortingDirection}
+      activeSorting={activeSorting}
+      // activeSorting={
+      //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+      //     ? activeSorting
+      //     : 'created'
+      // }
       pagination={pagination}
       loading={fetching}
       filters={filter}

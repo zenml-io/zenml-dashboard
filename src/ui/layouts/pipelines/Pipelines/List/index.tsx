@@ -65,11 +65,13 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             nestedRow={true}
           />
         )}
-        activeSorting={
-          activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-            ? activeSorting
-            : 'created'
-        }
+        activeSortingDirection={activeSortingDirection}
+        activeSorting={activeSorting}
+        // activeSorting={
+        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+        //     ? activeSorting
+        //     : 'created'
+        // }
         paginated={pipelinesPaginated}
         loading={fetching}
         showHeader={true}
