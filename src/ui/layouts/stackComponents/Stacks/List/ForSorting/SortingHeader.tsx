@@ -6,18 +6,22 @@ import { Sorting, SortingDirection } from './types';
 import styles from './index.module.scss';
 
 export const SortingHeader: React.FC<{
+  onlyOneRow?: boolean;
   sortMethod: void;
   activeSorting: Sorting | null;
   activeSortingDirection: SortingDirection | null;
   sorting: Sorting;
 }> = ({
+  onlyOneRow,
   children,
   sortMethod,
   activeSorting,
   activeSortingDirection,
   sorting,
 }) => {
-  return (
+  return onlyOneRow ? (
+    <>{children}</>
+  ) : (
     <LinkBox className={styles.sortingBox} onClick={sortMethod}>
       <FlexBox alignItems="center">
         {children}

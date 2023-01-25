@@ -18,9 +18,9 @@ import { UpdateMember } from './UpdateMember';
 import { TokenPopup } from './tokenPopup';
 import ReactTooltip from 'react-tooltip';
 import { Sorting, SortingDirection } from './ForSorting/types';
-import { SortingHeader } from './ForSorting/SortingHeader';
+// import { SortingHeader } from './ForSorting/SortingHeader';
 import { useService } from './ForSorting/useServiceForSorting';
-import _ from 'lodash';
+// import _ from 'lodash';
 
 export const useInviteHeaderCols = (): HeaderCol[] => {
   return [
@@ -98,25 +98,26 @@ export const useMemberHeaderCols = ({
     activeSortingDirection,
     filteredMembers,
   });
+  console.log(sortMethod);
 
   return [
     {
       render: () => (
-        <SortingHeader
-          sorting="name"
-          sortMethod={sortMethod('name', {
-            asc: (filteredMembers: TMember[]) =>
-              _.orderBy(filteredMembers, ['name'], ['asc']),
-            desc: (filteredMembers: TMember[]) =>
-              _.orderBy(filteredMembers, ['name'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" style={headColStyle}>
-            {translate('table.member.text')}
-          </Paragraph>
-        </SortingHeader>
+        // <SortingHeader
+        //   sorting="name"
+        //   sortMethod={sortMethod('name', {
+        //     asc: (filteredMembers: TMember[]) =>
+        //       _.orderBy(filteredMembers, ['name'], ['asc']),
+        //     desc: (filteredMembers: TMember[]) =>
+        //       _.orderBy(filteredMembers, ['name'], ['desc']),
+        //   })}
+        //   activeSorting={activeSorting}
+        //   activeSortingDirection={activeSortingDirection}
+        // >
+        <Paragraph size="small" style={headColStyle}>
+          {translate('table.member.text')}
+        </Paragraph>
+        // </SortingHeader>
       ),
       width: '12%',
       renderRow: (member: TMember) => {
@@ -175,52 +176,56 @@ export const useMemberHeaderCols = ({
       ),
     },
     {
-      render: () => (<Paragraph size="small" style={headColStyle}>Roles</Paragraph>),
+      render: () => (
+        <Paragraph size="small" style={headColStyle}>
+          Roles
+        </Paragraph>
+      ),
       width: '15%',
       renderRow: (member: TMember) => {
         const role = member?.roles?.map((e) => {
-          return e.name
-        })
-        
+          return e.name;
+        });
+
         return (
-          <FlexBox alignItems="center">  
-              <Paragraph size="small">
-                <Paragraph>{role?.toString()}</Paragraph>  
-              </Paragraph>
+          <FlexBox alignItems="center">
+            <Paragraph size="small">
+              <Paragraph>{role?.toString()}</Paragraph>
+            </Paragraph>
           </FlexBox>
-        )
-      }
+        );
+      },
     },
     {
       render: () => (
-        <SortingHeader
-          sorting="created"
-          sortMethod={sortMethod('created', {
-            asc: (filteredMembers: any[]) =>
-              _.orderBy(
-                filteredMembers,
-                (member: any) => new Date(member?.created).getTime(),
-                ['asc'],
-              ),
-            desc: (filteredMembers: any[]) =>
-              _.orderBy(
-                filteredMembers,
-                (member: any) => new Date(member?.created).getTime(),
-                ['desc'],
-              ),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" style={headColStyle}>
-            {translate('table.createdAt.text')}
-          </Paragraph>
-        </SortingHeader>
+        // <SortingHeader
+        //   sorting="created"
+        //   sortMethod={sortMethod('created', {
+        //     asc: (filteredMembers: any[]) =>
+        //       _.orderBy(
+        //         filteredMembers,
+        //         (member: any) => new Date(member?.created).getTime(),
+        //         ['asc'],
+        //       ),
+        //     desc: (filteredMembers: any[]) =>
+        //       _.orderBy(
+        //         filteredMembers,
+        //         (member: any) => new Date(member?.created).getTime(),
+        //         ['desc'],
+        //       ),
+        //   })}
+        //   activeSorting={activeSorting}
+        //   activeSortingDirection={activeSortingDirection}
+        // >
+        <Paragraph size="small" style={headColStyle}>
+          {translate('table.createdAt.text')}
+        </Paragraph>
+        // </SortingHeader>
       ),
       width: '13%',
-      renderRow: (member: TMember) => ( 
+      renderRow: (member: TMember) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToDisplayOnTable(member?.created)}>         
+          <div data-tip data-for={formatDateToDisplayOnTable(member?.created)}>
             <FlexBox alignItems="center">
               <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
@@ -235,36 +240,38 @@ export const useMemberHeaderCols = ({
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{formatDateToDisplayOnTable(member?.created)}</Paragraph>
+            <Paragraph color="white">
+              {formatDateToDisplayOnTable(member?.created)}
+            </Paragraph>
           </ReactTooltip>
         </FlexBox>
-      )
+      ),
     },
     {
       render: () => <Paragraph size="small"></Paragraph>,
-      width: decoded.permissions.includes('write') ? '5%' :'0%',
+      width: decoded.permissions.includes('write') ? '5%' : '0%',
       renderRow: (member: any) => (
         <FlexBox alignItems="center">
           {decoded.permissions.includes('write') && (
-          <>
-          <FlexBox >
-            <div data-tip data-for={member?.id}>
-              <UpdateMember member={member} />
-            </div>
-          </FlexBox>
+            <>
+              <FlexBox>
+                <div data-tip data-for={member?.id}>
+                  <UpdateMember member={member} />
+                </div>
+              </FlexBox>
 
-          <FlexBox>
-            <div data-tip data-for={member?.id}>
-              <DeleteMember member={member} />
-            </div>
-            {/* <ReactTooltip id={member.id} place="top" effect="solid">
+              <FlexBox>
+                <div data-tip data-for={member?.id}>
+                  <DeleteMember member={member} />
+                </div>
+                {/* <ReactTooltip id={member.id} place="top" effect="solid">
               <Paragraph color="white">Delete Member</Paragraph>
             </ReactTooltip> */}
-          </FlexBox>
-          </> 
+              </FlexBox>
+            </>
           )}
         </FlexBox>
-        )      
-    }
+      ),
+    },
   ];
 };

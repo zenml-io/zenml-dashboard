@@ -7,12 +7,7 @@ import {
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
-import {
-  Box,
-  FlexBox,
-  icons,
-  Paragraph,
-} from '../../../../components';
+import { Box, FlexBox, icons, Paragraph } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -20,6 +15,7 @@ import { Sorting, SortingDirection } from './ForSorting/types';
 import { useService } from './ForSorting/useServiceForSorting';
 
 export const GetHeaderCols = ({
+  expendedRow,
   openStackIds,
   setOpenStackIds,
   filteredStacks,
@@ -29,6 +25,7 @@ export const GetHeaderCols = ({
   setActiveSortingDirection,
   setActiveSorting,
 }: {
+  expendedRow?: any;
   openStackIds: TId[];
   setOpenStackIds: (ids: TId[]) => void;
   filteredStacks: TStack[];
@@ -46,6 +43,8 @@ export const GetHeaderCols = ({
     activeSortingDirection,
     filteredStacks,
   });
+
+  console.log(expendedRow, 'expendedRow');
   return [
     {
       width: '2%',
@@ -55,6 +54,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="id"
           sortMethod={sortMethod('id', {
             asc: (filteredStacks: TStack[]) =>
@@ -87,6 +87,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="name"
           sortMethod={sortMethod('name', {
             asc: (filteredStacks: TStack[]) =>
@@ -119,6 +120,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="flavor"
           sortMethod={sortMethod('flavor', {
             asc: (filteredStacks: TStack[]) =>
@@ -151,6 +153,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="is_shared"
           sortMethod={sortMethod('is_shared', {
             asc: (filteredStacks: TStack[]) =>
@@ -209,6 +212,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="user_id"
           sortMethod={sortMethod('user_id', {
             asc: (filteredStacks: TStack[]) =>
@@ -226,7 +230,6 @@ export const GetHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => {
-        
         return (
           <FlexBox alignItems="center">
             <div
@@ -267,6 +270,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="created"
           sortMethod={sortMethod('created', {
             asc: (filteredStacks: TStack[]) =>

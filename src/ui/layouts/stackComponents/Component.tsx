@@ -401,6 +401,46 @@ const Component = () => {
                 </Box>
               </FlexBox>
             )}
+            {console.log(item, 'item')}
+            {item !== 'data_validator' &&
+              item !== 'step_operator' &&
+              item !== 'orchestrator' &&
+              item !== 'secrets_manager' &&
+              item !== 'model_deployer' &&
+              item !== 'model_deployer' &&
+              item !== 'feature_store' &&
+              item !== 'experiment_tracker' &&
+              item !== 'container_registry' &&
+              item !== 'annotator' &&
+              item !== 'alerter' &&
+              item !== 'artifact_store' && (
+                <FlexBox
+                  onClick={() => selectSection(item)}
+                  style={{
+                    ...sectionStyle,
+                    background: formatSectionColor(item),
+                  }}
+                  marginTop="sm"
+                >
+                  <Box>
+                    <icons.stackComponent
+                      color={
+                        selectedComp === item
+                          ? iconColors.white
+                          : iconColors.primary
+                      }
+                      size={iconSizes.md}
+                    />
+                  </Box>
+                  <Box>
+                    <Paragraph
+                      style={{ color: formatTextColor(item), ...textStyle }}
+                    >
+                      {formatText(item)}
+                    </Paragraph>
+                  </Box>
+                </FlexBox>
+              )}
           </Box>
         ))}
       </Box>
