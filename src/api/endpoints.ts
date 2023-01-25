@@ -36,7 +36,7 @@ export const endpoints = {
   StackComponents: {
     types: '/component-types',
     my: (type: string, project: string): string =>
-      `/projects/${project}/components?type=${type}`,
+      `/projects/${project}/components?scope_type=${type}`,
     get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
   },
   runs: {
