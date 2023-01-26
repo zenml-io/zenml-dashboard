@@ -27,19 +27,19 @@ export const useService = ({ runIds }: { runIds: TId[] }): ServiceInterface => {
   const [
     activeSortingDirection,
     setActiveSortingDirection,
-  ] = React.useState<SortingDirection | null>('DESC');
+  ] = React.useState<SortingDirection | null>('ASC');
   const [sortedRuns, setSortedRuns] = React.useState<TRun[]>([]);
 
   const runs = useSelector(runSelectors.forRunIds(runIds));
 
   useEffect(() => {
-    const orderedRuns = _.orderBy(
-      runs,
-      [activeSorting],
-      [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
-    );
+    // const orderedRuns = _.orderBy(
+    //   runs,
+    //   [activeSorting],
+    //   [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
+    // );
 
-    setSortedRuns(orderedRuns as TRun[]);
+    setSortedRuns(runs as TRun[]);
   }, []);
   useEffect(() => {
     return () => {

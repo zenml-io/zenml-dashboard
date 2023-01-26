@@ -33,7 +33,7 @@ export const useService = (): ServiceInterface => {
   const [
     activeSortingDirection,
     setActiveSortingDirection,
-  ] = React.useState<SortingDirection | null>('DESC');
+  ] = React.useState<SortingDirection | null>('ASC');
   const dispatch = useDispatch();
 
   const members = useSelector(organizationSelectors.myMembers);
