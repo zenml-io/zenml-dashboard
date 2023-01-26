@@ -191,84 +191,99 @@ export const Table: React.FC<TableProps> = ({
       : locationPath.pathname.split('/')[4];
   const checkForLocationPath = locationPath.pathname.split('/')[4];
   useEffect(() => {
-    // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
+    // console.log(checkValidFilter, 'locationPath1');
     setItemPerPage(itemPerPage);
     if (filters) {
       setPageIndex(0);
     }
-    if (checkValidFilter || activeSorting || checkForLocationPath) {
-      switch (componentName) {
-        case 'stacks':
-          if (CheckIfRun) {
-            dispatchStackRunsData(
-              id,
-              1,
-              itemPerPage,
-              filters as any,
-              activeSorting,
-            );
-            break;
-          } else {
-            dispatchStackData(1, itemPerPage, filters as any, activeSorting);
-            break;
-          }
-        case 'components':
-          if (CheckIfRun) {
-            dispatchStackComponentRunsData(
-              id,
-              1,
-              itemPerPage,
-              filters as any,
-              activeSorting,
-            );
-            break;
-          } else {
-            dispatchStackComponentsData(
-              1,
-              itemPerPage,
-              filters as any,
-              activeSorting,
-            );
-            break;
-          }
-        case 'pipelines':
-          if (CheckIfRun) {
-            dispatchPipelineRunsData(
-              id,
-              1,
-              itemPerPage,
-              filters as any,
-              activeSorting,
-            );
-            break;
-          } else {
-            console.log(itemPerPage, 'itemPerPage');
-            if (!renderAfterRow) break;
-            dispatchPipelineData(1, itemPerPage, filters as any, activeSorting);
-            break;
-          }
-
-        case 'all-runs':
-          dispatchAllrunsData(1, itemPerPage, filters as any, activeSorting);
+    // if (checkValidFilter || activeSorting) {
+    switch (componentName) {
+      case 'stacks':
+        if (CheckIfRun) {
+          dispatchStackRunsData(
+            id,
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+          );
           break;
-
-        default:
+        } else {
+          dispatchStackData(
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+          );
           break;
-      }
-      if (locationPath.pathname.split('/')[2] === 'organization') {
-        // debugger;
-        setFetchingMembers(true);
-        dispatch(
-          organizationActions.getMembers({
-            page: 1,
-            size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-            sort_by: activeSorting,
-            onSuccess: () => setFetchingMembers(false),
-            onFailure: () => setFetchingMembers(false),
-          }),
+        }
+      case 'components':
+        if (CheckIfRun) {
+          dispatchStackComponentRunsData(
+            id,
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+          );
+          break;
+        } else {
+          dispatchStackComponentsData(
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+          );
+          break;
+        }
+      case 'pipelines':
+        if (CheckIfRun) {
+          dispatchPipelineRunsData(
+            id,
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+          );
+          break;
+        } else {
+          console.log(checkValidFilter, 'checkValidFilter');
+          if (!renderAfterRow) break;
+          dispatchPipelineData(
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+          );
+          break;
+        }
+
+      case 'all-runs':
+        dispatchAllrunsData(
+          1,
+          itemPerPage,
+          checkValidFilter.length ? (filters as any) : [],
+          activeSorting,
         );
-      }
+        break;
+
+      default:
+        break;
     }
+    if (locationPath.pathname.split('/')[2] === 'organization') {
+      // debugger;
+      setFetchingMembers(true);
+      dispatch(
+        organizationActions.getMembers({
+          page: 1,
+          size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+          sort_by: activeSorting,
+          onSuccess: () => setFetchingMembers(false),
+          onFailure: () => setFetchingMembers(false),
+        }),
+      );
+    }
+    // }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkForLocationPath, checkValidFilter, activeSorting]);
