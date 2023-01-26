@@ -9,7 +9,7 @@ export const Runs: React.FC<{ pipelineId: TId; filter: any }> = ({
 }) => {
   const [sortBy, setSortBy] = useState('created');
   function getSorted(activeSorting: any, activeSortingDirection: any) {
-    setSortBy(activeSorting);
+    setSortBy(activeSortingDirection?.toLowerCase() + ':' + activeSorting);
     // console.log(activeSorting, activeSortingDirection, 'aaaaaaa');
   }
   const { fetching, runIds, runsPaginated } = useService({

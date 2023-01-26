@@ -15,7 +15,7 @@ interface Props {
 export const AllRuns: React.FC<Props> = ({ filter }: Props) => {
   const [sortBy, setSortBy] = useState('created');
   function getSorted(activeSorting: any, activeSortingDirection: any) {
-    setSortBy(activeSorting);
+    setSortBy(activeSortingDirection?.toLowerCase() + ':' + activeSorting);
     // console.log(activeSorting, activeSortingDirection, 'aaaaaaa');
   }
 

@@ -40,6 +40,7 @@ export interface HeaderCol {
 export interface TableProps {
   headerCols: HeaderCol[];
   tableRows: any[];
+  activeSortingDirection?: any;
   activeSorting?: any;
   paginated?: any;
   filters?: any[];
@@ -58,6 +59,7 @@ export const Table: React.FC<TableProps> = ({
   tableRows,
   paginated,
   activeSorting,
+  activeSortingDirection,
   filters,
   showHeader = true,
   pagination = true,
@@ -160,7 +162,11 @@ export const Table: React.FC<TableProps> = ({
   //   itemsPerPage: itemPerPage,
   //   items: tableRows,
   // });
-  const isValidFilter = filters?.map((f) => f.value).join('');
+
+  const isValidFilterFroValue: any = filters?.map((f) => f.value).join('');
+  const isValidFilterForCategory: any =
+    isValidFilterFroValue && filters?.map((f) => f.type.value).join('');
+  const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
 
   const { dispatchStackData } = callActionForStacksForPagination();
   const {
@@ -183,87 +189,89 @@ export const Table: React.FC<TableProps> = ({
     componentName === 'components'
       ? locationPath.pathname.split('/')[5]
       : locationPath.pathname.split('/')[4];
-  // console.log(check, '333');
+  const checkForLocationPath = locationPath.pathname.split('/')[4];
   useEffect(() => {
     // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
     setItemPerPage(itemPerPage);
     if (filters) {
       setPageIndex(0);
     }
-    switch (componentName) {
-      case 'stacks':
-        if (CheckIfRun) {
-          dispatchStackRunsData(
-            id,
-            1,
-            itemPerPage,
-            filters as any,
-            activeSorting,
-          );
-          break;
-        } else {
-          dispatchStackData(1, itemPerPage, filters as any, activeSorting);
-          break;
-        }
-      case 'components':
-        if (CheckIfRun) {
-          dispatchStackComponentRunsData(
-            id,
-            1,
-            itemPerPage,
-            filters as any,
-            activeSorting,
-          );
-          break;
-        } else {
-          dispatchStackComponentsData(
-            1,
-            itemPerPage,
-            filters as any,
-            activeSorting,
-          );
-          break;
-        }
-      case 'pipelines':
-        if (CheckIfRun) {
-          dispatchPipelineRunsData(
-            id,
-            1,
-            itemPerPage,
-            filters as any,
-            activeSorting,
-          );
-          break;
-        } else {
-          console.log(itemPerPage, 'itemPerPage');
-          if (!renderAfterRow) break;
-          dispatchPipelineData(1, itemPerPage, filters as any, activeSorting);
-          break;
-        }
+    if (checkValidFilter || activeSorting || checkForLocationPath) {
+      switch (componentName) {
+        case 'stacks':
+          if (CheckIfRun) {
+            dispatchStackRunsData(
+              id,
+              1,
+              itemPerPage,
+              filters as any,
+              activeSorting,
+            );
+            break;
+          } else {
+            dispatchStackData(1, itemPerPage, filters as any, activeSorting);
+            break;
+          }
+        case 'components':
+          if (CheckIfRun) {
+            dispatchStackComponentRunsData(
+              id,
+              1,
+              itemPerPage,
+              filters as any,
+              activeSorting,
+            );
+            break;
+          } else {
+            dispatchStackComponentsData(
+              1,
+              itemPerPage,
+              filters as any,
+              activeSorting,
+            );
+            break;
+          }
+        case 'pipelines':
+          if (CheckIfRun) {
+            dispatchPipelineRunsData(
+              id,
+              1,
+              itemPerPage,
+              filters as any,
+              activeSorting,
+            );
+            break;
+          } else {
+            console.log(itemPerPage, 'itemPerPage');
+            if (!renderAfterRow) break;
+            dispatchPipelineData(1, itemPerPage, filters as any, activeSorting);
+            break;
+          }
 
-      case 'all-runs':
-        dispatchAllrunsData(1, itemPerPage, filters as any, activeSorting);
-        break;
+        case 'all-runs':
+          dispatchAllrunsData(1, itemPerPage, filters as any, activeSorting);
+          break;
 
-      default:
-        break;
-    }
-    if (locationPath.pathname.split('/')[2] === 'organization') {
-      // debugger;
-      setFetchingMembers(true);
-      dispatch(
-        organizationActions.getMembers({
-          page: 1,
-          size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-          sort_by: activeSorting,
-          onSuccess: () => setFetchingMembers(false),
-          onFailure: () => setFetchingMembers(false),
-        }),
-      );
+        default:
+          break;
+      }
+      if (locationPath.pathname.split('/')[2] === 'organization') {
+        // debugger;
+        setFetchingMembers(true);
+        dispatch(
+          organizationActions.getMembers({
+            page: 1,
+            size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+            sort_by: activeSorting,
+            onSuccess: () => setFetchingMembers(false),
+            onFailure: () => setFetchingMembers(false),
+          }),
+        );
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationPath.pathname.split('/')[4], isValidFilter, activeSorting]);
+  }, [checkForLocationPath, checkValidFilter, activeSorting]);
   let rowsToDisplay = tableRows;
   // function getFetchedState(state: any) {
   //   setFetchingMembers(state);
