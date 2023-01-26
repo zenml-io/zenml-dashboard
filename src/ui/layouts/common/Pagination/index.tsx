@@ -131,7 +131,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
           dispatchStackRunsData(id, page, size, filters as any, activeSorting);
           break;
         } else {
-          dispatchStackData(1, size, filters as any, activeSorting);
+          dispatchStackData(page, size, filters as any, activeSorting);
           break;
         }
       case 'components':
@@ -145,7 +145,12 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
           );
           break;
         } else {
-          dispatchStackComponentsData(1, size, filters as any, activeSorting);
+          dispatchStackComponentsData(
+            page,
+            size,
+            filters as any,
+            activeSorting,
+          );
           break;
         }
       case 'pipelines':

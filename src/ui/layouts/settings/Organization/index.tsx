@@ -102,7 +102,9 @@ export const Organization: React.FC = () => {
           </FlexBox.Row>
           {currentTable === 'members' && (
             <Table
+              activeSortingDirection={activeSortingDirection}
               activeSorting={activeSorting}
+              // activeSorting={activeSorting}
               paginated={membersPaginated}
               pagination={true}
               headerCols={memberHeaderCols}

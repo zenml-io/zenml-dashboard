@@ -51,7 +51,9 @@ Props) => {
     setSelectedRunIds,
   } = useService(filter);
 
+  const expendedRow = filteredStacks.filter((item) => item.id === id);
   const headerCols = GetHeaderCols({
+    expendedRow,
     openStackIds,
     setOpenStackIds,
     filteredStacks,
@@ -83,8 +85,6 @@ Props) => {
     }
   };
 
-  const expendedRow = filteredStacks.filter((item) => item.id === id);
-
   return (
     <>
       <CollapseTable
@@ -96,11 +96,15 @@ Props) => {
             fetching={fetching}
           />
         )}
+        activeSortingDirection={activeSortingDirection}
         activeSorting={
-          activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-            ? activeSorting
-            : 'created'
+          activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
+        // activeSorting={
+        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+        //     ? activeSorting
+        //     : 'created'
+        // }
         pagination={pagination}
         paginated={stackComponentsPaginated}
         loading={expendedRow.length > 0 ? false : fetching}
