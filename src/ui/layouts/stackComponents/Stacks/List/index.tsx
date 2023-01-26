@@ -97,7 +97,9 @@ Props) => {
           />
         )}
         activeSortingDirection={activeSortingDirection}
-        activeSorting={activeSorting}
+        activeSorting={
+          activeSortingDirection?.toLowerCase() + ':' + activeSorting
+        }
         // activeSorting={
         //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
         //     ? activeSorting

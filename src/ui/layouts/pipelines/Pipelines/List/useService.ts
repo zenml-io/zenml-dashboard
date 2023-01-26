@@ -48,7 +48,7 @@ export const useService = (
   const [
     activeSortingDirection,
     setActiveSortingDirection,
-  ] = React.useState<SortingDirection | null>('DESC');
+  ] = React.useState<SortingDirection | null>('ASC');
 
   const dispatch = useDispatch();
 
@@ -70,10 +70,11 @@ export const useService = (
   useEffect(() => {
     if (!isValidFilter) {
       const intervalId = setInterval(() => {
-        //assign interval to a variable to clear it.
+        const applySorting =
+          activeSortingDirection?.toLowerCase() + ':' + activeSorting;
         dispatch(
           pipelinesActions.getMy({
-            sort_by: activeSorting ? activeSorting : 'created',
+            sort_by: applySorting ? applySorting : 'created',
             logical_operator: 'and',
             // name: '',
             project: selectedProject,

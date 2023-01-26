@@ -167,7 +167,6 @@ export const Table: React.FC<TableProps> = ({
   const isValidFilterForCategory: any =
     isValidFilterFroValue && filters?.map((f) => f.type.value).join('');
   const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
-  console.log(checkValidFilter, 'checkValidFilter');
 
   const { dispatchStackData } = callActionForStacksForPagination();
   const {
@@ -197,7 +196,7 @@ export const Table: React.FC<TableProps> = ({
     if (filters) {
       setPageIndex(0);
     }
-    if (checkValidFilter) {
+    if (checkValidFilter || activeSorting || checkForLocationPath) {
       switch (componentName) {
         case 'stacks':
           if (CheckIfRun) {
@@ -272,12 +271,7 @@ export const Table: React.FC<TableProps> = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    checkForLocationPath,
-    checkValidFilter,
-    activeSorting,
-    activeSortingDirection,
-  ]);
+  }, [checkForLocationPath, checkValidFilter, activeSorting]);
   let rowsToDisplay = tableRows;
   // function getFetchedState(state: any) {
   //   setFetchingMembers(state);

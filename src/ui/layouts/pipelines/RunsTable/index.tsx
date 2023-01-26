@@ -72,13 +72,16 @@ export const RunsTable: React.FC<{
     if (getSorted) {
       getSorted(activeSorting, activeSortingDirection);
     }
+    console.log(activeSortingDirection, 'activeSortingDirection');
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getSorted]);
 
   return (
     <Table
       activeSortingDirection={activeSortingDirection}
-      activeSorting={activeSorting}
+      activeSorting={
+        activeSortingDirection?.toLowerCase() + ':' + activeSorting
+      }
       // activeSorting={
       //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
       //     ? activeSorting
