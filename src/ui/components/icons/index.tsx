@@ -58,6 +58,7 @@ import { ReactComponent as Graph } from './assets/Graph.svg';
 import { ReactComponent as GitCommit } from './assets/GitCommit.svg';
 import { ReactComponent as ChatDots } from './assets/ChatDots.svg';
 import { ReactComponent as Run } from './assets/Run.svg';
+import { ReactComponent as ImageBuilder } from './assets/ImageBuilder.svg';
 // import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 // import { ReactComponent as Cached } from './assets/Cached.svg';
 // import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
@@ -185,6 +186,10 @@ const icons = {
   step_operator: createIcon({ Component: GitCommit, useStroke: true }),
   data_validator: createIcon({
     Component: ChartBarHorizontal,
+    useStroke: true,
+  }),
+  image_builder: createIcon({
+    Component: ImageBuilder,
     useStroke: true,
   }),
 

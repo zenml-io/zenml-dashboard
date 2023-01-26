@@ -401,6 +401,34 @@ const Component = () => {
                 </Box>
               </FlexBox>
             )}
+            {item === 'image_builder' && (
+              <FlexBox
+                onClick={() => selectSection(item)}
+                style={{
+                  ...sectionStyle,
+                  background: formatSectionColor(item),
+                }}
+                marginTop="sm"
+              >
+                <Box>
+                  <icons.image_builder
+                    color={
+                      selectedComp === item
+                        ? iconColors.white
+                        : iconColors.primary
+                    }
+                    size={iconSizes.md}
+                  />
+                </Box>
+                <Box>
+                  <Paragraph
+                    style={{ color: formatTextColor(item), ...textStyle }}
+                  >
+                    {formatText(item)}
+                  </Paragraph>
+                </Box>
+              </FlexBox>
+            )}
             {console.log(item, 'item')}
             {item !== 'data_validator' &&
               item !== 'step_operator' &&
@@ -413,6 +441,7 @@ const Component = () => {
               item !== 'container_registry' &&
               item !== 'annotator' &&
               item !== 'alerter' &&
+              item !== 'image_builder' &&
               item !== 'artifact_store' && (
                 <FlexBox
                   onClick={() => selectSection(item)}
