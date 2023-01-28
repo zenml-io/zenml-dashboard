@@ -30,6 +30,7 @@ import { iconColors, iconSizes } from '../../../../constants/icons';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import { organizationActions } from '../../../../redux/actions';
+import { eachHourOfInterval } from 'date-fns/esm';
 
 export interface HeaderCol {
   render?: () => JSX.Element;
@@ -107,7 +108,7 @@ export const Table: React.FC<TableProps> = ({
       tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
         ' ',
       )}`;
-      console.log(tableElement.current.style.gridTemplateColumns, 'aasaaa');
+      // console.log(tableElement.current.style.gridTemplateColumns, 'aasaaa');
     },
     [activeIndex, columns, minCellWidth],
   );
@@ -288,6 +289,7 @@ export const Table: React.FC<TableProps> = ({
     setItemPerPage(size);
   };
   console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
+  
   return (
     <FlexBox.Column fullWidth>
       <IfElse
@@ -296,7 +298,7 @@ export const Table: React.FC<TableProps> = ({
           <>
             <div>
               <div>
-                <table ref={tableElement as any}>
+                <table ref={tableElement as any} style={{ gridTemplateColumns: `minmax(50px, 2fr)`.repeat(columns?.length) }} >
                   <thead>
                     <tr style={{ backgroundColor: '#F5F3F9' }}>
                       {console.log(columns, 'columns')}
@@ -319,10 +321,10 @@ export const Table: React.FC<TableProps> = ({
                           >
                             {text.render && text.render()}
                           </Box>
-                          {console.log(tableHeight, 'tableHeight')}
+                          
                           <div
                             style={{ height: tableHeight }}
-                            onMouseDown={() => mouseDown(i)}
+                            onMouseDown={() => i !== 0 && mouseDown(i)}
                             className={`resize-handle ${
                               activeIndex === i ? 'active' : 'idle'
                             }`}
@@ -333,6 +335,7 @@ export const Table: React.FC<TableProps> = ({
                   </thead>
 
                   {rowsToDisplay.map((headerRow: any, index: number) => (
+                    <>
                     <tbody>
                       <tr
                         onClick={() => trOnClick && trOnClick(headerRow)}
@@ -369,8 +372,11 @@ export const Table: React.FC<TableProps> = ({
                       </tbody>
                       {/* </table> */}
                     </tbody>
+                      </>
                   ))}
                 </table>
+
+
               </div>
               <button onClick={resetTableCells}>Reset</button>
             </div>

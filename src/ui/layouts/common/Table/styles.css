@@ -8,13 +8,13 @@
     width: 100%;
     display: grid;
     overflow: auto;
-    grid-template-columns:
+    /* grid-template-columns:
     minmax(150px, 1fr)
     minmax(50px, 2fr)
     minmax(50px, 2fr)
     minmax(50px, 2fr)
     minmax(50px, 2fr)
-    minmax(50px, 2fr);  
+    minmax(50px, 2fr);   */
   }
   
   table thead,
