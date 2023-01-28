@@ -30,7 +30,7 @@ export const useService = (): ServiceInterface => {
     setFetchingForAllRuns(true);
     dispatch(
       runsActions.allRuns({
-        sort_by: 'created',
+        sort_by: 'desc:created',
         logical_operator: 'and',
         project: selectedProject,
         page: 1,
@@ -41,7 +41,7 @@ export const useService = (): ServiceInterface => {
     );
     dispatch(
       pipelinesActions.getMy({
-        sort_by: 'created',
+        sort_by: 'desc:created',
         logical_operator: 'and',
         page: 1,
         size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,

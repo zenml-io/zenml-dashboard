@@ -41,7 +41,7 @@ export const useService = (): ServiceInterface => {
     );
     dispatch(
       stackComponentsActions.allRunsByStackComponentId({
-        sort_by: 'created',
+        sort_by: 'desc:created',
         logical_operator: 'and',
         stackComponentId: id,
         page: 1,
