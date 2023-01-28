@@ -30,7 +30,7 @@ import { iconColors, iconSizes } from '../../../../constants/icons';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import { organizationActions } from '../../../../redux/actions';
-import { eachHourOfInterval } from 'date-fns/esm';
+// import { eachHourOfInterval } from 'date-fns/esm';
 
 export interface HeaderCol {
   render?: () => JSX.Element;
@@ -42,6 +42,7 @@ export interface TableProps {
   headerCols: HeaderCol[];
   tableRows: any[];
   minCellWidth?: any;
+  activeSortingDirection?: any;
   activeSorting?: any;
   paginated?: any;
   filters?: any[];
@@ -68,6 +69,7 @@ export const Table: React.FC<TableProps> = ({
   paginated,
   minCellWidth = 120,
   activeSorting,
+  activeSortingDirection,
   filters,
   showHeader = true,
   pagination = true,
@@ -84,6 +86,8 @@ export const Table: React.FC<TableProps> = ({
   useEffect(() => {
     console.log(tableElement.current.style.gridTemplateColumns, 'offsetHeight');
     setTableHeight(tableElement.current.offsetHeight as any);
+
+     // eslint-disable-next-line
   }, [tableElement.current]);
 
   const mouseDown = (index: any) => {
@@ -163,7 +167,11 @@ export const Table: React.FC<TableProps> = ({
   //   itemsPerPage: itemPerPage,
   //   items: tableRows,
   // });
-  const isValidFilter = filters?.map((f) => f.value).join('');
+
+  const isValidFilterFroValue: any = filters?.map((f) => f.value).join('');
+  const isValidFilterForCategory: any =
+    isValidFilterFroValue && filters?.map((f) => f.type.value).join('');
+  const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
 
   const { dispatchStackData } = callActionForStacksForPagination();
   const {
@@ -186,13 +194,14 @@ export const Table: React.FC<TableProps> = ({
     componentName === 'components'
       ? locationPath.pathname.split('/')[5]
       : locationPath.pathname.split('/')[4];
-  // console.log(check, '333');
+  const checkForLocationPath = locationPath.pathname.split('/')[4];
   useEffect(() => {
-    // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
+    // console.log(checkValidFilter, 'locationPath1');
     setItemPerPage(itemPerPage);
     if (filters) {
       setPageIndex(0);
     }
+    // if (checkValidFilter || activeSorting) {
     switch (componentName) {
       case 'stacks':
         if (CheckIfRun) {
@@ -200,12 +209,17 @@ export const Table: React.FC<TableProps> = ({
             id,
             1,
             itemPerPage,
-            filters as any,
+            checkValidFilter.length ? (filters as any) : [],
             activeSorting,
           );
           break;
         } else {
-          dispatchStackData(1, itemPerPage, filters as any, activeSorting);
+          dispatchStackData(
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+          );
           break;
         }
       case 'components':
@@ -214,7 +228,7 @@ export const Table: React.FC<TableProps> = ({
             id,
             1,
             itemPerPage,
-            filters as any,
+            checkValidFilter.length ? (filters as any) : [],
             activeSorting,
           );
           break;
@@ -222,7 +236,7 @@ export const Table: React.FC<TableProps> = ({
           dispatchStackComponentsData(
             1,
             itemPerPage,
-            filters as any,
+            checkValidFilter.length ? (filters as any) : [],
             activeSorting,
           );
           break;
@@ -233,19 +247,29 @@ export const Table: React.FC<TableProps> = ({
             id,
             1,
             itemPerPage,
-            filters as any,
+            checkValidFilter.length ? (filters as any) : [],
             activeSorting,
           );
           break;
         } else {
-          console.log(itemPerPage, 'itemPerPage');
+          console.log(checkValidFilter, 'checkValidFilter');
           if (!renderAfterRow) break;
-          dispatchPipelineData(1, itemPerPage, filters as any, activeSorting);
+          dispatchPipelineData(
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+          );
           break;
         }
 
       case 'all-runs':
-        dispatchAllrunsData(1, itemPerPage, filters as any, activeSorting);
+        dispatchAllrunsData(
+          1,
+          itemPerPage,
+          checkValidFilter.length ? (filters as any) : [],
+          activeSorting,
+        );
         break;
 
       default:
@@ -264,9 +288,10 @@ export const Table: React.FC<TableProps> = ({
         }),
       );
     }
+    // }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationPath.pathname.split('/')[4], isValidFilter, activeSorting]);
+  }, [checkForLocationPath, checkValidFilter, activeSorting]);
   let rowsToDisplay = tableRows;
 
   // function getFetchedState(state: any) {
