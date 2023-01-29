@@ -20,6 +20,7 @@ import { Sorting, SortingDirection } from './ForSorting/types';
 import { useService } from './ForSorting/useServiceForSorting';
 
 export const GetHeaderCols = ({
+  expendedRow,
   openStackIds,
   setOpenStackIds,
   filteredStacks,
@@ -29,6 +30,7 @@ export const GetHeaderCols = ({
   setActiveSortingDirection,
   setActiveSorting,
 }: {
+  expendedRow?: any;
   openStackIds: TId[];
   setOpenStackIds: (ids: TId[]) => void;
   filteredStacks: TStack[];
@@ -81,6 +83,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="id"
           sortMethod={sortMethod('id', {
             asc: (filteredStacks: TStack[]) =>
@@ -113,6 +116,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="name"
           sortMethod={sortMethod('name', {
             asc: (filteredStacks: TStack[]) =>
@@ -145,6 +149,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="is_shared"
           sortMethod={sortMethod('is_shared', {
             asc: (filteredStacks: TStack[]) =>
@@ -204,6 +209,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="user_id"
           sortMethod={sortMethod('user_id', {
             asc: (filteredStacks: TStack[]) =>
@@ -221,7 +227,6 @@ export const GetHeaderCols = ({
       ),
       width: '11%',
       renderRow: (stack: TStack) => {
-        
         return (
           <FlexBox alignItems="center">
             <div
@@ -254,6 +259,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="created"
           sortMethod={sortMethod('created', {
             asc: (filteredStacks: TStack[]) =>

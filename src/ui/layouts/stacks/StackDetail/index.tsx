@@ -15,6 +15,7 @@ import FilterComponent, {
 } from '../../../components/Filters';
 import { projectSelectors } from '../../../../redux/selectors';
 import { DEFAULT_PROJECT_NAME } from '../../../../constants';
+import { List } from '../Stacks/List';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -108,7 +109,8 @@ export const StackDetail: React.FC = () => {
       tabBasePath={routePaths.stack.base(stack.id)}
       breadcrumbs={breadcrumbs}
     >
-      <Box style={boxStyle}>
+      <List filter={[]} pagination={false} isExpended id={stack.id}></List>
+      {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>ID</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
@@ -153,7 +155,7 @@ export const StackDetail: React.FC = () => {
             {formatDateToDisplayOnTable(stack.created)}
           </Paragraph>
         </Box>
-      </Box>
+      </Box> */}
     </BasePage>
   );
 };

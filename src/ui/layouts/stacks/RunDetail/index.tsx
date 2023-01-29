@@ -12,6 +12,7 @@ import { formatDateToDisplayOnTable } from '../../../../utils';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from '../../../hooks';
 import { projectSelectors } from '../../../../redux/selectors';
+import { Runs } from '../StackDetail/Runs';
 
 const getTabPages = ({
   stackId,
@@ -104,7 +105,14 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.stack.base(runId, stackId)}
       breadcrumbs={breadcrumbs}
     >
-      <Box style={boxStyle}>
+      <Runs
+        filter={[]}
+        pagination={false}
+        runId={runId}
+        // isExpended
+        stackId={stackId}
+      ></Runs>
+      {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
@@ -188,7 +196,7 @@ export const RunDetail: React.FC = () => {
             {formatDateToDisplayOnTable(run.created)}
           </Paragraph>
         </Box>
-      </Box>
+      </Box> */}
     </BasePage>
   );
 };

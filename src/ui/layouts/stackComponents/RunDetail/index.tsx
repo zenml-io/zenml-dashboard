@@ -3,7 +3,7 @@ import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import {
   camelCaseToParagraph,
-  formatDateToDisplayOnTable
+  formatDateToDisplayOnTable,
 } from '../../../../utils';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 
@@ -16,6 +16,7 @@ import { Box, Paragraph } from '../../../components';
 
 import { RunStatus } from './components';
 import { projectSelectors } from '../../../../redux/selectors';
+import { Runs } from '../StackDetail/Runs';
 
 export interface RunDetailRouteParams {
   type: string;
@@ -97,7 +98,14 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.component.base(runId, stackComponentId)}
       breadcrumbs={breadcrumbs}
     >
-      <Box style={boxStyle}>
+      <Runs
+        filter={[]}
+        pagination={false}
+        runId={runId}
+        // isExpended
+        stackComponentId={stackComponentId}
+      ></Runs>
+      {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
@@ -181,7 +189,7 @@ export const RunDetail: React.FC = () => {
             {formatDateToDisplayOnTable(run.created)}
           </Paragraph>
         </Box>
-      </Box>
+      </Box> */}
     </BasePage>
   );
 };

@@ -14,6 +14,7 @@ import { RunStatus } from './components';
 import { formatDateToDisplayOnTable } from '../../../../utils';
 import { useHistory, useSelector } from '../../../hooks';
 import { projectSelectors } from '../../../../redux/selectors';
+import { Runs } from '../../pipelines/PipelineDetail/Runs';
 
 const getTabPages = ({
   selectedProject,
@@ -96,7 +97,14 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.run.base(runId)}
       breadcrumbs={breadcrumbs}
     >
-      <Box style={boxStyle}>
+      <Runs
+        filter={[]}
+        pagination={false}
+        runId={runId}
+        fromAllruns={true}
+        pipelineId={runId}
+      ></Runs>
+      {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
@@ -180,7 +188,7 @@ export const RunDetail: React.FC = () => {
             {formatDateToDisplayOnTable(run.created)}
           </Paragraph>
         </Box>
-      </Box>
+      </Box> */}
     </BasePage>
   );
 };
