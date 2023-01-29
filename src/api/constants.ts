@@ -7,6 +7,3 @@ export const httpMethods = {
 };
 
 export const BASE_API_URL = process.env.REACT_APP_BASE_API_URL;
-
-// https://appserver.zenml.io/api/v1
-// http://localhost:8080/api/v1
