@@ -6,7 +6,7 @@ import { Table } from '../../common/Table';
 
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 
 interface Props {
   filter: any;
@@ -33,7 +33,7 @@ export const RunsTable: React.FC<{
   filter,
 }) => {
   const history = useHistory();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const {
     sortedRuns,
     setSortedRuns,
@@ -48,10 +48,10 @@ export const RunsTable: React.FC<{
     setSelectedRunIds([]);
 
     fromAllruns
-      ? history.push(routePaths.run.run.statistics(selectedProject, run.id))
+      ? history.push(routePaths.run.run.statistics(selectedWorkspace, run.id))
       : history.push(
           routePaths.run.pipeline.statistics(
-            selectedProject,
+            selectedWorkspace,
             run.id,
             run.pipeline_id ? run.pipeline_id : run.pipelineId,
           ),

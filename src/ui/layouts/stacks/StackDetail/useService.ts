@@ -59,7 +59,7 @@ export const useService = (): ServiceInterface => {
 
 export const callActionForStackRunsForPagination = () => {
   const dispatch = useDispatch();
-  // const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   // const { id } = useParams<PipelineDetailRouteParams>();
   function dispatchStackRunsData(
     id: any,

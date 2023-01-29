@@ -8,7 +8,7 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { useService } from './useService';
 import { getHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
-import { projectSelectors } from '../../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const List: React.FC = () => {
   const history = useHistory();
@@ -21,11 +21,11 @@ export const List: React.FC = () => {
   } = useService();
 
   const headerCols = getHeaderCols({ openStackIds, setOpenStackIds });
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);
 
-    history.push(routePaths.stack.configuration(stack.id, selectedProject));
+    history.push(routePaths.stack.configuration(stack.id, selectedWorkspace));
   };
 
   return (

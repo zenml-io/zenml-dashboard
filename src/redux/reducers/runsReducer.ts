@@ -26,9 +26,9 @@ type PipelinesPayload = {
 
 type RunPayload = TRun;
 
-type PipelinePayload = {
+type WorkspacePayload = {
   id: TId;
-  projectName: TId;
+  workspaceName: TId;
   pipeline_runs: TRun[];
 };
 

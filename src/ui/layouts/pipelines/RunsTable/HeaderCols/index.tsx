@@ -24,7 +24,7 @@ import { useService } from './useService';
 import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import ReactTooltip from 'react-tooltip';
-import { projectSelectors } from '../../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
   runs,
@@ -52,7 +52,7 @@ export const useHeaderCols = ({
     runs,
   });
   const history = useHistory();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return nestedRuns
     ? [
         {
@@ -349,7 +349,7 @@ export const useHeaderCols = ({
                     history.push(
                       routePaths.pipeline.configuration(
                         run.pipeline?.id,
-                        selectedProject,
+                        selectedWorkspace,
                       ),
                     );
                   }}
@@ -427,7 +427,7 @@ export const useHeaderCols = ({
                     history.push(
                       routePaths.stack.configuration(
                         run.stack?.id,
-                        selectedProject,
+                        selectedWorkspace,
                       ),
                     );
                   }}

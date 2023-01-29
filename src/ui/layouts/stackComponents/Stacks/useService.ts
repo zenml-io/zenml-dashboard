@@ -5,10 +5,10 @@ import {
   stackComponentsActions,
   stackPagesActions,
 } from '../../../../redux/actions';
-// import { projectSelectors } from '../../../../redux/selectors';
+// import { workspaceSelectors } from '../../../../redux/selectors';
 import { useDispatch, useLocationPath, useSelector } from '../../../hooks';
-import { DEFAULT_PROJECT_NAME } from '../../../../constants';
-import { projectSelectors } from '../../../../redux/selectors';
+import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
+import { workspaceSelectors } from '../../../../redux/selectors';
 import { filterObjectForParam } from '../../../../utils';
 
 interface ServiceInterface {
@@ -17,12 +17,12 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const locationPath = useLocationPath();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
 
   const url_string = window.location.href;
   const url = new URL(url_string);
-  const projectName = url.searchParams.get('project');
+  const workspaceName = url.searchParams.get('workspace');
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
@@ -31,7 +31,7 @@ export const useService = (): ServiceInterface => {
     setFetching(true);
     dispatch(
       stackComponentsActions.getMy({
-        project: selectedProject ? selectedProject : locationPath.split('/')[2],
+        workspace: selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
         type: locationPath.split('/')[4],
         sort_by: 'created',
         logical_operator: 'and',
@@ -41,7 +41,7 @@ export const useService = (): ServiceInterface => {
         onFailure: () => setFetching(false),
       }),
     );
-  }, [locationPath, selectedProject]);
+  }, [locationPath, selectedWorkspace]);
 
   const setFetching = (fetching: boolean) => {
     dispatch(stackPagesActions.setFetching({ fetching }));
@@ -55,7 +55,7 @@ export const useService = (): ServiceInterface => {
 export const callActionForStackComponentsForPagination = () => {
   const locationPath = useLocationPath();
   const dispatch = useDispatch();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   function dispatchStackComponentsData(
     page: number,
@@ -69,7 +69,7 @@ export const callActionForStackComponentsForPagination = () => {
     setFetching(true);
     dispatch(
       stackComponentsActions.getMy({
-        project: selectedProject ? selectedProject : locationPath.split('/')[2],
+        workspace: selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
         type: locationPath.split('/')[4],
         sort_by: sortby ? sortby : 'created',
         logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
