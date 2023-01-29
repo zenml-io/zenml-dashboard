@@ -13,14 +13,14 @@ import { RunStatus } from './components';
 
 import { formatDateToDisplayOnTable } from '../../../../utils';
 import { useHistory, useSelector } from '../../../hooks';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 
 const getTabPages = ({
-  selectedProject,
+  selectedWorkspace,
   runId,
   fetching,
 }: {
-  selectedProject: string;
+  selectedWorkspace: string;
   runId: TId;
   fetching: boolean;
 }): TabPage[] => {
@@ -29,35 +29,35 @@ const getTabPages = ({
       text: 'DAG',
 
       Component: () => <DAG runId={runId} fetching={fetching} />,
-      path: routePaths.run.run.statistics(selectedProject, runId),
+      path: routePaths.run.run.statistics(selectedWorkspace, runId),
     },
     {
       text: 'Configuration',
 
       Component: () => <Configuration runId={runId} />,
-      path: routePaths.run.run.results(selectedProject, runId),
+      path: routePaths.run.run.results(selectedWorkspace, runId),
     },
   ];
 };
 
 const getBreadcrumbs = ({
   runId,
-  selectedProject,
+  selectedWorkspace,
 }: {
   runId: TId;
-  selectedProject: string;
+  selectedWorkspace: string;
 }): TBreadcrumb[] => {
   return [
     {
       name: 'Runs',
       clickable: true,
-      to: routePaths.pipelines.allRuns(selectedProject),
+      to: routePaths.pipelines.allRuns(selectedWorkspace),
     },
 
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.run.statistics(selectedProject, runId),
+      to: routePaths.run.run.statistics(selectedWorkspace, runId),
     },
   ];
 };
@@ -69,15 +69,15 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const { runId, run, fetching } = useService();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages({
-    selectedProject,
+    selectedWorkspace,
     fetching,
     runId,
   });
   const breadcrumbs = getBreadcrumbs({
     runId,
-    selectedProject,
+    selectedWorkspace,
   });
 
   const boxStyle = {
@@ -124,7 +124,7 @@ export const RunDetail: React.FC = () => {
               history.push(
                 routePaths.pipeline.configuration(
                   run.pipeline?.id,
-                  selectedProject,
+                  selectedWorkspace,
                 ),
               );
             }}
@@ -161,7 +161,7 @@ export const RunDetail: React.FC = () => {
             onClick={(event) => {
               event.stopPropagation();
               history.push(
-                routePaths.stack.configuration(run.stack?.id, selectedProject),
+                routePaths.stack.configuration(run.stack?.id, selectedWorkspace),
               );
             }}
           >

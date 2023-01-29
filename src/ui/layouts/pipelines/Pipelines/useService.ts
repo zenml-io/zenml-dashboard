@@ -8,7 +8,7 @@ import {
   pipelinesActions,
   runPagesActions,
 } from '../../../../redux/actions';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 
 import { useDispatch, useSelector } from '../../../hooks';
 
@@ -20,7 +20,7 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
@@ -32,7 +32,7 @@ export const useService = (): ServiceInterface => {
       runsActions.allRuns({
         sort_by: 'created',
         logical_operator: 'and',
-        project: selectedProject,
+        workspace: selectedWorkspace,
         page: 1,
         size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         onSuccess: () => setFetchingForAllRuns(false),
@@ -46,12 +46,12 @@ export const useService = (): ServiceInterface => {
         page: 1,
         size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         name: '',
-        project: selectedProject,
+        workspace: selectedWorkspace,
         onSuccess: () => setFetchingForPipeline(false),
         onFailure: () => setFetchingForPipeline(false),
       }),
     );
-  }, [selectedProject]);
+  }, [selectedWorkspace]);
 
   const setFetchingForPipeline = (fetching: boolean) => {
     dispatch(pipelinePagesActions.setFetching({ fetching }));
@@ -68,7 +68,7 @@ export const useService = (): ServiceInterface => {
 
 export const callActionForPipelinesForPagination = () => {
   const dispatch = useDispatch();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   function dispatchPipelineData(
     page: number,
@@ -87,7 +87,7 @@ export const callActionForPipelinesForPagination = () => {
         size: size,
         filtersParam,
         // name: name ? name : '',
-        project: selectedProject,
+        workspace: selectedWorkspace,
         onSuccess: () => setFetchingForPipeline(false),
         onFailure: () => setFetchingForPipeline(false),
       }),
@@ -106,7 +106,7 @@ export const callActionForPipelinesForPagination = () => {
 
 export const callActionForAllrunsForPagination = () => {
   const dispatch = useDispatch();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   function dispatchAllrunsData(
     page: number,
@@ -120,7 +120,7 @@ export const callActionForAllrunsForPagination = () => {
     setFetchingForAllRuns(true);
     dispatch(
       runsActions.allRuns({
-        project: selectedProject,
+        workspace: selectedWorkspace,
         sort_by: sortby ? sortby : 'created',
         logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
         page: page,

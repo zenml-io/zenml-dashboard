@@ -3,7 +3,7 @@ import { runsActions } from '../../../../../redux/actions';
 import {
   runSelectors,
   runPagesSelectors,
-  projectSelectors,
+  workspaceSelectors,
 } from '../../../../../redux/selectors';
 import { useDispatch, useSelector } from '../../../../hooks';
 
@@ -46,7 +46,7 @@ export const useService = ({
   const fetching = useSelector(runPagesSelectors.fetching);
   const dispatch = useDispatch();
   const runs = useSelector(runSelectors.myRuns);
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const runsPaginated = useSelector(runSelectors.myRunsPaginated);
   const isValidFilter = filter.map((f) => f.value).join('');
   useEffect(() => {
@@ -57,7 +57,7 @@ export const useService = ({
           runsActions.allRuns({
             sort_by: sortBy,
             logical_operator: 'and',
-            project: selectedProject,
+            workspace: selectedWorkspace,
             page: runsPaginated.page,
             size: runsPaginated.size,
           }),

@@ -4,7 +4,7 @@ import { Paragraph, Box, FlexBox } from '../../../../../../components';
 import cn from 'classnames';
 import styles from './MenuItem.module.scss';
 import { camelCaseToParagraph } from '../../../../../../../utils';
-// import { DEFAULT_PROJECT_NAME } from '../../../../../../../constants';
+// import { DEFAULT_WORKSPACE_NAME } from '../../../../../../../constants';
 
 export const MenuItem: React.FC<{
   innerItem?: boolean;

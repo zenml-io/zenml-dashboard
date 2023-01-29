@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { stackPagesActions, stacksActions } from '../../../../redux/actions';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 
 import { useDispatch, useLocationPath, useSelector } from '../../../hooks';
 
@@ -13,7 +13,7 @@ interface ServiceInterface {
 export const useService = (): ServiceInterface => {
   const locationPath = useLocationPath();
   const dispatch = useDispatch();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
@@ -26,7 +26,7 @@ export const useService = (): ServiceInterface => {
         logical_operator: 'and',
         page: 1,
         size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-        project: selectedProject as string,
+        workspace: selectedWorkspace as string,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

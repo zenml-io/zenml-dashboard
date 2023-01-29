@@ -2,7 +2,7 @@ import { stackComponentActionTypes } from '../../actionTypes';
 import getStackComponentListApi from '../../../api/stackComponents/getStackComponentListApi';
 
 export const getStackComponentListAction = ({
-  project,
+  workspace,
   sort_by,
   logical_operator,
   type,
@@ -12,7 +12,7 @@ export const getStackComponentListAction = ({
   onSuccess,
   onFailure,
 }: {
-  project: string;
+  workspace: string;
   sort_by: string;
   logical_operator: string;
   type: TId;
@@ -32,7 +32,7 @@ export const getStackComponentListAction = ({
       type,
       sort_by,
       logical_operator,
-      project,
+      workspace,
       page,
       size,
       filtersParam,
