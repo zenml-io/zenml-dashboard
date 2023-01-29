@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { stackPagesActions, stacksActions } from '../../../../../redux/actions';
 import {
-  projectSelectors,
+  workspaceSelectors,
   stackPagesSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
@@ -54,7 +54,7 @@ export const useService = (
 
   const Stacks = useSelector(stackSelectors.mystacks);
   const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const isValidFilter = filter.map((f) => f.value).join('');
 
   useEffect(() => {
@@ -70,7 +70,7 @@ export const useService = (
           stacksActions.getMy({
             sort_by: applySorting ? applySorting : 'created',
             logical_operator: 'and',
-            project: selectedProject,
+            workspace: selectedWorkspace,
             page: stacksPaginated.page,
             size: stacksPaginated.size,
           }),

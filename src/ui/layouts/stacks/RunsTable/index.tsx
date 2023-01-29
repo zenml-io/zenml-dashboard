@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 import { routePaths } from '../../../../routes/routePaths';
 import { useHistory, useSelector } from '../../../hooks';
 
@@ -47,16 +47,20 @@ export const RunsTable: React.FC<{
     setActiveSortingDirection,
     setSelectedRunIds,
   } = useService({ runIds, filter });
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
     if (id) {
-      history.push(routePaths.stack.runs(selectedProject, stackId));
+      history.push(routePaths.stack.runs(selectedWorkspace, stackId));
       // debugger;
     } else {
       history.push(
-        routePaths.run.stack.statistics(selectedProject, run.id, run.stack.id),
+        routePaths.run.stack.statistics(
+          selectedWorkspace,
+          run.id,
+          run.stack.id,
+        ),
       );
     }
   };

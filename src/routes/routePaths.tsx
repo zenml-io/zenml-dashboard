@@ -1,6 +1,6 @@
 // const url_string = window.location.href;
 // const url = new URL(url_string);
-// const projectName = url.searchParams.get('project');
+// const workspaceName = url.searchParams.get('workspace');
 
 export const routePaths = {
   login: '/login',
@@ -8,37 +8,37 @@ export const routePaths = {
   userEmail: `/user-email`,
   forgot: '/forgot-password',
   home: `/`,
-  dashboard: (project: string): string => `/projects/${project}`,
+  dashboard: (workspace: string): string => `/workspaces/${workspace}`,
   pipelines: {
     base: `/pipelines`,
-    list: (project: string): string => `/projects/${project}/pipelines/list`,
-    allRuns: (project: string): string => `/projects/${project}/all-runs`,
+    list: (workspace: string): string => `/workspaces/${workspace}/pipelines/list`,
+    allRuns: (workspace: string): string => `/workspaces/${workspace}/all-runs`,
   },
   pipeline: {
     base: (id: TId): string => `/pipelines/${id}`,
-    configuration: (id: TId, project: string): string =>
-      `/projects/${project}/pipelines/${id}/configuration`,
-    runs: (project: string, id: TId): string =>
-      `/projects/${project}/pipelines/${id}/runs`,
+    configuration: (id: TId, workspace: string): string =>
+      `/workspaces/${workspace}/pipelines/${id}/configuration`,
+    runs: (workspace: string, id: TId): string =>
+      `/workspaces/${workspace}/pipelines/${id}/runs`,
   },
   run: {
     pipeline: {
       base: (id: TId, pipelineId: TId): string =>
         `/pipelines/${pipelineId}/runs/${id}`,
-      statistics: (project: string, id: TId, pipelineId: TId): string =>
-        `/projects/${project}/pipelines/${pipelineId}/runs/${id}/dag`,
-      results: (project: string, id: TId, pipelineId: TId): string =>
-        `/projects/${project}/pipelines/${pipelineId}/runs/${id}/configuration`,
+      statistics: (workspace: string, id: TId, pipelineId: TId): string =>
+        `/workspaces/${workspace}/pipelines/${pipelineId}/runs/${id}/dag`,
+      results: (workspace: string, id: TId, pipelineId: TId): string =>
+        `/workspaces/${workspace}/pipelines/${pipelineId}/runs/${id}/configuration`,
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/pipelines/${pipelineId}/runs/${id}/tensorboard`,
     },
     stack: {
       base: (id: TId, pipelineId: TId): string =>
         `/stacks/${pipelineId}/runs/${id}`,
-      statistics: (project: string, id: TId, stackId: TId): string =>
-        `/projects/${project}/stacks/${stackId}/runs/${id}/dag`,
-      results: (project: string, id: TId, pipelineId: TId): string =>
-        `/projects/${project}/stacks/${pipelineId}/runs/${id}/configuration`,
+      statistics: (workspace: string, id: TId, stackId: TId): string =>
+        `/workspaces/${workspace}/stacks/${stackId}/runs/${id}/dag`,
+      results: (workspace: string, id: TId, pipelineId: TId): string =>
+        `/workspaces/${workspace}/stacks/${pipelineId}/runs/${id}/configuration`,
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/stacks/${pipelineId}/runs/${id}/tensorboard`,
     },
@@ -49,39 +49,39 @@ export const routePaths = {
         type: string,
         stackComponentId: TId,
         id: TId,
-        project: string,
+        workspace: string,
       ): string =>
-        `/projects/${project}/components/${type}/${stackComponentId}/runs/${id}/dag`,
+        `/workspaces/${workspace}/components/${type}/${stackComponentId}/runs/${id}/dag`,
       results: (
         type: string,
         stackComponentId: TId,
         id: TId,
-        project: string,
+        workspace: string,
       ): string =>
-        `/projects/${project}/components/${type}/${stackComponentId}/runs/${id}/results`,
+        `/workspaces/${workspace}/components/${type}/${stackComponentId}/runs/${id}/results`,
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/components/${pipelineId}/runs/${id}/tensorboard`,
     },
     run: {
       base: (runId: TId): string => `/all-runs/${runId}`,
-      statistics: (project: string, id: TId, type?: string): string =>
-        `/projects/${project}/all-runs/${id}/dag`,
-      results: (project: string, runId: TId): string =>
-        `/projects/${project}/all-runs/${runId}/configuration`,
+      statistics: (workspace: string, id: TId, type?: string): string =>
+        `/workspaces/${workspace}/all-runs/${id}/dag`,
+      results: (workspace: string, runId: TId): string =>
+        `/workspaces/${workspace}/all-runs/${runId}/configuration`,
       tensorboard: (runId: TId): string => `/runs/${runId}/tensorboard`,
     },
   },
   stacks: {
     base: '/stacks',
-    list: (project: string): string => `/projects/${project}/stacks/list`,
+    list: (workspace: string): string => `/workspaces/${workspace}/stacks/list`,
     allRuns: '/stacks/all-runs',
   },
   stack: {
     base: (id: TId): string => `/stacks/${id}`,
-    configuration: (id: TId, project: string): string =>
-      `/projects/${project}/stacks/${id}/configuration`,
-    runs: (project: string, id: TId): string =>
-      `/projects/${project}/stacks/${id}/runs`,
+    configuration: (id: TId, workspace: string): string =>
+      `/workspaces/${workspace}/stacks/${id}/configuration`,
+    runs: (workspace: string, id: TId): string =>
+      `/workspaces/${workspace}/stacks/${id}/runs`,
   },
   runs: {
     base: (id: TId): string => `/stacks/${id}`,
@@ -90,12 +90,12 @@ export const routePaths = {
   },
 
   stackComponents: {
-    base: (type: string, project: string): string =>
-      `/projects/${project}/components/${type}`,
-    configuration: (type: string, id: TId, project: string): string =>
-      `/projects/${project}/components/${type}/${id}/configuration`,
-    runs: (type: string, id: TId, project: string): string =>
-      `/projects/${project}/components/${type}/${id}/runs`,
+    base: (type: string, workspace: string): string =>
+      `/workspaces/${workspace}/components/${type}`,
+    configuration: (type: string, id: TId, workspace: string): string =>
+      `/workspaces/${workspace}/components/${type}/${id}/configuration`,
+    runs: (type: string, id: TId, workspace: string): string =>
+      `/workspaces/${workspace}/components/${type}/${id}/runs`,
   },
 
   settings: {

@@ -6,7 +6,7 @@ import { Table } from '../../common/Table';
 
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 
 export const RunsTable: React.FC<{
   stackComponentId?: any;
@@ -31,7 +31,7 @@ export const RunsTable: React.FC<{
 }) => {
   const history = useHistory();
   const locationPath = useLocationPath();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   // debugger;
   const {
     sortedRuns,
@@ -51,7 +51,7 @@ export const RunsTable: React.FC<{
         routePaths.stackComponents.runs(
           locationPath.split('/')[4],
           stackComponentId,
-          selectedProject,
+          selectedWorkspace,
         ),
       );
       // debugger;
@@ -61,7 +61,7 @@ export const RunsTable: React.FC<{
           locationPath.split('/')[4],
           run.stackComponentId,
           run.id,
-          selectedProject,
+          selectedWorkspace,
         ),
       );
     }

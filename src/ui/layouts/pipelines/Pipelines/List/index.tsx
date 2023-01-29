@@ -10,7 +10,7 @@ import { GetHeaderCols } from './getHeaderCols';
 import { RunsForPipelineTable } from './RunsForPipelineTable';
 import {
   pipelineSelectors,
-  projectSelectors,
+  workspaceSelectors,
 } from '../../../../../redux/selectors';
 
 interface Props {
@@ -26,7 +26,7 @@ export const List: React.FC<Props> = ({
   id,
 }: Props) => {
   const history = useHistory();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const pipelinesPaginated = useSelector(
     pipelineSelectors.myPipelinesPaginated,
   );
@@ -59,10 +59,10 @@ export const List: React.FC<Props> = ({
   const openDetailPage = (pipeline: TPipeline) => {
     setSelectedRunIds([]);
     if (id) {
-      history.push(routePaths.pipelines.list(selectedProject));
+      history.push(routePaths.pipelines.list(selectedWorkspace));
     } else {
       history.push(
-        routePaths.pipeline.configuration(pipeline.id, selectedProject),
+        routePaths.pipeline.configuration(pipeline.id, selectedWorkspace),
       );
     }
   };
