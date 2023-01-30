@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 
-import { Box, Paragraph, icons } from '../../../components';
-import { iconColors, iconSizes } from '../../../../constants';
-import { formatDateToDisplayOnTable } from '../../../../utils';
+// import { Box, Paragraph, icons } from '../../../components';
+// import { iconColors, iconSizes } from '../../../../constants';
+// import { formatDateToDisplayOnTable } from '../../../../utils';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
@@ -92,15 +92,15 @@ export const StackDetail: React.FC = () => {
   const tabPages = getTabPages(stack.id, selectedProject);
   const breadcrumbs = getBreadcrumbs(stack.id, selectedProject);
 
-  const boxStyle = {
-    backgroundColor: '#E9EAEC',
-    padding: '10px 0',
-    borderRadius: '8px',
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'space-around',
-  };
-  const headStyle = { color: '#828282' };
+  // const boxStyle = {
+  //   backgroundColor: '#E9EAEC',
+  //   padding: '10px 0',
+  //   borderRadius: '8px',
+  //   marginTop: '20px',
+  //   display: 'flex',
+  //   justifyContent: 'space-around',
+  // };
+  // const headStyle = { color: '#828282' };
 
   return (
     <BasePage

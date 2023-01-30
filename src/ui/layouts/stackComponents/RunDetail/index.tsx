@@ -3,18 +3,18 @@ import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import {
   camelCaseToParagraph,
-  formatDateToDisplayOnTable,
+  // formatDateToDisplayOnTable,
 } from '../../../../utils';
-import { useHistory, useLocationPath, useSelector } from '../../../hooks';
+import { useLocationPath, useSelector } from '../../../hooks';
 
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
 import { DAG } from '../../../components/dag';
 import { useService } from './useService';
 
-import { Box, Paragraph } from '../../../components';
+// import { Box, Paragraph } from '../../../components';
 
-import { RunStatus } from './components';
+// import { RunStatus } from './components';
 import { projectSelectors } from '../../../../redux/selectors';
 import { Runs } from '../StackDetail/Runs';
 
@@ -26,8 +26,8 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const locationPath = useLocationPath();
-  const history = useHistory();
-  const { stackComponentId, runId, run, fetching } = useService();
+  // const history = useHistory();
+  const { stackComponentId, runId, fetching } = useService();
   const selectedProject = useSelector(projectSelectors.selectedProject);
   const tabPages = [
     {
@@ -82,15 +82,15 @@ export const RunDetail: React.FC = () => {
       ),
     },
   ];
-  const boxStyle = {
-    backgroundColor: '#E9EAEC',
-    padding: '10px 0',
-    borderRadius: '8px',
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'space-around',
-  };
-  const headStyle = { color: '#828282' };
+  // const boxStyle = {
+  //   backgroundColor: '#E9EAEC',
+  //   padding: '10px 0',
+  //   borderRadius: '8px',
+  //   marginTop: '20px',
+  //   display: 'flex',
+  //   justifyContent: 'space-around',
+  // };
+  // const headStyle = { color: '#828282' };
 
   return (
     <BasePage

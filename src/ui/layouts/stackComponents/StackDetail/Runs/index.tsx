@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { translate } from '../translate';
 import { RunsTable } from '../../RunsTable';
 import { useService } from './useService';
-import { Pagination } from '../../../common/Pagination';
+// import { Pagination } from '../../../common/Pagination';
 
 export const Runs: React.FC<{
   stackComponentId: TId;

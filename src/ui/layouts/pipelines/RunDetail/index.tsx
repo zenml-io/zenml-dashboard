@@ -8,12 +8,12 @@ import { useService } from './useService';
 import { Configuration } from '../RunDetail/Configuration';
 import { DAG } from '../../../components/dag';
 
-import { Box, Paragraph } from '../../../components';
+// import { Box, Paragraph } from '../../../components';
 
-import { RunStatus } from './components';
+// import { RunStatus } from './components';
 
-import { formatDateToDisplayOnTable } from '../../../../utils';
-import { useHistory, useSelector } from '../../../hooks';
+// import { formatDateToDisplayOnTable } from '../../../../utils';
+import { useSelector } from '../../../hooks';
 import { projectSelectors } from '../../../../redux/selectors';
 import { Runs } from '../PipelineDetail/Runs';
 
@@ -86,7 +86,7 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, pipelineId, run, fetching } = useService();
+  const { runId, pipelineId, fetching } = useService();
   const selectedProject = useSelector(projectSelectors.selectedProject);
   const tabPages = getTabPages({
     selectedProject,
@@ -100,16 +100,16 @@ export const RunDetail: React.FC = () => {
     selectedProject,
   });
 
-  const boxStyle = {
-    backgroundColor: '#E9EAEC',
-    padding: '10px 0',
-    borderRadius: '8px',
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'space-around',
-  };
-  const headStyle = { color: '#828282' };
-  const history = useHistory();
+  // const boxStyle = {
+  //   backgroundColor: '#E9EAEC',
+  //   padding: '10px 0',
+  //   borderRadius: '8px',
+  //   marginTop: '20px',
+  //   display: 'flex',
+  //   justifyContent: 'space-around',
+  // };
+  // const headStyle = { color: '#828282' };
+  // const history = useHistory();
   return (
     <BasePage
       tabPages={tabPages}

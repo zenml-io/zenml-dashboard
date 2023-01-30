@@ -6,10 +6,10 @@ import { Configuration } from './Configuration';
 import { useService } from './useService';
 import { DAG } from '../../../components/dag';
 
-import { Box, Paragraph } from '../../../components';
-import { RunStatus } from './components';
-import { formatDateToDisplayOnTable } from '../../../../utils';
-import { useHistory } from 'react-router-dom';
+// import { Box, Paragraph } from '../../../components';
+// import { RunStatus } from './components';
+// import { formatDateToDisplayOnTable } from '../../../../utils';
+// import { useHistory } from 'react-router-dom';
 import { useSelector } from '../../../hooks';
 import { projectSelectors } from '../../../../redux/selectors';
 import { Runs } from '../StackDetail/Runs';
@@ -75,8 +75,8 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, stackId, run, fetching } = useService();
-  const history = useHistory();
+  const { runId, stackId, fetching } = useService();
+  // const history = useHistory();
   const selectedProject = useSelector(projectSelectors.selectedProject);
 
   const tabPages = getTabPages({
@@ -90,15 +90,15 @@ export const RunDetail: React.FC = () => {
     stackId,
     selectedProject,
   });
-  const boxStyle = {
-    backgroundColor: '#E9EAEC',
-    padding: '10px 0',
-    borderRadius: '8px',
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'space-around',
-  };
-  const headStyle = { color: '#828282' };
+  // const boxStyle = {
+  //   backgroundColor: '#E9EAEC',
+  //   padding: '10px 0',
+  //   borderRadius: '8px',
+  //   marginTop: '20px',
+  //   display: 'flex',
+  //   justifyContent: 'space-around',
+  // };
+  // const headStyle = { color: '#828282' };
   return (
     <BasePage
       tabPages={tabPages}
