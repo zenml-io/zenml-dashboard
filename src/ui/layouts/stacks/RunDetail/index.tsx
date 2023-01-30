@@ -11,31 +11,31 @@ import { RunStatus } from './components';
 import { formatDateToDisplayOnTable } from '../../../../utils';
 import { useHistory } from 'react-router-dom';
 import { useSelector } from '../../../hooks';
-import { workspaceSelectors } from '../../../../redux/selectors';
+import { projectSelectors } from '../../../../redux/selectors';
 
 const getTabPages = ({
   stackId,
   runId,
   fetching,
-  selectedWorkspace,
+  selectedProject,
 }: {
   stackId: TId;
   runId: TId;
   fetching: boolean;
-  selectedWorkspace: string;
+  selectedProject: string;
 }): TabPage[] => {
   return [
     {
       text: 'DAG',
 
       Component: () => <DAG runId={runId} fetching={fetching} />,
-      path: routePaths.run.stack.statistics(selectedWorkspace, runId, stackId),
+      path: routePaths.run.stack.statistics(selectedProject, runId, stackId),
     },
     {
       text: 'Configuration',
 
       Component: () => <Configuration runId={runId} />,
-      path: routePaths.run.stack.results(selectedWorkspace, runId, stackId),
+      path: routePaths.run.stack.results(selectedProject, runId, stackId),
     },
   ];
 };
@@ -43,27 +43,27 @@ const getTabPages = ({
 const getBreadcrumbs = ({
   stackId,
   runId,
-  selectedWorkspace,
+  selectedProject,
 }: {
   stackId: TId;
   runId: TId;
-  selectedWorkspace: string;
+  selectedProject: string;
 }): TBreadcrumb[] => {
   return [
     {
       name: 'Stacks',
       clickable: true,
-      to: routePaths.stacks.list(selectedWorkspace),
+      to: routePaths.stacks.list(selectedProject),
     },
     {
       name: stackId,
       clickable: true,
-      to: routePaths.stack.configuration(stackId, selectedWorkspace),
+      to: routePaths.stack.configuration(stackId, selectedProject),
     },
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.stack.statistics(runId, stackId, selectedWorkspace),
+      to: routePaths.run.stack.statistics(runId, stackId, selectedProject),
     },
   ];
 };
@@ -76,18 +76,18 @@ export interface RunDetailRouteParams {
 export const RunDetail: React.FC = () => {
   const { runId, stackId, run, fetching } = useService();
   const history = useHistory();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
   const tabPages = getTabPages({
     runId,
     stackId,
     fetching,
-    selectedWorkspace,
+    selectedProject,
   });
   const breadcrumbs = getBreadcrumbs({
     runId,
     stackId,
-    selectedWorkspace,
+    selectedProject,
   });
   const boxStyle = {
     backgroundColor: '#E9EAEC',
@@ -132,7 +132,7 @@ export const RunDetail: React.FC = () => {
               history.push(
                 routePaths.pipeline.configuration(
                   run.pipeline?.id,
-                  selectedWorkspace,
+                  selectedProject,
                 ),
               );
             }}
@@ -169,7 +169,7 @@ export const RunDetail: React.FC = () => {
             onClick={(event) => {
               event.stopPropagation();
               history.push(
-                routePaths.stack.configuration(run.stack?.id, selectedWorkspace),
+                routePaths.stack.configuration(run.stack?.id, selectedProject),
               );
             }}
           >

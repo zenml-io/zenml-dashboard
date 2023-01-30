@@ -14,13 +14,13 @@ import {
 } from '../../../../../components';
 import { useService } from './useService';
 import { useSelector } from '../../../../../hooks';
-import { workspaceSelectors } from '../../../../../../redux/selectors';
+import { projectSelectors } from '../../../../../../redux/selectors';
 
 export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
   const { lastThreeRuns } = useService({ pipeline });
 
   const history = useHistory();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   return (
     <FlexBox alignItems="center">
       {lastThreeRuns.map((item: any, index: number) => (
@@ -35,7 +35,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                         e.stopPropagation();
                         history.push(
                           routePaths.run.pipeline.statistics(
-                            selectedWorkspace,
+                            selectedProject,
                             item.run.id,
                             item.run.pipeline_id,
                           ),
@@ -66,7 +66,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                         e.stopPropagation();
                         history.push(
                           routePaths.run.pipeline.statistics(
-                            selectedWorkspace,
+                            selectedProject,
                             item.run.id,
                             item.run.pipeline_id,
                           ),
@@ -97,7 +97,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                         e.stopPropagation();
                         history.push(
                           routePaths.run.pipeline.statistics(
-                            selectedWorkspace,
+                            selectedProject,
                             item.run.id,
                             item.run.pipeline_id,
                           ),
@@ -128,7 +128,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                         e.stopPropagation();
                         history.push(
                           routePaths.run.pipeline.statistics(
-                            selectedWorkspace,
+                            selectedProject,
                             item.run.id,
                             item.run.pipeline_id,
                           ),

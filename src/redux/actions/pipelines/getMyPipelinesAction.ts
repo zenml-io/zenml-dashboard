@@ -8,7 +8,7 @@ export const getMyPipelinesAction = ({
   size,
   name,
   filtersParam,
-  workspace,
+  project,
   onSuccess,
   onFailure,
 }: {
@@ -17,7 +17,7 @@ export const getMyPipelinesAction = ({
   page?: number;
   size?: number;
   name?: string;
-  workspace?: string;
+  project?: string;
   filtersParam?: object;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -29,7 +29,7 @@ export const getMyPipelinesAction = ({
     failureActionType: pipelineActionTypes.getMyPipelines.failure,
     successActionType: pipelineActionTypes.getMyPipelines.success,
     params: {
-      workspace,
+      project,
       sort_by,
       logical_operator,
       page,

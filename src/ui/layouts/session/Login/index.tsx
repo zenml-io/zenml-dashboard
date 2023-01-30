@@ -28,19 +28,19 @@ import {
 
 import { loginAction } from '../../../../redux/actions/session/loginAction';
 import {
-  workspacesActions,
+  projectsActions,
   showToasterAction,
   stackComponentsActions,
   userActions,
 } from '../../../../redux/actions';
-import { DEFAULT_WORKSPACE_NAME, toasterTypes } from '../../../../constants';
-import { workspaceSelectors } from '../../../../redux/selectors';
+import { DEFAULT_PROJECT_NAME, toasterTypes } from '../../../../constants';
+import { projectSelectors } from '../../../../redux/selectors';
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const password = process.env.REACT_APP_PASSWORD;
   const username = process.env.REACT_APP_USERNAME;
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const { push } = usePushRoute();
   const locationPath = useLocationPath();
   const login = async () => {
@@ -69,26 +69,26 @@ const Login: React.FC = () => {
           );
           setLoading(false);
 
-          if (window.location.search.includes('workspaces')) {
-            const workspaceFromUrl = window.location.search.split('/')[2];
+          if (window.location.search.includes('projects')) {
+            const projectFromUrl = window.location.search.split('/')[2];
             await dispatch(
-              workspacesActions.getMy({
+              projectsActions.getMy({
                 selectDefault: false,
-                selectedWorkspace: workspaceFromUrl
-                  ? workspaceFromUrl
-                  : selectedWorkspace,
+                selectedProject: projectFromUrl
+                  ? projectFromUrl
+                  : selectedProject,
               }),
             );
           } else {
             await dispatch(
-              workspacesActions.getMy({ selectDefault: false, selectedWorkspace }),
+              projectsActions.getMy({ selectDefault: false, selectedProject }),
             );
           }
           // debugger;
           await dispatch(userActions.getMy({}));
           await dispatch(stackComponentsActions.getTypes());
           if (window.location.pathname === '/') {
-            push(routePaths.dashboard(DEFAULT_WORKSPACE_NAME));
+            push(routePaths.dashboard(DEFAULT_PROJECT_NAME));
           }
           // await push(routePaths.userEmail);
         },

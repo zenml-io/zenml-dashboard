@@ -5,7 +5,7 @@ import { apiUrl } from '../apiUrl';
 
 const getMyPipelinesApi = ({
   authenticationToken,
-  workspace,
+  project,
   sort_by,
   logical_operator,
   page,
@@ -18,11 +18,11 @@ const getMyPipelinesApi = ({
   size: number;
   name?: string;
   authenticationToken: string;
-  workspace: string;
+  project: string;
   filtersParam?: object;
 }): Promise<TPipeline> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.pipelines.my(workspace)),
+    url: apiUrl(endpoints.pipelines.my(project)),
     params: { sort_by, logical_operator, page, size, ...filtersParam },
     method: httpMethods.get,
     authenticationToken,

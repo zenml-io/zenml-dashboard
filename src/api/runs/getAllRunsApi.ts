@@ -4,7 +4,7 @@ import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 
 const getAllRunsApi = ({
-  workspace,
+  project,
   sort_by,
   logical_operator,
   page,
@@ -17,11 +17,11 @@ const getAllRunsApi = ({
   page: number;
   size: number;
   authenticationToken: string;
-  workspace: string;
+  project: string;
   filtersParam?: object;
 }): Promise<TOrganization> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.runs.all(workspace)),
+    url: apiUrl(endpoints.runs.all(project)),
     params: { sort_by, logical_operator, page, size, ...filtersParam },
     method: httpMethods.get,
     authenticationToken,

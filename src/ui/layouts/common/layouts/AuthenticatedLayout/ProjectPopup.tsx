@@ -19,9 +19,9 @@ import {
   useHistory,
   usePushRoute,
 } from '../../../../hooks';
-import { Popup } from '../../Popup';
+import { Popup } from '../../../common/Popup';
 import {
-  workspacesActions,
+  projectsActions,
   pipelinesActions,
   pipelinePagesActions,
   runPagesActions,
@@ -29,12 +29,12 @@ import {
 } from '../../../../../redux/actions';
 import {
   sessionSelectors,
-  workspaceSelectors,
+  projectSelectors,
 } from '../../../../../redux/selectors';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
 
-export const WorkspacePopup: React.FC<{
+export const ProjectPopup: React.FC<{
   setPopupOpen: (attr: boolean) => void;
 }> = ({ setPopupOpen }) => {
   const [submitting, setSubmitting] = useState(false);
@@ -45,7 +45,7 @@ export const WorkspacePopup: React.FC<{
   const history = useHistory();
   const dispatch = useDispatch();
   const authToken = useSelector(sessionSelectors.authenticationToken);
-  const workspaces = useSelector(workspaceSelectors.myWorkspaces);
+  const projects = useSelector(projectSelectors.myProjects);
 
   const startLoad = () => {
     dispatch(pipelinePagesActions.setFetching({ fetching: true }));
@@ -59,32 +59,32 @@ export const WorkspacePopup: React.FC<{
     dispatch(stackPagesActions.setFetching({ fetching: false }));
   };
 
-  const handleCreateWorkspace = async () => {
+  const handleCreateProject = async () => {
     setSubmitting(true);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_API_URL}/workspaces`,
+        `${process.env.REACT_APP_BASE_API_URL}/projects`,
         { name, description }, //payload
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
       .then(async () => {
         startLoad();
         await dispatch(
-          workspacesActions.getSelectedWorkspace({
-            allWorkspaces: workspaces,
-            seletecdWorkspace: name,
+          projectsActions.getSelectedProject({
+            allProjects: projects,
+            seletecdProject: name,
           }),
         );
         await dispatch(
-          workspacesActions.getMy({
+          projectsActions.getMy({
             selectDefault: false,
-            selectedWorkspace: name,
+            selectedProject: name,
             onSuccess: () => push(routePaths.dashboard(name)),
           }),
         );
         // await dispatch(
         //   pipelinesActions.getMy({
-        //     workspace: name,
+        //     project: name,
         //     onSuccess: () => stopLoad(),
         //     onFailure: () => stopLoad(),
         //   }),
@@ -113,16 +113,16 @@ export const WorkspacePopup: React.FC<{
     >
       <FlexBox.Row alignItems="center" justifyContent="space-between">
         <H3 bold color="darkGrey">
-          Create a workspace
+          Create a project
         </H3>
       </FlexBox.Row>
 
       <Box>
         <Box marginTop="md">
           <FormTextField
-            label="Workspace Name"
+            label="Project Name"
             labelColor="#000"
-            placeholder="Workspace Name"
+            placeholder="Project Name"
             value={name}
             onChange={(val: string) => setName(val)}
             error={{
@@ -136,13 +136,13 @@ export const WorkspacePopup: React.FC<{
           <FlexBox.Column fullWidth>
             <Box paddingBottom="xs">
               <Paragraph size="body" style={{ color: 'black' }}>
-                <label htmlFor="desc">Workspace Description</label>
+                <label htmlFor="desc">Project Description</label>
               </Paragraph>
             </Box>
 
             <textarea
               name="desc"
-              placeholder="Workspace Description"
+              placeholder="Project Description"
               value={description}
               onChange={(val: any) => setDescription(val.target.value)}
               className={cn(styles.inputText)}
@@ -160,7 +160,7 @@ export const WorkspacePopup: React.FC<{
             <PrimaryButton
               disabled={name === '' || submitting}
               loading={submitting}
-              onClick={handleCreateWorkspace}
+              onClick={handleCreateProject}
             >
               Create
             </PrimaryButton>

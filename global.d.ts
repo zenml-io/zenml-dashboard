@@ -90,7 +90,7 @@ interface TWorkspace {
   name: string;
   createdAt: Date;
 }
-interface Workspaces {
+interface Projects {
   id: TId;
   created: Date;
   updated: Date;
@@ -102,7 +102,7 @@ interface TPipeline {
   name: string;
   created: Date;
   creationDate: Date;
-  workspaceName: string;
+  projectName: string;
   components: any;
   owner: string;
   pipelineConfig: any;
@@ -121,7 +121,7 @@ interface TStack {
   name: string;
   creationDate: Date;
   created: Date;
-  workspaceName: string;
+  projectName: string;
   components: any;
   userName: string;
   pipelineConfig: any;
@@ -130,7 +130,7 @@ interface TStack {
   type?: string;
   flavor?: string;
   configuration?: any;
-  workspace?: string;
+  project?: string;
   user?: any;
   isShared?: Boolean;
 }

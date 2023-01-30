@@ -22,7 +22,7 @@ import { getTranslateByScope } from '../../services';
 import styles from './Home.module.scss';
 import {
   iconColors,
-  DEFAULT_WORKSPACE_NAME,
+  DEFAULT_PROJECT_NAME,
   toasterTypes,
 } from '../../constants';
 import { sessionSelectors } from '../../redux/selectors/session';
@@ -35,12 +35,12 @@ import {
 import axios from 'axios';
 import { routePaths } from '../../routes/routePaths';
 import {
-  workspaceSelectors,
+  projectSelectors,
   stackComponentSelectors,
 } from '../../redux/selectors';
 import {
   showToasterAction,
-  workspacesActions,
+  projectsActions,
   // pipelinesActions,
   pipelinePagesActions,
   runPagesActions,
@@ -95,8 +95,8 @@ export const DashBoard: React.FC = () => {
   );
   const [notFound, setNotFound] = useState(false);
 
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const workspaces = useSelector(workspaceSelectors.myWorkspaces);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const projects = useSelector(projectSelectors.myProjects);
   const [fetching, setFetching] = useState(false);
   const [dashboardData, setDashboardData] = useState('');
   const authToken = useSelector(sessionSelectors.authenticationToken);
@@ -113,22 +113,22 @@ export const DashBoard: React.FC = () => {
 
   const url = window.location.pathname;
   // const url = new URL(url_string);
-  // const workspaceName = url.searchParams.get('workspace');
+  // const projectName = url.searchParams.get('project');
 
   useEffect(() => {
     if (url === '/') {
       push(
         routePaths.dashboard(
-          selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+          selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
         ),
       );
     }
-    if (locationPath.includes('workspaces')) {
-      const workspaceFromUrl = locationPath.split('/')[2];
+    if (locationPath.includes('projects')) {
+      const projectFromUrl = locationPath.split('/')[2];
 
       push(
         routePaths.dashboard(
-          workspaceFromUrl ? workspaceFromUrl : DEFAULT_WORKSPACE_NAME,
+          projectFromUrl ? projectFromUrl : DEFAULT_PROJECT_NAME,
         ),
       );
     }
@@ -141,37 +141,37 @@ export const DashBoard: React.FC = () => {
         startLoad();
 
         try {
-          const workspaceFromUrl = locationPath.split('/')[2];
+          const projectFromUrl = locationPath.split('/')[2];
           const { data } = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/workspaces/${
-              workspaceFromUrl !== selectedWorkspace
-                ? workspaceFromUrl
-                : selectedWorkspace
+            `${process.env.REACT_APP_BASE_API_URL}/projects/${
+              projectFromUrl !== selectedProject
+                ? projectFromUrl
+                : selectedProject
             }/statistics`,
             { headers: { Authorization: `bearer ${authToken}` } },
           );
 
           // await dispatch(
-          //   workspacesActions.getMy({
+          //   projectsActions.getMy({
           //     selectDefault: false,
-          //     selectedWorkspace: selectedWorkspace,
+          //     selectedProject: selectedProject,
           //     onSuccess: () => stopLoad(),
           //     onFailure: () => stopLoad(),
           //   }),
           // );
 
           // await dispatch(
-          //   workspacesActions.getSelectedWorkspace({
-          //     allWorkspaces: workspaces,
-          //     seletecdWorkspace: selectedWorkspace
-          //       ? selectedWorkspace
-          //       : DEFAULT_WORKSPACE_NAME,
+          //   projectsActions.getSelectedProject({
+          //     allProjects: projects,
+          //     seletecdProject: selectedProject
+          //       ? selectedProject
+          //       : DEFAULT_PROJECT_NAME,
           //   }),
           // );
 
           // await dispatch(
           //   pipelinesActions.getMy({
-          //     workspace: selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+          //     project: selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
           //     onSuccess: () => stopLoad(),
           //     onFailure: () => stopLoad(),
           //   }),
@@ -188,20 +188,20 @@ export const DashBoard: React.FC = () => {
           );
 
           await dispatch(
-            workspacesActions.getMy({
+            projectsActions.getMy({
               selectDefault: false,
-              selectedWorkspace: DEFAULT_WORKSPACE_NAME,
+              selectedProject: DEFAULT_PROJECT_NAME,
               onSuccess: () => setNotFound(true),
               onFailure: () => stopLoad(),
             }),
           );
 
-          // push(routePaths.home(DEFAULT_WORKSPACE_NAME));
+          // push(routePaths.home(DEFAULT_PROJECT_NAME));
         }
       };
       getDashboardData();
     }
-  }, [authToken, selectedWorkspace]);
+  }, [authToken, selectedProject]);
 
   const preData = Object.entries(dashboardData);
   const data = preData?.map(([key, value]) => {
@@ -263,12 +263,12 @@ export const DashBoard: React.FC = () => {
                         } else if (e.text === 'pipelines') {
                           push(routePaths.pipelines.base);
                         } else if (e.text === 'runs') {
-                          push(routePaths.pipelines.allRuns(selectedWorkspace));
+                          push(routePaths.pipelines.allRuns(selectedProject));
                         } else if (e.text === 'components') {
                           push(
                             routePaths.stackComponents.base(
                               stackComponentsTypes[0],
-                              selectedWorkspace,
+                              selectedProject,
                             ),
                           );
                         }

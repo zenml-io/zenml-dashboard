@@ -2,7 +2,7 @@ import { runActionTypes } from '../../actionTypes';
 import getAllRunsApi from '../../../api/runs/getAllRunsApi';
 
 export const getAllRunsAction = ({
-  workspace,
+  project,
   sort_by,
   logical_operator,
   page,
@@ -15,7 +15,7 @@ export const getAllRunsAction = ({
   logical_operator: string;
   page: number;
   size: number;
-  workspace: string;
+  project: string;
   filtersParam?: object;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -26,7 +26,7 @@ export const getAllRunsAction = ({
     isAuthenticated: true,
     failureActionType: runActionTypes.getAllRuns.failure,
     successActionType: runActionTypes.getAllRuns.success,
-    params: { workspace, sort_by, logical_operator, page, size, filtersParam },
+    params: { project, sort_by, logical_operator, page, size, filtersParam },
     onSuccess,
     onFailure,
   },

@@ -11,9 +11,9 @@ const getMyStackComponentsApi = ({
   size,
   type,
   filtersParam,
-  workspace,
+  project,
 }: {
-  workspace: string;
+  project: string;
   authenticationToken: string;
   sort_by: string;
   logical_operator: string;
@@ -23,7 +23,7 @@ const getMyStackComponentsApi = ({
   size: number;
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.StackComponents.my(type, workspace)),
+    url: apiUrl(endpoints.StackComponents.my(type, project)),
     params: { sort_by, logical_operator, page, size, ...filtersParam },
     method: httpMethods.get,
     authenticationToken,

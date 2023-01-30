@@ -3,7 +3,7 @@ export * from './toaster';
 export * from './users';
 export * from './roles';
 export * from './organizations';
-export * from './workspaces';
+export * from './projects';
 export * from './pipelines';
 export * from './stacks';
 export * from './stackComponents';

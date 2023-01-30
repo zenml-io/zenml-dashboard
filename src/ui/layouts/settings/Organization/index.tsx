@@ -122,7 +122,7 @@ export const Organization: React.FC = () => {
 
 // export const callActionForMembersForPagination = () => {
 //   const dispatch = useDispatch();
-//   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+//   const selectedProject = useSelector(projectSelectors.selectedProject);
 
 //   function dispatchPipelineData(
 //     page: number,

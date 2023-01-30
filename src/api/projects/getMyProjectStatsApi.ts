@@ -3,19 +3,19 @@ import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 
-interface WorkspaceStats {}
+interface ProjectStats {}
 
-const getMyWorkspaceStatsApi = ({
+const getMyProjectStatsApi = ({
   authenticationToken,
-  workspace,
+  project,
 }: {
   authenticationToken: string;
-  workspace: string;
-}): Promise<WorkspaceStats> =>
+  project: string;
+}): Promise<ProjectStats> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.workspaces.stats(workspace)),
+    url: apiUrl(endpoints.projects.stats(project)),
     method: httpMethods.get,
     authenticationToken,
   });
 
-export default getMyWorkspaceStatsApi;
+export default getMyProjectStatsApi;

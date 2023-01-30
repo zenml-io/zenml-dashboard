@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import { loggedInRoute, toasterTypes } from '../../../../constants';
 import {
-  workspacesActions,
+  projectsActions,
   showToasterAction,
   stackComponentsActions,
   userActions,
@@ -63,16 +63,16 @@ export const Form: React.FC = () => {
             }),
           );
           dispatch(userActions.getMy({}));
-          if (window.location.search.includes('workspaces')) {
-            const selectedWorkspace = window.location.search.split('/')[2];
+          if (window.location.search.includes('projects')) {
+            const selectedProject = window.location.search.split('/')[2];
             dispatch(
-              workspacesActions.getMy({
+              projectsActions.getMy({
                 selectDefault: false,
-                selectedWorkspace,
+                selectedProject,
               }),
             );
           } else {
-            dispatch(workspacesActions.getMy({}));
+            dispatch(projectsActions.getMy({}));
           }
           dispatch(stackComponentsActions.getTypes());
           push(loggedInRoute);
@@ -112,16 +112,16 @@ export const Form: React.FC = () => {
             }),
           );
           dispatch(userActions.getMy({}));
-          if (window.location.search.includes('workspaces')) {
-            const selectedWorkspace = window.location.search.split('/')[2];
+          if (window.location.search.includes('projects')) {
+            const selectedProject = window.location.search.split('/')[2];
             dispatch(
-              workspacesActions.getMy({
+              projectsActions.getMy({
                 selectDefault: false,
-                selectedWorkspace,
+                selectedProject,
               }),
             );
           } else {
-            dispatch(workspacesActions.getMy({}));
+            dispatch(projectsActions.getMy({}));
           }
           dispatch(stackComponentsActions.getTypes());
 

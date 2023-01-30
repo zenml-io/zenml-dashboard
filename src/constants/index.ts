@@ -11,4 +11,4 @@ export * from './stripe';
 
 export const DEFAULT_FULL_NAME = 'Jane Doe';
 export const ID_MAX_LENGTH = 8;
-export const DEFAULT_WORKSPACE_NAME = 'default'
+export const DEFAULT_PROJECT_NAME = 'default'

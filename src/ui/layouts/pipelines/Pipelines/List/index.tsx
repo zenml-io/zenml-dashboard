@@ -10,7 +10,7 @@ import { GetHeaderCols } from './getHeaderCols';
 import { RunsForPipelineTable } from './RunsForPipelineTable';
 import {
   pipelineSelectors,
-  workspaceSelectors,
+  projectSelectors,
 } from '../../../../../redux/selectors';
 
 interface Props {
@@ -18,7 +18,7 @@ interface Props {
 }
 export const List: React.FC<Props> = ({ filter }: Props) => {
   const history = useHistory();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const pipelinesPaginated = useSelector(
     pipelineSelectors.myPipelinesPaginated,
   );
@@ -50,7 +50,7 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     setSelectedRunIds([]);
 
     history.push(
-      routePaths.pipeline.configuration(pipeline.id, selectedWorkspace),
+      routePaths.pipeline.configuration(pipeline.id, selectedProject),
     );
   };
 
