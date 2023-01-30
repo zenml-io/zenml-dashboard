@@ -13,8 +13,8 @@ import { useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
-import { workspaceSelectors } from '../../../../redux/selectors';
-import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
+import { projectSelectors } from '../../../../redux/selectors';
+import { DEFAULT_PROJECT_NAME } from '../../../../constants';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -41,41 +41,41 @@ const FilterWrapperForRun = () => {
     </FilterComponent>
   );
 };
-const getTabPages = (stackId: TId, selectedWorkspace: string): TabPage[] => {
+const getTabPages = (stackId: TId, selectedProject: string): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration stackId={stackId} />,
-      path: routePaths.stack.configuration(stackId, selectedWorkspace),
+      path: routePaths.stack.configuration(stackId, selectedProject),
     },
     {
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
-      path: routePaths.stack.runs(selectedWorkspace, stackId),
+      path: routePaths.stack.runs(selectedProject, stackId),
     },
   ];
 };
 
 const url_string = window.location.href;
 const url = new URL(url_string);
-const workspaceName = url.searchParams.get('workspace');
-const workspace = workspaceName ? workspaceName : DEFAULT_WORKSPACE_NAME;
+const projectName = url.searchParams.get('project');
+const project = projectName ? projectName : DEFAULT_PROJECT_NAME;
 
 const getBreadcrumbs = (
   stackId: TId,
-  selectedWorkspace: string,
+  selectedProject: string,
 ): TBreadcrumb[] => {
   return [
     {
       name: translate('header.breadcrumbs.stacks.text'),
       clickable: true,
-      to: routePaths.stacks.base + `?workspace=${workspace}`,
-      // to: routePaths.stacks.list(selectedWorkspace),
+      to: routePaths.stacks.base + `?project=${project}`,
+      // to: routePaths.stacks.list(selectedProject),
     },
     {
       name: stackId,
       clickable: true,
-      to: routePaths.stack.configuration(stackId, selectedWorkspace),
+      to: routePaths.stack.configuration(stackId, selectedProject),
     },
   ];
 };
@@ -86,10 +86,10 @@ export interface StackDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const { stack } = useService();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
-  const tabPages = getTabPages(stack.id, selectedWorkspace);
-  const breadcrumbs = getBreadcrumbs(stack.id, selectedWorkspace);
+  const tabPages = getTabPages(stack.id, selectedProject);
+  const breadcrumbs = getBreadcrumbs(stack.id, selectedProject);
 
   const boxStyle = {
     backgroundColor: '#E9EAEC',

@@ -9,7 +9,7 @@ import {
   stackPagesActions,
 } from '../../../../../redux/actions';
 import {
-  workspaceSelectors,
+  projectSelectors,
   stackComponentSelectors,
   stackPagesSelectors,
   stackSelectors,
@@ -60,7 +60,7 @@ export const useService = (
   const stackComponents = useSelector(
     stackComponentSelectors.mystackComponents,
   );
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const stackComponentsPaginated = useSelector(
     stackComponentSelectors.mystackComponentsPaginated,
   );
@@ -81,8 +81,8 @@ export const useService = (
             page: stackComponentsPaginated.page,
             size: stackComponentsPaginated.size,
             type: locationPath.split('/')[4],
-            workspace: selectedWorkspace
-              ? selectedWorkspace
+            project: selectedProject
+              ? selectedProject
               : locationPath.split('/')[2],
           }),
         );

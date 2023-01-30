@@ -15,7 +15,7 @@ import { useService } from './useService';
 import { Box, Paragraph } from '../../../components';
 
 import { RunStatus } from './components';
-import { workspaceSelectors } from '../../../../redux/selectors';
+import { projectSelectors } from '../../../../redux/selectors';
 
 export interface RunDetailRouteParams {
   type: string;
@@ -27,7 +27,7 @@ export const RunDetail: React.FC = () => {
   const locationPath = useLocationPath();
   const history = useHistory();
   const { stackComponentId, runId, run, fetching } = useService();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const tabPages = [
     {
       text: 'DAG',
@@ -37,7 +37,7 @@ export const RunDetail: React.FC = () => {
         locationPath.split('/')[4],
         stackComponentId,
         runId,
-        selectedWorkspace,
+        selectedProject,
       ),
     },
     {
@@ -48,7 +48,7 @@ export const RunDetail: React.FC = () => {
         locationPath.split('/')[4],
         stackComponentId,
         runId,
-        selectedWorkspace,
+        selectedProject,
       ),
     },
   ];
@@ -58,7 +58,7 @@ export const RunDetail: React.FC = () => {
       clickable: true,
       to: routePaths.stackComponents.base(
         locationPath.split('/')[4],
-        selectedWorkspace,
+        selectedProject,
       ),
     },
     {
@@ -67,7 +67,7 @@ export const RunDetail: React.FC = () => {
       to: routePaths.stackComponents.configuration(
         locationPath.split('/')[4],
         stackComponentId,
-        selectedWorkspace,
+        selectedProject,
       ),
     },
     {
@@ -77,7 +77,7 @@ export const RunDetail: React.FC = () => {
         locationPath.split('/')[5],
         stackComponentId,
         runId,
-        selectedWorkspace,
+        selectedProject,
       ),
     },
   ];
@@ -125,7 +125,7 @@ export const RunDetail: React.FC = () => {
               history.push(
                 routePaths.pipeline.configuration(
                   run.pipeline?.id,
-                  selectedWorkspace,
+                  selectedProject,
                 ),
               );
             }}
@@ -162,7 +162,7 @@ export const RunDetail: React.FC = () => {
             onClick={(event) => {
               event.stopPropagation();
               history.push(
-                routePaths.stack.configuration(run.stack?.id, selectedWorkspace),
+                routePaths.stack.configuration(run.stack?.id, selectedProject),
               );
             }}
           >

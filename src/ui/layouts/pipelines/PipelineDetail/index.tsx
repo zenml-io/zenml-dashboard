@@ -12,8 +12,8 @@ import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 import { useLocationPath, useSelector } from '../../../hooks';
-import { workspaceSelectors } from '../../../../redux/selectors';
-import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
+import { projectSelectors } from '../../../../redux/selectors';
+import { DEFAULT_PROJECT_NAME } from '../../../../constants';
 
 interface Props {
   pipelineId: TId;
@@ -46,42 +46,42 @@ const FilterWrapperForRun = () => {
     </FilterComponent>
   );
 };
-const getTabPages = (pipelineId: TId, selectedWorkspace: string): TabPage[] => {
+const getTabPages = (pipelineId: TId, selectedProject: string): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration pipelineId={pipelineId} />,
-      path: routePaths.pipeline.configuration(pipelineId, selectedWorkspace),
+      path: routePaths.pipeline.configuration(pipelineId, selectedProject),
     },
     {
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
-      path: routePaths.pipeline.runs(selectedWorkspace, pipelineId),
+      path: routePaths.pipeline.runs(selectedProject, pipelineId),
     },
   ];
 };
 
 const url_string = window.location.href;
 const url = new URL(url_string);
-const workspaceName = url.searchParams.get('workspace');
+const projectName = url.searchParams.get('project');
 
 const getBreadcrumbs = (
   pipelineId: TId,
-  selectedWorkspace: string,
+  selectedProject: string,
 ): TBreadcrumb[] => {
   return [
     {
       name: translate('header.breadcrumbs.pipelines.text'),
       clickable: true,
-      // to: routePaths.pipelines.list(selectedWorkspace),
+      // to: routePaths.pipelines.list(selectedProject),
       to:
         routePaths.pipelines.base +
-        `?workspace=${workspaceName ? workspaceName : DEFAULT_WORKSPACE_NAME}`,
+        `?project=${projectName ? projectName : DEFAULT_PROJECT_NAME}`,
     },
     {
       name: pipelineId,
       clickable: true,
-      to: routePaths.pipeline.configuration(pipelineId, selectedWorkspace),
+      to: routePaths.pipeline.configuration(pipelineId, selectedProject),
     },
   ];
 };
@@ -93,9 +93,9 @@ export interface PipelineDetailRouteParams {
 export const PipelineDetail: React.FC = () => {
   const { pipeline } = useService();
 
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const tabPages = getTabPages(pipeline.id, selectedWorkspace);
-  const breadcrumbs = getBreadcrumbs(pipeline.id, selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const tabPages = getTabPages(pipeline.id, selectedProject);
+  const breadcrumbs = getBreadcrumbs(pipeline.id, selectedProject);
 
   const boxStyle = {
     backgroundColor: '#E9EAEC',

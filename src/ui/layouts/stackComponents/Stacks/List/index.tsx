@@ -9,9 +9,9 @@ import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
 import { camelCaseToParagraph } from '../../../../../utils';
-// import { DEFAULT_WORKSPACE_NAME } from '../../../../../constants';
+// import { DEFAULT_PROJECT_NAME } from '../../../../../constants';
 import {
-  workspaceSelectors,
+  projectSelectors,
   stackComponentSelectors,
 } from '../../../../../redux/selectors';
 
@@ -30,7 +30,7 @@ export const List: React.FC<Props> = ({
 }: // isExpended = false,
 Props) => {
   const locationPath = useLocationPath();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const stackComponentsPaginated = useSelector(
     stackComponentSelectors.mystackComponentsPaginated,
   );
@@ -71,7 +71,7 @@ Props) => {
       history.push(
         routePaths.stackComponents.base(
           locationPath.split('/')[4],
-          selectedWorkspace,
+          selectedProject,
         ),
       );
     } else {
@@ -79,7 +79,7 @@ Props) => {
         routePaths.stackComponents.configuration(
           locationPath.split('/')[4],
           stackComponent.id,
-          selectedWorkspace,
+          selectedProject,
         ),
       );
     }

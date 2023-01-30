@@ -10,37 +10,37 @@ import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 import { useSelector } from '../../../hooks';
-import { workspaceSelectors } from '../../../../redux/selectors';
+import { projectSelectors } from '../../../../redux/selectors';
 
-const getTabPages = (stackId: TId, selectedWorkspace: string): TabPage[] => {
+const getTabPages = (stackId: TId, selectedProject: string): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration stackId={stackId} />,
-      path: routePaths.stack.configuration(selectedWorkspace, stackId),
+      path: routePaths.stack.configuration(selectedProject, stackId),
     },
     {
       text: translate('tabs.runs.text'),
       Component: () => <Runs stackId={stackId} />,
-      path: routePaths.stack.runs(selectedWorkspace, stackId),
+      path: routePaths.stack.runs(selectedProject, stackId),
     },
   ];
 };
 
 const getBreadcrumbs = (
   stackId: TId,
-  selectedWorkspace: string,
+  selectedProject: string,
 ): TBreadcrumb[] => {
   return [
     {
       name: translate('header.breadcrumbs.stacks.text'),
       clickable: true,
-      to: routePaths.stacks.list(selectedWorkspace),
+      to: routePaths.stacks.list(selectedProject),
     },
     {
       name: stackId,
       clickable: true,
-      to: routePaths.stack.configuration(selectedWorkspace, stackId),
+      to: routePaths.stack.configuration(selectedProject, stackId),
     },
   ];
 };
@@ -51,9 +51,9 @@ export interface StackDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const { stack } = useService();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const tabPages = getTabPages(stack.id, selectedWorkspace);
-  const breadcrumbs = getBreadcrumbs(stack.id, selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const tabPages = getTabPages(stack.id, selectedProject);
+  const breadcrumbs = getBreadcrumbs(stack.id, selectedProject);
 
   const boxStyle = {
     backgroundColor: '#E9EAEC',

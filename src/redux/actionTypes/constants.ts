@@ -29,10 +29,10 @@ const pipelineActionTypes = {
   RUNS_GET_PIPELINE_FOR_ID: 'RUNS_GET_PIPELINE_FOR_ID',
 };
 
-const WorkspaceActionTypes = {
-  WORKSPACES_GET_MY_WORKSPACES: 'WORKSPACES_GET_MY_WORKSPACES',
-  GET_MY_WORKSPACE_STATS: 'GET_MY_WORKSPACE_STATS',
-  SELECT_WORKSPACE_FROM_MY_WORKSPACES: 'SELECT_WORKSPACE_FROM_MY_WORKSPACES',
+const projectActionTypes = {
+  PROJECTS_GET_MY_PROJECTS: 'PROJECTS_GET_MY_PROJECTS',
+  GET_MY_PROJECT_STATS: 'GET_MY_PROJECT_STATS',
+  SELECT_PROJECT_FROM_MY_PROJECTS: 'SELECT_PROJECT_FROM_MY_PROJECTS',
 };
 const stackActionTypes = {
   STACKS_GET_MY_STACKS: 'STACKS_GET_MY_STACKS',
@@ -85,7 +85,7 @@ export const actionTypes = {
   ...sessionActionTypes,
   ...userActionTypes,
   ...organizationActionTypes,
-  ...WorkspaceActionTypes,
+  ...projectActionTypes,
   ...pipelineActionTypes,
   ...stackActionTypes,
   ...runActionTypes,

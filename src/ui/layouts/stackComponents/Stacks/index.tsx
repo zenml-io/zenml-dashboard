@@ -11,9 +11,9 @@ import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';
 import { camelCaseToParagraph } from '../../../../utils';
-// import { workspaceSelectors } from '../../../../redux/selectors';
-import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-import { workspaceSelectors } from '../../../../redux/selectors';
+// import { projectSelectors } from '../../../../redux/selectors';
+import { DEFAULT_PROJECT_NAME } from '../../../../constants';
+import { projectSelectors } from '../../../../redux/selectors';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -43,13 +43,13 @@ export const Stacks: React.FC = () => {
   const locationPath = useLocationPath();
   const { setFetching } = useService();
   console.log(setFetching);
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
   // const url_string = window.location.href;
   // const url = new URL(url_string);
-  // const workspaceName = url.pathname.split('/')[2];
+  // const projectName = url.pathname.split('/')[2];
 
-  const workspace = selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME;
+  const project = selectedProject ? selectedProject : DEFAULT_PROJECT_NAME;
   // debugger;
   return (
     <BasePage
@@ -59,22 +59,22 @@ export const Stacks: React.FC = () => {
           Component: FilterWrapper,
           path: routePaths.stackComponents.base(
             locationPath.split('/')[4],
-            selectedWorkspace
-              ? selectedWorkspace
+            selectedProject
+              ? selectedProject
               : (locationPath.split('/')[2] as string),
           ),
         },
       ]}
       // tabBasePath={
-      //   routePaths.stackComponents.base('', workspace) + `?workspace=${workspace}`
+      //   routePaths.stackComponents.base('', project) + `?project=${project}`
       // }
       tabBasePath={
         routePaths.stackComponents.base(
           locationPath.split('/')[4],
-          selectedWorkspace
-            ? selectedWorkspace
+          selectedProject
+            ? selectedProject
             : (locationPath.split('/')[2] as string),
-        ) + `?workspace=${workspace}`
+        ) + `?project=${project}`
       }
       breadcrumbs={[
         {
@@ -83,8 +83,8 @@ export const Stacks: React.FC = () => {
           to:
             routePaths.stackComponents.base(
               locationPath.split('/')[4],
-              workspace as string,
-            ) + `?workspace=${workspace}`,
+              project as string,
+            ) + `?project=${project}`,
         },
       ]}
       headerWithButtons

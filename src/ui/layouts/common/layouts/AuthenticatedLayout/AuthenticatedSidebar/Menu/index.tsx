@@ -5,12 +5,12 @@ import { icons } from '../../../../../../components';
 import {
   iconSizes,
   iconColors,
-  DEFAULT_WORKSPACE_NAME,
+  DEFAULT_PROJECT_NAME,
 } from '../../../../../../../constants';
 import { translate } from '../translate';
 import { useSelector } from './../../../../../../../ui/hooks';
 import {
-  workspaceSelectors,
+  projectSelectors,
   stackComponentSelectors,
 } from '../../../../../../../redux/selectors';
 // import { matchPath } from 'react-router-dom';
@@ -20,7 +20,7 @@ export const Menu: React.FC = () => {
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
 
   return (
     <>
@@ -34,7 +34,7 @@ export const Menu: React.FC = () => {
         text={translate('menu.pipelines.text')}
         isActive={() => window.location.href?.includes('pipelines')}
         to={routePaths.pipelines.list(
-          selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+          selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
         )}
       />
       <MenuItem
@@ -42,14 +42,14 @@ export const Menu: React.FC = () => {
         Icon={() => (
           <icons.run color={iconColors.white} size={iconSizes.md} />
         )}
-        to={routePaths.pipelines.allRuns(selectedWorkspace)}
+        to={routePaths.pipelines.allRuns(selectedProject)}
         isActive={() => window.location.href?.includes('all-runs')}
         text={'Runs'}
         innerItem={window.location.href?.includes('all-runs')}
         // isActive={() => {
         //   return (
         //     !!matchPath(locationPath, {
-        //       path: routePaths.pipelines.allRuns(selectedWorkspace),
+        //       path: routePaths.pipelines.allRuns(selectedProject),
         //       exact: false,
         //     }) ||
         //     !!matchPath(locationPath, {
@@ -68,14 +68,14 @@ export const Menu: React.FC = () => {
         // to={routePaths.stacks.base}
         text={translate('menu.stacks.text')}
         isActive={() => window.location.href?.includes('stacks')}
-        to={routePaths.stacks.list(selectedWorkspace)}
+        to={routePaths.stacks.list(selectedProject)}
       />
 
       <MenuItem
         id="stack-component"
         // isActive={() => {
         //   return !!matchPath(locationPath, {
-        //     path: routePaths.stackComponents.base('', workspace) + `?workspace=${workspace}`,
+        //     path: routePaths.stackComponents.base('', project) + `?project=${project}`,
         //     exact: false,
         //   });
         // }}
@@ -87,7 +87,7 @@ export const Menu: React.FC = () => {
         innerItem={window.location.href?.includes('components')}
         to={routePaths.stackComponents.base(
           stackComponentsTypes ? stackComponentsTypes[0] : '',
-          selectedWorkspace,
+          selectedProject,
         )}
         text={translate('menu.stackComponents.text')}
       />
@@ -101,7 +101,7 @@ export const Menu: React.FC = () => {
 //   <MenuItem
 //     // isActive={() => {
 //     //   return !!matchPath(locationPath, {
-//     //     path: routePaths.stackComponents.base(item, selectedWorkspace),
+//     //     path: routePaths.stackComponents.base(item, selectedProject),
 //     //     exact: false,
 //     //   });
 //     // }}
@@ -176,7 +176,7 @@ export const Menu: React.FC = () => {
 //         )}
 //       </>
 //     )}
-//     to={routePaths.stackComponents.base(item, selectedWorkspace)}
+//     to={routePaths.stackComponents.base(item, selectedProject)}
 //     text={item}
 //   />
 // ))}

@@ -13,11 +13,11 @@ you finalize your pull requests.
 
 ## ⚡️ Quicklinks
 
-- [Code of Conduct](#code-of-conduct)
-- [Getting Started](#getting-started)
-  - [Issues](#issues)
-  - [Pull Requests](#pull-requests)
-- [Getting Help](#getting-help)
+* [Code of Conduct](#code-of-conduct)
+* [Getting Started](#getting-started)
+    * [Issues](#issues)
+    * [Pull Requests](#pull-requests)
+* [Getting Help](#getting-help)
 
 ## 🧑‍⚖️ Code of Conduct
 
@@ -35,8 +35,8 @@ general guidelines that cover both:
   at [support@zenml.io](mailto:support@zenml.io), monitored by
   our security team.
 - Search for existing Issues and PRs before creating your own.
-- Search on the [public Crowd Dev](https://open.crowd.dev/zenml) page to see
-  if the issue has been addressed before.
+- Search on the [public Crowd Dev](https://open.crowd.dev/zenml) page to see 
+if the issue has been addressed  before.
 - We work hard to make sure issues are handled on time, but it could take a
   while to investigate the root cause depending on the impact.
 
@@ -125,8 +125,9 @@ risk! It's better to discuss privately and give us a chance to find a solution
 first, to limit the potential impact
 as much as possible.
 
+
 ## 🆘 Getting Help
 
-Join us in the [ZenML Slack Community](https://zenml.io/slack-invite/) to
-interact directly with the core team and community at large. This is a good
+Join us in the [ZenML Slack Community](https://zenml.io/slack-invite/) to 
+interact directly with the core team and community at large. This is a good 
 place to ideate, discuss concepts or ask for help.

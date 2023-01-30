@@ -15,7 +15,7 @@ import { useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
-import { workspaceSelectors } from '../../../../redux/selectors';
+import { projectSelectors } from '../../../../redux/selectors';
 import { List } from '../Stacks/List';
 
 const FilterWrapperForRun = () => {
@@ -49,7 +49,7 @@ const FilterWrapperForRun = () => {
 const getTabPages = (
   stackId: TId,
   locationPath: any,
-  selectedWorkspace: string,
+  selectedProject: string,
 ): TabPage[] => {
   return [
     {
@@ -58,7 +58,7 @@ const getTabPages = (
       path: routePaths.stackComponents.configuration(
         locationPath.split('/')[4],
         stackId,
-        selectedWorkspace,
+        selectedProject,
       ),
     },
     {
@@ -67,7 +67,7 @@ const getTabPages = (
       path: routePaths.stackComponents.runs(
         locationPath.split('/')[4],
         stackId,
-        selectedWorkspace,
+        selectedProject,
       ),
     },
   ];
@@ -76,7 +76,7 @@ const getTabPages = (
 const getBreadcrumbs = (
   stackId: TId,
   locationPath: any,
-  selectedWorkspace: string,
+  selectedProject: string,
 ): TBreadcrumb[] => {
   return [
     {
@@ -85,7 +85,7 @@ const getBreadcrumbs = (
       clickable: true,
       to: routePaths.stackComponents.base(
         locationPath.split('/')[4],
-        selectedWorkspace,
+        selectedProject,
       ),
     },
     {
@@ -94,7 +94,7 @@ const getBreadcrumbs = (
       to: routePaths.stackComponents.configuration(
         camelCaseToParagraph(locationPath.split('/')[4]),
         stackId,
-        selectedWorkspace,
+        selectedProject,
       ),
     },
   ];
@@ -107,16 +107,16 @@ export interface StackDetailRouteParams {
 export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
   const { stackComponent } = useService();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const tabPages = getTabPages(
     stackComponent.id,
     locationPath,
-    selectedWorkspace,
+    selectedProject,
   );
   const breadcrumbs = getBreadcrumbs(
     stackComponent.id,
     locationPath,
-    selectedWorkspace,
+    selectedProject,
   );
 
   // const boxStyle = {
@@ -142,7 +142,7 @@ export const StackDetail: React.FC = () => {
       tabPages={tabPages}
       tabBasePath={routePaths.stackComponents.base(
         stackComponent.id,
-        selectedWorkspace,
+        selectedProject,
       )}
       breadcrumbs={breadcrumbs}
     >

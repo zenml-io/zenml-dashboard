@@ -4,7 +4,7 @@ import { PipelineDetailRouteParams } from '.';
 import { pipelinesActions } from '../../../../redux/actions';
 import {
   pipelineSelectors,
-  workspaceSelectors,
+  projectSelectors,
 } from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
@@ -20,7 +20,7 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const { id } = useParams<PipelineDetailRouteParams>();
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
@@ -60,7 +60,7 @@ export const useService = (): ServiceInterface => {
 
 export const callActionForPipelineRunsForPagination = () => {
   const dispatch = useDispatch();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   // const { id } = useParams<PipelineDetailRouteParams>();
   function dispatchPipelineRunsData(
     id: any,

@@ -9,7 +9,7 @@ import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
 import {
-  workspaceSelectors,
+  projectSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
 
@@ -41,12 +41,12 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     activeSortingDirection,
     setActiveSortingDirection,
   });
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
   const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);
 
-    history.push(routePaths.stack.configuration(stack.id, selectedWorkspace));
+    history.push(routePaths.stack.configuration(stack.id, selectedProject));
   };
 
   return (

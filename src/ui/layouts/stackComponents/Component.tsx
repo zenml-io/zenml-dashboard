@@ -10,7 +10,7 @@ import {
 import { iconSizes, iconColors } from '../../../constants';
 import { useSelector, useDispatch, useHistory } from '../../hooks';
 import {
-  workspaceSelectors,
+  projectSelectors,
   stackComponentSelectors,
 } from '../../../redux/selectors';
 import { stackComponentsActions } from '../../../redux/actions';
@@ -18,7 +18,7 @@ import { stackComponentsActions } from '../../../redux/actions';
 const Component = () => {
   const dispatch = useDispatch();
   const history = useHistory();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
@@ -43,7 +43,7 @@ const Component = () => {
 
   const selectSection = (item: any) => {
     setSelectedComp(item);
-    history.push(routePaths.stackComponents.base(item, selectedWorkspace));
+    history.push(routePaths.stackComponents.base(item, selectedProject));
   };
 
   //   const stacks = stackComponentsTypes?.filter((e) => {

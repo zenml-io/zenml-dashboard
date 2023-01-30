@@ -10,7 +10,7 @@ import FilterComponent, {
   getInitialFilterStateForPipeline,
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
-import { workspaceSelectors } from '../../../../redux/selectors/workspaces';
+import { projectSelectors } from '../../../../redux/selectors/projects';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -61,7 +61,7 @@ const FilterWrapperForRun = () => {
 
 export const Pipelines: React.FC = () => {
   const { setFetchingForAllRuns } = useService();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const selectedProject = useSelector(projectSelectors.selectedProject);
   console.log(setFetchingForAllRuns);
   const locationPath = useLocationPath();
 
@@ -73,7 +73,7 @@ export const Pipelines: React.FC = () => {
               text: translate('tabs.allRuns.text'),
               Component: FilterWrapperForRun,
               path: routePaths.pipelines.allRuns(
-                selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+                selectedProject ? selectedProject : locationPath.split('/')[2],
               ),
             }
           : {
@@ -81,7 +81,7 @@ export const Pipelines: React.FC = () => {
               Component: FilterWrapper,
               // path: routePaths.pipelines.base,
               path: routePaths.pipelines.list(
-                selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+                selectedProject ? selectedProject : locationPath.split('/')[2],
               ),
             },
       ]}
@@ -94,13 +94,13 @@ export const Pipelines: React.FC = () => {
           clickable: true,
           // to: locationPath.includes('pipelines')
           // ? routePaths.pipelines.base
-          // : routePaths.pipelines.allRuns(selectedWorkspace),
+          // : routePaths.pipelines.allRuns(selectedProject),
           to: locationPath.includes('pipelines/list')
             ? routePaths.pipelines.list(
-                selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+                selectedProject ? selectedProject : locationPath.split('/')[2],
               )
             : routePaths.pipelines.allRuns(
-                selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+                selectedProject ? selectedProject : locationPath.split('/')[2],
               ),
         },
       ]}
