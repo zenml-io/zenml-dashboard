@@ -609,6 +609,24 @@ const FilterComponent = ({
     //     break;
     // }
   }
+  const authorOptions = members.map((item: any) => {
+    return {
+      label: item.name as string,
+      value: item.id as string,
+    };
+  }) as any;
+  const pipelinesOptions = pipelines.map((item: any) => {
+    return {
+      label: item.name as string,
+      value: item.id as string,
+    };
+  }) as any;
+  const stacksOptions = stacks.map((item: any) => {
+    return {
+      label: item.name as string,
+      value: item.id as string,
+    };
+  }) as any;
   const valueField = (filter: any) => {
     switch (filter?.contains.selectedValue.type) {
       case 'string':
@@ -958,14 +976,19 @@ const FilterComponent = ({
                       ) : // <></>
                       filter?.column?.selectedValue?.value === 'pipeline_id' ? (
                         <Select
-                          getOptionLabel={(option: any) => option.name}
-                          getOptionValue={(option: any) => option.id}
-                          options={pipelines as any}
+                          // getOptionLabel={(option: any) => option.name}
+                          // getOptionValue={(option: any) => option.id}
+                          options={pipelinesOptions}
+                          defaultValue={pipelinesOptions.filter((el: any) => {
+                            return filters.some((f: any) => {
+                              return f.filterValue === el.value;
+                            });
+                          })}
                           styles={selectStyles}
                           onInputChange={(e: any) => callActionForPipelines(e)}
                           onChange={(value: any) => {
                             if (value) {
-                              handleChangeForSearchable(filter, value.id);
+                              handleChangeForSearchable(filter, value.value);
                             }
                           }}
                           isClearable={true}
@@ -976,14 +999,19 @@ const FilterComponent = ({
                       ) : filter?.column?.selectedValue?.value ===
                         'stack_id' ? (
                         <Select
-                          getOptionLabel={(option: any) => option.name}
-                          getOptionValue={(option: any) => option.id}
-                          options={stacks as any}
+                          // getOptionLabel={(option: any) => option.name}
+                          // getOptionValue={(option: any) => option.id}
+                          options={stacksOptions}
+                          defaultValue={stacksOptions.filter((el: any) => {
+                            return filters.some((f: any) => {
+                              return f.filterValue === el.value;
+                            });
+                          })}
                           styles={selectStyles}
                           onInputChange={(e: any) => callActionForStacks(e)}
                           onChange={(value: any) => {
                             if (value) {
-                              handleChangeForSearchable(filter, value.id);
+                              handleChangeForSearchable(filter, value.value);
                             }
                           }}
                           isClearable={true}
@@ -993,14 +1021,19 @@ const FilterComponent = ({
                         />
                       ) : (
                         <Select
-                          getOptionLabel={(option: any) => option.name}
-                          getOptionValue={(option: any) => option.id}
-                          options={members as any}
+                          // getOptionLabel={(option: any) => option.name}
+                          // getOptionValue={(option: any) => option.id}
+                          options={authorOptions}
+                          defaultValue={authorOptions.filter((el: any) => {
+                            return filters.some((f: any) => {
+                              return f.filterValue === el.value;
+                            });
+                          })}
                           styles={selectStyles}
                           onInputChange={(e: any) => callActionForUsers(e)}
                           onChange={(value: any) => {
                             if (value) {
-                              handleChangeForSearchable(filter, value.id);
+                              handleChangeForSearchable(filter, value.value);
                             }
                           }}
                           isClearable={true}

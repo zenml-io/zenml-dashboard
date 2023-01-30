@@ -33,7 +33,7 @@ export const useService = (): ServiceInterface => {
       stackComponentsActions.getMy({
         project: selectedProject ? selectedProject : locationPath.split('/')[2],
         type: locationPath.split('/')[4],
-        sort_by: 'created',
+        sort_by: 'desc:created',
         logical_operator: 'and',
         page: 1,
         size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
