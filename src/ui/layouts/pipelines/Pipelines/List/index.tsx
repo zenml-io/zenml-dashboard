@@ -15,8 +15,16 @@ import {
 
 interface Props {
   filter: any;
+  pagination?: boolean;
+  id?: string;
+  isExpended?: boolean;
 }
-export const List: React.FC<Props> = ({ filter }: Props) => {
+export const List: React.FC<Props> = ({
+  filter,
+  pagination,
+  isExpended,
+  id,
+}: Props) => {
   const history = useHistory();
   const selectedProject = useSelector(projectSelectors.selectedProject);
   const pipelinesPaginated = useSelector(
@@ -34,8 +42,10 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     setActiveSortingDirection,
     setSelectedRunIds,
   } = useService(filter);
+  const expendedRow = filteredPipelines.filter((item) => item.id === id);
 
   const headerCols = GetHeaderCols({
+    expendedRow,
     openPipelineIds,
     setOpenPipelineIds,
     filteredPipelines,
@@ -48,10 +58,13 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
 
   const openDetailPage = (pipeline: TPipeline) => {
     setSelectedRunIds([]);
-
-    history.push(
-      routePaths.pipeline.configuration(pipeline.id, selectedProject),
-    );
+    if (id) {
+      history.push(routePaths.pipelines.list(selectedProject));
+    } else {
+      history.push(
+        routePaths.pipeline.configuration(pipeline.id, selectedProject),
+      );
+    }
   };
 
   return (
@@ -74,12 +87,13 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
         //     ? activeSorting
         //     : 'created'
         // }
+        pagination={pagination}
         paginated={pipelinesPaginated}
-        loading={fetching}
+        loading={expendedRow.length > 0 ? false : fetching}
         showHeader={true}
         filters={filter}
         headerCols={headerCols}
-        tableRows={filteredPipelines}
+        tableRows={expendedRow.length > 0 ? expendedRow : filteredPipelines}
         emptyState={{ text: translate('emptyState.text') }}
         trOnClick={openDetailPage}
       />
