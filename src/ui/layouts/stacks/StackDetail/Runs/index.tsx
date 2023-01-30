@@ -3,10 +3,12 @@ import { translate } from '../translate';
 import { RunsTable } from '../../RunsTable';
 import { useService } from './useService';
 
-export const Runs: React.FC<{ stackId: TId; filter: any }> = ({
-  stackId,
-  filter,
-}) => {
+export const Runs: React.FC<{
+  stackId: TId;
+  filter: any;
+  runId?: any;
+  pagination?: boolean;
+}> = ({ stackId, filter, pagination, runId }) => {
   const [sortBy, setSortBy] = useState('created');
   function getSorted(activeSorting: any, activeSortingDirection: any) {
     setSortBy(activeSortingDirection?.toLowerCase() + ':' + activeSorting);
@@ -20,11 +22,14 @@ export const Runs: React.FC<{ stackId: TId; filter: any }> = ({
   // console.log(filter, 'filter11');
   return (
     <RunsTable
+      stackId={stackId}
+      id={runId}
+      pagination={pagination}
       getSorted={getSorted}
-      fetching={fetching}
+      fetching={runId === undefined && fetching}
       paginated={runsPaginated}
       emptyStateText={translate('emptyState.text')}
-      runIds={runIds}
+      runIds={runId === undefined ? runIds : [runId]}
       filter={filter}
     />
   );

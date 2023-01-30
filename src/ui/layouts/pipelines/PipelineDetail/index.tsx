@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import { Box, Paragraph } from '../../../components';
-import { formatDateToDisplayOnTable } from '../../../../utils';
+// import { Box, Paragraph } from '../../../components';
+// import { formatDateToDisplayOnTable } from '../../../../utils';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
@@ -14,6 +14,7 @@ import FilterComponent, {
 import { useLocationPath, useSelector } from '../../../hooks';
 import { projectSelectors } from '../../../../redux/selectors';
 import { DEFAULT_PROJECT_NAME } from '../../../../constants';
+import { List } from '../Pipelines/List';
 
 interface Props {
   pipelineId: TId;
@@ -97,15 +98,15 @@ export const PipelineDetail: React.FC = () => {
   const tabPages = getTabPages(pipeline.id, selectedProject);
   const breadcrumbs = getBreadcrumbs(pipeline.id, selectedProject);
 
-  const boxStyle = {
-    backgroundColor: '#E9EAEC',
-    padding: '10px 0',
-    borderRadius: '8px',
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'space-around',
-  };
-  const headStyle = { color: '#828282' };
+  // const boxStyle = {
+  //   backgroundColor: '#E9EAEC',
+  //   padding: '10px 0',
+  //   borderRadius: '8px',
+  //   marginTop: '20px',
+  //   display: 'flex',
+  //   justifyContent: 'space-around',
+  // };
+  // const headStyle = { color: '#828282' };
 
   return (
     <BasePage
@@ -114,7 +115,8 @@ export const PipelineDetail: React.FC = () => {
       tabBasePath={routePaths.pipeline.base(pipeline.id)}
       breadcrumbs={breadcrumbs}
     >
-      <Box style={boxStyle}>
+      <List filter={[]} pagination={false} isExpended id={pipeline.id}></List>
+      {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>ID</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
@@ -140,7 +142,7 @@ export const PipelineDetail: React.FC = () => {
             {formatDateToDisplayOnTable(pipeline.created)}
           </Paragraph>
         </Box>
-      </Box>
+      </Box> */}
     </BasePage>
   );
 };
