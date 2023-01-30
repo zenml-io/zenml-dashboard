@@ -44,7 +44,7 @@ export const useService = (
   const [
     activeSortingDirection,
     setActiveSortingDirection,
-  ] = React.useState<SortingDirection | null>('ASC');
+  ] = React.useState<SortingDirection | null>('DESC');
   const dispatch = useDispatch();
 
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);

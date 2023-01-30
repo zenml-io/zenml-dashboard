@@ -38,7 +38,7 @@ export const useService = (): ServiceInterface => {
     );
     dispatch(
       pipelinesActions.allRunsByPipelineId({
-        sort_by: 'created',
+        sort_by: 'desc:created',
         logical_operator: 'and',
         pipelineId: id,
         page: 1,

@@ -46,7 +46,7 @@ export const useService = ({
   const [
     activeSortingDirection,
     setActiveSortingDirection,
-  ] = React.useState<SortingDirection | null>('ASC');
+  ] = React.useState<SortingDirection | null>('DESC');
   const [sortedRuns, setSortedRuns] = React.useState<TRun[]>([]);
 
   const runs = pipelineRuns
