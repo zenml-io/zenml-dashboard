@@ -31,13 +31,17 @@ interface filterValue {
   type: string;
   value: string;
 }
-export const useService = (
+export const useService = ({
+  filter,
+  isExpended,
+}: {
+  isExpended?: any;
   filter: {
     column: filterValue;
     type: filterValue;
     value: string;
-  }[],
-): ServiceInterface => {
+  }[];
+}): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'created',
   );
@@ -55,14 +59,14 @@ export const useService = (
   const Stacks = useSelector(stackSelectors.mystacks);
   const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
   const selectedProject = useSelector(projectSelectors.selectedProject);
-  const isValidFilter = filter.map((f) => f.value).join('');
+  const isValidFilter = filter?.map((f) => f.value).join('');
 
   useEffect(() => {
     setFilteredStacks(Stacks as TStack[]);
   }, [Stacks, filter]);
 
   useEffect(() => {
-    if (!isValidFilter) {
+    if (!isValidFilter && !isExpended) {
       const applySorting =
         activeSortingDirection?.toLowerCase() + ':' + activeSorting;
       const intervalId = setInterval(() => {
