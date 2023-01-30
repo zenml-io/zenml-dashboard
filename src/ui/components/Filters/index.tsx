@@ -736,6 +736,7 @@ const FilterComponent = ({
   function getSecondColumnOptions(options: any, type: any) {
     return options.filter((o: any) => o.type === type);
   }
+  const validFilters = filters?.filter((item: any) => item.filterValue);
 
   return (
     <FlexBox.Column fullWidth>
@@ -784,7 +785,7 @@ const FilterComponent = ({
                 {console.log(filters, 'filters1')}
               </Paragraph>
             ) : filters[0]?.filterValue && !applyFilter && !searchText ? (
-              filters.map((filter: any, index: number) => {
+              validFilters.map((filter: any, index: number) => {
                 return (
                   <FlexBox.Row key={index} className={styles.tile}>
                     <Box

@@ -162,10 +162,13 @@ export const Table: React.FC<TableProps> = ({
   //   itemsPerPage: itemPerPage,
   //   items: tableRows,
   // });
+  const validFilters = filters?.filter((item) => item.value);
+  console.log('checkFilter', validFilters, filters);
 
   const isValidFilterFroValue: any = filters?.map((f) => f.value).join('');
-  const isValidFilterForCategory: any =
-    isValidFilterFroValue && filters?.map((f) => f.type.value).join('');
+  const isValidFilterForCategory: any = filters
+    ?.map((f) => f.value && f.type.value)
+    .join('');
   const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
 
   const { dispatchStackData } = callActionForStacksForPagination();
@@ -204,7 +207,7 @@ export const Table: React.FC<TableProps> = ({
             id,
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -212,7 +215,7 @@ export const Table: React.FC<TableProps> = ({
           dispatchStackData(
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -223,7 +226,7 @@ export const Table: React.FC<TableProps> = ({
             id,
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -231,7 +234,7 @@ export const Table: React.FC<TableProps> = ({
           dispatchStackComponentsData(
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -242,17 +245,17 @@ export const Table: React.FC<TableProps> = ({
             id,
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
         } else {
-          console.log(checkValidFilter, 'checkValidFilter');
+          // console.log(checkValidFilter, 'checkValidFilter');
           if (!renderAfterRow) break;
           dispatchPipelineData(
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -262,7 +265,7 @@ export const Table: React.FC<TableProps> = ({
         dispatchAllrunsData(
           1,
           itemPerPage,
-          checkValidFilter.length ? (filters as any) : [],
+          checkValidFilter.length ? (validFilters as any) : [],
           activeSorting,
         );
         break;
@@ -302,12 +305,12 @@ export const Table: React.FC<TableProps> = ({
   if (fetchingMembers) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  console.log(fetchingMembers, activeSorting, 'fetchingMembers');
+  // console.log(fetchingMembers, activeSorting, 'fetchingMembers');
   const onChangePagePerItem = (p: number, size: number) => {
     // onChange(p + 1, size);
     setItemPerPage(size);
   };
-  console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
+  // console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
   return (
     <FlexBox.Column className={styles.tableWrapper} fullWidth>
       <IfElse
@@ -392,7 +395,7 @@ export const Table: React.FC<TableProps> = ({
                     ref={childRef}
                     // getFetchedState={getFetchedState}
                     activeSorting={activeSorting}
-                    filters={filters}
+                    filters={validFilters}
                     itemPerPage={itemPerPage}
                     pageIndex={pageIndex}
                     setPageIndex={setPageIndex}
@@ -473,7 +476,7 @@ export const Table: React.FC<TableProps> = ({
                                                       childRef?.current?.callOnChange(
                                                         1,
                                                         parseInt(`${option}`),
-                                                        filters,
+                                                        validFilters,
                                                         activeSorting,
                                                       );
                                                       setShowItems(false);
@@ -509,7 +512,7 @@ export const Table: React.FC<TableProps> = ({
                 </FlexBox>
               )}
             </If>
-            {console.log(paginated, 'paginated')}
+            {/* {console.log(paginated, 'paginated')} */}
           </>
         )}
         renderWhenFalse={() => (
