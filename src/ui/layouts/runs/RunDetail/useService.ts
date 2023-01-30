@@ -1,8 +1,8 @@
 import { useEffect, useState } from 'react';
 import { RunDetailRouteParams } from '.';
-import { runPagesActions, runsActions } from '../../../../redux/actions';
+import { runsActions } from '../../../../redux/actions';
 
-import { runPagesSelectors, runSelectors } from '../../../../redux/selectors';
+import { runSelectors } from '../../../../redux/selectors';
 import { useDispatch, useParams, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
