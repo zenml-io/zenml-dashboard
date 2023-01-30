@@ -16,7 +16,7 @@ export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const { type, stackComponentId, id } = useParams<RunDetailRouteParams>();
   const [isMounted, setIsMounted] = useState(false);
-
+  const [fetching, setFetching] = useState(false);
   useEffect(() => {
     if (!isMounted) {
       setFetching(true);
@@ -41,10 +41,10 @@ export const useService = (): ServiceInterface => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted, setIsMounted]);
 
-  const fetching = useSelector(runPagesSelectors.fetching);
-  const setFetching = (fetching: boolean) => {
-    dispatch(runPagesActions.setFetching({ fetching }));
-  };
+  // const fetching = useSelector(runPagesSelectors.fetching);
+  // const setFetching = (fetching: boolean) => {
+  //   dispatch(runPagesActions.setFetching({ fetching }));
+  // };
   const run = useSelector(runSelectors.runForId(id));
 
   return { type, runId: id, stackComponentId, run, fetching };
