@@ -98,6 +98,7 @@ export const RunDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
     >
       <Runs
+        isExpended
         filter={[]}
         pagination={false}
         runId={runId}

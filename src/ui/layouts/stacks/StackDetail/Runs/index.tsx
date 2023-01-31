@@ -4,17 +4,19 @@ import { RunsTable } from '../../RunsTable';
 import { useService } from './useService';
 
 export const Runs: React.FC<{
+  isExpended?: any;
   stackId: TId;
   filter: any;
   runId?: any;
   pagination?: boolean;
-}> = ({ stackId, filter, pagination, runId }) => {
+}> = ({ stackId, filter, pagination, runId, isExpended }) => {
   const [sortBy, setSortBy] = useState('created');
   function getSorted(activeSorting: any, activeSortingDirection: any) {
     setSortBy(activeSortingDirection?.toLowerCase() + ':' + activeSorting);
     // console.log(activeSorting, activeSortingDirection, 'aaaaaaa');
   }
   const { fetching, runIds, runsPaginated } = useService({
+    isExpended,
     stackId,
     filter,
     sortBy,

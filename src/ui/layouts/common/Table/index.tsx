@@ -284,13 +284,12 @@ export const Table: React.FC<TableProps> = ({
   if (fetchingMembers) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  console.log(fetchingMembers, activeSorting, 'fetchingMembers');
+  // console.log(fetchingMembers, activeSorting, 'fetchingMembers');
   const onChangePagePerItem = (p: number, size: number) => {
     // onChange(p + 1, size);
     setItemPerPage(size);
   };
-  console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
-  
+  // console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
   return (
     <FlexBox.Column fullWidth>
       <IfElse
@@ -585,7 +584,7 @@ export const Table: React.FC<TableProps> = ({
                 </FlexBox>
               )}
             </If>
-            {console.log(paginated, 'paginated')}
+            {/* {console.log(paginated, 'paginated')} */}
           </>
         )}
         renderWhenFalse={() => (

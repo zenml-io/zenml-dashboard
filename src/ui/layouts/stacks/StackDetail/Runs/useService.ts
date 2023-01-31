@@ -20,7 +20,9 @@ export const useService = ({
   sortBy,
   stackId,
   filter,
+  isExpended,
 }: {
+  isExpended?: any;
   stackId: TId;
   sortBy: string;
   filter: {
@@ -33,10 +35,10 @@ export const useService = ({
   const fetching = useSelector(runPagesSelectors.fetching);
   const runs: TRun[] = useSelector(runSelectors.runsForStackId(stackId));
   const runsPaginated = useSelector(runSelectors.myRunsPaginated);
-  const isValidFilter = filter.map((f) => f.value).join('');
+  const isValidFilter = filter?.map((f) => f.value).join('');
   useEffect(() => {}, [runs]);
   useEffect(() => {
-    if (!isValidFilter) {
+    if (!isValidFilter && !isExpended) {
       const intervalId = setInterval(() => {
         //assign interval to a variable to clear it.
 

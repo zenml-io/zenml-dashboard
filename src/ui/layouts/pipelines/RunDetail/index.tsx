@@ -124,7 +124,7 @@ export const RunDetail: React.FC = () => {
         filter={[]}
         pagination={false}
         runId={runId}
-        // isExpended
+        isExpended
         pipelineId={pipelineId}
       ></Runs>
       {/* <Box style={boxStyle}>

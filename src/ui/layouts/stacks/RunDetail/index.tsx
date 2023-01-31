@@ -109,7 +109,7 @@ export const RunDetail: React.FC = () => {
         filter={[]}
         pagination={false}
         runId={runId}
-        // isExpended
+        isExpended
         stackId={stackId}
       ></Runs>
       {/* <Box style={boxStyle}>

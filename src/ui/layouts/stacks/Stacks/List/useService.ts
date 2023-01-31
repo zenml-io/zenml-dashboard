@@ -31,13 +31,17 @@ interface filterValue {
   type: string;
   value: string;
 }
-export const useService = (
+export const useService = ({
+  filter,
+  isExpended,
+}: {
+  isExpended?: any;
   filter: {
     column: filterValue;
     type: filterValue;
     value: string;
-  }[],
-): ServiceInterface => {
+  }[];
+}): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'created',
   );
@@ -62,7 +66,7 @@ export const useService = (
   }, [Stacks, filter]);
 
   useEffect(() => {
-    if (!isValidFilter) {
+    if (!isValidFilter && !isExpended) {
       const applySorting =
         activeSortingDirection?.toLowerCase() + ':' + activeSorting;
       const intervalId = setInterval(() => {
