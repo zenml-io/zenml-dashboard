@@ -9,7 +9,7 @@ import {
   Paragraph,
 } from '../../components';
 import { iconColors, iconSizes } from '../../../constants';
-import { formatDateToDisplay } from '../../../utils';
+import { formatDateToDisplayWithoutTime } from '../../../utils';
 import DatePicker from 'react-datepicker';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -813,7 +813,7 @@ const FilterComponent = ({
                               filter.column.selectedValue.label,
                               filter.filterValue,
                             )
-                          : formatDateToDisplay(filter.filterValue)
+                          : formatDateToDisplayWithoutTime(filter.filterValue)
                       }`}
                     </Box>
 
