@@ -41,7 +41,7 @@ export const List: React.FC<Props> = ({
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService(filter);
+  } = useService({ filter, isExpended });
   const expendedRow = filteredPipelines.filter((item) => item.id === id);
 
   const headerCols = GetHeaderCols({

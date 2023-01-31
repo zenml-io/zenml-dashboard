@@ -35,7 +35,9 @@ interface filterValue {
 export const useService = ({
   filter,
   sortBy,
+  isExpended,
 }: {
+  isExpended?: any;
   sortBy: string;
   filter: {
     column: filterValue;
@@ -48,9 +50,9 @@ export const useService = ({
   const runs = useSelector(runSelectors.myRuns);
   const selectedProject = useSelector(projectSelectors.selectedProject);
   const runsPaginated = useSelector(runSelectors.myRunsPaginated);
-  const isValidFilter = filter.map((f) => f.value).join('');
+  const isValidFilter = filter?.map((f) => f.value).join('');
   useEffect(() => {
-    if (!isValidFilter) {
+    if (!isValidFilter && !isExpended) {
       const intervalId = setInterval(() => {
         //assign interval to a variable to clear it.
         dispatch(

@@ -21,7 +21,9 @@ export const useService = ({
   sortBy,
   filter,
   pipelineId,
+  isExpended,
 }: {
+  isExpended?: any;
   filter: {
     column: filterValue;
     type: filterValue;
@@ -38,7 +40,7 @@ export const useService = ({
   console.log(runsPaginated, 'runsPaginated');
   useEffect(() => {}, [runs]);
   useEffect(() => {
-    if (!isValidFilter) {
+    if (!isValidFilter && !isExpended) {
       const intervalId = setInterval(() => {
         //assign interval to a variable to clear it.
 

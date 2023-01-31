@@ -35,13 +35,17 @@ interface filterValue {
   type: string;
   value: string;
 }
-export const useService = (
+export const useService = ({
+  filter,
+  isExpended,
+}: {
+  isExpended?: any;
   filter: {
     column: filterValue;
     type: filterValue;
     value: string;
-  }[],
-): ServiceInterface => {
+  }[];
+}): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'created',
   );
@@ -61,14 +65,14 @@ export const useService = (
   const pipelinesPaginated = useSelector(
     pipelineSelectors.myPipelinesPaginated,
   );
-  const isValidFilter = filter.map((f) => f.value).join('');
+  const isValidFilter = filter?.map((f) => f.value).join('');
   const { dispatchPipelineData } = callActionForPipelinesForPagination();
   useEffect(() => {
     setFilteredPipelines(pipelines as any[]);
   }, [filter, pipelines]);
 
   useEffect(() => {
-    if (!isValidFilter) {
+    if (!isValidFilter && !isExpended) {
       const intervalId = setInterval(() => {
         const applySorting =
           activeSortingDirection?.toLowerCase() + ':' + activeSorting;
