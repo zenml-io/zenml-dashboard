@@ -96,7 +96,6 @@ export const List: React.FC<Props> = ({
             />
           </>
         )}
-        activeSortingDirection={activeSortingDirection}
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }

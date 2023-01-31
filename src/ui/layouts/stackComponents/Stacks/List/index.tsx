@@ -96,7 +96,6 @@ Props) => {
             fetching={fetching}
           />
         )}
-        activeSortingDirection={activeSortingDirection}
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }

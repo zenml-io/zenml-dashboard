@@ -93,7 +93,6 @@ export const RunsTable: React.FC<{
 
   return (
     <Table
-      activeSortingDirection={activeSortingDirection}
       activeSorting={
         activeSortingDirection?.toLowerCase() + ':' + activeSorting
       }

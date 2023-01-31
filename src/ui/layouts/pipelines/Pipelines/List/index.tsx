@@ -78,7 +78,6 @@ export const List: React.FC<Props> = ({
             nestedRow={true}
           />
         )}
-        activeSortingDirection={activeSortingDirection}
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
