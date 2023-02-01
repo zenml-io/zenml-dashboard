@@ -29,7 +29,7 @@ export const List: React.FC<Props> = ({
   stackComponentId,
 }: Props) => {
   const history = useHistory();
-  const { dispatchStackData, setFetching } = callActionForStacksForPagination();
+  const { dispatchStackData } = callActionForStacksForPagination();
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
@@ -58,6 +58,7 @@ export const List: React.FC<Props> = ({
         stackComponentId,
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stackComponentId]);
   console.log(fetching, 'asdasdasd');
   const expendedRow = filteredStacks.filter((item) => item.id === id);
