@@ -32,9 +32,11 @@ interface filterValue {
   value: string;
 }
 export const useService = ({
+  stackComponentId,
   filter,
   isExpended,
 }: {
+  stackComponentId?: any;
   isExpended?: any;
   filter: {
     column: filterValue;
@@ -72,6 +74,7 @@ export const useService = ({
       const intervalId = setInterval(() => {
         dispatch(
           stacksActions.getMy({
+            component_id: stackComponentId,
             sort_by: applySorting ? applySorting : 'created',
             logical_operator: 'and',
             workspace: selectedWorkspace,

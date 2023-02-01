@@ -321,6 +321,14 @@ const routes = [
     },
     exact: true,
   },
+  {
+    path: routePaths.stackComponents.stacks(':type', ':id', ':string'),
+    Component: stackComponentsDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
 
   {
     path: routePaths.settings.base,
