@@ -1,6 +1,6 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
-
+import './styles.css';
 import styles from './index.module.scss';
 import {
   Box,
@@ -40,7 +40,7 @@ export interface HeaderCol {
 export interface TableProps {
   headerCols: HeaderCol[];
   tableRows: any[];
-  activeSortingDirection?: any;
+  minCellWidth?: any;
   activeSorting?: any;
   paginated?: any;
   filters?: any[];
@@ -54,12 +54,19 @@ export interface TableProps {
   trOnClick?: (arg: any) => void;
 }
 
+const createHeaders = (headers: any[]) => {
+  return headers.map((item) => ({
+    text: item,
+    ref: useRef() as any,
+  }));
+};
+
 export const Table: React.FC<TableProps> = ({
   headerCols,
   tableRows,
   paginated,
+  minCellWidth = 120,
   activeSorting,
-  activeSortingDirection,
   filters,
   showHeader = true,
   pagination = true,
@@ -68,75 +75,70 @@ export const Table: React.FC<TableProps> = ({
   renderAfterRow,
   trOnClick,
 }) => {
-  // const [tableHeight, setTableHeight] = useState("auto");
-  // const [activeIndex, setActiveIndex] = useState(null);
-  // const tableElement = useRef(null);
-  // const createHeaders = (headers: any) => {
-  //   return headerCols?.map((item: any) => ({
-  //     text: item,
-  //     ref: tableElement
-  //   }));
-  // };
-  // const columns = createHeaders(headerCols?.length);
+  const [tableHeight, setTableHeight] = useState('auto');
+  const [activeIndex, setActiveIndex] = useState(null);
+  const tableElement = useRef(document.createElement('table'));
+  const columns = createHeaders(headerCols);
 
-  // const minCellWidth = 120
+  useEffect(() => {
+    // console.log(tableElement.current.style.gridTemplateColumns, 'offsetHeight');
+    setTableHeight(tableElement?.current?.offsetHeight as any);
 
-  // useEffect(() => {
-  //   // @ts-ignore
-  //   // console.log(tableElement && tableElement.current.offsetHeight);
-  //   setTableHeight(tableElement?.current?.offsetHeight);
-  // }, []);
+    // eslint-disable-next-line
+  }, [tableElement.current]);
 
-  // const mouseDown = (index: any) => {
-  //   setActiveIndex(index);
-  // };
+  const mouseDown = (index: any) => {
+    setActiveIndex(index);
+  };
 
-  // const mouseMove = useCallback(
-  //   (e) => {
-  //     const gridColumns = columns.map((col: any, i: any) => {
-  //       if (i === activeIndex) {
-  //         const width = e.clientX - col.ref.current.offsetLeft;
+  const mouseMove = useCallback(
+    (e) => {
+      // debugger;
+      const gridColumns = columns.map((col, i) => {
+        // debugger;
+        if (i === activeIndex) {
+          const width = e.clientX - col.ref.current.offsetLeft;
 
-  //         if (width >= minCellWidth) {
-  //           return `${width}px`;
-  //         }
-  //       }
-  //       return `${col.ref.current.offsetWidth}px`;
-  //     });
+          if (width >= minCellWidth) {
+            return `${width}px`;
+          }
+        }
+        return `${col.ref.current.offsetWidth}px`;
+      });
 
-  //     // @ts-ignore
-  //     tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
-  //       " "
-  //     )}`;
-  //   },
-  //   [activeIndex, columns, minCellWidth]
-  // );
+      tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
+        ' ',
+      )}`;
+      // console.log(tableElement.current.style.gridTemplateColumns, 'aasaaa');
+    },
+    [activeIndex, columns, minCellWidth],
+  );
 
-  // const removeListeners = useCallback(() => {
-  //   window.removeEventListener("mousemove", mouseMove);
-  //   window.removeEventListener("mouseup", removeListeners);
-  // }, [mouseMove]);
+  const removeListeners = useCallback(() => {
+    window.removeEventListener('mousemove', mouseMove);
+    window.removeEventListener('mouseup', removeListeners);
+  }, [mouseMove]);
 
-  // const mouseUp = useCallback(() => {
-  //   setActiveIndex(null);
-  //   removeListeners();
-  // }, [setActiveIndex, removeListeners]);
+  const mouseUp = useCallback(() => {
+    setActiveIndex(null);
+    removeListeners();
+  }, [setActiveIndex, removeListeners]);
 
-  // useEffect(() => {
-  //   if (activeIndex !== null) {
-  //     window.addEventListener("mousemove", mouseMove);
-  //     window.addEventListener("mouseup", mouseUp);
-  //   }
+  useEffect(() => {
+    if (activeIndex !== null) {
+      window.addEventListener('mousemove', mouseMove);
+      window.addEventListener('mouseup', mouseUp);
+    }
 
-  //   return () => {
-  //     removeListeners();
-  //   };
-  // }, [activeIndex, mouseMove, mouseUp, removeListeners]);
+    return () => {
+      removeListeners();
+    };
+  }, [activeIndex, mouseMove, mouseUp, removeListeners]);
 
-  // // Demo only
+  // Demo only
   // const resetTableCells = () => {
-  //   // @ts-ignore
-  //   tableElement.current.style.gridTemplateColumns = "";
+  //   debugger;
+  //   tableElement.current.style.gridTemplateColumns = '';
   // };
 
   const [showItems, setShowItems] = useState(false);
@@ -162,10 +164,13 @@ export const Table: React.FC<TableProps> = ({
   //   itemsPerPage: itemPerPage,
   //   items: tableRows,
   // });
+  const validFilters = filters?.filter((item) => item.value);
+  console.log('checkFilter', validFilters, filters);
 
   const isValidFilterFroValue: any = filters?.map((f) => f.value).join('');
-  const isValidFilterForCategory: any =
-    isValidFilterFroValue && filters?.map((f) => f.type.value).join('');
+  const isValidFilterForCategory: any = filters
+    ?.map((f) => f.value && f.type.value)
+    .join('');
   const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
 
   const { dispatchStackData } = callActionForStacksForPagination();
@@ -191,12 +196,11 @@ export const Table: React.FC<TableProps> = ({
       : locationPath.pathname.split('/')[4];
   const checkForLocationPath = locationPath.pathname.split('/')[4];
   useEffect(() => {
-    // console.log(checkValidFilter, 'locationPath1');
+    // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
     setItemPerPage(itemPerPage);
     if (filters) {
       setPageIndex(0);
     }
-    // if (checkValidFilter || activeSorting) {
     switch (componentName) {
       case 'stacks':
         if (CheckIfRun) {
@@ -204,7 +208,7 @@ export const Table: React.FC<TableProps> = ({
             id,
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -212,7 +216,7 @@ export const Table: React.FC<TableProps> = ({
           dispatchStackData(
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -223,7 +227,7 @@ export const Table: React.FC<TableProps> = ({
             id,
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -231,7 +235,7 @@ export const Table: React.FC<TableProps> = ({
           dispatchStackComponentsData(
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -242,17 +246,17 @@ export const Table: React.FC<TableProps> = ({
             id,
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
         } else {
-          console.log(checkValidFilter, 'checkValidFilter');
+          // console.log(checkValidFilter, 'checkValidFilter');
           if (!renderAfterRow) break;
           dispatchPipelineData(
             1,
             itemPerPage,
-            checkValidFilter.length ? (filters as any) : [],
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -262,7 +266,7 @@ export const Table: React.FC<TableProps> = ({
         dispatchAllrunsData(
           1,
           itemPerPage,
-          checkValidFilter.length ? (filters as any) : [],
+          checkValidFilter.length ? (validFilters as any) : [],
           activeSorting,
         );
         break;
@@ -283,11 +287,11 @@ export const Table: React.FC<TableProps> = ({
         }),
       );
     }
-    // }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkForLocationPath, checkValidFilter, activeSorting]);
   let rowsToDisplay = tableRows;
+
   // function getFetchedState(state: any) {
   //   setFetchingMembers(state);
   //   // console.log(activeSorting, activeSortingDirection, 'aaaaaaa');
@@ -302,85 +306,183 @@ export const Table: React.FC<TableProps> = ({
   if (fetchingMembers) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  console.log(fetchingMembers, activeSorting, 'fetchingMembers');
+  // console.log(fetchingMembers, activeSorting, 'fetchingMembers');
   const onChangePagePerItem = (p: number, size: number) => {
     // onChange(p + 1, size);
     setItemPerPage(size);
   };
-  console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
+  // console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
   return (
-    <FlexBox.Column className={styles.tableWrapper} fullWidth>
+    <FlexBox.Column fullWidth>
       <IfElse
         condition={tableRows.length > 0 && !loading}
         renderWhenTrue={() => (
           <>
-            <table className={styles.table}>
-              <thead>
-                <tr className={showHeader ? styles.tableHeaderRow : ''}>
-                  {headerCols.map((headerCol: HeaderCol, index: number, i) => (
-                    <th
-                      className={styles.tableHeadingTh}
-                      style={{
-                        width: headerCol.width,
-                        color: '#424240',
-                        fontSize: '14px',
-                        fontWeight: 700,
-                      }}
-                      key={index}
-                    >
-                      <Box
-                        style={{ backgroundColor: '#f6f67' }}
-                        paddingVertical={showHeader ? 'sm' : null}
-                        paddingLeft="lg"
-                      >
-                        {headerCol.render && headerCol.render()}
-                      </Box>
-                    </th>
-                  ))}
-                </tr>
-              </thead>
-            </table>
-            {rowsToDisplay.map((headerRow: any, index: number) => (
-              <>
+            <div>
+              <div>
                 <table
-                  className={cn(
-                    styles.table,
-                    index + 1 === rowsToDisplay.length && styles.lastTable,
-                  )}
+                  ref={tableElement as any}
+                  style={{
+                    gridTemplateColumns: `minmax(50px, 2fr)`.repeat(
+                      columns?.length,
+                    ),
+                  }}
                 >
-                  <tbody key={index}>
-                    <tr
-                      onClick={() => trOnClick && trOnClick(headerRow)}
-                      className={cn(
-                        styles.tableRow,
-                        trOnClick && styles.clickableTableRow,
-                      )}
-                      style={{
-                        backgroundColor: index % 2 !== 0 ? '#F5F3F9' : 'white',
-                      }}
-                      key={index}
-                    >
-                      {headerCols.map((headerCol: HeaderCol, index: number) => (
-                        <td
-                          className={styles.tableTd}
-                          style={{ width: headerCol.width }}
-                          key={index}
+                  <thead>
+                    <tr style={{ backgroundColor: '#F5F3F9' }}>
+                      {console.log(columns, 'columns')}
+                      {columns.map(({ ref, text }, i) => (
+                        <th
+                          ref={ref}
+                          className={styles.tableHeadingTh}
+                          style={{
+                            // width: text.width,
+                            backgroundColor: '#F5F3F9',
+                            fontSize: '14px',
+                            fontWeight: 700,
+                          }}
+                          key={i}
                         >
-                          <Box paddingVertical="sm" paddingLeft="lg">
-                            <Truncate maxLines={1}>
-                              {headerCol.renderRow(headerRow)}
-                            </Truncate>
+                          <Box
+                            style={{ backgroundColor: '#F5F3F9' }}
+                            paddingVertical={showHeader ? 'sm' : null}
+                            paddingLeft="lg"
+                          >
+                            {text.render && text.render()}
                           </Box>
-                        </td>
+
+                          <div
+                            style={{ height: tableHeight }}
+                            onMouseDown={() => i !== 0 && mouseDown(i)}
+                            className={`resize-handle ${
+                              activeIndex === i ? 'active' : 'idle'
+                            }`}
+                          />
+                        </th>
                       ))}
                     </tr>
-                  </tbody>
+                  </thead>
+
+                  {rowsToDisplay.map((headerRow: any, index: number) => (
+                    <>
+                      <tbody>
+                        <tr
+                          onClick={() => trOnClick && trOnClick(headerRow)}
+                          className={cn(
+                            styles.tableRow,
+                            trOnClick && styles.clickableTableRow,
+                          )}
+                          style={{
+                            backgroundColor:
+                              index % 2 !== 0 ? '#F5F3F9' : 'white',
+                          }}
+                          key={index}
+                        >
+                          {columns.map(({ ref, text }, i) => (
+                            <td
+                              className={styles.tableTd}
+                              style={{
+                                backgroundColor:
+                                  index % 2 !== 0 ? '#F5F3F9' : 'white',
+                              }}
+                              key={i}
+                            >
+                              <Box paddingVertical="sm" paddingLeft="lg">
+                                <Truncate maxLines={1}>
+                                  {text.renderRow(headerRow)}
+                                </Truncate>
+                              </Box>
+                            </td>
+                          ))}
+                        </tr>
+                        {/* <table className={styles.collapseTable}> */}
+                        <tbody>
+                          {renderAfterRow && renderAfterRow(headerRow)}
+                        </tbody>
+                        {/* </table> */}
+                      </tbody>
+                    </>
+                  ))}
                 </table>
-                <table className={styles.collapseTable}>
-                  <tbody>{renderAfterRow && renderAfterRow(headerRow)}</tbody>
-                </table>
-              </>
-            ))}
+              </div>
+              {/* <button onClick={resetTableCells}>Reset</button> */}
+            </div>
+
+            {/* <table className={styles.table} ref={tableElement}>
+                <thead>
+                  <tr className={showHeader ? styles.tableHeaderRow : ''}>
+                    {headerCols.map((headerCol: HeaderCol, index: number) => (
+                      <th
+                        className={styles.tableHeadingTh}
+                        style={{
+                          width: headerCol.width,
+                          color: '#424240',
+                          fontSize: '14px',
+                          fontWeight: 700,
+                        }}
+                        key={index}
+                      >
+                        <Box
+                          style={{ backgroundColor: '#f6f67' }}
+                          paddingVertical={showHeader ? 'sm' : null}
+                          paddingLeft="lg"
+                        >
+                          {headerCol.render && headerColheaderCol.render && headerCol.render()}
+                        </Box>
+                        {console.log(tableHeight, 'tableHeight')}
+                        <div
+                          style={{ height: tableHeight }}
+                          onMouseDown={() => mouseDown(index)}
+                          className={`resize-handle ${
+                            activeIndex === index ? 'active' : 'idle'
+                          }`}
+                        />
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                {rowsToDisplay.map((headerRow: any, index: number) => (
+                  <>
+                    <tbody key={index}>
+                      <tr
+                        onClick={() => trOnClick && trOnClick(headerRow)}
+                        className={cn(
+                          styles.tableRow,
+                          trOnClick && styles.clickableTableRow,
+                        )}
+                        style={{
+                          backgroundColor:
+                            index % 2 !== 0 ? '#F5F3F9' : 'white',
+                        }}
+                        key={index}
+                      >
+                        {headerCols.map(
+                          (headerCol: HeaderCol, index: number) => (
+                            <td
+                              className={styles.tableTd}
+                              style={{ width: headerCol.width }}
+                              key={index}
+                            >
+                              <Box paddingVertical="sm" paddingLeft="lg">
+                                <Truncate maxLines={1}>
+                                  {headerCol.renderRow(headerRow)}
+                                </Truncate>
+                              </Box>
+                            </td>
+                          ),
+                        )}
+                      </tr>
+                    </tbody>
+
+                    <table className={styles.collapseTable}>
+                      <tbody>
+                        {renderAfterRow && renderAfterRow(headerRow)}
+                      </tbody>
+                    </table>
+                  </>
+                ))}
+              </table> */}
+
             <If condition={pagination}>
               {() => (
                 <FlexBox
@@ -392,7 +494,7 @@ export const Table: React.FC<TableProps> = ({
                     ref={childRef}
                     // getFetchedState={getFetchedState}
                     activeSorting={activeSorting}
-                    filters={filters}
+                    filters={validFilters}
                     itemPerPage={itemPerPage}
                     pageIndex={pageIndex}
                     setPageIndex={setPageIndex}
@@ -473,7 +575,7 @@ export const Table: React.FC<TableProps> = ({
                                                       childRef?.current?.callOnChange(
                                                         1,
                                                         parseInt(`${option}`),
-                                                        filters,
+                                                        validFilters,
                                                         activeSorting,
                                                       );
                                                       setShowItems(false);
@@ -509,7 +611,7 @@ export const Table: React.FC<TableProps> = ({
                 </FlexBox>
               )}
             </If>
-            {console.log(paginated, 'paginated')}
+            {/* {console.log(paginated, 'paginated')} */}
           </>
         )}
         renderWhenFalse={() => (

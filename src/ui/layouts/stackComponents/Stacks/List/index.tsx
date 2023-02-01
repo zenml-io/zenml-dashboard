@@ -9,9 +9,9 @@ import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
 import { camelCaseToParagraph } from '../../../../../utils';
-// import { DEFAULT_PROJECT_NAME } from '../../../../../constants';
+// import { DEFAULT_WORKSPACE_NAME } from '../../../../../constants';
 import {
-  projectSelectors,
+  workspaceSelectors,
   stackComponentSelectors,
 } from '../../../../../redux/selectors';
 
@@ -30,7 +30,7 @@ export const List: React.FC<Props> = ({
 }: // isExpended = false,
 Props) => {
   const locationPath = useLocationPath();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const stackComponentsPaginated = useSelector(
     stackComponentSelectors.mystackComponentsPaginated,
   );
@@ -49,7 +49,7 @@ Props) => {
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService(filter);
+  } = useService({ filter, isExpended });
 
   const expendedRow = filteredStacks.filter((item) => item.id === id);
   const headerCols = GetHeaderCols({
@@ -71,7 +71,7 @@ Props) => {
       history.push(
         routePaths.stackComponents.base(
           locationPath.split('/')[4],
-          selectedProject,
+          selectedWorkspace,
         ),
       );
     } else {
@@ -79,7 +79,7 @@ Props) => {
         routePaths.stackComponents.configuration(
           locationPath.split('/')[4],
           stackComponent.id,
-          selectedProject,
+          selectedWorkspace,
         ),
       );
     }
@@ -96,7 +96,6 @@ Props) => {
             fetching={fetching}
           />
         )}
-        activeSortingDirection={activeSortingDirection}
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }

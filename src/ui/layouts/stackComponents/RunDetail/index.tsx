@@ -3,19 +3,20 @@ import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import {
   camelCaseToParagraph,
-  formatDateToDisplayOnTable
+  // formatDateToDisplayOnTable,
 } from '../../../../utils';
-import { useHistory, useLocationPath, useSelector } from '../../../hooks';
+import { useLocationPath, useSelector } from '../../../hooks';
 
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
 import { DAG } from '../../../components/dag';
 import { useService } from './useService';
 
-import { Box, Paragraph } from '../../../components';
+// import { Box, Paragraph } from '../../../components';
 
-import { RunStatus } from './components';
-import { projectSelectors } from '../../../../redux/selectors';
+// import { RunStatus } from './components';
+import { workspaceSelectors } from '../../../../redux/selectors';
+import { Runs } from '../StackDetail/Runs';
 
 export interface RunDetailRouteParams {
   type: string;
@@ -25,9 +26,9 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const locationPath = useLocationPath();
-  const history = useHistory();
-  const { stackComponentId, runId, run, fetching } = useService();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const history = useHistory();
+  const { stackComponentId, runId, fetching } = useService();
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = [
     {
       text: 'DAG',
@@ -37,7 +38,7 @@ export const RunDetail: React.FC = () => {
         locationPath.split('/')[4],
         stackComponentId,
         runId,
-        selectedProject,
+        selectedWorkspace,
       ),
     },
     {
@@ -48,7 +49,7 @@ export const RunDetail: React.FC = () => {
         locationPath.split('/')[4],
         stackComponentId,
         runId,
-        selectedProject,
+        selectedWorkspace,
       ),
     },
   ];
@@ -58,7 +59,7 @@ export const RunDetail: React.FC = () => {
       clickable: true,
       to: routePaths.stackComponents.base(
         locationPath.split('/')[4],
-        selectedProject,
+        selectedWorkspace,
       ),
     },
     {
@@ -67,7 +68,7 @@ export const RunDetail: React.FC = () => {
       to: routePaths.stackComponents.configuration(
         locationPath.split('/')[4],
         stackComponentId,
-        selectedProject,
+        selectedWorkspace,
       ),
     },
     {
@@ -77,19 +78,19 @@ export const RunDetail: React.FC = () => {
         locationPath.split('/')[5],
         stackComponentId,
         runId,
-        selectedProject,
+        selectedWorkspace,
       ),
     },
   ];
-  const boxStyle = {
-    backgroundColor: '#E9EAEC',
-    padding: '10px 0',
-    borderRadius: '8px',
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'space-around',
-  };
-  const headStyle = { color: '#828282' };
+  // const boxStyle = {
+  //   backgroundColor: '#E9EAEC',
+  //   padding: '10px 0',
+  //   borderRadius: '8px',
+  //   marginTop: '20px',
+  //   display: 'flex',
+  //   justifyContent: 'space-around',
+  // };
+  // const headStyle = { color: '#828282' };
 
   return (
     <BasePage
@@ -97,7 +98,14 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.component.base(runId, stackComponentId)}
       breadcrumbs={breadcrumbs}
     >
-      <Box style={boxStyle}>
+      <Runs
+        filter={[]}
+        pagination={false}
+        runId={runId}
+        isExpended
+        stackComponentId={stackComponentId}
+      ></Runs>
+      {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
@@ -125,7 +133,7 @@ export const RunDetail: React.FC = () => {
               history.push(
                 routePaths.pipeline.configuration(
                   run.pipeline?.id,
-                  selectedProject,
+                  selectedWorkspace,
                 ),
               );
             }}
@@ -162,7 +170,7 @@ export const RunDetail: React.FC = () => {
             onClick={(event) => {
               event.stopPropagation();
               history.push(
-                routePaths.stack.configuration(run.stack?.id, selectedProject),
+                routePaths.stack.configuration(run.stack?.id, selectedWorkspace),
               );
             }}
           >
@@ -181,7 +189,7 @@ export const RunDetail: React.FC = () => {
             {formatDateToDisplayOnTable(run.created)}
           </Paragraph>
         </Box>
-      </Box>
+      </Box> */}
     </BasePage>
   );
 };

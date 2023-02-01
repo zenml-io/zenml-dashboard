@@ -11,7 +11,7 @@ import {
 import {
   pipelinePagesSelectors,
   pipelineSelectors,
-  projectSelectors,
+  workspaceSelectors,
 } from '../../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -35,20 +35,24 @@ interface filterValue {
   type: string;
   value: string;
 }
-export const useService = (
+export const useService = ({
+  filter,
+  isExpended,
+}: {
+  isExpended?: any;
   filter: {
     column: filterValue;
     type: filterValue;
     value: string;
-  }[],
-): ServiceInterface => {
+  }[];
+}): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'created',
   );
   const [
     activeSortingDirection,
     setActiveSortingDirection,
-  ] = React.useState<SortingDirection | null>('ASC');
+  ] = React.useState<SortingDirection | null>('DESC');
 
   const dispatch = useDispatch();
 
@@ -56,19 +60,19 @@ export const useService = (
   const [filteredPipelines, setFilteredPipelines] = useState<TPipeline[]>([]);
 
   const fetching = useSelector(pipelinePagesSelectors.fetching);
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const pipelines = useSelector(pipelineSelectors.myPipelines);
   const pipelinesPaginated = useSelector(
     pipelineSelectors.myPipelinesPaginated,
   );
-  const isValidFilter = filter.map((f) => f.value).join('');
+  const isValidFilter = filter?.map((f) => f.value).join('');
   const { dispatchPipelineData } = callActionForPipelinesForPagination();
   useEffect(() => {
     setFilteredPipelines(pipelines as any[]);
   }, [filter, pipelines]);
 
   useEffect(() => {
-    if (!isValidFilter) {
+    if (!isValidFilter && !isExpended) {
       const intervalId = setInterval(() => {
         const applySorting =
           activeSortingDirection?.toLowerCase() + ':' + activeSorting;
@@ -77,7 +81,7 @@ export const useService = (
             sort_by: applySorting ? applySorting : 'created',
             logical_operator: 'and',
             // name: '',
-            project: selectedProject,
+            workspace: selectedWorkspace,
             page: pipelinesPaginated.page,
             size: pipelinesPaginated.size,
           }),

@@ -24,7 +24,7 @@ import { useService } from './useService';
 import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import ReactTooltip from 'react-tooltip';
-import { projectSelectors } from '../../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
   runs,
@@ -52,7 +52,7 @@ export const useHeaderCols = ({
     runs,
   });
   const history = useHistory();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return nestedRuns
     ? [
         {
@@ -71,6 +71,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
+              onlyOneRow={runs.length === 1}
               sorting="id"
               sortMethod={sortMethod('id', {
                 asc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['asc']),
@@ -108,6 +109,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
+              onlyOneRow={runs.length === 1}
               sorting="name"
               sortMethod={sortMethod('name', {
                 asc: (run: TRun[]) => _.orderBy(run, ['name'], ['asc']),
@@ -144,6 +146,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
+              onlyOneRow={runs.length === 1}
               sorting="status"
               sortMethod={sortMethod('status', {
                 asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
@@ -169,6 +172,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
+              onlyOneRow={runs.length === 1}
               sorting="created"
               sortMethod={sortMethod('created', {
                 asc: (runs: TRun[]) =>
@@ -243,6 +247,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
+              onlyOneRow={runs.length === 1}
               sorting="id"
               sortMethod={sortMethod('id', {
                 asc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['asc']),
@@ -280,6 +285,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
+              onlyOneRow={runs.length === 1}
               sorting="name"
               sortMethod={sortMethod('name', {
                 asc: (run: TRun[]) => _.orderBy(run, ['name'], ['asc']),
@@ -315,6 +321,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
+              onlyOneRow={runs.length === 1}
               sorting="pipeline_id"
               sortMethod={sortMethod('pipeline_id', {
                 asc: (run: TRun[]) => _.orderBy(run, ['pipeline_id'], ['asc']),
@@ -349,7 +356,7 @@ export const useHeaderCols = ({
                     history.push(
                       routePaths.pipeline.configuration(
                         run.pipeline?.id,
-                        selectedProject,
+                        selectedWorkspace,
                       ),
                     );
                   }}
@@ -370,6 +377,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
+              onlyOneRow={runs.length === 1}
               sorting="status"
               sortMethod={sortMethod('status', {
                 asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
@@ -394,6 +402,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
+              onlyOneRow={runs.length === 1}
               sorting="stack_id"
               sortMethod={sortMethod('stack_id', {
                 asc: (run: TRun[]) => _.orderBy(run, ['stack_id'], ['asc']),
@@ -427,7 +436,7 @@ export const useHeaderCols = ({
                     history.push(
                       routePaths.stack.configuration(
                         run.stack?.id,
-                        selectedProject,
+                        selectedWorkspace,
                       ),
                     );
                   }}
@@ -448,6 +457,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
+              onlyOneRow={runs.length === 1}
               sorting="user_id"
               sortMethod={sortMethod('user_id', {
                 asc: (run: TRun[]) => _.orderBy(run, ['user_id'], ['asc']),
@@ -506,6 +516,7 @@ export const useHeaderCols = ({
         {
           render: () => (
             <SortingHeader
+              onlyOneRow={runs.length === 1}
               sorting="created"
               sortMethod={sortMethod('created', {
                 asc: (runs: TRun[]) =>

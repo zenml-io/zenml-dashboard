@@ -5,25 +5,29 @@ import {
   addSeconds,
   differenceInDays,
 } from 'date-fns';
-import moment from 'moment'
+import moment from 'moment';
 
 const UTCformatter = (preDate: any) => moment.utc(preDate).toDate();
-const dateformat = (date: any) => moment(UTCformatter(date)).local().format('YYYY-MM-DD HH:mm:ss');
+const dateformat = (date: any) =>
+  moment(UTCformatter(date)).local().format('YYYY-MM-DD HH:mm:ss');
 
 const formatDateToFormat = (dateString: any, dateFormat: string): string =>
   format(new Date(dateString), dateFormat);
-  // , { locale: deLocale }
+// , { locale: deLocale }
 
 export const formatDateToDisplay = (dateString: Date): string => {
-    if (typeof dateString === 'undefined' || !dateString) return '';
-    return formatDateToFormat(dateformat(dateString), `dd.MM.yyyy HH:mm:ss`);
-  };
+  if (typeof dateString === 'undefined' || !dateString) return '';
+  return formatDateToFormat(dateformat(dateString), `dd.MM.yyyy HH:mm:ss`);
+};
 
 export const formatDateToDisplayOnTable = (dateString: any): any => {
   if (typeof dateString === 'undefined' || !dateString) return '';
   return formatDateToFormat(dateformat(dateString), `dd.MM.yyyy HH:mm:ss`);
 };
-
+export const formatDateToDisplayWithoutTime = (dateString: Date): string => {
+  if (typeof dateString === 'undefined' || !dateString) return '';
+  return formatDateToFormat(dateformat(dateString), `MM/dd/yyyy`);
+};
 // export const formatDateToDisplay = (dateString: Date): string => {
 //   if (typeof dateString === 'undefined' || !dateString) return '';
 //   return formatDateToFormat(dateString, `dd.MM.yyyy`);

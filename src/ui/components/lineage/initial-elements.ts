@@ -12,7 +12,7 @@ export const initialNodes = [
         enable_cache: true,
         extra: {
           dag_filepath:
-            '/home/apenner/PycharmProjects/zenml/examples/airflow_orchestration/run.py',
+            '/home/apenner/PycharmWorkspaces/zenml/examples/airflow_orchestration/run.py',
         },
         name: 'get_first_num',
       },
@@ -51,7 +51,7 @@ export const initialNodes = [
       configuration: {
         extra: {
           dag_filepath:
-            '/home/apenner/PycharmProjects/zenml/examples/airflow_orchestration/run.py',
+            '/home/apenner/PycharmWorkspaces/zenml/examples/airflow_orchestration/run.py',
         },
         name: 'get_random_int',
       },
@@ -91,7 +91,7 @@ export const initialNodes = [
         enable_cache: true,
         extra: {
           dag_filepath:
-            '/home/apenner/PycharmProjects/zenml/examples/airflow_orchestration/run.py',
+            '/home/apenner/PycharmWorkspaces/zenml/examples/airflow_orchestration/run.py',
         },
         name: 'subtract_numbers',
       },

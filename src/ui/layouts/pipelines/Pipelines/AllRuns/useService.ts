@@ -3,7 +3,7 @@ import { runsActions } from '../../../../../redux/actions';
 import {
   runSelectors,
   runPagesSelectors,
-  projectSelectors,
+  workspaceSelectors,
 } from '../../../../../redux/selectors';
 import { useDispatch, useSelector } from '../../../../hooks';
 
@@ -35,7 +35,9 @@ interface filterValue {
 export const useService = ({
   filter,
   sortBy,
+  isExpended,
 }: {
+  isExpended?: any;
   sortBy: string;
   filter: {
     column: filterValue;
@@ -46,18 +48,18 @@ export const useService = ({
   const fetching = useSelector(runPagesSelectors.fetching);
   const dispatch = useDispatch();
   const runs = useSelector(runSelectors.myRuns);
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const runsPaginated = useSelector(runSelectors.myRunsPaginated);
-  const isValidFilter = filter.map((f) => f.value).join('');
+  const isValidFilter = filter?.map((f) => f.value).join('');
   useEffect(() => {
-    if (!isValidFilter) {
+    if (!isValidFilter && !isExpended) {
       const intervalId = setInterval(() => {
         //assign interval to a variable to clear it.
         dispatch(
           runsActions.allRuns({
             sort_by: sortBy,
             logical_operator: 'and',
-            project: selectedProject,
+            workspace: selectedWorkspace,
             page: runsPaginated.page,
             size: runsPaginated.size,
           }),

@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { RunDetailRouteParams } from '.';
-import { runPagesActions, runsActions } from '../../../../redux/actions';
-import { runPagesSelectors, runSelectors } from '../../../../redux/selectors';
+import { runsActions } from '../../../../redux/actions';
+import { runSelectors } from '../../../../redux/selectors';
 import { useDispatch, useParams, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
@@ -15,7 +15,7 @@ export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const { id, stackId } = useParams<RunDetailRouteParams>();
   const [isMounted, setIsMounted] = useState(false);
-
+  const [fetching, setFetching] = useState(false);
   useEffect(() => {
     if (!isMounted) {
       setFetching(true);
@@ -40,10 +40,10 @@ export const useService = (): ServiceInterface => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted, setIsMounted]);
 
-  const fetching = useSelector(runPagesSelectors.fetching);
-  const setFetching = (fetching: boolean) => {
-    dispatch(runPagesActions.setFetching({ fetching }));
-  };
+  // const fetching = useSelector(runPagesSelectors.fetching);
+  // const setFetching = (fetching: boolean) => {
+  //   dispatch(runPagesActions.setFetching({ fetching }));
+  // };
 
   const run = useSelector(runSelectors.runForId(id));
 

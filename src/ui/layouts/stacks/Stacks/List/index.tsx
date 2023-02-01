@@ -9,14 +9,22 @@ import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
 import {
-  projectSelectors,
+  workspaceSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
 
 interface Props {
   filter: any;
+  pagination?: boolean;
+  id?: string;
+  isExpended?: boolean;
 }
-export const List: React.FC<Props> = ({ filter }: Props) => {
+export const List: React.FC<Props> = ({
+  filter,
+  pagination,
+  isExpended,
+  id,
+}: Props) => {
   const history = useHistory();
   const {
     openStackIds,
@@ -29,9 +37,10 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService(filter);
-
+  } = useService({ filter, isExpended });
+  const expendedRow = filteredStacks.filter((item) => item.id === id);
   const headerCols = GetHeaderCols({
+    expendedRow,
     openStackIds,
     setOpenStackIds,
     filteredStacks,
@@ -41,13 +50,38 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     activeSortingDirection,
     setActiveSortingDirection,
   });
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
+
   const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);
-
-    history.push(routePaths.stack.configuration(stack.id, selectedProject));
+    if (id) {
+      history.push(routePaths.stacks.list(selectedWorkspace));
+    } else {
+      history.push(routePaths.stack.configuration(stack.id, selectedWorkspace));
+    }
   };
+
+  // const openDetailPage = (stackComponent: TStack) => {
+  //   setSelectedRunIds([]);
+
+  //   if (id) {
+  //     history.push(
+  //       routePaths.stackComponents.base(
+  //         locationPath.split('/')[4],
+  //         selectedProject,
+  //       ),
+  //     );
+  //   } else {
+  //     history.push(
+  //       routePaths.stackComponents.configuration(
+  //         locationPath.split('/')[4],
+  //         stackComponent.id,
+  //         selectedProject,
+  //       ),
+  //     );
+  //   }
+  // };
 
   return (
     <>
@@ -62,7 +96,6 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             />
           </>
         )}
-        activeSortingDirection={activeSortingDirection}
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
@@ -71,12 +104,13 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
         //     ? activeSorting
         //     : 'created'
         // }
+        pagination={pagination}
         paginated={stacksPaginated}
-        loading={fetching}
+        loading={expendedRow.length > 0 ? false : fetching}
         showHeader={true}
         filters={filter}
         headerCols={headerCols}
-        tableRows={filteredStacks}
+        tableRows={expendedRow.length > 0 ? expendedRow : filteredStacks}
         emptyState={{ text: translate('emptyState.text') }}
         trOnClick={openDetailPage}
       />

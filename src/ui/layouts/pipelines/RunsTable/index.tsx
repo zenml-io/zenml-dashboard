@@ -6,12 +6,13 @@ import { Table } from '../../common/Table';
 
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 
 interface Props {
   filter: any;
 }
 export const RunsTable: React.FC<{
+  pipelineId?: any;
   runIds: TId[];
   getSorted?: any;
   paginated?: any;
@@ -21,7 +22,9 @@ export const RunsTable: React.FC<{
   pipelineRuns?: any;
   fromAllruns?: boolean;
   filter?: any;
+  id?: any;
 }> = ({
+  pipelineId,
   getSorted,
   runIds,
   pagination = true,
@@ -31,9 +34,10 @@ export const RunsTable: React.FC<{
   pipelineRuns,
   fromAllruns,
   filter,
+  id,
 }) => {
   const history = useHistory();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const {
     sortedRuns,
     setSortedRuns,
@@ -46,16 +50,27 @@ export const RunsTable: React.FC<{
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
-
-    fromAllruns
-      ? history.push(routePaths.run.run.statistics(selectedProject, run.id))
-      : history.push(
+    // debugger;
+    if (fromAllruns) {
+      // debugger;
+      if (id) {
+        history.push(routePaths.pipelines.allRuns(selectedWorkspace));
+      } else {
+        history.push(routePaths.run.run.statistics(selectedWorkspace, run.id));
+      }
+    } else {
+      if (id) {
+        history.push(routePaths.pipeline.runs(selectedWorkspace, pipelineId));
+      } else {
+        history.push(
           routePaths.run.pipeline.statistics(
-            selectedProject,
+            selectedWorkspace,
             run.id,
             run.pipeline_id ? run.pipeline_id : run.pipelineId,
           ),
         );
+      }
+    }
   };
 
   const headerCols = useHeaderCols({
@@ -78,7 +93,6 @@ export const RunsTable: React.FC<{
 
   return (
     <Table
-      activeSortingDirection={activeSortingDirection}
       activeSorting={
         activeSortingDirection?.toLowerCase() + ':' + activeSorting
       }
