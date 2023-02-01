@@ -81,10 +81,10 @@ export const Table: React.FC<TableProps> = ({
   const columns = createHeaders(headerCols);
 
   useEffect(() => {
-    console.log(tableElement.current.style.gridTemplateColumns, 'offsetHeight');
-    setTableHeight(tableElement.current.offsetHeight as any);
+    // console.log(tableElement.current.style.gridTemplateColumns, 'offsetHeight');
+    setTableHeight(tableElement?.current?.offsetHeight as any);
 
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [tableElement.current]);
 
   const mouseDown = (index: any) => {
@@ -136,10 +136,10 @@ export const Table: React.FC<TableProps> = ({
   }, [activeIndex, mouseMove, mouseUp, removeListeners]);
 
   // Demo only
-  const resetTableCells = () => {
-    debugger;
-    tableElement.current.style.gridTemplateColumns = '';
-  };
+  // const resetTableCells = () => {
+  //   debugger;
+  //   tableElement.current.style.gridTemplateColumns = '';
+  // };
 
   const [showItems, setShowItems] = useState(false);
   const [fetchingMembers, setFetchingMembers] = useState(false);
@@ -298,7 +298,14 @@ export const Table: React.FC<TableProps> = ({
           <>
             <div>
               <div>
-                <table ref={tableElement as any} style={{ gridTemplateColumns: `minmax(50px, 2fr)`.repeat(columns?.length) }} >
+                <table
+                  ref={tableElement as any}
+                  style={{
+                    gridTemplateColumns: `minmax(50px, 2fr)`.repeat(
+                      columns?.length,
+                    ),
+                  }}
+                >
                   <thead>
                     <tr style={{ backgroundColor: '#F5F3F9' }}>
                       {console.log(columns, 'columns')}
@@ -321,7 +328,7 @@ export const Table: React.FC<TableProps> = ({
                           >
                             {text.render && text.render()}
                           </Box>
-                          
+
                           <div
                             style={{ height: tableHeight }}
                             onMouseDown={() => i !== 0 && mouseDown(i)}
@@ -336,49 +343,47 @@ export const Table: React.FC<TableProps> = ({
 
                   {rowsToDisplay.map((headerRow: any, index: number) => (
                     <>
-                    <tbody>
-                      <tr
-                        onClick={() => trOnClick && trOnClick(headerRow)}
-                        className={cn(
-                          styles.tableRow,
-                          trOnClick && styles.clickableTableRow,
-                        )}
-                        style={{
-                          backgroundColor:
-                            index % 2 !== 0 ? '#F5F3F9' : 'white',
-                        }}
-                        key={index}
-                      >
-                        {columns.map(({ ref, text }, i) => (
-                          <td
-                            className={styles.tableTd}
-                            style={{
-                              backgroundColor:
-                                index % 2 !== 0 ? '#F5F3F9' : 'white',
-                            }}
-                            key={i}
-                          >
-                            <Box paddingVertical="sm" paddingLeft="lg">
-                              <Truncate maxLines={1}>
-                                {text.renderRow(headerRow)}
-                              </Truncate>
-                            </Box>
-                          </td>
-                        ))}
-                      </tr>
-                      {/* <table className={styles.collapseTable}> */}
                       <tbody>
-                        {renderAfterRow && renderAfterRow(headerRow)}
+                        <tr
+                          onClick={() => trOnClick && trOnClick(headerRow)}
+                          className={cn(
+                            styles.tableRow,
+                            trOnClick && styles.clickableTableRow,
+                          )}
+                          style={{
+                            backgroundColor:
+                              index % 2 !== 0 ? '#F5F3F9' : 'white',
+                          }}
+                          key={index}
+                        >
+                          {columns.map(({ ref, text }, i) => (
+                            <td
+                              className={styles.tableTd}
+                              style={{
+                                backgroundColor:
+                                  index % 2 !== 0 ? '#F5F3F9' : 'white',
+                              }}
+                              key={i}
+                            >
+                              <Box paddingVertical="sm" paddingLeft="lg">
+                                <Truncate maxLines={1}>
+                                  {text.renderRow(headerRow)}
+                                </Truncate>
+                              </Box>
+                            </td>
+                          ))}
+                        </tr>
+                        {/* <table className={styles.collapseTable}> */}
+                        <tbody>
+                          {renderAfterRow && renderAfterRow(headerRow)}
+                        </tbody>
+                        {/* </table> */}
                       </tbody>
-                      {/* </table> */}
-                    </tbody>
-                      </>
+                    </>
                   ))}
                 </table>
-
-
               </div>
-              <button onClick={resetTableCells}>Reset</button>
+              {/* <button onClick={resetTableCells}>Reset</button> */}
             </div>
 
             {/* <table className={styles.table} ref={tableElement}>
