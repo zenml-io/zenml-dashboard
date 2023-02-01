@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from '../../hooks';
 import {
   organizationSelectors,
   pipelineSelectors,
-  projectSelectors,
+  workspaceSelectors,
   stackSelectors,
 } from '../../../redux/selectors';
 import {
@@ -437,7 +437,7 @@ const FilterComponent = ({
   const members = useSelector(organizationSelectors.myMembers);
   const pipelines = useSelector(pipelineSelectors.myPipelines);
   const stacks = useSelector(stackSelectors.mystacks);
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   console.log(members, 'members');
   function handleChange(filter: any, key: string, value: string) {
     filter[key].selectedValue = filter[key].options.filter(
@@ -504,24 +504,24 @@ const FilterComponent = ({
     if (name) {
       dispatch(
         pipelinesActions.getMy({
-          project: selectedProject,
+          workspace: selectedWorkspace,
           name: 'contains:' + name,
         }),
       );
     } else {
-      dispatch(pipelinesActions.getMy({ project: selectedProject }));
+      dispatch(pipelinesActions.getMy({ workspace: selectedWorkspace }));
     }
   }
   function callActionForStacks(name: string) {
     if (name) {
       dispatch(
         stacksActions.getMy({
-          project: selectedProject,
+          workspace: selectedWorkspace,
           name: 'contains:' + name,
         }),
       );
     } else {
-      dispatch(stacksActions.getMy({ project: selectedProject }));
+      dispatch(stacksActions.getMy({ workspace: selectedWorkspace }));
     }
   }
 

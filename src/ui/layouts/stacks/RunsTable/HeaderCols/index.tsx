@@ -14,7 +14,7 @@ import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
 import ReactTooltip from 'react-tooltip';
-import { projectSelectors } from '../../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
   runs,
@@ -40,7 +40,7 @@ export const useHeaderCols = ({
     runs,
   });
   const history = useHistory();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   return [
     {
@@ -140,7 +140,7 @@ export const useHeaderCols = ({
                 history.push(
                   routePaths.pipeline.configuration(
                     run.pipeline?.id,
-                    selectedProject,
+                    selectedWorkspace,
                   ),
                 );
               }}
@@ -208,7 +208,7 @@ export const useHeaderCols = ({
                 history.push(
                   routePaths.stack.configuration(
                     run.stack?.id,
-                    selectedProject,
+                    selectedWorkspace,
                   ),
                 );
               }}

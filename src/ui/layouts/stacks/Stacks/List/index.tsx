@@ -9,7 +9,7 @@ import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
 import {
-  projectSelectors,
+  workspaceSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
 
@@ -50,15 +50,15 @@ export const List: React.FC<Props> = ({
     activeSortingDirection,
     setActiveSortingDirection,
   });
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
 
   const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);
     if (id) {
-      history.push(routePaths.stacks.list(selectedProject));
+      history.push(routePaths.stacks.list(selectedWorkspace));
     } else {
-      history.push(routePaths.stack.configuration(stack.id, selectedProject));
+      history.push(routePaths.stack.configuration(stack.id, selectedWorkspace));
     }
   };
 
@@ -96,7 +96,6 @@ export const List: React.FC<Props> = ({
             />
           </>
         )}
-        activeSortingDirection={activeSortingDirection}
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }

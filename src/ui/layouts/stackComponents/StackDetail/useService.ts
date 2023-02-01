@@ -65,7 +65,7 @@ export const useService = (): ServiceInterface => {
 
 export const callActionForStackComponentRunsForPagination = () => {
   const dispatch = useDispatch();
-  // const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   // const { id } = useParams<PipelineDetailRouteParams>();
   function dispatchStackComponentRunsData(
     id: any,

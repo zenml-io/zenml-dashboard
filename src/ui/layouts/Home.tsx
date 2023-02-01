@@ -5,8 +5,8 @@ import React, { useEffect } from 'react';
 import { useLocationPath, usePushRoute, useSelector } from '../hooks';
 
 import { routePaths } from '../../routes/routePaths';
-import { DEFAULT_PROJECT_NAME } from '../../constants';
-import { projectSelectors } from '../../redux/selectors';
+import { DEFAULT_WORKSPACE_NAME } from '../../constants';
+import { workspaceSelectors } from '../../redux/selectors';
 
 const GreyBoxWithIcon: React.FC<{
   title: string;
@@ -18,7 +18,7 @@ const GreyBoxWithIcon: React.FC<{
 };
 
 export const DashBoard: React.FC = () => {
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const { push } = usePushRoute();
   const locationPath = useLocationPath();
   const url = window.location.pathname;
@@ -28,18 +28,18 @@ export const DashBoard: React.FC = () => {
       push(routePaths.login);
     }
 
-    if (url.includes('projects')) {
-      const projectFromUrl = locationPath.split('/')[2];
+    if (url.includes('workspaces')) {
+      const workspaceFromUrl = locationPath.split('/')[2];
 
       push(
         routePaths.dashboard(
-          projectFromUrl ? projectFromUrl : DEFAULT_PROJECT_NAME,
+          workspaceFromUrl ? workspaceFromUrl : DEFAULT_WORKSPACE_NAME,
         ),
       );
     } else {
       push(
         routePaths.dashboard(
-          selectedProject ? selectedProject : DEFAULT_PROJECT_NAME,
+          selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
         ),
       );
     }

@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { stackPagesActions, stacksActions } from '../../../../redux/actions';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 import { useDispatch, useSelector, useLocationPath } from '../../../hooks';
 import { filterObjectForParam } from '../../../../utils';
 
@@ -13,7 +13,7 @@ interface ServiceInterface {
 export const useService = (): ServiceInterface => {
   const locationPath = useLocationPath();
   const dispatch = useDispatch();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
@@ -27,12 +27,12 @@ export const useService = (): ServiceInterface => {
         logical_operator: 'and',
         page: 1,
         size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-        project: selectedProject,
+        workspace: selectedWorkspace,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),
     );
-  }, [locationPath, selectedProject]);
+  }, [locationPath, selectedWorkspace]);
 
   const setFetching = (fetching: boolean) => {
     dispatch(stackPagesActions.setFetching({ fetching }));
@@ -47,7 +47,7 @@ export const useService = (): ServiceInterface => {
 export const callActionForStacksForPagination = () => {
   const locationPath = useLocationPath();
   const dispatch = useDispatch();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   function dispatchStackData(
     page: number,
@@ -61,7 +61,7 @@ export const callActionForStacksForPagination = () => {
     setFetching(true);
     dispatch(
       stacksActions.getMy({
-        project: selectedProject,
+        workspace: selectedWorkspace,
         sort_by: sortby ? sortby : 'created',
         logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
         page: page,

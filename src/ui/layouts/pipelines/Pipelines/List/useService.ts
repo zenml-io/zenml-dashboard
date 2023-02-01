@@ -11,7 +11,7 @@ import {
 import {
   pipelinePagesSelectors,
   pipelineSelectors,
-  projectSelectors,
+  workspaceSelectors,
 } from '../../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -60,7 +60,7 @@ export const useService = ({
   const [filteredPipelines, setFilteredPipelines] = useState<TPipeline[]>([]);
 
   const fetching = useSelector(pipelinePagesSelectors.fetching);
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const pipelines = useSelector(pipelineSelectors.myPipelines);
   const pipelinesPaginated = useSelector(
     pipelineSelectors.myPipelinesPaginated,
@@ -81,7 +81,7 @@ export const useService = ({
             sort_by: applySorting ? applySorting : 'created',
             logical_operator: 'and',
             // name: '',
-            project: selectedProject,
+            workspace: selectedWorkspace,
             page: pipelinesPaginated.page,
             size: pipelinesPaginated.size,
           }),

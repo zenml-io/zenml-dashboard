@@ -12,7 +12,7 @@ import {
 import { getTranslateByScope } from '../../../services';
 import { Popup } from '../common/Popup';
 import {
-  projectsActions,
+  workspacesActions,
   showToasterAction,
   userActions,
 } from '../../../redux/actions';
@@ -62,16 +62,16 @@ export const EmailPopup: React.FC<{
           type: toasterTypes.success,
         }),
       );
-      if (window.location.search.includes('projects')) {
-        const selectedProject = window.location.search.split('/')[2];
+      if (window.location.search.includes('workspaces')) {
+        const selectedWorkspace = window.location.search.split('/')[2];
         await dispatch(
-          projectsActions.getMy({
+          workspacesActions.getMy({
             selectDefault: false,
-            selectedProject,
+            selectedWorkspace,
           }),
         );
       } else {
-        await dispatch(projectsActions.getMy({}));
+        await dispatch(workspacesActions.getMy({}));
       }
       await dispatch(userActions.getMy({}));
     } catch (err) {
