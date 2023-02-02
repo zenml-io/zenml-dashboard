@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
@@ -11,7 +11,7 @@ import {
   Box,
   FlexBox,
   icons,
-  LinkBox,
+  // LinkBox,
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
@@ -21,7 +21,7 @@ import { useService } from './ForSorting/useServiceForSorting';
 
 export const GetHeaderCols = ({
   expendedRow,
-  openStackIds,
+  // openStackIds,
   setOpenStackIds,
   filteredStacks,
   setFilteredStacks,
@@ -49,35 +49,45 @@ export const GetHeaderCols = ({
     filteredStacks,
   });
 
-  const [toggle, setToggle] = useState(false);
+  // const [toggle, setToggle] = useState(false);
   return [
     {
       width: '3%',
       renderRow: (stack: TStack) => (
-        <LinkBox
-          onClick={(e: Event) => {
-            setToggle(!toggle);
-            e.stopPropagation();
-            if (openStackIds.indexOf(stack.id) === -1) {
-              setOpenStackIds([...openStackIds, stack.id]);
-            } else {
-              setOpenStackIds(
-                openStackIds.filter((id: TId) => id !== stack.id),
-              );
-            }
-          }}
+        <FlexBox
+          justifyContent="center"
+          style={{ paddingTop: '5px', paddingBottom: '5px' }}
         >
-          <FlexBox
-            justifyContent="center"
-            style={{ paddingTop: '5px', paddingBottom: '5px' }}
-          >
-            {openStackIds.indexOf(stack.id) === -1 ? (
-              <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-            ) : (
-              <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-            )}
-          </FlexBox>
-        </LinkBox>
+          {expendedRow.length === 1 ? (
+            <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+          ) : (
+            <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+          )}
+        </FlexBox>
+        // <LinkBox
+        //   onClick={(e: Event) => {
+        //     setToggle(!toggle);
+        //     e.stopPropagation();
+        //     if (openStackIds.indexOf(stack.id) === -1) {
+        //       setOpenStackIds([...openStackIds, stack.id]);
+        //     } else {
+        //       setOpenStackIds(
+        //         openStackIds.filter((id: TId) => id !== stack.id),
+        //       );
+        //     }
+        //   }}
+        // >
+        //   <FlexBox
+        //     justifyContent="center"
+        //     style={{ paddingTop: '5px', paddingBottom: '5px' }}
+        //   >
+        //     {openStackIds.indexOf(stack.id) === -1 ? (
+        //       <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+        //     ) : (
+        //       <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+        //     )}
+        //   </FlexBox>
+        // </LinkBox>
       ),
     },
     {
