@@ -990,6 +990,8 @@ const FilterComponent = ({
                           onChange={(value: any) => {
                             if (value) {
                               handleChangeForSearchable(filter, value.value);
+                            } else {
+                              handleChangeForSearchable(filter, '');
                             }
                           }}
                           isClearable={true}
@@ -1013,6 +1015,8 @@ const FilterComponent = ({
                           onChange={(value: any) => {
                             if (value) {
                               handleChangeForSearchable(filter, value.value);
+                            } else {
+                              handleChangeForSearchable(filter, '');
                             }
                           }}
                           isClearable={true}
@@ -1033,11 +1037,14 @@ const FilterComponent = ({
                           styles={selectStyles}
                           onInputChange={(e: any) => callActionForUsers(e)}
                           onChange={(value: any) => {
+                            console.log(value, 'valuevalue');
                             if (value) {
                               handleChangeForSearchable(filter, value.value);
+                            } else {
+                              handleChangeForSearchable(filter, '');
                             }
                           }}
-                          isClearable={true}
+                          isClearable
                           // value={'role'}
                           className={styles.searchableInput}
                           // classNamePrefix="select"
