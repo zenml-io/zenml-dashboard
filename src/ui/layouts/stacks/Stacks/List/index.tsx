@@ -12,7 +12,7 @@ import {
   workspaceSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
-import { callActionForStacksForPagination } from '../useService';
+// import { callActionForStacksForPagination } from '../useService';
 import { stacksActions } from '../../../../../redux/actions';
 
 interface Props {
@@ -35,7 +35,7 @@ export const List: React.FC<Props> = ({
     fetchingForStacksFroComponents,
     setFetchingForStacksFroComponents,
   ] = useState(false);
-  const { dispatchStackData } = callActionForStacksForPagination();
+
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
