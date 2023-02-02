@@ -144,7 +144,7 @@ export const List: React.FC<Props> = ({
         loading={
           expendedRow.length > 0
             ? false
-            : filter[0].value || !stackComponentId
+            : filter[0]?.value || !stackComponentId
             ? fetching
             : fetchingForStacksFroComponents
         }
