@@ -113,7 +113,7 @@ const getLayoutedElements = (
 
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
-export const LayoutFlow: React.FC<any> = (graph: any, metadata?: any) => {
+export const LayoutFlow: React.FC<any> = (graph: any) => {
   const dispatch = useDispatch();
   const {
     initialNodes: layoutedNodes,
@@ -145,7 +145,7 @@ export const LayoutFlow: React.FC<any> = (graph: any, metadata?: any) => {
   return (
     <>
       <div className="controls">
-        <Box
+        {/* <Box
           style={{ paddingTop: '6px' }}
           onClick={() =>
             window.open(
@@ -155,10 +155,23 @@ export const LayoutFlow: React.FC<any> = (graph: any, metadata?: any) => {
             )
           }
         >
-          {/* Logs */}
+          
           <icons.logs size={iconSizes.lg} color={iconColors.black} />
-        </Box>
-        {/* <button
+        </Box> */}
+
+        <button
+          onClick={() => {
+            dispatch(
+              runsActions.graphForRun({
+                runId: graph.runId,
+              }),
+            );
+          }}
+        >
+          Refresh
+        </button>
+        <button onClick={() => setLegend(!legend)}>Legend</button>
+        <button
           onClick={() => {
             window.open(
               graph?.metadata[0]?.value
@@ -173,22 +186,9 @@ export const LayoutFlow: React.FC<any> = (graph: any, metadata?: any) => {
             // );
           }}
         >
-          Logs
-        </button> */}
-        <button
-          onClick={() => {
-            dispatch(
-              runsActions.graphForRun({
-                runId: graph.runId,
-              }),
-            );
-          }}
-        >
-          Refresh
+          Orchestrator Logs
         </button>
-
         <div style={{ position: 'relative' }}>
-          <button onClick={() => setLegend(!legend)}>Legend</button>
           <div className="legend" style={{ display: legend ? '' : 'none' }}>
             <span>
               <Analysis /> <span>Data Analysis Artifact</span>

@@ -46,7 +46,7 @@ export const DAG: React.FC<{ runId: TId; fetching?: boolean }> = ({
   return (
     <div style={styles.container}>
       <div style={styles.dag}>
-        <LayoutFlow graph={graph} metadata={metadata} />
+        <LayoutFlow graph={graph} runId={runId} metadata={metadata} />
       </div>
     </div>
   );
