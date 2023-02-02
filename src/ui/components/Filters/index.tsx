@@ -657,7 +657,14 @@ const FilterComponent = ({
               onClick={onClick}
               ref={ref}
             >
-              <div>{value}</div>
+              <div
+                style={{
+                  fontSize: '12px',
+                  fontFamily: 'Rubik',
+                }}
+              >
+                {value}
+              </div>
               <div>
                 <icons.calendar size={iconSizes.md} color={iconColors.grey} />
               </div>
