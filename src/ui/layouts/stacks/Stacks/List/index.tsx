@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { translate } from '../translate';
 import { CollapseTable } from '../../../common/CollapseTable';
@@ -12,20 +12,28 @@ import {
   workspaceSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
+import { callActionForStacksForPagination } from '../useService';
 
 interface Props {
   filter: any;
   pagination?: boolean;
   id?: string;
   isExpended?: boolean;
+  stackComponentId?: TId;
 }
 export const List: React.FC<Props> = ({
   filter,
   pagination,
   isExpended,
   id,
+  stackComponentId,
 }: Props) => {
   const history = useHistory();
+  const { dispatchStackData } = callActionForStacksForPagination();
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   const {
     openStackIds,
     setOpenStackIds,
@@ -37,7 +45,22 @@ export const List: React.FC<Props> = ({
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService({ filter, isExpended });
+  } = useService({ filter, isExpended, stackComponentId });
+  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
+
+  useEffect(() => {
+    if (stackComponentId) {
+      dispatchStackData(
+        1,
+        ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+        filter,
+        activeSortingDirection?.toLowerCase() + ':' + activeSorting,
+        stackComponentId,
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stackComponentId]);
+  console.log(fetching, 'asdasdasd');
   const expendedRow = filteredStacks.filter((item) => item.id === id);
   const headerCols = GetHeaderCols({
     expendedRow,
@@ -51,8 +74,8 @@ export const List: React.FC<Props> = ({
     setActiveSortingDirection,
   });
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
 
+  // console.log(filter, 'filterfilterfilter');
   const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);
     if (id) {
