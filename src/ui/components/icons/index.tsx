@@ -44,7 +44,7 @@ import { ReactComponent as Cached } from './assets/Cached.svg';
 import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
 import { ReactComponent as Edit } from './assets/Edit.svg';
 import { ReactComponent as Search } from './assets/Search.svg';
-
+import { ReactComponent as Logs } from './assets/Logs.svg';
 //icons for stackComponents
 // import { ReactComponent as PuzzlePiece } from './assets/PuzzlePiece.svg';
 import { ReactComponent as Folders } from './assets/Folders.svg';
@@ -172,7 +172,7 @@ const icons = {
   edit: createIcon({ Component: Edit }),
   search: createIcon({ Component: Search }),
   run: createIcon({ Component: Run, useStroke: true }),
-
+  logs: createIcon({ Component: Logs, useStroke: true }),
   //icons for stackComponents
   artifact_store: createIcon({ Component: Folders, useStroke: true }),
   alerter: createIcon({ Component: ChatDots, useStroke: true }),
