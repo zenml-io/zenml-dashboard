@@ -110,7 +110,7 @@ const getLayoutedElements = (
 
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
-export const LayoutFlow: React.FC<any> = (graph: any, runId: any) => {
+export const LayoutFlow: React.FC<any> = (graph: any, metadata?: any) => {
   const dispatch = useDispatch();
   const {
     initialNodes: layoutedNodes,
@@ -142,6 +142,23 @@ export const LayoutFlow: React.FC<any> = (graph: any, runId: any) => {
   return (
     <>
       <div className="controls">
+        <button
+          onClick={() => {
+            window.open(
+              graph?.metadata[0]?.value
+                ? graph?.metadata[0]?.value
+                : 'https://zenml.io/home',
+            );
+
+            // dispatch(
+            //   runsActions.graphForRun({
+            //     runId: graph.runId,
+            //   }),
+            // );
+          }}
+        >
+          Logs
+        </button>
         <button
           onClick={() => {
             dispatch(

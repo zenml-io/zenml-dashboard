@@ -1,7 +1,10 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useService } from './useService';
 import { LayoutFlow } from '../lineage';
 import { FullWidthSpinner } from '../spinners';
+import { useSelector } from '../../hooks';
+import { sessionSelectors } from '../../../redux/selectors';
+import axios from 'axios';
 
 const styles = {
   container: { width: '100%', height: '100%' },
@@ -12,16 +15,38 @@ export const DAG: React.FC<{ runId: TId; fetching?: boolean }> = ({
   runId,
   fetching,
 }) => {
+  const [metadata, setMetaData] = useState([] as any);
+
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+
   const { graph } = useService({ runId });
+
+  useEffect(() => {
+    fetchMetaData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [runId]);
+
+  const fetchMetaData = async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BASE_API_URL}/run-metadata?pipeline_run_id=${runId}&key=orchestrator_url`,
+      {
+        headers: {
+          Authorization: `bearer ${authToken}`,
+        },
+      },
+    );
+
+    setMetaData(response?.data?.items); //Setting the response into state
+  };
 
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-
+  // console.log(metadata, 'metadatametadata');
   return (
     <div style={styles.container}>
       <div style={styles.dag}>
-        <LayoutFlow runId={runId} graph={graph} />
+        <LayoutFlow graph={graph} metadata={metadata} />
       </div>
     </div>
   );
