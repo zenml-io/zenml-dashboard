@@ -15,6 +15,9 @@ import './index.css';
 import { Analysis, Data, Model, Schema, Service, Statistic } from './icons';
 import { useDispatch } from '../../hooks';
 import { runsActions } from '../../../redux/actions';
+import { iconColors, iconSizes } from '../../../constants';
+import { icons } from '../icons';
+import { Box } from '../boxes';
 
 interface Edge {
   id: string;
@@ -142,7 +145,20 @@ export const LayoutFlow: React.FC<any> = (graph: any, metadata?: any) => {
   return (
     <>
       <div className="controls">
-        <button
+        <Box
+          style={{ paddingTop: '6px' }}
+          onClick={() =>
+            window.open(
+              graph?.metadata[0]?.value
+                ? graph?.metadata[0]?.value
+                : 'https://zenml.io/home',
+            )
+          }
+        >
+          {/* Logs */}
+          <icons.logs size={iconSizes.lg} color={iconColors.black} />
+        </Box>
+        {/* <button
           onClick={() => {
             window.open(
               graph?.metadata[0]?.value
@@ -158,7 +174,7 @@ export const LayoutFlow: React.FC<any> = (graph: any, metadata?: any) => {
           }}
         >
           Logs
-        </button>
+        </button> */}
         <button
           onClick={() => {
             dispatch(
