@@ -190,6 +190,12 @@ export const Table: React.FC<TableProps> = ({
     componentName === 'components'
       ? locationPath.pathname.split('/')[6]
       : locationPath.pathname.split('/')[5];
+  const CheckIfStackFormComponents =
+    componentName === 'components' &&
+    locationPath.pathname.split('/')[6] === 'stacks'
+      ? locationPath.pathname.split('/')[6]
+      : locationPath.pathname.split('/')[5];
+
   const id =
     componentName === 'components'
       ? locationPath.pathname.split('/')[5]
@@ -201,6 +207,7 @@ export const Table: React.FC<TableProps> = ({
     if (filters) {
       setPageIndex(0);
     }
+
     switch (componentName) {
       case 'stacks':
         if (CheckIfRun) {
@@ -218,11 +225,21 @@ export const Table: React.FC<TableProps> = ({
             itemPerPage,
             checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
+            locationPath.pathname.split('/')[6],
           );
           break;
         }
       case 'components':
-        if (CheckIfRun) {
+        if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
+          dispatchStackData(
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (validFilters as any) : [],
+            activeSorting,
+            locationPath.pathname.split('/')[5],
+          );
+          break;
+        } else if (CheckIfRun && CheckIfStackFormComponents === 'runs') {
           dispatchStackComponentRunsData(
             id,
             1,

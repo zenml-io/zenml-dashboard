@@ -4,6 +4,7 @@ import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 
 const getMyStacksApi = ({
+  component_id,
   workspace,
   sort_by,
   logical_operator,
@@ -12,6 +13,7 @@ const getMyStacksApi = ({
   filtersParam,
   authenticationToken,
 }: {
+  component_id?: any;
   workspace: string;
   sort_by: string;
   logical_operator: string;
@@ -22,7 +24,14 @@ const getMyStacksApi = ({
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.Stacks.my(workspace)),
-    params: { sort_by, logical_operator, page, size, ...filtersParam },
+    params: {
+      component_id,
+      sort_by,
+      logical_operator,
+      page,
+      size,
+      ...filtersParam,
+    },
     method: httpMethods.get,
     authenticationToken,
   });

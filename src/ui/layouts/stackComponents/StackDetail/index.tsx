@@ -13,10 +13,12 @@ import { BasePage } from '../BasePage';
 import { useService } from './useService';
 import { useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
+  getInitialFilterState,
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { List } from '../Stacks/List';
+import { List as StackComponenList } from '../Stacks/List';
+import { List } from '../../stacks/Stacks/List';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -46,6 +48,35 @@ const FilterWrapperForRun = () => {
     </FilterComponent>
   );
 };
+
+const FilterWrapperForStacks = () => {
+  const locationPath = useLocationPath();
+
+  // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
+  const [filters, setFilter] = useState([getInitialFilterState()]);
+  function getFilter(values: any) {
+    const filterValuesMap = values.map((v: any) => {
+      return {
+        column: v.column.selectedValue,
+        type: v.contains.selectedValue,
+        value: v.filterValue,
+      };
+    });
+    return filterValuesMap;
+  }
+  return (
+    <FilterComponent
+      getInitials={getInitialFilterState}
+      filters={filters}
+      setFilter={setFilter}
+    >
+      <List
+        stackComponentId={locationPath.split('/')[5]}
+        filter={getFilter(filters)}
+      />
+    </FilterComponent>
+  );
+};
 const getTabPages = (
   stackId: TId,
   locationPath: any,
@@ -65,6 +96,15 @@ const getTabPages = (
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
       path: routePaths.stackComponents.runs(
+        locationPath.split('/')[4],
+        stackId,
+        selectedWorkspace,
+      ),
+    },
+    {
+      text: 'Stacks',
+      Component: FilterWrapperForStacks,
+      path: routePaths.stackComponents.stacks(
         locationPath.split('/')[4],
         stackId,
         selectedWorkspace,
@@ -191,12 +231,12 @@ export const StackDetail: React.FC = () => {
         </Box>
       </Box> */}
       <Box paddingTop={'xl'}>
-        <List
+        <StackComponenList
           filter={[]}
           pagination={false}
           isExpended
           id={stackComponent.id}
-        ></List>
+        ></StackComponenList>
         {/* <>
           <table className={cn(styles.table)}>
             <tbody>
