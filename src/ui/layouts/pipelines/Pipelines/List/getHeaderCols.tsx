@@ -6,7 +6,7 @@ import {
   Box,
   FlexBox,
   icons,
-  LinkBox,
+  // LinkBox,
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
@@ -47,42 +47,53 @@ export const GetHeaderCols = ({
     activeSortingDirection,
     filteredPipelines,
   });
+  console.log('expendedRow', expendedRow);
   return [
-    {
-      width: '3%',
-      renderRow: (pipeline: TPipeline) => (
-        <LinkBox
-          style={{ padding: 0 }}
-          onClick={(e: Event) => {
-            e.stopPropagation();
-            if (openPipelineIds.indexOf(pipeline.id) === -1) {
-              setOpenPipelineIds([...openPipelineIds, pipeline.id]);
-            } else {
-              setOpenPipelineIds(
-                openPipelineIds.filter((id: TId) => id !== pipeline.id),
-              );
-            }
-          }}
-        >
-          <FlexBox
-            justifyContent="center"
-            style={{ paddingTop: '5px', paddingBottom: '5px' }}
-          >
-            {openPipelineIds.indexOf(pipeline.id) === -1 ? (
-              <icons.chevronDownLight
-                color={iconColors.grey}
-                size={iconSizes.sm}
-              />
-            ) : (
-              <icons.chevronUpLight
-                color={iconColors.grey}
-                size={iconSizes.sm}
-              />
-            )}
-          </FlexBox>
-        </LinkBox>
-      ),
-    },
+    // {
+    //   width: '3%',
+    //   renderRow: (pipeline: TPipeline) => (
+    //     <FlexBox
+    //       justifyContent="center"
+    //       style={{ paddingTop: '5px', paddingBottom: '5px' }}
+    //     >
+    //       {expendedRow?.length === 1 ? (
+    //         <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+    //       ) : (
+    //         <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+    //       )}
+    //     </FlexBox>
+    //     // <LinkBox
+    //     //   style={{ padding: 0 }}
+    //     //   onClick={(e: Event) => {
+    //     //     e.stopPropagation();
+    //     //     if (openPipelineIds.indexOf(pipeline.id) === -1) {
+    //     //       setOpenPipelineIds([...openPipelineIds, pipeline.id]);
+    //     //     } else {
+    //     //       setOpenPipelineIds(
+    //     //         openPipelineIds.filter((id: TId) => id !== pipeline.id),
+    //     //       );
+    //     //     }
+    //     //   }}
+    //     // >
+    //     //   <FlexBox
+    //     //     justifyContent="center"
+    //     //     style={{ paddingTop: '5px', paddingBottom: '5px' }}
+    //     //   >
+    //     //     {openPipelineIds.indexOf(pipeline.id) === -1 ? (
+    //     //       <icons.chevronDownLight
+    //     //         color={iconColors.grey}
+    //     //         size={iconSizes.sm}
+    //     //       />
+    //     //     ) : (
+    //     //       <icons.chevronUpLight
+    //     //         color={iconColors.grey}
+    //     //         size={iconSizes.sm}
+    //     //       />
+    //     //     )}
+    //     //   </FlexBox>
+    //     // </LinkBox>
+    //   ),
+    // },
     {
       render: () => (
         <SortingHeader
@@ -99,7 +110,11 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph
+            size="small"
+            color="black"
+            style={{ fontSize: '12px', marginLeft: '33px' }}
+          >
             ID
           </Paragraph>
         </SortingHeader>
@@ -108,9 +123,19 @@ export const GetHeaderCols = ({
       renderRow: (pipeline: TPipeline) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={pipeline.id}>
-            <Paragraph size="small">
-              {truncate(pipeline.id, ID_MAX_LENGTH)}
-            </Paragraph>
+            <FlexBox.Row style={{ alignItems: 'center' }}>
+              {expendedRow?.length === 1 ? (
+                <icons.chevronDown
+                  color={iconColors.grey}
+                  size={iconSizes.xs}
+                />
+              ) : (
+                <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
+              )}
+              <Paragraph size="small" style={{ marginLeft: '20px' }}>
+                {truncate(pipeline.id, ID_MAX_LENGTH)}
+              </Paragraph>
+            </FlexBox.Row>
           </div>
           <ReactTooltip id={pipeline.id} place="top" effect="solid">
             <Paragraph color="white">

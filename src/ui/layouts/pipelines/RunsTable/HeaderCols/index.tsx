@@ -27,6 +27,7 @@ import ReactTooltip from 'react-tooltip';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
+  expendedRow,
   runs,
   setRuns,
   activeSorting,
@@ -35,6 +36,7 @@ export const useHeaderCols = ({
   setActiveSorting,
   nestedRuns,
 }: {
+  expendedRow?: any;
   runs: TRun[];
   setRuns: (runs: TRun[]) => void;
   activeSorting: Sorting | null;
@@ -55,19 +57,19 @@ export const useHeaderCols = ({
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return nestedRuns
     ? [
-        {
-          render: () => (
-            <FlexBox justifyContent="center">
-              <Paragraph
-                size="small"
-                color="grey"
-                style={{ fontSize: '12px' }}
-              ></Paragraph>
-            </FlexBox>
-          ),
-          width: '3%',
-          renderRow: (run: TRun) => <></>,
-        },
+        // {
+        //   render: () => (
+        //     <FlexBox justifyContent="center">
+        //       <Paragraph
+        //         size="small"
+        //         color="grey"
+        //         style={{ fontSize: '12px' }}
+        //       ></Paragraph>
+        //     </FlexBox>
+        //   ),
+        //   width: '3%',
+        //   renderRow: (run: TRun) => <></>,
+        // },
         {
           render: () => (
             <SortingHeader
@@ -83,7 +85,7 @@ export const useHeaderCols = ({
               <Paragraph
                 size="small"
                 color="black"
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: '12px', marginLeft: '30px' }}
               >
                 RUN ID
               </Paragraph>
@@ -93,9 +95,19 @@ export const useHeaderCols = ({
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
               <div data-tip data-for={run.id}>
-                <Paragraph size="small">
-                  {truncate(run.id, ID_MAX_LENGTH)}
-                </Paragraph>
+                <FlexBox.Row style={{ alignItems: 'center' }}>
+                  {expendedRow?.length === 1 ? (
+                    <icons.chevronDown
+                      color={iconColors.grey}
+                      size={iconSizes.xs}
+                    />
+                  ) : (
+                    <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
+                  )}
+                  <Paragraph size="small">
+                    {truncate(run.id, ID_MAX_LENGTH)}
+                  </Paragraph>
+                </FlexBox.Row>         
               </div>
               <ReactTooltip id={run.id} place="top" effect="solid">
                 <Paragraph color="white">
@@ -231,19 +243,19 @@ export const useHeaderCols = ({
         },
       ]
     : [
-        {
-          render: () => (
-            <FlexBox justifyContent="center">
-              <Paragraph
-                size="small"
-                color="grey"
-                style={{ fontSize: '12px' }}
-              ></Paragraph>
-            </FlexBox>
-          ),
-          width: '3%',
-          renderRow: (run: TRun) => <></>,
-        },
+        // {
+        //   render: () => (
+        //     <FlexBox justifyContent="center">
+        //       <Paragraph
+        //         size="small"
+        //         color="grey"
+        //         style={{ fontSize: '12px' }}
+        //       ></Paragraph>
+        //     </FlexBox>
+        //   ),
+        //   width: '3%',
+        //   renderRow: (run: TRun) => <></>,
+        // },
         {
           render: () => (
             <SortingHeader
@@ -259,19 +271,30 @@ export const useHeaderCols = ({
               <Paragraph
                 size="small"
                 color="black"
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: '12px', marginLeft: '30px' }}
               >
                 RUN ID
-              </Paragraph>
+              </Paragraph> 
             </SortingHeader>
           ),
           width: '15%',
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
               <div data-tip data-for={run.id}>
-                <Paragraph size="small">
+
+              <FlexBox.Row style={{ alignItems: 'center' }}>
+                {expendedRow?.length === 1 ? (
+                  <icons.chevronDown
+                    color={iconColors.grey}
+                    size={iconSizes.xs}
+                  />
+                ) : (
+                  <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
+                )}
+                <Paragraph size="small" style={{ marginLeft: '20px' }}>
                   {truncate(run.id, ID_MAX_LENGTH)}
                 </Paragraph>
+              </FlexBox.Row>
               </div>
               <ReactTooltip id={run.id} place="top" effect="solid">
                 <Paragraph color="white">

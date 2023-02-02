@@ -136,10 +136,10 @@ export const Table: React.FC<TableProps> = ({
   }, [activeIndex, mouseMove, mouseUp, removeListeners]);
 
   // Demo only
-  const resetTableCells = () => {
-    debugger;
-    tableElement.current.style.gridTemplateColumns = '';
-  };
+  // const resetTableCells = () => {
+  //   debugger;
+  //   tableElement.current.style.gridTemplateColumns = '';
+  // };
 
   const [showItems, setShowItems] = useState(false);
   const [fetchingMembers, setFetchingMembers] = useState(false);
@@ -290,6 +290,9 @@ export const Table: React.FC<TableProps> = ({
     setItemPerPage(size);
   };
   // console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
+  
+  // i !== 0 &&
+
   return (
     <FlexBox.Column fullWidth>
       <IfElse
@@ -302,6 +305,7 @@ export const Table: React.FC<TableProps> = ({
                   <thead>
                     <tr style={{ backgroundColor: '#F5F3F9' }}>
                       {console.log(columns, 'columns')}
+                    
                       {columns.map(({ ref, text }, i) => (
                         <th
                           ref={ref}
@@ -324,7 +328,7 @@ export const Table: React.FC<TableProps> = ({
                           
                           <div
                             style={{ height: tableHeight }}
-                            onMouseDown={() => i !== 0 && mouseDown(i)}
+                            onMouseDown={() => mouseDown(i)}
                             className={`resize-handle ${
                               activeIndex === i ? 'active' : 'idle'
                             }`}
@@ -358,7 +362,7 @@ export const Table: React.FC<TableProps> = ({
                             }}
                             key={i}
                           >
-                            <Box paddingVertical="sm" paddingLeft="lg">
+                            <Box paddingVertical="md" paddingLeft="lg">
                               <Truncate maxLines={1}>
                                 {text.renderRow(headerRow)}
                               </Truncate>
@@ -378,7 +382,7 @@ export const Table: React.FC<TableProps> = ({
 
 
               </div>
-              <button onClick={resetTableCells}>Reset</button>
+              {/* <button onClick={resetTableCells}>Reset</button> */}
             </div>
 
             {/* <table className={styles.table} ref={tableElement}>

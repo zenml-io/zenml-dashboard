@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
@@ -11,7 +11,6 @@ import {
   Box,
   FlexBox,
   icons,
-  LinkBox,
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
@@ -49,37 +48,36 @@ export const GetHeaderCols = ({
     filteredStacks,
   });
 
-  const [toggle, setToggle] = useState(false);
   return [
-    {
-      width: '3%',
-      renderRow: (stack: TStack) => (
-        <LinkBox
-          onClick={(e: Event) => {
-            setToggle(!toggle);
-            e.stopPropagation();
-            if (openStackIds.indexOf(stack.id) === -1) {
-              setOpenStackIds([...openStackIds, stack.id]);
-            } else {
-              setOpenStackIds(
-                openStackIds.filter((id: TId) => id !== stack.id),
-              );
-            }
-          }}
-        >
-          <FlexBox
-            justifyContent="center"
-            style={{ paddingTop: '5px', paddingBottom: '5px' }}
-          >
-            {openStackIds.indexOf(stack.id) === -1 ? (
-              <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-            ) : (
-              <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-            )}
-          </FlexBox>
-        </LinkBox>
-      ),
-    },
+    // {
+    //   width: '3%',
+    //   renderRow: (stack: TStack) => (
+    //     <LinkBox
+    //       onClick={(e: Event) => {
+    //         setToggle(!toggle);
+    //         e.stopPropagation();
+    //         if (openStackIds.indexOf(stack.id) === -1) {
+    //           setOpenStackIds([...openStackIds, stack.id]);
+    //         } else {
+    //           setOpenStackIds(
+    //             openStackIds.filter((id: TId) => id !== stack.id),
+    //           );
+    //         }
+    //       }}
+    //     >
+    //       <FlexBox
+    //         justifyContent="center"
+    //         style={{ paddingTop: '5px', paddingBottom: '5px' }}
+    //       >
+    //         {openStackIds.indexOf(stack.id) === -1 ? (
+    //           <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+    //         ) : (
+    //           <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+    //         )}
+    //       </FlexBox>
+    //     </LinkBox>
+    //   ),
+    // },
     {
       render: () => (
         <SortingHeader
@@ -94,7 +92,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '33px' }}>
             ID
           </Paragraph>
         </SortingHeader>
@@ -103,9 +101,20 @@ export const GetHeaderCols = ({
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={stack.id}>
-            <Paragraph size="small">
-              {truncate(stack.id, ID_MAX_LENGTH)}
-            </Paragraph>
+          
+            <FlexBox.Row style={{ alignItems: 'center' }}>
+              {expendedRow?.length === 1 ? (
+                <icons.chevronDown
+                  color={iconColors.grey}
+                  size={iconSizes.xs}
+                />
+              ) : (
+                <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
+              )}
+              <Paragraph size="small" style={{ marginLeft: '20px' }}>
+                {truncate(stack.id, ID_MAX_LENGTH)}
+              </Paragraph>
+            </FlexBox.Row>
           </div>
           <ReactTooltip id={stack.id} place="top" effect="solid">
             <Paragraph color="white">{stack.id}</Paragraph>
