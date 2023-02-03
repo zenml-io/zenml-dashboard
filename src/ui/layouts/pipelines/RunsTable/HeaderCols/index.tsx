@@ -282,14 +282,14 @@ export const useHeaderCols = ({
               <div data-tip data-for={run.id}>
 
               <FlexBox.Row style={{ alignItems: 'center' }}>
-                {/* {expendedRow?.length === 1 ? ( */}
+                {expendedRow?.length === 1 ? (
                   <icons.chevronDown
                     color={iconColors.grey}
                     size={iconSizes.xs}
                   />
-                {/*  ) : (
+                 ) : (
                    <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
-                 )} */}
+                 )}
                 <Paragraph size="small" style={{ marginLeft: '20px' }}>
                   {truncate(run.id, ID_MAX_LENGTH)}
                 </Paragraph>
