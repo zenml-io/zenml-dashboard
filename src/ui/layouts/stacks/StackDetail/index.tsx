@@ -6,16 +6,18 @@ import React, { useState } from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
+import styles from './NestedRow.module.scss';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { List } from '../Stacks/List';
+import { Box, FlexBox, Paragraph } from '../../../components';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -42,8 +44,51 @@ const FilterWrapperForRun = () => {
     </FilterComponent>
   );
 };
-const getTabPages = (stackId: TId, selectedWorkspace: string): TabPage[] => {
+
+const getTabPages = (
+  stackId: TId,
+  selectedWorkspace: string,
+  tiles?: any,
+  history?: any,
+): TabPage[] => {
   return [
+    {
+      text: 'Components',
+      Component: () => (
+        <FlexBox.Row
+          marginVertical="sm"
+          marginHorizontal="md"
+          className={styles.nestedrow}
+          padding="md"
+          alignItems="center"
+        >
+          {tiles &&
+            tiles.map((tile: any, index: number) => (
+              <Box key={index} className={styles.tile} color="black">
+                <Paragraph
+                  size="small"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    history.push(
+                      routePaths.stackComponents.configuration(
+                        tile.type,
+                        tile.id,
+                        selectedWorkspace,
+                      ),
+                    );
+                  }}
+                >
+                  <span>
+                    {tile.type} {'>'}{' '}
+                  </span>{' '}
+                  <span className={styles.name}>{tile.name}</span>
+                </Paragraph>
+              </Box>
+            ))}
+        </FlexBox.Row>
+      ),
+      path: routePaths.stack.components(stackId, selectedWorkspace),
+    },
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration stackId={stackId} />,
@@ -87,9 +132,23 @@ export interface StackDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const { stack } = useService();
+  const history = useHistory();
+  const nestedRowtiles = [];
+  for (const [key] of Object.entries(stack.components)) {
+    nestedRowtiles.push({
+      type: key,
+      name: stack.components[key][0].name,
+      id: stack.components[key][0].id,
+    });
+  }
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
-  const tabPages = getTabPages(stack.id, selectedWorkspace);
+  const tabPages = getTabPages(
+    stack.id,
+    selectedWorkspace,
+    nestedRowtiles,
+    history,
+  );
   const breadcrumbs = getBreadcrumbs(stack.id, selectedWorkspace);
 
   // const boxStyle = {

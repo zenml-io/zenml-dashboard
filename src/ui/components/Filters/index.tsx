@@ -657,7 +657,14 @@ const FilterComponent = ({
               onClick={onClick}
               ref={ref}
             >
-              <div>{value}</div>
+              <div
+                style={{
+                  fontSize: '12px',
+                  fontFamily: 'Rubik',
+                }}
+              >
+                {value}
+              </div>
               <div>
                 <icons.calendar size={iconSizes.md} color={iconColors.grey} />
               </div>
@@ -990,6 +997,8 @@ const FilterComponent = ({
                           onChange={(value: any) => {
                             if (value) {
                               handleChangeForSearchable(filter, value.value);
+                            } else {
+                              handleChangeForSearchable(filter, '');
                             }
                           }}
                           isClearable={true}
@@ -1013,6 +1022,8 @@ const FilterComponent = ({
                           onChange={(value: any) => {
                             if (value) {
                               handleChangeForSearchable(filter, value.value);
+                            } else {
+                              handleChangeForSearchable(filter, '');
                             }
                           }}
                           isClearable={true}
@@ -1033,11 +1044,14 @@ const FilterComponent = ({
                           styles={selectStyles}
                           onInputChange={(e: any) => callActionForUsers(e)}
                           onChange={(value: any) => {
+                            console.log(value, 'valuevalue');
                             if (value) {
                               handleChangeForSearchable(filter, value.value);
+                            } else {
+                              handleChangeForSearchable(filter, '');
                             }
                           }}
-                          isClearable={true}
+                          isClearable
                           // value={'role'}
                           className={styles.searchableInput}
                           // classNamePrefix="select"

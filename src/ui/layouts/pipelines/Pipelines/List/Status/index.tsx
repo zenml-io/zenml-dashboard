@@ -37,7 +37,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                           routePaths.run.pipeline.statistics(
                             selectedWorkspace,
                             item.run.id,
-                            item.run.pipeline_id,
+                            pipeline.id,
                           ),
                         );
                       }}
@@ -68,7 +68,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                           routePaths.run.pipeline.statistics(
                             selectedWorkspace,
                             item.run.id,
-                            item.run.pipeline_id,
+                            pipeline.id,
                           ),
                         );
                       }}
@@ -99,7 +99,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                           routePaths.run.pipeline.statistics(
                             selectedWorkspace,
                             item.run.id,
-                            item.run.pipeline_id,
+                            pipeline.id,
                           ),
                         );
                       }}
@@ -130,7 +130,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                           routePaths.run.pipeline.statistics(
                             selectedWorkspace,
                             item.run.id,
-                            item.run.pipeline_id,
+                            pipeline.id,
                           ),
                         );
                       }}

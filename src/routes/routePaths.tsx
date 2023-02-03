@@ -11,7 +11,8 @@ export const routePaths = {
   dashboard: (workspace: string): string => `/workspaces/${workspace}`,
   pipelines: {
     base: `/pipelines`,
-    list: (workspace: string): string => `/workspaces/${workspace}/pipelines/list`,
+    list: (workspace: string): string =>
+      `/workspaces/${workspace}/pipelines/list`,
     allRuns: (workspace: string): string => `/workspaces/${workspace}/all-runs`,
   },
   pipeline: {
@@ -82,6 +83,8 @@ export const routePaths = {
       `/workspaces/${workspace}/stacks/${id}/configuration`,
     runs: (workspace: string, id: TId): string =>
       `/workspaces/${workspace}/stacks/${id}/runs`,
+    components: (id: TId, workspace: string): string =>
+      `/workspaces/${workspace}/stacks/${id}/component`,
   },
   runs: {
     base: (id: TId): string => `/stacks/${id}`,
@@ -96,6 +99,8 @@ export const routePaths = {
       `/workspaces/${workspace}/components/${type}/${id}/configuration`,
     runs: (type: string, id: TId, workspace: string): string =>
       `/workspaces/${workspace}/components/${type}/${id}/runs`,
+    stacks: (type: string, id: TId, workspace: string): string =>
+      `/workspaces/${workspace}/components/${type}/${id}/stacks`,
   },
 
   settings: {
