@@ -51,45 +51,45 @@ export const GetHeaderCols = ({
 
   // const [toggle, setToggle] = useState(false);
   return [
-    {
-      width: '3%',
-      renderRow: (stack: TStack) => (
-        <FlexBox
-          justifyContent="center"
-          style={{ paddingTop: '5px', paddingBottom: '5px' }}
-        >
-          {expendedRow.length === 1 ? (
-            <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-          ) : (
-            <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-          )}
-        </FlexBox>
-        // <LinkBox
-        //   onClick={(e: Event) => {
-        //     setToggle(!toggle);
-        //     e.stopPropagation();
-        //     if (openStackIds.indexOf(stack.id) === -1) {
-        //       setOpenStackIds([...openStackIds, stack.id]);
-        //     } else {
-        //       setOpenStackIds(
-        //         openStackIds.filter((id: TId) => id !== stack.id),
-        //       );
-        //     }
-        //   }}
-        // >
-        //   <FlexBox
-        //     justifyContent="center"
-        //     style={{ paddingTop: '5px', paddingBottom: '5px' }}
-        //   >
-        //     {openStackIds.indexOf(stack.id) === -1 ? (
-        //       <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-        //     ) : (
-        //       <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-        //     )}
-        //   </FlexBox>
-        // </LinkBox>
-      ),
-    },
+    // {
+    //   width: '3%',
+    //   renderRow: (stack: TStack) => (
+    //     <FlexBox
+    //       justifyContent="center"
+    //       style={{ paddingTop: '5px', paddingBottom: '5px' }}
+    //     >
+    //       {expendedRow.length === 1 ? (
+    //         <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+    //       ) : (
+    //         <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+    //       )}
+    //     </FlexBox>
+    //     // <LinkBox
+    //     //   onClick={(e: Event) => {
+    //     //     setToggle(!toggle);
+    //     //     e.stopPropagation();
+    //     //     if (openStackIds.indexOf(stack.id) === -1) {
+    //     //       setOpenStackIds([...openStackIds, stack.id]);
+    //     //     } else {
+    //     //       setOpenStackIds(
+    //     //         openStackIds.filter((id: TId) => id !== stack.id),
+    //     //       );
+    //     //     }
+    //     //   }}
+    //     // >
+    //     //   <FlexBox
+    //     //     justifyContent="center"
+    //     //     style={{ paddingTop: '5px', paddingBottom: '5px' }}
+    //     //   >
+    //     //     {openStackIds.indexOf(stack.id) === -1 ? (
+    //     //       <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+    //     //     ) : (
+    //     //       <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+    //     //     )}
+    //     //   </FlexBox>
+    //     // </LinkBox>
+    //   ),
+    // },
     {
       render: () => (
         <SortingHeader
