@@ -111,8 +111,7 @@ export const useHeaderCols = ({
               </div>
               <ReactTooltip id={run.id} place="top" effect="solid">
                 <Paragraph color="white">
-                  {run.id}
-                  {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
+                  {truncate(run.id, ID_MAX_LENGTH)}
                 </Paragraph>
               </ReactTooltip>
             </FlexBox>
@@ -283,14 +282,14 @@ export const useHeaderCols = ({
               <div data-tip data-for={run.id}>
 
               <FlexBox.Row style={{ alignItems: 'center' }}>
-                {expendedRow?.length === 1 ? (
+                {/* {expendedRow?.length === 1 ? ( */}
                   <icons.chevronDown
                     color={iconColors.grey}
                     size={iconSizes.xs}
                   />
-                ) : (
-                  <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
-                )}
+                {/*  ) : (
+                   <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
+                 )} */}
                 <Paragraph size="small" style={{ marginLeft: '20px' }}>
                   {truncate(run.id, ID_MAX_LENGTH)}
                 </Paragraph>
@@ -298,8 +297,7 @@ export const useHeaderCols = ({
               </div>
               <ReactTooltip id={run.id} place="top" effect="solid">
                 <Paragraph color="white">
-                  {run.id}
-                  {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
+                  {truncate(run.id, ID_MAX_LENGTH)}
                 </Paragraph>
               </ReactTooltip>
             </FlexBox>
