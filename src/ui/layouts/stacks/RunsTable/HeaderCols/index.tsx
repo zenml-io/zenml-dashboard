@@ -43,10 +43,10 @@ export const useHeaderCols = ({
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   return [
-    {
-      width: '2%',
-      renderRow: (stack: TStack) => <></>,
-    },
+    // {
+    //   width: '2%',
+    //   renderRow: (stack: TStack) => <></>,
+    // },
     {
       render: () => (
         <SortingHeader

@@ -370,7 +370,8 @@ export const Table: React.FC<TableProps> = ({
 
                           <div
                             style={{ height: tableHeight }}
-                            onMouseDown={() => i !== 0 && mouseDown(i)}
+                            // onMouseDown={() => i !== 0 && mouseDown(i)}
+                            onMouseDown={() => mouseDown(i)}
                             className={`resize-handle ${
                               activeIndex === i ? 'active' : 'idle'
                             }`}
