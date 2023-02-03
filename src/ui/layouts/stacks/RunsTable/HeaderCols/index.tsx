@@ -17,6 +17,7 @@ import ReactTooltip from 'react-tooltip';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
+  expendedRow,
   runs,
   setRuns,
   activeSorting,
@@ -24,6 +25,7 @@ export const useHeaderCols = ({
   setActiveSortingDirection,
   setActiveSorting,
 }: {
+  expendedRow?: any;
   runs: TRun[];
   setRuns: (runs: TRun[]) => void;
   activeSorting: Sorting | null;
@@ -43,10 +45,10 @@ export const useHeaderCols = ({
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   return [
-    {
-      width: '2%',
-      renderRow: (stack: TStack) => <></>,
-    },
+    // {
+    //   width: '2%',
+    //   renderRow: (stack: TStack) => <></>,
+    // },
     {
       render: () => (
         <SortingHeader
@@ -68,9 +70,19 @@ export const useHeaderCols = ({
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={run.id}>
-            <Paragraph size="small">
-              {truncate(run.id, ID_MAX_LENGTH)}
-            </Paragraph>
+            <FlexBox.Row style={{ alignItems: 'center' }}>
+              {expendedRow?.length === 1 ? (
+                <icons.chevronDown
+                  color={iconColors.grey}
+                  size={iconSizes.xs}
+                />
+              ) : (
+                <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
+              )}
+              <Paragraph size="small" style={{ marginLeft: '20px' }}>
+                {truncate(run.id, ID_MAX_LENGTH)}
+              </Paragraph>
+            </FlexBox.Row>
           </div>
           <ReactTooltip id={run.id} place="top" effect="solid">
             <Paragraph color="white">{run.id}</Paragraph>
