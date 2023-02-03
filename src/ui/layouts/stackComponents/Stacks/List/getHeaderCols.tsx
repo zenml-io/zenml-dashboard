@@ -46,10 +46,10 @@ export const GetHeaderCols = ({
 
   console.log(expendedRow, 'expendedRow');
   return [
-    {
-      width: '2%',
-      renderRow: (stackComponent: TStack) => <></>,
-    },
+    // {
+    //   width: '2%',
+    //   renderRow: (stackComponent: TStack) => <></>,
+    // },
 
     {
       render: () => (
