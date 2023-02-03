@@ -20,23 +20,23 @@ export const endpoints = {
     deleteInvite: (id: string): string => `/users/${id}`,
   },
 
-  projects: {
-    my: '/projects',
-    stats: (project: string) => `/projects/${project}/statistics`,
+  workspaces: {
+    my: '/workspaces',
+    stats: (workspace: string) => `/workspaces/${workspace}/statistics`,
   },
 
   pipelines: {
-    my: (project: string): string => `/projects/${project}/pipelines`,
+    my: (workspace: string): string => `/workspaces/${workspace}/pipelines`,
     get: (pipelineId: TId): string => `/pipelines/${pipelineId}`,
   },
   Stacks: {
-    my: (project: string): string => `/projects/${project}/stacks`,
+    my: (workspace: string): string => `/workspaces/${workspace}/stacks`,
     get: (stackId: TId): string => `/stacks/${stackId}`,
   },
   StackComponents: {
     types: '/component-types',
-    my: (type: string, project: string): string =>
-      `/projects/${project}/components?scope_type=${type}`,
+    my: (type: string, workspace: string): string =>
+      `/workspaces/${workspace}/components?scope_type=${type}`,
     get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
   },
   runs: {
@@ -53,7 +53,7 @@ export const endpoints = {
     graphById: {
       get: (runId: TId): string => `/runs/${runId}/graph`,
     },
-    all: (project: string): string => `/projects/${project}/runs`,
+    all: (workspace: string): string => `/workspaces/${workspace}/runs`,
     get: (runId: TId): string => `/runs/${runId}`,
   },
   roles: {

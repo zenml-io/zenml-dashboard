@@ -12,15 +12,15 @@ import { Menu } from './Menu';
 import styles from './index.module.scss';
 import { SideHeader } from './SideHeader';
 import { SideFooter } from './SideFooter';
-import { DEFAULT_PROJECT_NAME } from '../../../../../../constants';
-import { projectSelectors } from '../../../../../../redux/selectors';
+import { DEFAULT_WORKSPACE_NAME } from '../../../../../../constants';
+import { workspaceSelectors } from '../../../../../../redux/selectors';
 
 export const AuthenticatedSidebar: React.FC<{
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ mobileMenuOpen, setMobileMenuOpen }) => {
   const { push } = usePushRoute();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   return (
     <>
@@ -45,8 +45,8 @@ export const AuthenticatedSidebar: React.FC<{
           style={{ cursor: 'pointer', width: '100%', alignItems: 'center' }} flexDirection='column'
           onClick={() =>
             push(
-              `/?project=${
-                selectedProject ? selectedProject : DEFAULT_PROJECT_NAME
+              `/?workspace=${
+                selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME
               }`,
             )
           }

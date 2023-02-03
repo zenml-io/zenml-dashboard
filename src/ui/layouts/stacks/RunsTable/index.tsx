@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 import { routePaths } from '../../../../routes/routePaths';
 import { useHistory, useSelector } from '../../../hooks';
 
@@ -16,6 +16,7 @@ interface Props {
   filter: any;
 }
 export const RunsTable: React.FC<{
+  stackId?: any;
   getSorted?: any;
   runIds: TId[];
   paginated?: any;
@@ -23,7 +24,9 @@ export const RunsTable: React.FC<{
   emptyStateText: string;
   fetching: boolean;
   filter?: any;
+  id?: any;
 }> = ({
+  stackId,
   getSorted,
   runIds,
   pagination = true,
@@ -31,6 +34,7 @@ export const RunsTable: React.FC<{
   emptyStateText,
   fetching,
   filter,
+  id,
 }) => {
   const history = useHistory();
 
@@ -43,14 +47,47 @@ export const RunsTable: React.FC<{
     setActiveSortingDirection,
     setSelectedRunIds,
   } = useService({ runIds, filter });
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
-    history.push(
-      routePaths.run.stack.statistics(selectedProject, run.id, run.stack.id),
-    );
+    if (id) {
+      history.push(routePaths.stack.runs(selectedWorkspace, stackId));
+      // debugger;
+    } else {
+      history.push(
+        routePaths.run.stack.statistics(
+          selectedWorkspace,
+          run.id,
+          run.stack.id,
+        ),
+      );
+    }
   };
+
+  // const openDetailPage = (run: TRun) => {
+  //   setSelectedRunIds([]);
+
+  //   if (id) {
+  //     history.push(
+  //       routePaths.stackComponents.runs(
+  //         locationPath.split('/')[4],
+  //         stackComponentId,
+  //         selectedProject,
+  //       ),
+  //     );
+  //     // debugger;
+  //   } else {
+  //     history.push(
+  //       routePaths.run.component.statistics(
+  //         locationPath.split('/')[4],
+  //         run.stackComponentId,
+  //         run.id,
+  //         selectedProject,
+  //       ),
+  //     );
+  //   }
+  // };
 
   const headerCols = useHeaderCols({
     runs: sortedRuns,
@@ -66,7 +103,6 @@ export const RunsTable: React.FC<{
   }, [getSorted]);
   return (
     <Table
-      activeSortingDirection={activeSortingDirection}
       activeSorting={
         activeSortingDirection?.toLowerCase() + ':' + activeSorting
       } // activeSorting={

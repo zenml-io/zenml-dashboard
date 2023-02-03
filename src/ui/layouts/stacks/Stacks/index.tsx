@@ -9,10 +9,10 @@ import { useService } from './useService';
 import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 import { useLocationPath, useSelector } from '../../../hooks';
 // import { useSelector } from '../../../hooks';
-// import { projectSelectors } from '../../../../redux/selectors';
+// import { workspaceSelectors } from '../../../../redux/selectors';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -41,7 +41,7 @@ const FilterWrapper = () => {
 export const Stacks: React.FC = () => {
   const { setFetching } = useService();
   console.log(setFetching);
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const locationPath = useLocationPath();
   return (
     <BasePage
@@ -51,7 +51,7 @@ export const Stacks: React.FC = () => {
           Component: FilterWrapper,
           // path: routePaths.stacks.base,
           path: routePaths.stacks.list(
-            selectedProject ? selectedProject : locationPath.split('/')[2],
+            selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
           ),
         },
       ]}
@@ -62,7 +62,7 @@ export const Stacks: React.FC = () => {
           clickable: true,
           // to: routePaths.stacks.base,
           to: routePaths.stacks.list(
-            selectedProject ? selectedProject : locationPath.split('/')[2],
+            selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
           ),
         },
       ]}

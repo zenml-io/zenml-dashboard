@@ -1,15 +1,12 @@
 import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-import {
-  truncate,
-  formatDateToDisplayOnTable,
-} from '../../../../../utils';
+import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 import {
   Box,
   FlexBox,
   icons,
-  LinkBox,
+  // LinkBox,
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
@@ -20,6 +17,7 @@ import { useService } from './ForSorting/useServiceForSorting';
 import _ from 'lodash';
 
 export const GetHeaderCols = ({
+  expendedRow,
   openPipelineIds,
   setOpenPipelineIds,
   filteredPipelines,
@@ -29,6 +27,7 @@ export const GetHeaderCols = ({
   setActiveSortingDirection,
   setActiveSorting,
 }: {
+  expendedRow?: any;
   openPipelineIds: TId[];
   setOpenPipelineIds: (ids: TId[]) => void;
   filteredPipelines: TPipeline[];
@@ -48,39 +47,59 @@ export const GetHeaderCols = ({
     activeSortingDirection,
     filteredPipelines,
   });
+  console.log('expendedRow', expendedRow);
   return [
     {
       width: '3%',
       renderRow: (pipeline: TPipeline) => (
-        <LinkBox
-          style={{ padding: 0 }}
-          onClick={(e: Event) => {
-            e.stopPropagation();
-            if (openPipelineIds.indexOf(pipeline.id) === -1) {
-              setOpenPipelineIds([...openPipelineIds, pipeline.id]);
-            } else {
-              setOpenPipelineIds(
-                openPipelineIds.filter((id: TId) => id !== pipeline.id),
-              );
-            }
-          }}
+        <FlexBox
+          justifyContent="center"
+          style={{ paddingTop: '5px', paddingBottom: '5px' }}
         >
-          <FlexBox
-            justifyContent="center"
-            style={{ paddingTop: '5px', paddingBottom: '5px' }}
-          >
-            {openPipelineIds.indexOf(pipeline.id) === -1 ? (
-              <icons.chevronDownLight color={iconColors.grey} size={iconSizes.sm} />
-            ) : (
-              <icons.chevronUpLight color={iconColors.grey} size={iconSizes.sm} />
-            )}
-          </FlexBox>
-        </LinkBox>
+          {expendedRow?.length === 1 ? (
+            <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+          ) : (
+            <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+          )}
+        </FlexBox>
+        // <LinkBox
+        //   style={{ padding: 0 }}
+        //   onClick={(e: Event) => {
+        //     e.stopPropagation();
+        //     if (openPipelineIds.indexOf(pipeline.id) === -1) {
+        //       setOpenPipelineIds([...openPipelineIds, pipeline.id]);
+        //     } else {
+        //       setOpenPipelineIds(
+        //         openPipelineIds.filter((id: TId) => id !== pipeline.id),
+        //       );
+        //     }
+        //   }}
+        // >
+        //   <FlexBox
+        //     justifyContent="center"
+        //     style={{ paddingTop: '5px', paddingBottom: '5px' }}
+        //   >
+        //     {openPipelineIds.indexOf(pipeline.id) === -1 ? (
+        //       <icons.chevronDownLight
+        //         color={iconColors.grey}
+        //         size={iconSizes.sm}
+        //       />
+        //     ) : (
+        //       <icons.chevronUpLight
+        //         color={iconColors.grey}
+        //         size={iconSizes.sm}
+        //       />
+        //     )}
+        //   </FlexBox>
+        // </LinkBox>
       ),
     },
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={
+            filteredPipelines.length === 1 || expendedRow?.length === 1
+          }
           sorting="id"
           sortMethod={sortMethod('id', {
             asc: (filteredPipelines: TPipeline[]) =>
@@ -116,6 +135,9 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={
+            filteredPipelines.length === 1 || expendedRow?.length === 1
+          }
           sorting="name"
           sortMethod={sortMethod('name', {
             asc: (filteredPipelines: TPipeline[]) =>
@@ -159,6 +181,9 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={
+            filteredPipelines.length === 1 || expendedRow?.length === 1
+          }
           sorting="user_id"
           sortMethod={sortMethod('user_id', {
             asc: (filteredPipelines: TPipeline[]) =>
@@ -217,6 +242,9 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={
+            filteredPipelines.length === 1 || expendedRow?.length === 1
+          }
           sorting="created"
           sortMethod={sortMethod('created', {
             asc: (filteredPipelines: TPipeline[]) =>

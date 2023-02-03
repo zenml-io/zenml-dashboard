@@ -2,7 +2,8 @@ import { stackActionTypes } from '../../actionTypes';
 import getMyStacksApi from '../../../api/stacks/getMyStacksApi';
 
 export const getMyStacksAction = ({
-  project,
+  component_id,
+  workspace,
   sort_by,
   logical_operator,
   page,
@@ -12,8 +13,9 @@ export const getMyStacksAction = ({
   onSuccess,
   onFailure,
 }: {
+  component_id?: any;
   name?: string;
-  project?: string;
+  workspace?: string;
   sort_by?: string;
   logical_operator?: string;
   page?: number;
@@ -29,7 +31,8 @@ export const getMyStacksAction = ({
     failureActionType: stackActionTypes.getMyStacks.failure,
     successActionType: stackActionTypes.getMyStacks.success,
     params: {
-      project,
+      component_id,
+      workspace,
       name,
       sort_by,
       logical_operator,

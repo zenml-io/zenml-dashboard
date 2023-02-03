@@ -6,36 +6,37 @@ import { Configuration } from './Configuration';
 import { useService } from './useService';
 import { DAG } from '../../../components/dag';
 
-import { Box, Paragraph } from '../../../components';
-import { RunStatus } from './components';
-import { formatDateToDisplayOnTable } from '../../../../utils';
-import { useHistory } from 'react-router-dom';
+// import { Box, Paragraph } from '../../../components';
+// import { RunStatus } from './components';
+// import { formatDateToDisplayOnTable } from '../../../../utils';
+// import { useHistory } from 'react-router-dom';
 import { useSelector } from '../../../hooks';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
+import { Runs } from '../StackDetail/Runs';
 
 const getTabPages = ({
   stackId,
   runId,
   fetching,
-  selectedProject,
+  selectedWorkspace,
 }: {
   stackId: TId;
   runId: TId;
   fetching: boolean;
-  selectedProject: string;
+  selectedWorkspace: string;
 }): TabPage[] => {
   return [
     {
       text: 'DAG',
 
       Component: () => <DAG runId={runId} fetching={fetching} />,
-      path: routePaths.run.stack.statistics(selectedProject, runId, stackId),
+      path: routePaths.run.stack.statistics(selectedWorkspace, runId, stackId),
     },
     {
       text: 'Configuration',
 
       Component: () => <Configuration runId={runId} />,
-      path: routePaths.run.stack.results(selectedProject, runId, stackId),
+      path: routePaths.run.stack.results(selectedWorkspace, runId, stackId),
     },
   ];
 };
@@ -43,27 +44,27 @@ const getTabPages = ({
 const getBreadcrumbs = ({
   stackId,
   runId,
-  selectedProject,
+  selectedWorkspace,
 }: {
   stackId: TId;
   runId: TId;
-  selectedProject: string;
+  selectedWorkspace: string;
 }): TBreadcrumb[] => {
   return [
     {
       name: 'Stacks',
       clickable: true,
-      to: routePaths.stacks.list(selectedProject),
+      to: routePaths.stacks.list(selectedWorkspace),
     },
     {
       name: stackId,
       clickable: true,
-      to: routePaths.stack.configuration(stackId, selectedProject),
+      to: routePaths.stack.configuration(stackId, selectedWorkspace),
     },
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.stack.statistics(runId, stackId, selectedProject),
+      to: routePaths.run.stack.statistics(runId, stackId, selectedWorkspace),
     },
   ];
 };
@@ -74,37 +75,44 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, stackId, run, fetching } = useService();
-  const history = useHistory();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const { runId, stackId, fetching } = useService();
+  // const history = useHistory();
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const tabPages = getTabPages({
     runId,
     stackId,
     fetching,
-    selectedProject,
+    selectedWorkspace,
   });
   const breadcrumbs = getBreadcrumbs({
     runId,
     stackId,
-    selectedProject,
+    selectedWorkspace,
   });
-  const boxStyle = {
-    backgroundColor: '#E9EAEC',
-    padding: '10px 0',
-    borderRadius: '8px',
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'space-around',
-  };
-  const headStyle = { color: '#828282' };
+  // const boxStyle = {
+  //   backgroundColor: '#E9EAEC',
+  //   padding: '10px 0',
+  //   borderRadius: '8px',
+  //   marginTop: '20px',
+  //   display: 'flex',
+  //   justifyContent: 'space-around',
+  // };
+  // const headStyle = { color: '#828282' };
   return (
     <BasePage
       tabPages={tabPages}
       tabBasePath={routePaths.run.stack.base(runId, stackId)}
       breadcrumbs={breadcrumbs}
     >
-      <Box style={boxStyle}>
+      <Runs
+        filter={[]}
+        pagination={false}
+        runId={runId}
+        isExpended
+        stackId={stackId}
+      ></Runs>
+      {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
@@ -132,7 +140,7 @@ export const RunDetail: React.FC = () => {
               history.push(
                 routePaths.pipeline.configuration(
                   run.pipeline?.id,
-                  selectedProject,
+                  selectedWorkspace,
                 ),
               );
             }}
@@ -169,7 +177,7 @@ export const RunDetail: React.FC = () => {
             onClick={(event) => {
               event.stopPropagation();
               history.push(
-                routePaths.stack.configuration(run.stack?.id, selectedProject),
+                routePaths.stack.configuration(run.stack?.id, selectedWorkspace),
               );
             }}
           >
@@ -188,7 +196,7 @@ export const RunDetail: React.FC = () => {
             {formatDateToDisplayOnTable(run.created)}
           </Paragraph>
         </Box>
-      </Box>
+      </Box> */}
     </BasePage>
   );
 };

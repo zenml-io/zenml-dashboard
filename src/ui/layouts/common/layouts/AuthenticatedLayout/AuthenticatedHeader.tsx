@@ -14,7 +14,7 @@ import {
 import styles from './AuthenticatedHeader.module.scss';
 import { iconColors, iconSizes } from '../../../../../constants/icons';
 import {
-  projectSelectors,
+  workspaceSelectors,
   userSelectors,
 } from '../../../../../redux/selectors';
 import { getInitials } from '../../../../../utils/name';
@@ -27,7 +27,7 @@ import {
   useSelector,
 } from '../../../../hooks';
 import {
-  projectsActions,
+  workspacesActions,
   sessionActions,
   pipelinesActions,
   pipelinePagesActions,
@@ -35,7 +35,7 @@ import {
   stackPagesActions,
 } from '../../../../../redux/actions';
 import { routePaths } from '../../../../../routes/routePaths';
-import { ProjectPopup } from './ProjectPopup';
+import { WorkspacePopup } from './workspacePopup';
 import ReactTooltip from 'react-tooltip';
 // import { CookiePopup } from './CookiePopup'
 
@@ -45,8 +45,8 @@ export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ setMobileMenuOpen }) => {
   const user = useSelector(userSelectors.myUser);
-  const projects = useSelector(projectSelectors.myProjects);
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const workspaces = useSelector(workspaceSelectors.myWorkspaces);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const history = useHistory();
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
@@ -60,7 +60,7 @@ export const AuthenticatedHeader: React.FC<{
   //   const intervalId = setInterval(() => {
   //     //assign interval to a variable to clear it.
   // dispatch(
-  //   projectsActions.getMy({ selectDefault: false, selectedProject }),
+  //   workspacesActions.getMy({ selectDefault: false, selectedWorkspace }),
   // );
   //   }, 5000);
   //   return () => clearInterval(intervalId);
@@ -74,17 +74,17 @@ export const AuthenticatedHeader: React.FC<{
   //  }, [history])
 
   useEffect(() => {
-    if (locationPath.includes('projects')) {
-      const projectFromUrl = locationPath.split('/')[2];
+    if (locationPath.includes('workspaces')) {
+      const workspaceFromUrl = locationPath.split('/')[2];
 
-      if (selectedProject !== projectFromUrl && user) {
-        push(routePaths.dashboard(projectFromUrl));
+      if (selectedWorkspace !== workspaceFromUrl && user) {
+        push(routePaths.dashboard(workspaceFromUrl));
       }
 
       dispatch(
-        projectsActions.getMy({
+        workspacesActions.getMy({
           selectDefault: false,
-          selectedProject: projectFromUrl ? projectFromUrl : selectedProject,
+          selectedWorkspace: workspaceFromUrl ? workspaceFromUrl : selectedWorkspace,
         }),
       );
     }
@@ -99,10 +99,10 @@ export const AuthenticatedHeader: React.FC<{
   //     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
   //       console.info('This page is reloaded');
   //     } else {
-  //       if (selectedProject != window.location.pathname.split('/')[2]) {
+  //       if (selectedWorkspace != window.location.pathname.split('/')[2]) {
   //         console.log(
   //           'reloaded',
-  //           selectedProject,
+  //           selectedWorkspace,
   //           window.location.pathname.split('/')[2],
   //         );
   //         push(routePaths.home(window.location.pathname.split('/')[2]));
@@ -141,36 +141,36 @@ export const AuthenticatedHeader: React.FC<{
 
     await history.push(routePaths.dashboard(e?.name));
     await dispatch(
-      projectsActions.getSelectedProject({
-        allProjects: projects,
-        seletecdProject: e?.name,
+      workspacesActions.getSelectedWorkspace({
+        allWorkspaces: workspaces,
+        seletecdWorkspace: e?.name,
       }),
     );
     await dispatch(
       pipelinesActions.getMy({
-        sort_by: 'created',
+        sort_by: 'desc:created',
         logical_operator: 'and',
         page: 1,
         size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-        project: e?.name,
+        workspace: e?.name,
         onSuccess: () => stopLoad(),
         onFailure: () => stopLoad(),
       }),
     );
     await dispatch(
-      projectsActions.getMy({ selectDefault: false, selectedProject: e?.name }),
+      workspacesActions.getMy({ selectDefault: false, selectedWorkspace: e?.name }),
     );
   };
 
-  const selected = projects.some(
-    (project) => project['name'] === locationPath.split('/')[2],
+  const selected = workspaces.some(
+    (workspace) => workspace['name'] === locationPath.split('/')[2],
   )
     ? locationPath.split('/')[2].substring(0, 10)
-    : selectedProject;
+    : selectedWorkspace;
 
   return (
     <>
-      {createPopupOpen && <ProjectPopup setPopupOpen={setCreatePopupOpen} />}
+      {createPopupOpen && <WorkspacePopup setPopupOpen={setCreatePopupOpen} />}
       <FlexBox
         paddingHorizontal="lg"
         alignItems="center"
@@ -193,7 +193,7 @@ export const AuthenticatedHeader: React.FC<{
                   <FlexBox alignItems="center" className="d-none d-md-flex">
                     <Box paddingRight="sm" style={{ textAlign: 'end' }}>
                       <Paragraph>{userFullName}</Paragraph>
-                      <span className={styles.selectedProject}>{selected}</span>
+                      <span className={styles.selectedWorkspace}>{selected}</span>
                     </Box>
                   </FlexBox>
                   <Box marginRight="sm">
@@ -243,10 +243,10 @@ export const AuthenticatedHeader: React.FC<{
                           marginTop="sm"
                           style={{
                             maxHeight: '290px',
-                            overflow: projects?.length > 10 ? 'auto' : 'hidden',
+                            overflow: workspaces?.length > 10 ? 'auto' : 'hidden',
                           }}
                         >
-                          {projects.map((option, index) => (
+                          {workspaces.map((option, index) => (
                             <Box
                               marginTop="sm"
                               onClick={() => onChange(option)}

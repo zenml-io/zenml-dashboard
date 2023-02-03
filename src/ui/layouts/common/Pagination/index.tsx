@@ -84,6 +84,11 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
   } = callActionForStackComponentRunsForPagination();
   const locationPath = useLocation();
   const componentName = locationPath.pathname.split('/')[3];
+  const CheckIfStackFormComponents =
+    componentName === 'components' &&
+    locationPath.pathname.split('/')[6] === 'stacks'
+      ? locationPath.pathname.split('/')[6]
+      : locationPath.pathname.split('/')[5];
   const CheckIfRun =
     componentName === 'components'
       ? locationPath.pathname.split('/')[6]
@@ -92,8 +97,12 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
     componentName === 'components'
       ? locationPath.pathname.split('/')[5]
       : locationPath.pathname.split('/')[4];
-  // const isValidFilter = props.filters?.map((f) => f.value).join('');
-  // const [fetchingMembers, setFetchingMembers] = useState(true);
+  const isValidFilterFroValue: any = props.filters
+    ?.map((f) => f.value)
+    .join('');
+  const isValidFilterForCategory: any =
+    isValidFilterFroValue && props.filters?.map((f) => f.type.value).join('');
+  const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
   useImperativeHandle(ref, () => ({
     callOnChange(page: number, size: number, filters: any, activeSorting: any) {
       props.setPageIndex(page - 1);
@@ -128,19 +137,39 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
     switch (componentName) {
       case 'stacks':
         if (CheckIfRun) {
-          dispatchStackRunsData(id, page, size, filters as any, activeSorting);
+          dispatchStackRunsData(
+            id,
+            page,
+            size,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+          );
           break;
         } else {
-          dispatchStackData(page, size, filters as any, activeSorting);
+          dispatchStackData(
+            page,
+            size,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+          );
           break;
         }
       case 'components':
-        if (CheckIfRun) {
+        if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
+          dispatchStackData(
+            page,
+            size,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+            locationPath.pathname.split('/')[5],
+          );
+          break;
+        } else if (CheckIfRun && CheckIfStackFormComponents === 'runs') {
           dispatchStackComponentRunsData(
             id,
             page,
             size,
-            filters as any,
+            checkValidFilter.length ? (filters as any) : [],
             activeSorting,
           );
           break;
@@ -148,28 +177,55 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
           dispatchStackComponentsData(
             page,
             size,
-            filters as any,
+            checkValidFilter.length ? (filters as any) : [],
             activeSorting,
           );
           break;
         }
+      //   dispatchStackComponentRunsData(
+      //     id,
+      //     page,
+      //     size,
+      //     checkValidFilter.length ? (filters as any) : [],
+      //     activeSorting,
+
+      //   );
+      //   break;
+      // } else {
+      //   dispatchStackComponentsData(
+      //     page,
+      //     size,
+      //     checkValidFilter.length ? (filters as any) : [],
+      //     activeSorting,
+      //   );
+      //   break;
+      // }
       case 'pipelines':
         if (CheckIfRun) {
           dispatchPipelineRunsData(
             id,
             page,
             size,
-            filters as any,
+            checkValidFilter.length ? (filters as any) : [],
             activeSorting,
           );
           break;
         } else {
-          dispatchPipelineData(page, size, filters as any, activeSorting);
+          dispatchPipelineData(
+            page,
+            size,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+          );
           break;
         }
 
       case 'all-runs':
-        dispatchAllrunsData(page, size, filters as any);
+        dispatchAllrunsData(
+          page,
+          size,
+          checkValidFilter.length ? (filters as any) : [],
+        );
         break;
 
       default:

@@ -13,10 +13,12 @@ import { BasePage } from '../BasePage';
 import { useService } from './useService';
 import { useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
+  getInitialFilterState,
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
-import { projectSelectors } from '../../../../redux/selectors';
-import { List } from '../Stacks/List';
+import { workspaceSelectors } from '../../../../redux/selectors';
+import { List as StackComponenList } from '../Stacks/List';
+import { List } from '../../stacks/Stacks/List';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -46,10 +48,39 @@ const FilterWrapperForRun = () => {
     </FilterComponent>
   );
 };
+
+const FilterWrapperForStacks = () => {
+  const locationPath = useLocationPath();
+
+  // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
+  const [filters, setFilter] = useState([getInitialFilterState()]);
+  function getFilter(values: any) {
+    const filterValuesMap = values.map((v: any) => {
+      return {
+        column: v.column.selectedValue,
+        type: v.contains.selectedValue,
+        value: v.filterValue,
+      };
+    });
+    return filterValuesMap;
+  }
+  return (
+    <FilterComponent
+      getInitials={getInitialFilterState}
+      filters={filters}
+      setFilter={setFilter}
+    >
+      <List
+        stackComponentId={locationPath.split('/')[5]}
+        filter={getFilter(filters)}
+      />
+    </FilterComponent>
+  );
+};
 const getTabPages = (
   stackId: TId,
   locationPath: any,
-  selectedProject: string,
+  selectedWorkspace: string,
 ): TabPage[] => {
   return [
     {
@@ -58,7 +89,7 @@ const getTabPages = (
       path: routePaths.stackComponents.configuration(
         locationPath.split('/')[4],
         stackId,
-        selectedProject,
+        selectedWorkspace,
       ),
     },
     {
@@ -67,7 +98,16 @@ const getTabPages = (
       path: routePaths.stackComponents.runs(
         locationPath.split('/')[4],
         stackId,
-        selectedProject,
+        selectedWorkspace,
+      ),
+    },
+    {
+      text: 'Stacks',
+      Component: FilterWrapperForStacks,
+      path: routePaths.stackComponents.stacks(
+        locationPath.split('/')[4],
+        stackId,
+        selectedWorkspace,
       ),
     },
   ];
@@ -76,7 +116,7 @@ const getTabPages = (
 const getBreadcrumbs = (
   stackId: TId,
   locationPath: any,
-  selectedProject: string,
+  selectedWorkspace: string,
 ): TBreadcrumb[] => {
   return [
     {
@@ -85,7 +125,7 @@ const getBreadcrumbs = (
       clickable: true,
       to: routePaths.stackComponents.base(
         locationPath.split('/')[4],
-        selectedProject,
+        selectedWorkspace,
       ),
     },
     {
@@ -94,7 +134,7 @@ const getBreadcrumbs = (
       to: routePaths.stackComponents.configuration(
         camelCaseToParagraph(locationPath.split('/')[4]),
         stackId,
-        selectedProject,
+        selectedWorkspace,
       ),
     },
   ];
@@ -107,16 +147,16 @@ export interface StackDetailRouteParams {
 export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
   const { stackComponent } = useService();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages(
     stackComponent.id,
     locationPath,
-    selectedProject,
+    selectedWorkspace,
   );
   const breadcrumbs = getBreadcrumbs(
     stackComponent.id,
     locationPath,
-    selectedProject,
+    selectedWorkspace,
   );
 
   // const boxStyle = {
@@ -142,7 +182,7 @@ export const StackDetail: React.FC = () => {
       tabPages={tabPages}
       tabBasePath={routePaths.stackComponents.base(
         stackComponent.id,
-        selectedProject,
+        selectedWorkspace,
       )}
       breadcrumbs={breadcrumbs}
     >
@@ -191,12 +231,12 @@ export const StackDetail: React.FC = () => {
         </Box>
       </Box> */}
       <Box paddingTop={'xl'}>
-        <List
+        <StackComponenList
           filter={[]}
           pagination={false}
           isExpended
           id={stackComponent.id}
-        ></List>
+        ></StackComponenList>
         {/* <>
           <table className={cn(styles.table)}>
             <tbody>

@@ -1,23 +1,45 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { translate } from '../translate';
 import { CollapseTable } from '../../../common/CollapseTable';
-import { useHistory, useSelector } from '../../../../hooks';
+import { useDispatch, useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
 import {
-  projectSelectors,
+  workspaceSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
+// import { callActionForStacksForPagination } from '../useService';
+import { stacksActions } from '../../../../../redux/actions';
 
 interface Props {
   filter: any;
+  pagination?: boolean;
+  id?: string;
+  isExpended?: boolean;
+  stackComponentId?: TId;
 }
-export const List: React.FC<Props> = ({ filter }: Props) => {
+export const List: React.FC<Props> = ({
+  filter,
+  pagination,
+  isExpended,
+  id,
+  stackComponentId,
+}: Props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const [
+    fetchingForStacksFroComponents,
+    setFetchingForStacksFroComponents,
+  ] = useState(false);
+
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   const {
     openStackIds,
     setOpenStackIds,
@@ -29,9 +51,31 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService(filter);
+  } = useService({ filter, isExpended, stackComponentId });
+  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
 
+  useEffect(() => {
+    if (stackComponentId) {
+      setFetchingForStacksFroComponents(true);
+      dispatch(
+        stacksActions.getMy({
+          component_id: stackComponentId,
+          sort_by: 'desc:created',
+          logical_operator: 'and',
+          page: 1,
+          size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+          workspace: selectedWorkspace,
+          onSuccess: () => setFetchingForStacksFroComponents(false),
+          onFailure: () => setFetchingForStacksFroComponents(false),
+        }),
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stackComponentId]);
+  console.log(fetching, 'asdasdasd');
+  const expendedRow = filteredStacks.filter((item) => item.id === id);
   const headerCols = GetHeaderCols({
+    expendedRow,
     openStackIds,
     setOpenStackIds,
     filteredStacks,
@@ -41,14 +85,39 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     activeSortingDirection,
     setActiveSortingDirection,
   });
-  const selectedProject = useSelector(projectSelectors.selectedProject);
-  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+
+  // console.log(filter, 'filterfilterfilter');
   const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);
-
-    history.push(routePaths.stack.configuration(stack.id, selectedProject));
+    if (id) {
+      history.push(routePaths.stacks.list(selectedWorkspace));
+    } else {
+      history.push(routePaths.stack.components(stack.id, selectedWorkspace));
+    }
   };
 
+  // const openDetailPage = (stackComponent: TStack) => {
+  //   setSelectedRunIds([]);
+
+  //   if (id) {
+  //     history.push(
+  //       routePaths.stackComponents.base(
+  //         locationPath.split('/')[4],
+  //         selectedProject,
+  //       ),
+  //     );
+  //   } else {
+  //     history.push(
+  //       routePaths.stackComponents.configuration(
+  //         locationPath.split('/')[4],
+  //         stackComponent.id,
+  //         selectedProject,
+  //       ),
+  //     );
+  //   }
+  // };
+  console.log(filter, 'filfilterter');
   return (
     <>
       <CollapseTable
@@ -62,7 +131,6 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             />
           </>
         )}
-        activeSortingDirection={activeSortingDirection}
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
@@ -71,12 +139,19 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
         //     ? activeSorting
         //     : 'created'
         // }
+        pagination={pagination}
         paginated={stacksPaginated}
-        loading={fetching}
+        loading={
+          expendedRow.length > 0
+            ? false
+            : filter[0]?.value || !stackComponentId
+            ? fetching
+            : fetchingForStacksFroComponents
+        }
         showHeader={true}
         filters={filter}
         headerCols={headerCols}
-        tableRows={filteredStacks}
+        tableRows={expendedRow.length > 0 ? expendedRow : filteredStacks}
         emptyState={{ text: translate('emptyState.text') }}
         trOnClick={openDetailPage}
       />

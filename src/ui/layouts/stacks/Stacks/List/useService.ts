@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { stackPagesActions, stacksActions } from '../../../../../redux/actions';
 import {
-  projectSelectors,
+  workspaceSelectors,
   stackPagesSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
@@ -31,20 +31,26 @@ interface filterValue {
   type: string;
   value: string;
 }
-export const useService = (
+export const useService = ({
+  stackComponentId,
+  filter,
+  isExpended,
+}: {
+  stackComponentId?: any;
+  isExpended?: any;
   filter: {
     column: filterValue;
     type: filterValue;
     value: string;
-  }[],
-): ServiceInterface => {
+  }[];
+}): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'created',
   );
   const [
     activeSortingDirection,
     setActiveSortingDirection,
-  ] = React.useState<SortingDirection | null>('ASC');
+  ] = React.useState<SortingDirection | null>('DESC');
   const dispatch = useDispatch();
 
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
@@ -54,7 +60,7 @@ export const useService = (
 
   const Stacks = useSelector(stackSelectors.mystacks);
   const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const isValidFilter = filter.map((f) => f.value).join('');
 
   useEffect(() => {
@@ -62,15 +68,16 @@ export const useService = (
   }, [Stacks, filter]);
 
   useEffect(() => {
-    if (!isValidFilter) {
+    if (!isValidFilter && !isExpended) {
       const applySorting =
         activeSortingDirection?.toLowerCase() + ':' + activeSorting;
       const intervalId = setInterval(() => {
         dispatch(
           stacksActions.getMy({
+            component_id: stackComponentId,
             sort_by: applySorting ? applySorting : 'created',
             logical_operator: 'and',
-            project: selectedProject,
+            workspace: selectedWorkspace,
             page: stacksPaginated.page,
             size: stacksPaginated.size,
           }),

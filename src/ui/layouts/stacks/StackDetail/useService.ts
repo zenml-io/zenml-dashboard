@@ -37,7 +37,7 @@ export const useService = (): ServiceInterface => {
     // Legacy: previously runs was in pipeline
     dispatch(
       stacksActions.allRunsByStackId({
-        sort_by: 'created',
+        sort_by: 'desc:created',
         logical_operator: 'and',
         page: 1,
         size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
@@ -59,7 +59,7 @@ export const useService = (): ServiceInterface => {
 
 export const callActionForStackRunsForPagination = () => {
   const dispatch = useDispatch();
-  // const selectedProject = useSelector(projectSelectors.selectedProject);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   // const { id } = useParams<PipelineDetailRouteParams>();
   function dispatchStackRunsData(
     id: any,

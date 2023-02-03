@@ -9,7 +9,7 @@ import {
   stackPagesActions,
 } from '../../../../../redux/actions';
 import {
-  projectSelectors,
+  workspaceSelectors,
   stackComponentSelectors,
   stackPagesSelectors,
   stackSelectors,
@@ -36,20 +36,24 @@ interface filterValue {
   value: string;
 }
 
-export const useService = (
+export const useService = ({
+  filter,
+  isExpended,
+}: {
+  isExpended?: any;
   filter: {
     column: filterValue;
     type: filterValue;
     value: string;
-  }[],
-): ServiceInterface => {
+  }[];
+}): ServiceInterface => {
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'created',
   );
   const [
     activeSortingDirection,
     setActiveSortingDirection,
-  ] = React.useState<SortingDirection | null>('ASC');
+  ] = React.useState<SortingDirection | null>('DESC');
   const dispatch = useDispatch();
   const locationPath = useLocationPath();
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
@@ -60,17 +64,17 @@ export const useService = (
   const stackComponents = useSelector(
     stackComponentSelectors.mystackComponents,
   );
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const stackComponentsPaginated = useSelector(
     stackComponentSelectors.mystackComponentsPaginated,
   );
-  const isValidFilter = filter.map((f) => f.value).join('');
+  const isValidFilter = filter?.map((f) => f.value).join('');
   useEffect(() => {
     setFilteredStacks(stackComponents as TStack[]);
   }, [stackComponents, filter]);
 
   useEffect(() => {
-    if (!isValidFilter) {
+    if (!isValidFilter && !isExpended) {
       const intervalId = setInterval(() => {
         const applySorting =
           activeSortingDirection?.toLowerCase() + ':' + activeSorting;
@@ -81,8 +85,8 @@ export const useService = (
             page: stackComponentsPaginated.page,
             size: stackComponentsPaginated.size,
             type: locationPath.split('/')[4],
-            project: selectedProject
-              ? selectedProject
+            workspace: selectedWorkspace
+              ? selectedWorkspace
               : locationPath.split('/')[2],
           }),
         );

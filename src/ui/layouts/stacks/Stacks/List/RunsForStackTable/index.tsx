@@ -7,7 +7,7 @@ import { useService } from './useService';
 import styles from './NestedRow.module.scss';
 import { useHistory, useSelector } from '../../../../../hooks';
 import { routePaths } from '../../../../../../routes/routePaths';
-import { projectSelectors } from '../../../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../../../redux/selectors';
 export const RunsForStackTable: React.FC<{
   stack: TStack;
   openStackIds: TId[];
@@ -59,7 +59,7 @@ interface NestedRowProps {
 }
 function NestedRow({ tiles }: NestedRowProps) {
   const history = useHistory();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   return (
     <FlexBox.Row
@@ -80,7 +80,7 @@ function NestedRow({ tiles }: NestedRowProps) {
                   routePaths.stackComponents.configuration(
                     tile.type,
                     tile.id,
-                    selectedProject,
+                    selectedWorkspace,
                   ),
                 );
               }}

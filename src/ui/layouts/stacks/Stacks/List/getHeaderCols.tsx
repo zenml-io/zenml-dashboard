@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React, { useState } from 'react';
+import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
@@ -11,7 +11,7 @@ import {
   Box,
   FlexBox,
   icons,
-  LinkBox,
+  // LinkBox,
   Paragraph,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
@@ -20,7 +20,8 @@ import { Sorting, SortingDirection } from './ForSorting/types';
 import { useService } from './ForSorting/useServiceForSorting';
 
 export const GetHeaderCols = ({
-  openStackIds,
+  expendedRow,
+  // openStackIds,
   setOpenStackIds,
   filteredStacks,
   setFilteredStacks,
@@ -29,6 +30,7 @@ export const GetHeaderCols = ({
   setActiveSortingDirection,
   setActiveSorting,
 }: {
+  expendedRow?: any;
   openStackIds: TId[];
   setOpenStackIds: (ids: TId[]) => void;
   filteredStacks: TStack[];
@@ -47,40 +49,51 @@ export const GetHeaderCols = ({
     filteredStacks,
   });
 
-  const [toggle, setToggle] = useState(false);
+  // const [toggle, setToggle] = useState(false);
   return [
     {
       width: '3%',
       renderRow: (stack: TStack) => (
-        <LinkBox
-          onClick={(e: Event) => {
-            setToggle(!toggle);
-            e.stopPropagation();
-            if (openStackIds.indexOf(stack.id) === -1) {
-              setOpenStackIds([...openStackIds, stack.id]);
-            } else {
-              setOpenStackIds(
-                openStackIds.filter((id: TId) => id !== stack.id),
-              );
-            }
-          }}
+        <FlexBox
+          justifyContent="center"
+          style={{ paddingTop: '5px', paddingBottom: '5px' }}
         >
-          <FlexBox
-            justifyContent="center"
-            style={{ paddingTop: '5px', paddingBottom: '5px' }}
-          >
-            {openStackIds.indexOf(stack.id) === -1 ? (
-              <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-            ) : (
-              <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-            )}
-          </FlexBox>
-        </LinkBox>
+          {expendedRow.length === 1 ? (
+            <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+          ) : (
+            <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+          )}
+        </FlexBox>
+        // <LinkBox
+        //   onClick={(e: Event) => {
+        //     setToggle(!toggle);
+        //     e.stopPropagation();
+        //     if (openStackIds.indexOf(stack.id) === -1) {
+        //       setOpenStackIds([...openStackIds, stack.id]);
+        //     } else {
+        //       setOpenStackIds(
+        //         openStackIds.filter((id: TId) => id !== stack.id),
+        //       );
+        //     }
+        //   }}
+        // >
+        //   <FlexBox
+        //     justifyContent="center"
+        //     style={{ paddingTop: '5px', paddingBottom: '5px' }}
+        //   >
+        //     {openStackIds.indexOf(stack.id) === -1 ? (
+        //       <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+        //     ) : (
+        //       <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+        //     )}
+        //   </FlexBox>
+        // </LinkBox>
       ),
     },
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="id"
           sortMethod={sortMethod('id', {
             asc: (filteredStacks: TStack[]) =>
@@ -113,6 +126,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="name"
           sortMethod={sortMethod('name', {
             asc: (filteredStacks: TStack[]) =>
@@ -145,6 +159,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="is_shared"
           sortMethod={sortMethod('is_shared', {
             asc: (filteredStacks: TStack[]) =>
@@ -204,6 +219,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="user_id"
           sortMethod={sortMethod('user_id', {
             asc: (filteredStacks: TStack[]) =>
@@ -221,7 +237,6 @@ export const GetHeaderCols = ({
       ),
       width: '11%',
       renderRow: (stack: TStack) => {
-        
         return (
           <FlexBox alignItems="center">
             <div
@@ -254,6 +269,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="created"
           sortMethod={sortMethod('created', {
             asc: (filteredStacks: TStack[]) =>

@@ -2,7 +2,7 @@ import {
   RouteInterface,
   RouteVisibilityAuthentication,
 } from '../RouteVisibility';
-import { loggedOutRoute, DEFAULT_PROJECT_NAME } from '../../constants';
+import { loggedOutRoute, DEFAULT_WORKSPACE_NAME } from '../../constants';
 import { routePaths } from '../routePaths';
 
 const isUnauthenticatedOrMissingRoute = (
@@ -47,7 +47,7 @@ export const replaceRouteIfNeeded = ({
     const logRoute =
       user?.emailOptedIn === null
         ? `/user-email`
-        : routePaths.dashboard(DEFAULT_PROJECT_NAME);
+        : routePaths.dashboard(DEFAULT_WORKSPACE_NAME);
 
     return isAuthenticated ? logRoute : loggedOutRoute;
   };

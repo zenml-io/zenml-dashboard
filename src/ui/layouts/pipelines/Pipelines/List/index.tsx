@@ -10,15 +10,23 @@ import { GetHeaderCols } from './getHeaderCols';
 import { RunsForPipelineTable } from './RunsForPipelineTable';
 import {
   pipelineSelectors,
-  projectSelectors,
+  workspaceSelectors,
 } from '../../../../../redux/selectors';
 
 interface Props {
   filter: any;
+  pagination?: boolean;
+  id?: string;
+  isExpended?: boolean;
 }
-export const List: React.FC<Props> = ({ filter }: Props) => {
+export const List: React.FC<Props> = ({
+  filter,
+  pagination,
+  isExpended,
+  id,
+}: Props) => {
   const history = useHistory();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const pipelinesPaginated = useSelector(
     pipelineSelectors.myPipelinesPaginated,
   );
@@ -33,9 +41,11 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService(filter);
+  } = useService({ filter, isExpended });
+  const expendedRow = filteredPipelines.filter((item) => item.id === id);
 
   const headerCols = GetHeaderCols({
+    expendedRow,
     openPipelineIds,
     setOpenPipelineIds,
     filteredPipelines,
@@ -48,10 +58,11 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
 
   const openDetailPage = (pipeline: TPipeline) => {
     setSelectedRunIds([]);
-
-    history.push(
-      routePaths.pipeline.configuration(pipeline.id, selectedProject),
-    );
+    if (id) {
+      history.push(routePaths.pipelines.list(selectedWorkspace));
+    } else {
+      history.push(routePaths.pipeline.runs(selectedWorkspace, pipeline.id));
+    }
   };
 
   return (
@@ -65,7 +76,6 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
             nestedRow={true}
           />
         )}
-        activeSortingDirection={activeSortingDirection}
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
@@ -74,12 +84,13 @@ export const List: React.FC<Props> = ({ filter }: Props) => {
         //     ? activeSorting
         //     : 'created'
         // }
+        pagination={pagination}
         paginated={pipelinesPaginated}
-        loading={fetching}
+        loading={expendedRow.length > 0 ? false : fetching}
         showHeader={true}
         filters={filter}
         headerCols={headerCols}
-        tableRows={filteredPipelines}
+        tableRows={expendedRow.length > 0 ? expendedRow : filteredPipelines}
         emptyState={{ text: translate('emptyState.text') }}
         trOnClick={openDetailPage}
       />

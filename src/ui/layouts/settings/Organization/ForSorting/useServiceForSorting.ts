@@ -88,17 +88,17 @@ export const useService = ({
   ) => () => {
     if (sorting === activeSorting) {
       if (!!activeSortingDirection && activeSortingDirection === 'ASC') {
-        sort && setFilteredMembers(sort.desc(filteredMembers));
+        // sort && setFilteredMembers(sort.desc(filteredMembers));
         setActiveSortingDirection('DESC');
       } else if (
         !!activeSortingDirection &&
         activeSortingDirection === 'DESC'
       ) {
-        sort && setFilteredMembers(sort.asc(filteredMembers));
+        // sort && setFilteredMembers(sort.asc(filteredMembers));
         setActiveSortingDirection('ASC');
       }
     } else {
-      sort && setFilteredMembers(sort.desc(filteredMembers));
+      // sort && setFilteredMembers(sort.desc(filteredMembers));
       setActiveSortingDirection('DESC');
     }
     setActiveSorting(sorting);

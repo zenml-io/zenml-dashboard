@@ -10,7 +10,6 @@ export const CollapseTable: React.FC<TableProps & CollapseTableProps> = ({
   headerCols,
   tableRows,
   activeSorting,
-  activeSortingDirection,
   showHeader = true,
   pagination = true,
   loading = false,
@@ -23,7 +22,6 @@ export const CollapseTable: React.FC<TableProps & CollapseTableProps> = ({
   // console.log('activeSorting', activeSorting);
   return (
     <Table
-      activeSortingDirection={activeSortingDirection}
       activeSorting={activeSorting}
       headerCols={headerCols}
       tableRows={tableRows}

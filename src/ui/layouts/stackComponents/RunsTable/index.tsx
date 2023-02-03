@@ -6,9 +6,10 @@ import { Table } from '../../common/Table';
 
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
-import { projectSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 
 export const RunsTable: React.FC<{
+  stackComponentId?: any;
   getSorted?: any;
   runIds: TId[];
   paginated?: any;
@@ -16,7 +17,9 @@ export const RunsTable: React.FC<{
   emptyStateText: string;
   fetching: boolean;
   filter?: any;
+  id?: any;
 }> = ({
+  stackComponentId,
   getSorted,
   runIds,
   pagination = true,
@@ -24,11 +27,12 @@ export const RunsTable: React.FC<{
   emptyStateText,
   fetching,
   filter,
+  id,
 }) => {
   const history = useHistory();
   const locationPath = useLocationPath();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
-
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // debugger;
   const {
     sortedRuns,
     setSortedRuns,
@@ -41,15 +45,48 @@ export const RunsTable: React.FC<{
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
-    history.push(
-      routePaths.run.component.statistics(
-        locationPath.split('/')[4],
-        run.stackComponentId,
-        run.id,
-        selectedProject,
-      ),
-    );
+
+    if (id) {
+      history.push(
+        routePaths.stackComponents.runs(
+          locationPath.split('/')[4],
+          stackComponentId,
+          selectedWorkspace,
+        ),
+      );
+      // debugger;
+    } else {
+      history.push(
+        routePaths.run.component.statistics(
+          locationPath.split('/')[4],
+          run.stackComponentId,
+          run.id,
+          selectedWorkspace,
+        ),
+      );
+    }
   };
+
+  // const openDetailPage = (stackComponent: TStack) => {
+  //   setSelectedRunIds([]);
+
+  //   if (id) {
+  //     history.push(
+  //       routePaths.stackComponents.base(
+  //         locationPath.split('/')[4],
+  //         selectedProject,
+  //       ),
+  //     );
+  //   } else {
+  //     history.push(
+  //       routePaths.stackComponents.configuration(
+  //         locationPath.split('/')[4],
+  //         stackComponent.id,
+  //         selectedProject,
+  //       ),
+  //     );
+  //   }
+  // };
 
   const headerCols = useHeaderCols({
     runs: sortedRuns,
@@ -66,7 +103,6 @@ export const RunsTable: React.FC<{
   }, [getSorted]);
   return (
     <Table
-      activeSortingDirection={activeSortingDirection}
       activeSorting={
         activeSortingDirection?.toLowerCase() + ':' + activeSorting
       }

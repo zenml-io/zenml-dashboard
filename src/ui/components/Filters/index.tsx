@@ -9,7 +9,7 @@ import {
   Paragraph,
 } from '../../components';
 import { iconColors, iconSizes } from '../../../constants';
-import { formatDateToDisplay } from '../../../utils';
+import { formatDateToDisplayWithoutTime } from '../../../utils';
 import DatePicker from 'react-datepicker';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -20,7 +20,7 @@ import { useDispatch, useSelector } from '../../hooks';
 import {
   organizationSelectors,
   pipelineSelectors,
-  projectSelectors,
+  workspaceSelectors,
   stackSelectors,
 } from '../../../redux/selectors';
 import {
@@ -437,7 +437,7 @@ const FilterComponent = ({
   const members = useSelector(organizationSelectors.myMembers);
   const pipelines = useSelector(pipelineSelectors.myPipelines);
   const stacks = useSelector(stackSelectors.mystacks);
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   console.log(members, 'members');
   function handleChange(filter: any, key: string, value: string) {
     filter[key].selectedValue = filter[key].options.filter(
@@ -504,24 +504,24 @@ const FilterComponent = ({
     if (name) {
       dispatch(
         pipelinesActions.getMy({
-          project: selectedProject,
+          workspace: selectedWorkspace,
           name: 'contains:' + name,
         }),
       );
     } else {
-      dispatch(pipelinesActions.getMy({ project: selectedProject }));
+      dispatch(pipelinesActions.getMy({ workspace: selectedWorkspace }));
     }
   }
   function callActionForStacks(name: string) {
     if (name) {
       dispatch(
         stacksActions.getMy({
-          project: selectedProject,
+          workspace: selectedWorkspace,
           name: 'contains:' + name,
         }),
       );
     } else {
-      dispatch(stacksActions.getMy({ project: selectedProject }));
+      dispatch(stacksActions.getMy({ workspace: selectedWorkspace }));
     }
   }
 
@@ -609,6 +609,24 @@ const FilterComponent = ({
     //     break;
     // }
   }
+  const authorOptions = members.map((item: any) => {
+    return {
+      label: item.name as string,
+      value: item.id as string,
+    };
+  }) as any;
+  const pipelinesOptions = pipelines.map((item: any) => {
+    return {
+      label: item.name as string,
+      value: item.id as string,
+    };
+  }) as any;
+  const stacksOptions = stacks.map((item: any) => {
+    return {
+      label: item.name as string,
+      value: item.id as string,
+    };
+  }) as any;
   const valueField = (filter: any) => {
     switch (filter?.contains.selectedValue.type) {
       case 'string':
@@ -639,7 +657,14 @@ const FilterComponent = ({
               onClick={onClick}
               ref={ref}
             >
-              <div>{value}</div>
+              <div
+                style={{
+                  fontSize: '12px',
+                  fontFamily: 'Rubik',
+                }}
+              >
+                {value}
+              </div>
               <div>
                 <icons.calendar size={iconSizes.md} color={iconColors.grey} />
               </div>
@@ -718,6 +743,7 @@ const FilterComponent = ({
   function getSecondColumnOptions(options: any, type: any) {
     return options.filter((o: any) => o.type === type);
   }
+  const validFilters = filters?.filter((item: any) => item.filterValue);
 
   return (
     <FlexBox.Column fullWidth>
@@ -766,7 +792,7 @@ const FilterComponent = ({
                 {console.log(filters, 'filters1')}
               </Paragraph>
             ) : filters[0]?.filterValue && !applyFilter && !searchText ? (
-              filters.map((filter: any, index: number) => {
+              validFilters.map((filter: any, index: number) => {
                 return (
                   <FlexBox.Row key={index} className={styles.tile}>
                     <Box
@@ -794,7 +820,7 @@ const FilterComponent = ({
                               filter.column.selectedValue.label,
                               filter.filterValue,
                             )
-                          : formatDateToDisplay(filter.filterValue)
+                          : formatDateToDisplayWithoutTime(filter.filterValue)
                       }`}
                     </Box>
 
@@ -958,14 +984,21 @@ const FilterComponent = ({
                       ) : // <></>
                       filter?.column?.selectedValue?.value === 'pipeline_id' ? (
                         <Select
-                          getOptionLabel={(option: any) => option.name}
-                          getOptionValue={(option: any) => option.id}
-                          options={pipelines as any}
+                          // getOptionLabel={(option: any) => option.name}
+                          // getOptionValue={(option: any) => option.id}
+                          options={pipelinesOptions}
+                          defaultValue={pipelinesOptions.filter((el: any) => {
+                            return filters.some((f: any) => {
+                              return f.filterValue === el.value;
+                            });
+                          })}
                           styles={selectStyles}
                           onInputChange={(e: any) => callActionForPipelines(e)}
                           onChange={(value: any) => {
                             if (value) {
-                              handleChangeForSearchable(filter, value.id);
+                              handleChangeForSearchable(filter, value.value);
+                            } else {
+                              handleChangeForSearchable(filter, '');
                             }
                           }}
                           isClearable={true}
@@ -976,14 +1009,21 @@ const FilterComponent = ({
                       ) : filter?.column?.selectedValue?.value ===
                         'stack_id' ? (
                         <Select
-                          getOptionLabel={(option: any) => option.name}
-                          getOptionValue={(option: any) => option.id}
-                          options={stacks as any}
+                          // getOptionLabel={(option: any) => option.name}
+                          // getOptionValue={(option: any) => option.id}
+                          options={stacksOptions}
+                          defaultValue={stacksOptions.filter((el: any) => {
+                            return filters.some((f: any) => {
+                              return f.filterValue === el.value;
+                            });
+                          })}
                           styles={selectStyles}
                           onInputChange={(e: any) => callActionForStacks(e)}
                           onChange={(value: any) => {
                             if (value) {
-                              handleChangeForSearchable(filter, value.id);
+                              handleChangeForSearchable(filter, value.value);
+                            } else {
+                              handleChangeForSearchable(filter, '');
                             }
                           }}
                           isClearable={true}
@@ -993,17 +1033,25 @@ const FilterComponent = ({
                         />
                       ) : (
                         <Select
-                          getOptionLabel={(option: any) => option.name}
-                          getOptionValue={(option: any) => option.id}
-                          options={members as any}
+                          // getOptionLabel={(option: any) => option.name}
+                          // getOptionValue={(option: any) => option.id}
+                          options={authorOptions}
+                          defaultValue={authorOptions.filter((el: any) => {
+                            return filters.some((f: any) => {
+                              return f.filterValue === el.value;
+                            });
+                          })}
                           styles={selectStyles}
                           onInputChange={(e: any) => callActionForUsers(e)}
                           onChange={(value: any) => {
+                            console.log(value, 'valuevalue');
                             if (value) {
-                              handleChangeForSearchable(filter, value.id);
+                              handleChangeForSearchable(filter, value.value);
+                            } else {
+                              handleChangeForSearchable(filter, '');
                             }
                           }}
-                          isClearable={true}
+                          isClearable
                           // value={'role'}
                           className={styles.searchableInput}
                           // classNamePrefix="select"

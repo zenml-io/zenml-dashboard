@@ -1,20 +1,23 @@
 import React, { useState } from 'react';
 
-import { Box, Paragraph, icons } from '../../../components';
-import { iconColors, iconSizes } from '../../../../constants';
-import { formatDateToDisplayOnTable } from '../../../../utils';
+// import { Box, Paragraph, icons } from '../../../components';
+// import { iconColors, iconSizes } from '../../../../constants';
+// import { formatDateToDisplayOnTable } from '../../../../utils';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
+import styles from './NestedRow.module.scss';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
-import { projectSelectors } from '../../../../redux/selectors';
-import { DEFAULT_PROJECT_NAME } from '../../../../constants';
+import { workspaceSelectors } from '../../../../redux/selectors';
+import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
+import { List } from '../Stacks/List';
+import { Box, FlexBox, Paragraph } from '../../../components';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -41,41 +44,84 @@ const FilterWrapperForRun = () => {
     </FilterComponent>
   );
 };
-const getTabPages = (stackId: TId, selectedProject: string): TabPage[] => {
+
+const getTabPages = (
+  stackId: TId,
+  selectedWorkspace: string,
+  tiles?: any,
+  history?: any,
+): TabPage[] => {
   return [
+    {
+      text: 'Components',
+      Component: () => (
+        <FlexBox.Row
+          marginVertical="sm"
+          marginHorizontal="md"
+          className={styles.nestedrow}
+          padding="md"
+          alignItems="center"
+        >
+          {tiles &&
+            tiles.map((tile: any, index: number) => (
+              <Box key={index} className={styles.tile} color="black">
+                <Paragraph
+                  size="small"
+                  style={{ cursor: 'pointer' }}
+                  onClick={() => {
+                    history.push(
+                      routePaths.stackComponents.configuration(
+                        tile.type,
+                        tile.id,
+                        selectedWorkspace,
+                      ),
+                    );
+                  }}
+                >
+                  <span>
+                    {tile.type} {'>'}{' '}
+                  </span>{' '}
+                  <span className={styles.name}>{tile.name}</span>
+                </Paragraph>
+              </Box>
+            ))}
+        </FlexBox.Row>
+      ),
+      path: routePaths.stack.components(stackId, selectedWorkspace),
+    },
     {
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration stackId={stackId} />,
-      path: routePaths.stack.configuration(stackId, selectedProject),
+      path: routePaths.stack.configuration(stackId, selectedWorkspace),
     },
     {
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
-      path: routePaths.stack.runs(selectedProject, stackId),
+      path: routePaths.stack.runs(selectedWorkspace, stackId),
     },
   ];
 };
 
 const url_string = window.location.href;
 const url = new URL(url_string);
-const projectName = url.searchParams.get('project');
-const project = projectName ? projectName : DEFAULT_PROJECT_NAME;
+const workspaceName = url.searchParams.get('workspace');
+const workspace = workspaceName ? workspaceName : DEFAULT_WORKSPACE_NAME;
 
 const getBreadcrumbs = (
   stackId: TId,
-  selectedProject: string,
+  selectedWorkspace: string,
 ): TBreadcrumb[] => {
   return [
     {
       name: translate('header.breadcrumbs.stacks.text'),
       clickable: true,
-      to: routePaths.stacks.base + `?project=${project}`,
-      // to: routePaths.stacks.list(selectedProject),
+      to: routePaths.stacks.base + `?workspace=${workspace}`,
+      // to: routePaths.stacks.list(selectedWorkspace),
     },
     {
       name: stackId,
       clickable: true,
-      to: routePaths.stack.configuration(stackId, selectedProject),
+      to: routePaths.stack.configuration(stackId, selectedWorkspace),
     },
   ];
 };
@@ -86,20 +132,34 @@ export interface StackDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const { stack } = useService();
-  const selectedProject = useSelector(projectSelectors.selectedProject);
+  const history = useHistory();
+  const nestedRowtiles = [];
+  for (const [key] of Object.entries(stack.components)) {
+    nestedRowtiles.push({
+      type: key,
+      name: stack.components[key][0].name,
+      id: stack.components[key][0].id,
+    });
+  }
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
-  const tabPages = getTabPages(stack.id, selectedProject);
-  const breadcrumbs = getBreadcrumbs(stack.id, selectedProject);
+  const tabPages = getTabPages(
+    stack.id,
+    selectedWorkspace,
+    nestedRowtiles,
+    history,
+  );
+  const breadcrumbs = getBreadcrumbs(stack.id, selectedWorkspace);
 
-  const boxStyle = {
-    backgroundColor: '#E9EAEC',
-    padding: '10px 0',
-    borderRadius: '8px',
-    marginTop: '20px',
-    display: 'flex',
-    justifyContent: 'space-around',
-  };
-  const headStyle = { color: '#828282' };
+  // const boxStyle = {
+  //   backgroundColor: '#E9EAEC',
+  //   padding: '10px 0',
+  //   borderRadius: '8px',
+  //   marginTop: '20px',
+  //   display: 'flex',
+  //   justifyContent: 'space-around',
+  // };
+  // const headStyle = { color: '#828282' };
 
   return (
     <BasePage
@@ -108,7 +168,8 @@ export const StackDetail: React.FC = () => {
       tabBasePath={routePaths.stack.base(stack.id)}
       breadcrumbs={breadcrumbs}
     >
-      <Box style={boxStyle}>
+      <List filter={[]} pagination={false} isExpended id={stack.id}></List>
+      {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>ID</Paragraph>
           <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
@@ -153,7 +214,7 @@ export const StackDetail: React.FC = () => {
             {formatDateToDisplayOnTable(stack.created)}
           </Paragraph>
         </Box>
-      </Box>
+      </Box> */}
     </BasePage>
   );
 };
