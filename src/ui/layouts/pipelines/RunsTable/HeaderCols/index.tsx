@@ -231,19 +231,19 @@ export const useHeaderCols = ({
         },
       ]
     : [
-        {
-          render: () => (
-            <FlexBox justifyContent="center">
-              <Paragraph
-                size="small"
-                color="grey"
-                style={{ fontSize: '12px' }}
-              ></Paragraph>
-            </FlexBox>
-          ),
-          width: '3%',
-          renderRow: (run: TRun) => <></>,
-        },
+        // {
+        //   render: () => (
+        //     <FlexBox justifyContent="center">
+        //       <Paragraph
+        //         size="small"
+        //         color="grey"
+        //         style={{ fontSize: '12px' }}
+        //       ></Paragraph>
+        //     </FlexBox>
+        //   ),
+        //   width: '3%',
+        //   renderRow: (run: TRun) => <></>,
+        // },
         {
           render: () => (
             <SortingHeader
