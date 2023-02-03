@@ -158,6 +158,15 @@ const routes = [
     exact: true,
   },
   {
+    path: routePaths.stack.components(':id', ':string'),
+    Component: StackDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+
+  {
     path: routePaths.stack.runs(':string', ':id'),
     Component: StackDetail,
     visibility: {
