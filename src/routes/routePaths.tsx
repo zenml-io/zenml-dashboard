@@ -84,7 +84,7 @@ export const routePaths = {
     runs: (workspace: string, id: TId): string =>
       `/workspaces/${workspace}/stacks/${id}/runs`,
     components: (id: TId, workspace: string): string =>
-      `/workspaces/${workspace}/stacks/${id}/components`,
+      `/workspaces/${workspace}/stacks/${id}/component`,
   },
   runs: {
     base: (id: TId): string => `/stacks/${id}`,
