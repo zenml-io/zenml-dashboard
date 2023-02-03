@@ -16,7 +16,6 @@ import {
 // import { matchPath } from 'react-router-dom';
 
 export const Menu: React.FC = () => {
-  
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
@@ -39,9 +38,7 @@ export const Menu: React.FC = () => {
       />
       <MenuItem
         id="runs"
-        Icon={() => (
-          <icons.run color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.run color={iconColors.white} size={iconSizes.md} />}
         to={routePaths.pipelines.allRuns(selectedWorkspace)}
         isActive={() => window.location.href?.includes('all-runs')}
         text={'Runs'}
@@ -67,7 +64,10 @@ export const Menu: React.FC = () => {
         innerItem={window.location.href?.includes('stacks')}
         // to={routePaths.stacks.base}
         text={translate('menu.stacks.text')}
-        isActive={() => window.location.href?.includes('stacks')}
+        isActive={() =>
+          window.location.href?.includes('stacks') &&
+          !window.location.href?.includes('components')
+        }
         to={routePaths.stacks.list(selectedWorkspace)}
       />
 
@@ -94,7 +94,6 @@ export const Menu: React.FC = () => {
     </>
   );
 };
-
 
 // {locationPath.includes('components') &&
 // stackComponentsTypes?.map((item: any) => (
