@@ -65,7 +65,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '25px'  }}>
             ID
           </Paragraph>
         </SortingHeader>

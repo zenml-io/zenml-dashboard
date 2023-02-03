@@ -61,7 +61,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '33px'  }}>
             RUN ID
           </Paragraph>
         </SortingHeader>
