@@ -78,7 +78,7 @@ const Component = () => {
       style={{
         borderRight: '1px solid #A8A8A8',
         padding: '0 50px 0 33px',
-        marginTop: '12rem',
+        marginTop: '10rem',
       }}
     >
       {/* <Box style={{ marginTop: '-22px' }}>
