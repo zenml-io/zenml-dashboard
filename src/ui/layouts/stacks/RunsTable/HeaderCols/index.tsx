@@ -17,6 +17,7 @@ import ReactTooltip from 'react-tooltip';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
+  isExpended,
   expendedRow,
   runs,
   setRuns,
@@ -25,6 +26,7 @@ export const useHeaderCols = ({
   setActiveSortingDirection,
   setActiveSorting,
 }: {
+  isExpended?: boolean;
   expendedRow?: any;
   runs: TRun[];
   setRuns: (runs: TRun[]) => void;
@@ -61,7 +63,11 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '33px' }}>
+          <Paragraph
+            size="small"
+            color="black"
+            style={{ fontSize: '12px', marginLeft: '33px' }}
+          >
             RUN ID
           </Paragraph>
         </SortingHeader>
@@ -71,7 +77,7 @@ export const useHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={run.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
-              {expendedRow?.length === 1 ? (
+              {isExpended ? (
                 <icons.chevronDown
                   color={iconColors.grey}
                   size={iconSizes.xs}

@@ -10,7 +10,7 @@ export const Runs: React.FC<{
   filter?: any;
   runId?: any;
   pagination?: boolean;
-}> = ({ stackComponentId, filter, pagination, runId, isExpended }) => {
+}> = ({ stackComponentId, filter, pagination, runId, isExpended = false }) => {
   const [sortBy, setSortBy] = useState('created');
   function getSorted(activeSorting: any, activeSortingDirection: any) {
     setSortBy(activeSortingDirection?.toLowerCase() + ':' + activeSorting);
@@ -26,6 +26,7 @@ export const Runs: React.FC<{
   console.log(fetching, 'fetching');
   return (
     <RunsTable
+      isExpended={isExpended}
       stackComponentId={stackComponentId}
       id={runId}
       pagination={pagination}
