@@ -65,7 +65,11 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '25px'  }}>
+          <Paragraph
+            size="small"
+            color="black"
+            style={{ fontSize: '12px', marginLeft: '25px' }}
+          >
             ID
           </Paragraph>
         </SortingHeader>
@@ -73,7 +77,7 @@ export const GetHeaderCols = ({
       width: '15%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={stackComponent.id}>           
+          <div data-tip data-for={stackComponent.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
               {expendedRow?.length === 1 ? (
                 <icons.chevronDown
@@ -149,11 +153,29 @@ export const GetHeaderCols = ({
       width: '15%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
+          {console.log(
+            'urlssss',
+            `https://public-flavor-logos.s3.eu-central-1.amazonaws.com/${
+              stackComponent.type
+            }/${stackComponent.flavor}.${'png' || 'svg'}`,
+          )}
           <div data-tip data-for={stackComponent.flavor}>
+            <img
+              style={{
+                height: '37px',
+                width: '45px',
+              }}
+              // src={`https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/local.${
+              //   'png' || 'svg'
+              // }`}
+              src={`https://public-flavor-logos.s3.eu-central-1.amazonaws.com/${stackComponent.type}/${stackComponent.flavor}.png`}
+              alt="new"
+            />
             <Paragraph size="small" color="black">
-              {stackComponent.flavor}
+              {/* {stackComponent.flavor} */}
             </Paragraph>
           </div>
+          {/* https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/local.png */}
           <ReactTooltip id={stackComponent.flavor} place="top" effect="solid">
             <Paragraph color="white">{stackComponent.flavor}</Paragraph>
           </ReactTooltip>
