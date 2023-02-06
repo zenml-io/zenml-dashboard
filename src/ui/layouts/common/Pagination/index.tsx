@@ -84,6 +84,11 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
   } = callActionForStackComponentRunsForPagination();
   const locationPath = useLocation();
   const componentName = locationPath.pathname.split('/')[3];
+  const CheckIfStackFormComponents =
+    componentName === 'components' &&
+    locationPath.pathname.split('/')[6] === 'stacks'
+      ? locationPath.pathname.split('/')[6]
+      : locationPath.pathname.split('/')[5];
   const CheckIfRun =
     componentName === 'components'
       ? locationPath.pathname.split('/')[6]
@@ -150,7 +155,16 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
           break;
         }
       case 'components':
-        if (CheckIfRun) {
+        if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
+          dispatchStackData(
+            page,
+            size,
+            checkValidFilter.length ? (filters as any) : [],
+            activeSorting,
+            locationPath.pathname.split('/')[5],
+          );
+          break;
+        } else if (CheckIfRun && CheckIfStackFormComponents === 'runs') {
           dispatchStackComponentRunsData(
             id,
             page,
@@ -168,6 +182,24 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
           );
           break;
         }
+      //   dispatchStackComponentRunsData(
+      //     id,
+      //     page,
+      //     size,
+      //     checkValidFilter.length ? (filters as any) : [],
+      //     activeSorting,
+
+      //   );
+      //   break;
+      // } else {
+      //   dispatchStackComponentsData(
+      //     page,
+      //     size,
+      //     checkValidFilter.length ? (filters as any) : [],
+      //     activeSorting,
+      //   );
+      //   break;
+      // }
       case 'pipelines':
         if (CheckIfRun) {
           dispatchPipelineRunsData(

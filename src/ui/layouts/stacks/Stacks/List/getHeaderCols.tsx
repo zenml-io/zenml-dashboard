@@ -7,12 +7,7 @@ import {
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
-import {
-  Box,
-  FlexBox,
-  icons,
-  Paragraph,
-} from '../../../../components';
+import { Box, FlexBox, icons, Paragraph } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -20,7 +15,7 @@ import { useService } from './ForSorting/useServiceForSorting';
 
 export const GetHeaderCols = ({
   expendedRow,
-  openStackIds,
+  // openStackIds,
   setOpenStackIds,
   filteredStacks,
   setFilteredStacks,
@@ -92,7 +87,11 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '33px' }}>
+          <Paragraph
+            size="small"
+            color="black"
+            style={{ fontSize: '12px', marginLeft: '33px' }}
+          >
             ID
           </Paragraph>
         </SortingHeader>
@@ -101,7 +100,6 @@ export const GetHeaderCols = ({
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={stack.id}>
-          
             <FlexBox.Row style={{ alignItems: 'center' }}>
               {expendedRow?.length === 1 ? (
                 <icons.chevronDown

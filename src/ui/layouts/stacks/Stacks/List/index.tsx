@@ -1,8 +1,8 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { translate } from '../translate';
 import { CollapseTable } from '../../../common/CollapseTable';
-import { useHistory, useSelector } from '../../../../hooks';
+import { useDispatch, useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
@@ -12,20 +12,34 @@ import {
   workspaceSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
+// import { callActionForStacksForPagination } from '../useService';
+import { stacksActions } from '../../../../../redux/actions';
 
 interface Props {
   filter: any;
   pagination?: boolean;
   id?: string;
   isExpended?: boolean;
+  stackComponentId?: TId;
 }
 export const List: React.FC<Props> = ({
   filter,
   pagination,
   isExpended,
   id,
+  stackComponentId,
 }: Props) => {
   const history = useHistory();
+  const dispatch = useDispatch();
+  const [
+    fetchingForStacksFroComponents,
+    setFetchingForStacksFroComponents,
+  ] = useState(false);
+
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   const {
     openStackIds,
     setOpenStackIds,
@@ -37,7 +51,28 @@ export const List: React.FC<Props> = ({
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService({ filter, isExpended });
+  } = useService({ filter, isExpended, stackComponentId });
+  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
+
+  useEffect(() => {
+    if (stackComponentId) {
+      setFetchingForStacksFroComponents(true);
+      dispatch(
+        stacksActions.getMy({
+          component_id: stackComponentId,
+          sort_by: 'desc:created',
+          logical_operator: 'and',
+          page: 1,
+          size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+          workspace: selectedWorkspace,
+          onSuccess: () => setFetchingForStacksFroComponents(false),
+          onFailure: () => setFetchingForStacksFroComponents(false),
+        }),
+      );
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [stackComponentId]);
+  console.log(fetching, 'asdasdasd');
   const expendedRow = filteredStacks.filter((item) => item.id === id);
   const headerCols = GetHeaderCols({
     expendedRow,
@@ -51,14 +86,14 @@ export const List: React.FC<Props> = ({
     setActiveSortingDirection,
   });
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
 
+  // console.log(filter, 'filterfilterfilter');
   const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);
     if (id) {
       history.push(routePaths.stacks.list(selectedWorkspace));
     } else {
-      history.push(routePaths.stack.configuration(stack.id, selectedWorkspace));
+      history.push(routePaths.stack.components(stack.id, selectedWorkspace));
     }
   };
 
@@ -82,7 +117,7 @@ export const List: React.FC<Props> = ({
   //     );
   //   }
   // };
-
+  console.log(filter, 'filfilterter');
   return (
     <>
       <CollapseTable
@@ -106,7 +141,13 @@ export const List: React.FC<Props> = ({
         // }
         pagination={pagination}
         paginated={stacksPaginated}
-        loading={expendedRow.length > 0 ? false : fetching}
+        loading={
+          expendedRow.length > 0
+            ? false
+            : filter[0]?.value || !stackComponentId
+            ? fetching
+            : fetchingForStacksFroComponents
+        }
         showHeader={true}
         filters={filter}
         headerCols={headerCols}

@@ -110,7 +110,7 @@ const getLayoutedElements = (
 
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
-export const LayoutFlow: React.FC<any> = (graph: any, runId: any) => {
+export const LayoutFlow: React.FC<any> = (graph: any) => {
   const dispatch = useDispatch();
   const {
     initialNodes: layoutedNodes,
@@ -153,9 +153,19 @@ export const LayoutFlow: React.FC<any> = (graph: any, runId: any) => {
         >
           Refresh
         </button>
-
+        <button onClick={() => setLegend(!legend)}>Legend</button>
+        <button
+          onClick={() => {
+            window.open(
+              graph?.metadata[0]?.value
+                ? graph?.metadata[0]?.value
+                : 'https://zenml.io/home',
+            );
+          }}
+        >
+          Orchestrator Logs
+        </button>
         <div style={{ position: 'relative' }}>
-          <button onClick={() => setLegend(!legend)}>Legend</button>
           <div className="legend" style={{ display: legend ? '' : 'none' }}>
             <span>
               <Analysis /> <span>Data Analysis Artifact</span>

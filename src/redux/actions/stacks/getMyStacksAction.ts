@@ -2,6 +2,7 @@ import { stackActionTypes } from '../../actionTypes';
 import getMyStacksApi from '../../../api/stacks/getMyStacksApi';
 
 export const getMyStacksAction = ({
+  component_id,
   workspace,
   sort_by,
   logical_operator,
@@ -12,6 +13,7 @@ export const getMyStacksAction = ({
   onSuccess,
   onFailure,
 }: {
+  component_id?: any;
   name?: string;
   workspace?: string;
   sort_by?: string;
@@ -29,6 +31,7 @@ export const getMyStacksAction = ({
     failureActionType: stackActionTypes.getMyStacks.failure,
     successActionType: stackActionTypes.getMyStacks.success,
     params: {
+      component_id,
       workspace,
       name,
       sort_by,

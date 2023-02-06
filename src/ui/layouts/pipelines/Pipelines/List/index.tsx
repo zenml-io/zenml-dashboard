@@ -61,9 +61,7 @@ export const List: React.FC<Props> = ({
     if (id) {
       history.push(routePaths.pipelines.list(selectedWorkspace));
     } else {
-      history.push(
-        routePaths.pipeline.configuration(pipeline.id, selectedWorkspace),
-      );
+      history.push(routePaths.pipeline.runs(selectedWorkspace, pipeline.id));
     }
   };
 

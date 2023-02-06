@@ -3,17 +3,9 @@ import React from 'react';
 
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 
-import {
-  truncate,
-  formatDateToDisplayOnTable,
-} from '../../../../../utils';
+import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 
-import {
-  FlexBox,
-  Paragraph,
-  Box,
-  icons,
-} from '../../../../components';
+import { FlexBox, Paragraph, Box, icons } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
 

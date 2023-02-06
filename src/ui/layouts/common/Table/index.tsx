@@ -81,10 +81,10 @@ export const Table: React.FC<TableProps> = ({
   const columns = createHeaders(headerCols);
 
   useEffect(() => {
-    console.log(tableElement.current.style.gridTemplateColumns, 'offsetHeight');
-    setTableHeight(tableElement.current.offsetHeight as any);
+    // console.log(tableElement.current.style.gridTemplateColumns, 'offsetHeight');
+    setTableHeight(tableElement?.current?.offsetHeight as any);
 
-     // eslint-disable-next-line
+    // eslint-disable-next-line
   }, [tableElement.current]);
 
   const mouseDown = (index: any) => {
@@ -164,7 +164,14 @@ export const Table: React.FC<TableProps> = ({
   //   itemsPerPage: itemPerPage,
   //   items: tableRows,
   // });
-  const isValidFilter = filters?.map((f) => f.value).join('');
+  const validFilters = filters?.filter((item) => item.value);
+  console.log('checkFilter', validFilters, filters);
+
+  const isValidFilterFroValue: any = filters?.map((f) => f.value).join('');
+  const isValidFilterForCategory: any = filters
+    ?.map((f) => f.value && f.type.value)
+    .join('');
+  const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
 
   const { dispatchStackData } = callActionForStacksForPagination();
   const {
@@ -183,17 +190,24 @@ export const Table: React.FC<TableProps> = ({
     componentName === 'components'
       ? locationPath.pathname.split('/')[6]
       : locationPath.pathname.split('/')[5];
+  const CheckIfStackFormComponents =
+    componentName === 'components' &&
+    locationPath.pathname.split('/')[6] === 'stacks'
+      ? locationPath.pathname.split('/')[6]
+      : locationPath.pathname.split('/')[5];
+
   const id =
     componentName === 'components'
       ? locationPath.pathname.split('/')[5]
       : locationPath.pathname.split('/')[4];
-  // console.log(check, '333');
+  const checkForLocationPath = locationPath.pathname.split('/')[4];
   useEffect(() => {
     // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
     setItemPerPage(itemPerPage);
     if (filters) {
       setPageIndex(0);
     }
+
     switch (componentName) {
       case 'stacks':
         if (CheckIfRun) {
@@ -201,21 +215,36 @@ export const Table: React.FC<TableProps> = ({
             id,
             1,
             itemPerPage,
-            filters as any,
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
         } else {
-          dispatchStackData(1, itemPerPage, filters as any, activeSorting);
+          dispatchStackData(
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (validFilters as any) : [],
+            activeSorting,
+            locationPath.pathname.split('/')[6],
+          );
           break;
         }
       case 'components':
-        if (CheckIfRun) {
+        if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
+          dispatchStackData(
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (validFilters as any) : [],
+            activeSorting,
+            locationPath.pathname.split('/')[5],
+          );
+          break;
+        } else if (CheckIfRun && CheckIfStackFormComponents === 'runs') {
           dispatchStackComponentRunsData(
             id,
             1,
             itemPerPage,
-            filters as any,
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -223,7 +252,7 @@ export const Table: React.FC<TableProps> = ({
           dispatchStackComponentsData(
             1,
             itemPerPage,
-            filters as any,
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
@@ -234,19 +263,29 @@ export const Table: React.FC<TableProps> = ({
             id,
             1,
             itemPerPage,
-            filters as any,
+            checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
         } else {
-          console.log(itemPerPage, 'itemPerPage');
+          // console.log(checkValidFilter, 'checkValidFilter');
           if (!renderAfterRow) break;
-          dispatchPipelineData(1, itemPerPage, filters as any, activeSorting);
+          dispatchPipelineData(
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (validFilters as any) : [],
+            activeSorting,
+          );
           break;
         }
 
       case 'all-runs':
-        dispatchAllrunsData(1, itemPerPage, filters as any, activeSorting);
+        dispatchAllrunsData(
+          1,
+          itemPerPage,
+          checkValidFilter.length ? (validFilters as any) : [],
+          activeSorting,
+        );
         break;
 
       default:
@@ -267,7 +306,7 @@ export const Table: React.FC<TableProps> = ({
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationPath.pathname.split('/')[4], isValidFilter, activeSorting]);
+  }, [checkForLocationPath, checkValidFilter, activeSorting]);
   let rowsToDisplay = tableRows;
 
   // function getFetchedState(state: any) {
@@ -290,7 +329,7 @@ export const Table: React.FC<TableProps> = ({
     setItemPerPage(size);
   };
   // console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
-  
+
   // i !== 0 &&
 
   return (
@@ -301,11 +340,18 @@ export const Table: React.FC<TableProps> = ({
           <>
             <div>
               <div>
-                <table ref={tableElement as any} style={{ gridTemplateColumns: `minmax(50px, 2fr)`.repeat(columns?.length) }} >
+                <table
+                  ref={tableElement as any}
+                  style={{
+                    gridTemplateColumns: `minmax(50px, 2fr)`.repeat(
+                      columns?.length,
+                    ),
+                  }}
+                >
                   <thead>
                     <tr style={{ backgroundColor: '#F5F3F9' }}>
                       {console.log(columns, 'columns')}
-                    
+
                       {columns.map(({ ref, text }, i) => (
                         <th
                           ref={ref}
@@ -325,7 +371,7 @@ export const Table: React.FC<TableProps> = ({
                           >
                             {text.render && text.render()}
                           </Box>
-                          
+
                           <div
                             style={{ height: tableHeight }}
                             onMouseDown={() => mouseDown(i)}
@@ -340,47 +386,45 @@ export const Table: React.FC<TableProps> = ({
 
                   {rowsToDisplay.map((headerRow: any, index: number) => (
                     <>
-                    <tbody>
-                      <tr
-                        onClick={() => trOnClick && trOnClick(headerRow)}
-                        className={cn(
-                          styles.tableRow,
-                          trOnClick && styles.clickableTableRow,
-                        )}
-                        style={{
-                          backgroundColor:
-                            index % 2 !== 0 ? '#F5F3F9' : 'white',
-                        }}
-                        key={index}
-                      >
-                        {columns.map(({ ref, text }, i) => (
-                          <td
-                            className={styles.tableTd}
-                            style={{
-                              backgroundColor:
-                                index % 2 !== 0 ? '#F5F3F9' : 'white',
-                            }}
-                            key={i}
-                          >
-                            <Box paddingVertical="md" paddingLeft="lg">
-                              <Truncate maxLines={1}>
-                                {text.renderRow(headerRow)}
-                              </Truncate>
-                            </Box>
-                          </td>
-                        ))}
-                      </tr>
-                      {/* <table className={styles.collapseTable}> */}
                       <tbody>
-                        {renderAfterRow && renderAfterRow(headerRow)}
+                        <tr
+                          onClick={() => trOnClick && trOnClick(headerRow)}
+                          className={cn(
+                            styles.tableRow,
+                            trOnClick && styles.clickableTableRow,
+                          )}
+                          style={{
+                            backgroundColor:
+                              index % 2 !== 0 ? '#F5F3F9' : 'white',
+                          }}
+                          key={index}
+                        >
+                          {columns.map(({ ref, text }, i) => (
+                            <td
+                              className={styles.tableTd}
+                              style={{
+                                backgroundColor:
+                                  index % 2 !== 0 ? '#F5F3F9' : 'white',
+                              }}
+                              key={i}
+                            >
+                              <Box paddingVertical="sm" paddingLeft="lg">
+                                <Truncate maxLines={1}>
+                                  {text.renderRow(headerRow)}
+                                </Truncate>
+                              </Box>
+                            </td>
+                          ))}
+                        </tr>
+                        {/* <table className={styles.collapseTable}> */}
+                        <tbody>
+                          {renderAfterRow && renderAfterRow(headerRow)}
+                        </tbody>
+                        {/* </table> */}
                       </tbody>
-                      {/* </table> */}
-                    </tbody>
-                      </>
+                    </>
                   ))}
                 </table>
-
-
               </div>
               {/* <button onClick={resetTableCells}>Reset</button> */}
             </div>
@@ -471,7 +515,7 @@ export const Table: React.FC<TableProps> = ({
                     ref={childRef}
                     // getFetchedState={getFetchedState}
                     activeSorting={activeSorting}
-                    filters={filters}
+                    filters={validFilters}
                     itemPerPage={itemPerPage}
                     pageIndex={pageIndex}
                     setPageIndex={setPageIndex}
@@ -552,7 +596,7 @@ export const Table: React.FC<TableProps> = ({
                                                       childRef?.current?.callOnChange(
                                                         1,
                                                         parseInt(`${option}`),
-                                                        filters,
+                                                        validFilters,
                                                         activeSorting,
                                                       );
                                                       setShowItems(false);
