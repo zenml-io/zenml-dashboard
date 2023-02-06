@@ -30,6 +30,7 @@ export const AllRuns: React.FC<Props> = ({
   return (
     <>
       <RunsTable
+        isExpended={false}
         id={runId}
         pagination={pagination}
         getSorted={getSorted}

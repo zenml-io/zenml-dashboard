@@ -46,12 +46,13 @@
   font-weight: 400;
   border: 0;
   outline: none;
+  border-right: 1px solid #cacaca;
 }
 
 
 .tableTd {
   vertical-align: middle;
-  height: 53px !important;
+  // height: 53px !important;
 }
 
 .lastTable tbody tr:last-child {

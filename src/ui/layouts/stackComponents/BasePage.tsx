@@ -26,8 +26,6 @@ export const BasePage: React.FC<{
 
   return (
     <AuthenticatedLayout>
-      <Component />
-
       <SidebarContainer>      
         <IfElse
           condition={!!headerWithButtons}
@@ -45,30 +43,35 @@ export const BasePage: React.FC<{
           )}
         />
 
-        <Box>
-          {children}
-          {tabPages.length > 1 ? (
-            <Tabs pages={tabPages} basePath={tabBasePath} />
-          ) : (
-            <>
-              <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
-              <FlexBox marginBottom="xxl">
-                {/* <Switch> */}
-                <Redirect exact from={tabBasePath} to={tabPages[0].path} />
+        <FlexBox.Row>
+          <Component />
+          <Box marginLeft='lg' style={{ width: '100%' }}>
+            {children}
+            {tabPages.length > 1 ? (
+                <Tabs pages={tabPages} basePath={tabBasePath} />
+              ) : (
+              <>
+                <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
+                <FlexBox marginBottom="xxl" >
+                  {/* <Switch> */}
+                  <Redirect exact from={tabBasePath} to={tabPages[0].path} />
 
-                {tabPages.map((page, index) => (
-                  <AppRoute
-                    key={index}
-                    path={page.path}
-                    exact={true}
-                    component={page.Component}
-                  />
-                ))}
-                {/* </Switch> */}
-              </FlexBox>
-            </>
-          )}
-        </Box>
+                  {tabPages.map((page, index) => (
+                    <AppRoute
+                      key={index}
+                      path={page.path}
+                      exact={true}
+                      component={page.Component}
+                    />
+                  ))}
+                  {/* </Switch> */}
+                </FlexBox>
+              </>
+            )}
+          </Box>
+ 
+        </FlexBox.Row>
+
       </SidebarContainer>
     </AuthenticatedLayout>
   );

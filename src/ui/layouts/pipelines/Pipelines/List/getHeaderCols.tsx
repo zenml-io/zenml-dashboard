@@ -110,7 +110,11 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph
+            size="small"
+            color="black"
+            style={{ fontSize: '12px', marginLeft: '33px' }}
+          >
             ID
           </Paragraph>
         </SortingHeader>
@@ -119,9 +123,19 @@ export const GetHeaderCols = ({
       renderRow: (pipeline: TPipeline) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={pipeline.id}>
-            <Paragraph size="small">
-              {truncate(pipeline.id, ID_MAX_LENGTH)}
-            </Paragraph>
+            <FlexBox.Row style={{ alignItems: 'center' }}>
+              {expendedRow?.length === 1 ? (
+                <icons.chevronDown
+                  color={iconColors.grey}
+                  size={iconSizes.xs}
+                />
+              ) : (
+                <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
+              )}
+              <Paragraph size="small" style={{ marginLeft: '20px' }}>
+                {truncate(pipeline.id, ID_MAX_LENGTH)}
+              </Paragraph>
+            </FlexBox.Row>
           </div>
           <ReactTooltip id={pipeline.id} place="top" effect="solid">
             <Paragraph color="white">

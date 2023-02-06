@@ -65,7 +65,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '25px'  }}>
             ID
           </Paragraph>
         </SortingHeader>
@@ -73,10 +73,20 @@ export const GetHeaderCols = ({
       width: '15%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={stackComponent.id}>
-            <Paragraph size="small">
-              {truncate(stackComponent.id, ID_MAX_LENGTH)}
-            </Paragraph>
+          <div data-tip data-for={stackComponent.id}>           
+            <FlexBox.Row style={{ alignItems: 'center' }}>
+              {expendedRow?.length === 1 ? (
+                <icons.chevronDown
+                  color={iconColors.grey}
+                  size={iconSizes.xs}
+                />
+              ) : (
+                <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
+              )}
+              <Paragraph size="small" style={{ marginLeft: '20px' }}>
+                {truncate(stackComponent.id, ID_MAX_LENGTH)}
+              </Paragraph>
+            </FlexBox.Row>
           </div>
           <ReactTooltip id={stackComponent.id} place="top" effect="solid">
             <Paragraph color="white">{stackComponent.id}</Paragraph>

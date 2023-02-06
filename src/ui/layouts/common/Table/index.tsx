@@ -329,6 +329,9 @@ export const Table: React.FC<TableProps> = ({
     setItemPerPage(size);
   };
   // console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
+
+  // i !== 0 &&
+
   return (
     <FlexBox.Column fullWidth>
       <IfElse
@@ -348,6 +351,7 @@ export const Table: React.FC<TableProps> = ({
                   <thead>
                     <tr style={{ backgroundColor: '#F5F3F9' }}>
                       {console.log(columns, 'columns')}
+
                       {columns.map(({ ref, text }, i) => (
                         <th
                           ref={ref}
@@ -370,7 +374,6 @@ export const Table: React.FC<TableProps> = ({
 
                           <div
                             style={{ height: tableHeight }}
-                            // onMouseDown={() => i !== 0 && mouseDown(i)}
                             onMouseDown={() => mouseDown(i)}
                             className={`resize-handle ${
                               activeIndex === i ? 'active' : 'idle'
