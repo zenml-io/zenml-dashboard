@@ -153,31 +153,22 @@ export const GetHeaderCols = ({
       width: '15%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
-          {console.log(
-            'urlssss',
-            `https://public-flavor-logos.s3.eu-central-1.amazonaws.com/${
-              stackComponent.type
-            }/${stackComponent.flavor}.${'png' || 'svg'}`,
-          )}
-          <div data-tip data-for={stackComponent.flavor}>
+          <div data-tip data-for={stackComponent.flavor.logUrl}>
             <img
+              src={stackComponent.flavor.logUrl}
               style={{
-                height: '37px',
-                width: '45px',
+                height: '28px',
+                width: '28px',
               }}
-              // src={`https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/local.${
-              //   'png' || 'svg'
-              // }`}
-              src={`https://public-flavor-logos.s3.eu-central-1.amazonaws.com/${stackComponent.type}/${stackComponent.flavor}.png`}
-              alt="new"
             />
-            <Paragraph size="small" color="black">
-              {/* {stackComponent.flavor} */}
-            </Paragraph>
           </div>
-          {/* https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/local.png */}
-          <ReactTooltip id={stackComponent.flavor} place="top" effect="solid">
-            <Paragraph color="white">{stackComponent.flavor}</Paragraph>
+
+          <ReactTooltip
+            id={stackComponent.flavor.logUrl}
+            place="top"
+            effect="solid"
+          >
+            <Paragraph color="white">{stackComponent.flavor.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
