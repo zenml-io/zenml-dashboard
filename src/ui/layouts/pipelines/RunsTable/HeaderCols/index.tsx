@@ -362,7 +362,7 @@ export const useHeaderCols = ({
                 color="black"
                 style={{ fontSize: '12px' }}
               >
-                PIPEPLINE NAME
+                PIPELINE
               </Paragraph>
             </SortingHeader>
           ),
@@ -387,7 +387,7 @@ export const useHeaderCols = ({
                     );
                   }}
                 >
-                  {run.pipeline?.name}
+                  {run.pipeline?.name} {run.pipeline?.spec.version}
                 </Paragraph>
               </div>
               <ReactTooltip id={run.pipeline?.name} place="top" effect="solid">
