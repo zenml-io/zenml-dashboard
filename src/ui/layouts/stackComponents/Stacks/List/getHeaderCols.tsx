@@ -153,9 +153,10 @@ export const GetHeaderCols = ({
       width: '15%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={stackComponent.flavor.logUrl}>
+          <div data-tip data-for={stackComponent.flavor.name}>
             <img
-              src={stackComponent.flavor.logUrl}
+              alt={stackComponent.flavor.logoUrl}
+              src={stackComponent.flavor.logoUrl}
               style={{
                 height: '28px',
                 width: '28px',
@@ -164,7 +165,7 @@ export const GetHeaderCols = ({
           </div>
 
           <ReactTooltip
-            id={stackComponent.flavor.logUrl}
+            id={stackComponent.flavor.name}
             place="top"
             effect="solid"
           >

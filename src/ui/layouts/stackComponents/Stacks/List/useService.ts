@@ -79,7 +79,7 @@ export const useService = ({
         return {
           ...item,
           flavor: {
-            logUrl: temp.logo_url,
+            logoUrl: temp.logo_url,
             name: item.flavor,
           },
         };
