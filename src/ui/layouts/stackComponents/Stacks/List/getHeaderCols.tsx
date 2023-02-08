@@ -65,7 +65,11 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '25px'  }}>
+          <Paragraph
+            size="small"
+            color="black"
+            style={{ fontSize: '12px', marginLeft: '25px' }}
+          >
             ID
           </Paragraph>
         </SortingHeader>
@@ -73,7 +77,7 @@ export const GetHeaderCols = ({
       width: '15%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={stackComponent.id}>           
+          <div data-tip data-for={stackComponent.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
               {expendedRow?.length === 1 ? (
                 <icons.chevronDown
@@ -149,13 +153,23 @@ export const GetHeaderCols = ({
       width: '15%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={stackComponent.flavor}>
-            <Paragraph size="small" color="black">
-              {stackComponent.flavor}
-            </Paragraph>
+          <div data-tip data-for={stackComponent.flavor.name}>
+            <img
+              alt={stackComponent.flavor.logoUrl}
+              src={stackComponent.flavor.logoUrl}
+              style={{
+                height: '28px',
+                width: '28px',
+              }}
+            />
           </div>
-          <ReactTooltip id={stackComponent.flavor} place="top" effect="solid">
-            <Paragraph color="white">{stackComponent.flavor}</Paragraph>
+
+          <ReactTooltip
+            id={stackComponent.flavor.name}
+            place="top"
+            effect="solid"
+          >
+            <Paragraph color="white">{stackComponent.flavor.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
