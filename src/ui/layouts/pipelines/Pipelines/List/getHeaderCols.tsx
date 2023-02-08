@@ -191,6 +191,17 @@ export const GetHeaderCols = ({
       width: '8%',
       renderRow: (pipeline: TPipeline) => <Status pipeline={pipeline} />,
     },
+    {
+      render: () => (
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          Version
+        </Paragraph>
+      ),
+      width: '8%',
+      renderRow: (pipeline: TPipeline) => (
+        <Paragraph size="small">{pipeline?.spec?.version}</Paragraph>
+      ),
+    },
 
     {
       render: () => (

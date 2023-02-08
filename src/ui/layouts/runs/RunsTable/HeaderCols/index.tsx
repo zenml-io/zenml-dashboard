@@ -56,7 +56,11 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '33px' }} >
+          <Paragraph
+            size="small"
+            color="black"
+            style={{ fontSize: '12px', marginLeft: '33px' }}
+          >
             RUN ID
           </Paragraph>
         </SortingHeader>
@@ -65,7 +69,7 @@ export const useHeaderCols = ({
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={run.id}>
-          <FlexBox.Row style={{ alignItems: 'center' }}>
+            <FlexBox.Row style={{ alignItems: 'center' }}>
               {expendedRow?.length === 1 ? (
                 <icons.chevronDown
                   color={iconColors.grey}
@@ -78,10 +82,11 @@ export const useHeaderCols = ({
                 {truncate(run.id, ID_MAX_LENGTH)}
               </Paragraph>
             </FlexBox.Row>
-
           </div>
           <ReactTooltip id={run.id} place="top" effect="solid">
-            <Paragraph size="small">{truncate(run.id, ID_MAX_LENGTH)}</Paragraph>
+            <Paragraph size="small">
+              {truncate(run.id, ID_MAX_LENGTH)}
+            </Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -105,7 +110,7 @@ export const useHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black">
-          PIPELINE NAME
+          PIPELINE
         </Paragraph>
       ),
       width: '10%',
@@ -114,7 +119,7 @@ export const useHeaderCols = ({
           size="small"
           style={{ color: '#22BBDD', textDecoration: 'underline' }}
         >
-          {run.pipeline.name}
+          {run.pipeline.name} {run.pipeline?.spec.version}
         </Paragraph>
       ),
     },
