@@ -15,7 +15,7 @@ import {
 } from '../../../redux/selectors';
 import { stackComponentsActions } from '../../../redux/actions';
 
-const Component = () => {
+const Component = (props: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -43,7 +43,13 @@ const Component = () => {
 
   const selectSection = (item: any) => {
     setSelectedComp(item);
-    history.push(routePaths.stackComponents.base(item, selectedWorkspace));
+    if (props?.fromRegisterComponent) {
+      history.push(
+        routePaths.stackComponents.registerComponents(item, selectedWorkspace),
+      );
+    } else {
+      history.push(routePaths.stackComponents.base(item, selectedWorkspace));
+    }
   };
 
   //   const stacks = stackComponentsTypes?.filter((e) => {
@@ -90,6 +96,38 @@ const Component = () => {
       </Box> */}
 
       <Box style={{ marginTop: '-20px' }}>
+        {props?.fromRegisterComponent && (
+          <FlexBox
+            onClick={() => selectSection('all_components')}
+            style={{
+              ...sectionStyle,
+              backgroundColor: formatSectionColor('all_components'),
+            }}
+            marginTop="sm"
+          >
+            <Box>
+              <icons.stackComponent
+                color={
+                  selectedComp === 'all_components'
+                    ? iconColors.white
+                    : iconColors.primary
+                }
+                size={iconSizes.md}
+              />
+            </Box>
+            <Box>
+              <Paragraph
+                style={{
+                  color: formatTextColor('all_components'),
+                  ...textStyle,
+                }}
+              >
+                {formatText('all_components')}
+              </Paragraph>
+            </Box>
+          </FlexBox>
+        )}
+
         {stackComponentsTypes?.map((item: any, index: number) => (
           <Box key={index}>
             {item === 'artifact_store' && (
