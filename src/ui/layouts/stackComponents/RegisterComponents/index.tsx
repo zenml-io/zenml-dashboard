@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 // import { translate } from './translate';
-import { List } from '../Stacks/List';
+import { ListForAll } from './ListForAll';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 
@@ -28,14 +28,14 @@ export const RegisterComponents: React.FC = () => {
   const workspace = selectedWorkspace
     ? selectedWorkspace
     : DEFAULT_WORKSPACE_NAME;
-  debugger;
+  // debugger;
   return (
     <BasePage
       fromRegisterComponent={true}
       tabPages={[
         {
           text: camelCaseToParagraph(locationPath.split('/')[4]),
-          Component: () => <>Register Component</>,
+          Component: () => <ListForAll></ListForAll>,
           path: routePaths.stackComponents.registerComponents(
             locationPath.split('/')[4],
             selectedWorkspace

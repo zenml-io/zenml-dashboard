@@ -1,10 +1,7 @@
 /* eslint-disable */
 
 import { useEffect } from 'react';
-import {
-  stackComponentsActions,
-  stackPagesActions,
-} from '../../../../redux/actions';
+import { flavorsActions, flavorPagesActions } from '../../../../redux/actions';
 // import { workspaceSelectors } from '../../../../redux/selectors';
 import { useDispatch, useLocationPath, useSelector } from '../../../hooks';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
@@ -30,13 +27,7 @@ export const useService = (): ServiceInterface => {
   useEffect(() => {
     setFetching(true);
     dispatch(
-      stackComponentsActions.getMy({
-        workspace: selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
-        type: locationPath.split('/')[4],
-        sort_by: 'desc:created',
-        logical_operator: 'and',
-        page: 1,
-        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+      flavorsActions.getAll({
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),
@@ -44,7 +35,7 @@ export const useService = (): ServiceInterface => {
   }, [locationPath, selectedWorkspace]);
 
   const setFetching = (fetching: boolean) => {
-    dispatch(stackPagesActions.setFetching({ fetching }));
+    dispatch(flavorPagesActions.setFetching({ fetching }));
   };
 
   return {
@@ -52,42 +43,44 @@ export const useService = (): ServiceInterface => {
   };
 };
 
-export const callActionForStackComponentsForPagination = () => {
-  const locationPath = useLocationPath();
-  const dispatch = useDispatch();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+// export const callActionForStackComponentsForPagination = () => {
+//   const locationPath = useLocationPath();
+//   const dispatch = useDispatch();
+//   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
-  function dispatchStackComponentsData(
-    page: number,
-    size: number,
-    filters?: any[],
-    sortby?: string,
-  ) {
-    const logicalOperator = localStorage.getItem('logical_operator');
+//   function dispatchStackComponentsData(
+//     page: number,
+//     size: number,
+//     filters?: any[],
+//     sortby?: string,
+//   ) {
+//     const logicalOperator = localStorage.getItem('logical_operator');
 
-    let filtersParam = filterObjectForParam(filters);
-    setFetching(true);
-    dispatch(
-      stackComponentsActions.getMy({
-        workspace: selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
-        type: locationPath.split('/')[4],
-        sort_by: sortby ? sortby : 'created',
-        logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
-        page: page,
-        size: size,
-        filtersParam,
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
-      }),
-    );
-  }
+//     let filtersParam = filterObjectForParam(filters);
+//     setFetching(true);
+//     dispatch(
+//       stackComponentsActions.getMy({
+//         workspace: selectedWorkspace
+//           ? selectedWorkspace
+//           : locationPath.split('/')[2],
+//         type: locationPath.split('/')[4],
+//         sort_by: sortby ? sortby : 'created',
+//         logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
+//         page: page,
+//         size: size,
+//         filtersParam,
+//         onSuccess: () => setFetching(false),
+//         onFailure: () => setFetching(false),
+//       }),
+//     );
+//   }
 
-  const setFetching = (fetching: boolean) => {
-    dispatch(stackPagesActions.setFetching({ fetching }));
-  };
+//   const setFetching = (fetching: boolean) => {
+//     dispatch(stackPagesActions.setFetching({ fetching }));
+//   };
 
-  return {
-    setFetching,
-    dispatchStackComponentsData,
-  };
-};
+//   return {
+//     setFetching,
+//     dispatchStackComponentsData,
+//   };
+// };

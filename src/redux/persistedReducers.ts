@@ -30,7 +30,12 @@ import rolesReducer, {
 import stackComponentsReducer, {
   initialState as stackComponentsInitialState,
 } from './reducers/stackComponentsReducer';
-
+import flavorsReducer, {
+  initialState as flavorsInitialState,
+} from './reducers/flavorsReducer';
+import flavorPagesReducer, {
+  initialState as flavorPagesInitialState,
+} from './reducers/flavorPagesReducer';
 import runsReducer, {
   initialState as runsInitialState,
 } from './reducers/runsReducer';
@@ -55,6 +60,8 @@ const initialState = {
   workspaces: workspacesInitialState,
   stacks: stacksInitialState,
   stackComponents: stackComponentsInitialState,
+  flavors: flavorsInitialState,
+  flavorsPages: flavorPagesInitialState,
   runs: runsInitialState,
   roles: rolesInitialState,
   runPages: runPagesInitialState,
@@ -75,6 +82,8 @@ export const persisted = combineReducers({
   runPages: runPagesReducer,
   pipelinePages: pipelinePagesReducer,
   stackPages: stackPagesReducer,
+  flavors: flavorsReducer,
+  flavorPages: flavorPagesReducer,
 });
 
 export default (state: any, action: any) => {
