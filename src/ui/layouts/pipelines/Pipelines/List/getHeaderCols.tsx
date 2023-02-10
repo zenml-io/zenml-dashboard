@@ -199,7 +199,7 @@ export const GetHeaderCols = ({
       ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
-        <Paragraph size="small">{pipeline?.spec?.version}</Paragraph>
+        <Paragraph size="small">{pipeline?.version}</Paragraph>
       ),
     },
 
