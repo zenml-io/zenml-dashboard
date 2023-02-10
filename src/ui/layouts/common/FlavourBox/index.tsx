@@ -7,6 +7,12 @@ import imageAddIcon from '../../../assets/imageAddIcon.svg'
 export const FlavourBox: React.FC<{ flavourName: string, flavourDesc: string }> = ({ flavourName, flavourDesc }) => {
 
   const [select, setSelect] = useState(false)
+  const [selectedImage, setSelectedImage] = useState<any>(false)
+
+  const previewImage = (e: any) => {
+    const objectUrl = URL.createObjectURL(e.files[0])
+    setSelectedImage(objectUrl)
+  };
 
   return ( 
           <Box
@@ -17,12 +23,16 @@ export const FlavourBox: React.FC<{ flavourName: string, flavourDesc: string }> 
             onClick={() => setSelect(true)}
           >
             <Box className={styles.imageContainer}>
-              <input type="file" name="img" accept="image/*" />
-
+              
+             {selectedImage ?
+                <img src={selectedImage} alt='selected-image' />
+              :
               <label className={styles.custom_file_upload}>
-                <input type="file"/>
+                <input type="file" name="img" accept="image/*" onChange={(e) => previewImage(e.target)} />
                 <img src={imageAddIcon} alt='imageAddIcon' />
               </label>
+             }
+    
             </Box>
 
             <Box style={{ marginTop: '12px' }} >
