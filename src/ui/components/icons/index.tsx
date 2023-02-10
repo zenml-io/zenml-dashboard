@@ -59,6 +59,7 @@ import { ReactComponent as GitCommit } from './assets/GitCommit.svg';
 import { ReactComponent as ChatDots } from './assets/ChatDots.svg';
 import { ReactComponent as Run } from './assets/Run.svg';
 import { ReactComponent as ImageBuilder } from './assets/ImageBuilder.svg';
+import { ReactComponent as Pen } from './assets/Pen.svg';
 // import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 // import { ReactComponent as Cached } from './assets/Cached.svg';
 // import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
@@ -192,6 +193,7 @@ const icons = {
     Component: ImageBuilder,
     useStroke: true,
   }),
+  pen: createIcon({ Component: Pen, useStroke: true }),
 
   // paginations
   paginationFirst: createIcon({ Component: PaginationFirst, useStroke: true }),
