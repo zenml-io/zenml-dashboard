@@ -17,7 +17,7 @@ const getMyflavorIds = (state: State): TId[] =>
 const getStackComponentTypes = (state: State): TId[] =>
   _.get(stateKey(state), 'stackComponentTypes');
 
-const getMyStackComponentsPaginated = (state: State): any =>
+const getMyFlavorsPaginated = (state: State): any =>
   _.get(stateKey(state), 'paginated');
 
 export const myFlavorsAll = (state?: State | null): TStack[] => {
@@ -40,12 +40,12 @@ export const myFlavorByType = (state?: State | null) => {
   const stackComponentTypes = getStackComponentTypes(state);
   return stackComponentTypes;
 };
-// export const mystackComponentsPaginated = (state?: State | null): any => {
-//   if (!state) return {};
-//   const paginated = getMyStackComponentsPaginated(state);
+export const myFlavorsPaginated = (state?: State | null): any => {
+  if (!state) return {};
+  const paginated = getMyFlavorsPaginated(state);
 
-//   return paginated;
-// };
+  return paginated;
+};
 
 // export const stackComponentForId = (
 //   stackComponentId: TId,
@@ -55,7 +55,7 @@ export const myFlavorByType = (state?: State | null) => {
 const flavorSelectors = {
   myFlavorByType: myFlavorByType,
   myFlavorsAll: myFlavorsAll,
-  // mystackComponentsPaginated: mystackComponentsPaginated,
+  myFlavorsPaginated: myFlavorsPaginated,
   // stackComponentForId,
 };
 

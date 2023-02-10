@@ -26,12 +26,24 @@ export const useService = (): ServiceInterface => {
   const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
     setFetching(true);
-    dispatch(
-      flavorsActions.getAll({
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
-      }),
-    );
+    if (locationPath.split('/')[4] === 'all_components') {
+      dispatch(
+        flavorsActions.getAll({
+          onSuccess: () => setFetching(false),
+          onFailure: () => setFetching(false),
+        }),
+      );
+    } else {
+      dispatch(
+        flavorsActions.getType({
+          page: 1,
+          size: 7,
+          type: locationPath.split('/')[4],
+          onSuccess: () => setFetching(false),
+          onFailure: () => setFetching(false),
+        }),
+      );
+    }
   }, [locationPath, selectedWorkspace]);
 
   const setFetching = (fetching: boolean) => {
@@ -43,44 +55,29 @@ export const useService = (): ServiceInterface => {
   };
 };
 
-// export const callActionForStackComponentsForPagination = () => {
-//   const locationPath = useLocationPath();
-//   const dispatch = useDispatch();
-//   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+export const callActionForFlavorsForPagination = () => {
+  const locationPath = useLocationPath();
+  const dispatch = useDispatch();
 
-//   function dispatchStackComponentsData(
-//     page: number,
-//     size: number,
-//     filters?: any[],
-//     sortby?: string,
-//   ) {
-//     const logicalOperator = localStorage.getItem('logical_operator');
+  function dispatchFlavorsData(page: number, size: number, type: string) {
+    setFetching(true);
+    dispatch(
+      flavorsActions.getType({
+        type,
+        page: page,
+        size: size,
+        onSuccess: () => setFetching(false),
+        onFailure: () => setFetching(false),
+      }),
+    );
+  }
 
-//     let filtersParam = filterObjectForParam(filters);
-//     setFetching(true);
-//     dispatch(
-//       stackComponentsActions.getMy({
-//         workspace: selectedWorkspace
-//           ? selectedWorkspace
-//           : locationPath.split('/')[2],
-//         type: locationPath.split('/')[4],
-//         sort_by: sortby ? sortby : 'created',
-//         logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
-//         page: page,
-//         size: size,
-//         filtersParam,
-//         onSuccess: () => setFetching(false),
-//         onFailure: () => setFetching(false),
-//       }),
-//     );
-//   }
+  const setFetching = (fetching: boolean) => {
+    dispatch(flavorPagesActions.setFetching({ fetching }));
+  };
 
-//   const setFetching = (fetching: boolean) => {
-//     dispatch(stackPagesActions.setFetching({ fetching }));
-//   };
-
-//   return {
-//     setFetching,
-//     dispatchStackComponentsData,
-//   };
-// };
+  return {
+    setFetching,
+    dispatchFlavorsData,
+  };
+};

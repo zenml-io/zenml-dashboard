@@ -11,27 +11,23 @@ import { camelCaseToParagraph } from '../../../../../utils';
 import {
   workspaceSelectors,
   stackComponentSelectors,
+  flavorSelectors,
 } from '../../../../../redux/selectors';
 import { Box, FlexBox, FullWidthSpinner } from '../../../../components';
+import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
 
 interface Props {
+  type: string;
   // filter: any;
   // pagination?: boolean;
   // id?: string;
   // isExpended?: boolean;
 }
 
-export const ListForAll: React.FC<Props> = ({}: // filter,
-// pagination,
-// isExpended,
-// id,
-// isExpended = false,
-Props) => {
+export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   const locationPath = useLocationPath();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const stackComponentsPaginated = useSelector(
-    stackComponentSelectors.mystackComponentsPaginated,
-  );
+  const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);
 
   // const [selectedComponentId, setSelectedComponentId] = useState('');
 
@@ -40,35 +36,22 @@ Props) => {
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
+  console.log(flavorsPaginated, 'flavorsPaginated');
   return (
-    <FlexBox.Column>
-      <FlexBox> orchestrator</FlexBox>
-
-      <FlexBox>
-        {allFlavors
-          .filter((fl) => fl.type === 'orchestrator')
-          .map((item) => {
+    <>
+      <FlexBox.Column>
+        <FlexBox>
+          {allFlavors.map((item) => {
             return <Box marginHorizontal={'md'}>{item.name}</Box>;
           })}
-      </FlexBox>
-      <FlexBox> Artifact Store</FlexBox>
-
-      <FlexBox>
-        {allFlavors
-          .filter((fl) => fl.type === 'artifact_store')
-          .map((item) => {
-            return <Box marginHorizontal={'md'}>{item.name}</Box>;
-          })}
-      </FlexBox>
-      <FlexBox> Alerter</FlexBox>
-
-      <FlexBox>
-        {allFlavors
-          .filter((fl) => fl.type === 'alerter')
-          .map((item) => {
-            return <Box marginHorizontal={'md'}>{item.name}</Box>;
-          })}
-      </FlexBox>
-    </FlexBox.Column>
+        </FlexBox>
+        <PaginationWithPageSize
+          flavors={allFlavors}
+          type={type}
+          paginated={flavorsPaginated}
+          pagination={allFlavors.length ? true : false}
+        ></PaginationWithPageSize>
+      </FlexBox.Column>
+    </>
   );
 };

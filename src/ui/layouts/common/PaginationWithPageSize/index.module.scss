@@ -1,0 +1,109 @@
+@import '../../../globalStyles.scss';
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 100vh;
+  table-layout: fixed;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+}
+
+.collapseTable {
+  width: 100%;
+  border-collapse: collapse;
+  min-width: 100vh;
+  table-layout: fixed;
+}
+
+.collapseTable thead tr:first-child {
+  border-top: none;
+}
+
+.collapseTable tbody tr:last-child {
+  border-bottom: 1px solid $lightestGreyColor;
+}
+
+.tableRow {
+  // border-top: 1px solid $lightestGreyColor;
+}
+
+.clickableTableRow {
+  cursor: pointer;
+}
+
+.tableHeaderRow {
+  background-color: #F6F6F7 !important;
+}
+
+.tableHeadingTh {
+  text-align: left;
+  vertical-align: middle;
+  color: #424240 !important;
+  font-size: 14px !important;
+  font-weight: 400;
+  border: 0;
+  outline: none;
+  border-right: 1px solid #cacaca;
+}
+
+
+.tableTd {
+  vertical-align: middle;
+  // height: 53px !important;
+}
+
+.lastTable tbody tr:last-child {
+  border-bottom: 1px solid $lightestGreyColor;
+}
+
+
+.dropdown {
+  border: 1px solid #A8A8A8;
+  border-radius: 4px;
+  outline: none;
+  width: 59px;
+  height: 32px;
+  font-size: 13px;
+  font-weight: bold;
+  color: #333333;
+  padding-left: 7px;
+  cursor: pointer;
+}
+
+
+.popup {
+  background-color: $whiteColor;
+  border: 1px solid $lightestGreyColor;
+  border-radius: 4px;
+  box-shadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+  width: 5.8rem;
+  z-index: 9;
+  position: relative;
+}
+
+.popupItem {
+  cursor: pointer;
+  transition: 0.2s ease-in all;
+}
+
+.popupItem:hover {
+  background-color: #fbfbfb;
+}
+
+.itemText1 {
+  font-family: Rubik;
+  font-size: 13px;
+  font-weight: 400; 
+  line-height: 18px;
+  
+}
+
+.itemText {
+  font-family: Rubik;
+  font-size: 13px;
+  font-weight: 400; 
+  line-height: 18px
+}

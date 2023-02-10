@@ -1,12 +1,31 @@
 import { flavorActionTypes } from '../../actionTypes';
 import getFlavorTypeApi from '../../../api/flavors/getFlavorTypeApi';
 
-export const getFlavorTypeAction = (): TRequestAction => ({
+export const getFlavorTypeAction = ({
+  page,
+  size,
+  type,
+  onSuccess,
+  onFailure,
+}: {
+  page: number;
+  size: number;
+  type: string;
+  onSuccess?: () => void;
+  onFailure?: () => void;
+}): TRequestAction => ({
   type: flavorActionTypes.getFlavorAll.request,
   payload: {
     apiMethod: getFlavorTypeApi,
     isAuthenticated: true,
     failureActionType: flavorActionTypes.getFlavorType.failure,
     successActionType: flavorActionTypes.getFlavorType.success,
+    params: {
+      type,
+      page,
+      size,
+    },
+    onSuccess,
+    onFailure,
   },
 });

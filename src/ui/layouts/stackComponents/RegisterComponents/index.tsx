@@ -35,7 +35,9 @@ export const RegisterComponents: React.FC = () => {
       tabPages={[
         {
           text: camelCaseToParagraph(locationPath.split('/')[4]),
-          Component: () => <ListForAll></ListForAll>,
+          Component: () => (
+            <ListForAll type={locationPath.split('/')[4]}></ListForAll>
+          ),
           path: routePaths.stackComponents.registerComponents(
             locationPath.split('/')[4],
             selectedWorkspace
