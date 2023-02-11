@@ -1,20 +1,22 @@
 import React from 'react';
 
-import { CollapseTable } from '../../../common/CollapseTable';
+// import { CollapseTable } from '../../../common/CollapseTable';
 import { useHistory, useLocationPath, useSelector } from '../../../../hooks';
-import { routePaths } from '../../../../../routes/routePaths';
+// import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
 
-import { camelCaseToParagraph } from '../../../../../utils';
+// import { camelCaseToParagraph } from '../../../../../utils';
 // import { DEFAULT_WORKSPACE_NAME } from '../../../../../constants';
 import {
   workspaceSelectors,
-  stackComponentSelectors,
+  // stackComponentSelectors,
   flavorSelectors,
 } from '../../../../../redux/selectors';
 import { Box, FlexBox, FullWidthSpinner } from '../../../../components';
 import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
+import { FlavourBox } from '../../../common/FlavourBox';
+import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
 
 interface Props {
   type: string;
@@ -36,14 +38,37 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  console.log(flavorsPaginated, 'flavorsPaginated');
+  console.log(allFlavors, 'flavorsPaginated');
   return (
     <>
       <FlexBox.Column>
         <FlexBox>
-          {allFlavors.map((item) => {
-            return <Box marginHorizontal={'md'}>{item.name}</Box>;
-          })}
+          <div
+            style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(3, 1fr)',
+            }}
+          >
+            <Box margin={'md'}>
+              <FlavourBox
+                flavourDesc={'Configure and create a custom flavor'}
+                flavourName={'Create Custom Flavour'}
+              />
+            </Box>
+            {allFlavors.map((item, index) => {
+              return (
+                <div>
+                  <Box margin={'md'}>
+                    <CustomFlavourBox
+                      flavourDesc={item.name}
+                      flavourName={'Flavour'}
+                      logoUrl={item.logoUrl}
+                    />
+                  </Box>
+                </div>
+              );
+            })}
+          </div>
         </FlexBox>
         <PaginationWithPageSize
           flavors={allFlavors}
