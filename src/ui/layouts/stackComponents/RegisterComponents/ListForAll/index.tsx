@@ -24,6 +24,7 @@ import { FlavourBox } from '../../../common/FlavourBox';
 import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
 import { callActionForFlavorsForPagination } from '../useService';
 import { Popup } from '../../../common/Popup';
+import { SidePopup } from '../../../common/SidePopup';
 
 interface Props {
   type: string;
@@ -105,7 +106,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
           </>
         )}
       </FlexBox.Column>
-      {showModal && <Popup onClose={() => setShowModal(false)}></Popup>}
+      {showModal && <SidePopup onClose={() => setShowModal(false)}></SidePopup>}
     </>
   );
 };
