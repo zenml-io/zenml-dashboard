@@ -6,6 +6,7 @@ type SpacingsEnum =
   | 'xs'
   | 'xs2'
   | 'sm'
+  | 'sm2'
   | 'md'
   | 'lg'
   | 'lg2'

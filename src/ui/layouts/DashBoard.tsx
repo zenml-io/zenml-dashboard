@@ -236,6 +236,7 @@ export const DashBoard: React.FC = () => {
                   <H4 bold>{translate('subtitle')}</H4>
                 </Box>
               </Col>
+
               {fetching ? (
                 <FullWidthSpinner color="black" size="md" />
               ) : (

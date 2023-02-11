@@ -1,0 +1,42 @@
+@import '../../../globalStyles.scss';
+
+$width: 248px;
+$boxShadow: 0px 2px 4px rgba(0, 0, 0, 0.05);
+
+.customFlavourBox {
+  width: $width;
+  padding: 10px;
+  border-radius: 4px;
+  box-shadow: $boxShadow;
+  cursor: pointer;
+}
+
+.imageContainer {
+  height: 95px;
+  background-color: #fff;  
+  border-radius: 4px;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  img {
+    height: 62px;
+  }
+
+  input[type="file"] {
+    display: none;
+}
+}
+
+.flavourName {
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 19px;
+}
+
+.flavourDesc {
+  font-size: 14px;
+  font-weight: 400;
+  line-height: 17px;
+}
