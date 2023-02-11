@@ -96,7 +96,7 @@ const Component = (props: any) => {
       </Box> */}
 
       <Box style={{ marginTop: '-20px' }}>
-        {props?.fromRegisterComponent && (
+        {/* {props?.fromRegisterComponent && (
           <FlexBox
             onClick={() => selectSection('all_components')}
             style={{
@@ -126,7 +126,7 @@ const Component = (props: any) => {
               </Paragraph>
             </Box>
           </FlexBox>
-        )}
+        )} */}
 
         {stackComponentsTypes?.map((item: any, index: number) => (
           <Box key={index}>

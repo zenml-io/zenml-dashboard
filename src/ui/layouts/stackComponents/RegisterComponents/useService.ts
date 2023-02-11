@@ -59,13 +59,19 @@ export const callActionForFlavorsForPagination = () => {
   const locationPath = useLocationPath();
   const dispatch = useDispatch();
 
-  function dispatchFlavorsData(page: number, size: number, type: string) {
+  function dispatchFlavorsData(
+    page: number,
+    size: number,
+    type: string,
+    search?: string,
+  ) {
     setFetching(true);
     dispatch(
       flavorsActions.getType({
         type,
         page: page,
         size: size,
+        name: search,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

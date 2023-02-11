@@ -41,7 +41,7 @@ export const endpoints = {
   },
   flavors: {
     all: '/flavors?sort_by=type',
-    type: (type: string): string => `/flavors?type=${type}`,
+    type: `/flavors`,
     get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
   },
   runs: {

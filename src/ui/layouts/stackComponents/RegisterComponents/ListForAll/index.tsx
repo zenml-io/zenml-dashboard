@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import { CollapseTable } from '../../../common/CollapseTable';
 import { useHistory, useLocationPath, useSelector } from '../../../../hooks';
@@ -13,10 +13,17 @@ import {
   // stackComponentSelectors,
   flavorSelectors,
 } from '../../../../../redux/selectors';
-import { Box, FlexBox, FullWidthSpinner } from '../../../../components';
+import {
+  Box,
+  FlexBox,
+  FullWidthSpinner,
+  SearchInputField,
+} from '../../../../components';
 import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
 import { FlavourBox } from '../../../common/FlavourBox';
 import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
+import { callActionForFlavorsForPagination } from '../useService';
+import { Popup } from '../../../common/Popup';
 
 interface Props {
   type: string;
@@ -28,55 +35,77 @@ interface Props {
 
 export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   const locationPath = useLocationPath();
+  const { dispatchFlavorsData } = callActionForFlavorsForPagination();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);
-
+  const [text, setText] = useState('');
   // const [selectedComponentId, setSelectedComponentId] = useState('');
-
+  const [showModal, setShowModal] = useState(false);
   const history = useHistory();
   const { fetching, allFlavors, setAllFlavors } = useService();
-  if (fetching) {
-    return <FullWidthSpinner color="black" size="md" />;
+
+  function handleValueFieldChangeOnSearch(value: string) {
+    dispatchFlavorsData(1, flavorsPaginated.size, type, value);
   }
-  console.log(allFlavors, 'flavorsPaginated');
+  const onSelectFlavor = (flavor: any) => {
+    setShowModal(true);
+  };
   return (
     <>
-      <FlexBox.Column>
-        <FlexBox>
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(3, 1fr)',
-            }}
-          >
-            <Box margin={'md'}>
-              <FlavourBox
-                flavourDesc={'Configure and create a custom flavor'}
-                flavourName={'Create Custom Flavour'}
-              />
-            </Box>
-            {allFlavors.map((item, index) => {
-              return (
-                <div>
-                  <Box margin={'md'}>
-                    <CustomFlavourBox
-                      flavourDesc={item.name}
-                      flavourName={'Flavour'}
-                      logoUrl={item.logoUrl}
-                    />
-                  </Box>
-                </div>
-              );
-            })}
-          </div>
-        </FlexBox>
-        <PaginationWithPageSize
-          flavors={allFlavors}
-          type={type}
-          paginated={flavorsPaginated}
-          pagination={allFlavors.length ? true : false}
-        ></PaginationWithPageSize>
+      <FlexBox.Column fullWidth>
+        <SearchInputField
+          placeholder={'Search'}
+          value={text}
+          // disabled={applyFilter || showInBar}
+          onChange={(value: string) => {
+            setText(value);
+            handleValueFieldChangeOnSearch(`${'contains:' + value}`);
+          }}
+        />
+        {fetching ? (
+          <FullWidthSpinner color="black" size="md" />
+        ) : (
+          <>
+            {' '}
+            <FlexBox>
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(3, 1fr)',
+                }}
+              >
+                <Box margin={'md'}>
+                  <FlavourBox
+                    flavourDesc={'Configure and create a custom flavor'}
+                    flavourName={'Create Custom Flavour'}
+                  />
+                </Box>
+                {allFlavors.map((item, index) => {
+                  return (
+                    <div>
+                      <Box margin={'md'}>
+                        <CustomFlavourBox
+                          flavourDesc={item.name}
+                          flavourName={'Flavour'}
+                          logoUrl={item.logoUrl}
+                          onSelectFlavor={() => onSelectFlavor(item)}
+                        />
+                      </Box>
+                    </div>
+                  );
+                })}
+              </div>
+            </FlexBox>
+            <PaginationWithPageSize
+              flavors={allFlavors}
+              type={type}
+              paginated={flavorsPaginated}
+              pagination={allFlavors.length ? true : false}
+            ></PaginationWithPageSize>
+          </>
+        )}
       </FlexBox.Column>
+      {showModal && <Popup onClose={() => setShowModal(false)}></Popup>}
     </>
   );
 };

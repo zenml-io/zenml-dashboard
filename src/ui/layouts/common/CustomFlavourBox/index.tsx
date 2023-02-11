@@ -8,7 +8,8 @@ export const CustomFlavourBox: React.FC<{
   flavourName: string;
   flavourDesc: string;
   logoUrl: string;
-}> = ({ flavourName, flavourDesc, logoUrl }) => {
+  onSelectFlavor: any;
+}> = ({ flavourName, flavourDesc, logoUrl, onSelectFlavor }) => {
   const [select, setSelect] = useState(false);
 
   return (
@@ -17,7 +18,7 @@ export const CustomFlavourBox: React.FC<{
       paddingVertical="sm2"
       className={styles.customFlavourBox}
       style={{ background: select ? '#443E99' : '#fff' }}
-      onClick={() => setSelect(true)}
+      onClick={onSelectFlavor}
     >
       <Box className={styles.imageContainer}>
         <label className={styles.custom_file_upload}>

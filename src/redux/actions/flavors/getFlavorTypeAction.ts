@@ -5,12 +5,14 @@ export const getFlavorTypeAction = ({
   page,
   size,
   type,
+  name,
   onSuccess,
   onFailure,
 }: {
   page: number;
   size: number;
   type: string;
+  name?: string;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -24,6 +26,7 @@ export const getFlavorTypeAction = ({
       type,
       page,
       size,
+      name,
     },
     onSuccess,
     onFailure,
