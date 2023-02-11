@@ -3,6 +3,7 @@ export const spacings = {
   xs: 4,
   xs2: 6,
   sm: 8,
+  sm2: 10,
   md: 16,
   lg: 24,
   lg2: 28,

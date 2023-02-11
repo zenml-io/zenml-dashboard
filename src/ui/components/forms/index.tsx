@@ -166,6 +166,40 @@ export const CopyField = (
   );
 };
 
+export const EditField = (
+  props: {
+    label: string;
+    labelColor: any;
+    placeholder: any;
+    value: string;
+    optional: boolean;
+  } & any,
+): JSX.Element => {
+
+  return (
+    <FlexBox.Column fullWidth style={{ height: '100px' }}>
+      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+        <InputWithLabel
+          name={props.name}
+          label={props.label}
+          optional={props.optional}
+          labelColor={props.labelColor}
+          InputComponent={
+            <TextInput
+              {...props}
+              value={`${props.value.slice(0, 60)}...`}
+              placeholder={props.placeholder}
+            />
+          }
+        />
+        <Box style={{ position: 'absolute', right: '10px', top: '35px' }}>
+          <icons.pen color={iconColors.grey} />
+        </Box>
+      </FlexBox>
+    </FlexBox.Column>
+  );
+};
+
 export const SearchInputField = (
   props: {
     label?: string;
