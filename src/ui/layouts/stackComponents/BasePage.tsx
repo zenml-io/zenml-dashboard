@@ -14,6 +14,7 @@ import { workspaceSelectors } from '../../../redux/selectors';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
+  fromConfigureComponent?: boolean;
   fromRegisterComponent?: boolean;
   breadcrumbs: TBreadcrumb[];
   tabBasePath: string;
@@ -21,6 +22,7 @@ export const BasePage: React.FC<{
   headerWithButtons?: boolean;
 }> = ({
   fromRegisterComponent = false,
+  fromConfigureComponent = false,
   tabPages,
   breadcrumbs,
   tabBasePath,
@@ -28,7 +30,6 @@ export const BasePage: React.FC<{
   headerWithButtons,
   children,
 }) => {
-  // debugger;
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return (
@@ -51,7 +52,13 @@ export const BasePage: React.FC<{
             )}
           />
           <FlexBox.Row>
-            <Component fromRegisterComponent={fromRegisterComponent} />
+            {!fromConfigureComponent && (
+              <Component fromRegisterComponent={fromRegisterComponent} />
+            )}
+
+            {/* {fromConfigureComponent && (
+              <Component fromRegisterComponent={fromRegisterComponent} />
+            )} */}
             <Box marginLeft="lg" style={{ width: '100%' }}>
               {children}
               {tabPages.length > 1 ? (
@@ -78,7 +85,7 @@ export const BasePage: React.FC<{
             </Box>
           </FlexBox.Row>
         </SidebarContainer>
-        {!fromRegisterComponent && (
+        {!fromRegisterComponent && !fromConfigureComponent && (
           <FlexBox
             style={{
               position: 'fixed',

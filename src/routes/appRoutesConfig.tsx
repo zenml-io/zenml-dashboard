@@ -18,6 +18,7 @@ import registerComponents from '../ui/layouts/stackComponents/RegisterComponents
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
 import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
+import ConfigureComponent from '../ui/layouts/stackComponents/ConfigureComponent/index';
 import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
 import StacksRunDetail from '../ui/layouts/stacks/RunDetail';
 import RunsRunDetail from '../ui/layouts/runs/RunDetail';
@@ -319,6 +320,18 @@ const routes = [
   {
     path: routePaths.stackComponents.registerComponents(':type', ':string'),
     Component: registerComponents,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.stackComponents.configureComponent(
+      ':type',
+      ':string',
+      ':id',
+    ),
+    Component: ConfigureComponent,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

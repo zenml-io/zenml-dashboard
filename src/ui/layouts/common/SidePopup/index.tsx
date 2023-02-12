@@ -15,11 +15,11 @@ import styles from './index.module.scss';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
-export const SidePopup: React.FC<{ onClose: () => void; flavor?: any }> = ({
-  children,
-  flavor,
-  onClose,
-}) => (
+export const SidePopup: React.FC<{
+  onClose: () => void;
+  flavor?: any;
+  onSelectFlavor: any;
+}> = ({ children, flavor, onClose, onSelectFlavor }) => (
   <>
     <Dimmer />
     <FlexBox
@@ -60,7 +60,7 @@ export const SidePopup: React.FC<{ onClose: () => void; flavor?: any }> = ({
                 </LinkBox>
               </Box>
               <Box>
-                <PrimaryButton>Select</PrimaryButton>
+                <PrimaryButton onClick={onSelectFlavor}>Select</PrimaryButton>
               </Box>
             </FlexBox.Row>
           </Box>

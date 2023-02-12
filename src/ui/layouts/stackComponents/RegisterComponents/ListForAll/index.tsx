@@ -26,6 +26,7 @@ import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
 import { callActionForFlavorsForPagination } from '../useService';
 import { Popup } from '../../../common/Popup';
 import { SidePopup } from '../../../common/SidePopup';
+import { routePaths } from '../../../../../routes/routePaths';
 
 interface Props {
   type: string;
@@ -53,6 +54,16 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   const onSelectFlavor = (flavor: any) => {
     setSelectedFlavor(flavor);
     setShowModal(true);
+  };
+  const handleSelectedFlavor = (selectedFlavor: any) => {
+    setShowModal(false);
+    history.push(
+      routePaths.stackComponents.configureComponent(
+        type,
+        selectedWorkspace,
+        selectedFlavor?.id,
+      ),
+    );
   };
   return (
     <>
@@ -123,6 +134,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
       </FlexBox.Column>
       {showModal && (
         <SidePopup
+          onSelectFlavor={() => handleSelectedFlavor(selectedFlavor)}
           flavor={selectedFlavor}
           onClose={() => setShowModal(false)}
         ></SidePopup>
