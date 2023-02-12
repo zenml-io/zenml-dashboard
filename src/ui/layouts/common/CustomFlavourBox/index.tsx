@@ -21,10 +21,10 @@ export const CustomFlavourBox: React.FC<{
       onClick={onSelectFlavor}
     >
       <Box className={styles.imageContainer}>
-        <label className={styles.custom_file_upload}>
-          <input type="file" name="img" accept="image/*" />
-          <img src={logoUrl} alt="imageAddIcon" />
-        </label>
+        {/* <label className={styles.custom_file_upload}> */}
+        {/* <input type="file" name="img" accept="image/*" /> */}
+        <img src={logoUrl} alt="imageAddIcon" />
+        {/* </label> */}
       </Box>
 
       <Box style={{ marginTop: '12px' }}>

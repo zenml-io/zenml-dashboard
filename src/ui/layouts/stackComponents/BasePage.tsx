@@ -92,7 +92,7 @@ export const BasePage: React.FC<{
                 onClick={() => {
                   history.push(
                     routePaths.stackComponents.registerComponents(
-                      'all_components',
+                      'orchestrator',
                       selectedWorkspace,
                     ),
                   );

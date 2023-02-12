@@ -18,7 +18,8 @@
   position: fixed;
   right: 0;
   bottom: 0;
-  height: 677px;
+  height: 800px;
+  // height: 677px;
   min-width: 700px;
   overflow-x: auto;
 }
@@ -50,6 +51,7 @@
 
 .actionSection {
   width: 100%; 
+  background-color: white;
   position: absolute;
   bottom: 0
 }

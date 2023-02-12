@@ -40,6 +40,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);
   const [text, setText] = useState('');
+  const [selectedFlavor, setSelectedFlavor] = useState();
   // const [selectedComponentId, setSelectedComponentId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
@@ -49,6 +50,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
     dispatchFlavorsData(1, flavorsPaginated.size, type, value);
   }
   const onSelectFlavor = (flavor: any) => {
+    setSelectedFlavor(flavor);
     setShowModal(true);
   };
   return (
@@ -106,7 +108,12 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
           </>
         )}
       </FlexBox.Column>
-      {showModal && <SidePopup onClose={() => setShowModal(false)}></SidePopup>}
+      {showModal && (
+        <SidePopup
+          flavor={selectedFlavor}
+          onClose={() => setShowModal(false)}
+        ></SidePopup>
+      )}
     </>
   );
 };
