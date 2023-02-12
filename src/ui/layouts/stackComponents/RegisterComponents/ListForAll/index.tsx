@@ -17,6 +17,7 @@ import {
   Box,
   FlexBox,
   FullWidthSpinner,
+  Paragraph,
   SearchInputField,
 } from '../../../../components';
 import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
@@ -67,9 +68,8 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
         />
         {fetching ? (
           <FullWidthSpinner color="black" size="md" />
-        ) : (
+        ) : allFlavors.length ? (
           <>
-            {' '}
             <FlexBox>
               <div
                 style={{
@@ -83,6 +83,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
                     flavourName={'Create Custom Flavour'}
                   />
                 </Box>
+
                 {allFlavors.map((item, index) => {
                   return (
                     <div>
@@ -106,6 +107,18 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
               pagination={allFlavors.length ? true : false}
             ></PaginationWithPageSize>
           </>
+        ) : (
+          <FlexBox.Column fullWidth>
+            <Paragraph>“{text}” Not found. </Paragraph>
+            <iframe
+              style={{
+                border: '0px',
+                height: '100vh',
+                width: '100%',
+              }}
+              src="https://zenml.hellonext.co/embed/roadmap?no_header=true"
+            />
+          </FlexBox.Column>
         )}
       </FlexBox.Column>
       {showModal && (
