@@ -14,14 +14,15 @@ import { camelCaseToParagraph } from '../../../../utils';
 // import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { workspaceSelectors } from '../../../../redux/selectors';
+import { CreateComponent } from './CreateComponent';
 
 export interface FlavorDetailRouteParams {
   id: TId;
 }
 export const RegisterComponents: React.FC = () => {
   const locationPath = useLocationPath();
-  const { setFetching, id } = useService();
-  console.log(setFetching);
+  const { id, flavor } = useService();
+  // console.log(setFetching);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   // const url_string = window.location.href;
@@ -38,7 +39,7 @@ export const RegisterComponents: React.FC = () => {
       tabPages={[
         {
           text: camelCaseToParagraph(locationPath.split('/')[4]),
-          Component: () => <>Confgure</>,
+          Component: () => <CreateComponent flavor={flavor} />,
           path: routePaths.stackComponents.configureComponent(
             locationPath.split('/')[4],
 

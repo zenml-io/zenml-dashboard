@@ -40,7 +40,7 @@ export const SidePopup: React.FC<{
               title="ZenML - Organization Embed"
               style={{ border: '0px', height: '100vh', width: '100%' }}
               // src="https://zenml.hellonext.co/embed/home?no_header=true"
-              src={flavor.docsUrl}
+              src={flavor.docsUrl + '&output=embed'}
             ></iframe>
           </Box>
 

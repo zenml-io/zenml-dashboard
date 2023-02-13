@@ -175,7 +175,6 @@ export const EditField = (
     optional: boolean;
   } & any,
 ): JSX.Element => {
-
   return (
     <FlexBox.Column fullWidth style={{ height: '100px' }}>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
@@ -187,7 +186,7 @@ export const EditField = (
           InputComponent={
             <TextInput
               {...props}
-              value={`${props.value.slice(0, 60)}...`}
+              value={props.value}
               placeholder={props.placeholder}
             />
           }

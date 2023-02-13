@@ -47,16 +47,14 @@ export const myFlavorsPaginated = (state?: State | null): any => {
   return paginated;
 };
 
-// export const stackComponentForId = (
-//   stackComponentId: TId,
-// ): Selector<any, TStack> =>
-//   createSelector(getById, extractItemFromById(stackComponentId));
+export const flavorForId = (id: TId): Selector<any, any> =>
+  createSelector(getById, extractItemFromById(id));
 
 const flavorSelectors = {
   myFlavorByType: myFlavorByType,
   myFlavorsAll: myFlavorsAll,
   myFlavorsPaginated: myFlavorsPaginated,
-  // stackComponentForId,
+  flavorForId,
 };
 
 export { flavorSelectors };
