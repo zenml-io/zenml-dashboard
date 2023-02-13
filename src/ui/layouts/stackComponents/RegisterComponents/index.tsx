@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 // import { translate } from './translate';
 import { ListForAll } from './ListForAll';
 import { BasePage } from '../BasePage';
@@ -7,9 +7,6 @@ import { routePaths } from '../../../../routes/routePaths';
 import { useService } from './useService';
 import { useLocationPath, useSelector } from '../../../hooks';
 
-import FilterComponent, {
-  getInitialFilterState,
-} from '../../../components/Filters';
 import { camelCaseToParagraph } from '../../../../utils';
 // import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';

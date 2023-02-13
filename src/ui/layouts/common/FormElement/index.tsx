@@ -6,7 +6,7 @@ export function Form(props: any) {
 }
 
 export function TextField(props: any) {
-  const { name, label, placeholder, onHandleChange } = props;
+  const { name, label, onHandleChange } = props;
   const [text, setText] = useState('');
 
   return (
@@ -31,13 +31,13 @@ export function TextField(props: any) {
 }
 
 export function ToggleField(props: any) {
-  const { name, label, placeholder, onHandleChange } = props;
-  const CheckBox = () => (
-    <label>
-      <input type="checkbox" />
-      <span></span>
-    </label>
-  );
+  const { name, onHandleChange } = props;
+  // const CheckBox = () => (
+  //   <label>
+  //     <input type="checkbox" />
+  //     <span></span>
+  //   </label>
+  // );
   console.log(props.default, 'propspropspropsprops');
   return (
     <>

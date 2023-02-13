@@ -1,4 +1,4 @@
-import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
+import { camelCaseArray } from '../../utils/camelCase';
 import { flavorActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 

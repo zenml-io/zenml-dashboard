@@ -1,8 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Paragraph } from '../../../components';
 
 import styles from './index.module.scss';
-import imageAddIcon from '../../../assets/imageAddIcon.svg';
 
 export const CustomFlavourBox: React.FC<{
   flavourName: string;
@@ -10,14 +9,15 @@ export const CustomFlavourBox: React.FC<{
   logoUrl: string;
   onSelectFlavor: any;
 }> = ({ flavourName, flavourDesc, logoUrl, onSelectFlavor }) => {
-  const [select, setSelect] = useState(false);
+  // const [select, setSelect] = useState(false);
 
   return (
     <Box
       paddingHorizontal="sm2"
       paddingVertical="sm2"
       className={styles.customFlavourBox}
-      style={{ background: select ? '#443E99' : '#fff' }}
+      // style={{ background: select ? '#443E99' : '#fff' }}
+      style={{ background: '#fff' }}
       onClick={onSelectFlavor}
     >
       <Box className={styles.imageContainer}>
@@ -28,19 +28,13 @@ export const CustomFlavourBox: React.FC<{
       </Box>
 
       <Box style={{ marginTop: '12px' }}>
-        <Paragraph
-          className={styles.flavourName}
-          style={{ color: select ? '#fff' : '#443E99' }}
-        >
+        <Paragraph className={styles.flavourName} style={{ color: '#443E99' }}>
           {flavourName}
         </Paragraph>
       </Box>
 
       <Box marginTop="sm2" marginBottom="xxl2">
-        <Paragraph
-          className={styles.flavourDesc}
-          style={{ color: select ? '##D8C6FC' : '#A8A8A8' }}
-        >
+        <Paragraph className={styles.flavourDesc} style={{ color: '#A8A8A8' }}>
           {flavourDesc}
         </Paragraph>
       </Box>

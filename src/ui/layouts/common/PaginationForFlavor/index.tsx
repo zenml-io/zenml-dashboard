@@ -4,7 +4,7 @@ import styles from './index.module.scss';
 import { joinClassNames, addStyle } from '../../../../utils';
 import { useLocation } from 'react-router-dom';
 
-import { usePagination, DOTS, useDispatch } from '../../../hooks';
+import { usePagination, DOTS } from '../../../hooks';
 import { callActionForFlavorsForPagination } from '../../stackComponents/RegisterComponents/useService';
 
 const PaginationNavigationItem = (props: {

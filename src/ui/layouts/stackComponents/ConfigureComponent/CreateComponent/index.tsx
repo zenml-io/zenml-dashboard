@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import { Box, EditField, FlexBox, Paragraph } from '../../../../components';
-import styles from './index.module.scss';
+import { EditField } from '../../../../components';
+
 import {
   Form,
   SubmitButton,
@@ -22,7 +22,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const [validationSchema, setValidationSchema] = useState({});
+  // const [validationSchema, setValidationSchema] = useState({});
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [componentName, setComponentName] = useState('');
@@ -30,6 +30,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const history = useHistory();
   useEffect(() => {
     initForm(flavor.configSchema.properties);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const initForm = (properties: any) => {
@@ -143,7 +144,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       <Form
         enableReinitialize
         initialValues={formData}
-        validationSchema={validationSchema}
+        // validationSchema={validationSchema}
         onSubmit={onSubmit}
       >
         {Object.keys(flavor.configSchema.properties).map((key, ind) => (

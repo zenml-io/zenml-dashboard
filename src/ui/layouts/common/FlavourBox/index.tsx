@@ -26,12 +26,13 @@ export const FlavourBox: React.FC<{
     >
       <Box className={styles.imageContainer}>
         {selectedImage ? (
-          <img src={selectedImage} alt="selected-image" />
+          <img src={selectedImage} alt="by Zenml" />
         ) : (
           <label className={styles.custom_file_upload}>
             <input
               type="file"
               name="img"
+              alt="by Zenml"
               accept="image/*"
               onChange={(e) => previewImage(e.target)}
             />

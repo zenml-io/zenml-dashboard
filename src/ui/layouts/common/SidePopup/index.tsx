@@ -4,7 +4,6 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import {
   Box,
   FlexBox,
-  H3,
   icons,
   LinkBox,
   Paragraph,

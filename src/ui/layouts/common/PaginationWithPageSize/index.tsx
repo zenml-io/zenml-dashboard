@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import './styles.css';
 import styles from './index.module.scss';
 import {
@@ -14,11 +14,9 @@ import {
 
 import { PaginationForFlavor } from '../PaginationForFlavor';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
-import { useDispatch, useLocation } from '../../../hooks';
 
 import { iconColors, iconSizes } from '../../../../constants/icons';
 import OutsideClickHandler from 'react-outside-click-handler';
-import { callActionForFlavorsForPagination } from '../../stackComponents/RegisterComponents/useService';
 
 export interface Props {
   type: string;
@@ -33,13 +31,6 @@ export interface Props {
   trOnClick?: (arg: any) => void;
 }
 
-const createHeaders = (headers: any[]) => {
-  return headers.map((item) => ({
-    text: item,
-    ref: useRef() as any,
-  }));
-};
-
 export const PaginationWithPageSize: React.FC<Props> = ({
   type,
   flavors,
@@ -50,17 +41,10 @@ export const PaginationWithPageSize: React.FC<Props> = ({
   renderAfterRow,
   trOnClick,
 }) => {
-  const { dispatchFlavorsData } = callActionForFlavorsForPagination();
-  const [tableHeight, setTableHeight] = useState('auto');
-  const [activeIndex, setActiveIndex] = useState(null);
-
   const [showItems, setShowItems] = useState(false);
-  const [fetchingMembers, setFetchingMembers] = useState(false);
 
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
-  const locationPath = useLocation();
-  const checkForLocationPath = locationPath.pathname.split('/')[4];
-  const dispatch = useDispatch();
+
   // const childRef = React.useRef(null);
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
@@ -77,6 +61,7 @@ export const PaginationWithPageSize: React.FC<Props> = ({
   const [text, setText] = useState('');
   useEffect(() => {
     setItemPerPage(paginated.size);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 // import { CollapseTable } from '../../../common/CollapseTable';
-import { useHistory, useLocationPath, useSelector } from '../../../../hooks';
+import { useHistory, useSelector } from '../../../../hooks';
 // import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
@@ -24,7 +24,6 @@ import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
 import { FlavourBox } from '../../../common/FlavourBox';
 import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
 import { callActionForFlavorsForPagination } from '../useService';
-import { Popup } from '../../../common/Popup';
 import { SidePopup } from '../../../common/SidePopup';
 import { routePaths } from '../../../../../routes/routePaths';
 
@@ -37,7 +36,6 @@ interface Props {
 }
 
 export const ListForAll: React.FC<Props> = ({ type }: Props) => {
-  const locationPath = useLocationPath();
   const { dispatchFlavorsData } = callActionForFlavorsForPagination();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);
@@ -46,7 +44,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   // const [selectedComponentId, setSelectedComponentId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
-  const { fetching, allFlavors, setAllFlavors } = useService();
+  const { fetching, allFlavors } = useService();
 
   function handleValueFieldChangeOnSearch(value: string) {
     dispatchFlavorsData(1, flavorsPaginated.size, type, value);
@@ -122,6 +120,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
           <FlexBox.Column fullWidth>
             <Paragraph>“{text}” Not found. </Paragraph>
             <iframe
+              title="Zenml"
               style={{
                 border: '0px',
                 height: '100vh',
