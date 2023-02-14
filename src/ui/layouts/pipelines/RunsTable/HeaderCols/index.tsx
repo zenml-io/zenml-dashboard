@@ -94,7 +94,7 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
-              <div data-tip data-for={run.id}>
+              <div data-tip data-for={run?.id}>
                 <FlexBox.Row style={{ alignItems: 'center' }}>
                   {isExpended ? (
                     <icons.chevronDown
@@ -108,13 +108,13 @@ export const useHeaderCols = ({
                     />
                   )}
                   <Paragraph size="small">
-                    {truncate(run.id, ID_MAX_LENGTH)}
+                    {truncate(run?.id, ID_MAX_LENGTH)}
                   </Paragraph>
                 </FlexBox.Row>
               </div>
-              <ReactTooltip id={run.id} place="top" effect="solid">
+              <ReactTooltip id={run?.id} place="top" effect="solid">
                 <Paragraph color="white">
-                  {truncate(run.id, ID_MAX_LENGTH)}
+                  {truncate(run?.id, ID_MAX_LENGTH)}
                 </Paragraph>
               </ReactTooltip>
             </FlexBox>
@@ -144,12 +144,12 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: any) => (
             <div style={{ alignItems: 'center' }}>
-              <div data-tip data-for={run.name}>
-                <Paragraph size="small">{run.name}</Paragraph>
+              <div data-tip data-for={run?.name}>
+                <Paragraph size="small">{run?.name}</Paragraph>
               </div>
-              <ReactTooltip id={run.name} place="top" effect="solid">
+              <ReactTooltip id={run?.name} place="top" effect="solid">
                 <Paragraph color="white">
-                  {run.name}
+                  {run?.name}
                   {/* {translate(`tooltips.${invoice.status}`)} */}
                 </Paragraph>
               </ReactTooltip>
@@ -192,13 +192,13 @@ export const useHeaderCols = ({
                 asc: (runs: TRun[]) =>
                   _.orderBy(
                     runs,
-                    (run: TRun) => new Date(run.created).getTime(),
+                    (run: TRun) => new Date(run?.created).getTime(),
                     ['asc'],
                   ),
                 desc: (runs: TRun[]) =>
                   _.orderBy(
                     runs,
-                    (run: TRun) => new Date(run.created).getTime(),
+                    (run: TRun) => new Date(run?.created).getTime(),
                     ['desc'],
                   ),
               })}
@@ -217,7 +217,7 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: any) => (
             <FlexBox style={{ alignItems: 'center' }}>
-              <div data-tip data-for={formatDateToDisplayOnTable(run.created)}>
+              <div data-tip data-for={formatDateToDisplayOnTable(run?.created)}>
                 <FlexBox alignItems="center">
                   <Box paddingRight="sm">
                     <icons.calendar
@@ -226,17 +226,17 @@ export const useHeaderCols = ({
                     />
                   </Box>
                   <Paragraph color="grey" size="tiny">
-                    {formatDateToDisplayOnTable(run.created)}
+                    {formatDateToDisplayOnTable(run?.created)}
                   </Paragraph>
                 </FlexBox>
               </div>
               <ReactTooltip
-                id={formatDateToDisplayOnTable(run.created)}
+                id={formatDateToDisplayOnTable(run?.created)}
                 place="top"
                 effect="solid"
               >
                 <Paragraph color="white">
-                  {formatDateToDisplayOnTable(run.created)}
+                  {formatDateToDisplayOnTable(run?.created)}
                   {/* {translate(`tooltips.${invoice.status}`)} */}
                 </Paragraph>
               </ReactTooltip>
@@ -282,7 +282,7 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
-              <div data-tip data-for={run.id}>
+              <div data-tip data-for={run?.id}>
                 <FlexBox.Row style={{ alignItems: 'center' }}>
                   {isExpended ? (
                     <icons.chevronDown
@@ -296,13 +296,13 @@ export const useHeaderCols = ({
                     />
                   )}
                   <Paragraph size="small" style={{ marginLeft: '20px' }}>
-                    {truncate(run.id, ID_MAX_LENGTH)}
+                    {truncate(run?.id, ID_MAX_LENGTH)}
                   </Paragraph>
                 </FlexBox.Row>
               </div>
-              <ReactTooltip id={run.id} place="top" effect="solid">
+              <ReactTooltip id={run?.id} place="top" effect="solid">
                 <Paragraph color="white">
-                  {truncate(run.id, ID_MAX_LENGTH)}
+                  {truncate(run?.id, ID_MAX_LENGTH)}
                 </Paragraph>
               </ReactTooltip>
             </FlexBox>
@@ -332,12 +332,12 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: TRun) => (
             <div style={{ alignItems: 'center' }}>
-              <div data-tip data-for={run.name}>
-                <Paragraph size="small">{run.name}</Paragraph>
+              <div data-tip data-for={run?.name}>
+                <Paragraph size="small">{run?.name}</Paragraph>
               </div>
-              <ReactTooltip id={run.name} place="top" effect="solid">
+              <ReactTooltip id={run?.name} place="top" effect="solid">
                 <Paragraph color="white">
-                  {run.name}
+                  {run?.name}
                   {/* {translate(`tooltips.${invoice.status}`)} */}
                 </Paragraph>
               </ReactTooltip>
@@ -371,7 +371,7 @@ export const useHeaderCols = ({
             <FlexBox alignItems="center">
               <div
                 data-tip
-                data-for={run.pipeline?.name && run.pipeline?.version}
+                data-for={run?.pipeline?.name && run?.pipeline?.version}
               >
                 <Paragraph
                   size="small"
@@ -384,22 +384,22 @@ export const useHeaderCols = ({
                     event.stopPropagation();
                     history.push(
                       routePaths.pipeline.configuration(
-                        run.pipeline?.id,
+                        run?.pipeline?.id,
                         selectedWorkspace,
                       ),
                     );
                   }}
                 >
-                  {run.pipeline?.name}:{run.pipeline?.version}
+                  {run?.pipeline?.name}:{run?.pipeline?.version}
                 </Paragraph>
               </div>
               <ReactTooltip
-                id={run.pipeline?.name && run.pipeline?.version}
+                id={run?.pipeline?.name && run?.pipeline?.version}
                 place="top"
                 effect="solid"
               >
                 <Paragraph color="white">
-                  {run.pipeline?.name}:{run.pipeline?.version}
+                  {run?.pipeline?.name}:{run?.pipeline?.version}
                   {/* {translate(`tooltips.${invoice.status}`)} */}
                 </Paragraph>
               </ReactTooltip>
@@ -456,7 +456,7 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
-              <div data-tip data-for={run.stack?.name}>
+              <div data-tip data-for={run?.stack?.name}>
                 <Paragraph
                   size="small"
                   style={{
@@ -468,18 +468,18 @@ export const useHeaderCols = ({
                     event.stopPropagation();
                     history.push(
                       routePaths.stack.configuration(
-                        run.stack?.id,
+                        run?.stack?.id,
                         selectedWorkspace,
                       ),
                     );
                   }}
                 >
-                  {run.stack?.name}
+                  {run?.stack?.name}
                 </Paragraph>
               </div>
-              <ReactTooltip id={run.stack?.name} place="top" effect="solid">
+              <ReactTooltip id={run?.stack?.name} place="top" effect="solid">
                 <Paragraph color="white">
-                  {run.stack?.name}
+                  {run?.stack?.name}
                   {/* {translate(`tooltips.${invoice.status}`)} */}
                 </Paragraph>
               </ReactTooltip>
@@ -511,14 +511,14 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: TRun) => {
             const initials = getInitialsFromEmail(
-              run.user.full_name ? run.user.full_name : run.user.name,
+              run?.user.full_name ? run?.user.full_name : run?.user.name,
             );
             return (
               <FlexBox alignItems="center">
                 <div
                   data-tip
                   data-for={
-                    run.user.full_name ? run.user.full_name : run.user.name
+                    run?.user.full_name ? run?.user.full_name : run?.user.name
                   }
                 >
                   <FlexBox alignItems="center">
@@ -528,17 +528,21 @@ export const useHeaderCols = ({
                       </ColoredCircle>
                     </Box>
                     <Paragraph size="small">
-                      {run.user.full_name ? run.user.full_name : run.user.name}
+                      {run?.user.full_name
+                        ? run?.user.full_name
+                        : run?.user.name}
                     </Paragraph>
                   </FlexBox>
                 </div>
                 <ReactTooltip
-                  id={run.user.full_name ? run.user.full_name : run.user.name}
+                  id={
+                    run?.user.full_name ? run?.user.full_name : run?.user.name
+                  }
                   place="top"
                   effect="solid"
                 >
                   <Paragraph color="white">
-                    {run.user.full_name ? run.user.full_name : run.user.name}
+                    {run?.user.full_name ? run?.user.full_name : run?.user.name}
                     {/* {translate(`tooltips.${invoice.status}`)} */}
                   </Paragraph>
                 </ReactTooltip>
@@ -555,13 +559,13 @@ export const useHeaderCols = ({
                 asc: (runs: TRun[]) =>
                   _.orderBy(
                     runs,
-                    (run: TRun) => new Date(run.created).getTime(),
+                    (run: TRun) => new Date(run?.created).getTime(),
                     ['asc'],
                   ),
                 desc: (runs: TRun[]) =>
                   _.orderBy(
                     runs,
-                    (run: TRun) => new Date(run.created).getTime(),
+                    (run: TRun) => new Date(run?.created).getTime(),
                     ['desc'],
                   ),
               })}
@@ -580,7 +584,7 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
-              <div data-tip data-for={formatDateToDisplayOnTable(run.created)}>
+              <div data-tip data-for={formatDateToDisplayOnTable(run?.created)}>
                 <FlexBox alignItems="center">
                   <Box paddingRight="sm">
                     <icons.calendar
@@ -589,17 +593,17 @@ export const useHeaderCols = ({
                     />
                   </Box>
                   <Paragraph color="grey" size="tiny">
-                    {formatDateToDisplayOnTable(run.created)}
+                    {formatDateToDisplayOnTable(run?.created)}
                   </Paragraph>
                 </FlexBox>
               </div>
               <ReactTooltip
-                id={formatDateToDisplayOnTable(run.created)}
+                id={formatDateToDisplayOnTable(run?.created)}
                 place="top"
                 effect="solid"
               >
                 <Paragraph color="white">
-                  {formatDateToDisplayOnTable(run.created)}
+                  {formatDateToDisplayOnTable(run?.created)}
                 </Paragraph>
               </ReactTooltip>
             </FlexBox>
