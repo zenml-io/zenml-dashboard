@@ -1,6 +1,7 @@
 export type Sorting =
   | 'id'
   | 'name'
+  | 'version'
   | 'status'
   | 'user_id'
   | 'datasourceCommit'

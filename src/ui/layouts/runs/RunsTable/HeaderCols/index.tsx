@@ -119,7 +119,7 @@ export const useHeaderCols = ({
           size="small"
           style={{ color: '#22BBDD', textDecoration: 'underline' }}
         >
-          {run.pipeline.name} {run.pipeline?.spec.version}
+          {run.pipeline.name}:{run.pipeline?.version}
         </Paragraph>
       ),
     },
