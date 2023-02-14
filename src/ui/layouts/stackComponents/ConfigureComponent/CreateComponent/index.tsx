@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from 'react';
-import { EditField } from '../../../../components';
+import React, { Fragment, useEffect, useState } from 'react';
+import { EditField, FlexBox } from '../../../../components';
 
 import {
   Form,
@@ -27,11 +27,55 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [componentName, setComponentName] = useState('');
   const [inputData, setInputData] = useState({});
+  const [inputFields, setInputFields] = useState([{ key: '', value: '' }]);
   const history = useHistory();
   useEffect(() => {
     initForm(flavor.configSchema.properties);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  const handleAddFields = () => {
+    const values = [...inputFields];
+    values.push({ key: '', value: '' });
+    setInputFields(values);
+  };
+
+  const handleRemoveFields = (index: any) => {
+    const values = [...inputFields];
+    values.splice(index, 1);
+    setInputFields(values);
+  };
+
+  const handleInputChange = (index: any, event: any, label: any) => {
+    const toSnakeCase = (str: any) =>
+      str &&
+      str
+        .match(
+          /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
+        )
+        .map((x: any) => x.toLowerCase())
+        .join('_');
+    const values = [...inputFields];
+    if (event.target.name === 'key') {
+      values[index].key = event.target.value;
+    } else {
+      values[index].value = event.target.value;
+    }
+    const keys = values.map((object) => object.key);
+    const value = values.map((object) => object.value);
+    var result: any = {};
+    keys.forEach((key: any, i: any) => (result[key] = value[i]));
+
+    if (event) {
+      setInputData({
+        ...inputData,
+        [toSnakeCase(label)]: {
+          ...result,
+        },
+      });
+    }
+  };
+
+  const resetForm = (e: any) => setInputFields([{ key: '', value: '' }]);
 
   const initForm = (properties: any) => {
     let _formData: any = {};
@@ -43,6 +87,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     setFormData(_formData);
   };
 
+  console.log(inputFields, 'asdinputFields');
   const getFormElement = (elementName: any, elementSchema: any) => {
     console.log(flavor.configSchema, 'elementSchemaelementSchemaelementSchema');
     const props = {
@@ -51,8 +96,85 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       default: elementSchema.default as any,
       //   options: elementSchema.type,
     };
+    if (elementSchema.type === 'object' && elementSchema.title) {
+      return (
+        <>
+          <label htmlFor="key">{props.label}</label>
+          <FlexBox.Row>
+            {/* <form onSubmit={handleSubmit}> */}
+            <div className="form-row">
+              {inputFields.map((inputField, index) => (
+                <Fragment key={`${inputField}~${index}`}>
+                  <div className="form-group col-sm-6">
+                    <label htmlFor="key">Key</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="key"
+                      name="key"
+                      value={inputField.key}
+                      onChange={(event) =>
+                        handleInputChange(index, event, props.label)
+                      }
+                    />
+                  </div>
+                  <div className="form-group col-sm-4">
+                    <label htmlFor="value">Value</label>
+                    <input
+                      type="text"
+                      className="form-control"
+                      id="value"
+                      name="value"
+                      value={inputField.value}
+                      onChange={(event) =>
+                        handleInputChange(index, event, props.label)
+                      }
+                    />
+                  </div>
+                  <div className="form-group col-sm-2">
+                    <button
+                      className="btn btn-link"
+                      type="button"
+                      disabled={index === 0}
+                      onClick={() => handleRemoveFields(index)}
+                    >
+                      -
+                    </button>
+                    <button
+                      className="btn btn-link"
+                      type="button"
+                      onClick={() => handleAddFields()}
+                    >
+                      +
+                    </button>
+                  </div>
+                </Fragment>
+              ))}
+            </div>
+            <div className="submit-button">
+              {/* <button
+              className="btn btn-primary mr-2"
+              type="submit"
+              onSubmit={handleSubmit}
+            >
+              Save
+            </button> */}
+              {/* <button
+              className="btn btn-secondary mr-2"
+              type="reset"
+              onClick={resetForm}
+            >
+              Reset Form
+            </button> */}
+            </div>
+            <br />
+            {/* </form> */}
+          </FlexBox.Row>
+        </>
+      );
+    }
 
-    if (elementSchema.type !== 'boolean' && elementSchema.title) {
+    if (elementSchema.type === 'string' && elementSchema.title) {
       return (
         <TextField
           {...props}
