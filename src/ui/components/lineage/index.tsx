@@ -293,11 +293,11 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                   </p>
                   <p className="detailsP URI">
                     {Object.entries(selectedNode?.metadata || {}).map(
-                        (value) => {
-                          let val = String(value[1]).split(",")
+                        (fullValue: [string, any]) => { 
+                          let value = fullValue[1];
                           return <div>
-                              <p className="detailsKey">{val[0].trim() + " ("} {(val[2].trim()) + " ):"}</p>
-                              <p className="detailsValue">{val[1].trim()}</p>
+                              <p className="detailsKey">{String(value[0]).trim() + " ("} {(String(value[2]).trim()) + " ):"}</p>
+                              <p className="detailsValue">{String(value[1]).trim()}</p>
                             </div>
                           },
                     )}
