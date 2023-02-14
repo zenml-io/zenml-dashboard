@@ -75,7 +75,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     }
   };
 
-  const resetForm = (e: any) => setInputFields([{ key: '', value: '' }]);
+  // const resetForm = (e: any) => setInputFields([{ key: '', value: '' }]);
 
   const initForm = (properties: any) => {
     let _formData: any = {};
