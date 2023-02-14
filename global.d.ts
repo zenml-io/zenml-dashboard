@@ -115,6 +115,7 @@ interface TPipeline {
   status: Array;
   configuration: object;
   spec?: any;
+  version: string;
 }
 interface TStack {
   id: TId;

@@ -145,7 +145,7 @@ export const useHeaderCols = ({
       width: '10%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run.pipeline?.name}>
+          <div data-tip data-for={run.pipeline?.name && run.pipeline?.version}>
             <Paragraph
               size="small"
               style={{
@@ -163,11 +163,17 @@ export const useHeaderCols = ({
                 );
               }}
             >
-              {run.pipeline?.name} {run.pipeline?.spec.version}
+              {run.pipeline?.name}:{run.pipeline?.version}
             </Paragraph>
           </div>
-          <ReactTooltip id={run.pipeline?.name} place="top" effect="solid">
-            <Paragraph color="white">{run.pipeline?.name}</Paragraph>
+          <ReactTooltip
+            id={run.pipeline?.name && run.pipeline?.version}
+            place="top"
+            effect="solid"
+          >
+            <Paragraph color="white">
+              {run.pipeline?.name}:{run.pipeline?.version}
+            </Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

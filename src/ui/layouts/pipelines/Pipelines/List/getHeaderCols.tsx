@@ -193,13 +193,28 @@ export const GetHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          Version
-        </Paragraph>
+        <SortingHeader
+          onlyOneRow={
+            filteredPipelines.length === 1 || expendedRow?.length === 1
+          }
+          sorting="version"
+          sortMethod={sortMethod('version', {
+            asc: (filteredPipelines: TPipeline[]) =>
+              _.orderBy(filteredPipelines, ['version'], ['asc']),
+            desc: (filteredPipelines: TPipeline[]) =>
+              _.orderBy(filteredPipelines, ['version'], ['desc']),
+          })}
+          activeSorting={activeSorting}
+          activeSortingDirection={activeSortingDirection}
+        >
+          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            VERISON
+          </Paragraph>
+        </SortingHeader>
       ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => (
-        <Paragraph size="small">{pipeline?.spec?.version}</Paragraph>
+        <Paragraph size="small">{pipeline?.version}</Paragraph>
       ),
     },
 
