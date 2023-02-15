@@ -64,21 +64,25 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
     );
   };
 
-  const textStyle = { color: 'rgba(66, 66, 64, 0.5)', fontSize: '18px', lineHeight: '22px' }
+  const textStyle = {
+    color: 'rgba(66, 66, 64, 0.5)',
+    fontSize: '18px',
+    lineHeight: '22px',
+  };
 
   return (
     <>
       <FlexBox.Column fullWidth>
-      <div style={{ marginBottom: "-30px" }} >
-        <SearchInputField
-          placeholder={'Search'}
-          value={text}
-          // disabled={applyFilter || showInBar}
-          onChange={(value: string) => {
-            setText(value);
-            handleValueFieldChangeOnSearch(`${'contains:' + value}`);
-          }}
-        />
+        <div style={{ marginBottom: '-30px' }}>
+          <SearchInputField
+            placeholder={'Search'}
+            value={text}
+            // disabled={applyFilter || showInBar}
+            onChange={(value: string) => {
+              setText(value);
+              handleValueFieldChangeOnSearch(`${'contains:' + value}`);
+            }}
+          />
         </div>
         {fetching ? (
           <FullWidthSpinner color="black" size="md" />
@@ -101,10 +105,11 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
                 {allFlavors.map((item, index) => {
                   return (
                     <div>
+                      {console.log(item, 'item.nameitem.name')}
                       <Box marginVertical={'sm'} marginHorizontal={'md'}>
                         <CustomFlavourBox
-                          flavourDesc={item.name}
-                          flavourName={'Flavour'}
+                          flavourDesc={item.configSchema.description}
+                          flavourName={item.name}
                           logoUrl={item.logoUrl}
                           onSelectFlavor={() => onSelectFlavor(item)}
                         />
@@ -125,10 +130,19 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
           </>
         ) : (
           <FlexBox.Column fullWidth>
-            <Box marginVertical='md' >
+            <Box marginVertical="md">
               <Paragraph style={textStyle}>“{text}” Not found. </Paragraph>
-              <Paragraph style={textStyle}>But don’t worry we have noted your search and it soon will be available</Paragraph>
-              <Paragraph style={textStyle}>In meanwhile You can always <span style={{ color: '#443E99', textDecoration: 'underline' }}>create your own stack components</span> to integrate tools easily with ZenML</Paragraph>
+              <Paragraph style={textStyle}>
+                But don’t worry we have noted your search and it soon will be
+                available
+              </Paragraph>
+              <Paragraph style={textStyle}>
+                In meanwhile You can always{' '}
+                <span style={{ color: '#443E99', textDecoration: 'underline' }}>
+                  create your own stack components
+                </span>{' '}
+                to integrate tools easily with ZenML
+              </Paragraph>
               <Paragraph style={textStyle}>Or check our roadmap</Paragraph>
             </Box>
 
