@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 
 // import { CollapseTable } from '../../../common/CollapseTable';
-import { useHistory, useSelector } from '../../../../hooks';
+import { useSelector } from '../../../../hooks';
+import { useHistory } from 'react-router-dom';
 // import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
@@ -40,7 +41,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);
   const [text, setText] = useState('');
-  const [selectedFlavor, setSelectedFlavor] = useState();
+  const [selectedFlavor, setSelectedFlavor] = useState() as any;
   // const [selectedComponentId, setSelectedComponentId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
@@ -71,7 +72,9 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   };
   const routeExsiting = () => {
     setShowModal(false);
-    history.push(routePaths.stackComponents.base(type, selectedWorkspace));
+    history.push(routePaths.stackComponents.base(type, selectedWorkspace), {
+      state: selectedFlavor.name,
+    });
   };
 
   return (
