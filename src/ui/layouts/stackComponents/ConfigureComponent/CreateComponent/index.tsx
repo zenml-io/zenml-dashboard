@@ -46,6 +46,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
           ...setDefaultData,
           [toSnakeCase(data.title)]: data.default,
         };
+      return null;
     });
     setInputData({ ...setDefaultData });
 
