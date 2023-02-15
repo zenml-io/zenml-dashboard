@@ -11,14 +11,19 @@ import {
 } from '../../../components';
 
 import styles from './index.module.scss';
+import { routePaths } from '../../../../routes/routePaths';
+import { useHistory } from 'react-router-dom';
+import { useSelector } from '../../../hooks';
+import { workspaceSelectors } from '../../../../redux/selectors';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
 export const SidePopup: React.FC<{
+  onSeeExisting: () => void;
   onClose: () => void;
   flavor?: any;
   onSelectFlavor: any;
-}> = ({ children, flavor, onClose, onSelectFlavor }) => (
+}> = ({ children, flavor, onClose, onSelectFlavor, onSeeExisting }) => (
   <>
     <Dimmer />
     <FlexBox
@@ -54,7 +59,7 @@ export const SidePopup: React.FC<{
           >
             <FlexBox.Row justifyContent="space-between" alignItems="center">
               <Box>
-                <LinkBox onClick={() => console.log('See Existing')}>
+                <LinkBox onClick={onSeeExisting}>
                   <Paragraph>See Existing</Paragraph>
                 </LinkBox>
               </Box>
