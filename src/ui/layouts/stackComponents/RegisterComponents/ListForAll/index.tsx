@@ -69,6 +69,10 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
     fontSize: '18px',
     lineHeight: '22px',
   };
+  const routeExsiting = () => {
+    setShowModal(false);
+    history.push(routePaths.stackComponents.base(type, selectedWorkspace));
+  };
 
   return (
     <>
@@ -160,6 +164,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
       </FlexBox.Column>
       {showModal && (
         <SidePopup
+          onSeeExisting={() => routeExsiting()}
           onSelectFlavor={() => handleSelectedFlavor(selectedFlavor)}
           flavor={selectedFlavor}
           onClose={() => setShowModal(false)}

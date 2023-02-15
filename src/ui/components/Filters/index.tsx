@@ -50,6 +50,11 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
+          value: 'flavor',
+          label: 'Flavor',
+          type: 'string',
+        },
+        {
           value: 'user_id',
           label: 'Author',
           type: 'string',

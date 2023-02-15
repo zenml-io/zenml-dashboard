@@ -31,7 +31,9 @@ export const useService = (): ServiceInterface => {
     setFetching(true);
     dispatch(
       stackComponentsActions.getMy({
-        workspace: selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+        workspace: selectedWorkspace
+          ? selectedWorkspace
+          : locationPath.split('/')[2],
         type: locationPath.split('/')[4],
         sort_by: 'desc:created',
         logical_operator: 'and',
@@ -69,9 +71,11 @@ export const callActionForStackComponentsForPagination = () => {
     setFetching(true);
     dispatch(
       stackComponentsActions.getMy({
-        workspace: selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+        workspace: selectedWorkspace
+          ? selectedWorkspace
+          : locationPath.split('/')[2],
         type: locationPath.split('/')[4],
-        sort_by: sortby ? sortby : 'created',
+        sort_by: sortby ? sortby : 'desc:created',
         logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
         page: page,
         size: size,

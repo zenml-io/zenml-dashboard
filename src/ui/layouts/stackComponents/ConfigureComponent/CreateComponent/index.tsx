@@ -21,8 +21,12 @@ import { toasterTypes } from '../../../../../constants';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
+import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
 
 export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
+  const {
+    dispatchStackComponentsData,
+  } = callActionForStackComponentsForPagination();
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
@@ -80,8 +84,6 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       .join('_');
 
   const handleInputChange = (index: any, event: any, label: any, type: any) => {
-    // debugger;
-
     const values = [...inputFields];
     if (type === 'key') {
       values[index].key = event;
@@ -114,17 +116,10 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   };
   console.log(inputData, 'inputDatainputData');
   const getFormElement = (elementName: any, elementSchema: any) => {
-    // if (elementSchema.default) {
-    //   setInputData({
-    //     ...inputData,
-    //     [elementSchema.name]: elementSchema.default,
-    //   });
-    // }
     const props = {
       name: elementName,
       label: elementSchema.title,
       default: elementSchema.default as any,
-      //   options: elementSchema.type,
     };
 
     if (elementSchema.type === 'object' && elementSchema.title) {
@@ -135,7 +130,6 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
           </Paragraph>
 
           <FlexBox.Row>
-            {/* <form onSubmit={handleSubmit}> */}
             <div className="form-row">
               {inputFields.map((inputField: any, index: any) => (
                 <Fragment key={`${inputField}~${index}`}>
@@ -182,24 +176,8 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                 </Fragment>
               ))}
             </div>
-            <div className="submit-button">
-              {/* <button
-              className="btn btn-primary mr-2"
-              type="submit"
-              onSubmit={handleSubmit}
-            >
-              Save
-            </button> */}
-              {/* <button
-              className="btn btn-secondary mr-2"
-              type="reset"
-              onClick={resetForm}
-            >
-              Reset Form
-            </button> */}
-            </div>
+            <div className="submit-button"></div>
             <br />
-            {/* </form> */}
           </FlexBox.Row>
         </Box>
       );
@@ -264,14 +242,23 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         { ...body },
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
-      .then(() => {
+      .then((response) => {
+        const id = response.data.id;
         dispatch(
           showToasterAction({
             description: 'Component has been created successfully',
             type: toasterTypes.success,
           }),
         );
-        history.push(routePaths.stacks.list(selectedWorkspace));
+        dispatchStackComponentsData(1, 10);
+
+        history.push(
+          routePaths.stackComponents.configuration(
+            flavor.type,
+            id,
+            selectedWorkspace,
+          ),
+        );
       })
       .catch((err) => {
         dispatch(
@@ -281,13 +268,6 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
           }),
         );
       });
-
-    // dispatch(
-    //   showToasterAction({
-    //     description: 'User Updated',
-    //     type: toasterTypes.success,
-    //   }),
-    // );
   };
   return (
     <Box>
