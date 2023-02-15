@@ -146,18 +146,10 @@ export interface StackDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
-  const { stackComponent } = useService();
+  const { stackComponent, id } = useService();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const tabPages = getTabPages(
-    stackComponent.id,
-    locationPath,
-    selectedWorkspace,
-  );
-  const breadcrumbs = getBreadcrumbs(
-    stackComponent.id,
-    locationPath,
-    selectedWorkspace,
-  );
+  const tabPages = getTabPages(id, locationPath, selectedWorkspace);
+  const breadcrumbs = getBreadcrumbs(id, locationPath, selectedWorkspace);
 
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
@@ -235,7 +227,7 @@ export const StackDetail: React.FC = () => {
           filter={[]}
           pagination={false}
           isExpended={true}
-          id={stackComponent.id}
+          id={id}
         ></StackComponenList>
         {/* <>
           <table className={cn(styles.table)}>
