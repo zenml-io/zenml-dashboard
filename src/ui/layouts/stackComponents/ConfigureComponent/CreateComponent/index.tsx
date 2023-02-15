@@ -190,11 +190,11 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       return (
         <TextField
           {...props}
-          disable={
-            elementSchema.default &&
-            (elementSchema.type === 'string' ||
-              elementSchema.type === 'integer')
-          }
+          // disable={
+          //   elementSchema.default &&
+          //   (elementSchema.type === 'string' ||
+          //     elementSchema.type === 'integer')
+          // }
           onHandleChange={(key: any, value: any) =>
             setInputData({ ...inputData, [key]: value })
           }
@@ -276,7 +276,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       </Box>
     
       <FlexBox.Row style={{ width: '100%' }}>
-        <Box>
+        <Box style={{ width: '35%' }}>
           <FormTextField
             onChange={(e: any) => {
               setComponentName(e);
