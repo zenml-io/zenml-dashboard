@@ -4,6 +4,7 @@ import {
   Box,
   FlexBox,
   FormTextField,
+  Paragraph,
   PrimaryButton,
 } from '../../../../components';
 
@@ -127,7 +128,10 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     if (elementSchema.type === 'object' && elementSchema.title) {
       return (
         <Box marginTop="md">
-          <label htmlFor="key">{props.label}</label>
+          <Paragraph size="body" style={{ color: '#000' }}>
+            <label htmlFor="key">{props.label}</label>
+          </Paragraph>
+
           <FlexBox.Row>
             {/* <form onSubmit={handleSubmit}> */}
             <div className="form-row">
@@ -339,7 +343,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         </Form>
       </Box>
 
-      <SidePopup onClose={() => {}} action={onSubmit} />
+      <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} />
     </FlexBox.Row>
 
     // <FlexBox.Column fullWidth marginTop="xl">
