@@ -7,11 +7,9 @@
   position: fixed;
   right: 2rem;
   bottom: 0;
-  height: 800px;
-  height: 677px;
+  height: 88rem;
   min-width: 700px;
-  overflow-x: auto;
-  border: 1px solid #cacaca;
+  overflow: auto;
 }
 
 @media (max-width: $md-breakpoint) {
@@ -32,8 +30,8 @@
 .popupClose {
   border-radius: 100px;
   position: absolute;
-  top: 13rem;
-  right: 5rem;
+  top: 15rem;
+  right: 3rem;
   z-index: 999;
 }
 
