@@ -4,8 +4,6 @@ import OutsideClickHandler from 'react-outside-click-handler';
 import {
   Box,
   FlexBox,
-  icons,
-  LinkBox,
   PrimaryButton,
 } from '../../../../components';
 
@@ -21,12 +19,6 @@ export const SidePopup: React.FC<{
     justifyContent="center"
     className={styles.popupContainer}
   >
-    <Box className={styles.popupClose}>
-      <LinkBox onClick={onClose}>
-        <icons.closeWithBorder />
-      </LinkBox>
-    </Box>
-
     <Box className={styles.sidePopup}>
       <OutsideClickHandler onOutsideClick={onClose}>
         <Box paddingLeft="md" paddingTop="sm">
@@ -47,8 +39,8 @@ export const SidePopup: React.FC<{
           paddingHorizontal="md"
           className={styles.actionSection}
         >
-          <Box>
-            <PrimaryButton onClick={action}>
+          <Box style={{ marginLeft: '25%' }} >
+            <PrimaryButton onClick={action} >
               Register Stack Component
             </PrimaryButton>
           </Box>

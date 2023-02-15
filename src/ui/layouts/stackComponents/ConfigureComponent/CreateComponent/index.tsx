@@ -1,9 +1,10 @@
 import React, { Fragment, useEffect, useState } from 'react';
-
+import styles from './index.module.scss'
 import {
   Box,
   FlexBox,
   FormTextField,
+  H2,
   Paragraph,
   PrimaryButton,
 } from '../../../../components';
@@ -133,7 +134,6 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
               {inputFields.map((inputField: any, index: any) => (
                 <Fragment key={`${inputField}~${index}`}>
                   <div className="form-group col-sm-6">
-                    {/* <label htmlFor="key">Key</label> */}
                     <FormTextField
                       onChange={(event: any) =>
                         handleInputChange(index, event, props.label, 'key')
@@ -143,7 +143,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                       placeholder={''}
                     />
                   </div>
-                  <div className="form-group col-sm-4">
+                  <div className="form-group col-sm-5">
                     <FormTextField
                       onChange={(event: any) =>
                         handleInputChange(index, event, props.label, 'value')
@@ -153,9 +153,10 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                       placeholder={''}
                     />
                   </div>
-                  <div className="form-group col-sm-2">
+                  <div className="form-group col-sm-1">
                     <button
-                      className="btn btn-link"
+                      className={styles.fieldButton}
+                      style={{margin: '28px 0 2px 0'}}
                       type="button"
                       disabled={index === 0}
                       onClick={() =>
@@ -165,7 +166,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                       -
                     </button>
                     <button
-                      className="btn btn-link"
+                      className={styles.fieldButton}
                       type="button"
                       onClick={() => handleAddFields()}
                     >
@@ -189,11 +190,11 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       return (
         <TextField
           {...props}
-          // disable={
-          //   elementSchema.default &&
-          //   (elementSchema.type === 'string' ||
-          //     elementSchema.type === 'integer')
-          // }
+          disable={
+            elementSchema.default &&
+            (elementSchema.type === 'string' ||
+              elementSchema.type === 'integer')
+          }
           onHandleChange={(key: any, value: any) =>
             setInputData({ ...inputData, [key]: value })
           }
@@ -269,43 +270,49 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       });
   };
   return (
-    <FlexBox.Row style={{ width: '100%' }}>
-      <Box style={{ width: '40%' }}>
-        <FormTextField
-          onChange={(e: any) => {
-            setComponentName(e);
-          }}
-          placeholder="Component Name"
-          label={'Component Name'}
-          value={componentName}
-        />
-        <ToggleField
-          label={'Share Component with public'}
-          onHandleChange={
-            (key: any, value: any) => setIsShared(value)
-            // setInputData({ ...inputData, ['is_shared']: value })
-          }
-        />
-
-        <Form
-          enableReinitialize
-          initialValues={formData}
-          // validationSchema={validationSchema}
-          onSubmit={onSubmit}
-        >
-          {Object.keys(flavor.configSchema.properties).map((key, ind) => (
-            <div key={key}>
-              {getFormElement(key, flavor.configSchema.properties[key])}
-            </div>
-          ))}
-
-          <PrimaryButton marginTop="md">Upload File</PrimaryButton>
-        </Form>
+    <Box>
+      <Box style={{ width: '100%', marginTop: '-30px' }} marginBottom='lg'>
+        <H2>Configuring your component</H2>
       </Box>
+    
+      <FlexBox.Row style={{ width: '100%' }}>
+        <Box>
+          <FormTextField
+            onChange={(e: any) => {
+              setComponentName(e);
+            }}
+            placeholder="Component Name"
+            label={'Component Name'}
+            value={componentName}
+          />
+          <ToggleField
+            label={'Share Component with public'}
+            onHandleChange={
+              (key: any, value: any) => setIsShared(value)
+              // setInputData({ ...inputData, ['is_shared']: value })
+            }
+          />
 
-      <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} />
-    </FlexBox.Row>
+          <Form
+            enableReinitialize
+            initialValues={formData}
+            // validationSchema={validationSchema}
+            onSubmit={onSubmit}
+          >
+            {Object.keys(flavor.configSchema.properties).map((key, ind) => (
+              <div key={key}>
+                {getFormElement(key, flavor.configSchema.properties[key])}
+              </div>
+            ))}
 
+            <PrimaryButton marginTop="md">Upload File</PrimaryButton>
+          </Form>
+        </Box>
+
+        <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} />
+      </FlexBox.Row>
+
+    </Box>
     // <FlexBox.Column fullWidth marginTop="xl">
     //   <Box style={{ width: '40%' }}>
     //     <Box>

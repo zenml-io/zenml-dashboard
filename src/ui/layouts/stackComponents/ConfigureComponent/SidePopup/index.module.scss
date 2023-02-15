@@ -7,10 +7,11 @@
   position: fixed;
   right: 2rem;
   bottom: 0;
+  top: 13rem;
   height: 88rem;
   min-width: 700px;
   overflow: auto;
-}
+} 
 
 @media (max-width: $md-breakpoint) {
   .sidePopup {
@@ -27,16 +28,9 @@
   z-index: 99999;
 }
 
-.popupClose {
-  border-radius: 100px;
-  position: absolute;
-  top: 15rem;
-  right: 3rem;
-  z-index: 999;
-}
-
 .actionSection {
-  position: absolute;
-  right: 0;
+  width: 100%;
+  background-color: #ffffff;
+  position: fixed;
   bottom: 0;
 }
