@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { EditField } from '../../../../components';
+import { Box, FlexBox, FormTextField, PrimaryButton } from '../../../../components';
 
 import {
   Form,
-  SubmitButton,
   TextField,
   ToggleField,
 } from '../../../common/FormElement';
@@ -17,6 +16,8 @@ import { showToasterAction } from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
+import { SidePopup } from '../SidePopup';
+
 export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
@@ -129,32 +130,37 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     // );
   };
   return (
-    <div className="App">
-      <EditField
-        onChangeText={(e: any) => {
-          setComponentName(e);
-        }}
-        label={'Component Name'}
-        optional={false}
-        value={componentName}
-        hasError={false}
-        // {...rest}
-        // className={styles.field}
-      />
-      <Form
-        enableReinitialize
-        initialValues={formData}
-        // validationSchema={validationSchema}
-        onSubmit={onSubmit}
-      >
-        {Object.keys(flavor.configSchema.properties).map((key, ind) => (
-          <div key={key}>
-            {getFormElement(key, flavor.configSchema.properties[key])}
-          </div>
-        ))}
-        <SubmitButton title="Submit" onClick={onSubmit} />
-      </Form>
-    </div>
+    <FlexBox.Row style={{ width: '100%' }} >
+      <Box style={{ width: '40%' }}>
+        <FormTextField
+          onChange={(e: any) => {
+            setComponentName(e);
+          }}
+          placeholder="Component Name"
+          label={'Component Name'}
+          value={componentName}
+        />
+      
+        <Form
+          enableReinitialize
+          initialValues={formData}
+          // validationSchema={validationSchema}
+          onSubmit={onSubmit}
+        >
+          {Object.keys(flavor.configSchema.properties).map((key, ind) => (
+            <div key={key}>
+              {getFormElement(key, flavor.configSchema.properties[key])}
+            </div>
+          ))}
+        
+          <PrimaryButton marginTop="md" >Upload File</PrimaryButton>
+        </Form>
+      </Box>
+
+      <SidePopup onClose={() => {}} action={onSubmit} />
+    </FlexBox.Row>
+
+    
     // <FlexBox.Column fullWidth marginTop="xl">
     //   <Box style={{ width: '40%' }}>
     //     <Box>
