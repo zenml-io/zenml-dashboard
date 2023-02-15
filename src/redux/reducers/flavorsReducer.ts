@@ -39,10 +39,7 @@ const newState = (state: State, flavors: any[], pagination?: any): State => ({
   },
 });
 
-const stackComponentsReducer = (
-  state: State = initialState,
-  action: Action,
-): State => {
+const flavorsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case flavorActionTypes.getFlavorAll.success: {
       const flavors: TStack[] = camelCaseArray(
@@ -82,4 +79,4 @@ const stackComponentsReducer = (
   }
 };
 
-export default stackComponentsReducer;
+export default flavorsReducer;

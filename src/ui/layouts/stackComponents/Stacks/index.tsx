@@ -1,11 +1,11 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 // import { translate } from './translate';
 import { List } from './List';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 
 import { useService } from './useService';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { useLocation, useLocationPath, useSelector } from '../../../hooks';
 
 import FilterComponent, {
   getInitialFilterState,
@@ -28,6 +28,27 @@ const FilterWrapper = () => {
     });
     return filterValuesMap;
   }
+  const location: any = useLocation();
+  useEffect(() => {
+    const tempFilter = filters.map((item: any) => {
+      return {
+        ...item,
+        column: {
+          ...item.column,
+          selectedValue: { value: 'flavor', label: 'Flavor', type: 'string' },
+        },
+        contains: {
+          ...item.contains,
+          selectedValue: { value: 'equals', label: 'Equal', type: 'string' },
+        },
+        filterValue: location.state?.state,
+      };
+    });
+    setFilter(tempFilter);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  console.log('getfilter', filters);
   return (
     <FilterComponent
       getInitials={getInitialFilterState}
@@ -49,7 +70,9 @@ export const Stacks: React.FC = () => {
   // const url = new URL(url_string);
   // const workspaceName = url.pathname.split('/')[2];
 
-  const workspace = selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME;
+  const workspace = selectedWorkspace
+    ? selectedWorkspace
+    : DEFAULT_WORKSPACE_NAME;
   // debugger;
   return (
     <BasePage
