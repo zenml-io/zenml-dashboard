@@ -155,6 +155,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
         </button>
         <button onClick={() => setLegend(!legend)}>Legend</button>
         <button
+          disabled={graph?.metadata[0]?.value ? false : true}
           onClick={() => {
             window.open(
               graph?.metadata[0]?.value

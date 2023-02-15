@@ -7,6 +7,7 @@ interface CollapseTableProps {
 }
 
 export const CollapseTable: React.FC<TableProps & CollapseTableProps> = ({
+  isExpended,
   headerCols,
   tableRows,
   activeSorting,
@@ -22,6 +23,7 @@ export const CollapseTable: React.FC<TableProps & CollapseTableProps> = ({
   // console.log('activeSorting', activeSorting);
   return (
     <Table
+      isExpended={isExpended}
       activeSorting={activeSorting}
       headerCols={headerCols}
       tableRows={tableRows}

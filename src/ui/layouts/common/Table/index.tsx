@@ -38,6 +38,7 @@ export interface HeaderCol {
 }
 
 export interface TableProps {
+  isExpended?: boolean;
   headerCols: HeaderCol[];
   tableRows: any[];
   minCellWidth?: any;
@@ -62,6 +63,7 @@ const createHeaders = (headers: any[]) => {
 };
 
 export const Table: React.FC<TableProps> = ({
+  isExpended,
   headerCols,
   tableRows,
   paginated,
@@ -207,106 +209,107 @@ export const Table: React.FC<TableProps> = ({
     if (filters) {
       setPageIndex(0);
     }
+    if (!isExpended) {
+      switch (componentName) {
+        case 'stacks':
+          if (CheckIfRun) {
+            dispatchStackRunsData(
+              id,
+              1,
+              itemPerPage,
+              checkValidFilter.length ? (validFilters as any) : [],
+              activeSorting,
+            );
+            break;
+          } else {
+            dispatchStackData(
+              1,
+              itemPerPage,
+              checkValidFilter.length ? (validFilters as any) : [],
+              activeSorting,
+              locationPath.pathname.split('/')[6],
+            );
+            break;
+          }
+        case 'components':
+          if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
+            dispatchStackData(
+              1,
+              itemPerPage,
+              checkValidFilter.length ? (validFilters as any) : [],
+              activeSorting,
+              locationPath.pathname.split('/')[5],
+            );
+            break;
+          } else if (CheckIfRun && CheckIfStackFormComponents === 'runs') {
+            dispatchStackComponentRunsData(
+              id,
+              1,
+              itemPerPage,
+              checkValidFilter.length ? (validFilters as any) : [],
+              activeSorting,
+            );
+            break;
+          } else {
+            dispatchStackComponentsData(
+              1,
+              itemPerPage,
+              checkValidFilter.length ? (validFilters as any) : [],
+              activeSorting,
+            );
+            break;
+          }
+        case 'pipelines':
+          if (CheckIfRun) {
+            dispatchPipelineRunsData(
+              id,
+              1,
+              itemPerPage,
+              checkValidFilter.length ? (validFilters as any) : [],
+              activeSorting,
+            );
+            break;
+          } else {
+            // console.log(checkValidFilter, 'checkValidFilter');
+            if (!renderAfterRow) break;
+            dispatchPipelineData(
+              1,
+              itemPerPage,
+              checkValidFilter.length ? (validFilters as any) : [],
+              activeSorting,
+            );
+            break;
+          }
 
-    switch (componentName) {
-      case 'stacks':
-        if (CheckIfRun) {
-          dispatchStackRunsData(
-            id,
+        case 'all-runs':
+          dispatchAllrunsData(
             1,
             itemPerPage,
             checkValidFilter.length ? (validFilters as any) : [],
             activeSorting,
           );
           break;
-        } else {
-          dispatchStackData(
-            1,
-            itemPerPage,
-            checkValidFilter.length ? (validFilters as any) : [],
-            activeSorting,
-            locationPath.pathname.split('/')[6],
-          );
-          break;
-        }
-      case 'components':
-        if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
-          dispatchStackData(
-            1,
-            itemPerPage,
-            checkValidFilter.length ? (validFilters as any) : [],
-            activeSorting,
-            locationPath.pathname.split('/')[5],
-          );
-          break;
-        } else if (CheckIfRun && CheckIfStackFormComponents === 'runs') {
-          dispatchStackComponentRunsData(
-            id,
-            1,
-            itemPerPage,
-            checkValidFilter.length ? (validFilters as any) : [],
-            activeSorting,
-          );
-          break;
-        } else {
-          dispatchStackComponentsData(
-            1,
-            itemPerPage,
-            checkValidFilter.length ? (validFilters as any) : [],
-            activeSorting,
-          );
-          break;
-        }
-      case 'pipelines':
-        if (CheckIfRun) {
-          dispatchPipelineRunsData(
-            id,
-            1,
-            itemPerPage,
-            checkValidFilter.length ? (validFilters as any) : [],
-            activeSorting,
-          );
-          break;
-        } else {
-          // console.log(checkValidFilter, 'checkValidFilter');
-          if (!renderAfterRow) break;
-          dispatchPipelineData(
-            1,
-            itemPerPage,
-            checkValidFilter.length ? (validFilters as any) : [],
-            activeSorting,
-          );
-          break;
-        }
 
-      case 'all-runs':
-        dispatchAllrunsData(
-          1,
-          itemPerPage,
-          checkValidFilter.length ? (validFilters as any) : [],
-          activeSorting,
+        default:
+          break;
+      }
+      if (locationPath.pathname.split('/')[2] === 'organization') {
+        // debugger;
+        setFetchingMembers(true);
+        dispatch(
+          organizationActions.getMembers({
+            page: 1,
+            size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+            sort_by: activeSorting,
+            onSuccess: () => setFetchingMembers(false),
+            onFailure: () => setFetchingMembers(false),
+          }),
         );
-        break;
-
-      default:
-        break;
-    }
-    if (locationPath.pathname.split('/')[2] === 'organization') {
-      // debugger;
-      setFetchingMembers(true);
-      dispatch(
-        organizationActions.getMembers({
-          page: 1,
-          size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-          sort_by: activeSorting,
-          onSuccess: () => setFetchingMembers(false),
-          onFailure: () => setFetchingMembers(false),
-        }),
-      );
+      }
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkForLocationPath, checkValidFilter, activeSorting]);
+  }, [checkForLocationPath, checkValidFilter, activeSorting, isExpended]);
   let rowsToDisplay = tableRows;
 
   // function getFetchedState(state: any) {
@@ -512,6 +515,7 @@ export const Table: React.FC<TableProps> = ({
                   justifyContent="center"
                 >
                   <Pagination
+                    isExpended={isExpended}
                     ref={childRef}
                     // getFetchedState={getFetchedState}
                     activeSorting={activeSorting}

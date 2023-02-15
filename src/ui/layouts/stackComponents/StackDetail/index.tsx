@@ -234,7 +234,7 @@ export const StackDetail: React.FC = () => {
         <StackComponenList
           filter={[]}
           pagination={false}
-          isExpended
+          isExpended={true}
           id={stackComponent.id}
         ></StackComponenList>
         {/* <>

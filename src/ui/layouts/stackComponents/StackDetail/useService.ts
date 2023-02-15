@@ -54,6 +54,7 @@ export const useService = (): ServiceInterface => {
 
   const setFetching = (fetching: boolean) => {
     dispatch(stackPagesActions.setFetching({ fetching }));
+    dispatch(runPagesActions.setFetching({ fetching }));
   };
 
   const stackComponent = useSelector(
