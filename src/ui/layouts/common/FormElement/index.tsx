@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { EditField, Paragraph } from '../../../components';
+import { Box, FlexBox, FormTextField, Paragraph } from '../../../components';
 import styles from './index.module.scss';
 export function Form(props: any) {
   return <div {...props}>{props.children}</div>;
@@ -10,57 +10,53 @@ export function TextField(props: any) {
   const [text, setText] = useState('');
 
   return (
-    <>
-      {/* {label && <label for={name}>{label}</label>} */}
-      {/* <input {...rest}></input> */}
-      <EditField
-        onChangeText={(e: any) => {
+    <Box marginTop="md">
+      <FormTextField
+        onChange={(e: any) => {
           setText(e);
           onHandleChange(name, e);
         }}
+        disabled={props.disable}
         label={label}
-        optional={false}
         value={props.default ? props.default : text}
-        hasError={false}
-        // {...rest}
-        // className={styles.field}
+        placeholder={''}
       />
-      {/* <ErrorMessage name={name} render={msg => <div style={{ color: 'red' }} >{msg}</div>} /> */}
-    </>
+    </Box>
   );
 }
 
 export function ToggleField(props: any) {
-  const { name, onHandleChange } = props;
-  // const CheckBox = () => (
-  //   <label>
-  //     <input type="checkbox" />
-  //     <span></span>
-  //   </label>
-  // );
-  console.log(props.default, 'propspropspropsprops');
+  const { name, onHandleChange, label } = props;
   return (
-    <>
-      <Paragraph>{name}</Paragraph>
-      <label className={styles.switch}>
-        <input
-          type="checkbox"
-          onChange={(event) => onHandleChange(name, event.target.checked)}
-        />
-        <span className={`${styles.slider} ${styles.round}`}></span>
-      </label>
-    </>
+    <Box marginVertical="md">
+      <FlexBox.Row justifyContent="space-between" alignItems="center">
+        <Box>
+          <Paragraph size="body" style={{ color: '#000' }}>
+            {label}
+          </Paragraph>
+        </Box>
+        <Box>
+          <label className={styles.switch}>
+            <input
+              type="checkbox"
+              onChange={(event) => onHandleChange(name, event.target.checked)}
+            />
+            <span className={`${styles.slider} ${styles.round}`}></span>
+          </label>
+        </Box>
+      </FlexBox.Row>
+    </Box>
   );
 }
 
-export function SubmitButton(props: any) {
-  const { title, ...rest } = props;
-  console.log(props, 'asdasdasdasd222221111');
-  // const { isSubmitting } = useFormikContext();
+// export function SubmitButton(props: any) {
+//   const { title, ...rest } = props;
+//   console.log(props, 'asdasdasdasd222221111');
+//   // const { isSubmitting } = useFormikContext();
 
-  return (
-    <button type="submit" {...rest}>
-      {title}
-    </button>
-  );
-}
+//   return (
+//     <PrimaryButton type="submit" {...rest}>
+//       {title}
+//     </PrimaryButton>
+//   );
+// }

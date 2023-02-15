@@ -9,7 +9,7 @@ import Header from './Header';
 import Stacks from './Stacks';
 import Component from './Component';
 import { routePaths } from '../../../routes/routePaths';
-import { useSelector } from '../../hooks';
+import { useLocationPath, useSelector } from '../../hooks';
 import { workspaceSelectors } from '../../../redux/selectors';
 
 export const BasePage: React.FC<{
@@ -32,6 +32,7 @@ export const BasePage: React.FC<{
 }) => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const locationPath = useLocationPath();
   return (
     <>
       <AuthenticatedLayout>
@@ -99,7 +100,7 @@ export const BasePage: React.FC<{
                 onClick={() => {
                   history.push(
                     routePaths.stackComponents.registerComponents(
-                      'orchestrator',
+                      locationPath.split('/')[4],
                       selectedWorkspace,
                     ),
                   );
