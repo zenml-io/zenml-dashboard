@@ -266,7 +266,10 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                       ? selectedNode?.artifact_data_type
                       : Object.entries(selectedNode?.inputs || {}).map(
                           (value) => {
-                            return value[0] + ': ' + value[1] + '\n';
+                            return <div>
+                                <p className="detailsKey">{String(value[0]) + ":"}</p>
+                                <p className="detailsValue">{String(value[1])}</p>
+                              </div>
                           },
                         )}
                   </p>
@@ -275,12 +278,29 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                   </p>
                   <p className="detailsP URI">
                     {selectedNode?.artifact_type
-                      ? selectedNode?.uri
+                      ? <p className="detailsValue">{selectedNode?.uri}</p>
                       : Object.entries(selectedNode?.outputs || {}).map(
-                          (value) => {
-                            return value[0] + ': ' + value[1] + '\n';
+                        (value) => {
+                          return <div>
+                              <p className="detailsKey">{String(value[0]) + ":"}</p>
+                              <p className="detailsValue">{String(value[1])}</p>
+                            </div>
                           },
                         )}
+                  </p>
+                  <p className="detailsLabel">
+                    Metadata
+                  </p>
+                  <p className="detailsP URI">
+                    {Object.entries(selectedNode?.metadata || {}).map(
+                        (fullValue: [string, any]) => { 
+                          let value = fullValue[1];
+                          return <div>
+                              <p className="detailsKey">{String(value[0]).trim() + " ("} {(String(value[2]).trim()) + " ):"}</p>
+                              <p className="detailsValue">{String(value[1]).trim()}</p>
+                            </div>
+                          },
+                    )}
                   </p>
                   <p className="detailsLabel">
                     {selectedNode?.artifact_type ? 'Is Cached?' : 'Params'}
@@ -291,8 +311,11 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                         ? 'Yes'
                         : 'No'
                       : Object.entries(selectedNode?.parameters || {}).map(
-                          (value) => {
-                            return value[0] + ': ' + value[1] + '\n';
+                        (value) => {
+                          return <div>
+                              <p className="detailsKey">{String(value[0]) + ":"}</p>
+                              <p className="detailsValue">{String(value[1])}</p>
+                            </div>
                           },
                         )}
                   </p>
