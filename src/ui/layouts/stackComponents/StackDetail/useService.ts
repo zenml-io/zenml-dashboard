@@ -20,6 +20,7 @@ import { filterObjectForParam } from '../../../../utils';
 
 interface ServiceInterface {
   stackComponent: TStack;
+  id: TId;
 }
 
 export const useService = (): ServiceInterface => {
@@ -61,7 +62,7 @@ export const useService = (): ServiceInterface => {
     stackComponentSelectors.stackComponentForId(id),
   );
 
-  return { stackComponent };
+  return { stackComponent, id };
 };
 
 export const callActionForStackComponentRunsForPagination = () => {
