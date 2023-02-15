@@ -11,10 +11,10 @@ import {
 } from '../../../components';
 
 import styles from './index.module.scss';
-import { routePaths } from '../../../../routes/routePaths';
-import { useHistory } from 'react-router-dom';
-import { useSelector } from '../../../hooks';
-import { workspaceSelectors } from '../../../../redux/selectors';
+// import { routePaths } from '../../../../routes/routePaths';
+// import { useHistory } from 'react-router-dom';
+// import { useSelector } from '../../../hooks';
+// import { workspaceSelectors } from '../../../../redux/selectors';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
