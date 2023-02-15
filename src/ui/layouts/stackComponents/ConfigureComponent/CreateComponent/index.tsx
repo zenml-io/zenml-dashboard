@@ -189,11 +189,11 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       return (
         <TextField
           {...props}
-          disable={
-            elementSchema.default &&
-            (elementSchema.type === 'string' ||
-              elementSchema.type === 'integer')
-          }
+          // disable={
+          //   elementSchema.default &&
+          //   (elementSchema.type === 'string' ||
+          //     elementSchema.type === 'integer')
+          // }
           onHandleChange={(key: any, value: any) =>
             setInputData({ ...inputData, [key]: value })
           }
