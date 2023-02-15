@@ -44,14 +44,14 @@
   background-color: #fff;
   border-radius: 100px;
   position: absolute;
-  top: 13rem;
-  right: 71rem;
+  top: 15rem;
+  right: 70rem;
   z-index: 999;
 }
 
-.actionSection {
-  width: 100%; 
+.actionSection { 
+  min-width: 683px;
   background-color: white;
-  position: absolute;
-  bottom: 0
+  position: fixed;
+  bottom: 0;
 }
