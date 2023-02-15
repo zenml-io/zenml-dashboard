@@ -29,11 +29,25 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [componentName, setComponentName] = useState('');
-  const [inputData, setInputData] = useState({});
-  const [inputFields, setInputFields] = useState([{ key: '', value: '' }]);
+  const [isShared, setIsShared] = useState(false);
+  const [inputData, setInputData] = useState({}) as any;
+  const [inputFields, setInputFields] = useState([
+    { key: '', value: '' },
+  ]) as any;
   const history = useHistory();
   useEffect(() => {
+    let setDefaultData = {};
     initForm(flavor.configSchema.properties);
+    Object.keys(flavor.configSchema.properties).map((key, ind) => {
+      const data = flavor.configSchema.properties[key];
+      if (data.default && (data.type === 'string' || data.type === 'integer'))
+        setDefaultData = {
+          ...setDefaultData,
+          [toSnakeCase(data.title)]: data.default,
+        };
+    });
+    setInputData({ ...setDefaultData });
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   const handleAddFields = () => {
@@ -42,26 +56,34 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     setInputFields(values);
   };
 
-  const handleRemoveFields = (index: any) => {
+  const handleRemoveFields = (index: any, label: any) => {
     const values = [...inputFields];
     values.splice(index, 1);
     setInputFields(values);
-  };
 
-  const handleInputChange = (index: any, event: any, label: any) => {
-    const toSnakeCase = (str: any) =>
-      str &&
-      str
-        .match(
-          /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
-        )
-        .map((x: any) => x.toLowerCase())
-        .join('_');
+    const keys = values.map((object) => object.key);
+    const value = values.map((object) => object.value);
+    var result: any = {};
+    keys.forEach((key: any, i: any) => (result[key] = value[i]));
+    setInputData({ ...inputData, [label]: result });
+  };
+  const toSnakeCase = (str: any) =>
+    str &&
+    str
+      .match(
+        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
+      )
+      .map((x: any) => x.toLowerCase())
+      .join('_');
+
+  const handleInputChange = (index: any, event: any, label: any, type: any) => {
+    // debugger;
+
     const values = [...inputFields];
-    if (event.target.name === 'key') {
-      values[index].key = event.target.value;
+    if (type === 'key') {
+      values[index].key = event;
     } else {
-      values[index].value = event.target.value;
+      values[index].value = event;
     }
     const keys = values.map((object) => object.key);
     const value = values.map((object) => object.value);
@@ -78,8 +100,6 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     }
   };
 
-  // const resetForm = (e: any) => setInputFields([{ key: '', value: '' }]);
-
   const initForm = (properties: any) => {
     let _formData: any = {};
 
@@ -89,28 +109,41 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
 
     setFormData(_formData);
   };
-
-  console.log(inputFields, 'asdinputFields');
+  console.log(inputData, 'inputDatainputData');
   const getFormElement = (elementName: any, elementSchema: any) => {
-    console.log(flavor.configSchema, 'elementSchemaelementSchemaelementSchema');
+    // if (elementSchema.default) {
+    //   setInputData({
+    //     ...inputData,
+    //     [elementSchema.name]: elementSchema.default,
+    //   });
+    // }
     const props = {
       name: elementName,
       label: elementSchema.title,
       default: elementSchema.default as any,
       //   options: elementSchema.type,
     };
+
     if (elementSchema.type === 'object' && elementSchema.title) {
       return (
-        <>
+        <Box marginTop="md">
           <label htmlFor="key">{props.label}</label>
           <FlexBox.Row>
             {/* <form onSubmit={handleSubmit}> */}
             <div className="form-row">
-              {inputFields.map((inputField, index) => (
+              {inputFields.map((inputField: any, index: any) => (
                 <Fragment key={`${inputField}~${index}`}>
                   <div className="form-group col-sm-6">
-                    <label htmlFor="key">Key</label>
-                    <input
+                    {/* <label htmlFor="key">Key</label> */}
+                    <FormTextField
+                      onChange={(event: any) =>
+                        handleInputChange(index, event, props.label, 'key')
+                      }
+                      label={'Key'}
+                      value={inputField[index]?.key}
+                      placeholder={''}
+                    />
+                    {/* <input
                       type="text"
                       className="form-control"
                       id="key"
@@ -119,11 +152,19 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                       onChange={(event) =>
                         handleInputChange(index, event, props.label)
                       }
-                    />
+                    /> */}
                   </div>
                   <div className="form-group col-sm-4">
-                    <label htmlFor="value">Value</label>
-                    <input
+                    {/* <label htmlFor="value">Value</label> */}
+                    <FormTextField
+                      onChange={(event: any) =>
+                        handleInputChange(index, event, props.label, 'value')
+                      }
+                      label={'Value'}
+                      value={inputField[index]?.value}
+                      placeholder={''}
+                    />
+                    {/* <input
                       type="text"
                       className="form-control"
                       id="value"
@@ -132,14 +173,16 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                       onChange={(event) =>
                         handleInputChange(index, event, props.label)
                       }
-                    />
+                    /> */}
                   </div>
                   <div className="form-group col-sm-2">
                     <button
                       className="btn btn-link"
                       type="button"
                       disabled={index === 0}
-                      onClick={() => handleRemoveFields(index)}
+                      onClick={() =>
+                        handleRemoveFields(index, toSnakeCase(props.label))
+                      }
                     >
                       -
                     </button>
@@ -173,14 +216,22 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
             <br />
             {/* </form> */}
           </FlexBox.Row>
-        </>
+        </Box>
       );
     }
 
-    if (elementSchema.type === 'string' && elementSchema.title) {
+    if (
+      elementSchema.type === 'string' ||
+      (elementSchema.type === 'integer' && elementSchema.title)
+    ) {
       return (
         <TextField
           {...props}
+          disable={
+            elementSchema.default &&
+            (elementSchema.type === 'string' ||
+              elementSchema.type === 'integer')
+          }
           onHandleChange={(key: any, value: any) =>
             setInputData({ ...inputData, [key]: value })
           }
@@ -215,7 +266,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     const body = {
       user: user?.id,
       workspace: id,
-      is_shared: false,
+      is_shared: isShared,
       name: componentName,
       type: flavor.type,
       flavor: flavor.name,
@@ -263,6 +314,13 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
           placeholder="Component Name"
           label={'Component Name'}
           value={componentName}
+        />
+        <ToggleField
+          label={'Share Component with public'}
+          onHandleChange={
+            (key: any, value: any) => setIsShared(value)
+            // setInputData({ ...inputData, ['is_shared']: value })
+          }
         />
 
         <Form

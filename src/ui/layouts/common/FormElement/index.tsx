@@ -16,6 +16,7 @@ export function TextField(props: any) {
           setText(e);
           onHandleChange(name, e);
         }}
+        disabled={props.disable}
         label={label}
         value={props.default ? props.default : text}
         placeholder={''}
