@@ -16,6 +16,7 @@ export function TextField(props: any) {
           setText(e);
           onHandleChange(name, e);
         }}
+        disabled={props.disable}
         label={label}
         value={props.default ? props.default : text}
         placeholder={''}
@@ -25,12 +26,14 @@ export function TextField(props: any) {
 }
 
 export function ToggleField(props: any) {
-  const { name, onHandleChange } = props;
+  const { name, onHandleChange, label } = props;
   return (
     <Box marginVertical="md">
-      <FlexBox.Row justifyContent="space-between" alignItems="center" >
+      <FlexBox.Row justifyContent="space-between" alignItems="center">
         <Box>
-          <Paragraph size="body" style={{ color: '#000' }} >{name}</Paragraph>
+          <Paragraph size="body" style={{ color: '#000' }}>
+            {label}
+          </Paragraph>
         </Box>
         <Box>
           <label className={styles.switch}>
