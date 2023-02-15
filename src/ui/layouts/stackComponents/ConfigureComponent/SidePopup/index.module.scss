@@ -7,10 +7,9 @@
   position: fixed;
   right: 2rem;
   bottom: 0;
-  height: 800px;
+  height: 88rem;
   min-width: 700px;
-  overflow-x: auto;
-  border: 1px solid #cacaca;
+  overflow: auto;
 }
 
 @media (max-width: $md-breakpoint) {
