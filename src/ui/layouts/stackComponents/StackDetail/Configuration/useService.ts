@@ -6,6 +6,7 @@ import YAML from 'json2yaml';
 interface ServiceInterface {
   downloadYamlFile: () => void;
   stackConfig: string;
+  stackComponent: any;
 }
 
 export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
@@ -35,5 +36,5 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
     element.click();
   };
 
-  return { downloadYamlFile, stackConfig };
+  return { downloadYamlFile, stackConfig, stackComponent };
 };
