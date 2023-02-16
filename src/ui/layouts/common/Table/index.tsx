@@ -259,6 +259,7 @@ export const Table: React.FC<TableProps> = ({
             );
             break;
           }
+          break;
         case 'pipelines':
           if (CheckIfRun) {
             dispatchPipelineRunsData(

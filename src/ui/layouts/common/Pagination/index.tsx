@@ -175,7 +175,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
               activeSorting,
             );
             break;
-          } else {
+          } else if (!CheckIfRun && CheckIfStackFormComponents !== 'runs') {
             dispatchStackComponentsData(
               page,
               size,
@@ -184,6 +184,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
             );
             break;
           }
+          break;
         //   dispatchStackComponentRunsData(
         //     id,
         //     page,
