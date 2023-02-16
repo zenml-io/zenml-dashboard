@@ -250,7 +250,7 @@ export const Table: React.FC<TableProps> = ({
               activeSorting,
             );
             break;
-          } else {
+          } else if (!CheckIfRun && CheckIfStackFormComponents !== 'runs') {
             dispatchStackComponentsData(
               1,
               itemPerPage,
