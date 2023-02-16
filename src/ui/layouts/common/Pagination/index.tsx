@@ -89,7 +89,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
     componentName === 'components' &&
     locationPath.pathname.split('/')[6] === 'stacks'
       ? locationPath.pathname.split('/')[6]
-      : locationPath.pathname.split('/')[5];
+      : locationPath.pathname.split('/')[6];
   const CheckIfRun =
     componentName === 'components'
       ? locationPath.pathname.split('/')[6]
@@ -121,7 +121,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
     siblingCount: 1,
     pageSize: props.itemPerPage,
   });
-  console.log(paginationRange, 'paginationRange1');
+  console.log(CheckIfStackFormComponents, 'paginationRange1');
   // if (
   //   props.pageIndex === 0 ||
   //   (paginationRange && paginationRange.length < 2)
@@ -166,7 +166,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
               locationPath.pathname.split('/')[5],
             );
             break;
-          } else if (CheckIfRun && CheckIfStackFormComponents === 'runs') {
+          } else if (CheckIfStackFormComponents === 'runs') {
             dispatchStackComponentRunsData(
               id,
               page,

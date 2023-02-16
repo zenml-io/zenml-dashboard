@@ -196,7 +196,7 @@ export const Table: React.FC<TableProps> = ({
     componentName === 'components' &&
     locationPath.pathname.split('/')[6] === 'stacks'
       ? locationPath.pathname.split('/')[6]
-      : locationPath.pathname.split('/')[5];
+      : locationPath.pathname.split('/')[6];
 
   const id =
     componentName === 'components'
