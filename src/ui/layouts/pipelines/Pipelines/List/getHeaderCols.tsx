@@ -208,7 +208,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            VERISON
+            VERSION
           </Paragraph>
         </SortingHeader>
       ),
