@@ -20,6 +20,8 @@ import {
   FullWidthSpinner,
   Paragraph,
   SearchInputField,
+
+  Row
 } from '../../../../components';
 import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
 import { FlavourBox } from '../../../common/FlavourBox';
@@ -96,13 +98,8 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
         ) : allFlavors.length ? (
           <>
             <FlexBox>
-              <div
-                style={{
-                  display: 'grid',
-                  gridTemplateColumns: 'repeat(3, 1fr)',
-                }}
-              >
-                <Box marginVertical={'sm'} marginHorizontal={'md'}>
+              <Row>
+                <Box marginVertical={'sm'} style={{ marginLeft:"30px" }} >
                   <FlavourBox
                     flavourDesc={'Configure and create a custom flavor'}
                     flavourName={'Create Custom Flavour'}
@@ -111,20 +108,20 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
 
                 {allFlavors.map((item, index) => {
                   return (
-                    <div>
-                      {console.log(item, 'item.nameitem.name')}
-                      <Box marginVertical={'sm'} marginHorizontal={'md'}>
-                        <CustomFlavourBox
-                          flavourDesc={item.configSchema.description}
-                          flavourName={item.name}
-                          logoUrl={item.logoUrl}
-                          onSelectFlavor={() => onSelectFlavor(item)}
-                        />
-                      </Box>
-                    </div>
+                      <Row key={index} style={{ marginLeft: '15px' }}>
+                        {console.log(item, 'item.nameitem.name')}
+                        <Box marginVertical={'sm'} marginHorizontal={'md'}>
+                          <CustomFlavourBox
+                            flavourDesc={item.configSchema.description}
+                            flavourName={item.name}
+                            logoUrl={item.logoUrl}
+                            onSelectFlavor={() => onSelectFlavor(item)}
+                          />
+                        </Box>
+                      </Row>
                   );
                 })}
-              </div>
+              </Row>
             </FlexBox>
             <div style={{ marginTop: '-10px' }}>
               <PaginationWithPageSize
