@@ -152,8 +152,8 @@ export const GetHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={stackComponent.flavor.name}>
+        <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
+          <div data-tip data-for={stackComponent.flavor.name} style={{ margin: ' 0 auto 0 auto' }}>
             <img
               alt={stackComponent.flavor.logoUrl}
               src={stackComponent.flavor.logoUrl}
@@ -195,8 +195,8 @@ export const GetHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={stackComponent.isShared}>
+        <FlexBox alignItems="center"  style={{ marginLeft: '-24px' }}>
+          <div data-tip data-for={stackComponent.isShared} style={{ margin: '0 auto 0 auto' }}>
             <Box>
               <FlexBox
                 justifyContent="center"

@@ -175,7 +175,7 @@ export const GetHeaderCols = ({
       width: '8%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={stack.isShared}>
+          <div style={{ margin: '0 auto 0 auto' }} data-tip data-for={stack.isShared}>
             <Box>
               <FlexBox
                 justifyContent="center"
@@ -184,6 +184,7 @@ export const GetHeaderCols = ({
                   height: '19px',
                   width: '19px',
                   textAlign: 'center',
+                  marginLeft: '-24px'
                 }}
               >
                 {stack.isShared ? (
