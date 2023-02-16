@@ -67,6 +67,7 @@ interface Props {
   totalLength: number;
   totalCount: number;
   itemPerPage: number;
+  isExpended?: boolean;
 }
 
 export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
@@ -88,7 +89,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
     componentName === 'components' &&
     locationPath.pathname.split('/')[6] === 'stacks'
       ? locationPath.pathname.split('/')[6]
-      : locationPath.pathname.split('/')[5];
+      : locationPath.pathname.split('/')[6];
   const CheckIfRun =
     componentName === 'components'
       ? locationPath.pathname.split('/')[6]
@@ -120,7 +121,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
     siblingCount: 1,
     pageSize: props.itemPerPage,
   });
-  console.log(paginationRange, 'paginationRange1');
+  console.log(CheckIfStackFormComponents, 'paginationRange1');
   // if (
   //   props.pageIndex === 0 ||
   //   (paginationRange && paginationRange.length < 2)
@@ -134,116 +135,119 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
     filters: any,
     activeSorting: any,
   ) => {
-    switch (componentName) {
-      case 'stacks':
-        if (CheckIfRun) {
-          dispatchStackRunsData(
-            id,
-            page,
-            size,
-            checkValidFilter.length ? (filters as any) : [],
-            activeSorting,
-          );
+    if (!props.isExpended) {
+      switch (componentName) {
+        case 'stacks':
+          if (CheckIfRun) {
+            dispatchStackRunsData(
+              id,
+              page,
+              size,
+              checkValidFilter.length ? (filters as any) : [],
+              activeSorting,
+            );
+            break;
+          } else {
+            dispatchStackData(
+              page,
+              size,
+              checkValidFilter.length ? (filters as any) : [],
+              activeSorting,
+            );
+            break;
+          }
+        case 'components':
+          if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
+            dispatchStackData(
+              page,
+              size,
+              checkValidFilter.length ? (filters as any) : [],
+              activeSorting,
+              locationPath.pathname.split('/')[5],
+            );
+            break;
+          } else if (CheckIfStackFormComponents === 'runs') {
+            dispatchStackComponentRunsData(
+              id,
+              page,
+              size,
+              checkValidFilter.length ? (filters as any) : [],
+              activeSorting,
+            );
+            break;
+          } else if (!CheckIfRun && CheckIfStackFormComponents !== 'runs') {
+            dispatchStackComponentsData(
+              page,
+              size,
+              checkValidFilter.length ? (filters as any) : [],
+              activeSorting,
+            );
+            break;
+          }
           break;
-        } else {
-          dispatchStackData(
-            page,
-            size,
-            checkValidFilter.length ? (filters as any) : [],
-            activeSorting,
-          );
-          break;
-        }
-      case 'components':
-        if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
-          dispatchStackData(
-            page,
-            size,
-            checkValidFilter.length ? (filters as any) : [],
-            activeSorting,
-            locationPath.pathname.split('/')[5],
-          );
-          break;
-        } else if (CheckIfRun && CheckIfStackFormComponents === 'runs') {
-          dispatchStackComponentRunsData(
-            id,
-            page,
-            size,
-            checkValidFilter.length ? (filters as any) : [],
-            activeSorting,
-          );
-          break;
-        } else {
-          dispatchStackComponentsData(
-            page,
-            size,
-            checkValidFilter.length ? (filters as any) : [],
-            activeSorting,
-          );
-          break;
-        }
-      //   dispatchStackComponentRunsData(
-      //     id,
-      //     page,
-      //     size,
-      //     checkValidFilter.length ? (filters as any) : [],
-      //     activeSorting,
+        //   dispatchStackComponentRunsData(
+        //     id,
+        //     page,
+        //     size,
+        //     checkValidFilter.length ? (filters as any) : [],
+        //     activeSorting,
 
-      //   );
-      //   break;
-      // } else {
-      //   dispatchStackComponentsData(
-      //     page,
-      //     size,
-      //     checkValidFilter.length ? (filters as any) : [],
-      //     activeSorting,
-      //   );
-      //   break;
-      // }
-      case 'pipelines':
-        if (CheckIfRun) {
-          dispatchPipelineRunsData(
-            id,
-            page,
-            size,
-            checkValidFilter.length ? (filters as any) : [],
-            activeSorting,
-          );
-          break;
-        } else {
-          dispatchPipelineData(
-            page,
-            size,
-            checkValidFilter.length ? (filters as any) : [],
-            activeSorting,
-          );
-          break;
-        }
+        //   );
+        //   break;
+        // } else {
+        //   dispatchStackComponentsData(
+        //     page,
+        //     size,
+        //     checkValidFilter.length ? (filters as any) : [],
+        //     activeSorting,
+        //   );
+        //   break;
+        // }
+        case 'pipelines':
+          if (CheckIfRun) {
+            dispatchPipelineRunsData(
+              id,
+              page,
+              size,
+              checkValidFilter.length ? (filters as any) : [],
+              activeSorting,
+            );
+            break;
+          } else {
+            dispatchPipelineData(
+              page,
+              size,
+              checkValidFilter.length ? (filters as any) : [],
+              activeSorting,
+            );
+            break;
+          }
 
-      case 'all-runs':
-        dispatchAllrunsData(
-          page,
-          size,
-          checkValidFilter.length ? (filters as any) : [],
+        case 'all-runs':
+          dispatchAllrunsData(
+            page,
+            size,
+            checkValidFilter.length ? (filters as any) : [],
+          );
+          break;
+
+        default:
+          break;
+      }
+
+      if (locationPath.pathname.split('/')[2] === 'organization') {
+        // debugger;
+        // setFetchingMembers(true);
+        dispatch(
+          organizationActions.getMembers({
+            page: page,
+            size: size,
+            sort_by: activeSorting,
+            // onSuccess: () => setFetchingMembers(false),
+            // onFailure: () => setFetchingMembers(false),
+          }),
         );
-        break;
-
-      default:
-        break;
-    }
-
-    if (locationPath.pathname.split('/')[2] === 'organization') {
-      // debugger;
-      // setFetchingMembers(true);
-      dispatch(
-        organizationActions.getMembers({
-          page: page,
-          size: size,
-          sort_by: activeSorting,
-          // onSuccess: () => setFetchingMembers(false),
-          // onFailure: () => setFetchingMembers(false),
-        }),
-      );
+      }
     }
   };
   // console.log(itemPerPage, 'itemPerPage');

@@ -9,6 +9,7 @@ import { useService } from './useService';
 import { workspaceSelectors } from '../../../../redux/selectors';
 
 export const RunsTable: React.FC<{
+  isExpended?: boolean;
   stackComponentId?: any;
   getSorted?: any;
   runIds: TId[];
@@ -19,6 +20,7 @@ export const RunsTable: React.FC<{
   filter?: any;
   id?: any;
 }> = ({
+  isExpended,
   stackComponentId,
   getSorted,
   runIds,
@@ -89,6 +91,7 @@ export const RunsTable: React.FC<{
   // };
 
   const headerCols = useHeaderCols({
+    isExpended,
     runs: sortedRuns,
     setRuns: setSortedRuns,
     activeSorting,

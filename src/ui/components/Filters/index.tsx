@@ -50,6 +50,11 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
+          value: 'flavor',
+          label: 'Flavor',
+          type: 'string',
+        },
+        {
           value: 'user_id',
           label: 'Author',
           type: 'string',
@@ -152,6 +157,11 @@ export const getInitialFilterStateForPipeline = () => {
         {
           value: 'name',
           label: 'Name',
+          type: 'string',
+        },
+        {
+          value: 'version',
+          label: 'Version',
           type: 'string',
         },
         {
@@ -574,7 +584,7 @@ const FilterComponent = ({
     }
     if (typeName === 'Pipeline Name') {
       const pipeline = pipelines.filter((item) => item.id === value);
-      return pipeline[0].name;
+      return `${pipeline[0].name}:${pipeline[0].version}`;
     }
     if (typeName === 'Stack Name') {
       const stack = stacks.filter((item) => item.id === value);
@@ -617,7 +627,7 @@ const FilterComponent = ({
   }) as any;
   const pipelinesOptions = pipelines.map((item: any) => {
     return {
-      label: item.name as string,
+      label: `${item.name}:${item.version}` as string,
       value: item.id as string,
     };
   }) as any;
@@ -722,6 +732,23 @@ const FilterComponent = ({
         {
           column: {
             selectedValue: { value: 'name', label: 'Name', type: 'string' },
+          },
+          contains: {
+            selectedValue: {
+              value: 'contains',
+              label: 'Contains',
+              type: 'string',
+            },
+          },
+          filterValue: value,
+        },
+        {
+          column: {
+            selectedValue: {
+              value: 'version',
+              label: 'Version',
+              type: 'string',
+            },
           },
           contains: {
             selectedValue: {

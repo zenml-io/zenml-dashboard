@@ -14,5 +14,6 @@ export * from './roles';
 export * from './pipelinePages';
 export * from './stackPages';
 export * from './stackComponentPages';
-
+export * from './flavors';
+export * from './flavorsPages';
 export const SHOW_TOASTER_ACTION_TYPE = actionTypes.SHOW_TOASTER;

@@ -1,70 +1,103 @@
-import React, { useState } from 'react';
-
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { iconColors, iconSizes, toasterTypes } from '../../../../../constants';
-import { showToasterAction } from '../../../../../redux/actions';
-import { FlexBox, H4, GhostButton, icons, Box } from '../../../../components';
-import { useDispatch } from '../../../../hooks';
-import { translate } from '../translate';
-
+import React from 'react';
+import {
+  FlexBox,
+  Box,
+  EditField,
+  Paragraph,
+  // PrimaryButton,
+} from '../../../../components';
 import styles from './index.module.scss';
-import { useService } from './useService';
 
 export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
-  const [hover, setHover] = useState(false);
-  const dispatch = useDispatch();
-  const { downloadYamlFile, stackConfig } = useService({ stackId });
-  const handleCopy = () => {
-    navigator.clipboard.writeText(stackConfig);
-    dispatch(
-      showToasterAction({
-        description: 'Config copied to clipboard',
-        type: toasterTypes.success,
-      }),
-    );
-  };
+  const CheckBox = () => (
+    <label className={styles.switch}>
+      <input type="checkbox" />
+      <span className={`${styles.slider} ${styles.round}`}></span>
+    </label>
+  );
+
   return (
-    <FlexBox.Column fullWidth>
-      <FlexBox
-        marginBottom="md"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <H4 bold>{translate('configuration.title.text')}</H4>
-        <Box>
-          <GhostButton
-            style={{ marginRight: '10px' }}
-            onClick={downloadYamlFile}
-          >
-            {translate('configuration.button.text')}
-          </GhostButton>
-          <GhostButton
-            onMouseEnter={() => {
-              setHover(true);
-            }}
-            onMouseLeave={() => {
-              setHover(false);
-            }}
-            onClick={handleCopy}
-          >
-            <icons.copy
-              color={hover ? iconColors.white : iconColors.black}
-              size={iconSizes.sm}
+    <FlexBox.Column fullWidth marginTop="xl">
+      <FlexBox.Row>
+        <Box style={{ width: '40%' }}>
+          <Box>
+            <EditField
+              onChangeText={() => console.log('')}
+              label="Flavour Name"
+              optional={false}
+              value=""
+              placeholder=""
+              hasError={false}
+              className={styles.field}
             />
-          </GhostButton>
+          </Box>
+
+          <Box>
+            <EditField
+              onChangeText={() => console.log('')}
+              label="Item 1"
+              optional={true}
+              value=""
+              placeholder=""
+              hasError={false}
+              className={styles.field}
+            />
+          </Box>
+          <Box>
+            <EditField
+              onChangeText={() => console.log('')}
+              label="Item 2"
+              optional={true}
+              value=""
+              placeholder=""
+              hasError={false}
+              className={styles.field}
+            />
+          </Box>
+          <Box>
+            <EditField
+              onChangeText={() => console.log('')}
+              label="Item 3"
+              optional={true}
+              value=""
+              placeholder=""
+              hasError={false}
+              className={styles.field}
+            />
+          </Box>
+          <Box>
+            <EditField
+              onChangeText={() => console.log('')}
+              label="Item 4"
+              optional={true}
+              value=""
+              placeholder=""
+              hasError={false}
+              className={styles.field}
+            />
+          </Box>
         </Box>
-      </FlexBox>
-      <FlexBox className={styles.code}>
-        <SyntaxHighlighter
-          customStyle={{ width: '100%' }}
-          wrapLines={true}
-          language="yaml"
-          style={okaidia}
-        >
-          {stackConfig}
-        </SyntaxHighlighter>
-      </FlexBox>
+
+        <Box style={{ width: '60%' }} marginTop="xl" marginHorizontal="xxl">
+          <Box>
+            <FlexBox.Row justifyContent="space-between">
+              <Paragraph>Share Component with public</Paragraph> <CheckBox />
+            </FlexBox.Row>
+          </Box>
+          <Box style={{ marginTop: '80px' }}>
+            <FlexBox.Row justifyContent="space-between">
+              <Paragraph>Auto Update</Paragraph> <CheckBox />
+            </FlexBox.Row>
+          </Box>
+          <Box style={{ marginTop: '80px' }}>
+            <FlexBox.Row justifyContent="space-between">
+              <Paragraph>Notification update</Paragraph> <CheckBox />
+            </FlexBox.Row>
+          </Box>
+        </Box>
+      </FlexBox.Row>
+
+      {/* <Box style={{ marginLeft: 'auto' }} marginRight='lg' ><PrimaryButton>Register Component</PrimaryButton></Box> */}
     </FlexBox.Column>
   );
 };

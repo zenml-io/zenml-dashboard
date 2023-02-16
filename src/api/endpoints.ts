@@ -39,6 +39,11 @@ export const endpoints = {
       `/workspaces/${workspace}/components?scope_type=${type}`,
     get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
   },
+  flavors: {
+    all: '/flavors?sort_by=type',
+    type: `/flavors`,
+    get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
+  },
   runs: {
     pipeline: {
       get: (pipelineId: TId): string => `/runs?pipeline_id=${pipelineId}`,

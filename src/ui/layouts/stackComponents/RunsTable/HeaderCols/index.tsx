@@ -17,6 +17,7 @@ import ReactTooltip from 'react-tooltip';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
+  isExpended,
   runs,
   setRuns,
   activeSorting,
@@ -24,6 +25,7 @@ export const useHeaderCols = ({
   setActiveSortingDirection,
   setActiveSorting,
 }: {
+  isExpended?: boolean;
   runs: TRun[];
   setRuns: (runs: TRun[]) => void;
   activeSorting: Sorting | null;
@@ -59,7 +61,11 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph
+            size="small"
+            color="black"
+            style={{ fontSize: '12px', marginLeft: '33px' }}
+          >
             RUN ID
           </Paragraph>
         </SortingHeader>
@@ -68,9 +74,19 @@ export const useHeaderCols = ({
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={run.id}>
-            <Paragraph size="small">
-              {truncate(run.id, ID_MAX_LENGTH)}
-            </Paragraph>
+            <FlexBox.Row style={{ alignItems: 'center' }}>
+              {isExpended ? (
+                <icons.chevronDown
+                  color={iconColors.grey}
+                  size={iconSizes.xs}
+                />
+              ) : (
+                <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
+              )}
+              <Paragraph size="small" style={{ marginLeft: '20px' }}>
+                {truncate(run.id, ID_MAX_LENGTH)}
+              </Paragraph>
+            </FlexBox.Row>
           </div>
           <ReactTooltip id={run.id} place="top" effect="solid">
             <Paragraph color="white">{run.id}</Paragraph>
@@ -120,14 +136,14 @@ export const useHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            PIPEPLINE NAME
+            PIPELINE
           </Paragraph>
         </SortingHeader>
       ),
       width: '10%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run.pipeline?.name}>
+          <div data-tip data-for={run.pipeline?.name && run.pipeline?.version}>
             <Paragraph
               size="small"
               style={{
@@ -145,11 +161,17 @@ export const useHeaderCols = ({
                 );
               }}
             >
-              {run.pipeline?.name}
+              {run.pipeline?.name}:{run.pipeline?.version}
             </Paragraph>
           </div>
-          <ReactTooltip id={run.pipeline?.name} place="top" effect="solid">
-            <Paragraph color="white">{run.pipeline?.name}</Paragraph>
+          <ReactTooltip
+            id={run.pipeline?.name && run.pipeline?.version}
+            place="top"
+            effect="solid"
+          >
+            <Paragraph color="white">
+              {run.pipeline?.name}:{run.pipeline?.version}
+            </Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
