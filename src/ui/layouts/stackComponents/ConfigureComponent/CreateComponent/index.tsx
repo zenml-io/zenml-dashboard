@@ -6,6 +6,7 @@ import {
   FormTextField,
   H2,
   Paragraph,
+  icons,
 } from '../../../../components';
 
 import { Form, TextField, ToggleField } from '../../../common/FormElement';
@@ -16,7 +17,7 @@ import {
   workspaceSelectors,
 } from '../../../../../redux/selectors';
 import { showToasterAction } from '../../../../../redux/actions';
-import { toasterTypes } from '../../../../../constants';
+import { iconColors, toasterTypes } from '../../../../../constants';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
@@ -152,24 +153,24 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                       placeholder={''}
                     />
                   </div>
-                  <div className="form-group col-sm-1">
+                  <div className=" col-sm-1">
                     <button
                       className={styles.fieldButton}
-                      style={{ margin: '28px 0 2px 0' }}
+                      style={{ margin: '24px 0 2px 0' }}
                       type="button"
                       disabled={index === 0}
                       onClick={() =>
                         handleRemoveFields(index, toSnakeCase(props.label))
                       }
                     >
-                      -
+                      <icons.minusCircle color={iconColors.primary} />
                     </button>
                     <button
                       className={styles.fieldButton}
                       type="button"
                       onClick={() => handleAddFields()}
                     >
-                      +
+                      <icons.plusCircle color={iconColors.primary} />
                     </button>
                   </div>
                 </Fragment>
