@@ -62,14 +62,14 @@ export const RegisterComponents: React.FC = () => {
         {
           name: camelCaseToParagraph(locationPath.split('/')[4]),
           clickable: true,
-          to: routePaths.stackComponents.base(
+          to: routePaths.stackComponents.registerComponents(
             locationPath.split('/')[4],
             workspace as string,
           ),
         },
         {
           name: flavor.name,
-          clickable: true,
+          clickable: false,
           to: routePaths.stackComponents.configureComponent(
             locationPath.split('/')[4],
             workspace as string,
