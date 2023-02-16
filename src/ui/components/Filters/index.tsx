@@ -584,7 +584,7 @@ const FilterComponent = ({
     }
     if (typeName === 'Pipeline Name') {
       const pipeline = pipelines.filter((item) => item.id === value);
-      return `${pipeline[0].name}:${pipeline[0].version}`;
+      return `${pipeline[0].name} ( v${pipeline[0].version} )`;
     }
     if (typeName === 'Stack Name') {
       const stack = stacks.filter((item) => item.id === value);
@@ -627,7 +627,7 @@ const FilterComponent = ({
   }) as any;
   const pipelinesOptions = pipelines.map((item: any) => {
     return {
-      label: `${item.name}:${item.version}` as string,
+      label: `${item.name} ( v${item.version} )` as string,
       value: item.id as string,
     };
   }) as any;

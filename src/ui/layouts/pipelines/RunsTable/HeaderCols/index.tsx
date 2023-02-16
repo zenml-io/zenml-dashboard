@@ -390,7 +390,7 @@ export const useHeaderCols = ({
                     );
                   }}
                 >
-                  {run?.pipeline?.name}:{run?.pipeline?.version}
+                  {run?.pipeline?.name} ( v{run?.pipeline?.version} )
                 </Paragraph>
               </div>
               <ReactTooltip
@@ -399,7 +399,7 @@ export const useHeaderCols = ({
                 effect="solid"
               >
                 <Paragraph color="white">
-                  {run?.pipeline?.name}:{run?.pipeline?.version}
+                  {run?.pipeline?.name} ( v{run?.pipeline?.version} )
                   {/* {translate(`tooltips.${invoice.status}`)} */}
                 </Paragraph>
               </ReactTooltip>
