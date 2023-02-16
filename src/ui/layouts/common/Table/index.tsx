@@ -250,7 +250,7 @@ export const Table: React.FC<TableProps> = ({
               activeSorting,
             );
             break;
-          } else {
+          } else if (!CheckIfRun && CheckIfStackFormComponents !== 'runs') {
             dispatchStackComponentsData(
               1,
               itemPerPage,
@@ -259,6 +259,7 @@ export const Table: React.FC<TableProps> = ({
             );
             break;
           }
+          break;
         case 'pipelines':
           if (CheckIfRun) {
             dispatchPipelineRunsData(

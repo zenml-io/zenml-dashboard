@@ -1,12 +1,12 @@
 import React, { Fragment, useEffect, useState } from 'react';
-import styles from './index.module.scss'
+import styles from './index.module.scss';
 import {
   Box,
   FlexBox,
   FormTextField,
   H2,
   Paragraph,
-  PrimaryButton,
+  icons,
 } from '../../../../components';
 
 import { Form, TextField, ToggleField } from '../../../common/FormElement';
@@ -17,7 +17,7 @@ import {
   workspaceSelectors,
 } from '../../../../../redux/selectors';
 import { showToasterAction } from '../../../../../redux/actions';
-import { toasterTypes } from '../../../../../constants';
+import { iconColors, toasterTypes } from '../../../../../constants';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
@@ -153,24 +153,24 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                       placeholder={''}
                     />
                   </div>
-                  <div className="form-group col-sm-1">
+                  <div className=" col-sm-1">
                     <button
                       className={styles.fieldButton}
-                      style={{margin: '28px 0 2px 0'}}
+                      style={{ margin: '24px 0 2px 0' }}
                       type="button"
                       disabled={index === 0}
                       onClick={() =>
                         handleRemoveFields(index, toSnakeCase(props.label))
                       }
                     >
-                      -
+                      <icons.minusCircle color={iconColors.primary} />
                     </button>
                     <button
                       className={styles.fieldButton}
                       type="button"
                       onClick={() => handleAddFields()}
                     >
-                      +
+                      <icons.plusCircle color={iconColors.primary} />
                     </button>
                   </div>
                 </Fragment>
@@ -271,10 +271,10 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   };
   return (
     <Box>
-      <Box style={{ width: '100%', marginTop: '-30px' }} marginBottom='lg'>
+      <Box style={{ width: '100%', marginTop: '-30px' }} marginBottom="lg">
         <H2>Configuring your component</H2>
       </Box>
-    
+
       <FlexBox.Row style={{ width: '100%' }}>
         <Box style={{ width: '50rem' }}>
           <FormTextField
@@ -305,13 +305,12 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
               </div>
             ))}
 
-            <PrimaryButton marginTop="md">Upload File</PrimaryButton>
+            {/* <PrimaryButton marginTop="md">Upload File</PrimaryButton> */}
           </Form>
         </Box>
 
         <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} />
       </FlexBox.Row>
-
     </Box>
     // <FlexBox.Column fullWidth marginTop="xl">
     //   <Box style={{ width: '40%' }}>

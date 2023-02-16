@@ -1,11 +1,7 @@
 import React from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 
-import {
-  Box,
-  FlexBox,
-  PrimaryButton,
-} from '../../../../components';
+import { Box, FlexBox, PrimaryButton } from '../../../../components';
 
 import styles from './index.module.scss';
 
@@ -39,10 +35,15 @@ export const SidePopup: React.FC<{
           paddingHorizontal="md"
           className={styles.actionSection}
         >
-          <Box style={{ marginLeft: '25%' }} >
-            <PrimaryButton onClick={action} >
-              Register Stack Component
-            </PrimaryButton>
+          <Box style={{}}>
+            <div style={{ position: 'relative', height: '30px' }}>
+              <PrimaryButton
+                onClick={action}
+                style={{ position: 'fixed', right: '50px' }}
+              >
+                Register Stack Component
+              </PrimaryButton>
+            </div>
           </Box>
         </Box>
       </OutsideClickHandler>

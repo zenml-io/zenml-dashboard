@@ -45,6 +45,8 @@ import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
 import { ReactComponent as Edit } from './assets/Edit.svg';
 import { ReactComponent as Search } from './assets/Search.svg';
 import { ReactComponent as Logs } from './assets/Logs.svg';
+import { ReactComponent as PlusCircle } from './assets/PlusCircle.svg';
+import { ReactComponent as MinusCircle } from './assets/MinusCircle.svg';
 //icons for stackComponents
 // import { ReactComponent as PuzzlePiece } from './assets/PuzzlePiece.svg';
 import { ReactComponent as Folders } from './assets/Folders.svg';
@@ -174,6 +176,9 @@ const icons = {
   search: createIcon({ Component: Search }),
   run: createIcon({ Component: Run, useStroke: true }),
   logs: createIcon({ Component: Logs, useStroke: true }),
+
+  plusCircle: createIcon({ Component: PlusCircle, useStroke: true }),
+  minusCircle: createIcon({ Component: MinusCircle, useStroke: true }),
   //icons for stackComponents
   artifact_store: createIcon({ Component: Folders, useStroke: true }),
   alerter: createIcon({ Component: ChatDots, useStroke: true }),
