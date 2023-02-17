@@ -22,11 +22,11 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return (
-    <FlexBox alignItems="center">
+    <FlexBox alignItems="center" style={{ marginLeft: '6rem' }}>
       {lastThreeRuns.map((item: any, index: number) => (
         <Box key={index} paddingHorizontal="xs">
           <>
-            <div>
+            <FlexBox alignItems="center">
               <div data-tip data-for={item.status}>
                 <If condition={item.status === runStatus.COMPLETED}>
                   {() => (
@@ -55,9 +55,9 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
               <ReactTooltip id={item.status} place="top" effect="solid">
                 <Paragraph color="white">{item.status}</Paragraph>
               </ReactTooltip>
-            </div>
+            </FlexBox>
 
-            <div>
+            <FlexBox alignItems="center">
               <div data-tip data-for={item.status}>
                 <If condition={item.status === runStatus.RUNNING}>
                   {() => (
@@ -86,9 +86,9 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
               <ReactTooltip id={item.runId} place="top" effect="solid">
                 <Paragraph color="white">{item.status}</Paragraph>
               </ReactTooltip>
-            </div>
+            </FlexBox>
 
-            <div>
+            <FlexBox alignItems="center">
               <div data-tip data-for={item.runId}>
                 <If condition={item.status === runStatus.FAILED}>
                   {() => (
@@ -117,9 +117,9 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
               <ReactTooltip id={item.runId} place="top" effect="solid">
                 <Paragraph color="white">{item.status}</Paragraph>
               </ReactTooltip>
-            </div>
+            </FlexBox>
 
-            <div>
+            <FlexBox alignItems="center">
               <div data-tip data-for={item.runId}>
                 <If condition={item.status === runStatus.CACHED}>
                   {() => (
@@ -148,7 +148,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
               <ReactTooltip id={item.runId} place="top" effect="solid">
                 <Paragraph color="white">{item.status}</Paragraph>
               </ReactTooltip>
-            </div>
+            </FlexBox>
           </>
         </Box>
       ))}
