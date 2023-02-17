@@ -155,7 +155,7 @@ export const GetHeaderCols = ({
     },
     {
       render: () => (
-        <SortingHeader
+        <SortingHeader 
           onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="is_shared"
           sortMethod={sortMethod('is_shared', {
@@ -167,9 +167,11 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            SHARED
-          </Paragraph>
+          <div style={{ margin: '0 auto 0 auto' }}>
+            <Paragraph size="small" color="black" style={{ marginLeft: '-24px' }}>
+              SHARED
+            </Paragraph>
+          </div>
         </SortingHeader>
       ),
       width: '8%',
