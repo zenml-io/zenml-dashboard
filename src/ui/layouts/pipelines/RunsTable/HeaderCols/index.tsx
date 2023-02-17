@@ -169,13 +169,15 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph
-                size="small"
-                color="black"
-                style={{ fontSize: '12px' }}
-              >
-                STATUS
-              </Paragraph>
+              <div style={{ margin: '0 auto 0 auto' }}>
+                <Paragraph
+                  size="small"
+                  color="black"
+                  style={{ fontSize: '12px', marginLeft: '-24px' }}
+                >
+                  STATUS
+                </Paragraph>
+              </div>
             </SortingHeader>
           ),
           width: '15%',
@@ -419,13 +421,15 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph
-                size="small"
-                color="black"
-                style={{ fontSize: '12px' }}
-              >
-                STATUS
-              </Paragraph>
+              <div style={{ margin: '0 auto 0 auto' }}>
+                <Paragraph
+                  size="small"
+                  color="black"
+                  style={{ fontSize: '12px', marginLeft: '-24px' }}
+                >
+                  STATUS
+                </Paragraph>
+              </div>
             </SortingHeader>
           ),
           width: '15%',
