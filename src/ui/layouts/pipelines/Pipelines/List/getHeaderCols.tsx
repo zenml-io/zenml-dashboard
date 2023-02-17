@@ -184,9 +184,11 @@ export const GetHeaderCols = ({
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-          STATUS
-        </Paragraph>
+            <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }} >
+              <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '-24px' }}>
+                  STATUS
+              </Paragraph>
+            </div>
       ),
       width: '8%',
       renderRow: (pipeline: TPipeline) => <Status pipeline={pipeline} />,
@@ -208,7 +210,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            VERISON
+            VERSION
           </Paragraph>
         </SortingHeader>
       ),

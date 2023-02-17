@@ -145,15 +145,21 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            FLAVOR
-          </Paragraph>
+          <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
+            <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '-24px' }}>
+              FLAVOR
+            </Paragraph>
+          </div>
         </SortingHeader>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={stackComponent.flavor.name}>
+        <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
+          <div
+            data-tip
+            data-for={stackComponent?.flavor?.name || stackComponent?.flavor}
+            style={{ margin: ' 0 auto 0 auto' }}
+          >
             <img
               alt={stackComponent.flavor.logoUrl}
               src={stackComponent.flavor.logoUrl}
@@ -165,7 +171,11 @@ export const GetHeaderCols = ({
           </div>
 
           <ReactTooltip
-            id={stackComponent.flavor.name}
+            id={
+              // stackComponent?.flavor
+              //   ? stackComponent?.flavor
+              stackComponent?.flavor?.name || stackComponent?.flavor
+            }
             place="top"
             effect="solid"
           >
@@ -188,15 +198,21 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            SHARED
-          </Paragraph>
+          <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
+            <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '-24px' }}>
+              SHARED
+            </Paragraph>
+          </div>
         </SortingHeader>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={stackComponent.isShared}>
+        <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
+          <div
+            data-tip
+            data-for={stackComponent.isShared}
+            style={{ margin: '0 auto 0 auto' }}
+          >
             <Box>
               <FlexBox
                 justifyContent="center"

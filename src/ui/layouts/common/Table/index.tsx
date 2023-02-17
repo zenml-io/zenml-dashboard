@@ -412,7 +412,7 @@ export const Table: React.FC<TableProps> = ({
                               }}
                               key={i}
                             >
-                              <Box paddingVertical="sm" paddingLeft="lg">
+                              <Box paddingVertical="md" paddingLeft="lg">
                                 <Truncate maxLines={1}>
                                   {text.renderRow(headerRow)}
                                 </Truncate>

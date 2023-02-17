@@ -155,7 +155,7 @@ export const GetHeaderCols = ({
     },
     {
       render: () => (
-        <SortingHeader
+        <SortingHeader 
           onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="is_shared"
           sortMethod={sortMethod('is_shared', {
@@ -167,15 +167,17 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            SHARED
-          </Paragraph>
+          <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
+            <Paragraph size="small" color="black">
+              SHARED
+            </Paragraph>
+          </Box>
         </SortingHeader>
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={stack.isShared}>
+          <div style={{ margin: '0 auto 0 auto' }} data-tip data-for={stack.isShared}>
             <Box>
               <FlexBox
                 justifyContent="center"
