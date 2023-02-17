@@ -153,7 +153,11 @@ export const GetHeaderCols = ({
       width: '15%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
-          <div data-tip data-for={stackComponent.flavor.name} style={{ margin: ' 0 auto 0 auto' }}>
+          <div
+            data-tip
+            data-for={stackComponent?.flavor?.name || stackComponent?.flavor}
+            style={{ margin: ' 0 auto 0 auto' }}
+          >
             <img
               alt={stackComponent.flavor.logoUrl}
               src={stackComponent.flavor.logoUrl}
@@ -165,7 +169,11 @@ export const GetHeaderCols = ({
           </div>
 
           <ReactTooltip
-            id={stackComponent.flavor.name}
+            id={
+              // stackComponent?.flavor
+              //   ? stackComponent?.flavor
+              stackComponent?.flavor?.name || stackComponent?.flavor
+            }
             place="top"
             effect="solid"
           >
@@ -195,8 +203,12 @@ export const GetHeaderCols = ({
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <FlexBox alignItems="center"  style={{ marginLeft: '-24px' }}>
-          <div data-tip data-for={stackComponent.isShared} style={{ margin: '0 auto 0 auto' }}>
+        <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
+          <div
+            data-tip
+            data-for={stackComponent.isShared}
+            style={{ margin: '0 auto 0 auto' }}
+          >
             <Box>
               <FlexBox
                 justifyContent="center"
