@@ -145,7 +145,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <div style={{ margin: '0 auto 0 auto' }}>
+          <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
             <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '-24px' }}>
               FLAVOR
             </Paragraph>
@@ -198,7 +198,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <div style={{ margin: '0 auto 0 auto' }}>
+          <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
             <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '-24px' }}>
               SHARED
             </Paragraph>

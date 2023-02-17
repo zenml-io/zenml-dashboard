@@ -167,11 +167,11 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <div style={{ margin: '0 auto 0 auto' }}>
-            <Paragraph size="small" color="black" style={{ marginLeft: '-24px' }}>
+          <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
+            <Paragraph size="small" color="black">
               SHARED
             </Paragraph>
-          </div>
+          </Box>
         </SortingHeader>
       ),
       width: '8%',
@@ -186,7 +186,6 @@ export const GetHeaderCols = ({
                   height: '19px',
                   width: '19px',
                   textAlign: 'center',
-                  marginLeft: '-24px'
                 }}
               >
                 {stack.isShared ? (

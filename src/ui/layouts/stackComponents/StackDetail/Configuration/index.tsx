@@ -5,6 +5,8 @@ import {
   EditField,
   Paragraph,
   Row,
+  Col,
+  Container,
 } from '../../../../components';
 import styles from './index.module.scss';
 import { useService } from './useService';
@@ -25,7 +27,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   const getFormElement = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
       return (
-        <Box style={{ width: '90%' }}>
+        <Box style={{ width: '100%' }}>
           <EditField
             disabled
             onChangeText={() => console.log('')}
@@ -41,7 +43,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     }
     if (typeof elementSchema === 'object') {
       return (
-        <Box style={{ width: '90%' }}>
+        <Box style={{ width: '100%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -78,7 +80,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
       return (
         <Box 
         // marginVertical="md"
-        style={{ width: '90%' }}
+        style={{ width: '100%' }}
         >
           <Box>
             <FlexBox.Row justifyContent="space-between">
@@ -95,9 +97,10 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   };
 
   return (
-    <FlexBox justifyContent='space-between' marginLeft='md' marginTop="xl" fullWidth>
-      <Row>
-          <Box style={{ width: '46%' }}>
+    <FlexBox justifyContent='space-between' marginTop="xl" fullWidth>
+      <Container>
+        <Row>
+          <Col xs={6}>
             <EditField
               disabled
               onChangeText={() => console.log('')}
@@ -108,28 +111,26 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
               hasError={false}
               className={styles.field}
             />
-          </Box>
-          <Box style={{ width: '46%', marginLeft: '5%' }} marginTop='lg' >
-              <FlexBox.Row justifyContent="space-between">
-                <Paragraph>Share Component with public</Paragraph>
+          </Col>
+          <Col xs={6} >
+            <FlexBox.Row justifyContent="space-between">
+              <Paragraph>Share Component with public</Paragraph>
                 <label className={styles.switch}>
                   <input type="checkbox" checked={stackComponent.isShared} />
                   <span className={`${styles.slider} ${styles.round}`}></span>
                 </label>
-              </FlexBox.Row>
-          </Box>
-      
-      <Row>
-        {Object.keys(stackComponent?.configuration).map((key, ind) => (
-          <Row key={ind} style={{ width: '50%', marginLeft: 'auto' }}>
-            {getFormElement(key, stackComponent?.configuration[key])}
-          </Row>
-        ))}
-      </Row>
-      
+            </FlexBox.Row>
+          </Col>
+        
+          {Object.keys(stackComponent?.configuration).map((key, ind) => (
+            <Col xs={6} key={ind}>
+              {getFormElement(key, stackComponent?.configuration[key])}
+            </Col>
+          ))}
 
+        </Row>
+      </Container>
 
-      </Row>
 
       {/* <FlexBox.Row>
         <Box style={{ width: '40%' }}>

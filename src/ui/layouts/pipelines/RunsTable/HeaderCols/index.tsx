@@ -169,7 +169,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <div style={{ margin: '0 auto 0 auto' }}>
+              <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
                 <Paragraph
                   size="small"
                   color="black"
@@ -421,7 +421,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <div style={{ margin: '0 auto 0 auto' }}>
+              <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
                 <Paragraph
                   size="small"
                   color="black"

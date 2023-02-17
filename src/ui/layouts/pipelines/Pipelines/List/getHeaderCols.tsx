@@ -184,8 +184,8 @@ export const GetHeaderCols = ({
     },
     {
       render: () => (
-            <div style={{ marginLeft: '7rem' }} >
-              <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+            <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }} >
+              <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '-24px' }}>
                   STATUS
               </Paragraph>
             </div>
