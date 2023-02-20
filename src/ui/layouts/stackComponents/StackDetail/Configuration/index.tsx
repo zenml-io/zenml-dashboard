@@ -4,8 +4,6 @@ import {
   Box,
   EditField,
   Paragraph,
-  Row,
-  Col,
   Container,
 } from '../../../../components';
 import styles from './index.module.scss';
@@ -49,7 +47,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
               <EditField
                 disabled
                 onChangeText={() => console.log('')}
-                label="key"
+                label="Key"
                 optional={false}
                 value={key}
                 placeholder=""
@@ -75,10 +73,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box
-          // marginVertical="md"
-          style={{ width: '100%' }}
-        >
+        <Box marginBottom={'xl'} style={{ width: '100%' }}>
           <Box>
             <FlexBox.Row justifyContent="space-between">
               <Paragraph>{titleCase(elementName)}</Paragraph>
