@@ -37,6 +37,7 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
         onFailure: () => setFetching(false),
       }),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath, stackComponent]);
 
   const setFetching = (fetching: boolean) => {
