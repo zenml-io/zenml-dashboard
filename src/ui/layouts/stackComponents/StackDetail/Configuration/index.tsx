@@ -11,18 +11,15 @@ import {
 import styles from './index.module.scss';
 import { useService } from './useService';
 
-
 export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   const { stackComponent } = useService({
     stackId,
   });
 
-
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
-
 
   const getFormElement = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
@@ -78,9 +75,9 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box 
-        // marginVertical="md"
-        style={{ width: '100%' }}
+        <Box
+          // marginVertical="md"
+          style={{ width: '100%' }}
         >
           <Box>
             <FlexBox.Row justifyContent="space-between">
@@ -97,10 +94,10 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   };
 
   return (
-    <FlexBox justifyContent='space-between' marginTop="xl" fullWidth>
-      <Container>
-        <Row>
-          <Col xs={6}>
+    <FlexBox.Column marginTop="xl" fullWidth>
+      <FlexBox.Row>
+        <Container>
+          <Box style={{ width: '79%' }}>
             <EditField
               disabled
               onChangeText={() => console.log('')}
@@ -111,107 +108,42 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
               hasError={false}
               className={styles.field}
             />
+          </Box>
+        </Container>
+        <Container>
+          <FlexBox.Row justifyContent="space-between" style={{ width: '70%' }}>
+            <Paragraph>Share Component with public</Paragraph>
+            <label className={styles.switch}>
+              <input type="checkbox" checked={stackComponent.isShared} />
+              <span className={`${styles.slider} ${styles.round}`}></span>
+            </label>
+          </FlexBox.Row>
+        </Container>
+      </FlexBox.Row>
+      <FlexBox.Row style={{ width: '40%' }}>
+        <Container>
+          {/* <Row>
+          <Col xs={5}>
+         
           </Col>
-          <Col xs={6} >
+          <Col xs={5} style={{ marginLeft: '100px' }}>
             <FlexBox.Row justifyContent="space-between">
               <Paragraph>Share Component with public</Paragraph>
-                <label className={styles.switch}>
-                  <input type="checkbox" checked={stackComponent.isShared} />
-                  <span className={`${styles.slider} ${styles.round}`}></span>
-                </label>
+              <label className={styles.switch}>
+                <input type="checkbox" checked={stackComponent.isShared} />
+                <span className={`${styles.slider} ${styles.round}`}></span>
+              </label>
             </FlexBox.Row>
           </Col>
-        
+        </Row> */}
+
           {Object.keys(stackComponent?.configuration).map((key, ind) => (
-            <Col xs={6} key={ind}>
-              {getFormElement(key, stackComponent?.configuration[key])}
-            </Col>
+            // <Col xs={6} key={ind}>
+            <>{getFormElement(key, stackComponent?.configuration[key])}</>
+            // </Col>
           ))}
-
-        </Row>
-      </Container>
-
-
-      {/* <FlexBox.Row>
-        <Box style={{ width: '40%' }}>
-          <Box>
-            <EditField
-              onChangeText={() => console.log('')}
-              label="Flavour Name"
-              optional={false}
-              value=""
-              placeholder=""
-              hasError={false}
-              className={styles.field}
-            />
-          </Box>
-
-          <Box>
-            <EditField
-              onChangeText={() => console.log('')}
-              label="Item 1"
-              optional={true}
-              value=""
-              placeholder=""
-              hasError={false}
-              className={styles.field}
-            />
-          </Box>
-          <Box>
-            <EditField
-              onChangeText={() => console.log('')}
-              label="Item 2"
-              optional={true}
-              value=""
-              placeholder=""
-              hasError={false}
-              className={styles.field}
-            />
-          </Box>
-          <Box>
-            <EditField
-              onChangeText={() => console.log('')}
-              label="Item 3"
-              optional={true}
-              value=""
-              placeholder=""
-              hasError={false}
-              className={styles.field}
-            />
-          </Box>
-          <Box>
-            <EditField
-              onChangeText={() => console.log('')}
-              label="Item 4"
-              optional={true}
-              value=""
-              placeholder=""
-              hasError={false}
-              className={styles.field}
-            />
-          </Box>
-        </Box>
-
-        <Box style={{ width: '60%' }} marginTop="xl" marginHorizontal="xxl">
-          <Box>
-            <FlexBox.Row justifyContent="space-between">
-              <Paragraph>Share Component with public</Paragraph> <CheckBox />
-            </FlexBox.Row>
-          </Box>
-          <Box style={{ marginTop: '80px' }}>
-            <FlexBox.Row justifyContent="space-between">
-              <Paragraph>Auto Update</Paragraph> <CheckBox />
-            </FlexBox.Row>
-          </Box>
-          <Box style={{ marginTop: '80px' }}>
-            <FlexBox.Row justifyContent="space-between">
-              <Paragraph>Notification update</Paragraph> <CheckBox />
-            </FlexBox.Row>
-          </Box>
-        </Box>
-      </FlexBox.Row> */}
-
-      {/* <Box style={{ marginLeft: 'auto' }} marginRight='lg' ><PrimaryButton>Register Component</PrimaryButton></Box> */}
-    </FlexBox>
+        </Container>
+      </FlexBox.Row>
+    </FlexBox.Column>
   );
 };
