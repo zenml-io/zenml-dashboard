@@ -203,114 +203,114 @@ export const Table: React.FC<TableProps> = ({
       ? locationPath.pathname.split('/')[5]
       : locationPath.pathname.split('/')[4];
   const checkForLocationPath = locationPath.pathname.split('/')[4];
-  useEffect(() => {
-    // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
-    setItemPerPage(itemPerPage);
-    if (filters) {
-      setPageIndex(0);
-    }
-    if (!isExpended) {
-      switch (componentName) {
-        case 'stacks':
-          if (CheckIfRun) {
-            dispatchStackRunsData(
-              id,
-              1,
-              itemPerPage,
-              checkValidFilter.length ? (validFilters as any) : [],
-              activeSorting,
-            );
-            break;
-          } else {
-            dispatchStackData(
-              1,
-              itemPerPage,
-              checkValidFilter.length ? (validFilters as any) : [],
-              activeSorting,
-              locationPath.pathname.split('/')[6],
-            );
-            break;
-          }
-        case 'components':
-          if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
-            dispatchStackData(
-              1,
-              itemPerPage,
-              checkValidFilter.length ? (validFilters as any) : [],
-              activeSorting,
-              locationPath.pathname.split('/')[5],
-            );
-            break;
-          } else if (CheckIfRun && CheckIfStackFormComponents === 'runs') {
-            dispatchStackComponentRunsData(
-              id,
-              1,
-              itemPerPage,
-              checkValidFilter.length ? (validFilters as any) : [],
-              activeSorting,
-            );
-            break;
-          } else if (!CheckIfRun && CheckIfStackFormComponents !== 'runs') {
-            dispatchStackComponentsData(
-              1,
-              itemPerPage,
-              checkValidFilter.length ? (validFilters as any) : [],
-              activeSorting,
-            );
-            break;
-          }
-          break;
-        case 'pipelines':
-          if (CheckIfRun) {
-            dispatchPipelineRunsData(
-              id,
-              1,
-              itemPerPage,
-              checkValidFilter.length ? (validFilters as any) : [],
-              activeSorting,
-            );
-            break;
-          } else {
-            // console.log(checkValidFilter, 'checkValidFilter');
-            if (!renderAfterRow) break;
-            dispatchPipelineData(
-              1,
-              itemPerPage,
-              checkValidFilter.length ? (validFilters as any) : [],
-              activeSorting,
-            );
-            break;
-          }
+  // useEffect(() => {
+  //   // console.log(locationPath.pathname.split('/')[4], 'locationPath1');
+  //   setItemPerPage(itemPerPage);
+  //   if (filters) {
+  //     setPageIndex(0);
+  //   }
+  //   // if (!isExpended) {
+  //   switch (componentName) {
+  //     case 'stacks':
+  //       if (CheckIfRun) {
+  //         dispatchStackRunsData(
+  //           id,
+  //           1,
+  //           itemPerPage,
+  //           checkValidFilter.length ? (validFilters as any) : [],
+  //           activeSorting,
+  //         );
+  //         break;
+  //       } else {
+  //         dispatchStackData(
+  //           1,
+  //           itemPerPage,
+  //           checkValidFilter.length ? (validFilters as any) : [],
+  //           activeSorting,
+  //           locationPath.pathname.split('/')[6],
+  //         );
+  //         break;
+  //       }
+  //     case 'components':
+  //       if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
+  //         dispatchStackData(
+  //           1,
+  //           itemPerPage,
+  //           checkValidFilter.length ? (validFilters as any) : [],
+  //           activeSorting,
+  //           locationPath.pathname.split('/')[5],
+  //         );
+  //         break;
+  //       } else if (CheckIfRun && CheckIfStackFormComponents === 'runs') {
+  //         dispatchStackComponentRunsData(
+  //           id,
+  //           1,
+  //           itemPerPage,
+  //           checkValidFilter.length ? (validFilters as any) : [],
+  //           activeSorting,
+  //         );
+  //         break;
+  //       } else if (!CheckIfRun && CheckIfStackFormComponents !== 'runs') {
+  //         dispatchStackComponentsData(
+  //           1,
+  //           itemPerPage,
+  //           checkValidFilter.length ? (validFilters as any) : [],
+  //           activeSorting,
+  //         );
+  //         break;
+  //       }
+  //       break;
+  //     case 'pipelines':
+  //       if (CheckIfRun) {
+  //         dispatchPipelineRunsData(
+  //           id,
+  //           1,
+  //           itemPerPage,
+  //           checkValidFilter.length ? (validFilters as any) : [],
+  //           activeSorting,
+  //         );
+  //         break;
+  //       } else {
+  //         // console.log(checkValidFilter, 'checkValidFilter');
+  //         if (!renderAfterRow) break;
+  //         dispatchPipelineData(
+  //           1,
+  //           itemPerPage,
+  //           checkValidFilter.length ? (validFilters as any) : [],
+  //           activeSorting,
+  //         );
+  //         break;
+  //       }
 
-        case 'all-runs':
-          dispatchAllrunsData(
-            1,
-            itemPerPage,
-            checkValidFilter.length ? (validFilters as any) : [],
-            activeSorting,
-          );
-          break;
+  //     case 'all-runs':
+  //       dispatchAllrunsData(
+  //         1,
+  //         itemPerPage,
+  //         checkValidFilter.length ? (validFilters as any) : [],
+  //         activeSorting,
+  //       );
+  //       break;
 
-        default:
-          break;
-      }
-      if (locationPath.pathname.split('/')[2] === 'organization') {
-        // debugger;
-        setFetchingMembers(true);
-        dispatch(
-          organizationActions.getMembers({
-            page: 1,
-            size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-            sort_by: activeSorting,
-            onSuccess: () => setFetchingMembers(false),
-            onFailure: () => setFetchingMembers(false),
-          }),
-        );
-      }
-    }
+  //     default:
+  //       break;
+  //   }
+  //   if (locationPath.pathname.split('/')[2] === 'organization') {
+  //     // debugger;
+  //     setFetchingMembers(true);
+  //     dispatch(
+  //       organizationActions.getMembers({
+  //         page: 1,
+  //         size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+  //         sort_by: activeSorting,
+  //         onSuccess: () => setFetchingMembers(false),
+  //         onFailure: () => setFetchingMembers(false),
+  //       }),
+  //     );
+  //   }
+  //   // }
 
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [checkForLocationPath, checkValidFilter, activeSorting, isExpended]);
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [checkForLocationPath, checkValidFilter, activeSorting, isExpended]);
   let rowsToDisplay = tableRows;
 
   // function getFetchedState(state: any) {
@@ -508,7 +508,7 @@ export const Table: React.FC<TableProps> = ({
                 ))}
               </table> */}
 
-            <If condition={pagination}>
+            {/* <If condition={pagination}>
               {() => (
                 <FlexBox
                   marginTop="xxxl"
@@ -636,7 +636,7 @@ export const Table: React.FC<TableProps> = ({
                   </If>
                 </FlexBox>
               )}
-            </If>
+            </If> */}
             {/* {console.log(paginated, 'paginated')} */}
           </>
         )}

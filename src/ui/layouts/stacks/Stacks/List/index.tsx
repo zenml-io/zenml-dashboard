@@ -14,6 +14,11 @@ import {
 } from '../../../../../redux/selectors';
 // import { callActionForStacksForPagination } from '../useService';
 import { stacksActions } from '../../../../../redux/actions';
+import { Pagination } from '../../../common/Pagination';
+import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQueryParam';
+import { FlexBox, If } from '../../../../components';
+import { ItemPerPage } from '../../../common/ItemPerPage';
+import { callActionForStacksForPagination } from '../useService';
 
 interface Props {
   filter: any;
@@ -24,7 +29,7 @@ interface Props {
 }
 export const List: React.FC<Props> = ({
   filter,
-  pagination,
+  pagination = true,
   isExpended,
   id,
   stackComponentId,
@@ -53,7 +58,13 @@ export const List: React.FC<Props> = ({
     setSelectedRunIds,
   } = useService({ filter, isExpended, stackComponentId });
   const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
+  const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
 
+  const [itemPerPage, setItemPerPage] = useState(
+    ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+  );
+  const initialRef: any = null;
+  const childRef = React.useRef(initialRef);
   useEffect(() => {
     if (stackComponentId) {
       setFetchingForStacksFroComponents(true);
@@ -72,7 +83,7 @@ export const List: React.FC<Props> = ({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stackComponentId]);
-  console.log(fetching, 'asdasdasd');
+  const { dispatchStackData } = callActionForStacksForPagination();
   const expendedRow = filteredStacks.filter((item) => item.id === id);
   const headerCols = GetHeaderCols({
     expendedRow,
@@ -97,27 +108,34 @@ export const List: React.FC<Props> = ({
     }
   };
 
-  // const openDetailPage = (stackComponent: TStack) => {
-  //   setSelectedRunIds([]);
+  const validFilters = filter?.filter((item: any) => item.value);
+  const isValidFilterFroValue: any = filter?.map((f: any) => f.value).join('');
+  const isValidFilterForCategory: any = filter
+    ?.map((f: any) => f.value && f.type.value)
+    .join('');
+  const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
 
-  //   if (id) {
-  //     history.push(
-  //       routePaths.stackComponents.base(
-  //         locationPath.split('/')[4],
-  //         selectedProject,
-  //       ),
-  //     );
-  //   } else {
-  //     history.push(
-  //       routePaths.stackComponents.configuration(
-  //         locationPath.split('/')[4],
-  //         stackComponent.id,
-  //         selectedProject,
-  //       ),
-  //     );
-  //   }
-  // };
-  console.log(filter, 'filfilterter');
+  useEffect(() => {
+    if (filter) {
+      setPageIndex(0);
+    }
+    dispatchStackData(
+      1,
+      itemPerPage,
+      checkValidFilter.length ? (validFilters as any) : [],
+      activeSorting as any,
+    );
+  }, [checkValidFilter]);
+  const onChange = (pageNumber: any, size: any) => {
+    // debugger;
+    dispatchStackData(
+      pageNumber,
+      size,
+      checkValidFilter.length ? (validFilters as any) : [],
+      activeSorting as any,
+    );
+  };
+
   return (
     <>
       <CollapseTable
@@ -134,11 +152,6 @@ export const List: React.FC<Props> = ({
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
-        // activeSorting={
-        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-        //     ? activeSorting
-        //     : 'created'
-        // }
         pagination={pagination}
         paginated={stacksPaginated}
         loading={
@@ -155,6 +168,48 @@ export const List: React.FC<Props> = ({
         emptyState={{ text: translate('emptyState.text') }}
         trOnClick={openDetailPage}
       />
+      <If condition={filteredStacks.length > 0}>
+        {() => (
+          <FlexBox
+            marginTop="xxxl"
+            marginBottom="xxxl"
+            style={{ alignSelf: 'center' }}
+            justifyContent="center"
+          >
+            <Pagination
+              // isExpended={isExpended}
+              ref={childRef}
+              onChange={(pageNumber: any) => onChange(pageNumber, itemPerPage)}
+              // getFetchedState={getFetchedState}
+              activeSorting={activeSorting}
+              filters={filter}
+              itemPerPage={itemPerPage}
+              pageIndex={pageIndex}
+              setPageIndex={setPageIndex}
+              pages={stacksPaginated?.totalPages}
+              totalOfPages={stacksPaginated?.totalPages}
+              totalLength={stacksPaginated?.length}
+              totalCount={stacksPaginated?.totalitem}
+            />
+
+            <If
+              condition={
+                filteredStacks.length > 0 && stacksPaginated?.totalitem > 1
+              }
+            >
+              {() => (
+                <ItemPerPage
+                  itemPerPage={itemPerPage}
+                  onChangePagePerItem={(size: any) => {
+                    setItemPerPage(size);
+                    onChange(1, size);
+                  }}
+                ></ItemPerPage>
+              )}
+            </If>
+          </FlexBox>
+        )}
+      </If>
     </>
   );
 };

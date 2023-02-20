@@ -60,6 +60,7 @@ interface Props {
   activeSorting?: any;
   ref: any;
   pageIndex: number;
+  onChange?: any;
   setPageIndex: (arg1: number) => void;
   pages: any;
   filters?: any[];
@@ -104,13 +105,13 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
   const isValidFilterForCategory: any =
     isValidFilterFroValue && props.filters?.map((f) => f.type.value).join('');
   const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
-  useImperativeHandle(ref, () => ({
-    callOnChange(page: number, size: number, filters: any, activeSorting: any) {
-      props.setPageIndex(page - 1);
-      onChange(page, size, componentName, filters, activeSorting);
-      // debugger;
-    },
-  }));
+  // useImperativeHandle(ref, () => ({
+  //   callOnChange(page: number, size: number, filters: any, activeSorting: any) {
+  //     props.setPageIndex(page - 1);
+  //     onChange(page, size, componentName, filters, activeSorting);
+  //     // debugger;
+  //   },
+  // }));
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, [fetchingMembers]);
@@ -121,159 +122,124 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
     siblingCount: 1,
     pageSize: props.itemPerPage,
   });
-  console.log(CheckIfStackFormComponents, 'paginationRange1');
+  console.log(props, 'paginationRange1');
   // if (
   //   props.pageIndex === 0 ||
   //   (paginationRange && paginationRange.length < 2)
   // ) {
   //   return null;
   // }
-  const onChange = (
-    page: any,
-    size: number,
-    componentName: string,
-    filters: any,
-    activeSorting: any,
-  ) => {
-    if (!props.isExpended) {
-      switch (componentName) {
-        case 'stacks':
-          if (CheckIfRun) {
-            dispatchStackRunsData(
-              id,
-              page,
-              size,
-              checkValidFilter.length ? (filters as any) : [],
-              activeSorting,
-            );
-            break;
-          } else {
-            dispatchStackData(
-              page,
-              size,
-              checkValidFilter.length ? (filters as any) : [],
-              activeSorting,
-            );
-            break;
-          }
-        case 'components':
-          if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
-            dispatchStackData(
-              page,
-              size,
-              checkValidFilter.length ? (filters as any) : [],
-              activeSorting,
-              locationPath.pathname.split('/')[5],
-            );
-            break;
-          } else if (CheckIfStackFormComponents === 'runs') {
-            dispatchStackComponentRunsData(
-              id,
-              page,
-              size,
-              checkValidFilter.length ? (filters as any) : [],
-              activeSorting,
-            );
-            break;
-          } else if (!CheckIfRun && CheckIfStackFormComponents !== 'runs') {
-            dispatchStackComponentsData(
-              page,
-              size,
-              checkValidFilter.length ? (filters as any) : [],
-              activeSorting,
-            );
-            break;
-          }
-          break;
-        //   dispatchStackComponentRunsData(
-        //     id,
-        //     page,
-        //     size,
-        //     checkValidFilter.length ? (filters as any) : [],
-        //     activeSorting,
+  // const onChange = (
+  //   page: any,
+  //   size: number,
+  //   componentName: string,
+  //   filters: any,
+  //   activeSorting: any,
+  // ) => {
+  //   if (!props.isExpended) {
+  //     switch (componentName) {
+  //       case 'stacks':
+  //         if (CheckIfRun) {
+  //           dispatchStackRunsData(
+  //             id,
+  //             page,
+  //             size,
+  //             checkValidFilter.length ? (filters as any) : [],
+  //             activeSorting,
+  //           );
+  //           break;
+  //         } else {
+  //           dispatchStackData(
+  //             page,
+  //             size,
+  //             checkValidFilter.length ? (filters as any) : [],
+  //             activeSorting,
+  //           );
+  //           break;
+  //         }
+  //       case 'components':
+  //         if (CheckIfRun && CheckIfStackFormComponents === 'stacks') {
+  //           dispatchStackData(
+  //             page,
+  //             size,
+  //             checkValidFilter.length ? (filters as any) : [],
+  //             activeSorting,
+  //             locationPath.pathname.split('/')[5],
+  //           );
+  //           break;
+  //         } else if (CheckIfStackFormComponents === 'runs') {
+  //           dispatchStackComponentRunsData(
+  //             id,
+  //             page,
+  //             size,
+  //             checkValidFilter.length ? (filters as any) : [],
+  //             activeSorting,
+  //           );
+  //           break;
+  //         } else if (!CheckIfRun && CheckIfStackFormComponents !== 'runs') {
+  //           dispatchStackComponentsData(
+  //             page,
+  //             size,
+  //             checkValidFilter.length ? (filters as any) : [],
+  //             activeSorting,
+  //           );
+  //           break;
+  //         }
+  //         break;
 
-        //   );
-        //   break;
-        // } else {
-        //   dispatchStackComponentsData(
-        //     page,
-        //     size,
-        //     checkValidFilter.length ? (filters as any) : [],
-        //     activeSorting,
-        //   );
-        //   break;
-        // }
-        case 'pipelines':
-          if (CheckIfRun) {
-            dispatchPipelineRunsData(
-              id,
-              page,
-              size,
-              checkValidFilter.length ? (filters as any) : [],
-              activeSorting,
-            );
-            break;
-          } else {
-            dispatchPipelineData(
-              page,
-              size,
-              checkValidFilter.length ? (filters as any) : [],
-              activeSorting,
-            );
-            break;
-          }
+  //       case 'pipelines':
+  //         if (CheckIfRun) {
+  //           dispatchPipelineRunsData(
+  //             id,
+  //             page,
+  //             size,
+  //             checkValidFilter.length ? (filters as any) : [],
+  //             activeSorting,
+  //           );
+  //           break;
+  //         } else {
+  //           dispatchPipelineData(
+  //             page,
+  //             size,
+  //             checkValidFilter.length ? (filters as any) : [],
+  //             activeSorting,
+  //           );
+  //           break;
+  //         }
 
-        case 'all-runs':
-          dispatchAllrunsData(
-            page,
-            size,
-            checkValidFilter.length ? (filters as any) : [],
-          );
-          break;
+  //       case 'all-runs':
+  //         dispatchAllrunsData(
+  //           page,
+  //           size,
+  //           checkValidFilter.length ? (filters as any) : [],
+  //         );
+  //         break;
 
-        default:
-          break;
-      }
+  //       default:
+  //         break;
+  //     }
 
-      if (locationPath.pathname.split('/')[2] === 'organization') {
-        // debugger;
-        // setFetchingMembers(true);
-        dispatch(
-          organizationActions.getMembers({
-            page: page,
-            size: size,
-            sort_by: activeSorting,
-            // onSuccess: () => setFetchingMembers(false),
-            // onFailure: () => setFetchingMembers(false),
-          }),
-        );
-      }
-    }
-  };
-  // console.log(itemPerPage, 'itemPerPage');
+  //     if (locationPath.pathname.split('/')[2] === 'organization') {
+  //       // debugger;
+  //       // setFetchingMembers(true);
+  //       dispatch(
+  //         organizationActions.getMembers({
+  //           page: page,
+  //           size: size,
+  //           sort_by: activeSorting,
+  //           // onSuccess: () => setFetchingMembers(false),
+  //           // onFailure: () => setFetchingMembers(false),
+  //         }),
+  //       );
+  //     }
+  //   }
+  // };
+
   const pageNumbers = [];
 
   for (let i = 1; i <= Math.ceil(props.totalOfPages); i++) {
     pageNumbers.push(i);
   }
-  //  function filterPages = (visiblePages, totalPages) => {
-  //     return visiblePages.filter(page => page <= totalPages);
-  //   };
-  //   function getVisiblePages = (page, total) => {
-  //     if (total < 7) {
-  //       return filterPages([1, 2, 3, 4, 5, 6], total) as;
-  //     } else {
-  //       if (page % 5 >= 0 && page > 4 && page + 2 < total) {
-  //         return [1, page - 1, page, page + 1, total];
-  //       } else if (page % 5 >= 0 && page > 4 && page + 2 >= total) {
-  //         return [1, total - 3, total - 2, total - 1, total];
-  //       } else {
-  //         return [1, 2, 3, 4, 5, total];
-  //       }
-  //     }
-  //   };
-
-  //   const visiblePages = getVisiblePages(page, this.props.pages);
 
   return (
     <FlexBox.Column alignItems="center">
@@ -281,16 +247,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
         <PaginationNavigationItem
           hasNext={props.pageIndex !== 0}
           onClick={() => {
-            // switch (componentName) {
-            //   case 'stacks':
-            //     onChange(props.pageIndex, props.itemPerPage);
-            //     break;
-
-            //   default:
-            //     break;
-            // }
-
-            onChange(
+            props.onChange(
               1,
               props.itemPerPage,
               componentName,
@@ -305,7 +262,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
         <PaginationNavigationItem
           hasNext={props.pageIndex !== 0}
           onClick={() => {
-            onChange(
+            props.onChange(
               props.pageIndex,
               props.itemPerPage,
               componentName,
@@ -337,7 +294,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
                     addStyle(props.pageIndex === pageNumber - 1, styles.active),
                   )}
                   onClick={() => {
-                    onChange(
+                    props.onChange(
                       pageNumber,
                       props.itemPerPage,
                       componentName,
@@ -348,7 +305,6 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
                     props.setPageIndex(pageNumber - 1);
                   }}
                 >
-                  {/* {pageNumber} */}
                   <span
                     className={styles.paginationText}
                     style={{
@@ -361,26 +317,11 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
                 </li>
               );
             })}
-
-          {/* {pageNumbers.map((p: any) => (
-            <Box key={p}>
-              <PaginationItem
-                onClick={() => {
-                  onChange(p, props.itemPerPage, componentName, props.filters);
-
-                  props.setPageIndex(p - 1);
-                }}
-                index={p}
-                isActive={props.pageIndex === p - 1}
-              />
-            </Box>
-          ))} */}
         </FlexBox>
-
         <PaginationNavigationItem
           hasNext={props.pageIndex + 1 < props.totalOfPages}
           onClick={() => {
-            onChange(
+            props.onChange(
               props.pageIndex + 2,
               props.itemPerPage,
               componentName,
@@ -395,7 +336,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
         <PaginationNavigationItem
           hasNext={props.pageIndex + 1 < props.totalOfPages}
           onClick={() => {
-            onChange(
+            props.onChange(
               props.totalOfPages,
               props.itemPerPage,
               componentName,

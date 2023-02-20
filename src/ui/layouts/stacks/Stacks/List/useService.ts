@@ -67,26 +67,26 @@ export const useService = ({
     setFilteredStacks(Stacks as TStack[]);
   }, [Stacks, filter]);
 
-  useEffect(() => {
-    if (!isValidFilter && !isExpended) {
-      const applySorting =
-        activeSortingDirection?.toLowerCase() + ':' + activeSorting;
-      const intervalId = setInterval(() => {
-        dispatch(
-          stacksActions.getMy({
-            component_id: stackComponentId,
-            sort_by: applySorting ? applySorting : 'created',
-            logical_operator: 'and',
-            workspace: selectedWorkspace,
-            page: stacksPaginated.page,
-            size: stacksPaginated.size,
-          }),
-        );
-      }, 5000);
+  // useEffect(() => {
+  //   if (!isValidFilter && !isExpended) {
+  //     const applySorting =
+  //       activeSortingDirection?.toLowerCase() + ':' + activeSorting;
+  //     const intervalId = setInterval(() => {
+  //       dispatch(
+  //         stacksActions.getMy({
+  //           component_id: stackComponentId,
+  //           sort_by: applySorting ? applySorting : 'created',
+  //           logical_operator: 'and',
+  //           workspace: selectedWorkspace,
+  //           page: stacksPaginated.page,
+  //           size: stacksPaginated.size,
+  //         }),
+  //       );
+  //     }, 5000);
 
-      return () => clearInterval(intervalId); //This is important
-    }
-  });
+  //     return () => clearInterval(intervalId); //This is important
+  //   }
+  // });
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
