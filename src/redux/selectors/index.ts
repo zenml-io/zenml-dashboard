@@ -12,3 +12,5 @@ export * from './runPages';
 export * from './pipelinePages';
 export * from './stackPages';
 export * from './stackComponentPages';
+export * from './flavors';
+export * from './flavorPages';

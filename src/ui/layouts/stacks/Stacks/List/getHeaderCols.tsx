@@ -7,13 +7,7 @@ import {
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
-import {
-  Box,
-  FlexBox,
-  icons,
-  // LinkBox,
-  Paragraph,
-} from '../../../../components';
+import { Box, FlexBox, icons, Paragraph } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -49,45 +43,34 @@ export const GetHeaderCols = ({
     filteredStacks,
   });
 
-  // const [toggle, setToggle] = useState(false);
   return [
     // {
     //   width: '3%',
     //   renderRow: (stack: TStack) => (
-    //     <FlexBox
-    //       justifyContent="center"
-    //       style={{ paddingTop: '5px', paddingBottom: '5px' }}
+    //     <LinkBox
+    //       onClick={(e: Event) => {
+    //         setToggle(!toggle);
+    //         e.stopPropagation();
+    //         if (openStackIds.indexOf(stack.id) === -1) {
+    //           setOpenStackIds([...openStackIds, stack.id]);
+    //         } else {
+    //           setOpenStackIds(
+    //             openStackIds.filter((id: TId) => id !== stack.id),
+    //           );
+    //         }
+    //       }}
     //     >
-    //       {expendedRow.length === 1 ? (
-    //         <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-    //       ) : (
-    //         <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-    //       )}
-    //     </FlexBox>
-    //     // <LinkBox
-    //     //   onClick={(e: Event) => {
-    //     //     setToggle(!toggle);
-    //     //     e.stopPropagation();
-    //     //     if (openStackIds.indexOf(stack.id) === -1) {
-    //     //       setOpenStackIds([...openStackIds, stack.id]);
-    //     //     } else {
-    //     //       setOpenStackIds(
-    //     //         openStackIds.filter((id: TId) => id !== stack.id),
-    //     //       );
-    //     //     }
-    //     //   }}
-    //     // >
-    //     //   <FlexBox
-    //     //     justifyContent="center"
-    //     //     style={{ paddingTop: '5px', paddingBottom: '5px' }}
-    //     //   >
-    //     //     {openStackIds.indexOf(stack.id) === -1 ? (
-    //     //       <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-    //     //     ) : (
-    //     //       <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-    //     //     )}
-    //     //   </FlexBox>
-    //     // </LinkBox>
+    //       <FlexBox
+    //         justifyContent="center"
+    //         style={{ paddingTop: '5px', paddingBottom: '5px' }}
+    //       >
+    //         {openStackIds.indexOf(stack.id) === -1 ? (
+    //           <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
+    //         ) : (
+    //           <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
+    //         )}
+    //       </FlexBox>
+    //     </LinkBox>
     //   ),
     // },
     {
@@ -104,7 +87,11 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph
+            size="small"
+            color="black"
+            style={{ fontSize: '12px', marginLeft: '33px' }}
+          >
             ID
           </Paragraph>
         </SortingHeader>
@@ -113,9 +100,19 @@ export const GetHeaderCols = ({
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={stack.id}>
-            <Paragraph size="small">
-              {truncate(stack.id, ID_MAX_LENGTH)}
-            </Paragraph>
+            <FlexBox.Row style={{ alignItems: 'center' }}>
+              {expendedRow?.length === 1 ? (
+                <icons.chevronDown
+                  color={iconColors.grey}
+                  size={iconSizes.xs}
+                />
+              ) : (
+                <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
+              )}
+              <Paragraph size="small" style={{ marginLeft: '20px' }}>
+                {truncate(stack.id, ID_MAX_LENGTH)}
+              </Paragraph>
+            </FlexBox.Row>
           </div>
           <ReactTooltip id={stack.id} place="top" effect="solid">
             <Paragraph color="white">{stack.id}</Paragraph>
@@ -158,7 +155,7 @@ export const GetHeaderCols = ({
     },
     {
       render: () => (
-        <SortingHeader
+        <SortingHeader 
           onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="is_shared"
           sortMethod={sortMethod('is_shared', {
@@ -170,15 +167,17 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            SHARED
-          </Paragraph>
+          <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
+            <Paragraph size="small" color="black">
+              SHARED
+            </Paragraph>
+          </Box>
         </SortingHeader>
       ),
       width: '8%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={stack.isShared}>
+          <div style={{ margin: '0 auto 0 auto' }} data-tip data-for={stack.isShared}>
             <Box>
               <FlexBox
                 justifyContent="center"

@@ -10,11 +10,13 @@ export const InputWithLabel = ({
   label,
   name,
   labelColor,
+  optional,
 }: {
   InputComponent: JSX.Element;
   label: string;
   name?: any;
   labelColor?: any;
+  optional?: string
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <Box paddingBottom="xs">
@@ -22,7 +24,7 @@ export const InputWithLabel = ({
         size="body"
         style={{ color: labelColor ? labelColor : 'black' }}
       >
-        <label htmlFor={name}>{label}</label>
+        <label htmlFor={name}>{label} {optional && <span style={{ color: '#A8A8A8' }}>&#40;Optional&#41;</span>}</label>
       </Paragraph>
     </Box>
     {InputComponent}

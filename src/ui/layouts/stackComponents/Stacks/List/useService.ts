@@ -17,7 +17,7 @@ import {
 import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 import { useLocationPath } from '../../../../hooks';
 import { Sorting, SortingDirection } from './ForSorting/types';
-
+import { GetFlavorsListForLogo } from './GetFlavorsListForLogo';
 interface ServiceInterface {
   openStackIds: TId[];
   setOpenStackIds: (ids: TId[]) => void;
@@ -47,6 +47,7 @@ export const useService = ({
     value: string;
   }[];
 }): ServiceInterface => {
+  const { flavourList } = GetFlavorsListForLogo();
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'created',
   );
@@ -70,8 +71,25 @@ export const useService = ({
   );
   const isValidFilter = filter?.map((f) => f.value).join('');
   useEffect(() => {
-    setFilteredStacks(stackComponents as TStack[]);
-  }, [stackComponents, filter]);
+    const stackComponentsMap = stackComponents.map((item) => {
+      const temp: any = flavourList.find(
+        (fl: any) => fl.name === item.flavor && fl.type === item.type,
+      );
+      if (temp) {
+        return {
+          ...item,
+          flavor: {
+            logoUrl: temp.logo_url,
+            name: item.flavor,
+          },
+        };
+      }
+      return item;
+    });
+    console.log(stackComponentsMap, 'aaaaaaaaaa');
+    console.log(flavourList, 'aaaaaaaaaa');
+    setFilteredStacks(stackComponentsMap as TStack[]);
+  }, [stackComponents, filter, flavourList]);
 
   useEffect(() => {
     if (!isValidFilter && !isExpended) {

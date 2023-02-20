@@ -101,6 +101,10 @@ export const routePaths = {
       `/workspaces/${workspace}/components/${type}/${id}/runs`,
     stacks: (type: string, id: TId, workspace: string): string =>
       `/workspaces/${workspace}/components/${type}/${id}/stacks`,
+    registerComponents: (type: string, workspace: string): string =>
+      `/workspaces/${workspace}/registerComponents/${type}`,
+    configureComponent: (type: string, workspace: string, id: string): string =>
+      `/workspaces/${workspace}/registerComponents/${type}/${id}/configuration`,
   },
 
   settings: {

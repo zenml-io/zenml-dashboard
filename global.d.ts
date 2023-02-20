@@ -67,7 +67,7 @@ interface TMember {
   created: Date;
   active: boolean;
   activation_token: string;
-  user: { 
+  user: {
     id: TId;
     organizationId: any;
     fullName: any;
@@ -76,13 +76,13 @@ interface TMember {
     created: Date;
     active: boolean;
     activation_token: any;
-  },
+  };
   roles: [
-   { 
-    id: string; 
-    name: string
-   } 
-  ]
+    {
+      id: string;
+      name: string;
+    },
+  ];
 }
 
 interface TWorkspace {
@@ -115,6 +115,7 @@ interface TPipeline {
   status: Array;
   configuration: object;
   spec?: any;
+  version: string;
 }
 interface TStack {
   id: TId;
@@ -128,7 +129,7 @@ interface TStack {
   userId: TId;
   createdAt: Date;
   type?: string;
-  flavor?: string;
+  flavor?: any;
   configuration?: any;
   workspace?: string;
   user?: any;

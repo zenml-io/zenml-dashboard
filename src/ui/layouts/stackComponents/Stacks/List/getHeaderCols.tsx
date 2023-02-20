@@ -65,7 +65,11 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph
+            size="small"
+            color="black"
+            style={{ fontSize: '12px', marginLeft: '25px' }}
+          >
             ID
           </Paragraph>
         </SortingHeader>
@@ -74,9 +78,19 @@ export const GetHeaderCols = ({
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={stackComponent.id}>
-            <Paragraph size="small">
-              {truncate(stackComponent.id, ID_MAX_LENGTH)}
-            </Paragraph>
+            <FlexBox.Row style={{ alignItems: 'center' }}>
+              {expendedRow?.length === 1 ? (
+                <icons.chevronDown
+                  color={iconColors.grey}
+                  size={iconSizes.xs}
+                />
+              ) : (
+                <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
+              )}
+              <Paragraph size="small" style={{ marginLeft: '20px' }}>
+                {truncate(stackComponent.id, ID_MAX_LENGTH)}
+              </Paragraph>
+            </FlexBox.Row>
           </div>
           <ReactTooltip id={stackComponent.id} place="top" effect="solid">
             <Paragraph color="white">{stackComponent.id}</Paragraph>
@@ -131,21 +145,41 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            FLAVOR
-          </Paragraph>
+          <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
+            <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '-24px' }}>
+              FLAVOR
+            </Paragraph>
+          </div>
         </SortingHeader>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={stackComponent.flavor}>
-            <Paragraph size="small" color="black">
-              {stackComponent.flavor}
-            </Paragraph>
+        <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
+          <div
+            data-tip
+            data-for={stackComponent?.flavor?.name || stackComponent?.flavor}
+            style={{ margin: ' 0 auto 0 auto' }}
+          >
+            <img
+              alt={stackComponent.flavor.logoUrl}
+              src={stackComponent.flavor.logoUrl}
+              style={{
+                height: '28px',
+                width: '28px',
+              }}
+            />
           </div>
-          <ReactTooltip id={stackComponent.flavor} place="top" effect="solid">
-            <Paragraph color="white">{stackComponent.flavor}</Paragraph>
+
+          <ReactTooltip
+            id={
+              // stackComponent?.flavor
+              //   ? stackComponent?.flavor
+              stackComponent?.flavor?.name || stackComponent?.flavor
+            }
+            place="top"
+            effect="solid"
+          >
+            <Paragraph color="white">{stackComponent.flavor.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -164,15 +198,21 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            SHARED
-          </Paragraph>
+          <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
+            <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '-24px' }}>
+              SHARED
+            </Paragraph>
+          </div>
         </SortingHeader>
       ),
       width: '15%',
       renderRow: (stackComponent: TStack) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={stackComponent.isShared}>
+        <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
+          <div
+            data-tip
+            data-for={stackComponent.isShared}
+            style={{ margin: '0 auto 0 auto' }}
+          >
             <Box>
               <FlexBox
                 justifyContent="center"

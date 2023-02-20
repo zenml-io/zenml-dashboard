@@ -6,7 +6,13 @@ import {
   stackPagesActions,
 } from '../../../../redux/actions';
 // import { workspaceSelectors } from '../../../../redux/selectors';
-import { useDispatch, useLocationPath, useSelector } from '../../../hooks';
+import {
+  useDispatch,
+  useLocation,
+  useLocationPath,
+  useParams,
+  useSelector,
+} from '../../../hooks';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { filterObjectForParam } from '../../../../utils';
@@ -26,21 +32,27 @@ export const useService = (): ServiceInterface => {
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
+  const location: any = useLocation();
+
+  console.log(location.state?.state, 'flavorName');
   const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
     setFetching(true);
-    dispatch(
-      stackComponentsActions.getMy({
-        workspace: selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
-        type: locationPath.split('/')[4],
-        sort_by: 'desc:created',
-        logical_operator: 'and',
-        page: 1,
-        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
-      }),
-    );
+
+    // dispatch(
+    //   stackComponentsActions.getMy({
+    //     workspace: selectedWorkspace
+    //       ? selectedWorkspace
+    //       : locationPath.split('/')[2],
+    //     type: locationPath.split('/')[4],
+    //     sort_by: 'desc:created',
+    //     logical_operator: 'and',
+    //     page: 1,
+    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+    //     onSuccess: () => setFetching(false),
+    //     onFailure: () => setFetching(false),
+    //   }),
+    // );
   }, [locationPath, selectedWorkspace]);
 
   const setFetching = (fetching: boolean) => {
@@ -69,9 +81,11 @@ export const callActionForStackComponentsForPagination = () => {
     setFetching(true);
     dispatch(
       stackComponentsActions.getMy({
-        workspace: selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+        workspace: selectedWorkspace
+          ? selectedWorkspace
+          : locationPath.split('/')[2],
         type: locationPath.split('/')[4],
-        sort_by: sortby ? sortby : 'created',
+        sort_by: sortby ? sortby : 'desc:created',
         logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
         page: page,
         size: size,

@@ -25,7 +25,7 @@ interface Props {
 export const List: React.FC<Props> = ({
   filter,
   pagination,
-  isExpended,
+  isExpended = false,
   id,
 }: // isExpended = false,
 Props) => {
@@ -66,7 +66,7 @@ Props) => {
 
   const openDetailPage = (stackComponent: TStack) => {
     setSelectedRunIds([]);
-
+    // debugger;
     if (id) {
       history.push(
         routePaths.stackComponents.base(
@@ -104,6 +104,7 @@ Props) => {
         //     ? activeSorting
         //     : 'created'
         // }
+        isExpended={isExpended}
         pagination={pagination}
         paginated={stackComponentsPaginated}
         loading={expendedRow.length > 0 ? false : fetching}

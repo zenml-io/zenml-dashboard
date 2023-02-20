@@ -54,6 +54,14 @@ const stackComponentActionTypes = {
   RUNS_GET_STACKCOMPONENT_FOR_ID: 'RUNS_GET_STACKCOMPONENT_FOR_ID',
 };
 
+const flavorActionTypes = {
+  FLAVORS_GET_FLAVORS_ALL: 'FLAVORS_GET_FLAVORS_ALL',
+  FLAVORS_GET_FLAVORS_TYPE: 'FLAVORS_GET_FLAVORS_TYPE',
+  // STACKCOMPONENTS_GET_STACKCOMPONENT_FOR_ID:
+  //   'STACKCOMPONENTS_GET_STACKCOMPONENT_FOR_ID',
+  // RUNS_GET_STACKCOMPONENT_FOR_ID: 'RUNS_GET_STACKCOMPONENT_FOR_ID',
+};
+
 const runActionTypes = {
   RUNS_GET_ALL_RUNS: 'RUNS_GET_ALL_RUNS',
   RUNS_GET_RUN_FOR_ID: 'RUNS_GET_RUN_FOR_ID',
@@ -79,6 +87,11 @@ const stackComponentPagesActionTypes = {
     'STACKCOMPONENT_PAGES_SET_SELECTED_RUN_IDS',
   STACKCOMPONENT_PAGES_SET_FETCHING: 'STACKCOMPONENT_PAGES_SET_FETCHING',
 };
+const flavorPagesActionTypes = {
+  STACKCOMPONENT_PAGES_SET_SELECTED_RUN_IDS:
+    'STACKCOMPONENT_PAGES_SET_SELECTED_RUN_IDS',
+  FLAVOR_PAGES_SET_FETCHING: 'FLAVOR_PAGES_SET_FETCHING',
+};
 
 export const actionTypes = {
   SHOW_TOASTER: 'SHOW_TOASTER',
@@ -95,6 +108,8 @@ export const actionTypes = {
   ...stackPagesActionTypes,
   ...stackComponentPagesActionTypes,
   ...stackComponentActionTypes,
+  ...flavorActionTypes,
+  ...flavorPagesActionTypes,
 };
 
 export const REQUESTED = 'REQUESTED';

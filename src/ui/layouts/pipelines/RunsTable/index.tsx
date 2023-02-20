@@ -12,6 +12,7 @@ interface Props {
   filter: any;
 }
 export const RunsTable: React.FC<{
+  isExpended?: boolean;
   pipelineId?: any;
   runIds: TId[];
   getSorted?: any;
@@ -24,6 +25,7 @@ export const RunsTable: React.FC<{
   filter?: any;
   id?: any;
 }> = ({
+  isExpended,
   pipelineId,
   getSorted,
   runIds,
@@ -74,6 +76,7 @@ export const RunsTable: React.FC<{
   };
 
   const headerCols = useHeaderCols({
+    isExpended,
     runs: sortedRuns,
     setRuns: setSortedRuns,
     activeSorting,

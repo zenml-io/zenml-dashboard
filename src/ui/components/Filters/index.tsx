@@ -50,6 +50,11 @@ export const getInitialFilterState = () => {
           type: 'string',
         },
         {
+          value: 'flavor',
+          label: 'Flavor',
+          type: 'string',
+        },
+        {
           value: 'user_id',
           label: 'Author',
           type: 'string',
@@ -152,6 +157,11 @@ export const getInitialFilterStateForPipeline = () => {
         {
           value: 'name',
           label: 'Name',
+          type: 'string',
+        },
+        {
+          value: 'version',
+          label: 'Version',
           type: 'string',
         },
         {
@@ -283,7 +293,7 @@ export const getInitialFilterStateForRuns = () => {
         },
         {
           value: 'pipeline_id',
-          label: 'Pipeline Name',
+          label: 'Pipeline',
           type: 'string',
         },
         {
@@ -572,9 +582,9 @@ const FilterComponent = ({
 
       return member[0].name;
     }
-    if (typeName === 'Pipeline Name') {
+    if (typeName === 'Pipeline') {
       const pipeline = pipelines.filter((item) => item.id === value);
-      return pipeline[0].name;
+      return `${pipeline[0].name} ( v${pipeline[0].version} )`;
     }
     if (typeName === 'Stack Name') {
       const stack = stacks.filter((item) => item.id === value);
@@ -617,7 +627,7 @@ const FilterComponent = ({
   }) as any;
   const pipelinesOptions = pipelines.map((item: any) => {
     return {
-      label: item.name as string,
+      label: `${item.name} ( v${item.version})` as string,
       value: item.id as string,
     };
   }) as any;
@@ -732,6 +742,23 @@ const FilterComponent = ({
           },
           filterValue: value,
         },
+        {
+          column: {
+            selectedValue: {
+              value: 'version',
+              label: 'Version',
+              type: 'string',
+            },
+          },
+          contains: {
+            selectedValue: {
+              value: 'contains',
+              label: 'Contains',
+              type: 'string',
+            },
+          },
+          filterValue: value,
+        },
       ]);
       localStorage.setItem('logical_operator', JSON.stringify('or'));
     } else {
@@ -807,8 +834,7 @@ const FilterComponent = ({
                         filter.column.selectedValue.label === 'Shared' ||
                         filter.column.selectedValue.label === 'Status'
                           ? 'is'
-                          : filter.column.selectedValue.label ===
-                              'Pipeline Name' ||
+                          : filter.column.selectedValue.label === 'Pipeline' ||
                             filter.column.selectedValue.label ===
                               'Stack Name' ||
                             filter.column.selectedValue.label === 'Author'

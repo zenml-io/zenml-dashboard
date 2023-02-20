@@ -16,9 +16,11 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.COMPLETED}>
             {() => (
-              <ColoredCircle color="green" size="xs">
-                <icons.check color={iconColors.white} size={iconSizes.xs} />
-              </ColoredCircle>
+              <div style={{ marginLeft: '-24px' }}>
+                <ColoredCircle color="green" size="xs">
+                  <icons.check color={iconColors.white} size={iconSizes.xs} />
+                </ColoredCircle>
+              </div>
             )}
           </If>
         </div>
@@ -28,15 +30,17 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
       </FlexBox>
 
       <FlexBox alignItems="center">
-        <div data-tip data-for={run.status}>
+        <div data-tip data-for={run.status} style={{ margin: '0 auto 0 auto' }}>
           <If condition={run.status === runStatus.RUNNING}>
             {() => (
-              <ColoredCircle color="secondary" size="xs">
-                <icons.inProgress
-                  color={iconColors.white}
-                  size={iconSizes.xs}
-                />
-              </ColoredCircle>
+              <div style={{ marginLeft: '-24px' }}>
+                <ColoredCircle color="secondary" size="xs">
+                  <icons.inProgress
+                    color={iconColors.white}
+                    size={iconSizes.xs}
+                  />
+                </ColoredCircle>
+              </div>
             )}
           </If>
         </div>
@@ -46,12 +50,14 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
       </FlexBox>
 
       <FlexBox alignItems="center">
-        <div data-tip data-for={run.status}>
+        <div data-tip data-for={run.status} style={{ margin: '0 auto 0 auto' }}>
           <If condition={run.status === runStatus.FAILED}>
             {() => (
-              <ColoredCircle color="red" size="xs">
-                <icons.close color={iconColors.white} size={iconSizes.xs} />
-              </ColoredCircle>
+              <div style={{ marginLeft: '-24px' }}>
+                <ColoredCircle color="red" size="xs">
+                  <icons.close color={iconColors.white} size={iconSizes.xs} />
+                </ColoredCircle>
+              </div>
             )}
           </If>
         </div>
@@ -61,12 +67,14 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
       </FlexBox>
 
       <FlexBox alignItems="center">
-        <div data-tip data-for={run.status}>
+        <div data-tip data-for={run.status} style={{ margin: '0 auto 0 auto' }}>
           <If condition={run.status === runStatus.CACHED}>
             {() => (
-              <ColoredCircle color="mustard" size="xs">
-                <icons.cached color={iconColors.white} size={iconSizes.xs} />
-              </ColoredCircle>
+              <div style={{ marginLeft: '-24px' }}>
+                <ColoredCircle color="mustard" size="xs">
+                  <icons.cached color={iconColors.white} size={iconSizes.xs} />
+                </ColoredCircle>
+              </div>
             )}
           </If>
         </div>
