@@ -5,14 +5,20 @@ import {
   EditField,
   Paragraph,
   Container,
+  FullWidthSpinner,
 } from '../../../../components';
 import styles from './index.module.scss';
 import { useService } from './useService';
 
 export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
-  const { stackComponent } = useService({
+  const { stackComponent, flavor } = useService({
     stackId,
   });
+  console.log(
+    stackComponent?.configuration,
+    'flavoflavorr',
+    flavor?.config_schema?.properties,
+  );
 
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
@@ -22,7 +28,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   const getFormElement = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
       return (
-        <Box style={{ width: '100%' }}>
+        <Box marginVertical={'md'} style={{ width: '100%' }}>
           <EditField
             disabled
             onChangeText={() => console.log('')}
@@ -38,7 +44,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     }
     if (typeof elementSchema === 'object') {
       return (
-        <Box style={{ width: '100%' }}>
+        <Box marginVertical={'xl'} style={{ width: '100%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -73,7 +79,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box marginBottom={'xl'} style={{ width: '100%' }}>
+        <Box marginVertical={'md'} style={{ width: '100%' }}>
           <Box>
             <FlexBox.Row justifyContent="space-between">
               <Paragraph>{titleCase(elementName)}</Paragraph>
@@ -86,6 +92,31 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
         </Box>
       );
     }
+  };
+
+  if (flavor === undefined) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
+  // const values = [...flavor?.config_schema?.properties];
+
+  let result = Object.keys(flavor?.config_schema?.properties).reduce(function (
+    r: any,
+    name: any,
+  ) {
+    return (
+      (r[name] =
+        flavor?.config_schema?.properties[name].type === 'string' &&
+        flavor?.config_schema?.properties[name].default === undefined
+          ? ''
+          : flavor?.config_schema?.properties[name].default),
+      r
+    );
+  },
+  {});
+
+  const mappedObject = {
+    ...result,
+    ...stackComponent?.configuration,
   };
 
   return (
@@ -132,9 +163,9 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           </Col>
         </Row> */}
 
-          {Object.keys(stackComponent?.configuration).map((key, ind) => (
+          {Object.keys(mappedObject).map((key, ind) => (
             // <Col xs={6} key={ind}>
-            <>{getFormElement(key, stackComponent?.configuration[key])}</>
+            <>{getFormElement(key, mappedObject[key])}</>
             // </Col>
           ))}
         </Container>
