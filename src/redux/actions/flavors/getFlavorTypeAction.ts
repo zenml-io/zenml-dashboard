@@ -9,11 +9,11 @@ export const getFlavorTypeAction = ({
   onSuccess,
   onFailure,
 }: {
-  page: number;
-  size: number;
-  type: string;
+  page?: number;
+  size?: number;
+  type?: string;
   name?: string;
-  onSuccess?: () => void;
+  onSuccess?: (res: any) => void;
   onFailure?: () => void;
 }): TRequestAction => ({
   type: flavorActionTypes.getFlavorAll.request,
