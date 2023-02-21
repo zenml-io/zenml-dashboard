@@ -5,16 +5,16 @@ export const getAllRunsAction = ({
   workspace,
   sort_by,
   logical_operator,
-  index,
-  max_size,
+  page,
+  size,
   filtersParam,
   onSuccess,
   onFailure,
 }: {
   sort_by: string;
   logical_operator: string;
-  index: number;
-  max_size: number;
+  page: number;
+  size: number;
   workspace: string;
   filtersParam?: object;
   onSuccess?: () => void;
@@ -30,8 +30,8 @@ export const getAllRunsAction = ({
       workspace,
       sort_by,
       logical_operator,
-      index,
-      max_size,
+      page,
+      size,
       filtersParam,
     },
     onSuccess,

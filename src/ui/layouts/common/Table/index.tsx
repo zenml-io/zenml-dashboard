@@ -299,8 +299,8 @@ export const Table: React.FC<TableProps> = ({
         setFetchingMembers(true);
         dispatch(
           organizationActions.getMembers({
-            index: 1,
-            max_size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+            page: 1,
+            size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
             sort_by: activeSorting,
             onSuccess: () => setFetchingMembers(false),
             onFailure: () => setFetchingMembers(false),

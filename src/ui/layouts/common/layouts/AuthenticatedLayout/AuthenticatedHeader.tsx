@@ -152,8 +152,8 @@ export const AuthenticatedHeader: React.FC<{
       pipelinesActions.getMy({
         sort_by: 'desc:created',
         logical_operator: 'and',
-        index: 1,
-        max_size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+        page: 1,
+        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         workspace: e?.name,
         onSuccess: () => stopLoad(),
         onFailure: () => stopLoad(),

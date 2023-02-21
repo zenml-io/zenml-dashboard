@@ -49,8 +49,8 @@ export const useService = ({
             sort_by: sortBy,
             logical_operator: 'and',
             stackComponentId: stackComponentId,
-            index: runsPaginated.page,
-            max_size: runsPaginated.size,
+            page: runsPaginated.page,
+            size: runsPaginated.size,
           }),
         );
       }, 5000);

@@ -9,7 +9,7 @@ const getMyStacksApi = ({
   sort_by,
   logical_operator,
   index,
-  max_size,
+  size,
   filtersParam,
   authenticationToken,
 }: {
@@ -18,7 +18,7 @@ const getMyStacksApi = ({
   sort_by: string;
   logical_operator: string;
   index: number;
-  max_size: number;
+  size: number;
   filtersParam?: object;
   authenticationToken: string;
 }): Promise<TStack> =>
@@ -29,7 +29,7 @@ const getMyStacksApi = ({
       sort_by,
       logical_operator,
       index,
-      max_size,
+      size,
       ...filtersParam,
     },
     method: httpMethods.get,

@@ -64,8 +64,8 @@ export const Organization: React.FC = () => {
     dispatch(rolesActions.getRoles({}));
     dispatch(
       organizationActions.getMembers({
-        index: 1,
-        max_size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+        page: 1,
+        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         onSuccess: () => setFetchingMembers(false),
         onFailure: () => setFetchingMembers(false),
       }),

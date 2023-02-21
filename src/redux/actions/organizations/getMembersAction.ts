@@ -3,15 +3,15 @@ import getMembersApi from '../../../api/organizations/getMembersApi';
 
 export const getMembersAction = ({
   sort_by,
-  index,
-  max_size,
+  page,
+  size,
   name,
   onSuccess,
   onFailure,
 }: {
   sort_by?: string;
-  index?: number;
-  max_size?: number;
+  page?: number;
+  size?: number;
   name?: string;
   onSuccess?: () => void;
   onFailure?: (err: any) => void;
@@ -22,7 +22,7 @@ export const getMembersAction = ({
     isAuthenticated: true,
     failureActionType: organizationActionTypes.getMembers.failure,
     successActionType: organizationActionTypes.getMembers.success,
-    params: { name, max_size, index, sort_by },
+    params: { name, size, page, sort_by },
     onSuccess,
     onFailure,
   },

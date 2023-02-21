@@ -100,8 +100,8 @@ export const useService = ({
           stackComponentsActions.getMy({
             sort_by: applySorting ? applySorting : 'created',
             logical_operator: 'and',
-            index: stackComponentsPaginated.page,
-            max_size: stackComponentsPaginated.size,
+            page: stackComponentsPaginated.page,
+            size: stackComponentsPaginated.size,
             type: locationPath.split('/')[4],
             workspace: selectedWorkspace
               ? selectedWorkspace

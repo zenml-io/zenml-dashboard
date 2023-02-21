@@ -29,8 +29,8 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
       //assign interval to a variable to clear it.
       dispatch(
         organizationActions.getMembers({
-          index: membersPaginated.page,
-          max_size: membersPaginated.size,
+          page: membersPaginated.page,
+          size: membersPaginated.size,
         }),
       );
     }, 5000);

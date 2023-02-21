@@ -5,16 +5,16 @@ export const getAllRunsByStackComponentId = ({
   stackComponentId,
   sort_by,
   logical_operator,
-  index,
-  max_size,
+  page,
+  size,
   filtersParam,
   onSuccess,
   onFailure,
 }: {
   sort_by: string;
   logical_operator: string;
-  index: number;
-  max_size: number;
+  page: number;
+  size: number;
   filtersParam?: any;
   stackComponentId: TId;
   onSuccess?: () => void;
@@ -33,8 +33,8 @@ export const getAllRunsByStackComponentId = ({
         sort_by,
         logical_operator,
         stackComponentId,
-        index,
-        max_size,
+        page,
+        size,
         filtersParam,
       },
       onSuccess,

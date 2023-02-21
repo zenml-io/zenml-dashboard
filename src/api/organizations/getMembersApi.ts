@@ -5,20 +5,20 @@ import { apiUrl } from '../apiUrl';
 
 const getMembersApi = ({
   sort_by,
-  index,
-  max_size,
+  page,
+  size,
   name,
   authenticationToken,
 }: {
   sort_by?: string;
-  index?: number;
-  max_size?: number;
+  page?: number;
+  size?: number;
   name?: string;
   authenticationToken: string;
 }): Promise<TMember[]> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.organizations.members),
-    params: { name, max_size, index, sort_by },
+    params: { name, size, page, sort_by },
     method: httpMethods.get,
     authenticationToken,
   });
