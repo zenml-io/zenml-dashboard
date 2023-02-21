@@ -116,7 +116,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
 
   const mappedObject = {
     ...result,
-    ...stackComponent?.configuration,
+    ...stackComponent?.configuration, 
   };
 
   return (
