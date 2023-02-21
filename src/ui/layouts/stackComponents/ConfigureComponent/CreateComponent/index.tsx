@@ -154,24 +154,30 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                     />
                   </div>
                   <div className=" col-sm-1">
+                    {console.log(
+                      inputFields,
+                      'inputFieldsinputFieldsinputFields',
+                    )}
                     <button
                       className={styles.fieldButton}
                       style={{ margin: '24px 0 2px 0' }}
                       type="button"
-                      disabled={index === 0}
+                      disabled={inputFields.length === 1}
                       onClick={() =>
                         handleRemoveFields(index, toSnakeCase(props.label))
                       }
                     >
                       <icons.minusCircle color={iconColors.primary} />
                     </button>
-                    <button
-                      className={styles.fieldButton}
-                      type="button"
-                      onClick={() => handleAddFields()}
-                    >
-                      <icons.plusCircle color={iconColors.primary} />
-                    </button>
+                    {index === inputFields.length - 1 && (
+                      <button
+                        className={styles.fieldButton}
+                        type="button"
+                        onClick={() => handleAddFields()}
+                      >
+                        <icons.plusCircle color={iconColors.primary} />
+                      </button>
+                    )}
                   </div>
                 </Fragment>
               ))}
