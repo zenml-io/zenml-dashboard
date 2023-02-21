@@ -6,8 +6,8 @@ export const getStackComponentListAction = ({
   sort_by,
   logical_operator,
   type,
-  index,
-  max_size,
+  page,
+  size,
   filtersParam,
   onSuccess,
   onFailure,
@@ -16,8 +16,8 @@ export const getStackComponentListAction = ({
   sort_by: string;
   logical_operator: string;
   type: TId;
-  index: number;
-  max_size: number;
+  page: number;
+  size: number;
   filtersParam?: object;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -33,8 +33,8 @@ export const getStackComponentListAction = ({
       sort_by,
       logical_operator,
       workspace,
-      index,
-      max_size,
+      page,
+      size,
       filtersParam,
     },
     onSuccess,

@@ -24,8 +24,8 @@ export const useService = (): ServiceInterface => {
       stacksActions.getMy({
         sort_by: 'desc:created',
         logical_operator: 'and',
-        index: 1,
-        max_size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+        page: 1,
+        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         workspace: selectedWorkspace as string,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),

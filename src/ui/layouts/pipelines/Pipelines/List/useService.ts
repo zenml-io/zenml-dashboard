@@ -82,8 +82,8 @@ export const useService = ({
             logical_operator: 'and',
             // name: '',
             workspace: selectedWorkspace,
-            index: pipelinesPaginated.page,
-            max_size: pipelinesPaginated.size,
+            page: pipelinesPaginated.page,
+            size: pipelinesPaginated.size,
           }),
         );
       }, 5000);

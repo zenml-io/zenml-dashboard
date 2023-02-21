@@ -4,8 +4,8 @@ import getFlavorAllApi from '../../../api/flavors/getFlavorAllApi';
 export const getFlavorAllAction = ({
   // sort_by,
   // logical_operator,
-  // index,
-  // max_size,
+  // page,
+  // size,
   // name,
   // filtersParam,
   // workspace,
@@ -14,8 +14,8 @@ export const getFlavorAllAction = ({
 }: {
   // sort_by?: string;
   // logical_operator?: string;
-  // index?: number;
-  // max_size?: number;
+  // page?: number;
+  // size?: number;
   // name?: string;
   // workspace?: string;
   // filtersParam?: object;

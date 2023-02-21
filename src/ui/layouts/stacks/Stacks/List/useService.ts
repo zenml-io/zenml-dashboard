@@ -78,8 +78,8 @@ export const useService = ({
             sort_by: applySorting ? applySorting : 'created',
             logical_operator: 'and',
             workspace: selectedWorkspace,
-            index: stacksPaginated.page,
-            max_size: stacksPaginated.size,
+            page: stacksPaginated.page,
+            size: stacksPaginated.size,
           }),
         );
       }, 5000);

@@ -59,8 +59,8 @@ const newState = (state: State, runs: TRun[], pagination?: any): State => ({
   ids: idsInsert(state.ids, runs),
   byId: byKeyInsert(state.byId, runs),
   paginated: {
-    index: pagination?.index,
-    max_size: pagination?.max_size,
+    page: pagination?.index,
+    size: pagination?.max_size,
     totalPages: pagination?.total_pages,
     totalitem: pagination?.total,
   },
