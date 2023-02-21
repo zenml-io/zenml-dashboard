@@ -44,12 +44,14 @@ export const FormTextField = (props: {
   error?: FieldError;
   disabled?: boolean;
   type?: string;
+  required?: string;
   name?: string;
   style?: any;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <FlexBox alignItems="center" fullWidth>
       <InputWithLabel
+        optional={props.required}
         name={props.name}
         label={props.label}
         labelColor={props.labelColor}
