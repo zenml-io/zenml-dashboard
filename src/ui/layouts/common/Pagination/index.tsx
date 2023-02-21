@@ -240,8 +240,8 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
         // setFetchingMembers(true);
         dispatch(
           organizationActions.getMembers({
-            page: page,
-            size: size,
+            index: page,
+            max_size: size,
             sort_by: activeSorting,
             // onSuccess: () => setFetchingMembers(false),
             // onFailure: () => setFetchingMembers(false),

@@ -84,7 +84,9 @@ export const AuthenticatedHeader: React.FC<{
       dispatch(
         workspacesActions.getMy({
           selectDefault: false,
-          selectedWorkspace: workspaceFromUrl ? workspaceFromUrl : selectedWorkspace,
+          selectedWorkspace: workspaceFromUrl
+            ? workspaceFromUrl
+            : selectedWorkspace,
         }),
       );
     }
@@ -150,15 +152,18 @@ export const AuthenticatedHeader: React.FC<{
       pipelinesActions.getMy({
         sort_by: 'desc:created',
         logical_operator: 'and',
-        page: 1,
-        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+        index: 1,
+        max_size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         workspace: e?.name,
         onSuccess: () => stopLoad(),
         onFailure: () => stopLoad(),
       }),
     );
     await dispatch(
-      workspacesActions.getMy({ selectDefault: false, selectedWorkspace: e?.name }),
+      workspacesActions.getMy({
+        selectDefault: false,
+        selectedWorkspace: e?.name,
+      }),
     );
   };
 
@@ -193,7 +198,9 @@ export const AuthenticatedHeader: React.FC<{
                   <FlexBox alignItems="center" className="d-none d-md-flex">
                     <Box paddingRight="sm" style={{ textAlign: 'end' }}>
                       <Paragraph>{userFullName}</Paragraph>
-                      <span className={styles.selectedWorkspace}>{selected}</span>
+                      <span className={styles.selectedWorkspace}>
+                        {selected}
+                      </span>
                     </Box>
                   </FlexBox>
                   <Box marginRight="sm">
@@ -243,7 +250,8 @@ export const AuthenticatedHeader: React.FC<{
                           marginTop="sm"
                           style={{
                             maxHeight: '290px',
-                            overflow: workspaces?.length > 10 ? 'auto' : 'hidden',
+                            overflow:
+                              workspaces?.length > 10 ? 'auto' : 'hidden',
                           }}
                         >
                           {workspaces.map((option, index) => (

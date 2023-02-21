@@ -7,22 +7,22 @@ const getAllRunsApi = ({
   workspace,
   sort_by,
   logical_operator,
-  page,
-  size,
+  index,
+  max_size,
   filtersParam,
   authenticationToken,
 }: {
   sort_by: string;
   logical_operator: string;
-  page: number;
-  size: number;
+  index: number;
+  max_size: number;
   authenticationToken: string;
   workspace: string;
   filtersParam?: object;
 }): Promise<TOrganization> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.runs.all(workspace)),
-    params: { sort_by, logical_operator, page, size, ...filtersParam },
+    params: { sort_by, logical_operator, index, max_size, ...filtersParam },
     method: httpMethods.get,
     authenticationToken,
   });

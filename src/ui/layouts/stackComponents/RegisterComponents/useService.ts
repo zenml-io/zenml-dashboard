@@ -36,8 +36,8 @@ export const useService = (): ServiceInterface => {
     } else {
       dispatch(
         flavorsActions.getType({
-          page: 1,
-          size: 8,
+          index: 1,
+          max_size: 8,
           type: locationPath.split('/')[4],
           onSuccess: () => setFetching(false),
           onFailure: () => setFetching(false),
@@ -69,8 +69,8 @@ export const callActionForFlavorsForPagination = () => {
     dispatch(
       flavorsActions.getType({
         type,
-        page: page,
-        size: size,
+        index: page,
+        max_size: size,
         name: search,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
