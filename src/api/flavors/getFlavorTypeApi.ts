@@ -6,19 +6,19 @@ import { apiUrl } from '../apiUrl';
 const getFlavorTypeApi = ({
   authenticationToken,
   type,
-  page,
-  size,
+  index,
+  max_size,
   name,
 }: {
-  page: number;
-  size: number;
+  index: number;
+  max_size: number;
   type: string;
   name?: string;
   authenticationToken: string;
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.flavors.type),
-    params: { type, page, size, name },
+    params: { type, index, max_size, name },
     method: httpMethods.get,
     authenticationToken,
   });

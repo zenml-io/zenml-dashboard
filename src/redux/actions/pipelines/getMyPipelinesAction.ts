@@ -4,8 +4,8 @@ import getMyPipelinesApi from '../../../api/pipelines/getMyPipelinesApi';
 export const getMyPipelinesAction = ({
   sort_by,
   logical_operator,
-  page,
-  size,
+  index,
+  max_size,
   name,
   filtersParam,
   workspace,
@@ -14,8 +14,8 @@ export const getMyPipelinesAction = ({
 }: {
   sort_by?: string;
   logical_operator?: string;
-  page?: number;
-  size?: number;
+  index?: number;
+  max_size?: number;
   name?: string;
   workspace?: string;
   filtersParam?: object;
@@ -32,8 +32,8 @@ export const getMyPipelinesAction = ({
       workspace,
       sort_by,
       logical_operator,
-      page,
-      size,
+      index,
+      max_size,
       name,
       filtersParam,
     },

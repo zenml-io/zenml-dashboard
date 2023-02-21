@@ -8,8 +8,8 @@ const getMyStacksApi = ({
   workspace,
   sort_by,
   logical_operator,
-  page,
-  size,
+  index,
+  max_size,
   filtersParam,
   authenticationToken,
 }: {
@@ -17,8 +17,8 @@ const getMyStacksApi = ({
   workspace: string;
   sort_by: string;
   logical_operator: string;
-  page: number;
-  size: number;
+  index: number;
+  max_size: number;
   filtersParam?: object;
   authenticationToken: string;
 }): Promise<TStack> =>
@@ -28,8 +28,8 @@ const getMyStacksApi = ({
       component_id,
       sort_by,
       logical_operator,
-      page,
-      size,
+      index,
+      max_size,
       ...filtersParam,
     },
     method: httpMethods.get,

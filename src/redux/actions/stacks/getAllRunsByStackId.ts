@@ -5,16 +5,16 @@ export const getAllRunsByStackId = ({
   stackId,
   sort_by,
   logical_operator,
-  page,
-  size,
+  index,
+  max_size,
   filtersParam,
   onSuccess,
   onFailure,
 }: {
   sort_by: string;
   logical_operator: string;
-  page: number;
-  size: number;
+  index: number;
+  max_size: number;
   filtersParam?: any;
   stackId: TId;
   onSuccess?: () => void;
@@ -27,7 +27,14 @@ export const getAllRunsByStackId = ({
       isAuthenticated: true,
       failureActionType: stackActionTypes.getRunsByStackId.failure,
       successActionType: stackActionTypes.getRunsByStackId.success,
-      params: { sort_by, logical_operator, stackId, page, size, filtersParam },
+      params: {
+        sort_by,
+        logical_operator,
+        stackId,
+        index,
+        max_size,
+        filtersParam,
+      },
       onSuccess,
       onFailure,
     },

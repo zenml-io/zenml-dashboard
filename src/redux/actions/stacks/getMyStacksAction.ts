@@ -6,9 +6,9 @@ export const getMyStacksAction = ({
   workspace,
   sort_by,
   logical_operator,
-  page,
+  index,
   name,
-  size,
+  max_size,
   filtersParam,
   onSuccess,
   onFailure,
@@ -18,8 +18,8 @@ export const getMyStacksAction = ({
   workspace?: string;
   sort_by?: string;
   logical_operator?: string;
-  page?: number;
-  size?: number;
+  index?: number;
+  max_size?: number;
   filtersParam?: object;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -36,8 +36,8 @@ export const getMyStacksAction = ({
       name,
       sort_by,
       logical_operator,
-      page,
-      size,
+      index,
+      max_size,
       filtersParam,
     },
     onSuccess,

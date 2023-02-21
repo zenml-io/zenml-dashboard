@@ -2,15 +2,15 @@ import { flavorActionTypes } from '../../actionTypes';
 import getFlavorTypeApi from '../../../api/flavors/getFlavorTypeApi';
 
 export const getFlavorTypeAction = ({
-  page,
-  size,
+  index,
+  max_size,
   type,
   name,
   onSuccess,
   onFailure,
 }: {
-  page?: number;
-  size?: number;
+  index?: number;
+  max_size?: number;
   type?: string;
   name?: string;
   onSuccess?: (res: any) => void;
@@ -24,8 +24,8 @@ export const getFlavorTypeAction = ({
     successActionType: flavorActionTypes.getFlavorType.success,
     params: {
       type,
-      page,
-      size,
+      index,
+      max_size,
       name,
     },
     onSuccess,

@@ -5,8 +5,8 @@ export const getAllRunsByPipelineId = ({
   pipelineId,
   sort_by,
   logical_operator,
-  page,
-  size,
+  index,
+  max_size,
   filtersParam,
   onSuccess,
   onFailure,
@@ -14,8 +14,8 @@ export const getAllRunsByPipelineId = ({
   sort_by: string;
   logical_operator: string;
   pipelineId: TId;
-  page: number;
-  size: number;
+  index: number;
+  max_size: number;
   filtersParam?: any;
   onSuccess?: () => void;
   onFailure?: () => void;
@@ -31,8 +31,8 @@ export const getAllRunsByPipelineId = ({
         pipelineId,
         sort_by,
         logical_operator,
-        page,
-        size,
+        index,
+        max_size,
         filtersParam,
       },
       onSuccess,
