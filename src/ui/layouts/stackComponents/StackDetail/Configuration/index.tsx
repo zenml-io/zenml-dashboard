@@ -48,6 +48,32 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
+          {Object.keys(elementSchema).length < 1 && (
+            <FlexBox.Row>
+              <EditField
+                disabled
+                onChangeText={() => console.log('')}
+                label="Key"
+                optional={false}
+                value={''}
+                placeholder=""
+                hasError={false}
+                className={styles.field}
+              />
+              <div style={{ width: '10%' }}></div>
+              <EditField
+                disabled
+                // marginRight={'md'}
+                onChangeText={() => console.log('')}
+                label="Value"
+                // optional={true}
+                value={''}
+                placeholder=""
+                hasError={false}
+                className={styles.field}
+              />
+            </FlexBox.Row>
+          )}
           {Object.entries(elementSchema).map(([key, value]) => (
             <FlexBox.Row>
               <EditField
