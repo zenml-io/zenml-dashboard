@@ -93,6 +93,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     } else {
       values[index].value = event;
     }
+    setInputFields(values);
     const keys = values.map((object) => object.key);
     const value = values.map((object) => object.value);
     var result: any = {};
@@ -136,13 +137,13 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
             <div className="form-row">
               {inputFields.map((inputField: any, index: any) => (
                 <Fragment key={`${inputField}~${index}`}>
-                  <div className="form-group col-sm-6">
+                  <div className="form-group col-sm-5">
                     <FormTextField
                       onChange={(event: any) =>
                         handleInputChange(index, event, props.label, 'key')
                       }
                       label={'Key'}
-                      value={inputField[index]?.key}
+                      value={inputField?.key}
                       placeholder={''}
                     />
                   </div>
@@ -152,36 +153,49 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                         handleInputChange(index, event, props.label, 'value')
                       }
                       label={'Value'}
-                      value={inputField[index]?.value}
+                      value={inputField?.value}
                       placeholder={''}
                     />
                   </div>
-                  <div className=" col-sm-1">
-                    {console.log(
-                      inputFields,
-                      'inputFieldsinputFieldsinputFields',
-                    )}
-                    <button
-                      className={styles.fieldButton}
-                      style={{ margin: '24px 0 2px 0' }}
-                      type="button"
-                      disabled={inputFields.length === 1}
-                      onClick={() =>
-                        handleRemoveFields(index, toSnakeCase(props.label))
-                      }
+                  <div
+                    className="col-sx-2 "
+                    style={{
+                      justifyContent: 'space-between',
+                      display: 'flex',
+                      marginTop: '10px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
                     >
-                      <icons.minusCircle color={iconColors.primary} />
-                    </button>
-                    {index === inputFields.length - 1 && (
                       <button
                         className={styles.fieldButton}
+                        style={{}}
                         type="button"
-                        onClick={() => handleAddFields()}
+                        disabled={inputFields.length === 1}
+                        onClick={() =>
+                          handleRemoveFields(index, toSnakeCase(props.label))
+                        }
                       >
-                        <icons.plusCircle color={iconColors.primary} />
+                        <icons.minusCircle color={iconColors.primary} />
                       </button>
-                    )}
+                      {index === inputFields.length - 1 && (
+                        <button
+                          className={styles.fieldButton}
+                          type="button"
+                          onClick={() => handleAddFields()}
+                        >
+                          <icons.plusCircle color={iconColors.primary} />
+                        </button>
+                      )}
+                    </div>
                   </div>
+                  {/* </div> */}
                 </Fragment>
               ))}
             </div>
