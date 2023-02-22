@@ -10,12 +10,10 @@ export const CustomFlavourBox: React.FC<{
   onSelectFlavor: any;
 }> = ({ flavourName, flavourDesc, logoUrl, onSelectFlavor }) => {
   const [select, setSelect] = useState(false);
-  const formatText = (text: string) => {
-    const removeUnderscore = text.replace('_', ' ');
-    return removeUnderscore.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
-      letter.toUpperCase(),
+  const titleCase = (s: any) =>
+    s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
+      c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
-  };
   return (
     <Box
       paddingHorizontal="sm2"
@@ -39,7 +37,7 @@ export const CustomFlavourBox: React.FC<{
           className={styles.flavourName}
           style={{ color: select ? '#fff' : '#443E99' }}
         >
-          {formatText(flavourName)}
+          {titleCase(flavourName)}
         </Paragraph>
       </Box>
 

@@ -4,6 +4,7 @@ import {
   Box,
   FlexBox,
   FormTextField,
+  FullWidthSpinner,
   H2,
   Paragraph,
   icons,
@@ -30,6 +31,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   // const [validationSchema, setValidationSchema] = useState({});
   const user = useSelector(userSelectors.myUser);
@@ -91,6 +93,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     } else {
       values[index].value = event;
     }
+    setInputFields(values);
     const keys = values.map((object) => object.key);
     const value = values.map((object) => object.value);
     var result: any = {};
@@ -134,13 +137,13 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
             <div className="form-row">
               {inputFields.map((inputField: any, index: any) => (
                 <Fragment key={`${inputField}~${index}`}>
-                  <div className="form-group col-sm-6">
+                  <div className="form-group col-sm-5">
                     <FormTextField
                       onChange={(event: any) =>
                         handleInputChange(index, event, props.label, 'key')
                       }
                       label={'Key'}
-                      value={inputField[index]?.key}
+                      value={inputField?.key}
                       placeholder={''}
                     />
                   </div>
@@ -150,36 +153,49 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                         handleInputChange(index, event, props.label, 'value')
                       }
                       label={'Value'}
-                      value={inputField[index]?.value}
+                      value={inputField?.value}
                       placeholder={''}
                     />
                   </div>
-                  <div className=" col-sm-1">
-                    {console.log(
-                      inputFields,
-                      'inputFieldsinputFieldsinputFields',
-                    )}
-                    <button
-                      className={styles.fieldButton}
-                      style={{ margin: '24px 0 2px 0' }}
-                      type="button"
-                      disabled={inputFields.length === 1}
-                      onClick={() =>
-                        handleRemoveFields(index, toSnakeCase(props.label))
-                      }
+                  <div
+                    className="col-sx-2 "
+                    style={{
+                      justifyContent: 'space-between',
+                      display: 'flex',
+                      marginTop: '10px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
                     >
-                      <icons.minusCircle color={iconColors.primary} />
-                    </button>
-                    {index === inputFields.length - 1 && (
                       <button
                         className={styles.fieldButton}
+                        style={{}}
                         type="button"
-                        onClick={() => handleAddFields()}
+                        disabled={inputFields.length === 1}
+                        onClick={() =>
+                          handleRemoveFields(index, toSnakeCase(props.label))
+                        }
                       >
-                        <icons.plusCircle color={iconColors.primary} />
+                        <icons.minusCircle color={iconColors.primary} />
                       </button>
-                    )}
+                      {index === inputFields.length - 1 && (
+                        <button
+                          className={styles.fieldButton}
+                          type="button"
+                          onClick={() => handleAddFields()}
+                        >
+                          <icons.plusCircle color={iconColors.primary} />
+                        </button>
+                      )}
+                    </div>
                   </div>
+                  {/* </div> */}
                 </Fragment>
               ))}
             </div>
@@ -197,7 +213,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       return (
         <TextField
           {...props}
-          required={flavor.configSchema.required.includes(elementName)}
+          required={flavor?.configSchema?.required?.includes(elementName)}
           // disable={
           //   elementSchema.default &&
           //   (elementSchema.type === 'string' ||
@@ -222,11 +238,11 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   };
 
   const onSubmit = async (values: any) => {
-    const requiredField = flavor.configSchema.required.filter(
+    const requiredField = flavor?.configSchema?.required?.filter(
       (item: any) => inputData[item],
     );
     console.log('requiredField', requiredField);
-    if (requiredField.length !== flavor.configSchema.required.length) {
+    if (requiredField?.length !== flavor?.configSchema?.required?.length) {
       dispatch(
         showToasterAction({
           description: 'Required Field is Empty',
@@ -256,6 +272,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       flavor: flavor.name,
       configuration: { ...inputData },
     };
+    setLoading(true);
     await axios
       .post(
         `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/components`,
@@ -265,6 +282,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       )
       .then((response) => {
         const id = response.data.id;
+        setLoading(false);
         dispatch(
           showToasterAction({
             description: 'Component has been created successfully',
@@ -282,6 +300,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         );
       })
       .catch((err) => {
+        setLoading(false);
         dispatch(
           showToasterAction({
             description: err?.response?.data?.detail[0],
@@ -290,6 +309,10 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         );
       });
   };
+  if (loading) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
+
   return (
     <Box>
       <Box style={{ width: '100%', marginTop: '-30px' }} marginBottom="lg">
