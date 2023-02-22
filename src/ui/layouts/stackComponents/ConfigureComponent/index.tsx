@@ -29,7 +29,10 @@ export const RegisterComponents: React.FC = () => {
   const workspace = selectedWorkspace
     ? selectedWorkspace
     : DEFAULT_WORKSPACE_NAME;
-  //   debugger;
+  const titleCase = (s: any) =>
+    s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
+      c ? c.toUpperCase() : ' ' + d.toUpperCase(),
+    );
   return (
     <BasePage
       fromConfigureComponent={true}
@@ -68,7 +71,7 @@ export const RegisterComponents: React.FC = () => {
           ),
         },
         {
-          name: flavor.name,
+          name: titleCase(flavor.name),
           clickable: false,
           to: routePaths.stackComponents.configureComponent(
             locationPath.split('/')[4],

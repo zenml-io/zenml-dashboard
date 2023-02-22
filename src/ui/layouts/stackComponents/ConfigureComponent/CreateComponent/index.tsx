@@ -4,6 +4,7 @@ import {
   Box,
   FlexBox,
   FormTextField,
+  FullWidthSpinner,
   H2,
   Paragraph,
   icons,
@@ -30,6 +31,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
+  const [loading, setLoading] = useState(false);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   // const [validationSchema, setValidationSchema] = useState({});
   const user = useSelector(userSelectors.myUser);
@@ -197,7 +199,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       return (
         <TextField
           {...props}
-          required={flavor.configSchema.required.includes(elementName)}
+          required={flavor?.configSchema?.required?.includes(elementName)}
           // disable={
           //   elementSchema.default &&
           //   (elementSchema.type === 'string' ||
@@ -222,11 +224,11 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   };
 
   const onSubmit = async (values: any) => {
-    const requiredField = flavor.configSchema.required.filter(
+    const requiredField = flavor?.configSchema?.required?.filter(
       (item: any) => inputData[item],
     );
     console.log('requiredField', requiredField);
-    if (requiredField.length !== flavor.configSchema.required.length) {
+    if (requiredField?.length !== flavor?.configSchema?.required?.length) {
       dispatch(
         showToasterAction({
           description: 'Required Field is Empty',
@@ -256,6 +258,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       flavor: flavor.name,
       configuration: { ...inputData },
     };
+    setLoading(true);
     await axios
       .post(
         `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/components`,
@@ -265,6 +268,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       )
       .then((response) => {
         const id = response.data.id;
+        setLoading(false);
         dispatch(
           showToasterAction({
             description: 'Component has been created successfully',
@@ -282,6 +286,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         );
       })
       .catch((err) => {
+        setLoading(false);
         dispatch(
           showToasterAction({
             description: err?.response?.data?.detail[0],
@@ -290,6 +295,10 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         );
       });
   };
+  if (loading) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
+
   return (
     <Box>
       <Box style={{ width: '100%', marginTop: '-30px' }} marginBottom="lg">

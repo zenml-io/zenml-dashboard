@@ -25,7 +25,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
 
-  const getFormElement = (elementName: any, elementSchema: any) => {
+  const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
       return (
         <Box marginVertical={'md'} style={{ width: '100%' }}>
@@ -142,7 +142,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
 
   const mappedObject = {
     ...result,
-    ...stackComponent?.configuration, 
+    ...stackComponent?.configuration,
   };
 
   return (
