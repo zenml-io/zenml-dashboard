@@ -41,6 +41,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     { key: '', value: '' },
   ]) as any;
   const history = useHistory();
+  console.log(flavor, 'flavorflavor');
   useEffect(() => {
     let setDefaultData = {};
     initForm(flavor.configSchema.properties);
@@ -154,24 +155,30 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                     />
                   </div>
                   <div className=" col-sm-1">
+                    {console.log(
+                      inputFields,
+                      'inputFieldsinputFieldsinputFields',
+                    )}
                     <button
                       className={styles.fieldButton}
                       style={{ margin: '24px 0 2px 0' }}
                       type="button"
-                      disabled={index === 0}
+                      disabled={inputFields.length === 1}
                       onClick={() =>
                         handleRemoveFields(index, toSnakeCase(props.label))
                       }
                     >
                       <icons.minusCircle color={iconColors.primary} />
                     </button>
-                    <button
-                      className={styles.fieldButton}
-                      type="button"
-                      onClick={() => handleAddFields()}
-                    >
-                      <icons.plusCircle color={iconColors.primary} />
-                    </button>
+                    {index === inputFields.length - 1 && (
+                      <button
+                        className={styles.fieldButton}
+                        type="button"
+                        onClick={() => handleAddFields()}
+                      >
+                        <icons.plusCircle color={iconColors.primary} />
+                      </button>
+                    )}
                   </div>
                 </Fragment>
               ))}
@@ -190,6 +197,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       return (
         <TextField
           {...props}
+          required={flavor.configSchema.required.includes(elementName)}
           // disable={
           //   elementSchema.default &&
           //   (elementSchema.type === 'string' ||
@@ -214,6 +222,19 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   };
 
   const onSubmit = async (values: any) => {
+    const requiredField = flavor.configSchema.required.filter(
+      (item: any) => inputData[item],
+    );
+    console.log('requiredField', requiredField);
+    if (requiredField.length !== flavor.configSchema.required.length) {
+      dispatch(
+        showToasterAction({
+          description: 'Required Field is Empty',
+          type: toasterTypes.failure,
+        }),
+      );
+      return false;
+    }
     if (!componentName) {
       dispatch(
         showToasterAction({
@@ -281,6 +302,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
             onChange={(e: any) => {
               setComponentName(e);
             }}
+            required={'*'}
             placeholder="Component Name"
             label={'Component Name'}
             value={componentName}
