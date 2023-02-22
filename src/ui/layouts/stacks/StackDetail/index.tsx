@@ -20,7 +20,7 @@ import { List } from '../Stacks/List';
 import { Box, FlexBox, PrimaryButton } from '../../../components';
 import { StackBox } from '../../common/StackBox';
 
-import logo from '../../../assets/logo.svg'
+import logo from '../../../assets/logo.svg';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -68,13 +68,24 @@ const getTabPages = (
           >
             {tiles &&
               tiles.map((tile: any, index: number) => (
-                <Box key={index} className={styles.tile} marginLeft='lg'>
-                  <StackBox image={logo} stackName={tile.type} stackDesc={tile.name} />
+                <Box key={index} className={styles.tile} marginLeft="lg">
+                  <StackBox
+                    image={logo}
+                    stackName={tile.type}
+                    stackDesc={tile.name}
+                  />
                 </Box>
               ))}
           </FlexBox.Row>
 
-          <PrimaryButton className={styles.createButton}>Create Stack</PrimaryButton>
+          <PrimaryButton
+            className={styles.createButton}
+            onClick={() => {
+              history.push(routePaths.stacks.createStack(selectedWorkspace));
+            }}
+          >
+            Create Stack
+          </PrimaryButton>
         </Box>
       ),
       path: routePaths.stack.components(stackId, selectedWorkspace),
