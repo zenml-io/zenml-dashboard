@@ -13,14 +13,14 @@ export const getStackComponentListAction = ({
   onFailure,
 }: {
   workspace: string;
-  sort_by: string;
-  logical_operator: string;
+  sort_by?: string;
+  logical_operator?: string;
   type: TId;
   page: number;
   size: number;
   filtersParam?: object;
-  onSuccess?: () => void;
-  onFailure?: () => void;
+  onSuccess?: (res: any) => void;
+  onFailure?: (res: any) => void;
 }): TRequestAction => ({
   type: stackComponentActionTypes.getStackComponentList.request,
   payload: {
