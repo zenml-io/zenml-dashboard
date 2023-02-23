@@ -17,10 +17,16 @@ import FilterComponent, {
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { List } from '../Stacks/List';
-import { Box, FlexBox, PrimaryButton } from '../../../components';
+import {
+  Box,
+  FlexBox,
+  // FullWidthSpinner,
+  PrimaryButton,
+} from '../../../components';
 import { StackBox } from '../../common/StackBox';
 
 import logo from '../../../assets/logo.svg';
+import { GetFlavorsListForLogo } from '../../stackComponents/Stacks/List/GetFlavorsListForLogo';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -70,9 +76,9 @@ const getTabPages = (
               tiles.map((tile: any, index: number) => (
                 <Box key={index} className={styles.tile} marginLeft="lg">
                   <StackBox
-                    image={logo}
-                    stackName={tile.type}
-                    stackDesc={tile.name}
+                    image={tile.logo}
+                    stackName={tile.name}
+                    stackDesc={tile.type}
                   />
                 </Box>
               ))}
@@ -135,14 +141,42 @@ export const StackDetail: React.FC = () => {
   const { stack } = useService();
   const history = useHistory();
   const nestedRowtiles = [];
-  for (const [key] of Object.entries(stack.components)) {
-    nestedRowtiles.push({
-      type: key,
-      name: stack.components[key][0].name,
-      id: stack.components[key][0].id,
-    });
-  }
+  const { flavourList } = GetFlavorsListForLogo();
+  // const stackComponentsMap = stackComponents.map((item) => {
+  //   const temp: any = flavourList.find(
+  //     (fl: any) => fl.name === item.flavor && fl.type === item.type,
+  //   );
+  //   if (temp) {
+  //     return {
+  //       ...item,
+  //       flavor: {
+  //         logoUrl: temp.logo_url,
+  //         name: item.flavor,
+  //       },
+  //     };
+  //   }
+  //   return item;
+  // });
+
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+
+  if (flavourList.length > 1) {
+    for (const [key] of Object.entries(stack.components)) {
+      const { logo_url }: any = flavourList.find(
+        (fl: any) =>
+          fl.name === stack.components[key][0].flavor &&
+          fl.type === stack.components[key][0].type,
+      );
+      console.log(logo, 'flavourListflavourList');
+
+      nestedRowtiles.push({
+        type: key,
+        name: stack.components[key][0].name,
+        id: stack.components[key][0].id,
+        logo: logo_url,
+      });
+    }
+  }
 
   const tabPages = getTabPages(
     stack.id,
