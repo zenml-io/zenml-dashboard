@@ -31,7 +31,7 @@ export const CreateStack: React.FC = () => {
       // fromRegisterComponent={true}
       tabPages={[
         {
-          text: 'Create Stacks Component',
+          text: '',
           Component: () => <ListForAll></ListForAll>,
           path: routePaths.stacks.createStack(
             selectedWorkspace

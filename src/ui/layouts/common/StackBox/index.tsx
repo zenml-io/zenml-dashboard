@@ -5,12 +5,10 @@ import styles from './index.module.scss';
 import imageAddIcon from '../../../assets/imageAddIcon.svg';
 
 export const StackBox: React.FC<{
-  showCheckbox?: boolean; 
-  image: any;
+  image?: any;
   stackName: string;
   stackDesc: string;
-}> = ({ showCheckbox, image, stackName, stackDesc }) => {
-  // const [select, setSelect] = useState(false);
+}> = ({ image, stackName, stackDesc }) => {
   const [selectedImage, setSelectedImage] = useState<any>(image);
 
   const previewImage = (e: any) => {
@@ -24,7 +22,6 @@ export const StackBox: React.FC<{
       paddingVertical="sm2"
       className={styles.stackBox}
     >
-      {showCheckbox && <input type='checkbox' className={styles.checkbox} />}
       <Box className={styles.imageWrapper}>
         <Box className={styles.imageContainer}>
           {selectedImage ? (

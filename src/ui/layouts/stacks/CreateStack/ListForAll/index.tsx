@@ -14,20 +14,23 @@ import React from 'react';
 //   // stackComponentSelectors,
 //   flavorSelectors,
 // } from '../../../../../redux/selectors';
-// import {
-//   Box,
-//   FlexBox,
-//   FullWidthSpinner,
-//   Paragraph,
-//   SearchInputField,
-//   Row,
-// } from '../../../../components';
+import {
+  Box,
+  FlexBox,
+  // Paragraph,
+  // SearchInputField,
+  // Row,
+  H2,
+  FormTextField,
+  H3,
+} from '../../../../components';
+import { ToggleField } from '../../../common/FormElement';
 // import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
-// import { FlavourBox } from '../../../common/FlavourBox';
-// import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
+import { StackBox } from '../../../common/StackBox';
+import { CustomStackBox } from '../../../common/CustomStackBox';
+import logo from '../../../../assets/logo.svg'
 // import { callActionForFlavorsForPagination } from '../useService';
 // import { SidePopup } from '../../../common/SidePopup';
-// import { routePaths } from '../../../../../routes/routePaths';
 
 interface Props {
   // type: string;
@@ -66,109 +69,87 @@ export const ListForAll: React.FC<Props> = () => {
   //   );
   // };
 
-  // const textStyle = {
-  //   color: 'rgba(66, 66, 64, 0.5)',
-  //   fontSize: '18px',
-  //   lineHeight: '22px',
-  // };
-  // const routeExsiting = () => {
-  //   setShowModal(false);
-  //   history.push(routePaths.stackComponents.base(type, selectedWorkspace), {
-  //     state: selectedFlavor.name,
-  //   });
-  // };
-
+  const helperTextStyle = {
+    fontSize: '16px', 
+    color: '#A8A8A8', 
+    marginLeft: '10px',
+    marginTop: '-3px'
+  };
+  
   return (
-    <>
-      {/* <FlexBox.Column fullWidth>
-        <div style={{ marginBottom: '-30px' }}>
-          <SearchInputField
-            placeholder={'Search'}
-            value={text}
-            // disabled={applyFilter || showInBar}
-            onChange={(value: string) => {
-              setText(value);
-              handleValueFieldChangeOnSearch(`${'contains:' + value}`);
-            }}
-          />
-        </div>
-        {fetching ? (
-          <FullWidthSpinner color="black" size="md" />
-        ) : allFlavors.length ? (
-          <>
-            <FlexBox>
-              <Row>
-                <Box marginVertical={'sm'} style={{ marginLeft: '30px' }}>
-                  <FlavourBox
-                    flavourDesc={'Configure and create a custom flavor'}
-                    flavourName={'Create Custom Flavour'}
-                  />
-                </Box>
-
-                {allFlavors.map((item, index) => {
-                  return (
-                    <Row key={index} style={{ marginLeft: '15px' }}>
-                      {console.log(item, 'item.nameitem.name')}
-                      <Box marginVertical={'sm'} marginHorizontal={'md'}>
-                        <CustomFlavourBox
-                          flavourDesc={item.configSchema.description}
-                          flavourName={item.name}
-                          logoUrl={item.logoUrl}
-                          onSelectFlavor={() => onSelectFlavor(item)}
-                        />
-                      </Box>
-                    </Row>
-                  );
-                })}
-              </Row>
-            </FlexBox>
-            <div style={{ marginTop: '-10px' }}>
-              <PaginationWithPageSize
-                flavors={allFlavors}
-                type={type}
-                paginated={flavorsPaginated}
-                pagination={allFlavors.length ? true : false}
-              ></PaginationWithPageSize>
-            </div>
-          </>
-        ) : (
-          <FlexBox.Column fullWidth>
-            <Box marginVertical="md">
-              <Paragraph style={textStyle}>“{text}” Not found. </Paragraph>
-              <Paragraph style={textStyle}>
-                But don’t worry we have noted your search and it soon will be
-                available
-              </Paragraph>
-              <Paragraph style={textStyle}>
-                In meanwhile You can always{' '}
-                <span style={{ color: '#443E99', textDecoration: 'underline' }}>
-                  create your own stack components
-                </span>{' '}
-                to integrate tools easily with ZenML
-              </Paragraph>
-              <Paragraph style={textStyle}>Or check our roadmap</Paragraph>
-            </Box>
-
-            <iframe
-              title="Zenml"
-              style={{
-                border: '0px',
-                height: '100vh',
-                width: '100%',
-              }}
-              src="https://zenml.hellonext.co/embed/roadmap?no_header=true"
-            />
-          </FlexBox.Column>
+    <Box style={{ width: '100%' }}>
+      <Box>
+        <H2 style={{ fontWeight: 'bolder' }} >Register a Stack</H2>
+      </Box>
+    
+      <Box marginTop='lg'>
+        <FlexBox.Row>
+          <Box style={{ width: '30%' }}>
+            <FormTextField
+                onChange={(e: any) => {}}
+                placeholder="Stack Name"
+                label={'Enter Stack Name'}
+                value=""
+              />
+          </Box>
+          <Box marginLeft='xxxl' marginTop='md' style={{ width: '30%' }}>
+              <ToggleField
+                label={'Share Stack with public'}
+                onHandleChange={(key: any, value: any) => {}}
+              />
+          </Box>
+        </FlexBox.Row>
+      </Box>
+    
+    <Box marginTop='md' style={{ overflowX: 'auto' }}>
+      <FlexBox.Row alignItems='center'>
+        <H3 style={{ fontWeight: 'bold' }}>Orchestrator</H3><span style={helperTextStyle}>&#40;8 Components&#41;</span>
+      </FlexBox.Row>
+      <FlexBox.Row>
+        <Box style={{ width: '171px' }} >
+          <StackBox stackName='Create' stackDesc='Create a stack' />
+        </Box>
+        {Array(8).fill(null)?.map(() => 
+          <Box marginLeft='md'>
+            <CustomStackBox image={logo} stackName='Sample' stackDesc='example text' />
+          </Box>
         )}
-      </FlexBox.Column>
-      {showModal && (
-        <SidePopup
-          onSeeExisting={() => routeExsiting()}
-          onSelectFlavor={() => handleSelectedFlavor(selectedFlavor)}
-          flavor={selectedFlavor}
-          onClose={() => setShowModal(false)}
-        ></SidePopup>
-      )} */}
-    </>
+      </FlexBox.Row>
+    </Box>
+
+    <Box marginTop='lg' style={{ overflowX: 'auto' }}>
+      <FlexBox.Row alignItems='center'>
+        <H3 style={{ fontWeight: 'bold' }}>Artifact Store</H3><span style={helperTextStyle}>&#40;5 Components&#41;</span>
+      </FlexBox.Row>
+      <FlexBox.Row>
+        <Box style={{ width: '171px' }} >
+          <StackBox stackName='Create' stackDesc='Create a stack' />
+        </Box>
+        {Array(5).fill(null)?.map(() => 
+          <Box marginLeft='md'>
+            <CustomStackBox image={logo} stackName='Sample' stackDesc='example text' />
+          </Box>
+        )}
+      </FlexBox.Row>
+    </Box>
+
+    <Box marginTop='lg' style={{ overflowX: 'auto' }}>
+      <FlexBox.Row alignItems='center'>
+        <H3 style={{ fontWeight: 'bold' }}>Secret Manager</H3><span style={helperTextStyle}>&#40;7 Components&#41;</span>
+      </FlexBox.Row>
+      <FlexBox.Row>
+        <Box style={{ width: '171px' }} >
+          <StackBox stackName='Create' stackDesc='Create a stack' />
+        </Box>
+        {Array(7).fill(null)?.map(() => 
+          <Box marginLeft='md'>
+            <CustomStackBox image={logo} stackName='Sample' stackDesc='example text' />
+          </Box>
+        )}
+      </FlexBox.Row>
+    </Box>
+
+  
+  </Box>
   );
 };
