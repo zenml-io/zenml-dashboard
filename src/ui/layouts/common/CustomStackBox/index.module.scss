@@ -7,12 +7,14 @@
   padding: 10px;
   background-color: #fff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  position: relative;
 }
 
 .checkbox {
   height: 18px;
   width: 18px;
   accent-color: $primaryColor;
+  position: absolute;
 }
 
 
@@ -29,13 +31,13 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    
+
     img {
       height: 100%;
       width: 100%;
       object-fit: contain;
     }
-
+    
     input[type="file"] {
       display: none;
   }
