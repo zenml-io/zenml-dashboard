@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Paragraph } from '../../../components';
 
 import styles from './index.module.scss';
 import imageAddIcon from '../../../assets/imageAddIcon.svg';
 
 export const StackBox: React.FC<{
+  showCheckbox?: boolean;
   image?: any;
-  stackName: string;
-  stackDesc: string;
-}> = ({ image, stackName, stackDesc }) => {
-  const [selectedImage, setSelectedImage] = useState<any>(image);
-
-  const previewImage = (e: any) => {
-    const objectUrl = URL.createObjectURL(e.files[0]);
-    setSelectedImage(objectUrl);
-  };
+  stackName?: string;
+  stackDesc?: string;
+}> = ({ showCheckbox, image, stackName, stackDesc }) => {
+  // const [select, setSelect] = useState(false);
+  // const [selectedImage, setSelectedImage] = useState<any>(image);
+  // debugger;
+  // const previewImage = (e: any) => {
+  //   const objectUrl = URL.createObjectURL(e.files[0]);
+  //   setSelectedImage(objectUrl);
+  // };
+  const titleCase = (s: any) =>
+    s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
+      c ? c.toUpperCase() : ' ' + d.toUpperCase(),
+    );
 
   return (
     <Box
@@ -22,9 +28,15 @@ export const StackBox: React.FC<{
       paddingVertical="sm2"
       className={styles.stackBox}
     >
+      {showCheckbox && <input type="checkbox" className={styles.checkbox} />}
       <Box className={styles.imageWrapper}>
         <Box className={styles.imageContainer}>
-          {selectedImage ? (
+          <img
+            src={image ? image : imageAddIcon}
+            alt="by Zenml"
+            style={{ height: '59px' }}
+          />
+          {/* {selectedImage ? (
             <img src={selectedImage} alt="by Zenml" />
           ) : (
             <label className={styles.custom_file_upload}>
@@ -37,19 +49,19 @@ export const StackBox: React.FC<{
               />
               <img src={imageAddIcon} alt="imageAddIcon" />
             </label>
-          )}
+          )} */}
         </Box>
       </Box>
 
       <Box style={{ marginTop: '8px' }}>
         <Paragraph className={styles.stackName}>
-          {stackName}
+          {titleCase(stackName)}
         </Paragraph>
       </Box>
 
       <Box marginTop="xs">
         <Paragraph className={styles.stackDesc}>
-          {stackDesc}
+          {titleCase(stackDesc)}
         </Paragraph>
       </Box>
     </Box>
