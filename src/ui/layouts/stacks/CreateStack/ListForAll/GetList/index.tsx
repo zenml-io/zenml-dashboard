@@ -15,9 +15,11 @@ import { useLocation } from '../../../../../hooks';
 interface Props {
   type: string;
   flavourList?: any;
+  selectedStack: any, 
+  setSelectedStack: any
 }
 
-export const GetList: React.FC<Props> = ({ type, flavourList }) => {
+export const GetList: React.FC<Props> = ({ type, flavourList, selectedStack, setSelectedStack }) => {
   const dispatch = useDispatch();
   const locationPath = useLocation() as any;
   const [fetching, setFetching] = useState(false);
@@ -84,15 +86,15 @@ export const GetList: React.FC<Props> = ({ type, flavourList }) => {
         <Box style={{ width: '171px' }}>
           <StackBox stackName="Create" stackDesc="Create a stack" />
         </Box>
-        {console.log(list, 'listlist')}
         {list?.map((item: any) => (
           <Box marginLeft="md">
             <CustomStackBox
               image={item?.flavor?.logoUrl}
               stackName={item.name}
               stackDesc={item?.flavor.name}
+              value={false} 
+              onCheck={() => setSelectedStack([...selectedStack, item])} 
             />
-            {console.log(item, 'item?.flavor?.logo_url')}
           </Box>
         ))}
       </FlexBox.Row>
