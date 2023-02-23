@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, Paragraph } from '../../../components';
 
 import styles from './index.module.scss';
@@ -7,8 +7,9 @@ export const CustomStackBox: React.FC<{
   image: any;
   stackName: string;
   stackDesc: string;
-}> = ({ image, stackName, stackDesc }) => {
-  const [select, setSelect] = useState(false);
+  value: boolean;
+  onCheck: () => void;
+}> = ({ image, stackName, stackDesc, value, onCheck }) => {
 
   return (
     <Box
@@ -16,7 +17,7 @@ export const CustomStackBox: React.FC<{
       paddingVertical="sm2"
       className={styles.stackBox}
     >
-    <input type='checkbox' className={styles.checkbox} checked={select} onClick={() => setSelect(!select)} />
+    <input type='checkbox' className={styles.checkbox} onClick={onCheck} />
       <Box className={styles.imageWrapper}>
         <Box className={styles.imageContainer}>
             <img src={image} alt="by Zenml" />

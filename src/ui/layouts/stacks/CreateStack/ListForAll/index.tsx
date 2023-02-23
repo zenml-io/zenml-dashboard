@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import { CollapseTable } from '../../../common/CollapseTable';
 // import { useSelector } from '../../../../hooks';
@@ -69,17 +69,36 @@ export const ListForAll: React.FC<Props> = () => {
   //   );
   // };
 
-  const helperTextStyle = {
-    fontSize: '16px', 
-    color: '#A8A8A8', 
-    marginLeft: '10px',
-    marginTop: '-3px'
-  };
-  
+
+  const HelperText = ({componentLength}: any) => (
+    <span style={{
+      fontSize: '16px', 
+      color: '#A8A8A8', 
+      marginLeft: '10px',
+      marginTop: '-3px'
+    }}>
+    &#40;{componentLength} Components&#41;</span>
+  )
+
+  const [selectedStack, setSelectedStack] = useState<any>([])
+  const [selectedStackBox, setSelectedStackBox] = useState<any>()
+
+
+  const data = [
+    { image:logo, stackName:'Sample', stackDesc: 'example text'},
+    { image:logo, stackName:'Sample', stackDesc: 'example text'},
+    { image:logo, stackName:'Sample', stackDesc: 'example text'},
+    { image:logo, stackName:'Sample', stackDesc: 'example text'},
+    { image:logo, stackName:'Sample', stackDesc: 'example text'},
+    { image:logo, stackName:'Sample', stackDesc: 'example text'},
+    { image:logo, stackName:'Sample', stackDesc: 'example text'},
+    { image:logo, stackName:'Sample', stackDesc: 'example text'}
+  ]
+
   return (
     <Box style={{ width: '100%' }}>
       <Box>
-        <H2 style={{ fontWeight: 'bolder' }} >Register a Stack</H2>
+        <H2 style={{ fontWeight: 'bolder'}} >Register a Stack</H2>
       </Box>
     
       <Box marginTop='lg'>
@@ -100,18 +119,34 @@ export const ListForAll: React.FC<Props> = () => {
           </Box>
         </FlexBox.Row>
       </Box>
-    
+
+      {selectedStack?.length >= 0 && 
+        <FlexBox.Row marginTop='md'>
+          {selectedStack?.map((e: any) => (
+              <Box onClick={() => setSelectedStackBox(e.stackName)} marginLeft='sm' style={{ height: '60px', width: '60px', backgroundColor: '#fff', boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)', cursor: 'pointer', border: selectedStackBox === e.stackName ? '2px solid #431E93':  '2px solid #fff', borderRadius: '6px'}} >
+                <img src={e.image} alt={e.stackName} style={{ height: '100%', width: '100%', padding: '20px 3px' }} />
+              </Box>
+          ))}
+        </FlexBox.Row>
+       } 
+
     <Box marginTop='md' style={{ overflowX: 'auto' }}>
       <FlexBox.Row alignItems='center'>
-        <H3 style={{ fontWeight: 'bold' }}>Orchestrator</H3><span style={helperTextStyle}>&#40;8 Components&#41;</span>
+        <H3 style={{ fontWeight: 'bold' }}>Orchestrator</H3><HelperText componentLength={8} />
       </FlexBox.Row>
       <FlexBox.Row>
         <Box style={{ width: '171px' }} >
           <StackBox stackName='Create' stackDesc='Create a stack' />
         </Box>
-        {Array(8).fill(null)?.map(() => 
+        {data?.map((e) => 
           <Box marginLeft='md'>
-            <CustomStackBox image={logo} stackName='Sample' stackDesc='example text' />
+            <CustomStackBox 
+              image={e.image} 
+              stackName={e.stackName} 
+              stackDesc={e.stackDesc} 
+              value={false} 
+              onCheck={() => setSelectedStack([...selectedStack, e])} 
+            />
           </Box>
         )}
       </FlexBox.Row>
@@ -119,15 +154,21 @@ export const ListForAll: React.FC<Props> = () => {
 
     <Box marginTop='lg' style={{ overflowX: 'auto' }}>
       <FlexBox.Row alignItems='center'>
-        <H3 style={{ fontWeight: 'bold' }}>Artifact Store</H3><span style={helperTextStyle}>&#40;5 Components&#41;</span>
+        <H3 style={{ fontWeight: 'bold' }}>Artifact Store</H3><HelperText componentLength={data?.slice(0, 5)?.length} />
       </FlexBox.Row>
       <FlexBox.Row>
         <Box style={{ width: '171px' }} >
           <StackBox stackName='Create' stackDesc='Create a stack' />
         </Box>
-        {Array(5).fill(null)?.map(() => 
+        {data?.slice(0, 5)?.map((e) => 
           <Box marginLeft='md'>
-            <CustomStackBox image={logo} stackName='Sample' stackDesc='example text' />
+            <CustomStackBox 
+              image={e.image} 
+              stackName={e.stackName} 
+              stackDesc={e.stackDesc} 
+              value={false} 
+              onCheck={() => setSelectedStack([...selectedStack, e])} 
+            />
           </Box>
         )}
       </FlexBox.Row>
@@ -135,15 +176,21 @@ export const ListForAll: React.FC<Props> = () => {
 
     <Box marginTop='lg' style={{ overflowX: 'auto' }}>
       <FlexBox.Row alignItems='center'>
-        <H3 style={{ fontWeight: 'bold' }}>Secret Manager</H3><span style={helperTextStyle}>&#40;7 Components&#41;</span>
+        <H3 style={{ fontWeight: 'bold' }}>Secret Manager</H3><HelperText componentLength={data?.slice(0, 7)?.length} />
       </FlexBox.Row>
       <FlexBox.Row>
         <Box style={{ width: '171px' }} >
           <StackBox stackName='Create' stackDesc='Create a stack' />
         </Box>
-        {Array(7).fill(null)?.map(() => 
+        {data?.slice(0, 7)?.map((e) => 
           <Box marginLeft='md'>
-            <CustomStackBox image={logo} stackName='Sample' stackDesc='example text' />
+            <CustomStackBox 
+              image={e.image} 
+              stackName={e.stackName} 
+              stackDesc={e.stackDesc} 
+              value={false} 
+              onCheck={() => setSelectedStack([...selectedStack, e])} 
+            />
           </Box>
         )}
       </FlexBox.Row>
