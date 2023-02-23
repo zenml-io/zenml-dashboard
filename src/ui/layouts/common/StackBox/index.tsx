@@ -2,13 +2,13 @@ import React from 'react';
 import { Box, Paragraph } from '../../../components';
 
 import styles from './index.module.scss';
-// import imageAddIcon from '../../../assets/imageAddIcon.svg';
+import imageAddIcon from '../../../assets/imageAddIcon.svg';
 
 export const StackBox: React.FC<{
   showCheckbox?: boolean;
-  image: any;
-  stackName: string;
-  stackDesc: string;
+  image?: any;
+  stackName?: string;
+  stackDesc?: string;
 }> = ({ showCheckbox, image, stackName, stackDesc }) => {
   // const [select, setSelect] = useState(false);
   // const [selectedImage, setSelectedImage] = useState<any>(image);
@@ -31,7 +31,11 @@ export const StackBox: React.FC<{
       {showCheckbox && <input type="checkbox" className={styles.checkbox} />}
       <Box className={styles.imageWrapper}>
         <Box className={styles.imageContainer}>
-          <img src={image} alt="by Zenml" style={{ height: '59px' }} />
+          <img
+            src={image ? image : imageAddIcon}
+            alt="by Zenml"
+            style={{ height: '59px' }}
+          />
           {/* {selectedImage ? (
             <img src={selectedImage} alt="by Zenml" />
           ) : (
