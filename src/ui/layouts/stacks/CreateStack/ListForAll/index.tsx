@@ -7,7 +7,6 @@ import { useSelector } from 'react-redux';
 import { GetList } from './GetList';
 import { GetFlavorsListForLogo } from '../../../stackComponents/Stacks/List/GetFlavorsListForLogo';
 
-
 interface Props {}
 
 export const ListForAll: React.FC<Props> = () => {
@@ -16,14 +15,14 @@ export const ListForAll: React.FC<Props> = () => {
   );
   const { flavourList } = GetFlavorsListForLogo();
 
-  const [selectedStack, setSelectedStack] = useState<any>([])
-  const [selectedStackBox, setSelectedStackBox] = useState<any>()
-console.log(selectedStack)
+  const [selectedStack, setSelectedStack] = useState<any>([]);
+  const [selectedStackBox, setSelectedStackBox] = useState<any>();
+  console.log(selectedStack);
 
   return (
     <Box style={{ width: '100%' }}>
       <Box>
-        <H2 style={{ fontWeight: 'bolder'}} >Register a Stack</H2>
+        <H2 style={{ fontWeight: 'bolder' }}>Register a Stack</H2>
       </Box>
 
       <Box marginTop="lg">
@@ -45,26 +44,47 @@ console.log(selectedStack)
         </FlexBox.Row>
       </Box>
 
-      {selectedStack?.length >= 0 && 
-        <FlexBox.Row marginTop='md'>
+      {selectedStack?.length >= 0 && (
+        <FlexBox.Row marginTop="md">
           {selectedStack?.map((e: any) => (
-              <Box onClick={() => setSelectedStackBox(e.id)} marginLeft='sm' style={{ height: '60px', width: '60px',  padding: '10px 3px', backgroundColor: '#fff', boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)', cursor: 'pointer', border: selectedStackBox === e.id ? '2px solid #431E93':  '2px solid #fff', borderRadius: '6px'}} >
-                <img src={e.flavor.logoUrl} alt={e.name} style={{ height: '100%', width: '100%', objectFit: 'contain' }} />
-              </Box>
+            <Box
+              onClick={() => setSelectedStackBox(e.id)}
+              marginLeft="sm"
+              style={{
+                height: '60px',
+                width: '60px',
+                padding: '10px 3px',
+                backgroundColor: '#fff',
+                boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
+                cursor: 'pointer',
+                border:
+                  selectedStackBox === e.id
+                    ? '2px solid #431E93'
+                    : '2px solid #fff',
+                borderRadius: '6px',
+              }}
+            >
+              <img
+                src={e.flavor.logoUrl}
+                alt={e.name}
+                style={{ height: '100%', width: '100%', objectFit: 'contain' }}
+              />
+            </Box>
           ))}
         </FlexBox.Row>
-      } 
+      )}
+      {console.log('selectedStackselectedStackselectedStack', selectedStack)}
 
       <FlexBox.Column>
         {stackComponentsTypes?.map((item) => {
           return (
             <Box marginTop="lg" style={{ overflowX: 'auto' }}>
-              <GetList 
-                type={item} 
-                flavourList={flavourList} 
-                selectedStack={selectedStack} 
-                setSelectedStack={setSelectedStack} 
-              />  
+              <GetList
+                type={item}
+                flavourList={flavourList}
+                selectedStack={selectedStack}
+                setSelectedStack={setSelectedStack}
+              />
             </Box>
           );
         })}

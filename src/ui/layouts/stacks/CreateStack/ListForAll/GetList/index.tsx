@@ -10,17 +10,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { stackComponentsActions } from '../../../../../../redux/actions';
 
 import { titleCase } from '../../../../../../utils';
-import { useLocation } from '../../../../../hooks';
+import { useHistory, useLocation } from '../../../../../hooks';
+import { routePaths } from '../../../../../../routes/routePaths';
 
 interface Props {
   type: string;
   flavourList?: any;
-  selectedStack: any, 
-  setSelectedStack: any
+  selectedStack: any;
+  setSelectedStack: any;
 }
 
-export const GetList: React.FC<Props> = ({ type, flavourList, selectedStack, setSelectedStack }) => {
+export const GetList: React.FC<Props> = ({
+  type,
+  flavourList,
+  selectedStack,
+  setSelectedStack,
+}) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const locationPath = useLocation() as any;
   const [fetching, setFetching] = useState(false);
   const [list, setlist] = useState([]);
@@ -84,7 +91,18 @@ export const GetList: React.FC<Props> = ({ type, flavourList, selectedStack, set
       </FlexBox.Row>
       <FlexBox.Row>
         <Box style={{ width: '171px' }}>
-          <StackBox stackName="Create" stackDesc="Create a stack" />
+          <div
+            onClick={() => {
+              history.push(
+                routePaths.stackComponents.registerComponents(
+                  type,
+                  selectedWorkspace,
+                ),
+              );
+            }}
+          >
+            <StackBox stackName="Create" stackDesc="Create a stack" />
+          </div>
         </Box>
         {list?.map((item: any) => (
           <Box marginLeft="md">
@@ -92,8 +110,19 @@ export const GetList: React.FC<Props> = ({ type, flavourList, selectedStack, set
               image={item?.flavor?.logoUrl}
               stackName={item.name}
               stackDesc={item?.flavor.name}
-              value={false} 
-              onCheck={() => setSelectedStack([...selectedStack, item])} 
+              value={false}
+              onCheck={() => {
+                // var selectedList = selectedStack;
+                var index = selectedStack.findIndex(function (s: any) {
+                  return s.id === item.id;
+                });
+                if (index !== -1) {
+                  selectedStack.splice(index, 1);
+                  setSelectedStack([...selectedStack]);
+                } else {
+                  setSelectedStack([...selectedStack, item]);
+                }
+              }}
             />
           </Box>
         ))}
