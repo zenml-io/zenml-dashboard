@@ -17,11 +17,7 @@ import FilterComponent, {
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { List } from '../Stacks/List';
-import {
-  Box,
-  PrimaryButton,
-  Row,
-} from '../../../components';
+import { Box, PrimaryButton, Row } from '../../../components';
 import { StackBox } from '../../common/StackBox';
 
 import logo from '../../../assets/logo.svg';
@@ -63,11 +59,16 @@ const getTabPages = (
     {
       text: 'Components',
       Component: () => (
-        <Box margin='md' >
-          <Row className={styles.nestedrow} >  
+        <Box margin="md">
+          <Row className={styles.nestedrow}>
             {tiles &&
               tiles.map((tile: any, index: number) => (
-                <Box key={index} className={styles.tile} marginTop='md' marginLeft='md' >
+                <Box
+                  key={index}
+                  className={styles.tile}
+                  marginTop="md"
+                  marginLeft="md"
+                >
                   <StackBox
                     image={tile.logo}
                     stackName={tile.name}
@@ -153,19 +154,19 @@ export const StackDetail: React.FC = () => {
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
-  if (flavourList.length > 1) {
-    for (const [key] of Object.entries(stack.components)) {
+  if (flavourList?.length > 1) {
+    for (const [key] of Object.entries(stack?.components)) {
       const { logo_url }: any = flavourList.find(
         (fl: any) =>
-          fl.name === stack.components[key][0].flavor &&
-          fl.type === stack.components[key][0].type,
+          fl.name === stack?.components[key][0]?.flavor &&
+          fl.type === stack?.components[key][0]?.type,
       );
       console.log(logo, 'flavourListflavourList');
 
       nestedRowtiles.push({
         type: key,
-        name: stack.components[key][0].name,
-        id: stack.components[key][0].id,
+        name: stack?.components[key][0]?.name,
+        id: stack?.components[key][0]?.id,
         logo: logo_url,
       });
     }

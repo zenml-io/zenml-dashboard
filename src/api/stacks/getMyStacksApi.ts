@@ -8,7 +8,7 @@ const getMyStacksApi = ({
   workspace,
   sort_by,
   logical_operator,
-  index,
+  page,
   size,
   filtersParam,
   authenticationToken,
@@ -17,7 +17,7 @@ const getMyStacksApi = ({
   workspace: string;
   sort_by: string;
   logical_operator: string;
-  index: number;
+  page: number;
   size: number;
   filtersParam?: object;
   authenticationToken: string;
@@ -28,7 +28,7 @@ const getMyStacksApi = ({
       component_id,
       sort_by,
       logical_operator,
-      index,
+      page,
       size,
       ...filtersParam,
     },
