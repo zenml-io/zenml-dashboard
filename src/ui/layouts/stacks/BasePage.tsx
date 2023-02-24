@@ -1,12 +1,15 @@
 import React from 'react';
-import { Redirect } from 'react-router-dom';
+import { Redirect, useHistory } from 'react-router-dom';
 import { AppRoute } from '../../../routes';
-import { Box, FlexBox, IfElse } from '../../components';
+import { Box, FlexBox, IfElse, PrimaryButton } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { Tabs } from '../common/Tabs';
 import Header from './Header';
 import Stacks from './Stacks';
+import { routePaths } from '../../../routes/routePaths';
+import { useSelector } from '../../hooks';
+import { workspaceSelectors } from '../../../redux/selectors';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
@@ -22,6 +25,9 @@ export const BasePage: React.FC<{
   headerWithButtons,
   children,
 }) => {
+  const history = useHistory();
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  
   return (
     <AuthenticatedLayout>
       <SidebarContainer>
@@ -65,6 +71,24 @@ export const BasePage: React.FC<{
           )}
         </Box>
       </SidebarContainer>
+
+          <FlexBox
+            style={{
+              position: 'fixed',
+              right: '0',
+              bottom: '0',
+              marginRight: '45px',
+            }}
+          >
+            <Box marginBottom="lg">
+              <PrimaryButton
+                  onClick={() => history.push(routePaths.stacks.createStack(selectedWorkspace))}
+              >
+                Create Stack
+              </PrimaryButton>
+            </Box>
+          </FlexBox>
+ 
     </AuthenticatedLayout>
   );
 };
