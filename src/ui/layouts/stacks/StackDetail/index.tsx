@@ -19,9 +19,8 @@ import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { List } from '../Stacks/List';
 import {
   Box,
-  FlexBox,
-  // FullWidthSpinner,
   PrimaryButton,
+  Row,
 } from '../../../components';
 import { StackBox } from '../../common/StackBox';
 
@@ -64,17 +63,11 @@ const getTabPages = (
     {
       text: 'Components',
       Component: () => (
-        <Box>
-          <FlexBox.Row
-            marginVertical="sm"
-            marginHorizontal="md"
-            className={styles.nestedrow}
-            padding="md"
-            alignItems="center"
-          >
+        <Box margin='md' >
+          <Row className={styles.nestedrow} >  
             {tiles &&
               tiles.map((tile: any, index: number) => (
-                <Box key={index} className={styles.tile} marginLeft="lg">
+                <Box key={index} className={styles.tile} marginTop='md' marginLeft='md' >
                   <StackBox
                     image={tile.logo}
                     stackName={tile.name}
@@ -82,7 +75,7 @@ const getTabPages = (
                   />
                 </Box>
               ))}
-          </FlexBox.Row>
+          </Row>
 
           <PrimaryButton
             className={styles.createButton}

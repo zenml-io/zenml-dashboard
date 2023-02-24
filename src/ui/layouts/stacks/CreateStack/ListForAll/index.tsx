@@ -64,7 +64,7 @@ export const ListForAll: React.FC<Props> = () => {
                 boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
                 cursor: 'pointer',
                 border:
-                  selectedStackBox === e.id
+                  selectedStackBox?.id === e.id
                     ? '2px solid #431E93'
                     : '2px solid #fff',
                 borderRadius: '6px',
