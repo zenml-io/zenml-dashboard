@@ -52,8 +52,8 @@ const newState = (
   ids: idsInsert(state.ids, organizations),
   byId: byKeyInsert(state.byId, organizations),
   paginated: {
-    page: pagination.page,
-    size: pagination.size,
+    page: pagination.index,
+    size: pagination.max_size,
     totalPages: pagination.total_pages,
     totalitem: pagination.total,
   },

@@ -32,8 +32,8 @@ const newState = (state: State, stacks: TStack[], pagination?: any): State => ({
   ids: idsInsert(state.ids, stacks),
   byId: byKeyInsert(state.byId, stacks),
   paginated: {
-    page: pagination.page,
-    size: pagination.size,
+    page: pagination.index,
+    size: pagination.max_size,
     totalPages: pagination.total_pages,
     totalitem: pagination.total,
   },

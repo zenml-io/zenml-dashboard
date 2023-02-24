@@ -47,7 +47,7 @@ export const useService = (): ServiceInterface => {
     //     type: locationPath.split('/')[4],
     //     sort_by: 'desc:created',
     //     logical_operator: 'and',
-    //     page: 1,
+    //     index: 1,
     //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
     //     onSuccess: () => setFetching(false),
     //     onFailure: () => setFetching(false),

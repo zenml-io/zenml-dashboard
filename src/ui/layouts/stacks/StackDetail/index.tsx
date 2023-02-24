@@ -17,7 +17,16 @@ import FilterComponent, {
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { List } from '../Stacks/List';
-import { Box, FlexBox, Paragraph } from '../../../components';
+import {
+  Box,
+  FlexBox,
+  // FullWidthSpinner,
+  PrimaryButton,
+} from '../../../components';
+import { StackBox } from '../../common/StackBox';
+
+import logo from '../../../assets/logo.svg';
+import { GetFlavorsListForLogo } from '../../stackComponents/Stacks/List/GetFlavorsListForLogo';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -55,37 +64,35 @@ const getTabPages = (
     {
       text: 'Components',
       Component: () => (
-        <FlexBox.Row
-          marginVertical="sm"
-          marginHorizontal="md"
-          className={styles.nestedrow}
-          padding="md"
-          alignItems="center"
-        >
-          {tiles &&
-            tiles.map((tile: any, index: number) => (
-              <Box key={index} className={styles.tile} color="black">
-                <Paragraph
-                  size="small"
-                  style={{ cursor: 'pointer' }}
-                  onClick={() => {
-                    history.push(
-                      routePaths.stackComponents.configuration(
-                        tile.type,
-                        tile.id,
-                        selectedWorkspace,
-                      ),
-                    );
-                  }}
-                >
-                  <span>
-                    {tile.type} {'>'}{' '}
-                  </span>{' '}
-                  <span className={styles.name}>{tile.name}</span>
-                </Paragraph>
-              </Box>
-            ))}
-        </FlexBox.Row>
+        <Box>
+          <FlexBox.Row
+            marginVertical="sm"
+            marginHorizontal="md"
+            className={styles.nestedrow}
+            padding="md"
+            alignItems="center"
+          >
+            {tiles &&
+              tiles.map((tile: any, index: number) => (
+                <Box key={index} className={styles.tile} marginLeft="lg">
+                  <StackBox
+                    image={tile.logo}
+                    stackName={tile.name}
+                    stackDesc={tile.type}
+                  />
+                </Box>
+              ))}
+          </FlexBox.Row>
+
+          <PrimaryButton
+            className={styles.createButton}
+            onClick={() => {
+              history.push(routePaths.stacks.createStack(selectedWorkspace));
+            }}
+          >
+            Create Stack
+          </PrimaryButton>
+        </Box>
       ),
       path: routePaths.stack.components(stackId, selectedWorkspace),
     },
@@ -134,14 +141,42 @@ export const StackDetail: React.FC = () => {
   const { stack } = useService();
   const history = useHistory();
   const nestedRowtiles = [];
-  for (const [key] of Object.entries(stack.components)) {
-    nestedRowtiles.push({
-      type: key,
-      name: stack.components[key][0].name,
-      id: stack.components[key][0].id,
-    });
-  }
+  const { flavourList } = GetFlavorsListForLogo();
+  // const stackComponentsMap = stackComponents.map((item) => {
+  //   const temp: any = flavourList.find(
+  //     (fl: any) => fl.name === item.flavor && fl.type === item.type,
+  //   );
+  //   if (temp) {
+  //     return {
+  //       ...item,
+  //       flavor: {
+  //         logoUrl: temp.logo_url,
+  //         name: item.flavor,
+  //       },
+  //     };
+  //   }
+  //   return item;
+  // });
+
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+
+  if (flavourList.length > 1) {
+    for (const [key] of Object.entries(stack.components)) {
+      const { logo_url }: any = flavourList.find(
+        (fl: any) =>
+          fl.name === stack.components[key][0].flavor &&
+          fl.type === stack.components[key][0].type,
+      );
+      console.log(logo, 'flavourListflavourList');
+
+      nestedRowtiles.push({
+        type: key,
+        name: stack.components[key][0].name,
+        id: stack.components[key][0].id,
+        logo: logo_url,
+      });
+    }
+  }
 
   const tabPages = getTabPages(
     stack.id,
