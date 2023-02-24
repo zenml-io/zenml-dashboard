@@ -6,6 +6,7 @@ import { stackComponentSelectors } from '../../../../../redux/selectors';
 import { useSelector } from 'react-redux';
 import { GetList } from './GetList';
 import { GetFlavorsListForLogo } from '../../../stackComponents/Stacks/List/GetFlavorsListForLogo';
+import { SidePopup } from './SidePopup';
 
 interface Props {}
 
@@ -17,7 +18,12 @@ export const ListForAll: React.FC<Props> = () => {
 
   const [selectedStack, setSelectedStack] = useState<any>([]);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
-  console.log(selectedStack);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+  
+  const selectStack = (data: any) => {
+    setShowPopup(true)
+    setSelectedStackBox(data)
+  }
 
   return (
     <Box style={{ width: '100%' }}>
@@ -48,7 +54,7 @@ export const ListForAll: React.FC<Props> = () => {
         <FlexBox.Row marginTop="md">
           {selectedStack?.map((e: any) => (
             <Box
-              onClick={() => setSelectedStackBox(e.id)}
+              onClick={() => selectStack(e)}
               marginLeft="sm"
               style={{
                 height: '60px',
@@ -73,7 +79,6 @@ export const ListForAll: React.FC<Props> = () => {
           ))}
         </FlexBox.Row>
       )}
-      {console.log('selectedStackselectedStackselectedStack', selectedStack)}
 
       <FlexBox.Column>
         {stackComponentsTypes?.map((item) => {
@@ -89,6 +94,23 @@ export const ListForAll: React.FC<Props> = () => {
           );
         })}
       </FlexBox.Column>
+
+      {showPopup &&
+        <SidePopup
+          registerStack={() => {}} 
+          onSeeExisting={() => {}}
+          onClose={() => setShowPopup(false)}
+        >
+          <Box marginTop='md'>
+            <FormTextField
+              onChange={(e: any) => {}}
+              placeholder=""
+              label='Stack Name'
+              value={selectedStackBox.name}
+            />
+          </Box>
+        </SidePopup>
+      }
 
       {/* <Box marginTop="lg" style={{ overflowX: 'auto' }}>
         <FlexBox.Row alignItems="center">
