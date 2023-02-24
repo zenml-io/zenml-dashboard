@@ -1,0 +1,46 @@
+@import '../../../../../globalStyles.scss';
+
+.sidePopup {
+  background: #ffffff;
+  border-radius: 4px;
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  top: 13rem;
+  height: 800px;
+  // height: 677px;
+  min-width: 700px;
+  overflow-x: auto;
+}
+
+@media (max-width: $md-breakpoint) {
+  .sidePopup {
+    max-width: 80vw;
+    min-width: 0;
+  }
+}
+
+.popupContainer {
+  position: fixed;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 99999;
+}
+
+.popupClose {
+  background-color: #fff;
+  border-radius: 100px;
+  position: absolute;
+  top: 15rem;
+  right: 70rem;
+  z-index: 999;
+}
+
+.actionSection { 
+  min-width: 683px;
+  background-color: white;
+  position: fixed;
+  bottom: 0;
+}
