@@ -8,11 +8,12 @@ import {
   LinkBox,
   Paragraph,
   H3,
-  PrimaryButton,
+  PrimaryButton, 
 } from '../../../../../components';
 
 import styles from './index.module.scss';
 
+const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
 export const SidePopup: React.FC<{
   onSeeExisting: () => void;
@@ -20,6 +21,7 @@ export const SidePopup: React.FC<{
   registerStack: any;
 }> = ({ children, onClose, registerStack, onSeeExisting }) => (
   <>
+    <Dimmer />
     <FlexBox
       alignItems="center"
       justifyContent="center"

@@ -13,11 +13,15 @@ import { workspaceSelectors } from '../../../redux/selectors';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
+  fromConfigureComponent?: boolean;
+  fromRegisterComponent?: boolean;  
   breadcrumbs: TBreadcrumb[];
   tabBasePath: string;
   renderHeaderRight?: () => JSX.Element;
   headerWithButtons?: boolean;
 }> = ({
+  fromRegisterComponent = false,
+  fromConfigureComponent = false,
   tabPages,
   breadcrumbs,
   tabBasePath,
@@ -72,6 +76,7 @@ export const BasePage: React.FC<{
         </Box>
       </SidebarContainer>
 
+      {!fromRegisterComponent && !fromConfigureComponent && (
           <FlexBox
             style={{
               position: 'fixed',
@@ -88,6 +93,7 @@ export const BasePage: React.FC<{
               </PrimaryButton>
             </Box>
           </FlexBox>
+      )}
  
     </AuthenticatedLayout>
   );
