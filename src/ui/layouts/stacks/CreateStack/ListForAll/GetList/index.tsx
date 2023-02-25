@@ -55,10 +55,11 @@ export const GetList: React.FC<Props> = ({
               if (temp) {
                 return {
                   ...item,
-                  flavor: {
-                    logoUrl: temp.logo_url,
-                    name: item.flavor,
-                  },
+                  logoUrl: temp.logo_url,
+                  // flavor: {
+                  //   logoUrl: temp.logo_url,
+                  //   name: item.flavor,
+                  // },
                 };
               }
               return item;
@@ -115,7 +116,7 @@ export const GetList: React.FC<Props> = ({
          return (
            <Box marginLeft="md" style={{ cursor: 'pointer' }} onClick={() => setShowPopup(true)}>
             <CustomStackBox
-              image={item?.flavor?.logoUrl}
+              image={item?.logoUrl}
               stackName={item.name}
               stackDesc={item?.flavor.name}
               value={checkboxValue?.length > 0 ? true : false}
