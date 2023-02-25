@@ -5,7 +5,7 @@ import { sessionSelectors } from '../../../../../redux/selectors';
 
 export const GetFlavorsListForLogo = () => {
   const authToken = useSelector(sessionSelectors.authenticationToken);
-
+  const [fetching, setFetching] = useState(false);
   const [flavourList, setFlavourList] = useState([]);
   useEffect(() => {
     fetchFlavourList();
@@ -13,6 +13,7 @@ export const GetFlavorsListForLogo = () => {
   }, []);
 
   const fetchFlavourList = async () => {
+    setFetching(true);
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_API_URL}/flavors?size=1000`,
       {
@@ -22,10 +23,13 @@ export const GetFlavorsListForLogo = () => {
       },
     );
 
-    setFlavourList(response?.data?.items); //Setting the response into state
+    setFlavourList(response?.data?.items);
+    setFetching(false);
+    //Setting the response into state
   };
 
   return {
+    fetching,
     flavourList,
   };
 };
