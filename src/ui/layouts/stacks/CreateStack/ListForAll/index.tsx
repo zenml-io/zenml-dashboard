@@ -216,7 +216,7 @@ export const ListForAll: React.FC<Props> = () => {
 
       {showPopup && (
         <SidePopup
-          editable={true}
+          isCreate={true}
           registerStack={() => {
             onCreateStack();
           }}

@@ -141,7 +141,7 @@ export const GetList: React.FC<Props> = ({
     
       {showPopup && (
         <SidePopup
-          editable={false}
+          isCreate={false}
           onSeeExisting={() => {}}
           onClose={() => setShowPopup(false)}
         >
