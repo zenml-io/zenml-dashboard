@@ -17,7 +17,7 @@ import FilterComponent, {
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { List } from '../Stacks/List';
-import { Box, PrimaryButton, Row } from '../../../components';
+import { Box, Row } from '../../../components';
 import { StackBox } from '../../common/StackBox';
 
 import logo from '../../../assets/logo.svg';
@@ -77,15 +77,6 @@ const getTabPages = (
                 </Box>
               ))}
           </Row>
-
-          <PrimaryButton
-            className={styles.createButton}
-            onClick={() => {
-              history.push(routePaths.stacks.createStack(selectedWorkspace));
-            }}
-          >
-            Create Stack
-          </PrimaryButton>
         </Box>
       ),
       path: routePaths.stack.components(stackId, selectedWorkspace),
