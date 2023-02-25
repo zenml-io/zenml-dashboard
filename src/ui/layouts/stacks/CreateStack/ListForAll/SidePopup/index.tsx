@@ -16,10 +16,11 @@ import styles from './index.module.scss';
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
 export const SidePopup: React.FC<{
-  onSeeExisting: () => void;
-  onClose: () => void;
-  registerStack: any;
-}> = ({ children, onClose, registerStack, onSeeExisting }) => (
+  editable: boolean;
+  onSeeExisting?: () => void;
+  onClose?: any;
+  registerStack?: any;
+}> = ({ children, editable, onClose, registerStack, onSeeExisting }) => (
   <>
     <Dimmer />
     <FlexBox
@@ -40,7 +41,7 @@ export const SidePopup: React.FC<{
               {children}
             </Box>
 
-          <Box
+        <Box
             paddingVertical="lg"
             paddingHorizontal="md"
             className={styles.actionSection}
@@ -51,11 +52,12 @@ export const SidePopup: React.FC<{
                   <Paragraph>Edit Component</Paragraph>
                 </LinkBox>
               </Box>
-              <Box>
+              {editable && <Box>
                 <PrimaryButton onClick={registerStack}>Register Stack</PrimaryButton>
-              </Box>
+              </Box>}
             </FlexBox.Row>
           </Box>
+          
         </OutsideClickHandler>
       </Box>
     </FlexBox>
