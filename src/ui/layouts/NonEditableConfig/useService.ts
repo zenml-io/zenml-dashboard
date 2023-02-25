@@ -1,9 +1,9 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { stackComponentSelectors } from '../../../redux/selectors';
+import { useDispatch } from 'react-redux';
+// import { stackComponentSelectors } from '../../../redux/selectors';
 
-import YAML from 'json2yaml';
+// import YAML from 'json2yaml';
 import { useEffect, useState } from 'react';
-import { useLocationPath } from '../../hooks';
+// import { useLocationPath } from '../../hooks';
 import { flavorPagesActions, flavorsActions } from '../../../redux/actions';
 
 interface ServiceInterface {
@@ -11,7 +11,7 @@ interface ServiceInterface {
 }
 
 export const useService = ({ details }: { details: any }): ServiceInterface => {
-  const locationPath = useLocationPath();
+  // const locationPath = useLocationPath();
   const [flavor, setFlavor] = useState();
   // debugger;
   const dispatch = useDispatch();
