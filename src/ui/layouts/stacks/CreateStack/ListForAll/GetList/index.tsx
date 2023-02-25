@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Box, FlexBox, H3, FullWidthSpinner } from '../../../../../components';
+import { SidePopup } from '../SidePopup';
 
 import { StackBox } from '../../../../common/StackBox';
 import { CustomStackBox } from '../../../../common/CustomStackBox';
@@ -31,6 +32,7 @@ export const GetList: React.FC<Props> = ({
   const locationPath = useLocation() as any;
   const [fetching, setFetching] = useState(false);
   const [list, setlist] = useState([]);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   useEffect(() => {
@@ -105,15 +107,21 @@ export const GetList: React.FC<Props> = ({
             <StackBox stackName="Create" stackDesc="Create a stack" />
           </div>
         </Box>
-        {list?.map((item: any) => (
-          <Box marginLeft="md">
+        {list?.map((item: any) => {
+          
+          const checkboxValue = selectedStack.filter((s: any) => {
+            return s.id === item.id;
+          });
+              
+         return (
+           <Box marginLeft="md" style={{ cursor: 'pointer' }} onClick={() => setShowPopup(true)}>
             <CustomStackBox
               image={item?.logoUrl}
               stackName={item.name}
-              stackDesc={item?.flavor}
-              value={false}
-              onCheck={() => {
-                // var selectedList = selectedStack;
+              stackDesc={item?.flavor.name}
+              value={checkboxValue?.length > 0 ? true : false}
+              onCheck={(e: any) => {
+                e.stopPropagation()
                 var index = selectedStack.findIndex(function (s: any) {
                   return s.id === item.id;
                 });
@@ -126,8 +134,29 @@ export const GetList: React.FC<Props> = ({
               }}
             />
           </Box>
-        ))}
+         )
+        })}
       </FlexBox.Row>
+    
+    
+      {showPopup && (
+        <SidePopup
+          isCreate={false}
+          onSeeExisting={() => {}}
+          onClose={() => setShowPopup(false)}
+        >
+          <Box marginTop="md">
+            {/* <FormTextField
+              onChange={(e: any) => {}}
+              placeholder=""
+              label='Stack Name'
+              value={selectedStackBox.name}
+            /> */}
+          </Box>
+        </SidePopup>
+      )}
+    
+    
     </>
   );
 };

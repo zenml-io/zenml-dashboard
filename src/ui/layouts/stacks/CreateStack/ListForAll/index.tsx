@@ -216,6 +216,7 @@ export const ListForAll: React.FC<Props> = () => {
 
       {showPopup && (
         <SidePopup
+          isCreate={true}
           registerStack={() => {
             onCreateStack();
           }}
@@ -231,51 +232,6 @@ export const ListForAll: React.FC<Props> = () => {
         </SidePopup>
       )}
 
-      {/* <Box marginTop="lg" style={{ overflowX: 'auto' }}>
-        <FlexBox.Row alignItems="center">
-          <H3 style={{ fontWeight: 'bold' }}>Artifact Store</H3>
-          <span style={helperTextStyle}>&#40;5 Components&#41;</span>
-        </FlexBox.Row>
-        <FlexBox.Row>
-          <Box style={{ width: '171px' }}>
-            <StackBox stackName="Create" stackDesc="Create a stack" />
-          </Box>
-          {Array(5)
-            .fill(null)
-            ?.map(() => (
-              <Box marginLeft="md">
-                <CustomStackBox
-                  image={logo}
-                  stackName="Sample"
-                  stackDesc="example text"
-                />
-              </Box>
-            ))}
-        </FlexBox.Row>
-      </Box> */}
-
-      {/* <Box marginTop="lg" style={{ overflowX: 'auto' }}>
-        <FlexBox.Row alignItems="center">
-          <H3 style={{ fontWeight: 'bold' }}>Secret Manager</H3>
-          <span style={helperTextStyle}>&#40;7 Components&#41;</span>
-        </FlexBox.Row>
-        <FlexBox.Row>
-          <Box style={{ width: '171px' }}>
-            <StackBox stackName="Create" stackDesc="Create a stack" />
-          </Box>
-          {Array(7)
-            .fill(null)
-            ?.map(() => (
-              <Box marginLeft="md">
-                <CustomStackBox
-                  image={logo}
-                  stackName="Sample"
-                  stackDesc="example text"
-                />
-              </Box>
-            ))}
-        </FlexBox.Row>
-      </Box> */}
     </Box>
   );
 };
