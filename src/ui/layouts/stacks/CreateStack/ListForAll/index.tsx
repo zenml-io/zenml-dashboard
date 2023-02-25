@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import styles from './index.module.scss'
+import styles from './index.module.scss';
 import { Box, FlexBox, H2, FormTextField } from '../../../../components';
 import { ToggleField } from '../../../common/FormElement';
 
@@ -18,6 +18,7 @@ import axios from 'axios';
 import { toasterTypes } from '../../../../../constants';
 import { useHistory } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
+import { NonEditableConfig } from '../../../NonEditableConfig';
 // import { callActionForStacksForPagination } from '../../Stacks/useService';
 
 interface Props {}
@@ -132,7 +133,7 @@ export const ListForAll: React.FC<Props> = () => {
   };
 
   const handleSelectedBox = (e: any, data: any) => {
-    e.stopPropagation()
+    e.stopPropagation();
 
     var index = selectedStack.findIndex(function (s: any) {
       return s.id === data?.id;
@@ -141,7 +142,7 @@ export const ListForAll: React.FC<Props> = () => {
       selectedStack.splice(index, 1);
       setSelectedStack([...selectedStack]);
     }
-  }
+  };
 
   return (
     <Box style={{ width: '100%' }}>
@@ -176,16 +177,23 @@ export const ListForAll: React.FC<Props> = () => {
             <Box
               onClick={() => selectStack(stack)}
               marginLeft="sm"
-              style={{ border: selectedStackBox?.id === stack.id ? '2px solid #431E93' : '2px solid #fff' }}
+              style={{
+                border:
+                  selectedStackBox?.id === stack.id
+                    ? '2px solid #431E93'
+                    : '2px solid #fff',
+              }}
               className={styles.selectedBox}
             >
               {selectedStackBox?.id !== stack.id && (
-                <input type='checkbox' className={styles.selectedBoxCheckbox} checked onClick={(e) => handleSelectedBox(e, stack)} />
+                <input
+                  type="checkbox"
+                  className={styles.selectedBoxCheckbox}
+                  checked
+                  onClick={(e) => handleSelectedBox(e, stack)}
+                />
               )}
-              <img
-                src={stack.flavor.logoUrl} 
-                alt={stack.name}
-              />
+              <img src={stack.logoUrl} alt={stack.name} />
             </Box>
           ))}
         </FlexBox.Row>
@@ -213,17 +221,12 @@ export const ListForAll: React.FC<Props> = () => {
           }}
           onSeeExisting={() => {}}
           onClose={() => {
-            setShowPopup(false)
-            setSelectedStackBox(null)
+            setShowPopup(false);
+            setSelectedStackBox(null);
           }}
         >
-          <Box marginTop="md">
-            {/* <FormTextField
-              onChange={(e: any) => {}}
-              placeholder=""
-              label='Stack Name'
-              value={selectedStackBox.name}
-            /> */}
+          <Box marginTop="md" paddingBottom={'xxxl'}>
+            <NonEditableConfig details={selectedStackBox}></NonEditableConfig>
           </Box>
         </SidePopup>
       )}

@@ -53,10 +53,11 @@ export const GetList: React.FC<Props> = ({
               if (temp) {
                 return {
                   ...item,
-                  flavor: {
-                    logoUrl: temp.logo_url,
-                    name: item.flavor,
-                  },
+                  logoUrl: temp.logo_url,
+                  // flavor: {
+                  //   logoUrl: temp.logo_url,
+                  //   name: item.flavor,
+                  // },
                 };
               }
               return item;
@@ -107,9 +108,9 @@ export const GetList: React.FC<Props> = ({
         {list?.map((item: any) => (
           <Box marginLeft="md">
             <CustomStackBox
-              image={item?.flavor?.logoUrl}
+              image={item?.logoUrl}
               stackName={item.name}
-              stackDesc={item?.flavor.name}
+              stackDesc={item?.flavor}
               value={false}
               onCheck={() => {
                 // var selectedList = selectedStack;
