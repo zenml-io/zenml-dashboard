@@ -28,7 +28,7 @@ export const CreateStack: React.FC = () => {
   // debugger;
   return (
     <BasePage
-      // fromRegisterComponent={true}
+      fromRegisterComponent={true}
       tabPages={[
         {
           text: '',
