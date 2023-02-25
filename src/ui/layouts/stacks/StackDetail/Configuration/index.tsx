@@ -2,7 +2,18 @@ import React, { useState } from 'react';
 
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { FlexBox, Box, H4, GhostButton, icons } from '../../../../components';
+import {
+  FlexBox,
+  Box,
+  H4,
+  GhostButton,
+  icons,
+  Row,
+  FullWidthSpinner,
+  // Container,
+  EditField,
+  Paragraph,
+} from '../../../../components';
 import { iconColors, iconSizes } from '../../../../../constants';
 
 import { useDispatch } from '../../../../hooks';
@@ -13,11 +24,21 @@ import { translate } from '../translate';
 
 import styles from './index.module.scss';
 import { useService } from './useService';
+import { StackBox } from '../../../common/StackBox';
+import { SidePopup } from '../../CreateStack/ListForAll/SidePopup';
+import { NonEditableConfig } from '../../../NonEditableConfig';
+// import { SidePopup } from '../../../common/SidePopup';
 
-export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
+export const Configuration: React.FC<{
+  stackId: TId;
+  tiles?: any;
+  fetching?: boolean;
+}> = ({ stackId, tiles, fetching = false }) => {
   const dispatch = useDispatch();
-  const { downloadYamlFile, stackConfig } = useService({ stackId });
+  const { downloadYamlFile, stackConfig, stack } = useService({ stackId });
   const [hover, setHover] = useState(false);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const handleCopy = () => {
     navigator.clipboard.writeText(stackConfig);
     dispatch(
@@ -27,6 +48,9 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
       }),
     );
   };
+  if (fetching) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
 
   return (
     <FlexBox.Column fullWidth>
@@ -59,6 +83,57 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           </GhostButton>
         </Box>
       </FlexBox>
+      <FlexBox.Row marginLeft="md">
+        {/* <Container> */}
+        <Box style={{ width: '30%' }}>
+          <EditField
+            disabled
+            onChangeText={() => console.log('')}
+            label={'Stack Name'}
+            optional={false}
+            value={stack.name}
+            placeholder=""
+            hasError={false}
+            className={styles.field}
+          />
+        </Box>
+        <FlexBox
+          marginLeft="xxl2"
+          justifyContent="space-between"
+          style={{ width: '20%' }}
+        >
+          <Paragraph>Share Component with public</Paragraph>
+
+          <label className={styles.switch}>
+            <input type="checkbox" checked={stack.isShared} />
+            <span className={`${styles.slider} ${styles.round}`}></span>
+          </label>
+        </FlexBox>
+        {/* </Container> */}
+      </FlexBox.Row>
+      <Box margin="md">
+        <Row>
+          {tiles &&
+            tiles.map((tile: any, index: number) => (
+              <Box
+                key={index}
+                className={styles.tile}
+                marginTop="md"
+                marginLeft="md"
+                onClick={() => {
+                  setShowPopup(true);
+                  setSelectedStackBox(tile);
+                }}
+              >
+                <StackBox
+                  image={tile.logo}
+                  stackName={tile.name}
+                  stackDesc={tile.type}
+                />
+              </Box>
+            ))}
+        </Row>
+      </Box>
       <FlexBox className={styles.code}>
         <SyntaxHighlighter
           customStyle={{ width: '100%' }}
@@ -69,6 +144,24 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           {stackConfig}
         </SyntaxHighlighter>
       </FlexBox>
+
+      {showPopup && (
+        <SidePopup
+          // registerStack={() => {
+          //   onCreateStack();
+          // }}
+          isCreate={false}
+          onSeeExisting={() => {}}
+          onClose={() => {
+            setShowPopup(false);
+            setSelectedStackBox(null);
+          }}
+        >
+          <Box marginTop="md" paddingBottom={'xxxl'}>
+            <NonEditableConfig details={selectedStackBox}></NonEditableConfig>
+          </Box>
+        </SidePopup>
+      )}
     </FlexBox.Column>
   );
 };
