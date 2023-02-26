@@ -304,6 +304,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                   justifyContent: 'space-between',
                   display: 'flex',
                   marginTop: '35px',
+                  marginLeft: '5px',
                 }}
               >
                 {/* <button className={styles.fieldButton} type="button"> */}
