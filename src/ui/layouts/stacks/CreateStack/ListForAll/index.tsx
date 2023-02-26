@@ -47,6 +47,8 @@ export const ListForAll: React.FC<Props> = () => {
   };
   const onCreateStack = () => {
     if (!stackName) {
+      setShowPopup(false);
+      setSelectedStackBox(null);
       return dispatch(
         showToasterAction({
           description: 'Enter Stack Name',
@@ -64,7 +66,10 @@ export const ListForAll: React.FC<Props> = () => {
       }
       return c;
     }, {});
+
     if (!mergedObject.hasOwnProperty('orchestrator')) {
+      setShowPopup(false);
+      setSelectedStackBox(null);
       return dispatch(
         showToasterAction({
           description: 'Select Atleast one component from Orchestrator',
@@ -73,6 +78,8 @@ export const ListForAll: React.FC<Props> = () => {
       );
     }
     if (!mergedObject.hasOwnProperty('artifact_store')) {
+      setShowPopup(false);
+      setSelectedStackBox(null);
       return dispatch(
         showToasterAction({
           description: 'Select Atleast one component from Artifact Store',
@@ -91,6 +98,8 @@ export const ListForAll: React.FC<Props> = () => {
       name: stackName,
       components: finalData,
     };
+    setShowPopup(false);
+    setSelectedStackBox(null);
     axios
       .post(
         `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/stacks`,
@@ -110,6 +119,7 @@ export const ListForAll: React.FC<Props> = () => {
         );
         // dispatchStackData(1, 10);
         history.push(routePaths.stacks.base);
+        // history.push(routePaths.stack.configuration(selectedWorkspace, id));
         // dispatchStackComponentsData(1, 10);
 
         // history.push(
@@ -122,13 +132,13 @@ export const ListForAll: React.FC<Props> = () => {
       })
       .catch((err) => {
         // debugger;
-        // setLoading(false);
-        // dispatch(
-        //   showToasterAction({
-        //     description: err?.response?.data?.detail[0],
-        //     type: toasterTypes.failure,
-        //   }),
-        // );
+
+        dispatch(
+          showToasterAction({
+            description: err?.response?.data?.detail[0],
+            type: toasterTypes.failure,
+          }),
+        );
       });
   };
 
