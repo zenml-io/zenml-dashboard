@@ -13,6 +13,7 @@ import { stackComponentsActions } from '../../../../../../redux/actions';
 import { titleCase } from '../../../../../../utils';
 import { useHistory, useLocation } from '../../../../../hooks';
 import { routePaths } from '../../../../../../routes/routePaths';
+import { NonEditableConfig } from '../../../../NonEditableConfig';
 
 interface Props {
   type: string;
@@ -33,6 +34,7 @@ export const GetList: React.FC<Props> = ({
   const [fetching, setFetching] = useState(false);
   const [list, setlist] = useState([]);
   const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   useEffect(() => {
@@ -108,55 +110,54 @@ export const GetList: React.FC<Props> = ({
           </div>
         </Box>
         {list?.map((item: any) => {
-          
           const checkboxValue = selectedStack.filter((s: any) => {
             return s.id === item.id;
           });
-              
-         return (
-           <Box marginLeft="md" style={{ cursor: 'pointer' }} onClick={() => setShowPopup(true)}>
-            <CustomStackBox
-              image={item?.logoUrl}
-              stackName={item.name}
-              stackDesc={item?.flavor.name}
-              value={checkboxValue?.length > 0 ? true : false}
-              onCheck={(e: any) => {
-                e.stopPropagation()
-                var index = selectedStack.findIndex(function (s: any) {
-                  return s.id === item.id;
-                });
-                if (index !== -1) {
-                  selectedStack.splice(index, 1);
-                  setSelectedStack([...selectedStack]);
-                } else {
-                  setSelectedStack([...selectedStack, item]);
-                }
+
+          return (
+            <Box
+              marginLeft="md"
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                setShowPopup(true);
+                setSelectedStackBox(item);
               }}
-            />
-          </Box>
-         )
+            >
+              <CustomStackBox
+                image={item?.logoUrl}
+                stackName={item.name}
+                stackDesc={item?.flavor.name}
+                value={checkboxValue?.length > 0 ? true : false}
+                onCheck={(e: any) => {
+                  e.stopPropagation();
+                  var index = selectedStack.findIndex(function (s: any) {
+                    return s.id === item.id;
+                  });
+                  if (index !== -1) {
+                    selectedStack.splice(index, 1);
+                    setSelectedStack([...selectedStack]);
+                  } else {
+                    setSelectedStack([...selectedStack, item]);
+                  }
+                }}
+              />
+            </Box>
+          );
         })}
       </FlexBox.Row>
-    
-    
+
       {showPopup && (
         <SidePopup
           isCreate={false}
           onSeeExisting={() => {}}
           onClose={() => setShowPopup(false)}
         >
-          <Box marginTop="md">
-            {/* <FormTextField
-              onChange={(e: any) => {}}
-              placeholder=""
-              label='Stack Name'
-              value={selectedStackBox.name}
-            /> */}
+          <Box marginTop="md" paddingBottom={'xxxl'}>
+            <NonEditableConfig details={selectedStackBox}></NonEditableConfig>
+            {console.log(selectedStackBox, 'selectedStackBox')}
           </Box>
         </SidePopup>
       )}
-    
-    
     </>
   );
 };
