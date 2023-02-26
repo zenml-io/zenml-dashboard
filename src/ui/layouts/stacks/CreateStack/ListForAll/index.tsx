@@ -154,6 +154,7 @@ export const ListForAll: React.FC<Props> = () => {
         <FlexBox.Row>
           <Box style={{ width: '30%' }}>
             <FormTextField
+              required={'*'}
               onChange={(e: any) => {
                 setStackName(e);
               }}
@@ -231,7 +232,6 @@ export const ListForAll: React.FC<Props> = () => {
           </Box>
         </SidePopup>
       )}
-
     </Box>
   );
 };
