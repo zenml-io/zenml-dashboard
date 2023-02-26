@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   FlexBox,
   Box,
@@ -6,6 +6,7 @@ import {
   Paragraph,
   Container,
   FullWidthSpinner,
+  icons,
 } from '../../../../components';
 import styles from './index.module.scss';
 import { useService } from './useService';
@@ -16,25 +17,30 @@ import {
   userSelectors,
   workspaceSelectors,
 } from '../../../../../redux/selectors';
-import { showToasterAction } from '../../../../../redux/actions';
-import { toasterTypes } from '../../../../../constants';
+import {
+  showToasterAction,
+  stackComponentsActions,
+} from '../../../../../redux/actions';
+import { iconColors, toasterTypes } from '../../../../../constants';
 
 export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   const { stackComponent, flavor } = useService({
     stackId,
   });
   const user = useSelector(userSelectors.myUser);
+  const [fetching, setFetching] = useState(false);
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
+  const [inputFields, setInputFields] = useState([]) as any;
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
 
   const onCallApi = (updateConfig: any) => {
-    // debugger;
+    // ;
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
@@ -48,7 +54,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
       flavor: updateConfig.flavor,
       configuration: updateConfig.configuration,
     };
-
+    setFetching(true);
     axios
       .put(
         `${process.env.REACT_APP_BASE_API_URL}/components/${updateConfig.id}`,
@@ -66,6 +72,14 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
             type: toasterTypes.success,
           }),
         );
+        setInputFields([]);
+        dispatch(
+          stackComponentsActions.stackComponentForId({
+            stackComponentId: stackComponent?.id,
+            onSuccess: () => setFetching(false),
+            onFailure: () => setFetching(false),
+          }),
+        );
         // dispatchStackData(1, 10);
         // history.push(routePaths.stacks.base);
         // dispatchStackComponentsData(1, 10);
@@ -79,14 +93,15 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
         // );
       })
       .catch((err) => {
-        // debugger;
+        setFetching(false);
+        // ;
         // setLoading(false);
-        // dispatch(
-        //   showToasterAction({
-        //     description: err?.response?.data?.detail[0],
-        //     type: toasterTypes.failure,
-        //   }),
-        // );
+        dispatch(
+          showToasterAction({
+            description: err?.response?.data?.detail[0],
+            type: toasterTypes.failure,
+          }),
+        );
       });
   };
   const onPressEnter = (
@@ -97,7 +112,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     index?: any,
   ) => {
     if (event.key === 'Enter') {
-      // debugger;
+      // ;
       const updateConfig = {
         ...stackComponent,
       };
@@ -116,11 +131,65 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
         var unkownKey = Object.keys(updateConfig.configuration[elementName])[
           index
         ];
-        // debugger;
+        // ;
         updateConfig.configuration[elementName][unkownKey] = event.target.value;
         // delete updateConfig.configuration[elementName][defaultValue];
       }
+      onCallApi(updateConfig);
+    }
+  };
 
+  const onPressEnterForEmpty = (event: any, type: any, elementName?: any) => {
+    if (event.key === 'Enter') {
+      const updateConfig = {
+        ...stackComponent,
+      };
+      updateConfig.configuration[elementName] = { '': '' };
+      if (type === 'key') {
+        updateConfig.configuration[elementName][event.target.value] =
+          updateConfig.configuration[elementName][''];
+        delete updateConfig.configuration[elementName][''];
+      }
+      if (type === 'value') {
+        var unkownKey = Object.keys(updateConfig.configuration[elementName])[0];
+        // ;
+        updateConfig.configuration[elementName][unkownKey] = event.target.value;
+        // delete updateConfig.configuration[elementName][defaultValue];
+      }
+      console.log(updateConfig, 'asdasd');
+      onCallApi(updateConfig);
+    }
+  };
+  const onPressEnterForAddMore = (
+    event: any,
+    type?: any,
+    elementName?: any,
+  ) => {
+    if (event.key === 'Enter') {
+      const updateConfig = {
+        ...stackComponent,
+      };
+      //    if (event) {
+      //   setInputData({
+      //     ...inputData,
+      //     [toSnakeCase(label)]: {
+      //       ...result,
+      //     },
+      //   });
+      // }
+      const keys = inputFields.map((object: any) => object.key);
+      const value = inputFields.map((object: any) => object.value);
+      var result: any = {};
+      keys.forEach((key: any, i: any) => (result[key] = value[i]));
+      updateConfig.configuration[elementName] = {
+        ...updateConfig.configuration[elementName],
+        ...result,
+      };
+      console.log(
+        updateConfig.configuration[elementName],
+        inputFields,
+        'configur222ation',
+      );
       onCallApi(updateConfig);
     }
   };
@@ -129,7 +198,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     const updateConfig = {
       ...stackComponent,
     };
-    // debugger;
+    // ;
     if (type === 'share') {
       updateConfig.isShared = value;
     }
@@ -137,6 +206,26 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
       updateConfig.configuration[key] = value;
     }
     onCallApi(updateConfig);
+  };
+
+  const handleAddFields = () => {
+    const values = [...inputFields];
+    values.push({ key: '', value: '' });
+    setInputFields(values);
+  };
+  const handleInputChange = (index: any, event: any, label: any, type: any) => {
+    const values = [...inputFields];
+    if (type === 'key') {
+      values[index].key = event;
+    } else {
+      values[index].value = event;
+    }
+    setInputFields(values);
+  };
+  const handleRemoveFields = (index: any) => {
+    const values = [...inputFields];
+    values.splice(index, 1);
+    setInputFields(values);
   };
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
@@ -166,64 +255,239 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
             <FlexBox.Row>
               <EditField
                 // disabled
-                onKeyDown={onPressEnter}
-                onChangeText={(e: any) => {}}
-                label="Key"
-                optional={false}
-                value={''}
-                placeholder=""
-                hasError={false}
-                className={styles.field}
-              />
-              <div style={{ width: '10%' }}></div>
-              <EditField
-                // disabled
-                // marginRight={'md'}
-                onChangeText={() => console.log('')}
-                label="Value"
-                // optional={true}
-                value={''}
-                placeholder=""
-                hasError={false}
-                className={styles.field}
-              />
-            </FlexBox.Row>
-          )}
-          {Object.entries(elementSchema).map(([key, value], index) => (
-            <FlexBox.Row>
-              <EditField
-                // disabled
-                onKeyDown={(e: any) => onPressEnter(e, 'key', elementName, key)}
-                onChangeText={(e: any) =>
-                  onPressEnter(e, 'key', elementName, key, index)
+                onKeyDown={(e: any) =>
+                  onPressEnterForEmpty(
+                    e,
+                    'key',
+                    elementName,
+                    // index,
+                  )
+                }
+                onChangeText={
+                  (event: any) => {}
+                  // handleInputChange(0, event, elementName, 'key')
                 }
                 label="Key"
                 optional={false}
-                defaultValue={key}
-                // value={key}
+                // value={''}
                 placeholder=""
                 hasError={false}
                 className={styles.field}
               />
+
               <div style={{ width: '10%' }}></div>
               <EditField
                 // disabled
                 // marginRight={'md'}
                 onKeyDown={(e: any) =>
-                  onPressEnter(e, 'value', elementName, key, index)
+                  onPressEnterForEmpty(
+                    e,
+                    'value',
+                    elementName,
+                    // index,
+                  )
                 }
-                onChangeText={(e: any) =>
-                  onPressEnter(e, 'value', elementName, key, index)
+                onChangeText={
+                  (event: any) => {}
+                  // handleInputChange(0, event, elementName, 'value')
                 }
                 label="Value"
                 // optional={true}
-                defaultValue={value}
-                // value={value}
+                // value={''}
                 placeholder=""
                 hasError={false}
                 className={styles.field}
               />
+              <div
+                className="col-sx-2 "
+                style={{
+                  justifyContent: 'space-between',
+                  display: 'flex',
+                  marginTop: '35px',
+                }}
+              >
+                {/* <button className={styles.fieldButton} type="button"> */}
+                <icons.plusCircle
+                  onClick={() => handleAddFields()}
+                  // className={styles.fieldButton}
+                  color={iconColors.primary}
+                />
+                {/* </button> */}
+              </div>
             </FlexBox.Row>
+          )}
+          {Object.entries(elementSchema).map(([key, value], index) => (
+            <>
+              <FlexBox.Row>
+                <EditField
+                  // disabled
+                  onKeyDown={(e: any) =>
+                    onPressEnter(e, 'key', elementName, key)
+                  }
+                  onChangeText={(e: any) =>
+                    onPressEnter(e, 'key', elementName, key, index)
+                  }
+                  label="Key"
+                  optional={false}
+                  defaultValue={key}
+                  // value={key}
+                  placeholder=""
+                  hasError={false}
+                  className={styles.field}
+                />
+                <div style={{ width: '10%' }}></div>
+                <EditField
+                  // disabled
+                  // marginRight={'md'}
+                  onKeyDown={(e: any) =>
+                    onPressEnter(e, 'value', elementName, key, index)
+                  }
+                  onChangeText={(e: any) =>
+                    onPressEnter(e, 'value', elementName, key, index)
+                  }
+                  label="Value"
+                  // optional={true}
+                  defaultValue={value}
+                  // value={value}
+                  placeholder=""
+                  hasError={false}
+                  className={styles.field}
+                />{' '}
+                {index === Object.entries(elementSchema).length - 1 &&
+                  !inputFields.length && (
+                    <div
+                      className="col-sx-2 "
+                      style={{
+                        justifyContent: 'space-between',
+                        display: 'flex',
+                        marginTop: '35px',
+                        marginLeft: '5px',
+                      }}
+                    >
+                      {/* <button
+                        className={styles.fieldButton}
+                        type="button"
+                        
+                      > */}
+                      <icons.plusCircle
+                        onClick={() => handleAddFields()}
+                        color={iconColors.primary}
+                      />
+                      {/* </button> */}
+                    </div>
+                  )}
+                {/* <div
+                  className="col-sx-2 "
+                  style={{
+                    justifyContent: 'space-between',
+                    display: 'flex',
+                    marginTop: '10px',
+                  }}
+                >
+                  <div
+                    style={{
+                      display: 'flex',
+                      flexDirection: 'row',
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                    }}
+                  ></div>
+                </div> */}
+              </FlexBox.Row>
+            </>
+          ))}
+          {inputFields.map((inputField: any, index: any) => (
+            // <div className="form-row">
+
+            <FlexBox.Row key={`${inputField}~${index}`}>
+              {console.log(inputFields, 'inputFieldsinputFields')}
+              {/* <div className="form-group col-sm-6"> */}
+              <EditField
+                onKeyDown={(e: any) =>
+                  onPressEnterForAddMore(
+                    e,
+                    'addMore',
+                    elementName,
+                    // index,
+                  )
+                }
+                onChangeText={(event: any) =>
+                  handleInputChange(index, event, elementName, 'key')
+                }
+                label={'Key'}
+                className={styles.field}
+                value={inputField?.key}
+                placeholder={''}
+              />
+              <div style={{ width: '10%' }}></div>
+              {/* </div> */}
+              {/* <div className="form-group col-sm-5"> */}
+              <EditField
+                onKeyDown={(e: any) =>
+                  onPressEnterForAddMore(
+                    e,
+                    'addMore',
+                    elementName,
+                    // index,
+                  )
+                }
+                className={styles.field}
+                onChangeText={(event: any) =>
+                  handleInputChange(index, event, elementName, 'value')
+                }
+                label={'Value'}
+                value={inputField?.value}
+                placeholder={''}
+              />
+              {/* </div> */}
+              <div
+                className="col-sx-2 "
+                style={{
+                  justifyContent: 'space-between',
+                  display: 'flex',
+                  marginBottom: '10px',
+                  // marginTop: '10px',
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    flexDirection: 'row',
+                    justifyContent: 'space-between',
+                    alignItems: 'center',
+                    marginTop: '5px',
+                    marginLeft: '5px',
+                  }}
+                >
+                  {/* <button
+                    className={styles.fieldButton}
+                    style={{}}
+                    type="button"
+                    // disabled={inputFields.length === 1}
+                    onClick={() => handleRemoveFields(index)}
+                  > */}
+                  <icons.minusCircle
+                    onClick={() => handleRemoveFields(index)}
+                    color={iconColors.primary}
+                  />
+                  {/* </button> */}
+                  {index === inputFields.length - 1 && (
+                    // <button
+                    //   className={styles.fieldButton}
+                    //   type="button"
+                    //   onClick={() => handleAddFields()}
+                    // >
+                    <icons.plusCircle
+                      onClick={() => handleAddFields()}
+                      color={iconColors.primary}
+                    />
+                    // </button>
+                  )}
+                </div>
+              </div>
+              {/* </div> */}
+            </FlexBox.Row>
+            // </div>
           ))}
         </Box>
       );
@@ -277,6 +541,9 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     ...stackComponent?.configuration,
   };
 
+  if (fetching) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
   return (
     <FlexBox.Column marginTop="xl" fullWidth>
       <FlexBox.Row>
