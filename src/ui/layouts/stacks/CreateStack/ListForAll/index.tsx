@@ -13,10 +13,13 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetList } from './GetList';
 import { GetFlavorsListForLogo } from '../../../stackComponents/Stacks/List/GetFlavorsListForLogo';
 import { SidePopup } from './SidePopup';
-import { showToasterAction } from '../../../../../redux/actions';
+import {
+  showToasterAction,
+  stackComponentsActions,
+} from '../../../../../redux/actions';
 import axios from 'axios';
 import { toasterTypes } from '../../../../../constants';
-import { useHistory } from '../../../../hooks';
+import { useHistory, useLocation } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import { NonEditableConfig } from '../../../NonEditableConfig';
 // import { callActionForStacksForPagination } from '../../Stacks/useService';
@@ -27,6 +30,7 @@ export const ListForAll: React.FC<Props> = () => {
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
+  const locationPath = useLocation() as any;
   // const { dispatchStackData } = callActionForStacksForPagination();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -231,7 +235,31 @@ export const ListForAll: React.FC<Props> = () => {
           registerStack={() => {
             onCreateStack();
           }}
-          onSeeExisting={() => {}}
+          onSeeExisting={() => {
+            dispatch(
+              stackComponentsActions.getMy({
+                workspace: selectedWorkspace
+                  ? selectedWorkspace
+                  : locationPath.split('/')[2],
+                type: selectedStackBox.type,
+
+                page: 1,
+                size: 1,
+                id: selectedStackBox.id,
+                onSuccess: () => {
+                  // setFetching(false);
+                  history.push(
+                    routePaths.stackComponents.configuration(
+                      selectedStackBox.type,
+                      selectedStackBox.id,
+                      selectedWorkspace,
+                    ),
+                  );
+                },
+                onFailure: () => {},
+              }),
+            );
+          }}
           onClose={() => {
             setShowPopup(false);
             setSelectedStackBox(null);

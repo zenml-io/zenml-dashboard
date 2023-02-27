@@ -126,7 +126,7 @@ export const GetList: React.FC<Props> = ({
               <CustomStackBox
                 image={item?.logoUrl}
                 stackName={item.name}
-                stackDesc={item?.flavor.name}
+                stackDesc={item?.flavor}
                 value={checkboxValue?.length > 0 ? true : false}
                 onCheck={(e: any) => {
                   e.stopPropagation();
@@ -149,7 +149,32 @@ export const GetList: React.FC<Props> = ({
       {showPopup && (
         <SidePopup
           isCreate={false}
-          onSeeExisting={() => {}}
+          onSeeExisting={() => {
+            // debugger;
+            dispatch(
+              stackComponentsActions.getMy({
+                workspace: selectedWorkspace
+                  ? selectedWorkspace
+                  : locationPath.split('/')[2],
+                type: selectedStackBox.type,
+
+                page: 1,
+                size: 1,
+                id: selectedStackBox.id,
+                onSuccess: () => {
+                  setFetching(false);
+                  history.push(
+                    routePaths.stackComponents.configuration(
+                      selectedStackBox.type,
+                      selectedStackBox.id,
+                      selectedWorkspace,
+                    ),
+                  );
+                },
+                onFailure: () => setFetching(false),
+              }),
+            );
+          }}
           onClose={() => setShowPopup(false)}
         >
           <Box marginTop="md" paddingBottom={'xxxl'}>

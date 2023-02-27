@@ -1,26 +1,26 @@
 import React, { useState } from 'react';
 
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
+// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {
   FlexBox,
   Box,
-  H4,
-  GhostButton,
-  icons,
+  // H4,
+  // GhostButton,
+  // icons,
   Row,
   FullWidthSpinner,
   // Container,
   EditField,
   Paragraph,
 } from '../../../../components';
-import { iconColors, iconSizes } from '../../../../../constants';
+// import { iconColors, iconSizes } from '../../../../../constants';
 
-import { useDispatch } from '../../../../hooks';
-import { showToasterAction } from '../../../../../redux/actions';
-import { toasterTypes } from '../../../../../constants';
+// import { useDispatch } from '../../../../hooks';
+// import { showToasterAction } from '../../../../../redux/actions';
+// import { toasterTypes } from '../../../../../constants';
 
-import { translate } from '../translate';
+// import { translate } from '../translate';
 
 import styles from './index.module.scss';
 import { useService } from './useService';
@@ -34,27 +34,27 @@ export const Configuration: React.FC<{
   tiles?: any;
   fetching?: boolean;
 }> = ({ stackId, tiles, fetching = false }) => {
-  const dispatch = useDispatch();
-  const { downloadYamlFile, stackConfig, stack } = useService({ stackId });
-  const [hover, setHover] = useState(false);
+  // const dispatch = useDispatch();
+  const { stack } = useService({ stackId });
+  // const [hover, setHover] = useState(false);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
-  const handleCopy = () => {
-    navigator.clipboard.writeText(stackConfig);
-    dispatch(
-      showToasterAction({
-        description: 'Config copied to clipboard',
-        type: toasterTypes.success,
-      }),
-    );
-  };
+  // const handleCopy = () => {
+  //   navigator.clipboard.writeText(stackConfig);
+  //   dispatch(
+  //     showToasterAction({
+  //       description: 'Config copied to clipboard',
+  //       type: toasterTypes.success,
+  //     }),
+  //   );
+  // };
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
 
   return (
     <FlexBox.Column fullWidth>
-      <FlexBox
+      {/* <FlexBox
         marginBottom="md"
         alignItems="center"
         justifyContent="space-between"
@@ -82,8 +82,8 @@ export const Configuration: React.FC<{
             />
           </GhostButton>
         </Box>
-      </FlexBox>
-      <FlexBox.Row marginLeft="md">
+      </FlexBox> */}
+      <FlexBox.Row marginLeft="md" marginTop="lg">
         {/* <Container> */}
         <Box style={{ width: '30%' }}>
           <EditField
@@ -134,7 +134,7 @@ export const Configuration: React.FC<{
             ))}
         </Row>
       </Box>
-      <FlexBox className={styles.code}>
+      {/* <FlexBox className={styles.code}>
         <SyntaxHighlighter
           customStyle={{ width: '100%' }}
           wrapLines={true}
@@ -143,7 +143,7 @@ export const Configuration: React.FC<{
         >
           {stackConfig}
         </SyntaxHighlighter>
-      </FlexBox>
+      </FlexBox> */}
 
       {showPopup && (
         <SidePopup

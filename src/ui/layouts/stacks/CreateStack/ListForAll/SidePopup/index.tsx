@@ -43,7 +43,7 @@ export const SidePopup: React.FC<{
             {children}
           </Box>
 
-        <Box
+          <Box
             paddingVertical="lg"
             paddingHorizontal="md"
             className={styles.actionSection}
@@ -63,7 +63,6 @@ export const SidePopup: React.FC<{
               )}
             </FlexBox.Row>
           </Box>
-          
         </OutsideClickHandler>
       </Box>
     </FlexBox>
