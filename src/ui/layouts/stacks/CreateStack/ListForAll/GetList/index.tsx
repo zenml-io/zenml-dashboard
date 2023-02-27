@@ -126,7 +126,7 @@ export const GetList: React.FC<Props> = ({
               <CustomStackBox
                 image={item?.logoUrl}
                 stackName={item.name}
-                stackDesc={item?.flavor.name}
+                stackDesc={item?.flavor}
                 value={checkboxValue?.length > 0 ? true : false}
                 onCheck={(e: any) => {
                   e.stopPropagation();
