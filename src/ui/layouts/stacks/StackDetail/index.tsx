@@ -25,6 +25,7 @@ import { List } from '../Stacks/List';
 
 import logo from '../../../assets/logo.svg';
 import { GetFlavorsListForLogo } from '../../stackComponents/Stacks/List/GetFlavorsListForLogo';
+import { FullWidthSpinner } from '../../../components';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -151,7 +152,9 @@ export const StackDetail: React.FC = () => {
   // });
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-
+  if (Object.keys(stack).length === 0) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
   if (flavourList?.length > 1) {
     for (const [key] of Object.entries(stack?.components)) {
       const { logo_url }: any = flavourList.find(

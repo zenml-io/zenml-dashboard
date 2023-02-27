@@ -16,6 +16,7 @@ import { SidePopup } from './SidePopup';
 import {
   showToasterAction,
   stackComponentsActions,
+  stacksActions,
 } from '../../../../../redux/actions';
 import axios from 'axios';
 import { toasterTypes } from '../../../../../constants';
@@ -121,9 +122,28 @@ export const ListForAll: React.FC<Props> = () => {
             type: toasterTypes.success,
           }),
         );
+        dispatch(
+          stacksActions.getMy({
+            page: 1,
+            size: 1,
+            id: response.data.id,
+            workspace: selectedWorkspace,
+            onSuccess: () => {
+              history.push(
+                routePaths.stack.configuration(
+                  response.data.id,
+                  selectedWorkspace,
+                ),
+              );
+            },
+            onFailure: () => {},
+          }),
+        );
         // dispatchStackData(1, 10);
-        history.push(routePaths.stacks.base);
-        // history.push(routePaths.stack.configuration(selectedWorkspace, id));
+        // history.push(routePaths.stacks.base);
+        history.push(
+          routePaths.stack.configuration(response.data.id, selectedWorkspace),
+        );
         // dispatchStackComponentsData(1, 10);
 
         // history.push(
