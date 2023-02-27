@@ -9,6 +9,7 @@ export const getStackComponentListAction = ({
   page,
   size,
   filtersParam,
+  id,
   onSuccess,
   onFailure,
 }: {
@@ -19,6 +20,7 @@ export const getStackComponentListAction = ({
   page: number;
   size: number;
   filtersParam?: object;
+  id?: any;
   onSuccess?: (res: any) => void;
   onFailure?: (res: any) => void;
 }): TRequestAction => ({
@@ -36,6 +38,7 @@ export const getStackComponentListAction = ({
       page,
       size,
       filtersParam,
+      id,
     },
     onSuccess,
     onFailure,
