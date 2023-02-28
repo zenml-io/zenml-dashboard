@@ -77,7 +77,7 @@ export const ListForAll: React.FC<Props> = () => {
       setSelectedStackBox(null);
       return dispatch(
         showToasterAction({
-          description: 'Select Atleast one component from Orchestrator',
+          description: 'Select atleast one component from Orchestrator',
           type: toasterTypes.failure,
         }),
       );
@@ -87,7 +87,7 @@ export const ListForAll: React.FC<Props> = () => {
       setSelectedStackBox(null);
       return dispatch(
         showToasterAction({
-          description: 'Select Atleast one component from Artifact Store',
+          description: 'Select atleast one component from Artifact Store',
           type: toasterTypes.failure,
         }),
       );

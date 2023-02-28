@@ -106,7 +106,7 @@ export const GetList: React.FC<Props> = ({
               );
             }}
           >
-            <StackBox stackName="Create" stackDesc="Create a stack" />
+            <StackBox stackName="Create Component" stackDesc="" />
           </div>
         </Box>
         {list?.map((item: any) => {
