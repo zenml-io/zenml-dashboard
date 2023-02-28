@@ -22,15 +22,16 @@
   display: flex;
   justify-content: center;
   align-items: center;
- 
-
   .imageContainer {
+    // max-height: 60px;
+    // max-width: 60px;
+    
     height: 59px;
     width: 119px;
     background-color: #fff;  
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
 
     img {
       height: 100%;
