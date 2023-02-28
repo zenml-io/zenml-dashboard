@@ -6,7 +6,7 @@ import React, { useState } from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
-import styles from './NestedRow.module.scss';
+// import styles from './NestedRow.module.scss';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
@@ -14,19 +14,18 @@ import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
-import { workspaceSelectors } from '../../../../redux/selectors';
+import {
+  // stackPagesSelectors,
+  workspaceSelectors,
+} from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { List } from '../Stacks/List';
-import {
-  Box,
-  FlexBox,
-  // FullWidthSpinner,
-  PrimaryButton,
-} from '../../../components';
-import { StackBox } from '../../common/StackBox';
+// import { Box, Row } from '../../../components';
+// import { StackBox } from '../../common/StackBox';
 
 import logo from '../../../assets/logo.svg';
 import { GetFlavorsListForLogo } from '../../stackComponents/Stacks/List/GetFlavorsListForLogo';
+import { FullWidthSpinner } from '../../../components';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -56,49 +55,43 @@ const FilterWrapperForRun = () => {
 
 const getTabPages = (
   stackId: TId,
+  fetching: boolean,
   selectedWorkspace: string,
   tiles?: any,
   history?: any,
 ): TabPage[] => {
   return [
-    {
-      text: 'Components',
-      Component: () => (
-        <Box>
-          <FlexBox.Row
-            marginVertical="sm"
-            marginHorizontal="md"
-            className={styles.nestedrow}
-            padding="md"
-            alignItems="center"
-          >
-            {tiles &&
-              tiles.map((tile: any, index: number) => (
-                <Box key={index} className={styles.tile} marginLeft="lg">
-                  <StackBox
-                    image={tile.logo}
-                    stackName={tile.name}
-                    stackDesc={tile.type}
-                  />
-                </Box>
-              ))}
-          </FlexBox.Row>
-
-          <PrimaryButton
-            className={styles.createButton}
-            onClick={() => {
-              history.push(routePaths.stacks.createStack(selectedWorkspace));
-            }}
-          >
-            Create Stack
-          </PrimaryButton>
-        </Box>
-      ),
-      path: routePaths.stack.components(stackId, selectedWorkspace),
-    },
+    // {
+    //   text: 'Components',
+    //   Component: () => (
+    //     <Box margin="md">
+    //       <Row className={styles.nestedrow}>
+    //         {tiles &&
+    //           tiles.map((tile: any, index: number) => (
+    //             <Box
+    //               key={index}
+    //               className={styles.tile}
+    //               marginTop="md"
+    //               marginLeft="md"
+    //               onClick={() => {}}
+    //             >
+    //               <StackBox
+    //                 image={tile.logo}
+    //                 stackName={tile.name}
+    //                 stackDesc={tile.type}
+    //               />
+    //             </Box>
+    //           ))}
+    //       </Row>
+    //     </Box>
+    //   ),
+    //   path: routePaths.stack.components(stackId, selectedWorkspace),
+    // },
     {
       text: translate('tabs.configuration.text'),
-      Component: () => <Configuration stackId={stackId} />,
+      Component: () => (
+        <Configuration fetching={fetching} tiles={tiles} stackId={stackId} />
+      ),
       path: routePaths.stack.configuration(stackId, selectedWorkspace),
     },
     {
@@ -141,7 +134,7 @@ export const StackDetail: React.FC = () => {
   const { stack } = useService();
   const history = useHistory();
   const nestedRowtiles = [];
-  const { flavourList } = GetFlavorsListForLogo();
+  const { flavourList, fetching } = GetFlavorsListForLogo();
   // const stackComponentsMap = stackComponents.map((item) => {
   //   const temp: any = flavourList.find(
   //     (fl: any) => fl.name === item.flavor && fl.type === item.type,
@@ -159,20 +152,23 @@ export const StackDetail: React.FC = () => {
   // });
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-
-  if (flavourList.length > 1) {
-    for (const [key] of Object.entries(stack.components)) {
+  if (Object.keys(stack).length === 0) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
+  if (flavourList?.length > 1) {
+    for (const [key] of Object.entries(stack?.components)) {
       const { logo_url }: any = flavourList.find(
         (fl: any) =>
-          fl.name === stack.components[key][0].flavor &&
-          fl.type === stack.components[key][0].type,
+          fl.name === stack?.components[key][0]?.flavor &&
+          fl.type === stack?.components[key][0]?.type,
       );
       console.log(logo, 'flavourListflavourList');
 
       nestedRowtiles.push({
+        ...stack?.components[key][0],
         type: key,
-        name: stack.components[key][0].name,
-        id: stack.components[key][0].id,
+        name: stack?.components[key][0]?.name,
+        id: stack?.components[key][0]?.id,
         logo: logo_url,
       });
     }
@@ -180,6 +176,7 @@ export const StackDetail: React.FC = () => {
 
   const tabPages = getTabPages(
     stack.id,
+    fetching,
     selectedWorkspace,
     nestedRowtiles,
     history,

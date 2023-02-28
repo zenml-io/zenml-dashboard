@@ -37,6 +37,7 @@ export const InputWithLabel = ({
 export const BaseInput = ({
   onChange,
   value,
+  defaultValue,
   placeholder,
   type,
   hasError,
@@ -46,6 +47,7 @@ export const BaseInput = ({
 }: {
   onChange: any;
   value: string;
+  defaultValue?: any;
   placeholder?: string;
   type: string;
   hasError?: boolean;
@@ -56,6 +58,7 @@ export const BaseInput = ({
     {...props}
     onChange={onChange}
     value={value}
+    defaultValue={defaultValue}
     placeholder={placeholder}
     className={cn(styles.input, hasError ? styles.error : null, className)}
     type={type}
@@ -120,6 +123,7 @@ export const EmailInput = ({
 export const TextInput = ({
   onChangeText,
   value,
+  defaultValue,
   placeholder,
   hasError,
   style,
@@ -128,6 +132,7 @@ export const TextInput = ({
 }: {
   onChangeText: any;
   value: string;
+  defaultValue?: string;
   placeholder?: string;
   hasError?: boolean;
   type?: string;
@@ -139,6 +144,7 @@ export const TextInput = ({
     onChange={(e: any): void => {
       onChangeText(e.target.value);
     }}
+    defaultValue={defaultValue}
     value={value}
     placeholder={placeholder}
     type={type}

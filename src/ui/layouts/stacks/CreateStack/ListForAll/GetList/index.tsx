@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { Box, FlexBox, H3, FullWidthSpinner } from '../../../../../components';
+import { SidePopup } from '../SidePopup';
 
 import { StackBox } from '../../../../common/StackBox';
 import { CustomStackBox } from '../../../../common/CustomStackBox';
@@ -12,6 +13,7 @@ import { stackComponentsActions } from '../../../../../../redux/actions';
 import { titleCase } from '../../../../../../utils';
 import { useHistory, useLocation } from '../../../../../hooks';
 import { routePaths } from '../../../../../../routes/routePaths';
+import { NonEditableConfig } from '../../../../NonEditableConfig';
 
 interface Props {
   type: string;
@@ -31,6 +33,8 @@ export const GetList: React.FC<Props> = ({
   const locationPath = useLocation() as any;
   const [fetching, setFetching] = useState(false);
   const [list, setlist] = useState([]);
+  const [showPopup, setShowPopup] = useState<boolean>(false);
+  const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   useEffect(() => {
@@ -53,10 +57,11 @@ export const GetList: React.FC<Props> = ({
               if (temp) {
                 return {
                   ...item,
-                  flavor: {
-                    logoUrl: temp.logo_url,
-                    name: item.flavor,
-                  },
+                  logoUrl: temp.logo_url,
+                  // flavor: {
+                  //   logoUrl: temp.logo_url,
+                  //   name: item.flavor,
+                  // },
                 };
               }
               return item;
@@ -101,32 +106,83 @@ export const GetList: React.FC<Props> = ({
               );
             }}
           >
-            <StackBox stackName="Create" stackDesc="Create a stack" />
+            <StackBox stackName="Create Component" stackDesc="" />
           </div>
         </Box>
-        {list?.map((item: any) => (
-          <Box marginLeft="md">
-            <CustomStackBox
-              image={item?.flavor?.logoUrl}
-              stackName={item.name}
-              stackDesc={item?.flavor.name}
-              value={false}
-              onCheck={() => {
-                // var selectedList = selectedStack;
-                var index = selectedStack.findIndex(function (s: any) {
-                  return s.id === item.id;
-                });
-                if (index !== -1) {
-                  selectedStack.splice(index, 1);
-                  setSelectedStack([...selectedStack]);
-                } else {
-                  setSelectedStack([...selectedStack, item]);
-                }
+        {list?.map((item: any) => {
+          const checkboxValue = selectedStack.filter((s: any) => {
+            return s.id === item.id;
+          });
+
+          return (
+            <Box
+              marginLeft="md"
+              style={{ cursor: 'pointer' }}
+              onClick={() => {
+                setShowPopup(true);
+                setSelectedStackBox(item);
               }}
-            />
-          </Box>
-        ))}
+            >
+              <CustomStackBox
+                image={item?.logoUrl}
+                stackName={item.name}
+                stackDesc={item?.flavor}
+                value={checkboxValue?.length > 0 ? true : false}
+                onCheck={(e: any) => {
+                  e.stopPropagation();
+                  var index = selectedStack.findIndex(function (s: any) {
+                    return s.id === item.id;
+                  });
+                  if (index !== -1) {
+                    selectedStack.splice(index, 1);
+                    setSelectedStack([...selectedStack]);
+                  } else {
+                    setSelectedStack([...selectedStack, item]);
+                  }
+                }}
+              />
+            </Box>
+          );
+        })}
       </FlexBox.Row>
+
+      {showPopup && (
+        <SidePopup
+          isCreate={false}
+          onSeeExisting={() => {
+            // debugger;
+            dispatch(
+              stackComponentsActions.getMy({
+                workspace: selectedWorkspace
+                  ? selectedWorkspace
+                  : locationPath.split('/')[2],
+                type: selectedStackBox.type,
+
+                page: 1,
+                size: 1,
+                id: selectedStackBox.id,
+                onSuccess: () => {
+                  setFetching(false);
+                  history.push(
+                    routePaths.stackComponents.configuration(
+                      selectedStackBox.type,
+                      selectedStackBox.id,
+                      selectedWorkspace,
+                    ),
+                  );
+                },
+                onFailure: () => setFetching(false),
+              }),
+            );
+          }}
+          onClose={() => setShowPopup(false)}
+        >
+          <Box marginTop="md" paddingBottom={'xxxl'}>
+            <NonEditableConfig details={selectedStackBox}></NonEditableConfig>
+            {console.log(selectedStackBox, 'selectedStackBox')}
+          </Box>
+        </SidePopup>
+      )}
     </>
   );
 };

@@ -13,13 +13,16 @@ import {
 
 import styles from './index.module.scss';
 
+const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
 export const SidePopup: React.FC<{
+  isCreate?: boolean;
   onSeeExisting: () => void;
   onClose: () => void;
-  registerStack: any;
-}> = ({ children, onClose, registerStack, onSeeExisting }) => (
+  registerStack?: any;
+}> = ({ children, onClose, registerStack, onSeeExisting, isCreate = true }) => (
   <>
+    <Dimmer />
     <FlexBox
       alignItems="center"
       justifyContent="center"
@@ -34,9 +37,11 @@ export const SidePopup: React.FC<{
       <Box className={styles.sidePopup}>
         <OutsideClickHandler onOutsideClick={onClose}>
           <Box paddingVertical="lg" paddingHorizontal="xxxl">
-            <H3 style={{ color: '#443E99', fontWeight: 'bold' }} >Configurations</H3>
-              {children}
-            </Box>
+            <H3 style={{ color: '#443E99', fontWeight: 'bold' }}>
+              Configurations
+            </H3>
+            {children}
+          </Box>
 
           <Box
             paddingVertical="lg"
@@ -49,9 +54,13 @@ export const SidePopup: React.FC<{
                   <Paragraph>Edit Component</Paragraph>
                 </LinkBox>
               </Box>
-              <Box>
-                <PrimaryButton onClick={registerStack}>Register Stack</PrimaryButton>
-              </Box>
+              {isCreate && (
+                <Box>
+                  <PrimaryButton onClick={registerStack}>
+                    Register Stack
+                  </PrimaryButton>
+                </Box>
+              )}
             </FlexBox.Row>
           </Box>
         </OutsideClickHandler>

@@ -20,11 +20,10 @@ import {
   FullWidthSpinner,
   Paragraph,
   SearchInputField,
-
-  Row
+  Row,
 } from '../../../../components';
 import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
-import { FlavourBox } from '../../../common/FlavourBox';
+// import { FlavourBox } from '../../../common/FlavourBox';
 import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
 import { callActionForFlavorsForPagination } from '../useService';
 import { SidePopup } from '../../../common/SidePopup';
@@ -99,26 +98,26 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
           <>
             <FlexBox>
               <Row>
-                <Box marginVertical={'sm'} style={{ marginLeft:"30px" }} >
+                {/* <Box marginVertical={'sm'} style={{ marginLeft:"30px" }} >
                   <FlavourBox
                     flavourDesc={'Configure and create a custom flavor'}
                     flavourName={'Create Custom Flavour'}
                   />
-                </Box>
+                </Box> */}
 
                 {allFlavors.map((item, index) => {
                   return (
-                      <Row key={index} style={{ marginLeft: '15px' }}>
-                        {console.log(item, 'item.nameitem.name')}
-                        <Box marginVertical={'sm'} marginHorizontal={'md'}>
-                          <CustomFlavourBox
-                            flavourDesc={item.configSchema.description}
-                            flavourName={item.name}
-                            logoUrl={item.logoUrl}
-                            onSelectFlavor={() => onSelectFlavor(item)}
-                          />
-                        </Box>
-                      </Row>
+                    <Row key={index} style={{ marginLeft: '15px' }}>
+                      {console.log(item, 'item.nameitem.name')}
+                      <Box marginVertical={'sm'} marginHorizontal={'md'}>
+                        <CustomFlavourBox
+                          flavourDesc={item.configSchema.description}
+                          flavourName={item.name}
+                          logoUrl={item.logoUrl}
+                          onSelectFlavor={() => onSelectFlavor(item)}
+                        />
+                      </Box>
+                    </Row>
                   );
                 })}
               </Row>

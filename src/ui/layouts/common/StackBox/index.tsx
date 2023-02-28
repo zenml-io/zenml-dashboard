@@ -55,13 +55,13 @@ export const StackBox: React.FC<{
 
       <Box style={{ marginTop: '8px' }}>
         <Paragraph className={styles.stackName}>
-          {titleCase(stackName)}
+          {titleCase(stackName?.slice(0, 17))}
         </Paragraph>
       </Box>
 
       <Box marginTop="xs">
         <Paragraph className={styles.stackDesc}>
-          {titleCase(stackDesc)}
+          {titleCase(stackDesc?.slice(0, 15))}
         </Paragraph>
       </Box>
     </Box>

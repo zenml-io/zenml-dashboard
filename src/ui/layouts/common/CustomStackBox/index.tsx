@@ -8,8 +8,8 @@ export const CustomStackBox: React.FC<{
   image: any;
   stackName: string;
   stackDesc: string;
-  value?: boolean;
-  onCheck: () => void;
+  value?: any;
+  onCheck: any;
 }> = ({ image, stackName, stackDesc, value, onCheck }) => {
 
   return (
@@ -18,7 +18,7 @@ export const CustomStackBox: React.FC<{
       paddingVertical="sm2"
       className={styles.stackBox}
     >
-    <input type='checkbox' className={styles.checkbox} onClick={onCheck} />
+    <input type='checkbox' className={styles.checkbox} checked={value} onClick={onCheck} />
       <Box className={styles.imageWrapper}>
         <Box className={styles.imageContainer}>
           <img src={image} alt="by Zenml" />
@@ -26,12 +26,12 @@ export const CustomStackBox: React.FC<{
       </Box>
 
       <Box style={{ marginTop: '8px' }}>
-        <Paragraph className={styles.stackName}>{stackName}</Paragraph>
+        <Paragraph className={styles.stackName}>{stackName?.slice(0, 15)}</Paragraph>
       </Box>
 
       <Box marginTop="xs">
         <Paragraph className={styles.stackDesc}>
-          {titleCase(stackDesc)}
+          {titleCase(stackDesc?.slice(0, 15))}
         </Paragraph>
       </Box>
     </Box>

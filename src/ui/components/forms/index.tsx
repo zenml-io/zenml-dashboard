@@ -174,6 +174,7 @@ export const EditField = (
     labelColor: any;
     placeholder: any;
     value: string;
+    defaultValue?: string;
     optional: boolean;
   } & any,
 ): JSX.Element => {
@@ -188,6 +189,7 @@ export const EditField = (
           InputComponent={
             <TextInput
               {...props}
+              defaultValue={props?.defaultValue}
               value={props.value}
               placeholder={props.placeholder}
             />

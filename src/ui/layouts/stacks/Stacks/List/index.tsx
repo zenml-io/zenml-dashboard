@@ -93,7 +93,7 @@ export const List: React.FC<Props> = ({
     if (id) {
       history.push(routePaths.stacks.list(selectedWorkspace));
     } else {
-      history.push(routePaths.stack.components(stack.id, selectedWorkspace));
+      history.push(routePaths.stack.configuration(stack.id, selectedWorkspace));
     }
   };
 

@@ -1,5 +1,17 @@
 @import '../../../../../globalStyles.scss';
 
+.dimmer {
+  position: fixed;
+  backdrop-filter: blur(4px);
+  // background: #424240;
+  // opacity: 0.5;
+  height: 100vh;
+  width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 9999;
+}
+
 .sidePopup {
   background: #ffffff;
   border-radius: 4px;
