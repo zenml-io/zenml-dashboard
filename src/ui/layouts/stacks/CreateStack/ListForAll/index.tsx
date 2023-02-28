@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
 import { Box, FlexBox, H2, FormTextField } from '../../../../components';
-import { ToggleField } from '../../../common/FormElement';
+import { ToggleFieldBlock } from '../../../common/FormElement';
 
 import {
   sessionSelectors,
@@ -185,7 +185,7 @@ export const ListForAll: React.FC<Props> = () => {
       </Box>
 
       <Box marginTop="lg">
-        <FlexBox.Row>
+        <FlexBox.Row alignItems='center'>
           <Box style={{ width: '30%' }}>
             <FormTextField
               required={'*'}
@@ -197,9 +197,10 @@ export const ListForAll: React.FC<Props> = () => {
               value={stackName}
             />
           </Box>
-          <Box marginLeft="xxxl" marginTop="md" style={{ width: '30%' }}>
-            <ToggleField
+          <Box marginLeft='xl' style={{ width: '30%' }}>
+            <ToggleFieldBlock
               label={'Share Stack with public'}
+              value={isShared}
               onHandleChange={(value: any) => setIshared(!isShared)}
             />
           </Box>
@@ -237,7 +238,7 @@ export const ListForAll: React.FC<Props> = () => {
       <FlexBox.Column>
         {stackComponentsTypes?.map((item) => {
           return (
-            <Box marginTop="lg" style={{ overflowX: 'auto' }}>
+            <Box marginTop="lg" style={{ overflow: 'auto' }}>
               <GetList
                 type={item}
                 flavourList={flavourList}

@@ -14,7 +14,7 @@ export const CustomStackBox: React.FC<{
 
   return (
     <Box
-      paddingHorizontal="sm2"
+      paddingHorizontal="sm2" 
       paddingVertical="sm2"
       className={styles.stackBox}
     >
