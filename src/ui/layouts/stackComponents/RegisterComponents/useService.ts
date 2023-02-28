@@ -37,7 +37,7 @@ export const useService = (): ServiceInterface => {
       dispatch(
         flavorsActions.getType({
           page: 1,
-          size: 8,
+          size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
           type: locationPath.split('/')[4],
           onSuccess: () => setFetching(false),
           onFailure: () => setFetching(false),
