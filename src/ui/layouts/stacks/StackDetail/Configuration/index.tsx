@@ -27,15 +27,25 @@ import { useService } from './useService';
 import { StackBox } from '../../../common/StackBox';
 import { SidePopup } from '../../CreateStack/ListForAll/SidePopup';
 import { NonEditableConfig } from '../../../NonEditableConfig';
-import { useDispatch, useSelector } from '../../../../hooks';
+import {
+  useDispatch,
+  useHistory,
+  useLocation,
+  useSelector,
+} from '../../../../hooks';
 import {
   sessionSelectors,
   userSelectors,
   workspaceSelectors,
 } from '../../../../../redux/selectors';
-import { showToasterAction, stacksActions } from '../../../../../redux/actions';
+import {
+  showToasterAction,
+  stackComponentsActions,
+  stacksActions,
+} from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
 import axios from 'axios';
+import { routePaths } from '../../../../../routes/routePaths';
 // import { SidePopup } from '../../../common/SidePopup';
 
 export const Configuration: React.FC<{
@@ -51,6 +61,9 @@ export const Configuration: React.FC<{
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
+  const locationPath = useLocation() as any;
+  // const { dispatchStackData } = callActionForStacksForPagination();
+  const history = useHistory();
   // const [hover, setHover] = useState(false);
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
@@ -199,6 +212,7 @@ export const Configuration: React.FC<{
             tiles.map((tile: any, index: number) => (
               <Box
                 key={index}
+                style={{ cursor: 'pointer' }}
                 className={styles.tile}
                 marginTop="md"
                 marginLeft="md"
@@ -233,7 +247,31 @@ export const Configuration: React.FC<{
           //   onCreateStack();
           // }}
           isCreate={false}
-          onSeeExisting={() => {}}
+          onSeeExisting={() => {
+            dispatch(
+              stackComponentsActions.getMy({
+                workspace: selectedWorkspace
+                  ? selectedWorkspace
+                  : locationPath.split('/')[2],
+                type: selectedStackBox.type,
+
+                page: 1,
+                size: 1,
+                id: selectedStackBox.id,
+                onSuccess: () => {
+                  // setFetching(false);
+                  history.push(
+                    routePaths.stackComponents.configuration(
+                      selectedStackBox.type,
+                      selectedStackBox.id,
+                      selectedWorkspace,
+                    ),
+                  );
+                },
+                onFailure: () => {},
+              }),
+            );
+          }}
           onClose={() => {
             setShowPopup(false);
             setSelectedStackBox(null);
