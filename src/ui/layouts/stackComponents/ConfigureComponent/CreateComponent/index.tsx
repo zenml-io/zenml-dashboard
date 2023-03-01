@@ -37,7 +37,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [componentName, setComponentName] = useState('');
-  const [isShared, setIsShared] = useState(false);
+  const [isShared, setIsShared] = useState(true);
   const [inputData, setInputData] = useState({}) as any;
   const [inputFields, setInputFields] = useState() as any;
   const history = useHistory();
@@ -321,10 +321,16 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         final[key] = {};
 
         ar[key].forEach((nestedArr: any) => {
-          final[key] = {
-            ...final[key],
-            [nestedArr.key]: nestedArr.value,
-          };
+          if (nestedArr.key && nestedArr.value) {
+            final[key] = {
+              ...final[key],
+              [nestedArr.key]: nestedArr.value,
+            };
+          } else {
+            if (Object.keys(final[key]).length === 0) {
+              delete final[key];
+            }
+          }
         });
       });
     });
@@ -400,6 +406,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
           />
           <ToggleField
             label={'Share Component with public'}
+            default={isShared}
             onHandleChange={
               (key: any, value: any) => setIsShared(value)
               // setInputData({ ...inputData, ['is_shared']: value })
