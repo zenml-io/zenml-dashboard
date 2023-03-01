@@ -39,6 +39,7 @@ export function ToggleField(props: any) {
         <Box>
           <label className={styles.switch}>
             <input
+              defaultChecked={props?.default}
               type="checkbox"
               onChange={(event) => onHandleChange(name, event.target.checked)}
             />
@@ -54,17 +55,22 @@ export function ToggleFieldBlock(props: any) {
   const { name, value, onHandleChange, label } = props;
   return (
     <Box style={{ height: '68px' }}>
-      <FlexBox.Row justifyContent="space-between" flexDirection='column'>
+      <FlexBox.Row justifyContent="space-between" flexDirection="column">
         <Box>
           <Paragraph size="body" style={{ color: '#000' }}>
             {label}
           </Paragraph>
         </Box>
         <FlexBox.Row className={styles.switchContainer}>
-         <div><span className={styles.switchLabel} >{value ? <>Yes</> : <>No</>}</span></div>
+          <div>
+            <span className={styles.switchLabel}>
+              {value ? <>Yes</> : <>No</>}
+            </span>
+          </div>
           <label className={styles.switch}>
             <input
               type="checkbox"
+              defaultChecked={value}
               onChange={(event) => onHandleChange(name, event.target.checked)}
             />
             <span className={`${styles.sliderBlue} ${styles.round}`}></span>

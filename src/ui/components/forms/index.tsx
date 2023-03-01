@@ -36,6 +36,7 @@ export type FieldError = {
 };
 
 export const FormTextField = (props: {
+  autoFocus?: any;
   label: string;
   labelColor?: any;
   placeholder: string;
@@ -195,9 +196,11 @@ export const EditField = (
             />
           }
         />
-        <Box style={{ position: 'absolute', right: '10px', top: '35px' }}>
-          <icons.pen color={iconColors.grey} />
-        </Box>
+        {!props.disabled && (
+          <Box style={{ position: 'absolute', right: '10px', top: '35px' }}>
+            <icons.pen color={iconColors.grey} />
+          </Box>
+        )}
       </FlexBox>
     </FlexBox.Column>
   );
