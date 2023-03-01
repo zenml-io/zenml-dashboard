@@ -82,6 +82,7 @@ export const GetList: React.FC<Props> = ({
     return <FullWidthSpinner color="black" size="md" />;
   }
   const helperTextStyle = {
+    fontFamily: 'Rubik',
     fontSize: '16px',
     color: '#A8A8A8',
     marginLeft: '10px',

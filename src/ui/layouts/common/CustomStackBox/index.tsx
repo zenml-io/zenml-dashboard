@@ -3,6 +3,7 @@ import { Box, Paragraph } from '../../../components';
 
 import styles from './index.module.scss';
 import { titleCase } from '../../../../utils/camelCase';
+import ReactTooltip from 'react-tooltip';
 
 export const CustomStackBox: React.FC<{
   image: any;
@@ -14,9 +15,9 @@ export const CustomStackBox: React.FC<{
 
   return (
     <Box
-      paddingHorizontal="sm2"
+      paddingHorizontal="sm2" 
       paddingVertical="sm2"
-      className={styles.stackBox}
+      className={styles.stackBox} 
     >
     <input type='checkbox' className={styles.checkbox} checked={value} onClick={onCheck} />
       <Box className={styles.imageWrapper}>
@@ -26,13 +27,21 @@ export const CustomStackBox: React.FC<{
       </Box>
 
       <Box style={{ marginTop: '8px' }}>
-        <Paragraph className={styles.stackName}>{stackName?.slice(0, 15)}</Paragraph>
+        <div data-tip data-for={stackName}>
+          <Paragraph className={styles.stackName}>{stackName?.length > 14 ? <>{stackName?.slice(0, 15)}...</> : stackName}</Paragraph>
+        </div>
+        <ReactTooltip id={stackName} place="top" effect="solid">
+          <Paragraph color="white">{stackName}</Paragraph>
+        </ReactTooltip>
       </Box>
 
       <Box marginTop="xs">
-        <Paragraph className={styles.stackDesc}>
-          {titleCase(stackDesc?.slice(0, 15))}
-        </Paragraph>
+        <div data-tip data-for={stackDesc}>
+          <Paragraph className={styles.stackDesc}>{stackDesc?.length > 14 ? <>{titleCase(stackDesc?.slice(0, 15))}...</> : stackDesc}</Paragraph>
+        </div>
+        <ReactTooltip id={stackDesc} place="top" effect="solid">
+          <Paragraph color="white">{titleCase(stackDesc)}</Paragraph>
+        </ReactTooltip>
       </Box>
     </Box>
   );

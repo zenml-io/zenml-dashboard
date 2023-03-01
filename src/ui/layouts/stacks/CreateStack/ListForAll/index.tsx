@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
 import { Box, FlexBox, H2, FormTextField } from '../../../../components';
-import { ToggleField } from '../../../common/FormElement';
+import { ToggleFieldBlock } from '../../../common/FormElement';
 
 import {
   sessionSelectors,
@@ -179,32 +179,35 @@ export const ListForAll: React.FC<Props> = () => {
   };
 
   return (
-    <Box style={{ width: '100%' }}>
-      <Box>
-        <H2 style={{ fontWeight: 'bolder' }}>Register a Stack</H2>
-      </Box>
-
-      <Box marginTop="lg">
-        <FlexBox.Row>
-          <Box style={{ width: '30%' }}>
-            <FormTextField
-              required={'*'}
-              onChange={(e: any) => {
-                setStackName(e);
-              }}
-              placeholder="Stack Name"
-              label={'Enter Stack Name'}
-              value={stackName}
-            />
-          </Box>
-          <Box marginLeft="xxxl" marginTop="md" style={{ width: '30%' }}>
-            <ToggleField
-              label={'Share Stack with public'}
-              onHandleChange={(value: any) => setIshared(!isShared)}
-            />
-          </Box>
-        </FlexBox.Row>
-      </Box>
+    <Box style={{ width: '100%', position: 'relative' }}>
+      
+      <div className={styles.top}>
+        <Box>
+          <H2 style={{ fontWeight: 'bolder' }}>Register a Stack</H2>
+        </Box>
+        <Box marginTop="lg">
+          <FlexBox.Row alignItems='center'>
+            <Box style={{ width: '30%' }}>
+              <FormTextField
+                required={'*'}
+                onChange={(e: any) => {
+                  setStackName(e);
+                }}
+                placeholder="Stack Name"
+                label={'Enter Stack Name'}
+                value={stackName}
+              />
+            </Box>
+            <Box marginLeft='xl' style={{ width: '30%' }}>
+              <ToggleFieldBlock
+                label={'Share Stack with public'}
+                value={isShared}
+                onHandleChange={(value: any) => setIshared(!isShared)}
+              />
+            </Box>
+          </FlexBox.Row>
+        </Box>
+      </div>
 
       {selectedStack?.length >= 0 && (
         <FlexBox.Row marginTop="md">
@@ -237,7 +240,7 @@ export const ListForAll: React.FC<Props> = () => {
       <FlexBox.Column>
         {stackComponentsTypes?.map((item) => {
           return (
-            <Box marginTop="lg" style={{ overflowX: 'auto' }}>
+            <Box marginTop="lg" paddingBottom='lg' style={{ overflowX: 'auto' }}>
               <GetList
                 type={item}
                 flavourList={flavourList}
