@@ -124,6 +124,7 @@ export const GetList: React.FC<Props> = ({
                 setSelectedStackBox(item);
               }}
             >
+              {console.log(selectedStack, 'selectedStackselectedStack')}
               <CustomStackBox
                 image={item?.logoUrl}
                 stackName={item.name}
@@ -138,7 +139,14 @@ export const GetList: React.FC<Props> = ({
                     selectedStack.splice(index, 1);
                     setSelectedStack([...selectedStack]);
                   } else {
-                    setSelectedStack([...selectedStack, item]);
+                    if (selectedStack.map((t: any) => t.type === item.type)) {
+                      let filterSelectedStack = selectedStack.filter(
+                        (st: any) => st.type !== item.type,
+                      );
+                      setSelectedStack([...filterSelectedStack, item]);
+                    } else {
+                      setSelectedStack([...selectedStack, item]);
+                    }
                   }
                 }}
               />
