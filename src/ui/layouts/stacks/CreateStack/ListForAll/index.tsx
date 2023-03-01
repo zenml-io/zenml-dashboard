@@ -188,6 +188,7 @@ export const ListForAll: React.FC<Props> = () => {
           <FlexBox.Row alignItems="center">
             <Box style={{ width: '30%' }}>
               <FormTextField
+                autoFocus
                 required={'*'}
                 onChange={(e: any) => {
                   setStackName(e);

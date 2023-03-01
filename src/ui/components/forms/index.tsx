@@ -36,6 +36,7 @@ export type FieldError = {
 };
 
 export const FormTextField = (props: {
+  autoFocus?: any;
   label: string;
   labelColor?: any;
   placeholder: string;
