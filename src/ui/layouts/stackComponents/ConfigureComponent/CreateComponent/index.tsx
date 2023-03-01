@@ -84,17 +84,11 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     setInputFields(values);
   };
 
-  const handleRemoveFields = (index: any, name: any) => {
+  const handleRemoveFields = (parentIndex: any, childIndex: any, name: any) => {
     const values = [...inputFields];
-    // debugger;
-    values[index][name].splice(index, 1);
+    debugger;
+    values[parentIndex][name].splice(childIndex, 1);
     setInputFields(values);
-
-    const keys = values.map((object) => object.key);
-    const value = values.map((object) => object.value);
-    var result: any = {};
-    keys.forEach((key: any, i: any) => (result[key] = value[i]));
-    setInputData({ ...inputData, [name]: result });
   };
   const toSnakeCase = (str: any) =>
     str &&
@@ -212,31 +206,35 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
                           alignItems: 'center',
                         }}
                       >
-                        <button
-                          className={styles.fieldButton}
-                          style={{}}
-                          type="button"
-                          disabled={item[props.name].length === 1}
-                          onClick={() =>
-                            handleRemoveFields(
-                              childIndex,
-                              toSnakeCase(props.name),
-                            )
-                          }
-                        >
-                          <icons.minusCircle color={iconColors.primary} />
-                        </button>
-                        {/* {index === inputFields.length - 1 && ( */}
-                        <button
-                          className={styles.fieldButton}
-                          type="button"
-                          onClick={() =>
-                            handleAddFields(props.name, parentIndex)
-                          }
-                        >
-                          <icons.plusCircle color={iconColors.primary} />
-                        </button>
-                        {/* )} */}
+                        {item[props.name].length > 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            style={{}}
+                            type="button"
+                            // disabled={item[props.name].length === 1}
+                            onClick={() =>
+                              handleRemoveFields(
+                                parentIndex,
+                                childIndex,
+                                props.name,
+                              )
+                            }
+                          >
+                            <icons.minusCircle color={iconColors.primary} />
+                          </button>
+                        )}
+
+                        {childIndex === item[props.name].length - 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            type="button"
+                            onClick={() =>
+                              handleAddFields(props.name, parentIndex)
+                            }
+                          >
+                            <icons.plusCircle color={iconColors.primary} />
+                          </button>
+                        )}
                       </div>
                     </div>
                   </Fragment>
