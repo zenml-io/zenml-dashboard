@@ -12,14 +12,18 @@ export const CustomStackBox: React.FC<{
   value?: any;
   onCheck: any;
 }> = ({ image, stackName, stackDesc, value, onCheck }) => {
-
   return (
     <Box
-      paddingHorizontal="sm2" 
+      paddingHorizontal="sm2"
       paddingVertical="sm2"
-      className={styles.stackBox} 
+      className={styles.stackBox}
     >
-    <input type='checkbox' className={styles.checkbox} checked={value} onClick={onCheck} />
+      <input
+        type="radio"
+        className={styles.checkbox}
+        checked={value}
+        onClick={onCheck}
+      />
       <Box className={styles.imageWrapper}>
         <Box className={styles.imageContainer}>
           <img src={image} alt="by Zenml" />
@@ -28,7 +32,13 @@ export const CustomStackBox: React.FC<{
 
       <Box style={{ marginTop: '8px' }}>
         <div data-tip data-for={stackName}>
-          <Paragraph className={styles.stackName}>{stackName?.length > 14 ? <>{stackName?.slice(0, 15)}...</> : stackName}</Paragraph>
+          <Paragraph className={styles.stackName}>
+            {stackName?.length > 14 ? (
+              <>{stackName?.slice(0, 15)}...</>
+            ) : (
+              stackName
+            )}
+          </Paragraph>
         </div>
         <ReactTooltip id={stackName} place="top" effect="solid">
           <Paragraph color="white">{stackName}</Paragraph>
@@ -37,7 +47,13 @@ export const CustomStackBox: React.FC<{
 
       <Box marginTop="xs">
         <div data-tip data-for={stackDesc}>
-          <Paragraph className={styles.stackDesc}>{stackDesc?.length > 14 ? <>{titleCase(stackDesc?.slice(0, 15))}...</> : stackDesc}</Paragraph>
+          <Paragraph className={styles.stackDesc}>
+            {stackDesc?.length > 14 ? (
+              <>{titleCase(stackDesc?.slice(0, 15))}...</>
+            ) : (
+              stackDesc
+            )}
+          </Paragraph>
         </div>
         <ReactTooltip id={stackDesc} place="top" effect="solid">
           <Paragraph color="white">{titleCase(stackDesc)}</Paragraph>
