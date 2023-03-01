@@ -159,7 +159,9 @@ export const ListForAll: React.FC<Props> = () => {
 
         dispatch(
           showToasterAction({
-            description: err?.response?.data?.detail[0],
+            description: err?.response?.data?.detail[0].includes('Exists')
+              ? `Stack name is already exists.`
+              : err?.response?.data?.detail[0],
             type: toasterTypes.failure,
           }),
         );
