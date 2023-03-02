@@ -15,7 +15,13 @@
     background: rgba(168, 168, 168, 0.1);
     border: 1px solid #C9CBD0;
     border-radius: 4px;
+    position: relative;
     
+  }
+  .copy{
+    right: 10px;
+    position: absolute;
+    cursor: pointer;
   }
   
   .switch {

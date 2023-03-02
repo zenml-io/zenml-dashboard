@@ -1,13 +1,17 @@
 import React from 'react';
-import { Box, EditField, FlexBox, Paragraph } from '../../components';
+import { Box, EditField, FlexBox, Paragraph, icons } from '../../components';
 import styles from './index.module.scss';
 import { titleCase } from '../../../utils';
 import { ToggleField } from '../common/FormElement';
 import JSONPretty from 'react-json-pretty';
+import { useDispatch } from '../../hooks';
+import { showToasterAction } from '../../../redux/actions';
+import { iconColors, iconSizes, toasterTypes } from '../../../constants';
 
 export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
   runConfiguration,
 }) => {
+  const dispatch = useDispatch();
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
       return (
@@ -28,6 +32,16 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
     }
 
     if (typeof elementSchema === 'object' && elementSchema !== null) {
+      const handleCopy = () => {
+        navigator.clipboard.writeText(JSON.stringify(elementSchema));
+
+        dispatch(
+          showToasterAction({
+            description: 'Config copied to clipboard',
+            type: toasterTypes.success,
+          }),
+        );
+      };
       return (
         <Box style={{ width: '40%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
@@ -38,6 +52,12 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
             marginVertical={'md'}
             className={styles.JSONPretty}
           >
+            <icons.copy
+              className={styles.copy}
+              onClick={handleCopy}
+              color={iconColors.black}
+              size={iconSizes.sm}
+            />
             <JSONPretty
               style={{ fontSize: '16px', fontFamily: 'Rubik' }}
               id="json-pretty"
