@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
-import { Box, FlexBox, H2, FormTextField } from '../../../../components';
+import { Box, FlexBox, H2, FormTextField, PrimaryButton } from '../../../../components';
 import { ToggleField } from '../../../common/FormElement';
 
 import {
@@ -257,6 +257,10 @@ export const ListForAll: React.FC<Props> = () => {
           );
         })}
       </FlexBox.Column>
+
+      <Box className={styles.stackFooter}>
+        <PrimaryButton className={styles.stackFooterButton}>Register</PrimaryButton>
+      </Box>
 
       {showPopup && (
         <SidePopup

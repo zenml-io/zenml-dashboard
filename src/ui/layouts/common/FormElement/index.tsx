@@ -51,7 +51,7 @@ export function TextField(props: any) {
 // }
 
 export function ToggleField(props: any) {
-  const { name, value, onHandleChange, label, disabled } = props;
+  const { value, onHandleChange, label, disabled } = props;
   return (
     <Box style={{ height: '68px' }}>
       <FlexBox.Row justifyContent="space-between" flexDirection="column">
@@ -65,8 +65,8 @@ export function ToggleField(props: any) {
           <label className={styles.switch}>
             <input
               type="checkbox"
-              defaultChecked={value}
-              onChange={(event) => onHandleChange(name, event.target.checked)}
+              checked={value}
+              onChange={onHandleChange}
               disabled={disabled}
             />
             <span className={`${styles.sliderBlue} ${styles.round}`}></span>
