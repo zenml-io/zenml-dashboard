@@ -160,7 +160,7 @@ export const ListForAll: React.FC<Props> = () => {
         dispatch(
           showToasterAction({
             description: err?.response?.data?.detail[0].includes('Exists')
-              ? `Stack name is already exists.`
+              ? `Stack name already exists.`
               : err?.response?.data?.detail[0],
             type: toasterTypes.failure,
           }),
@@ -200,7 +200,7 @@ export const ListForAll: React.FC<Props> = () => {
                 value={stackName}
               />
             </Box>
-            <Box marginLeft='xl' style={{ width: '30%' }}>
+            <Box marginLeft="xl" style={{ width: '30%' }}>
               <ToggleField
                 label={'Share Stack with public'}
                 value={isShared}
