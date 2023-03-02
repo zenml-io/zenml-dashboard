@@ -1,7 +1,8 @@
 import React from 'react';
-import { FlexBox, Box, EditField, Paragraph } from '../../components';
+import { Box, EditField, Paragraph } from '../../components';
 import styles from './index.module.scss';
 import { titleCase } from '../../../utils';
+import { ToggleField } from '../common/FormElement';
 import JSONPretty from 'react-json-pretty';
 
 export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
@@ -51,7 +52,7 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
       return (
         <Box marginVertical={'md'} style={{ width: '40%' }}>
           <Box>
-            {console.log(elementSchema, elementName, 'asdasdasda2222sdasd')}
+            {/* {console.log(elementSchema, elementName, 'asdasdasda2222sdasd')}
             <FlexBox.Row justifyContent="space-between">
               <Paragraph>{titleCase(elementName)}</Paragraph>
               <label className={styles.switch}>
@@ -62,7 +63,13 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
                 />
                 <span className={`${styles.slider} ${styles.round}`}></span>
               </label>
-            </FlexBox.Row>
+            </FlexBox.Row> */}
+            <ToggleField 
+              value={elementSchema} 
+              onHandleChange={() => {}} 
+              label={titleCase(elementName)} 
+              disabled={true}  
+            />
           </Box>
         </Box>
       );

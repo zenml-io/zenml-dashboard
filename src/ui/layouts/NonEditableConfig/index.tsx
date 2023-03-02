@@ -108,21 +108,11 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       return (
         <Box marginVertical={'md'} style={{ width: '100%' }}>
           <ToggleField 
-            name={titleCase(elementName)} 
             value={elementSchema} 
             onHandleChange={() => {}} 
             label={titleCase(elementName)} 
             disabled={true}  
           />
-          {/* <Box>
-            <FlexBox.Row justifyContent="space-between">
-              <Paragraph>{titleCase(elementName)}</Paragraph>
-              <label className={styles.switch}>
-                <input type="checkbox" checked={elementSchema} />
-                <span className={`${styles.slider} ${styles.round}`}></span>
-              </label>
-            </FlexBox.Row>
-          </Box> */}
         </Box>
       );
     }
