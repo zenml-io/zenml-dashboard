@@ -12,8 +12,10 @@ import { iconColors, iconSizes } from '../../../../../constants';
 import styles from './index.module.scss';
 import { useService } from './useService';
 
+import { NonEditableRunConfig } from '../../../NonEditableRunConfig';
+
 export const Configuration: React.FC<{ runId: TId }> = ({ runId }) => {
-  const { downloadYamlFile, pipelineConfig } = useService({ runId });
+  const { downloadYamlFile, pipelineConfig, run } = useService({ runId });
   const [hover, setHover] = useState(false);
   const dispatch = useDispatch();
   const handleCopy = () => {
@@ -28,6 +30,9 @@ export const Configuration: React.FC<{ runId: TId }> = ({ runId }) => {
 
   return (
     <FlexBox.Column fullWidth>
+      <NonEditableRunConfig
+        runConfiguration={run.pipelineConfiguration}
+      ></NonEditableRunConfig>
       <FlexBox
         marginBottom="md"
         alignItems="center"
