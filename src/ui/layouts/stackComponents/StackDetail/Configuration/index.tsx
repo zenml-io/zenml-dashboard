@@ -22,6 +22,7 @@ import {
   stackComponentsActions,
 } from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
+import { ToggleField } from '../../../common/FormElement';
 
 export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   const { stackComponent, flavor } = useService({
@@ -449,21 +450,12 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
       return (
         <Box marginVertical={'md'} style={{ width: '100%' }}>
           <Box>
-            {console.log(elementSchema, elementName, 'asdasdasda2222sdasd')}
-            <FlexBox.Row justifyContent="space-between">
-              <Paragraph>{titleCase(elementName)}</Paragraph>
-              <label className={styles.switch}>
-                <input
-                  disabled
-                  type="checkbox"
-                  defaultChecked={elementSchema}
-                  onChange={() =>
-                    onChangeToggle(!elementSchema, 'other', elementName)
-                  }
-                />
-                <span className={`${styles.slider} ${styles.round}`}></span>
-              </label>
-            </FlexBox.Row>
+            <ToggleField 
+              value={elementSchema} 
+              onHandleChange={() => onChangeToggle(!elementSchema, 'other', elementName)} 
+              label={titleCase(elementName)}
+              disabled={true} 
+            />
           </Box>
         </Box>
       );
@@ -518,22 +510,12 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           </Box>
         </Container>
         <Container>
-          <FlexBox.Row justifyContent="space-between" style={{ width: '70%' }}>
-            <Paragraph>Share Component with public</Paragraph>
-            <label className={styles.switch}>
-              {console.log(stackComponent, 'asdasdasda2222122sdasd')}
-              <input
-                type="checkbox"
-                disabled
-                defaultChecked={stackComponent.isShared}
-                // checked={stackComponent.isShared}
-                onChange={() =>
-                  onChangeToggle(!stackComponent.isShared, 'share')
-                }
-              />
-              <span className={`${styles.slider} ${styles.round}`}></span>
-            </label>
-          </FlexBox.Row>
+          <ToggleField 
+              value={stackComponent.isShared} 
+              onHandleChange={() => onChangeToggle(!stackComponent.isShared, 'share')} 
+              label='Share Component with public' 
+              disabled={true} 
+            />
         </Container>
       </FlexBox.Row>
       <FlexBox.Row style={{ width: '40%' }}>

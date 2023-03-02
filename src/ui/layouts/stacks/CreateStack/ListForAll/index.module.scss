@@ -32,3 +32,18 @@
     position: absolute; 
     top: 5px
 }
+
+.stackFooter {
+    width: 100%;
+    height: 70px;
+    position: sticky;
+    bottom: 0;
+    background-color: #fff; 
+    background: #fff; 
+    display: flex;
+    justify-content: flex-end;
+}
+.stackFooterButton {
+    margin-top: 15px !important;
+    right: 2rem;
+}
