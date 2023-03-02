@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
-import { Box, FlexBox, H2, FormTextField, PrimaryButton } from '../../../../components';
+import {
+  Box,
+  FlexBox,
+  H2,
+  FormTextField,
+  PrimaryButton,
+} from '../../../../components';
 import { ToggleField } from '../../../common/FormElement';
 
 import {
@@ -259,14 +265,39 @@ export const ListForAll: React.FC<Props> = () => {
       </FlexBox.Column>
 
       <Box className={styles.stackFooter}>
-        <PrimaryButton className={styles.stackFooterButton}>Register</PrimaryButton>
+        <PrimaryButton
+          className={styles.stackFooterButton}
+          onClick={() => onCreateStack()}
+        >
+          Register
+        </PrimaryButton>
       </Box>
 
       {showPopup && (
         <SidePopup
-          isCreate={true}
-          registerStack={() => {
-            onCreateStack();
+          canSelect={true}
+          selectedStackBox={selectedStackBox}
+          selectedStack={selectedStack}
+          onSelect={() => {
+            var index = selectedStack.findIndex(function (s: any) {
+              return s.id === selectedStackBox.id;
+            });
+            if (index !== -1) {
+              selectedStack.splice(index, 1);
+              setSelectedStack([...selectedStack]);
+            } else {
+              if (
+                selectedStack.map((t: any) => t.type === selectedStackBox.type)
+              ) {
+                let filterSelectedStack = selectedStack.filter(
+                  (st: any) => st.type !== selectedStackBox.type,
+                );
+                setSelectedStack([...filterSelectedStack, selectedStackBox]);
+              } else {
+                setSelectedStack([...selectedStack, selectedStackBox]);
+              }
+            }
+            setShowPopup(false);
           }}
           onSeeExisting={() => {
             dispatch(

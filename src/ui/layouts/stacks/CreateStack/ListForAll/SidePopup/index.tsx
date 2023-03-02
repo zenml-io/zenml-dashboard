@@ -73,13 +73,7 @@ export const SidePopup: React.FC<{
                     <Paragraph>Goto Component</Paragraph>
                   </LinkBox>
                 </Box>
-                {isCreate && (
-                  <Box>
-                    <PrimaryButton onClick={registerStack}>
-                      Register Stack
-                    </PrimaryButton>
-                  </Box>
-                )}
+
                 {canSelect && (
                   <Box>
                     <PrimaryButton onClick={onSelect}>
