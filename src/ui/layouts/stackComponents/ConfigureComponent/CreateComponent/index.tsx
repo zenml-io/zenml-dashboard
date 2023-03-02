@@ -277,12 +277,14 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     }
     if (elementSchema.type === 'boolean' && elementSchema.title) {
       return (
-        <ToggleField
-          {...props}
-          onHandleChange={(key: any, value: any) =>
-            setInputData({ ...inputData, [key]: value })
-          }
-        />
+        <Box marginTop='md'>
+          <ToggleField
+            {...props}
+            onHandleChange={(key: any, value: any) =>
+              setInputData({ ...inputData, [key]: value })
+            }
+          />
+        </Box>
       );
     }
   };
@@ -404,14 +406,16 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
             label={'Component Name'}
             value={componentName}
           />
-          <ToggleField
-            label={'Share Component with public'}
-            default={isShared}
-            onHandleChange={
-              (key: any, value: any) => setIsShared(value)
-              // setInputData({ ...inputData, ['is_shared']: value })
-            }
-          />
+          <Box marginTop='md'>
+            <ToggleField
+              label={'Share Component with public'}
+              default={isShared}
+              onHandleChange={
+                (key: any, value: any) => setIsShared(value)
+                // setInputData({ ...inputData, ['is_shared']: value })
+              }
+            />
+          </Box>
 
           <Form
             enableReinitialize
