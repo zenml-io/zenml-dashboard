@@ -6,7 +6,7 @@ import {
   Paragraph,
   Container,
   FullWidthSpinner,
-  icons,
+  // icons,
 } from '../../../../components';
 import styles from './index.module.scss';
 import { useService } from './useService';
@@ -21,7 +21,8 @@ import {
   showToasterAction,
   stackComponentsActions,
 } from '../../../../../redux/actions';
-import { iconColors, toasterTypes } from '../../../../../constants';
+import { toasterTypes } from '../../../../../constants';
+import { ToggleField } from '../../../common/FormElement';
 
 export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   const { stackComponent, flavor } = useService({
@@ -208,11 +209,11 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     onCallApi(updateConfig);
   };
 
-  const handleAddFields = () => {
-    const values = [...inputFields];
-    values.push({ key: '', value: '' });
-    setInputFields(values);
-  };
+  // const handleAddFields = () => {
+  //   const values = [...inputFields];
+  //   values.push({ key: '', value: '' });
+  //   setInputFields(values);
+  // };
   const handleInputChange = (index: any, event: any, label: any, type: any) => {
     const values = [...inputFields];
     if (type === 'key') {
@@ -222,17 +223,18 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     }
     setInputFields(values);
   };
-  const handleRemoveFields = (index: any) => {
-    const values = [...inputFields];
-    values.splice(index, 1);
-    setInputFields(values);
-  };
+  // const handleRemoveFields = (index: any) => {
+  //   const values = [...inputFields];
+  //   values.splice(index, 1);
+  //   setInputFields(values);
+  // };
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
       return (
         <Box marginVertical={'md'} style={{ width: '100%' }}>
           <EditField
+            disabled
             onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
             onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
             label={titleCase(elementName)}
@@ -254,7 +256,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           {Object.keys(elementSchema).length < 1 && (
             <FlexBox.Row>
               <EditField
-                // disabled
+                disabled
                 onKeyDown={(e: any) =>
                   onPressEnterForEmpty(
                     e,
@@ -277,20 +279,11 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
 
               <div style={{ width: '10%' }}></div>
               <EditField
-                // disabled
-                // marginRight={'md'}
+                disabled
                 onKeyDown={(e: any) =>
-                  onPressEnterForEmpty(
-                    e,
-                    'value',
-                    elementName,
-                    // index,
-                  )
+                  onPressEnterForEmpty(e, 'value', elementName)
                 }
-                onChangeText={
-                  (event: any) => {}
-                  // handleInputChange(0, event, elementName, 'value')
-                }
+                onChangeText={(event: any) => {}}
                 label="Value"
                 // optional={true}
                 // value={''}
@@ -298,7 +291,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                 hasError={false}
                 className={styles.field}
               />
-              <div
+              {/* <div
                 className="col-sx-2 "
                 style={{
                   justifyContent: 'space-between',
@@ -307,21 +300,18 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                   marginLeft: '5px',
                 }}
               >
-                {/* <button className={styles.fieldButton} type="button"> */}
                 <icons.plusCircle
                   onClick={() => handleAddFields()}
-                  // className={styles.fieldButton}
                   color={iconColors.primary}
                 />
-                {/* </button> */}
-              </div>
+              </div> */}
             </FlexBox.Row>
           )}
           {Object.entries(elementSchema).map(([key, value], index) => (
             <>
               <FlexBox.Row>
                 <EditField
-                  // disabled
+                  disabled
                   onKeyDown={(e: any) =>
                     onPressEnter(e, 'key', elementName, key)
                   }
@@ -338,7 +328,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                 />
                 <div style={{ width: '10%' }}></div>
                 <EditField
-                  // disabled
+                  disabled
                   // marginRight={'md'}
                   onKeyDown={(e: any) =>
                     onPressEnter(e, 'value', elementName, key, index)
@@ -353,8 +343,8 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                   placeholder=""
                   hasError={false}
                   className={styles.field}
-                />{' '}
-                {index === Object.entries(elementSchema).length - 1 &&
+                />
+                {/* {index === Object.entries(elementSchema).length - 1 &&
                   !inputFields.length && (
                     <div
                       className="col-sx-2 "
@@ -365,35 +355,12 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                         marginLeft: '5px',
                       }}
                     >
-                      {/* <button
-                        className={styles.fieldButton}
-                        type="button"
-                        
-                      > */}
                       <icons.plusCircle
                         onClick={() => handleAddFields()}
                         color={iconColors.primary}
                       />
-                      {/* </button> */}
                     </div>
-                  )}
-                {/* <div
-                  className="col-sx-2 "
-                  style={{
-                    justifyContent: 'space-between',
-                    display: 'flex',
-                    marginTop: '10px',
-                  }}
-                >
-                  <div
-                    style={{
-                      display: 'flex',
-                      flexDirection: 'row',
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                    }}
-                  ></div>
-                </div> */}
+                  )} */}
               </FlexBox.Row>
             </>
           ))}
@@ -415,6 +382,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                 onChangeText={(event: any) =>
                   handleInputChange(index, event, elementName, 'key')
                 }
+                disabled
                 label={'Key'}
                 className={styles.field}
                 value={inputField?.key}
@@ -432,6 +400,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                     // index,
                   )
                 }
+                disabled
                 className={styles.field}
                 onChangeText={(event: any) =>
                   handleInputChange(index, event, elementName, 'value')
@@ -441,13 +410,12 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                 placeholder={''}
               />
               {/* </div> */}
-              <div
+              {/* <div
                 className="col-sx-2 "
                 style={{
                   justifyContent: 'space-between',
                   display: 'flex',
                   marginBottom: '10px',
-                  // marginTop: '10px',
                 }}
               >
                 <div
@@ -460,35 +428,20 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                     marginLeft: '5px',
                   }}
                 >
-                  {/* <button
-                    className={styles.fieldButton}
-                    style={{}}
-                    type="button"
-                    // disabled={inputFields.length === 1}
-                    onClick={() => handleRemoveFields(index)}
-                  > */}
                   <icons.minusCircle
                     onClick={() => handleRemoveFields(index)}
                     color={iconColors.primary}
                   />
-                  {/* </button> */}
+
                   {index === inputFields.length - 1 && (
-                    // <button
-                    //   className={styles.fieldButton}
-                    //   type="button"
-                    //   onClick={() => handleAddFields()}
-                    // >
                     <icons.plusCircle
                       onClick={() => handleAddFields()}
                       color={iconColors.primary}
                     />
-                    // </button>
                   )}
                 </div>
-              </div>
-              {/* </div> */}
+              </div> */}
             </FlexBox.Row>
-            // </div>
           ))}
         </Box>
       );
@@ -497,20 +450,12 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
       return (
         <Box marginVertical={'md'} style={{ width: '100%' }}>
           <Box>
-            {console.log(elementSchema, elementName, 'asdasdasda2222sdasd')}
-            <FlexBox.Row justifyContent="space-between">
-              <Paragraph>{titleCase(elementName)}</Paragraph>
-              <label className={styles.switch}>
-                <input
-                  type="checkbox"
-                  defaultChecked={elementSchema}
-                  onChange={() =>
-                    onChangeToggle(!elementSchema, 'other', elementName)
-                  }
-                />
-                <span className={`${styles.slider} ${styles.round}`}></span>
-              </label>
-            </FlexBox.Row>
+            <ToggleField 
+              value={elementSchema} 
+              onHandleChange={() => onChangeToggle(!elementSchema, 'other', elementName)} 
+              label={titleCase(elementName)}
+              disabled={true} 
+            />
           </Box>
         </Box>
       );
@@ -551,7 +496,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
         <Container>
           <Box style={{ width: '79%' }}>
             <EditField
-              // disabled
+              disabled
               onKeyDown={(e: any) => onPressEnter(e, 'name')}
               onChangeText={(e: any) => onPressEnter(e, 'name')}
               label={'Component Name'}
@@ -565,21 +510,12 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           </Box>
         </Container>
         <Container>
-          <FlexBox.Row justifyContent="space-between" style={{ width: '70%' }}>
-            <Paragraph>Share Component with public</Paragraph>
-            <label className={styles.switch}>
-              {console.log(stackComponent, 'asdasdasda2222122sdasd')}
-              <input
-                type="checkbox"
-                defaultChecked={stackComponent.isShared}
-                // checked={stackComponent.isShared}
-                onChange={() =>
-                  onChangeToggle(!stackComponent.isShared, 'share')
-                }
-              />
-              <span className={`${styles.slider} ${styles.round}`}></span>
-            </label>
-          </FlexBox.Row>
+          <ToggleField 
+              value={stackComponent.isShared} 
+              onHandleChange={() => onChangeToggle(!stackComponent.isShared, 'share')} 
+              label='Share Component with public' 
+              disabled={true} 
+            />
         </Container>
       </FlexBox.Row>
       <FlexBox.Row style={{ width: '40%' }}>

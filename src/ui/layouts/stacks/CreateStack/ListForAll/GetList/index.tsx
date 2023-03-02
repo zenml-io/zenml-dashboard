@@ -82,6 +82,7 @@ export const GetList: React.FC<Props> = ({
     return <FullWidthSpinner color="black" size="md" />;
   }
   const helperTextStyle = {
+    fontFamily: 'Rubik',
     fontSize: '16px',
     color: '#A8A8A8',
     marginLeft: '10px',
@@ -123,6 +124,7 @@ export const GetList: React.FC<Props> = ({
                 setSelectedStackBox(item);
               }}
             >
+              {console.log(selectedStack, 'selectedStackselectedStack')}
               <CustomStackBox
                 image={item?.logoUrl}
                 stackName={item.name}
@@ -137,7 +139,14 @@ export const GetList: React.FC<Props> = ({
                     selectedStack.splice(index, 1);
                     setSelectedStack([...selectedStack]);
                   } else {
-                    setSelectedStack([...selectedStack, item]);
+                    if (selectedStack.map((t: any) => t.type === item.type)) {
+                      let filterSelectedStack = selectedStack.filter(
+                        (st: any) => st.type !== item.type,
+                      );
+                      setSelectedStack([...filterSelectedStack, item]);
+                    } else {
+                      setSelectedStack([...selectedStack, item]);
+                    }
                   }
                 }}
               />
@@ -149,6 +158,30 @@ export const GetList: React.FC<Props> = ({
       {showPopup && (
         <SidePopup
           isCreate={false}
+          canSelect={true}
+          onSelect={() => {
+            var index = selectedStack.findIndex(function (s: any) {
+              return s.id === selectedStackBox.id;
+            });
+            if (index !== -1) {
+              selectedStack.splice(index, 1);
+              setSelectedStack([...selectedStack]);
+            } else {
+              if (
+                selectedStack.map((t: any) => t.type === selectedStackBox.type)
+              ) {
+                let filterSelectedStack = selectedStack.filter(
+                  (st: any) => st.type !== selectedStackBox.type,
+                );
+                setSelectedStack([...filterSelectedStack, selectedStackBox]);
+              } else {
+                setSelectedStack([...selectedStack, selectedStackBox]);
+              }
+            }
+            setShowPopup(false);
+          }}
+          selectedStackBox={selectedStackBox}
+          selectedStack={selectedStack}
           onSeeExisting={() => {
             // debugger;
             dispatch(

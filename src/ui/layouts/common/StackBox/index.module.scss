@@ -2,11 +2,11 @@
 
 .stackBox {
   width: 171px;
-  height: 130px;
-  height: 100%;
+  min-height: 127px;
   padding: 10px;
   background-color: #fff;
   box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  cursor: pointer;
 }
 
 .checkbox {
@@ -26,9 +26,9 @@
     height: 59px;
     width: 119px;
     background-color: #fff;  
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
     
     img {
       height: 100%;

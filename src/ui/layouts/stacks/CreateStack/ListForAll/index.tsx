@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
-import { Box, FlexBox, H2, FormTextField } from '../../../../components';
+import {
+  Box,
+  FlexBox,
+  H2,
+  FormTextField,
+  PrimaryButton,
+} from '../../../../components';
 import { ToggleField } from '../../../common/FormElement';
 
 import {
@@ -41,7 +47,7 @@ export const ListForAll: React.FC<Props> = () => {
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const { flavourList } = GetFlavorsListForLogo();
   const [stackName, setStackName] = useState('');
-  const [isShared, setIshared] = useState(false);
+  const [isShared, setIshared] = useState(true);
   const [selectedStack, setSelectedStack] = useState<any>([]);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -159,7 +165,9 @@ export const ListForAll: React.FC<Props> = () => {
 
         dispatch(
           showToasterAction({
-            description: err?.response?.data?.detail[0],
+            description: err?.response?.data?.detail[0].includes('Exists')
+              ? `Stack name already exists.`
+              : err?.response?.data?.detail[0],
             type: toasterTypes.failure,
           }),
         );
@@ -179,65 +187,72 @@ export const ListForAll: React.FC<Props> = () => {
   };
 
   return (
-    <Box style={{ width: '100%' }}>
-      <Box>
-        <H2 style={{ fontWeight: 'bolder' }}>Register a Stack</H2>
-      </Box>
-
-      <Box marginTop="lg">
-        <FlexBox.Row>
-          <Box style={{ width: '30%' }}>
-            <FormTextField
-              required={'*'}
-              onChange={(e: any) => {
-                setStackName(e);
-              }}
-              placeholder="Stack Name"
-              label={'Enter Stack Name'}
-              value={stackName}
-            />
-          </Box>
-          <Box marginLeft="xxxl" marginTop="md" style={{ width: '30%' }}>
-            <ToggleField
-              label={'Share Stack with public'}
-              onHandleChange={(value: any) => setIshared(!isShared)}
-            />
-          </Box>
-        </FlexBox.Row>
-      </Box>
-
-      {selectedStack?.length >= 0 && (
-        <FlexBox.Row marginTop="md">
-          {selectedStack?.map((stack: any) => (
-            <Box
-              onClick={() => selectStack(stack)}
-              marginLeft="sm"
-              style={{
-                border:
-                  selectedStackBox?.id === stack.id
-                    ? '2px solid #431E93'
-                    : '2px solid #fff',
-              }}
-              className={styles.selectedBox}
-            >
-              {selectedStackBox?.id !== stack.id && (
-                <input
-                  type="checkbox"
-                  className={styles.selectedBoxCheckbox}
-                  checked
-                  onClick={(e) => handleSelectedBox(e, stack)}
-                />
-              )}
-              <img src={stack.logoUrl} alt={stack.name} />
+    <Box style={{ width: '100%', position: 'relative' }}>
+      <div className={styles.top}>
+        <Box>
+          <H2 style={{ fontWeight: 'bolder' }}>Register a Stack</H2>
+        </Box>
+        <Box marginTop="lg">
+          <FlexBox.Row alignItems="center">
+            <Box style={{ width: '30%' }}>
+              <FormTextField
+                autoFocus
+                required={'*'}
+                onChange={(e: any) => {
+                  setStackName(e);
+                }}
+                placeholder="Stack Name"
+                label={'Enter Stack Name'}
+                value={stackName}
+              />
             </Box>
-          ))}
-        </FlexBox.Row>
-      )}
+            <Box marginLeft="xl" style={{ width: '30%' }}>
+              <ToggleField
+                label={'Share Stack with public'}
+                value={isShared}
+                onHandleChange={(value: any) => setIshared(!isShared)}
+              />
+            </Box>
+          </FlexBox.Row>
+        </Box>
+
+        {selectedStack?.length >= 0 && (
+          <FlexBox.Row marginTop="md">
+            {selectedStack?.map((stack: any) => (
+              <Box
+                onClick={() => selectStack(stack)}
+                marginLeft="sm"
+                style={{
+                  border:
+                    selectedStackBox?.id === stack.id
+                      ? '2px solid #431E93'
+                      : '2px solid #fff',
+                }}
+                className={styles.selectedBox}
+              >
+                {selectedStackBox?.id !== stack.id && (
+                  <input
+                    type="checkbox"
+                    className={styles.selectedBoxCheckbox}
+                    checked
+                    onClick={(e) => handleSelectedBox(e, stack)}
+                  />
+                )}
+                <img src={stack.logoUrl} alt={stack.name} />
+              </Box>
+            ))}
+          </FlexBox.Row>
+        )}
+      </div>
 
       <FlexBox.Column>
         {stackComponentsTypes?.map((item) => {
           return (
-            <Box marginTop="lg" style={{ overflowX: 'auto' }}>
+            <Box
+              marginTop="lg"
+              paddingBottom="lg"
+              style={{ overflowX: 'auto' }}
+            >
               <GetList
                 type={item}
                 flavourList={flavourList}
@@ -249,11 +264,40 @@ export const ListForAll: React.FC<Props> = () => {
         })}
       </FlexBox.Column>
 
+      <Box className={styles.stackFooter}>
+        <PrimaryButton
+          className={styles.stackFooterButton}
+          onClick={() => onCreateStack()}
+        >
+          Register Stack
+        </PrimaryButton>
+      </Box>
+
       {showPopup && (
         <SidePopup
-          isCreate={true}
-          registerStack={() => {
-            onCreateStack();
+          canSelect={true}
+          selectedStackBox={selectedStackBox}
+          selectedStack={selectedStack}
+          onSelect={() => {
+            var index = selectedStack.findIndex(function (s: any) {
+              return s.id === selectedStackBox.id;
+            });
+            if (index !== -1) {
+              selectedStack.splice(index, 1);
+              setSelectedStack([...selectedStack]);
+            } else {
+              if (
+                selectedStack.map((t: any) => t.type === selectedStackBox.type)
+              ) {
+                let filterSelectedStack = selectedStack.filter(
+                  (st: any) => st.type !== selectedStackBox.type,
+                );
+                setSelectedStack([...filterSelectedStack, selectedStackBox]);
+              } else {
+                setSelectedStack([...selectedStack, selectedStackBox]);
+              }
+            }
+            setShowPopup(false);
           }}
           onSeeExisting={() => {
             dispatch(

@@ -22,15 +22,15 @@
   display: flex;
   justify-content: center;
   align-items: center;
- 
+  margin: 8px;
 
-  .imageContainer {
-    height: 59px;
-    width: 119px;
+  .imageContainer {  
+    height: 50px;
+    width: 100px;
     background-color: #fff;  
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    // display: flex;
+    // justify-content: center;
+    // align-items: center;
 
     img {
       height: 100%;

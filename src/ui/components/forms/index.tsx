@@ -36,6 +36,7 @@ export type FieldError = {
 };
 
 export const FormTextField = (props: {
+  autoFocus?: any;
   label: string;
   labelColor?: any;
   placeholder: string;
@@ -195,9 +196,11 @@ export const EditField = (
             />
           }
         />
-        <Box style={{ position: 'absolute', right: '10px', top: '35px' }}>
-          <icons.pen color={iconColors.grey} />
-        </Box>
+        {!props.disabled && (
+          <Box style={{ position: 'absolute', right: '10px', top: '35px' }}>
+            <icons.pen color={iconColors.grey} />
+          </Box>
+        )}
       </FlexBox>
     </FlexBox.Column>
   );
@@ -213,10 +216,10 @@ export const SearchInputField = (
   } & any,
 ): JSX.Element => {
   return (
-    <FlexBox.Column fullWidth style={{ height: '100px' }}>
+    <FlexBox.Column fullWidth style={{ height: '100px', marginTop: '-10px' }}>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
         <LinkBox
-          style={{ position: 'absolute', left: '7px', top: '30px' }}
+          style={{ position: 'absolute', left: '7px', top: '35px' }}
           onClick={() => {}}
         >
           <icons.search color={iconColors.grey} />

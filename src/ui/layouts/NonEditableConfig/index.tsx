@@ -7,6 +7,7 @@ import {
   Container,
   FullWidthSpinner,
 } from '../../components';
+import { ToggleField } from '../common/FormElement';
 import styles from './index.module.scss';
 import { useService } from './useService';
 
@@ -106,15 +107,12 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     if (typeof elementSchema === 'boolean') {
       return (
         <Box marginVertical={'md'} style={{ width: '100%' }}>
-          <Box>
-            <FlexBox.Row justifyContent="space-between">
-              <Paragraph>{titleCase(elementName)}</Paragraph>
-              <label className={styles.switch}>
-                <input type="checkbox" checked={elementSchema} />
-                <span className={`${styles.slider} ${styles.round}`}></span>
-              </label>
-            </FlexBox.Row>
-          </Box>
+          <ToggleField 
+            value={elementSchema} 
+            onHandleChange={() => {}} 
+            label={titleCase(elementName)} 
+            disabled={true}  
+          />
         </Box>
       );
     }
@@ -161,13 +159,20 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               className={styles.field}
             />
           </Box>
-          <FlexBox.Row justifyContent="space-between" style={{ width: '80%' }}>
+          {/* <FlexBox.Row justifyContent="space-between" style={{ width: '80%' }}>
             <Paragraph>Share Component with public</Paragraph>
             <label className={styles.switch}>
               <input type="checkbox" checked={details.is_shared} />
               <span className={`${styles.slider} ${styles.round}`}></span>
             </label>
-          </FlexBox.Row>
+          </FlexBox.Row> */}
+          <ToggleField 
+            name='Share Component with public'
+            value={details.is_shared} 
+            onHandleChange={() => {}} 
+            label='Share Component with public'
+            disabled={true}  
+          />
         </Container>
         {/* <Container>
   
