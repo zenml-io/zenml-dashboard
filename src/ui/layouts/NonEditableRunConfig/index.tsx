@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, EditField, Paragraph } from '../../components';
+import { Box, EditField, FlexBox, Paragraph } from '../../components';
 import styles from './index.module.scss';
 import { titleCase } from '../../../utils';
 import { ToggleField } from '../common/FormElement';
@@ -64,11 +64,11 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
                 <span className={`${styles.slider} ${styles.round}`}></span>
               </label>
             </FlexBox.Row> */}
-            <ToggleField 
-              value={elementSchema} 
-              onHandleChange={() => {}} 
-              label={titleCase(elementName)} 
-              disabled={true}  
+            <ToggleField
+              value={elementSchema}
+              onHandleChange={() => {}}
+              label={titleCase(elementName)}
+              disabled={true}
             />
           </Box>
         </Box>
@@ -77,12 +77,12 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
   };
 
   return (
-    <>
+    <FlexBox.Column marginLeft="md">
       {Object.keys(runConfiguration).map((key, ind) => (
         // <Col xs={6} key={ind}>
         <>{getFormElement(key, runConfiguration[key])}</>
         // </Col>
       ))}
-    </>
+    </FlexBox.Column>
   );
 };

@@ -23,6 +23,7 @@ import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
 import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
+// import { keys } from 'lodash';
 
 export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const {
@@ -86,7 +87,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
 
   const handleRemoveFields = (parentIndex: any, childIndex: any, name: any) => {
     const values = [...inputFields];
-    debugger;
+    // debugger;
     values[parentIndex][name].splice(childIndex, 1);
     setInputFields(values);
   };
@@ -322,7 +323,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
-
+    // debugger;
     const final: any = {};
     inputFields.forEach((ar: any) => {
       const keys = Object.keys(ar);
@@ -330,7 +331,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         final[key] = {};
 
         ar[key].forEach((nestedArr: any) => {
-          if (nestedArr.key && nestedArr.value) {
+          if (nestedArr.key || nestedArr.value) {
             final[key] = {
               ...final[key],
               [nestedArr.key]: nestedArr.value,
@@ -343,7 +344,27 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         });
       });
     });
-
+    for (const [key] of Object.entries(final)) {
+      // console.log(`${key}: ${value}`);
+      for (const [innerKey, innerValue] of Object.entries(final[key])) {
+        if (!innerKey && innerValue) {
+          return dispatch(
+            showToasterAction({
+              description: 'Key cannot be Empty.',
+              type: toasterTypes.failure,
+            }),
+          );
+        }
+        if (!innerValue && innerKey) {
+          return dispatch(
+            showToasterAction({
+              description: 'Value cannot be Empty.',
+              type: toasterTypes.failure,
+            }),
+          );
+        }
+      }
+    }
     const body = {
       user: user?.id,
       workspace: id,
