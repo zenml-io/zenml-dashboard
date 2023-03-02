@@ -81,7 +81,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   return (
     <>
       <FlexBox.Column fullWidth>
-        <div style={{ marginBottom: '-30px' }}>
+        <div style={{ marginBottom: '-10px' }}>
           <SearchInputField
             placeholder={'Search'}
             value={text}
