@@ -176,7 +176,7 @@ export const Configuration: React.FC<{
         {/* <Container> */}
         <Box style={{ width: '30%' }}>
           <EditField
-            // disabled
+            disabled
             onKeyDown={(e: any) => onPressEnter(e, stack.is_shared)}
             onChangeText={(e: any) => onPressEnter(e, stack.is_shared)}
             label={'Stack Name'}
@@ -189,12 +189,12 @@ export const Configuration: React.FC<{
           />
         </Box>
         <Box marginLeft="xxl2">
-          <ToggleField 
-            name='Share Component with public'
+          <ToggleField
+            name="Share Component with public"
             value={stack.isShared}
-            onHandleChange={() => onCallApi(stack.name, !stack.isShared)} 
-            label='Share Component with public'
-            disabled={false}
+            onHandleChange={() => onCallApi(stack.name, !stack.isShared)}
+            label="Share Component with public"
+            disabled={true}
           />
         </Box>
         {/* <FlexBox
