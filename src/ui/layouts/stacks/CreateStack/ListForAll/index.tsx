@@ -41,7 +41,7 @@ export const ListForAll: React.FC<Props> = () => {
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const { flavourList } = GetFlavorsListForLogo();
   const [stackName, setStackName] = useState('');
-  const [isShared, setIshared] = useState(false);
+  const [isShared, setIshared] = useState(true);
   const [selectedStack, setSelectedStack] = useState<any>([]);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -159,7 +159,9 @@ export const ListForAll: React.FC<Props> = () => {
 
         dispatch(
           showToasterAction({
-            description: err?.response?.data?.detail[0],
+            description: err?.response?.data?.detail[0].includes('Exists')
+              ? `Stack name is already exists.`
+              : err?.response?.data?.detail[0],
             type: toasterTypes.failure,
           }),
         );
@@ -180,15 +182,15 @@ export const ListForAll: React.FC<Props> = () => {
 
   return (
     <Box style={{ width: '100%', position: 'relative' }}>
-      
       <div className={styles.top}>
         <Box>
           <H2 style={{ fontWeight: 'bolder' }}>Register a Stack</H2>
         </Box>
         <Box marginTop="lg">
-          <FlexBox.Row alignItems='center'>
+          <FlexBox.Row alignItems="center">
             <Box style={{ width: '30%' }}>
               <FormTextField
+                autoFocus
                 required={'*'}
                 onChange={(e: any) => {
                   setStackName(e);
@@ -240,7 +242,11 @@ export const ListForAll: React.FC<Props> = () => {
       <FlexBox.Column>
         {stackComponentsTypes?.map((item) => {
           return (
-            <Box marginTop="lg" paddingBottom='lg' style={{ overflowX: 'auto' }}>
+            <Box
+              marginTop="lg"
+              paddingBottom="lg"
+              style={{ overflowX: 'auto' }}
+            >
               <GetList
                 type={item}
                 flavourList={flavourList}
