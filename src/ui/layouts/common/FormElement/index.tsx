@@ -26,33 +26,32 @@ export function TextField(props: any) {
   );
 }
 
-export function ToggleField(props: any) {
-  const { name, onHandleChange, label } = props;
-  return (
-    <Box marginVertical="md">
-      <FlexBox.Row justifyContent="space-between" alignItems="center">
-        <Box>
-          <Paragraph size="body" style={{ color: '#000' }}>
-            {label}
-          </Paragraph>
-        </Box>
-        <Box>
-          <label className={styles.switch}>
-            <input
-              defaultChecked={props?.default}
-              type="checkbox"
-              onChange={(event) => onHandleChange(name, event.target.checked)}
-            />
-            <span className={`${styles.slider} ${styles.round}`}></span>
-          </label>
-        </Box>
-      </FlexBox.Row>
-    </Box>
-  );
-}
+// export function ToggleField(props: any) {
+//   const { name, onHandleChange, label } = props;
+//   return (
+//     <Box marginVertical="md">
+//       <FlexBox.Row justifyContent="space-between" alignItems="center">
+//         <Box>
+//           <Paragraph size="body" style={{ color: '#000' }}>
+//             {label}
+//           </Paragraph>
+//         </Box>
+//         <Box>
+//           <label className={styles.switch}>
+//             <input
+//               type="checkbox"
+//               onChange={(event) => onHandleChange(name, event.target.checked)}
+//             />
+//             <span className={`${styles.slider} ${styles.round}`}></span>
+//           </label>
+//         </Box>
+//       </FlexBox.Row>
+//     </Box>
+//   );
+// }
 
-export function ToggleFieldBlock(props: any) {
-  const { name, value, onHandleChange, label } = props;
+export function ToggleField(props: any) {
+  const { name, value, onHandleChange, label, disabled } = props;
   return (
     <Box style={{ height: '68px' }}>
       <FlexBox.Row justifyContent="space-between" flexDirection="column">
@@ -62,16 +61,13 @@ export function ToggleFieldBlock(props: any) {
           </Paragraph>
         </Box>
         <FlexBox.Row className={styles.switchContainer}>
-          <div>
-            <span className={styles.switchLabel}>
-              {value ? <>Yes</> : <>No</>}
-            </span>
-          </div>
+         <div className={styles.switchLabel}><span>{value ? <>Yes</> : <>No</>}</span></div>
           <label className={styles.switch}>
             <input
               type="checkbox"
               defaultChecked={value}
               onChange={(event) => onHandleChange(name, event.target.checked)}
+              disabled={disabled}
             />
             <span className={`${styles.sliderBlue} ${styles.round}`}></span>
           </label>
