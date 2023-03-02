@@ -41,7 +41,7 @@ export const SidePopup: React.FC<{
                 onClick={action}
                 style={{ position: 'fixed', right: '50px' }}
               >
-                Register Stack Component
+                Register Component
               </PrimaryButton>
             </div>
           </Box>

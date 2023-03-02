@@ -14,7 +14,7 @@ import { workspaceSelectors } from '../../../redux/selectors';
 export const BasePage: React.FC<{
   tabPages: TabPage[];
   fromConfigureComponent?: boolean;
-  fromRegisterComponent?: boolean;  
+  fromRegisterComponent?: boolean;
   breadcrumbs: TBreadcrumb[];
   tabBasePath: string;
   renderHeaderRight?: () => JSX.Element;
@@ -31,7 +31,7 @@ export const BasePage: React.FC<{
 }) => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  
+
   return (
     <AuthenticatedLayout>
       <SidebarContainer>
@@ -77,24 +77,25 @@ export const BasePage: React.FC<{
       </SidebarContainer>
 
       {!fromRegisterComponent && !fromConfigureComponent && (
-          <FlexBox
-            style={{
-              position: 'fixed',
-              right: '0',
-              bottom: '0',
-              marginRight: '45px',
-            }}
-          >
-            <Box marginBottom="lg">
-              <PrimaryButton
-                  onClick={() => history.push(routePaths.stacks.createStack(selectedWorkspace))}
-              >
-                Create Stack
-              </PrimaryButton>
-            </Box>
-          </FlexBox>
+        <FlexBox
+          style={{
+            position: 'fixed',
+            right: '0',
+            bottom: '0',
+            marginRight: '45px',
+          }}
+        >
+          <Box marginBottom="lg">
+            <PrimaryButton
+              onClick={() =>
+                history.push(routePaths.stacks.createStack(selectedWorkspace))
+              }
+            >
+              Register Stack
+            </PrimaryButton>
+          </Box>
+        </FlexBox>
       )}
- 
     </AuthenticatedLayout>
   );
 };
