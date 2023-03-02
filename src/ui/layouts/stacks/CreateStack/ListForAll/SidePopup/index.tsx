@@ -35,8 +35,8 @@ export const SidePopup: React.FC<{
   selectedStack,
   selectedStackBox,
 }) => {
-  const find = selectedStack.filter(
-    (item: any) => item.id === selectedStackBox.id,
+  const find = selectedStack?.filter(
+    (item: any) => item?.id === selectedStackBox?.id,
   );
   console.log(find, selectedStackBox, selectedStack, 'findddd');
   return (
