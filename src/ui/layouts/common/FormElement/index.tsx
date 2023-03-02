@@ -52,6 +52,7 @@ export function TextField(props: any) {
 
 export function ToggleField(props: any) {
   const { value, onHandleChange, label, disabled } = props;
+
   return (
     <Box style={{ height: '68px' }}>
       <FlexBox.Row justifyContent="space-between" flexDirection="column">
@@ -61,11 +62,14 @@ export function ToggleField(props: any) {
           </Paragraph>
         </Box>
         <FlexBox.Row className={styles.switchContainer}>
-         <div className={styles.switchLabel}><span>{value ? <>Yes</> : <>No</>}</span></div>
+          <div className={styles.switchLabel}>
+            <span>{value ? <>Yes</> : <>No</>}</span>
+          </div>
           <label className={styles.switch}>
             <input
               type="checkbox"
-              checked={value}
+              defaultChecked={value}
+              // checked={value}
               onChange={onHandleChange}
               disabled={disabled}
             />
