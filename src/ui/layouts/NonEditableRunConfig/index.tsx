@@ -11,7 +11,7 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
       return (
-        <Box marginVertical={'md'} style={{ width: '40%' }}>
+        <Box marginTop={'lg'} style={{ width: '40%' }}>
           <EditField
             disabled
             // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -29,13 +29,13 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
 
     if (typeof elementSchema === 'object' && elementSchema !== null) {
       return (
-        <Box style={{ width: '40%' }}>
+        <Box marginTop='lg' style={{ width: '40%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
           <Box
             padding={'md'}
-            marginVertical={'md'}
+            // marginVertical={'md'}
             className={styles.JSONPretty}
           >
             <JSONPretty
@@ -50,7 +50,7 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
 
     if (typeof elementSchema === 'boolean' || elementSchema === null) {
       return (
-        <Box marginVertical={'md'} style={{ width: '40%' }}>
+        <Box marginTop={'lg'} style={{ width: '40%' }}>
           <Box>
             {/* {console.log(elementSchema, elementName, 'asdasdasda2222sdasd')}
             <FlexBox.Row justifyContent="space-between">
