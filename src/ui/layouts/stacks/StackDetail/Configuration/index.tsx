@@ -12,7 +12,7 @@ import {
   FullWidthSpinner,
   // Container,
   EditField,
-  Paragraph,
+  // Paragraph,
 } from '../../../../components';
 // import { iconColors, iconSizes } from '../../../../../constants';
 
@@ -46,6 +46,7 @@ import {
 import { toasterTypes } from '../../../../../constants';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
+import { ToggleField } from '../../../common/FormElement';
 // import { SidePopup } from '../../../common/SidePopup';
 
 export const Configuration: React.FC<{
@@ -187,7 +188,16 @@ export const Configuration: React.FC<{
             className={styles.field}
           />
         </Box>
-        <FlexBox
+        <Box marginLeft="xxl2">
+          <ToggleField 
+            name='Share Component with public'
+            value={stack.isShared}
+            onHandleChange={() => onCallApi(stack.name, !stack.isShared)} 
+            label='Share Component with public'
+            disabled={false}
+          />
+        </Box>
+        {/* <FlexBox
           marginLeft="xxl2"
           justifyContent="space-between"
           style={{ width: '20%' }}
@@ -203,7 +213,7 @@ export const Configuration: React.FC<{
             />
             <span className={`${styles.slider} ${styles.round}`}></span>
           </label>
-        </FlexBox>
+        </FlexBox> */}
         {/* </Container> */}
       </FlexBox.Row>
       <Box margin="md">

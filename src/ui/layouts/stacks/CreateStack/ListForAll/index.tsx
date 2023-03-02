@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
 import { Box, FlexBox, H2, FormTextField } from '../../../../components';
-import { ToggleFieldBlock } from '../../../common/FormElement';
+import { ToggleField } from '../../../common/FormElement';
 
 import {
   sessionSelectors,
@@ -199,7 +199,7 @@ export const ListForAll: React.FC<Props> = () => {
               />
             </Box>
             <Box marginLeft='xl' style={{ width: '30%' }}>
-              <ToggleFieldBlock
+              <ToggleField
                 label={'Share Stack with public'}
                 value={isShared}
                 onHandleChange={(value: any) => setIshared(!isShared)}
@@ -207,35 +207,35 @@ export const ListForAll: React.FC<Props> = () => {
             </Box>
           </FlexBox.Row>
         </Box>
-      </div>
 
-      {selectedStack?.length >= 0 && (
-        <FlexBox.Row marginTop="md">
-          {selectedStack?.map((stack: any) => (
-            <Box
-              onClick={() => selectStack(stack)}
-              marginLeft="sm"
-              style={{
-                border:
-                  selectedStackBox?.id === stack.id
-                    ? '2px solid #431E93'
-                    : '2px solid #fff',
-              }}
-              className={styles.selectedBox}
-            >
-              {selectedStackBox?.id !== stack.id && (
-                <input
-                  type="checkbox"
-                  className={styles.selectedBoxCheckbox}
-                  checked
-                  onClick={(e) => handleSelectedBox(e, stack)}
-                />
-              )}
-              <img src={stack.logoUrl} alt={stack.name} />
-            </Box>
-          ))}
-        </FlexBox.Row>
-      )}
+        {selectedStack?.length >= 0 && (
+          <FlexBox.Row marginTop="md">
+            {selectedStack?.map((stack: any) => (
+              <Box
+                onClick={() => selectStack(stack)}
+                marginLeft="sm"
+                style={{
+                  border:
+                    selectedStackBox?.id === stack.id
+                      ? '2px solid #431E93'
+                      : '2px solid #fff',
+                }}
+                className={styles.selectedBox}
+              >
+                {selectedStackBox?.id !== stack.id && (
+                  <input
+                    type="checkbox"
+                    className={styles.selectedBoxCheckbox}
+                    checked
+                    onClick={(e) => handleSelectedBox(e, stack)}
+                  />
+                )}
+                <img src={stack.logoUrl} alt={stack.name} />
+              </Box>
+            ))}
+          </FlexBox.Row>
+        )}
+      </div>
 
       <FlexBox.Column>
         {stackComponentsTypes?.map((item) => {

@@ -19,7 +19,7 @@ export const InputWithLabel = ({
   optional?: string;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
-    <Box paddingBottom="xs">
+    <Box paddingBottom="sm">
       <Paragraph
         size="body"
         style={{ color: labelColor ? labelColor : 'black' }}
