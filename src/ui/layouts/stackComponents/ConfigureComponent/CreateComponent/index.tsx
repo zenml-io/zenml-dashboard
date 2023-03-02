@@ -378,7 +378,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         dispatch(
           showToasterAction({
             description: err?.response?.data?.detail[0].includes('Exists')
-              ? `Component name is already exists.`
+              ? `Component name already exists.`
               : err?.response?.data?.detail[0],
             type: toasterTypes.failure,
           }),
