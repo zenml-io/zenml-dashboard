@@ -269,7 +269,7 @@ export const ListForAll: React.FC<Props> = () => {
           className={styles.stackFooterButton}
           onClick={() => onCreateStack()}
         >
-          Register
+          Register Stack
         </PrimaryButton>
       </Box>
 
