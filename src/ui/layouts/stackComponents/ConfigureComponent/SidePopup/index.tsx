@@ -17,7 +17,7 @@ export const SidePopup: React.FC<{
   >
     <Box className={styles.sidePopup}>
       <OutsideClickHandler onOutsideClick={onClose}>
-        <Box paddingLeft="md" paddingTop="sm">
+        <Box paddingTop="sm">
           <iframe
             title="ZenML - Organization Embed"
             style={{ border: '0px', height: '100vh', width: '100%' }}

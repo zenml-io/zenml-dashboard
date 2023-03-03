@@ -1,6 +1,15 @@
 @import '../../../../globalStyles.scss';
 
 
+.popupContainer {
+  // height: 100vh;
+  // width: 100vw;
+  // top: 0;
+  // left: 0;
+  z-index: 1;
+  position: relative;
+}
+
 .sidePopup {
   background: #ffffff;
   border-radius: 4px;
@@ -9,7 +18,7 @@
   bottom: 0;
   top: 13rem;
   height: 88rem;
-  min-width: 700px;
+  min-width: 45vw;
   overflow: auto;
 } 
 
@@ -18,14 +27,6 @@
     max-width: 80vw;
     min-width: 0;
   }
-}
-
-.popupContainer {
-  height: 100vh;
-  width: 100vw;
-  top: 0;
-  left: 0;
-  z-index: 1;
 }
 
 .actionSection {
