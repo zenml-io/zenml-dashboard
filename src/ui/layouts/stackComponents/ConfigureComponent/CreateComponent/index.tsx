@@ -323,7 +323,6 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
-    // debugger;
     const final: any = {};
     inputFields.forEach((ar: any) => {
       const keys = Object.keys(ar);
@@ -337,7 +336,10 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
               [nestedArr.key]: nestedArr.value,
             };
           } else {
-            if (Object.keys(final[key]).length === 0) {
+            if (
+              final[key] !== undefined &&
+              Object.keys(final[key]).length === 0
+            ) {
               delete final[key];
             }
           }
