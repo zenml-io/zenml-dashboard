@@ -38,7 +38,7 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
       }),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [locationPath, stackComponent]);
+  }, [locationPath]);
 
   const setFetching = (fetching: boolean) => {
     dispatch(flavorPagesActions.setFetching({ fetching }));
