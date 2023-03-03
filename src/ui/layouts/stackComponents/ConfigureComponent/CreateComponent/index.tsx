@@ -323,29 +323,66 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
-    const final: any = {};
+    const tempFinal: any = {};
+    inputFields.forEach((ar: any) => {
+      const keys = Object.keys(ar);
+      keys.forEach((key) => {
+        tempFinal[key] = {};
+
+        ar[key].forEach((nestedArr: any) => {
+          if (nestedArr.key || nestedArr.value) {
+            tempFinal[key] = {
+              ...tempFinal[key],
+              [nestedArr.key]: nestedArr.value,
+            };
+          } else {
+            if (
+              tempFinal[key] !== undefined &&
+              Object.keys(tempFinal[key]).length === 0
+            ) {
+              delete tempFinal[key];
+            }
+          }
+        });
+      });
+    });
+
+    let final: any = {};
     inputFields.forEach((ar: any) => {
       const keys = Object.keys(ar);
       keys.forEach((key) => {
         final[key] = {};
 
         ar[key].forEach((nestedArr: any) => {
-          if (nestedArr.key || nestedArr.value) {
-            final[key] = {
-              ...final[key],
-              [nestedArr.key]: nestedArr.value,
-            };
+          if (final[key]?.hasOwnProperty(nestedArr.key)) {
+            dispatch(
+              showToasterAction({
+                description: 'Key already exists.',
+                type: toasterTypes.failure,
+              }),
+            );
+            return (final = {});
           } else {
-            if (
-              final[key] !== undefined &&
-              Object.keys(final[key]).length === 0
-            ) {
-              delete final[key];
+            if (nestedArr.key || nestedArr.value) {
+              final[key] = {
+                ...final[key],
+                [nestedArr.key]: nestedArr.value,
+              };
+            } else {
+              if (
+                final[key] !== undefined &&
+                Object.keys(final[key]).length === 0
+              ) {
+                delete final[key];
+              }
             }
           }
         });
       });
     });
+    if (Object.keys(tempFinal).length !== Object.keys(final).length) {
+      return false;
+    }
     for (const [key] of Object.entries(final)) {
       // console.log(`${key}: ${value}`);
       for (const [innerKey, innerValue] of Object.entries(final[key])) {
