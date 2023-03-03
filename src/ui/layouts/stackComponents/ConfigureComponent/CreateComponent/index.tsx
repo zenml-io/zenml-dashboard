@@ -430,7 +430,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
             type: toasterTypes.success,
           }),
         );
-        dispatchStackComponentsData(1, 10);
+        dispatchStackComponentsData(1, 1);
 
         history.push(
           routePaths.stackComponents.configuration(

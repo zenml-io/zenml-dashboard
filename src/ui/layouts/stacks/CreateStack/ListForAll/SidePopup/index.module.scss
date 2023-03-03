@@ -3,8 +3,6 @@
 .dimmer {
   position: fixed;
   backdrop-filter: blur(4px);
-  // background: #424240;
-  // opacity: 0.5;
   height: 100vh;
   width: 100vw;
   top: 0;
@@ -12,17 +10,21 @@
   z-index: 9999;
 }
 
+.popupContainer {
+  z-index: 99999;
+  position: relative;
+}
+
 .sidePopup {
   background: #ffffff;
   border-radius: 4px;
   position: fixed;
-  right: 0;
+  right: 2rem;
   bottom: 0;
   top: 13rem;
-  height: 800px;
-  // height: 677px;
-  min-width: 700px;
-  overflow-x: auto;
+  height: 88rem;
+  min-width: 60vw;
+  overflow: auto;
 }
 
 @media (max-width: $md-breakpoint) {
@@ -32,26 +34,17 @@
   }
 }
 
-.popupContainer {
-  position: fixed;
-  height: 100vh;
-  width: 100vw;
-  top: 0;
-  left: 0;
-  z-index: 99999;
-}
-
 .popupClose {
   background-color: #fff;
   border-radius: 100px;
-  position: absolute;
-  top: 15rem;
-  right: 70rem;
-  z-index: 999;
+  position: fixed;
+  top: 16rem;
+  right: 62vw;
+  z-index: 99999999999;
 }
 
 .actionSection { 
-  min-width: 683px;
+  width: 60vw;
   background-color: white;
   position: fixed;
   bottom: 0;
