@@ -106,7 +106,7 @@ export const BasePage: React.FC<{
                   );
                 }}
               >
-                Register Component
+                Register New Component
               </PrimaryButton>
             </Box>
           </FlexBox>

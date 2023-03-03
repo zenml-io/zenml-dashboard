@@ -91,7 +91,7 @@ export const BasePage: React.FC<{
                 history.push(routePaths.stacks.createStack(selectedWorkspace))
               }
             >
-              Register Stack
+              Register New Stack
             </PrimaryButton>
           </Box>
         </FlexBox>
