@@ -17,6 +17,14 @@
   position: absolute;
 }
 
+.viewConfig {
+  height: 18px;
+  width: 18px;
+  right:4px;
+  accent-color: $primaryColor;
+  position: absolute;
+}
+
 
 .imageWrapper {
   display: flex;

@@ -120,8 +120,24 @@ export const GetList: React.FC<Props> = ({
               marginLeft="md"
               style={{ cursor: 'pointer' }}
               onClick={() => {
-                setShowPopup(true);
+                // setShowPopup(true);
                 setSelectedStackBox(item);
+                var index = selectedStack.findIndex(function (s: any) {
+                  return s.id === item.id;
+                });
+                if (index !== -1) {
+                  selectedStack.splice(index, 1);
+                  setSelectedStack([...selectedStack]);
+                } else {
+                  if (selectedStack.map((t: any) => t.type === item.type)) {
+                    let filterSelectedStack = selectedStack.filter(
+                      (st: any) => st.type !== item.type,
+                    );
+                    setSelectedStack([...filterSelectedStack, item]);
+                  } else {
+                    setSelectedStack([...selectedStack, item]);
+                  }
+                }
               }}
             >
               {console.log(selectedStack, 'selectedStackselectedStack')}
@@ -129,6 +145,11 @@ export const GetList: React.FC<Props> = ({
                 image={item?.logoUrl}
                 stackName={item.name}
                 stackDesc={item?.flavor}
+                onViewConfig={(e: any) => {
+                  e.stopPropagation();
+                  setSelectedStackBox(item);
+                  setShowPopup(true);
+                }}
                 value={checkboxValue?.length > 0 ? true : false}
                 onCheck={(e: any) => {
                   e.stopPropagation();
