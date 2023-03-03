@@ -180,7 +180,7 @@ export const EditField = (
   } & any,
 ): JSX.Element => {
   return (
-    <FlexBox.Column fullWidth style={{ height: '100px' }}>
+    <FlexBox.Column fullWidth >
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
         <InputWithLabel
           name={props.name}

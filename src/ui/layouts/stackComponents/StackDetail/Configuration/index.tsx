@@ -232,7 +232,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
       return (
-        <Box marginVertical={'md'} style={{ width: '100%' }}>
+        <Box marginTop='lg'>
           <EditField
             disabled
             onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -242,14 +242,14 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
             defaultValue={elementSchema}
             placeholder=""
             hasError={false}
-            className={styles.field}
+            // className={styles.field}
           />
         </Box>
       );
     }
     if (typeof elementSchema === 'object') {
       return (
-        <Box marginVertical={'xl'} style={{ width: '100%' }}>
+        <Box marginTop='lg' style={{ width: '100%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -309,7 +309,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           )}
           {Object.entries(elementSchema).map(([key, value], index) => (
             <>
-              <FlexBox.Row>
+              <FlexBox.Row marginTop='lg'>
                 <EditField
                   disabled
                   onKeyDown={(e: any) =>
@@ -370,45 +370,50 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
             <FlexBox.Row key={`${inputField}~${index}`}>
               {console.log(inputFields, 'inputFieldsinputFields')}
               {/* <div className="form-group col-sm-6"> */}
-              <EditField
-                onKeyDown={(e: any) =>
-                  onPressEnterForAddMore(
-                    e,
-                    'addMore',
-                    elementName,
-                    // index,
-                  )
-                }
-                onChangeText={(event: any) =>
-                  handleInputChange(index, event, elementName, 'key')
-                }
-                disabled
-                label={'Key'}
-                className={styles.field}
-                value={inputField?.key}
-                placeholder={''}
-              />
+              <Box marginTop='lg'>
+                <EditField
+                  onKeyDown={(e: any) =>
+                    onPressEnterForAddMore(
+                      e,
+                      'addMore',
+                      elementName,
+                      // index,
+                    )
+                  }
+                  onChangeText={(event: any) =>
+                    handleInputChange(index, event, elementName, 'key')
+                  }
+                  disabled
+                  label={'Key'}
+                  className={styles.field}
+                  value={inputField?.key}
+                  placeholder={''}
+                />
+              </Box>
+            
               <div style={{ width: '10%' }}></div>
               {/* </div> */}
               {/* <div className="form-group col-sm-5"> */}
-              <EditField
-                onKeyDown={(e: any) =>
-                  onPressEnterForAddMore(
-                    e,
-                    'addMore',
-                    elementName,
-                    // index,
-                  )
-                }
-                disabled
-                className={styles.field}
-                onChangeText={(event: any) =>
-                  handleInputChange(index, event, elementName, 'value')
-                }
-                label={'Value'}
-                value={inputField?.value}
-                placeholder={''}
-              />
+              <Box marginTop='lg'>
+                <EditField
+                  onKeyDown={(e: any) =>
+                    onPressEnterForAddMore(
+                      e,
+                      'addMore',
+                      elementName,
+                      // index,
+                    )
+                  }
+                  disabled
+                  className={styles.field}
+                  onChangeText={(event: any) =>
+                    handleInputChange(index, event, elementName, 'value')
+                  }
+                  label={'Value'}
+                  value={inputField?.value}
+                  placeholder={''}
+                />
+              </Box>
               {/* </div> */}
               {/* <div
                 className="col-sx-2 "
@@ -448,7 +453,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box marginVertical={'md'} style={{ width: '100%' }}>
+        <Box marginTop={'lg'} style={{ width: '100%' }}>
           <Box>
             <ToggleField 
               value={elementSchema} 
@@ -492,9 +497,9 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   }
   return (
     <FlexBox.Column marginTop="xl" fullWidth>
-      <FlexBox.Row>
+      <FlexBox.Row flexDirection='column' style={{ width: '40%' }}>
         <Container>
-          <Box style={{ width: '79%' }}>
+          <Box>
             <EditField
               disabled
               onKeyDown={(e: any) => onPressEnter(e, 'name')}
@@ -502,7 +507,6 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
               label={'Component Name'}
               optional={false}
               defaultValue={stackComponent.name}
-              // value={stackComponent.name}
               placeholder=""
               hasError={false}
               className={styles.field}
@@ -510,35 +514,20 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           </Box>
         </Container>
         <Container>
-          <ToggleField 
-              value={stackComponent.isShared} 
-              onHandleChange={() => onChangeToggle(!stackComponent.isShared, 'share')} 
-              label='Share Component with public' 
-              disabled={true} 
+          <Box marginTop='lg'>
+            <ToggleField 
+                value={stackComponent.isShared} 
+                onHandleChange={() => onChangeToggle(!stackComponent.isShared, 'share')} 
+                label='Share Component with public' 
+                disabled={true} 
             />
+          </Box>
         </Container>
       </FlexBox.Row>
       <FlexBox.Row style={{ width: '40%' }}>
         <Container>
-          {/* <Row>
-          <Col xs={5}>
-         
-          </Col>
-          <Col xs={5} style={{ marginLeft: '100px' }}>
-            <FlexBox.Row justifyContent="space-between">
-              <Paragraph>Share Component with public</Paragraph>
-              <label className={styles.switch}>
-                <input type="checkbox" checked={stackComponent.isShared} />
-                <span className={`${styles.slider} ${styles.round}`}></span>
-              </label>
-            </FlexBox.Row>
-          </Col>
-        </Row> */}
-
           {Object.keys(mappedObject).map((key, ind) => (
-            // <Col xs={6} key={ind}>
             <>{getFormElement(key, mappedObject[key])}</>
-            // </Col>
           ))}
         </Container>
       </FlexBox.Row>

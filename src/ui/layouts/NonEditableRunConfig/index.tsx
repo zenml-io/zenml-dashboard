@@ -1,17 +1,21 @@
 import React from 'react';
-import { Box, EditField, Paragraph } from '../../components';
+import { Box, EditField, FlexBox, Paragraph, icons } from '../../components';
 import styles from './index.module.scss';
 import { titleCase } from '../../../utils';
 import { ToggleField } from '../common/FormElement';
 import JSONPretty from 'react-json-pretty';
+import { useDispatch } from '../../hooks';
+import { showToasterAction } from '../../../redux/actions';
+import { iconColors, iconSizes, toasterTypes } from '../../../constants';
 
 export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
   runConfiguration,
 }) => {
+  const dispatch = useDispatch();
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
       return (
-        <Box marginVertical={'md'} style={{ width: '40%' }}>
+        <Box marginTop={'lg'} style={{ width: '40%' }}>
           <EditField
             disabled
             // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -28,16 +32,32 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
     }
 
     if (typeof elementSchema === 'object' && elementSchema !== null) {
+      const handleCopy = () => {
+        navigator.clipboard.writeText(JSON.stringify(elementSchema));
+
+        dispatch(
+          showToasterAction({
+            description: 'Config copied to clipboard',
+            type: toasterTypes.success,
+          }),
+        );
+      };
       return (
-        <Box style={{ width: '40%' }}>
+        <Box marginTop='lg' style={{ width: '40%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
           <Box
             padding={'md'}
-            marginVertical={'md'}
+            // marginVertical={'md'}
             className={styles.JSONPretty}
           >
+            <icons.copy
+              className={styles.copy}
+              onClick={handleCopy}
+              color={iconColors.black}
+              size={iconSizes.sm}
+            />
             <JSONPretty
               style={{ fontSize: '16px', fontFamily: 'Rubik' }}
               id="json-pretty"
@@ -50,7 +70,7 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
 
     if (typeof elementSchema === 'boolean' || elementSchema === null) {
       return (
-        <Box marginVertical={'md'} style={{ width: '40%' }}>
+        <Box marginTop={'lg'} style={{ width: '40%' }}>
           <Box>
             {/* {console.log(elementSchema, elementName, 'asdasdasda2222sdasd')}
             <FlexBox.Row justifyContent="space-between">
@@ -64,11 +84,11 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
                 <span className={`${styles.slider} ${styles.round}`}></span>
               </label>
             </FlexBox.Row> */}
-            <ToggleField 
-              value={elementSchema} 
-              onHandleChange={() => {}} 
-              label={titleCase(elementName)} 
-              disabled={true}  
+            <ToggleField
+              value={elementSchema}
+              onHandleChange={() => {}}
+              label={titleCase(elementName)}
+              disabled={true}
             />
           </Box>
         </Box>
@@ -77,12 +97,12 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
   };
 
   return (
-    <>
+    <FlexBox.Column marginLeft="md">
       {Object.keys(runConfiguration).map((key, ind) => (
         // <Col xs={6} key={ind}>
         <>{getFormElement(key, runConfiguration[key])}</>
         // </Col>
       ))}
-    </>
+    </FlexBox.Column>
   );
 };

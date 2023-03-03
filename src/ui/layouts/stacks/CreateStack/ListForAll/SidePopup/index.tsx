@@ -70,7 +70,7 @@ export const SidePopup: React.FC<{
               <FlexBox.Row justifyContent="space-between" alignItems="center">
                 <Box>
                   <LinkBox onClick={onSeeExisting}>
-                    <Paragraph>Goto Component</Paragraph>
+                    <Paragraph>See Component Page</Paragraph>
                   </LinkBox>
                 </Box>
 
