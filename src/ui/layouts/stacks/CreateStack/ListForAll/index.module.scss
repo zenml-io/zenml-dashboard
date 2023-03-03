@@ -37,7 +37,7 @@
     width: 100%;
     height: 70px;
     position: sticky;
-    bottom: 0;
+    bottom: 1rem;
     background-color: #fff; 
     background: #fff; 
     display: flex;
@@ -46,4 +46,5 @@
 .stackFooterButton {
     margin-top: 15px !important;
     right: 2rem;
+    margin-right: 45px,
 }
