@@ -1,4 +1,4 @@
-@import '../../../../globalStyles.scss';
+@import '../../globalStyles.scss';
 
   .field {
     background: rgba(168, 168, 168, 0.1);
@@ -6,45 +6,24 @@
     border-radius: 4px;
   }
 
-  .fieldButton {
-    height: 20px;
-    width: 30px;
-    border: none;
+  .field {
+    background: rgba(168, 168, 168, 0.1);
+    border: 1px solid #C9CBD0;
     border-radius: 4px;
-    color: #fff;
-    background-color:transparent;
-    display: flex;
-    text-align: center;
-    justify-content: center;
   }
-
-
-  .fieldButtonAdd {
-    height: 20px;
-    width: 30px;
-    border: none;
+  .JSONPretty {
+    background: rgba(168, 168, 168, 0.1);
+    border: 1px solid #C9CBD0;
     border-radius: 4px;
-    color: #fff;
-    background-color: transparent;
-    display: flex;
-    text-align: center;
-    justify-content: center;
+    position: relative;
+    
   }
-
-  .fieldButtonMinus {
-    margin: 28px 0 2px 0;
-    height: 20px;
-    width: 30px;
-    border: none;
-    border-radius: 4px;
-    color: #fff;
-    background-color: #431D93;
-    display: flex;
-    text-align: center;
-    justify-content: center;
+  .copy{
+    right: 10px;
+    position: absolute;
+    cursor: pointer;
   }
-
-
+  
   .switch {
     position: relative;
     display: inline-block;

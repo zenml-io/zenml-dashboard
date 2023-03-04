@@ -26,25 +26,58 @@ export function TextField(props: any) {
   );
 }
 
+// export function ToggleField(props: any) {
+//   const { name, onHandleChange, label } = props;
+//   return (
+//     <Box marginVertical="md">
+//       <FlexBox.Row justifyContent="space-between" alignItems="center">
+//         <Box>
+//           <Paragraph size="body" style={{ color: '#000' }}>
+//             {label}
+//           </Paragraph>
+//         </Box>
+//         <Box>
+//           <label className={styles.switch}>
+//             <input
+//               type="checkbox"
+//               onChange={(event) => onHandleChange(name, event.target.checked)}
+//             />
+//             <span className={`${styles.slider} ${styles.round}`}></span>
+//           </label>
+//         </Box>
+//       </FlexBox.Row>
+//     </Box>
+//   );
+// }
+
 export function ToggleField(props: any) {
-  const { name, onHandleChange, label } = props;
+  const { value, onHandleChange, label, disabled } = props;
+
   return (
-    <Box marginVertical="md">
-      <FlexBox.Row justifyContent="space-between" alignItems="center">
+    <Box style={{ height: '68px' }}>
+      <FlexBox.Row justifyContent="space-between" flexDirection="column">
         <Box>
           <Paragraph size="body" style={{ color: '#000' }}>
             {label}
           </Paragraph>
         </Box>
-        <Box>
+        <FlexBox.Row className={styles.switchContainer}>
+          <div className={styles.switchLabel}>
+            <span>{value ? <>Yes</> : <>No</>}</span>
+          </div>
           <label className={styles.switch}>
             <input
               type="checkbox"
-              onChange={(event) => onHandleChange(name, event.target.checked)}
+              defaultChecked={value}
+              // checked={value}
+              onChange={onHandleChange}
+              disabled={disabled}
             />
-            <span className={`${styles.slider} ${styles.round}`}></span>
+           {disabled ? <span className={`${styles.slider} ${styles.round}`}></span> : 
+            <span className={`${styles.sliderBlue} ${styles.round}`}></span>}
+          
           </label>
-        </Box>
+        </FlexBox.Row>
       </FlexBox.Row>
     </Box>
   );

@@ -1,6 +1,12 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
-import { Box, FlexBox, H2, FormTextField } from '../../../../components';
+import {
+  Box,
+  FlexBox,
+  H2,
+  FormTextField,
+  PrimaryButton,
+} from '../../../../components';
 import { ToggleField } from '../../../common/FormElement';
 
 import {
@@ -13,10 +19,14 @@ import { useDispatch, useSelector } from 'react-redux';
 import { GetList } from './GetList';
 import { GetFlavorsListForLogo } from '../../../stackComponents/Stacks/List/GetFlavorsListForLogo';
 import { SidePopup } from './SidePopup';
-import { showToasterAction } from '../../../../../redux/actions';
+import {
+  showToasterAction,
+  stackComponentsActions,
+  stacksActions,
+} from '../../../../../redux/actions';
 import axios from 'axios';
 import { toasterTypes } from '../../../../../constants';
-import { useHistory } from '../../../../hooks';
+import { useHistory, useLocation } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import { NonEditableConfig } from '../../../NonEditableConfig';
 // import { callActionForStacksForPagination } from '../../Stacks/useService';
@@ -27,6 +37,7 @@ export const ListForAll: React.FC<Props> = () => {
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
+  const locationPath = useLocation() as any;
   // const { dispatchStackData } = callActionForStacksForPagination();
   const history = useHistory();
   const dispatch = useDispatch();
@@ -36,7 +47,7 @@ export const ListForAll: React.FC<Props> = () => {
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const { flavourList } = GetFlavorsListForLogo();
   const [stackName, setStackName] = useState('');
-  const [isShared, setIshared] = useState(false);
+  const [isShared, setIshared] = useState(true);
   const [selectedStack, setSelectedStack] = useState<any>([]);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -47,6 +58,8 @@ export const ListForAll: React.FC<Props> = () => {
   };
   const onCreateStack = () => {
     if (!stackName) {
+      setShowPopup(false);
+      setSelectedStackBox(null);
       return dispatch(
         showToasterAction({
           description: 'Enter Stack Name',
@@ -64,18 +77,23 @@ export const ListForAll: React.FC<Props> = () => {
       }
       return c;
     }, {});
+
     if (!mergedObject.hasOwnProperty('orchestrator')) {
+      setShowPopup(false);
+      setSelectedStackBox(null);
       return dispatch(
         showToasterAction({
-          description: 'Select Atleast one component from Orchestrator',
+          description: 'Select atleast one component from Orchestrator',
           type: toasterTypes.failure,
         }),
       );
     }
     if (!mergedObject.hasOwnProperty('artifact_store')) {
+      setShowPopup(false);
+      setSelectedStackBox(null);
       return dispatch(
         showToasterAction({
-          description: 'Select Atleast one component from Artifact Store',
+          description: 'Select atleast one component from Artifact Store',
           type: toasterTypes.failure,
         }),
       );
@@ -91,6 +109,8 @@ export const ListForAll: React.FC<Props> = () => {
       name: stackName,
       components: finalData,
     };
+    setShowPopup(false);
+    setSelectedStackBox(null);
     axios
       .post(
         `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/stacks`,
@@ -108,8 +128,28 @@ export const ListForAll: React.FC<Props> = () => {
             type: toasterTypes.success,
           }),
         );
+        dispatch(
+          stacksActions.getMy({
+            page: 1,
+            size: 1,
+            id: response.data.id,
+            workspace: selectedWorkspace,
+            onSuccess: () => {
+              history.push(
+                routePaths.stack.configuration(
+                  response.data.id,
+                  selectedWorkspace,
+                ),
+              );
+            },
+            onFailure: () => {},
+          }),
+        );
         // dispatchStackData(1, 10);
-        history.push(routePaths.stacks.base);
+        // history.push(routePaths.stacks.base);
+        history.push(
+          routePaths.stack.configuration(response.data.id, selectedWorkspace),
+        );
         // dispatchStackComponentsData(1, 10);
 
         // history.push(
@@ -122,13 +162,15 @@ export const ListForAll: React.FC<Props> = () => {
       })
       .catch((err) => {
         // debugger;
-        // setLoading(false);
-        // dispatch(
-        //   showToasterAction({
-        //     description: err?.response?.data?.detail[0],
-        //     type: toasterTypes.failure,
-        //   }),
-        // );
+
+        dispatch(
+          showToasterAction({
+            description: err?.response?.data?.detail[0].includes('Exists')
+              ? `Stack name already exists.`
+              : err?.response?.data?.detail[0],
+            type: toasterTypes.failure,
+          }),
+        );
       });
   };
 
@@ -145,64 +187,72 @@ export const ListForAll: React.FC<Props> = () => {
   };
 
   return (
-    <Box style={{ width: '100%' }}>
-      <Box>
-        <H2 style={{ fontWeight: 'bolder' }}>Register a Stack</H2>
-      </Box>
-
-      <Box marginTop="lg">
-        <FlexBox.Row>
-          <Box style={{ width: '30%' }}>
-            <FormTextField
-              onChange={(e: any) => {
-                setStackName(e);
-              }}
-              placeholder="Stack Name"
-              label={'Enter Stack Name'}
-              value={stackName}
-            />
-          </Box>
-          <Box marginLeft="xxxl" marginTop="md" style={{ width: '30%' }}>
-            <ToggleField
-              label={'Share Stack with public'}
-              onHandleChange={(value: any) => setIshared(!isShared)}
-            />
-          </Box>
-        </FlexBox.Row>
-      </Box>
-
-      {selectedStack?.length >= 0 && (
-        <FlexBox.Row marginTop="md">
-          {selectedStack?.map((stack: any) => (
-            <Box
-              onClick={() => selectStack(stack)}
-              marginLeft="sm"
-              style={{
-                border:
-                  selectedStackBox?.id === stack.id
-                    ? '2px solid #431E93'
-                    : '2px solid #fff',
-              }}
-              className={styles.selectedBox}
-            >
-              {selectedStackBox?.id !== stack.id && (
-                <input
-                  type="checkbox"
-                  className={styles.selectedBoxCheckbox}
-                  checked
-                  onClick={(e) => handleSelectedBox(e, stack)}
-                />
-              )}
-              <img src={stack.logoUrl} alt={stack.name} />
+    <Box style={{ width: '100%', position: 'relative' }}>
+      <div className={styles.top}>
+        <Box>
+          <H2 style={{ fontWeight: 'bolder' }}>Register a Stack</H2>
+        </Box>
+        <Box marginTop="lg">
+          <FlexBox.Row alignItems="center">
+            <Box style={{ width: '30%' }}>
+              <FormTextField
+                autoFocus
+                required={'*'}
+                onChange={(e: any) => {
+                  setStackName(e);
+                }}
+                placeholder="Stack Name"
+                label={'Enter Stack Name'}
+                value={stackName}
+              />
             </Box>
-          ))}
-        </FlexBox.Row>
-      )}
+            <Box marginLeft="xl" style={{ width: '30%' }}>
+              <ToggleField
+                label={'Share Stack with public'}
+                value={isShared}
+                onHandleChange={(value: any) => setIshared(!isShared)}
+              />
+            </Box>
+          </FlexBox.Row>
+        </Box>
+
+        {selectedStack?.length >= 0 && (
+          <FlexBox.Row marginTop="md">
+            {selectedStack?.map((stack: any) => (
+              <Box
+                onClick={() => selectStack(stack)}
+                marginLeft="sm"
+                style={{
+                  border:
+                    selectedStackBox?.id === stack.id
+                      ? '2px solid #431E93'
+                      : '2px solid #fff',
+                }}
+                className={styles.selectedBox}
+              >
+                {selectedStackBox?.id !== stack.id && (
+                  <input
+                    type="checkbox"
+                    className={styles.selectedBoxCheckbox}
+                    checked
+                    onClick={(e) => handleSelectedBox(e, stack)}
+                  />
+                )}
+                <img src={stack.logoUrl} alt={stack.name} />
+              </Box>
+            ))}
+          </FlexBox.Row>
+        )}
+      </div>
 
       <FlexBox.Column>
         {stackComponentsTypes?.map((item) => {
           return (
-            <Box marginTop="lg" style={{ overflowX: 'auto' }}>
+            <Box
+              marginTop="lg"
+              paddingBottom="lg"
+              style={{ overflowX: 'auto' }}
+            >
               <GetList
                 type={item}
                 flavourList={flavourList}
@@ -214,13 +264,66 @@ export const ListForAll: React.FC<Props> = () => {
         })}
       </FlexBox.Column>
 
+      <Box className={styles.stackFooter}>
+        <PrimaryButton
+          className={styles.stackFooterButton}
+          onClick={() => onCreateStack()}
+        >
+          Register Stack
+        </PrimaryButton>
+      </Box>
+
       {showPopup && (
         <SidePopup
-          isCreate={true}
-          registerStack={() => {
-            onCreateStack();
+          canSelect={true}
+          selectedStackBox={selectedStackBox}
+          selectedStack={selectedStack}
+          onSelect={() => {
+            var index = selectedStack.findIndex(function (s: any) {
+              return s.id === selectedStackBox.id;
+            });
+            if (index !== -1) {
+              selectedStack.splice(index, 1);
+              setSelectedStack([...selectedStack]);
+            } else {
+              if (
+                selectedStack.map((t: any) => t.type === selectedStackBox.type)
+              ) {
+                let filterSelectedStack = selectedStack.filter(
+                  (st: any) => st.type !== selectedStackBox.type,
+                );
+                setSelectedStack([...filterSelectedStack, selectedStackBox]);
+              } else {
+                setSelectedStack([...selectedStack, selectedStackBox]);
+              }
+            }
+            setShowPopup(false);
           }}
-          onSeeExisting={() => {}}
+          onSeeExisting={() => {
+            dispatch(
+              stackComponentsActions.getMy({
+                workspace: selectedWorkspace
+                  ? selectedWorkspace
+                  : locationPath.split('/')[2],
+                type: selectedStackBox.type,
+
+                page: 1,
+                size: 1,
+                id: selectedStackBox.id,
+                onSuccess: () => {
+                  // setFetching(false);
+                  history.push(
+                    routePaths.stackComponents.configuration(
+                      selectedStackBox.type,
+                      selectedStackBox.id,
+                      selectedWorkspace,
+                    ),
+                  );
+                },
+                onFailure: () => {},
+              }),
+            );
+          }}
           onClose={() => {
             setShowPopup(false);
             setSelectedStackBox(null);
@@ -231,7 +334,6 @@ export const ListForAll: React.FC<Props> = () => {
           </Box>
         </SidePopup>
       )}
-
     </Box>
   );
 };

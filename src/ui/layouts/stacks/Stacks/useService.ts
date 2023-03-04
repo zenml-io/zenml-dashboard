@@ -21,17 +21,17 @@ export const useService = (): ServiceInterface => {
   useEffect(() => {
     setFetching(true);
     console.log('locationPath111', locationPath);
-    dispatch(
-      stacksActions.getMy({
-        sort_by: 'desc:created',
-        logical_operator: 'and',
-        page: 1,
-        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-        workspace: selectedWorkspace,
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
-      }),
-    );
+    // dispatch(
+    //   stacksActions.getMy({
+    //     sort_by: 'desc:created',
+    //     logical_operator: 'and',
+    //     page: 1,
+    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+    //     workspace: selectedWorkspace,
+    //     onSuccess: () => setFetching(false),
+    //     onFailure: () => setFetching(false),
+    //   }),
+    // );
   }, [locationPath, selectedWorkspace]);
 
   const setFetching = (fetching: boolean) => {

@@ -21,7 +21,7 @@ export const useService = ({ details }: { details: any }): ServiceInterface => {
     dispatch(
       flavorsActions.getType({
         type: details?.type,
-        name: details?.flavor.name,
+        name: details?.flavor,
         onSuccess: (res: any) => {
           setFlavor(res.items[0]);
         },

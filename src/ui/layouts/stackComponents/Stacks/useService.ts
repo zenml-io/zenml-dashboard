@@ -74,6 +74,7 @@ export const callActionForStackComponentsForPagination = () => {
     size: number,
     filters?: any[],
     sortby?: string,
+    id?: any,
   ) {
     const logicalOperator = localStorage.getItem('logical_operator');
 
@@ -90,6 +91,7 @@ export const callActionForStackComponentsForPagination = () => {
         page: page,
         size: size,
         filtersParam,
+        id: id,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

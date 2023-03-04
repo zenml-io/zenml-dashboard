@@ -23,6 +23,7 @@ import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
 import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
+// import { keys } from 'lodash';
 
 export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const {
@@ -37,15 +38,14 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [componentName, setComponentName] = useState('');
-  const [isShared, setIsShared] = useState(false);
+  const [isShared, setIsShared] = useState(true);
   const [inputData, setInputData] = useState({}) as any;
-  const [inputFields, setInputFields] = useState([
-    { key: '', value: '' },
-  ]) as any;
+  const [inputFields, setInputFields] = useState() as any;
   const history = useHistory();
   console.log(flavor, 'flavorflavor');
   useEffect(() => {
     let setDefaultData = {};
+    let setInputObjectType: any = [];
     initForm(flavor.configSchema.properties);
     Object.keys(flavor.configSchema.properties).map((key, ind) => {
       const data = flavor.configSchema.properties[key];
@@ -56,26 +56,40 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         };
       return null;
     });
+
+    Object.keys(flavor.configSchema.properties).map((key, ind) => {
+      const data = flavor.configSchema.properties[key];
+      if (data.type === 'object')
+        setInputObjectType.push({
+          [key]: [{ key: '', value: '' }],
+        });
+      return null;
+    });
+
+    setInputFields(setInputObjectType);
+
     setInputData({ ...setDefaultData });
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  const handleAddFields = () => {
+  const handleAddFields = (name: any, index: any) => {
     const values = [...inputFields];
-    values.push({ key: '', value: '' });
+    // const check = values.find(({ name }) => name);
+    // const targetObject = values.find((x) => x[name] !== undefined);
+
+    // if (targetObject) {
+    // }
+    // debugger;
+    values[index][name].push({ key: '', value: '' });
+
     setInputFields(values);
   };
 
-  const handleRemoveFields = (index: any, label: any) => {
+  const handleRemoveFields = (parentIndex: any, childIndex: any, name: any) => {
     const values = [...inputFields];
-    values.splice(index, 1);
+    // debugger;
+    values[parentIndex][name].splice(childIndex, 1);
     setInputFields(values);
-
-    const keys = values.map((object) => object.key);
-    const value = values.map((object) => object.value);
-    var result: any = {};
-    keys.forEach((key: any, i: any) => (result[key] = value[i]));
-    setInputData({ ...inputData, [label]: result });
   };
   const toSnakeCase = (str: any) =>
     str &&
@@ -86,27 +100,33 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       .map((x: any) => x.toLowerCase())
       .join('_');
 
-  const handleInputChange = (index: any, event: any, label: any, type: any) => {
+  const handleInputChange = (
+    parentIndex: any,
+    childIndex: any,
+    event: any,
+    name: any,
+    type: any,
+  ) => {
     const values = [...inputFields];
     if (type === 'key') {
-      values[index].key = event;
+      values[parentIndex][name][childIndex].key = event;
     } else {
-      values[index].value = event;
+      values[parentIndex][name][childIndex].value = event;
     }
     setInputFields(values);
-    const keys = values.map((object) => object.key);
-    const value = values.map((object) => object.value);
-    var result: any = {};
-    keys.forEach((key: any, i: any) => (result[key] = value[i]));
+    // const keys = values.map((object) => object.key);
+    // const value = values.map((object) => object.value);
 
-    if (event) {
-      setInputData({
-        ...inputData,
-        [toSnakeCase(label)]: {
-          ...result,
-        },
-      });
-    }
+    // keys.forEach((key: any, i: any) => (result[key] = value[i]));
+
+    // if (event) {
+    //   setInputData({
+    //     ...inputData,
+    //     [name]: {
+    //       ...values[parentIndex][name],
+    //     },
+    //   });
+    // }
   };
 
   const initForm = (properties: any) => {
@@ -135,69 +155,97 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
 
           <FlexBox.Row>
             <div className="form-row">
-              {inputFields.map((inputField: any, index: any) => (
-                <Fragment key={`${inputField}~${index}`}>
-                  <div className="form-group col-sm-5">
-                    <FormTextField
-                      onChange={(event: any) =>
-                        handleInputChange(index, event, props.label, 'key')
-                      }
-                      label={'Key'}
-                      value={inputField?.key}
-                      placeholder={''}
-                    />
-                  </div>
-                  <div className="form-group col-sm-5">
-                    <FormTextField
-                      onChange={(event: any) =>
-                        handleInputChange(index, event, props.label, 'value')
-                      }
-                      label={'Value'}
-                      value={inputField?.value}
-                      placeholder={''}
-                    />
-                  </div>
-                  <div
-                    className="col-sx-2 "
-                    style={{
-                      justifyContent: 'space-between',
-                      display: 'flex',
-                      marginTop: '10px',
-                    }}
-                  >
+              {inputFields?.map((item: any, parentIndex: any) =>
+                item[props.name]?.map((inputField: any, childIndex: any) => (
+                  <Fragment key={`${inputField}~${childIndex}`}>
+                    <div className="form-group col-sm-5">
+                      <FormTextField
+                        onChange={(event: any) =>
+                          handleInputChange(
+                            parentIndex,
+                            childIndex,
+                            event,
+                            props.name,
+                            'key',
+                          )
+                        }
+                        label={'Key'}
+                        value={inputField?.key}
+                        placeholder={''}
+                      />
+                    </div>
+
+                    <div className="form-group col-sm-5">
+                      <FormTextField
+                        onChange={(event: any) =>
+                          handleInputChange(
+                            parentIndex,
+                            childIndex,
+                            event,
+                            props.name,
+                            'value',
+                          )
+                        }
+                        label={'Value'}
+                        value={inputField?.value}
+                        placeholder={''}
+                      />
+                    </div>
                     <div
+                      className="col-sx-2 "
                       style={{
-                        display: 'flex',
-                        flexDirection: 'row',
                         justifyContent: 'space-between',
-                        alignItems: 'center',
+                        display: 'flex',
+                        marginTop: '10px',
                       }}
                     >
-                      <button
-                        className={styles.fieldButton}
-                        style={{}}
-                        type="button"
-                        disabled={inputFields.length === 1}
-                        onClick={() =>
-                          handleRemoveFields(index, toSnakeCase(props.label))
-                        }
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}
                       >
-                        <icons.minusCircle color={iconColors.primary} />
-                      </button>
-                      {index === inputFields.length - 1 && (
-                        <button
-                          className={styles.fieldButton}
-                          type="button"
-                          onClick={() => handleAddFields()}
-                        >
-                          <icons.plusCircle color={iconColors.primary} />
-                        </button>
-                      )}
+                        {item[props.name].length > 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            style={{}}
+                            type="button"
+                            // disabled={item[props.name].length === 1}
+                            onClick={() =>
+                              handleRemoveFields(
+                                parentIndex,
+                                childIndex,
+                                props.name,
+                              )
+                            }
+                          >
+                            <icons.minusCircle color={iconColors.primary} />
+                          </button>
+                        )}
+
+                        {childIndex === item[props.name].length - 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            type="button"
+                            onClick={() =>
+                              handleAddFields(props.name, parentIndex)
+                            }
+                          >
+                            <icons.plusCircle color={iconColors.primary} />
+                          </button>
+                        )}
+                      </div>
                     </div>
-                  </div>
-                  {/* </div> */}
-                </Fragment>
-              ))}
+                  </Fragment>
+                )),
+              )}
+              {/* {inputFields
+                ?.filter((x: any) => x.hasOwnProperty(props.name))
+                .map((inputField: any, index: any) => (
+            
+                ))} */}
             </div>
             <div className="submit-button"></div>
             <br />
@@ -219,6 +267,9 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
           //   (elementSchema.type === 'string' ||
           //     elementSchema.type === 'integer')
           // }
+          default={
+            inputData[props.name] ? inputData[props.name] : props.default
+          }
           onHandleChange={(key: any, value: any) =>
             setInputData({ ...inputData, [key]: value })
           }
@@ -227,12 +278,21 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     }
     if (elementSchema.type === 'boolean' && elementSchema.title) {
       return (
-        <ToggleField
-          {...props}
-          onHandleChange={(key: any, value: any) =>
-            setInputData({ ...inputData, [key]: value })
-          }
-        />
+        <Box marginTop="md">
+          <ToggleField
+            {...props}
+            value={
+              inputData[props.name] ? inputData[props.name] : props.default
+            }
+            onHandleChange={(event: any, value: any) => {
+              // debugger;
+              setInputData({
+                ...inputData,
+                [props.name]: !inputData[props.name],
+              });
+            }}
+          />
+        </Box>
       );
     }
   };
@@ -263,6 +323,87 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
+    const tempFinal: any = {};
+    inputFields.forEach((ar: any) => {
+      const keys = Object.keys(ar);
+      keys.forEach((key) => {
+        tempFinal[key] = {};
+
+        ar[key].forEach((nestedArr: any) => {
+          if (nestedArr.key || nestedArr.value) {
+            tempFinal[key] = {
+              ...tempFinal[key],
+              [nestedArr.key]: nestedArr.value,
+            };
+          } else {
+            if (
+              tempFinal[key] !== undefined &&
+              Object.keys(tempFinal[key]).length === 0
+            ) {
+              delete tempFinal[key];
+            }
+          }
+        });
+      });
+    });
+
+    let final: any = {};
+    inputFields.forEach((ar: any) => {
+      const keys = Object.keys(ar);
+      keys.forEach((key) => {
+        final[key] = {};
+
+        ar[key].forEach((nestedArr: any) => {
+          if (final[key]?.hasOwnProperty(nestedArr.key)) {
+            dispatch(
+              showToasterAction({
+                description: 'Key already exists.',
+                type: toasterTypes.failure,
+              }),
+            );
+            return (final = {});
+          } else {
+            if (nestedArr.key || nestedArr.value) {
+              final[key] = {
+                ...final[key],
+                [nestedArr.key]: nestedArr.value,
+              };
+            } else {
+              if (
+                final[key] !== undefined &&
+                Object.keys(final[key]).length === 0
+              ) {
+                delete final[key];
+              }
+            }
+          }
+        });
+      });
+    });
+    if (Object.keys(tempFinal).length !== Object.keys(final).length) {
+      return false;
+    }
+    for (const [key] of Object.entries(final)) {
+      // console.log(`${key}: ${value}`);
+      for (const [innerKey, innerValue] of Object.entries(final[key])) {
+        if (!innerKey && innerValue) {
+          return dispatch(
+            showToasterAction({
+              description: 'Key cannot be Empty.',
+              type: toasterTypes.failure,
+            }),
+          );
+        }
+        if (!innerValue && innerKey) {
+          return dispatch(
+            showToasterAction({
+              description: 'Value cannot be Empty.',
+              type: toasterTypes.failure,
+            }),
+          );
+        }
+      }
+    }
     const body = {
       user: user?.id,
       workspace: id,
@@ -270,7 +411,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       name: componentName,
       type: flavor.type,
       flavor: flavor.name,
-      configuration: { ...inputData },
+      configuration: { ...inputData, ...final },
     };
     setLoading(true);
     await axios
@@ -289,7 +430,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
             type: toasterTypes.success,
           }),
         );
-        dispatchStackComponentsData(1, 10);
+        dispatchStackComponentsData(1, 1);
 
         history.push(
           routePaths.stackComponents.configuration(
@@ -303,7 +444,9 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         setLoading(false);
         dispatch(
           showToasterAction({
-            description: err?.response?.data?.detail[0],
+            description: err?.response?.data?.detail[0].includes('Exists')
+              ? `Component name already exists.`
+              : err?.response?.data?.detail[0],
             type: toasterTypes.failure,
           }),
         );
@@ -330,13 +473,17 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
             label={'Component Name'}
             value={componentName}
           />
-          <ToggleField
-            label={'Share Component with public'}
-            onHandleChange={
-              (key: any, value: any) => setIsShared(value)
-              // setInputData({ ...inputData, ['is_shared']: value })
-            }
-          />
+          <Box marginTop="md">
+            <ToggleField
+              label={'Share Component with public'}
+              default={isShared}
+              value={isShared}
+              onHandleChange={
+                (key: any, value: any) => setIsShared(!isShared)
+                // setInputData({ ...inputData, ['is_shared']: value })
+              }
+            />
+          </Box>
 
           <Form
             enableReinitialize

@@ -82,6 +82,7 @@ export const GetList: React.FC<Props> = ({
     return <FullWidthSpinner color="black" size="md" />;
   }
   const helperTextStyle = {
+    fontFamily: 'Rubik',
     fontSize: '16px',
     color: '#A8A8A8',
     marginLeft: '10px',
@@ -106,7 +107,7 @@ export const GetList: React.FC<Props> = ({
               );
             }}
           >
-            <StackBox stackName="Create" stackDesc="Create a stack" />
+            <StackBox stackName="Register Component" stackDesc="" />
           </div>
         </Box>
         {list?.map((item: any) => {
@@ -119,14 +120,36 @@ export const GetList: React.FC<Props> = ({
               marginLeft="md"
               style={{ cursor: 'pointer' }}
               onClick={() => {
-                setShowPopup(true);
+                // setShowPopup(true);
                 setSelectedStackBox(item);
+                var index = selectedStack.findIndex(function (s: any) {
+                  return s.id === item.id;
+                });
+                if (index !== -1) {
+                  selectedStack.splice(index, 1);
+                  setSelectedStack([...selectedStack]);
+                } else {
+                  if (selectedStack.map((t: any) => t.type === item.type)) {
+                    let filterSelectedStack = selectedStack.filter(
+                      (st: any) => st.type !== item.type,
+                    );
+                    setSelectedStack([...filterSelectedStack, item]);
+                  } else {
+                    setSelectedStack([...selectedStack, item]);
+                  }
+                }
               }}
             >
+              {console.log(selectedStack, 'selectedStackselectedStack')}
               <CustomStackBox
                 image={item?.logoUrl}
                 stackName={item.name}
-                stackDesc={item?.flavor.name}
+                stackDesc={item?.flavor}
+                onViewConfig={(e: any) => {
+                  e.stopPropagation();
+                  setSelectedStackBox(item);
+                  setShowPopup(true);
+                }}
                 value={checkboxValue?.length > 0 ? true : false}
                 onCheck={(e: any) => {
                   e.stopPropagation();
@@ -137,7 +160,14 @@ export const GetList: React.FC<Props> = ({
                     selectedStack.splice(index, 1);
                     setSelectedStack([...selectedStack]);
                   } else {
-                    setSelectedStack([...selectedStack, item]);
+                    if (selectedStack.map((t: any) => t.type === item.type)) {
+                      let filterSelectedStack = selectedStack.filter(
+                        (st: any) => st.type !== item.type,
+                      );
+                      setSelectedStack([...filterSelectedStack, item]);
+                    } else {
+                      setSelectedStack([...selectedStack, item]);
+                    }
                   }
                 }}
               />
@@ -149,7 +179,56 @@ export const GetList: React.FC<Props> = ({
       {showPopup && (
         <SidePopup
           isCreate={false}
-          onSeeExisting={() => {}}
+          canSelect={true}
+          onSelect={() => {
+            var index = selectedStack.findIndex(function (s: any) {
+              return s.id === selectedStackBox.id;
+            });
+            if (index !== -1) {
+              selectedStack.splice(index, 1);
+              setSelectedStack([...selectedStack]);
+            } else {
+              if (
+                selectedStack.map((t: any) => t.type === selectedStackBox.type)
+              ) {
+                let filterSelectedStack = selectedStack.filter(
+                  (st: any) => st.type !== selectedStackBox.type,
+                );
+                setSelectedStack([...filterSelectedStack, selectedStackBox]);
+              } else {
+                setSelectedStack([...selectedStack, selectedStackBox]);
+              }
+            }
+            setShowPopup(false);
+          }}
+          selectedStackBox={selectedStackBox}
+          selectedStack={selectedStack}
+          onSeeExisting={() => {
+            // debugger;
+            dispatch(
+              stackComponentsActions.getMy({
+                workspace: selectedWorkspace
+                  ? selectedWorkspace
+                  : locationPath.split('/')[2],
+                type: selectedStackBox.type,
+
+                page: 1,
+                size: 1,
+                id: selectedStackBox.id,
+                onSuccess: () => {
+                  setFetching(false);
+                  history.push(
+                    routePaths.stackComponents.configuration(
+                      selectedStackBox.type,
+                      selectedStackBox.id,
+                      selectedWorkspace,
+                    ),
+                  );
+                },
+                onFailure: () => setFetching(false),
+              }),
+            );
+          }}
           onClose={() => setShowPopup(false)}
         >
           <Box marginTop="md" paddingBottom={'xxxl'}>

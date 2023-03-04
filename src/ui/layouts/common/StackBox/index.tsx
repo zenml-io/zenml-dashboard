@@ -55,7 +55,7 @@ export const StackBox: React.FC<{
 
       <Box style={{ marginTop: '8px' }}>
         <Paragraph className={styles.stackName}>
-          {titleCase(stackName?.slice(0, 15))}
+          {titleCase(stackName?.slice(0, 18))}
         </Paragraph>
       </Box>
 
