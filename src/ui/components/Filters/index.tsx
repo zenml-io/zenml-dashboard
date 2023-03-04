@@ -775,7 +775,7 @@ const FilterComponent = ({
   return (
     <FlexBox.Column fullWidth>
       <div className={styles.inputRow}>
-        <Box marginRight="md" marginTop="md">
+        <Box marginRight="md" marginTop="md" style={{ marginTop: '70px' }}>
           <SearchInputField
             placeholder={'Search'}
             value={searchText ? filters[0]?.filterValue : ''}
