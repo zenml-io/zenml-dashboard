@@ -98,7 +98,6 @@ export const List: React.FC<Props> = ({
   });
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
-  // console.log(filter, 'filterfilterfilter');
   const openDetailPage = (stack: TStack) => {
     setSelectedRunIds([]);
     if (id) {
@@ -123,16 +122,16 @@ export const List: React.FC<Props> = ({
       1,
       itemPerPage,
       checkValidFilter.length ? (validFilters as any) : [],
-      activeSorting as any,
+      (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
     );
-  }, [checkValidFilter]);
+  }, [checkValidFilter, activeSortingDirection, activeSorting]);
   const onChange = (pageNumber: any, size: any) => {
     // debugger;
     dispatchStackData(
       pageNumber,
       size,
       checkValidFilter.length ? (validFilters as any) : [],
-      activeSorting as any,
+      (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
     );
   };
 
@@ -203,6 +202,7 @@ export const List: React.FC<Props> = ({
                   onChangePagePerItem={(size: any) => {
                     setItemPerPage(size);
                     onChange(1, size);
+                    setPageIndex(0);
                   }}
                 ></ItemPerPage>
               )}
