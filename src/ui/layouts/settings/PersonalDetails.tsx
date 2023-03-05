@@ -81,7 +81,7 @@ export const PersonalDetails: React.FC = () => {
                 </div>
               </Box>
 
-              <Box >
+              <Box marginTop='lg'>
                 <EditField 
                   disabled={!decoded.permissions.includes('me')}
                   label={translate('form.fullName.label')}
@@ -92,7 +92,7 @@ export const PersonalDetails: React.FC = () => {
                 />
               </Box>
 
-              <Box>
+              <Box marginTop='lg'>
                 <EditField 
                   disabled={!decoded.permissions.includes('me')}
                   label={translate('form.username.label')}
@@ -103,7 +103,7 @@ export const PersonalDetails: React.FC = () => {
                 />
               </Box>
 
-              <Box>
+              <Box marginTop='lg'>
                 <Paragraph>Roles</Paragraph>
                 <FlexBox.Row>
                   {user?.roles?.map((e: any) => (
@@ -114,7 +114,7 @@ export const PersonalDetails: React.FC = () => {
                 </FlexBox.Row>
               </Box>
 
-              <Box marginTop='xl'>
+              <Box marginTop='lg'>
                 <Paragraph>Acivated</Paragraph>
                 <div className={styles.date}>{formatDateToDisplay(user.created)}</div>
               </Box>

@@ -157,6 +157,7 @@ export const useMemberHeaderCols = ({
                   id={member?.id}
                   username={member?.name}
                   active={member?.active}
+                  roles={member?.roles}
                 />
               ) : (
                 <Paragraph>Accepted</Paragraph>

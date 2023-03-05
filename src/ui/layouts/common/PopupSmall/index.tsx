@@ -7,8 +7,10 @@ import styles from './index.module.scss';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
-export const PopupSmall: React.FC<{ onClose: () => void }> = ({
+export const PopupSmall: React.FC<{ width?: string, showCloseIcon?: any, onClose: () => void }> = ({
   children,
+  width,
+  showCloseIcon,
   onClose, 
 }) => (
   <>
@@ -18,14 +20,16 @@ export const PopupSmall: React.FC<{ onClose: () => void }> = ({
       justifyContent="center"
       className={styles.popupContainer}
     >
-      <Box className={styles.popup}>
+      <Box className={styles.popup} style={{ width }}>
         <OutsideClickHandler onOutsideClick={onClose}>
-          <Box className={styles.popupClose}>
-            <LinkBox onClick={onClose}>
-              <icons.closeWithBorder />
-            </LinkBox>
-          </Box>
-          <Box paddingVertical="xl" paddingHorizontal="xxxl">
+          {showCloseIcon && (
+            <Box className={styles.popupClose}>
+              <LinkBox onClick={onClose}>
+                <icons.closeWithBorder />
+              </LinkBox>
+            </Box>
+          )}
+          <Box paddingVertical="lg" paddingHorizontal="lg">
             {children}
           </Box>
         </OutsideClickHandler>
