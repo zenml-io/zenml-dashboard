@@ -47,7 +47,7 @@ export const useService = (): ServiceInterface => {
     //     type: locationPath.split('/')[4],
     //     sort_by: 'desc:created',
     //     logical_operator: 'and',
-    //     page: 1,
+    //     index: 1,
     //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
     //     onSuccess: () => setFetching(false),
     //     onFailure: () => setFetching(false),
@@ -74,6 +74,7 @@ export const callActionForStackComponentsForPagination = () => {
     size: number,
     filters?: any[],
     sortby?: string,
+    id?: any,
   ) {
     const logicalOperator = localStorage.getItem('logical_operator');
 
@@ -90,6 +91,7 @@ export const callActionForStackComponentsForPagination = () => {
         page: page,
         size: size,
         filtersParam,
+        id: id,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

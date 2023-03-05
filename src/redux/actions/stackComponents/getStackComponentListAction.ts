@@ -9,18 +9,20 @@ export const getStackComponentListAction = ({
   page,
   size,
   filtersParam,
+  id,
   onSuccess,
   onFailure,
 }: {
   workspace: string;
-  sort_by: string;
-  logical_operator: string;
+  sort_by?: string;
+  logical_operator?: string;
   type: TId;
   page: number;
   size: number;
   filtersParam?: object;
-  onSuccess?: () => void;
-  onFailure?: () => void;
+  id?: any;
+  onSuccess?: (res: any) => void;
+  onFailure?: (res: any) => void;
 }): TRequestAction => ({
   type: stackComponentActionTypes.getStackComponentList.request,
   payload: {
@@ -36,6 +38,7 @@ export const getStackComponentListAction = ({
       page,
       size,
       filtersParam,
+      id,
     },
     onSuccess,
     onFailure,

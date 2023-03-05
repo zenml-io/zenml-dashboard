@@ -32,10 +32,10 @@ const newState = (state: State, flavors: any[], pagination?: any): State => ({
   ids: idsInsert(state.ids, flavors),
   byId: byKeyInsert(state.byId, flavors),
   paginated: {
-    page: pagination.page,
-    size: pagination.size,
-    totalPages: pagination.total_pages,
-    totalitem: pagination.total,
+    page: pagination?.index,
+    size: pagination?.max_size,
+    totalPages: pagination?.total_pages,
+    totalitem: pagination?.total,
   },
 });
 
