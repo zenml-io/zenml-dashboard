@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from 'react';
 import { organizationActions } from '../../../../redux/actions';
-
+import styles from './index.module.scss'
 import {
   FlexBox,
   Box,
   Paragraph,
-  PrimaryButton,
+  // PrimaryButton,
   LinkBox,
+  Row,
 } from '../../../components';
 import { useDispatch, useSelector } from '../../../hooks';
-import { Table } from '../../common/Table';
+// import { Table } from '../../common/Table';
 import { translate } from './translate';
-import { useMemberHeaderCols } from './useHeaderCols';
+// import { useMemberHeaderCols } from './useHeaderCols';
 import { InvitePopup } from './InvitePopup';
 import { useService } from './useService';
 import { rolesActions } from '../../../../redux/actions/roles';
 import {
-  organizationSelectors,
+  // organizationSelectors,
   sessionSelectors,
 } from '../../../../redux/selectors';
 import jwt_decode from 'jwt-decode';
 
-type Table = 'members' | 'invites';
+import AddUserBox from './UserBox/AddUserBox';
+import UserBox from './UserBox/UserBox';
+
+// type Table = 'members' | 'invites';
 
 export const Organization: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,34 +33,38 @@ export const Organization: React.FC = () => {
   if (authToken) {
     var decoded: any = jwt_decode(authToken as any);
   }
+  
+  // eslint-disable-next-line
   const [fetchingMembers, setFetchingMembers] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
+  
+  // eslint-disable-next-line
   const [currentTable, setCurrentTable] = useState('members');
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
-  const membersPaginated = useSelector(
-    organizationSelectors.myMembersPaginated,
-  );
+  // const membersPaginated = useSelector(
+  //   organizationSelectors.myMembersPaginated,
+  // );
   const {
     filteredMembers,
-    setFilteredMembers,
-    activeSorting,
-    setActiveSorting,
-    activeSortingDirection,
-    setActiveSortingDirection,
+    // setFilteredMembers,
+    // activeSorting,
+    // setActiveSorting,
+    // activeSortingDirection,
+    // setActiveSortingDirection,
   } = useService();
 
-  const memberHeaderCols = useMemberHeaderCols({
-    decoded,
-    filteredMembers,
-    setFilteredMembers: setFilteredMembers,
-    activeSorting,
-    setActiveSorting,
-    activeSortingDirection,
-    setActiveSortingDirection,
-  });
+  // const memberHeaderCols = useMemberHeaderCols({
+  //   decoded,
+  //   filteredMembers,
+  //   setFilteredMembers: setFilteredMembers,
+  //   activeSorting,
+  //   setActiveSorting,
+  //   activeSortingDirection,
+  //   setActiveSortingDirection,
+  // });
   // function name() {
   //   console.log();
   // }
@@ -76,31 +84,28 @@ export const Organization: React.FC = () => {
   return (
     <>
       {popupOpen && <InvitePopup setPopupOpen={setPopupOpen} />}
-      <FlexBox.Column flex={1} style={{ width: '100%', marginLeft: '40px' }}>
-        <FlexBox.Row marginTop="lg" alignItems="center" justifyContent="end">
-          <Box>
-            <PrimaryButton
-              disabled={!decoded.permissions.includes('write')}
-              onClick={() => setPopupOpen(true)}
-            >
-              {translate('button.text')}
-            </PrimaryButton>
-          </Box>
-        </FlexBox.Row>
-        <Box marginTop="xxl">
+      <FlexBox.Column flex={1} style={{ width: '100%', marginLeft: '40px' }}>     
+        
+        <Box marginTop="lg">
+       
           <FlexBox.Row marginBottom="md">
-            <Box paddingHorizontal="md">
+            <Box>
               <LinkBox onClick={() => setCurrentTable('members')}>
-                <Paragraph
-                  bold
-                  color={currentTable === 'members' ? 'primary' : 'darkGrey'}
-                >
+                <Paragraph bold className={styles.numberOfMembers} >
                   {translate('members')} {`(${filteredMembers.length})`}
                 </Paragraph>
               </LinkBox>
             </Box>
           </FlexBox.Row>
-          {currentTable === 'members' && (
+
+          <Row>
+            {decoded.permissions.includes('write') && <div onClick={() => setPopupOpen(true)}><AddUserBox /></div>}
+            {filteredMembers?.map((e) => (
+              <UserBox data={e} permission={decoded.permissions.includes('write')} />
+            ))}
+          </Row>
+
+          {/* {currentTable === 'members' && (
             <Table
               activeSorting={activeSorting}
               // activeSorting={activeSorting}
@@ -112,43 +117,9 @@ export const Organization: React.FC = () => {
               tableRows={filteredMembers}
               emptyState={{ text: translate('emptyState.text') }}
             />
-          )}
+          )} */}
         </Box>
       </FlexBox.Column>
     </>
   );
 };
-
-// export const callActionForMembersForPagination = () => {
-//   const dispatch = useDispatch();
-//   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-
-//   function dispatchPipelineData(
-//     page: number,
-//     size: number,
-//     filters?: any[],
-//     sortby?: string,
-//   ) {
-//     // let filtersParam: any = filterObjectForParam(filters);
-//     setFetchingForPipeline(true);
-//     // debugger;
-//     dispatch(
-//       organizationActions.getMembers({
-//         sort_by: sortby ? sortby : 'created',
-//         page: page,
-//         size: size,
-//         onSuccess: () => setFetchingMembers(false),
-//         onFailure: () => setFetchingMembers(false),
-//       }),
-//     );
-//   }
-
-//   const setFetchingForPipeline = (fetching: boolean) => {
-//     dispatch(pipelinePagesActions.setFetching({ fetching }));
-//   };
-
-//   return {
-//     setFetchingForPipeline,
-//     dispatchPipelineData,
-//   };
-// };

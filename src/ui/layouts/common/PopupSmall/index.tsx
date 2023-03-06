@@ -7,7 +7,7 @@ import styles from './index.module.scss';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
-export const PopupSmall: React.FC<{ width?: string, showCloseIcon?: any, onClose: () => void }> = ({
+export const PopupSmall: React.FC<{ width?: string, showCloseIcon?: any, onClose: any }> = ({
   children,
   width,
   showCloseIcon,

@@ -150,24 +150,6 @@ export const InvitePopup: React.FC<{
           </Box>          
           <FlexBox justifyContent="center" flexWrap>
            <Paragraph style={{ cursor: 'pointer' }} onClick={() => setPopupOpen(false)}>Cancel</Paragraph>
-            {/* {!showTokField && (
-              <>
-                <Box marginRight="sm">
-                  <GhostButton onClick={() => setPopupOpen(false)}>
-                    {translate('updateMemberPopup.cancelButton.text')}
-                  </GhostButton>
-                </Box>
-                <Box>
-                  <PrimaryButton
-                    disabled={submitting}
-                    loading={submitting}
-                    onClick={inviteNewMembers}
-                  >
-                    {translate('popup.button.text')}
-                  </PrimaryButton>
-                </Box>
-              </>
-            )} */}
           </FlexBox>
         </Box>
 

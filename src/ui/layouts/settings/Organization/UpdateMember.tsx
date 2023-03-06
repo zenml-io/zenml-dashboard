@@ -4,8 +4,6 @@ import {
   Box,
   FlexBox,
   H4,
-  icons,
-  LinkBox,
   Paragraph,
   FormTextField,
   FormPasswordField,
@@ -15,7 +13,6 @@ import { PopupSmall } from '../../common/PopupSmall';
 import { translate } from './translate';
 import { organizationActions } from '../../../../redux/actions/organizations/index';
 import { showToasterAction } from '../../../../redux/actions/showToasterAction';
-import { iconColors } from '../../../../constants/icons';
 
 import { toasterTypes } from '../../../../constants';
 import { fetchApiWithAuthRequest } from '../../../../api/fetchApi';
@@ -28,14 +25,13 @@ import { RoleSelector } from './RoleSelector';
 import axios from 'axios';
 import { formatDateToDisplayWithoutTime } from '../../../../utils';
 
-export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
+export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ member, setEditPopup }) => {
   const preRole = member?.roles?.map((e: any) => {
     return { value: e.id, label: e.name };
   });
 
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [popupOpen, setPopupOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [role, setRole] = useState(preRole);
 
@@ -78,33 +74,31 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
         });
       }
 
-      const {
-        data,
-      } = await axios.get(
+      const { data: { items } } = await axios.get(
         `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_name_or_id=${member?.name}`,
         { headers: { Authorization: `Bearer ${authToken}` } },
       );
+        
+        for (let index = 0; index < items?.length; index++) {
+          const singleDelRole = items[index];
+          await axios.delete(
+            `${process.env.REACT_APP_BASE_API_URL}/role_assignments/${singleDelRole?.id}`,
+            { headers: { Authorization: `Bearer ${authToken}` } },
+          );
+        }
 
-      for (let index = 0; index < data?.length; index++) {
-        const singleDelRole = data[index];
-        await axios.delete(
-          `https://appserver.zenml.io/api/v1/role_assignments/${singleDelRole?.id}`,
-          { headers: { Authorization: `Bearer ${authToken}` } },
-        );
-      }
-
-      for (let index = 0; index < role.length; index++) {
-        const singleRole = role[index];
-        await axios.post(
-          `${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
-          // @ts-ignore
-          { user: member.id, role: singleRole?.value },
-          { headers: { Authorization: `Bearer ${authToken}` } },
-        );
-      }
+        for (let index = 0; index < role.length; index++) {
+          const singleRole = role[index];
+          await axios.post(
+            `${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
+            // @ts-ignore
+            { user: member.id, role: singleRole?.value },
+            { headers: { Authorization: `Bearer ${authToken}` } },
+          );
+        }
 
       setSubmitting(false);
-      setPopupOpen(false);
+      setEditPopup(false);
       dispatch(
         showToasterAction({
           description: 'User Updated',
@@ -114,7 +108,7 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
       await dispatch(organizationActions.getMembers({}));
     } catch (err) {
       setSubmitting(false);
-      setPopupOpen(false);
+      setEditPopup(false);
 
       dispatch(
         showToasterAction({
@@ -139,7 +133,7 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
       organizationActions.deleteInvite({
         id: member.id,
         onSuccess: () => {
-          setPopupOpen(false);
+          setEditPopup(false);
           setSubmitting(false);
           dispatch(organizationActions.getMembers({}));
           dispatch(
@@ -162,11 +156,13 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
     );
   };
 
+  const handleClose = () => {
+    setEditPopup(false); 
+    setRole(preRole)
+  }
 
   return (
-    <>
-      {popupOpen && (
-        <PopupSmall width='370px' showCloseIcon={false} onClose={() => {setPopupOpen(false); setRole(preRole)}}
+        <PopupSmall width='370px' showCloseIcon={false} onClose={handleClose}
         >
           <FlexBox.Row alignItems="center" justifyContent="space-between">
             <H4 bold style={{ fontSize: '18px', fontWeight: 'bold'}}>{translate('updateMemberPopup.title')}</H4>
@@ -239,35 +235,6 @@ export const UpdateMember: React.FC<{ member: any }> = ({ member }) => {
               <Paragraph style={{ cursor: 'pointer', color: '#FF6666' }} onClick={onDelete}>Remove Member</Paragraph>
             </FlexBox>
           </Box>
-          
-          {/* <FlexBox justifyContent="flex-end" marginTop="xl" flexWrap>
-            <Box marginRight="sm" marginBottom="md">
-              <GhostButton onClick={() => setPopupOpen(false)}>
-                {translate('updateMemberPopup.cancelButton.text')}
-              </GhostButton>
-            </Box>
-            <Box marginLeft="sm" marginRight="sm" marginBottom="md">
-              <PrimaryButton
-                disabled={submitting}
-                loading={submitting}
-                onClick={onUpdate}
-              >
-                {translate('updateMemberPopup.successButton.text')}
-              </PrimaryButton>
-            </Box> */}
-          {/* </FlexBox> */}
         </PopupSmall>
-      )}
-      <Box>
-        <LinkBox
-          onClick={() => {
-            setPopupOpen(true);
-            setRole(preRole);
-          }}
-        >
-          <icons.edit color={iconColors.grey} />
-        </LinkBox>
-      </Box>
-    </>
   );
 };

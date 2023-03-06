@@ -257,7 +257,7 @@ export const useMemberHeaderCols = ({
             <>
               <FlexBox>
                 <div data-tip data-for={member?.id}>
-                  <UpdateMember member={member} />
+                  <UpdateMember member={member} setEditPopup={() => {}}/>
                 </div>
               </FlexBox>
 
