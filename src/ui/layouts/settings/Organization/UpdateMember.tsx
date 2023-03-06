@@ -6,7 +6,6 @@ import {
   H4,
   Paragraph,
   FormTextField,
-  FormPasswordField,
   Separator
 } from '../../../components';
 import { PopupSmall } from '../../common/PopupSmall';
@@ -31,6 +30,7 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ mem
   });
 
   const [username, setUsername] = useState('');
+   // eslint-disable-next-line
   const [password, setPassword] = useState('');
   const [submitting, setSubmitting] = useState(false);
   const [role, setRole] = useState(preRole);
