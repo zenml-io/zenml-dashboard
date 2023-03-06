@@ -10,7 +10,7 @@ import {
   Box,
   LinkBox,
   icons,
-  DropdownInput,
+  DropdownInput
 } from '..';
 import { handleUpdateNumericInput } from '../../../utils/input';
 import { iconColors } from '../../../constants/icons';
@@ -118,8 +118,9 @@ export const CopyField = (
     labelColor: any;
     placeholder: any;
     value: string;
+    showTokField: any;
   } & any,
-): JSX.Element => {
+): any => {
   const [copied, setCopied] = useState(false);
   const handleClick = () => {
     navigator.clipboard.writeText(props.value);
@@ -130,26 +131,38 @@ export const CopyField = (
   };
 
   return (
-    <FlexBox.Column fullWidth style={{ height: '100px' }}>
+    <FlexBox.Column fullWidth>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
         <InputWithLabel
           name={props.name}
           label={props.label}
           labelColor={props.labelColor}
           InputComponent={
-            <TextInput
-              {...props}
-              value={`${props.value.slice(0, 60)}...`}
-              placeholder={props.placeholder}
-            />
-          }
+            props.showTokField ?
+              <TextInput
+                {...props}
+                style={{ background: 'rgba(168, 168, 168, 0.2)', border: '1px solid #C9CBD0' }}
+                value={`${props.value.slice(0, 30)}...`}
+                placeholder={props.placeholder}
+              />
+              :
+              <TextInput
+                {...props}
+                style={{ background: 'rgba(168, 168, 168, 0.2)', border: '1px solid #C9CBD0' }}
+                value='Token'
+                placeholder={props.placeholder}
+              />
+            }
         />
-        <LinkBox
-          style={{ position: 'absolute', right: '10px', top: '30px' }}
-          onClick={handleClick}
-        >
-          <icons.copy color={iconColors.grey} />
-        </LinkBox>
+
+        {props.showTokField && (
+          <LinkBox
+            style={{ position: 'absolute', right: '10px', top: '40px' }}
+            onClick={handleClick}
+          >
+            <icons.copy color={iconColors.grey} />
+          </LinkBox>
+        )}
       </FlexBox>
       {copied && (
         <div style={{ marginTop: '20px', textAlign: 'right' }}>
@@ -168,6 +181,70 @@ export const CopyField = (
     </FlexBox.Column>
   );
 };
+
+
+export const GenerateTokenField = (
+  props: {
+    label: string;
+    labelColor: any;
+    placeholder: any;
+    value: string;
+    handleClick: any;
+    loading: boolean;
+    hideButton: boolean;
+  } & any,
+): any => {
+  return (
+    <FlexBox.Column fullWidth>
+        <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+          <InputWithLabel
+            optional={props.required}
+            name={props.name}
+            label={props.label}
+            labelColor={props.labelColor}
+            InputComponent={
+              <TextInput
+                {...props}
+                style={props.style}
+                placeholder={props.placeholder}
+                hasError={props.error?.hasError}
+                value={props.value}
+                onChangeText={props.onChange}
+              />
+            }
+          />
+        {!props.hideButton && (
+          <Box 
+            style={{ 
+              position: 'absolute', 
+              right: '0', 
+              top: '38px', 
+              display: 'flex', 
+              justifyContent: 'center', 
+              textAlign: 'center',
+            }} >
+            <Box style={{ width: '120px', borderLeft: '1px solid #C9CBD0' }}>
+              <div style={{ 
+                fontFamily: 'Rubik',
+                fontSize: '16px',
+                color: '#443E99',
+                marginTop: '3px',
+                cursor: 'pointer'
+               }} 
+               onClick={props.handleClick}
+              >
+                {props.loading ? <>Submitting...</> : <>Generate</>}
+              </div>
+            </Box>
+          </Box>
+        )}
+      </FlexBox>
+    </FlexBox.Column>
+  );
+};
+
+          
+
 
 export const EditField = (
   props: {

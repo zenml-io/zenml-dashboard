@@ -1,0 +1,57 @@
+.imageContainer {
+    height: 161px; 
+    width: 161px; 
+    position: relative;
+
+    img {
+        height: 100%; 
+        width: 100%; 
+        border-radius: 100%; 
+        object-fit: none; 
+        border: 8px solid #fff; 
+        box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05)
+    }
+
+    .imageUploader {
+        height: 49px;
+        width: 49px;
+        border-radius: 100%;
+        background-color: #fff;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        cursor: pointer;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+        
+      
+}
+
+.roleBean {
+    height: 25px;
+    margin: 10px 0 0 10px;
+    border-radius: 10px;
+    padding: 4px 9px 4px 9px;
+    background-color: #F4F4F4;
+    
+    p {
+        color: #828282;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 17px;
+    }
+}
+
+.date {
+    color: #828282;
+    margin-top: 10px;
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+}
