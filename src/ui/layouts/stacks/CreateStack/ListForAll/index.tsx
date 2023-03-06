@@ -132,7 +132,7 @@ export const ListForAll: React.FC<Props> = () => {
           stacksActions.getMy({
             page: 1,
             size: 1,
-            id: response.data.id,
+            filtersParam: response.data.id,
             workspace: selectedWorkspace,
             onSuccess: () => {
               history.push(
