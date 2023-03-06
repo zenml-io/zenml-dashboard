@@ -53,7 +53,7 @@ export const PaginationWithPageSize: React.FC<Props> = ({
   );
 
   const DEFAULT_ITEMS_PER_PAGE = 10;
-  const itemPerPageOptions = [7, 10, 15, 20];
+  const itemPerPageOptions = [5, 10, 15, 20];
   // const itemPerPage = ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE;
   const [itemPerPage, setItemPerPage] = useState(
     ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,

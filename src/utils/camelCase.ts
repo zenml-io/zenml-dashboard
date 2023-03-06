@@ -23,3 +23,8 @@ export const camelCaseToParagraph = (string: string) => {
     .replace(/([a-z])([A-Z])/g, '$1 $2')
     .replace(/([A-Z])([A-Z][a-z])/g, '$1 $2');
 };
+export const titleCase = (s: any) => {
+  return s?.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
+    c ? c.toUpperCase() : ' ' + d.toUpperCase(),
+  );
+};

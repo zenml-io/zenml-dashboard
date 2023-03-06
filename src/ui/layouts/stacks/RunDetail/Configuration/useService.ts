@@ -6,6 +6,7 @@ import YAML from 'json2yaml';
 interface ServiceInterface {
   downloadYamlFile: () => void;
   pipelineConfig: string;
+  run: any;
 }
 
 export const useService = ({ runId }: { runId: TId }): ServiceInterface => {
@@ -24,5 +25,5 @@ export const useService = ({ runId }: { runId: TId }): ServiceInterface => {
     element.click();
   };
 
-  return { downloadYamlFile, pipelineConfig };
+  return { downloadYamlFile, pipelineConfig, run };
 };

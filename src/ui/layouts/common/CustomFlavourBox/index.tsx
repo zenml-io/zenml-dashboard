@@ -1,28 +1,28 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Box, Paragraph } from '../../../components';
 
 import styles from './index.module.scss';
 
 export const CustomFlavourBox: React.FC<{
   flavourName: string;
-  flavourDesc: string;
+  flavourDesc: string; 
   logoUrl: string;
   onSelectFlavor: any;
 }> = ({ flavourName, flavourDesc, logoUrl, onSelectFlavor }) => {
-  // const [select, setSelect] = useState(false);
-  const formatText = (text: string) => {
-    const removeUnderscore = text.replace('_', ' ');
-    return removeUnderscore.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
-      letter.toUpperCase(),
+  const [select, setSelect] = useState(false);
+  const titleCase = (s: any) =>
+    s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
+      c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
-  };
   return (
     <Box
       paddingHorizontal="sm2"
       paddingVertical="sm2"
       className={styles.customFlavourBox}
-      // style={{ background: select ? '#443E99' : '#fff' }}
-      style={{ background: '#fff' }}
+      onMouseEnter={() => setSelect(true)}
+      onMouseLeave={() => setSelect(false)}
+      style={{ background: select ? '#443E99' : '#fff' }}
+      // style={{ background: '#fff' }}
       onClick={onSelectFlavor}
     >
       <Box className={styles.imageContainer}>
@@ -33,13 +33,19 @@ export const CustomFlavourBox: React.FC<{
       </Box>
 
       <Box style={{ marginTop: '12px' }}>
-        <Paragraph className={styles.flavourName} style={{ color: '#443E99' }}>
-          {formatText(flavourName)}
+        <Paragraph
+          className={styles.flavourName}
+          style={{ color: select ? '#fff' : '#443E99' }}
+        >
+          {titleCase(flavourName)}
         </Paragraph>
       </Box>
 
       <Box marginTop="sm2" marginBottom="xxl2">
-        <Paragraph className={styles.flavourDesc} style={{ color: '#A8A8A8' }}>
+        <Paragraph
+          className={styles.flavourDesc}
+          style={{ color: select ? '#D8C6FC' : '#A8A8A8' }}
+        >
           {flavourDesc.length < 35
             ? `${flavourDesc}`
             : `${flavourDesc.substring(0, 30)}...`}

@@ -16,15 +16,18 @@ export const InputWithLabel = ({
   label: string;
   name?: any;
   labelColor?: any;
-  optional?: string
+  optional?: string;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
-    <Box paddingBottom="xs">
+    <Box paddingBottom="sm">
       <Paragraph
         size="body"
         style={{ color: labelColor ? labelColor : 'black' }}
       >
-        <label htmlFor={name}>{label} {optional && <span style={{ color: '#A8A8A8' }}>&#40;Optional&#41;</span>}</label>
+        <label htmlFor={name}>
+          {label}
+          {optional && <span style={{ color: 'red' }}>{optional}</span>}
+        </label>
       </Paragraph>
     </Box>
     {InputComponent}
@@ -42,7 +45,7 @@ export const BaseInput = ({
   ...props
 }: {
   onChange: any;
-  value: string;
+  value?: string;
   placeholder?: string;
   type: string;
   hasError?: boolean;
@@ -124,7 +127,7 @@ export const TextInput = ({
   ...props
 }: {
   onChangeText: any;
-  value: string;
+  value?: string;
   placeholder?: string;
   hasError?: boolean;
   type?: string;
