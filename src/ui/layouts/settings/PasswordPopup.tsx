@@ -1,12 +1,14 @@
 /* eslint-disable */
 import React, { useState } from 'react';
+import styles from './index.module.scss'
 import { useDispatch } from 'react-redux';
 import {
   Box,
   FlexBox,
   H3,
   PrimaryButton,
-  FormPasswordField
+  FormPasswordField,
+  H4
 } from '../../components';
 import { getTranslateByScope } from '../../../services';
 import { PopupSmall } from '../common/PopupSmall';
@@ -17,6 +19,7 @@ import {
 } from '../../../redux/actions';
 import { toasterTypes } from '../../../constants';
 import { loginAction } from '../../../redux/actions/session/loginAction';
+import check_small from '../../assets/check_small.svg'
 
 export const PasswordPopup: React.FC<{
   user: any;
@@ -88,6 +91,13 @@ export const PasswordPopup: React.FC<{
     }
   };
 
+
+  const uppercaseRegExp = /(?=.*?[A-Z])/.test(newPassword)
+  const lowercaseRegExp   = /(?=.*?[a-z])/.test(newPassword)
+  const digitsRegExp      = /(?=.*?[0-9])/.test(newPassword)
+  const specialCharRegExp = /(?=.*?[#?!@$%^&*-])/.test(newPassword)
+  const minLengthRegExp   = /.{8,}/.test(newPassword)
+
   return (
     <PopupSmall onClose={() => setPopupOpen(false)} >
 
@@ -153,6 +163,29 @@ export const PasswordPopup: React.FC<{
                     showPasswordOption
                   />
                 </Box>
+
+
+                <Box className={styles.passwordValidator}>
+                    <H4 className={styles.heading}>Password Criteria</H4>
+
+                    <div className={styles.indicator} style={{ justifyContent: minLengthRegExp ? 'space-between': 'start' }}>
+                      <p style={{ color: minLengthRegExp ? '#00B894': '#C94540' }}>Minimum 8 characters</p>
+                      {minLengthRegExp && <img src={check_small} alt='check' />}
+                    </div>
+                    <div className={styles.indicator} style={{ justifyContent: digitsRegExp ? 'space-between': 'start' }}>
+                      <p style={{ color: digitsRegExp ? '#00B894': '#C94540' }}>Must Contain one Numeric value</p>
+                      {digitsRegExp && <img src={check_small} alt='check' />}
+                    </div>
+                    <div className={styles.indicator} style={{ justifyContent: uppercaseRegExp || lowercaseRegExp ? 'space-between': 'start' }}>
+                      <p style={{ color: uppercaseRegExp || lowercaseRegExp ? '#00B894': '#C94540' }}>Must include upper and lower cases</p>
+                      {uppercaseRegExp || lowercaseRegExp && <img src={check_small} alt='check' />}
+                    </div>
+                    <div className={styles.indicator} style={{ justifyContent: specialCharRegExp ? 'space-between': 'start' }}>
+                      <p style={{ color: specialCharRegExp ? '#00B894': '#C94540' }}>Must include one special character (!,@,#...)</p>
+                      {specialCharRegExp && <img src={check_small} alt='check' />}
+                    </div>
+                </Box>
+
               </Box>
           </FlexBox.Row>
 

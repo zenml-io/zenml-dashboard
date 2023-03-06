@@ -190,7 +190,7 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ mem
               />
             </Box>
 
-            <Box marginTop="lg">
+            {/* <Box marginTop="lg">
               <FormPasswordField
                 label={translate('updateMemberPopup.form.password.label')}
                 labelColor="rgba(66, 66, 64, 0.5)"
@@ -204,7 +204,7 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ mem
                 }}
                 showPasswordOption
               />
-            </Box>
+            </Box> */}
 
             <Box marginTop='lg' style={{ fontFamily: 'Rubik', color: '#A1A4AB', fontSize: '14px', lineHeight: '17px' }}>
                 <FlexBox.Row fullWidth justifyContent='space-between'>
