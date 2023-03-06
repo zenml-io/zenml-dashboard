@@ -163,7 +163,7 @@ export const List: React.FC<Props> = ({
         showHeader={true}
         filters={filter}
         headerCols={headerCols}
-        tableRows={expendedRow.length > 0 ? expendedRow : filteredStacks}
+        tableRows={filteredStacks}
         emptyState={{ text: translate('emptyState.text') }}
         trOnClick={openDetailPage}
       />
