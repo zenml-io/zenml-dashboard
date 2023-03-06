@@ -50,14 +50,14 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                       <IfElse
                         condition={isActive}
                         renderWhenFalse={() => (
-                           <Truncate maxLines={1}>
-                              <Paragraph color="grey" style={{ padding: '5px 0' }} >{page.text}</Paragraph>
-                           </Truncate> 
+                          <Truncate maxLines={1}>
+                            <Paragraph color="grey">{page.text}</Paragraph>
+                          </Truncate>
                         )}
                         renderWhenTrue={() => (
-                           <Truncate maxLines={1}>
-                              <Paragraph color="primary" style={{ padding: '5px 0' }}>{page.text}</Paragraph>
-                           </Truncate>
+                          <Truncate maxLines={1}>
+                            <Paragraph color="primary">{page.text}</Paragraph>
+                          </Truncate>
                         )}
                       />
                     </Link>

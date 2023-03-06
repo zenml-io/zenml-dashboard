@@ -81,8 +81,9 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   return (
     <>
       <FlexBox.Column fullWidth>
-        <div style={{ marginBottom: '-10px' }}>
+        <div style={{ marginTop: '17px' }}>
           <SearchInputField
+            fromRegisterComponent={true}
             placeholder={'Search'}
             value={text}
             // disabled={applyFilter || showInBar}

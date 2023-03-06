@@ -257,7 +257,7 @@ export const EditField = (
   } & any,
 ): JSX.Element => {
   return (
-    <FlexBox.Column fullWidth >
+    <FlexBox.Column fullWidth>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
         <InputWithLabel
           name={props.name}
@@ -285,6 +285,7 @@ export const EditField = (
 
 export const SearchInputField = (
   props: {
+    fromRegisterComponent: boolean;
     label?: string;
     labelColor?: any;
     placeholder: any;
@@ -293,16 +294,32 @@ export const SearchInputField = (
   } & any,
 ): JSX.Element => {
   return (
-    <FlexBox.Column fullWidth style={{ height: '100px', marginTop: '-10px' }}>
+    <FlexBox.Column
+      fullWidth
+      style={{
+        height: props.fromRegisterComponent ? '50px' : '100px',
+        marginTop: '-10px',
+      }}
+    >
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
         <LinkBox
           style={{ position: 'absolute', left: '7px', top: '35px' }}
           onClick={() => {}}
         >
-          <icons.search color={iconColors.grey} />
+          <icons.search
+            style={{ position: 'relative', top: '-27px' }}
+            color={iconColors.grey}
+          />
         </LinkBox>
-
-        <InputWithLabel
+        <TextInput
+          type="search"
+          {...props}
+          style={{ paddingLeft: '40px' }}
+          value={props.value}
+          onChangeText={props.onChange}
+          placeholder={props.placeholder}
+        />
+        {/* <InputWithLabel
           name={props.name}
           label={props.label}
           labelColor={props.labelColor}
@@ -316,7 +333,7 @@ export const SearchInputField = (
               placeholder={props.placeholder}
             />
           }
-        />
+        /> */}
       </FlexBox>
     </FlexBox.Column>
   );
