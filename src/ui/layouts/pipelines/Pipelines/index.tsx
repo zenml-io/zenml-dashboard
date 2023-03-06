@@ -62,7 +62,7 @@ const FilterWrapperForRun = () => {
 export const Pipelines: React.FC = () => {
   const { setFetchingForAllRuns } = useService();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  console.log(setFetchingForAllRuns);
+  console.log('a', setFetchingForAllRuns);
   const locationPath = useLocationPath();
 
   return (
@@ -73,7 +73,9 @@ export const Pipelines: React.FC = () => {
               text: translate('tabs.allRuns.text'),
               Component: FilterWrapperForRun,
               path: routePaths.pipelines.allRuns(
-                selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+                selectedWorkspace
+                  ? selectedWorkspace
+                  : locationPath.split('/')[2],
               ),
             }
           : {
@@ -81,7 +83,9 @@ export const Pipelines: React.FC = () => {
               Component: FilterWrapper,
               // path: routePaths.pipelines.base,
               path: routePaths.pipelines.list(
-                selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+                selectedWorkspace
+                  ? selectedWorkspace
+                  : locationPath.split('/')[2],
               ),
             },
       ]}
@@ -97,10 +101,14 @@ export const Pipelines: React.FC = () => {
           // : routePaths.pipelines.allRuns(selectedWorkspace),
           to: locationPath.includes('pipelines/list')
             ? routePaths.pipelines.list(
-                selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+                selectedWorkspace
+                  ? selectedWorkspace
+                  : locationPath.split('/')[2],
               )
             : routePaths.pipelines.allRuns(
-                selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+                selectedWorkspace
+                  ? selectedWorkspace
+                  : locationPath.split('/')[2],
               ),
         },
       ]}
