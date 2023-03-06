@@ -63,7 +63,6 @@ import { ReactComponent as ChatDots } from './assets/ChatDots.svg';
 import { ReactComponent as Run } from './assets/Run.svg';
 import { ReactComponent as ImageBuilder } from './assets/ImageBuilder.svg';
 import { ReactComponent as Pen } from './assets/Pen.svg';
-import { ReactComponent as Share } from './assets/Share.svg';
 // import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 // import { ReactComponent as Cached } from './assets/Cached.svg';
 // import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
@@ -201,7 +200,6 @@ const icons = {
     useStroke: true,
   }),
   pen: createIcon({ Component: Pen, useStroke: true }),
-  share: createIcon({ Component: Share, useStroke: true }),
 
   // paginations
   paginationFirst: createIcon({ Component: PaginationFirst, useStroke: true }),

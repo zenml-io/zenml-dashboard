@@ -217,11 +217,11 @@
               "text": "Change the username, role and password of",
               "form": {
                 "username": {
-                  "label": "Username",
+                  "label": "username",
                   "placeholder": "username"
                 },
                 "password": {
-                  "label": "Password",
+                  "label": "password",
                   "placeholder": "password"
                 }
               },
