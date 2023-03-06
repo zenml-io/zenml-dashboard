@@ -157,7 +157,6 @@ export const useMemberHeaderCols = ({
                   id={member?.id}
                   username={member?.name}
                   active={member?.active}
-                  roles={member?.roles}
                 />
               ) : (
                 <Paragraph>Accepted</Paragraph>
@@ -257,7 +256,7 @@ export const useMemberHeaderCols = ({
             <>
               <FlexBox>
                 <div data-tip data-for={member?.id}>
-                  <UpdateMember member={member} setEditPopup={() => {}}/>
+                  <UpdateMember member={member} />
                 </div>
               </FlexBox>
 

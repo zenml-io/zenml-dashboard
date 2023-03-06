@@ -12,20 +12,18 @@ import {
   FormTextField,
   Paragraph,
   CopyField,
-  H4,
-  Separator,
+  H3,
+  PrimaryButton,
 } from '../../../components';
 import { useDispatch, useSelector } from '../../../hooks';
-import { PopupSmall } from '../../common/PopupSmall';
+import { Popup } from '../../common/Popup';
 import { organizationSelectors } from '../../../../redux/selectors';
-import { RoleSelectorReadOnly } from './RoleSelector/RoleSelectorReadOnly';
 
 export const TokenPopup: React.FC<{
   id: string;
   username: string;
   active: boolean;
-  roles: Array<any>
-}> = ({ id, username, active, roles }) => {
+}> = ({ id, username, active }) => {
   const [popupOpen, setPopupOpen] = useState(false);
   const [submitting, setSubmitting] = useState(false);
   const [showTokField, setShowTokField] = useState(false);
@@ -73,48 +71,58 @@ export const TokenPopup: React.FC<{
       </Paragraph>
 
       {popupOpen && (
-        <PopupSmall onClose={onClose} width='370px' showCloseIcon={false}>
+        <Popup onClose={onClose}>
           <FlexBox.Row alignItems="center" justifyContent="space-between">
-            <H4 bold style={{ fontSize: '18px', fontWeight: 'bold'}}>{translate('popup.generateInviteModal.title')}</H4>  
+            <H3 bold color="darkGrey">
+              {translate('popup.generateInviteModal.title')}
+            </H3>
           </FlexBox.Row>
-  
-  
-          <Box marginTop='lg'>
-            <FormTextField
-              label={translate('popup.username.label')}
-              labelColor="rgba(66, 66, 64, 0.5)"
-              placeholder={translate('popup.username.placeholder')}
-              value={username}
-              disabled
-            />
+          <Box marginTop="md">
+            <Paragraph>{`${translate(
+              'popup.generateInviteModal.text',
+            )} ${username}. This will invalidate the currently active token.`}</Paragraph>
           </Box>
+          <Box marginTop="xl">
+            <Box>
+              <FlexBox.Row marginBottom="md">
+                <Box style={{ width: showTokField ? '100%' : '70%' }}>
+                  <FormTextField
+                    label={translate('popup.username.label')}
+                    labelColor="#000"
+                    placeholder={translate('popup.username.placeholder')}
+                    value={username}
+                    disabled
+                  />
+                </Box>
 
-          <Box marginTop='lg'>
-            <RoleSelectorReadOnly roles={roles} />
-          </Box>              
+                {!showTokField && (
+                  <Box
+                    style={{ width: '10%', marginTop: '22px' }}
+                    marginLeft="md"
+                  >
+                    <PrimaryButton
+                      disabled={submitting}
+                      loading={submitting}
+                      onClick={generateToken}
+                    >
+                      {translate('popup.generateInviteModal.button.text')}
+                    </PrimaryButton>
+                  </Box>
+                )}
+              </FlexBox.Row>
 
-          <Box marginTop="lg">
-            <CopyField
-              label="Invitation Link"
-              labelColor='rgba(66, 66, 64, 0.5)'
-              value={`${window.location.origin}/signup?user=${id}&username=${username}&token=${inviteCode}`}
-              showTokField={showTokField}
-              disabled
-            />
+              {showTokField && (
+                <Box marginTop="lg">
+                  <CopyField
+                    label={`Invitation Link - please send this to ${username} for this user to finish their registration`}
+                    value={`${window.location.origin}/signup?user=${id}&username=${username}&token=${inviteCode}`}
+                    disabled
+                  />
+                </Box>
+              )}
+            </Box>
           </Box>
-          
-          <Box style={{ marginTop: '62px' }}>
-            <Box marginBottom="md">
-              <Separator.LightNew />
-            </Box>          
-            <FlexBox justifyContent="center" flexWrap>
-             <Paragraph style={{ cursor: 'pointer', color: '#443E99' }}  onClick={generateToken}>
-                {submitting ? <>Generating</> : translate('popup.generateInviteModal.button.text')}
-              </Paragraph>
-            </FlexBox>
-          </Box>
-
-        </PopupSmall>
+        </Popup>
       )}
     </>
   );
