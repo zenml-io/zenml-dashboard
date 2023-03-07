@@ -83,7 +83,7 @@ const Component = (props: any) => {
     <Box
       style={{
         height: '75%',
-        // width: '20%',
+        width: '20%',
         overflow: 'hidden',
         scrollBehavior: 'smooth',
         overflowY: 'scroll',
