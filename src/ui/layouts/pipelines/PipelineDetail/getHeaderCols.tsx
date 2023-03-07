@@ -156,32 +156,32 @@ export const GetHeaderCols = ({
             <div
               data-tip
               data-for={
-                pipeline.user.full_name
-                  ? pipeline.user.full_name
-                  : pipeline.user.name
+                pipeline?.user?.full_name
+                  ? pipeline?.user?.full_name
+                  : pipeline?.user?.name
               }
             >
               <FlexBox alignItems="center">
                 <Paragraph size="small">
-                  {pipeline.user.full_name
-                    ? pipeline.user.full_name
-                    : pipeline.user.name}
+                  {pipeline?.user?.full_name
+                    ? pipeline?.user?.full_name
+                    : pipeline?.user?.name}
                 </Paragraph>
               </FlexBox>
             </div>
             <ReactTooltip
               id={
-                pipeline.user.full_name
-                  ? pipeline.user.full_name
-                  : pipeline.user.name
+                pipeline?.user?.full_name
+                  ? pipeline?.user?.full_name
+                  : pipeline?.user?.name
               }
               place="top"
               effect="solid"
             >
               <Paragraph color="white">
-                {pipeline.user.full_name
-                  ? pipeline.user.full_name
-                  : pipeline.user.name}
+                {pipeline?.user?.full_name
+                  ? pipeline?.user?.full_name
+                  : pipeline?.user?.name}
                 {/* {translate(`tooltips.${invoice.status}`)} */}
               </Paragraph>
             </ReactTooltip>

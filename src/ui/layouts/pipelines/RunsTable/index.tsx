@@ -12,6 +12,7 @@ import { Pagination } from '../../common/Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
 import { ItemPerPage } from '../../common/ItemPerPage';
 import { callActionForPipelineRunsForPagination } from '../PipelineDetail/useService';
+import { callActionForAllrunsForPagination } from '../Pipelines/useService';
 
 interface Props {
   filter: any;
@@ -56,6 +57,7 @@ export const RunsTable: React.FC<{
   } = useService({ pipelineRuns, runIds, filter });
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
   const { dispatchPipelineRunsData } = callActionForPipelineRunsForPagination();
+  const { dispatchAllrunsData } = callActionForAllrunsForPagination();
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
@@ -63,6 +65,7 @@ export const RunsTable: React.FC<{
   const [itemPerPage, setItemPerPage] = useState(
     ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
   );
+
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
 
@@ -119,23 +122,41 @@ export const RunsTable: React.FC<{
     if (filter) {
       setPageIndex(0);
     }
-    dispatchPipelineRunsData(
-      pipelineId,
-      1,
-      itemPerPage,
-      checkValidFilter.length ? (validFilters as any) : [],
-      (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
-    );
+    if (fromAllruns) {
+      dispatchAllrunsData(
+        1,
+        itemPerPage,
+        checkValidFilter.length ? (validFilters as any) : [],
+        (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
+      );
+    } else {
+      dispatchPipelineRunsData(
+        pipelineId,
+        1,
+        itemPerPage,
+        checkValidFilter.length ? (validFilters as any) : [],
+        (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
+      );
+    }
   }, [checkValidFilter, activeSortingDirection, activeSorting]);
   const onChange = (pageNumber: any, size: any) => {
     // debugger;
-    dispatchPipelineRunsData(
-      pipelineId,
-      pageNumber,
-      size,
-      checkValidFilter.length ? (validFilters as any) : [],
-      (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
-    );
+    if (fromAllruns) {
+      dispatchAllrunsData(
+        pageNumber,
+        size,
+        checkValidFilter.length ? (validFilters as any) : [],
+        (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
+      );
+    } else {
+      dispatchPipelineRunsData(
+        pipelineId,
+        pageNumber,
+        size,
+        checkValidFilter.length ? (validFilters as any) : [],
+        (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
+      );
+    }
   };
 
   return (

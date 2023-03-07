@@ -12,9 +12,11 @@ import { useService } from './useService';
 // import { RunStatus } from './components';
 
 // import { formatDateToDisplayOnTable } from '../../../../utils';
-import { useSelector } from '../../../hooks';
+import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { Runs } from '../../pipelines/PipelineDetail/Runs';
+import { Table } from '../../common/Table';
+import { useHeaderCols } from './HeaderCols';
 
 const getTabPages = ({
   selectedWorkspace,
@@ -69,18 +71,26 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, fetching } = useService();
+  const { runId, fetching, run } = useService();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages({
     selectedWorkspace,
     fetching,
     runId,
   });
+  const history = useHistory();
+  const runRow: any = [];
+  runRow.push(run);
   const breadcrumbs = getBreadcrumbs({
     runId,
     selectedWorkspace,
   });
-
+  const openDetailPage = (stack: TStack) => {
+    history.push(routePaths.pipelines.allRuns(selectedWorkspace));
+  };
+  const headerCols = useHeaderCols({
+    runs: runRow,
+  });
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
   //   padding: '10px 0',
@@ -97,14 +107,12 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.run.base(runId)}
       breadcrumbs={breadcrumbs}
     >
-      <Runs
-        isExpended
-        filter={[]}
-        pagination={false}
-        runId={runId}
-        fromAllruns={true}
-        pipelineId={runId}
-      ></Runs>
+      <Table
+        headerCols={headerCols}
+        tableRows={runRow}
+        // emptyState={{ text: emptyStateText }}
+        trOnClick={openDetailPage}
+      />
       {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>
