@@ -13,9 +13,11 @@ import { DAG } from '../../../components/dag';
 // import { RunStatus } from './components';
 
 // import { formatDateToDisplayOnTable } from '../../../../utils';
-import { useSelector } from '../../../hooks';
+import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { Runs } from '../PipelineDetail/Runs';
+import { Table } from '../../common/Table';
+import { useHeaderCols } from './HeaderCols';
 
 const getTabPages = ({
   selectedWorkspace,
@@ -90,7 +92,10 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, pipelineId, fetching } = useService();
+  const { runId, pipelineId, fetching, run } = useService();
+  const history = useHistory();
+  const runRow: any = [];
+  runRow.push(run);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages({
     selectedWorkspace,
@@ -103,7 +108,12 @@ export const RunDetail: React.FC = () => {
     pipelineId,
     selectedWorkspace,
   });
-
+  const headerCols = useHeaderCols({
+    runs: runRow,
+  });
+  const openDetailPage = (stack: TStack) => {
+    history.push(routePaths.pipeline.runs(selectedWorkspace, pipelineId));
+  };
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
   //   padding: '10px 0',
@@ -120,13 +130,24 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.pipeline.base(runId, pipelineId)}
       breadcrumbs={breadcrumbs}
     >
-      <Runs
-        filter={[]}
-        pagination={false}
-        runId={runId}
-        isExpended={true}
-        pipelineId={pipelineId}
-      ></Runs>
+      <Table
+        // activeSorting={
+        //   activeSortingDirection?.toLowerCase() + ':' + activeSorting
+        // } // activeSorting={
+        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+        //     ? activeSorting
+        //     : 'created'
+        // }
+        // pagination={pagination}
+        // loading={fetching}
+        // filters={filter}
+        // showHeader={true}
+        // paginated={paginated}
+        headerCols={headerCols}
+        tableRows={runRow}
+        // emptyState={{ text: emptyStateText }}
+        trOnClick={openDetailPage}
+      />
       {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>
