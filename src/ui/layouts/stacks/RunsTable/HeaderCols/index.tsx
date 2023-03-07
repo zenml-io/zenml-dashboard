@@ -270,21 +270,25 @@ export const useHeaderCols = ({
           <FlexBox alignItems="center">
             <div
               data-tip
-              data-for={run.user.full_name ? run.user.full_name : run.user.name}
+              data-for={
+                run?.user?.full_name ? run?.user?.full_name : run?.user?.name
+              }
             >
               <FlexBox alignItems="center">
                 <Paragraph size="small">
-                  {run.user.full_name ? run.user.full_name : run.user.name}
+                  {run?.user?.full_name
+                    ? run?.user?.full_name
+                    : run?.user?.name}
                 </Paragraph>
               </FlexBox>
             </div>
             <ReactTooltip
-              id={run.user.full_name ? run.user.full_name : run.user.name}
+              id={run?.user?.full_name ? run?.user?.full_name : run?.user?.name}
               place="top"
               effect="solid"
             >
               <Paragraph color="white">
-                {run.user.full_name ? run.user.full_name : run.user.name}
+                {run?.user?.full_name ? run?.user?.full_name : run?.user?.name}
               </Paragraph>
             </ReactTooltip>
           </FlexBox>
