@@ -158,6 +158,7 @@ export const useMemberHeaderCols = ({
                   username={member?.name}
                   active={member?.active}
                   roles={member?.roles}
+                  setTokenPopup={() => {}}
                 />
               ) : (
                 <Paragraph>Accepted</Paragraph>

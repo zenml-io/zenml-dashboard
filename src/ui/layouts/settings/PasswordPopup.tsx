@@ -168,22 +168,26 @@ export const PasswordPopup: React.FC<{
                 <Box className={styles.passwordValidator}>
                     <H4 className={styles.heading}>Password Criteria</H4>
 
-                    <div className={styles.indicator} style={{ justifyContent: minLengthRegExp ? 'space-between': 'start' }}>
+                    <Box className={styles.indicator} style={{ justifyContent: minLengthRegExp ? 'space-between': 'start' }}>
                       <p style={{ color: minLengthRegExp ? '#00B894': '#C94540' }}>Minimum 8 characters</p>
                       {minLengthRegExp && <img src={check_small} alt='check' />}
-                    </div>
-                    <div className={styles.indicator} style={{ justifyContent: digitsRegExp ? 'space-between': 'start' }}>
+                    </Box>
+                    <Box className={styles.indicator} style={{ justifyContent: digitsRegExp ? 'space-between': 'start' }}>
                       <p style={{ color: digitsRegExp ? '#00B894': '#C94540' }}>Must Contain one Numeric value</p>
                       {digitsRegExp && <img src={check_small} alt='check' />}
-                    </div>
-                    <div className={styles.indicator} style={{ justifyContent: uppercaseRegExp || lowercaseRegExp ? 'space-between': 'start' }}>
-                      <p style={{ color: uppercaseRegExp || lowercaseRegExp ? '#00B894': '#C94540' }}>Must include upper and lower cases</p>
-                      {uppercaseRegExp || lowercaseRegExp && <img src={check_small} alt='check' />}
-                    </div>
-                    <div className={styles.indicator} style={{ justifyContent: specialCharRegExp ? 'space-between': 'start' }}>
+                    </Box>
+                    <Box className={styles.indicator} style={{ justifyContent: uppercaseRegExp ? 'space-between': 'start' }}>
+                      <p style={{ color: uppercaseRegExp ? '#00B894': '#C94540' }}>Must include upper cases</p>
+                      {uppercaseRegExp && <img src={check_small} alt='check' />}
+                    </Box>
+                    <Box className={styles.indicator} style={{ justifyContent: lowercaseRegExp ? 'space-between': 'start' }}>
+                      <p style={{ color: lowercaseRegExp ? '#00B894': '#C94540' }}>Must include lower cases</p>
+                      {lowercaseRegExp && <img src={check_small} alt='check' />}
+                    </Box>
+                    <Box className={styles.indicator} style={{ justifyContent: specialCharRegExp ? 'space-between': 'start' }}>
                       <p style={{ color: specialCharRegExp ? '#00B894': '#C94540' }}>Must include one special character (!,@,#...)</p>
                       {specialCharRegExp && <img src={check_small} alt='check' />}
-                    </div>
+                    </Box>
                 </Box>
 
               </Box>
@@ -195,14 +199,20 @@ export const PasswordPopup: React.FC<{
               onClick={forgotPassword}
               loading={submitting}
               // eslint-disable-next-line
-              disabled={newPassword.trim() === '' || confirmPassword.trim() === ''}
+              // disabled={newPassword.trim() === '' || confirmPassword.trim() === ''}
+              disabled={!minLengthRegExp || !digitsRegExp || !uppercaseRegExp || !lowercaseRegExp || !specialCharRegExp}
             >
               {translate('passwordReset.button')}
             </PrimaryButton>
           </FlexBox.Row>
         </>
         :
-          <SuccessPopup text='Password updated Successfully' onClose={() => setPasswordSuccess(false)} />
+          <SuccessPopup text='Password updated Successfully' 
+            onClose={() => {
+              setPasswordSuccess(false);
+              setPopupOpen(false)}
+              } 
+            />
         }
 
     </PopupSmall>

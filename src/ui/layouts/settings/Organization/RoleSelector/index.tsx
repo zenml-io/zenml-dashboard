@@ -20,6 +20,15 @@ export const RoleSelector = ({ allRoles, setAllRoles, role, setRole }: RoleSelec
     
     const [rolesPopup, setRolesPopup] = useState(false);
 
+    // useEffect(() => {
+        // for (let index = 0; index < role?.length; index++) {
+        //     const item = role[index];
+        //     setAllRoles(allRoles?.filter((e) => e !== item))            
+        // }
+        //   setRole(allRoles?.filter((e) => e !== role?.map((ro) => {return ro})[0] ))   
+    // }, [])
+    
+
     const handleChange = async (value: any) => {
        setRole([...role, value]);
 
@@ -28,8 +37,8 @@ export const RoleSelector = ({ allRoles, setAllRoles, role, setRole }: RoleSelec
     }
     
     const removeRoleBean = (item: any) => {
-      const index = role?.indexOf(item);
-      role?.splice(index, 1);
+      setRole(role?.filter((e) => e !== item))
+      allRoles?.push(item)
     }
       
   return (
@@ -56,7 +65,7 @@ export const RoleSelector = ({ allRoles, setAllRoles, role, setRole }: RoleSelec
                                     key={index}
                                     >
                                     <Paragraph className={styles.roleColor}>
-                                        {option.label.substring(0, 10)}
+                                        {option.label.charAt(0).toUpperCase() + option.label?.slice(1)}
                                     </Paragraph>
                                     </Box>
                                 ))}
@@ -68,7 +77,7 @@ export const RoleSelector = ({ allRoles, setAllRoles, role, setRole }: RoleSelec
                 </div>           
                 {role?.map((e: any) => (
                     <div className={styles.roleBean}>
-                        <p>{e?.label} <span onClick={() => removeRoleBean(e)} >x</span></p>
+                        <p>{e?.label.charAt(0).toUpperCase() + e?.label?.slice(1)} <span onClick={() => removeRoleBean(e)} >x</span></p>
                     </div>
                  ))}
             </Row>

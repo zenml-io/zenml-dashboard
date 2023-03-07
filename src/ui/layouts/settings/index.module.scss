@@ -28,9 +28,42 @@
 
     input[type="file"] {
       display: none;
+    } 
+}
+
+.appDetails {
+    padding: 7px 17px 7px 10px !important;
+    background-color: rgba(239, 239, 239, 0.3);
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+
+    img {
+        margin-right: 16px;
     }
-        
-      
+
+    .appDetailsText {
+        color: #424240;
+        font-size: 18px;
+        font-weight: 400;        
+    }
+}
+
+.uiVersionText {
+    margin-top: 20px;
+    color: rgba(66, 66, 64, 0.5);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    text-align: right;
+}
+.appVersionText {
+    margin-top: 20px;
+    color: rgba(66, 66, 64, 0.5);
+    font-size: 14px;
+    font-weight: 400;
+    line-height: 17px;
+    text-align: right;
 }
 
 .roleBean {

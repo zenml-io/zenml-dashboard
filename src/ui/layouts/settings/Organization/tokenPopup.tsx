@@ -24,9 +24,10 @@ export const TokenPopup: React.FC<{
   id: string;
   username: string;
   active: boolean;
-  roles: Array<any>
-}> = ({ id, username, active, roles }) => {
-  const [popupOpen, setPopupOpen] = useState(false);
+  roles: Array<any>;
+  setTokenPopup: any;
+}> = ({ id, username, active, roles, setTokenPopup }) => {
+  
   const [submitting, setSubmitting] = useState(false);
   const [showTokField, setShowTokField] = useState(false);
 
@@ -47,7 +48,7 @@ export const TokenPopup: React.FC<{
             }),
           );
           setSubmitting(false);
-          setPopupOpen(false);
+          setTokenPopup(false);
         },
         onSuccess: () => {
           setSubmitting(false);
@@ -60,19 +61,10 @@ export const TokenPopup: React.FC<{
   const onClose = () => {
     setShowTokField(false);
     setSubmitting(false);
-    setPopupOpen(false);
+    setTokenPopup(false);
   };
 
   return (
-    <>
-      <Paragraph
-        style={{ color: '#8045FF', cursor: 'pointer' }}
-        onClick={() => setPopupOpen(true)}
-      >
-        {!active && 'Pending'}
-      </Paragraph>
-
-      {popupOpen && (
         <PopupSmall onClose={onClose} width='370px' showCloseIcon={false}>
           <FlexBox.Row alignItems="center" justifyContent="space-between">
             <H4 bold style={{ fontSize: '18px', fontWeight: 'bold'}}>{translate('popup.generateInviteModal.title')}</H4>  
@@ -115,7 +107,5 @@ export const TokenPopup: React.FC<{
           </Box>
 
         </PopupSmall>
-      )}
-    </>
   );
 };

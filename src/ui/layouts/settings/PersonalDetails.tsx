@@ -3,8 +3,6 @@ import styles from './index.module.scss'
 import {
   Box,
   FlexBox,
-  Row,
-  Col,
   EditField,
   Paragraph
 } from '../../components';
@@ -23,6 +21,7 @@ import { PasswordPopup } from './PasswordPopup';
 import { formatDateToDisplay } from '../../../utils';
 import jwt_decode from 'jwt-decode';
 import userImage from '../../assets/userImage.png'
+import starsIcon from '../../assets/stars.svg'
 // import Tour from './Tour
 
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
@@ -60,11 +59,9 @@ export const PersonalDetails: React.FC = () => {
         /> 
       )}
       {/* <Tour /> */}
-      <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
-        <Box marginTop="lg">
-          <Row>
-            <Col lg={4}>
-
+      <FlexBox.Row style={{ marginLeft: '40px', width: '100%' }} justifyContent='space-between'>
+        <Box marginTop="lg" style={{ width: '25%' }}>
+        
               <Box marginBottom="lg" className={styles.imageContainer}>
                 <img src={selectedImage} alt='userImage' />             
                 <div className={styles.imageUploader}>
@@ -132,13 +129,25 @@ export const PersonalDetails: React.FC = () => {
                     {translate('nameReset.label')}
                   </PrimaryButton>
                 )}
-              </Box>
-            </Col>
-          </Row>
+              </Box>        
+
+        </Box>
+
+        <Box marginTop='xl' marginRight='xl'>
+          <Box className={styles.appDetails}>
+            <Box><img src={starsIcon} alt='stars-icon'/></Box>
+            <Paragraph className={styles.appDetailsText}>Open Source Version</Paragraph>
+          </Box>
+          <Box>
+            <Paragraph className={styles.uiVersionText}>UI Version v0.14.0</Paragraph>
+          </Box>
+          <Box>
+            <Paragraph className={styles.appVersionText}>ZenML v0.14.0</Paragraph>
+          </Box>
         </Box>
 
         {passwordPopupOpen && <PasswordPopup username={user?.name} user={user} setPopupOpen={setPasswordPopupOpen} />}
-      </FlexBox.Column>
+      </FlexBox.Row>
     </>
   );
 };

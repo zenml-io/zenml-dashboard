@@ -4,14 +4,23 @@ import styles from './index.module.scss'
 import { FlexBox, Box, Row, Paragraph } from '../../../../components'
 import userImage from '../../../../assets/userImage.png'
 import { UpdateMember } from '../UpdateMember'
+import { TokenPopup } from '../tokenPopup'
 
 const UserBox = ({ data, permission }: any) => {
   
     const [editPopup, setEditPopup] = useState(false)
+    const [tokenPopup, setTokenPopup] = useState(false)
+
+
+    const handleTokenPopup = (e: any) => {
+        e.stopPropagation() 
+        setTokenPopup(true)
+    }
 
  return (
     <>
     {permission && editPopup && <UpdateMember member={data} setEditPopup={setEditPopup} />}
+    {permission && tokenPopup && <TokenPopup id={data?.id} username={data?.name} active={data?.active} roles={data?.roles} setTokenPopup={setTokenPopup} />}
                
     <FlexBox.Row onClick={() => setEditPopup(true)} className={styles.userBox} justifyContent='center' marginTop='lg'>
 
@@ -27,13 +36,15 @@ const UserBox = ({ data, permission }: any) => {
             <Box marginTop='sm' className={styles.rolesContainer}>
                 <Row>
                     {data?.roles?.map((e: any, index: number) => (
-                        <Paragraph className={styles.role} style={{ borderLeft: index % 2!==0 ? '1px solid #A1A4AB' : 'none' }}>{e.name}</Paragraph>
+                        <Paragraph className={styles.role} style={{ borderLeft: index % 2!==0 ? '1px solid #A1A4AB' : 'none' }}>
+                            {e?.name.charAt(0).toUpperCase() + e?.name?.slice(1)}
+                        </Paragraph>
                     ))}
                 </Row>
             </Box>
 
             {!data?.active && (
-                <Box marginTop='sm' className={styles.pendingIndicator}>
+                <Box onClick={handleTokenPopup} marginTop='sm' className={styles.pendingIndicator}>
                     <Paragraph className={styles.pendingText}>Pending</Paragraph>
                 </Box>
             )}     

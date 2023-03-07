@@ -13,7 +13,8 @@ import {
   CopyField,
   H4,
   Separator,
-  Paragraph
+  Paragraph,
+  FormTextField
 } from '../../../components';
 import { useSelector, useDispatch } from '../../../hooks';
 import { PopupSmall } from '../../common/PopupSmall';
@@ -107,7 +108,16 @@ export const InvitePopup: React.FC<{
         </FlexBox.Row>
         
         <Box marginTop="lg">    
-          <GenerateTokenField
+          <FormTextField 
+            label={translate('popup.username.label')}
+            labelColor="rgba(66, 66, 64, 0.5)"
+            placeholder={translate('popup.username.placeholder')}
+            value={name}
+            onChange={(val: string) => setName(val)}
+            disabled={showTokField}  
+          />
+          
+          {/* <GenerateTokenField
             label={translate('popup.username.label')}
             labelColor="rgba(66, 66, 64, 0.5)"
             placeholder={translate('popup.username.placeholder')}
@@ -120,21 +130,11 @@ export const InvitePopup: React.FC<{
               hasError: false,
               text: '',
             }}
-          />
+          /> */}
         </Box>
 
-        <Box marginTop="lg">
-            <CopyField
-              label="Invitation Link"
-              labelColor='rgba(66, 66, 64, 0.5)'
-              value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.activationToken}`}
-              showTokField={showTokField}
-              disabled
-            />
-        </Box>
-   
         {!showTokField && ( 
-          <Box marginTop='lg' marginBottom='xxxl' >   
+          <Box marginTop='lg'>   
             <RoleSelector
               allRoles={allRoles}
               role={role}
@@ -144,12 +144,28 @@ export const InvitePopup: React.FC<{
           </Box>
         )} 
         
+        <Box marginTop="lg" marginBottom='xxxl'>
+            <CopyField
+              label="Invitation Link"
+              labelColor='rgba(66, 66, 64, 0.5)'
+              value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.activationToken}`}
+              showTokField={showTokField}
+              disabled
+            />
+        </Box>
+   
         <Box style={{ marginTop: '62px' }}>
           <Box marginBottom="md">
             <Separator.LightNew />
           </Box>          
+          <FlexBox justifyContent="center" flexWrap marginBottom='md' >
+            <Paragraph style={{ cursor: 'pointer', color: '#443E99' }} onClick={inviteNewMembers}>Generate Token</Paragraph>
+          </FlexBox>
+          <Box marginBottom="md">
+            <Separator.LightNew />
+          </Box>          
           <FlexBox justifyContent="center" flexWrap>
-           <Paragraph style={{ cursor: 'pointer' }} onClick={() => setPopupOpen(false)}>Cancel</Paragraph>
+           <Paragraph style={{ cursor: 'pointer' }} onClick={() => setPopupOpen(false)}>Close</Paragraph>
           </FlexBox>
         </Box>
 
