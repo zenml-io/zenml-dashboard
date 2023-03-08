@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useState } from 'react';
+import styles from './index.module.scss'
 import { toasterTypes } from '../../../../constants';
 import {
   organizationActions,
@@ -9,7 +10,7 @@ import { translate } from './translate';
 import {
   Box,
   FlexBox,
-  GenerateTokenField,
+  // GenerateTokenField,
   CopyField,
   H4,
   Separator,
@@ -24,6 +25,7 @@ import {
   rolesSelectors,
   sessionSelectors,
 } from '../../../../redux/selectors';
+import userImage from '../../../assets/userImage.png'
 import axios from 'axios';
 
 export const InvitePopup: React.FC<{ 
@@ -106,8 +108,14 @@ export const InvitePopup: React.FC<{
         <FlexBox.Row alignItems="center" justifyContent="space-between">
           <H4 bold style={{ fontSize: '18px', fontWeight: 'bold'}}>{showTokField ? translate('popup.invite.text') : translate('popup.title')}</H4>
         </FlexBox.Row>
+
+        <FlexBox.Row marginTop="lg" justifyContent='center'>
+          <Box className={styles.userImage}>
+            <img src={userImage} alt='userImage' />
+          </Box>
+        </FlexBox.Row>
         
-        <Box marginTop="lg">    
+        <Box marginTop="md">    
           <FormTextField 
             label={translate('popup.username.label')}
             labelColor="rgba(66, 66, 64, 0.5)"

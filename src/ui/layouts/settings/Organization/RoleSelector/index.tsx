@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import styles from './index.module.scss'
 import {
   Box,
@@ -20,15 +20,14 @@ export const RoleSelector = ({ allRoles, setAllRoles, role, setRole }: RoleSelec
     
     const [rolesPopup, setRolesPopup] = useState(false);
 
-    // useEffect(() => {
-        // for (let index = 0; index < role?.length; index++) {
-        //     const item = role[index];
-        //     setAllRoles(allRoles?.filter((e) => e !== item))            
-        // }
-        //   setRole(allRoles?.filter((e) => e !== role?.map((ro) => {return ro})[0] ))   
-    // }, [])
+    useEffect(() => {
+        for (let index = 0; index < role?.length; index++) {
+            const item = role[index];
+            setAllRoles(allRoles?.filter((e) => e?.label !== item?.label))            
+        }
+        // eslint-disable-next-line
+    }, [role])
     
-
     const handleChange = async (value: any) => {
        setRole([...role, value]);
 

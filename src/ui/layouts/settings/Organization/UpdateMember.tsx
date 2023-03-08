@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import styles from './index.module.scss'
 import { useDispatch } from 'react-redux';
 import {
   Box,
@@ -23,6 +24,8 @@ import { useSelector } from '../../../hooks';
 import { RoleSelector } from './RoleSelector';
 import axios from 'axios';
 import { formatDateToDisplayWithoutTime } from '../../../../utils';
+import userImage from '../../../assets/userImage.png'
+
 
 export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ member, setEditPopup }) => {
   const preRole = member?.roles?.map((e: any) => {
@@ -128,13 +131,11 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ mem
   };
 
   const onDelete = () => {
-    setSubmitting(true);
     dispatch(
       organizationActions.deleteInvite({
         id: member.id,
         onSuccess: () => {
           setEditPopup(false);
-          setSubmitting(false);
           dispatch(organizationActions.getMembers({}));
           dispatch(
             showToasterAction({
@@ -144,7 +145,6 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ mem
           );
         },
         onFailure: (err) => {
-          setSubmitting(false);
           dispatch(
             showToasterAction({
               type: 'failure',
@@ -168,7 +168,13 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ mem
             <H4 bold style={{ fontSize: '18px', fontWeight: 'bold'}}>{translate('updateMemberPopup.title')}</H4>
           </FlexBox.Row>
 
-          <Box marginTop="lg">
+          <FlexBox.Row marginTop="lg" justifyContent='center'>
+            <Box className={styles.userImage}>
+              <img src={userImage} alt='userImage' />
+            </Box>
+          </FlexBox.Row>
+        
+          <Box marginTop="md">
             <Box>
               <FormTextField
                 label={translate('updateMemberPopup.form.username.label')}

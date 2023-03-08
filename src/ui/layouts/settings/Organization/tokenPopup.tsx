@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useState } from 'react';
+import styles from './index.module.scss'
 import { toasterTypes } from '../../../../constants';
 import {
   organizationActions,
@@ -19,6 +20,8 @@ import { useDispatch, useSelector } from '../../../hooks';
 import { PopupSmall } from '../../common/PopupSmall';
 import { organizationSelectors } from '../../../../redux/selectors';
 import { RoleSelectorReadOnly } from './RoleSelector/RoleSelectorReadOnly';
+import userImage from '../../../assets/userImage.png'
+
 
 export const TokenPopup: React.FC<{
   id: string;
@@ -69,9 +72,14 @@ export const TokenPopup: React.FC<{
           <FlexBox.Row alignItems="center" justifyContent="space-between">
             <H4 bold style={{ fontSize: '18px', fontWeight: 'bold'}}>{translate('popup.generateInviteModal.title')}</H4>  
           </FlexBox.Row>
-  
-  
-          <Box marginTop='lg'>
+        
+          <FlexBox.Row marginTop="lg" justifyContent='center'>
+            <Box className={styles.userImage}>
+              <img src={userImage} alt='userImage' />
+            </Box>
+          </FlexBox.Row>
+        
+          <Box marginTop='md'>
             <FormTextField
               label={translate('popup.username.label')}
               labelColor="rgba(66, 66, 64, 0.5)"

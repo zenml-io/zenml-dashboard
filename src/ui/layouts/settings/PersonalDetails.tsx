@@ -105,7 +105,7 @@ export const PersonalDetails: React.FC = () => {
                 <FlexBox.Row>
                   {user?.roles?.map((e: any) => (
                     <div className={styles.roleBean}>
-                      <p>{e?.name}</p>
+                      <p>{e?.name.charAt(0).toUpperCase() + e?.name?.slice(1)}</p>
                     </div>
                   ))}
                 </FlexBox.Row>
