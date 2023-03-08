@@ -15,16 +15,20 @@ import {
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { stackPagesActions } from '../../../../redux/actions';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { filterObjectForParam } from '../../../../utils';
+import { GetFlavorsListForLogo } from '../Stacks/List/GetFlavorsListForLogo';
 
 interface ServiceInterface {
-  stackComponent: TStack;
+  stackComponent?: TStack;
+  mapStackComponent: any;
   id: TId;
 }
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
+  const { flavourList } = GetFlavorsListForLogo();
+  const [mapStackComponent, setMapppedStackComponent] = useState([]);
   const { id } = useParams<StackDetailRouteParams>();
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
@@ -36,7 +40,28 @@ export const useService = (): ServiceInterface => {
     dispatch(
       stackComponentsActions.stackComponentForId({
         stackComponentId: id,
-        onSuccess: () => setFetching(false),
+        onSuccess: (response) => {
+          let temp: any = [];
+          temp.push(response);
+          const mappedComponent = temp.map((item: any) => {
+            const temp: any = flavourList.find(
+              (fl: any) => fl.name === item.flavor && fl.type === item.type,
+            );
+            if (temp) {
+              return {
+                ...item,
+                flavor: {
+                  logoUrl: temp.logo_url,
+                  name: item.flavor,
+                },
+              };
+            }
+            return item;
+          });
+
+          setMapppedStackComponent(mappedComponent);
+          setFetching(false);
+        },
         onFailure: () => setFetching(false),
       }),
     );
@@ -51,18 +76,18 @@ export const useService = (): ServiceInterface => {
         onFailure: () => setFetching(false),
       }),
     );
-  }, [id]);
+  }, [id, flavourList]);
 
   const setFetching = (fetching: boolean) => {
     dispatch(stackPagesActions.setFetching({ fetching }));
     dispatch(runPagesActions.setFetching({ fetching }));
   };
 
-  const stackComponent = useSelector(
-    stackComponentSelectors.stackComponentForId(id),
-  );
+  // const stackComponent = useSelector(
+  //   stackComponentSelectors.stackComponentForId(id),
+  // );
 
-  return { stackComponent, id };
+  return { mapStackComponent, id };
 };
 
 export const callActionForStackComponentRunsForPagination = () => {

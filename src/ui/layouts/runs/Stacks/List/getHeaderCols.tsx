@@ -1,9 +1,6 @@
 import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-import {
-  truncate,
-  formatDateToDisplayOnTable,
-} from '../../../../../utils';
+import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 import {
   Box,
   FlexBox,
@@ -105,11 +102,12 @@ export const getHeaderCols = ({
       ),
       width: '11%',
       renderRow: (stack: TStack) => {
-        
         return (
           <FlexBox alignItems="center">
             <Paragraph size="small">
-              {stack.user.full_name ? stack.user.full_name : stack.user.name}
+              {stack?.user?.full_name
+                ? stack?.user?.full_name
+                : stack?.user?.name}
             </Paragraph>
           </FlexBox>
         );

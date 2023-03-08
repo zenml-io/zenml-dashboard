@@ -11,12 +11,9 @@ import { Box, FlexBox, icons, Paragraph } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 
 export const GetHeaderCols = ({
-  expendedRow,
-  filteredStacks,
+  mapStackComponent,
 }: {
-  expendedRow?: any;
-
-  filteredStacks: TStack[];
+  mapStackComponent: any;
 }): HeaderCol[] => {
   return [
     // {
@@ -92,6 +89,50 @@ export const GetHeaderCols = ({
           </div>
           <ReactTooltip id={stack.name} place="top" effect="solid">
             <Paragraph color="white">{stack.name}</Paragraph>
+          </ReactTooltip>
+        </FlexBox>
+      ),
+    },
+    {
+      render: () => (
+        <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
+          <Paragraph
+            size="small"
+            color="black"
+            style={{ fontSize: '12px', marginLeft: '-24px' }}
+          >
+            FLAVOR
+          </Paragraph>
+        </div>
+      ),
+      width: '15%',
+      renderRow: (stackComponent: TStack) => (
+        <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
+          <div
+            data-tip
+            data-for={stackComponent?.flavor?.name || stackComponent?.flavor}
+            style={{ margin: ' 0 auto 0 auto' }}
+          >
+            <img
+              alt={stackComponent.flavor.logoUrl}
+              src={stackComponent.flavor.logoUrl}
+              style={{
+                height: '28px',
+                width: '28px',
+              }}
+            />
+          </div>
+
+          <ReactTooltip
+            id={
+              // stackComponent?.flavor
+              //   ? stackComponent?.flavor
+              stackComponent?.flavor?.name || stackComponent?.flavor
+            }
+            place="top"
+            effect="solid"
+          >
+            <Paragraph color="white">{stackComponent.flavor.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -186,7 +227,7 @@ export const GetHeaderCols = ({
             >
               <Paragraph color="white">
                 {stack?.user?.full_name
-                  ? stack.user?.full_name
+                  ? stack?.user?.full_name
                   : stack?.user?.name}
               </Paragraph>
             </ReactTooltip>

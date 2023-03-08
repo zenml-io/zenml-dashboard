@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import { Box } from '../../../components';
+import { Box, FullWidthSpinner } from '../../../components';
 // import { iconColors, iconSizes } from '../../../../constants';
 import { camelCaseToParagraph } from '../../../../utils';
 // import styles from './index.module.scss';
@@ -11,7 +11,7 @@ import { Configuration } from './Configuration';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterState,
   getInitialFilterStateForRuns,
@@ -19,6 +19,8 @@ import FilterComponent, {
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { List as StackComponenList } from '../Stacks/List';
 import { List } from '../../stacks/Stacks/List';
+import { CollapseTable } from '../../common/CollapseTable';
+import { GetHeaderCols } from './getHeaderCols';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -146,10 +148,15 @@ export interface StackDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
-  const { stackComponent, id } = useService();
+  const { mapStackComponent, id } = useService();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages(id, locationPath, selectedWorkspace);
   const breadcrumbs = getBreadcrumbs(id, locationPath, selectedWorkspace);
+
+  const history = useHistory();
+  const headerCols = GetHeaderCols({
+    mapStackComponent,
+  });
 
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
@@ -167,13 +174,20 @@ export const StackDetail: React.FC = () => {
   //   { name: 'Subham', age: 25, gender: 'Male' },
   // ];
   // const history = useHistory();
-
+  const openDetailPage = (stack: TStack) => {
+    history.push(
+      routePaths.stackComponents.base(
+        locationPath.split('/')[4],
+        selectedWorkspace,
+      ),
+    );
+  };
   return (
     <BasePage
       headerWithButtons
       tabPages={tabPages}
       tabBasePath={routePaths.stackComponents.base(
-        stackComponent.id,
+        mapStackComponent.id,
         selectedWorkspace,
       )}
       breadcrumbs={breadcrumbs}
@@ -223,12 +237,24 @@ export const StackDetail: React.FC = () => {
         </Box>
       </Box> */}
       <Box paddingTop={'xl'}>
-        <StackComponenList
+        {mapStackComponent.length ? (
+          <CollapseTable
+            renderAfterRow={(stack: TStack) => <></>}
+            headerCols={headerCols}
+            tableRows={mapStackComponent}
+            // emptyState={{ text: translate('emptyState.text') }}
+            trOnClick={openDetailPage}
+          />
+        ) : (
+          <FullWidthSpinner color="black" size="md" />
+        )}
+
+        {/* <StackComponenList
           filter={[]}
           pagination={false}
           isExpended={true}
           id={id}
-        ></StackComponenList>
+        ></StackComponenList> */}
         {/* <>
           <table className={cn(styles.table)}>
             <tbody>
