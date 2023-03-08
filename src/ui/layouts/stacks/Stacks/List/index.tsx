@@ -65,24 +65,9 @@ export const List: React.FC<Props> = ({
   );
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
-  useEffect(() => {
-    if (stackComponentId) {
-      setFetchingForStacksFroComponents(true);
-      dispatch(
-        stacksActions.getMy({
-          component_id: stackComponentId,
-          sort_by: 'desc:created',
-          logical_operator: 'and',
-          page: 1,
-          size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-          workspace: selectedWorkspace,
-          onSuccess: () => setFetchingForStacksFroComponents(false),
-          onFailure: () => setFetchingForStacksFroComponents(false),
-        }),
-      );
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [stackComponentId]);
+  // useEffect(() => {
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [stackComponentId]);
   const { dispatchStackData } = callActionForStacksForPagination();
   const expendedRow = filteredStacks.filter((item) => item.id === id);
   const headerCols = GetHeaderCols({
@@ -115,24 +100,68 @@ export const List: React.FC<Props> = ({
   const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
 
   useEffect(() => {
-    if (filter) {
-      setPageIndex(0);
+    if (stackComponentId && !filter) {
+      setFetchingForStacksFroComponents(true);
+      dispatch(
+        stacksActions.getMy({
+          component_id: stackComponentId,
+          sort_by: 'desc:created',
+          logical_operator: 'and',
+          page: 1,
+          size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+          workspace: selectedWorkspace,
+          onSuccess: () => setFetchingForStacksFroComponents(false),
+          onFailure: () => setFetchingForStacksFroComponents(false),
+        }),
+      );
+    } else {
+      if (filter) {
+        setPageIndex(0);
+        if (stackComponentId) {
+          dispatchStackData(
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (validFilters as any) : [],
+            (activeSortingDirection?.toLowerCase() +
+              ':' +
+              activeSorting) as any,
+            stackComponentId,
+          );
+        } else {
+          dispatchStackData(
+            1,
+            itemPerPage,
+            checkValidFilter.length ? (validFilters as any) : [],
+            (activeSortingDirection?.toLowerCase() +
+              ':' +
+              activeSorting) as any,
+          );
+        }
+      }
     }
-    dispatchStackData(
-      1,
-      itemPerPage,
-      checkValidFilter.length ? (validFilters as any) : [],
-      (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
-    );
-  }, [checkValidFilter, activeSortingDirection, activeSorting]);
+  }, [
+    checkValidFilter,
+    activeSortingDirection,
+    activeSorting,
+    stackComponentId,
+  ]);
   const onChange = (pageNumber: any, size: any) => {
-    // debugger;
-    dispatchStackData(
-      pageNumber,
-      size,
-      checkValidFilter.length ? (validFilters as any) : [],
-      (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
-    );
+    if (stackComponentId) {
+      dispatchStackData(
+        pageNumber,
+        size,
+        checkValidFilter.length ? (validFilters as any) : [],
+        (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
+        stackComponentId,
+      );
+    } else {
+      dispatchStackData(
+        pageNumber,
+        size,
+        checkValidFilter.length ? (validFilters as any) : [],
+        (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
+      );
+    }
   };
 
   return (
@@ -153,13 +182,7 @@ export const List: React.FC<Props> = ({
         }
         pagination={pagination}
         paginated={stacksPaginated}
-        loading={
-          expendedRow.length > 0
-            ? false
-            : filter[0]?.value || !stackComponentId
-            ? fetching
-            : fetchingForStacksFroComponents
-        }
+        loading={fetching || fetchingForStacksFroComponents}
         showHeader={true}
         filters={filter}
         headerCols={headerCols}
@@ -167,6 +190,7 @@ export const List: React.FC<Props> = ({
         emptyState={{ text: translate('emptyState.text') }}
         trOnClick={openDetailPage}
       />
+      {console.log(fetching, 'fetchingfetchingfetching')}
       <If condition={filteredStacks.length > 0}>
         {() => (
           <FlexBox
