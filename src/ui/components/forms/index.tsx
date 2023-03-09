@@ -283,6 +283,45 @@ export const EditField = (
   );
 };
 
+export const EditFieldSettings = (
+  props: {
+    label: string;
+    labelColor: any;
+    placeholder: any;
+    value: string;
+    defaultValue?: string;
+    optional: boolean;
+  } & any,
+): JSX.Element => {
+  const [disabled, setDisabled] = useState(true)
+  return (
+    <FlexBox.Column fullWidth>
+      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+        <InputWithLabel
+          name={props.name}
+          label={props.label}
+          optional={props.optional}
+          labelColor={props.labelColor}
+          InputComponent={
+            <TextInput
+              {...props}
+              defaultValue={props?.defaultValue}
+              value={props.value}
+              placeholder={props.placeholder}
+              disabled={disabled}
+            />
+          }
+        />
+        {!props.disabled && (
+          <Box onClick={() => setDisabled(!disabled)} style={{ position: 'absolute', right: '10px', top: '35px', cursor: 'pointer' }}>
+            <icons.pen color={iconColors.grey} />
+          </Box>
+        )}
+      </FlexBox>
+    </FlexBox.Column>
+  );
+};
+
 export const SearchInputField = (
   props: {
     fromRegisterComponent: boolean;

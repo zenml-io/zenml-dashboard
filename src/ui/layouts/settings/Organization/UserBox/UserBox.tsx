@@ -6,11 +6,10 @@ import userImage from '../../../../assets/userImage.png'
 import { UpdateMember } from '../UpdateMember'
 import { TokenPopup } from '../tokenPopup'
 
-const UserBox = ({ data, permission }: any) => {
+const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
   
     const [editPopup, setEditPopup] = useState(false)
     const [tokenPopup, setTokenPopup] = useState(false)
-
 
     const handleTokenPopup = (e: any) => {
         e.stopPropagation() 
@@ -19,8 +18,8 @@ const UserBox = ({ data, permission }: any) => {
 
  return (
     <>
-    {permission && editPopup && <UpdateMember member={data} setEditPopup={setEditPopup} />}
-    {permission && tokenPopup && <TokenPopup id={data?.id} username={data?.name} active={data?.active} roles={data?.roles} setTokenPopup={setTokenPopup} />}
+    {permission && editPopup && <UpdateMember member={data} setEditPopup={setEditPopup} setShowPasswordUpdate={setShowPasswordUpdate} setUser={setUser} />}
+    {permission && tokenPopup && <TokenPopup id={data?.id} fullName={data?.fullName} username={data?.name} active={data?.active} roles={data?.roles} setTokenPopup={setTokenPopup} />}
                
     <FlexBox.Row onClick={() => setEditPopup(true)} className={styles.userBox} justifyContent='center' marginTop='lg'>
 

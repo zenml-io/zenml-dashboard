@@ -25,11 +25,12 @@ import userImage from '../../../assets/userImage.png'
 
 export const TokenPopup: React.FC<{
   id: string;
+  fullName: any;
   username: string;
   active: boolean;
   roles: Array<any>;
   setTokenPopup: any;
-}> = ({ id, username, active, roles, setTokenPopup }) => {
+}> = ({ id, fullName, username, active, roles, setTokenPopup }) => {
   
   const [submitting, setSubmitting] = useState(false);
   const [showTokField, setShowTokField] = useState(false);
@@ -80,13 +81,10 @@ export const TokenPopup: React.FC<{
           </FlexBox.Row>
         
           <Box marginTop='md'>
-            <FormTextField
-              label={translate('popup.username.label')}
-              labelColor="rgba(66, 66, 64, 0.5)"
-              placeholder={translate('popup.username.placeholder')}
-              value={username}
-              disabled
-            />
+            <Box>
+              <Paragraph className={styles.memberName}>{fullName ?fullName : username}</Paragraph>
+            </Box>
+
           </Box>
 
           <Box marginTop='lg'>

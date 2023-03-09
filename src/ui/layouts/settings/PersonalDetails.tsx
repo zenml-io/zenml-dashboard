@@ -3,7 +3,7 @@ import styles from './index.module.scss'
 import {
   Box,
   FlexBox,
-  EditField,
+  EditFieldSettings,
   Paragraph
 } from '../../components';
 import { icons } from '../../components';
@@ -79,7 +79,7 @@ export const PersonalDetails: React.FC = () => {
               </Box>
 
               <Box marginTop='lg'>
-                <EditField 
+                <EditFieldSettings 
                   disabled={!decoded.permissions.includes('me')}
                   label={translate('form.fullName.label')}
                   labelColor="#000"
@@ -90,7 +90,7 @@ export const PersonalDetails: React.FC = () => {
               </Box>
 
               <Box marginTop='lg'>
-                <EditField 
+                <EditFieldSettings 
                   disabled={!decoded.permissions.includes('me')}
                   label={translate('form.username.label')}
                   labelColor="#000"

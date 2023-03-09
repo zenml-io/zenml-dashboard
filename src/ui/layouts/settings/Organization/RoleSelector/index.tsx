@@ -7,19 +7,28 @@ import {
   If,
   Row
 } from '../../../../components';
+import { sessionSelectors } from '../../../../../redux/selectors';
+import { useDispatch, useSelector } from '../../../../hooks';
+import { organizationActions } from '../../../../../redux/actions/organizations/index';
 import OutsideClickHandler from 'react-outside-click-handler';
+import axios from 'axios';
+
 
 type RoleSelector = {
     allRoles: Array<any>,
     role: Array<any>,
     setAllRoles: any,
-    setRole: any
+    setRole: any,
+    memberId: any,
+    useRealTime: boolean,
 }
 
-export const RoleSelector = ({ allRoles, setAllRoles, role, setRole }: RoleSelector) => {
-    
-    const [rolesPopup, setRolesPopup] = useState(false);
+export const RoleSelector = ({ allRoles, setAllRoles, role, setRole, memberId, useRealTime }: RoleSelector) => {
 
+    const dispatch = useDispatch()
+    const [rolesPopup, setRolesPopup] = useState(false);
+    const authToken = useSelector(sessionSelectors.authenticationToken);
+   
     useEffect(() => {
         for (let index = 0; index < role?.length; index++) {
             const item = role[index];
@@ -29,15 +38,23 @@ export const RoleSelector = ({ allRoles, setAllRoles, role, setRole }: RoleSelec
     }, [role])
     
     const handleChange = async (value: any) => {
+       if (useRealTime) {
+        await axios.post(`${process.env.REACT_APP_BASE_API_URL}/role_assignments`, { user: memberId, role: value?.value }, { headers: { Authorization: `Bearer ${authToken}` } });
+       }
+       await dispatch(organizationActions.getMembers({}));
        setRole([...role, value]);
 
        const index = allRoles?.indexOf(value);
        allRoles?.splice(index, 1)
     }
     
-    const removeRoleBean = (item: any) => {
-      setRole(role?.filter((e) => e !== item))
-      allRoles?.push(item)
+    const removeRoleBean = async (item: any) => {
+       if (useRealTime) {
+         await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/role_assignments/${item?.value}`, { headers: { Authorization: `Bearer ${authToken}` } });
+       }
+       await dispatch(organizationActions.getMembers({}));
+       setRole(role?.filter((e) => e !== item))
+       allRoles?.push(item)
     }
       
   return (

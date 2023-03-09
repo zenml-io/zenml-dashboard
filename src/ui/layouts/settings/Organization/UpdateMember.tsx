@@ -6,7 +6,6 @@ import {
   FlexBox,
   H4,
   Paragraph,
-  FormTextField,
   Separator
 } from '../../../components';
 import { PopupSmall } from '../../common/PopupSmall';
@@ -14,121 +13,126 @@ import { translate } from './translate';
 import { organizationActions } from '../../../../redux/actions/organizations/index';
 import { showToasterAction } from '../../../../redux/actions/showToasterAction';
 
-import { toasterTypes } from '../../../../constants';
-import { fetchApiWithAuthRequest } from '../../../../api/fetchApi';
-import { endpoints } from '../../../../api/endpoints';
-import { httpMethods } from '../../../../api/constants';
-import { apiUrl } from '../../../../api/apiUrl';
 import { sessionSelectors, rolesSelectors } from '../../../../redux/selectors';
 import { useSelector } from '../../../hooks';
 import { RoleSelector } from './RoleSelector';
-import axios from 'axios';
 import { formatDateToDisplayWithoutTime } from '../../../../utils';
 import userImage from '../../../assets/userImage.png'
+import axios from 'axios';
 
-
-export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ member, setEditPopup }) => {
+export const UpdateMember: React.FC<{ member: any, setEditPopup: any, setShowPasswordUpdate: any, setUser: any }> = ({ member, setEditPopup, setShowPasswordUpdate, setUser }) => {
   const preRole = member?.roles?.map((e: any) => {
     return { value: e.id, label: e.name };
   });
 
-  const [username, setUsername] = useState('');
-   // eslint-disable-next-line
-  const [password, setPassword] = useState('');
-  const [submitting, setSubmitting] = useState(false);
   const [role, setRole] = useState(preRole);
-
   const dispatch = useDispatch();
   const roles = useSelector(rolesSelectors.getRoles);
-  const authToken = useSelector(sessionSelectors.authenticationToken);
-  const authenticationToken = authToken ? authToken : '';
-
+  const [userRoles, setUserRoles] = useState<any>([])
+  
   const [allRoles, setAllRoles] = useState(roles?.map((e) => {
     return { value: e.id, label: e.name };
   }))
 
-  useEffect(() => {
-    setUsername(member?.name);
-    // eslint-disable-next-line
-  }, [member]);
-
-  const onUpdate = async () => {
-    setSubmitting(true);
-    try {
-      if (password) {
-        await fetchApiWithAuthRequest({
-          url: apiUrl(endpoints.users.updateUser(member.id)),
-          method: httpMethods.put,
-          authenticationToken,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          data: { name: username, password: password },
-        });
-      } else {
-        await fetchApiWithAuthRequest({
-          url: apiUrl(endpoints.users.updateUser(member.id)),
-          method: httpMethods.put,
-          authenticationToken,
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          data: { name: username },
-        });
-      }
-
-      const { data: { items } } = await axios.get(
-        `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_name_or_id=${member?.name}`,
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+  
+  const data = async () => {
+    const { data: { items } } = await axios.get(
+        `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_name_or_id=42f60eb4-534e-4c50-ad0a-2a86b0649797`,
         { headers: { Authorization: `Bearer ${authToken}` } },
       );
+
+      return items
+  }
+
+  useEffect(() => {
+    data().then((e) => {
+      e?.map((ro: any) => {
+        if (member?.id === ro?.user?.id) {
+         return  setUserRoles([...userRoles, ro])
+        }
+      })
+    })
+     // eslint-disable-next-line
+  }, [])
+
+  // const onUpdate = async () => {
+  //   setSubmitting(true);
+  //   try {
+      // if (password) {
+      //   await fetchApiWithAuthRequest({
+      //     url: apiUrl(endpoints.users.updateUser(member.id)),
+      //     method: httpMethods.put,
+      //     authenticationToken,
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     data: { name: username, password: password },
+      //   });
+      // } else {
+      //   await fetchApiWithAuthRequest({
+      //     url: apiUrl(endpoints.users.updateUser(member.id)),
+      //     method: httpMethods.put,
+      //     authenticationToken,
+      //     headers: {
+      //       'Content-Type': 'application/json',
+      //     },
+      //     data: { name: username },
+      //   });
+      // }
+
+      // const { data: { items } } = await axios.get(
+      //   `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_name_or_id=${member?.name}`,
+      //   { headers: { Authorization: `Bearer ${authToken}` } },
+      // );
         
-        for (let index = 0; index < items?.length; index++) {
-          const singleDelRole = items[index];
-          await axios.delete(
-            `${process.env.REACT_APP_BASE_API_URL}/role_assignments/${singleDelRole?.id}`,
-            { headers: { Authorization: `Bearer ${authToken}` } },
-          );
-        }
+      //   for (let index = 0; index < items?.length; index++) {
+      //     const singleDelRole = items[index];
+      //     await axios.delete(
+      //       `${process.env.REACT_APP_BASE_API_URL}/role_assignments/${singleDelRole?.id}`,
+      //       { headers: { Authorization: `Bearer ${authToken}` } },
+      //     );
+      //   }
 
-        for (let index = 0; index < role.length; index++) {
-          const singleRole = role[index];
-          await axios.post(
-            `${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
-            // @ts-ignore
-            { user: member.id, role: singleRole?.value },
-            { headers: { Authorization: `Bearer ${authToken}` } },
-          );
-        }
+      //   for (let index = 0; index < role.length; index++) {
+      //     const singleRole = role[index];
+      //     await axios.post(
+      //       `${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
+      //       // @ts-ignore
+      //       { user: member.id, role: singleRole?.value },
+      //       { headers: { Authorization: `Bearer ${authToken}` } },
+      //     );
+      //   }
 
-      setSubmitting(false);
-      setEditPopup(false);
-      dispatch(
-        showToasterAction({
-          description: 'User Updated',
-          type: toasterTypes.success,
-        }),
-      );
-      await dispatch(organizationActions.getMembers({}));
-    } catch (err) {
-      setSubmitting(false);
-      setEditPopup(false);
+  //     setSubmitting(false);
+  //     setEditPopup(false);
+  //     dispatch(
+  //       showToasterAction({
+  //         description: 'User Updated',
+  //         type: toasterTypes.success,
+  //       }),
+  //     );
+  //     await dispatch(organizationActions.getMembers({}));
+  //   } catch (err) {
+  //     setSubmitting(false);
+  //     setEditPopup(false);
 
-      dispatch(
-        showToasterAction({
-          // @ts-ignore
-          description: err?.response?.data?.detail,
-          type: toasterTypes.failure,
-        }),
-      );
-      dispatch(
-        showToasterAction({
-          // @ts-ignore
-          description: err.response?.data?.detail[1],
-          type: toasterTypes.failure,
-        }),
-      );
-    }
-  };
+  //     dispatch(
+  //       showToasterAction({
+  //         // @ts-ignore
+  //         description: err?.response?.data?.detail,
+  //         type: toasterTypes.failure,
+  //       }),
+  //     );
+  //     dispatch(
+  //       showToasterAction({
+  //         // @ts-ignore
+  //         description: err.response?.data?.detail[1],
+  //         type: toasterTypes.failure,
+  //       }),
+  //     );
+  //   }
+  // };
 
   const onDelete = () => {
     dispatch(
@@ -176,15 +180,7 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ mem
         
           <Box marginTop="md">
             <Box>
-              <FormTextField
-                label={translate('updateMemberPopup.form.username.label')}
-                labelColor="rgba(66, 66, 64, 0.5)"
-                placeholder={translate(
-                  'updateMemberPopup.form.username.placeholder',
-                )}
-                value={username ? username : ''}
-                onChange={(val: string) => setUsername(val)}
-              />
+              <Paragraph className={styles.memberName}>{member?.fullName ? member?.fullName : member?.name}</Paragraph>
             </Box>
 
             <Box marginTop="lg">
@@ -192,25 +188,11 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ mem
                 allRoles={allRoles}
                 role={role}
                 setAllRoles={setAllRoles}
-                setRole={setRole}    
+                setRole={setRole}
+                memberId={member?.id}
+                useRealTime={true}    
               />
             </Box>
-
-            {/* <Box marginTop="lg">
-              <FormPasswordField
-                label={translate('updateMemberPopup.form.password.label')}
-                labelColor="rgba(66, 66, 64, 0.5)"
-                placeholder={translate(
-                  'updateMemberPopup.form.password.placeholder',
-                )}
-                value={password}
-                onChange={(val: string) => setPassword(val)}
-                error={{
-                  hasError: password.trim() === undefined,
-                }}
-                showPasswordOption
-              />
-            </Box> */}
 
             <Box marginTop='lg' style={{ fontFamily: 'Rubik', color: '#A1A4AB', fontSize: '14px', lineHeight: '17px' }}>
                 <FlexBox.Row fullWidth justifyContent='space-between'>
@@ -231,7 +213,7 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any }> = ({ mem
               <Separator.LightNew />
             </Box>          
             <FlexBox justifyContent="center" flexWrap marginBottom="md">
-              <Paragraph style={{ cursor: 'pointer', color: '#443E99' }} onClick={onUpdate}>{submitting ? <> Updating...</> : <> Update Credentials</>}</Paragraph>
+              <Paragraph style={{ cursor: 'pointer', color: '#443E99' }} onClick={() => { setShowPasswordUpdate(true); setUser(member); handleClose() }}>Update Credentials</Paragraph>
             </FlexBox>
           
             <Box marginBottom="md">
