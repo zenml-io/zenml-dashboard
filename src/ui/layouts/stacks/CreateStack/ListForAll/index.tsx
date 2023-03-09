@@ -58,8 +58,9 @@ export const ListForAll: React.FC<Props> = () => {
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
   // const [stackPersist, setStackPersist] = useState({});
-  let stackPersist: any = {};
+
   useEffect(() => {
+    let stackPersist: any = {};
     stackPersist = {
       ...stackPersist,
       selectedStack,
@@ -72,6 +73,7 @@ export const ListForAll: React.FC<Props> = () => {
         JSON.stringify(stackPersist),
       );
     };
+    // eslint-disable-next-line
   }, [selectedStack]);
 
   const selectStack = (data: any) => {
