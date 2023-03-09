@@ -20,8 +20,7 @@ import { filterObjectForParam } from '../../../../utils';
 import { GetFlavorsListForLogo } from '../Stacks/List/GetFlavorsListForLogo';
 
 interface ServiceInterface {
-  stackComponent?: TStack;
-  mapStackComponent: any;
+  stackComponent: TStack;
   id: TId;
 }
 
@@ -34,48 +33,30 @@ export const useService = (): ServiceInterface => {
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
+  const stackComponent = useSelector(
+    stackComponentSelectors.stackComponentForId(id),
+  );
   useEffect(() => {
-    setFetching(true);
+    // setFetching(true);
     // Legacy: previously runs was in pipeline
     dispatch(
       stackComponentsActions.stackComponentForId({
         stackComponentId: id,
-        onSuccess: (response) => {
-          let temp: any = [];
-          temp.push(response);
-          const mappedComponent = temp.map((item: any) => {
-            const temp: any = flavourList.find(
-              (fl: any) => fl.name === item.flavor && fl.type === item.type,
-            );
-            if (temp) {
-              return {
-                ...item,
-                flavor: {
-                  logoUrl: temp.logo_url,
-                  name: item.flavor,
-                },
-              };
-            }
-            return item;
-          });
-
-          setMapppedStackComponent(mappedComponent);
-          setFetching(false);
-        },
-        onFailure: () => setFetching(false),
-      }),
-    );
-    dispatch(
-      stackComponentsActions.allRunsByStackComponentId({
-        sort_by: 'desc:created',
-        logical_operator: 'and',
-        stackComponentId: id,
-        page: 1,
-        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),
     );
+    // dispatch(
+    //   stackComponentsActions.allRunsByStackComponentId({
+    //     sort_by: 'desc:created',
+    //     logical_operator: 'and',
+    //     stackComponentId: id,
+    //     page: 1,
+    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+    //     onSuccess: () => setFetching(false),
+    //     onFailure: () => setFetching(false),
+    //   }),
+    // );
   }, [id, flavourList]);
 
   const setFetching = (fetching: boolean) => {
@@ -83,11 +64,7 @@ export const useService = (): ServiceInterface => {
     dispatch(runPagesActions.setFetching({ fetching }));
   };
 
-  // const stackComponent = useSelector(
-  //   stackComponentSelectors.stackComponentForId(id),
-  // );
-
-  return { mapStackComponent, id };
+  return { stackComponent, id };
 };
 
 export const callActionForStackComponentRunsForPagination = () => {

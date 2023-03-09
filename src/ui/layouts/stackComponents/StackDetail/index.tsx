@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
 import { Box, FullWidthSpinner } from '../../../components';
@@ -21,6 +21,7 @@ import { List as StackComponenList } from '../Stacks/List';
 import { List } from '../../stacks/Stacks/List';
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
+import { GetFlavorsListForLogo } from '../Stacks/List/GetFlavorsListForLogo';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -148,16 +149,37 @@ export interface StackDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
-  const { mapStackComponent, id } = useService();
+  // const { flavourList } = GetFlavorsListForLogo();
+  const { stackComponent, id } = useService();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages(id, locationPath, selectedWorkspace);
   const breadcrumbs = getBreadcrumbs(id, locationPath, selectedWorkspace);
-
+  const mappedStackComponent: any = [];
+  mappedStackComponent.push(stackComponent);
   const history = useHistory();
   const headerCols = GetHeaderCols({
-    mapStackComponent,
+    mappedStackComponent,
   });
-
+  // useEffect(() => {
+  //   if (flavourList.length) {
+  //     mappedStackComponent.map((item: any) => {
+  //       const temp: any = flavourList.find(
+  //         (fl: any) => fl.name === item.flavor && fl.type === item.type,
+  //       );
+  //       if (temp) {
+  //         return {
+  //           ...item,
+  //           flavor: {
+  //             logoUrl: temp.logo_url,
+  //             name: item.flavor,
+  //           },
+  //         };
+  //       }
+  //       return item;
+  //     });
+  //   }
+  // }, [flavourList]);
+  // debugger;
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
   //   padding: '10px 0',
@@ -187,7 +209,7 @@ export const StackDetail: React.FC = () => {
       headerWithButtons
       tabPages={tabPages}
       tabBasePath={routePaths.stackComponents.base(
-        mapStackComponent.id,
+        stackComponent.id,
         selectedWorkspace,
       )}
       breadcrumbs={breadcrumbs}
@@ -237,17 +259,17 @@ export const StackDetail: React.FC = () => {
         </Box>
       </Box> */}
       <Box paddingTop={'xl'}>
-        {mapStackComponent.length ? (
-          <CollapseTable
-            renderAfterRow={(stack: TStack) => <></>}
-            headerCols={headerCols}
-            tableRows={mapStackComponent}
-            // emptyState={{ text: translate('emptyState.text') }}
-            trOnClick={openDetailPage}
-          />
-        ) : (
-          <FullWidthSpinner color="black" size="md" />
-        )}
+        {/* {mapStackComponent.length ? ( */}
+        <CollapseTable
+          renderAfterRow={(stack: TStack) => <></>}
+          headerCols={headerCols}
+          tableRows={mappedStackComponent}
+          // emptyState={{ text: translate('emptyState.text') }}
+          trOnClick={openDetailPage}
+        />
+        {/* // ) : (
+        //   <FullWidthSpinner color="black" size="md" />
+        // )} */}
 
         {/* <StackComponenList
           filter={[]}

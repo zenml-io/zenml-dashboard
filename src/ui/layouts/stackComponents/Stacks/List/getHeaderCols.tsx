@@ -146,7 +146,11 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-            <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '-24px' }}>
+            <Paragraph
+              size="small"
+              color="black"
+              style={{ fontSize: '12px', marginLeft: '-24px' }}
+            >
               FLAVOR
             </Paragraph>
           </div>
@@ -161,8 +165,8 @@ export const GetHeaderCols = ({
             style={{ margin: ' 0 auto 0 auto' }}
           >
             <img
-              alt={stackComponent.flavor.logoUrl}
-              src={stackComponent.flavor.logoUrl}
+              alt={stackComponent?.flavor?.logoUrl}
+              src={stackComponent?.flavor?.logoUrl}
               style={{
                 height: '28px',
                 width: '28px',
@@ -179,7 +183,7 @@ export const GetHeaderCols = ({
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{stackComponent.flavor.name}</Paragraph>
+            <Paragraph color="white">{stackComponent?.flavor?.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -199,7 +203,11 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-            <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '-24px' }}>
+            <Paragraph
+              size="small"
+              color="black"
+              style={{ fontSize: '12px', marginLeft: '-24px' }}
+            >
               SHARED
             </Paragraph>
           </div>

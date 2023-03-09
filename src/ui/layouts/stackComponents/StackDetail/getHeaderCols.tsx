@@ -11,9 +11,9 @@ import { Box, FlexBox, icons, Paragraph } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 
 export const GetHeaderCols = ({
-  mapStackComponent,
+  mappedStackComponent,
 }: {
-  mapStackComponent: any;
+  mappedStackComponent: any;
 }): HeaderCol[] => {
   return [
     // {
@@ -114,8 +114,8 @@ export const GetHeaderCols = ({
             style={{ margin: ' 0 auto 0 auto' }}
           >
             <img
-              alt={stackComponent.flavor.logoUrl}
-              src={stackComponent.flavor.logoUrl}
+              alt={stackComponent?.flavor?.logoUrl}
+              src={stackComponent?.flavor?.logoUrl}
               style={{
                 height: '28px',
                 width: '28px',
@@ -132,7 +132,7 @@ export const GetHeaderCols = ({
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{stackComponent.flavor.name}</Paragraph>
+            <Paragraph color="white">{stackComponent?.flavor?.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
