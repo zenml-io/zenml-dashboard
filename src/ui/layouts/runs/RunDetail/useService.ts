@@ -46,10 +46,6 @@ export const useService = (): ServiceInterface => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted, setIsMounted]);
 
-  useEffect(() => {
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [runId]);
-
   const fetchMetaData = async () => {
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_API_URL}/run-metadata?pipeline_run_id=${runId}&key=orchestrator_url`,

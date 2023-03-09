@@ -29,7 +29,7 @@ export interface RunDetailRouteParams {
 export const RunDetail: React.FC = () => {
   const locationPath = useLocationPath();
   const history = useHistory();
-  const { stackComponentId, runId, fetching, run } = useService();
+  const { stackComponentId, runId, fetching, run, metadata } = useService();
   const runRow: any = [];
   runRow.push(run);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -37,7 +37,9 @@ export const RunDetail: React.FC = () => {
     {
       text: 'DAG',
 
-      Component: () => <DAG runId={runId} fetching={fetching} />,
+      Component: () => (
+        <DAG runId={runId} fetching={fetching} metadata={metadata} />
+      ),
       path: routePaths.run.component.statistics(
         locationPath.split('/')[4],
         stackComponentId,
