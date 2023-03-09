@@ -442,14 +442,32 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       })
       .catch((err) => {
         setLoading(false);
-        dispatch(
-          showToasterAction({
-            description: err?.response?.data?.detail[0].includes('Exists')
-              ? `Component name already exists.`
-              : err?.response?.data?.detail[0],
-            type: toasterTypes.failure,
-          }),
-        );
+        if (err?.response?.status === 403) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail,
+              type: toasterTypes.failure,
+            }),
+          );
+        } else if (err?.response?.status === 409) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Component name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        } else {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Component name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        }
       });
   };
   if (loading) {

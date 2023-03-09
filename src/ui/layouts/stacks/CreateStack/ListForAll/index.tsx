@@ -161,16 +161,32 @@ export const ListForAll: React.FC<Props> = () => {
         // );
       })
       .catch((err) => {
-        // debugger;
-
-        dispatch(
-          showToasterAction({
-            description: err?.response?.data?.detail[0].includes('Exists')
-              ? `Stack name already exists.`
-              : err?.response?.data?.detail[0],
-            type: toasterTypes.failure,
-          }),
-        );
+        if (err?.response?.status === 403) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail,
+              type: toasterTypes.failure,
+            }),
+          );
+        } else if (err?.response?.status === 409) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Stack name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        } else {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Stack name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        }
       });
   };
 
