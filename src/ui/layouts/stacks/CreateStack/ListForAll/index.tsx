@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import {
   Box,
@@ -34,6 +34,8 @@ import { NonEditableConfig } from '../../../NonEditableConfig';
 interface Props {}
 
 export const ListForAll: React.FC<Props> = () => {
+  const getSelectedStack: any = localStorage.getItem('persistSelectedStack');
+  const paseSelectedStack = JSON.parse(getSelectedStack);
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
@@ -46,11 +48,31 @@ export const ListForAll: React.FC<Props> = () => {
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const { flavourList } = GetFlavorsListForLogo();
-  const [stackName, setStackName] = useState('');
+  const [stackName, setStackName] = useState(
+    paseSelectedStack?.stackName || '',
+  );
   const [isShared, setIshared] = useState(true);
-  const [selectedStack, setSelectedStack] = useState<any>([]);
+  const [selectedStack, setSelectedStack] = useState<any>(
+    paseSelectedStack?.selectedStack || [],
+  );
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
+  // const [stackPersist, setStackPersist] = useState({});
+  let stackPersist: any = {};
+  useEffect(() => {
+    stackPersist = {
+      ...stackPersist,
+      selectedStack,
+      stackName,
+    };
+    // debugger;
+    return () => {
+      localStorage.setItem(
+        'persistSelectedStack',
+        JSON.stringify(stackPersist),
+      );
+    };
+  }, [selectedStack]);
 
   const selectStack = (data: any) => {
     setShowPopup(true);
@@ -119,7 +141,9 @@ export const ListForAll: React.FC<Props> = () => {
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
       .then((response: any) => {
+        setStackName('');
         // const id = response.data.id;
+        setSelectedStack([]);
 
         // setLoading(false);
         dispatch(
@@ -305,7 +329,7 @@ export const ListForAll: React.FC<Props> = () => {
               if (
                 selectedStack.map((t: any) => t.type === selectedStackBox.type)
               ) {
-                let filterSelectedStack = selectedStack.filter(
+                let filterSelectedStack = selectedStack?.filter(
                   (st: any) => st.type !== selectedStackBox.type,
                 );
                 setSelectedStack([...filterSelectedStack, selectedStackBox]);
