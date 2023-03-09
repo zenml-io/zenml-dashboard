@@ -22,16 +22,20 @@ const getTabPages = ({
   selectedWorkspace,
   runId,
   fetching,
+  metadata,
 }: {
   selectedWorkspace: string;
   runId: TId;
   fetching: boolean;
+  metadata?: any;
 }): TabPage[] => {
   return [
     {
       text: 'DAG',
 
-      Component: () => <DAG runId={runId} fetching={fetching} />,
+      Component: () => (
+        <DAG runId={runId} fetching={fetching} metadata={metadata} />
+      ),
       path: routePaths.run.run.statistics(selectedWorkspace, runId),
     },
     {
@@ -71,12 +75,13 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, fetching, run } = useService();
+  const { runId, fetching, run, metadata } = useService();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages({
     selectedWorkspace,
     fetching,
     runId,
+    metadata,
   });
   const history = useHistory();
   const runRow: any = [];
