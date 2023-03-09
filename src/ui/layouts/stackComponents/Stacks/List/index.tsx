@@ -156,7 +156,7 @@ Props) => {
         isExpended={isExpended}
         pagination={pagination}
         paginated={stackComponentsPaginated}
-        loading={expendedRow.length > 0 ? false : fetching}
+        loading={fetching}
         showHeader={true}
         filters={filter}
         headerCols={headerCols}
@@ -174,7 +174,7 @@ Props) => {
         }
         trOnClick={openDetailPage}
       />
-      <If condition={filteredStacks.length > 0}>
+      <If condition={!fetching}>
         {() => (
           <FlexBox
             marginTop="xxxl"

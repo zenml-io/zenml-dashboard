@@ -132,7 +132,7 @@ export const List: React.FC<Props> = ({
         // }
         pagination={pagination}
         paginated={pipelinesPaginated}
-        loading={expendedRow.length > 0 ? false : fetching}
+        loading={fetching}
         showHeader={true}
         filters={filter}
         headerCols={headerCols}
@@ -140,7 +140,7 @@ export const List: React.FC<Props> = ({
         emptyState={{ text: translate('emptyState.text') }}
         trOnClick={openDetailPage}
       />
-      <If condition={filteredPipelines.length > 0}>
+      <If condition={!fetching}>
         {() => (
           <FlexBox
             marginTop="xxxl"

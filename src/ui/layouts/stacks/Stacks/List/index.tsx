@@ -191,7 +191,7 @@ export const List: React.FC<Props> = ({
         trOnClick={openDetailPage}
       />
       {console.log(fetching, 'fetchingfetchingfetching')}
-      <If condition={filteredStacks.length > 0}>
+      <If condition={!fetching && !fetchingForStacksFroComponents}>
         {() => (
           <FlexBox
             marginTop="xxxl"

@@ -180,7 +180,7 @@ export const RunsTable: React.FC<{
         emptyState={{ text: emptyStateText }}
         trOnClick={openDetailPage}
       />
-      <If condition={sortedRuns.length > 0}>
+      <If condition={!fetching}>
         {() => (
           <FlexBox
             marginTop="xxxl"
