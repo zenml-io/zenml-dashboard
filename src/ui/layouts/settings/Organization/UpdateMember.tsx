@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import styles from './index.module.scss'
 import { useDispatch } from 'react-redux';
 import {
@@ -13,145 +13,20 @@ import { translate } from './translate';
 import { organizationActions } from '../../../../redux/actions/organizations/index';
 import { showToasterAction } from '../../../../redux/actions/showToasterAction';
 
-import { sessionSelectors, rolesSelectors } from '../../../../redux/selectors';
+import { rolesSelectors } from '../../../../redux/selectors';
 import { useSelector } from '../../../hooks';
 import { RoleSelectorAPI } from './RoleSelector/RoleSelectorAPI';
 import { formatDateToDisplayWithoutTime } from '../../../../utils';
 import userImage from '../../../assets/userImage.png'
-import axios from 'axios';
 
 export const UpdateMember: React.FC<{ member: any, setEditPopup: any, setShowPasswordUpdate: any, setUser: any }> = ({ member, setEditPopup, setShowPasswordUpdate, setUser }) => {
   
-  // const dispatch = useDispatch();
-  // const roles = useSelector(rolesSelectors.getRoles);
-  
-  // eslint-disable-next-line
-  const [userRoles, setUserRoles] = useState<any>([])
-
-  // const [allRoles, setAllRoles] = useState(roles?.map((e: any) => {
-  //   return { value: e.id, label: e?.name };
-  // }))
-
-  // const preRole = member?.roles?.map((e: any) => {
-  //   return { value: e.id, label: e.name };
-  // });
-
-  // const [role, setRole] = useState(preRole);
-  
-  // const authToken = useSelector(sessionSelectors.authenticationToken);
-  
-  const getUserRoles = async () => {
-    const { data } = await axios.get(
-      `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_id=${member?.id}`,
-      { headers: { Authorization: `Bearer ${authToken}` } },
-    );
-    await setUserRoles(data?.items)
-    return await setUserRoles(data?.items)
-  }
-
-  useEffect(() => {
-    const getRole = async () => {
-      await getUserRoles()
-    }
-    getRole()
-    // eslint-disable-next-line
-  }, [setUserRoles])
-
-
-
-
-  // const preRole = member?.roles?.map((e: any) => {
-  //   return { value: e.id, label: e.name };
-  // });
-
-  const [role, setRole] = useState(userRoles);
-
   const dispatch = useDispatch();
   const roles = useSelector(rolesSelectors.getRoles);
-  const authToken = useSelector(sessionSelectors.authenticationToken);
 
   const [allRoles, setAllRoles] = useState(roles?.map((e) => {
     return { value: e.id, label: e.name };
   }))
-
-
-  // const onUpdate = async () => {
-  //   setSubmitting(true);
-  //   try {
-      // if (password) {
-      //   await fetchApiWithAuthRequest({
-      //     url: apiUrl(endpoints.users.updateUser(member.id)),
-      //     method: httpMethods.put,
-      //     authenticationToken,
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     data: { name: username, password: password },
-      //   });
-      // } else {
-      //   await fetchApiWithAuthRequest({
-      //     url: apiUrl(endpoints.users.updateUser(member.id)),
-      //     method: httpMethods.put,
-      //     authenticationToken,
-      //     headers: {
-      //       'Content-Type': 'application/json',
-      //     },
-      //     data: { name: username },
-      //   });
-      // }
-
-      // const { data: { items } } = await axios.get(
-      //   `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_name_or_id=${member?.name}`,
-      //   { headers: { Authorization: `Bearer ${authToken}` } },
-      // );
-        
-      //   for (let index = 0; index < items?.length; index++) {
-      //     const singleDelRole = items[index];
-      //     await axios.delete(
-      //       `${process.env.REACT_APP_BASE_API_URL}/role_assignments/${singleDelRole?.id}`,
-      //       { headers: { Authorization: `Bearer ${authToken}` } },
-      //     );
-      //   }
-
-      //   for (let index = 0; index < role.length; index++) {
-      //     const singleRole = role[index];
-      //     await axios.post(
-      //       `${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
-      //       // @ts-ignore
-      //       { user: member.id, role: singleRole?.value },
-      //       { headers: { Authorization: `Bearer ${authToken}` } },
-      //     );
-      //   }
-
-  //     setSubmitting(false);
-  //     setEditPopup(false);
-  //     dispatch(
-  //       showToasterAction({
-  //         description: 'User Updated',
-  //         type: toasterTypes.success,
-  //       }),
-  //     );
-  //     await dispatch(organizationActions.getMembers({}));
-  //   } catch (err) {
-  //     setSubmitting(false);
-  //     setEditPopup(false);
-
-  //     dispatch(
-  //       showToasterAction({
-  //         // @ts-ignore
-  //         description: err?.response?.data?.detail,
-  //         type: toasterTypes.failure,
-  //       }),
-  //     );
-  //     dispatch(
-  //       showToasterAction({
-  //         // @ts-ignore
-  //         description: err.response?.data?.detail[1],
-  //         type: toasterTypes.failure,
-  //       }),
-  //     );
-  //   }
-  // };
 
   const onDelete = () => {
     dispatch(
@@ -181,9 +56,8 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any, setShowPas
 
   const handleClose = () => {
     setEditPopup(false); 
-    setRole(userRoles)
   }
-console.log(role)
+
   return (
         <PopupSmall width='370px' showCloseIcon={false} onClose={handleClose}
         >
