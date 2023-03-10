@@ -7,37 +7,60 @@ import {
   If,
   Row
 } from '../../../../components';
+import { sessionSelectors } from '../../../../../redux/selectors';
+import { useSelector } from '../../../../hooks';
 import OutsideClickHandler from 'react-outside-click-handler';
+import axios from 'axios';
+
 
 type RoleSelector = {
     allRoles: Array<any>,
-    role: Array<any>,
     setAllRoles: any,
-    setRole: any,
+    memberId: any,
 }
 
-export const RoleSelector = ({ allRoles, setAllRoles, role, setRole }: RoleSelector) => {
+export const RoleSelectorAPI = ({ allRoles, setAllRoles, memberId }: RoleSelector) => {
 
     const [rolesPopup, setRolesPopup] = useState(false);
+    const authToken = useSelector(sessionSelectors.authenticationToken);
+    const [role, setRole] = useState([])
    
+    const getUserRoles = async () => {
+        const { data } = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_id=${memberId}`, { headers: { Authorization: `Bearer ${authToken}` } });
+        return setRole(data?.items)
+    }
+
+    useEffect(() => {
+        const getRole = async () => {
+          await getUserRoles()
+        }
+        getRole()
+        // eslint-disable-next-line
+    }, [setRole])
+    
+
     useEffect(() => {
         for (let index = 0; index < role?.length; index++) {
-            const item = role[index];
-            setAllRoles(allRoles?.filter((e) => e?.label !== item?.label))            
+            const item = role[index] as any;
+            setAllRoles(allRoles?.filter((e) => e?.label !== item?.role?.name))            
         }
         // eslint-disable-next-line
     }, [role])
     
     const handleChange = async (value: any) => {
-       setRole([...role, value]);
+       await axios.post(`${process.env.REACT_APP_BASE_API_URL}/role_assignments`, { user: memberId, role: value?.value }, { headers: { Authorization: `Bearer ${authToken}` } });    
+       const { data } = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_id=${memberId}`, { headers: { Authorization: `Bearer ${authToken}` } })
+       setRole(data?.items);
 
        const index = allRoles?.indexOf(value);
        allRoles?.splice(index, 1)
     }
     
     const removeRoleBean = async (item: any) => {
-       setRole(role?.filter((e) => e !== item))
-       allRoles?.push(item)
+       await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/role_assignments/${item?.id}`, { headers: { Authorization: `Bearer ${authToken}` } });
+       const { data } = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_id=${memberId}`, { headers: { Authorization: `Bearer ${authToken}` } })
+       setRole(data?.items);
+       allRoles?.push({ value: item.id, label: item?.role?.name })
     }
       
   return (
@@ -64,7 +87,8 @@ export const RoleSelector = ({ allRoles, setAllRoles, role, setRole }: RoleSelec
                                     key={index}
                                     >
                                     <Paragraph className={styles.roleColor}>
-                                        {option.label.charAt(0).toUpperCase() + option.label?.slice(1)}
+                                        {option.label}
+                                        {/* {option.label.charAt(0).toUpperCase() + option.label?.slice(1)} */}
                                     </Paragraph>
                                     </Box>
                                 ))}
@@ -76,7 +100,8 @@ export const RoleSelector = ({ allRoles, setAllRoles, role, setRole }: RoleSelec
                 </div>           
                 {role?.map((e: any) => (
                     <div className={styles.roleBean}>
-                        <p>{e?.label.charAt(0).toUpperCase() + e?.label?.slice(1)} <span onClick={() => removeRoleBean(e)} >x</span></p>
+                        {/* <p>{e?.role?.name?.charAt(0)?.toUpperCase() + e?.role?.name?.slice(1)} <span onClick={() => removeRoleBean(e)} >x</span></p> */}
+                        <p>{e?.role?.name} <span onClick={() => removeRoleBean(e)}>x</span></p>
                     </div>
                  ))}
             </Row>

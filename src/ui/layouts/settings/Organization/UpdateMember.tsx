@@ -15,7 +15,7 @@ import { showToasterAction } from '../../../../redux/actions/showToasterAction';
 
 import { sessionSelectors, rolesSelectors } from '../../../../redux/selectors';
 import { useSelector } from '../../../hooks';
-import { RoleSelector } from './RoleSelector';
+import { RoleSelectorAPI } from './RoleSelector/RoleSelectorAPI';
 import { formatDateToDisplayWithoutTime } from '../../../../utils';
 import userImage from '../../../assets/userImage.png'
 import axios from 'axios';
@@ -41,45 +41,38 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any, setShowPas
   // const authToken = useSelector(sessionSelectors.authenticationToken);
   
   const getUserRoles = async () => {
-    const { data: { items } } = await axios.get(
-      `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_id=42f60eb4-534e-4c50-ad0a-2a86b0649797`,
+    const { data } = await axios.get(
+      `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_id=${member?.id}`,
       { headers: { Authorization: `Bearer ${authToken}` } },
     );
-    return items
+    await setUserRoles(data?.items)
+    return await setUserRoles(data?.items)
   }
 
   useEffect(() => {
     const getRole = async () => {
-      await getUserRoles().then((e) => setUserRoles(e))
+      await getUserRoles()
     }
     getRole()
     // eslint-disable-next-line
-  }, [])
+  }, [setUserRoles])
 
 
 
-  const preRole = member?.roles?.map((e: any) => {
-    return { value: e.id, label: e.name };
-  });
-// eslint-disable-next-line
-  const [username, setUsername] = useState('');
-  // const [password, setPassword] = useState('');
-  // const [submitting, setSubmitting] = useState(false);
-  const [role, setRole] = useState(preRole);
+
+  // const preRole = member?.roles?.map((e: any) => {
+  //   return { value: e.id, label: e.name };
+  // });
+
+  const [role, setRole] = useState(userRoles);
 
   const dispatch = useDispatch();
   const roles = useSelector(rolesSelectors.getRoles);
   const authToken = useSelector(sessionSelectors.authenticationToken);
-  // const authenticationToken = authToken ? authToken : '';
 
   const [allRoles, setAllRoles] = useState(roles?.map((e) => {
     return { value: e.id, label: e.name };
   }))
-
-  useEffect(() => {
-    setUsername(member?.name);
-    // eslint-disable-next-line
-  }, [member]);
 
 
   // const onUpdate = async () => {
@@ -188,9 +181,9 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any, setShowPas
 
   const handleClose = () => {
     setEditPopup(false); 
-    setRole(preRole)
+    setRole(userRoles)
   }
-
+console.log(role)
   return (
         <PopupSmall width='370px' showCloseIcon={false} onClose={handleClose}
         >
@@ -210,13 +203,10 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any, setShowPas
             </Box>
 
             <Box marginTop="lg">
-              <RoleSelector 
+              <RoleSelectorAPI
                 allRoles={allRoles}
-                role={role}
                 setAllRoles={setAllRoles}
-                setRole={setRole}
                 memberId={member?.id}
-                useRealTime={true}    
               />
             </Box>
 

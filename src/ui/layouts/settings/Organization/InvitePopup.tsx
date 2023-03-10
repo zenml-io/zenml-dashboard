@@ -148,8 +148,6 @@ export const InvitePopup: React.FC<{
               role={role}
               setAllRoles={setAllRoles}
               setRole={setRole}  
-              memberId={null}
-              useRealTime={false}
             />
           </Box>
         )} 
