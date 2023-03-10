@@ -21,40 +21,66 @@ import userImage from '../../../assets/userImage.png'
 import axios from 'axios';
 
 export const UpdateMember: React.FC<{ member: any, setEditPopup: any, setShowPasswordUpdate: any, setUser: any }> = ({ member, setEditPopup, setShowPasswordUpdate, setUser }) => {
+  
+  // const dispatch = useDispatch();
+  // const roles = useSelector(rolesSelectors.getRoles);
+  
+  // eslint-disable-next-line
+  const [userRoles, setUserRoles] = useState<any>([])
+
+  // const [allRoles, setAllRoles] = useState(roles?.map((e: any) => {
+  //   return { value: e.id, label: e?.name };
+  // }))
+
+  // const preRole = member?.roles?.map((e: any) => {
+  //   return { value: e.id, label: e.name };
+  // });
+
+  // const [role, setRole] = useState(preRole);
+  
+  // const authToken = useSelector(sessionSelectors.authenticationToken);
+  
+  const getUserRoles = async () => {
+    const { data: { items } } = await axios.get(
+      `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_id=42f60eb4-534e-4c50-ad0a-2a86b0649797`,
+      { headers: { Authorization: `Bearer ${authToken}` } },
+    );
+    return items
+  }
+
+  useEffect(() => {
+    const getRole = async () => {
+      await getUserRoles().then((e) => setUserRoles(e))
+    }
+    getRole()
+    // eslint-disable-next-line
+  }, [])
+
+
+
   const preRole = member?.roles?.map((e: any) => {
     return { value: e.id, label: e.name };
   });
-
+// eslint-disable-next-line
+  const [username, setUsername] = useState('');
+  // const [password, setPassword] = useState('');
+  // const [submitting, setSubmitting] = useState(false);
   const [role, setRole] = useState(preRole);
+
   const dispatch = useDispatch();
   const roles = useSelector(rolesSelectors.getRoles);
-  const [userRoles, setUserRoles] = useState<any>([])
-  
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+  // const authenticationToken = authToken ? authToken : '';
+
   const [allRoles, setAllRoles] = useState(roles?.map((e) => {
     return { value: e.id, label: e.name };
   }))
 
-  const authToken = useSelector(sessionSelectors.authenticationToken);
-  
-  const data = async () => {
-    const { data: { items } } = await axios.get(
-        `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_name_or_id=42f60eb4-534e-4c50-ad0a-2a86b0649797`,
-        { headers: { Authorization: `Bearer ${authToken}` } },
-      );
-
-      return items
-  }
-
   useEffect(() => {
-    data().then((e) => {
-      e?.map((ro: any) => {
-        if (member?.id === ro?.user?.id) {
-         return  setUserRoles([...userRoles, ro])
-        }
-      })
-    })
-     // eslint-disable-next-line
-  }, [])
+    setUsername(member?.name);
+    // eslint-disable-next-line
+  }, [member]);
+
 
   // const onUpdate = async () => {
   //   setSubmitting(true);

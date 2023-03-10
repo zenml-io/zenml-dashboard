@@ -55,7 +55,7 @@ export const Organization: React.FC = () => {
   return (
     <>
       {popupOpen && <InvitePopup setPopupOpen={setPopupOpen} />}
-      {showPasswordPopup && <PasswordPopup user={user} username={user?.name} setPopupOpen={setShowPasswordPopup} />}
+      {showPasswordPopup && <PasswordPopup user={user} username={user?.name} isUpdate={true} setPopupOpen={setShowPasswordPopup} />}
 
       <FlexBox.Column flex={1} style={{ width: '100%', marginLeft: '40px' }}>           
         <Box marginTop="lg">

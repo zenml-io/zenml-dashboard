@@ -146,7 +146,7 @@ export const PersonalDetails: React.FC = () => {
           </Box>
         </Box>
 
-        {passwordPopupOpen && <PasswordPopup username={user?.name} user={user} setPopupOpen={setPasswordPopupOpen} />}
+        {passwordPopupOpen && <PasswordPopup username={user?.name} user={user} isUpdate={false} setPopupOpen={setPasswordPopupOpen} />}
       </FlexBox.Row>
     </>
   );

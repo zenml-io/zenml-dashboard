@@ -50,7 +50,7 @@ export const RoleSelector = ({ allRoles, setAllRoles, role, setRole, memberId, u
     
     const removeRoleBean = async (item: any) => {
        if (useRealTime) {
-         await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/role_assignments/${item?.value}`, { headers: { Authorization: `Bearer ${authToken}` } });
+         await axios.delete(`${process.env.REACT_APP_BASE_API_URL}/role_assignments/${item?.id}`, { headers: { Authorization: `Bearer ${authToken}` } });
        }
        await dispatch(organizationActions.getMembers({}));
        setRole(role?.filter((e) => e !== item))

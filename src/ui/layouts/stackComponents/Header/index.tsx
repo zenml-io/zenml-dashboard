@@ -1,11 +1,8 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { FlexBox, Box } from '../../../components';
+import { FlexBox, Box, Paragraph } from '../../../components';
 import { Breadcrumbs } from '../../common/Breadcrumbs';
-
-import { CreatePipelineButton } from './CreatePipelineButton';
-import { DocumentationLink } from './DocumentationLink';
 
 import styles from './index.module.scss';
 import { constantCommandsToCreateComponent } from '../../../../constants/constantCommands';
@@ -24,7 +21,11 @@ const DefaultHeader: React.FC<{
       <Breadcrumbs breadcrumbs={breadcrumbs} />
     </FlexBox>
     <FlexBox alignItems="center">
-      <Box marginRight="lg">{renderRight && renderRight()}</Box>
+      <Box marginRight="lg">
+        <Paragraph style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}>
+          Check out our easy to read <a style={{ color: '#443E99' }} href={constantCommandsToCreateComponent.documentation} target='__blank'>document</a>    
+        </Paragraph>
+      </Box>
     </FlexBox>
   </FlexBox>
 );
@@ -49,13 +50,15 @@ const HeaderWithButtons: React.FC<{
       className={styles.rightWrapper}
     >
       <Box marginRight="lg" className={styles.dynamicHeaderRight}>
-        {renderRight && renderRight()}
+        <Paragraph style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}>
+          Check out our easy to read <a style={{ color: '#443E99' }} href={constantCommandsToCreateComponent.documentation} target='__blank'>document</a>    
+        </Paragraph>
       </Box>
-      <CreatePipelineButton />
+      {/* <CreatePipelineButton />
 
       <DocumentationLink
         text={constantCommandsToCreateComponent.documentation}
-      />
+      /> */}
     </FlexBox>
   </FlexBox>
 );

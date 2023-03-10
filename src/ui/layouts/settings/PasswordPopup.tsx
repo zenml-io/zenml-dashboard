@@ -17,28 +17,30 @@ import {
   showToasterAction,
   sessionActions,
 } from '../../../redux/actions';
+import { useSelector } from '../../hooks';
+import { sessionSelectors } from '../../../redux/selectors';
 import { toasterTypes } from '../../../constants';
 import { loginAction } from '../../../redux/actions/session/loginAction';
 import check_small from '../../assets/check_small.svg'
+import axios from 'axios'
 
 export const PasswordPopup: React.FC<{
   user: any;
   username: any;
+  isUpdate: boolean;
   setPopupOpen: (attr: boolean) => void;
-}> = ({ user, username, setPopupOpen }) => {
+}> = ({ user, username, isUpdate, setPopupOpen }) => {
   const [submitting, setSubmitting] = useState(false);
   const [currentPassword, setCurrentPassword] = useState('');
   const [newPassword, setNewPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordSuccess, setPasswordSuccess] = useState(false);
  
-
   const dispatch = useDispatch();
   const translate = getTranslateByScope('ui.layouts.PersonalDetails');
-
-
+  const authToken = useSelector(sessionSelectors.authenticationToken);
   
-  const forgotPassword = () => {
+  const forgotPassword = async () => {
     if (newPassword !== confirmPassword) {
       dispatch(
         showToasterAction({
@@ -46,6 +48,23 @@ export const PasswordPopup: React.FC<{
           type: toasterTypes.failure,
         }),
       );
+    } else if (isUpdate) {
+      try {
+        await axios.put(`${process.env.REACT_APP_BASE_API_URL}/users/${user?.id}`, { password: newPassword }, { headers: { Authorization: `Bearer ${authToken}` } });
+        await setSubmitting(false);
+        await setPasswordSuccess(true)
+        await setNewPassword('');
+        await setConfirmPassword('');
+        await setCurrentPassword('');
+      } catch (err) {
+        dispatch(
+          showToasterAction({
+            // @ts-ignore
+            description: err?.response?.data?.message,
+            type: toasterTypes.failure,
+          }),
+        );
+      }
     } else {
       setSubmitting(true);
       dispatch(
@@ -95,7 +114,7 @@ export const PasswordPopup: React.FC<{
   const uppercaseRegExp = /(?=.*?[A-Z])/.test(newPassword)
   const lowercaseRegExp   = /(?=.*?[a-z])/.test(newPassword)
   const digitsRegExp      = /(?=.*?[0-9])/.test(newPassword)
-  const specialCharRegExp = /(?=.*?[#?!@$%^&*-])/.test(newPassword)
+  const specialCharRegExp = /(?=.*?[#?!@$%^&*-_])/.test(newPassword)
   const minLengthRegExp   = /.{8,}/.test(newPassword)
 
   return (
@@ -111,24 +130,26 @@ export const PasswordPopup: React.FC<{
 
           <FlexBox.Row justifyContent='center' style={{ width: '400px', margin: '0 auto' }} >
               <Box marginBottom="lg" marginTop="xl" style={{ width: '100%'}}>
-                <Box marginBottom="lg">
-                  <FormPasswordField
-                    label={translate('form.passwordChange.currentPassword.label')}
-                    labelColor="#000"
-                    placeholder={translate(
-                      'form.passwordChange.currentPassword.placeholder',
-                    )}
-                    value={currentPassword}
-                    onChange={(val: string) => setCurrentPassword(val)}
-                    error={{
-                      hasError: currentPassword.trim() === undefined,
-                      text: translate(
-                        'form.passwordChange.currentPassword.required',
-                      ),
-                    }}
-                    showPasswordOption
-                  />
-                </Box>
+                {!isUpdate && 
+                  <Box marginBottom="lg">
+                    <FormPasswordField
+                      label={translate('form.passwordChange.currentPassword.label')}
+                      labelColor="#000"
+                      placeholder={translate(
+                        'form.passwordChange.currentPassword.placeholder',
+                      )}
+                      value={currentPassword}
+                      onChange={(val: string) => setCurrentPassword(val)}
+                      error={{
+                        hasError: currentPassword.trim() === undefined,
+                        text: translate(
+                          'form.passwordChange.currentPassword.required',
+                        ),
+                      }}
+                      showPasswordOption
+                    />
+                  </Box>
+                }
                 <Box marginBottom="lg">
                   <FormPasswordField
                     label={translate('form.passwordChange.newPassword.label')}
