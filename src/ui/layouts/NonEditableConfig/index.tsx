@@ -43,7 +43,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
         </Box>
       );
     }
-    if (typeof elementSchema === 'object' && elementSchema !== null) {
+    if (typeof elementSchema === 'object') {
       return (
         <Box marginTop="lg" style={{ width: '100%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
@@ -104,6 +104,22 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
         </Box>
       );
     }
+    // if (typeof elementSchema === 'object' && elementSchema === null) {
+    //   return (
+    //     <Box marginTop="lg" style={{ width: '100%' }}>
+    //       <EditField
+    //         disabled
+    //         onChangeText={() => console.log('')}
+    //         label={titleCase(elementName)}
+    //         optional={false}
+    //         value={elementSchema}
+    //         placeholder=""
+    //         hasError={false}
+    //         className={styles.field}
+    //       />
+    //     </Box>
+    //   );
+    // }
     if (typeof elementSchema === 'boolean') {
       return (
         <Box marginTop="lg" style={{ width: '100%' }}>
@@ -137,10 +153,28 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     );
   },
   {});
+  let normalizeConfiguration = Object.keys(details?.configuration).reduce(
+    function (r: any, name: any) {
+      if (details?.configuration[name] === null) {
+        return (
+          (r[name] =
+            details?.configuration[name] === null &&
+            flavor?.config_schema?.properties[name].default === undefined
+              ? ''
+              : flavor?.config_schema?.properties[name].default),
+          r
+        );
+      } else {
+        return {};
+      }
+    },
+    {},
+  );
 
   const mappedObject = {
     ...result,
     ...details?.configuration,
+    ...normalizeConfiguration,
   };
 
   return (
