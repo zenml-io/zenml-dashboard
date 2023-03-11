@@ -63,8 +63,8 @@ export const ListForAll: React.FC<Props> = () => {
     let stackPersist: any = {};
     stackPersist = {
       ...stackPersist,
-      selectedStack,
       stackName,
+      selectedStack,
     };
     // debugger;
     return () => {
@@ -74,7 +74,7 @@ export const ListForAll: React.FC<Props> = () => {
       );
     };
     // eslint-disable-next-line
-  }, [selectedStack]);
+  }, [selectedStack, stackName]);
 
   const selectStack = (data: any) => {
     setShowPopup(true);
