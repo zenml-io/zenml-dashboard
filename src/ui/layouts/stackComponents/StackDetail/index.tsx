@@ -84,11 +84,12 @@ const getTabPages = (
   stackId: TId,
   locationPath: any,
   selectedWorkspace: string,
+  loading?: boolean,
 ): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
-      Component: () => <Configuration stackId={stackId} />,
+      Component: () => <Configuration stackId={stackId} loading={loading} />,
       path: routePaths.stackComponents.configuration(
         locationPath.split('/')[4],
         stackId,
@@ -150,34 +151,39 @@ export interface StackDetailRouteParams {
 export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
   // const { flavourList } = GetFlavorsListForLogo();
-  const { stackComponent, id } = useService();
+
+  const { stackComponent, id, flavor, loading } = useService();
+
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const tabPages = getTabPages(id, locationPath, selectedWorkspace);
+  const tabPages = getTabPages(id, locationPath, selectedWorkspace, loading);
   const breadcrumbs = getBreadcrumbs(id, locationPath, selectedWorkspace);
   const mappedStackComponent: any = [];
   mappedStackComponent.push(stackComponent);
   const history = useHistory();
-  const headerCols = GetHeaderCols({
-    mappedStackComponent,
-  });
+
   // useEffect(() => {
   //   if (flavourList.length) {
-  //     mappedStackComponent.map((item: any) => {
-  //       const temp: any = flavourList.find(
-  //         (fl: any) => fl.name === item.flavor && fl.type === item.type,
-  //       );
-  //       if (temp) {
-  //         return {
-  //           ...item,
-  //           flavor: {
-  //             logoUrl: temp.logo_url,
-  //             name: item.flavor,
-  //           },
-  //         };
-  //       }
-  //       return item;
-  //     });
-  //   }
+  const mappedStackComponentWithLogo: any = mappedStackComponent.map(
+    (item: any) => {
+      const temp: any = flavor.find(
+        (fl: any) => fl.name === item.flavor && fl.type === item.type,
+      );
+      if (temp) {
+        return {
+          ...item,
+          flavor: {
+            logoUrl: temp.logo_url,
+            name: item.flavor,
+          },
+        };
+      }
+      return item;
+    },
+  );
+  const headerCols = GetHeaderCols({
+    mappedStackComponentWithLogo,
+  });
+
   // }, [flavourList]);
   // debugger;
   // const boxStyle = {
@@ -263,7 +269,7 @@ export const StackDetail: React.FC = () => {
         <CollapseTable
           renderAfterRow={(stack: TStack) => <></>}
           headerCols={headerCols}
-          tableRows={mappedStackComponent}
+          tableRows={mappedStackComponentWithLogo}
           // emptyState={{ text: translate('emptyState.text') }}
           trOnClick={openDetailPage}
         />

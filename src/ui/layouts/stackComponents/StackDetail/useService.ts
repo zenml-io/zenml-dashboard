@@ -2,6 +2,7 @@
 
 import { StackDetailRouteParams } from '.';
 import {
+  flavorsActions,
   pipelinesActions,
   runPagesActions,
   stackComponentPagesActions,
@@ -22,12 +23,16 @@ import { GetFlavorsListForLogo } from '../Stacks/List/GetFlavorsListForLogo';
 interface ServiceInterface {
   stackComponent: TStack;
   id: TId;
+  flavor?: any;
+  loading: any;
 }
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
-  const { flavourList } = GetFlavorsListForLogo();
+
   const [mapStackComponent, setMapppedStackComponent] = useState([]);
+  const [fetching, setFetching] = useState(false);
+  const [flavor, setFlavor] = useState([]);
   const { id } = useParams<StackDetailRouteParams>();
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
@@ -36,13 +41,28 @@ export const useService = (): ServiceInterface => {
   const stackComponent = useSelector(
     stackComponentSelectors.stackComponentForId(id),
   );
+
   useEffect(() => {
-    // setFetching(true);
+    setFetching(true);
     // Legacy: previously runs was in pipeline
     dispatch(
       stackComponentsActions.stackComponentForId({
         stackComponentId: id,
-        onSuccess: () => setFetching(false),
+        onSuccess: (res) => {
+          // setFetching(false);
+
+          dispatch(
+            flavorsActions.getType({
+              type: res?.type,
+              name: res?.flavor,
+              onSuccess: (res: any) => {
+                setFlavor(res.items);
+                setFetching(false);
+              },
+              onFailure: () => setFetching(false),
+            }),
+          );
+        },
         onFailure: () => setFetching(false),
       }),
     );
@@ -57,14 +77,13 @@ export const useService = (): ServiceInterface => {
     //     onFailure: () => setFetching(false),
     //   }),
     // );
-  }, [id, flavourList]);
+  }, [id]);
 
-  const setFetching = (fetching: boolean) => {
-    dispatch(stackPagesActions.setFetching({ fetching }));
-    dispatch(runPagesActions.setFetching({ fetching }));
-  };
+  // const setFetching = (fetching: boolean) => {
+  //   dispatch(stackComponentPagesActions.setFetching({ fetching }));
+  // };
 
-  return { stackComponent, id };
+  return { stackComponent, id, flavor, loading: fetching };
 };
 
 export const callActionForStackComponentRunsForPagination = () => {

@@ -1,5 +1,8 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { stackComponentSelectors } from '../../../../../redux/selectors';
+import {
+  flavorSelectors,
+  stackComponentSelectors,
+} from '../../../../../redux/selectors';
 
 import YAML from 'json2yaml';
 import { useEffect, useState } from 'react';
@@ -22,21 +25,12 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
   );
   const locationPath = useLocationPath();
   const [flavor, setFlavor] = useState();
+  const flavors = useSelector(flavorSelectors.myFlavorsAll);
 
   const dispatch = useDispatch();
   useEffect(() => {
-    setFetching(true);
+    setFlavor(flavors[0] as any);
 
-    dispatch(
-      flavorsActions.getType({
-        type: stackComponent?.type,
-        name: stackComponent?.flavor,
-        onSuccess: (res) => {
-          setFlavor(res.items[0]);
-        },
-        onFailure: () => setFetching(false),
-      }),
-    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath]);
 

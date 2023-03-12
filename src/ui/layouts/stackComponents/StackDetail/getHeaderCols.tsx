@@ -11,9 +11,9 @@ import { Box, FlexBox, icons, Paragraph } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 
 export const GetHeaderCols = ({
-  mappedStackComponent,
+  mappedStackComponentWithLogo,
 }: {
-  mappedStackComponent: any;
+  mappedStackComponentWithLogo: any;
 }): HeaderCol[] => {
   return [
     // {

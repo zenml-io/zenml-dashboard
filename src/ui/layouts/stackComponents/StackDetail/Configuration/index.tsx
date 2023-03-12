@@ -24,7 +24,10 @@ import {
 import { toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 
-export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
+export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
+  stackId,
+  loading,
+}) => {
   const { stackComponent, flavor } = useService({
     stackId,
   });
@@ -232,7 +235,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
       return (
-        <Box marginTop='lg'>
+        <Box marginTop="lg">
           <EditField
             disabled
             onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -249,7 +252,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     }
     if (typeof elementSchema === 'object') {
       return (
-        <Box marginTop='lg' style={{ width: '100%' }}>
+        <Box marginTop="lg" style={{ width: '100%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -309,7 +312,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           )}
           {Object.entries(elementSchema).map(([key, value], index) => (
             <>
-              <FlexBox.Row marginTop='lg'>
+              <FlexBox.Row marginTop="lg">
                 <EditField
                   disabled
                   onKeyDown={(e: any) =>
@@ -370,7 +373,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
             <FlexBox.Row key={`${inputField}~${index}`}>
               {console.log(inputFields, 'inputFieldsinputFields')}
               {/* <div className="form-group col-sm-6"> */}
-              <Box marginTop='lg'>
+              <Box marginTop="lg">
                 <EditField
                   onKeyDown={(e: any) =>
                     onPressEnterForAddMore(
@@ -390,11 +393,11 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                   placeholder={''}
                 />
               </Box>
-            
+
               <div style={{ width: '10%' }}></div>
               {/* </div> */}
               {/* <div className="form-group col-sm-5"> */}
-              <Box marginTop='lg'>
+              <Box marginTop="lg">
                 <EditField
                   onKeyDown={(e: any) =>
                     onPressEnterForAddMore(
@@ -455,33 +458,37 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
       return (
         <Box marginTop={'lg'} style={{ width: '100%' }}>
           <Box>
-            <ToggleField 
-              value={elementSchema} 
-              onHandleChange={() => onChangeToggle(!elementSchema, 'other', elementName)} 
+            <ToggleField
+              value={elementSchema}
+              onHandleChange={() =>
+                onChangeToggle(!elementSchema, 'other', elementName)
+              }
               label={titleCase(elementName)}
-              disabled={true} 
+              disabled={true}
             />
           </Box>
         </Box>
       );
     }
   };
-
+  if (loading) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
   if (flavor === undefined) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  // const values = [...flavor?.config_schema?.properties];
+  // const values = [...flavor?.configSchema?.properties];
 
-  let result = Object.keys(flavor?.config_schema?.properties).reduce(function (
+  let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
     r: any,
     name: any,
   ) {
     return (
       (r[name] =
-        flavor?.config_schema?.properties[name].type === 'string' &&
-        flavor?.config_schema?.properties[name].default === undefined
+        flavor?.configSchema?.properties[name].type === 'string' &&
+        flavor?.configSchema?.properties[name].default === undefined
           ? ''
-          : flavor?.config_schema?.properties[name].default),
+          : flavor?.configSchema?.properties[name].default),
       r
     );
   },
@@ -497,7 +504,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   }
   return (
     <FlexBox.Column marginTop="xl" fullWidth>
-      <FlexBox.Row flexDirection='column' style={{ width: '40%' }}>
+      <FlexBox.Row flexDirection="column" style={{ width: '40%' }}>
         <Container>
           <Box>
             <EditField
@@ -514,12 +521,14 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           </Box>
         </Container>
         <Container>
-          <Box marginTop='lg'>
-            <ToggleField 
-                value={stackComponent.isShared} 
-                onHandleChange={() => onChangeToggle(!stackComponent.isShared, 'share')} 
-                label='Share Component with public' 
-                disabled={true} 
+          <Box marginTop="lg">
+            <ToggleField
+              value={stackComponent.isShared}
+              onHandleChange={() =>
+                onChangeToggle(!stackComponent.isShared, 'share')
+              }
+              label="Share Component with public"
+              disabled={true}
             />
           </Box>
         </Container>
