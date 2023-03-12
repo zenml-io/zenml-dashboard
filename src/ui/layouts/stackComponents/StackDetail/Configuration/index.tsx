@@ -493,10 +493,27 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     );
   },
   {});
+  let normalizeConfiguration = Object.keys(
+    stackComponent?.configuration,
+  ).reduce(function (r: any, name: any) {
+    if (stackComponent?.configuration[name] === null) {
+      return (
+        (r[name] =
+          stackComponent?.configuration[name] === null &&
+          flavor?.config_schema?.properties[name].default === undefined
+            ? ''
+            : flavor?.config_schema?.properties[name].default),
+        r
+      );
+    } else {
+      return {};
+    }
+  }, {});
 
   const mappedObject = {
     ...result,
     ...stackComponent?.configuration,
+    ...normalizeConfiguration,
   };
 
   if (fetching) {
