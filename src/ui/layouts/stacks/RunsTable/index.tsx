@@ -147,7 +147,13 @@ export const RunsTable: React.FC<{
       (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
     );
   };
+  useEffect(() => {
+    if (getSorted) {
+      getSorted(activeSorting, activeSortingDirection);
+    }
 
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getSorted]);
   return (
     <>
       <Table

@@ -105,13 +105,13 @@ export const RunsTable: React.FC<{
     nestedRuns: pipelineRuns ? true : false,
   });
 
-  // useEffect(() => {
-  //   if (getSorted) {
-  //     getSorted(activeSorting, activeSortingDirection);
-  //   }
-  //   console.log(activeSortingDirection, 'activeSortingDirection');
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [getSorted]);
+  useEffect(() => {
+    if (getSorted) {
+      getSorted(activeSorting, activeSortingDirection);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [getSorted]);
   const validFilters = filter?.filter((item: any) => item.value);
   const isValidFilterFroValue: any = filter?.map((f: any) => f.value).join('');
   const isValidFilterForCategory: any = filter
