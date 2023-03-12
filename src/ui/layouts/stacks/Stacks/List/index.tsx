@@ -16,7 +16,7 @@ import {
 import { stacksActions } from '../../../../../redux/actions';
 import { Pagination } from '../../../common/Pagination';
 import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQueryParam';
-import { FlexBox, If } from '../../../../components';
+import { Box, FlexBox, If } from '../../../../components';
 import { ItemPerPage } from '../../../common/ItemPerPage';
 import { callActionForStacksForPagination } from '../useService';
 
@@ -191,49 +191,66 @@ export const List: React.FC<Props> = ({
         trOnClick={openDetailPage}
       />
       {console.log(fetching, 'fetchingfetchingfetching')}
-      <If condition={!fetching && !fetchingForStacksFroComponents}>
-        {() => (
-          <FlexBox
-            marginTop="xxxl"
-            marginBottom="xxxl"
-            style={{ alignSelf: 'center' }}
-            justifyContent="center"
-          >
-            <Pagination
-              // isExpended={isExpended}
-              ref={childRef}
-              onChange={(pageNumber: any) => onChange(pageNumber, itemPerPage)}
-              // getFetchedState={getFetchedState}
-              activeSorting={activeSorting}
-              filters={filter}
-              itemPerPage={itemPerPage}
-              pageIndex={pageIndex}
-              setPageIndex={setPageIndex}
-              pages={stacksPaginated?.totalPages}
-              totalOfPages={stacksPaginated?.totalPages}
-              totalLength={stacksPaginated?.length}
-              totalCount={stacksPaginated?.totalitem}
-            />
-
-            <If
-              condition={
-                filteredStacks.length > 0 && stacksPaginated?.totalitem > 1
-              }
-            >
-              {() => (
-                <ItemPerPage
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          height: '92px',
+          width: '100%',
+          justifyContent: 'center',
+          backgroundColor: 'white',
+          // marginRight: '45px',
+        }}
+      >
+        <Box style={{ alignSelf: 'center' }}>
+          <If condition={!fetching && !fetchingForStacksFroComponents}>
+            {() => (
+              <FlexBox
+                marginTop="xxxl"
+                marginBottom="xxxl"
+                style={{ alignSelf: 'center' }}
+                justifyContent="center"
+              >
+                <Pagination
+                  // isExpended={isExpended}
+                  ref={childRef}
+                  onChange={(pageNumber: any) =>
+                    onChange(pageNumber, itemPerPage)
+                  }
+                  // getFetchedState={getFetchedState}
+                  activeSorting={activeSorting}
+                  filters={filter}
                   itemPerPage={itemPerPage}
-                  onChangePagePerItem={(size: any) => {
-                    setItemPerPage(size);
-                    onChange(1, size);
-                    setPageIndex(0);
-                  }}
-                ></ItemPerPage>
-              )}
-            </If>
-          </FlexBox>
-        )}
-      </If>
+                  pageIndex={pageIndex}
+                  setPageIndex={setPageIndex}
+                  pages={stacksPaginated?.totalPages}
+                  totalOfPages={stacksPaginated?.totalPages}
+                  totalLength={stacksPaginated?.length}
+                  totalCount={stacksPaginated?.totalitem}
+                />
+
+                <If
+                  condition={
+                    filteredStacks.length > 0 && stacksPaginated?.totalitem > 1
+                  }
+                >
+                  {() => (
+                    <ItemPerPage
+                      itemPerPage={itemPerPage}
+                      onChangePagePerItem={(size: any) => {
+                        setItemPerPage(size);
+                        onChange(1, size);
+                        setPageIndex(0);
+                      }}
+                    ></ItemPerPage>
+                  )}
+                </If>
+              </FlexBox>
+            )}
+          </If>
+        </Box>
+      </FlexBox>
     </>
   );
 };

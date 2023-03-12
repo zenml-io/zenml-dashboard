@@ -337,7 +337,7 @@ export const Table: React.FC<TableProps> = ({
   // i !== 0 &&
 
   return (
-    <FlexBox.Column fullWidth>
+    <FlexBox.Column fullWidth style={{ marginBottom: '90px' }}>
       <IfElse
         condition={tableRows.length > 0 && !loading}
         renderWhenTrue={() => (
