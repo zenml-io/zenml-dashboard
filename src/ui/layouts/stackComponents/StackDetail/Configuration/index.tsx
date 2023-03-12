@@ -232,7 +232,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
       return (
-        <Box marginTop='lg'>
+        <Box marginTop="lg">
           <EditField
             disabled
             onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -249,7 +249,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     }
     if (typeof elementSchema === 'object') {
       return (
-        <Box marginTop='lg' style={{ width: '100%' }}>
+        <Box marginTop="lg" style={{ width: '100%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -309,7 +309,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           )}
           {Object.entries(elementSchema).map(([key, value], index) => (
             <>
-              <FlexBox.Row marginTop='lg'>
+              <FlexBox.Row marginTop="lg">
                 <EditField
                   disabled
                   onKeyDown={(e: any) =>
@@ -370,7 +370,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
             <FlexBox.Row key={`${inputField}~${index}`}>
               {console.log(inputFields, 'inputFieldsinputFields')}
               {/* <div className="form-group col-sm-6"> */}
-              <Box marginTop='lg'>
+              <Box marginTop="lg">
                 <EditField
                   onKeyDown={(e: any) =>
                     onPressEnterForAddMore(
@@ -390,11 +390,11 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
                   placeholder={''}
                 />
               </Box>
-            
+
               <div style={{ width: '10%' }}></div>
               {/* </div> */}
               {/* <div className="form-group col-sm-5"> */}
-              <Box marginTop='lg'>
+              <Box marginTop="lg">
                 <EditField
                   onKeyDown={(e: any) =>
                     onPressEnterForAddMore(
@@ -455,11 +455,13 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
       return (
         <Box marginTop={'lg'} style={{ width: '100%' }}>
           <Box>
-            <ToggleField 
-              value={elementSchema} 
-              onHandleChange={() => onChangeToggle(!elementSchema, 'other', elementName)} 
+            <ToggleField
+              value={elementSchema}
+              onHandleChange={() =>
+                onChangeToggle(!elementSchema, 'other', elementName)
+              }
               label={titleCase(elementName)}
-              disabled={true} 
+              disabled={true}
             />
           </Box>
         </Box>
@@ -486,10 +488,27 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
     );
   },
   {});
+  let normalizeConfiguration = Object.keys(
+    stackComponent?.configuration,
+  ).reduce(function (r: any, name: any) {
+    if (stackComponent?.configuration[name] === null) {
+      return (
+        (r[name] =
+          stackComponent?.configuration[name] === null &&
+          flavor?.config_schema?.properties[name].default === undefined
+            ? ''
+            : flavor?.config_schema?.properties[name].default),
+        r
+      );
+    } else {
+      return {};
+    }
+  }, {});
 
   const mappedObject = {
     ...result,
     ...stackComponent?.configuration,
+    ...normalizeConfiguration,
   };
 
   if (fetching) {
@@ -497,7 +516,7 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
   }
   return (
     <FlexBox.Column marginTop="xl" fullWidth>
-      <FlexBox.Row flexDirection='column' style={{ width: '40%' }}>
+      <FlexBox.Row flexDirection="column" style={{ width: '40%' }}>
         <Container>
           <Box>
             <EditField
@@ -514,12 +533,14 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
           </Box>
         </Container>
         <Container>
-          <Box marginTop='lg'>
-            <ToggleField 
-                value={stackComponent.isShared} 
-                onHandleChange={() => onChangeToggle(!stackComponent.isShared, 'share')} 
-                label='Share Component with public' 
-                disabled={true} 
+          <Box marginTop="lg">
+            <ToggleField
+              value={stackComponent.isShared}
+              onHandleChange={() =>
+                onChangeToggle(!stackComponent.isShared, 'share')
+              }
+              label="Share Component with public"
+              disabled={true}
             />
           </Box>
         </Container>
