@@ -5,6 +5,8 @@ import ReactFlow, {
   useNodesState,
   useEdgesState,
   Controls,
+  MarkerType,
+  EdgeMarker
 } from 'react-flow-renderer';
 import dagre from 'dagre';
 
@@ -12,10 +14,18 @@ import ArtifactNode from './ArtifactNode';
 import StepNode from './StepNode';
 
 import './index.css';
-import { Analysis, Data, Model, Schema, Service, Statistic } from './icons';
+import { Analysis, Data, Database, Model, Schema, Service, Statistic } from './icons';
 import { useDispatch } from '../../hooks';
 import { runsActions } from '../../../redux/actions';
 import { FullWidthSpinner } from '../spinners';
+import arrowClose from '../icons/assets/arrowClose.svg';
+import arrowOpen from '../icons/assets/arrowOpen.svg';
+import arrowSideOpen from '../icons/assets/arrowSideOpen.svg';
+import arrowCloseOpen from '../icons/assets/arrowClose.svg';
+import circleArrowSideClose from '../icons/assets/circleArrowSideClose.svg';
+import circleArrowSideOpen from '../icons/assets/circleArrowSideOpen.svg';
+import Sidebar from './Sidebar';
+
 
 interface Edge {
   id: string;
@@ -23,6 +33,10 @@ interface Edge {
   target: string;
   type?: string;
   animated?: boolean;
+  markerEnd?: {
+    type: MarkerType
+  };
+  label?: string;
 }
 
 const dagreGraph = new dagre.graphlib.Graph();
@@ -31,11 +45,7 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 const nodeWidth = 172;
 const nodeHeight = 36;
 
-const getLayoutedElements = (
-  initialNodes: any[],
-  initialEdges: Edge[],
-  direction = 'TB',
-) => {
+const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], direction = 'TB',) => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
   console.log(initialEdges, initialNodes);
@@ -62,12 +72,19 @@ const getLayoutedElements = (
       x: nodeWithPosition.x - nodeWidth / 2,
       y: nodeWithPosition.y - nodeHeight / 2,
     };
-
+    // console.log({mynode:node})
     return node;
   });
 
   initialEdges.forEach((edge) => {
-    edge.type = isHorizontal ? 'straight' : 'smoothstep';
+    // edge.type = isHorizontal ? 'straight' : 'smoothstep';
+    edge.type = isHorizontal ? 'straight' : 'step';
+    // edge.markerEnd.type = MarkerType.Arrow;
+    if (edge.markerEnd) {
+      edge.markerEnd.type = MarkerType.Arrow;
+    }
+
+
 
     initialNodes.find((node) => {
       if (
@@ -123,7 +140,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
-
+  const [sidebar, setSidebar] = useState(false)
   const onConnect = useCallback(
     (params) =>
       setEdges((eds) =>
@@ -132,6 +149,9 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
             ...params,
             type: ConnectionLineType.SmoothStep,
             animated: true,
+            markerEnd: {
+              type: MarkerType.Arrow
+            }
           },
           eds,
         ),
@@ -142,10 +162,12 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
+  console.log({ nodes, edges, graph: graph.graph.nodes, edges2: graph.graph.edges })
   return (
     <>
       <div className="controls">
-        <button
+        {/* code commented by Ali id:#123456789*/}
+        {/* <button
           onClick={() => {
             setFetching(true);
             dispatch(
@@ -158,9 +180,17 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
           }}
         >
           Refresh
+        </button> */}
+        <button onClick={() => setLegend(!legend)}>
+          {legend ?
+            <img className='legend_arrow' src={arrowOpen} alt={"arrow_image"} />
+            :
+            <img className='legend_arrow' src={arrowClose} alt={"arrow_image"} />}
+          Artifact Legends
         </button>
-        <button onClick={() => setLegend(!legend)}>Legend</button>
-        <button
+
+        {/* code commented by Ali id:#123456789*/}
+        {/* <button
           disabled={graph?.metadata[0]?.value ? false : true}
           onClick={() => {
             window.open(
@@ -171,48 +201,53 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
           }}
         >
           Orchestrator Logs
-        </button>
-        <div style={{ position: 'relative' }}>
+        </button> */}
+        <div style={{}}>
           <div className="legend" style={{ display: legend ? '' : 'none' }}>
             <span>
-              <Analysis /> <span>Data Analysis Artifact</span>
+              <Analysis /> <span>Data Analysis</span>
             </span>
             <span>
-              <Data /> <span>Data Artifact</span>
+              <Database /> <span>Data</span>
             </span>
             <span>
-              <Model /> <span>Model Artifact</span>
+              <Model /><span>Model</span>
             </span>
             <span>
-              <Schema /> <span>Schema Artifact</span>
+              <Schema /> <span>Schema</span>
             </span>
             <span>
-              <Service /> <span>Service Artifact</span>
+              <Service /> <span>Service</span>
             </span>
             <span>
-              <Statistic /> <span>Statistic Artifact</span>
+              <Statistic /> <span>Statistic</span>
             </span>
           </div>
         </div>
       </div>
-      <div className="layout">
+      <div className="layout" style={{ overflow: 'hidden' }}>
         <div className="layoutflow">
           <ReactFlow
-            nodes={nodes}
-            edges={edges}
+            nodes={nodes} // node itself
+            edges={edges} //connection lines
             onNodesChange={onNodesChange}
             onEdgesChange={onEdgesChange}
             onConnect={onConnect}
-            connectionLineType={ConnectionLineType.SmoothStep}
+            connectionLineType={ConnectionLineType.SimpleBezier}
             nodeTypes={nodeTypes}
-            onNodeClick={(event, node) => setSelectedNode(node.data)}
+            onNodeClick={(event, node) => {
+              setSelectedNode(node.data);
+              console.log("selectedNode: ", selectedNode);
+              setSidebar(!sidebar)
+            }}
             fitView
           >
             <Controls />
           </ReactFlow>
         </div>
-        <div className="detailsPositioning">
-          <div className="detailsBox">
+        {/* <div className="detailsPositioning"> */}
+        <div className="">
+          {/* <div className="detailsBox">
             <h3 className="detailsTitle">
               {selectedNode?.artifact_type ||
               selectedNode?.execution_id === '' ? (
@@ -354,7 +389,59 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                 <p>Click on a node to see details</p>
               </div>
             )}
-          </div>
+          </div> */}
+          {/* {console.log({ artifact: ArtifactNode.type })} */}
+          <Sidebar selectedNode={selectedNode}/>
+          {/* {sidebar ?
+            <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(!sidebar)} style={{ position: 'absolute', right: -50 }} />
+            :
+            <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(!sidebar)} style={{ position: 'absolute', right: -50 }} />} */}
+
+          {/* {sidebar ?
+            <Sidebar selectedNode={selectedNode} />
+            :
+            <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(!sidebar)} style={{ position: 'absolute', right: -50 }} />} */}
+
+          {/* {sidebar ? 
+          <div className='siderbar11'>
+            <div className='siderbar_arrow' onClick={() => setSidebar(!sidebar)}>
+
+              {sidebar ?
+                <img src={circleArrowSideOpen} alt={"close"} />
+                : 
+                <img src={circleArrowSideClose} alt={"open"} /> 
+              }
+
+            </div>
+            <div className='siderBar_contentArea'>
+              <div className='siderbar_header11 '>
+                <span className='hover-underline-animation'>Input/Output</span>
+                <span className='hover-underline-animation'>Metadata</span>
+                <span className='hover-underline-animation'>Volumes</span>
+                <span className='hover-underline-animation'>Logs</span>
+                <span className='hover-underline-animation'>Visualization</span>
+              </div>
+              <div className='sidebar_body11'>
+                <div className='sidebar_body_attr'>
+                  Attributes:
+                </div>
+                <div className='sidebar_body_fields'>
+                 
+                  <table className='sidebar_table'>
+                    <tr>
+                      <td className='td_key'>Company</td>
+                      <td className='td_value'>Contact</td>
+                    </tr>
+                  </table>
+                </div>
+                <div className='sidebar_body_url'>
+                  <p>URL</p>
+                  <a href='https://www.figma.com/file/Za3xa76ylf1Wma6mHL81WJ/Shared-ZenML-Figma?node-id=2195%3A10350&t=2QXishtItAalQ7rD-0'>https://www.figma.com/file/Za3xa76ylf1Wma6mHL81WJ/Shared-ZenML-Figma?node-id=2195%3A10350&t=2QXishtItAalQ7rD-0</a>
+                </div>
+              </div>
+            </div>
+          </div> : "" } */}
+
         </div>
       </div>
     </>

@@ -18,11 +18,20 @@
   margin-right: 10px;
 }
 
+.stepMainContainer {
+  position: relative;
+  height: auto;
+  width: auto;
+  // overflow: hidden;
+}
+
 .stepBody {
   display: flex;
+  flex-direction: row-reverse;
   font-family: Arial, Helvetica, sans-serif !important;
-  border: 1px solid;
-  border-radius: 2px;
+  border: 1px solid #443E99 !important;
+  // border-color: #443E99;
+  border-radius: 4px;
   font-size: 8px;
   background: #fff;
   min-width: 6rem;
@@ -32,6 +41,9 @@
   display: grid;
   place-items: center;
   padding: 0.5rem;
+  // border-radius: 10px !important;
+  // opacity: 0.5;
+  // background-color: rgba(0,0,0,0.0);
 }
 
 .stepText {
@@ -42,6 +54,8 @@
 .stepTitle {
   font-weight: 600;
   margin: auto;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 .stepSub {
@@ -49,23 +63,58 @@
   font-size: 7px;
 }
 
+.stepFooter {
+  width: 90%;
+  padding: 3px;
+  position: absolute;
+  top: 90%;
+  background-color: #431d93;
+  z-index: -1;
+  border-bottom-left-radius: 4px;
+  clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%);
+  // border-bottom-left-radius: 4px;
+  // border-bottom-right-radius: 200px;
+  // border-bottom: 100px solid #431d93;
+  // border-top: 100px solid #431d93;
+  // border-left: 25px solid transparent;
+  // border-right: 25px solid transparent;
+  // height: 0;
+  // width: 100px;
+
+}
+
 .artifactBody {
   position: relative;
   display: inline-flex;
   font-family: Arial, Helvetica, sans-serif !important;
   border: 1px #431d93 solid;
-  border-radius: 100%;
+  border-radius: 4px;
   background: #fff;
   padding: 0.5rem;
+  box-shadow: 0 3px 10px rgba(0, 0 ,0, 0.1);
+
 }
 
 .artifactIcon {
-  padding-bottom: 1px;
+  // padding-bottom: 1px;
 }
 
 .artifactTitle {
   font-weight: 600;
   padding: 0.5rem 0.5rem;
+}
+
+.artifactBottomText {
+  height: 14px;
+  color: #431d93;
+  font-family: 'Rubik';
+  font-size: 7px;
+  font-weight: 600;
+  // background-color: aliceblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  // margin-top: 5px;
 }
 
 .handle {

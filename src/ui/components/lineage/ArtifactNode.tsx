@@ -10,6 +10,8 @@ const ArtifactNode = ({
   targetPosition = Position.Top,
   sourcePosition = Position.Bottom,
 }: NodeProps) => {
+
+  // console.log("ArtifactNode data: ", data)
   return (
     <>
       <Handle
@@ -31,6 +33,9 @@ const ArtifactNode = ({
         ) : (
           <Statistic />
         )}
+      </div>
+      <div className={styles.artifactBottomText}>
+        {data.name}
       </div>
       <Handle
         type="source"
