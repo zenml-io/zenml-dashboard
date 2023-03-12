@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import {
   Box,
   FlexBox,
@@ -448,7 +448,11 @@ const FilterComponent = ({
   const pipelines = useSelector(pipelineSelectors.myPipelines);
   const stacks = useSelector(stackSelectors.mystacks);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  console.log(members, 'members');
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('logical_operator', JSON.stringify('and'));
+    };
+  }, []);
   function handleChange(filter: any, key: string, value: string) {
     filter[key].selectedValue = filter[key].options.filter(
       (option: any) => option.value === value,
