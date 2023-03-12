@@ -17,7 +17,7 @@ import {
 import { Box, FlexBox, If } from '../../../../components';
 import { Pagination } from '../../../common/Pagination';
 import { ItemPerPage } from '../../../common/ItemPerPage';
-import { callActionForStackComponentRunsForPagination } from '../../StackDetail/useService';
+// import { callActionForStackComponentRunsForPagination } from '../../StackDetail/useService';
 import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQueryParam';
 import { callActionForStackComponentsForPagination } from '../useService';
 
@@ -36,6 +36,7 @@ export const List: React.FC<Props> = ({
 }: // isExpended = false,
 Props) => {
   const locationPath = useLocationPath();
+  const componentId = locationPath.split('/')[4];
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const stackComponentsPaginated = useSelector(
     stackComponentSelectors.mystackComponentsPaginated,
@@ -118,12 +119,8 @@ Props) => {
       checkValidFilter.length ? (validFilters as any) : [],
       (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
     );
-  }, [
-    checkValidFilter,
-    activeSortingDirection,
-    activeSorting,
-    locationPath.split('/')[4],
-  ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [checkValidFilter, activeSortingDirection, activeSorting, componentId]);
   const onChange = (pageNumber: any, size: any) => {
     // debugger;
     dispatchStackComponentsData(

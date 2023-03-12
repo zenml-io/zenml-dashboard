@@ -12,7 +12,7 @@ import { DAG } from '../../../components/dag';
 // import { useHistory } from 'react-router-dom';
 import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { Runs } from '../StackDetail/Runs';
+// import { Runs } from '../StackDetail/Runs';
 import { Table } from '../../common/Table';
 import { useHeaderCols } from './HeaderCols';
 

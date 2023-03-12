@@ -11,7 +11,7 @@ import {
 } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 
-import _ from 'lodash';
+// import _ from 'lodash';
 import { Status } from '../Pipelines/List/Status';
 
 export const GetHeaderCols = ({

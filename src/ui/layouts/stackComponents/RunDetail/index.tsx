@@ -16,7 +16,7 @@ import { useService } from './useService';
 
 // import { RunStatus } from './components';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { Runs } from '../StackDetail/Runs';
+// import { Runs } from '../StackDetail/Runs';
 import { Table } from '../../common/Table';
 import { useHeaderCols } from './HeaderCols';
 

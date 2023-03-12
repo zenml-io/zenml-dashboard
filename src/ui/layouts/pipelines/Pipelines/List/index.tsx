@@ -100,6 +100,7 @@ export const List: React.FC<Props> = ({
       checkValidFilter.length ? (validFilters as any) : [],
       (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkValidFilter, activeSortingDirection, activeSorting]);
   const onChange = (pageNumber: any, size: any) => {
     // debugger;

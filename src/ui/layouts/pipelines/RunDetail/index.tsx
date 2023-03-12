@@ -15,7 +15,7 @@ import { DAG } from '../../../components/dag';
 // import { formatDateToDisplayOnTable } from '../../../../utils';
 import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { Runs } from '../PipelineDetail/Runs';
+// import { Runs } from '../PipelineDetail/Runs';
 import { Table } from '../../common/Table';
 import { useHeaderCols } from './HeaderCols';
 

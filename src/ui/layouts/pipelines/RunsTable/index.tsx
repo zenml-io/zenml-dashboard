@@ -138,6 +138,7 @@ export const RunsTable: React.FC<{
         (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
       );
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkValidFilter, activeSortingDirection, activeSorting]);
   const onChange = (pageNumber: any, size: any) => {
     // debugger;

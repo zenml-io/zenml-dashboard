@@ -14,7 +14,7 @@ import FilterComponent, {
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-import { List } from '../Pipelines/List';
+// import { List } from '../Pipelines/List';
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
 

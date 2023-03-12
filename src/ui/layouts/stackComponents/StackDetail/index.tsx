@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import { Box, FullWidthSpinner } from '../../../components';
+import { Box } from '../../../components';
 // import { iconColors, iconSizes } from '../../../../constants';
 import { camelCaseToParagraph } from '../../../../utils';
 // import styles from './index.module.scss';
@@ -17,11 +17,11 @@ import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { List as StackComponenList } from '../Stacks/List';
+// import { List as StackComponenList } from '../Stacks/List';
 import { List } from '../../stacks/Stacks/List';
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
-import { GetFlavorsListForLogo } from '../Stacks/List/GetFlavorsListForLogo';
+// import { GetFlavorsListForLogo } from '../Stacks/List/GetFlavorsListForLogo';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();

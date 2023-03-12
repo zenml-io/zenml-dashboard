@@ -139,6 +139,7 @@ export const List: React.FC<Props> = ({
         }
       }
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [
     checkValidFilter,
     activeSortingDirection,

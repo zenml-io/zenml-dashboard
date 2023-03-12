@@ -19,7 +19,7 @@ import {
   workspaceSelectors,
 } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-import { List } from '../Stacks/List';
+// import { List } from '../Stacks/List';
 // import { Box, Row } from '../../../components';
 // import { StackBox } from '../../common/StackBox';
 

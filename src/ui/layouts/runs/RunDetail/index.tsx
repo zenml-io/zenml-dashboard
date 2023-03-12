@@ -14,7 +14,7 @@ import { useService } from './useService';
 // import { formatDateToDisplayOnTable } from '../../../../utils';
 import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { Runs } from '../../pipelines/PipelineDetail/Runs';
+// import { Runs } from '../../pipelines/PipelineDetail/Runs';
 import { Table } from '../../common/Table';
 import { useHeaderCols } from './HeaderCols';
 

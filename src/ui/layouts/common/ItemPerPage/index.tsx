@@ -4,7 +4,7 @@ import React, { useState } from 'react';
 import styles from './index.module.scss';
 import { Box, FlexBox, If, icons } from '../../../components';
 // import { getPaginationData } from '../../../../utils/pagination';
-import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
+// import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
 
 import { iconColors, iconSizes } from '../../../../constants/icons';
 import OutsideClickHandler from 'react-outside-click-handler';

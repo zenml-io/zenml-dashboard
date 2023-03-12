@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import {
   flavorSelectors,
   stackComponentSelectors,
@@ -7,10 +7,10 @@ import {
 import YAML from 'json2yaml';
 import { useEffect, useState } from 'react';
 import { useLocationPath } from '../../../../hooks';
-import {
-  flavorPagesActions,
-  flavorsActions,
-} from '../../../../../redux/actions';
+// import {
+//   flavorPagesActions,
+//   // flavorsActions,
+// } from '../../../../../redux/actions';
 
 interface ServiceInterface {
   downloadYamlFile: () => void;
@@ -27,16 +27,16 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
   const [flavor, setFlavor] = useState();
   const flavors = useSelector(flavorSelectors.myFlavorsAll);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   useEffect(() => {
     setFlavor(flavors[0] as any);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath]);
 
-  const setFetching = (fetching: boolean) => {
-    dispatch(flavorPagesActions.setFetching({ fetching }));
-  };
+  // const setFetching = (fetching: boolean) => {
+  //   dispatch(flavorPagesActions.setFetching({ fetching }));
+  // };
   const yamlConfigObj: any = {
     [stackComponent.type as string]: {
       flavor: stackComponent.flavor,
