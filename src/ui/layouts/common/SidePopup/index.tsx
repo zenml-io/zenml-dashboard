@@ -42,9 +42,14 @@ export const SidePopup: React.FC<{
           <Box paddingTop="sm">
             <iframe
               title="ZenML - Organization Embed"
-              style={{ border: '0px', height: '100vh', width: '100%' }}
-              // src="https://zenml.hellonext.co/embed/home?no_header=true"
-              src={flavor?.sdkDocsUrl}
+              style={{
+                border: '0px',
+                height: '100vh',
+                width: '100%',
+                paddingBottom: '200px',
+              }}
+              // src="https://apidocs.zenml.io/0.35.0/"
+              src={flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl}
             ></iframe>
           </Box>
 

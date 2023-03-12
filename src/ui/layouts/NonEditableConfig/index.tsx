@@ -29,7 +29,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (typeof elementSchema === 'string') {
       return (
-        <Box marginTop='lg' style={{ width: '100%' }}>
+        <Box marginTop="lg" style={{ width: '100%' }}>
           <EditField
             disabled
             onChangeText={() => console.log('')}
@@ -45,7 +45,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     }
     if (typeof elementSchema === 'object') {
       return (
-        <Box marginTop='lg' style={{ width: '100%' }}>
+        <Box marginTop="lg" style={{ width: '100%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -76,7 +76,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
             </FlexBox.Row>
           )}
           {Object.entries(elementSchema).map(([key, value]) => (
-            <FlexBox.Row marginTop='lg'>
+            <FlexBox.Row marginTop="lg">
               <EditField
                 disabled
                 onChangeText={() => console.log('')}
@@ -104,14 +104,30 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
         </Box>
       );
     }
+    // if (typeof elementSchema === 'object' && elementSchema === null) {
+    //   return (
+    //     <Box marginTop="lg" style={{ width: '100%' }}>
+    //       <EditField
+    //         disabled
+    //         onChangeText={() => console.log('')}
+    //         label={titleCase(elementName)}
+    //         optional={false}
+    //         value={elementSchema}
+    //         placeholder=""
+    //         hasError={false}
+    //         className={styles.field}
+    //       />
+    //     </Box>
+    //   );
+    // }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box marginTop='lg' style={{ width: '100%' }}>
-          <ToggleField 
-            value={elementSchema} 
-            onHandleChange={() => {}} 
-            label={titleCase(elementName)} 
-            disabled={true}  
+        <Box marginTop="lg" style={{ width: '100%' }}>
+          <ToggleField
+            value={elementSchema}
+            onHandleChange={() => {}}
+            label={titleCase(elementName)}
+            disabled={true}
           />
         </Box>
       );
@@ -137,15 +153,33 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     );
   },
   {});
+  let normalizeConfiguration = Object.keys(details?.configuration).reduce(
+    function (r: any, name: any) {
+      if (details?.configuration[name] === null) {
+        return (
+          (r[name] =
+            details?.configuration[name] === null &&
+            flavor?.config_schema?.properties[name].default === undefined
+              ? ''
+              : flavor?.config_schema?.properties[name].default),
+          r
+        );
+      } else {
+        return {};
+      }
+    },
+    {},
+  );
 
   const mappedObject = {
     ...result,
     ...details?.configuration,
+    ...normalizeConfiguration,
   };
 
   return (
     <FlexBox.Column marginTop="xl" fullWidth>
-      <FlexBox.Row flexDirection='column'>
+      <FlexBox.Row flexDirection="column">
         <Container>
           <Box style={{ width: '80%' }}>
             <EditField
@@ -159,13 +193,13 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               className={styles.field}
             />
           </Box>
-          <Box marginTop='lg'>
-            <ToggleField 
-              name='Share Component with public'
-              value={details.is_shared} 
-              onHandleChange={() => {}} 
-              label='Share Component with public'
-              disabled={true}  
+          <Box marginTop="lg">
+            <ToggleField
+              name="Share Component with public"
+              value={details.is_shared}
+              onHandleChange={() => {}}
+              label="Share Component with public"
+              disabled={true}
             />
           </Box>
         </Container>
