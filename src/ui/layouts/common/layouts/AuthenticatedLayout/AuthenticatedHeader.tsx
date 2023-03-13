@@ -209,7 +209,7 @@ export const AuthenticatedHeader: React.FC<{
                     </ColoredCircle>
                   </Box>
                   <Box>
-                    <icons.chevronDownLight
+                    <icons.chevronDown
                       size={iconSizes.xs}
                       color={iconColors.black}
                     />
@@ -228,7 +228,17 @@ export const AuthenticatedHeader: React.FC<{
                           paddingHorizontal="md"
                           paddingVertical="sm"
                         >
-                          <Paragraph size="small">Settings</Paragraph>
+                          <Paragraph
+                            color={iconColors.primary}
+                            style={{ fontSize: '16px' }}
+                          >
+                            Settings
+                          </Paragraph>
+                          <icons.emptyRightArrow
+                            style={{ paddingTop: '1px', marginLeft: '3px' }}
+                            color={iconColors.primary}
+                            size={iconSizes.xs}
+                          ></icons.emptyRightArrow>
                         </FlexBox>
                       </LinkBox>
 
@@ -236,7 +246,7 @@ export const AuthenticatedHeader: React.FC<{
                         <Separator.LightNew />
                       </Box>
                       <Box marginTop="sm" marginHorizontal="md">
-                        <Paragraph color="grey" style={{ fontSize: '14px' }}>
+                        <Paragraph color="grey" className={styles.your}>
                           Your workspaces
                         </Paragraph>
                       </Box>
@@ -313,13 +323,13 @@ export const AuthenticatedHeader: React.FC<{
                             // alignItems="center"
                           >
                             <Box paddingRight="sm">
-                              <icons.signOut
+                              {/* <icons.signOut
                                 size={iconSizes.sm}
                                 color={iconColors.red}
-                              />
+                              /> */}
                             </Box>
                             <Paragraph color="red" size="small">
-                              Logout
+                              Log Out
                             </Paragraph>
                           </FlexBox>
                         </LinkBox>
