@@ -10,6 +10,7 @@ const getMyStacksApi = ({
   logical_operator,
   page,
   size,
+  name,
   filtersParam,
   // id,
   authenticationToken,
@@ -20,6 +21,7 @@ const getMyStacksApi = ({
   logical_operator: string;
   page: number;
   size: number;
+  name?: string;
   filtersParam?: object;
   // id?: any;
   authenticationToken: string;
@@ -32,6 +34,7 @@ const getMyStacksApi = ({
       logical_operator,
       page,
       size,
+      name,
       ...filtersParam,
       // id,
     },
