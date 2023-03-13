@@ -209,10 +209,14 @@ export const AuthenticatedHeader: React.FC<{
                     </ColoredCircle>
                   </Box>
                   <Box>
-                    <icons.chevronDownLight
+                    {/* <icons.chevronDownLight
                       size={iconSizes.xs}
                       color={iconColors.black}
-                    />
+                    /> */}
+                     <icons.chevronDown
+                        color={iconColors.grey}
+                        size={iconSizes.xs}
+                      />
                   </Box>
                 </FlexBox>
               </LinkBox>
@@ -225,10 +229,17 @@ export const AuthenticatedHeader: React.FC<{
                       <LinkBox onClick={() => push(routePaths.settings.base)}>
                         <FlexBox
                           className={styles.popupItem}
-                          paddingHorizontal="md"
                           paddingVertical="sm"
                         >
-                          <Paragraph size="small">Settings</Paragraph>
+                          <Paragraph size="small" style={{ fontSize: '16px', lineHeight: '19px', color: '#443E99', paddingRight: '3px' }}>
+                            Settings
+                          </Paragraph>
+                          <Box paddingRight="sm">
+                            <icons.rightArrow
+                              size={iconSizes.xs}
+                              color={iconColors.primary}
+                            />
+                          </Box>
                         </FlexBox>
                       </LinkBox>
 
@@ -312,12 +323,6 @@ export const AuthenticatedHeader: React.FC<{
                             paddingVertical="sm"
                             // alignItems="center"
                           >
-                            <Box paddingRight="sm">
-                              <icons.signOut
-                                size={iconSizes.sm}
-                                color={iconColors.red}
-                              />
-                            </Box>
                             <Paragraph color="red" size="small">
                               Logout
                             </Paragraph>

@@ -8,9 +8,10 @@ import {
   Row
 } from '../../../../components';
 import { sessionSelectors } from '../../../../../redux/selectors';
-import { useSelector } from '../../../../hooks';
+import { useSelector, useDispatch } from '../../../../hooks';
 import OutsideClickHandler from 'react-outside-click-handler';
 import axios from 'axios';
+import { organizationActions } from '../../../../../redux/actions';
 
 
 type RoleSelector = {
@@ -23,6 +24,7 @@ export const RoleSelectorAPI = ({ allRoles, setAllRoles, memberId }: RoleSelecto
 
     const [rolesPopup, setRolesPopup] = useState(false);
     const authToken = useSelector(sessionSelectors.authenticationToken);
+    const dispatch = useDispatch()
     const [role, setRole] = useState([])
    
     const getUserRoles = async () => {
@@ -54,6 +56,7 @@ export const RoleSelectorAPI = ({ allRoles, setAllRoles, memberId }: RoleSelecto
 
        const index = allRoles?.indexOf(value);
        allRoles?.splice(index, 1)
+       await dispatch(organizationActions.getMembers({}))
     }
     
     const removeRoleBean = async (item: any) => {
@@ -61,6 +64,7 @@ export const RoleSelectorAPI = ({ allRoles, setAllRoles, memberId }: RoleSelecto
        const { data } = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_id=${memberId}`, { headers: { Authorization: `Bearer ${authToken}` } })
        setRole(data?.items);
        allRoles?.push({ value: item.id, label: item?.role?.name })
+       await dispatch(organizationActions.getMembers({}))
     }
       
   return (

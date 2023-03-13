@@ -3,7 +3,6 @@ import styles from './index.module.scss';
 import {
   Box,
   FlexBox,
-  H2,
   FormTextField,
   PrimaryButton,
 } from '../../../../components';
@@ -189,9 +188,6 @@ export const ListForAll: React.FC<Props> = () => {
   return (
     <Box style={{ width: '100%', position: 'relative' }}>
       <div className={styles.top}>
-        <Box>
-          <H2 style={{ fontWeight: 'bolder' }}>Register a Stack</H2>
-        </Box>
         <Box marginTop="lg">
           <FlexBox.Row alignItems="center">
             <Box style={{ width: '30%' }}>
@@ -225,7 +221,7 @@ export const ListForAll: React.FC<Props> = () => {
                 style={{
                   border:
                     selectedStackBox?.id === stack.id
-                      ? '2px solid #431E93'
+                      ? '2px solid #52FF00'
                       : '2px solid #fff',
                 }}
                 className={styles.selectedBox}
