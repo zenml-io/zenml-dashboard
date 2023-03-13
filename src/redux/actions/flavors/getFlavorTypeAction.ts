@@ -6,6 +6,7 @@ export const getFlavorTypeAction = ({
   size,
   type,
   name,
+  sort_by,
   onSuccess,
   onFailure,
 }: {
@@ -13,6 +14,7 @@ export const getFlavorTypeAction = ({
   size?: number;
   type?: string;
   name?: string;
+  sort_by?: string;
   onSuccess?: (res: any) => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -27,6 +29,7 @@ export const getFlavorTypeAction = ({
       page,
       size,
       name,
+      sort_by,
     },
     onSuccess,
     onFailure,

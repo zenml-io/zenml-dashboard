@@ -1,13 +1,16 @@
-import { useDispatch, useSelector } from 'react-redux';
-import { stackComponentSelectors } from '../../../../../redux/selectors';
+import { useSelector } from 'react-redux';
+import {
+  flavorSelectors,
+  stackComponentSelectors,
+} from '../../../../../redux/selectors';
 
 import YAML from 'json2yaml';
 import { useEffect, useState } from 'react';
 import { useLocationPath } from '../../../../hooks';
-import {
-  flavorPagesActions,
-  flavorsActions,
-} from '../../../../../redux/actions';
+// import {
+//   flavorPagesActions,
+//   // flavorsActions,
+// } from '../../../../../redux/actions';
 
 interface ServiceInterface {
   downloadYamlFile: () => void;
@@ -22,27 +25,18 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
   );
   const locationPath = useLocationPath();
   const [flavor, setFlavor] = useState();
+  const flavors = useSelector(flavorSelectors.myFlavorsAll);
 
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   useEffect(() => {
-    setFetching(true);
+    setFlavor(flavors[0] as any);
 
-    dispatch(
-      flavorsActions.getType({
-        type: stackComponent?.type,
-        name: stackComponent?.flavor,
-        onSuccess: (res) => {
-          setFlavor(res.items[0]);
-        },
-        onFailure: () => setFetching(false),
-      }),
-    );
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath]);
 
-  const setFetching = (fetching: boolean) => {
-    dispatch(flavorPagesActions.setFetching({ fetching }));
-  };
+  // const setFetching = (fetching: boolean) => {
+  //   dispatch(flavorPagesActions.setFetching({ fetching }));
+  // };
   const yamlConfigObj: any = {
     [stackComponent.type as string]: {
       flavor: stackComponent.flavor,

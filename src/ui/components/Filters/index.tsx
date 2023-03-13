@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import {
   Box,
   FlexBox,
@@ -448,7 +448,11 @@ const FilterComponent = ({
   const pipelines = useSelector(pipelineSelectors.myPipelines);
   const stacks = useSelector(stackSelectors.mystacks);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  console.log(members, 'members');
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('logical_operator', JSON.stringify('and'));
+    };
+  }, []);
   function handleChange(filter: any, key: string, value: string) {
     filter[key].selectedValue = filter[key].options.filter(
       (option: any) => option.value === value,
@@ -502,15 +506,16 @@ const FilterComponent = ({
 
     setFilter([...filters]);
   }
-  function callActionForUsers(name: string) {
+  function callActionForUsers(name: string, newEvent: any) {
+    // debugger;
     if (name) {
       dispatch(organizationActions.getMembers({ name: 'contains:' + name }));
-    } else {
+    } else if (newEvent.action === 'menu-close') {
       dispatch(organizationActions.getMembers({}));
     }
   }
 
-  function callActionForPipelines(name: string) {
+  function callActionForPipelines(name: string, newEvent: any) {
     if (name) {
       dispatch(
         pipelinesActions.getMy({
@@ -518,11 +523,11 @@ const FilterComponent = ({
           name: 'contains:' + name,
         }),
       );
-    } else {
+    } else if (newEvent.action === 'menu-close') {
       dispatch(pipelinesActions.getMy({ workspace: selectedWorkspace }));
     }
   }
-  function callActionForStacks(name: string) {
+  function callActionForStacks(name: string, newEvent: any) {
     if (name) {
       dispatch(
         stacksActions.getMy({
@@ -530,7 +535,7 @@ const FilterComponent = ({
           name: 'contains:' + name,
         }),
       );
-    } else {
+    } else if (newEvent.action === 'menu-close') {
       dispatch(stacksActions.getMy({ workspace: selectedWorkspace }));
     }
   }
@@ -1019,7 +1024,9 @@ const FilterComponent = ({
                             });
                           })}
                           styles={selectStyles}
-                          onInputChange={(e: any) => callActionForPipelines(e)}
+                          onInputChange={(e: any, newEvent: any) =>
+                            callActionForPipelines(e, newEvent)
+                          }
                           onChange={(value: any) => {
                             if (value) {
                               handleChangeForSearchable(filter, value.value);
@@ -1044,7 +1051,9 @@ const FilterComponent = ({
                             });
                           })}
                           styles={selectStyles}
-                          onInputChange={(e: any) => callActionForStacks(e)}
+                          onInputChange={(e: any, newEvent: any) =>
+                            callActionForStacks(e, newEvent)
+                          }
                           onChange={(value: any) => {
                             if (value) {
                               handleChangeForSearchable(filter, value.value);
@@ -1068,7 +1077,9 @@ const FilterComponent = ({
                             });
                           })}
                           styles={selectStyles}
-                          onInputChange={(e: any) => callActionForUsers(e)}
+                          onInputChange={(e: any, newEvent: any) => {
+                            callActionForUsers(e, newEvent);
+                          }}
                           onChange={(value: any) => {
                             console.log(value, 'valuevalue');
                             if (value) {

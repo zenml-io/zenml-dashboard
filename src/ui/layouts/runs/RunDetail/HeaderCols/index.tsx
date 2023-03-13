@@ -1,4 +1,4 @@
-import _ from 'lodash';
+// import _ from 'lodash';
 import React from 'react';
 
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
@@ -8,41 +8,13 @@ import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import { FlexBox, Paragraph, Box, icons } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
-import { RunStatus } from '../RunStatus';
+import { RunStatus } from '../../RunsTable/RunStatus';
 
-import { SortingHeader } from '../SortingHeader';
-import { Sorting, SortingDirection } from '../types';
-import { useService } from './useService';
+// import { useService } from './useService';
 import ReactTooltip from 'react-tooltip';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 
-export const useHeaderCols = ({
-  isExpended,
-  expendedRow,
-  runs,
-  setRuns,
-  activeSorting,
-  activeSortingDirection,
-  setActiveSortingDirection,
-  setActiveSorting,
-}: {
-  isExpended?: boolean;
-  expendedRow?: any;
-  runs: TRun[];
-  setRuns: (runs: TRun[]) => void;
-  activeSorting: Sorting | null;
-  activeSortingDirection: SortingDirection | null;
-  setActiveSortingDirection: (direction: SortingDirection | null) => void;
-  setActiveSorting: (sorting: Sorting | null) => void;
-}): HeaderCol[] => {
-  const { sortMethod } = useService({
-    setActiveSortingDirection,
-    setActiveSorting,
-    setRuns,
-    activeSorting,
-    activeSortingDirection,
-    runs,
-  });
+export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
@@ -53,38 +25,21 @@ export const useHeaderCols = ({
     // },
     {
       render: () => (
-        <SortingHeader
-          onlyOneRow={runs.length === 1}
-          sorting="id"
-          sortMethod={sortMethod('id', {
-            asc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['asc']),
-            desc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
+        <Paragraph
+          size="small"
+          color="black"
+          style={{ fontSize: '12px', marginLeft: '33px' }}
         >
-          <Paragraph
-            size="small"
-            color="black"
-            style={{ fontSize: '12px', marginLeft: '33px' }}
-          >
-            RUN ID
-          </Paragraph>
-        </SortingHeader>
+          RUN ID
+        </Paragraph>
       ),
       width: '10%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={run.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
-              {isExpended ? (
-                <icons.chevronDown
-                  color={iconColors.grey}
-                  size={iconSizes.xs}
-                />
-              ) : (
-                <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
-              )}
+              <icons.chevronDown color={iconColors.grey} size={iconSizes.xs} />
+
               <Paragraph size="small" style={{ marginLeft: '20px' }}>
                 {truncate(run.id, ID_MAX_LENGTH)}
               </Paragraph>
@@ -98,20 +53,9 @@ export const useHeaderCols = ({
     },
     {
       render: () => (
-        <SortingHeader
-          onlyOneRow={runs.length === 1}
-          sorting="name"
-          sortMethod={sortMethod('name', {
-            asc: (run: TRun[]) => _.orderBy(run, ['name'], ['asc']),
-            desc: (run: TRun[]) => _.orderBy(run, ['name'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            RUN NAME
-          </Paragraph>
-        </SortingHeader>
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          RUN NAME
+        </Paragraph>
       ),
       width: '10%',
       renderRow: (run: TRun) => (
@@ -127,20 +71,9 @@ export const useHeaderCols = ({
     },
     {
       render: () => (
-        <SortingHeader
-          onlyOneRow={runs.length === 1}
-          sorting="pipeline_id"
-          sortMethod={sortMethod('pipeline_id', {
-            asc: (run: TRun[]) => _.orderBy(run, ['pipeline_id'], ['asc']),
-            desc: (run: TRun[]) => _.orderBy(run, ['pipeline_id'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            PIPELINE
-          </Paragraph>
-        </SortingHeader>
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          PIPELINE
+        </Paragraph>
       ),
       width: '10%',
       renderRow: (run: TRun) => (
@@ -180,20 +113,9 @@ export const useHeaderCols = ({
     },
     {
       render: () => (
-        <SortingHeader
-          onlyOneRow={runs.length === 1}
-          sorting="status"
-          sortMethod={sortMethod('status', {
-            asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
-            desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            STATUS
-          </Paragraph>
-        </SortingHeader>
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          STATUS
+        </Paragraph>
       ),
       width: '10%',
       renderRow: (run: TRun) => <RunStatus run={run} />,
@@ -201,20 +123,9 @@ export const useHeaderCols = ({
 
     {
       render: () => (
-        <SortingHeader
-          onlyOneRow={runs.length === 1}
-          sorting="stack_id"
-          sortMethod={sortMethod('stack_id', {
-            asc: (run: TRun[]) => _.orderBy(run, ['stack_id'], ['asc']),
-            desc: (run: TRun[]) => _.orderBy(run, ['stack_id'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            STACK NAME
-          </Paragraph>
-        </SortingHeader>
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          STACK NAME
+        </Paragraph>
       ),
       width: '10%',
       renderRow: (run: TRun) => (
@@ -249,20 +160,9 @@ export const useHeaderCols = ({
 
     {
       render: () => (
-        <SortingHeader
-          onlyOneRow={runs.length === 1}
-          sorting="user_id"
-          sortMethod={sortMethod('user_id', {
-            asc: (run: TRun[]) => _.orderBy(run, ['user_id'], ['asc']),
-            desc: (run: TRun[]) => _.orderBy(run, ['user_id'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            AUTHOR
-          </Paragraph>
-        </SortingHeader>
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          AUTHOR
+        </Paragraph>
       ),
       width: '10%',
       renderRow: (run: TRun) => {
@@ -297,26 +197,9 @@ export const useHeaderCols = ({
     },
     {
       render: () => (
-        <SortingHeader
-          onlyOneRow={runs.length === 1}
-          sorting="created"
-          sortMethod={sortMethod('created', {
-            asc: (runs: TRun[]) =>
-              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
-                'asc',
-              ]),
-            desc: (runs: TRun[]) =>
-              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
-                'desc',
-              ]),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
-            CREATED AT
-          </Paragraph>
-        </SortingHeader>
+        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          CREATED AT
+        </Paragraph>
       ),
       width: '10%',
       renderRow: (run: TRun) => (

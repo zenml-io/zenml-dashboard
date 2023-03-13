@@ -90,6 +90,8 @@ const Component = (props: any) => {
         borderRight: '1px solid #A8A8A8',
         padding: '0 50px 0 33px',
         marginTop: '10rem',
+
+        zIndex: 2,
       }}
     >
       {/* <Box style={{ marginTop: '-22px' }}>

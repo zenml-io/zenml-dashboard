@@ -10,6 +10,7 @@ const getMyPipelinesApi = ({
   logical_operator,
   page,
   size,
+  name,
   filtersParam,
 }: {
   sort_by: string;
@@ -23,7 +24,7 @@ const getMyPipelinesApi = ({
 }): Promise<TPipeline> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.pipelines.my(workspace)),
-    params: { sort_by, logical_operator, page, size, ...filtersParam },
+    params: { sort_by, logical_operator, page, size, ...filtersParam, name },
     method: httpMethods.get,
     authenticationToken,
   });

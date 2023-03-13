@@ -11,14 +11,17 @@ import { Configuration } from './Configuration';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterState,
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { List as StackComponenList } from '../Stacks/List';
+// import { List as StackComponenList } from '../Stacks/List';
 import { List } from '../../stacks/Stacks/List';
+import { CollapseTable } from '../../common/CollapseTable';
+import { GetHeaderCols } from './getHeaderCols';
+// import { GetFlavorsListForLogo } from '../Stacks/List/GetFlavorsListForLogo';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -81,11 +84,12 @@ const getTabPages = (
   stackId: TId,
   locationPath: any,
   selectedWorkspace: string,
+  loading?: boolean,
 ): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
-      Component: () => <Configuration stackId={stackId} />,
+      Component: () => <Configuration stackId={stackId} loading={loading} />,
       path: routePaths.stackComponents.configuration(
         locationPath.split('/')[4],
         stackId,
@@ -146,11 +150,42 @@ export interface StackDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
-  const { stackComponent, id } = useService();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const tabPages = getTabPages(id, locationPath, selectedWorkspace);
-  const breadcrumbs = getBreadcrumbs(id, locationPath, selectedWorkspace);
+  // const { flavourList } = GetFlavorsListForLogo();
 
+  const { stackComponent, id, flavor, loading } = useService();
+
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const tabPages = getTabPages(id, locationPath, selectedWorkspace, loading);
+  const breadcrumbs = getBreadcrumbs(id, locationPath, selectedWorkspace);
+  const mappedStackComponent: any = [];
+  mappedStackComponent.push(stackComponent);
+  const history = useHistory();
+
+  // useEffect(() => {
+  //   if (flavourList.length) {
+  const mappedStackComponentWithLogo: any = mappedStackComponent.map(
+    (item: any) => {
+      const temp: any = flavor.find(
+        (fl: any) => fl.name === item.flavor && fl.type === item.type,
+      );
+      if (temp) {
+        return {
+          ...item,
+          flavor: {
+            logoUrl: temp.logo_url,
+            name: item.flavor,
+          },
+        };
+      }
+      return item;
+    },
+  );
+  const headerCols = GetHeaderCols({
+    mappedStackComponentWithLogo,
+  });
+
+  // }, [flavourList]);
+  // debugger;
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
   //   padding: '10px 0',
@@ -167,7 +202,14 @@ export const StackDetail: React.FC = () => {
   //   { name: 'Subham', age: 25, gender: 'Male' },
   // ];
   // const history = useHistory();
-
+  const openDetailPage = (stack: TStack) => {
+    history.push(
+      routePaths.stackComponents.base(
+        locationPath.split('/')[4],
+        selectedWorkspace,
+      ),
+    );
+  };
   return (
     <BasePage
       headerWithButtons
@@ -223,12 +265,24 @@ export const StackDetail: React.FC = () => {
         </Box>
       </Box> */}
       <Box paddingTop={'xl'}>
-        <StackComponenList
+        {/* {mapStackComponent.length ? ( */}
+        <CollapseTable
+          renderAfterRow={(stack: TStack) => <></>}
+          headerCols={headerCols}
+          tableRows={mappedStackComponentWithLogo}
+          // emptyState={{ text: translate('emptyState.text') }}
+          trOnClick={openDetailPage}
+        />
+        {/* // ) : (
+        //   <FullWidthSpinner color="black" size="md" />
+        // )} */}
+
+        {/* <StackComponenList
           filter={[]}
           pagination={false}
           isExpended={true}
           id={id}
-        ></StackComponenList>
+        ></StackComponenList> */}
         {/* <>
           <table className={cn(styles.table)}>
             <tbody>

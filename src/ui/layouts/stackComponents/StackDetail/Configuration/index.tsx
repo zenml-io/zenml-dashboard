@@ -24,7 +24,10 @@ import {
 import { toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 
-export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
+export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
+  stackId,
+  loading,
+}) => {
   const { stackComponent, flavor } = useService({
     stackId,
   });
@@ -468,22 +471,24 @@ export const Configuration: React.FC<{ stackId: TId }> = ({ stackId }) => {
       );
     }
   };
-
+  if (loading) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
   if (flavor === undefined) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  // const values = [...flavor?.config_schema?.properties];
+  // const values = [...flavor?.configSchema?.properties];
 
-  let result = Object.keys(flavor?.config_schema?.properties).reduce(function (
+  let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
     r: any,
     name: any,
   ) {
     return (
       (r[name] =
-        flavor?.config_schema?.properties[name].type === 'string' &&
-        flavor?.config_schema?.properties[name].default === undefined
+        flavor?.configSchema?.properties[name].type === 'string' &&
+        flavor?.configSchema?.properties[name].default === undefined
           ? ''
-          : flavor?.config_schema?.properties[name].default),
+          : flavor?.configSchema?.properties[name].default),
       r
     );
   },
