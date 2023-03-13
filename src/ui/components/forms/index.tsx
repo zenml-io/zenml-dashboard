@@ -351,13 +351,24 @@ export const SearchInputField = (
           />
         </LinkBox>
         <TextInput
-          type="search"
+          // type="search"
           {...props}
           style={{ paddingLeft: '40px' }}
           value={props.value}
           onChangeText={props.onChange}
           placeholder={props.placeholder}
         />
+        {props?.value?.length > 0 && 
+        <LinkBox
+          style={{ position: 'absolute', right: '7px', top: '35px' }}
+          onClick={() => props.onChange('')}
+        >
+          <icons.close
+            style={{ position: 'relative', top: '-27px' }}
+            color={iconColors.grey}
+          />
+        </LinkBox>
+        }
         {/* <InputWithLabel
           name={props.name}
           label={props.label}

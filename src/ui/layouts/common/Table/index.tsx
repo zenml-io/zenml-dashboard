@@ -514,7 +514,6 @@ export const Table: React.FC<TableProps> = ({
                   marginTop="xxxl"
                   marginBottom="xxxl"
                   justifyContent="center"
-                  className={styles.pagination}
                 >
                   <Pagination
                     isExpended={isExpended}

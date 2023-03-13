@@ -2,7 +2,6 @@ import React from 'react';
 import cn from 'classnames';
 
 import { FlexBox, Box, Paragraph } from '../../../components';
-import { Breadcrumbs } from '../../common/Breadcrumbs';
 
 import styles from './index.module.scss';
 import { constantCommandsToCreateComponent } from '../../../../constants/constantCommands';
@@ -15,10 +14,11 @@ const DefaultHeader: React.FC<{
     marginTop="xl"
     alignItems="center"
     justifyContent="space-between"
+    fullWidth
     className={cn(styles.header, 'd-none d-md-block')}
   >
     <FlexBox fullHeight alignItems="center">
-      <Breadcrumbs breadcrumbs={breadcrumbs} />
+     <Paragraph style={{ fontSize: '42px', fontWeight: 'bold', lineHeight: '48px', color: '#424240' }}>{breadcrumbs[0]?.name}</Paragraph> 
     </FlexBox>
     <FlexBox alignItems="center">
       <Box marginRight="lg">
@@ -34,15 +34,18 @@ const HeaderWithButtons: React.FC<{
   breadcrumbs: TBreadcrumb[];
   renderRight?: () => JSX.Element;
 }> = ({ breadcrumbs, renderRight }) => (
-  <FlexBox
+  <FlexBox.Row
     marginTop="xl"
     alignItems="center"
     justifyContent="space-between"
+    fullWidth
     className={styles.header}
   >
+    
     <FlexBox className="d-none d-md-flex">
-      <Breadcrumbs breadcrumbs={breadcrumbs} />
+      <Paragraph style={{ fontSize: '42px', fontWeight: 'bold', lineHeight: '48px', color: '#424240' }}>{breadcrumbs[0]?.name}</Paragraph>
     </FlexBox>
+    
     <FlexBox
       alignItems="center"
       flexWrap
@@ -54,13 +57,9 @@ const HeaderWithButtons: React.FC<{
           Check out our easy to read <a style={{ color: '#443E99' }} href={constantCommandsToCreateComponent.documentation} target='__blank'>document</a>    
         </Paragraph>
       </Box>
-      {/* <CreatePipelineButton />
-
-      <DocumentationLink
-        text={constantCommandsToCreateComponent.documentation}
-      /> */}
     </FlexBox>
-  </FlexBox>
+
+  </FlexBox.Row>
 );
 
 export const Header = {

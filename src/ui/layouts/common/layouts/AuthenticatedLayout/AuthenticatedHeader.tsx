@@ -37,13 +37,15 @@ import {
 import { routePaths } from '../../../../../routes/routePaths';
 import { WorkspacePopup } from './workspacePopup';
 import ReactTooltip from 'react-tooltip';
+import { Breadcrumbs } from '../../Breadcrumbs';
 // import { CookiePopup } from './CookiePopup'
 
 // import { endpoints } from '../../../../../api/endpoints';
 
 export const AuthenticatedHeader: React.FC<{
+  breadcrumb?: Array<any>;
   setMobileMenuOpen: (val: boolean) => void;
-}> = ({ setMobileMenuOpen }) => {
+}> = ({ breadcrumb, setMobileMenuOpen }) => {
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -190,6 +192,9 @@ export const AuthenticatedHeader: React.FC<{
             </LinkBox>
           </Box>
         </FlexBox>
+
+        <Breadcrumbs breadcrumbs={breadcrumb as any} />
+
         <If condition={!!userFullName}>
           {() => (
             <Box style={{ position: 'relative' }}>

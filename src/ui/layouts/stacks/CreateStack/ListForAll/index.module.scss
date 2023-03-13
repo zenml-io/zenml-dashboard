@@ -1,3 +1,5 @@
+@import '../../../../globalStyles.scss';
+
 .top {
   position: -webkit-sticky;
   position: sticky;
@@ -28,7 +30,7 @@
 .selectedBoxCheckbox {
     height: 15px; 
     width: 15px; 
-    accent-color: #52FF00; 
+    accent-color: $primaryColor;  
     position: absolute; 
     top: 5px
 }
