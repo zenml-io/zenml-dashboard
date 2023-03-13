@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import {
   Box,
@@ -33,6 +33,8 @@ import { NonEditableConfig } from '../../../NonEditableConfig';
 interface Props {}
 
 export const ListForAll: React.FC<Props> = () => {
+  const getSelectedStack: any = localStorage.getItem('persistSelectedStack');
+  const paseSelectedStack = JSON.parse(getSelectedStack);
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
@@ -45,11 +47,33 @@ export const ListForAll: React.FC<Props> = () => {
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const { flavourList } = GetFlavorsListForLogo();
-  const [stackName, setStackName] = useState('');
+  const [stackName, setStackName] = useState(
+    paseSelectedStack?.stackName || '',
+  );
   const [isShared, setIshared] = useState(true);
-  const [selectedStack, setSelectedStack] = useState<any>([]);
+  const [selectedStack, setSelectedStack] = useState<any>(
+    paseSelectedStack?.selectedStack || [],
+  );
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
+  // const [stackPersist, setStackPersist] = useState({});
+
+  useEffect(() => {
+    let stackPersist: any = {};
+    stackPersist = {
+      ...stackPersist,
+      stackName,
+      selectedStack,
+    };
+    // debugger;
+    return () => {
+      localStorage.setItem(
+        'persistSelectedStack',
+        JSON.stringify(stackPersist),
+      );
+    };
+    // eslint-disable-next-line
+  }, [selectedStack, stackName]);
 
   const selectStack = (data: any) => {
     setShowPopup(true);
@@ -118,7 +142,9 @@ export const ListForAll: React.FC<Props> = () => {
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
       .then((response: any) => {
+        setStackName('');
         // const id = response.data.id;
+        setSelectedStack([]);
 
         // setLoading(false);
         dispatch(
@@ -131,7 +157,7 @@ export const ListForAll: React.FC<Props> = () => {
           stacksActions.getMy({
             page: 1,
             size: 1,
-            id: response.data.id,
+            filtersParam: response.data.id,
             workspace: selectedWorkspace,
             onSuccess: () => {
               history.push(
@@ -160,16 +186,32 @@ export const ListForAll: React.FC<Props> = () => {
         // );
       })
       .catch((err) => {
-        // debugger;
-
-        dispatch(
-          showToasterAction({
-            description: err?.response?.data?.detail[0].includes('Exists')
-              ? `Stack name already exists.`
-              : err?.response?.data?.detail[0],
-            type: toasterTypes.failure,
-          }),
-        );
+        if (err?.response?.status === 403) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail,
+              type: toasterTypes.failure,
+            }),
+          );
+        } else if (err?.response?.status === 409) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Stack name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        } else {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Stack name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        }
       });
   };
 
@@ -285,7 +327,7 @@ export const ListForAll: React.FC<Props> = () => {
               if (
                 selectedStack.map((t: any) => t.type === selectedStackBox.type)
               ) {
-                let filterSelectedStack = selectedStack.filter(
+                let filterSelectedStack = selectedStack?.filter(
                   (st: any) => st.type !== selectedStackBox.type,
                 );
                 setSelectedStack([...filterSelectedStack, selectedStackBox]);

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { organizationActions } from '../../../../redux/actions';
 import styles from './index.module.scss'
+import { organizationActions } from '../../../../redux/actions';
+
 import {
   FlexBox,
   Box,
@@ -27,8 +28,6 @@ export const Organization: React.FC = () => {
   if (authToken) {
     var decoded: any = jwt_decode(authToken as any);
   }
-  
-  // eslint-disable-next-line
   const [fetchingMembers, setFetchingMembers] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);
@@ -80,3 +79,37 @@ export const Organization: React.FC = () => {
     </>
   );
 };
+
+// export const callActionForMembersForPagination = () => {
+//   const dispatch = useDispatch();
+//   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+
+//   function dispatchPipelineData(
+//     page: number,
+//     size: number,
+//     filters?: any[],
+//     sortby?: string,
+//   ) {
+//     // let filtersParam: any = filterObjectForParam(filters);
+//     setFetchingForPipeline(true);
+//     // debugger;
+//     dispatch(
+//       organizationActions.getMembers({
+//         sort_by: sortby ? sortby : 'created',
+//         page: page,
+//         size: size,
+//         onSuccess: () => setFetchingMembers(false),
+//         onFailure: () => setFetchingMembers(false),
+//       }),
+//     );
+//   }
+
+//   const setFetchingForPipeline = (fetching: boolean) => {
+//     dispatch(pipelinePagesActions.setFetching({ fetching }));
+//   };
+
+//   return {
+//     setFetchingForPipeline,
+//     dispatchPipelineData,
+//   };
+// };

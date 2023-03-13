@@ -37,7 +37,6 @@ export const Runs: React.FC<{
       id={runId}
       pagination={pagination}
       getSorted={getSorted}
-      fromAllruns={fromAllruns}
       paginated={runsPaginated}
       fetching={runId === undefined && fetching}
       emptyStateText={translate('emptyState.text')}

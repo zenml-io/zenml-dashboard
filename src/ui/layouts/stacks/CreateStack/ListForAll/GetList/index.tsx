@@ -47,7 +47,8 @@ export const GetList: React.FC<Props> = ({
             : locationPath.split('/')[2],
           type: type,
           page: 1,
-          size: 50,
+          size: 1000,
+          sort_by: 'name',
 
           onSuccess: (res) => {
             const updatedList = res.items.map((item: any) => {

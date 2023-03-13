@@ -155,7 +155,7 @@ export const GetHeaderCols = ({
     },
     {
       render: () => (
-        <SortingHeader 
+        <SortingHeader
           onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="is_shared"
           sortMethod={sortMethod('is_shared', {
@@ -177,7 +177,11 @@ export const GetHeaderCols = ({
       width: '8%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
-          <div style={{ margin: '0 auto 0 auto' }} data-tip data-for={stack.isShared}>
+          <div
+            style={{ margin: '0 auto 0 auto' }}
+            data-tip
+            data-for={stack.isShared}
+          >
             <Box>
               <FlexBox
                 justifyContent="center"
@@ -241,24 +245,32 @@ export const GetHeaderCols = ({
             <div
               data-tip
               data-for={
-                stack.user.full_name ? stack.user.full_name : stack.user.name
+                stack?.user?.full_name
+                  ? stack?.user?.full_name
+                  : stack?.user?.name
               }
             >
               <FlexBox alignItems="center">
                 <Paragraph size="small">
-                  {stack.user.full_name
-                    ? stack.user.full_name
-                    : stack.user.name}
+                  {stack?.user?.full_name
+                    ? stack?.user?.full_name
+                    : stack?.user?.name}
                 </Paragraph>
               </FlexBox>
             </div>
             <ReactTooltip
-              id={stack.user.full_name ? stack.user.full_name : stack.user.name}
+              id={
+                stack?.user?.full_name
+                  ? stack?.user?.full_name
+                  : stack?.user?.name
+              }
               place="top"
               effect="solid"
             >
               <Paragraph color="white">
-                {stack.user.full_name ? stack.user.full_name : stack.user.name}
+                {stack?.user?.full_name
+                  ? stack?.user?.full_name
+                  : stack?.user?.name}
               </Paragraph>
             </ReactTooltip>
           </FlexBox>

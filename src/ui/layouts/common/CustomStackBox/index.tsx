@@ -62,7 +62,7 @@ export const CustomStackBox: React.FC<{
             {stackDesc?.length > 14 ? (
               <>{titleCase(stackDesc?.slice(0, 15))}...</>
             ) : (
-              stackDesc
+              titleCase(stackDesc)
             )}
           </Paragraph>
         </div>
