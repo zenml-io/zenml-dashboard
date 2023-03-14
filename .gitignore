@@ -107,3 +107,5 @@ dist
 .tern-port
 
 !.env
+
+build

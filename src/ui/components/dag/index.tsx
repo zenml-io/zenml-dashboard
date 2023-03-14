@@ -5,6 +5,7 @@ import { FullWidthSpinner } from '../spinners';
 import { useSelector } from '../../hooks';
 import { sessionSelectors } from '../../../redux/selectors';
 import axios from 'axios';
+import Sidebar from '../lineage/Sidebar';
 
 const styles = {
   container: { width: '100%', height: '100%' },
@@ -37,8 +38,11 @@ export const DAG: React.FC<{ runId: TId; fetching?: boolean }> = ({
     );
 
     setMetaData(response?.data?.items); //Setting the response into state
+    console.log("__UNAUTH DAG ", metadata)
+    console.log("__UNAUTH graph ", graph)
   };
 
+  
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
@@ -46,6 +50,7 @@ export const DAG: React.FC<{ runId: TId; fetching?: boolean }> = ({
   return (
     <div style={styles.container}>
       <div style={styles.dag}>
+        {/* <Sidebar/> */}
         <LayoutFlow graph={graph} runId={runId} metadata={metadata} />
       </div>
     </div>

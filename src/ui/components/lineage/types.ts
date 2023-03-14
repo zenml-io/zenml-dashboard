@@ -1,4 +1,4 @@
-import { Position } from 'react-flow-renderer';
+import { MarkerType, Position } from 'react-flow-renderer';
 
 export interface NodeProps<T = any> {
   data: T;

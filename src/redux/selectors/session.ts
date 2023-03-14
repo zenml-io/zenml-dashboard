@@ -6,4 +6,6 @@ const authenticationToken = (state: any): string | null =>
 const sessionSelectors = {
   authenticationToken,
 };
+
+console.log({sessionSelectors})
 export { sessionSelectors };

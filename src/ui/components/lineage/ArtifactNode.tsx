@@ -1,5 +1,5 @@
 import React, { memo } from 'react';
-import { Handle, Position } from 'react-flow-renderer';
+import { Handle, MarkerType, Position } from 'react-flow-renderer';
 import { Data, Model, Schema, Service, Statistic, Analysis } from './icons';
 
 import styles from './index.module.scss';
@@ -11,7 +11,7 @@ const ArtifactNode = ({
   sourcePosition = Position.Bottom,
 }: NodeProps) => {
 
-  // console.log("ArtifactNode data: ", data)
+  // console.log("__UNAUTH ArtifactNode data: ", data)
   return (
     <>
       <Handle
