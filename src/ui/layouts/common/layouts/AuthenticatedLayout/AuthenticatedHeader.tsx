@@ -112,7 +112,7 @@ export const AuthenticatedHeader: React.FC<{
   //         push(routePaths.home(window.location.pathname.split('/')[2]));
   //       }
   //     }
-  //   }; 
+  //   };
   // });
   if (!user) return null;
 
@@ -214,14 +214,15 @@ export const AuthenticatedHeader: React.FC<{
                     </ColoredCircle>
                   </Box>
                   <Box>
-                    {/* <icons.chevronDownLight
+                    {/* <icons.chevronDown
                       size={iconSizes.xs}
                       color={iconColors.black}
                     /> */}
-                     <icons.chevronDown
-                        color={iconColors.grey}
-                        size={iconSizes.xs}
-                      />
+
+                    <icons.chevronDown
+                      color={iconColors.grey}
+                      size={iconSizes.xs}
+                    />
                   </Box>
                 </FlexBox>
               </LinkBox>
@@ -236,15 +237,34 @@ export const AuthenticatedHeader: React.FC<{
                           className={styles.popupItem}
                           paddingVertical="sm"
                         >
-                          <Paragraph size="small" style={{ fontSize: '16px', lineHeight: '19px', color: '#443E99', paddingRight: '3px' }}>
+                          <Paragraph
+                            color={iconColors.primary}
+                            style={{ fontSize: '16px' }}
+                          >
+                            {/* <Paragraph size="small" style={{ fontSize: '16px', lineHeight: '19px', color: '#443E99', paddingRight: '3px' }}>
+                            Settings
+                          </Paragraph> */}
                             Settings
                           </Paragraph>
-                          <Box paddingRight="sm">
-                            <icons.rightArrow
+                          <Box
+                            paddingRight="sm"
+                            style={
+                              {
+                                // backgroundColor: 'red',
+                              }
+                            }
+                          >
+                            <icons.emptyRightArrow
+                              style={{ marginLeft: '3px', marginTop: '1px' }}
                               size={iconSizes.xs}
                               color={iconColors.primary}
                             />
                           </Box>
+                          {/* <icons.emptyRightArrow
+                            style={{ paddingTop: '1px', marginLeft: '3px' }}
+                            color={iconColors.primary}
+                            size={iconSizes.xs}
+                          ></icons.emptyRightArrow> */}
                         </FlexBox>
                       </LinkBox>
 
@@ -252,7 +272,7 @@ export const AuthenticatedHeader: React.FC<{
                         <Separator.LightNew />
                       </Box>
                       <Box marginTop="sm" marginHorizontal="md">
-                        <Paragraph color="grey" style={{ fontSize: '14px' }}>
+                        <Paragraph color="grey" className={styles.your}>
                           Your workspaces
                         </Paragraph>
                       </Box>
@@ -328,8 +348,14 @@ export const AuthenticatedHeader: React.FC<{
                             paddingVertical="sm"
                             // alignItems="center"
                           >
+                            <Box paddingRight="sm">
+                              {/* <icons.signOut
+                                size={iconSizes.sm}
+                                color={iconColors.red}
+                              /> */}
+                            </Box>
                             <Paragraph color="red" size="small">
-                              Logout
+                              Log Out
                             </Paragraph>
                           </FlexBox>
                         </LinkBox>
