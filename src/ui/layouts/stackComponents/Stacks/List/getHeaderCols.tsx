@@ -68,7 +68,7 @@ export const GetHeaderCols = ({
           <Paragraph
             size="small"
             color="black"
-            style={{ fontSize: '12px', marginLeft: '25px' }}
+            style={{ fontSize: '14px', marginLeft: '25px' }}
           >
             ID
           </Paragraph>
@@ -112,7 +112,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
             NAME
           </Paragraph>
         </SortingHeader>
@@ -149,7 +149,7 @@ export const GetHeaderCols = ({
             <Paragraph
               size="small"
               color="black"
-              style={{ fontSize: '12px', marginLeft: '-24px' }}
+              style={{ fontSize: '14px', marginLeft: '-24px' }}
             >
               FLAVOR
             </Paragraph>
@@ -206,7 +206,7 @@ export const GetHeaderCols = ({
             <Paragraph
               size="small"
               color="black"
-              style={{ fontSize: '12px', marginLeft: '-24px' }}
+              style={{ fontSize: '14px', marginLeft: '-24px' }}
             >
               SHARED
             </Paragraph>
@@ -271,7 +271,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
             AUTHOR
           </Paragraph>
         </SortingHeader>
@@ -337,7 +337,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
             CREATED AT
           </Paragraph>
         </SortingHeader>

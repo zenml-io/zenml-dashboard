@@ -137,9 +137,9 @@ export const Table: React.FC<TableProps> = ({
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-
+  // style={{ marginBottom: '90px' }}
   return (
-    <FlexBox.Column fullWidth style={{ marginBottom: '90px' }}>
+    <FlexBox.Column fullWidth>
       <IfElse
         condition={tableRows.length > 0 && !loading}
         renderWhenTrue={() => (

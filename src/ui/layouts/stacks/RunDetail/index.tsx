@@ -6,7 +6,7 @@ import { Configuration } from './Configuration';
 import { useService } from './useService';
 import { DAG } from '../../../components/dag';
 
-// import { Box, Paragraph } from '../../../components';
+import { Box } from '../../../components';
 // import { RunStatus } from './components';
 // import { formatDateToDisplayOnTable } from '../../../../utils';
 // import { useHistory } from 'react-router-dom';
@@ -120,6 +120,7 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.stack.base(runId, stackId)}
       breadcrumbs={breadcrumbs}
     >
+    <Box marginTop='lg'>
       <Table
         // activeSorting={
         //   activeSortingDirection?.toLowerCase() + ':' + activeSorting
@@ -138,6 +139,7 @@ export const RunDetail: React.FC = () => {
         // emptyState={{ text: emptyStateText }}
         trOnClick={openDetailPage}
       />
+    </Box>
       {/* <Runs
         filter={[]}
         pagination={false}

@@ -14,6 +14,7 @@ import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
+import { Box } from '../../../components';
 import {
   // stackPagesSelectors,
   workspaceSelectors,
@@ -208,6 +209,7 @@ export const StackDetail: React.FC = () => {
       tabBasePath={routePaths.stack.base(stack.id)}
       breadcrumbs={breadcrumbs}
     >
+    <Box marginTop='lg'>
       <CollapseTable
         renderAfterRow={(stack: TStack) => <></>}
         headerCols={headerCols}
@@ -215,6 +217,7 @@ export const StackDetail: React.FC = () => {
         emptyState={{ text: translate('emptyState.text') }}
         trOnClick={openDetailPage}
       />
+    </Box>
       {/* <List filter={[]} pagination={false} isExpended id={stack.id}></List> */}
       {/* <Box style={boxStyle}>
         <Box>

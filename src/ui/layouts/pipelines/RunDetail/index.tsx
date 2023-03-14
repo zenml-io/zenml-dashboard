@@ -8,7 +8,7 @@ import { useService } from './useService';
 import { Configuration } from '../RunDetail/Configuration';
 import { DAG } from '../../../components/dag';
 
-// import { Box, Paragraph } from '../../../components';
+import { Box } from '../../../components';
 
 // import { RunStatus } from './components';
 
@@ -135,12 +135,14 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.pipeline.base(runId, pipelineId)}
       breadcrumbs={breadcrumbs}
     >
-      <Table
-        headerCols={headerCols}
-        tableRows={runRow}
-        // emptyState={{ text: emptyStateText }}
-        trOnClick={openDetailPage}
-      />
+      <Box marginTop='lg'>
+        <Table
+          headerCols={headerCols}
+          tableRows={runRow}
+          // emptyState={{ text: emptyStateText }}
+          trOnClick={openDetailPage}
+        />
+      </Box>
       {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>

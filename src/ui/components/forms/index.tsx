@@ -118,8 +118,9 @@ export const CopyField = (
     labelColor: any;
     placeholder: any;
     value: string;
+    showTokField: any;
   } & any,
-): JSX.Element => {
+): any => {
   const [copied, setCopied] = useState(false);
   const handleClick = () => {
     navigator.clipboard.writeText(props.value);
@@ -130,26 +131,38 @@ export const CopyField = (
   };
 
   return (
-    <FlexBox.Column fullWidth style={{ height: '100px' }}>
+    <FlexBox.Column fullWidth style={{ height: '70px' }}>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
         <InputWithLabel
           name={props.name}
           label={props.label}
           labelColor={props.labelColor}
           InputComponent={
-            <TextInput
-              {...props}
-              value={`${props.value.slice(0, 60)}...`}
-              placeholder={props.placeholder}
-            />
-          }
+            props.showTokField ?
+              <TextInput
+                {...props}
+                style={{ background: 'rgba(168, 168, 168, 0.2)', border: '1px solid #C9CBD0' }}
+                value={`${props.value.slice(0, 30)}...`}
+                placeholder={props.placeholder}
+              />
+              :
+              <TextInput
+                {...props}
+                style={{ background: 'rgba(168, 168, 168, 0.2)', border: '1px solid #C9CBD0' }}
+                value='Token'
+                placeholder={props.placeholder}
+              />
+            }
         />
-        <LinkBox
-          style={{ position: 'absolute', right: '10px', top: '30px' }}
-          onClick={handleClick}
-        >
-          <icons.copy color={iconColors.grey} />
-        </LinkBox>
+
+        {props.showTokField && (
+          <LinkBox
+            style={{ position: 'absolute', right: '10px', top: '40px' }}
+            onClick={handleClick}
+          >
+            <icons.copy color={iconColors.grey} />
+          </LinkBox>
+        )}
       </FlexBox>
       {copied && (
         <div style={{ marginTop: '20px', textAlign: 'right' }}>
@@ -232,7 +245,7 @@ export const EditFieldSettings = (
               value={props.value}
               placeholder={props.placeholder}
               disabled={disabled}
-              autoFocus={disabled === false && true}
+              autoFocus={!disabled}
             />
           }
         />

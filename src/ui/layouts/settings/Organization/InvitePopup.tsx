@@ -15,7 +15,8 @@ import {
   H4,
   Separator,
   Paragraph,
-  FormTextField
+  FormTextField,
+  GhostButton
 } from '../../../components';
 import { useSelector, useDispatch } from '../../../hooks';
 import { PopupSmall } from '../../common/PopupSmall';
@@ -167,16 +168,14 @@ export const InvitePopup: React.FC<{
             <Separator.LightNew />
           </Box>          
           <FlexBox justifyContent="center" flexWrap marginBottom='md' >
-            <Paragraph style={{ cursor: 'pointer', color: '#443E99' }} onClick={inviteNewMembers}>Generate Token</Paragraph>
-          </FlexBox>
-          <Box marginBottom="md">
-            <Separator.LightNew />
-          </Box>          
-          <FlexBox justifyContent="center" flexWrap>
-           <Paragraph style={{ cursor: 'pointer' }} onClick={() => setPopupOpen(false)}>Close</Paragraph>
+            {name && role?.length > 0 && !showTokField ?
+              <Paragraph style={{ cursor: 'pointer', color: '#443E99' }} onClick={inviteNewMembers}>Generate Token</Paragraph>
+            :
+              <Paragraph style={{ cursor: 'no-drop', color: '#A8A8A8' }}>Generate Token</Paragraph>
+            }
           </FlexBox>
         </Box>
-
+    
       </PopupSmall>
     </>
   );

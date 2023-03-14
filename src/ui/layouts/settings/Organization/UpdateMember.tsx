@@ -109,12 +109,16 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any, setShowPas
 
 
           <Box style={{ marginTop: '40px' }}>
-            <Box marginBottom="md">
-              <Separator.LightNew />
-            </Box>          
-            <FlexBox justifyContent="center" flexWrap marginBottom="md">
-              <Paragraph style={{ cursor: 'pointer', color: '#443E99' }} onClick={() => { setShowPasswordUpdate(true); setUser(member); handleClose() }}>Update Credentials</Paragraph>
-            </FlexBox>
+            {member?.active && (
+              <>
+              <Box marginBottom="md">
+                <Separator.LightNew />
+              </Box>          
+              <FlexBox justifyContent="center" flexWrap marginBottom="md">
+                <Paragraph style={{ cursor: 'pointer', color: '#443E99' }} onClick={() => { setShowPasswordUpdate(true); setUser(member); handleClose() }}>Update Credentials</Paragraph>
+              </FlexBox>
+              </>
+            )}
           
             <Box marginBottom="md">
               <Separator.LightNew />
