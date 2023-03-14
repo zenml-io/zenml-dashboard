@@ -267,6 +267,7 @@ export const StackDetail: React.FC = () => {
       <Box paddingTop={'xl'}>
         {/* {mapStackComponent.length ? ( */}
         <CollapseTable
+          pagination={false}
           renderAfterRow={(stack: TStack) => <></>}
           headerCols={headerCols}
           tableRows={mappedStackComponentWithLogo}

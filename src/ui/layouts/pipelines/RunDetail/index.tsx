@@ -137,6 +137,7 @@ export const RunDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
     >
       <Table
+        pagination={false}
         headerCols={headerCols}
         tableRows={runRow}
         // emptyState={{ text: emptyStateText }}

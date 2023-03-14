@@ -122,6 +122,7 @@ export const RunDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
     >
       <Table
+        pagination={false}
         // activeSorting={
         //   activeSortingDirection?.toLowerCase() + ':' + activeSorting
         // } // activeSorting={

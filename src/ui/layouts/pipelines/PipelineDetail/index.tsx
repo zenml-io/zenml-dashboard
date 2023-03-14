@@ -124,6 +124,7 @@ export const PipelineDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
     >
       <CollapseTable
+        pagination={false}
         renderAfterRow={(stack: TStack) => <></>}
         headerCols={headerCols}
         tableRows={filteredPipeline}
