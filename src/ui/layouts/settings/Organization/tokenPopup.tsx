@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useState } from 'react';
+import styles from './index.module.scss'
 import { toasterTypes } from '../../../../constants';
 import {
   organizationActions,
@@ -12,21 +13,29 @@ import {
   FormTextField,
   Paragraph,
   CopyField,
-  H3,
-  PrimaryButton,
+  H4,
+  Separator,
 } from '../../../components';
 import { useDispatch, useSelector } from '../../../hooks';
-import { Popup } from '../../common/Popup';
+import { PopupSmall } from '../../common/PopupSmall';
 import { organizationSelectors } from '../../../../redux/selectors';
+import { RoleSelectorReadOnly } from './RoleSelector/RoleSelectorReadOnly';
+import { getInitials } from '../../../../utils/name';
 
 export const TokenPopup: React.FC<{
   id: string;
+  fullName: any;
   username: string;
   active: boolean;
-}> = ({ id, username, active }) => {
-  const [popupOpen, setPopupOpen] = useState(false);
+  roles: Array<any>;
+  setTokenPopup: any;
+}> = ({ id, fullName, username, active, roles, setTokenPopup }) => {
+  
   const [submitting, setSubmitting] = useState(false);
   const [showTokField, setShowTokField] = useState(false);
+
+  const userFullName = fullName || fullName || username;
+  const userInitials = getInitials(userFullName as string);
 
   const dispatch = useDispatch();
 
@@ -45,7 +54,7 @@ export const TokenPopup: React.FC<{
             }),
           );
           setSubmitting(false);
-          setPopupOpen(false);
+          setTokenPopup(false);
         },
         onSuccess: () => {
           setSubmitting(false);
@@ -58,72 +67,60 @@ export const TokenPopup: React.FC<{
   const onClose = () => {
     setShowTokField(false);
     setSubmitting(false);
-    setPopupOpen(false);
+    setTokenPopup(false);
   };
 
   return (
-    <>
-      <Paragraph
-        style={{ color: '#8045FF', cursor: 'pointer' }}
-        onClick={() => setPopupOpen(true)}
-      >
-        {!active && 'Pending'}
-      </Paragraph>
-
-      {popupOpen && (
-        <Popup onClose={onClose}>
+        <PopupSmall onClose={onClose} width='370px' showCloseIcon={false}>
           <FlexBox.Row alignItems="center" justifyContent="space-between">
-            <H3 bold color="darkGrey">
-              {translate('popup.generateInviteModal.title')}
-            </H3>
+            <H4 bold style={{ fontSize: '18px', fontWeight: 'bold'}}>{translate('popup.generateInviteModal.title')}</H4>  
           </FlexBox.Row>
-          <Box marginTop="md">
-            <Paragraph>{`${translate(
-              'popup.generateInviteModal.text',
-            )} ${username}. This will invalidate the currently active token.`}</Paragraph>
-          </Box>
-          <Box marginTop="xl">
-            <Box>
-              <FlexBox.Row marginBottom="md">
-                <Box style={{ width: showTokField ? '100%' : '70%' }}>
-                  <FormTextField
-                    label={translate('popup.username.label')}
-                    labelColor="#000"
-                    placeholder={translate('popup.username.placeholder')}
-                    value={username}
-                    disabled
-                  />
-                </Box>
-
-                {!showTokField && (
-                  <Box
-                    style={{ width: '10%', marginTop: '22px' }}
-                    marginLeft="md"
-                  >
-                    <PrimaryButton
-                      disabled={submitting}
-                      loading={submitting}
-                      onClick={generateToken}
-                    >
-                      {translate('popup.generateInviteModal.button.text')}
-                    </PrimaryButton>
-                  </Box>
-                )}
-              </FlexBox.Row>
-
-              {showTokField && (
-                <Box marginTop="lg">
-                  <CopyField
-                    label={`Invitation Link - please send this to ${username} for this user to finish their registration`}
-                    value={`${window.location.origin}/signup?user=${id}&username=${username}&token=${inviteCode}`}
-                    disabled
-                  />
-                </Box>
-              )}
+        
+          <FlexBox.Row marginTop="lg" justifyContent='center'>
+            <Box className={styles.userImage}>
+              {/* <img src={userImage} alt='userImage' /> */}
+              <FlexBox
+                  justifyContent="center"
+                  alignItems="center"
+                  className={styles.sampleImage}
+                >
+                  {userInitials}
+                </FlexBox>
             </Box>
+          </FlexBox.Row>
+        
+          <Box marginTop='md'>
+            <Box>
+              <Paragraph className={styles.memberName}>{fullName ?fullName : username}</Paragraph>
+            </Box>
+
           </Box>
-        </Popup>
-      )}
-    </>
+
+          <Box marginTop='lg'>
+            <RoleSelectorReadOnly roles={roles} />
+          </Box>              
+
+          <Box marginTop="lg">
+            <CopyField
+              label="Invitation Link"
+              labelColor='rgba(66, 66, 64, 0.5)'
+              value={`${window.location.origin}/signup?user=${id}&username=${username}&token=${inviteCode}`}
+              showTokField={showTokField}
+              disabled
+            />
+          </Box>
+          
+          <Box style={{ marginTop: '62px' }}>
+            <Box marginBottom="md">
+              <Separator.LightNew />
+            </Box>          
+            <FlexBox justifyContent="center" flexWrap>
+             <Paragraph style={{ cursor: 'pointer', color: '#443E99' }}  onClick={generateToken}>
+                {submitting ? <>Generating</> : translate('popup.generateInviteModal.button.text')}
+              </Paragraph>
+            </FlexBox>
+          </Box>
+
+        </PopupSmall>
   );
 };

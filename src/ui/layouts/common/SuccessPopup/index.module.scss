@@ -17,9 +17,18 @@
   border-radius: 4px;
   position: fixed;
   max-height: 70vh;
-  min-height: 200px;
-  min-width: 700px;
+  height: 385px;
+  width: 336px;
   overflow-x: auto;
+
+  p {
+    color: #424240;
+    font-size: 24px;
+    font-weight: 400;
+    line-height: 31px;
+    text-align: center;
+    margin-top: 17px;
+  }
 }
 
 @media (max-width: $md-breakpoint) {

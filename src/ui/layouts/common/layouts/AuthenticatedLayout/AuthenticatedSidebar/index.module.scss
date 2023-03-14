@@ -7,6 +7,7 @@ $bgColor: rgba(201, 203, 208, 0.2);
   height: 100vh; 
   z-index: 1;
   background: linear-gradient(180deg, #433E99 0%, #8F599D 100%);
+  z-index: 99999;
 }
 
 @media (max-width: $md-breakpoint) {

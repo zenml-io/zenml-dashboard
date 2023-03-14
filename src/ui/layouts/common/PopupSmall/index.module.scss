@@ -4,21 +4,20 @@
   position: fixed;
   background: rgba(217, 217, 217, 0.2);
   backdrop-filter: blur(1px);
-  opacity: 0.5;
   height: 100vh;
   width: 100vw;
   top: 0;
   left: 0;
-  z-index: 9999;
+  z-index: 1;
 }
 
 .popup {
   background: #ffffff;
   border-radius: 4px;
   position: fixed;
-  max-height: 70vh;
+  // max-height: 70vh;
   min-height: 200px;
-  min-width: 700px;
+  // min-width: 528px;
   overflow-x: auto;
 }
 

@@ -23,7 +23,7 @@ export const BasePage: React.FC<{
   children,
 }) => {
   return (
-    <AuthenticatedLayout>
+    <AuthenticatedLayout breadcrumb={[...breadcrumbs]} >
       <SidebarContainer>
         <IfElse
           condition={!!headerWithButtons}

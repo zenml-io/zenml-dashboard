@@ -1,11 +1,7 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { FlexBox, Box } from '../../../components';
-import { Breadcrumbs } from '../../common/Breadcrumbs';
-
-import { CreateStackButton } from './CreateStackButton';
-import { DocumentationLink } from './DocumentationLink';
+import { FlexBox, Box, Paragraph } from '../../../components';
 
 import styles from './index.module.scss';
 import { constantCommandsToCreateStack } from '../../../../constants/constantCommands';
@@ -22,10 +18,12 @@ const DefaultHeader: React.FC<{
     className={cn(styles.header, 'd-none d-md-block')}
   >
     <FlexBox fullHeight alignItems="center">
-      <Breadcrumbs breadcrumbs={breadcrumbs} />
+      <Paragraph style={{ fontSize: '42px', fontWeight: 'bold', lineHeight: '48px', color: '#424240' }}>{breadcrumbs[0]?.name}</Paragraph>
     </FlexBox>
     <FlexBox alignItems="center">
-      <Box marginRight="lg">{renderRight && renderRight()}</Box>
+      <Paragraph style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}>
+        Check out our easy to read <a style={{ color: '#443E99' }} href={constantCommandsToCreateStack.documentation} target='__blank'>document</a>    
+      </Paragraph>
     </FlexBox>
   </FlexBox>
 );
@@ -42,7 +40,7 @@ const HeaderWithButtons: React.FC<{
     className={styles.header}
   >
     <FlexBox className="d-none d-md-flex">
-      <Breadcrumbs breadcrumbs={breadcrumbs} />
+     <Paragraph style={{ fontSize: '42px', fontWeight: 'bold', lineHeight: '48px', color: '#424240' }}>{breadcrumbs[0]?.name}</Paragraph>
     </FlexBox>
     <FlexBox
       alignItems="center"
@@ -51,11 +49,13 @@ const HeaderWithButtons: React.FC<{
       className={styles.rightWrapper}
     >
       <Box marginRight="lg" className={styles.dynamicHeaderRight}>
-        {renderRight && renderRight()}
+        <Paragraph style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}>
+          Check out our easy to read <a style={{ color: '#443E99' }} href={constantCommandsToCreateStack.documentation} target='__blank'>document</a>    
+        </Paragraph>  
       </Box>
-      <CreateStackButton />
+      {/* <CreateStackButton />
 
-      <DocumentationLink text={constantCommandsToCreateStack.documentation} />
+      <DocumentationLink text={constantCommandsToCreateStack.documentation} /> */}
     </FlexBox>
   </FlexBox>
 );

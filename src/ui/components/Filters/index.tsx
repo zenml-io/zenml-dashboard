@@ -794,7 +794,8 @@ const FilterComponent = ({
 
         <FlexBox
           fullWidth
-          className="border  rounded rounded-4 p-2 align-item-center"
+          className="rounded rounded-4 p-2 align-item-center"
+          style={{ border: '1px solid #C9CBD0' }}
         >
           <Box
             onClick={() => {

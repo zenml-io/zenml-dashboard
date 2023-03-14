@@ -178,7 +178,7 @@
                 "title": "New Invitation Token",
                 "text": " Generate a new invite token for",
                 "button": {
-                  "text": "Generate Token"
+                  "text": "reGenerate Token"
                 }
               },
               "plus": {

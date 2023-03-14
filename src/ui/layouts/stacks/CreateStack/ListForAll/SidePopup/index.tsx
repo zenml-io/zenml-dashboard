@@ -49,7 +49,7 @@ export const SidePopup: React.FC<{
       >
         <Box className={styles.popupClose}>
           <LinkBox onClick={onClose}>
-            <icons.closeWithBorder />
+            <icons.close />
           </LinkBox>
         </Box>
 
