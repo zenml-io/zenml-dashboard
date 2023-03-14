@@ -209,6 +209,7 @@ export const StackDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
     >
       <CollapseTable
+        pagination={false}
         renderAfterRow={(stack: TStack) => <></>}
         headerCols={headerCols}
         tableRows={filteredStacks}

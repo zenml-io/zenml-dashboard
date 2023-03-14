@@ -24,7 +24,10 @@ export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
 
       <FlexBox flexDirection="column" className={styles.content} flex={1}>
         <Box>
-          <AuthenticatedHeader breadcrumb={breadcrumb} setMobileMenuOpen={setMobileMenuOpen} />
+          <AuthenticatedHeader
+            breadcrumb={breadcrumb}
+            setMobileMenuOpen={setMobileMenuOpen}
+          />
         </Box>
         <FlexBox>{children}</FlexBox>
       </FlexBox>
