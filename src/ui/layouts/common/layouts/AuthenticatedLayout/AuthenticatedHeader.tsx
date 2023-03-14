@@ -248,14 +248,12 @@ export const AuthenticatedHeader: React.FC<{
                           </Paragraph>
                           <Box
                             paddingRight="sm"
-                            style={
-                              {
-                                // backgroundColor: 'red',
-                              }
-                            }
+                            style={{
+                              alignSelf: 'center',
+                            }}
                           >
                             <icons.emptyRightArrow
-                              style={{ marginLeft: '3px', marginTop: '1px' }}
+                              style={{ marginLeft: '3px' }}
                               size={iconSizes.xs}
                               color={iconColors.primary}
                             />
