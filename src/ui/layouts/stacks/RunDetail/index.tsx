@@ -70,7 +70,7 @@ const getBreadcrumbs = ({
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.stack.statistics(runId, stackId, selectedWorkspace),
+      to: routePaths.run.stack.statistics(selectedWorkspace, runId, stackId),
     },
   ];
 };
@@ -116,6 +116,7 @@ export const RunDetail: React.FC = () => {
   // const headStyle = { color: '#828282' };
   return (
     <BasePage
+      headerWithButtons
       tabPages={tabPages}
       tabBasePath={routePaths.run.stack.base(runId, stackId)}
       breadcrumbs={breadcrumbs}

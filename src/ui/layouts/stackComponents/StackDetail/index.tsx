@@ -96,15 +96,15 @@ const getTabPages = (
         selectedWorkspace,
       ),
     },
-    {
-      text: translate('tabs.runs.text'),
-      Component: FilterWrapperForRun,
-      path: routePaths.stackComponents.runs(
-        locationPath.split('/')[4],
-        stackId,
-        selectedWorkspace,
-      ),
-    },
+    // {
+    //   text: translate('tabs.runs.text'),
+    //   Component: FilterWrapperForRun,
+    //   path: routePaths.stackComponents.runs(
+    //     locationPath.split('/')[4],
+    //     stackId,
+    //     selectedWorkspace,
+    //   ),
+    // },
     {
       text: 'Stacks',
       Component: FilterWrapperForStacks,

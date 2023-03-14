@@ -108,6 +108,7 @@ export const RunDetail: React.FC = () => {
   // const history = useHistory();
   return (
     <BasePage
+      headerWithButtons
       tabPages={tabPages}
       tabBasePath={routePaths.run.run.base(runId)}
       breadcrumbs={breadcrumbs}
