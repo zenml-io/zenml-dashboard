@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './index.module.scss'
 import { useDispatch } from 'react-redux';
 import {
-  Box,
+  Box, 
   FlexBox,
   H4,
   Paragraph,
@@ -17,12 +17,15 @@ import { rolesSelectors } from '../../../../redux/selectors';
 import { useSelector } from '../../../hooks';
 import { RoleSelectorAPI } from './RoleSelector/RoleSelectorAPI';
 import { formatDateToDisplayWithoutTime } from '../../../../utils';
-import userImage from '../../../assets/userImage.png'
+import { getInitials } from '../../../../utils/name';
 
 export const UpdateMember: React.FC<{ member: any, setEditPopup: any, setShowPasswordUpdate: any, setUser: any }> = ({ member, setEditPopup, setShowPasswordUpdate, setUser }) => {
   
   const dispatch = useDispatch();
   const roles = useSelector(rolesSelectors.getRoles);
+
+  const userFullName = member?.fullName || member?.fullName || member?.name;
+  const userInitials = getInitials(userFullName as string);
 
   const [allRoles, setAllRoles] = useState(roles?.map((e) => {
     return { value: e.id, label: e.name };
@@ -67,7 +70,14 @@ export const UpdateMember: React.FC<{ member: any, setEditPopup: any, setShowPas
 
           <FlexBox.Row marginTop="lg" justifyContent='center'>
             <Box className={styles.userImage}>
-              <img src={userImage} alt='userImage' />
+              {/* <img src={userImage} alt='userImage' /> */}
+              <FlexBox
+                  justifyContent="center"
+                  alignItems="center"
+                  className={styles.sampleImage}
+                >
+                  {userInitials}
+                </FlexBox>
             </Box>
           </FlexBox.Row>
         

@@ -111,7 +111,7 @@ export const InvitePopup: React.FC<{
 
         <FlexBox.Row marginTop="lg" justifyContent='center'>
           <Box className={styles.userImage}>
-            <img src={userImage} alt='userImage' />
+           <img src={userImage} alt='userImage' />
           </Box>
         </FlexBox.Row>
         

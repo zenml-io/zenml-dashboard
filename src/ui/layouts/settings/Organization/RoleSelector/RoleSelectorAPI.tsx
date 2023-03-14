@@ -91,8 +91,8 @@ export const RoleSelectorAPI = ({ allRoles, setAllRoles, memberId }: RoleSelecto
                                     key={index}
                                     >
                                     <Paragraph className={styles.roleColor}>
-                                        {option.label}
-                                        {/* {option.label.charAt(0).toUpperCase() + option.label?.slice(1)} */}
+                                        {/* {option.label} */}
+                                        {option?.label?.charAt(0).toUpperCase() + option?.label?.slice(1)}
                                     </Paragraph>
                                     </Box>
                                 ))}
@@ -104,8 +104,8 @@ export const RoleSelectorAPI = ({ allRoles, setAllRoles, memberId }: RoleSelecto
                 </div>           
                 {role?.map((e: any) => (
                     <div className={styles.roleBean}>
-                        {/* <p>{e?.role?.name?.charAt(0)?.toUpperCase() + e?.role?.name?.slice(1)} <span onClick={() => removeRoleBean(e)} >x</span></p> */}
-                        <p>{e?.role?.name} <span onClick={() => removeRoleBean(e)}>x</span></p>
+                        <p>{e?.role?.name?.charAt(0)?.toUpperCase() + e?.role?.name?.slice(1)} <span onClick={() => removeRoleBean(e)} >x</span></p>
+                        {/* <p>{e?.role?.name} <span onClick={() => removeRoleBean(e)}>x</span></p> */}
                     </div>
                  ))}
             </Row>

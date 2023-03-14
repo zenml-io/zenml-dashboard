@@ -232,6 +232,7 @@ export const EditFieldSettings = (
               value={props.value}
               placeholder={props.placeholder}
               disabled={disabled}
+              autoFocus={disabled === false && true}
             />
           }
         />

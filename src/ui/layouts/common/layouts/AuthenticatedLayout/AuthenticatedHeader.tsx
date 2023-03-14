@@ -112,7 +112,7 @@ export const AuthenticatedHeader: React.FC<{
   //         push(routePaths.home(window.location.pathname.split('/')[2]));
   //       }
   //     }
-  //   };
+  //   }; 
   // });
   if (!user) return null;
 

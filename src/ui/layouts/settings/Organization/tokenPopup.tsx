@@ -20,8 +20,7 @@ import { useDispatch, useSelector } from '../../../hooks';
 import { PopupSmall } from '../../common/PopupSmall';
 import { organizationSelectors } from '../../../../redux/selectors';
 import { RoleSelectorReadOnly } from './RoleSelector/RoleSelectorReadOnly';
-import userImage from '../../../assets/userImage.png'
-
+import { getInitials } from '../../../../utils/name';
 
 export const TokenPopup: React.FC<{
   id: string;
@@ -34,6 +33,9 @@ export const TokenPopup: React.FC<{
   
   const [submitting, setSubmitting] = useState(false);
   const [showTokField, setShowTokField] = useState(false);
+
+  const userFullName = fullName || fullName || username;
+  const userInitials = getInitials(userFullName as string);
 
   const dispatch = useDispatch();
 
@@ -76,7 +78,14 @@ export const TokenPopup: React.FC<{
         
           <FlexBox.Row marginTop="lg" justifyContent='center'>
             <Box className={styles.userImage}>
-              <img src={userImage} alt='userImage' />
+              {/* <img src={userImage} alt='userImage' /> */}
+              <FlexBox
+                  justifyContent="center"
+                  alignItems="center"
+                  className={styles.sampleImage}
+                >
+                  {userInitials}
+                </FlexBox>
             </Box>
           </FlexBox.Row>
         

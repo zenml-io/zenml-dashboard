@@ -28,6 +28,7 @@ export const Organization: React.FC = () => {
   if (authToken) {
     var decoded: any = jwt_decode(authToken as any);
   }
+  // eslint-disable-next-line
   const [fetchingMembers, setFetchingMembers] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);

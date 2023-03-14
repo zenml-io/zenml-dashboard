@@ -2,14 +2,19 @@ import React, { useState } from 'react'
 import styles from './index.module.scss'
 
 import { FlexBox, Box, Row, Paragraph } from '../../../../components'
-import userImage from '../../../../assets/userImage.png'
+// import userImage from '../../../../assets/userImage.png'
 import { UpdateMember } from '../UpdateMember'
 import { TokenPopup } from '../tokenPopup'
+import { getInitials } from '../../../../../utils/name';
+
 
 const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
   
     const [editPopup, setEditPopup] = useState(false)
     const [tokenPopup, setTokenPopup] = useState(false)
+
+    const userFullName = data?.fullName || data?.fullName || data?.name;
+    const userInitials = getInitials(userFullName as string);
 
     const handleTokenPopup = (e: any) => {
         e.stopPropagation() 
@@ -25,7 +30,14 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
 
         <Box>
             <Box className={styles.imageContainer}>
-                <img src={userImage} alt='userImage' />             
+                {/* <img src={userImage} alt='userImage' /> */}
+                <FlexBox
+                  justifyContent="center"
+                  alignItems="center"
+                  className={styles.sampleImage}
+                >
+                  {userInitials}
+                </FlexBox>
             </Box>
 
             <Box marginTop='sm'>
