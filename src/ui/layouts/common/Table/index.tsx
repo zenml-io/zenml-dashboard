@@ -83,6 +83,7 @@ export const Table: React.FC<TableProps> = ({
   const mouseDown = (index: any) => {
     setActiveIndex(index);
   };
+  console.log('paginatomnanas', paginated, pagination);
 
   const mouseMove = useCallback(
     (e) => {
@@ -137,9 +138,12 @@ export const Table: React.FC<TableProps> = ({
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  // style={{ marginBottom: '90px' }}
+  
   return (
-    <FlexBox.Column fullWidth>
+    <FlexBox.Column
+      fullWidth
+      style={{ marginBottom: pagination ? '90px' : '0px' }}
+    >
       <IfElse
         condition={tableRows.length > 0 && !loading}
         renderWhenTrue={() => (

@@ -18,11 +18,29 @@ const DefaultHeader: React.FC<{
     // className={cn(styles.header, 'd-none d-md-block')}
   >
     <FlexBox fullHeight alignItems="center">
-      <Paragraph style={{ fontSize: '42px', fontWeight: 'bold', lineHeight: '48px', color: '#424240' }}>{breadcrumbs[0]?.name}</Paragraph>
+      <Paragraph
+        style={{
+          fontSize: '42px',
+          fontWeight: 'bold',
+          lineHeight: '48px',
+          color: '#424240',
+        }}
+      >
+        {breadcrumbs[0]?.name}
+      </Paragraph>
     </FlexBox>
     <FlexBox alignItems="center">
-      <Paragraph style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}>
-          Check out our easy to read <a style={{ color: '#443E99' }} href={constantCommandsToCreatePipeline.documentation} target='__blank'>document</a>    
+      <Paragraph
+        style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}
+      >
+        Check out our easy to read{' '}
+        <a
+          style={{ color: '#443E99' }}
+          href={constantCommandsToCreatePipeline.documentation}
+          target="__blank"
+        >
+          document
+        </a>
       </Paragraph>
     </FlexBox>
   </FlexBox>
@@ -40,7 +58,16 @@ const HeaderWithButtons: React.FC<{
     className={styles.header}
   >
     <FlexBox className="d-none d-md-flex">
-      <Paragraph style={{ fontSize: '42px', fontWeight: 'bold', lineHeight: '48px', color: '#424240' }}>{breadcrumbs[0]?.name}</Paragraph>
+      <Paragraph
+        style={{
+          fontSize: '42px',
+          fontWeight: 'bold',
+          lineHeight: '48px',
+          color: '#424240',
+        }}
+      >
+        {breadcrumbs[0]?.name}
+      </Paragraph>
     </FlexBox>
     <FlexBox
       alignItems="center"
@@ -49,8 +76,17 @@ const HeaderWithButtons: React.FC<{
       className={styles.rightWrapper}
     >
       <Box marginRight="lg" className={styles.dynamicHeaderRight}>
-        <Paragraph style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}>
-          Check out our easy to read <a style={{ color: '#443E99' }} href={constantCommandsToCreatePipeline.documentation} target='__blank'>document</a>    
+        <Paragraph
+          style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}
+        >
+          Check out our easy to read{' '}
+          <a
+            style={{ color: '#443E99' }}
+            href={constantCommandsToCreatePipeline.documentation}
+            target="__blank"
+          >
+            document
+          </a>
         </Paragraph>
       </Box>
       {/* <CreatePipelineButton /> */}

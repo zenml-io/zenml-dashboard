@@ -19,15 +19,23 @@ export const Breadcrumbs: React.FC<BreadcrumbsInterface> = ({
   breadcrumbs,
 }) => (
   <FlexBox.Row flexWrap fullWidth>
-    {
-    breadcrumbs?.map((breadcrumb: TBreadcrumb, index: number) => {
+    {breadcrumbs?.map((breadcrumb: TBreadcrumb, index: number) => {
       return (
-        <FlexBox key={index} paddingVertical="sm" marginBottom='lg'>
+        <FlexBox key={index} paddingVertical="sm" marginBottom="lg">
           <IfElse
             condition={!!breadcrumb.clickable}
             renderWhenFalse={() => (
               <Truncate maxLines={1}>
-                <Paragraph style={{ fontSize: '42px', fontWeight: 'bold', lineHeight: '48px', color: '#424240' }}>{breadcrumb.name}</Paragraph>
+                <Paragraph
+                  style={{
+                    fontSize: '42px',
+                    fontWeight: 'bold',
+                    lineHeight: '48px',
+                    color: '#424240',
+                  }}
+                >
+                  {breadcrumb.name}
+                </Paragraph>
               </Truncate>
             )}
             renderWhenTrue={() => (
@@ -38,18 +46,28 @@ export const Breadcrumbs: React.FC<BreadcrumbsInterface> = ({
               >
                 <Truncate maxLines={1}>
                   <IfElse
-                    condition={breadcrumbs.length === index + 2}
-                    renderWhenFalse={() => (<></>)}
-                    renderWhenTrue={() => <Paragraph color='black' style={{ marginTop: '20px' }}>{breadcrumb.name}</Paragraph>}
+                    condition={breadcrumbs.length === index + 1}
+                    renderWhenFalse={() => (
+                      <Paragraph color="grey" style={{ marginTop: '20px' }}>
+                        {breadcrumb.name}
+                      </Paragraph>
+                    )}
+                    renderWhenTrue={() => (
+                      <Paragraph color="black" style={{ marginTop: '20px' }}>
+                        {breadcrumb.name}
+                      </Paragraph>
+                    )}
                   />
                 </Truncate>
               </NavLink>
             )}
           />
-          <If condition={breadcrumbs.length > index + 2}>
+          <If condition={breadcrumbs.length > index + 1}>
             {() => (
               <Box paddingHorizontal="sm">
-                <Paragraph color="grey" style={{ marginTop: '20px' }}>{'>'}</Paragraph>
+                <Paragraph color="grey" style={{ marginTop: '20px' }}>
+                  {'>'}
+                </Paragraph>
               </Box>
             )}
           </If>

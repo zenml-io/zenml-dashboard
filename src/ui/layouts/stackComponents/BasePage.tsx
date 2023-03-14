@@ -35,7 +35,7 @@ export const BasePage: React.FC<{
   const locationPath = useLocationPath();
   return (
     <>
-      <AuthenticatedLayout>
+      <AuthenticatedLayout breadcrumb={[...breadcrumbs]}>
         <SidebarContainer>
           <IfElse
             condition={!!headerWithButtons}

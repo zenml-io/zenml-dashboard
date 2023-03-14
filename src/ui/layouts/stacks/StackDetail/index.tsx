@@ -211,6 +211,7 @@ export const StackDetail: React.FC = () => {
     >
     <Box marginTop='lg'>
       <CollapseTable
+        pagination={false}
         renderAfterRow={(stack: TStack) => <></>}
         headerCols={headerCols}
         tableRows={filteredStacks}

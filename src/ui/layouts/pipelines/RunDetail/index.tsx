@@ -82,9 +82,9 @@ const getBreadcrumbs = ({
       name: `Run ${runId}`,
       clickable: true,
       to: routePaths.run.pipeline.statistics(
+        selectedWorkspace,
         runId,
         pipelineId,
-        selectedWorkspace,
       ),
     },
   ];
@@ -131,12 +131,14 @@ export const RunDetail: React.FC = () => {
   // const history = useHistory();
   return (
     <BasePage
+      headerWithButtons
       tabPages={tabPages}
       tabBasePath={routePaths.run.pipeline.base(runId, pipelineId)}
       breadcrumbs={breadcrumbs}
     >
       <Box marginTop='lg'>
         <Table
+          pagination={false}
           headerCols={headerCols}
           tableRows={runRow}
           // emptyState={{ text: emptyStateText }}

@@ -124,8 +124,9 @@ export const PipelineDetail: React.FC = () => {
       tabBasePath={routePaths.pipeline.base(pipeline.id)}
       breadcrumbs={breadcrumbs}
     >
-      <Box marginTop='lg' >
+      <Box marginTop='lg'>
         <CollapseTable
+          pagination={false}
           renderAfterRow={(stack: TStack) => <></>}
           headerCols={headerCols}
           tableRows={filteredPipeline}
