@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   FlexBox,
   InputWithLabel,
@@ -138,21 +138,28 @@ export const CopyField = (
           label={props.label}
           labelColor={props.labelColor}
           InputComponent={
-            props.showTokField ?
+            props.showTokField ? (
               <TextInput
                 {...props}
-                style={{ background: 'rgba(168, 168, 168, 0.2)', border: '1px solid #C9CBD0' }}
+                style={{
+                  background: 'rgba(168, 168, 168, 0.2)',
+                  border: '1px solid #C9CBD0',
+                }}
                 value={`${props.value.slice(0, 30)}...`}
                 placeholder={props.placeholder}
               />
-              :
+            ) : (
               <TextInput
                 {...props}
-                style={{ background: 'rgba(168, 168, 168, 0.2)', border: '1px solid #C9CBD0' }}
-                value='Token'
+                style={{
+                  background: 'rgba(168, 168, 168, 0.2)',
+                  border: '1px solid #C9CBD0',
+                }}
+                value="Token"
                 placeholder={props.placeholder}
               />
-            }
+            )
+          }
         />
 
         {props.showTokField && (
@@ -221,6 +228,7 @@ export const EditField = (
 
 export const EditFieldSettings = (
   props: {
+    inputRef: any;
     label: string;
     labelColor: any;
     placeholder: any;
@@ -229,7 +237,14 @@ export const EditFieldSettings = (
     optional: boolean;
   } & any,
 ): JSX.Element => {
-  const [disabled, setDisabled] = useState(true)
+  const [disabled, setDisabled] = useState(true);
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (inputRef.current && !disabled) {
+      inputRef.current.focus();
+    }
+  }, [disabled]);
+
   return (
     <FlexBox.Column fullWidth>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
@@ -241,16 +256,34 @@ export const EditFieldSettings = (
           InputComponent={
             <TextInput
               {...props}
+              inputRef={inputRef}
               defaultValue={props?.defaultValue}
               value={props.value}
               placeholder={props.placeholder}
               disabled={disabled}
               autoFocus={!disabled}
+              onRemoveFocus={() => setDisabled(!disabled)}
+              // onFocus={(e: any) => e.currentTarget.select()}
             />
           }
         />
         {!props.disabled && (
-          <Box onClick={() => setDisabled(!disabled)} style={{ position: 'absolute', right: '10px', top: '35px', cursor: 'pointer' }}>
+          <Box
+            onClick={() => {
+              setDisabled(!disabled);
+
+              setTimeout(() => {
+                props.inputRef?.current?.focus();
+              }, 10);
+            }}
+            style={{
+              position: 'absolute',
+              right: '10px',
+              top: '35px',
+              cursor: 'pointer',
+            }}
+          >
+            {console.log(disabled, 'disableddisabled')}
             <icons.pen color={iconColors.grey} />
           </Box>
         )}
@@ -295,17 +328,17 @@ export const SearchInputField = (
           onChangeText={props.onChange}
           placeholder={props.placeholder}
         />
-        {props?.value?.length > 0 && 
-        <LinkBox
-          style={{ position: 'absolute', right: '7px', top: '35px' }}
-          onClick={() => props.onChange('')}
-        >
-          <icons.close
-            style={{ position: 'relative', top: '-27px', backgroundColor: '#fff' }}
-            color={iconColors.grey}
-          />
-        </LinkBox>
-        }
+        {props?.value?.length > 0 && (
+          <LinkBox
+            style={{ position: 'absolute', right: '7px', top: '35px' }}
+            onClick={() => props.onChange('')}
+          >
+            <icons.close
+              style={{ position: 'relative', top: '-27px' }}
+              color={iconColors.grey}
+            />
+          </LinkBox>
+        )}
         {/* <InputWithLabel
           name={props.name}
           label={props.label}
