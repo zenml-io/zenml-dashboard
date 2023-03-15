@@ -13,7 +13,7 @@ import {
 import { useLocationPath } from '../../../hooks';
 
 import styles from './index.module.scss';
-
+// Muhammad Ali Zia line: 42 43 44 , styles 
 export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
   pages,
   basePath,
@@ -39,13 +39,15 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                 return (
                   <Box
                     key={index}
-                    paddingBottom="sm"
-                    paddingHorizontal="md"
+                    // paddingBottom="sm"
+                    // paddingHorizontal="md"
+                    marginHorizontal="md"
                     className={joinClassNames(
                       styles.item,
                       isActive ? styles.activeItem : '',
                     )}
                   >
+                    
                     <Link className={styles.link} to={page.path}>
                       <IfElse
                         condition={isActive}

@@ -12,6 +12,8 @@ import { useService } from './useService';
 // import { RunStatus } from './components';
 
 // import { formatDateToDisplayOnTable } from '../../../../utils';
+
+// Muhammad Ali Zia DAG Visualizer line: 32
 import { useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { Runs } from '../../pipelines/PipelineDetail/Runs';
@@ -27,7 +29,7 @@ const getTabPages = ({
 }): TabPage[] => {
   return [
     {
-      text: 'DAG',
+      text: 'DAG Visualizer',
 
       Component: () => <DAG runId={runId} fetching={fetching} />,
       path: routePaths.run.run.statistics(selectedWorkspace, runId),
@@ -105,91 +107,7 @@ export const RunDetail: React.FC = () => {
         fromAllruns={true}
         pipelineId={runId}
       ></Runs>
-      {/* <Box style={boxStyle}>
-        <Box>
-          <Paragraph style={headStyle}>RUN ID</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {run.id}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>RUN NAME</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {run.name}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>PIPELINE NAME</Paragraph>
-          <Paragraph
-            size="small"
-            style={{
-              color: '#22BBDD',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-              marginTop: '10px',
-            }}
-            onClick={(event) => {
-              event.stopPropagation();
-              history.push(
-                routePaths.pipeline.configuration(
-                  run.pipeline?.id,
-                  selectedWorkspace,
-                ),
-              );
-            }}
-          >
-            {run.pipeline?.name}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>STATUS</Paragraph>
-          <Paragraph
-            style={{
-              marginTop: '10px',
-              justifyContent: 'center',
-              borderRadius: '50%',
-              height: '25px',
-              width: '25px',
-              paddingTop: '3px',
-              textAlign: 'center',
-            }}
-          >
-            <RunStatus run={run} />
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>STACK NAME</Paragraph>
-          <Paragraph
-            size="small"
-            style={{
-              color: '#22BBDD',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-              marginTop: '10px',
-            }}
-            onClick={(event) => {
-              event.stopPropagation();
-              history.push(
-                routePaths.stack.configuration(run.stack?.id, selectedWorkspace),
-              );
-            }}
-          >
-            {run.stack?.name}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>AUTHOR</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {run?.user?.name}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>CREATED</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateToDisplayOnTable(run.created)}
-          </Paragraph>
-        </Box>
-      </Box> */}
+      
     </BasePage>
   );
 };

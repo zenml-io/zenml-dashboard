@@ -208,15 +208,38 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
                         :
                         ""}
                     {configShow && configShow === "__RUNS" ?
-                        <div style={{margin:'auto'}}>
+                        <div style={{ margin: 'auto' }}>
                             __RUNS
                         </div>
                         :
                         ""}
                     {configShow && configShow === "__STACK" ?
-                        <div>
-                            __STACK
-                        </div>
+
+                        <table className='sidebar_table'>
+                            <tr>
+                                <td className='td_key'>name</td>
+                                <td className='td_value' style={{}}>{node?.step?.config?.name}</td>
+                            </tr>
+                           
+                            <tr>
+                                <td className='td_key'>enable_artifact_metadata</td>
+                                <td className='td_value' style={{color:node?.step?.config?.enable_artifact_metadata? "#431d93" : "#431d93"}}>{node?.step?.config?.enable_artifact_metadata || "null"}</td>
+                            </tr>
+                            <tr>
+                                <td className='td_key'>enable_cache</td>
+                                <td className='td_value' style={{color:node?.step?.config?.enable_cache ? "#2ECC71" : "#ea1b48"}}>{node?.step?.config?.enable_cache ? "true" : "false"}</td>
+                            </tr>
+                            <tr>
+                                <td className='td_key'>pipeline_parameter_name</td>
+                                <td className='td_value' style={{}}>{node?.step?.spec?.pipeline_parameter_name}</td>
+                            </tr>
+                            <tr>
+                                <td className='td_key'>source</td>
+                                <td className='td_value' style={{}}>{node?.step?.spec?.source}</td>
+                            </tr>
+
+                        </table>
+
                         :
                         ""}
                 </>
@@ -385,11 +408,11 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                     <div className='siderbar_arrow'>
 
                         {sidebar ?
-                            
+
                             <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} />
                             :
-                            <img src={circleArrowSideClose} alt={"open"} onClick={()=>setSidebar(false)}/>
-                            
+                            <img src={circleArrowSideClose} alt={"open"} onClick={() => setSidebar(false)} />
+
                         }
 
                     </div>

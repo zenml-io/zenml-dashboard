@@ -412,7 +412,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
           </div> */}
           {/* {console.log({ artifact: ArtifactNode.type })} */}
           {/* {selectedNode == null ? "" : <Sidebar selectedNode={selectedNode} />} */}
-          {selectedNode == null ? "asd" : <Sidebar selectedNode={selectedNode} />}
+          {selectedNode == null ? <div>Select a node</div> : <Sidebar selectedNode={selectedNode} />}
 
           {/* {sidebar ?
             <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(!sidebar)} style={{ position: 'absolute', right: -50 }} />

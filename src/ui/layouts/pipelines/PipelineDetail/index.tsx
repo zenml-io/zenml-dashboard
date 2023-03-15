@@ -144,6 +144,7 @@ export const PipelineDetail: React.FC = () => {
         </Box>
       </Box> */}
     </BasePage>
+
   );
 };
 

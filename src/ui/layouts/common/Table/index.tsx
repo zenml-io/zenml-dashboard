@@ -336,12 +336,14 @@ export const Table: React.FC<TableProps> = ({
 
   // i !== 0 &&
 
+  // FILTER HEADER
   return (
     <FlexBox.Column fullWidth>
       <IfElse
         condition={tableRows.length > 0 && !loading}
         renderWhenTrue={() => (
           <>
+          
             <div>
               <div>
                 <table
@@ -375,7 +377,7 @@ export const Table: React.FC<TableProps> = ({
                           >
                             {text.render && text.render()}
                           </Box>
-
+                          
                           <div
                             style={{ height: tableHeight }}
                             onMouseDown={() => mouseDown(i)}
