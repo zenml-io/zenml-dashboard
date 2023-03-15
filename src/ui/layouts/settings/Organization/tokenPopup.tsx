@@ -115,9 +115,15 @@ export const TokenPopup: React.FC<{
               <Separator.LightNew />
             </Box>          
             <FlexBox justifyContent="center" flexWrap>
-             <Paragraph style={{ cursor: 'pointer', color: '#443E99' }}  onClick={generateToken}>
-                {submitting ? <>Generating</> : translate('popup.generateInviteModal.button.text')}
-              </Paragraph>
+              {!showTokField ? 
+                <Paragraph style={{ cursor: 'pointer', color: '#443E99' }}  onClick={generateToken}>
+                  {submitting ? <>Generating</> : translate('popup.generateInviteModal.button.text')}
+                </Paragraph>
+              :
+                <Paragraph style={{ cursor: 'no-drop', color: '#A8A8A8' }}>
+                  {translate('popup.generateInviteModal.button.text')}
+                </Paragraph>
+              }
             </FlexBox>
           </Box>
 

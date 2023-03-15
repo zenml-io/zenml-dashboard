@@ -28,6 +28,7 @@ import {
 } from '../../../../redux/selectors';
 import userImage from '../../../assets/userImage.png'
 import axios from 'axios';
+import { RoleSelectorReadOnly } from './RoleSelector/RoleSelectorReadOnly';
 
 export const InvitePopup: React.FC<{ 
   setPopupOpen: (attr: boolean) => void;
@@ -103,6 +104,10 @@ export const InvitePopup: React.FC<{
     }
   };
 
+  const preRoles = role?.map((e: any) => {
+    return { id: e?.value, name: e?.label }
+  })
+
   return (
     <>
       <PopupSmall onClose={() => setPopupOpen(false)} width='370px' showCloseIcon={false}>
@@ -142,7 +147,7 @@ export const InvitePopup: React.FC<{
           /> */}
         </Box>
 
-        {!showTokField && ( 
+        {!showTokField ? ( 
           <Box marginTop='lg'>   
             <RoleSelector
               allRoles={allRoles}
@@ -150,6 +155,10 @@ export const InvitePopup: React.FC<{
               setAllRoles={setAllRoles}
               setRole={setRole}  
             />
+          </Box>
+        ) : (
+          <Box marginTop='lg'>   
+            <RoleSelectorReadOnly roles={preRoles} />
           </Box>
         )} 
         
@@ -167,7 +176,7 @@ export const InvitePopup: React.FC<{
           <Box marginBottom="md">
             <Separator.LightNew />
           </Box>          
-          <FlexBox justifyContent="center" flexWrap marginBottom='md' >
+          <FlexBox justifyContent="center" flexWrap>
             {name && role?.length > 0 && !showTokField ?
               <Paragraph style={{ cursor: 'pointer', color: '#443E99' }} onClick={inviteNewMembers}>Generate Token</Paragraph>
             :
