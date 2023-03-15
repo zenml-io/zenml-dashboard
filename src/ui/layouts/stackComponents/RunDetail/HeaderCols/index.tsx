@@ -28,7 +28,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
         <Paragraph
           size="small"
           color="black"
-          style={{ fontSize: '12px', marginLeft: '33px' }}
+          style={{ fontSize: '14px', marginLeft: '33px' }}
         >
           RUN ID
         </Paragraph>
@@ -53,7 +53,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
           RUN NAME
         </Paragraph>
       ),
@@ -71,7 +71,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
           PIPELINE
         </Paragraph>
       ),
@@ -113,7 +113,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
           STATUS
         </Paragraph>
       ),
@@ -123,7 +123,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
 
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
           STACK NAME
         </Paragraph>
       ),
@@ -160,7 +160,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
 
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
           AUTHOR
         </Paragraph>
       ),
@@ -197,7 +197,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
           CREATED AT
         </Paragraph>
       ),

@@ -1,5 +1,5 @@
 import React from 'react';
-import cn from 'classnames';
+// import cn from 'classnames';
 
 import { FlexBox, Box, Paragraph } from '../../../components';
 
@@ -12,10 +12,10 @@ const DefaultHeader: React.FC<{
 }> = ({ breadcrumbs, renderRight }) => (
   <FlexBox
     marginTop="xl"
-    marginBottom="lg"
+    // marginBottom="lg"
     alignItems="center"
     justifyContent="space-between"
-    className={cn(styles.header, 'd-none d-md-block')}
+    // className={cn(styles.header, 'd-none d-md-block')}
   >
     <FlexBox fullHeight alignItems="center">
       <Paragraph
@@ -52,7 +52,7 @@ const HeaderWithButtons: React.FC<{
 }> = ({ breadcrumbs, renderRight }) => (
   <FlexBox
     marginTop="xl"
-    marginBottom="lg"
+    // marginBottom="lg"
     alignItems="center"
     justifyContent="space-between"
     className={styles.header}

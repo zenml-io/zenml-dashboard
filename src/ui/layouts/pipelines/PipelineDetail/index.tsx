@@ -11,6 +11,7 @@ import { useService } from './useService';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
+import { Box } from '../../../components';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
@@ -123,14 +124,16 @@ export const PipelineDetail: React.FC = () => {
       tabBasePath={routePaths.pipeline.base(pipeline.id)}
       breadcrumbs={breadcrumbs}
     >
-      <CollapseTable
-        pagination={false}
-        renderAfterRow={(stack: TStack) => <></>}
-        headerCols={headerCols}
-        tableRows={filteredPipeline}
-        emptyState={{ text: translate('emptyState.text') }}
-        trOnClick={openDetailPage}
-      />
+      <Box marginTop='lg'>
+        <CollapseTable
+          pagination={false}
+          renderAfterRow={(stack: TStack) => <></>}
+          headerCols={headerCols}
+          tableRows={filteredPipeline}
+          emptyState={{ text: translate('emptyState.text') }}
+          trOnClick={openDetailPage}
+        />
+      </Box>
       {/* <List filter={[]} pagination={false} isExpended id={pipeline.id}></List> */}
       {/* <Box style={boxStyle}>
         <Box>

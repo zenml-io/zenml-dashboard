@@ -138,7 +138,7 @@ export const Table: React.FC<TableProps> = ({
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-
+  
   return (
     <FlexBox.Column
       fullWidth

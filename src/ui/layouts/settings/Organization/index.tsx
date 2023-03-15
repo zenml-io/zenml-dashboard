@@ -14,7 +14,7 @@ import { InvitePopup } from './InvitePopup';
 import { useService } from './useService';
 import { rolesActions } from '../../../../redux/actions/roles';
 import {
-  sessionSelectors,
+  sessionSelectors
 } from '../../../../redux/selectors';
 import jwt_decode from 'jwt-decode';
 

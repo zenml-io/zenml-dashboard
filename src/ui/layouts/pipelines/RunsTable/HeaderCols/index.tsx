@@ -63,7 +63,7 @@ export const useHeaderCols = ({
         //       <Paragraph
         //         size="small"
         //         color="grey"
-        //         style={{ fontSize: '12px' }}
+        //         style={{ fontSize: '14px' }}
         //       ></Paragraph>
         //     </FlexBox>
         //   ),
@@ -85,7 +85,7 @@ export const useHeaderCols = ({
               <Paragraph
                 size="small"
                 color="black"
-                style={{ fontSize: '12px', marginLeft: '30px' }}
+                style={{ fontSize: '14px', marginLeft: '30px' }}
               >
                 RUN ID
               </Paragraph>
@@ -135,7 +135,7 @@ export const useHeaderCols = ({
               <Paragraph
                 size="small"
                 color="black"
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: '14px' }}
               >
                 RUN NAME
               </Paragraph>
@@ -173,7 +173,7 @@ export const useHeaderCols = ({
                 <Paragraph
                   size="small"
                   color="black"
-                  style={{ fontSize: '12px', marginLeft: '-24px' }}
+                  style={{ fontSize: '14px', marginLeft: '-24px' }}
                 >
                   STATUS
                 </Paragraph>
@@ -210,7 +210,7 @@ export const useHeaderCols = ({
               <Paragraph
                 size="small"
                 color="black"
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: '14px' }}
               >
                 CREATED
               </Paragraph>
@@ -253,7 +253,7 @@ export const useHeaderCols = ({
         //       <Paragraph
         //         size="small"
         //         color="grey"
-        //         style={{ fontSize: '12px' }}
+        //         style={{ fontSize: '14px' }}
         //       ></Paragraph>
         //     </FlexBox>
         //   ),
@@ -275,7 +275,7 @@ export const useHeaderCols = ({
               <Paragraph
                 size="small"
                 color="black"
-                style={{ fontSize: '12px', marginLeft: '30px' }}
+                style={{ fontSize: '14px', marginLeft: '30px' }}
               >
                 RUN ID
               </Paragraph>
@@ -325,7 +325,7 @@ export const useHeaderCols = ({
               <Paragraph
                 size="small"
                 color="black"
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: '14px' }}
               >
                 RUN NAME
               </Paragraph>
@@ -362,7 +362,7 @@ export const useHeaderCols = ({
               <Paragraph
                 size="small"
                 color="black"
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: '14px' }}
               >
                 PIPELINE
               </Paragraph>
@@ -425,7 +425,7 @@ export const useHeaderCols = ({
                 <Paragraph
                   size="small"
                   color="black"
-                  style={{ fontSize: '12px', marginLeft: '-24px' }}
+                  style={{ fontSize: '14px', marginLeft: '-24px' }}
                 >
                   STATUS
                 </Paragraph>
@@ -451,7 +451,7 @@ export const useHeaderCols = ({
               <Paragraph
                 size="small"
                 color="black"
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: '14px' }}
               >
                 STACK NAME
               </Paragraph>
@@ -506,7 +506,7 @@ export const useHeaderCols = ({
               <Paragraph
                 size="small"
                 color="black"
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: '14px' }}
               >
                 {translate('author.text')}
               </Paragraph>
@@ -579,7 +579,7 @@ export const useHeaderCols = ({
               <Paragraph
                 size="small"
                 color="black"
-                style={{ fontSize: '12px' }}
+                style={{ fontSize: '14px' }}
               >
                 {translate('createdAt.text')}
               </Paragraph>
