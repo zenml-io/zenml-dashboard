@@ -301,7 +301,7 @@ export const SearchInputField = (
           onClick={() => props.onChange('')}
         >
           <icons.close
-            style={{ position: 'relative', top: '-27px' }}
+            style={{ position: 'relative', top: '-27px', backgroundColor: '#fff' }}
             color={iconColors.grey}
           />
         </LinkBox>
