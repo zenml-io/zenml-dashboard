@@ -9,10 +9,6 @@ import {
   icons,
   If,
   Separator,
-  IfElse,
-  H1,
-  H2,
-  H3,
 } from '../../../../components';
 
 import styles from './AuthenticatedHeader.module.scss';
@@ -41,71 +37,9 @@ import {
 import { routePaths } from '../../../../../routes/routePaths';
 import { WorkspacePopup } from './workspacePopup';
 import ReactTooltip from 'react-tooltip';
-import { Breadcrumbs } from '../../Breadcrumbs';
-import { useService } from '../../../runs/RunDetail/useService';
-import Header from '../../../runs/Header';
 // import { CookiePopup } from './CookiePopup'
 
 // import { endpoints } from '../../../../../api/endpoints';
-
-
-// *********************
-// import { useService } from './useService';
-// MUHAMMAD
-export interface RunDetailRouteParams {
-  id: TId;
-  runId: TId;
-}
-
-// const getTabPages = ({
-//   selectedWorkspace,
-//   runId,
-//   fetching,
-// }: {
-//   selectedWorkspace: string;
-//   runId: TId;
-//   fetching: boolean;
-// }): TabPage[] => {
-//   return [
-//     {
-//       text: 'DAG Visualizer',
-
-//       Component: () => <DAG runId={runId} fetching={fetching} />,
-//       path: routePaths.run.run.statistics(selectedWorkspace, runId),
-//     },
-//     {
-//       text: 'Configuration',
-
-//       Component: () => <Configuration runId={runId} />,
-//       path: routePaths.run.run.results(selectedWorkspace, runId),
-//     },
-//   ];
-// };
-
-const getBreadcrumbs = ({
-  runId,
-  selectedWorkspace,
-}: {
-  runId: TId;
-  selectedWorkspace: string;
-}): TBreadcrumb[] => {
-  return [
-    {
-      name: 'Runs',
-      clickable: true,
-      to: routePaths.pipelines.allRuns(selectedWorkspace),
-    },
-
-    {
-      name: `Run ${runId}`,
-      clickable: true,
-      to: routePaths.run.run.statistics(selectedWorkspace, runId),
-    },
-  ];
-};
-// *********************
-
-
 
 export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
@@ -122,16 +56,6 @@ export const AuthenticatedHeader: React.FC<{
   const dispatch = useDispatch();
   const { push } = usePushRoute();
   const locationPath = useLocationPath();
-
-  // breadcrumb
-  const { runId, fetching } = useService();
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace); //already declared
-  const breadcrumbs = getBreadcrumbs({
-    runId,
-    selectedWorkspace,
-  });
-  console.log("__UNAUTH BREAD : ", breadcrumbs)
-
   // useEffect(() => {
   //   const intervalId = setInterval(() => {
   //     //assign interval to a variable to clear it.
@@ -248,7 +172,7 @@ export const AuthenticatedHeader: React.FC<{
   )
     ? locationPath.split('/')[2].substring(0, 10)
     : selectedWorkspace;
-  // HEADER HERE
+
   return (
     <>
       {createPopupOpen && <WorkspacePopup setPopupOpen={setCreatePopupOpen} />}
@@ -258,26 +182,9 @@ export const AuthenticatedHeader: React.FC<{
         justifyContent="space-between"
         className={styles.header}
         id="header"
-      >
-        {/* <Breadcrumbs breadcrumbs={"ali",false,"a"}/> */}
-
-
-        <IfElse
-          condition={!!true}
-          renderWhenTrue={() => (
-            <Header.HeaderWithButtons
-              breadcrumbs={[...breadcrumbs]}
-            // renderRight={renderHeaderRight}
-            />
-          )}
-          renderWhenFalse={() => (
-            <Header.DefaultHeader
-              breadcrumbs={[...breadcrumbs]}
-            // renderRight={renderHeaderRight}
-            />
-          )}
-        />
-
+        >
+          {/* __UNAUTH */}
+        Muhammad Ali Zia
         <FlexBox alignItems="center">
           <Box className="d-md-none">
             <LinkBox onClick={() => setMobileMenuOpen(true)}>
@@ -285,7 +192,6 @@ export const AuthenticatedHeader: React.FC<{
             </LinkBox>
           </Box>
         </FlexBox>
-
         <If condition={!!userFullName}>
           {() => (
             <Box style={{ position: 'relative' }}>
@@ -406,7 +312,7 @@ export const AuthenticatedHeader: React.FC<{
                             className={styles.popupItem}
                             paddingHorizontal="md"
                             paddingVertical="sm"
-                          // alignItems="center"
+                            // alignItems="center"
                           >
                             <Box paddingRight="sm">
                               <icons.signOut
@@ -427,15 +333,8 @@ export const AuthenticatedHeader: React.FC<{
             </Box>
           )}
         </If>
-
       </FlexBox>
-      <FlexBox>
-        <Box marginHorizontal="lg"  marginTop="sm" marginBottom="md">
-          <H2>
-            {breadcrumbs[0].name}
-          </H2>
-        </Box>
-      </FlexBox>
+                      
       {/* {showCookiePopup !== 'false' && <CookiePopup setShowCookie={setShowCookiePopup} />} */}
     </>
   );

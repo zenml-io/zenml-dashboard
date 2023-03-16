@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import circleArrowSideClose from '../icons/assets/circleArrowSideClose.svg';
 import circleArrowSideOpen from '../icons/assets/circleArrowSideOpen.svg';
 import styles from './index.module.scss'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import ReactSyntaxHighlighter, { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 // import Switch from "react-switch";
 import { useSelector } from '../../hooks';
@@ -31,16 +31,39 @@ const TogglerSwitch: React.FC<any> = ({ label, css }) => {
     )
 }
 
+function printNestedJson(obj: any) {
+    let output = '';
+    for (let key in obj) {
+        if (typeof obj[key] === 'object' && obj[key] !== null) {
+            output += `<p style="color:#443E99; font-size:18px; font-weight:600 ">${key}</p>`;
+            output += printNestedJson(obj[key]);
+        } else if (Array.isArray(obj[key])) {
+            output += `<p style="color:blue; font-size:16px; font-weight:400 ">${key}</p>`;
+            obj[key].forEach((item: any) => output += printNestedJson(item));
+        } else {
+            output += `<div><span><strong style='color:#565e5e; font-size:14px'>${key}</strong><span> : <span style='color:#1dc2a6; font-size:14px'>${obj[key]}<span></p>`;
+            // output += `<p style="color:green; font-size:14px; font-weight:200 ">${key}: ${obj[key]}</p>`;
+        }
+    }
+    return output;
+}
+
+// React component to display nested JSON object
+function JsonDisplay({ data }: any) {
+    const json = printNestedJson(data)
+    const string = JSON.stringify(json)
+    console.log({ string })
+    return (
+        <div dangerouslySetInnerHTML={{ __html: printNestedJson(data) }} style={{ overflow: 'auto', maxHeight: '500px', margin: 20 }} />
+    );
+}
+
 const StepnodeTabHeader: React.FC<any> = ({ node }) => {
     const [show, setShow] = useState("__CONFIG");
     const [configShow, setConfigShow] = useState("__CONFIGURATION");
     const [checked, setChecked] = useState(false);
 
-    // console.log("_CLICKED step node header");
-    // console.log("__UNAUTH STEP DATA", node);
-    // const SwitchHandler = (e) =>{
-
-    // }
+ 
     const TabClickHandler = (tab: string) => {
         switch (tab) {
             case "__CONFIG": return setShow("__CONFIG");
@@ -220,14 +243,14 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
                                 <td className='td_key'>name</td>
                                 <td className='td_value' style={{}}>{node?.step?.config?.name}</td>
                             </tr>
-                           
+
                             <tr>
                                 <td className='td_key'>enable_artifact_metadata</td>
-                                <td className='td_value' style={{color:node?.step?.config?.enable_artifact_metadata? "#431d93" : "#431d93"}}>{node?.step?.config?.enable_artifact_metadata || "null"}</td>
+                                <td className='td_value' style={{ color: node?.step?.config?.enable_artifact_metadata ? "#431d93" : "#431d93" }}>{node?.step?.config?.enable_artifact_metadata || "null"}</td>
                             </tr>
                             <tr>
                                 <td className='td_key'>enable_cache</td>
-                                <td className='td_value' style={{color:node?.step?.config?.enable_cache ? "#2ECC71" : "#ea1b48"}}>{node?.step?.config?.enable_cache ? "true" : "false"}</td>
+                                <td className='td_value' style={{ color: node?.step?.config?.enable_cache ? "#2ECC71" : "#ea1b48" }}>{node?.step?.config?.enable_cache ? "true" : "false"}</td>
                             </tr>
                             <tr>
                                 <td className='td_key'>pipeline_parameter_name</td>
@@ -251,7 +274,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
 }
 const ArtifactTabHeader: React.FC<any> = ({ node }) => {
     const [show, setShow] = useState("__META");
-    console.log("_CLICKED  Artifact header");
+    console.log("_CLICKED  Artifact header", node);
 
     const TabClickHandler = (tab: string) => {
         switch (tab) {
@@ -270,22 +293,7 @@ const ArtifactTabHeader: React.FC<any> = ({ node }) => {
 
             {/* SHOW META */}
             {show === "__META" ?
-                <>
-                    <table className='sidebar_table'>
-                        {/* {node.metadata.map((data: any, i: any) => {
-                            { console.log({ metaData: data }) }
-                            return (
-                                <tr>
-                                    <td className='td_key'>{i}</td>
-                                    <td className='td_key'>{data[0]}</td>
-                                    <td className='td_key'>{data[1]}</td>
-                                    <td className='td_key'>{data[2]}</td>
-                                </tr>
-                            )
-                        })} */}
-                    </table>
-                </>
-
+                <JsonDisplay data={node?.metadata} />
                 : ""}
 
             {/* SHOW ATTRIBUTE */}
@@ -293,17 +301,32 @@ const ArtifactTabHeader: React.FC<any> = ({ node }) => {
             {show === "__ATTRIBUTE" ?
                 <>
                     <table className='sidebar_table'>
-                        {/* {node.metadata.map((data: any, i: any) => {
-                            { console.log({ metaData: data }) }
-                            return (
-                                <tr>
-                                    <td className='td_key'>{i}</td>
-                                    <td className='td_key'>{data[0]}</td>
-                                    <td className='td_key'>{data[1]}</td>
-                                    <td className='td_key'>{data[2]}</td>
-                                </tr>
-                            )
-                        })} */}
+
+                        <tr>
+                            <td className='td_key'>artifact_store_id</td>
+                            <td className='td_value'>{node.artifact_store_id}</td>
+                        </tr>
+                        <tr>
+                            <td className='td_key'>created</td>
+                            <td className='td_value'>{node.created}</td>
+                        </tr>
+                        <tr>
+                            <td className='td_key'>materializer</td>
+                            <td className='td_value'>{node.materializer}</td>
+                        </tr>
+                        <tr>
+                            <td className='td_key'>name</td>
+                            <td className='td_value'>{node.name}</td>
+                        </tr>
+                        <tr>
+                            <td className='td_key'>producer_step_run_id</td>
+                            <td className='td_value'>{node.producer_step_run_id}</td>
+                        </tr>
+                        <tr>
+                            <td className='td_key'>type</td>
+                            <td className='td_value'>{node.type}</td>
+                        </tr>
+
                     </table>
                 </>
                 :
@@ -358,7 +381,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                 },
             ).then((response) => {
 
-                console.log("__UNAUTH fetchMetaData Sidebar", response?.data?.metadata?.dtype)
+                console.log("__UNAUTH fetchMetaData Sidebar artifact", response.data)
                 setArtifact(response?.data); //Setting the response into state
                 return
             })
@@ -384,7 +407,6 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
             setSidebar(true);
         }
         else {
-            // setSidebar(!sidebar)
             setIsStepNode(false);
             console.log("__UNAUTH type false")
             setSidebar(false);
@@ -392,15 +414,9 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
 
         }
         FetchData(type);
-        // setSidebar(false)
     }, [isStepNode])
 
-    // useEffect(()=>{
-    //     setSidebar(true)
-    // },[isStepNode])
-
-
-
+    
     return (
         <div >
             {sidebar ?
@@ -420,13 +436,11 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                         {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />}
 
                         <div className='sidebar_body11'>
-                            {/* {metaDataToggler && metaDataToggler ? <Metadata meta={selectedNode.metadata} /> : ""} */}
                         </div>
                     </div>
                 </div>
                 :
                 <>
-                    {/* <div style={{height:100, width:100, background:'pink'}}></div> */}
                     <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{ position: 'absolute', right: -50 }} />
                 </>
             }

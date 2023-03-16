@@ -14,9 +14,11 @@ import { useService } from './useService';
 // import { formatDateToDisplayOnTable } from '../../../../utils';
 
 // Muhammad Ali Zia DAG Visualizer line: 32
+// DAG Visualizeraa
 import { useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { Runs } from '../../pipelines/PipelineDetail/Runs';
+import { Details } from '../../../components/details';
 
 const getTabPages = ({
   selectedWorkspace,
@@ -39,6 +41,11 @@ const getTabPages = ({
 
       Component: () => <Configuration runId={runId} />,
       path: routePaths.run.run.results(selectedWorkspace, runId),
+    },
+    {
+      text: 'Details',
+      Component: () => <Details runId={runId} />,
+      path: routePaths.run.run.tensorboard(runId),
     },
   ];
 };

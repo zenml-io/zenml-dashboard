@@ -118,7 +118,6 @@ const getBreadcrumbs = (
   locationPath: any,
   selectedWorkspace: string,
 ): TBreadcrumb[] => {
-  console.log({stackId, locationPath, selectedWorkspace})
   return [
     {
       name: camelCaseToParagraph(locationPath.split('/')[4]),
@@ -170,7 +169,90 @@ export const StackDetail: React.FC = () => {
   // const history = useHistory();
 
   return (
-<></>
+    <BasePage
+      headerWithButtons
+      tabPages={tabPages}
+      tabBasePath={routePaths.stackComponents.base(
+        stackComponent.id,
+        selectedWorkspace,
+      )}
+      breadcrumbs={breadcrumbs}
+    >
+      {/* <Box style={boxStyle}>
+        <Box>
+          <Paragraph style={headStyle}>ID</Paragraph>
+          <Paragraph style={paraStyle}>{stackComponent.id}</Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>Shared</Paragraph>
+          <Paragraph
+            style={{
+              marginTop: '10px',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              height: '25px',
+              width: '25px',
+              paddingTop: '3px',
+              textAlign: 'center',
+            }}
+          >
+            {stackComponent.isShared ? (
+              <icons.multiUser color={iconColors.white} size={iconSizes.sm} />
+            ) : (
+              <icons.singleUser color={iconColors.white} size={iconSizes.sm} />
+            )}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>Name</Paragraph>
+          <Paragraph style={paraStyle}>{stackComponent.name}</Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>Flavor</Paragraph>
+          <Paragraph style={paraStyle}>{stackComponent.flavor}</Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>Author</Paragraph>
+          <Paragraph style={paraStyle}>{stackComponent?.user?.name}</Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>Created</Paragraph>
+          <Paragraph style={paraStyle}>
+            {formatDateToDisplayOnTable(stackComponent.created)}
+          </Paragraph>
+        </Box>
+      </Box> */}
+      <Box paddingTop={'xl'}>
+        <StackComponenList
+          filter={[]}
+          pagination={false}
+          isExpended={true}
+          id={id}
+        ></StackComponenList>
+        {/* <>
+          <table className={cn(styles.table)}>
+            <tbody>
+              <tr className={cn(styles.tableHeader)}>
+                <th className={cn(styles.tableHeaderText)}>Id</th>
+                <th className={cn(styles.tableHeaderText)}>Name</th>
+                <th className={cn(styles.tableHeaderText)}>Flavor</th>
+                <th className={cn(styles.tableHeaderText)}>Shared</th>
+                <th className={cn(styles.tableHeaderText)}>Author</th>
+                <th className={cn(styles.tableHeaderText)}>Created</th>
+              </tr>
+              <tr className={cn(styles.tableRow)}>
+                <td>{stackComponent.id}</td>
+                <td>{stackComponent.name}</td>
+                <td>{stackComponent.flavor}</td>
+                <td>{stackComponent.isShared}</td>
+                <td>{stackComponent.user.name}</td>
+                <td> {formatDateToDisplayOnTable(stackComponent.created)}</td>
+              </tr>
+            </tbody>
+          </table>
+        </> */}
+      </Box>
+    </BasePage>
   );
 };
 

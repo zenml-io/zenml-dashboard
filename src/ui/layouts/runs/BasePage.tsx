@@ -23,7 +23,7 @@ export const BasePage: React.FC<{
   return (
     <AuthenticatedLayout>
       <SidebarContainer>
-        {/* <IfElse
+        <IfElse
           condition={!!headerWithButtons}
           renderWhenTrue={() => (
             <Header.HeaderWithButtons
@@ -37,7 +37,7 @@ export const BasePage: React.FC<{
               renderRight={renderHeaderRight}
             />
           )}
-        /> */}
+        />
         <Box>
           {children}
           <Tabs pages={tabPages} basePath={tabBasePath} />

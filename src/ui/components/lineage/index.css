@@ -1,5 +1,5 @@
 .layout {
-  overflow: hidden;
+  /* overflow: hidden; */
   display: grid;
   grid-template-columns: 100fr 1fr;
   position: relative;
@@ -223,19 +223,19 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 99;
+  /* z-index: 99; */
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  overflow: hidden;
+  /* overflow: hidden; */
   background-color: aqua;
 }
 
 .siderbar_arrow img {
   /* po */
   position: absolute;
-  right: 92%;
-  z-index: -100000 !important;
+  right: 94%;
+  z-index: -1 !important;
   /* border: 10px solid; */
 }
 
@@ -423,7 +423,7 @@
 .config_container {
   min-height: 200px;
   width: 100%;
-  /* background-color: palegoldenrod; */
+  background-color: white;
   padding: 20px;
 }
 

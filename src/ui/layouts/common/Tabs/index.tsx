@@ -19,7 +19,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
   basePath,
 }) => {
   const locationPath = useLocationPath();
-
+  console.log("__UNAUTH PAGES MAIN", pages)
   return (
     <>
       <If condition={pages.length > 0}>
@@ -47,6 +47,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                       isActive ? styles.activeItem : '',
                     )}
                   >
+                    {console.log("__UNAUTH PAGE PATH: ", page.path)}
                     
                     <Link className={styles.link} to={page.path}>
                       <IfElse

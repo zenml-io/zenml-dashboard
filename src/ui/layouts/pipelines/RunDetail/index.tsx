@@ -30,7 +30,7 @@ const getTabPages = ({
 }): TabPage[] => {
   return [
     {
-      text: 'DAG',
+      text: 'DAG Visualizerzz',
 
       Component: () => <DAG runId={runId} fetching={fetching} />,
       path: routePaths.run.pipeline.statistics(

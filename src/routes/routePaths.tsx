@@ -69,6 +69,8 @@ export const routePaths = {
         `/workspaces/${workspace}/all-runs/${id}/dag`,
       results: (workspace: string, runId: TId): string =>
         `/workspaces/${workspace}/all-runs/${runId}/configuration`,
+      results2: (workspace: string, runId: TId): string =>
+        `/workspaces/${workspace}/all-runs/${runId}/details`,
       tensorboard: (runId: TId): string => `/runs/${runId}/tensorboard`,
     },
   },

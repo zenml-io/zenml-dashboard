@@ -49,9 +49,9 @@ const HeaderWithButtons: React.FC<{
       justifyContent="flex-end"
       className={styles.rightWrapper}
     >
-      {/* <CreateStackButton /> */}
+      <CreateStackButton />
 
-      {/* <DocumentationLink /> */}
+      <DocumentationLink />
     </FlexBox>
   </FlexBox>
 );
