@@ -323,7 +323,12 @@ export const SearchInputField = (
         <TextInput
           // type="search"
           {...props}
-          style={{ paddingLeft: '40px', paddingRight: '35px' }}
+          style={{
+            paddingLeft: '40px',
+            paddingRight: '35px',
+            backgroundColor: props.disabled && '#E9EAEC',
+            borderWidth: props.disabled && '0px',
+          }}
           value={props.value}
           onChangeText={props.onChange}
           placeholder={props.placeholder}
