@@ -3,7 +3,7 @@ import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 import {
-  Box,
+  // Box,
   FlexBox,
   icons,
   // LinkBox,
@@ -319,9 +319,9 @@ export const GetHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(pipeline.created)}>
             <FlexBox alignItems="center">
-              <Box paddingRight="sm">
+              {/* <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box>
+              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(pipeline.created)}
               </Paragraph>

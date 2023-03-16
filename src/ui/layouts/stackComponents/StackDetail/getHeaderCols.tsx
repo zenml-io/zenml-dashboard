@@ -246,9 +246,9 @@ export const GetHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToSort(stack.created)}>
             <FlexBox alignItems="center">
-              <Box paddingRight="sm">
+              {/* <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box>
+              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(stack.created)}
               </Paragraph>
