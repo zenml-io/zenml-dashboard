@@ -41,7 +41,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
             </Box>
 
             <Box marginTop='sm'>
-                <Paragraph className={styles.userName}>{data?.name}</Paragraph>
+                <Paragraph className={styles.userName}>{data?.fullName ? data?.fullName : data?.name}</Paragraph>
             </Box>
    
             <Box marginTop='sm' className={styles.rolesContainer}>
