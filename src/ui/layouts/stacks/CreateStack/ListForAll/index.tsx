@@ -263,7 +263,7 @@ export const ListForAll: React.FC<Props> = () => {
                 style={{
                   border:
                     selectedStackBox?.id === stack.id
-                      ? '2px solid #443E99'
+                      ? '2px solid green'
                       : '2px solid #fff',
                 }}
                 className={styles.selectedBox}

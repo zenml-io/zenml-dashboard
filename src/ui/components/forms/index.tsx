@@ -210,6 +210,10 @@ export const EditField = (
           InputComponent={
             <TextInput
               {...props}
+              style={{
+                backgroundColor: props.disabled && '#E9EAEC',
+                borderWidth: props.disabled && '0px',
+              }}
               defaultValue={props?.defaultValue}
               value={props.value}
               placeholder={props.placeholder}
