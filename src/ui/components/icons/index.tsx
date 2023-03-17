@@ -17,6 +17,7 @@ import { ReactComponent as SignOut } from './assets/SignOut.svg';
 import { ReactComponent as Stream } from './assets/Stream.svg';
 import { ReactComponent as Table } from './assets/Table.svg';
 import { ReactComponent as Check } from './assets/Check.svg';
+import { ReactComponent as CircleCheck } from './assets/CircleCheck.svg';
 import { ReactComponent as Close } from './assets/Close.svg';
 import { ReactComponent as ChevronLeft } from './assets/ChevronLeft.svg';
 import { ReactComponent as Copy } from './assets/Copy.svg';
@@ -184,6 +185,7 @@ const icons = {
   plusCircle: createIcon({ Component: PlusCircle, useStroke: true }),
   minusCircle: createIcon({ Component: MinusCircle, useStroke: true }),
   emptyRightArrow: createIcon({ Component: EmptyRightArrow, useStroke: true }),
+  circleCheck: createIcon({ Component: CircleCheck, useStroke: true }),
   //icons for stackComponents
   artifact_store: createIcon({ Component: Folders, useStroke: true }),
   alerter: createIcon({ Component: ChatDots, useStroke: true }),

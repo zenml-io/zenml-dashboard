@@ -18,12 +18,30 @@ const DefaultHeader: React.FC<{
     className={cn(styles.header, 'd-none d-md-block')}
   >
     <FlexBox fullHeight alignItems="center">
-     <Paragraph style={{ fontSize: '42px', fontWeight: 'bold', lineHeight: '48px', color: '#424240' }}>{breadcrumbs[0]?.name}</Paragraph> 
+      <Paragraph
+        style={{
+          fontSize: '42px',
+          fontWeight: 'bold',
+          lineHeight: '48px',
+          color: '#424240',
+        }}
+      >
+        {breadcrumbs[0]?.name}
+      </Paragraph>
     </FlexBox>
     <FlexBox alignItems="center">
       <Box marginRight="lg">
-        <Paragraph style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}>
-          Check out our easy to read <a style={{ color: '#443E99' }} href={constantCommandsToCreateComponent.documentation} target='__blank'>document</a>    
+        <Paragraph
+          style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}
+        >
+          Check out our easy to read{' '}
+          <a
+            style={{ color: '#443E99' }}
+            href={constantCommandsToCreateComponent.documentation}
+            target="__blank"
+          >
+            document
+          </a>
         </Paragraph>
       </Box>
     </FlexBox>
@@ -32,8 +50,9 @@ const DefaultHeader: React.FC<{
 
 const HeaderWithButtons: React.FC<{
   breadcrumbs: TBreadcrumb[];
+  title?: string;
   renderRight?: () => JSX.Element;
-}> = ({ breadcrumbs, renderRight }) => (
+}> = ({ breadcrumbs, renderRight, title }) => (
   <FlexBox.Row
     marginTop="xl"
     alignItems="center"
@@ -41,11 +60,19 @@ const HeaderWithButtons: React.FC<{
     fullWidth
     className={styles.header}
   >
-    
     <FlexBox className="d-none d-md-flex">
-      <Paragraph style={{ fontSize: '42px', fontWeight: 'bold', lineHeight: '48px', color: '#424240' }}>{breadcrumbs[0]?.name}</Paragraph>
+      <Paragraph
+        style={{
+          fontSize: '42px',
+          fontWeight: 'bold',
+          lineHeight: '48px',
+          color: '#424240',
+        }}
+      >
+        {title}
+      </Paragraph>
     </FlexBox>
-    
+
     <FlexBox
       alignItems="center"
       flexWrap
@@ -53,12 +80,20 @@ const HeaderWithButtons: React.FC<{
       className={styles.rightWrapper}
     >
       <Box marginRight="lg" className={styles.dynamicHeaderRight}>
-        <Paragraph style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}>
-          Check out our easy to read <a style={{ color: '#443E99' }} href={constantCommandsToCreateComponent.documentation} target='__blank'>document</a>    
+        <Paragraph
+          style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}
+        >
+          Check out our easy to read{' '}
+          <a
+            style={{ color: '#443E99' }}
+            href={constantCommandsToCreateComponent.documentation}
+            target="__blank"
+          >
+            document
+          </a>
         </Paragraph>
       </Box>
     </FlexBox>
-
   </FlexBox.Row>
 );
 

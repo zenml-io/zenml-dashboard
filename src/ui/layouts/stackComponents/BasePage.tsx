@@ -18,6 +18,7 @@ export const BasePage: React.FC<{
   fromRegisterComponent?: boolean;
   breadcrumbs: TBreadcrumb[];
   tabBasePath: string;
+  title?: string;
   renderHeaderRight?: () => JSX.Element;
   headerWithButtons?: boolean;
 }> = ({
@@ -29,6 +30,7 @@ export const BasePage: React.FC<{
   renderHeaderRight,
   headerWithButtons,
   children,
+  title,
 }) => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -41,6 +43,7 @@ export const BasePage: React.FC<{
             condition={!!headerWithButtons}
             renderWhenTrue={() => (
               <Header.HeaderWithButtons
+                title={title}
                 breadcrumbs={[...breadcrumbs]}
                 renderRight={renderHeaderRight}
               />
@@ -52,7 +55,7 @@ export const BasePage: React.FC<{
               />
             )}
           />
-          <FlexBox.Row>
+          <FlexBox.Row justifyContent='space-between'>
             {!fromConfigureComponent && (
               <Component fromRegisterComponent={fromRegisterComponent} />
             )}
@@ -60,7 +63,7 @@ export const BasePage: React.FC<{
             {/* {fromConfigureComponent && (
               <Component fromRegisterComponent={fromRegisterComponent} />
             )} */}
-            <Box marginLeft="lg" style={{ width: '100%' }}>
+            <Box marginLeft="lg" style={{ width: !fromConfigureComponent ? '80%' : '100%' }}>
               {children}
               {tabPages.length > 1 ? (
                 <Tabs pages={tabPages} basePath={tabBasePath} />

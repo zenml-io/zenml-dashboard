@@ -65,6 +65,7 @@ export const RegisterComponents: React.FC = () => {
             ) + `?workspace=${workspace}`,
         },
       ]}
+      title="Register a Stack Component"
       headerWithButtons
       renderHeaderRight={() => <></>}
     />

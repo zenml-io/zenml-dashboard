@@ -122,9 +122,9 @@ export const getHeaderCols = ({
       width: '8%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
-          <Box paddingRight="sm">
+          {/* <Box paddingRight="sm">
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box>
+          </Box> */}
           <Paragraph size="tiny">
             {formatDateToDisplayOnTable(stack.created)}
           </Paragraph>

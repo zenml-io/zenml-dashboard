@@ -33,7 +33,7 @@ export const SidePopup: React.FC<{
     >
       <Box className={styles.popupClose}>
         <LinkBox onClick={onClose}>
-          <icons.closeWithBorder />
+          <icons.close />
         </LinkBox>
       </Box>
 
@@ -43,10 +43,10 @@ export const SidePopup: React.FC<{
             <iframe
               title="ZenML - Organization Embed"
               style={{
-                border: '0px',
-                height: '100vh',
-                width: '100%',
-                paddingBottom: '200px',
+                // border: '0px',
+                // height: '100vh',
+                // width: '100%',
+                // paddingBottom: '200px',
               }}
               // src="https://apidocs.zenml.io/0.35.0/"
               src={flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl}
@@ -65,7 +65,7 @@ export const SidePopup: React.FC<{
             <FlexBox.Row justifyContent="space-between" alignItems="center">
               <Box>
                 <LinkBox onClick={onSeeExisting}>
-                  <Paragraph>See Existing</Paragraph>
+                  <Paragraph style={{ fontSize: '16px', textDecoration: 'underline', color: '#443E99' }}>See Existing</Paragraph>
                 </LinkBox>
               </Box>
               <Box>

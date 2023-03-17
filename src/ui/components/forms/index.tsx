@@ -164,7 +164,7 @@ export const CopyField = (
 
         {props.showTokField && (
           <LinkBox
-            style={{ position: 'absolute', right: '10px', top: '40px' }}
+            style={{ position: 'absolute', right: '10px', top: '30px' }}
             onClick={handleClick}
           >
             <icons.copy color={iconColors.grey} />
@@ -323,7 +323,12 @@ export const SearchInputField = (
         <TextInput
           // type="search"
           {...props}
-          style={{ paddingLeft: '40px' }}
+          style={{
+            paddingLeft: '40px',
+            paddingRight: '35px',
+            backgroundColor: props.disabled && '#E9EAEC',
+            borderWidth: props.disabled && '0px',
+          }}
           value={props.value}
           onChangeText={props.onChange}
           placeholder={props.placeholder}
