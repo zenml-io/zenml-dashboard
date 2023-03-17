@@ -32,7 +32,7 @@ export const CustomStackBox: React.FC<{
         className={styles.viewConfig}
         // size={iconSizes.sm}
         // style={{ height: '18px', width: '18px' }}
-        color={iconColors.primary}
+        color={iconColors.grey}
       />
 
       <Box className={styles.imageWrapper}>
@@ -62,7 +62,7 @@ export const CustomStackBox: React.FC<{
             {stackDesc?.length > 14 ? (
               <>{titleCase(stackDesc?.slice(0, 15))}...</>
             ) : (
-              stackDesc
+              titleCase(stackDesc)
             )}
           </Paragraph>
         </div>

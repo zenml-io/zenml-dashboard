@@ -15,25 +15,32 @@ import { useService } from './useService';
 
 // Muhammad Ali Zia DAG Visualizer line: 32
 // DAG Visualizeraa
-import { useSelector } from '../../../hooks';
-import { workspaceSelectors } from '../../../../redux/selectors';
 import { Runs } from '../../pipelines/PipelineDetail/Runs';
 import { Details } from '../../../components/details';
+import { useHistory, useSelector } from '../../../hooks';
+import { workspaceSelectors } from '../../../../redux/selectors';
+// import { Runs } from '../../pipelines/PipelineDetail/Runs';
+import { Table } from '../../common/Table';
+import { useHeaderCols } from './HeaderCols';
 
 const getTabPages = ({
   selectedWorkspace,
   runId,
   fetching,
+  metadata,
 }: {
   selectedWorkspace: string;
   runId: TId;
   fetching: boolean;
+  metadata?: any;
 }): TabPage[] => {
   return [
     {
       text: 'DAG Visualizer',
 
-      Component: () => <DAG runId={runId} fetching={fetching} />,
+      Component: () => (
+        <DAG runId={runId} fetching={fetching} metadata={metadata} />
+      ),
       path: routePaths.run.run.statistics(selectedWorkspace, runId),
     },
     {
@@ -78,18 +85,27 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, fetching } = useService();
+  const { runId, fetching, run, metadata } = useService();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages({
     selectedWorkspace,
     fetching,
     runId,
+    metadata,
   });
+  const history = useHistory();
+  const runRow: any = [];
+  runRow.push(run);
   const breadcrumbs = getBreadcrumbs({
     runId,
     selectedWorkspace,
   });
-
+  const openDetailPage = (stack: TStack) => {
+    history.push(routePaths.pipelines.allRuns(selectedWorkspace));
+  };
+  const headerCols = useHeaderCols({
+    runs: runRow,
+  });
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
   //   padding: '10px 0',
@@ -102,11 +118,12 @@ export const RunDetail: React.FC = () => {
   // const history = useHistory();
   return (
     <BasePage
+      headerWithButtons
       tabPages={tabPages}
       tabBasePath={routePaths.run.run.base(runId)}
       breadcrumbs={breadcrumbs}
     >
-      <Runs
+       <Runs
         isExpended
         filter={[]}
         pagination={false}
@@ -115,6 +132,98 @@ export const RunDetail: React.FC = () => {
         pipelineId={runId}
       ></Runs>
       
+{/* ======= */}
+        {/* headerCols={headerCols}
+        tableRows={runRow}
+        // emptyState={{ text: emptyStateText }}
+        trOnClick={openDetailPage}
+      /> */}
+      {/* <Box style={boxStyle}>
+        <Box>
+          <Paragraph style={headStyle}>RUN ID</Paragraph>
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
+            {run.id}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>RUN NAME</Paragraph>
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
+            {run.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>PIPELINE NAME</Paragraph>
+          <Paragraph
+            size="small"
+            style={{
+              color: '#22BBDD',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              history.push(
+                routePaths.pipeline.configuration(
+                  run.pipeline?.id,
+                  selectedWorkspace,
+                ),
+              );
+            }}
+          >
+            {run.pipeline?.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>STATUS</Paragraph>
+          <Paragraph
+            style={{
+              marginTop: '10px',
+              justifyContent: 'center',
+              borderRadius: '50%',
+              height: '25px',
+              width: '25px',
+              paddingTop: '3px',
+              textAlign: 'center',
+            }}
+          >
+            <RunStatus run={run} />
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>STACK NAME</Paragraph>
+          <Paragraph
+            size="small"
+            style={{
+              color: '#22BBDD',
+              textDecoration: 'underline',
+              cursor: 'pointer',
+              marginTop: '10px',
+            }}
+            onClick={(event) => {
+              event.stopPropagation();
+              history.push(
+                routePaths.stack.configuration(run.stack?.id, selectedWorkspace),
+              );
+            }}
+          >
+            {run.stack?.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>AUTHOR</Paragraph>
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
+            {run?.user?.name}
+          </Paragraph>
+        </Box>
+        <Box>
+          <Paragraph style={headStyle}>CREATED</Paragraph>
+          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
+            {formatDateToDisplayOnTable(run.created)}
+          </Paragraph>
+        </Box>
+      </Box> */}
+{/* >>>>>>> dev */}
     </BasePage>
   );
 };

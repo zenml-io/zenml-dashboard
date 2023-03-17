@@ -5,7 +5,7 @@ import {
   camelCaseToParagraph,
   // formatDateToDisplayOnTable,
 } from '../../../../utils';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
@@ -16,7 +16,9 @@ import { useService } from './useService';
 
 // import { RunStatus } from './components';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { Runs } from '../StackDetail/Runs';
+// import { Runs } from '../StackDetail/Runs';
+import { Table } from '../../common/Table';
+import { useHeaderCols } from './HeaderCols';
 
 export interface RunDetailRouteParams {
   type: string;
@@ -26,14 +28,18 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const locationPath = useLocationPath();
-  // const history = useHistory();
-  const { stackComponentId, runId, fetching } = useService();
+  const history = useHistory();
+  const { stackComponentId, runId, fetching, run, metadata } = useService();
+  const runRow: any = [];
+  runRow.push(run);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = [
     {
       text: 'DAG',
 
-      Component: () => <DAG runId={runId} fetching={fetching} />,
+      Component: () => (
+        <DAG runId={runId} fetching={fetching} metadata={metadata} />
+      ),
       path: routePaths.run.component.statistics(
         locationPath.split('/')[4],
         stackComponentId,
@@ -82,6 +88,18 @@ export const RunDetail: React.FC = () => {
       ),
     },
   ];
+  const headerCols = useHeaderCols({
+    runs: runRow,
+  });
+  const openDetailPage = (stack: TStack) => {
+    history.push(
+      routePaths.stackComponents.runs(
+        locationPath.split('/')[4],
+        stackComponentId,
+        selectedWorkspace,
+      ),
+    );
+  };
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
   //   padding: '10px 0',
@@ -98,13 +116,25 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.component.base(runId, stackComponentId)}
       breadcrumbs={breadcrumbs}
     >
-      <Runs
-        filter={[]}
+      <Table
         pagination={false}
-        runId={runId}
-        isExpended={true}
-        stackComponentId={stackComponentId}
-      ></Runs>
+        // activeSorting={
+        //   activeSortingDirection?.toLowerCase() + ':' + activeSorting
+        // } // activeSorting={
+        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+        //     ? activeSorting
+        //     : 'created'
+        // }
+        // pagination={pagination}
+        // loading={fetching}
+        // filters={filter}
+        // showHeader={true}
+        // paginated={paginated}
+        headerCols={headerCols}
+        tableRows={runRow}
+        // emptyState={{ text: emptyStateText }}
+        trOnClick={openDetailPage}
+      />
       {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>

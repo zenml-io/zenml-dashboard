@@ -48,6 +48,7 @@ export const GetList: React.FC<Props> = ({
           type: type,
           page: 1,
           size: 1000,
+          sort_by: 'name',
 
           onSuccess: (res) => {
             const updatedList = res.items.map((item: any) => {
@@ -91,7 +92,7 @@ export const GetList: React.FC<Props> = ({
 
   return (
     <>
-      <FlexBox.Row alignItems="center">
+      <FlexBox.Row alignItems="center" marginBottom='sm'>
         <H3 style={{ fontWeight: 'bold' }}>{titleCase(type)}</H3>
         <span style={helperTextStyle}>&#40;{list.length} Components&#41;</span>
       </FlexBox.Row>

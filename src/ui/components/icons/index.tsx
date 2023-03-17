@@ -64,6 +64,8 @@ import { ReactComponent as Run } from './assets/Run.svg';
 import { ReactComponent as ImageBuilder } from './assets/ImageBuilder.svg';
 import { ReactComponent as Pen } from './assets/Pen.svg';
 import { ReactComponent as ModelRegistry } from './assets/ModelRegistry.svg';
+import { ReactComponent as Share } from './assets/share.svg';
+import { ReactComponent as EmptyRightArrow } from './assets/EmptyRightArrow.svg';
 // import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 // import { ReactComponent as Cached } from './assets/Cached.svg';
 // import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
@@ -181,6 +183,7 @@ const icons = {
   config: createIcon({ Component: Config, useStroke: true }),
   plusCircle: createIcon({ Component: PlusCircle, useStroke: true }),
   minusCircle: createIcon({ Component: MinusCircle, useStroke: true }),
+  emptyRightArrow: createIcon({ Component: EmptyRightArrow, useStroke: true }),
   //icons for stackComponents
   artifact_store: createIcon({ Component: Folders, useStroke: true }),
   alerter: createIcon({ Component: ChatDots, useStroke: true }),
@@ -202,6 +205,7 @@ const icons = {
   }),
   pen: createIcon({ Component: Pen, useStroke: true }),
   model_registry: createIcon({ Component: ModelRegistry, useStroke: true }),
+  share: createIcon({ Component: Share, useStroke: true }),
 
   // paginations
   paginationFirst: createIcon({ Component: PaginationFirst, useStroke: true }),

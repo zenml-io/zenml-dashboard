@@ -1,110 +1,73 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import styles from './index.module.scss'
 import {
   Box,
   FlexBox,
-  FormTextField,
-  FormPasswordField,
-  Row,
-  Col,
+  EditFieldSettings,
+  Paragraph,
+  // ColoredCircle
 } from '../../components';
+// import { icons } from '../../components';
+// import { iconColors, iconSizes } from '../../../constants';
 import { useRequestOnMount, useSelector } from '../../hooks';
 import {
-  sessionActions,
-  showToasterAction,
   userActions,
 } from '../../../redux/actions';
 
 import { sessionSelectors, userSelectors } from '../../../redux/selectors';
 import { getTranslateByScope } from '../../../services';
-import { useDispatch } from 'react-redux';
-import { toasterTypes } from '../../../constants';
 import { PrimaryButton } from '../../components/buttons/index';
 import { EmailPopup } from './EmailPopup';
-import { loginAction } from '../../../redux/actions/session/loginAction';
+import { PasswordPopup } from './PasswordPopup';
+import { formatDateToDisplay } from '../../../utils';
 import jwt_decode from 'jwt-decode';
-
-// import Tour from './Tour'
+import starsIcon from '../../assets/stars.svg'
+import { getInitials } from '../../../utils/name';
+import axios from 'axios';
 
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
 export const PersonalDetails: React.FC = () => {
   useRequestOnMount(userActions.getMy, {});
-  const dispatch = useDispatch();
-
   const user = useSelector(userSelectors.myUser);
+  const userFullName = user?.fullName || user?.fullName || user?.name;
+  const userInitials = getInitials(userFullName as string);
 
-  const [submitting, setSubmitting] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
+  const [passwordPopupOpen, setPasswordPopupOpen] = useState(false);
   const [fullName, setFullName] = useState(user?.fullName);
   const [username, setUsername] = useState(user?.name);
-  const [currentPassword, setCurrentPassword] = useState('');
-  const [newPassword, setNewPassword] = useState('');
-  const [confirmPassword, setConfirmPassword] = useState('');
+  const [version, setVersion] = useState('');
+  const [popupType, setPopupType] = useState('');
+  // const [selectedImage, setSelectedImage] = useState<any>(userImage);
 
   const authToken = useSelector(sessionSelectors.authenticationToken);
   if (authToken) {
     var decoded: any = jwt_decode(authToken as any);
   }
 
+  const getVersion = async () => {
+    const { data } = await axios.get(`${process.env.REACT_APP_BASE_API_URL}/version`)
+    setVersion(data)
+  }
+
+  useEffect(() => {
+    getVersion()
+  })
+
   if (!user) return null;
 
-  const forgotPassword = () => {
-    if (newPassword !== confirmPassword) {
-      dispatch(
-        showToasterAction({
-          description: 'Password not Matched',
-          type: toasterTypes.failure,
-        }),
-      );
-    } else {
-      setSubmitting(true);
-      dispatch(
-        loginAction({
-          password: currentPassword,
-          username: username,
-          onFailure: (err) => {
-            dispatch(
-              showToasterAction({
-                description: err,
-                type: toasterTypes.failure,
-              }),
-            );
-            setSubmitting(false);
-          },
-          onSuccess: async () => {
-            dispatch(
-              sessionActions.forgotPassword({
-                userId: user?.id,
-                password: newPassword,
-                // @ts-ignore
-                onFailure: (errorText) => {
-                  setSubmitting(false);
-                  dispatch(
-                    showToasterAction({
-                      description: errorText,
-                      type: toasterTypes.failure,
-                    }),
-                  );
-                },
-                onSuccess: () => {
-                  setSubmitting(false);
-                  dispatch(
-                    showToasterAction({
-                      description: translate('toasts.successful.passwordText'),
-                      type: toasterTypes.success,
-                    }),
-                  );
-                  setNewPassword('');
-                  setConfirmPassword('');
-                  setCurrentPassword('');
-                },
-              }),
-            );
-          },
-        }),
-      );
+  // const previewImage = (e: any) => {
+  //   const objectUrl = URL.createObjectURL(e.files[0]);
+  //   setSelectedImage(objectUrl);
+  // };
+
+  const handlePopup = (e: any, text: any) => {
+    if (e.key === 'Enter') {
+      setPopupType(text); 
+      setPopupOpen(true)
     }
-  };
+  }
 
   return (
     <>
@@ -113,129 +76,104 @@ export const PersonalDetails: React.FC = () => {
           userId={user?.id}
           fullName={fullName}
           username={username}
+          popupType={popupType}
+          setPopupType={setPopupType}
           setPopupOpen={setPopupOpen}
-        />
+        /> 
       )}
       {/* <Tour /> */}
-      <FlexBox.Column style={{ marginLeft: '40px' }} flex={1}>
-        <Box marginTop="lg">
-          <Row>
-            <Col lg={5}>
-              <Box marginBottom="lg">
-                <FormTextField
+      <FlexBox.Row style={{ marginLeft: '40px', width: '100%' }} justifyContent='space-between'>
+        <Box marginTop="lg" style={{ width: '25%' }}>
+        
+              <Box marginBottom="lg" className={styles.imageContainer}>
+                <FlexBox
+                  justifyContent="center"
+                  alignItems="center"
+                  className={styles.sampleImage}
+                >
+                  {userInitials}
+                </FlexBox>
+
+                {/* <img src={selectedImage} alt='userImage' /> */}    
+                {/* <div className={styles.imageUploader}>
+                  <label className={styles.custom_file_upload}>
+                    <input
+                      type="file"
+                      name="img"
+                      alt="by Zenml"
+                      accept="image/*"
+                      onChange={(e) => previewImage(e.target)}
+                    />
+                    <icons.share size={iconSizes.lg} color={iconColors.grey} style={{ cursor: 'pointer' }}  />
+                  </label>
+                </div> */}
+              </Box>
+
+              <Box marginTop='lg'>
+                <EditFieldSettings 
                   disabled={!decoded.permissions.includes('me')}
                   label={translate('form.fullName.label')}
-                  labelColor="#000"
+                  labelColor="#828282"
                   placeholder={translate('form.fullName.placeholder')}
                   value={fullName ? fullName : ''}
-                  onChange={(val: string) => setFullName(val)}
+                  onChangeText={(val: string) => setFullName(val)}
+                  onKeyDown={(e: any) => handlePopup(e, 'full Name')}
                 />
               </Box>
 
-              <Box marginBottom="lg">
-                <FormTextField
+              <Box marginTop='lg'>
+                <EditFieldSettings 
                   disabled={!decoded.permissions.includes('me')}
                   label={translate('form.username.label')}
-                  labelColor="#000"
+                  labelColor="#828282"
                   placeholder={translate('form.username.placeholder')}
                   value={username ? username : ''}
-                  onChange={(val: string) => setUsername(val)}
+                  onChangeText={(val: string) => setUsername(val)}
+                  onKeyDown={(e: any) => handlePopup(e, 'Username')}
                 />
               </Box>
 
-              <Box style={{ display: 'flex', justifyContent: 'end' }}>
-                <PrimaryButton
-                  id='change'
-                  style={{ width: '198px' }}
-                  onClick={() => setPopupOpen(true)}
-                  // eslint-disable-next-line
-                  disabled={fullName === user.fullName && username === user.name || !decoded.permissions.includes('me')}
-                >
-                  {translate('nameReset.label')}
-                </PrimaryButton>
+              <Box marginTop='lg'>
+                <Paragraph style={{ color: '#828282' }}>Roles</Paragraph>
+                <FlexBox.Row>
+                  {user?.roles?.map((e: any) => (
+                    <div className={styles.roleBean}>
+                      <p>{e?.name.charAt(0).toUpperCase() + e?.name?.slice(1)}</p>
+                    </div>
+                  ))}
+                </FlexBox.Row>
               </Box>
-            </Col>
-          </Row>
+
+              <Box marginTop='lg'>
+                <Paragraph style={{ color: '#828282' }}>Acivated</Paragraph>
+                <div className={styles.date}>{formatDateToDisplay(user.created)}</div>
+              </Box>
+
+              <Box marginTop='xxxl' style={{ display: 'flex' }}>
+                <PrimaryButton onClick={() => setPasswordPopupOpen(true)}>
+                  Update Password
+                </PrimaryButton>
+
+                {/* {fullName !== user.fullName && username !== user.name || !decoded.permissions.includes('me') && */}
+              </Box>        
+
         </Box>
 
-        <Box marginBottom="lg" marginTop="xl">
-          <Row>
-            <Col lg={5}>
-              <Box marginBottom="lg">
-                <FormPasswordField
-                  disabled={!decoded.permissions.includes('me')}
-                  label={translate('form.passwordChange.currentPassword.label')}
-                  labelColor="#000"
-                  placeholder={translate(
-                    'form.passwordChange.currentPassword.placeholder',
-                  )}
-                  value={currentPassword}
-                  onChange={(val: string) => setCurrentPassword(val)}
-                  error={{
-                    hasError: currentPassword.trim() === undefined,
-                    text: translate(
-                      'form.passwordChange.currentPassword.required',
-                    ),
-                  }}
-                  showPasswordOption
-                />
-              </Box>
-              <Box marginBottom="lg">
-                <FormPasswordField
-                  disabled={!decoded.permissions.includes('me')}
-                  label={translate('form.passwordChange.newPassword.label')}
-                  labelColor="#000"
-                  placeholder={translate(
-                    'form.passwordChange.newPassword.placeholder',
-                  )}
-                  value={newPassword}
-                  onChange={(val: string) => setNewPassword(val)}
-                  error={{
-                    hasError: newPassword.trim() === undefined,
-                    text: translate('form.passwordChange.newPassword.required'),
-                  }}
-                  showPasswordOption
-                />
-              </Box>
-              <Box marginBottom="lg">
-                <FormPasswordField
-                  disabled={!decoded.permissions.includes('me')}
-                  label={translate('form.passwordChange.confirmPassword.label')}
-                  labelColor="#000"
-                  placeholder={translate(
-                    'form.passwordChange.confirmPassword.placeholder',
-                  )}
-                  value={confirmPassword}
-                  onChange={(val: string) => setConfirmPassword(val)}
-                  error={{
-                    hasError: confirmPassword.trim() === undefined,
-                    text: translate(
-                      'form.passwordChange.confirmPassword.required',
-                    ),
-                  }}
-                  showPasswordOption
-                />
-              </Box>
-
-              <Box
-                marginBottom="xs"
-                style={{ display: 'flex', justifyContent: 'end' }}
-              >
-                <PrimaryButton
-                  id='pwReset'
-                  onClick={forgotPassword}
-                  style={{ width: '198px' }}
-                  loading={submitting}
-                  // eslint-disable-next-line
-                  disabled={newPassword.trim() === '' || confirmPassword.trim() === '' && !decoded.permissions.includes('me')}
-                >
-                  {translate('passwordReset.button')}
-                </PrimaryButton>
-              </Box>
-            </Col>
-          </Row>
+        <Box marginTop='xl' marginRight='xl'>
+          <Box className={styles.appDetails}>
+            <Box><img src={starsIcon} alt='stars-icon'/></Box>
+            <Paragraph className={styles.appDetailsText}>Open Source Version</Paragraph>
+          </Box>
+          <Box>
+            <Paragraph className={styles.uiVersionText}>UI Version v{version}</Paragraph>
+          </Box>
+          <Box>
+            <Paragraph className={styles.appVersionText}>ZenML v{version}</Paragraph>
+          </Box>
         </Box>
-      </FlexBox.Column>
+
+        {passwordPopupOpen && <PasswordPopup username={user?.name} user={user} isUpdate={false} setPopupOpen={setPasswordPopupOpen} />}
+      </FlexBox.Row>
     </>
   );
 };

@@ -64,7 +64,7 @@ export const useHeaderCols = ({
           <Paragraph
             size="small"
             color="black"
-            style={{ fontSize: '12px', marginLeft: '33px' }}
+            style={{ fontSize: '14px', marginLeft: '33px' }}
           >
             RUN ID
           </Paragraph>
@@ -106,7 +106,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
             RUN NAME
           </Paragraph>
         </SortingHeader>
@@ -135,7 +135,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
             PIPELINE
           </Paragraph>
         </SortingHeader>
@@ -190,7 +190,11 @@ export const useHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <div style={{ margin: '0 auto 0 auto' }}>
-            <Paragraph size="small" color="black" style={{ fontSize: '12px', marginLeft: '-24px' }}>
+            <Paragraph
+              size="small"
+              color="black"
+              style={{ fontSize: '14px', marginLeft: '-24px' }}
+            >
               STATUS
             </Paragraph>
           </div>
@@ -212,7 +216,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
             STACK NAME
           </Paragraph>
         </SortingHeader>
@@ -259,7 +263,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
             AUTHOR
           </Paragraph>
         </SortingHeader>
@@ -270,21 +274,25 @@ export const useHeaderCols = ({
           <FlexBox alignItems="center">
             <div
               data-tip
-              data-for={run.user.full_name ? run.user.full_name : run.user.name}
+              data-for={
+                run?.user?.full_name ? run?.user?.full_name : run?.user?.name
+              }
             >
               <FlexBox alignItems="center">
                 <Paragraph size="small">
-                  {run.user.full_name ? run.user.full_name : run.user.name}
+                  {run?.user?.full_name
+                    ? run?.user?.full_name
+                    : run?.user?.name}
                 </Paragraph>
               </FlexBox>
             </div>
             <ReactTooltip
-              id={run.user.full_name ? run.user.full_name : run.user.name}
+              id={run?.user?.full_name ? run?.user?.full_name : run?.user?.name}
               place="top"
               effect="solid"
             >
               <Paragraph color="white">
-                {run.user.full_name ? run.user.full_name : run.user.name}
+                {run?.user?.full_name ? run?.user?.full_name : run?.user?.name}
               </Paragraph>
             </ReactTooltip>
           </FlexBox>
@@ -309,7 +317,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
             CREATED AT
           </Paragraph>
         </SortingHeader>

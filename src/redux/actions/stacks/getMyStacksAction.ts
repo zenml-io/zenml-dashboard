@@ -10,7 +10,7 @@ export const getMyStacksAction = ({
   name,
   size,
   filtersParam,
-  id,
+  // id,
   onSuccess,
   onFailure,
 }: {
@@ -22,7 +22,7 @@ export const getMyStacksAction = ({
   page?: number;
   size?: number;
   filtersParam?: object;
-  id?: any;
+  // id?: any;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -41,7 +41,7 @@ export const getMyStacksAction = ({
       page,
       size,
       filtersParam,
-      id,
+      // id,
     },
     onSuccess,
     onFailure,

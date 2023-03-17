@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import {
   FlexBox,
   InputWithLabel,
@@ -118,8 +118,9 @@ export const CopyField = (
     labelColor: any;
     placeholder: any;
     value: string;
+    showTokField: any;
   } & any,
-): JSX.Element => {
+): any => {
   const [copied, setCopied] = useState(false);
   const handleClick = () => {
     navigator.clipboard.writeText(props.value);
@@ -130,26 +131,45 @@ export const CopyField = (
   };
 
   return (
-    <FlexBox.Column fullWidth style={{ height: '100px' }}>
+    <FlexBox.Column fullWidth style={{ height: '70px' }}>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
         <InputWithLabel
           name={props.name}
           label={props.label}
           labelColor={props.labelColor}
           InputComponent={
-            <TextInput
-              {...props}
-              value={`${props.value.slice(0, 60)}...`}
-              placeholder={props.placeholder}
-            />
+            props.showTokField ? (
+              <TextInput
+                {...props}
+                style={{
+                  background: 'rgba(168, 168, 168, 0.2)',
+                  border: '1px solid #C9CBD0',
+                }}
+                value={`${props.value.slice(0, 30)}...`}
+                placeholder={props.placeholder}
+              />
+            ) : (
+              <TextInput
+                {...props}
+                style={{
+                  background: 'rgba(168, 168, 168, 0.2)',
+                  border: '1px solid #C9CBD0',
+                }}
+                value="Token"
+                placeholder={props.placeholder}
+              />
+            )
           }
         />
-        <LinkBox
-          style={{ position: 'absolute', right: '10px', top: '30px' }}
-          onClick={handleClick}
-        >
-          <icons.copy color={iconColors.grey} />
-        </LinkBox>
+
+        {props.showTokField && (
+          <LinkBox
+            style={{ position: 'absolute', right: '10px', top: '40px' }}
+            onClick={handleClick}
+          >
+            <icons.copy color={iconColors.grey} />
+          </LinkBox>
+        )}
       </FlexBox>
       {copied && (
         <div style={{ marginTop: '20px', textAlign: 'right' }}>
@@ -206,6 +226,72 @@ export const EditField = (
   );
 };
 
+export const EditFieldSettings = (
+  props: {
+    inputRef: any;
+    label: string;
+    labelColor: any;
+    placeholder: any;
+    value: string;
+    defaultValue?: string;
+    optional: boolean;
+  } & any,
+): JSX.Element => {
+  const [disabled, setDisabled] = useState(true);
+  const inputRef = useRef<HTMLInputElement>(null);
+  useEffect(() => {
+    if (inputRef.current && !disabled) {
+      inputRef.current.focus();
+    }
+  }, [disabled]);
+
+  return (
+    <FlexBox.Column fullWidth>
+      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+        <InputWithLabel
+          name={props.name}
+          label={props.label}
+          optional={props.optional}
+          labelColor={props.labelColor}
+          InputComponent={
+            <TextInput
+              {...props}
+              inputRef={inputRef}
+              defaultValue={props?.defaultValue}
+              value={props.value}
+              placeholder={props.placeholder}
+              disabled={disabled}
+              autoFocus={!disabled}
+              onRemoveFocus={() => setDisabled(!disabled)}
+              // onFocus={(e: any) => e.currentTarget.select()}
+            />
+          }
+        />
+        {!props.disabled && (
+          <Box
+            onClick={() => {
+              setDisabled(!disabled);
+
+              setTimeout(() => {
+                props.inputRef?.current?.focus();
+              }, 10);
+            }}
+            style={{
+              position: 'absolute',
+              right: '10px',
+              top: '35px',
+              cursor: 'pointer',
+            }}
+          >
+            {console.log(disabled, 'disableddisabled')}
+            <icons.pen color={iconColors.grey} />
+          </Box>
+        )}
+      </FlexBox>
+    </FlexBox.Column>
+  );
+};
+
 export const SearchInputField = (
   props: {
     fromRegisterComponent: boolean;
@@ -235,13 +321,24 @@ export const SearchInputField = (
           />
         </LinkBox>
         <TextInput
-          type="search"
+          // type="search"
           {...props}
           style={{ paddingLeft: '40px' }}
           value={props.value}
           onChangeText={props.onChange}
           placeholder={props.placeholder}
         />
+        {props?.value?.length > 0 && (
+          <LinkBox
+            style={{ position: 'absolute', right: '7px', top: '35px' }}
+            onClick={() => props.onChange('')}
+          >
+            <icons.close
+              style={{ position: 'relative', top: '-27px' }}
+              color={iconColors.grey}
+            />
+          </LinkBox>
+        )}
         {/* <InputWithLabel
           name={props.name}
           label={props.label}

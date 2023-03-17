@@ -14,18 +14,21 @@ import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
+import { Box } from '../../../components';
 import {
   // stackPagesSelectors,
   workspaceSelectors,
 } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-import { List } from '../Stacks/List';
+// import { List } from '../Stacks/List';
 // import { Box, Row } from '../../../components';
 // import { StackBox } from '../../common/StackBox';
 
 import logo from '../../../assets/logo.svg';
 import { GetFlavorsListForLogo } from '../../stackComponents/Stacks/List/GetFlavorsListForLogo';
 import { FullWidthSpinner } from '../../../components';
+import { CollapseTable } from '../../common/CollapseTable';
+import { GetHeaderCols } from './getHeaderCols';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -132,6 +135,8 @@ export interface StackDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const { stack } = useService();
+  const filteredStacks: any = [];
+  filteredStacks.push(stack);
   const history = useHistory();
   const nestedRowtiles = [];
   const { flavourList, fetching } = GetFlavorsListForLogo();
@@ -182,7 +187,9 @@ export const StackDetail: React.FC = () => {
     history,
   );
   const breadcrumbs = getBreadcrumbs(stack.id, selectedWorkspace);
-
+  const headerCols = GetHeaderCols({
+    filteredStacks,
+  });
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
   //   padding: '10px 0',
@@ -192,7 +199,9 @@ export const StackDetail: React.FC = () => {
   //   justifyContent: 'space-around',
   // };
   // const headStyle = { color: '#828282' };
-
+  const openDetailPage = (stack: TStack) => {
+    history.push(routePaths.stacks.list(selectedWorkspace));
+  };
   return (
     <BasePage
       headerWithButtons
@@ -200,7 +209,17 @@ export const StackDetail: React.FC = () => {
       tabBasePath={routePaths.stack.base(stack.id)}
       breadcrumbs={breadcrumbs}
     >
-      <List filter={[]} pagination={false} isExpended id={stack.id}></List>
+    <Box marginTop='lg'>
+      <CollapseTable
+        pagination={false}
+        renderAfterRow={(stack: TStack) => <></>}
+        headerCols={headerCols}
+        tableRows={filteredStacks}
+        emptyState={{ text: translate('emptyState.text') }}
+        trOnClick={openDetailPage}
+      />
+    </Box>
+      {/* <List filter={[]} pagination={false} isExpended id={stack.id}></List> */}
       {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>ID</Paragraph>

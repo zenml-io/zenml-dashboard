@@ -64,13 +64,19 @@ export const callActionForStacksForPagination = () => {
       stacksActions.getMy({
         component_id: stackComponentId,
         workspace: selectedWorkspace,
-        sort_by: sortby ? sortby : 'created',
+        sort_by: sortby ? sortby : 'desc:created',
         logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
         page: page,
         size: size,
         filtersParam,
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
+        onSuccess: () => {
+          setFetching(false);
+          localStorage.setItem('logical_operator', JSON.stringify('and'));
+        },
+        onFailure: () => {
+          setFetching(false);
+          localStorage.setItem('logical_operator', JSON.stringify('and'));
+        },
       }),
     );
   }

@@ -155,8 +155,11 @@ export const useMemberHeaderCols = ({
               {member?.active === false ? (
                 <TokenPopup
                   id={member?.id}
+                  fullName={member?.fullName}
                   username={member?.name}
                   active={member?.active}
+                  roles={member?.roles}
+                  setTokenPopup={() => {}}
                 />
               ) : (
                 <Paragraph>Accepted</Paragraph>
@@ -256,7 +259,7 @@ export const useMemberHeaderCols = ({
             <>
               <FlexBox>
                 <div data-tip data-for={member?.id}>
-                  <UpdateMember member={member} />
+                  <UpdateMember member={member} setEditPopup={() => {}}  setShowPasswordUpdate={() => {}} setUser={() => {}}/>
                 </div>
               </FlexBox>
 

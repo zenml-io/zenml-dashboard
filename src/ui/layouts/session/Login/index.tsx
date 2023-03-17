@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 
 import {
   H2,
-  Paragraph,
   Container,
   FlexBox,
   Box,
@@ -134,9 +133,6 @@ const Login: React.FC = () => {
                   {translate('title')}
                 </H2>
               </Box>
-              <Paragraph style={{ color: '#A1A4AB' }}>
-                {translate('subtitle')}
-              </Paragraph>
             </Box>
             <Form />
           </FlexBox.Column>
