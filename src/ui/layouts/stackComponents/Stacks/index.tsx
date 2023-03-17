@@ -110,6 +110,7 @@ export const Stacks: React.FC = () => {
             ) + `?workspace=${workspace}`,
         },
       ]}
+      title="Stack Components"
       headerWithButtons
       renderHeaderRight={() => <></>}
     />

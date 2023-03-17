@@ -23,7 +23,7 @@ const newState = (roles: Roles[]): State => ({
 const rolesReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case rolesActionTypes.getRoles.success: {
-      const roles: Roles[] = camelCaseArray(action.payload as RolesPayload);
+      const roles: Roles[] = camelCaseArray(action.payload?.items as RolesPayload);
 
       return { ...newState(roles) };
     }

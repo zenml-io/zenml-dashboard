@@ -5,7 +5,7 @@ import {
   FlexBox,
   FormTextField,
   FullWidthSpinner,
-  H2,
+  // H2,
   Paragraph,
   icons,
 } from '../../../../components';
@@ -442,14 +442,32 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       })
       .catch((err) => {
         setLoading(false);
-        dispatch(
-          showToasterAction({
-            description: err?.response?.data?.detail[0].includes('Exists')
-              ? `Component name already exists.`
-              : err?.response?.data?.detail[0],
-            type: toasterTypes.failure,
-          }),
-        );
+        if (err?.response?.status === 403) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail,
+              type: toasterTypes.failure,
+            }),
+          );
+        } else if (err?.response?.status === 409) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Component name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        } else {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Component name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        }
       });
   };
   if (loading) {
@@ -458,9 +476,9 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
 
   return (
     <Box>
-      <Box style={{ width: '100%', marginTop: '-30px' }} marginBottom="lg">
+      {/* <Box style={{ width: '100%', marginTop: '-30px' }} marginBottom="lg">
         <H2>Configuring your component</H2>
-      </Box>
+      </Box> */}
 
       <FlexBox.Row style={{ width: '100%' }}>
         <Box style={{ width: '50rem' }}>

@@ -90,7 +90,7 @@ export const GetHeaderCols = ({
           <Paragraph
             size="small"
             color="black"
-            style={{ fontSize: '12px', marginLeft: '33px' }}
+            style={{ fontSize: '14px', marginLeft: '33px' }}
           >
             ID
           </Paragraph>
@@ -134,7 +134,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
             NAME
           </Paragraph>
         </SortingHeader>
@@ -155,7 +155,7 @@ export const GetHeaderCols = ({
     },
     {
       render: () => (
-        <SortingHeader 
+        <SortingHeader
           onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="is_shared"
           sortMethod={sortMethod('is_shared', {
@@ -177,7 +177,11 @@ export const GetHeaderCols = ({
       width: '8%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
-          <div style={{ margin: '0 auto 0 auto' }} data-tip data-for={stack.isShared}>
+          <div
+            style={{ margin: '0 auto 0 auto' }}
+            data-tip
+            data-for={stack.isShared}
+          >
             <Box>
               <FlexBox
                 justifyContent="center"
@@ -229,7 +233,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
             AUTHOR
           </Paragraph>
         </SortingHeader>
@@ -241,24 +245,32 @@ export const GetHeaderCols = ({
             <div
               data-tip
               data-for={
-                stack.user.full_name ? stack.user.full_name : stack.user.name
+                stack?.user?.full_name
+                  ? stack?.user?.full_name
+                  : stack?.user?.name
               }
             >
               <FlexBox alignItems="center">
                 <Paragraph size="small">
-                  {stack.user.full_name
-                    ? stack.user.full_name
-                    : stack.user.name}
+                  {stack?.user?.full_name
+                    ? stack?.user?.full_name
+                    : stack?.user?.name}
                 </Paragraph>
               </FlexBox>
             </div>
             <ReactTooltip
-              id={stack.user.full_name ? stack.user.full_name : stack.user.name}
+              id={
+                stack?.user?.full_name
+                  ? stack?.user?.full_name
+                  : stack?.user?.name
+              }
               place="top"
               effect="solid"
             >
               <Paragraph color="white">
-                {stack.user.full_name ? stack.user.full_name : stack.user.name}
+                {stack?.user?.full_name
+                  ? stack?.user?.full_name
+                  : stack?.user?.name}
               </Paragraph>
             </ReactTooltip>
           </FlexBox>
@@ -287,7 +299,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '12px' }}>
+          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
             CREATED AT
           </Paragraph>
         </SortingHeader>
@@ -297,9 +309,9 @@ export const GetHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToSort(stack.created)}>
             <FlexBox alignItems="center">
-              <Box paddingRight="sm">
+              {/* <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box>
+              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(stack.created)}
               </Paragraph>

@@ -72,7 +72,7 @@ export const RegisterComponents: React.FC = () => {
         },
         {
           name: titleCase(flavor.name),
-          clickable: false,
+          clickable: true,
           to: routePaths.stackComponents.configureComponent(
             locationPath.split('/')[4],
             workspace as string,
@@ -80,6 +80,7 @@ export const RegisterComponents: React.FC = () => {
           ),
         },
       ]}
+      title="Configuring your component"
       headerWithButtons
       renderHeaderRight={() => <></>}
     />

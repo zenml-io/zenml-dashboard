@@ -8,11 +8,11 @@ import {
   Box,
   ColoredCircle,
   FlexBox,
-  icons,
+  // icons,
   Paragraph,
 } from '../../../components';
 import { HeaderCol } from '../../common/Table';
-import { iconColors, iconSizes } from '../../../../constants';
+// import { iconColors, iconSizes } from '../../../../constants';
 import { DeleteMember } from './DeleteMember';
 import { UpdateMember } from './UpdateMember';
 import { TokenPopup } from './tokenPopup';
@@ -54,9 +54,9 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
       width: '25%',
       renderRow: (invite: TInvite) => (
         <FlexBox alignItems="center">
-          <Box paddingRight="sm">
+          {/* <Box paddingRight="sm">
             <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box>
+          </Box> */}
           <Paragraph color="grey" size="tiny">
             {formatDateToDisplayOnTable(invite.createdAt)}
           </Paragraph>
@@ -155,8 +155,11 @@ export const useMemberHeaderCols = ({
               {member?.active === false ? (
                 <TokenPopup
                   id={member?.id}
+                  fullName={member?.fullName}
                   username={member?.name}
                   active={member?.active}
+                  roles={member?.roles}
+                  setTokenPopup={() => {}}
                 />
               ) : (
                 <Paragraph>Accepted</Paragraph>
@@ -227,9 +230,9 @@ export const useMemberHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(member?.created)}>
             <FlexBox alignItems="center">
-              <Box paddingRight="sm">
+              {/* <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box>
+              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(member?.created)}
               </Paragraph>
@@ -256,7 +259,12 @@ export const useMemberHeaderCols = ({
             <>
               <FlexBox>
                 <div data-tip data-for={member?.id}>
-                  <UpdateMember member={member} />
+                  <UpdateMember
+                    member={member}
+                    setEditPopup={() => {}}
+                    setShowPasswordUpdate={() => {}}
+                    setUser={() => {}}
+                  />
                 </div>
               </FlexBox>
 

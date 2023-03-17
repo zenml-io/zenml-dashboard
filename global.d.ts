@@ -41,6 +41,8 @@ interface TUser {
   userName: string;
   email_opted_in: any;
   emailOptedIn: any;
+  roles: Array<any>;
+  created: any
 }
 
 interface TOrganization {
