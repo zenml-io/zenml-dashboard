@@ -795,7 +795,10 @@ const FilterComponent = ({
         <FlexBox
           fullWidth
           className="rounded rounded-4 p-2 align-item-center"
-          style={{ border: '1px solid #C9CBD0' }}
+          style={{
+            border: searchText ? '' : '1px solid #C9CBD0',
+            backgroundColor: searchText ? '#E9EAEC' : '',
+          }}
         >
           <Box
             onClick={() => {
@@ -804,14 +807,14 @@ const FilterComponent = ({
             style={{
               width: '33px',
               height: '28px',
-              background: '#fff',
+              // background: '#fff',
               borderRadius: '4px',
             }}
           >
             <icons.funnelFill
               style={{ padding: '5px 0px 0px 7px' }}
               size={iconSizes.sm}
-              color={searchText ? iconColors.grey : iconColors.primary}
+              color={iconColors.primary}
             />
           </Box>
           <Box

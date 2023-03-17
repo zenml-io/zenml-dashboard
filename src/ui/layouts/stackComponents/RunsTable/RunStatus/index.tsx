@@ -17,9 +17,12 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
           <If condition={run.status === runStatus.COMPLETED}>
             {() => (
               <div style={{ marginLeft: '-24px' }}>
-                <ColoredCircle color="green" size="xs">
-                  <icons.check color={iconColors.white} size={iconSizes.xs} />
-                </ColoredCircle>
+                {/* <ColoredCircle color="green" size="xs"> */}
+                <icons.circleCheck
+                  color={iconColors.green}
+                  size={iconSizes.md}
+                />
+                {/* </ColoredCircle> */}
               </div>
             )}
           </If>
@@ -37,7 +40,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
                 <ColoredCircle color="secondary" size="xs">
                   <icons.inProgress
                     color={iconColors.white}
-                    size={iconSizes.xs}
+                    size={iconSizes.md}
                   />
                 </ColoredCircle>
               </div>
@@ -54,9 +57,9 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
           <If condition={run.status === runStatus.FAILED}>
             {() => (
               <div style={{ marginLeft: '-24px' }}>
-                <ColoredCircle color="red" size="xs">
-                  <icons.close color={iconColors.white} size={iconSizes.xs} />
-                </ColoredCircle>
+                {/* <ColoredCircle color="red" size="xs"> */}
+                <icons.close color={iconColors.red} size={iconSizes.md} />
+                {/* </ColoredCircle> */}
               </div>
             )}
           </If>
@@ -72,7 +75,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             {() => (
               <div style={{ marginLeft: '-24px' }}>
                 <ColoredCircle color="mustard" size="xs">
-                  <icons.cached color={iconColors.white} size={iconSizes.xs} />
+                  <icons.cached color={iconColors.white} size={iconSizes.md} />
                 </ColoredCircle>
               </div>
             )}
