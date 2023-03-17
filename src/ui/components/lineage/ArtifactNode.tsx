@@ -3,15 +3,16 @@ import { Handle, MarkerType, Position } from 'react-flow-renderer';
 import { Data, Model, Schema, Service, Statistic, Analysis } from './icons';
 
 import styles from './index.module.scss';
-import { NodeProps } from './types';
+import { NodeProps } from 'react-flow-renderer';
 
 const ArtifactNode = ({
   data,
   targetPosition = Position.Top,
   sourcePosition = Position.Bottom,
+  onNodeSelection,
 }: NodeProps) => {
 
-  // console.log("__UNAUTH ArtifactNode data: ", data)
+  console.log("__UNAUTH ArtifactNode data: ", data )
   return (
     <>
       <Handle

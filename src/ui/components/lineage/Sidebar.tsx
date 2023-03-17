@@ -342,7 +342,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     const [artifact, setArtifact] = useState([] as any);
     const [step, setStep] = useState([] as any);
 
-    console.log("__UNAUTH selectedNode ", selectedNode);
+    console.log("__UNAUTH SELECTEDNODE SIDEVAR", selectedNode);
 
 
     // -----------------------------------------------------

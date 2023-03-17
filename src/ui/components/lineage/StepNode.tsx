@@ -4,25 +4,37 @@ import { Cached, Completed, Export, Failed, Folder, Lock, Running } from './icon
 
 import styles from './index.module.scss';
 import Sidebar from './Sidebar';
-import { NodeProps } from './types';
+import { NodeProps } from 'react-flow-renderer';
+// import { NodeProps } from './types';
 
 const StepNode = ({
   data,
   targetPosition = Position.Top,
   sourcePosition = Position.Bottom,
 }: NodeProps) => {
-  // console.log('__UNAUTH stepNode : ', data)
+
+
+
+
+  if (data.selected) {
+    console.log("_UNAUTH_SELECTED", data)
+  }
+  else {
+    console.log("_UNAUTH_NOT_SELECTED", data)
+  }
+
+
   return (
     <>
       {/* <Sidebar /> */}
-      <div className={styles.stepMainContainer}>
+      <div className={styles.stepMainContainer} style={{ borderRadius: 10 }}>
         <Handle
           type="target"
           position={targetPosition}
           className={styles.handle}
         />
         <div
-          className={styles.stepBody}
+          className={data.selected ? styles.stepBodySelected : styles.stepBody}
           style={
             data.status === 'completed'
               ? { borderColor: '#4ade80' }
@@ -79,4 +91,4 @@ const StepNode = ({
   );
 };
 
-export default memo(StepNode);
+export default StepNode;

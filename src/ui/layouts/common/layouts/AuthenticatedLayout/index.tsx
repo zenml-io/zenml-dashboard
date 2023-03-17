@@ -14,7 +14,7 @@ export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(
     locationPath.includes('components') ? true : false,
   );
-
+    
   return (
     <FlexBox>
       <AuthenticatedSidebar
