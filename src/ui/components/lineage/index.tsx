@@ -37,7 +37,7 @@ interface Edge {
   type?: string;
   animated?: boolean;
   label?: string;
-  arrowHeadColor:any
+  arrowHeadColor: any
   // markerStart?: EdgeMarkerType;
   markerEnd?: {
     type: MarkerType.ArrowClosed,
@@ -217,7 +217,9 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   console.log("__UNAUTH", { nodes, edges, graph: graph.graph.nodes, edges2: graph.graph.edges })
   return (
     <>
+
       <div className="controls">
+      {selectedNode == null ? <div>Select a node</div> : <Sidebar selectedNode={selectedNode} />}
         {/* code commented by Ali id:#123456789*/}
         {/* <button
           onClick={() => {
@@ -304,7 +306,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
               // wait till new selected node is selected
               setTimeout(async () => {
                 node.data["selected"] = true;
-                node.data["arrowHeadColor"]=getArrowHeadColor(node.data.execution_id, "white");
+                node.data["arrowHeadColor"] = getArrowHeadColor(node.data.execution_id, "white");
                 setSelectedNode(node.data)
                 console.log("__UNAUTH SELECTEDNODE 3", selectedNode)
               }, 100)
@@ -464,7 +466,8 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
           </div> */}
           {/* {console.log({ artifact: ArtifactNode.type })} */}
           {/* {selectedNode == null ? "" : <Sidebar selectedNode={selectedNode} />} */}
-          {selectedNode == null ? <div>Select a node</div> : <Sidebar selectedNode={selectedNode} />}
+
+          {/* {selectedNode == null ? <div>Select a node</div> : <Sidebar selectedNode={selectedNode} />} */}
 
           {/* {sidebar ?
             <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(!sidebar)} style={{ position: 'absolute', right: -50 }} />

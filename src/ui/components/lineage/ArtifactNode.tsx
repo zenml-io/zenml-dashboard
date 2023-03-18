@@ -20,7 +20,8 @@ const ArtifactNode = ({
         position={targetPosition}
         className={styles.handle}
       />
-      <div className={styles.artifactBody}>
+       {/* className={data.selected ? styles.stepBodySelected : styles.stepBody} */}
+      <div className={data.selected ? styles.artifactBodySelected : styles.artifactBody}>
         {data.artifact_type === 'DataArtifact' ? (
           <Data />
         ) : data.artifact_type === 'DataAnalysisArtifact' ? (
@@ -47,4 +48,4 @@ const ArtifactNode = ({
   );
 };
 
-export default memo(ArtifactNode);
+export default ArtifactNode;

@@ -106,6 +106,17 @@
   box-shadow: 0 3px 10px rgba(0, 0 ,0, 0.1);
 
 }
+.artifactBodySelected {
+  position: relative;
+  display: inline-flex;
+  font-family: Arial, Helvetica, sans-serif !important;
+  border: 2px #431d93 solid;
+  border-radius: 4px;
+  background: #fff;
+  padding: 0.5rem;
+  box-shadow: 0 3px 10px rgba(0, 0 ,0, 0.1);
+
+}
 
 .artifactIcon {
   // padding-bottom: 1px;

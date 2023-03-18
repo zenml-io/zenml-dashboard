@@ -63,7 +63,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
     const [configShow, setConfigShow] = useState("__CONFIGURATION");
     const [checked, setChecked] = useState(false);
 
- 
+
     const TabClickHandler = (tab: string) => {
         switch (tab) {
             case "__CONFIG": return setShow("__CONFIG");
@@ -85,10 +85,11 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
 
         <>
             <div className='siderbar_header11 '>
-                <span className='' onClick={() => TabClickHandler("__CONFIG")} style={{ borderBottom: show === "__CONFIG" ? "solid" : "" }}>Config</span>
-                <span className='' onClick={() => TabClickHandler("__LOG")} style={{ borderBottom: show === "__LOG" ? "solid" : "" }}>Log</span>
-                <span className='' onClick={() => TabClickHandler("__ATTRIBUTE")} style={{ borderBottom: show === "__ATTRIBUTE" ? "solid" : "" }}>Attribute</span>
-                <span className='' onClick={() => TabClickHandler("__CODE")} style={{ borderBottom: show === "__CODE" ? "solid" : "" }}>Code</span>
+                {/* <span className='' onClick={() => TabClickHandler("__CONFIG")} style={{ borderBottom: show === "__CONFIG" ? "solid" : "" }}>Config</span> */}
+                <span className='' onClick={() => TabClickHandler("__CONFIG")} style={show == "__CONFIG" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Config</span>
+                <span className='' onClick={() => TabClickHandler("__LOG")} style={show == "__LOG" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Log</span>
+                <span className='' onClick={() => TabClickHandler("__ATTRIBUTE")} style={show == "__ATTRIBUTE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Attribute</span>
+                <span className='' onClick={() => TabClickHandler("__CODE")} style={show == "__CODE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Code</span>
             </div>
             {
                 show === "__ATTRIBUTE" ?
@@ -199,10 +200,10 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
             {show === "__CONFIG" ?
 
                 <>
-                    <div className='siderbar_subheader11 '>
-                        <span className='' onClick={() => ConfigurationTabClickHandler("__CONFIGURATION")} style={{ borderBottom: configShow === "__CONFIGURATION" ? "solid" : "" }}>Configuration</span>
-                        <span className='' onClick={() => ConfigurationTabClickHandler("__RUNS")} style={{ borderBottom: configShow === "__RUNS" ? "solid" : "" }}>Runs</span>
-                        <span className='' onClick={() => ConfigurationTabClickHandler("__STACK")} style={{ borderBottom: configShow === "__STACK" ? "solid" : "" }}>Stack</span>
+                    <div className='siderbar_subheader11'>
+                        <span className='' onClick={() => ConfigurationTabClickHandler("__CONFIGURATION")} style={configShow == "__CONFIGURATION" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Configuration</span>
+                        <span className='' onClick={() => ConfigurationTabClickHandler("__RUNS")} style={configShow == "__RUNS" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Runs</span>
+                        <span className='' onClick={() => ConfigurationTabClickHandler("__STACK")} style={configShow == "__STACK" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Stack</span>
                     </div>
                     {configShow && configShow === "__CONFIGURATION" ?
                         <div className='config_container'>
@@ -287,8 +288,8 @@ const ArtifactTabHeader: React.FC<any> = ({ node }) => {
     return (
         <>
             <div className='siderbar_header11 '>
-                <span className='' onClick={() => TabClickHandler("__META")} style={{ borderBottom: show === "__META" ? "solid" : "" }}>Meta-data</span>
-                <span className='' onClick={() => TabClickHandler("__ATTRIBUTE")} style={{ borderBottom: show === "__ATTRIBUTE" ? "solid" : "" }}>Attribute</span>
+                <span className='' onClick={() => TabClickHandler("__META")} style={show == "__META" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Meta-data</span>
+                <span className='' onClick={() => TabClickHandler("__ATTRIBUTE")} style={show == "__ATTRIBUTE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Attribute</span>
             </div>
 
             {/* SHOW META */}
@@ -416,23 +417,19 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
         FetchData(type);
     }, [isStepNode])
 
-    
+
     return (
         <div >
             {sidebar ?
                 <div className='siderbar11'>
-                    <div className='siderbar_arrow'>
-
+                    <div className='siderBar_contentArea'>
                         {sidebar ?
 
-                            <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} />
+                            <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} style={{position:"absolute", top:"45%", left:"-6%", zIndex:-1}}/>
                             :
                             <img src={circleArrowSideClose} alt={"open"} onClick={() => setSidebar(false)} />
 
                         }
-
-                    </div>
-                    <div className='siderBar_contentArea'>
                         {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />}
 
                         <div className='sidebar_body11'>
@@ -441,7 +438,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                 </div>
                 :
                 <>
-                    <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{ position: 'absolute', right: -50 }} />
+                    <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{ position: 'absolute', right: -50 , top:"100%"}} />
                 </>
             }
         </div>
