@@ -54,7 +54,7 @@ function JsonDisplay({ data }: any) {
     const string = JSON.stringify(json)
     console.log({ string })
     return (
-        <div dangerouslySetInnerHTML={{ __html: printNestedJson(data) }} style={{ overflow: 'auto', maxHeight: '500px', margin: 20 }} />
+        <div dangerouslySetInnerHTML={{ __html: printNestedJson(data) }} style={{ overflow: 'auto', maxHeight: '80%', margin: 20 }} />
     );
 }
 
@@ -419,7 +419,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
 
 
     return (
-        <div >
+        <div style={{position:'absolute', top:"10%", left:"100%", zIndex:101}}>
             {sidebar ?
                 <div className='siderbar11'>
                     <div className='siderBar_contentArea'>
@@ -437,15 +437,14 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                     </div>
                 </div>
                 :
-                <>
-                    <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{ position: 'absolute', right: -50 , top:"100%"}} />
-                </>
+                <div style={{ position: 'absolute', right: -50 , top:"100%",padding:'10px', height:"500px", display:"flex", alignItems:'flex-end'}} >
+                    <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{zIndex:100}}/>
+                </div>
             }
         </div>
     )
 }
 
 export default Sidebar
-
 
 

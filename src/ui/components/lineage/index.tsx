@@ -216,10 +216,10 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   }
   console.log("__UNAUTH", { nodes, edges, graph: graph.graph.nodes, edges2: graph.graph.edges })
   return (
-    <>
+    <div style={{overflow:'hidden'}}>
+      {selectedNode == null ? <div>Select a node</div> : <Sidebar selectedNode={selectedNode} />}
 
       <div className="controls">
-      {selectedNode == null ? <div>Select a node</div> : <Sidebar selectedNode={selectedNode} />}
         {/* code commented by Ali id:#123456789*/}
         {/* <button
           onClick={() => {
@@ -521,6 +521,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
 
         </div>
       </div>
-    </>
+    </div>
   );
 };
