@@ -43,11 +43,12 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
         );
       };
       return (
-        <Box marginTop='lg' style={{ width: '40%' }}>
+        <Box marginTop="lg" style={{ width: '40%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
           <Box
+            marginTop={'sm'}
             padding={'md'}
             // marginVertical={'md'}
             className={styles.JSONPretty}
@@ -59,8 +60,15 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
               size={iconSizes.sm}
             />
             <JSONPretty
-              style={{ fontSize: '16px', fontFamily: 'Rubik' }}
-              id="json-pretty"
+              // aria-disabled
+              // valueStyle="red"
+              // color="rgba(246, 247, 247, 1)"
+              style={{
+                fontSize: '16px',
+                fontFamily: 'Rubik',
+                // color: 'rgba(246, 247, 247, 1)',
+              }}
+              // id="json-pretty"
               data={elementSchema}
             ></JSONPretty>
           </Box>

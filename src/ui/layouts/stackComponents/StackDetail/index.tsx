@@ -219,6 +219,7 @@ export const StackDetail: React.FC = () => {
         selectedWorkspace,
       )}
       breadcrumbs={breadcrumbs}
+      title="Stack Components"
     >
       {/* <Box style={boxStyle}>
         <Box>
