@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import circleArrowSideClose from '../icons/assets/circleArrowSideClose.svg';
 import circleArrowSideOpen from '../icons/assets/circleArrowSideOpen.svg';
 import styles from './index.module.scss'
-import ReactSyntaxHighlighter, { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 // import Switch from "react-switch";
 import { useSelector } from '../../hooks';
@@ -10,26 +10,26 @@ import { sessionSelectors } from '../../../redux/selectors';
 import axios from 'axios';
 import { Status_Completed } from './icons';
 
-const TogglerSwitch: React.FC<any> = ({ label, css }) => {
-    const [checked, setchecked] = useState(false)
-    return (
-        <div style={{ ...css, justifyContent: 'center', alignItems: 'center', background: 'pink' }}>
-            <div style={{ minWidth: 200 }}>
-                {label}
-            </div>
-            <div>
-                {/* <Switch
-                    onChange={() => setchecked(!checked)}
-                    checked={checked}
-                    height={16}
-                    width={36}
-                    onColor={"#7870f1"}
-                    offColor={"#3b3a4e"}
-                /> */}
-            </div>
-        </div>
-    )
-}
+// const TogglerSwitch: React.FC<any> = ({ label, css }) => {
+//     const [checked, setchecked] = useState(false)
+//     return (
+//         <div style={{ ...css, justifyContent: 'center', alignItems: 'center', background: 'pink' }}>
+//             <div style={{ minWidth: 200 }}>
+//                 {label}
+//             </div>
+//             <div>
+//                 {/* <Switch
+//                     onChange={() => setchecked(!checked)}
+//                     checked={checked}
+//                     height={16}
+//                     width={36}
+//                     onColor={"#7870f1"}
+//                     offColor={"#3b3a4e"}
+//                 /> */}
+//             </div>
+//         </div>
+//     )
+// }
 
 function printNestedJson(obj: any) {
     let output = '';
@@ -173,10 +173,11 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
                 show === "__CODE" ?
                     <div className={styles.codeContainer}>
                         <SyntaxHighlighter
-                            customStyle={{ width: '100%' }}
+                            customStyle={{ width: '100%', height:'80%', fontSize:20  }}
                             wrapLines={true}
                             language="python"
                             style={okaidia}
+                            
                         >
                             {node.source_code}
                         </SyntaxHighlighter>
@@ -419,26 +420,23 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
 
 
     return (
-        <div style={{position:'absolute', top:"10%", left:"100%", zIndex:101}}>
+        <div style={{ position: 'absolute', top: "10%", left: "100%", zIndex: 101 }}>
             {sidebar ?
+            // <div style={{display:'flex',justifyContent:'flex-start',alignItems:'flex-start', flexDirection:'row', width:'60vw', height:'100vh', background:'green', position:'absolute', right:'0%'}}>
                 <div className='siderbar11'>
+                    <div className='sidebar11_arrow'>
+                        <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} />
+                    </div>
                     <div className='siderBar_contentArea'>
-                        {sidebar ?
-
-                            <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} style={{position:"absolute", top:"45%", left:"-6%", zIndex:-1}}/>
-                            :
-                            <img src={circleArrowSideClose} alt={"open"} onClick={() => setSidebar(false)} />
-
-                        }
-                        {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />}
-
                         <div className='sidebar_body11'>
+                        {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />}
                         </div>
                     </div>
                 </div>
+            // </div>
                 :
-                <div style={{ position: 'absolute', right: -50 , top:"100%",padding:'10px', height:"500px", display:"flex", alignItems:'flex-end'}} >
-                    <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{zIndex:100}}/>
+                <div style={{ position: 'absolute', right: -50, top: "100%", padding: '10px', height: "500px", display: "flex", alignItems: 'flex-end' }} >
+                    <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{ zIndex: 100 }} />
                 </div>
             }
         </div>

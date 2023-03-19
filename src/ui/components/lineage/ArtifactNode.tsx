@@ -1,5 +1,5 @@
-import React, { memo } from 'react';
-import { Handle, MarkerType, Position } from 'react-flow-renderer';
+import React from 'react';
+import { Handle, Position } from 'react-flow-renderer';
 import { Data, Model, Schema, Service, Statistic, Analysis } from './icons';
 
 import styles from './index.module.scss';

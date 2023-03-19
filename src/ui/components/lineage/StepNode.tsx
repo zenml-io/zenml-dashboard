@@ -1,9 +1,8 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Handle, Position } from 'react-flow-renderer';
 import { Cached, Completed, Export, Failed, Folder, Lock, Running } from './icons';
 
 import styles from './index.module.scss';
-import Sidebar from './Sidebar';
 import { NodeProps } from 'react-flow-renderer';
 // import { NodeProps } from './types';
 

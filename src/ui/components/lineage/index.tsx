@@ -6,9 +6,7 @@ import ReactFlow, {
   useEdgesState,
   Controls,
   MarkerType,
-  Node,
   NodeProps,
-  ReactFlowInstance
 } from 'react-flow-renderer';
 
 import dagre from 'dagre';
@@ -17,16 +15,12 @@ import ArtifactNode from './ArtifactNode';
 import StepNode from './StepNode';
 
 import './index.css';
-import { Analysis, Data, Database, Model, Schema, Service, Statistic } from './icons';
-import { useDispatch } from '../../hooks';
-import { runsActions } from '../../../redux/actions';
+import { Analysis, Database, Model, Schema, Service, Statistic } from './icons';
+// import { useDispatch } from '../../hooks';
+// import { runsActions } from '../../../redux/actions';
 import { FullWidthSpinner } from '../spinners';
 import arrowClose from '../icons/assets/arrowClose.svg';
 import arrowOpen from '../icons/assets/arrowOpen.svg';
-import arrowSideOpen from '../icons/assets/arrowSideOpen.svg';
-import arrowCloseOpen from '../icons/assets/arrowClose.svg';
-import circleArrowSideClose from '../icons/assets/circleArrowSideClose.svg';
-import circleArrowSideOpen from '../icons/assets/circleArrowSideOpen.svg';
 import Sidebar from './Sidebar';
 
 
@@ -146,7 +140,7 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
 export const LayoutFlow: React.FC<any> = (graph: any) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const {
     initialNodes: layoutedNodes,
     initialEdges: layoutedEdges,
@@ -155,7 +149,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   // eslint-disable-next-line
   const [nodes, _, onNodesChange] = useNodesState(layoutedNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
-  const [selectedNodeId, setSelectedNodeId] = useState<NodeProps | null>(null);
+  // const [selectedNodeId, setSelectedNodeId] = useState<NodeProps | null>(null);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
 
@@ -165,13 +159,13 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
     //  let flowInstance = ReactFlowInstance.getInstance();
   };
 
-  const getArrowHeadColor = (connection: any, defaultColor: any) => {
-    console.log("__UNAUTH_COLOR_RED")
-    if (connection.target === 'highlighted-node-id') {
-      return 'red';
-    }
-    return defaultColor;
-  };
+  // const getArrowHeadColor = (connection: any, defaultColor: any) => {
+  //   console.log("__UNAUTH_COLOR_RED")
+  //   if (connection.target === 'highlighted-node-id') {
+  //     return 'red';
+  //   }
+  //   return defaultColor;
+  // };
 
 
   // const handleNodeClick = async (event: React.MouseEvent, node: NodeProps) => {
@@ -298,7 +292,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                 if (selectedNode?.selected) {
                   selectedNode.selected = false
                   setSelectedNode(node.data);
-                  // console.log({this}) 
                 }
                 setSelectedNode(null);
               }, 100)
@@ -306,7 +299,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
               // wait till new selected node is selected
               setTimeout(async () => {
                 node.data["selected"] = true;
-                node.data["arrowHeadColor"] = getArrowHeadColor(node.data.execution_id, "white");
                 setSelectedNode(node.data)
                 console.log("__UNAUTH SELECTEDNODE 3", selectedNode)
               }, 100)

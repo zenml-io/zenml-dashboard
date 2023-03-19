@@ -203,9 +203,9 @@
   position: absolute;
   /* top: 500; */
   right: 0;
-  width: 747px;
-  height: 813px;
-  background-color: white;
+  width: 50vw;
+  height: 100vh;
+  background-color: rgb(245, 245, 245);
   display: flex;
   z-index: 100;
   box-shadow: 0 0px 100px rgb(0 0 0 / 0.1);
@@ -226,27 +226,35 @@
   align-items: center;
 }
 
-.siderbar_arrow {
-  /* position: relative; */
-  height: 100%;
-  /* width: 60px; */
+.sidebar11_arrow{
+  position: absolute;
+  width: 20px;
+  height: 100vh;
+  left: 30px;
   display: flex;
-  justify-content: center;
+  justify-content: flex-end;
   align-items: center;
-  /* z-index: 99; */
   -webkit-user-select: none;
   -ms-user-select: none;
   user-select: none;
-  /* overflow: hidden; */
-  background-color: aqua;
+}
+.sidebar11_arrow>img{
+z-index: -1;
+}
+.siderbar_arrow {
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 
 .siderbar_arrow img {
-  /* po */
   position: absolute;
   right: 94%;
   z-index: -1 !important;
-  /* border: 10px solid; */
 }
 
 .siderbar_header11 {
@@ -255,8 +263,6 @@
   display: flex;
   justify-content: flex-start;
   align-items: center;
-  /* background-color: aqua; */
-  /* padding-left: ; */
 }
 
 .siderbar_subheader11 {
@@ -273,7 +279,6 @@
   font-weight: 600;
   font-size: 16px;
   color: #443E99;
-  /* background: red; */
   margin-left: 21px;
 }
 
@@ -283,15 +288,13 @@
   font-weight: 400;
   font-size: 14px;
   color: #913e99;
-  /* background: red; */
   margin-left: 21px;
 }
 
 .sidebar_body11 {
   width: 100%;
   height: 100%;
-  /* background-color: aqua; */
-  /* display: flex; */
+  background-color: white;
 }
 
 .sidebar_body_attr {
@@ -306,11 +309,6 @@
   justify-content: "start";
   align-items: center;
   margin-left: 21px;
-}
-
-.sidebar_body_fields {
-  /* display: flex; */
-  /* background-color: bisque; */
 }
 
 /* .sidebar_subbody_left {
@@ -368,7 +366,7 @@
 }
 
 .sidebar_table {
-  width: 745px;
+  width: 100%;
   height: auto;
   background-color: white;
 }
