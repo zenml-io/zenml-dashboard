@@ -1,17 +1,18 @@
 import React, { memo } from 'react';
-import { Handle, Position } from 'react-flow-renderer';
+import { Handle, MarkerType, Position } from 'react-flow-renderer';
 import { Data, Model, Schema, Service, Statistic, Analysis } from './icons';
 
 import styles from './index.module.scss';
-import { NodeProps } from './types';
+import { NodeProps } from 'react-flow-renderer';
 
 const ArtifactNode = ({
   data,
   targetPosition = Position.Top,
   sourcePosition = Position.Bottom,
+  onNodeSelection,
 }: NodeProps) => {
 
-  // console.log("ArtifactNode data: ", data)
+  console.log("__UNAUTH ArtifactNode data: ", data )
   return (
     <>
       <Handle
@@ -19,7 +20,8 @@ const ArtifactNode = ({
         position={targetPosition}
         className={styles.handle}
       />
-      <div className={styles.artifactBody}>
+       {/* className={data.selected ? styles.stepBodySelected : styles.stepBody} */}
+      <div className={data.selected ? styles.artifactBodySelected : styles.artifactBody}>
         {data.artifact_type === 'DataArtifact' ? (
           <Data />
         ) : data.artifact_type === 'DataAnalysisArtifact' ? (
@@ -46,4 +48,4 @@ const ArtifactNode = ({
   );
 };
 
-export default memo(ArtifactNode);
+export default ArtifactNode;

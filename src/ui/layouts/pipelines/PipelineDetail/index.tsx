@@ -11,10 +11,13 @@ import { useService } from './useService';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { Box } from '../../../components';
+import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-import { List } from '../Pipelines/List';
+// import { List } from '../Pipelines/List';
+import { CollapseTable } from '../../common/CollapseTable';
+import { GetHeaderCols } from './getHeaderCols';
 
 interface Props {
   pipelineId: TId;
@@ -93,11 +96,12 @@ export interface PipelineDetailRouteParams {
 
 export const PipelineDetail: React.FC = () => {
   const { pipeline } = useService();
-
+  const filteredPipeline: any = [];
+  filteredPipeline.push(pipeline);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages(pipeline.id, selectedWorkspace);
   const breadcrumbs = getBreadcrumbs(pipeline.id, selectedWorkspace);
-
+  const history = useHistory();
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
   //   padding: '10px 0',
@@ -107,7 +111,12 @@ export const PipelineDetail: React.FC = () => {
   //   justifyContent: 'space-around',
   // };
   // const headStyle = { color: '#828282' };
-
+  const headerCols = GetHeaderCols({
+    filteredPipeline,
+  } as any);
+  const openDetailPage = (stack: TStack) => {
+    history.push(routePaths.pipelines.list(selectedWorkspace));
+  };
   return (
     <BasePage
       headerWithButtons
@@ -115,7 +124,17 @@ export const PipelineDetail: React.FC = () => {
       tabBasePath={routePaths.pipeline.base(pipeline.id)}
       breadcrumbs={breadcrumbs}
     >
-      <List filter={[]} pagination={false} isExpended id={pipeline.id}></List>
+      <Box marginTop='lg'>
+        <CollapseTable
+          pagination={false}
+          renderAfterRow={(stack: TStack) => <></>}
+          headerCols={headerCols}
+          tableRows={filteredPipeline}
+          emptyState={{ text: translate('emptyState.text') }}
+          trOnClick={openDetailPage}
+        />
+      </Box>
+      {/* <List filter={[]} pagination={false} isExpended id={pipeline.id}></List> */}
       {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>ID</Paragraph>
@@ -144,6 +163,7 @@ export const PipelineDetail: React.FC = () => {
         </Box>
       </Box> */}
     </BasePage>
+
   );
 };
 

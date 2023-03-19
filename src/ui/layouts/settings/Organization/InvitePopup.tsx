@@ -1,5 +1,6 @@
 /* eslint-disable */
 import React, { useState } from 'react';
+import styles from './index.module.scss'
 import { toasterTypes } from '../../../../constants';
 import {
   organizationActions,
@@ -9,22 +10,25 @@ import { translate } from './translate';
 import {
   Box,
   FlexBox,
-  FormTextField,
+  // GenerateTokenField,
   CopyField,
-  H3,
-  PrimaryButton,
+  H4,
+  Separator,
   Paragraph,
+  FormTextField,
   GhostButton
 } from '../../../components';
 import { useSelector, useDispatch } from '../../../hooks';
-import { Popup } from '../../common/Popup';
+import { PopupSmall } from '../../common/PopupSmall';
+import { RoleSelector } from './RoleSelector'
 import {
   organizationSelectors,
   rolesSelectors,
   sessionSelectors,
 } from '../../../../redux/selectors';
+import userImage from '../../../assets/userImage.png'
 import axios from 'axios';
-import Select, { StylesConfig } from 'react-select'
+import { RoleSelectorReadOnly } from './RoleSelector/RoleSelectorReadOnly';
 
 export const InvitePopup: React.FC<{ 
   setPopupOpen: (attr: boolean) => void;
@@ -38,11 +42,11 @@ export const InvitePopup: React.FC<{
   const roles = useSelector(rolesSelectors.getRoles);
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
-  const [role, setRole] = useState('');
+  const [role, setRole] = useState<any>([]);
 
-  const allRoles = roles?.map((e) => {
+  const [allRoles, setAllRoles] = useState(roles?.map((e) => {
     return { value: e.id, label: e.name }
-  })
+  }))
 
   const inviteNewMembers = () => {
     if (role) {
@@ -100,93 +104,88 @@ export const InvitePopup: React.FC<{
     }
   };
 
-  function handleChange(value: any) {
-    setRole(value);
-  }
-
-  const colourStyles: StylesConfig<any> = {
-    control: (styles: any) => ({ ...styles,  fontSize: '1.6rem', fontFamily: 'Rubik', color: '#424240' }),
-    option: (styles: any) => {
-      return {
-        ...styles, fontSize: '1.6rem', fontFamily: 'Rubik', color: '#424240'
-      };
-    }
-  }
+  const preRoles = role?.map((e: any) => {
+    return { id: e?.value, name: e?.label }
+  })
 
   return (
     <>
-  
-      <Popup onClose={() => setPopupOpen(false)} >
+      <PopupSmall onClose={() => setPopupOpen(false)} width='370px' showCloseIcon={false}>
         <FlexBox.Row alignItems="center" justifyContent="space-between">
-          <H3 bold color="darkGrey">{showTokField ? translate('popup.invite.text') : translate('popup.title')}</H3>
+          <H4 bold style={{ fontSize: '18px', fontWeight: 'bold'}}>{showTokField ? translate('popup.invite.text') : translate('popup.title')}</H4>
+        </FlexBox.Row>
+
+        <FlexBox.Row marginTop="lg" justifyContent='center'>
+          <Box className={styles.userImage}>
+           <img src={userImage} alt='userImage' />
+          </Box>
         </FlexBox.Row>
         
-        <Box marginTop="lg">
-          <Box>
-            <FormTextField
-              label={translate('popup.username.label')}
-              labelColor="#000"
-              placeholder={translate('popup.username.placeholder')}
-              value={name}
-              onChange={(val: string) => setName(val)}
-              error={{
-                hasError: false,
-                text: '',
-                }}
-              />
-          </Box>
+        <Box marginTop="md">    
+          <FormTextField 
+            label={translate('popup.username.label')}
+            labelColor="rgba(66, 66, 64, 0.5)"
+            placeholder={translate('popup.username.placeholder')}
+            value={name}
+            onChange={(val: string) => setName(val)}
+            disabled={showTokField}  
+          />
+          
+          {/* <GenerateTokenField
+            label={translate('popup.username.label')}
+            labelColor="rgba(66, 66, 64, 0.5)"
+            placeholder={translate('popup.username.placeholder')}
+            value={name}
+            onChange={(val: string) => setName(val)}
+            handleClick={inviteNewMembers}
+            loading={submitting}
+            hideButton={showTokField}
+            error={{
+              hasError: false,
+              text: '',
+            }}
+          /> */}
         </Box>
 
-        {!showTokField && ( 
-          <Box marginTop="md">
-            <Paragraph size="body" style={{ color: 'black' }}><label htmlFor={name}>{'Roles'}</label></Paragraph>
-              <Select 
-                options={allRoles} 
-                isMulti  
-                onChange={(e: any) => handleChange(e)}
-                value={role}
-                placeholder={'Roles'}
-                styles={colourStyles}
-                isClearable={false}
-              />
-          </Box>
-        )} 
-          
-
-        {showTokField && (
-          <Box marginTop="lg">
-            <CopyField
-              label={`Invitation Link - please send this to ${name} for this user to finish their registration`}
-              value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.activationToken}`}
-              disabled
+        {!showTokField ? ( 
+          <Box marginTop='lg'>   
+            <RoleSelector
+              allRoles={allRoles}
+              role={role}
+              setAllRoles={setAllRoles}
+              setRole={setRole}  
             />
           </Box>
-        )}
-
-
-
-        <FlexBox justifyContent="flex-end" marginTop="xl" flexWrap>
-          {!showTokField && (
-            <>
-              <Box marginRight="sm" marginBottom="md">
-                <GhostButton onClick={() => setPopupOpen(false)}>
-                  {translate('updateMemberPopup.cancelButton.text')}
-                </GhostButton>
-              </Box>
-              <Box marginBottom='md' >
-                <PrimaryButton
-                  disabled={submitting}
-                  loading={submitting}
-                  onClick={inviteNewMembers}
-                >
-                  {translate('popup.button.text')}
-                </PrimaryButton>
-              </Box>
-            </>
-          )}
-        </FlexBox>
-      
-      </Popup>
+        ) : (
+          <Box marginTop='lg'>   
+            <RoleSelectorReadOnly roles={preRoles} />
+          </Box>
+        )} 
+        
+        <Box marginTop="lg" marginBottom='xxxl'>
+            <CopyField
+              label="Invitation Link"
+              labelColor='rgba(66, 66, 64, 0.5)'
+              value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.activationToken}`}
+              showTokField={showTokField}
+              disabled
+            />
+        </Box>
+   
+        <Box style={{ marginTop: '62px' }}>
+          <Box marginBottom="md">
+            <Separator.LightNew />
+          </Box>          
+          <FlexBox justifyContent="center" flexWrap>
+            {name && role?.length > 0 && !showTokField ?
+              <Paragraph style={{ cursor: 'pointer', color: '#443E99' }} onClick={inviteNewMembers}>Generate Token</Paragraph>
+            :
+              <Paragraph style={{ cursor: 'no-drop', color: '#A8A8A8' }}>Generate Token</Paragraph>
+            }
+          </FlexBox>
+        </Box>
+    
+      </PopupSmall>
     </>
   );
 };

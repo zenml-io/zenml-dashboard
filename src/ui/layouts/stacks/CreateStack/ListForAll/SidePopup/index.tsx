@@ -49,7 +49,7 @@ export const SidePopup: React.FC<{
       >
         <Box className={styles.popupClose}>
           <LinkBox onClick={onClose}>
-            <icons.closeWithBorder />
+            <icons.close />
           </LinkBox>
         </Box>
 
@@ -70,7 +70,7 @@ export const SidePopup: React.FC<{
               <FlexBox.Row justifyContent="space-between" alignItems="center">
                 <Box>
                   <LinkBox onClick={onSeeExisting}>
-                    <Paragraph>See Component Page</Paragraph>
+                    <Paragraph style={{ fontSize: '16px', textDecoration: 'underline', color: '#443E99' }}>See Component Page</Paragraph>
                   </LinkBox>
                 </Box>
 

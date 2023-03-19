@@ -6,8 +6,11 @@ import ReactFlow, {
   useEdgesState,
   Controls,
   MarkerType,
-  EdgeMarker
+  Node,
+  NodeProps,
+  ReactFlowInstance
 } from 'react-flow-renderer';
+
 import dagre from 'dagre';
 
 import ArtifactNode from './ArtifactNode';
@@ -33,11 +36,18 @@ interface Edge {
   target: string;
   type?: string;
   animated?: boolean;
-  markerEnd?: {
-    type: MarkerType
-  };
   label?: string;
+  arrowHeadColor: any
+  // markerStart?: EdgeMarkerType;
+  markerEnd?: {
+    type: MarkerType.ArrowClosed,
+    width: number,
+    height: number,
+    color: string,
+  },
 }
+
+
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -48,7 +58,8 @@ const nodeHeight = 36;
 const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], direction = 'TB',) => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
-  console.log(initialEdges, initialNodes);
+  console.log("__UNAUTH initialEdges", initialEdges);
+  console.log("__UNAUTH initailNode", initialNodes);
   if (initialEdges === undefined && initialNodes === undefined) {
     return { initialNodes, initialEdges };
   }
@@ -68,6 +79,7 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
     node.targetPosition = isHorizontal ? 'left' : 'top';
     node.sourcePosition = isHorizontal ? 'right' : 'bottom';
 
+
     node.position = {
       x: nodeWithPosition.x - nodeWidth / 2,
       y: nodeWithPosition.y - nodeHeight / 2,
@@ -77,13 +89,17 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
   });
 
   initialEdges.forEach((edge) => {
-    // edge.type = isHorizontal ? 'straight' : 'smoothstep';
+
+    // console.log("__UNAUTH edge: ", edge)
     edge.type = isHorizontal ? 'straight' : 'step';
-    // edge.markerEnd.type = MarkerType.Arrow;
-    if (edge.markerEnd) {
-      edge.markerEnd.type = MarkerType.Arrow;
+    edge["markerEnd"] = {
+      type: MarkerType.ArrowClosed,
+      width: 20,
+      height: 20,
+      color: '#443E99',
     }
 
+    // edge.markerStart = 'arrowclosed'
 
 
     initialNodes.find((node) => {
@@ -114,6 +130,7 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
           console.log(status);
           if (status.data.status === 'running') {
             edge.animated = true;
+
           }
         }
       }
@@ -138,9 +155,43 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   // eslint-disable-next-line
   const [nodes, _, onNodesChange] = useNodesState(layoutedNodes);
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
+  const [selectedNodeId, setSelectedNodeId] = useState<NodeProps | null>(null);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
-  const [sidebar, setSidebar] = useState(false)
+
+
+  const NodeClickHandler = async (event: React.MouseEvent, node: any) => {
+
+    //  let flowInstance = ReactFlowInstance.getInstance();
+  };
+
+  const getArrowHeadColor = (connection: any, defaultColor: any) => {
+    console.log("__UNAUTH_COLOR_RED")
+    if (connection.target === 'highlighted-node-id') {
+      return 'red';
+    }
+    return defaultColor;
+  };
+
+
+  // const handleNodeClick = async (event: React.MouseEvent, node: NodeProps) => {
+  //   // console.log("__UNAUTH Node: ", nodes)
+  //   // console.log("__UNAUTH Node n: ", node)
+  //   let currentNode;
+  //   const selected = await nodes.map(async (n, i) => {
+  //     if (n.data.execution_id === node.toString()) {
+  //       console.log({ "__UNAUTH Node: ": nodes, n })
+  //       currentNode = n
+  //       // setSelectedNode(currentNode);
+  //       return
+  //     }
+  //   })
+  //   console.log("__UNAUTH SELECTEDNODE 1: ", currentNode)
+  //   console.log("__UNAUTH SELECTEDNODE 2: ", selectedNode)
+  //   return currentNode;
+  // };
+
+  // const [sidebar, setSidebar] = useState(false)
   const onConnect = useCallback(
     (params) =>
       setEdges((eds) =>
@@ -150,21 +201,24 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
             type: ConnectionLineType.SmoothStep,
             animated: true,
             markerEnd: {
-              type: MarkerType.Arrow
-            }
+              type: MarkerType.ArrowClosed,
+            },
           },
           eds,
         ),
       ),
+    // console.log(params)
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [],
   );
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  console.log({ nodes, edges, graph: graph.graph.nodes, edges2: graph.graph.edges })
+  console.log("__UNAUTH", { nodes, edges, graph: graph.graph.nodes, edges2: graph.graph.edges })
   return (
-    <>
+    <div style={{overflow:'hidden'}}>
+      {selectedNode == null ? <div>Select a node</div> : <Sidebar selectedNode={selectedNode} />}
+
       <div className="controls">
         {/* code commented by Ali id:#123456789*/}
         {/* <button
@@ -235,11 +289,31 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
             onConnect={onConnect}
             connectionLineType={ConnectionLineType.SimpleBezier}
             nodeTypes={nodeTypes}
-            onNodeClick={(event, node) => {
-              setSelectedNode(node.data);
-              console.log("selectedNode: ", selectedNode);
-              setSidebar(!sidebar)
-            }}
+            onNodeClick={async (event, node) => {
+              NodeClickHandler(event, node);
+
+              console.log("__UNAUTH SELECTEDNODE 0", node)
+              // wait till already selected node is unselected
+              setTimeout(async () => {
+                if (selectedNode?.selected) {
+                  selectedNode.selected = false
+                  setSelectedNode(node.data);
+                  // console.log({this}) 
+                }
+                setSelectedNode(null);
+              }, 100)
+
+              // wait till new selected node is selected
+              setTimeout(async () => {
+                node.data["selected"] = true;
+                node.data["arrowHeadColor"] = getArrowHeadColor(node.data.execution_id, "white");
+                setSelectedNode(node.data)
+                console.log("__UNAUTH SELECTEDNODE 3", selectedNode)
+              }, 100)
+            }
+
+            }
+
             fitView
           >
             <Controls />
@@ -391,7 +465,10 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
             )}
           </div> */}
           {/* {console.log({ artifact: ArtifactNode.type })} */}
-          <Sidebar selectedNode={selectedNode}/>
+          {/* {selectedNode == null ? "" : <Sidebar selectedNode={selectedNode} />} */}
+
+          {/* {selectedNode == null ? <div>Select a node</div> : <Sidebar selectedNode={selectedNode} />} */}
+
           {/* {sidebar ?
             <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(!sidebar)} style={{ position: 'absolute', right: -50 }} />
             :
@@ -444,6 +521,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
 
         </div>
       </div>
-    </>
+    </div>
   );
 };

@@ -5,7 +5,7 @@ import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { Tabs } from '../common/Tabs';
 import Header from './Header';
 import Stacks from './Stacks';
-
+// Muhammad REACT FLOW BOX HERE
 export const BasePage: React.FC<{
   tabPages: TabPage[];
   breadcrumbs: TBreadcrumb[];
@@ -21,7 +21,7 @@ export const BasePage: React.FC<{
   children,
 }) => {
   return (
-    <AuthenticatedLayout>
+    <AuthenticatedLayout breadcrumb={[...breadcrumbs]}>
       <SidebarContainer>
         <IfElse
           condition={!!headerWithButtons}
@@ -41,6 +41,7 @@ export const BasePage: React.FC<{
         <Box>
           {children}
           <Tabs pages={tabPages} basePath={tabBasePath} />
+
         </Box>
       </SidebarContainer>
     </AuthenticatedLayout>

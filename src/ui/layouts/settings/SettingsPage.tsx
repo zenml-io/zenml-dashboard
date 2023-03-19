@@ -28,8 +28,8 @@ export const SettingsPage: React.FC = () => {
   return (
     <AuthenticatedLayout>
       <SidebarContainer>
-        <Box marginTop="xl">
-          <Paragraph>{translate('title')}</Paragraph>
+        <Box marginTop="xl" marginLeft='md' marginBottom='md' >
+          <Paragraph style={{ fontSize: '42px', fontWeight: 'bold', lineHeight: '48px' }} >{translate('title')}</Paragraph>
         </Box>
         <Box>
           <Tabs pages={PAGES} basePath={routePaths.settings.base} />

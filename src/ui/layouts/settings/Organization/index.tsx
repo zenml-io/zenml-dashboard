@@ -1,27 +1,26 @@
 import React, { useState, useEffect } from 'react';
+import styles from './index.module.scss'
 import { organizationActions } from '../../../../redux/actions';
 
 import {
   FlexBox,
   Box,
   Paragraph,
-  PrimaryButton,
-  LinkBox,
+  Row,
 } from '../../../components';
 import { useDispatch, useSelector } from '../../../hooks';
-import { Table } from '../../common/Table';
 import { translate } from './translate';
-import { useMemberHeaderCols } from './useHeaderCols';
 import { InvitePopup } from './InvitePopup';
 import { useService } from './useService';
 import { rolesActions } from '../../../../redux/actions/roles';
 import {
-  organizationSelectors,
-  sessionSelectors,
+  sessionSelectors
 } from '../../../../redux/selectors';
 import jwt_decode from 'jwt-decode';
 
-type Table = 'members' | 'invites';
+import AddUserBox from './UserBox/AddUserBox';
+import UserBox from './UserBox/UserBox';
+import { PasswordPopup } from '../PasswordPopup'
 
 export const Organization: React.FC = () => {
   const dispatch = useDispatch();
@@ -29,37 +28,17 @@ export const Organization: React.FC = () => {
   if (authToken) {
     var decoded: any = jwt_decode(authToken as any);
   }
+  // eslint-disable-next-line
   const [fetchingMembers, setFetchingMembers] = useState(true);
   const [popupOpen, setPopupOpen] = useState(false);
-  const [currentTable, setCurrentTable] = useState('members');
+  const [showPasswordPopup, setShowPasswordPopup] = useState(false);
+  const [user, setUser] = useState<any>({})
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
-  const membersPaginated = useSelector(
-    organizationSelectors.myMembersPaginated,
-  );
-  const {
-    filteredMembers,
-    setFilteredMembers,
-    activeSorting,
-    setActiveSorting,
-    activeSortingDirection,
-    setActiveSortingDirection,
-  } = useService();
+  const { filteredMembers } = useService();
 
-  const memberHeaderCols = useMemberHeaderCols({
-    decoded,
-    filteredMembers,
-    setFilteredMembers: setFilteredMembers,
-    activeSorting,
-    setActiveSorting,
-    activeSortingDirection,
-    setActiveSortingDirection,
-  });
-  // function name() {
-  //   console.log();
-  // }
   useEffect(() => {
     dispatch(rolesActions.getRoles({}));
     dispatch(
@@ -76,43 +55,26 @@ export const Organization: React.FC = () => {
   return (
     <>
       {popupOpen && <InvitePopup setPopupOpen={setPopupOpen} />}
-      <FlexBox.Column flex={1} style={{ width: '100%', marginLeft: '40px' }}>
-        <FlexBox.Row marginTop="lg" alignItems="center" justifyContent="end">
-          <Box>
-            <PrimaryButton
-              disabled={!decoded.permissions.includes('write')}
-              onClick={() => setPopupOpen(true)}
-            >
-              {translate('button.text')}
-            </PrimaryButton>
-          </Box>
-        </FlexBox.Row>
-        <Box marginTop="xxl">
+      {showPasswordPopup && <PasswordPopup user={user} username={user?.name} isUpdate={true} setPopupOpen={setShowPasswordPopup} />}
+
+      <FlexBox.Column flex={1} style={{ width: '100%', marginLeft: '40px' }}>           
+        <Box marginTop="lg">
+       
           <FlexBox.Row marginBottom="md">
-            <Box paddingHorizontal="md">
-              <LinkBox onClick={() => setCurrentTable('members')}>
-                <Paragraph
-                  bold
-                  color={currentTable === 'members' ? 'primary' : 'darkGrey'}
-                >
+            <Box>
+                <Paragraph bold className={styles.numberOfMembers} >
                   {translate('members')} {`(${filteredMembers.length})`}
                 </Paragraph>
-              </LinkBox>
             </Box>
           </FlexBox.Row>
-          {currentTable === 'members' && (
-            <Table
-              activeSorting={activeSorting}
-              // activeSorting={activeSorting}
-              paginated={membersPaginated}
-              pagination={true}
-              headerCols={memberHeaderCols}
-              loading={fetchingMembers}
-              showHeader={true}
-              tableRows={filteredMembers}
-              emptyState={{ text: translate('emptyState.text') }}
-            />
-          )}
+
+          <Row>
+            {decoded.permissions.includes('write') && <div onClick={() => setPopupOpen(true)}><AddUserBox /></div>}
+            {filteredMembers?.map((e) => (
+              <UserBox data={e} permission={decoded.permissions.includes('write')} setShowPasswordUpdate={setShowPasswordPopup} setUser={setUser} />
+            ))}
+          </Row>
+  
         </Box>
       </FlexBox.Column>
     </>

@@ -2,7 +2,8 @@
 
 .dimmer {
   position: fixed;
-  background: #424240;
+  background: rgba(217, 217, 217, 0.2);
+  backdrop-filter: blur(1px);
   opacity: 0.5;
   height: 100vh;
   width: 100vw;

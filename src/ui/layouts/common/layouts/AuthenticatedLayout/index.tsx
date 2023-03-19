@@ -7,12 +7,14 @@ import { AuthenticatedSidebar } from './AuthenticatedSidebar';
 
 import styles from './index.module.scss';
 
-export const AuthenticatedLayout: React.FC = ({ children }) => {
+// export const AuthenticatedLayout: React.FC = ({ breadcrumb, children }) => {
+// @ts-ignore
+export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
   const locationPath = useLocationPath();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(
     locationPath.includes('components') ? true : false,
   );
-
+    
   return (
     <FlexBox>
       <AuthenticatedSidebar
@@ -22,9 +24,12 @@ export const AuthenticatedLayout: React.FC = ({ children }) => {
 
       <FlexBox flexDirection="column" className={styles.content} flex={1}>
         <Box>
-          <AuthenticatedHeader setMobileMenuOpen={setMobileMenuOpen} />
+          <AuthenticatedHeader
+            breadcrumb={breadcrumb}
+            setMobileMenuOpen={setMobileMenuOpen}
+          />
         </Box>
-        <FlexBox>{children}</FlexBox>
+        <FlexBox style={{position:'relative'}}>{children}</FlexBox>
       </FlexBox>
     </FlexBox>
   );

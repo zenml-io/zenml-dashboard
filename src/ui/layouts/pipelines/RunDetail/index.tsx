@@ -8,31 +8,37 @@ import { useService } from './useService';
 import { Configuration } from '../RunDetail/Configuration';
 import { DAG } from '../../../components/dag';
 
-// import { Box, Paragraph } from '../../../components';
+import { Box } from '../../../components';
 
 // import { RunStatus } from './components';
 
 // import { formatDateToDisplayOnTable } from '../../../../utils';
-import { useSelector } from '../../../hooks';
+import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { Runs } from '../PipelineDetail/Runs';
+// import { Runs } from '../PipelineDetail/Runs';
+import { Table } from '../../common/Table';
+import { useHeaderCols } from './HeaderCols';
 
 const getTabPages = ({
   selectedWorkspace,
   pipelineId,
   runId,
   fetching,
+  metadata,
 }: {
   selectedWorkspace: string;
   pipelineId: TId;
   runId: TId;
   fetching: boolean;
+  metadata?: any;
 }): TabPage[] => {
   return [
     {
-      text: 'DAG',
+      text: 'DAG Visualizerzz',
 
-      Component: () => <DAG runId={runId} fetching={fetching} />,
+      Component: () => (
+        <DAG runId={runId} fetching={fetching} metadata={metadata} />
+      ),
       path: routePaths.run.pipeline.statistics(
         selectedWorkspace,
         runId,
@@ -76,9 +82,9 @@ const getBreadcrumbs = ({
       name: `Run ${runId}`,
       clickable: true,
       to: routePaths.run.pipeline.statistics(
+        selectedWorkspace,
         runId,
         pipelineId,
-        selectedWorkspace,
       ),
     },
   ];
@@ -90,20 +96,29 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, pipelineId, fetching } = useService();
+  const { runId, pipelineId, fetching, run, metadata } = useService();
+  const history = useHistory();
+  const runRow: any = [];
+  runRow.push(run);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages({
     selectedWorkspace,
     runId,
     pipelineId,
     fetching,
+    metadata,
   });
   const breadcrumbs = getBreadcrumbs({
     runId,
     pipelineId,
     selectedWorkspace,
   });
-
+  const headerCols = useHeaderCols({
+    runs: runRow,
+  });
+  const openDetailPage = (stack: TStack) => {
+    history.push(routePaths.pipeline.runs(selectedWorkspace, pipelineId));
+  };
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
   //   padding: '10px 0',
@@ -116,17 +131,20 @@ export const RunDetail: React.FC = () => {
   // const history = useHistory();
   return (
     <BasePage
+      headerWithButtons
       tabPages={tabPages}
       tabBasePath={routePaths.run.pipeline.base(runId, pipelineId)}
       breadcrumbs={breadcrumbs}
     >
-      <Runs
-        filter={[]}
-        pagination={false}
-        runId={runId}
-        isExpended={true}
-        pipelineId={pipelineId}
-      ></Runs>
+      <Box marginTop='lg'>
+        <Table
+          pagination={false}
+          headerCols={headerCols}
+          tableRows={runRow}
+          // emptyState={{ text: emptyStateText }}
+          trOnClick={openDetailPage}
+        />
+      </Box>
       {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>
@@ -213,6 +231,7 @@ export const RunDetail: React.FC = () => {
         </Box>
       </Box> */}
     </BasePage>
+    
   );
 };
 

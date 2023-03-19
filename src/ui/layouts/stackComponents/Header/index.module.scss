@@ -2,6 +2,7 @@
 
 .header {
   height: 4rem;
+  width: 100%;
 }
 
 .iconStyle { 
@@ -15,9 +16,9 @@
 
 
 @media (max-width: $md-breakpoint) {
-  .dynamicHeaderRight {
-    margin-right: auto !important;
-  }
+  // .dynamicHeaderRight {
+  //   margin-right: auto !important;
+  // }
   .rightWrapper {
     width: 100%;
   }

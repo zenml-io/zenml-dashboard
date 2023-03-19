@@ -37,13 +37,15 @@ import {
 import { routePaths } from '../../../../../routes/routePaths';
 import { WorkspacePopup } from './workspacePopup';
 import ReactTooltip from 'react-tooltip';
+import { Breadcrumbs } from '../../Breadcrumbs';
 // import { CookiePopup } from './CookiePopup'
 
 // import { endpoints } from '../../../../../api/endpoints';
 
 export const AuthenticatedHeader: React.FC<{
+  breadcrumb?: Array<any>;
   setMobileMenuOpen: (val: boolean) => void;
-}> = ({ setMobileMenuOpen }) => {
+}> = ({ breadcrumb, setMobileMenuOpen }) => {
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -182,7 +184,9 @@ export const AuthenticatedHeader: React.FC<{
         justifyContent="space-between"
         className={styles.header}
         id="header"
-      >
+        >
+          {/* __UNAUTH */}
+        {/* Muhammad Ali Zia */}
         <FlexBox alignItems="center">
           <Box className="d-md-none">
             <LinkBox onClick={() => setMobileMenuOpen(true)}>
@@ -190,6 +194,9 @@ export const AuthenticatedHeader: React.FC<{
             </LinkBox>
           </Box>
         </FlexBox>
+
+        <Breadcrumbs breadcrumbs={breadcrumb as any} />
+
         <If condition={!!userFullName}>
           {() => (
             <Box style={{ position: 'relative' }}>
@@ -209,9 +216,14 @@ export const AuthenticatedHeader: React.FC<{
                     </ColoredCircle>
                   </Box>
                   <Box>
-                    <icons.chevronDownLight
+                    {/* <icons.chevronDown
                       size={iconSizes.xs}
                       color={iconColors.black}
+                    /> */}
+
+                    <icons.chevronDown
+                      color={iconColors.grey}
+                      size={iconSizes.xs}
                     />
                   </Box>
                 </FlexBox>
@@ -225,10 +237,34 @@ export const AuthenticatedHeader: React.FC<{
                       <LinkBox onClick={() => push(routePaths.settings.base)}>
                         <FlexBox
                           className={styles.popupItem}
-                          paddingHorizontal="md"
                           paddingVertical="sm"
                         >
-                          <Paragraph size="small">Settings</Paragraph>
+                          <Paragraph
+                            color={iconColors.primary}
+                            style={{ fontSize: '16px' }}
+                          >
+                            {/* <Paragraph size="small" style={{ fontSize: '16px', lineHeight: '19px', color: '#443E99', paddingRight: '3px' }}>
+                            Settings
+                          </Paragraph> */}
+                            Settings
+                          </Paragraph>
+                          <Box
+                            paddingRight="sm"
+                            style={{
+                              alignSelf: 'center',
+                            }}
+                          >
+                            <icons.emptyRightArrow
+                              style={{ marginLeft: '3px' }}
+                              size={iconSizes.xs}
+                              color={iconColors.primary}
+                            />
+                          </Box>
+                          {/* <icons.emptyRightArrow
+                            style={{ paddingTop: '1px', marginLeft: '3px' }}
+                            color={iconColors.primary}
+                            size={iconSizes.xs}
+                          ></icons.emptyRightArrow> */}
                         </FlexBox>
                       </LinkBox>
 
@@ -236,7 +272,7 @@ export const AuthenticatedHeader: React.FC<{
                         <Separator.LightNew />
                       </Box>
                       <Box marginTop="sm" marginHorizontal="md">
-                        <Paragraph color="grey" style={{ fontSize: '14px' }}>
+                        <Paragraph color="grey" className={styles.your}>
                           Your workspaces
                         </Paragraph>
                       </Box>
@@ -313,13 +349,13 @@ export const AuthenticatedHeader: React.FC<{
                             // alignItems="center"
                           >
                             <Box paddingRight="sm">
-                              <icons.signOut
+                              {/* <icons.signOut
                                 size={iconSizes.sm}
                                 color={iconColors.red}
-                              />
+                              /> */}
                             </Box>
                             <Paragraph color="red" size="small">
-                              Logout
+                              Log Out
                             </Paragraph>
                           </FlexBox>
                         </LinkBox>
@@ -332,7 +368,7 @@ export const AuthenticatedHeader: React.FC<{
           )}
         </If>
       </FlexBox>
-
+                      
       {/* {showCookiePopup !== 'false' && <CookiePopup setShowCookie={setShowCookiePopup} />} */}
     </>
   );

@@ -33,7 +33,7 @@ export const BasePage: React.FC<{
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   return (
-    <AuthenticatedLayout>
+    <AuthenticatedLayout breadcrumb={[...breadcrumbs]}>
       <SidebarContainer>
         <IfElse
           condition={!!headerWithButtons}

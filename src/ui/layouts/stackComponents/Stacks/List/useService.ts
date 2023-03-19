@@ -86,8 +86,7 @@ export const useService = ({
       }
       return item;
     });
-    console.log(stackComponentsMap, 'aaaaaaaaaa');
-    console.log(flavourList, 'aaaaaaaaaa');
+
     setFilteredStacks(stackComponentsMap as TStack[]);
   }, [stackComponents, filter, flavourList]);
 

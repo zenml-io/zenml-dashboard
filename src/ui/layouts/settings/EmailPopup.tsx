@@ -29,8 +29,10 @@ export const EmailPopup: React.FC<{
   userId: any;
   fullName: any;
   username: any;
+  popupType: string;
+  setPopupType: (attr: string) => void
   setPopupOpen: (attr: boolean) => void;
-}> = ({ userId, fullName, username, setPopupOpen }) => {
+}> = ({ userId, fullName, username, popupType, setPopupType, setPopupOpen }) => {
   const [submitting, setSubmitting] = useState(false);
 
   const dispatch = useDispatch();
@@ -88,16 +90,18 @@ export const EmailPopup: React.FC<{
   };
 
   return (
-    <Popup onClose={() => setPopupOpen(false)}>
+    <Popup onClose={() => {setPopupType(''); setPopupOpen(false)}}>
       <FlexBox.Row justifyContent="center">
         <H3 bold color="darkGrey">
-          {translate('popup.title')}
+          Change {popupType}
         </H3>
       </FlexBox.Row>
 
       <FlexBox.Row justifyContent="center">
         <Box marginTop="md">
-          <Paragraph>{translate('popup.text')}</Paragraph>
+          <Paragraph>
+            Are you sure to change your {popupType}
+          </Paragraph>
         </Box>
       </FlexBox.Row>
 
@@ -105,7 +109,7 @@ export const EmailPopup: React.FC<{
         <Box marginRight="sm" marginBottom="md">
           <GhostButton
             style={{ width: '150px' }}
-            onClick={() => setPopupOpen(false)}
+            onClick={() => { setPopupType(''); setPopupOpen(false) }}
           >
             {translate('popup.cancelButton.text')}
           </GhostButton>

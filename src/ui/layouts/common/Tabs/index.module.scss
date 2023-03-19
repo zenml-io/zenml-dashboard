@@ -3,22 +3,34 @@
 $tabWidth: 15rem;
 
 .navigation {
-  border-bottom: 1px solid $lightestGreyColor;
+  // border-bottom: 1px solid $lightestGreyColor;
 }
 
 .item {
   border-bottom: 2px solid transparent;
   margin-bottom: -2px !important;
-  min-width: $tabWidth;
+  width: auto;
   text-align: center;
 }
 
 .activeItem {
   color: $primaryColor;
   border-bottom: 2px solid $primaryColor;
+
+  // border-bottom-left-radius: 5px;
+  // border-bottom-right-radius: 5px;
 }
 
 .link {
+  font-family: "Rubik";
+  font-size: 16px;
   text-decoration: none;
-  font-weight: 500;
+  font-weight: 600;
+  text-decoration: none;
+  text-decoration-line: none;
 }
+// Muhammad Ali Removed Underline
+.link:link { text-decoration: none; }
+.link:visited { text-decoration: none; }
+.link:hover { text-decoration: none; }
+.link:active { text-decoration: none; }

@@ -8,7 +8,7 @@ export const getStackComponentByIdAction = ({
   onFailure,
 }: {
   stackComponentId: TId;
-  onSuccess?: () => void;
+  onSuccess?: (res: any) => void;
   onFailure?: () => void;
 }): TRequestAction => ({
   type: stackComponentActionTypes.getStackComponentForId.request,
