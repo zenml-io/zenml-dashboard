@@ -267,6 +267,14 @@ const routes = [
     exact: true,
   },
   {
+    path: routePaths.run.run.details(':string', ':runId'),
+    Component: RunsRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
     path: routePaths.run.run.tensorboard(':runId'),
     Component: RunsRunDetail,
     visibility: {

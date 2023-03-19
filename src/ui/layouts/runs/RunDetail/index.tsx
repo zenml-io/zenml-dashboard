@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { routePaths } from '../../../../routes/routePaths';
-
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
 import { DAG } from '../../../components/dag';
@@ -16,12 +14,13 @@ import { useService } from './useService';
 // Muhammad Ali Zia DAG Visualizer line: 32
 // DAG Visualizeraa
 import { Runs } from '../../pipelines/PipelineDetail/Runs';
-import { Details } from '../../../components/details';
+// import { Details } from '../../../components/details';
 import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 // import { Runs } from '../../pipelines/PipelineDetail/Runs';
 // import { Table } from '../../common/Table';
 import { useHeaderCols } from './HeaderCols';
+import { Details } from './Detail'
 
 const getTabPages = ({
   selectedWorkspace,
@@ -52,7 +51,7 @@ const getTabPages = ({
     {
       text: 'Details',
       Component: () => <Details runId={runId} />,
-      path: routePaths.run.run.tensorboard(runId),
+      path: routePaths.run.run.details(selectedWorkspace, runId),
     },
   ];
 };
@@ -123,7 +122,7 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.run.base(runId)}
       breadcrumbs={breadcrumbs}
     >
-       <Runs
+      <Runs
         isExpended
         filter={[]}
         pagination={false}
@@ -131,9 +130,9 @@ export const RunDetail: React.FC = () => {
         fromAllruns={true}
         pipelineId={runId}
       ></Runs>
-      
-{/* ======= */}
-        {/* headerCols={headerCols}
+
+      {/* ======= */}
+      {/* headerCols={headerCols}
         tableRows={runRow}
         // emptyState={{ text: emptyStateText }}
         trOnClick={openDetailPage}
@@ -223,7 +222,7 @@ export const RunDetail: React.FC = () => {
           </Paragraph>
         </Box>
       </Box> */}
-{/* >>>>>>> dev */}
+      {/* >>>>>>> dev */}
     </BasePage>
   );
 };
