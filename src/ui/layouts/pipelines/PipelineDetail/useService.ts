@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import { PipelineDetailRouteParams } from '.';
-import { pipelinesActions } from '../../../../redux/actions';
+import { pipelinesActions, runPagesActions } from '../../../../redux/actions';
 import {
   pipelineSelectors,
   workspaceSelectors,
@@ -88,7 +88,7 @@ export const callActionForPipelineRunsForPagination = () => {
   }
 
   const setFetching = (fetching: boolean) => {
-    dispatch(pipelinePagesActions.setFetching({ fetching }));
+    dispatch(runPagesActions.setFetching({ fetching }));
   };
 
   return {
