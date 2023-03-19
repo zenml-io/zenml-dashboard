@@ -49,6 +49,7 @@ import { ReactComponent as Logs } from './assets/Logs.svg';
 import { ReactComponent as PlusCircle } from './assets/PlusCircle.svg';
 import { ReactComponent as MinusCircle } from './assets/MinusCircle.svg';
 import { ReactComponent as Config } from './assets/Config.svg';
+import { ReactComponent as Failed } from './assets/Failed.svg';
 //icons for stackComponents
 // import { ReactComponent as PuzzlePiece } from './assets/PuzzlePiece.svg';
 import { ReactComponent as Folders } from './assets/Folders.svg';
@@ -159,6 +160,7 @@ const icons = {
   rightArrow: createIcon({ Component: RightArrow }),
   copy: createIcon({ Component: Copy }),
   eye: createIcon({ Component: Eye, useStroke: true }),
+  failed: createIcon({ Component: Failed }),
   userPlus: createIcon({ Component: UserPlus, useStroke: true }),
   bookOpen: createIcon({ Component: BookOpen, useStroke: true }),
   tool: createIcon({ Component: Tool, useStroke: true }),
@@ -181,11 +183,11 @@ const icons = {
   search: createIcon({ Component: Search }),
   run: createIcon({ Component: Run, useStroke: true }),
   logs: createIcon({ Component: Logs, useStroke: true }),
-  config: createIcon({ Component: Config, useStroke: true }),
+  config: createIcon({ Component: Config }),
   plusCircle: createIcon({ Component: PlusCircle, useStroke: true }),
   minusCircle: createIcon({ Component: MinusCircle, useStroke: true }),
   emptyRightArrow: createIcon({ Component: EmptyRightArrow, useStroke: true }),
-  circleCheck: createIcon({ Component: CircleCheck, useStroke: true }),
+  circleCheck: createIcon({ Component: CircleCheck }),
   //icons for stackComponents
   artifact_store: createIcon({ Component: Folders, useStroke: true }),
   alerter: createIcon({ Component: ChatDots, useStroke: true }),
