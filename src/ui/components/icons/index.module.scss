@@ -27,6 +27,12 @@
 .svg.orange.useFill path {
   fill: $orangeColor;
 }
+.svg.lightGreen.useFill path {
+  fill: $lightGreenColor;
+}
+.svg.butterflyBlue.useFill path {
+  fill: $ButterflyBlue;
+}
 
 .svg.white.useStroke path {
   stroke: $whiteColor;
@@ -54,4 +60,10 @@
 
 .svg.orange.useStroke path {
   stroke: $orangeColor;
+}
+.svg.lightGreen.useStroke path {
+  stroke: $lightGreenColor;
+}
+.svg.svg.butterflyBlue.useStroke path {
+  stroke: $ButterflyBlue;
 }

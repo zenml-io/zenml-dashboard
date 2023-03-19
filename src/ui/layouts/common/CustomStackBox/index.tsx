@@ -4,7 +4,7 @@ import { Box, Paragraph, icons } from '../../../components';
 import styles from './index.module.scss';
 import { titleCase } from '../../../../utils/camelCase';
 import ReactTooltip from 'react-tooltip';
-import { iconColors } from '../../../../constants';
+import { iconColors, iconSizes } from '../../../../constants';
 
 export const CustomStackBox: React.FC<{
   image: any;
@@ -30,9 +30,10 @@ export const CustomStackBox: React.FC<{
       <icons.config
         onClick={onViewConfig}
         className={styles.viewConfig}
-        // size={iconSizes.sm}
+        // color={iconColors.black}
+        size={iconSizes.sm}
         // style={{ height: '18px', width: '18px' }}
-        color={iconColors.grey}
+        color={iconColors.black}
       />
 
       <Box className={styles.imageWrapper}>

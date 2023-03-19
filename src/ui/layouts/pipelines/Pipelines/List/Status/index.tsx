@@ -44,7 +44,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                     >
                       {/* <ColoredCircle color="green" size="xs"> */}
                       <icons.circleCheck
-                        color={iconColors.green}
+                        color={iconColors.lightGreen}
                         size={iconSizes.md}
                       />
                       {/* </ColoredCircle> */}
@@ -105,7 +105,10 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                       }}
                     >
                       {/* <ColoredCircle color="red" size="xs"> */}
-                      <icons.close color={iconColors.red} size={iconSizes.md} />
+                      <icons.failed
+                        color={iconColors.red}
+                        size={iconSizes.md}
+                      />
                       {/* </ColoredCircle> */}
                     </div>
                   )}
@@ -134,7 +137,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                     >
                       <ColoredCircle color="mustard" size="xs">
                         <icons.cached
-                          color={iconColors.white}
+                          color={iconColors.butterflyBlue}
                           size={iconSizes.md}
                         />
                       </ColoredCircle>

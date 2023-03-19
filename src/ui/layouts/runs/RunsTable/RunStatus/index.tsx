@@ -8,7 +8,10 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
       <If condition={run.status === runStatus.COMPLETED}>
         {() => (
           // <ColoredCircle color="green" size="xs">
-          <icons.circleCheck color={iconColors.green} size={iconSizes.md} />
+          <icons.circleCheck
+            color={iconColors.lightGreen}
+            size={iconSizes.md}
+          />
           // </ColoredCircle>
         )}
       </If>
@@ -22,14 +25,17 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
       <If condition={run.status === runStatus.FAILED}>
         {() => (
           // <ColoredCircle color="red" size="xs">
-          <icons.close color={iconColors.red} size={iconSizes.md} />
+          <icons.failed color={iconColors.red} size={iconSizes.lg} />
           // </ColoredCircle>
         )}
       </If>
       <If condition={run.status === runStatus.CACHED}>
         {() => (
           <ColoredCircle color="mustard" size="xs">
-            <icons.cached color={iconColors.white} size={iconSizes.md} />
+            <icons.cached
+              color={iconColors.butterflyBlue}
+              size={iconSizes.md}
+            />
           </ColoredCircle>
         )}
       </If>
