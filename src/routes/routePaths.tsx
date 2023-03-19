@@ -109,10 +109,24 @@ export const routePaths = {
       `/workspaces/${workspace}/registerComponents/${type}/${id}/configuration`,
   },
 
+  plugins: {
+    list: (workspace: string): string => `/workspaces/${workspace}/plugins`,
+    create: (workspace: string): string =>
+      `/workspaces/${workspace}/plugins/create`,
+    detail: (workspace: string, id: TId): string =>
+      `/workspaces/${workspace}/plugins/${id}`,
+    update: (workspace: string, id: TId): string =>
+      `/workspaces/${workspace}/plugins/${id}/update`,
+    creationLogs: (workspace: string, id: TId): string =>
+      `/workspaces/${workspace}/plugins/${id}/creation-logs`,
+  },
+
   settings: {
     base: '/settings',
     personalDetails: '/settings/personal-details',
     organizationSettings: '/settings/organization',
+    starredPlugins: '/settings/starred-plugins',
+    myPlugins: '/settings/my-plugins',
   },
   logout: '/logout',
 };
