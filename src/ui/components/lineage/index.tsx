@@ -6,7 +6,6 @@ import ReactFlow, {
   useEdgesState,
   Controls,
   MarkerType,
-  NodeProps,
 } from 'react-flow-renderer';
 
 import dagre from 'dagre';
@@ -145,9 +144,8 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
     initialNodes: layoutedNodes,
     initialEdges: layoutedEdges,
   } = getLayoutedElements(graph.graph.nodes, graph.graph.edges);
-  const [fetching, setFetching] = useState(false);
-  // eslint-disable-next-line
-  const [nodes, _, onNodesChange] = useNodesState(layoutedNodes);
+  const [fetching, setFetching] = useState(false); //eslint-disable-line
+  const [nodes, _, onNodesChange] = useNodesState(layoutedNodes); //eslint-disable-line
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   // const [selectedNodeId, setSelectedNodeId] = useState<NodeProps | null>(null);
   const [selectedNode, setSelectedNode] = useState<any>(null);

@@ -20,7 +20,7 @@ import { Details } from '../../../components/details';
 import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 // import { Runs } from '../../pipelines/PipelineDetail/Runs';
-import { Table } from '../../common/Table';
+// import { Table } from '../../common/Table';
 import { useHeaderCols } from './HeaderCols';
 
 const getTabPages = ({
@@ -100,10 +100,10 @@ export const RunDetail: React.FC = () => {
     runId,
     selectedWorkspace,
   });
-  const openDetailPage = (stack: TStack) => {
+  const openDetailPage = (stack: TStack) => {// eslint-disable-line
     history.push(routePaths.pipelines.allRuns(selectedWorkspace));
   };
-  const headerCols = useHeaderCols({
+  const headerCols = useHeaderCols({   // eslint-disable-line
     runs: runRow,
   });
   // const boxStyle = {

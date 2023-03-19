@@ -39,7 +39,7 @@ function printNestedJson(obj: any) {
             output += printNestedJson(obj[key]);
         } else if (Array.isArray(obj[key])) {
             output += `<p style="color:blue; font-size:16px; font-weight:400 ">${key}</p>`;
-            obj[key].forEach((item: any) => output += printNestedJson(item));
+            obj[key].forEach((item: any) => output += printNestedJson(item)); //eslint-disable-line
         } else {
             output += `<div><span><strong style='color:#565e5e; font-size:14px'>${key}</strong><span> : <span style='color:#1dc2a6; font-size:14px'>${obj[key]}<span></p>`;
             // output += `<p style="color:green; font-size:14px; font-weight:200 ">${key}: ${obj[key]}</p>`;
@@ -61,7 +61,7 @@ function JsonDisplay({ data }: any) {
 const StepnodeTabHeader: React.FC<any> = ({ node }) => {
     const [show, setShow] = useState("__CONFIG");
     const [configShow, setConfigShow] = useState("__CONFIGURATION");
-    const [checked, setChecked] = useState(false);
+    // const [checked, setChecked] = useState(false);
 
 
     const TabClickHandler = (tab: string) => {
@@ -86,10 +86,10 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
         <>
             <div className='siderbar_header11 '>
                 {/* <span className='' onClick={() => TabClickHandler("__CONFIG")} style={{ borderBottom: show === "__CONFIG" ? "solid" : "" }}>Config</span> */}
-                <span className='' onClick={() => TabClickHandler("__CONFIG")} style={show == "__CONFIG" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Config</span>
-                <span className='' onClick={() => TabClickHandler("__LOG")} style={show == "__LOG" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Log</span>
-                <span className='' onClick={() => TabClickHandler("__ATTRIBUTE")} style={show == "__ATTRIBUTE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Attribute</span>
-                <span className='' onClick={() => TabClickHandler("__CODE")} style={show == "__CODE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Code</span>
+                <span className='' onClick={() => TabClickHandler("__CONFIG")} style={show === "__CONFIG" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Config</span>
+                <span className='' onClick={() => TabClickHandler("__LOG")} style={show === "__LOG" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Log</span>
+                <span className='' onClick={() => TabClickHandler("__ATTRIBUTE")} style={show === "__ATTRIBUTE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Attribute</span>
+                <span className='' onClick={() => TabClickHandler("__CODE")} style={show === "__CODE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Code</span>
             </div>
             {
                 show === "__ATTRIBUTE" ?
@@ -101,7 +101,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
                                 {node.status && node.status === "completed" ?
                                     <>
                                         <td className='td_value' style={{ color: '#2ECC71', fontSize: 14, fontWeight: 600 }}>{node.status}</td>
-                                        <Status_Completed />
+                                        <Status_Completed /> {/*eslint-disable-line*/}
                                         &nbsp;&nbsp;&nbsp;
                                     </>
                                     :
@@ -173,11 +173,11 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
                 show === "__CODE" ?
                     <div className={styles.codeContainer}>
                         <SyntaxHighlighter
-                            customStyle={{ width: '100%', height:'80%', fontSize:20  }}
+                            customStyle={{ width: '100%', height: '80%', fontSize: 20 }}
                             wrapLines={true}
                             language="python"
                             style={okaidia}
-                            
+
                         >
                             {node.source_code}
                         </SyntaxHighlighter>
@@ -202,9 +202,9 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
 
                 <>
                     <div className='siderbar_subheader11'>
-                        <span className='' onClick={() => ConfigurationTabClickHandler("__CONFIGURATION")} style={configShow == "__CONFIGURATION" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Configuration</span>
-                        <span className='' onClick={() => ConfigurationTabClickHandler("__RUNS")} style={configShow == "__RUNS" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Runs</span>
-                        <span className='' onClick={() => ConfigurationTabClickHandler("__STACK")} style={configShow == "__STACK" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Stack</span>
+                        <span className='' onClick={() => ConfigurationTabClickHandler("__CONFIGURATION")} style={configShow === "__CONFIGURATION" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Configuration</span>
+                        <span className='' onClick={() => ConfigurationTabClickHandler("__RUNS")} style={configShow === "__RUNS" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Runs</span>
+                        <span className='' onClick={() => ConfigurationTabClickHandler("__STACK")} style={configShow === "__STACK" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Stack</span>
                     </div>
                     {configShow && configShow === "__CONFIGURATION" ?
                         <div className='config_container'>
@@ -289,8 +289,8 @@ const ArtifactTabHeader: React.FC<any> = ({ node }) => {
     return (
         <>
             <div className='siderbar_header11 '>
-                <span className='' onClick={() => TabClickHandler("__META")} style={show == "__META" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Meta-data</span>
-                <span className='' onClick={() => TabClickHandler("__ATTRIBUTE")} style={show == "__ATTRIBUTE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Attribute</span>
+                <span className='' onClick={() => TabClickHandler("__META")} style={show === "__META" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Meta-data</span>
+                <span className='' onClick={() => TabClickHandler("__ATTRIBUTE")} style={show === "__ATTRIBUTE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Attribute</span>
             </div>
 
             {/* SHOW META */}
@@ -349,17 +349,17 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
 
     // -----------------------------------------------------
     // REACT_APP_BASE_API_URL=https://appserver.zenml.io/api/v1
-    const [metadata, setMetaData] = useState([] as any);
+    // const [metadata, setMetaData] = useState([] as any);
     const authToken = useSelector(sessionSelectors.authenticationToken);
 
-    let exe_id = `3fa85f64-5717-4562-b3fc-2c963f66afa6`;
-    let url = `https://appserver.zenml.io/api/v1/` + `artifacts/` + exe_id;
+    // let exe_id = `3fa85f64-5717-4562-b3fc-2c963f66afa6`;
+    // let url = `https://appserver.zenml.io/api/v1/` + `artifacts/` + exe_id;
 
     const fetchMetaData = async (type: boolean) => {
         // IF IS STEP THEN GO INSIDE IF, AND IF ARTIFACT GO INSIDE ELSE
         if (type) {
             console.log("__UNAUTH type : __STEP");
-            const response = await axios.get(
+            await axios.get(
                 `${process.env.REACT_APP_BASE_API_URL}/steps/${selectedNode.execution_id}`,
                 {
                     headers: {
@@ -374,7 +374,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
         } else {
             console.log("__UNAUTH type __ARTIFACT", type);
 
-            const response = await axios.get(
+            await axios.get(
                 `${process.env.REACT_APP_BASE_API_URL}/artifacts/${selectedNode.execution_id}`,
                 {
                     headers: {
@@ -416,24 +416,24 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
 
         }
         FetchData(type);
-    }, [isStepNode])
+    }, [isStepNode]) //eslint-disable-line
 
 
     return (
         <div style={{ position: 'absolute', top: "10%", left: "100%", zIndex: 101 }}>
             {sidebar ?
-            // <div style={{display:'flex',justifyContent:'flex-start',alignItems:'flex-start', flexDirection:'row', width:'60vw', height:'100vh', background:'green', position:'absolute', right:'0%'}}>
+                // <div style={{display:'flex',justifyContent:'flex-start',alignItems:'flex-start', flexDirection:'row', width:'60vw', height:'100vh', background:'green', position:'absolute', right:'0%'}}>
                 <div className='siderbar11'>
                     <div className='sidebar11_arrow'>
                         <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} />
                     </div>
                     <div className='siderBar_contentArea'>
                         <div className='sidebar_body11'>
-                        {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />}
+                            {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />}
                         </div>
                     </div>
                 </div>
-            // </div>
+                // </div>
                 :
                 <div style={{ position: 'absolute', right: -50, top: "100%", padding: '10px', height: "500px", display: "flex", alignItems: 'flex-end' }} >
                     <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{ zIndex: 100 }} />
