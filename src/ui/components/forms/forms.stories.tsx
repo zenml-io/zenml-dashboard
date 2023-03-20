@@ -8,9 +8,6 @@ const component = FormTextField;
 export default {
   title: 'Forms/TextField',
   component,
-  argTypes: {
-    backgroundColor: { control: 'color' },
-  },
 } as ComponentMeta<typeof component>;
 
 const Template: ComponentStory<typeof component> = (args) => (

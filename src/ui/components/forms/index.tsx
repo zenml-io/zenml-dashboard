@@ -296,6 +296,58 @@ export const EditFieldSettings = (
   );
 };
 
+export const IconInputField = ({
+  value,
+  onChange,
+  placeholder,
+  clearable = true,
+  disabled = false,
+  iconName = 'search',
+  iconColor = iconColors.grey,
+}: {
+  value: string;
+  onChange: (s: string) => void;
+  placeholder?: string;
+  clearable?: boolean;
+  disabled?: boolean;
+  iconName?: keyof typeof icons;
+  iconColor?: iconColors;
+}): JSX.Element => {
+  const Icon = icons[iconName];
+
+  return (
+    <FlexBox fullWidth style={{ position: 'relative' }}>
+      {/* icon */}
+      <Box style={{ position: 'absolute', left: '7px', top: '8px' }}>
+        <Icon color={iconColor} />
+      </Box>
+
+      {/* input */}
+      <TextInput
+        style={{
+          paddingLeft: '40px',
+          paddingRight: '35px',
+          backgroundColor: disabled && '#E9EAEC',
+          borderWidth: disabled && '0px',
+        }}
+        value={value}
+        onChangeText={onChange}
+        placeholder={placeholder}
+      />
+
+      {/* clear */}
+      {clearable && value?.length > 0 && (
+        <LinkBox
+          style={{ position: 'absolute', right: '7px', top: '8px' }}
+          onClick={() => onChange('')}
+        >
+          <icons.close color={iconColors.grey} />
+        </LinkBox>
+      )}
+    </FlexBox>
+  );
+};
+
 export const SearchInputField = (
   props: {
     fromRegisterComponent: boolean;

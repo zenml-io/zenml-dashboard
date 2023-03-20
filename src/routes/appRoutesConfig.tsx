@@ -25,6 +25,7 @@ import StacksRunDetail from '../ui/layouts/stacks/RunDetail';
 import RunsRunDetail from '../ui/layouts/runs/RunDetail';
 import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
+import ListPlugins from '../ui/layouts/plugins/ListPlugins';
 import { Logout } from '../ui/components/Logout';
 
 const routes = [
@@ -400,6 +401,15 @@ const routes = [
   {
     path: routePaths.logout,
     Component: Logout,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+
+  {
+    path: routePaths.plugins.list(':string'),
+    Component: ListPlugins,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

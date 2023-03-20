@@ -9,6 +9,7 @@ import { ReactComponent as CloseWithBorder } from './assets/CloseWithBorder.svg'
 import { ReactComponent as Code } from './assets/Code.svg';
 import { ReactComponent as Dashboard } from './assets/Dashboard.svg';
 import { ReactComponent as Data } from './assets/Data.svg';
+import { ReactComponent as Extension } from './assets/Extension.svg';
 import { ReactComponent as Filter } from './assets/Filter.svg';
 import { ReactComponent as History } from './assets/History.svg';
 import { ReactComponent as Home } from './assets/Home.svg';
@@ -68,6 +69,7 @@ import { ReactComponent as ImageBuilder } from './assets/ImageBuilder.svg';
 import { ReactComponent as Pen } from './assets/Pen.svg';
 import { ReactComponent as ModelRegistry } from './assets/ModelRegistry.svg';
 import { ReactComponent as Share } from './assets/share.svg';
+import { ReactComponent as Star } from './assets/Star.svg';
 import { ReactComponent as EmptyRightArrow } from './assets/EmptyRightArrow.svg';
 // import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 // import { ReactComponent as Cached } from './assets/Cached.svg';
@@ -144,6 +146,7 @@ const icons = {
   code: createIcon({ Component: Code }),
   dashboard: createIcon({ Component: Dashboard }),
   data: createIcon({ Component: Data }),
+  extension: createIcon({ Component: Extension }),
   filter: createIcon({ Component: Filter }),
   history: createIcon({ Component: History }),
   home: createIcon({ Component: Home }),
@@ -214,6 +217,7 @@ const icons = {
   pen: createIcon({ Component: Pen, useStroke: true }),
   model_registry: createIcon({ Component: ModelRegistry, useStroke: true }),
   share: createIcon({ Component: Share, useStroke: true }),
+  star: createIcon({ Component: Star }),
 
   // paginations
   paginationFirst: createIcon({ Component: PaginationFirst, useStroke: true }),

@@ -534,6 +534,19 @@
               "text": "No runs."
             }
           },
+          "BrowsePlugins": {
+            "breadcrumbs": {
+              "dashboard": {
+                "text": "Dashboard"
+              },
+              "plugins": {
+                "text": "Browse plugins"
+              }
+            },
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            }
+          },
           "AllRuns": {
             "emptyState": {
               "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
