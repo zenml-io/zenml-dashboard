@@ -1,4 +1,4 @@
-import React, { forwardRef, useState } from 'react';
+import React, { forwardRef, useEffect, useState } from 'react';
 import {
   Box,
   FlexBox,
@@ -448,7 +448,11 @@ const FilterComponent = ({
   const pipelines = useSelector(pipelineSelectors.myPipelines);
   const stacks = useSelector(stackSelectors.mystacks);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  console.log(members, 'members');
+  useEffect(() => {
+    return () => {
+      localStorage.setItem('logical_operator', JSON.stringify('and'));
+    };
+  }, []);
   function handleChange(filter: any, key: string, value: string) {
     filter[key].selectedValue = filter[key].options.filter(
       (option: any) => option.value === value,
@@ -502,15 +506,16 @@ const FilterComponent = ({
 
     setFilter([...filters]);
   }
-  function callActionForUsers(name: string) {
+  function callActionForUsers(name: string, newEvent: any) {
+    // debugger;
     if (name) {
       dispatch(organizationActions.getMembers({ name: 'contains:' + name }));
-    } else {
+    } else if (newEvent.action === 'menu-close') {
       dispatch(organizationActions.getMembers({}));
     }
   }
 
-  function callActionForPipelines(name: string) {
+  function callActionForPipelines(name: string, newEvent: any) {
     if (name) {
       dispatch(
         pipelinesActions.getMy({
@@ -518,11 +523,11 @@ const FilterComponent = ({
           name: 'contains:' + name,
         }),
       );
-    } else {
+    } else if (newEvent.action === 'menu-close') {
       dispatch(pipelinesActions.getMy({ workspace: selectedWorkspace }));
     }
   }
-  function callActionForStacks(name: string) {
+  function callActionForStacks(name: string, newEvent: any) {
     if (name) {
       dispatch(
         stacksActions.getMy({
@@ -530,7 +535,7 @@ const FilterComponent = ({
           name: 'contains:' + name,
         }),
       );
-    } else {
+    } else if (newEvent.action === 'menu-close') {
       dispatch(stacksActions.getMy({ workspace: selectedWorkspace }));
     }
   }
@@ -789,7 +794,11 @@ const FilterComponent = ({
 
         <FlexBox
           fullWidth
-          className="border  rounded rounded-4 p-2 align-item-center"
+          className="rounded rounded-4 p-2 align-item-center"
+          style={{
+            border: searchText ? '' : '1px solid #C9CBD0',
+            backgroundColor: searchText ? '#E9EAEC' : '',
+          }}
         >
           <Box
             onClick={() => {
@@ -798,14 +807,14 @@ const FilterComponent = ({
             style={{
               width: '33px',
               height: '28px',
-              background: '#fff',
+              // background: '#fff',
               borderRadius: '4px',
             }}
           >
             <icons.funnelFill
               style={{ padding: '5px 0px 0px 7px' }}
               size={iconSizes.sm}
-              color={searchText ? iconColors.grey : iconColors.primary}
+              color={iconColors.primary}
             />
           </Box>
           <Box
@@ -1019,7 +1028,9 @@ const FilterComponent = ({
                             });
                           })}
                           styles={selectStyles}
-                          onInputChange={(e: any) => callActionForPipelines(e)}
+                          onInputChange={(e: any, newEvent: any) =>
+                            callActionForPipelines(e, newEvent)
+                          }
                           onChange={(value: any) => {
                             if (value) {
                               handleChangeForSearchable(filter, value.value);
@@ -1044,7 +1055,9 @@ const FilterComponent = ({
                             });
                           })}
                           styles={selectStyles}
-                          onInputChange={(e: any) => callActionForStacks(e)}
+                          onInputChange={(e: any, newEvent: any) =>
+                            callActionForStacks(e, newEvent)
+                          }
                           onChange={(value: any) => {
                             if (value) {
                               handleChangeForSearchable(filter, value.value);
@@ -1068,7 +1081,9 @@ const FilterComponent = ({
                             });
                           })}
                           styles={selectStyles}
-                          onInputChange={(e: any) => callActionForUsers(e)}
+                          onInputChange={(e: any, newEvent: any) => {
+                            callActionForUsers(e, newEvent);
+                          }}
                           onChange={(value: any) => {
                             console.log(value, 'valuevalue');
                             if (value) {

@@ -2,6 +2,7 @@
 
 import { StackDetailRouteParams } from '.';
 import {
+  flavorsActions,
   pipelinesActions,
   runPagesActions,
   stackComponentPagesActions,
@@ -15,54 +16,74 @@ import {
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { stackPagesActions } from '../../../../redux/actions';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { filterObjectForParam } from '../../../../utils';
+import { GetFlavorsListForLogo } from '../Stacks/List/GetFlavorsListForLogo';
 
 interface ServiceInterface {
   stackComponent: TStack;
   id: TId;
+  flavor?: any;
+  loading: any;
 }
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
+
+  const [mapStackComponent, setMapppedStackComponent] = useState([]);
+  const [fetching, setFetching] = useState(false);
+  const [flavor, setFlavor] = useState([]);
   const { id } = useParams<StackDetailRouteParams>();
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
+  const stackComponent = useSelector(
+    stackComponentSelectors.stackComponentForId(id),
+  );
+
   useEffect(() => {
     setFetching(true);
     // Legacy: previously runs was in pipeline
     dispatch(
       stackComponentsActions.stackComponentForId({
         stackComponentId: id,
-        onSuccess: () => setFetching(false),
+        onSuccess: (res) => {
+          // setFetching(false);
+
+          dispatch(
+            flavorsActions.getType({
+              type: res?.type,
+              name: res?.flavor,
+              onSuccess: (res: any) => {
+                setFlavor(res.items);
+                setFetching(false);
+              },
+              onFailure: () => setFetching(false),
+            }),
+          );
+        },
         onFailure: () => setFetching(false),
       }),
     );
-    dispatch(
-      stackComponentsActions.allRunsByStackComponentId({
-        sort_by: 'desc:created',
-        logical_operator: 'and',
-        stackComponentId: id,
-        page: 1,
-        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
-      }),
-    );
+    // dispatch(
+    //   stackComponentsActions.allRunsByStackComponentId({
+    //     sort_by: 'desc:created',
+    //     logical_operator: 'and',
+    //     stackComponentId: id,
+    //     page: 1,
+    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+    //     onSuccess: () => setFetching(false),
+    //     onFailure: () => setFetching(false),
+    //   }),
+    // );
   }, [id]);
 
-  const setFetching = (fetching: boolean) => {
-    dispatch(stackPagesActions.setFetching({ fetching }));
-    dispatch(runPagesActions.setFetching({ fetching }));
-  };
+  // const setFetching = (fetching: boolean) => {
+  //   dispatch(stackComponentPagesActions.setFetching({ fetching }));
+  // };
 
-  const stackComponent = useSelector(
-    stackComponentSelectors.stackComponentForId(id),
-  );
-
-  return { stackComponent, id };
+  return { stackComponent, id, flavor, loading: fetching };
 };
 
 export const callActionForStackComponentRunsForPagination = () => {

@@ -52,8 +52,8 @@ export const CreateStack: React.FC = () => {
       }
       breadcrumbs={[
         {
-          name: 'Create Stacks Component',
-          clickable: false,
+          name: 'Register a stack',
+          clickable: true,
           to:
             routePaths.stacks.createStack(workspace as string) +
             `?workspace=${workspace}`,

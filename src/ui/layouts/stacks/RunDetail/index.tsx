@@ -6,30 +6,36 @@ import { Configuration } from './Configuration';
 import { useService } from './useService';
 import { DAG } from '../../../components/dag';
 
-// import { Box, Paragraph } from '../../../components';
+import { Box } from '../../../components';
 // import { RunStatus } from './components';
 // import { formatDateToDisplayOnTable } from '../../../../utils';
 // import { useHistory } from 'react-router-dom';
-import { useSelector } from '../../../hooks';
+import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { Runs } from '../StackDetail/Runs';
+// import { Runs } from '../StackDetail/Runs';
+import { Table } from '../../common/Table';
+import { useHeaderCols } from './HeaderCols';
 
 const getTabPages = ({
   stackId,
   runId,
   fetching,
   selectedWorkspace,
+  metadata,
 }: {
   stackId: TId;
   runId: TId;
   fetching: boolean;
   selectedWorkspace: string;
+  metadata?: any;
 }): TabPage[] => {
   return [
     {
       text: 'DAG',
 
-      Component: () => <DAG runId={runId} fetching={fetching} />,
+      Component: () => (
+        <DAG runId={runId} fetching={fetching} metadata={metadata} />
+      ),
       path: routePaths.run.stack.statistics(selectedWorkspace, runId, stackId),
     },
     {
@@ -64,7 +70,7 @@ const getBreadcrumbs = ({
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.stack.statistics(runId, stackId, selectedWorkspace),
+      to: routePaths.run.stack.statistics(selectedWorkspace, runId, stackId),
     },
   ];
 };
@@ -75,8 +81,10 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, stackId, fetching } = useService();
-  // const history = useHistory();
+  const { runId, stackId, fetching, run, metadata } = useService();
+  const history = useHistory();
+  const runRow: any = [];
+  runRow.push(run);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const tabPages = getTabPages({
@@ -84,12 +92,19 @@ export const RunDetail: React.FC = () => {
     stackId,
     fetching,
     selectedWorkspace,
+    metadata,
   });
   const breadcrumbs = getBreadcrumbs({
     runId,
     stackId,
     selectedWorkspace,
   });
+  const headerCols = useHeaderCols({
+    runs: runRow,
+  });
+  const openDetailPage = (stack: TStack) => {
+    history.push(routePaths.stack.runs(selectedWorkspace, stackId));
+  };
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
   //   padding: '10px 0',
@@ -101,17 +116,39 @@ export const RunDetail: React.FC = () => {
   // const headStyle = { color: '#828282' };
   return (
     <BasePage
+      headerWithButtons
       tabPages={tabPages}
       tabBasePath={routePaths.run.stack.base(runId, stackId)}
       breadcrumbs={breadcrumbs}
     >
-      <Runs
+    <Box marginTop='lg'>
+      <Table
+        pagination={false}
+        // activeSorting={
+        //   activeSortingDirection?.toLowerCase() + ':' + activeSorting
+        // } // activeSorting={
+        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+        //     ? activeSorting
+        //     : 'created'
+        // }
+        // pagination={pagination}
+        // loading={fetching}
+        // filters={filter}
+        // showHeader={true}
+        // paginated={paginated}
+        headerCols={headerCols}
+        tableRows={runRow}
+        // emptyState={{ text: emptyStateText }}
+        trOnClick={openDetailPage}
+      />
+    </Box>
+      {/* <Runs
         filter={[]}
         pagination={false}
         runId={runId}
         isExpended={true}
         stackId={stackId}
-      ></Runs>
+      ></Runs> */}
       {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>

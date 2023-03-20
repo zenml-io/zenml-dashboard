@@ -36,25 +36,31 @@ export const InputWithLabel = ({
 
 export const BaseInput = ({
   onChange,
+  inputRef,
   value,
   placeholder,
   type,
   hasError,
   className,
   style,
+  onRemoveFocus,
   ...props
 }: {
   onChange: any;
   value?: string;
+  inputRef?: any;
   placeholder?: string;
   type: string;
+  onRemoveFocus?: any;
   hasError?: boolean;
   className?: string;
   style?: any;
 }): JSX.Element => (
   <input
     {...props}
+    ref={inputRef}
     onChange={onChange}
+    onBlur={onRemoveFocus}
     value={value}
     placeholder={placeholder}
     className={cn(styles.input, hasError ? styles.error : null, className)}
@@ -120,10 +126,12 @@ export const EmailInput = ({
 export const TextInput = ({
   onChangeText,
   value,
+  inputRef,
   placeholder,
   hasError,
   style,
   type = 'text',
+  onRemoveFocus,
   ...props
 }: {
   onChangeText: any;
@@ -131,15 +139,19 @@ export const TextInput = ({
   placeholder?: string;
   hasError?: boolean;
   type?: string;
+  inputRef?: any;
+  onRemoveFocus?: any;
   style?: any;
 }): JSX.Element => (
   <BaseInput
     {...props}
+    inputRef={inputRef}
     hasError={hasError}
     onChange={(e: any): void => {
       onChangeText(e.target.value);
     }}
     value={value}
+    onRemoveFocus={onRemoveFocus}
     placeholder={placeholder}
     type={type}
     style={style}
