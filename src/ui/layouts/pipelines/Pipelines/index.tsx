@@ -10,6 +10,7 @@ import FilterComponent, {
   getInitialFilterStateForPipeline,
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
+import { Box } from '../../../components';
 import { workspaceSelectors } from '../../../../redux/selectors/workspaces';
 
 const FilterWrapper = () => {
@@ -26,13 +27,15 @@ const FilterWrapper = () => {
     return filterValuesMap;
   }
   return (
-    <FilterComponent
-      getInitials={getInitialFilterStateForPipeline}
-      filters={filters}
-      setFilter={setFilter}
-    >
-      <List filter={getFilter(filters)} />
-    </FilterComponent>
+    <Box marginTop='lg' style={{ width: '100%' }}>
+      <FilterComponent
+        getInitials={getInitialFilterStateForPipeline}
+        filters={filters}
+        setFilter={setFilter}
+      >
+        <List filter={getFilter(filters)} />
+      </FilterComponent>
+    </Box>
   );
 };
 const FilterWrapperForRun = () => {
@@ -49,13 +52,15 @@ const FilterWrapperForRun = () => {
     return filterValuesMap;
   }
   return (
-    <FilterComponent
-      getInitials={getInitialFilterStateForRuns}
-      filters={filters}
-      setFilter={setFilter}
-    >
-      <AllRuns filter={getFilter(filters)} />
-    </FilterComponent>
+    <Box marginTop='lg' style={{ width: '100%' }}>
+      <FilterComponent
+        getInitials={getInitialFilterStateForRuns}
+        filters={filters}
+        setFilter={setFilter}
+      >
+        <AllRuns filter={getFilter(filters)} />
+      </FilterComponent>
+    </Box>
   );
 };
 

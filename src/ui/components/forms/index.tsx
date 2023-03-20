@@ -218,7 +218,7 @@ export const EditField = (
         />
         {!props.disabled && (
           <Box style={{ position: 'absolute', right: '10px', top: '35px' }}>
-            <icons.pen color={iconColors.grey} />
+            <icons.pen color={!props.disabled ? iconColors.black : iconColors.grey} />
           </Box>
         )}
       </FlexBox>

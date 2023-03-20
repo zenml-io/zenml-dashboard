@@ -38,16 +38,18 @@ const FilterWrapperForRun = () => {
     return filterValuesMap;
   }
   return (
-    <FilterComponent
-      getInitials={getInitialFilterStateForRuns}
-      filters={filters}
-      setFilter={setFilter}
-    >
-      <Runs
-        filter={getFilter(filters)}
-        pipelineId={locationPath.split('/')[4]}
-      />
-    </FilterComponent>
+    <Box marginTop='lg' style={{ width: '100%' }}>
+      <FilterComponent
+        getInitials={getInitialFilterStateForRuns}
+        filters={filters}
+        setFilter={setFilter}
+      >
+        <Runs
+          filter={getFilter(filters)}
+          pipelineId={locationPath.split('/')[4]}
+        />
+      </FilterComponent>
+    </Box>
   );
 };
 const getTabPages = (pipelineId: TId, selectedWorkspace: string): TabPage[] => {

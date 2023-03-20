@@ -68,16 +68,18 @@ const FilterWrapperForStacks = () => {
     return filterValuesMap;
   }
   return (
-    <FilterComponent
-      getInitials={getInitialFilterState}
-      filters={filters}
-      setFilter={setFilter}
-    >
-      <List
-        stackComponentId={locationPath.split('/')[5]}
-        filter={getFilter(filters)}
-      />
-    </FilterComponent>
+    <Box marginTop='lg' style={{ width: '100%' }}>
+      <FilterComponent
+        getInitials={getInitialFilterState}
+        filters={filters}
+        setFilter={setFilter}
+      >
+        <List
+          stackComponentId={locationPath.split('/')[5]}
+          filter={getFilter(filters)}
+        />
+      </FilterComponent>
+    </Box>
   );
 };
 const getTabPages = (

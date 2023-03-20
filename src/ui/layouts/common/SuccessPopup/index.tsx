@@ -10,7 +10,13 @@ const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 export const SuccessPopup: React.FC<{ text: string, onClose: () => void }> = ({
   text,
   onClose, 
-}) => (
+}) => {
+  window.onkeydown = function( event: any ) {
+    if ( event.key === 'Esc' || event.key === 'Escape' ) {
+      return  onClose()
+    }
+  };
+  return (
   <>
     <Dimmer />
     <FlexBox
@@ -40,4 +46,5 @@ export const SuccessPopup: React.FC<{ text: string, onClose: () => void }> = ({
       </Box>
     </FlexBox>
   </>
-);
+  )
+}
