@@ -10,7 +10,8 @@
   transition: 200ms ease opacity;
   cursor: pointer;
   border: 0;
-  height: $buttonHeight;
+  // height: $buttonHeight;
+  height: 50px;
   width: max-content;
   transition: 0.2s ease-in all;
   padding: 0 3.2rem !important;
@@ -39,7 +40,7 @@
   transition: 200ms ease opacity;
   cursor: pointer;
   border: 0;
-  height: $buttonHeight;
+  height: 50px;
   width: max-content;
   transition: 0.2s ease-in all;
   padding: 0 3.2rem !important;
@@ -68,7 +69,8 @@
   border: 1px solid $blackColor;
   transition: 200ms ease opacity;
   cursor: pointer;
-  height: $buttonHeight;
+  // height: $buttonHeight;
+  height: 50px;
   width: max-content;
   transition: 0.2s ease-in all;
   padding: 0 3.2rem !important;

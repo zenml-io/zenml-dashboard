@@ -50,13 +50,13 @@ const FilterWrapper = () => {
 
   console.log('getfilter', filters);
   return (
-    <FilterComponent
-      getInitials={getInitialFilterState}
-      filters={filters}
-      setFilter={setFilter}
-    >
-      <List filter={getFilter(filters)} />
-    </FilterComponent>
+      <FilterComponent
+        getInitials={getInitialFilterState}
+        filters={filters}
+        setFilter={setFilter}
+      >
+        <List filter={getFilter(filters)} />
+      </FilterComponent>
   );
 };
 
