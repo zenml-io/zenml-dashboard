@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import ReactFlow, {
   addEdge,
   ConnectionLineType,
@@ -151,7 +151,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
   // const [isVisible, setIsVisible] = useState(true)
-  const sidebar_ref = useRef<HTMLInputElement>(null)
+  // const sidebar_ref = useRef<HTMLInputElement>(null)
   // React.useRef<HTMLInputElement>(null)
 
 

@@ -65,6 +65,7 @@
 
 .stepTitle {
   font-weight: 600;
+  font-size: 10px;
   margin: auto;
   padding-left: 10px;
   padding-right: 10px;
@@ -131,13 +132,13 @@
   height: 14px;
   color: #431d93;
   font-family: 'Rubik';
-  font-size: 7px;
+  font-size: 12px;
   font-weight: 600;
   // background-color: aliceblue;
   display: flex;
   justify-content: center;
   align-items: center;
-  // margin-top: 5px;
+  margin-top: 5px;
 }
 
 .handle {

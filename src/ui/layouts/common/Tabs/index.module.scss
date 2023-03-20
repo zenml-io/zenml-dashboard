@@ -3,7 +3,12 @@
 $tabWidth: 15rem;
 
 .navigation {
-  // border-bottom: 1px solid $lightestGreyColor;
+  border-bottom: 1px solid $lightestGreyColor;
+}
+
+.navigationRuns {
+  // border-bottom: 0px solid $lightestGreyColor;
+  // transition: all 1s ease-in-out;
 }
 
 .item {

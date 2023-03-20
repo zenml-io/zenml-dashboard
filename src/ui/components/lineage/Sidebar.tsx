@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react' //eslint-disable-line
 import circleArrowSideClose from '../icons/assets/circleArrowSideClose.svg';
 import circleArrowSideOpen from '../icons/assets/circleArrowSideOpen.svg';
 import styles from './index.module.scss'
@@ -68,7 +68,7 @@ function JsonDisplay({ data }: any) {
 
 const StepnodeTabHeader: React.FC<any> = ({ node }) => {
     const [show, setShow] = useState("__CONFIG");
-    const [configShow, setConfigShow] = useState("__CONFIGURATION");
+    // const [configShow, setConfigShow] = useState("__CONFIGURATION");
     // const [checked, setChecked] = useState(false);
 
 
@@ -313,7 +313,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     const [isStepNode, setIsStepNode] = useState(false);
     const [artifact, setArtifact] = useState([] as any);
     const [step, setStep] = useState([] as any);
-    const sidebar_ref = useRef<HTMLInputElement>(null)
+    const sidebar_ref = useRef<HTMLInputElement>(null) //eslint-disable-line
 
     console.log("__UNAUTH SELECTEDNODE SIDEVAR", selectedNode);
 
@@ -340,11 +340,12 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
             ).then((response) => {
                 console.log("__UNAUTH fetchMetaData Sidebar", response)
                 setStep(response?.data);
+                localStorage.setItem("__STEP", JSON.stringify(response.data))
                 return //Setting the response into state
             })
         } else {
             console.log("__UNAUTH type __ARTIFACT", type);
-
+            
             await axios.get(
                 `${process.env.REACT_APP_BASE_API_URL}/artifacts/${selectedNode.execution_id}`,
                 {
@@ -352,12 +353,13 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                         Authorization: `bearer ${authToken}`,
                     },
                 },
-            ).then((response) => {
-
-                console.log("__UNAUTH fetchMetaData Sidebar artifact", response.data)
-                setArtifact(response?.data); //Setting the response into state
-                return
-            })
+                ).then((response) => {
+                    
+                    console.log("__UNAUTH fetchMetaData Sidebar artifact", response.data)
+                    setArtifact(response?.data); //Setting the response into state
+                    localStorage.setItem("__ARTIFACT", JSON.stringify(response.data))
+                    return
+                })
 
         }
 
