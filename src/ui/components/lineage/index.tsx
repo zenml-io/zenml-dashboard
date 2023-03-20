@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import ReactFlow, {
   addEdge,
   ConnectionLineType,
@@ -21,6 +21,7 @@ import { FullWidthSpinner } from '../spinners';
 import arrowClose from '../icons/assets/arrowClose.svg';
 import arrowOpen from '../icons/assets/arrowOpen.svg';
 import Sidebar from './Sidebar';
+import sidebarStyles from './sidebar.module.css'
 
 
 interface Edge {
@@ -45,14 +46,14 @@ interface Edge {
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const nodeWidth = 172;
-const nodeHeight = 36;
+const nodeWidth = 25;
+const nodeHeight = 56;
 
 const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], direction = 'TB',) => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
-  console.log("__UNAUTH initialEdges", initialEdges);
-  console.log("__UNAUTH initailNode", initialNodes);
+  // console.log("__UNAUTH initialEdges", initialEdges);
+  // console.log("__UNAUTH initailNode", initialNodes);
   if (initialEdges === undefined && initialNodes === undefined) {
     return { initialNodes, initialEdges };
   }
@@ -118,9 +119,9 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
 
         const e = initialEdges.find((e) => e.source === artifact.id);
         if (e) {
-          console.log(e.target);
+          // console.log(e.target);
           const status = initialNodes.find((step) => step.id === e.target);
-          console.log(status);
+          // console.log(status);
           if (status.data.status === 'running') {
             edge.animated = true;
 
@@ -147,43 +148,33 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [fetching, setFetching] = useState(false); //eslint-disable-line
   const [nodes, _, onNodesChange] = useNodesState(layoutedNodes); //eslint-disable-line
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
-  // const [selectedNodeId, setSelectedNodeId] = useState<NodeProps | null>(null);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
+  const [isVisible, setIsVisible] = useState(true)
+  const sidebar_ref = useRef<HTMLInputElement>(null)
+  // React.useRef<HTMLInputElement>(null)
 
 
-  const NodeClickHandler = async (event: React.MouseEvent, node: any) => {
 
-    //  let flowInstance = ReactFlowInstance.getInstance();
-  };
+  useEffect(() => {
+    let handler = (event: any) => {
+      if (!sidebar_ref.current?.contains(event.target)) {
+        setIsVisible(false);
+        // console.log("____SIDE", sidebar_ref.current)
+      }
+      else {
+        // console.log("____SIDE OUT", sidebar_ref.current)
+      }
+    }
 
-  // const getArrowHeadColor = (connection: any, defaultColor: any) => {
-  //   console.log("__UNAUTH_COLOR_RED")
-  //   if (connection.target === 'highlighted-node-id') {
-  //     return 'red';
-  //   }
-  //   return defaultColor;
-  // };
+    document.addEventListener('mousedown', handler);
+    return () => {
+      document.removeEventListener('mousedown', handler);
+    }
+  }, [])
 
 
-  // const handleNodeClick = async (event: React.MouseEvent, node: NodeProps) => {
-  //   // console.log("__UNAUTH Node: ", nodes)
-  //   // console.log("__UNAUTH Node n: ", node)
-  //   let currentNode;
-  //   const selected = await nodes.map(async (n, i) => {
-  //     if (n.data.execution_id === node.toString()) {
-  //       console.log({ "__UNAUTH Node: ": nodes, n })
-  //       currentNode = n
-  //       // setSelectedNode(currentNode);
-  //       return
-  //     }
-  //   })
-  //   console.log("__UNAUTH SELECTEDNODE 1: ", currentNode)
-  //   console.log("__UNAUTH SELECTEDNODE 2: ", selectedNode)
-  //   return currentNode;
-  // };
 
-  // const [sidebar, setSidebar] = useState(false)
   const onConnect = useCallback(
     (params) =>
       setEdges((eds) =>
@@ -206,14 +197,31 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  console.log("__UNAUTH", { nodes, edges, graph: graph.graph.nodes, edges2: graph.graph.edges })
+  // console.log("__UNAUTH", { nodes, edges, graph: graph.graph.nodes, edges2: graph.graph.edges })
   return (
-    <div style={{overflow:'hidden'}}>
-      {selectedNode == null ? <div>Select a node</div> : <Sidebar selectedNode={selectedNode} />}
+    <>
+      {/* <div>
+        <div className={`${isVisible ? sidebarStyles.indexContainer : sidebarStyles.indexContainer_invisible}`} ref={sidebar_ref}>
+          {isVisible ? "I am visible  " : ""}
+          {selectedNode ? <><Sidebar selectedNode={selectedNode} /></> : <div className={`${sidebarStyles.empty}`}><p>Please select a node</p></div>}
+        </div>
 
-      <div className="controls">
-        {/* code commented by Ali id:#123456789*/}
-        {/* <button
+        <div></div>
+      </div> */}
+
+        {/* <button onClick={() => document.removeEventListener('mousedown', handler)}>Click me!</button>
+        <button onClick={() => setIsVisible(true)}>Click me!</button> */}
+
+
+        {/* <div className={`${selectedNode !== null ? sidebarStyles.mainContainer : ""}`}>
+        </div> */}
+
+        {selectedNode === null ? <div className={`${sidebarStyles.indexContainer_invisible}`}></div> : <div className={`${sidebarStyles.indexContainer}`}><Sidebar selectedNode={selectedNode} /></div>}
+      <div style={{ overflow: 'hidden'}}>
+        
+        <div className="controls">
+          {/* code commented by Ali id:#123456789*/}
+          {/* <button
           onClick={() => {
             setFetching(true);
             dispatch(
@@ -227,16 +235,16 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
         >
           Refresh
         </button> */}
-        <button onClick={() => setLegend(!legend)}>
-          {legend ?
-            <img className='legend_arrow' src={arrowOpen} alt={"arrow_image"} />
-            :
-            <img className='legend_arrow' src={arrowClose} alt={"arrow_image"} />}
-          Artifact Legends
-        </button>
+          <button onClick={() => setLegend(!legend)}>
+            {legend ?
+              <img className='legend_arrow' src={arrowOpen} alt={"arrow_image"} />
+              :
+              <img className='legend_arrow' src={arrowClose} alt={"arrow_image"} />}
+            Artifact Legends
+          </button>
 
-        {/* code commented by Ali id:#123456789*/}
-        {/* <button
+          {/* code commented by Ali id:#123456789*/}
+          {/* <button
           disabled={graph?.metadata[0]?.value ? false : true}
           onClick={() => {
             window.open(
@@ -248,70 +256,70 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
         >
           Orchestrator Logs
         </button> */}
-        <div style={{}}>
-          <div className="legend" style={{ display: legend ? '' : 'none' }}>
-            <span>
-              <Analysis /> <span>Data Analysis</span>
-            </span>
-            <span>
-              <Database /> <span>Data</span>
-            </span>
-            <span>
-              <Model /><span>Model</span>
-            </span>
-            <span>
-              <Schema /> <span>Schema</span>
-            </span>
-            <span>
-              <Service /> <span>Service</span>
-            </span>
-            <span>
-              <Statistic /> <span>Statistic</span>
-            </span>
+          <div style={{}}>
+            <div className="legend" style={{ display: legend ? '' : 'none' }}>
+              <span>
+                <Analysis /> <span>Data Analysis</span>
+              </span>
+              <span>
+                <Database /> <span>Data</span>
+              </span>
+              <span>
+                <Model /><span>Model</span>
+              </span>
+              <span>
+                <Schema /> <span>Schema</span>
+              </span>
+              <span>
+                <Service /> <span>Service</span>
+              </span>
+              <span>
+                <Statistic /> <span>Statistic</span>
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="layout" style={{ overflow: 'hidden' }}>
-        <div className="layoutflow">
-          <ReactFlow
-            nodes={nodes} // node itself
-            edges={edges} //connection lines
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            connectionLineType={ConnectionLineType.SimpleBezier}
-            nodeTypes={nodeTypes}
-            onNodeClick={async (event, node) => {
-              NodeClickHandler(event, node);
+        <div className="layout" style={{ overflow: 'hidden' }}>
+          <div className="layoutflow">
+            <ReactFlow
+              nodes={nodes} // node itself
+              edges={edges} //connection lines
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              connectionLineType={ConnectionLineType.SimpleBezier}
+              nodeTypes={nodeTypes}
+              onNodeClick={async (event, node) => {
+                // NodeClickHandler(event, node);
 
-              console.log("__UNAUTH SELECTEDNODE 0", node)
-              // wait till already selected node is unselected
-              setTimeout(async () => {
-                if (selectedNode?.selected) {
-                  selectedNode.selected = false
-                  setSelectedNode(node.data);
-                }
-                setSelectedNode(null);
-              }, 100)
+                // console.log("__UNAUTH SELECTEDNODE 0", node)
+                // wait till already selected node is unselected
+                setTimeout(async () => {
+                  if (selectedNode?.selected) {
+                    selectedNode.selected = false
+                    setSelectedNode(node.data);
+                  }
+                  setSelectedNode(null);
+                }, 100)
 
-              // wait till new selected node is selected
-              setTimeout(async () => {
-                node.data["selected"] = true;
-                setSelectedNode(node.data)
-                console.log("__UNAUTH SELECTEDNODE 3", selectedNode)
-              }, 100)
-            }
+                // wait till new selected node is selected
+                setTimeout(async () => {
+                  node.data["selected"] = true;
+                  setSelectedNode(node.data)
+                  // console.log("__UNAUTH SELECTEDNODE 3", selectedNode)
+                }, 100)
+              }
 
-            }
+              }
 
-            fitView
-          >
-            <Controls />
-          </ReactFlow>
-        </div>
-        {/* <div className="detailsPositioning"> */}
-        <div className="">
-          {/* <div className="detailsBox">
+              fitView
+            >
+              <Controls />
+            </ReactFlow>
+          </div>
+          {/* <div className="detailsPositioning"> */}
+          <div className="">
+            {/* <div className="detailsBox">
             <h3 className="detailsTitle">
               {selectedNode?.artifact_type ||
               selectedNode?.execution_id === '' ? (
@@ -454,22 +462,22 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
               </div>
             )}
           </div> */}
-          {/* {console.log({ artifact: ArtifactNode.type })} */}
-          {/* {selectedNode == null ? "" : <Sidebar selectedNode={selectedNode} />} */}
+            {/* {console.log({ artifact: ArtifactNode.type })} */}
+            {/* {selectedNode == null ? "" : <Sidebar selectedNode={selectedNode} />} */}
 
-          {/* {selectedNode == null ? <div>Select a node</div> : <Sidebar selectedNode={selectedNode} />} */}
+            {/* {selectedNode == null ? <div>Select a node</div> : <Sidebar selectedNode={selectedNode} />} */}
 
-          {/* {sidebar ?
+            {/* {sidebar ?
             <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(!sidebar)} style={{ position: 'absolute', right: -50 }} />
             :
             <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(!sidebar)} style={{ position: 'absolute', right: -50 }} />} */}
 
-          {/* {sidebar ?
+            {/* {sidebar ?
             <Sidebar selectedNode={selectedNode} />
             :
             <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(!sidebar)} style={{ position: 'absolute', right: -50 }} />} */}
 
-          {/* {sidebar ? 
+            {/* {sidebar ? 
           <div className='siderbar11'>
             <div className='siderbar_arrow' onClick={() => setSidebar(!sidebar)}>
 
@@ -509,8 +517,9 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
             </div>
           </div> : "" } */}
 
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

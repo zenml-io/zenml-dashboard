@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import circleArrowSideClose from '../icons/assets/circleArrowSideClose.svg';
 import circleArrowSideOpen from '../icons/assets/circleArrowSideOpen.svg';
 import styles from './index.module.scss'
@@ -9,6 +9,7 @@ import { useSelector } from '../../hooks';
 import { sessionSelectors } from '../../../redux/selectors';
 import axios from 'axios';
 import { Status_Completed } from './icons';
+import sidebarStyles from './sidebar.module.css'
 
 // const TogglerSwitch: React.FC<any> = ({ label, css }) => {
 //     const [checked, setchecked] = useState(false)
@@ -201,72 +202,29 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
             {show === "__CONFIG" ?
 
                 <>
-                    <div className='siderbar_subheader11'>
-                        <span className='' onClick={() => ConfigurationTabClickHandler("__CONFIGURATION")} style={configShow === "__CONFIGURATION" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Configuration</span>
-                        <span className='' onClick={() => ConfigurationTabClickHandler("__RUNS")} style={configShow === "__RUNS" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Runs</span>
-                        <span className='' onClick={() => ConfigurationTabClickHandler("__STACK")} style={configShow === "__STACK" ? { borderBottom: "1px solid", opacity: 1 } : { opacity: 0.5 }}>Stack</span>
+                    <div className='config_container'>
+                        <div>
+                            <p>Component Name</p>
+                            <input type='text' placeholder='component name' />
+                        </div>
+
+                        <div>
+                            <p>Kubernetes Context</p>
+                            <input type='text' placeholder='Kubernetes Context' />
+                        </div>
+                        <div>
+                            <p>Kubernetes Context</p>
+                            <input type='text' placeholder='Kubernetes Context' />
+                        </div>
+                        <div>
+                            <p>Kubernetes Context</p>
+                            <input type='text' placeholder='Kubernetes Context' />
+                        </div>
+                        <div>
+                            <p>Kubernetes Context</p>
+                            <input type='text' placeholder='Kubernetes Context' />
+                        </div>
                     </div>
-                    {configShow && configShow === "__CONFIGURATION" ?
-                        <div className='config_container'>
-                            <div>
-                                <p>Component Name</p>
-                                <input type='text' placeholder='component name' />
-                            </div>
-
-                            <div>
-                                <p>Kubernetes Context</p>
-                                <input type='text' placeholder='Kubernetes Context' />
-                            </div>
-                            <div>
-                                <p>Kubernetes Context</p>
-                                <input type='text' placeholder='Kubernetes Context' />
-                            </div>
-                            <div>
-                                <p>Kubernetes Context</p>
-                                <input type='text' placeholder='Kubernetes Context' />
-                            </div>
-                            <div>
-                                <p>Kubernetes Context</p>
-                                <input type='text' placeholder='Kubernetes Context' />
-                            </div>
-                        </div>
-                        :
-                        ""}
-                    {configShow && configShow === "__RUNS" ?
-                        <div style={{ margin: 'auto' }}>
-                            __RUNS
-                        </div>
-                        :
-                        ""}
-                    {configShow && configShow === "__STACK" ?
-
-                        <table className='sidebar_table'>
-                            <tr>
-                                <td className='td_key'>name</td>
-                                <td className='td_value' style={{}}>{node?.step?.config?.name}</td>
-                            </tr>
-
-                            <tr>
-                                <td className='td_key'>enable_artifact_metadata</td>
-                                <td className='td_value' style={{ color: node?.step?.config?.enable_artifact_metadata ? "#431d93" : "#431d93" }}>{node?.step?.config?.enable_artifact_metadata || "null"}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>enable_cache</td>
-                                <td className='td_value' style={{ color: node?.step?.config?.enable_cache ? "#2ECC71" : "#ea1b48" }}>{node?.step?.config?.enable_cache ? "true" : "false"}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>pipeline_parameter_name</td>
-                                <td className='td_value' style={{}}>{node?.step?.spec?.pipeline_parameter_name}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>source</td>
-                                <td className='td_value' style={{}}>{node?.step?.spec?.source}</td>
-                            </tr>
-
-                        </table>
-
-                        :
-                        ""}
                 </>
                 : ""
             }
@@ -343,6 +301,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     const [isStepNode, setIsStepNode] = useState(false);
     const [artifact, setArtifact] = useState([] as any);
     const [step, setStep] = useState([] as any);
+    const sidebar_ref = useRef<HTMLInputElement>(null)
 
     console.log("__UNAUTH SELECTEDNODE SIDEVAR", selectedNode);
 
@@ -350,11 +309,11 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     // -----------------------------------------------------
     // REACT_APP_BASE_API_URL=https://appserver.zenml.io/api/v1
     // const [metadata, setMetaData] = useState([] as any);
-    const authToken = useSelector(sessionSelectors.authenticationToken);
 
     // let exe_id = `3fa85f64-5717-4562-b3fc-2c963f66afa6`;
     // let url = `https://appserver.zenml.io/api/v1/` + `artifacts/` + exe_id;
 
+    const authToken = useSelector(sessionSelectors.authenticationToken);
     const fetchMetaData = async (type: boolean) => {
         // IF IS STEP THEN GO INSIDE IF, AND IF ARTIFACT GO INSIDE ELSE
         if (type) {
@@ -398,6 +357,10 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     };
 
     useEffect(() => {
+
+        if (selectedNode === null) return
+
+
         let type = "configuration" in selectedNode;
         console.log("__UNAUTH TYPE: ", type);
 
@@ -418,14 +381,46 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
         FetchData(type);
     }, [isStepNode]) //eslint-disable-line
 
+    useEffect(() => {
+        console.log({ sidebar_ref })
+        if (!sidebar_ref) {
+            // document.adds
+        }
+    })
+
+
+    // CLICK OUTSIDE TO CLOSE THE SIDEBAR
+    useEffect(() => {
+        let handler = (event: any) => {
+          if (!sidebar_ref.current?.contains(event.target)) {
+            setSidebar(false);
+            console.log("____SIDE", sidebar_ref.current)
+          }
+          else {
+            console.log("____SIDE OUT", sidebar_ref.current)
+          }
+        }
+    
+        document.addEventListener('mousedown', handler);
+        return () => {
+          document.removeEventListener('mousedown', handler);
+        }
+      }, [])
+    
 
     return (
-        <div style={{ position: 'absolute', top: "10%", left: "100%", zIndex: 101 }}>
+
+
+        <div style={{ position: 'absolute', top: "0%", left: "100%", zIndex: 101 }}>
             {sidebar ?
                 // <div style={{display:'flex',justifyContent:'flex-start',alignItems:'flex-start', flexDirection:'row', width:'60vw', height:'100vh', background:'green', position:'absolute', right:'0%'}}>
-                <div className='siderbar11'>
+                <div className='siderbar11' ref={sidebar_ref}>
                     <div className='sidebar11_arrow'>
-                        <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} />
+                        {sidebar ?
+                            <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} />
+                            :
+                            <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(true)} />
+                        }
                     </div>
                     <div className='siderBar_contentArea'>
                         <div className='sidebar_body11'>
@@ -435,9 +430,24 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                 </div>
                 // </div>
                 :
-                <div style={{ position: 'absolute', right: -50, top: "100%", padding: '10px', height: "500px", display: "flex", alignItems: 'flex-end' }} >
-                    <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{ zIndex: 100 }} />
+
+                <div className='siderbar11_hidden'>
+                    <div className='sidebar11_arrow_hidden'>
+                        {sidebar ?
+                            <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} />
+                            :
+                            <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(true)} />
+                        }
+                    </div>
+                    <div className='siderBar_contentArea'>
+                        <div className='sidebar_body11'>
+                            {/* {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />} */}
+                        </div>
+                    </div>
                 </div>
+                // <div style={{ position: 'absolute', right: -50, top: "100%", padding: '10px', height: "500px", display: "flex", alignItems: 'flex-end' }} className='closeSidebarBtn' ref={sidebar_ref}>
+                //     <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{ zIndex: 100 }} />
+                // </div>
             }
         </div>
     )
