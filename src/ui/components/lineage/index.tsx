@@ -150,28 +150,28 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
-  const [isVisible, setIsVisible] = useState(true)
+  // const [isVisible, setIsVisible] = useState(true)
   const sidebar_ref = useRef<HTMLInputElement>(null)
   // React.useRef<HTMLInputElement>(null)
 
 
 
-  useEffect(() => {
-    let handler = (event: any) => {
-      if (!sidebar_ref.current?.contains(event.target)) {
-        setIsVisible(false);
-        // console.log("____SIDE", sidebar_ref.current)
-      }
-      else {
-        // console.log("____SIDE OUT", sidebar_ref.current)
-      }
-    }
+  // useEffect(() => {
+  //   let handler = (event: any) => {
+  //     if (!sidebar_ref.current?.contains(event.target)) {
+  //       setIsVisible(false);
+  //       // console.log("____SIDE", sidebar_ref.current)
+  //     }
+  //     else {
+  //       // console.log("____SIDE OUT", sidebar_ref.current)
+  //     }
+  //   }
 
-    document.addEventListener('mousedown', handler);
-    return () => {
-      document.removeEventListener('mousedown', handler);
-    }
-  }, [])
+  //   document.addEventListener('mousedown', handler);
+  //   return () => {
+  //     document.removeEventListener('mousedown', handler);
+  //   }
+  // }, [])
 
 
 

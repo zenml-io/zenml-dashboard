@@ -9,7 +9,7 @@ import { useSelector } from '../../hooks';
 import { sessionSelectors } from '../../../redux/selectors';
 import axios from 'axios';
 import { Status_Completed } from './icons';
-import sidebarStyles from './sidebar.module.css'
+// import sidebarStyles from './sidebar.module.css'
 
 // const TogglerSwitch: React.FC<any> = ({ label, css }) => {
 //     const [checked, setchecked] = useState(false)
@@ -31,6 +31,13 @@ import sidebarStyles from './sidebar.module.css'
 //         </div>
 //     )
 // }
+
+const stylesActive = {
+    borderBottom: "solid", opacity: 1, transition: "opacity 300ms ease-in-out 0ms, transform 300ms ease-in-out 0ms ", transform: "scale(1.1)"
+}
+const stylesInActive = {
+    opacity: 0.5, transition: "all 0.1s ease", transform: "scale(0.8)"
+}
 
 function printNestedJson(obj: any) {
     let output = '';
@@ -74,23 +81,23 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
             default: return "";
         }
     }
-    const ConfigurationTabClickHandler = (tab: string) => {
-        switch (tab) {
-            case "__CONFIGURATION": return setConfigShow("__CONFIGURATION")
-            case "__RUNS": return setConfigShow("__RUNS")
-            case "__STACK": return setConfigShow("__STACK")
-            default: return ""
-        }
-    }
+    // const ConfigurationTabClickHandler = (tab: string) => {
+    //     switch (tab) {
+    //         case "__CONFIGURATION": return setConfigShow("__CONFIGURATION")
+    //         case "__RUNS": return setConfigShow("__RUNS")
+    //         case "__STACK": return setConfigShow("__STACK")
+    //         default: return ""
+    //     }
+    // }
     return (
 
         <>
             <div className='siderbar_header11 '>
                 {/* <span className='' onClick={() => TabClickHandler("__CONFIG")} style={{ borderBottom: show === "__CONFIG" ? "solid" : "" }}>Config</span> */}
-                <span className='' onClick={() => TabClickHandler("__CONFIG")} style={show === "__CONFIG" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Config</span>
-                <span className='' onClick={() => TabClickHandler("__LOG")} style={show === "__LOG" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Log</span>
-                <span className='' onClick={() => TabClickHandler("__ATTRIBUTE")} style={show === "__ATTRIBUTE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Attribute</span>
-                <span className='' onClick={() => TabClickHandler("__CODE")} style={show === "__CODE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Code</span>
+                <span className='' onClick={() => TabClickHandler("__CONFIG")} style={show === "__CONFIG" ? stylesActive : stylesInActive}>Config</span>
+                <span className='' onClick={() => TabClickHandler("__LOG")} style={show === "__LOG" ? stylesActive : stylesInActive}>Log</span>
+                <span className='' onClick={() => TabClickHandler("__ATTRIBUTE")} style={show === "__ATTRIBUTE" ? stylesActive : stylesInActive}>Attribute</span>
+                <span className='' onClick={() => TabClickHandler("__CODE")} style={show === "__CODE" ? stylesActive : stylesInActive}>Code</span>
             </div>
             {
                 show === "__ATTRIBUTE" ?
@@ -247,8 +254,13 @@ const ArtifactTabHeader: React.FC<any> = ({ node }) => {
     return (
         <>
             <div className='siderbar_header11 '>
-                <span className='' onClick={() => TabClickHandler("__META")} style={show === "__META" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Meta-data</span>
-                <span className='' onClick={() => TabClickHandler("__ATTRIBUTE")} style={show === "__ATTRIBUTE" ? { borderBottom: "solid", opacity: 1 } : { opacity: 0.5 }}>Attribute</span>
+                <span
+                    className=''
+                    onClick={() => TabClickHandler("__META")}
+                    style={show === "__META" ? stylesActive  : stylesInActive}>Meta-data</span>
+                <span className=''
+                    onClick={() => TabClickHandler("__ATTRIBUTE")}
+                    style={show === "__ATTRIBUTE" ? stylesActive : stylesInActive}>Attribute</span>
             </div>
 
             {/* SHOW META */}
@@ -381,39 +393,31 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
         FetchData(type);
     }, [isStepNode]) //eslint-disable-line
 
-    useEffect(() => {
-        console.log({ sidebar_ref })
-        if (!sidebar_ref) {
-            // document.adds
-        }
-    })
-
 
     // CLICK OUTSIDE TO CLOSE THE SIDEBAR
     useEffect(() => {
         let handler = (event: any) => {
-          if (!sidebar_ref.current?.contains(event.target)) {
-            setSidebar(false);
-            console.log("____SIDE", sidebar_ref.current)
-          }
-          else {
-            console.log("____SIDE OUT", sidebar_ref.current)
-          }
+            if (!sidebar_ref.current?.contains(event.target)) {
+                setSidebar(false);
+                console.log("____SIDE", sidebar_ref.current)
+            }
+            else {
+                console.log("____SIDE OUT", sidebar_ref.current)
+            }
         }
-    
+
         document.addEventListener('mousedown', handler);
         return () => {
-          document.removeEventListener('mousedown', handler);
+            document.removeEventListener('mousedown', handler);
         }
-      }, [])
-    
+    }, [])
+
 
     return (
 
 
         <div style={{ position: 'absolute', top: "0%", left: "100%", zIndex: 101 }}>
             {sidebar ?
-                // <div style={{display:'flex',justifyContent:'flex-start',alignItems:'flex-start', flexDirection:'row', width:'60vw', height:'100vh', background:'green', position:'absolute', right:'0%'}}>
                 <div className='siderbar11' ref={sidebar_ref}>
                     <div className='sidebar11_arrow'>
                         {sidebar ?
@@ -428,21 +432,10 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                         </div>
                     </div>
                 </div>
-                // </div>
                 :
-
                 <div className='siderbar11_hidden'>
                     <div className='sidebar11_arrow_hidden'>
-                        {sidebar ?
-                            <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} />
-                            :
-                            <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(true)} />
-                        }
-                    </div>
-                    <div className='siderBar_contentArea'>
-                        <div className='sidebar_body11'>
-                            {/* {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />} */}
-                        </div>
+                        {sidebar ? "" : <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(true)} />}
                     </div>
                 </div>
                 // <div style={{ position: 'absolute', right: -50, top: "100%", padding: '10px', height: "500px", display: "flex", alignItems: 'flex-end' }} className='closeSidebarBtn' ref={sidebar_ref}>
