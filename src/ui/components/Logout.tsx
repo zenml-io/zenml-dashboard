@@ -8,6 +8,7 @@ export const Logout = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
+    localStorage.removeItem('persistSelectedStack');
     dispatch(sessionActions.logout());
   });
 
