@@ -150,8 +150,8 @@ const icons = {
   table: createIcon({ Component: Table }),
   check: createIcon({ Component: Check, useStroke: true }),
   close: createIcon({ Component: Close, useStroke: true }),
-  cached: createIcon({ Component: Cached, useStroke: true }),
-  inProgress: createIcon({ Component: Inprogress, useStroke: true }),
+  cached: createIcon({ Component: Cached }),
+  inProgress: createIcon({ Component: Inprogress }),
   chevronLeft: createIcon({ Component: ChevronLeft }),
   chevronRight: createIcon({
     Component: ChevronLeft,
