@@ -56,16 +56,19 @@ export const Stacks: React.FC = () => {
         },
       ]}
       tabBasePath={routePaths.stacks.base}
-      breadcrumbs={[
-        {
-          name: translate('header.breadcrumbs.stacks.text'),
-          clickable: true,
-          // to: routePaths.stacks.base,
-          to: routePaths.stacks.list(
-            selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
-          ),
-        },
-      ]}
+      breadcrumbs={
+        [
+          // {
+          //   name: translate('header.breadcrumbs.stacks.text'),
+          //   clickable: true,
+          //   // to: routePaths.stacks.base,
+          //   to: routePaths.stacks.list(
+          //     selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+          //   ),
+          // },
+        ]
+      }
+      title="Stacks"
       headerWithButtons
       renderHeaderRight={() => <></>}
     />

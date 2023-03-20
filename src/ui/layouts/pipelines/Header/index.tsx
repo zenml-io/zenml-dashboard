@@ -48,8 +48,9 @@ const DefaultHeader: React.FC<{
 
 const HeaderWithButtons: React.FC<{
   breadcrumbs: TBreadcrumb[];
+  title?: string;
   renderRight?: () => JSX.Element;
-}> = ({ breadcrumbs, renderRight }) => (
+}> = ({ breadcrumbs, renderRight, title }) => (
   <FlexBox
     marginTop="xl"
     // marginBottom="lg"
@@ -66,7 +67,8 @@ const HeaderWithButtons: React.FC<{
           color: '#424240',
         }}
       >
-        {breadcrumbs[0]?.name}
+        {title}
+        {/* {breadcrumbs[0]?.name} */}
       </Paragraph>
     </FlexBox>
     <FlexBox
