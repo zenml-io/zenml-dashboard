@@ -222,7 +222,7 @@ export const EditField = (
         />
         {!props.disabled && (
           <Box style={{ position: 'absolute', right: '10px', top: '35px' }}>
-            <icons.pen color={!props.disabled ? iconColors.black : iconColors.grey} />
+            <icons.pen color={iconColors.black} />
           </Box>
         )}
       </FlexBox>
@@ -252,6 +252,7 @@ export const EditFieldSettings = (
   return (
     <FlexBox.Column fullWidth>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+        {console.log(disabled, 'disableddisabled')}
         <InputWithLabel
           name={props.name}
           label={props.label}
@@ -262,23 +263,26 @@ export const EditFieldSettings = (
               {...props}
               inputRef={inputRef}
               defaultValue={props?.defaultValue}
-              value={props.value}
+              value={disabled ? props?.defaultValue : props.value}
               placeholder={props.placeholder}
               disabled={disabled}
               autoFocus={!disabled}
-              onRemoveFocus={() => setDisabled(!disabled)}
-              // onFocus={(e: any) => e.currentTarget.select()}
+              onRemoveFocus={(e: any) => {
+                setTimeout(() => {
+                  if (disabled === false) setDisabled(true);
+                }, 200);
+              }}
             />
           }
         />
+        {/* {console.log(props?.defaultValue , props.value , 'disableddisabled')} */}
         {!props.disabled && (
           <Box
             onClick={() => {
               setDisabled(!disabled);
-
-              setTimeout(() => {
-                props.inputRef?.current?.focus();
-              }, 10);
+              // setTimeout(() => {
+              // props.inputRef?.current?.focus();
+              // }, 1000);
             }}
             style={{
               position: 'absolute',
@@ -287,8 +291,7 @@ export const EditFieldSettings = (
               cursor: 'pointer',
             }}
           >
-            {console.log(disabled, 'disableddisabled')}
-            <icons.pen color={iconColors.grey} />
+            <icons.pen color={iconColors.black} />
           </Box>
         )}
       </FlexBox>
