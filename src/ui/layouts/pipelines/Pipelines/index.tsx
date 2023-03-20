@@ -95,28 +95,31 @@ export const Pipelines: React.FC = () => {
             },
       ]}
       tabBasePath={routePaths.pipelines.base}
-      breadcrumbs={[
-        {
-          name: locationPath.includes('all-runs')
-            ? 'Runs'
-            : translate('header.breadcrumbs.pipelines.text'),
-          clickable: true,
-          // to: locationPath.includes('pipelines')
-          // ? routePaths.pipelines.base
-          // : routePaths.pipelines.allRuns(selectedWorkspace),
-          to: locationPath.includes('pipelines/list')
-            ? routePaths.pipelines.list(
-                selectedWorkspace
-                  ? selectedWorkspace
-                  : locationPath.split('/')[2],
-              )
-            : routePaths.pipelines.allRuns(
-                selectedWorkspace
-                  ? selectedWorkspace
-                  : locationPath.split('/')[2],
-              ),
-        },
-      ]}
+      breadcrumbs={
+        [
+          // {
+          //   name: locationPath.includes('all-runs')
+          //     ? 'Runs'
+          //     : translate('header.breadcrumbs.pipelines.text'),
+          //   clickable: true,
+          //   // to: locationPath.includes('pipelines')
+          //   // ? routePaths.pipelines.base
+          //   // : routePaths.pipelines.allRuns(selectedWorkspace),
+          //   to: locationPath.includes('pipelines/list')
+          //     ? routePaths.pipelines.list(
+          //         selectedWorkspace
+          //           ? selectedWorkspace
+          //           : locationPath.split('/')[2],
+          //       )
+          //     : routePaths.pipelines.allRuns(
+          //         selectedWorkspace
+          //           ? selectedWorkspace
+          //           : locationPath.split('/')[2],
+          //       ),
+          // },
+        ]
+      }
+      title={locationPath.includes('all-runs') ? 'Runs' : 'Pipelines'}
       headerWithButtons
       renderHeaderRight={() => <></>}
     />

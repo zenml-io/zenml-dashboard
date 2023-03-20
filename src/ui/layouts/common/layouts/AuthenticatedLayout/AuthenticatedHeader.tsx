@@ -123,7 +123,9 @@ export const AuthenticatedHeader: React.FC<{
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
   const logout = () => {
+    localStorage.removeItem('persistSelectedStack');
     dispatch(sessionActions.logout());
+
     history.push('/login');
   };
 

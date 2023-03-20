@@ -210,17 +210,18 @@ export const StackDetail: React.FC = () => {
       tabPages={tabPages}
       tabBasePath={routePaths.stack.base(stack.id)}
       breadcrumbs={breadcrumbs}
+      title="Stacks"
     >
-    <Box marginTop='lg'>
-      <CollapseTable
-        pagination={false}
-        renderAfterRow={(stack: TStack) => <></>}
-        headerCols={headerCols}
-        tableRows={filteredStacks}
-        emptyState={{ text: translate('emptyState.text') }}
-        trOnClick={openDetailPage}
-      />
-    </Box>
+      <Box marginTop="lg">
+        <CollapseTable
+          pagination={false}
+          renderAfterRow={(stack: TStack) => <></>}
+          headerCols={headerCols}
+          tableRows={filteredStacks}
+          emptyState={{ text: translate('emptyState.text') }}
+          trOnClick={openDetailPage}
+        />
+      </Box>
       {/* <List filter={[]} pagination={false} isExpended id={stack.id}></List> */}
       {/* <Box style={boxStyle}>
         <Box>

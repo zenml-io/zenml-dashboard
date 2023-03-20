@@ -99,17 +99,19 @@ export const Stacks: React.FC = () => {
             : (locationPath.split('/')[2] as string),
         ) + `?workspace=${workspace}`
       }
-      breadcrumbs={[
-        {
-          name: camelCaseToParagraph(locationPath.split('/')[4]),
-          clickable: true,
-          to:
-            routePaths.stackComponents.base(
-              locationPath.split('/')[4],
-              workspace as string,
-            ) + `?workspace=${workspace}`,
-        },
-      ]}
+      breadcrumbs={
+        [
+          // {
+          //   name: camelCaseToParagraph(locationPath.split('/')[4]),
+          //   clickable: true,
+          //   to:
+          //     routePaths.stackComponents.base(
+          //       locationPath.split('/')[4],
+          //       workspace as string,
+          //     ) + `?workspace=${workspace}`,
+          // },
+        ]
+      }
       title="Stack Components"
       headerWithButtons
       renderHeaderRight={() => <></>}
