@@ -91,6 +91,17 @@ export const Menu: React.FC = () => {
         )}
         text={translate('menu.stackComponents.text')}
       />
+
+      <MenuItem
+        id="plugins"
+        isActive={() => window.location.href?.includes('plugins')}
+        Icon={() => (
+          <icons.storefront color={iconColors.white} size={iconSizes.md} />
+        )}
+        innerItem={window.location.href?.includes('plugins')}
+        to={routePaths.plugins.list(selectedWorkspace)}
+        text={translate('menu.plugins.text')}
+      />
     </>
   );
 };

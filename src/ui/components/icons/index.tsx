@@ -37,6 +37,7 @@ import { ReactComponent as Example } from './assets/Example.svg';
 import { ReactComponent as Pipeline } from './assets/Pipeline.svg';
 import { ReactComponent as Stack } from './assets/Stack.svg';
 import { ReactComponent as StackComponent } from './assets/StackComponent.svg';
+import { ReactComponent as Storefront } from './assets/Storefront.svg';
 import { ReactComponent as FunnelFill } from './assets/FunnelFill.svg';
 import { ReactComponent as Delete } from './assets/Delete.svg';
 import { ReactComponent as SimplePlus } from './assets/SimplePlus.svg';
@@ -98,34 +99,36 @@ const mapSizes = {
   xl: 36,
 };
 
-const createIcon = ({
-  Component,
-  transform,
-  useStroke = false,
-}: {
-  Component: any;
-  useStroke?: boolean;
-  transform?: any;
-}) => ({ size, color, ...props }: Props & BoxProps) => {
-  return (
-    <Box {...props}>
-      <Component
-        {...props}
-        transform={transform}
-        style={{ transform }}
-        width={mapSizes[size || 'md']}
-        height={mapSizes[size || 'md']}
-        className={joinClassNames(
-          styles.svg,
-          styles[color || 'black'],
-          props.className,
-          useStroke && styles.useStroke,
-          !useStroke && styles.useFill,
-        )}
-      />
-    </Box>
-  );
-};
+const createIcon =
+  ({
+    Component,
+    transform,
+    useStroke = false,
+  }: {
+    Component: any;
+    useStroke?: boolean;
+    transform?: any;
+  }) =>
+  ({ size, color, ...props }: Props & BoxProps) => {
+    return (
+      <Box {...props}>
+        <Component
+          {...props}
+          transform={transform}
+          style={{ transform }}
+          width={mapSizes[size || 'md']}
+          height={mapSizes[size || 'md']}
+          className={joinClassNames(
+            styles.svg,
+            styles[color || 'black'],
+            props.className,
+            useStroke && styles.useStroke,
+            !useStroke && styles.useFill,
+          )}
+        />
+      </Box>
+    );
+  };
 
 const icons = {
   burger: createIcon({ Component: Burger }),
@@ -177,6 +180,7 @@ const icons = {
   pipeline: createIcon({ Component: Pipeline, useStroke: true }),
   stack: createIcon({ Component: Stack, useStroke: true }),
   stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
+  storefront: createIcon({ Component: Storefront }),
   funnelFill: createIcon({ Component: FunnelFill }),
   delete: createIcon({ Component: Delete }),
   edit: createIcon({ Component: Edit }),

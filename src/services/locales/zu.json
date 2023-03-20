@@ -15,7 +15,7 @@
               "personalDetails": {
                 "text": "Personal Details"
               },
-        
+
               "organizationSettings": {
                 "text": "Workspace Settings"
               }
@@ -72,15 +72,15 @@
               }
             },
             "popup": {
-                "title": "Change full name and Username",
-                "text": "Are you sure to change your full name and username",
-                "successButton": {
-                  "text": "Yes"
-                },
-                "cancelButton": {
-                  "text": "No"
-                }
+              "title": "Change full name and Username",
+              "text": "Are you sure to change your full name and username",
+              "successButton": {
+                "text": "Yes"
+              },
+              "cancelButton": {
+                "text": "No"
               }
+            }
           },
           "BillingSettings": {
             "title": "Billing",
@@ -307,6 +307,9 @@
               },
               "stackComponents": {
                 "text": "Components"
+              },
+              "plugins": {
+                "text": "Plugins"
               },
               "setting": {
                 "text": "Settings"
