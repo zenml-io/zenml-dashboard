@@ -164,7 +164,7 @@ export const CopyField = (
 
         {props.showTokField && (
           <LinkBox
-            style={{ position: 'absolute', right: '10px', top: '30px' }}
+            style={{ position: 'absolute', right: '10px', top: '40px' }}
             onClick={handleClick}
           >
             <icons.copy color={iconColors.grey} />
