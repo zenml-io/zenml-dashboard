@@ -31,7 +31,7 @@ const DefaultHeader: React.FC<{
     </FlexBox>
     <FlexBox alignItems="center">
       <Paragraph
-        style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}
+        style={{ fontSize: '14px', lineHeight: '17px', color: '#828282', marginTop: '15px' }}
       >
         Check out our easy to read{' '}
         <a
@@ -77,9 +77,9 @@ const HeaderWithButtons: React.FC<{
       justifyContent="flex-end"
       className={styles.rightWrapper}
     >
-      <Box marginRight="lg" className={styles.dynamicHeaderRight}>
+      <Box className={styles.dynamicHeaderRight}>
         <Paragraph
-          style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}
+          style={{ fontSize: '14px', lineHeight: '17px', color: '#828282', marginTop: '15px' }}
         >
           Check out our easy to read{' '}
           <a

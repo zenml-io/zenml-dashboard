@@ -46,13 +46,15 @@ const FilterWrapperForRun = () => {
     return filterValuesMap;
   }
   return (
-    <FilterComponent
-      getInitials={getInitialFilterStateForRuns}
-      filters={filters}
-      setFilter={setFilter}
-    >
-      <Runs filter={getFilter(filters)} stackId={locationPath.split('/')[4]} />
-    </FilterComponent>
+    <Box marginTop='lg' style={{ width: '100%' }}>
+      <FilterComponent
+        getInitials={getInitialFilterStateForRuns}
+        filters={filters}
+        setFilter={setFilter}
+      >
+        <Runs filter={getFilter(filters)} stackId={locationPath.split('/')[4]} />
+      </FilterComponent>
+    </Box>
   );
 };
 

@@ -38,6 +38,11 @@ export const SidePopup: React.FC<{
   const find = selectedStack?.filter(
     (item: any) => item?.id === selectedStackBox?.id,
   );
+  window.onkeydown = function( event: any ) {
+    if ( event.key === 'Esc' || event.key === 'Escape' ) {
+      return  onClose()
+    }
+  };
   console.log(find, selectedStackBox, selectedStack, 'findddd');
   return (
     <>

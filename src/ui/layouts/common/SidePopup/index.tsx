@@ -23,7 +23,15 @@ export const SidePopup: React.FC<{
   onClose: () => void;
   flavor?: any;
   onSelectFlavor: any;
-}> = ({ children, flavor, onClose, onSelectFlavor, onSeeExisting }) => (
+}> = ({ children, flavor, onClose, onSelectFlavor, onSeeExisting }) => {
+  
+  window.onkeydown = function( event: any ) {
+    if ( event.key === 'Esc' || event.key === 'Escape' ) {
+      return  onClose()
+    }
+  };
+
+ return (
   <>
     <Dimmer />
     <FlexBox
@@ -77,4 +85,5 @@ export const SidePopup: React.FC<{
       </Box>
     </FlexBox>
   </>
-);
+  )
+}
