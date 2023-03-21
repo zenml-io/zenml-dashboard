@@ -4,6 +4,8 @@ import cn from 'classnames';
 import { Box, FlexBox, Paragraph } from '..';
 
 import styles from './index.module.scss';
+import { icons } from '..';
+import { iconColors } from '../../../constants';
 
 export const InputWithLabel = ({
   InputComponent,
@@ -11,12 +13,14 @@ export const InputWithLabel = ({
   name,
   labelColor,
   optional,
+  helperText = label,
 }: {
   InputComponent: JSX.Element;
   label: string;
   name?: any;
   labelColor?: any;
   optional?: string;
+  helperText?: string;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <Box paddingBottom="sm">
@@ -24,9 +28,18 @@ export const InputWithLabel = ({
         size="body"
         style={{ color: labelColor ? labelColor : 'black' }}
       >
-        <label htmlFor={name}>
+        <label htmlFor={name} style={{ display: 'flex', flexDirection: 'row' }}>
           {label}
           {optional && <span style={{ color: 'red' }}>{optional}</span>}
+          {helperText && (
+            <span style={{ marginLeft: '8px' }}>
+              <icons.info
+                color={iconColors.darkGrey}
+                title={helperText}
+                size="xs"
+              />
+            </span>
+          )}
         </label>
       </Paragraph>
     </Box>
@@ -142,7 +155,7 @@ export const TextInput = ({
   inputRef?: any;
   onRemoveFocus?: any;
   style?: any;
-  onKeyDown: (e: { key: string }) => void;
+  onKeyDown?: (e: { key: string }) => void;
 }): JSX.Element => (
   <BaseInput
     {...props}

@@ -698,9 +698,57 @@ export const CheckboxInput = ({
     <div
       tabIndex={0}
       onClick={() => setValue(!value)}
-      style={{ cursor: 'pointer', flexShrink: 0, flexGrow: 0 }}
+      style={{ cursor: 'pointer' }}
     >
       <Paragraph>{label}</Paragraph>
     </div>
   </FlexBox>
+);
+
+export const ValidatedTextField = ({
+  label,
+  value,
+  onChange,
+  status,
+  placeholder,
+  helperText = label,
+}: {
+  label: string;
+  value: string;
+  onChange?: any;
+  status:
+    | { status: 'disabled' }
+    | { status: 'editing' }
+    | { status: 'error'; message: string }
+    | { status: 'success' };
+  placeholder?: string;
+  helperText?: string;
+}): JSX.Element => (
+  <>
+    <InputWithLabel
+      label={label}
+      helperText={helperText}
+      InputComponent={
+        <Box style={{ position: 'relative' }}>
+          <TextInput
+            style={{ paddingRight: status.status === 'success' ? '35px' : 0 }}
+            placeholder={placeholder}
+            hasError={status.status === 'error'}
+            value={value}
+            onChangeText={onChange}
+          />
+
+          {status.status === 'success' && (
+            <Box style={{ position: 'absolute', right: '7px', top: '8px' }}>
+              <icons.checkCircleFilled color={iconColors.green} />
+            </Box>
+          )}
+        </Box>
+      }
+    />
+
+    {status.status === 'error' && (
+      <FormValidationError hasError={true} text={status.message} />
+    )}
+  </>
 );

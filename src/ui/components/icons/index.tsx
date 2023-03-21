@@ -20,6 +20,7 @@ import { ReactComponent as Stream } from './assets/Stream.svg';
 import { ReactComponent as Table } from './assets/Table.svg';
 import { ReactComponent as Check } from './assets/Check.svg';
 import { ReactComponent as CircleCheck } from './assets/CircleCheck.svg';
+import { ReactComponent as CheckCircleFilled } from './assets/CheckCircleFilled.svg';
 import { ReactComponent as Close } from './assets/Close.svg';
 import { ReactComponent as Checkbox } from './assets/Checkbox.svg';
 import { ReactComponent as ChevronLeft } from './assets/ChevronLeft.svg';
@@ -143,6 +144,7 @@ const icons = {
   burger: createIcon({ Component: Burger }),
   calendar: createIcon({ Component: Calendar }),
   checkbox: createIcon({ Component: Checkbox }),
+  checkCircleFilled: createIcon({ Component: CheckCircleFilled }),
   chevronDown: createIcon({ Component: ChevronDown }),
   chevronDownLight: createIcon({ Component: ChevronDownLight }),
   chevronUpLight: createIcon({

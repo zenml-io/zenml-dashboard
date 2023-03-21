@@ -10,6 +10,7 @@ import {
   icons,
   TagsInputField,
   CheckboxInput,
+  ValidatedTextField,
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
@@ -26,6 +27,8 @@ const todayFormatted = moment().format('dddd, DD MMM yyyy');
 const CreatePlugins: React.FC = ({}) => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
+  const [packageName, setPackageName] = useState('');
+  const [repositoryUrl, setRepositoryUrl] = useState('');
   const [tagText, setTagText] = useState('');
   const [tags, setTags] = useState([] as string[]);
   const [checkGuidelines, setCheckGuidelines] = useState(false);
@@ -51,7 +54,7 @@ const CreatePlugins: React.FC = ({}) => {
           </Paragraph>
         </FlexBox>
 
-        <FlexBox style={{ maxWidth: '800px' }}>
+        <FlexBox style={{ maxWidth: '800px' }} marginVertical="xl">
           {/* date and image sidebar */}
           <Box paddingRight="lg2">
             <Paragraph style={{ color: '#424240', fontSize: 14 }}>
@@ -76,6 +79,7 @@ const CreatePlugins: React.FC = ({}) => {
 
           {/* main form */}
           <Box>
+            {/* description */}
             <Box>
               <Paragraph style={{ lineHeight: '30px' }}>
                 Contributing to the ZenML Hub is easy! Just follow these simple
@@ -101,6 +105,25 @@ const CreatePlugins: React.FC = ({}) => {
                   "It's that easy! Once you've completed these steps, choose a globally unique name for your plugin and provide  repository URL below."
                 }
               </Paragraph>
+            </Box>
+
+            {/* package name and repository URL */}
+            <Box marginVertical="xl">
+              <Box marginBottom="lg">
+                <ValidatedTextField
+                  label="Package Name"
+                  value={packageName}
+                  onChange={setPackageName}
+                  status={{ status: 'success' }}
+                />
+              </Box>
+
+              <ValidatedTextField
+                label="Repository URL"
+                value={repositoryUrl}
+                onChange={setRepositoryUrl}
+                status={{ status: 'error', message: 'Invalid URL' }}
+              />
             </Box>
 
             <TagsInputField
