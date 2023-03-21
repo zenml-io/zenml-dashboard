@@ -130,7 +130,7 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                       key={index}
                       // paddingBottom="sm"
                       // paddingHorizontal="md"
-                      marginHorizontal="md"
+                      marginHorizontal="lg"
                       className={joinClassNames(
                         styles.item,
                         isActive ? styles.activeItem : '',

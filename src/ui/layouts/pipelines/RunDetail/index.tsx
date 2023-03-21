@@ -34,7 +34,7 @@ const getTabPages = ({
 }): TabPage[] => {
   return [
     {
-      text: 'DAG Visualizerzz',
+      text: 'DAG Visualizer',
 
       Component: () => (
         <DAG runId={runId} fetching={fetching} metadata={metadata} />
