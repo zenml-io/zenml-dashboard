@@ -9,6 +9,7 @@ import {
   Paragraph,
   icons,
   TagsInputField,
+  CheckboxInput,
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
@@ -27,6 +28,8 @@ const CreatePlugins: React.FC = ({}) => {
 
   const [tagText, setTagText] = useState('');
   const [tags, setTags] = useState([] as string[]);
+  const [checkGuidelines, setCheckGuidelines] = useState(false);
+  const [checkPublish, setCheckPublish] = useState(false);
 
   return (
     <AuthenticatedLayout
@@ -108,6 +111,21 @@ const CreatePlugins: React.FC = ({}) => {
               label="Add tags"
               placeholder="Ex. Artificial Intelligence"
             />
+
+            <Box marginVertical="lg">
+              <Box marginBottom="sm">
+                <CheckboxInput
+                  label="I agree to follow the guidelines and not upload harmful code."
+                  value={checkGuidelines}
+                  setValue={setCheckGuidelines}
+                />
+              </Box>
+              <CheckboxInput
+                label="I agree to publicly publish my plugin on the ZenML Hub under the Apache license."
+                value={checkPublish}
+                setValue={setCheckPublish}
+              />
+            </Box>
 
             <FlexBox justifyContent="flex-end">
               <PrimaryButton disabled={true}>Contribute</PrimaryButton>

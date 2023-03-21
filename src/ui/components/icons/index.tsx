@@ -21,6 +21,7 @@ import { ReactComponent as Table } from './assets/Table.svg';
 import { ReactComponent as Check } from './assets/Check.svg';
 import { ReactComponent as CircleCheck } from './assets/CircleCheck.svg';
 import { ReactComponent as Close } from './assets/Close.svg';
+import { ReactComponent as Checkbox } from './assets/Checkbox.svg';
 import { ReactComponent as ChevronLeft } from './assets/ChevronLeft.svg';
 import { ReactComponent as Copy } from './assets/Copy.svg';
 import { ReactComponent as Eye } from './assets/Eye.svg';
@@ -91,6 +92,7 @@ import { iconColors, iconSizes } from '../../../constants';
 import { Box, BoxProps } from '../.';
 
 const mapSizes = {
+  xxs: 8,
   xs: 12,
   sml: 16,
   sm: 18,
@@ -140,6 +142,7 @@ const createIcon =
 const icons = {
   burger: createIcon({ Component: Burger }),
   calendar: createIcon({ Component: Calendar }),
+  checkbox: createIcon({ Component: Checkbox }),
   chevronDown: createIcon({ Component: ChevronDown }),
   chevronDownLight: createIcon({ Component: ChevronDownLight }),
   chevronUpLight: createIcon({

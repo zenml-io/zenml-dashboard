@@ -653,3 +653,54 @@ export const TagsInputField = ({
     </Box>
   );
 };
+
+export const CheckboxInput = ({
+  label,
+  value,
+  setValue,
+}: {
+  label: string;
+  value: boolean;
+  setValue: (b: boolean) => void;
+}): JSX.Element => (
+  <FlexBox flexDirection="row">
+    {/* checkbox */}
+    <div
+      role="checkbox"
+      aria-checked={value}
+      tabIndex={0}
+      onClick={() => setValue(!value)}
+      onKeyPress={(e) => {
+        if (e.key === ' ' || e.key === 'Enter') {
+          setValue(!value);
+          e.preventDefault();
+        }
+      }}
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        width: '18px',
+        height: '18px',
+        borderRadius: '0.25rem',
+        border: `2px solid ${value ? '#443E99' : '#A7A7A7'}`,
+        cursor: 'pointer',
+        background: value ? '#443E99' : 'white',
+        marginRight: '12px',
+        flexShrink: 0,
+        flexGrow: 0,
+      }}
+    >
+      {value && <icons.checkbox color={iconColors.white} size="md" />}
+    </div>
+
+    {/* label */}
+    <div
+      tabIndex={0}
+      onClick={() => setValue(!value)}
+      style={{ cursor: 'pointer', flexShrink: 0, flexGrow: 0 }}
+    >
+      <Paragraph>{label}</Paragraph>
+    </div>
+  </FlexBox>
+);
