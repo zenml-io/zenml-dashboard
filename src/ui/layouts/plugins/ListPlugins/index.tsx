@@ -18,7 +18,7 @@ import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 import styles from './styles.module.scss';
 
-export const translate = getTranslateByScope('ui.layouts.Plugins');
+export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
 const data = [
   {
@@ -32,7 +32,7 @@ const data = [
   },
 ];
 
-export const ListPlugins: React.FC = ({}) => {
+const ListPlugins: React.FC = ({}) => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
@@ -52,7 +52,7 @@ export const ListPlugins: React.FC = ({}) => {
       ]}
     >
       <FlexBox fullWidth padding="lg2" flexDirection="column">
-        <H2 style={{ fontWeight: 500 }}>ZenPacks</H2>
+        <H2 style={{ fontWeight: 500 }}>{translate('title')}</H2>
         <FlexBox fullWidth justifyContent="flex-end">
           <Paragraph color="grey" style={{ fontSize: '14px' }}>
             Check out our easy to read document

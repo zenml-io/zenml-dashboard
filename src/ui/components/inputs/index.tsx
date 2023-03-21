@@ -142,6 +142,7 @@ export const TextInput = ({
   inputRef?: any;
   onRemoveFocus?: any;
   style?: any;
+  onKeyDown: (e: { key: string }) => void;
 }): JSX.Element => (
   <BaseInput
     {...props}

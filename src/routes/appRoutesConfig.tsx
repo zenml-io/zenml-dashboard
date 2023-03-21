@@ -25,7 +25,10 @@ import StacksRunDetail from '../ui/layouts/stacks/RunDetail';
 import RunsRunDetail from '../ui/layouts/runs/RunDetail';
 import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
+
 import ListPlugins from '../ui/layouts/plugins/ListPlugins';
+import CreatePlugins from '../ui/layouts/plugins/CreatePlugins';
+
 import { Logout } from '../ui/components/Logout';
 
 const routes = [
@@ -410,6 +413,14 @@ const routes = [
   {
     path: routePaths.plugins.list(':string'),
     Component: ListPlugins,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.create(':string'),
+    Component: CreatePlugins,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
