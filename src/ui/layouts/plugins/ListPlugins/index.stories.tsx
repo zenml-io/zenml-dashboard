@@ -2,7 +2,7 @@ import React from 'react';
 import { Provider } from 'react-redux';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import Component from './';
+import Component from '.';
 import configureStore from '../../../../redux/setup/storeSetup';
 
 const component = Component;

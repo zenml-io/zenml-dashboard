@@ -1,7 +1,7 @@
 import React from 'react';
 import { ComponentStory, ComponentMeta } from '@storybook/react';
 
-import { FormTextField } from './';
+import { FormTextField } from '.';
 
 const component = FormTextField;
 
