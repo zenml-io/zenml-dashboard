@@ -291,7 +291,7 @@ export const EditFieldSettings = (
               cursor: 'pointer',
             }}
           >
-            <icons.pen color={iconColors.black} />
+            <icons.pen color={disabled ? iconColors.black : iconColors.grey} />
           </Box>
         )}
       </FlexBox>
