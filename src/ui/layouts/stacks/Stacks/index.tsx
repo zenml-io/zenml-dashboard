@@ -29,7 +29,7 @@ const FilterWrapper = () => {
     return filterValuesMap;
   }
   return (
-    <Box marginTop='lg' style={{ width: '100%' }}>
+    <Box style={{ marginTop: '-20px', width: '100%' }}>
       <FilterComponent
         getInitials={getInitialFilterState}
         filters={filters}

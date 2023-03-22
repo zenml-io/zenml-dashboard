@@ -267,7 +267,7 @@ export const StackDetail: React.FC = () => {
           </Paragraph>
         </Box>
       </Box> */}
-      <Box paddingTop={'xl'}>
+      <Box style={{ marginTop: '40px' }}>
         {/* {mapStackComponent.length ? ( */}
         <CollapseTable
           pagination={false}
