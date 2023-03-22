@@ -6,7 +6,8 @@
   backdrop-filter: blur(1px);
   height: 100vh;
   width: 100vw;
-  top: 0;
+ 
+  top: 15.4vh;
   left: 0;
   z-index: 9999;
 }
@@ -14,6 +15,7 @@
 .popupContainer {
   z-index: 99999;
   position: relative;
+  
 }
 
 .sidePopup {
@@ -23,7 +25,7 @@
   right: 2rem;
   bottom: 0;
   top: 13rem;
-  height: 88rem;
+  height: 100vh;
   min-width: 60vw;
   overflow: auto;
 }
