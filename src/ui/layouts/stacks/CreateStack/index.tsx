@@ -51,14 +51,15 @@ export const CreateStack: React.FC = () => {
         ) + `?workspace=${workspace}`
       }
       breadcrumbs={[
-        {
-          name: 'Register a stack',
-          clickable: true,
-          to:
-            routePaths.stacks.createStack(workspace as string) +
-            `?workspace=${workspace}`,
-        },
+        // {
+        //   name: 'Register a stack',
+        //   clickable: true,
+        //   to:
+        //     routePaths.stacks.createStack(workspace as string) +
+        //     `?workspace=${workspace}`,
+        // },
       ]}
+      title='Register a stack'
       headerWithButtons
       renderHeaderRight={() => <></>}
     />

@@ -25,7 +25,9 @@ const isUnauthenticatedError = (e: any, action: any) => {
 };
 
 function* logoutAndNotifyUserThatSessionExpired(): any {
+  localStorage.removeItem('persistSelectedStack');
   yield put(sessionActions.logout());
+
   yield put(
     showToasterAction({
       description: translate(''),

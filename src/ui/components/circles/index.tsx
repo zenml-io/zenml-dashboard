@@ -14,7 +14,9 @@ type Colors =
   | 'grey'
   | 'lightestGrey'
   | 'orange'
-  | 'mustard';
+  | 'mustard'
+  | 'lightGreen'
+  | 'butterflyBlue';
 
 export const ColoredCircle: React.FC<{ color: Colors; size: Sizes }> = ({
   children,

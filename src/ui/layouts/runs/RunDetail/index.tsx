@@ -3,6 +3,7 @@ import { routePaths } from '../../../../routes/routePaths';
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
 import { DAG } from '../../../components/dag';
+import { Box } from '../../../components';
 import { useService } from './useService';
 
 // import { Box, Paragraph } from '../../../components';

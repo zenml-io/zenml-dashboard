@@ -12,7 +12,13 @@ export const PopupSmall: React.FC<{ width?: string, showCloseIcon?: any, onClose
   width,
   showCloseIcon,
   onClose, 
-}) => (
+}) => {
+  window.onkeydown = function( event: any ) {
+    if ( event.key === 'Esc' || event.key === 'Escape' ) {
+      return  onClose()
+    }
+};
+  return (
   <>
     <Dimmer />
     <FlexBox
@@ -36,4 +42,5 @@ export const PopupSmall: React.FC<{ width?: string, showCloseIcon?: any, onClose
       </Box>
     </FlexBox>
   </>
-);
+  )
+};

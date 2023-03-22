@@ -16,7 +16,9 @@ type Colors =
   | 'darkGrey'
   | 'grey'
   | 'white'
-  | 'orange';
+  | 'orange'
+  | 'lightGreen'
+  | 'butterflyBlue';
 
 type TypographyProps = {
   className?: string;

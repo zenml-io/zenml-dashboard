@@ -2,7 +2,7 @@ import React from 'react';
 import ReactTooltip from 'react-tooltip';
 import { runStatus, iconColors, iconSizes } from '../../../../../constants';
 import {
-  ColoredCircle,
+  // ColoredCircle,
   FlexBox,
   icons,
   If,
@@ -19,7 +19,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
               <div style={{ marginLeft: '-24px' }}>
                 {/* <ColoredCircle color="green" size="xs"> */}
                 <icons.circleCheck
-                  color={iconColors.green}
+                  color={iconColors.lightGreen}
                   size={iconSizes.md}
                 />
                 {/* </ColoredCircle> */}
@@ -37,12 +37,12 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
           <If condition={run.status === runStatus.RUNNING}>
             {() => (
               <div style={{ marginLeft: '-24px' }}>
-                <ColoredCircle color="secondary" size="xs">
-                  <icons.inProgress
-                    color={iconColors.white}
-                    size={iconSizes.md}
-                  />
-                </ColoredCircle>
+                {/* <ColoredCircle color="secondary" size="xs"> */}
+                <icons.inProgress
+                  color={iconColors.orange}
+                  size={iconSizes.md}
+                />
+                {/* </ColoredCircle> */}
               </div>
             )}
           </If>
@@ -58,7 +58,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             {() => (
               <div style={{ marginLeft: '-24px' }}>
                 {/* <ColoredCircle color="red" size="xs"> */}
-                <icons.close color={iconColors.red} size={iconSizes.md} />
+                <icons.failed color={iconColors.red} size={iconSizes.md} />
                 {/* </ColoredCircle> */}
               </div>
             )}
@@ -74,9 +74,12 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
           <If condition={run.status === runStatus.CACHED}>
             {() => (
               <div style={{ marginLeft: '-24px' }}>
-                <ColoredCircle color="mustard" size="xs">
-                  <icons.cached color={iconColors.white} size={iconSizes.md} />
-                </ColoredCircle>
+                {/* <ColoredCircle color="mustard" size="xs"> */}
+                <icons.cached
+                  color={iconColors.butterflyBlue}
+                  size={iconSizes.md}
+                />
+                {/* </ColoredCircle> */}
               </div>
             )}
           </If>
