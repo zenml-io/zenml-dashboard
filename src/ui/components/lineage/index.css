@@ -9,7 +9,7 @@
 .layoutflow {
   flex-grow: 1;
   position: relative;
-  min-height: 650px;
+  height: 100vh;
   width: 50vw;
   background-color: rgb(255, 255, 255);
   /* display: flex;
@@ -207,7 +207,7 @@
 /* siderbar */
 .siderbar11 {
   position: absolute;
-  top: 0%;
+  top: 10%;
   transform: translate(-100%);
   width: 50vw;
   height: 100vh;
@@ -217,6 +217,10 @@
   box-shadow: 0 0px 100px rgb(0 0 0 / 0.1);
   opacity: 1;
   transition: 1s;
+}
+
+.siderbar_header11 span {
+  cursor: pointer;
 }
 
 .siderbar11_hidden {
@@ -277,8 +281,14 @@
 
 }
 
+.sidebar11_arrow_hidden img {
+  cursor: pointer;
+
+}
+
 .sidebar11_arrow>img {
   z-index: -1;
+  cursor: pointer;
 }
 
 .siderbar_arrow {

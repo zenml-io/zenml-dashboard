@@ -76,11 +76,11 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
                         <span
                             id={i.toString()}
                             onClick={() => {
-                                handleClick(i+1)
+                                handleClick(i + 1)
                                 TabClickHandler(tab.case);
                             }}
                             style={show === tab.case ? stylesActive : stylesInActive}
-                            ref={(el) => divRefs.current[i+1] = el}
+                            ref={(el) => divRefs.current[i + 1] = el}
                         >{tab.title}</span>
 
                     )
@@ -191,7 +191,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
                             style={okaidia}
 
                         >
-                            {node.source_code}
+                            {node.source_code ? node.source_code : ""}
                         </SyntaxHighlighter>
                     </div>
                     : ""
@@ -205,7 +205,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
                             language="Python"
                             style={okaidia}
                         >
-                            {node.source_code}
+                            {node.source_code ? node.source_code : ""}
                         </SyntaxHighlighter>
                     </div>
                     : ""
