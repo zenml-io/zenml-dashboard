@@ -544,6 +544,38 @@ export const FormNumberField = (props: {
   </FlexBox.Column>
 );
 
+export const Tag = ({
+  text,
+  onRemove,
+}: {
+  text: string;
+  onRemove?: () => void;
+}): JSX.Element => (
+  <FlexBox
+    backgroundColor="#F4F4F4"
+    marginRight="sm"
+    style={{ borderRadius: '10px', padding: '4px 9px 4px 9px' }}
+    flexDirection="row"
+    alignItems="center"
+  >
+    <Paragraph
+      style={{
+        fontSize: '14px',
+        color: '#828282',
+        marginRight: onRemove && '6px',
+      }}
+    >
+      {text}
+    </Paragraph>
+
+    {onRemove && (
+      <Box padding="xs" onClick={onRemove} style={{ cursor: 'pointer' }}>
+        <icons.closeWithoutBorder color={iconColors.darkGrey} size="xs" />
+      </Box>
+    )}
+  </FlexBox>
+);
+
 export const TagsInputField = ({
   value,
   onChangeText,
@@ -560,99 +592,67 @@ export const TagsInputField = ({
   label?: string;
   placeholder?: string;
   helperText?: string;
-}): JSX.Element => {
-  return (
-    <Box style={{ marginTop: '16px', marginBottom: '16px' }}>
-      {/* label and helper text */}
-      <FlexBox style={{ alignItems: 'center', marginBottom: '8px' }}>
-        {label && (
-          <Paragraph style={{ fontSize: '14px', marginRight: '4px' }}>
-            {label}
-          </Paragraph>
-        )}
-        {helperText && (
-          <icons.info
-            color={iconColors.darkGrey}
-            title={helperText}
-            size="xs"
-          />
-        )}
-      </FlexBox>
-
-      {/* input */}
-      <Box style={{ position: 'relative' }}>
-        <TextInput
-          style={{ paddingRight: '88px' }}
-          value={value}
-          onChangeText={onChangeText}
-          placeholder={placeholder}
-          onKeyDown={(e) => {
-            if (e.key === 'Enter') {
-              if (!tags.includes(value)) onChangeTags([...tags, value]);
-              onChangeText('');
-            }
-          }}
-        />
-
-        {/* Enter and icon */}
-        <FlexBox
-          style={{
-            position: 'absolute',
-            right: '7px',
-            top: '8px',
-            opacity: 0.3,
-            alignItems: 'center',
-          }}
-          flexDirection="row"
-        >
-          <Paragraph style={{ marginRight: '8px' }}>Enter</Paragraph>
-          <icons.keyboardReturn color={iconColors.black} />
-        </FlexBox>
-      </Box>
-
-      {/* tags */}
-      <Box marginTop="md">
-        <Paragraph style={{ fontSize: '14px', color: '#A1A4AB' }}>
-          Tags
+}): JSX.Element => (
+  <Box style={{ marginTop: '16px', marginBottom: '16px' }}>
+    {/* label and helper text */}
+    <FlexBox style={{ alignItems: 'center', marginBottom: '8px' }}>
+      {label && (
+        <Paragraph style={{ fontSize: '14px', marginRight: '4px' }}>
+          {label}
         </Paragraph>
+      )}
+      {helperText && (
+        <icons.info color={iconColors.darkGrey} title={helperText} size="xs" />
+      )}
+    </FlexBox>
 
-        <FlexBox marginTop="sm">
-          {tags.map((t) => (
-            <FlexBox
-              key={t}
-              backgroundColor="#F4F4F4"
-              marginRight="sm"
-              style={{ borderRadius: '10px', padding: '4px 9px 4px 9px' }}
-              flexDirection="row"
-              alignItems="center"
-            >
-              <Paragraph
-                style={{
-                  fontSize: '14px',
-                  color: '#828282',
-                  marginRight: '6px',
-                }}
-              >
-                {t}
-              </Paragraph>
+    {/* input */}
+    <Box style={{ position: 'relative' }}>
+      <TextInput
+        style={{ paddingRight: '88px' }}
+        value={value}
+        onChangeText={onChangeText}
+        placeholder={placeholder}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            if (!tags.includes(value)) onChangeTags([...tags, value]);
+            onChangeText('');
+          }
+        }}
+      />
 
-              <Box
-                padding="xs"
-                onClick={() => onChangeTags(tags.filter((tag) => tag !== t))}
-                style={{ cursor: 'pointer' }}
-              >
-                <icons.closeWithoutBorder
-                  color={iconColors.darkGrey}
-                  size="xs"
-                />
-              </Box>
-            </FlexBox>
-          ))}
-        </FlexBox>
-      </Box>
+      {/* Enter and icon */}
+      <FlexBox
+        style={{
+          position: 'absolute',
+          right: '7px',
+          top: '8px',
+          opacity: 0.3,
+          alignItems: 'center',
+        }}
+        flexDirection="row"
+      >
+        <Paragraph style={{ marginRight: '8px' }}>Enter</Paragraph>
+        <icons.keyboardReturn color={iconColors.black} />
+      </FlexBox>
     </Box>
-  );
-};
+
+    {/* tags */}
+    <Box marginTop="md">
+      <Paragraph style={{ fontSize: '14px', color: '#A1A4AB' }}>Tags</Paragraph>
+
+      <FlexBox marginTop="sm">
+        {tags.map((t) => (
+          <Tag
+            key={t}
+            text={t}
+            onRemove={() => onChangeTags(tags.filter((tag) => tag !== t))}
+          />
+        ))}
+      </FlexBox>
+    </Box>
+  </Box>
+);
 
 export const CheckboxInput = ({
   label,

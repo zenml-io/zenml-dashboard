@@ -40,8 +40,10 @@ import { ReactComponent as MultiUser } from './assets/MultiUser.svg';
 import { ReactComponent as Docs } from './assets/Docs.svg';
 import { ReactComponent as Example } from './assets/Example.svg';
 import { ReactComponent as Pipeline } from './assets/Pipeline.svg';
+import { ReactComponent as Share2 } from './assets/Share2.svg';
 import { ReactComponent as Stack } from './assets/Stack.svg';
 import { ReactComponent as StackComponent } from './assets/StackComponent.svg';
+import { ReactComponent as StarOutline } from './assets/StarOutline.svg';
 import { ReactComponent as Storefront } from './assets/Storefront.svg';
 import { ReactComponent as FunnelFill } from './assets/FunnelFill.svg';
 import { ReactComponent as Delete } from './assets/Delete.svg';
@@ -76,6 +78,7 @@ import { ReactComponent as Pen } from './assets/Pen.svg';
 import { ReactComponent as ModelRegistry } from './assets/ModelRegistry.svg';
 import { ReactComponent as Share } from './assets/share.svg';
 import { ReactComponent as Star } from './assets/Star.svg';
+import { ReactComponent as Verified } from './assets/Verified.svg';
 import { ReactComponent as EmptyRightArrow } from './assets/EmptyRightArrow.svg';
 // import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 // import { ReactComponent as Cached } from './assets/Cached.svg';
@@ -193,8 +196,10 @@ const icons = {
   docs: createIcon({ Component: Docs, useStroke: true }),
   example: createIcon({ Component: Example, useStroke: true }),
   pipeline: createIcon({ Component: Pipeline, useStroke: true }),
+  share2: createIcon({ Component: Share2 }),
   stack: createIcon({ Component: Stack, useStroke: true }),
   stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
+  starOutline: createIcon({ Component: StarOutline }),
   storefront: createIcon({ Component: Storefront }),
   funnelFill: createIcon({ Component: FunnelFill }),
   delete: createIcon({ Component: Delete }),
@@ -232,6 +237,7 @@ const icons = {
   model_registry: createIcon({ Component: ModelRegistry, useStroke: true }),
   share: createIcon({ Component: Share, useStroke: true }),
   star: createIcon({ Component: Star }),
+  verified: createIcon({ Component: Verified }),
 
   // paginations
   paginationFirst: createIcon({ Component: PaginationFirst, useStroke: true }),

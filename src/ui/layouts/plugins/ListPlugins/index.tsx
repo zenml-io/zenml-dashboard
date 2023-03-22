@@ -9,6 +9,7 @@ import {
   Paragraph,
   icons,
   IconInputField,
+  LinkBox,
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
@@ -77,17 +78,21 @@ const ListPlugins: React.FC = ({}) => {
         </FlexBox>
 
         {/* list plugins */}
-        <FlexBox
-          flexWrap={true}
-          padding="lg"
-          style={{
-            width: '290px',
-            boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
-            borderRadius: '4px',
-          }}
-        >
+        <FlexBox flexWrap={true} padding="lg">
           {data.map((p) => (
-            <Box key={p.id} style={{ position: 'relative' }} paddingTop={'sm'}>
+            <LinkBox
+              key={p.id}
+              style={{
+                position: 'relative',
+                padding: '12px',
+                width: '290px',
+                boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
+                borderRadius: '4px',
+              }}
+              onClick={() =>
+                history.push(routePaths.plugins.detail(selectedWorkspace, p.id))
+              }
+            >
               {/* image */}
               <div
                 style={{
@@ -148,7 +153,7 @@ const ListPlugins: React.FC = ({}) => {
                 <icons.star color={iconColors.primary} marginRight="md" />
                 <icons.extension color={iconColors.primary} />
               </FlexBox>
-            </Box>
+            </LinkBox>
           ))}
         </FlexBox>
 
