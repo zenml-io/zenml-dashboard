@@ -60,7 +60,7 @@ const FilterWrapperForRun = () => {
       >
         <AllRuns filter={getFilter(filters)} />
       </FilterComponent>
-    </Box> 
+    </Box>
   );
 };
 
@@ -71,10 +71,11 @@ export const Pipelines: React.FC = () => {
   const locationPath = useLocationPath();
 
   return (
-    <BasePage
-      tabPages={[
-        window.location.href?.includes('all-runs')
-          ? {
+    <>
+      <BasePage
+        tabPages={[
+          window.location.href?.includes('all-runs')
+            ? {
               text: translate('tabs.allRuns.text'),
               Component: FilterWrapperForRun,
               path: routePaths.pipelines.allRuns(
@@ -83,7 +84,7 @@ export const Pipelines: React.FC = () => {
                   : locationPath.split('/')[2],
               ),
             }
-          : {
+            : {
               text: translate('tabs.pipelines.text'),
               Component: FilterWrapper,
               // path: routePaths.pipelines.base,
@@ -93,36 +94,37 @@ export const Pipelines: React.FC = () => {
                   : locationPath.split('/')[2],
               ),
             },
-      ]}
-      tabBasePath={routePaths.pipelines.base}
-      breadcrumbs={
-        [
-          // {
-          //   name: locationPath.includes('all-runs')
-          //     ? 'Runs'
-          //     : translate('header.breadcrumbs.pipelines.text'),
-          //   clickable: true,
-          //   // to: locationPath.includes('pipelines')
-          //   // ? routePaths.pipelines.base
-          //   // : routePaths.pipelines.allRuns(selectedWorkspace),
-          //   to: locationPath.includes('pipelines/list')
-          //     ? routePaths.pipelines.list(
-          //         selectedWorkspace
-          //           ? selectedWorkspace
-          //           : locationPath.split('/')[2],
-          //       )
-          //     : routePaths.pipelines.allRuns(
-          //         selectedWorkspace
-          //           ? selectedWorkspace
-          //           : locationPath.split('/')[2],
-          //       ),
-          // },
-        ]
-      }
-      title={locationPath.includes('all-runs') ? 'Runs' : 'Pipelines'}
-      headerWithButtons
-      renderHeaderRight={() => <></>}
-    />
+        ]}
+        tabBasePath={routePaths.pipelines.base}
+        breadcrumbs={
+          [
+            // {
+            //   name: locationPath.includes('all-runs')
+            //     ? 'Runs'
+            //     : translate('header.breadcrumbs.pipelines.text'),
+            //   clickable: true,
+            //   // to: locationPath.includes('pipelines')
+            //   // ? routePaths.pipelines.base
+            //   // : routePaths.pipelines.allRuns(selectedWorkspace),
+            //   to: locationPath.includes('pipelines/list')
+            //     ? routePaths.pipelines.list(
+            //         selectedWorkspace
+            //           ? selectedWorkspace
+            //           : locationPath.split('/')[2],
+            //       )
+            //     : routePaths.pipelines.allRuns(
+            //         selectedWorkspace
+            //           ? selectedWorkspace
+            //           : locationPath.split('/')[2],
+            //       ),
+            // },
+          ]
+        }
+        title={locationPath.includes('all-runs') ? 'Runs' : 'Pipelines'}
+        headerWithButtons
+        renderHeaderRight={() => <></>}
+      />
+    </>
   );
 };
 

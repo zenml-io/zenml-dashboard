@@ -36,7 +36,7 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
         alignItems="center"
         justifyContent="space-between"
       >
-        <H4 bold>{translate('configuration.title.text')}</H4>
+        <H4 bold></H4>
         <Box>
           <GhostButton
             style={{ marginRight: '10px' }}
