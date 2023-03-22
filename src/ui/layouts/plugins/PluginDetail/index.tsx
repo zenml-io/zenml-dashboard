@@ -1,5 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import ReactMarkdown from 'react-markdown';
+
 import {
   Box,
   FlexBox,
@@ -35,9 +37,11 @@ const data = {
   downloads: '10K+',
   popularity: '99%',
   // markdown
-  overview: `Welcome to the README for my ZenML MLflow Step!
-    In this step, we utilize the power of ZenML and MLflow to streamline the machine learning workflow. With ZenML's easy-to-use pipeline creation and MLflow's robust tracking capabilities, managing and optimizing your models has never been easier.
-    Our step begins with data ingestion, where ZenML allows you to easily bring in your data from a variety of sources. From there, MLflow tracks your model's performance and parameters, allowing for easy comparisons and experimentation.`,
+  overview: `## Welcome to the README for my ZenML MLflow Step!
+
+In this step, we utilize the power of ZenML and MLflow to streamline the machine learning workflow. With ZenML's easy-to-use pipeline creation and MLflow's robust tracking capabilities, managing and optimizing your models has never been easier.
+
+- Our step begins with data ingestion, where ZenML allows you to easily bring in your data from a variety of sources. From there, MLflow tracks your model's performance and parameters, allowing for easy comparisons and experimentation.`,
   changelogs: [
     {
       version: '10.1.5',
@@ -223,6 +227,8 @@ const ListPlugins: React.FC = ({}) => {
                 </FlexBox>
               </Box>
             </FlexBox>
+
+            <ReactMarkdown>{data.overview}</ReactMarkdown>
           </Box>
 
           {/* right column */}
