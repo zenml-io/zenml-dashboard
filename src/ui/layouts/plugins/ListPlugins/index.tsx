@@ -33,7 +33,7 @@ const data = [
   },
 ];
 
-const ListPlugins: React.FC = ({}) => {
+const ListPlugins: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 

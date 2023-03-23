@@ -22,6 +22,7 @@ import styles from './styles.module.scss';
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
 const data = {
+  id: 'unique-id',
   name: 'Flavour',
   latestVersion: '3.1.01',
   lastPublishedDaysAgo: 45,
@@ -103,7 +104,7 @@ In this step, we utilize the power of ZenML and MLflow to streamline the machine
   ],
 };
 
-const ListPlugins: React.FC = ({}) => {
+const ListPlugins: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
@@ -111,10 +112,18 @@ const ListPlugins: React.FC = ({}) => {
     <AuthenticatedLayout
       breadcrumb={[
         {
-          name: translate('breadcrumbs.plugins.text'),
+          name: 'List plugins',
           clickable: true,
           to: routePaths.plugins.list(
             selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+          ),
+        },
+        {
+          name: 'Plugin details',
+          clickable: true,
+          to: routePaths.plugins.detail(
+            selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+            data.id,
           ),
         },
       ]}

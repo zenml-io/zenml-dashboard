@@ -1,7 +1,6 @@
 @import '../../globalStyles.scss';
 
-.input {
-  height: $inputHeight;
+.input, .textarea {
   background: $inputBgColor;
   border: 1px solid $inputBorderColor;
   border-radius: $inputBorderRadius;
@@ -34,4 +33,8 @@
   &::placeholder {
     color: $inputPlaceholderColor;
   }
+}
+
+.input {
+  height: $inputHeight;
 }

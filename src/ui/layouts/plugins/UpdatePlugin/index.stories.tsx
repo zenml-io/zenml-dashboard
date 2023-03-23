@@ -9,7 +9,7 @@ const component = Component;
 const { store } = configureStore();
 
 export default {
-  title: 'Pages/CreatePlugins',
+  title: 'Pages/UpdatePlugin',
   component,
   parameters: {
     layout: 'fullscreen',

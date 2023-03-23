@@ -81,7 +81,7 @@ export const FormDropdownField = (props: {
   placeholder: string;
   value: string;
   options: any[];
-  onChange?: any;
+  onChange: (s: string) => void;
   error?: FieldError;
   disabled?: boolean;
   name?: string;

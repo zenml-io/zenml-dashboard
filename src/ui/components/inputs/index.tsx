@@ -172,6 +172,40 @@ export const TextInput = ({
   />
 );
 
+export const TextAreaInput = ({
+  value,
+  onChangeText,
+  inputRef,
+  placeholder,
+  hasError = false,
+  style,
+  onRemoveFocus,
+  lines = 4,
+  ...props
+}: {
+  value: string;
+  onChangeText: (s: string) => void;
+  placeholder?: string;
+  hasError?: boolean;
+  inputRef?: any;
+  onRemoveFocus?: () => void;
+  lines?: number;
+  style?: any;
+  onKeyDown?: (e: { key: string }) => void;
+}): JSX.Element => (
+  <textarea
+    {...props}
+    ref={inputRef}
+    onChange={(e) => onChangeText(e.target.value)}
+    onBlur={onRemoveFocus}
+    value={value}
+    placeholder={placeholder}
+    className={cn(styles.textarea, hasError ? styles.error : null)}
+    style={style}
+    rows={lines}
+  />
+);
+
 export const DropdownInput = ({
   onChange,
   value,
@@ -181,7 +215,7 @@ export const DropdownInput = ({
   style,
   ...props
 }: {
-  onChange: any;
+  onChange: (s: string) => void;
   value: string;
   placeholder?: string;
   hasError?: boolean;

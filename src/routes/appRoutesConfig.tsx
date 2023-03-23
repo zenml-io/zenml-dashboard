@@ -27,7 +27,8 @@ import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
 import ListPlugins from '../ui/layouts/plugins/ListPlugins';
-import CreatePlugins from '../ui/layouts/plugins/CreatePlugins';
+import CreatePlugin from '../ui/layouts/plugins/CreatePlugin';
+import UpdatePlugin from '../ui/layouts/plugins/UpdatePlugin';
 import PluginDetail from '../ui/layouts/plugins/PluginDetail';
 
 import { Logout } from '../ui/components/Logout';
@@ -421,7 +422,7 @@ const routes = [
   },
   {
     path: routePaths.plugins.create(':string'),
-    Component: CreatePlugins,
+    Component: CreatePlugin,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
@@ -430,6 +431,14 @@ const routes = [
   {
     path: routePaths.plugins.detail(':string', ':id'),
     Component: PluginDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.update(':string', ':id'),
+    Component: UpdatePlugin,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

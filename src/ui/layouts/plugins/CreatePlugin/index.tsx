@@ -18,13 +18,12 @@ import { useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
-import styles from './styles.module.scss';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
 const todayFormatted = moment().format('dddd, DD MMM yyyy');
 
-const CreatePlugins: React.FC = ({}) => {
+const CreatePlugin: React.FC = () => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const [packageName, setPackageName] = useState('');
@@ -38,9 +37,16 @@ const CreatePlugins: React.FC = ({}) => {
     <AuthenticatedLayout
       breadcrumb={[
         {
-          name: translate('breadcrumbs.plugins.text'),
+          name: 'List plugins',
           clickable: true,
           to: routePaths.plugins.list(
+            selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+          ),
+        },
+        {
+          name: 'Create plugin',
+          clickable: true,
+          to: routePaths.plugins.create(
             selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
           ),
         },
@@ -160,4 +166,4 @@ const CreatePlugins: React.FC = ({}) => {
   );
 };
 
-export default CreatePlugins;
+export default CreatePlugin;
