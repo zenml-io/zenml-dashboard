@@ -11,15 +11,22 @@ import {
   SeparatorLight,
   Tag,
   LineChart,
+  LinkBox,
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
-import { useSelector } from '../../../hooks';
+import { useDispatch, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
-import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
+import {
+  DEFAULT_WORKSPACE_NAME,
+  iconColors,
+  toasterTypes,
+} from '../../../../constants';
 import styles from './styles.module.scss';
 import ZenMLFavourite from './ZenML favourite.svg';
+import InstallDesignHeader from './InstallDesignHeader.svg';
+import { showToasterAction } from '../../../../redux/actions';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -111,6 +118,7 @@ In this step, we utilize the power of ZenML and MLflow to streamline the machine
 const PluginDetail: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const dispatch = useDispatch();
 
   return (
     <AuthenticatedLayout
@@ -293,6 +301,62 @@ const PluginDetail: React.FC = () => {
             </FlexBox>
 
             {/* install command */}
+            {/* note need to hard-code the width to match the SVG for the header */}
+            <Box marginTop="sm" marginBottom="xl" style={{ width: '294px' }}>
+              <img src={InstallDesignHeader} alt="Install package" />
+
+              <Box
+                style={{
+                  padding: '0px 3px 3px 3px',
+                  background:
+                    'linear-gradient(90deg, #B58EB1 0%, #443D99 100%)',
+                  borderRadius: '7px',
+                  borderTopLeftRadius: 0,
+                  borderTopRightRadius: 0,
+                }}
+              >
+                <FlexBox
+                  style={{
+                    padding: '20px 22px 20px 10px',
+                    backgroundColor: '#250E32',
+                    borderRadius: '7px',
+                    position: 'relative',
+                  }}
+                >
+                  <Paragraph
+                    size="tiny"
+                    color="white"
+                    style={{ maxWidth: '100%' }}
+                  >
+                    {data.pipInstallCommand}
+                  </Paragraph>
+
+                  <LinkBox
+                    onClick={() => {
+                      navigator.clipboard.writeText(data.pipInstallCommand);
+
+                      dispatch(
+                        showToasterAction({
+                          description: 'Copied to clipboard.',
+                          type: toasterTypes.success,
+                        }),
+                      );
+                    }}
+                  >
+                    <Box
+                      style={{
+                        position: 'absolute',
+                        right: 0,
+                        bottom: 0,
+                        padding: '8px',
+                      }}
+                    >
+                      <icons.copy color={iconColors.white} size="xs" />
+                    </Box>
+                  </LinkBox>
+                </FlexBox>
+              </Box>
+            </Box>
 
             {/* metrics */}
             <FlexBox justifyContent="space-between" marginVertical="md">
