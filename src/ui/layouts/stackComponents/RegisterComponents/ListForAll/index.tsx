@@ -81,7 +81,6 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   return (
     <>
       <FlexBox.Column fullWidth>
-        <div style={{ marginTop: '17px' }}>
           <SearchInputField
             fromRegisterComponent={true}
             placeholder={'Search'}
@@ -92,7 +91,6 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
               handleValueFieldChangeOnSearch(`${'contains:' + value}`);
             }}
           />
-        </div>
         {fetching ? (
           <FullWidthSpinner color="black" size="md" />
         ) : allFlavors.length ? (

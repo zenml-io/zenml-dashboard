@@ -33,7 +33,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
           RUN ID
         </Paragraph>
       ),
-      width: '10%',
+      width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={run.id}>
@@ -57,7 +57,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
           RUN NAME
         </Paragraph>
       ),
-      width: '10%',
+      width: '30%',
       renderRow: (run: TRun) => (
         <div style={{ alignItems: 'center' }}>
           <div data-tip data-for={run.name}>
@@ -75,7 +75,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
           PIPELINE
         </Paragraph>
       ),
-      width: '10%',
+      width: '7.5%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={run.pipeline?.name && run.pipeline?.version}>
@@ -117,7 +117,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
           STATUS
         </Paragraph>
       ),
-      width: '10%',
+      width: '7.5%',
       renderRow: (run: TRun) => <RunStatus run={run} />,
     },
 
@@ -127,7 +127,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
           STACK NAME
         </Paragraph>
       ),
-      width: '10%',
+      width: '7.5%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={run.stack?.name}>
@@ -164,7 +164,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
           AUTHOR
         </Paragraph>
       ),
-      width: '10%',
+      width: '7.5%',
       renderRow: (run: TRun) => {
         return (
           <FlexBox alignItems="center">
@@ -201,7 +201,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
           CREATED AT
         </Paragraph>
       ),
-      width: '10%',
+      width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(run.created)}>

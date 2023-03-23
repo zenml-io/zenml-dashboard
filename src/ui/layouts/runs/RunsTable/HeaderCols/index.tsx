@@ -65,7 +65,7 @@ export const useHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '10%',
+      width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={run.id}>
@@ -97,7 +97,7 @@ export const useHeaderCols = ({
           RUN NAME
         </Paragraph>
       ),
-      width: '10%',
+      width: '30%',
       renderRow: (run: TRun) => (
         <Paragraph
           size="small"
@@ -113,7 +113,7 @@ export const useHeaderCols = ({
           PIPELINE
         </Paragraph>
       ),
-      width: '10%',
+      width: '7.5%',
       renderRow: (run: TRun) => (
         <Paragraph
           size="small"
@@ -140,7 +140,7 @@ export const useHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '10%',
+      width: '7.5%',
       renderRow: (run: TRun) => <RunStatus run={run} />,
     },
 
@@ -150,7 +150,7 @@ export const useHeaderCols = ({
           STACK NAME
         </Paragraph>
       ),
-      width: '10%',
+      width: '7.5%',
       renderRow: (run: TRun) => (
         <Paragraph size="small">{run.stack.name}</Paragraph>
       ),
@@ -161,7 +161,7 @@ export const useHeaderCols = ({
           AUTHOR
         </Paragraph>
       ),
-      width: '10%',
+      width: '7.5%',
       renderRow: (run: TRun) => {
         return (
           <FlexBox alignItems="center">
@@ -194,7 +194,7 @@ export const useHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '10%',
+      width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
           {/* <Box paddingRight="sm">

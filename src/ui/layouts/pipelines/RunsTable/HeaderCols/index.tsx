@@ -281,7 +281,7 @@ export const useHeaderCols = ({
               </Paragraph>
             </SortingHeader>
           ),
-          width: '15%',
+          width: '20%',
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
               <div data-tip data-for={run?.id}>
@@ -331,7 +331,7 @@ export const useHeaderCols = ({
               </Paragraph>
             </SortingHeader>
           ),
-          width: '15%',
+          width: '30%',
           renderRow: (run: TRun) => (
             <div style={{ alignItems: 'center' }}>
               <div data-tip data-for={run?.name}>
@@ -368,7 +368,7 @@ export const useHeaderCols = ({
               </Paragraph>
             </SortingHeader>
           ),
-          width: '15%',
+          width: '7.5%',
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
               <div
@@ -432,7 +432,7 @@ export const useHeaderCols = ({
               </div>
             </SortingHeader>
           ),
-          width: '15%',
+          width: '7.5%',
 
           renderRow: (run: TRun) => <RunStatus run={run} />,
         },
@@ -457,7 +457,7 @@ export const useHeaderCols = ({
               </Paragraph>
             </SortingHeader>
           ),
-          width: '15%',
+          width: '7.5%',
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
               <div data-tip data-for={run?.stack?.name}>
@@ -512,7 +512,7 @@ export const useHeaderCols = ({
               </Paragraph>
             </SortingHeader>
           ),
-          width: '15%',
+          width: '7.5%',
           renderRow: (run: TRun) => {
             const initials = getInitialsFromEmail(
               run?.user.full_name ? run?.user.full_name : run?.user.name,
@@ -585,7 +585,7 @@ export const useHeaderCols = ({
               </Paragraph>
             </SortingHeader>
           ),
-          width: '15%',
+          width: '20%',
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
               <div data-tip data-for={formatDateToDisplayOnTable(run?.created)}>

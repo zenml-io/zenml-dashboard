@@ -9,7 +9,13 @@ export const SidePopup: React.FC<{
   onClose: () => void;
   action: any;
   flavor?: any;
-}> = ({ children, action, flavor, onClose }) => (
+}> = ({ children, action, flavor, onClose }) => {
+  window.onkeydown = function( event: any ) {
+    if ( event.key === 'Esc' || event.key === 'Escape' ) {
+      return  onClose()
+    }
+  };
+  return (
   <FlexBox
     alignItems="center"
     justifyContent="center"
@@ -54,4 +60,5 @@ export const SidePopup: React.FC<{
       </OutsideClickHandler>
     </Box>
   </FlexBox>
-);
+  )
+}
