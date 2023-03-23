@@ -96,7 +96,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '8%',
+      width: '20%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={stack.id}>
@@ -139,7 +139,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '8%',
+      width: '30%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={stack.name}>
@@ -174,7 +174,7 @@ export const GetHeaderCols = ({
           </Box>
         </SortingHeader>
       ),
-      width: '8%',
+      width: '15%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
           <div
@@ -238,7 +238,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '11%',
+      width: '15%',
       renderRow: (stack: TStack) => {
         return (
           <FlexBox alignItems="center">
@@ -304,7 +304,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '8%',
+      width: '20%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToSort(stack.created)}>
