@@ -61,6 +61,7 @@
     "react-syntax-highlighter": "^13.3.1",
     "react-tooltip": "^4.2.10",
     "react-tooltip-lite": "^1.12.0",
+    "react-vis": "^1.11.12",
     "redux": "^4.0.5",
     "redux-logger": "^3.0.6",
     "redux-persist": "^6.0.0",
@@ -95,6 +96,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-vis": "^1.11.11",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",
     "autoprefixer": "^10.4.8",

@@ -10,6 +10,7 @@ import {
   icons,
   SeparatorLight,
   Tag,
+  LineChart,
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
@@ -30,6 +31,7 @@ const data = {
   lastPublishedDaysAgo: 45,
   tags: ['Designer', 'AI', 'Fast'],
   pullsLastWeek: 8_802_034,
+  pullsHistory: [800, 500, 400, 900, 100, 700, 600, 300, 200, 700],
   isZenMLFavourite: true,
   publisher: '@multazam',
   repo: 'https://github.com/example/example',
@@ -267,7 +269,7 @@ const PluginDetail: React.FC = () => {
 
           {/* right column */}
           <Box>
-            {/* usage and ZenML favourite badge */}
+            {/* usage # & chart, ZenML favourite badge */}
             <FlexBox>
               <Box>
                 <img src={ZenMLFavourite} alt="ZenML favourite" />
@@ -284,6 +286,9 @@ const PluginDetail: React.FC = () => {
                 </Paragraph>
 
                 {/* line chart */}
+                <Box marginVertical="md">
+                  <LineChart data={data.pullsHistory} />
+                </Box>
               </Box>
             </FlexBox>
 
