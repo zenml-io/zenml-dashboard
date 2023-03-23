@@ -74,7 +74,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '15%',
+      width: '20%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={stackComponent.id}>
@@ -117,7 +117,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '15%',
+      width: '30%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={stackComponent.name}>
@@ -156,7 +156,7 @@ export const GetHeaderCols = ({
           </div>
         </SortingHeader>
       ),
-      width: '15%',
+      width: '10%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
           <div
@@ -213,7 +213,7 @@ export const GetHeaderCols = ({
           </div>
         </SortingHeader>
       ),
-      width: '15%',
+      width: '10%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
           <div
@@ -276,7 +276,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '15%',
+      width: '10%',
       renderRow: (stackComponent: TStack) => {
         return (
           <FlexBox alignItems="center">
@@ -342,7 +342,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      width: '15%',
+      width: '20%',
       renderRow: (stackComponent: TStack) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToSort(stackComponent.created)}>

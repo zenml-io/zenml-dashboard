@@ -138,7 +138,11 @@ export const Table: React.FC<TableProps> = ({
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  
+
+  const columnWidths = columns
+    .map((column: any) => column.text.width || 'auto')
+    .join(' '); // set column widths or default to 'auto'
+  const gridTemplateColumns = ` ${columnWidths}`;
   return (
     <FlexBox.Column
       fullWidth
@@ -153,14 +157,12 @@ export const Table: React.FC<TableProps> = ({
                 <table
                   ref={tableElement as any}
                   style={{
-                    gridTemplateColumns: `minmax(50px, 2fr)`.repeat(
-                      columns?.length,
-                    ),
+                    gridTemplateColumns: gridTemplateColumns,
                   }}
                 >
                   <thead>
                     <tr style={{ backgroundColor: '#F5F3F9' }}>
-                      {console.log(columns, 'columns')}
+                      {console.log(gridTemplateColumns, 'columns')}
 
                       {columns.map(({ ref, text }, i) => (
                         <th

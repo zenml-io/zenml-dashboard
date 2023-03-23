@@ -75,7 +75,7 @@ export const GetHeaderCols = ({
           ID
         </Paragraph>
       ),
-      width: '8%',
+      width: '20%',
       renderRow: (pipeline: TPipeline) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={pipeline.id}>
@@ -101,7 +101,7 @@ export const GetHeaderCols = ({
           NAME
         </Paragraph>
       ),
-      width: '8%',
+      width: '30%',
       renderRow: (pipeline: TPipeline) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={pipeline.name}>
@@ -128,7 +128,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </div>
       ),
-      width: '8%',
+      width: '10%',
       renderRow: (pipeline: TPipeline) => <Status pipeline={pipeline} />,
     },
     {
@@ -137,7 +137,7 @@ export const GetHeaderCols = ({
           VERSION
         </Paragraph>
       ),
-      width: '8%',
+      width: '10%',
       renderRow: (pipeline: TPipeline) => (
         <Paragraph size="small">{pipeline?.version}</Paragraph>
       ),
@@ -149,7 +149,7 @@ export const GetHeaderCols = ({
           AUTHOR
         </Paragraph>
       ),
-      width: '11%',
+      width: '10%',
       renderRow: (pipeline: TPipeline) => {
         return (
           <FlexBox alignItems="center">
@@ -195,7 +195,7 @@ export const GetHeaderCols = ({
           CREATED AT
         </Paragraph>
       ),
-      width: '8%',
+      width: '20%',
       renderRow: (pipeline: TPipeline) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(pipeline.created)}>
