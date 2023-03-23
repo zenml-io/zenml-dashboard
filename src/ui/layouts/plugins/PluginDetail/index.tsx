@@ -143,7 +143,7 @@ const PluginDetail: React.FC = () => {
         {/* content */}
         <FlexBox fullWidth>
           {/* left column */}
-          <Box padding="lg">
+          <FlexBox flexDirection="column" fullWidth padding="lg">
             {/* tags */}
             <FlexBox fullWidth marginBottom="sm" flexWrap>
               {data.tags.map((t) => (
@@ -265,7 +265,7 @@ const PluginDetail: React.FC = () => {
             </FlexBox>
 
             <ReactMarkdown>{data.overview}</ReactMarkdown>
-          </Box>
+          </FlexBox>
 
           {/* right column */}
           <Box>
