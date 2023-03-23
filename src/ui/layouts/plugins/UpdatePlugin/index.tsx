@@ -32,7 +32,7 @@ const data = {
   repositoryBranches: ['staging', 'dev', 'deploy'],
 };
 
-const CreatePlugins: React.FC = () => {
+const UpdatePlugin: React.FC = () => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const [versionNumber, setVersionNumber] = useState('');
@@ -216,4 +216,4 @@ const CreatePlugins: React.FC = () => {
   );
 };
 
-export default CreatePlugins;
+export default UpdatePlugin;

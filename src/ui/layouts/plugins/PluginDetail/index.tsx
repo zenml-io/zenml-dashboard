@@ -18,12 +18,14 @@ import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 import styles from './styles.module.scss';
+import ZenMLFavourite from './ZenML favourite.svg';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
 const data = {
   id: 'unique-id',
   name: 'Flavour',
+  isOwner: true,
   latestVersion: '3.1.01',
   lastPublishedDaysAgo: 45,
   tags: ['Designer', 'AI', 'Fast'],
@@ -104,7 +106,7 @@ In this step, we utilize the power of ZenML and MLflow to streamline the machine
   ],
 };
 
-const ListPlugins: React.FC = () => {
+const PluginDetail: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
@@ -210,12 +212,35 @@ const ListPlugins: React.FC = () => {
                       color: iconColors.primary,
                       onClick: () => alert('Not implemented yet'),
                     },
-                    {
-                      label: 'Report',
-                      icon: icons.info,
-                      color: iconColors.red,
-                      onClick: () => history.push(`${data.repo}/issues`),
-                    },
+                    ...(data.isOwner
+                      ? [
+                          {
+                            label: 'Update Version',
+                            icon: icons.share,
+                            color: iconColors.primary,
+                            onClick: () =>
+                              history.push(
+                                routePaths.plugins.update(
+                                  selectedWorkspace,
+                                  data.id,
+                                ),
+                              ),
+                          },
+                          {
+                            label: 'Delete Package',
+                            icon: icons.delete,
+                            color: iconColors.red,
+                            onClick: () => alert('Not implemented yet'),
+                          },
+                        ]
+                      : [
+                          {
+                            label: 'Report',
+                            icon: icons.info,
+                            color: iconColors.red,
+                            onClick: () => history.push(`${data.repo}/issues`),
+                          },
+                        ]),
                   ].map((action) => (
                     <FlexBox
                       alignItems="center"
@@ -242,6 +267,28 @@ const ListPlugins: React.FC = () => {
 
           {/* right column */}
           <Box>
+            {/* usage and ZenML favourite badge */}
+            <FlexBox>
+              <Box>
+                <img src={ZenMLFavourite} alt="ZenML favourite" />
+              </Box>
+              <Box padding="md">
+                <Paragraph size="small">
+                  Pulls:{' '}
+                  {data.pullsLastWeek.toLocaleString('en-US', {
+                    maximumFractionDigits: 0,
+                  })}
+                </Paragraph>
+                <Paragraph style={{ color: '#677285' }} size="tiny">
+                  Last week
+                </Paragraph>
+
+                {/* line chart */}
+              </Box>
+            </FlexBox>
+
+            {/* install command */}
+
             {/* metrics */}
             <FlexBox justifyContent="space-between" marginVertical="md">
               <Box marginRight="sm2">
@@ -346,4 +393,4 @@ const ListPlugins: React.FC = () => {
   );
 };
 
-export default ListPlugins;
+export default PluginDetail;
