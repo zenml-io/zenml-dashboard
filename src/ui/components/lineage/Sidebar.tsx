@@ -1,18 +1,13 @@
-import React, { useState, useEffect, useRef, memo } from 'react' //eslint-disable-line
+import React, { useState, useEffect, useRef} from 'react' //eslint-disable-line
 import circleArrowSideClose from '../icons/assets/circleArrowSideClose.svg';
 import circleArrowSideOpen from '../icons/assets/circleArrowSideOpen.svg';
-import styles from './index.module.scss'
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 // import Switch from "react-switch";
-import { useSelector } from '../../hooks';
+import { useDispatch, useSelector } from '../../hooks';
 import { sessionSelectors } from '../../../redux/selectors';
-import axios from 'axios';
-import { Status_Completed } from './icons';
-import JsonDisplay from './JsonDisplay';
 import ArtifactTabHeader from './sidebarTabsSwitchers/artifactTabSwitcher';
 import StepnodeTabHeader from './sidebarTabsSwitchers/stepTabSwitcher';
 import { fetchArtifactData, fetchStepData } from './sidebarServices';
+import { runsActions } from '../../../redux/actions';
 
 
 // const stylesActive = {
@@ -31,6 +26,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     const [artifact, setArtifact] = useState([] as any);
     const [step, setStep] = useState([] as any);
     const sidebar_ref = useRef<HTMLInputElement>(null) //eslint-disable-line
+    const dispatch = useDispatch();
 
     console.log("__UNAUTH SELECTEDNODE SIDEVAR", selectedNode);
 
@@ -89,6 +85,8 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
             const data = await fetchArtifactData(selectedNode, authToken);
             console.log("___123 artifact", data)
             setArtifact(data);
+            dispatch(runsActions.setRunDetails(data.metadata))
+
         }
     };
     // USE EFFECT TO CHECK IF ITS A STEP NODE OR AN ARTIFACT NODE
@@ -104,13 +102,13 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
 
             setIsStepNode(true);
             console.log("__UNAUTH type true")
-            setSidebar(false);
+            // setSidebar(false);
             setSidebar(true);
         }
         else {
             setIsStepNode(false);
             console.log("__UNAUTH type false")
-            setSidebar(false);
+            // setSidebar(false);
             setSidebar(true);
 
         }

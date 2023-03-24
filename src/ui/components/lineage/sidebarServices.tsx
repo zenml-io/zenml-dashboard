@@ -1,4 +1,4 @@
-import React from 'react';
+// import React from 'react';
 import axios from 'axios';
 
 
@@ -6,7 +6,7 @@ import axios from 'axios';
 
 export const fetchStepData = async (selectedNode: any, authToken: any) => {
 
-    console.log("__UNAUTH type : __STEP");
+    // console.log("__UNAUTH type : __STEP");
     const data = axios.get(
         `${process.env.REACT_APP_BASE_API_URL}/steps/${selectedNode.execution_id}`,
         {
@@ -15,7 +15,7 @@ export const fetchStepData = async (selectedNode: any, authToken: any) => {
             },
         },
     ).then((response) => {
-        console.log("__UNAUTH fetchMetaData Sidebar", response)
+        // console.log("__UNAUTH fetchMetaData Sidebar", response)
         localStorage.setItem("__STEP", JSON.stringify(response.data))
         return response?.data//Setting the response into state
     })
@@ -26,7 +26,7 @@ export const fetchStepData = async (selectedNode: any, authToken: any) => {
 export const fetchArtifactData = async (selectedNode: any, authToken: any) => {
 
 
-    console.log("__UNAUTH type : __STEP");
+    // console.log("__UNAUTH type : __STEP");
     const data = await axios.get(
         `${process.env.REACT_APP_BASE_API_URL}/artifacts/${selectedNode.execution_id}`,
         {
@@ -36,7 +36,7 @@ export const fetchArtifactData = async (selectedNode: any, authToken: any) => {
         },
     ).then((response) => {
 
-        console.log("__UNAUTH fetchMetaData Sidebar artifact", response.data)
+        // console.log("__UNAUTH fetchMetaData Sidebar artifact", response.data)
         localStorage.setItem("__ARTIFACT", JSON.stringify(response.data))
         return response.data
     })

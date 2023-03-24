@@ -72,6 +72,14 @@ const newStateForGraph = (state: State, graph: any): State => ({
 
 const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
+    case runActionTypes.setRunsDetails.success: {
+      const payload = action.payload.items; 
+
+      console.log("__UNAUTH REDUCER",action.payload)
+      console.log("__UNAUTH REDUCER",payload)
+
+      return { ...newState(state, action.payload)};
+    }
     case runActionTypes.getAllRuns.success: {
       const payload = action.payload.items;
 

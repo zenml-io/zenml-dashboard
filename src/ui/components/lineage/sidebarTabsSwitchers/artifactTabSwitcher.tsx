@@ -1,5 +1,5 @@
-import { PaymentRequestButtonElement } from '@stripe/react-stripe-js';
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react';
+// import { PaymentRequestButtonElement } from '@stripe/react-stripe-js';
+import React, { useEffect, useRef, useState } from 'react';
 import JsonDisplay from '../JsonDisplay';
 import styles from './artifact.module.scss'
 

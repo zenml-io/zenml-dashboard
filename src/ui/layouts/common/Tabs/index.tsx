@@ -19,7 +19,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
   basePath,
 }) => {
   const locationPath = useLocationPath();
-  console.log("__UNAUTH PAGES MAIN", pages)
+  // console.log("__UNAUTH PAGES MAIN", pages)
   return (
     <>
       <If condition={pages.length > 0}>
@@ -50,7 +50,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                       )}
                       // style={{transition: '0.25s ease-out'}}
                     >
-                      {console.log("__UNAUTH PAGE PATH: ", page.path)}
+                      {/* {console.log("__UNAUTH PAGE PATH: ", page.path)} */}
 
                       <Link className={styles.link} to={page.path}>
                         <IfElse
@@ -106,7 +106,7 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
   basePath,
 }) => {
   const locationPath = useLocationPath();
-  console.log("__UNAUTH PAGES MAIN", pages)
+  // console.log("__UNAUTH PAGES MAIN", pages)
   return (
     <>
       <If condition={pages.length > 0}>
@@ -137,7 +137,7 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                       )}
                       // style={{transition: '0.25s ease-out'}}
                     >
-                      {console.log("__UNAUTH PAGE PATH: ", page.path)}
+                      {/* {console.log("__UNAUTH PAGE PATH: ", page.path)} */}
 
                       <Link className={styles.link} to={page.path}>
                         <IfElse

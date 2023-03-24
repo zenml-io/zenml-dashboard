@@ -1,5 +1,5 @@
 import { runActionTypes } from '../../actionTypes';
-// import getRunByIdApi from '../../../api/runs/getRunByIdApi';
+import getRunByIdApi from '../../../api/runs/getRunByIdApi';
 
 // export const setRunDetails = ({
 //   runId,
@@ -28,10 +28,16 @@ import { runActionTypes } from '../../actionTypes';
 //   }, 
 // });
 
-export const setRunDetails = (artifactID:any) => {
-    console.log("__UNAUTH setRunDetails")
-    return{
-        type: runActionTypes.setRunsDetails
+export const setRunDetails = (data: any) => {
+    console.log("__UNAUTH setRunDetails", data)
+    return {
+        type: runActionTypes.setRunsDetails,
+        payload: {
+            apiMethod: getRunByIdApi,
+            isAuthenticated: true,
+            failureActionType: runActionTypes.setRunsDetails.failure,
+            successActionType: runActionTypes.setRunsDetails.success,
+           
+        }
     }
 };
-  

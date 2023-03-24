@@ -33,6 +33,6 @@ export default function JsonDisplay({ data }: any) {
     const string = JSON.stringify(json)
     console.log({ string })
     return (
-        <div dangerouslySetInnerHTML={{ __html: printNestedJson(data) }} style={{ overflow: 'auto', maxHeight: '80%', margin: 20 }} />
+        <div dangerouslySetInnerHTML={{ __html: printNestedJson(data) }} style={{ overflow: 'auto', maxHeight: '100%', margin: 20 }} />
     );
 }

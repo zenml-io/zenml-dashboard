@@ -37,9 +37,6 @@ export const Details: React.FC<{ runId: TId; fetching?: boolean }> = ({
     );
 
     setMetaData(response?.data?.items); //Setting the response into state
-    console.log("__UNAUTH DAG ", metadata)
-    console.log("__UNAUTH graph ", graph)
-    console.log("__UNAUTH details ", response)
   };
 
   

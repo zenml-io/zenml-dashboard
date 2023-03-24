@@ -12,7 +12,6 @@ const ArtifactNode = ({
   onNodeSelection,
 }: NodeProps) => {
 
-  console.log("__UNAUTH ArtifactNode data: ", data )
   return (
     <>
       <Handle

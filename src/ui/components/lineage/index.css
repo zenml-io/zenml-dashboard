@@ -425,6 +425,7 @@
   width: 100%;
   height: auto;
   background-color: white;
+  margin-top: 20px;
 }
 
 .sidebar_table>tr {
@@ -445,7 +446,7 @@
   font-family: 'Rubik';
   font-style: normal;
   font-weight: 600;
-  font-size: 14px;
+  font-size: 18px;
   line-height: 17px;
 }
 
@@ -455,8 +456,9 @@
   font-family: 'Rubik';
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
+  font-size: 18px;
   line-height: 14px;
+  color: #000000;
 }
 
 /* siderbar tab hover */

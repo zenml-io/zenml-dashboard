@@ -21,7 +21,7 @@ import { FullWidthSpinner } from '../spinners';
 import arrowClose from '../icons/assets/arrowClose.svg';
 import arrowOpen from '../icons/assets/arrowOpen.svg';
 import Sidebar from './Sidebar';
-import sidebarStyles from './sidebar.module.css'
+// import sidebarStyles from './sidebar.module.css'
 
 
 interface Edge {
@@ -52,8 +52,6 @@ const nodeHeight = 56;
 const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], direction = 'TB',) => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
-  // console.log("__UNAUTH initialEdges", initialEdges);
-  // console.log("__UNAUTH initailNode", initialNodes);
   if (initialEdges === undefined && initialNodes === undefined) {
     return { initialNodes, initialEdges };
   }
@@ -84,7 +82,6 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
 
   initialEdges.forEach((edge) => {
 
-    // console.log("__UNAUTH edge: ", edge)
     edge.type = isHorizontal ? 'straight' : 'step';
     edge["markerEnd"] = {
       type: MarkerType.ArrowClosed,
@@ -200,7 +197,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  // console.log("__UNAUTH", { nodes, edges, graph: graph.graph.nodes, edges2: graph.graph.edges })
   return (
     <>
       {/* <div>
@@ -295,7 +291,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
               onNodeClick={async (event, node) => {
                 // NodeClickHandler(event, node);
 
-                // console.log("__UNAUTH SELECTEDNODE 0", node)
                 // wait till already selected node is unselected
                 setTimeout(async () => {
                   if (selectedNode?.selected) {
@@ -309,7 +304,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                 setTimeout(async () => {
                   node.data["selected"] = true;
                   setSelectedNode(node.data)
-                  // console.log("__UNAUTH SELECTEDNODE 3", selectedNode)
                 }, 100)
               }
 
