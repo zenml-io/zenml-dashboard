@@ -7,10 +7,10 @@ import styles from '../index.module.scss'
 import stepStyles from './artifact.module.scss'
 
 const stylesActive = {
-    opacity: 1, transition: "opacity 300ms ease-in-out 0ms, transform 300ms ease-in-out 0ms ", transform: "scale(1.1)"
+    opacity: 1, transition: "", transform: ""
 }
 const stylesInActive = {
-    opacity: 0.5, transition: "all 0.1s ease", transform: "scale(0.8)"
+    opacity: 0.5, transition: "", transform: ""
 }
 
 const tabs = [
