@@ -28,6 +28,7 @@ import InstallDesignHeader from './InstallDesignHeader.svg';
 import { showToasterAction } from '../../../../redux/actions';
 import { Tabs } from '../../common/Tabs';
 import { DisplayMarkdown } from '../../../components/richText/DisplayMarkdown';
+import { DisplayCode } from './DisplayCode';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -111,7 +112,7 @@ With Flutter:`,
     {
       type: 'code',
       text: `dependencies:
-sign_in_with_apple: ^4.3.0`,
+  sign_in_with_apple: ^4.3.0`,
     },
   ],
 };
@@ -297,45 +298,7 @@ const PluginDetail: React.FC = () => {
                 },
                 {
                   text: 'Requirements',
-                  Component: () => (
-                    <FlexBox fullWidth style={{ position: 'relative' }}>
-                      <pre
-                        style={{
-                          padding: '30px',
-                          fontSize: '18px',
-                          backgroundColor: '#F4F4F4',
-                          width: '100%',
-                          borderRadius: '14px',
-                        }}
-                      >
-                        {data.requirements}
-                      </pre>
-
-                      <LinkBox
-                        onClick={() => {
-                          navigator.clipboard.writeText(data.requirements);
-
-                          dispatch(
-                            showToasterAction({
-                              description: 'Copied to clipboard.',
-                              type: toasterTypes.success,
-                            }),
-                          );
-                        }}
-                      >
-                        <Box
-                          style={{
-                            position: 'absolute',
-                            right: 0,
-                            top: 0,
-                            padding: '16px',
-                          }}
-                        >
-                          <icons.copy color={iconColors.darkGrey} size="xs" />
-                        </Box>
-                      </LinkBox>
-                    </FlexBox>
-                  ),
+                  Component: () => <DisplayCode code={data.requirements} />,
                   path: routePaths.plugins.detail.requirements(
                     selectedWorkspace,
                     data.id,
@@ -343,7 +306,21 @@ const PluginDetail: React.FC = () => {
                 },
                 {
                   text: 'Installing',
-                  Component: () => <Paragraph>Placeholder</Paragraph>,
+                  Component: () => (
+                    <Box>
+                      {data.installing.map((el, i) => (
+                        <Box key={i} marginVertical="md">
+                          {el.type === 'code' ? (
+                            <DisplayCode code={el.text} />
+                          ) : el.type === 'markdown' ? (
+                            <DisplayMarkdown markdown={el.text} />
+                          ) : (
+                            <Paragraph>{el.text}</Paragraph>
+                          )}
+                        </Box>
+                      ))}
+                    </Box>
+                  ),
                   path: routePaths.plugins.detail.installing(
                     selectedWorkspace,
                     data.id,
