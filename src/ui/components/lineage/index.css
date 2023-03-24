@@ -422,9 +422,9 @@
 }
 
 .sidebar_table {
-  width: 100%;
+  width: 50vw;
   height: auto;
-  background-color: white;
+  background-color: rgb(255, 255, 255);
   margin-top: 20px;
 }
 

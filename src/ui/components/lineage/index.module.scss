@@ -162,3 +162,52 @@
   width: 500px;
   background-color: aqua;
 }
+
+
+
+
+
+// SIDE BAR
+
+.sidebarMainContainer{
+  background-color: rgb(255, 255, 255);
+  height: 100vh;
+  width: 50vw;
+  position: absolute;
+  right: 0%;
+  top: 0%;
+  z-index: 101;
+  display: flex;
+  justify-content: flex-start;
+  align-items: flex-start;
+  z-index: 101;
+  box-shadow: 0px 0px 10px rgba(0, 0 ,0, 0.1);
+  // flex-wrap: wrap;
+}
+.btnContainer{
+  height: 100vh;
+  width: 0px;
+  background-color: #431d9300;
+  justify-content: center !important;
+  align-items: center;
+  margin-right: 0px;
+  z-index: -1;
+}
+
+.sidebarClose{
+    // display: none;
+    transform: translate(100%);
+    transition: all 300ms ease-in-out;
+    width: 0vw;
+}
+.sidebarOpen{
+    // display: none;
+    transform: translate(0%);
+    transition: all 300ms ease-in-out;
+}
+.bodyContainer{
+  overflow: hidden;
+  // height: 100vh;
+  width: auto;
+  background-color: #ffffff;
+}

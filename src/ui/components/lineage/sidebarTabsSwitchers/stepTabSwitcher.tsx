@@ -70,7 +70,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
         <>
 
 
-            <div className='siderbar_header11 '>
+            <div className='siderbar_header11'>
                 {tabs.map((tab, i) => {
                     return (
                         <span

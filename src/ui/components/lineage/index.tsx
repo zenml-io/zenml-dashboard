@@ -170,10 +170,10 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   //   }
   // }, [])
 
- useEffect(() => {
-   console.log("THIS IS THE USEEFFECT")
- }, [selectedNode])
- 
+  useEffect(() => {
+    console.log("THIS IS THE USEEFFECT")
+  }, [selectedNode])
+
 
   const onConnect = useCallback(
     (params) =>
@@ -208,16 +208,16 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
         <div></div>
       </div> */}
 
-        {/* <button onClick={() => document.removeEventListener('mousedown', handler)}>Click me!</button>
+      {/* <button onClick={() => document.removeEventListener('mousedown', handler)}>Click me!</button>
         <button onClick={() => setIsVisible(true)}>Click me!</button> */}
 
 
-        {/* <div className={`${selectedNode !== null ? sidebarStyles.mainContainer : ""}`}>
+      {/* <div className={`${selectedNode !== null ? sidebarStyles.mainContainer : ""}`}>
         </div> */}
 
-        {selectedNode === null ? "" : <div><Sidebar selectedNode={selectedNode} /></div>}
-      <div style={{ overflow: 'hidden'}}>
-        
+      {selectedNode === null ? "" : <div><Sidebar selectedNode={selectedNode} /></div>}
+      <div style={{ overflow: 'hidden' }}>
+
         <div className="controls">
           {/* code commented by Ali id:#123456789*/}
           {/* <button

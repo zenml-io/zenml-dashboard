@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef} from 'react' //eslint-disable-line
+import React, { useState, useEffect, useRef } from 'react' //eslint-disable-line
 import circleArrowSideClose from '../icons/assets/circleArrowSideClose.svg';
 import circleArrowSideOpen from '../icons/assets/circleArrowSideOpen.svg';
 // import Switch from "react-switch";
@@ -8,7 +8,7 @@ import ArtifactTabHeader from './sidebarTabsSwitchers/artifactTabSwitcher';
 import StepnodeTabHeader from './sidebarTabsSwitchers/stepTabSwitcher';
 import { fetchArtifactData, fetchStepData } from './sidebarServices';
 import { runsActions } from '../../../redux/actions';
-
+import styles from './index.module.scss'
 
 // const stylesActive = {
 //     opacity: 1, transition: "opacity 300ms ease-in-out 0ms, transform 300ms ease-in-out 0ms ", transform: "scale(1.1)"
@@ -16,6 +16,14 @@ import { runsActions } from '../../../redux/actions';
 // const stylesInActive = {
 //     opacity: 0.5, transition: "all 0.1s ease", transform: "scale(0.8)"
 // }
+
+const colCenter = {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    // overflow: "hidden",
+
+}
 
 
 
@@ -31,7 +39,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     console.log("__UNAUTH SELECTEDNODE SIDEVAR", selectedNode);
 
     const authToken = useSelector(sessionSelectors.authenticationToken);
-    
+
     // const fetchMetaData = async (type: boolean) => {
     //     // IF IS STEP THEN GO INSIDE IF, AND IF ARTIFACT GO INSIDE ELSE
     //     if (type) {
@@ -51,7 +59,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     //         })
     //     } else {
     //         console.log("__UNAUTH type __ARTIFACT", type);
-            
+
     //         await axios.get(
     //             `${process.env.REACT_APP_BASE_API_URL}/artifacts/${selectedNode.execution_id}`,
     //             {
@@ -60,7 +68,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     //                 },
     //             },
     //             ).then((response) => {
-                    
+
     //                 console.log("__UNAUTH fetchMetaData Sidebar artifact", response.data)
     //                 setArtifact(response?.data); //Setting the response into state
     //                 localStorage.setItem("__ARTIFACT", JSON.stringify(response.data))
@@ -73,15 +81,13 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     // -----------------------------------------------------
 
     async function FetchData(type: boolean) {
-        console.log({_____type:type})
-        if(type)
-        {
+        console.log({ _____type: type })
+        if (type) {
             const data = await fetchStepData(selectedNode, authToken);
             console.log("___123 step", data)
             setStep(data);
         }
-        else
-        {
+        else {
             const data = await fetchArtifactData(selectedNode, authToken);
             console.log("___123 artifact", data)
             setArtifact(data);
@@ -103,13 +109,13 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
             setIsStepNode(true);
             console.log("__UNAUTH type true")
             // setSidebar(false);
-            setSidebar(true);
+            // setSidebar(true);
         }
         else {
             setIsStepNode(false);
             console.log("__UNAUTH type false")
             // setSidebar(false);
-            setSidebar(true);
+            // setSidebar(true);
 
         }
         FetchData(type);
@@ -133,41 +139,57 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
             document.removeEventListener('mousedown', handler);
 
         }
-        
+
     }, [])
 
+    console.log("SIDEBAR 12345", sidebar_ref.current?.offsetWidth)
 
-    
 
     return (
 
 
-        <div style={{ position: 'absolute', top: "0%", left: "100%", zIndex: 101 }}>
-            {sidebar ?
-                <div className='siderbar11' ref={sidebar_ref}>
-                    <div className='sidebar11_arrow'>
-                        {sidebar ?
-                            <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} />
-                            :
-                            <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(true)} />
-                        }
-                    </div>
-                    <div className='siderBar_contentArea'>
-                        <div className='sidebar_body11'>
-                            {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />}
-                        </div>
-                    </div>
-                </div>
-                :
-                <div className='siderbar11_hidden'>
-                    <div className='sidebar11_arrow_hidden'>
-                        {sidebar ? "" : <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(true)} />}
-                    </div>
-                </div>
-                // <div style={{ position: 'absolute', right: -50, top: "100%", padding: '10px', height: "500px", display: "flex", alignItems: 'flex-end' }} className='closeSidebarBtn' ref={sidebar_ref}>
-                //     <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{ zIndex: 100 }} />
-                // </div>
-            }
+        // <div style={{ position: 'absolute', top: "0%", left: "100%", zIndex: 101 }}>
+        //     {sidebar ?
+
+        //         <div className='siderbar11' ref={sidebar_ref}>
+        //             <div className='siderBar_contentArea'>
+        //                 <div className='sidebar_body11'>
+        //             <div className='sidebar11_arrow'>
+        //                 {sidebar ?
+        //                     <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(false)} />
+        //                     :
+
+        //                     <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(true)} />
+        //                 }
+        //             </div>
+        //                     {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />}
+        //                 </div>
+        //             </div>
+        //         </div>
+        //         :
+        //         <div className='siderbar11_hidden'>
+        //             <div className='sidebar11_arrow_hidden'>
+        //                 {sidebar ? "" : <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(true)} />}
+        //             </div>
+        //         </div>
+        //         // <div style={{ position: 'absolute', right: -50, top: "100%", padding: '10px', height: "500px", display: "flex", alignItems: 'flex-end' }} className='closeSidebarBtn' ref={sidebar_ref}>
+        //         //     <img src={circleArrowSideClose} alt={"close"} onClick={() => { setSidebar(true); console.log("clicked") }} style={{ zIndex: 100 }} />
+        //         // </div>
+        //     }
+        // </div>
+        <div className={`${styles.sidebarMainContainer} ${sidebar ? styles.sidebarOpen : styles.sidebarClose}`} ref={sidebar_ref}>
+            <div className={`${styles.btnContainer}`} style={colCenter}>
+                {sidebar ?
+                    <img src={circleArrowSideOpen} alt={"close"} onClick={() => setSidebar(!sidebar)} />
+                    :
+                    <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(!sidebar)} />
+                }
+            </div>
+
+            <div className={`${styles.bodyContainer}`}>
+                {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />}
+            </div>
+
         </div>
     )
 }
