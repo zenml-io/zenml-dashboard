@@ -42,7 +42,7 @@ interface TUser {
   email_opted_in: any;
   emailOptedIn: any;
   roles: Array<any>;
-  created: any
+  created: any;
 }
 
 interface TOrganization {
@@ -192,6 +192,7 @@ interface TabPage {
   text: string;
   Component: React.FC;
   path: string;
+  externalPath?: string;
 }
 
 interface TBilling {

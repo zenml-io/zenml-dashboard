@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import ReactMarkdown from 'react-markdown';
 
 import {
   Box,
@@ -27,6 +26,8 @@ import styles from './styles.module.scss';
 import ZenMLFavourite from './ZenML favourite.svg';
 import InstallDesignHeader from './InstallDesignHeader.svg';
 import { showToasterAction } from '../../../../redux/actions';
+import { Tabs } from '../../common/Tabs';
+import { DisplayMarkdown } from '../../../components/richText/DisplayMarkdown';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -58,49 +59,49 @@ In this step, we utilize the power of ZenML and MLflow to streamline the machine
     {
       version: '10.1.5',
       notes: `Minor bug fix (PR 44).
-        return null when active switch is de-activated by re-tapping
-        Added changes to fix radiusStyle bug when text direction is set to TextDirection.rtl
-        parameter:
-        textDirectionRTL (optional, type bool - default false)
-        Added custom widths support
-        parameter:
-        customWidths (optional, type List`,
+return null when active switch is de-activated by re-tapping
+Added changes to fix radiusStyle bug when text direction is set to TextDirection.rtl
+parameter:
+textDirectionRTL (optional, type bool - default false)
+Added custom widths support
+parameter:
+customWidths (optional, type List`,
       yanked: true,
     },
     {
       version: '10.1.4',
       notes: `Minor bug fix (PR 44).
-        return null when active switch is de-activated by re-tapping
-        Added changes to fix radiusStyle bug when text direction is set to TextDirection.rtl
-        parameter:
-        textDirectionRTL (optional, type bool - default false)
-        Added custom widths support
-        parameter:
-        customWidths (optional, type List`,
+return null when active switch is de-activated by re-tapping
+Added changes to fix radiusStyle bug when text direction is set to TextDirection.rtl
+parameter:
+textDirectionRTL (optional, type bool - default false)
+Added custom widths support
+parameter:
+customWidths (optional, type List`,
       yanked: false,
     },
     {
       version: '10.1.3',
       notes: `Minor bug fix (PR 44).
-        return null when active switch is de-activated by re-tapping
-        Added changes to fix radiusStyle bug when text direction is set to TextDirection.rtl
-        parameter:
-        textDirectionRTL (optional, type bool - default false)
-        Added custom widths support
-        parameter:
-        customWidths (optional, type List`,
+return null when active switch is de-activated by re-tapping
+Added changes to fix radiusStyle bug when text direction is set to TextDirection.rtl
+parameter:
+textDirectionRTL (optional, type bool - default false)
+Added custom widths support
+parameter:
+customWidths (optional, type List`,
       yanked: true,
     },
   ],
   requirements: `nba-api
-    notebook
-    zenml==0.31.1`,
+notebook
+zenml==0.31.1`,
   installing: [
     {
       type: 'markdown',
       text: `Depend on it
-    Run this command:
-    With Flutter:`,
+Run this command:
+With Flutter:`,
     },
     { type: 'code', text: `$ flutter pub add sign_in_with_apple` },
     {
@@ -110,7 +111,7 @@ In this step, we utilize the power of ZenML and MLflow to streamline the machine
     {
       type: 'code',
       text: `dependencies:
-        sign_in_with_apple: ^4.3.0`,
+sign_in_with_apple: ^4.3.0`,
     },
   ],
 };
@@ -133,7 +134,7 @@ const PluginDetail: React.FC = () => {
         {
           name: 'Plugin details',
           clickable: true,
-          to: routePaths.plugins.detail(
+          to: routePaths.plugins.detail.overview(
             selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
             data.id,
           ),
@@ -272,7 +273,95 @@ const PluginDetail: React.FC = () => {
               </Box>
             </FlexBox>
 
-            <ReactMarkdown>{data.overview}</ReactMarkdown>
+            <Tabs
+              pages={[
+                {
+                  text: 'Overview',
+                  Component: () => (
+                    <Box>
+                      <DisplayMarkdown markdown={data.overview} />
+                    </Box>
+                  ),
+                  path: routePaths.plugins.detail.overview(
+                    selectedWorkspace,
+                    data.id,
+                  ),
+                },
+                {
+                  text: 'Changelogs',
+                  Component: () => <Paragraph>Placeholder</Paragraph>,
+                  path: routePaths.plugins.detail.changelogs(
+                    selectedWorkspace,
+                    data.id,
+                  ),
+                },
+                {
+                  text: 'Requirements',
+                  Component: () => (
+                    <FlexBox fullWidth style={{ position: 'relative' }}>
+                      <pre
+                        style={{
+                          padding: '30px',
+                          fontSize: '18px',
+                          backgroundColor: '#F4F4F4',
+                          width: '100%',
+                          borderRadius: '14px',
+                        }}
+                      >
+                        {data.requirements}
+                      </pre>
+
+                      <LinkBox
+                        onClick={() => {
+                          navigator.clipboard.writeText(data.requirements);
+
+                          dispatch(
+                            showToasterAction({
+                              description: 'Copied to clipboard.',
+                              type: toasterTypes.success,
+                            }),
+                          );
+                        }}
+                      >
+                        <Box
+                          style={{
+                            position: 'absolute',
+                            right: 0,
+                            top: 0,
+                            padding: '16px',
+                          }}
+                        >
+                          <icons.copy color={iconColors.darkGrey} size="xs" />
+                        </Box>
+                      </LinkBox>
+                    </FlexBox>
+                  ),
+                  path: routePaths.plugins.detail.requirements(
+                    selectedWorkspace,
+                    data.id,
+                  ),
+                },
+                {
+                  text: 'Installing',
+                  Component: () => <Paragraph>Placeholder</Paragraph>,
+                  path: routePaths.plugins.detail.installing(
+                    selectedWorkspace,
+                    data.id,
+                  ),
+                },
+                {
+                  text: 'Community',
+                  externalPath: `${data.repo}/issues`,
+                  // placeholders to type-check
+                  path: '',
+                  Component: () => null,
+                },
+              ]}
+              basePath={routePaths.plugins.detail.base(
+                selectedWorkspace,
+                data.id,
+              )}
+            />
           </FlexBox>
 
           {/* right column */}

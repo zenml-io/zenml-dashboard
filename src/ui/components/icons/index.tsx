@@ -1,5 +1,6 @@
 import React from 'react';
 
+import { ReactComponent as ArrowSquareOut } from './assets/ArrowSquareOut.svg';
 import { ReactComponent as Burger } from './assets/Burger.svg';
 import { ReactComponent as Calendar } from './assets/Calendar.svg';
 import { ReactComponent as ChevronDown } from './assets/ChevronDown.svg';
@@ -144,6 +145,7 @@ const createIcon =
   };
 
 const icons = {
+  arrowSquareOut: createIcon({ Component: ArrowSquareOut, useStroke: true }),
   burger: createIcon({ Component: Burger }),
   calendar: createIcon({ Component: Calendar }),
   checkbox: createIcon({ Component: Checkbox }),

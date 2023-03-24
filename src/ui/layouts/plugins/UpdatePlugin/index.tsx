@@ -55,7 +55,7 @@ const UpdatePlugin: React.FC = () => {
         {
           name: 'Plugin details',
           clickable: true,
-          to: routePaths.plugins.detail(
+          to: routePaths.plugins.detail.overview(
             selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
             data.id,
           ),

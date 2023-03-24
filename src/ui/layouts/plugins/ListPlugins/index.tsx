@@ -90,7 +90,9 @@ const ListPlugins: React.FC = () => {
                 borderRadius: '4px',
               }}
               onClick={() =>
-                history.push(routePaths.plugins.detail(selectedWorkspace, p.id))
+                history.push(
+                  routePaths.plugins.detail.overview(selectedWorkspace, p.id),
+                )
               }
             >
               {/* image */}

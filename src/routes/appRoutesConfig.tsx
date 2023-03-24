@@ -429,7 +429,31 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.plugins.detail(':string', ':id'),
+    path: routePaths.plugins.detail.overview(':string', ':id'),
+    Component: PluginDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.detail.changelogs(':string', ':id'),
+    Component: PluginDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.detail.requirements(':string', ':id'),
+    Component: PluginDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.detail.installing(':string', ':id'),
     Component: PluginDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,

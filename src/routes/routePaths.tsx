@@ -113,8 +113,18 @@ export const routePaths = {
     list: (workspace: string): string => `/workspaces/${workspace}/plugins`,
     create: (workspace: string): string =>
       `/workspaces/${workspace}/plugins/create`,
-    detail: (workspace: string, id: TId): string =>
-      `/workspaces/${workspace}/plugins/${id}`,
+    detail: {
+      base: (workspace: string, id: TId): string =>
+        `/workspaces/${workspace}/plugins/${id}`,
+      overview: (workspace: string, id: TId): string =>
+        `/workspaces/${workspace}/plugins/${id}/overview`,
+      changelogs: (workspace: string, id: TId): string =>
+        `/workspaces/${workspace}/plugins/${id}/changelogs`,
+      requirements: (workspace: string, id: TId): string =>
+        `/workspaces/${workspace}/plugins/${id}/requirements`,
+      installing: (workspace: string, id: TId): string =>
+        `/workspaces/${workspace}/plugins/${id}/installing`,
+    },
     update: (workspace: string, id: TId): string =>
       `/workspaces/${workspace}/plugins/${id}/update`,
     creationLogs: (workspace: string, id: TId): string =>
