@@ -12,6 +12,7 @@ import { Status_Completed } from './icons';
 import JsonDisplay from './JsonDisplay';
 import ArtifactTabHeader from './sidebarTabsSwitchers/artifactTabSwitcher';
 import StepnodeTabHeader from './sidebarTabsSwitchers/stepTabSwitcher';
+import { fetchArtifactData, fetchStepData } from './sidebarServices';
 
 
 // const stylesActive = {
@@ -34,33 +35,28 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     console.log("__UNAUTH SELECTEDNODE SIDEVAR", selectedNode);
 
     const authToken = useSelector(sessionSelectors.authenticationToken);
-    // function* fetchMetaData(type:boolean):Generator{
+    
+    // const fetchMetaData = async (type: boolean) => {
     //     // IF IS STEP THEN GO INSIDE IF, AND IF ARTIFACT GO INSIDE ELSE
     //     if (type) {
     //         console.log("__UNAUTH type : __STEP");
-    //         const data:any = yield axios.get(
+    //         await axios.get(
     //             `${process.env.REACT_APP_BASE_API_URL}/steps/${selectedNode.execution_id}`,
     //             {
     //                 headers: {
     //                     Authorization: `bearer ${authToken}`,
     //                 },
     //             },
-            
-    //         // ).then((response) => {
-    //         //     console.log("__UNAUTH fetchMetaData Sidebar", response)
-    //         //     setStep(response?.data);
-    //         //     localStorage.setItem("__STEP", JSON.stringify(response.data))
-    //         //     return //Setting the response into state
-    //         // }
-    //         )
-    //         const response = yield data.json();
-    //         console.log('__RESPONSE ', response)
-    //         // setStep(response?.data)
-
+    //         ).then((response) => {
+    //             console.log("__UNAUTH fetchMetaData Sidebar", response)
+    //             setStep(response?.data);
+    //             localStorage.setItem("__STEP", JSON.stringify(response.data))
+    //             return //Setting the response into state
+    //         })
     //     } else {
     //         console.log("__UNAUTH type __ARTIFACT", type);
             
-    //         yield axios.get(
+    //         await axios.get(
     //             `${process.env.REACT_APP_BASE_API_URL}/artifacts/${selectedNode.execution_id}`,
     //             {
     //                 headers: {
@@ -78,48 +74,22 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     //     }
 
     // };
-    const fetchMetaData = async (type: boolean) => {
-        // IF IS STEP THEN GO INSIDE IF, AND IF ARTIFACT GO INSIDE ELSE
-        if (type) {
-            console.log("__UNAUTH type : __STEP");
-            await axios.get(
-                `${process.env.REACT_APP_BASE_API_URL}/steps/${selectedNode.execution_id}`,
-                {
-                    headers: {
-                        Authorization: `bearer ${authToken}`,
-                    },
-                },
-            ).then((response) => {
-                console.log("__UNAUTH fetchMetaData Sidebar", response)
-                setStep(response?.data);
-                localStorage.setItem("__STEP", JSON.stringify(response.data))
-                return //Setting the response into state
-            })
-        } else {
-            console.log("__UNAUTH type __ARTIFACT", type);
-            
-            await axios.get(
-                `${process.env.REACT_APP_BASE_API_URL}/artifacts/${selectedNode.execution_id}`,
-                {
-                    headers: {
-                        Authorization: `bearer ${authToken}`,
-                    },
-                },
-                ).then((response) => {
-                    
-                    console.log("__UNAUTH fetchMetaData Sidebar artifact", response.data)
-                    setArtifact(response?.data); //Setting the response into state
-                    localStorage.setItem("__ARTIFACT", JSON.stringify(response.data))
-                    return
-                })
-
-        }
-
-    };
     // -----------------------------------------------------
 
     async function FetchData(type: boolean) {
-         await fetchMetaData(type);
+        console.log({_____type:type})
+        if(type)
+        {
+            const data = await fetchStepData(selectedNode, authToken);
+            console.log("___123 step", data)
+            setStep(data);
+        }
+        else
+        {
+            const data = await fetchArtifactData(selectedNode, authToken);
+            console.log("___123 artifact", data)
+            setArtifact(data);
+        }
     };
     // USE EFFECT TO CHECK IF ITS A STEP NODE OR AN ARTIFACT NODE
     useEffect(() => {
