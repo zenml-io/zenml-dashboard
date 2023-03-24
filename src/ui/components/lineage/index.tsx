@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ReactFlow, {
   addEdge,
   ConnectionLineType,
@@ -173,7 +173,10 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   //   }
   // }, [])
 
-
+ useEffect(() => {
+   console.log("THIS IS THE USEEFFECT")
+ }, [selectedNode])
+ 
 
   const onConnect = useCallback(
     (params) =>
@@ -216,7 +219,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
         {/* <div className={`${selectedNode !== null ? sidebarStyles.mainContainer : ""}`}>
         </div> */}
 
-        {selectedNode === null ? <div className={`${sidebarStyles.indexContainer_invisible}`}></div> : <div className={`${sidebarStyles.indexContainer}`}><Sidebar selectedNode={selectedNode} /></div>}
+        {selectedNode === null ? "" : <div><Sidebar selectedNode={selectedNode} /></div>}
       <div style={{ overflow: 'hidden'}}>
         
         <div className="controls">

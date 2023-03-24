@@ -208,33 +208,39 @@
 .siderbar11 {
   position: absolute;
   top: 10%;
-  transform: translate(-100%);
+  right: 0px;
+  /* transform: translate(-100%); */
   width: 50vw;
   height: 100vh;
   background-color: rgb(245, 245, 245);
   display: flex;
   z-index: 100;
   box-shadow: 0 0px 100px rgb(0 0 0 / 0.1);
-  opacity: 1;
-  transition: 1s;
+  /* opacity: 1; */
+  /* transition: 1s; */
 }
 
 .siderbar_header11 span {
   cursor: pointer;
+  /* width: 100px; */
+  text-align: center;
+  margin-top: 10px;
+  margin-right: 39px;
+  /* font-size: 10px; */
 }
 
 .siderbar11_hidden {
   position: absolute;
   top: 500px;
-  transform: translate(10%);
+  /* transform: translate(10%); */
   width: 0vw;
   height: 0vh;
   background-color: rgb(245, 245, 245);
   display: flex;
   z-index: 100;
   box-shadow: 0 0px 100px rgb(0 0 0 / 0.1);
-  opacity: 1;
-  transition: 1s;
+  /* opacity: 1; */
+  /* transition: 1s; */
 }
 
 .siderBar_contentArea {

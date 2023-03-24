@@ -4,10 +4,10 @@ import JsonDisplay from '../JsonDisplay';
 import styles from './artifact.module.scss'
 
 const stylesActive = {
-    opacity: 1, transition: "", transform: ""
+    opacity: 1, 
 }
 const stylesInActive = {
-    opacity: 0.5, transition: "", transform: ""
+    opacity: 0.5, 
 }
 
 

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react' //eslint-disable-line
+import React, { useState, useEffect, useRef, memo } from 'react' //eslint-disable-line
 import circleArrowSideClose from '../icons/assets/circleArrowSideClose.svg';
 import circleArrowSideOpen from '../icons/assets/circleArrowSideOpen.svg';
 import styles from './index.module.scss'
@@ -174,6 +174,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     )
 }
 
-export default Sidebar
+// export default memo(Sidebar)
+export default Sidebar;
 
 
