@@ -1,6 +1,7 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
+  <img referrerpolicy="no-referrer-when-downgrade" src="https://static.scarf.sh/a.png?x-pxid=24a6ae7a-e650-4f01-97db-c05083f2181c" />
   <a href="https://zenml.io">
     <img src="assets/zenml-dashboard-logo.gif" alt="Logo" width="400">
   </a>
@@ -31,9 +32,6 @@
     <a href="https://blog.zenml.io/">Read Blog</a>
     ·
     <a href="#-meet-the-team">Meet the Team</a>
-    <br />
-    🎉 Version 0.1.0 is out. Check out the release notes
-    <a href="https://github.com/zenml-io/zenml-dashboard/releases">here</a>.
     <br />
     <br />
     <a href="https://www.linkedin.com/company/zenml/">

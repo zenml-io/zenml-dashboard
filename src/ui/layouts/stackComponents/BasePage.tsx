@@ -55,7 +55,7 @@ export const BasePage: React.FC<{
               />
             )}
           />
-          <FlexBox.Row justifyContent='space-between'>
+          <FlexBox.Row justifyContent='space-between' style={{ marginTop: '-20px' }}>
             {!fromConfigureComponent && (
               <Component fromRegisterComponent={fromRegisterComponent} />
             )}

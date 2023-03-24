@@ -38,16 +38,18 @@ const FilterWrapperForRun = () => {
     return filterValuesMap;
   }
   return (
-    <FilterComponent
-      getInitials={getInitialFilterStateForRuns}
-      filters={filters}
-      setFilter={setFilter}
-    >
-      <Runs
-        filter={getFilter(filters)}
-        pipelineId={locationPath.split('/')[4]}
-      />
-    </FilterComponent>
+    <Box marginTop='lg' style={{ width: '100%' }}>
+      <FilterComponent
+        getInitials={getInitialFilterStateForRuns}
+        filters={filters}
+        setFilter={setFilter}
+      >
+        <Runs
+          filter={getFilter(filters)}
+          pipelineId={locationPath.split('/')[4]}
+        />
+      </FilterComponent>
+    </Box>
   );
 };
 const getTabPages = (pipelineId: TId, selectedWorkspace: string): TabPage[] => {
@@ -119,12 +121,13 @@ export const PipelineDetail: React.FC = () => {
   };
   return (
     <BasePage
+      title="Pipelines"
       headerWithButtons
       tabPages={tabPages}
       tabBasePath={routePaths.pipeline.base(pipeline.id)}
       breadcrumbs={breadcrumbs}
     >
-      <Box marginTop='lg'>
+      <Box marginTop="lg">
         <CollapseTable
           pagination={false}
           renderAfterRow={(stack: TStack) => <></>}

@@ -73,7 +73,7 @@ const Component = (props: any) => {
   };
 
   const formatSectionColor = (text: string) => {
-    return selectedComp === text ? '#443E99' : '#fff';
+    return selectedComp === text ? 'rgba(68, 62, 153, 0.7)' : '#fff';
   };
 
   const formatTextColor = (text: string) => {
@@ -91,7 +91,7 @@ const Component = (props: any) => {
         borderRight: '1px solid rgba(168, 168, 168, 0.2)',
         // padding: '0 50px 0 33px',
         padding: '0 50px 0 5px',
-        marginTop: '5rem',
+        marginTop: '4.2rem',
 
         zIndex: 2,
       }}
