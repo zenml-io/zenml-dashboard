@@ -290,7 +290,50 @@ const PluginDetail: React.FC = () => {
                 },
                 {
                   text: 'Changelogs',
-                  Component: () => <Paragraph>Placeholder</Paragraph>,
+                  Component: () => (
+                    <Box>
+                      {data.changelogs.map((c) => (
+                        <FlexBox key={c.version} marginVertical="md">
+                          {/* version */}
+                          <Box style={{ width: '125px' }}>
+                            <Paragraph
+                              color="darkGrey"
+                              style={{ fontSize: '32px', lineHeight: '1em' }}
+                            >
+                              {c.version}
+                            </Paragraph>
+                          </Box>
+
+                          {/* details */}
+                          <FlexBox fullWidth>
+                            <Paragraph size="tiny" color="grey">
+                              {c.notes}
+                            </Paragraph>
+                          </FlexBox>
+
+                          {/* yanked */}
+                          <FlexBox style={{ width: '100px' }}>
+                            {c.yanked && (
+                              <Box
+                                style={{
+                                  display: 'inline-block',
+                                  marginBottom: 'auto',
+                                  marginLeft: 'auto',
+                                  backgroundColor: '#D8131333',
+                                  padding: '3px 8px',
+                                  borderRadius: '8px',
+                                }}
+                              >
+                                <Paragraph size="tiny" color="red">
+                                  Yanked
+                                </Paragraph>
+                              </Box>
+                            )}
+                          </FlexBox>
+                        </FlexBox>
+                      ))}
+                    </Box>
+                  ),
                   path: routePaths.plugins.detail.changelogs(
                     selectedWorkspace,
                     data.id,
