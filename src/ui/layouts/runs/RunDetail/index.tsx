@@ -5,6 +5,7 @@ import { routePaths } from '../../../../routes/routePaths';
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
 import { DAG } from '../../../components/dag';
+import { Box } from '../../../components';
 import { useService } from './useService';
 
 // import { Box, Paragraph } from '../../../components';
@@ -113,13 +114,15 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.run.base(runId)}
       breadcrumbs={breadcrumbs}
     >
-      <Table
-        pagination={false}
-        headerCols={headerCols}
-        tableRows={runRow}
-        // emptyState={{ text: emptyStateText }}
-        trOnClick={openDetailPage}
-      />
+      <Box marginTop='lg' >
+        <Table
+          pagination={false}
+          headerCols={headerCols}
+          tableRows={runRow}
+          // emptyState={{ text: emptyStateText }}
+          trOnClick={openDetailPage}
+        />
+      </Box>
       {/* <Box style={boxStyle}>
         <Box>
           <Paragraph style={headStyle}>RUN ID</Paragraph>

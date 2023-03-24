@@ -68,16 +68,18 @@ const FilterWrapperForStacks = () => {
     return filterValuesMap;
   }
   return (
-    <FilterComponent
-      getInitials={getInitialFilterState}
-      filters={filters}
-      setFilter={setFilter}
-    >
-      <List
-        stackComponentId={locationPath.split('/')[5]}
-        filter={getFilter(filters)}
-      />
-    </FilterComponent>
+    <Box marginTop='lg' style={{ width: '100%' }}>
+      <FilterComponent
+        getInitials={getInitialFilterState}
+        filters={filters}
+        setFilter={setFilter}
+      >
+        <List
+          stackComponentId={locationPath.split('/')[5]}
+          filter={getFilter(filters)}
+        />
+      </FilterComponent>
+    </Box>
   );
 };
 const getTabPages = (
@@ -219,6 +221,7 @@ export const StackDetail: React.FC = () => {
         selectedWorkspace,
       )}
       breadcrumbs={breadcrumbs}
+      title="Stack Components"
     >
       {/* <Box style={boxStyle}>
         <Box>
@@ -264,7 +267,7 @@ export const StackDetail: React.FC = () => {
           </Paragraph>
         </Box>
       </Box> */}
-      <Box paddingTop={'xl'}>
+      <Box style={{ marginTop: '40px' }}>
         {/* {mapStackComponent.length ? ( */}
         <CollapseTable
           pagination={false}

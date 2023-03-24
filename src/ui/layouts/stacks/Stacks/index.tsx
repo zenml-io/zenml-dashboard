@@ -9,6 +9,7 @@ import { useService } from './useService';
 import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';
+import { Box } from '../../../components';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { useLocationPath, useSelector } from '../../../hooks';
 // import { useSelector } from '../../../hooks';
@@ -28,13 +29,15 @@ const FilterWrapper = () => {
     return filterValuesMap;
   }
   return (
-    <FilterComponent
-      getInitials={getInitialFilterState}
-      filters={filters}
-      setFilter={setFilter}
-    >
-      <List filter={getFilter(filters)} />
-    </FilterComponent>
+    <Box style={{ marginTop: '-20px', width: '100%' }}>
+      <FilterComponent
+        getInitials={getInitialFilterState}
+        filters={filters}
+        setFilter={setFilter}
+      >
+        <List filter={getFilter(filters)} />
+      </FilterComponent>
+    </Box>
   );
 };
 
@@ -56,16 +59,19 @@ export const Stacks: React.FC = () => {
         },
       ]}
       tabBasePath={routePaths.stacks.base}
-      breadcrumbs={[
-        {
-          name: translate('header.breadcrumbs.stacks.text'),
-          clickable: true,
-          // to: routePaths.stacks.base,
-          to: routePaths.stacks.list(
-            selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
-          ),
-        },
-      ]}
+      breadcrumbs={
+        [
+          // {
+          //   name: translate('header.breadcrumbs.stacks.text'),
+          //   clickable: true,
+          //   // to: routePaths.stacks.base,
+          //   to: routePaths.stacks.list(
+          //     selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+          //   ),
+          // },
+        ]
+      }
+      title="Stacks"
       headerWithButtons
       renderHeaderRight={() => <></>}
     />

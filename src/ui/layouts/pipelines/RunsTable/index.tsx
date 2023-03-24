@@ -181,64 +181,70 @@ export const RunsTable: React.FC<{
         emptyState={{ text: emptyStateText }}
         trOnClick={openDetailPage}
       />
-
-      <FlexBox
-        style={{
-          position: 'fixed',
-          right: '0',
-          bottom: '0',
-          height: '92px',
-          width: '100%',
-          justifyContent: 'center',
-          backgroundColor: 'white',
-        }}
-      >
-        <Box style={{ alignSelf: 'center' }}>
-          <If condition={!fetching}>
-            {() => (
-              <FlexBox
-                marginTop="xxxl"
-                marginBottom="xxxl"
-                style={{ alignSelf: 'center' }}
-                justifyContent="center"
-              >
-                <Pagination
-                  // isExpended={isExpended}
-                  ref={childRef}
-                  onChange={(pageNumber: any) =>
-                    onChange(pageNumber, itemPerPage)
-                  }
-                  // getFetchedState={getFetchedState}
-                  activeSorting={activeSorting}
-                  filters={filter}
-                  itemPerPage={itemPerPage}
-                  pageIndex={pageIndex}
-                  setPageIndex={setPageIndex}
-                  pages={paginated?.totalPages}
-                  totalOfPages={paginated?.totalPages}
-                  totalLength={paginated?.length}
-                  totalCount={paginated?.totalitem}
-                />
-
-                <If
-                  condition={sortedRuns.length > 0 && paginated?.totalitem > 1}
-                >
-                  {() => (
-                    <ItemPerPage
+      {console.log(paginated, fetching, 'paginatedpaginatedpaginated')}
+      <If condition={paginated.totalitem > 5}>
+        {() => (
+          <FlexBox
+            style={{
+              position: 'fixed',
+              right: '0',
+              bottom: '0',
+              height: '92px',
+              width: '100%',
+              justifyContent: 'center',
+              backgroundColor: 'white',
+            }}
+          >
+            <Box style={{ alignSelf: 'center' }}>
+              <If condition={!fetching}>
+                {() => (
+                  <FlexBox
+                    marginTop="xxxl"
+                    marginBottom="xxxl"
+                    style={{ alignSelf: 'center' }}
+                    justifyContent="center"
+                  >
+                    <Pagination
+                      // isExpended={isExpended}
+                      ref={childRef}
+                      onChange={(pageNumber: any) =>
+                        onChange(pageNumber, itemPerPage)
+                      }
+                      // getFetchedState={getFetchedState}
+                      activeSorting={activeSorting}
+                      filters={filter}
                       itemPerPage={itemPerPage}
-                      onChangePagePerItem={(size: any) => {
-                        setItemPerPage(size);
-                        onChange(1, size);
-                        setPageIndex(0);
-                      }}
-                    ></ItemPerPage>
-                  )}
-                </If>
-              </FlexBox>
-            )}
-          </If>
-        </Box>
-      </FlexBox>
+                      pageIndex={pageIndex}
+                      setPageIndex={setPageIndex}
+                      pages={paginated?.totalPages}
+                      totalOfPages={paginated?.totalPages}
+                      totalLength={paginated?.length}
+                      totalCount={paginated?.totalitem}
+                    />
+
+                    <If
+                      condition={
+                        sortedRuns.length > 0 && paginated?.totalitem > 1
+                      }
+                    >
+                      {() => (
+                        <ItemPerPage
+                          itemPerPage={itemPerPage}
+                          onChangePagePerItem={(size: any) => {
+                            setItemPerPage(size);
+                            onChange(1, size);
+                            setPageIndex(0);
+                          }}
+                        ></ItemPerPage>
+                      )}
+                    </If>
+                  </FlexBox>
+                )}
+              </If>
+            </Box>
+          </FlexBox>
+        )}
+      </If>
     </>
   );
 };

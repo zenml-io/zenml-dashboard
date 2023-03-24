@@ -38,6 +38,11 @@ export const SidePopup: React.FC<{
   const find = selectedStack?.filter(
     (item: any) => item?.id === selectedStackBox?.id,
   );
+  window.onkeydown = function (event: any) {
+    if (event.key === 'Esc' || event.key === 'Escape') {
+      return onClose();
+    }
+  };
   console.log(find, selectedStackBox, selectedStack, 'findddd');
   return (
     <>
@@ -55,8 +60,14 @@ export const SidePopup: React.FC<{
 
         <Box className={styles.sidePopup}>
           <OutsideClickHandler onOutsideClick={onClose}>
-            <Box paddingVertical="lg" paddingHorizontal="xxxl">
-              <H3 style={{ color: '#443E99', fontWeight: 'bold' }}>
+            <Box paddingVertical="lg" paddingHorizontal="xxl">
+              <H3
+                style={{
+                  color: '#443E99',
+                  fontWeight: 'bold',
+                  marginLeft: '13px',
+                }}
+              >
                 Configurations
               </H3>
               {children}
@@ -68,9 +79,17 @@ export const SidePopup: React.FC<{
               className={styles.actionSection}
             >
               <FlexBox.Row justifyContent="space-between" alignItems="center">
-                <Box>
+                <Box paddingHorizontal="xxl">
                   <LinkBox onClick={onSeeExisting}>
-                    <Paragraph style={{ fontSize: '16px', textDecoration: 'underline', color: '#443E99' }}>See Component Page</Paragraph>
+                    <Paragraph
+                      style={{
+                        fontSize: '16px',
+                        textDecoration: 'underline',
+                        color: '#443E99',
+                      }}
+                    >
+                      See Component Page
+                    </Paragraph>
                   </LinkBox>
                 </Box>
 

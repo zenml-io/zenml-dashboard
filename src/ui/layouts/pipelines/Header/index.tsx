@@ -31,7 +31,7 @@ const DefaultHeader: React.FC<{
     </FlexBox>
     <FlexBox alignItems="center">
       <Paragraph
-        style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}
+        style={{ fontSize: '14px', lineHeight: '17px', color: '#828282', marginTop: '20px' }}
       >
         Check out our easy to read{' '}
         <a
@@ -48,11 +48,10 @@ const DefaultHeader: React.FC<{
 
 const HeaderWithButtons: React.FC<{
   breadcrumbs: TBreadcrumb[];
+  title?: string;
   renderRight?: () => JSX.Element;
-}> = ({ breadcrumbs, renderRight }) => (
+}> = ({ breadcrumbs, renderRight, title }) => (
   <FlexBox
-    marginTop="xl"
-    // marginBottom="lg"
     alignItems="center"
     justifyContent="space-between"
     className={styles.header}
@@ -66,7 +65,7 @@ const HeaderWithButtons: React.FC<{
           color: '#424240',
         }}
       >
-        {breadcrumbs[0]?.name}
+        {title}
       </Paragraph>
     </FlexBox>
     <FlexBox
@@ -75,9 +74,9 @@ const HeaderWithButtons: React.FC<{
       justifyContent="flex-end"
       className={styles.rightWrapper}
     >
-      <Box marginRight="lg" className={styles.dynamicHeaderRight}>
+      <Box className={styles.dynamicHeaderRight}>
         <Paragraph
-          style={{ fontSize: '14px', lineHeight: '17px', color: '#828282' }}
+          style={{ fontSize: '14px', lineHeight: '17px', color: '#828282', marginTop: '20px' }}
         >
           Check out our easy to read{' '}
           <a

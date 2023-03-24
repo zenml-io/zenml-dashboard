@@ -29,24 +29,25 @@
 
 .selectedBoxCheckbox {
     height: 15px; 
-    width: 15px; 
-    accent-color: $primaryColor;  
+    width: 15px;
+    accent-color:green; 
     position: absolute; 
-    top: 5px
+    top: 5px;
 }
+
 
 .stackFooter {
     width: 100%;
-    height: 70px;
+    height: 74px;
     position: sticky;
     bottom: 0;
     background-color: #fff; 
-    background: #fff; 
+    background: #ffffff; 
     display: flex;
     justify-content: flex-end;
 }
 .stackFooterButton {
-    margin-top: 5px !important;
-    right: 2rem;
+
+    right: 3rem;
     margin-right: 45px,
 }
