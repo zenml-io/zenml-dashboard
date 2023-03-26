@@ -15,9 +15,14 @@
               "personalDetails": {
                 "text": "Personal Details"
               },
-
               "organizationSettings": {
                 "text": "Workspace Settings"
+              },
+              "starred": {
+                "text": "Starred"
+              },
+              "plugins": {
+                "text": "Plugins"
               }
             }
           },

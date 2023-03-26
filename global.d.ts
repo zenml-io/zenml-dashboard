@@ -193,6 +193,7 @@ interface TabPage {
   Component: React.FC;
   path: string;
   externalPath?: string;
+  locked?: boolean;
 }
 
 interface TBilling {

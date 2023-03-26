@@ -21,6 +21,7 @@ type InternalTabPage = {
   text: string;
   Component: React.FC;
   path: string;
+  locked: boolean;
 };
 
 type ExternalTabPage = {
@@ -35,22 +36,25 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
   basePath,
 }) => {
   const locationPath = useLocationPath();
-  const pages = plainPages.map((p): ProcessedTabPage => {
-    if ('externalPath' in p && p.externalPath) {
-      return {
-        internal: false,
-        text: p.text,
-        externalPath: p.externalPath,
-      };
-    }
+  const pages = plainPages.map(
+    (p): ProcessedTabPage => {
+      if ('externalPath' in p && p.externalPath) {
+        return {
+          internal: false,
+          text: p.text,
+          externalPath: p.externalPath,
+        };
+      }
 
-    return {
-      internal: true,
-      text: p.text,
-      Component: p.Component,
-      path: p.path,
-    };
-  });
+      return {
+        internal: true,
+        text: p.text,
+        Component: p.Component,
+        path: p.path,
+        locked: !!p.locked,
+      };
+    },
+  );
   const isInternal = (p: ProcessedTabPage): p is InternalTabPage => p.internal;
   const firstInternalPage = pages.filter(isInternal)[0];
 
@@ -73,6 +77,14 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
 
               const Text = (
                 <FlexBox alignItems="start">
+                  {page.internal && page.locked && (
+                    <icons.lock
+                      color={iconColors.grey}
+                      size="sml"
+                      style={{ marginRight: '6px' }}
+                    />
+                  )}
+
                   <Truncate maxLines={1}>
                     <Paragraph color={isActive ? 'primary' : 'grey'}>
                       {page.text}
@@ -99,7 +111,11 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                     isActive ? styles.activeItem : '',
                   )}
                 >
-                  {page.internal ? (
+                  {page.internal && page.locked ? (
+                    <Box className={styles.link} style={{ cursor: 'default' }}>
+                      {Text}
+                    </Box>
+                  ) : page.internal ? (
                     <Link className={styles.link} to={page.path}>
                       {Text}
                     </Link>

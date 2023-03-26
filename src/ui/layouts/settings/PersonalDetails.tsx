@@ -24,6 +24,9 @@ import { getInitials } from '../../../utils/name';
 import axios from 'axios';
 import { ConnectHub } from './ConnectHub';
 
+// TODO:
+const hubIsConnected = false;
+
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
 export const PersonalDetails: React.FC = () => {
@@ -195,7 +198,7 @@ export const PersonalDetails: React.FC = () => {
             </Box>
           </Box>
 
-          <ConnectHub />
+          {!hubIsConnected && <ConnectHub />}
         </FlexBox>
 
         {passwordPopupOpen && (

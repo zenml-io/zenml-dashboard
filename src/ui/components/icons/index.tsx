@@ -54,6 +54,7 @@ import { ReactComponent as Cached } from './assets/Cached.svg';
 import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
 import { ReactComponent as Edit } from './assets/Edit.svg';
 import { ReactComponent as Search } from './assets/Search.svg';
+import { ReactComponent as Lock } from './assets/Lock.svg';
 import { ReactComponent as Logs } from './assets/Logs.svg';
 import { ReactComponent as PlusCircle } from './assets/PlusCircle.svg';
 import { ReactComponent as MinusCircle } from './assets/MinusCircle.svg';
@@ -113,36 +114,34 @@ interface Props {
   className?: string;
 }
 
-const createIcon =
-  ({
-    Component,
-    transform,
-    useStroke = false,
-  }: {
-    Component: any;
-    useStroke?: boolean;
-    transform?: any;
-  }) =>
-  ({ size, color, ...props }: Props & BoxProps) => {
-    return (
-      <Box {...props}>
-        <Component
-          {...props}
-          transform={transform}
-          style={{ transform }}
-          width={mapSizes[size || 'md']}
-          height={mapSizes[size || 'md']}
-          className={joinClassNames(
-            styles.svg,
-            styles[color || 'black'],
-            props.className,
-            useStroke && styles.useStroke,
-            !useStroke && styles.useFill,
-          )}
-        />
-      </Box>
-    );
-  };
+const createIcon = ({
+  Component,
+  transform,
+  useStroke = false,
+}: {
+  Component: any;
+  useStroke?: boolean;
+  transform?: any;
+}) => ({ size, color, ...props }: Props & BoxProps) => {
+  return (
+    <Box {...props}>
+      <Component
+        {...props}
+        transform={transform}
+        style={{ transform }}
+        width={mapSizes[size || 'md']}
+        height={mapSizes[size || 'md']}
+        className={joinClassNames(
+          styles.svg,
+          styles[color || 'black'],
+          props.className,
+          useStroke && styles.useStroke,
+          !useStroke && styles.useFill,
+        )}
+      />
+    </Box>
+  );
+};
 
 const icons = {
   arrowSquareOut: createIcon({ Component: ArrowSquareOut, useStroke: true }),
@@ -210,6 +209,7 @@ const icons = {
   run: createIcon({ Component: Run, useStroke: true }),
   info: createIcon({ Component: Info }),
   keyboardReturn: createIcon({ Component: KeyboardReturn }),
+  lock: createIcon({ Component: Lock }),
   logs: createIcon({ Component: Logs, useStroke: true }),
   config: createIcon({ Component: Config }),
   plusCircle: createIcon({ Component: PlusCircle, useStroke: true }),
