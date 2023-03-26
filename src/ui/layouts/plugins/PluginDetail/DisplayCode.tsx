@@ -1,12 +1,11 @@
 import React from 'react';
-import { useDispatch } from 'react-redux';
 
-import { iconColors, toasterTypes } from '../../../../constants';
-import { showToasterAction } from '../../../../redux/actions';
+import { iconColors } from '../../../../constants';
 import { Box, FlexBox, LinkBox, icons } from '../../../components';
+import { useToaster } from '../../../hooks';
 
 export const DisplayCode: React.FC<{ code: string }> = ({ code }) => {
-  const dispatch = useDispatch();
+  const { successToast } = useToaster();
 
   return (
     <FlexBox fullWidth style={{ position: 'relative' }}>
@@ -25,13 +24,7 @@ export const DisplayCode: React.FC<{ code: string }> = ({ code }) => {
       <LinkBox
         onClick={() => {
           navigator.clipboard.writeText(code);
-
-          dispatch(
-            showToasterAction({
-              description: 'Copied to clipboard.',
-              type: toasterTypes.success,
-            }),
-          );
+          successToast({ description: 'Copied to clipboard.' });
         }}
       >
         <Box

@@ -30,7 +30,9 @@ export const PrimaryButton: React.FC<
       <div className={styles.spinner}>
         <Spinner size="xs" color="white" />
       </div>
-    ) : (children)}
+    ) : (
+      children
+    )}
   </button>
 );
 

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 
 import {
@@ -11,24 +11,22 @@ import {
   Tag,
   LineChart,
   LinkBox,
+  PrimaryButton,
+  H3,
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
-import { useDispatch, useSelector } from '../../../hooks';
+import { useSelector, useToaster } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
-import {
-  DEFAULT_WORKSPACE_NAME,
-  iconColors,
-  toasterTypes,
-} from '../../../../constants';
+import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 import styles from './styles.module.scss';
 import ZenMLFavourite from './ZenML favourite.svg';
 import InstallDesignHeader from './InstallDesignHeader.svg';
-import { showToasterAction } from '../../../../redux/actions';
 import { Tabs } from '../../common/Tabs';
 import { DisplayMarkdown } from '../../../components/richText/DisplayMarkdown';
 import { DisplayCode } from './DisplayCode';
+import { Popup } from '../../common/Popup';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -120,7 +118,8 @@ With Flutter:`,
 const PluginDetail: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const dispatch = useDispatch();
+  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+  const { successToast } = useToaster();
 
   return (
     <AuthenticatedLayout
@@ -216,13 +215,25 @@ const PluginDetail: React.FC = () => {
                       label: 'Share',
                       icon: icons.share2,
                       color: iconColors.primary,
-                      onClick: () => alert('Not implemented yet'),
+                      onClick: () => {
+                        const canShare =
+                          'canShare' in navigator &&
+                          (navigator as any).canShare();
+                        if (canShare) {
+                          navigator.share({ url: window.location.href });
+                        } else {
+                          navigator.clipboard.writeText(window.location.href);
+                          successToast({
+                            description: 'Copied link to clipboard',
+                          });
+                        }
+                      },
                     },
                     {
                       label: 'Star',
                       icon: icons.starOutline,
                       color: iconColors.primary,
-                      onClick: () => alert('Not implemented yet'),
+                      onClick: () => alert('TODO: Not implemented yet'),
                     },
                     ...(data.isOwner
                       ? [
@@ -242,7 +253,7 @@ const PluginDetail: React.FC = () => {
                             label: 'Delete Package',
                             icon: icons.delete,
                             color: iconColors.red,
-                            onClick: () => alert('Not implemented yet'),
+                            onClick: () => setDeletePopupOpen(true),
                           },
                         ]
                       : [
@@ -254,9 +265,13 @@ const PluginDetail: React.FC = () => {
                           },
                         ]),
                   ].map((action) => (
-                    <FlexBox
-                      alignItems="center"
-                      marginRight="lg"
+                    <LinkBox
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        marginRight: '18px',
+                      }}
+                      onClick={action.onClick}
                       key={action.label}
                     >
                       <action.icon color={action.color} size="sml" />
@@ -268,11 +283,31 @@ const PluginDetail: React.FC = () => {
                       >
                         {action.label}
                       </Paragraph>
-                    </FlexBox>
+                    </LinkBox>
                   ))}
                 </FlexBox>
               </Box>
             </FlexBox>
+
+            {data.isOwner && deletePopupOpen && (
+              <Popup
+                onClose={() => {
+                  setDeletePopupOpen(false);
+                }}
+              >
+                <H3>Are you sure you want to delete this package?</H3>
+                <Paragraph>This cannot be undone.</Paragraph>
+
+                <Box marginTop="md">
+                  <PrimaryButton
+                    onClick={() => alert('TODO: not implemented yet')}
+                    style={{ backgroundColor: 'var(--red)' }}
+                  >
+                    Delete Package
+                  </PrimaryButton>
+                </Box>
+              </Popup>
+            )}
 
             <Tabs
               pages={[
@@ -443,13 +478,7 @@ const PluginDetail: React.FC = () => {
                   <LinkBox
                     onClick={() => {
                       navigator.clipboard.writeText(data.pipInstallCommand);
-
-                      dispatch(
-                        showToasterAction({
-                          description: 'Copied to clipboard.',
-                          type: toasterTypes.success,
-                        }),
-                      );
+                      successToast({ description: 'Copied to clipboard.' });
                     }}
                   >
                     <Box
