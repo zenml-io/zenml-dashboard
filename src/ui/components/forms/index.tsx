@@ -41,7 +41,7 @@ export const FormTextField = (props: {
   labelColor?: any;
   placeholder: string;
   value: string;
-  onChange?: any;
+  onChange?: (s: string) => void;
   error?: FieldError;
   disabled?: boolean;
   type?: string;

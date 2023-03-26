@@ -22,6 +22,7 @@ import jwt_decode from 'jwt-decode';
 import starsIcon from '../../assets/stars.svg';
 import { getInitials } from '../../../utils/name';
 import axios from 'axios';
+import { ConnectHub } from './ConnectHub';
 
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
@@ -86,6 +87,7 @@ export const PersonalDetails: React.FC = () => {
         style={{ marginLeft: '40px', width: '100%' }}
         justifyContent="space-between"
       >
+        {/* user details in left column */}
         <Box marginTop="lg" style={{ width: '25%' }}>
           <Box marginBottom="lg" className={styles.imageContainer}>
             <FlexBox
@@ -164,26 +166,37 @@ export const PersonalDetails: React.FC = () => {
           </Box>
         </Box>
 
-        <Box marginTop="xl" marginRight="xl">
-          <Box className={styles.appDetails}>
-            <Box>
-              <img src={starsIcon} alt="stars-icon" />
+        {/* right column */}
+        <FlexBox
+          flexDirection="column"
+          justifyContent="space-between"
+          marginTop="xl"
+          marginRight="xl"
+        >
+          {/* versions */}
+          <Box>
+            <Box className={styles.appDetails}>
+              <Box>
+                <img src={starsIcon} alt="stars-icon" />
+              </Box>
+              <Paragraph className={styles.appDetailsText}>
+                Open Source Version
+              </Paragraph>
             </Box>
-            <Paragraph className={styles.appDetailsText}>
-              Open Source Version
-            </Paragraph>
+            <Box>
+              <Paragraph className={styles.uiVersionText}>
+                UI Version v{version}
+              </Paragraph>
+            </Box>
+            <Box>
+              <Paragraph className={styles.appVersionText}>
+                ZenML v{version}
+              </Paragraph>
+            </Box>
           </Box>
-          <Box>
-            <Paragraph className={styles.uiVersionText}>
-              UI Version v{version}
-            </Paragraph>
-          </Box>
-          <Box>
-            <Paragraph className={styles.appVersionText}>
-              ZenML v{version}
-            </Paragraph>
-          </Box>
-        </Box>
+
+          <ConnectHub />
+        </FlexBox>
 
         {passwordPopupOpen && (
           <PasswordPopup

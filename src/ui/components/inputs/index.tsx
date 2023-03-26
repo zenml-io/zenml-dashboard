@@ -147,7 +147,7 @@ export const TextInput = ({
   onRemoveFocus,
   ...props
 }: {
-  onChangeText: any;
+  onChangeText?: (s: string) => void;
   value?: string;
   placeholder?: string;
   hasError?: boolean;
@@ -162,7 +162,7 @@ export const TextInput = ({
     inputRef={inputRef}
     hasError={hasError}
     onChange={(e: any): void => {
-      onChangeText(e.target.value);
+      onChangeText?.(e.target.value);
     }}
     value={value}
     onRemoveFocus={onRemoveFocus}
