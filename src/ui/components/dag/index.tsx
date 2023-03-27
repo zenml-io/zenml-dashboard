@@ -1,4 +1,4 @@
-import React,{useEffect} from 'react';
+import React, { useEffect } from 'react';
 import { useService } from './useService';
 import { LayoutFlow } from '../lineage';
 import { FullWidthSpinner } from '../spinners';
@@ -38,12 +38,9 @@ export const DAG: React.FC<{
       },
     );
 
-    // setMetaData(response?.data?.items); //Setting the response into state
-    console.log("__UNAUTH DAG ", metadata)
-    console.log("__UNAUTH graph ", graph)
   };
 
-  
+
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
@@ -51,7 +48,6 @@ export const DAG: React.FC<{
   return (
     <div style={styles.container}>
       <div style={styles.dag}>
-        {/* <Sidebar/> */}
         <LayoutFlow graph={graph} runId={runId} metadata={metadata} />
       </div>
     </div>

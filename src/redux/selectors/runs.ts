@@ -93,12 +93,7 @@ export const myRunsPaginated = (state?: State | null): any => {
 
   return paginated;
 };
-// export const setRunDetails = (state?: State | null): any => {
-//   if (!state) return {};
-//   // const paginated = getMyRunsPaginated(state);
-//   console.log('__UNAUTH SELECTOR 123', state)
-//   return "paginated";
-// };
+
 
 const runSelectors = {
   myRunsPaginated,

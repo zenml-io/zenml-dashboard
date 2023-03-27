@@ -187,7 +187,6 @@ export const AuthenticatedHeader: React.FC<{
         className={styles.header}
         id="header"
         >
-          {/* __UNAUTH */}
         {/* Muhammad Ali Zia */}
         <FlexBox alignItems="center">
           <Box className="d-md-none">

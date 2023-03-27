@@ -2,17 +2,34 @@
 import React, { useEffect, useRef, useState } from 'react';
 import JsonDisplay from '../JsonDisplay';
 import styles from './artifact.module.scss'
+import ArtifactVisualization from './ArtifactVisualization';
+// import Visualization from './Visualization';
 
 const stylesActive = {
-    opacity: 1, 
+    opacity: 1,
 }
 const stylesInActive = {
-    opacity: 0.5, 
+    opacity: 0.5,
 }
 
+const artifactTabs = [
+    {
+        title: "Meta",
+        case: "__META"
+    },
+    {
+        title: "Attributes",
+        case: "__ATTRIBUTE"
+    },
+    {
+        title: "Visualization",
+        case: "__VISUALIZATION"
+    },
+]
 
 
 const ArtifactTabHeader = ({ node }: { node: any }) => {
+    console.log({"__UNAUTH_ARTFACT_NODE": node})
     const [show, setShow] = useState("__META");
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(100);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
@@ -25,6 +42,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
         switch (tab) {
             case "__META": return setShow("__META");
             case "__ATTRIBUTE": return setShow("__ATTRIBUTE");
+            case "__VISUALIZATION": return setShow("__VISUALIZATION");
             default: return "";
         }
     }
@@ -52,7 +70,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
 
     return (
         <>
-            <div className='siderbar_header11' ref={parent}>
+            {/* <div className='siderbar_header11' ref={parent}>
                 <span
                     style={show === "__META" ? stylesActive : stylesInActive}
                     id={'1'}
@@ -71,6 +89,22 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
                         TabClickHandler("__ATTRIBUTE")
                     }}
                 >Attribute</span>
+            </div> */}
+            <div className='siderbar_header11' ref={parent}>
+                {artifactTabs.map((tab, i) => {
+                    return (
+                        <span
+                            style={show === tab.case ? stylesActive : stylesInActive}
+                            id={i.toString()}
+                            ref={(el) => divRefs.current[i+1] = el}
+                            onClick={() => {
+                                handleClick(i + 1)
+                                TabClickHandler(tab.case)
+                            }}
+                        >{tab.title}</span>
+                    )
+                })}
+
             </div>
             <div className={`${styles.underline}`} style={{ marginLeft: dynamicLeft, transition: 'all 300ms ease', width: dynamicWidth }}></div>
 
@@ -114,6 +148,11 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
                 </>
                 :
                 ""}
+            {
+                show == "__VISUALIZATION" ? 
+                <ArtifactVisualization artifact={""}/> 
+                : ""
+            }
         </>
     )
 }

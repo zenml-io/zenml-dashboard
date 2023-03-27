@@ -8,7 +8,6 @@ import { httpStatus } from '../../constants';
 import { actionTypesHandledByRequestSaga } from './actionTypesHandledByRequestSaga';
 
 const translate = getTranslateByScope('Authentication error');
-console.log("__UNAUTH")
 
 export const isRequestAction = (action: any): boolean => {
   return actionTypesHandledByRequestSaga.includes(action.type);
@@ -17,7 +16,6 @@ export const isRequestAction = (action: any): boolean => {
 const isUnauthenticatedError = (e: any, action: any) => {
   if (!e.response) return false;
 
-  // console.log("__UNAUTH")
   return (
     e.response.status === httpStatus.unauthorized &&
     action.payload.isAuthenticated
@@ -37,7 +35,6 @@ function* logoutAndNotifyUserThatSessionExpired(): any {
 }
 
 function* unprocessablEntity(): any {
-  console.log("__UNAUTH unprocessablEntity")
 
   yield put(
     showToasterAction({
@@ -48,8 +45,7 @@ function* unprocessablEntity(): any {
 }
 
 function* handleUnauthenticated(action: any): any {
-  
-  console.log("__UNAUTH handleUnauthenticated")
+
 
   yield put({
     type: action.payload.failureActionType,
@@ -59,7 +55,6 @@ function* handleUnauthenticated(action: any): any {
 }
 
 function* callFailureCallback(action: any): any {
-  console.log("__UNAUTH callFailureCallback")
 
   if (action.payload.onFailure) {
     yield call(action.payload.onFailure, action.payload.errorText);
@@ -68,7 +63,6 @@ function* callFailureCallback(action: any): any {
 
 function* callSuccessCallback(action: any, response: any): any {
 
-  console.log("__UNAUTH callSuccessCallback")
 
 
   if (action.payload.onSuccess) {
@@ -78,7 +72,6 @@ function* callSuccessCallback(action: any, response: any): any {
 
 export function* handleRequestSaga(action: any) {
 
-  console.log("__UNAUTH handleRequestSaga")
 
   try {
     const params = action.payload.params || {};
@@ -136,12 +129,22 @@ export function* handleRequestSaga(action: any) {
   }
 }
 
-export function* requestSaga() {
-  
-  console.log("__UNAUTH requestSaga")
+function* setRunDetails(action: any) {
+  console.log("__UNAUTH_SET_DETAIL", action)
+}
 
+
+export function* requestSaga() {
+
+
+  console.log("__UNAUTH_requestSaga")
   while (true) {
     const action = yield take(isRequestAction);
     yield fork(handleRequestSaga, action);
+    yield fork(setRunDetails, action);
   }
 }
+// export function* SetRunDetailSaga() {
+
+//  yield 
+// }

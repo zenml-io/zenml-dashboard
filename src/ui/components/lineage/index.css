@@ -1,20 +1,33 @@
 .layout {
-  /* overflow: hidden; */
+  overflow: hidden;
   display: grid;
-  grid-template-columns: 10fr 10fr;
+  grid-template-columns: 5fr 3fr;
   position: relative;
   /* margin-top: 2rem; */
+  /* background-color: #000000; */
 }
 
 .layoutflow {
   flex-grow: 1;
   position: relative;
-  height: 100vh;
-  width: 50vw;
+  height: 80vh;
+  /* width: 60vw; */
   background-color: rgb(255, 255, 255);
+  /* margin-right: 10px; */
   /* display: flex;
   justify-content: start;
   align-items: baseline; */
+}
+.react-flow__node {
+  margin: 0px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.react-flow__node[data-type="parentNode"] {
+  margin: 0px;
 }
 
 .controls {
