@@ -394,9 +394,24 @@ const routes = [
     },
     exact: true,
   },
-
   {
     path: routePaths.settings.organizationSettings,
+    Component: SettingsPage,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.settings.starredPlugins,
+    Component: SettingsPage,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.settings.myPlugins,
     Component: SettingsPage,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
