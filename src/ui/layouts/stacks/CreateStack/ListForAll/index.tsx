@@ -235,7 +235,7 @@ export const ListForAll: React.FC<Props> = () => {
             <Box style={{ width: '30%' }}>
               <FormTextField
                 autoFocus
-                required={'*'}
+                required={true}
                 onChange={(e: any) => {
                   setStackName(e);
                 }}

@@ -54,6 +54,7 @@ import { ReactComponent as Cached } from './assets/Cached.svg';
 import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
 import { ReactComponent as Edit } from './assets/Edit.svg';
 import { ReactComponent as Search } from './assets/Search.svg';
+import { ReactComponent as Link } from './assets/Link.svg';
 import { ReactComponent as Lock } from './assets/Lock.svg';
 import { ReactComponent as Logs } from './assets/Logs.svg';
 import { ReactComponent as PlusCircle } from './assets/PlusCircle.svg';
@@ -209,6 +210,7 @@ const icons = {
   run: createIcon({ Component: Run, useStroke: true }),
   info: createIcon({ Component: Info }),
   keyboardReturn: createIcon({ Component: KeyboardReturn }),
+  link: createIcon({ Component: Link, useStroke: true }),
   lock: createIcon({ Component: Lock }),
   logs: createIcon({ Component: Logs, useStroke: true }),
   config: createIcon({ Component: Config }),

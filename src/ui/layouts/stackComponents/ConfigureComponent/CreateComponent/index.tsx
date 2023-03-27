@@ -486,7 +486,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
             onChange={(e: any) => {
               setComponentName(e);
             }}
-            required={'*'}
+            required={true}
             placeholder="Component Name"
             label={'Component Name'}
             value={componentName}

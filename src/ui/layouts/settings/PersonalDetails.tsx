@@ -5,16 +5,16 @@ import {
   FlexBox,
   EditFieldSettings,
   Paragraph,
+  icons,
   // ColoredCircle
 } from '../../components';
-// import { icons } from '../../components';
-// import { iconColors, iconSizes } from '../../../constants';
+import { iconColors, iconSizes } from '../../../constants';
 import { useRequestOnMount, useSelector } from '../../hooks';
 import { userActions } from '../../../redux/actions';
 
 import { sessionSelectors, userSelectors } from '../../../redux/selectors';
 import { getTranslateByScope } from '../../../services';
-import { PrimaryButton } from '../../components/buttons/index';
+import { GhostButton } from '../../components/buttons/index';
 import { EmailPopup } from './EmailPopup';
 import { PasswordPopup } from './PasswordPopup';
 import { formatDateToDisplay } from '../../../utils';
@@ -23,6 +23,7 @@ import starsIcon from '../../assets/stars.svg';
 import { getInitials } from '../../../utils/name';
 import axios from 'axios';
 import { ConnectHub } from './ConnectHub';
+import GitHubLogo from '../../assets/GitHub_Logo.png';
 
 // TODO:
 const hubIsConnected = false;
@@ -32,13 +33,15 @@ export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 export const PersonalDetails: React.FC = () => {
   useRequestOnMount(userActions.getMy, {});
   const user = useSelector(userSelectors.myUser);
-  const userFullName = user?.fullName || user?.fullName || user?.name;
+  const userFullName = user?.fullName || user?.name;
   const userInitials = getInitials(userFullName as string);
 
   const [popupOpen, setPopupOpen] = useState(false);
   const [passwordPopupOpen, setPasswordPopupOpen] = useState(false);
-  const [fullName, setFullName] = useState(user?.fullName);
-  const [username, setUsername] = useState(user?.name);
+  const [fullName, setFullName] = useState(userFullName ?? '');
+  const [username, setUsername] = useState(user?.name ?? '');
+  const [website, setWebsite] = useState(user?.website ?? '');
+  const [bio, setBio] = useState(user?.bio ?? '');
   const [version, setVersion] = useState('');
   const [popupType, setPopupType] = useState('');
   // const [selectedImage, setSelectedImage] = useState<any>(userImage);
@@ -91,18 +94,17 @@ export const PersonalDetails: React.FC = () => {
         justifyContent="space-between"
       >
         {/* user details in left column */}
-        <Box marginTop="lg" style={{ width: '25%' }}>
-          <Box marginBottom="lg" className={styles.imageContainer}>
-            <FlexBox
-              justifyContent="center"
-              alignItems="center"
-              className={styles.sampleImage}
-            >
-              {userInitials}
-            </FlexBox>
+        <Box marginVertical="lg" className={styles.imageContainer}>
+          <FlexBox
+            justifyContent="center"
+            alignItems="center"
+            className={styles.sampleImage}
+          >
+            {userInitials}
+          </FlexBox>
 
-            {/* <img src={selectedImage} alt='userImage' /> */}
-            {/* <div className={styles.imageUploader}>
+          {/* <img src={selectedImage} alt='userImage' /> */}
+          {/* <div className={styles.imageUploader}>
                   <label className={styles.custom_file_upload}>
                     <input
                       type="file"
@@ -114,17 +116,43 @@ export const PersonalDetails: React.FC = () => {
                     <icons.share size={iconSizes.lg} color={iconColors.grey} style={{ cursor: 'pointer' }}  />
                   </label>
                 </div> */}
+
+          <Box marginTop="lg">
+            <Paragraph
+              style={{ fontSize: '20px', fontWeight: 600, color: '#24292F' }}
+            >
+              {user?.fullName}
+            </Paragraph>
           </Box>
 
+          {website && (
+            <FlexBox marginTop="md" alignItems="center">
+              <icons.link color={iconColors.darkGrey} size={iconSizes.sm} />
+
+              <a
+                href={
+                  // links need to be prefixed with the protocol or they'll be relative to the current site
+                  website.startsWith('http') ? website : `//${website}`
+                }
+                style={{ marginLeft: '6px' }}
+              >
+                <Paragraph size="small" style={{ color: '#24292F' }}>
+                  {website}
+                </Paragraph>
+              </a>
+            </FlexBox>
+          )}
+        </Box>
+
+        <Box style={{ flexGrow: 1 }} marginHorizontal="xl2">
           <Box marginTop="lg">
             <EditFieldSettings
               disabled={!decoded.permissions.includes('me')}
               label={translate('form.fullName.label')}
               labelColor="#828282"
-              defaultValue={user?.fullName}
               placeholder={translate('form.fullName.placeholder')}
-              value={fullName ? fullName : ''}
-              onChangeText={(val: string) => setFullName(val)}
+              value={fullName ?? ''}
+              onChangeText={setFullName}
               onKeyDown={(e: any) => handlePopup(e, 'full Name')}
             />
           </Box>
@@ -134,11 +162,34 @@ export const PersonalDetails: React.FC = () => {
               disabled={!decoded.permissions.includes('me')}
               label={translate('form.username.label')}
               labelColor="#828282"
-              defaultValue={user.name}
               placeholder={translate('form.username.placeholder')}
-              value={username ? username : ''}
-              onChangeText={(val: string) => setUsername(val)}
+              value={username ?? ''}
+              onChangeText={setUsername}
               onKeyDown={(e: any) => handlePopup(e, 'Username')}
+            />
+          </Box>
+
+          <Box marginTop="lg">
+            <EditFieldSettings
+              disabled={!decoded.permissions.includes('me')}
+              label="Website"
+              labelColor="#828282"
+              placeholder="Website"
+              value={website}
+              onChangeText={setWebsite}
+              optional={true}
+            />
+          </Box>
+
+          <Box marginTop="lg">
+            <EditFieldSettings
+              disabled={!decoded.permissions.includes('me')}
+              label="Bio"
+              labelColor="#828282"
+              placeholder="Bio"
+              value={bio}
+              onChangeText={setBio}
+              type="textarea"
             />
           </Box>
 
@@ -154,16 +205,16 @@ export const PersonalDetails: React.FC = () => {
           </Box>
 
           <Box marginTop="lg">
-            <Paragraph style={{ color: '#828282' }}>Acivated</Paragraph>
+            <Paragraph style={{ color: '#828282' }}>Created</Paragraph>
             <div className={styles.date}>
               {formatDateToDisplay(user.created)}
             </div>
           </Box>
 
           <Box marginTop="xxxl" style={{ display: 'flex' }}>
-            <PrimaryButton onClick={() => setPasswordPopupOpen(true)}>
+            <GhostButton onClick={() => setPasswordPopupOpen(true)}>
               Update Password
-            </PrimaryButton>
+            </GhostButton>
 
             {/* {fullName !== user.fullName && username !== user.name || !decoded.permissions.includes('me') && */}
           </Box>
@@ -198,7 +249,16 @@ export const PersonalDetails: React.FC = () => {
             </Box>
           </Box>
 
-          {!hubIsConnected && <ConnectHub />}
+          {hubIsConnected ? (
+            <FlexBox flexDirection="column" alignItems="end">
+              <Paragraph>Connected Hub via</Paragraph>
+              <Box style={{ marginLeft: 'auto' }}>
+                <img src={GitHubLogo} alt="GitHub" width="100px" />
+              </Box>
+            </FlexBox>
+          ) : (
+            <ConnectHub />
+          )}
         </FlexBox>
 
         {passwordPopupOpen && (

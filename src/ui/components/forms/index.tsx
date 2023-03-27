@@ -3,6 +3,7 @@ import {
   FlexBox,
   InputWithLabel,
   TextInput,
+  TextAreaInput,
   If,
   Paragraph,
   PasswordInput,
@@ -45,14 +46,16 @@ export const FormTextField = (props: {
   error?: FieldError;
   disabled?: boolean;
   type?: string;
-  required?: string;
+  optional?: boolean;
+  required?: boolean;
   name?: string;
   style?: any;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <FlexBox alignItems="center" fullWidth>
       <InputWithLabel
-        optional={props.required}
+        optional={props.optional}
+        required={props.required}
         name={props.name}
         label={props.label}
         labelColor={props.labelColor}
@@ -235,10 +238,12 @@ export const EditFieldSettings = (
     inputRef: any;
     label: string;
     labelColor: any;
-    placeholder: any;
+    placeholder: string;
     value: string;
     defaultValue?: string;
     optional: boolean;
+    required: boolean;
+    type: 'input' | 'textarea';
   } & any,
 ): JSX.Element => {
   const [disabled, setDisabled] = useState(true);
@@ -249,6 +254,8 @@ export const EditFieldSettings = (
     }
   }, [disabled]);
 
+  const InputComponent = props.type === 'textarea' ? TextAreaInput : TextInput;
+
   return (
     <FlexBox.Column fullWidth>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
@@ -257,9 +264,10 @@ export const EditFieldSettings = (
           name={props.name}
           label={props.label}
           optional={props.optional}
+          required={props.required}
           labelColor={props.labelColor}
           InputComponent={
-            <TextInput
+            <InputComponent
               {...props}
               inputRef={inputRef}
               defaultValue={props?.defaultValue}

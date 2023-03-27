@@ -13,13 +13,15 @@ export const InputWithLabel = ({
   name,
   labelColor,
   optional,
+  required,
   helperText = label,
 }: {
   InputComponent: JSX.Element;
   label: string;
   name?: any;
   labelColor?: any;
-  optional?: string;
+  optional?: boolean;
+  required?: boolean;
   helperText?: string;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
@@ -30,7 +32,14 @@ export const InputWithLabel = ({
       >
         <label htmlFor={name} style={{ display: 'flex', flexDirection: 'row' }}>
           {label}
-          {optional && <span style={{ color: 'red' }}>{optional}</span>}
+          {optional && (
+            <span style={{ color: '#C8C8C8', marginLeft: '4px' }}>
+              (Optional)
+            </span>
+          )}
+          {required && (
+            <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+          )}
           {helperText && (
             <span style={{ marginLeft: '8px' }}>
               <icons.info
