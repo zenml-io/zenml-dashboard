@@ -22,9 +22,9 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return (
-    <FlexBox alignItems="center" style={{ marginLeft: '30%' }}>
+    <FlexBox alignItems="center" justifyContent='center' style={{ marginLeft: '-16px' }}>
       {lastThreeRuns.map((item: any, index: number) => (
-        <Box key={index} paddingHorizontal="xs">
+        <Box key={index} >
           <>
             <FlexBox alignItems="center">
               <div data-tip data-for={item.status}>
@@ -56,7 +56,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                 <Paragraph color="white">{item.status}</Paragraph>
               </ReactTooltip>
             </FlexBox>
-
+       
             <FlexBox alignItems="center">
               <div data-tip data-for={item.status}>
                 <If condition={item.status === runStatus.RUNNING}>
