@@ -57,9 +57,10 @@ export const InputWithLabel = ({
 );
 
 export const BaseInput = ({
-  onChange,
-  inputRef,
   value,
+  onChange,
+  defaultValue,
+  inputRef,
   placeholder,
   type,
   hasError,
@@ -68,8 +69,9 @@ export const BaseInput = ({
   onRemoveFocus,
   ...props
 }: {
-  onChange: any;
   value?: string;
+  onChange: (e: any) => void;
+  defaultValue?: string;
   inputRef?: any;
   placeholder?: string;
   type: string;
@@ -84,6 +86,7 @@ export const BaseInput = ({
     onChange={onChange}
     onBlur={onRemoveFocus}
     value={value}
+    defaultValue={defaultValue}
     placeholder={placeholder}
     className={cn(styles.input, hasError ? styles.error : null, className)}
     type={type}
@@ -146,8 +149,9 @@ export const EmailInput = ({
 );
 
 export const TextInput = ({
-  onChangeText,
   value,
+  onChangeText,
+  defaultValue,
   inputRef,
   placeholder,
   hasError,
@@ -156,8 +160,9 @@ export const TextInput = ({
   onRemoveFocus,
   ...props
 }: {
-  onChangeText?: (s: string) => void;
   value?: string;
+  onChangeText?: (s: string) => void;
+  defaultValue?: string;
   placeholder?: string;
   hasError?: boolean;
   type?: string;
@@ -174,6 +179,7 @@ export const TextInput = ({
       onChangeText?.(e.target.value);
     }}
     value={value}
+    defaultValue={defaultValue}
     onRemoveFocus={onRemoveFocus}
     placeholder={placeholder}
     type={type}

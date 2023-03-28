@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
+
 import {
   Box,
   FlexBox,
@@ -18,27 +20,28 @@ import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 import styles from './styles.module.scss';
+import { HUB_API_URL } from '../../../../api/constants';
+import { debounce, memoisePromiseFn } from '../../../../utils/memo';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
-const data = [
-  {
-    id: 'unique-id',
-    name: 'Barish Borchestrator',
-    description:
-      'Scalable, secure, and reliable cloud infrastructure for modern....',
-    upvotes: '10M+',
-    downloads: '10K+',
-    popularity: '99%',
-  },
-];
+const getData = memoisePromiseFn(async (searchQuery: string) => {
+  const search = searchQuery ? `&name_contains=${searchQuery}` : '';
+  return (await axios.get(`${HUB_API_URL}/plugins?only_latest=true${search}`))
+    .data as TPlugin[];
+});
 
 const ListPlugins: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
+  const [plugins, setPlugins] = useState([] as TPlugin[]);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterQuery, setFilterQuery] = useState('');
+
+  useEffect(() => {
+    getData(searchQuery).then(setPlugins);
+  }, [searchQuery]);
 
   return (
     <AuthenticatedLayout
@@ -64,8 +67,8 @@ const ListPlugins: React.FC = () => {
           <FlexBox fullWidth marginRight="md">
             <IconInputField
               placeholder="Search"
-              value={searchQuery}
-              onChange={setSearchQuery}
+              defaultValue={searchQuery}
+              onChange={debounce(setSearchQuery, 400)}
             />
           </FlexBox>
           <IconInputField
@@ -79,7 +82,7 @@ const ListPlugins: React.FC = () => {
 
         {/* list plugins */}
         <FlexBox flexWrap={true} padding="lg">
-          {data.map((p) => (
+          {plugins.map((p) => (
             <LinkBox
               key={p.id}
               style={{
@@ -88,6 +91,7 @@ const ListPlugins: React.FC = () => {
                 width: '290px',
                 boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
                 borderRadius: '4px',
+                margin: '0 16px 16px 0',
               }}
               onClick={() =>
                 history.push(
@@ -127,7 +131,8 @@ const ListPlugins: React.FC = () => {
               <FlexBox justifyContent="space-between">
                 <Box>
                   <Paragraph className={styles.pluginMetric}>
-                    {p.upvotes}
+                    10M+
+                    {/* {p.upvotes} */}
                   </Paragraph>
                   <Paragraph className={styles.pluginMetricText}>
                     Upvotes
@@ -135,7 +140,8 @@ const ListPlugins: React.FC = () => {
                 </Box>
                 <Box>
                   <Paragraph className={styles.pluginMetric}>
-                    {p.downloads}
+                    10K+
+                    {/* {p.downloads} */}
                   </Paragraph>
                   <Paragraph className={styles.pluginMetricText}>
                     Downloads
@@ -143,7 +149,8 @@ const ListPlugins: React.FC = () => {
                 </Box>
                 <Box>
                   <Paragraph className={styles.pluginMetric}>
-                    {p.popularity}
+                    99%
+                    {/* {p.popularity} */}
                   </Paragraph>
                   <Paragraph className={styles.pluginMetricText}>
                     Popularity

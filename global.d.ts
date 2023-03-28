@@ -247,3 +247,12 @@ interface TInvoice {
 }
 
 type TInvoiceStatus = 'draft' | 'open' | 'paid' | 'uncollectible';
+
+interface TPlugin {
+  id: TId;
+  name: name;
+  description?: string;
+  upvotes: string;
+  downloads: string;
+  popularity: string;
+}

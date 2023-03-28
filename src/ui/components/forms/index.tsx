@@ -309,6 +309,7 @@ export const EditFieldSettings = (
 
 export const IconInputField = ({
   value,
+  defaultValue,
   onChange,
   placeholder,
   clearable = true,
@@ -316,7 +317,8 @@ export const IconInputField = ({
   iconName = 'search',
   iconColor = iconColors.grey,
 }: {
-  value: string;
+  value?: string;
+  defaultValue?: string;
   onChange: (s: string) => void;
   placeholder?: string;
   clearable?: boolean;
@@ -343,11 +345,12 @@ export const IconInputField = ({
         }}
         value={value}
         onChangeText={onChange}
+        defaultValue={defaultValue}
         placeholder={placeholder}
       />
 
       {/* clear */}
-      {clearable && value?.length > 0 && (
+      {clearable && value && value.length > 0 && (
         <Box style={{ position: 'absolute', right: '7px', top: '8px' }}>
           <icons.close color={iconColors.grey} />
         </Box>
