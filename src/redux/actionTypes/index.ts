@@ -13,6 +13,8 @@ export * from './runPages';
 export * from './roles';
 export * from './pipelinePages';
 export * from './stackPages';
+export * from './secretPages';
+export * from './secrets';
 export * from './stackComponentPages';
 export * from './flavors';
 export * from './flavorsPages';

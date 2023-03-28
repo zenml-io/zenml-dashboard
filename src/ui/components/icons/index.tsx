@@ -50,6 +50,7 @@ import { ReactComponent as PlusCircle } from './assets/PlusCircle.svg';
 import { ReactComponent as MinusCircle } from './assets/MinusCircle.svg';
 import { ReactComponent as Config } from './assets/Config.svg';
 import { ReactComponent as Failed } from './assets/Failed.svg';
+import { ReactComponent as Lock } from './assets/Lock.svg';
 //icons for stackComponents
 // import { ReactComponent as PuzzlePiece } from './assets/PuzzlePiece.svg';
 import { ReactComponent as Folders } from './assets/Folders.svg';
@@ -176,6 +177,7 @@ const icons = {
   example: createIcon({ Component: Example, useStroke: true }),
   pipeline: createIcon({ Component: Pipeline, useStroke: true }),
   stack: createIcon({ Component: Stack, useStroke: true }),
+  lock: createIcon({ Component: Lock, useStroke: true }),
   stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
   funnelFill: createIcon({ Component: FunnelFill }),
   delete: createIcon({ Component: Delete }),

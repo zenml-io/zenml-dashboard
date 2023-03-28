@@ -12,6 +12,8 @@ import runsReducer from './reducers/runsReducer';
 import pipelinePagesReducer from './reducers/pipelinePagesReducer';
 import runPagesReducer from './reducers/runPagesReducer';
 import stackPagesReducer from './reducers/stackPagesReducer';
+import secretsReducer from './reducers/secretsReducer';
+import secretPagesReducer from './reducers/secretPagesReducer';
 
 jest.mock('redux', () => ({
   combineReducers: (reducerObject: any): any => reducerObject,
@@ -31,6 +33,8 @@ describe('expect to map keys', () => {
   expectToMap('organizations', organizationsReducer);
   expectToMap('pipelines', pipelinesReducer);
   expectToMap('stacks', stacksReducer);
+  expectToMap('secrets', secretsReducer);
+  expectToMap('secretPages', secretPagesReducer);
   expectToMap('stackComponents', stackComponentReducer);
   expectToMap('runs', runsReducer);
   expectToMap('run', runPagesReducer);

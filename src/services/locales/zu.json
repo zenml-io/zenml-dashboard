@@ -308,6 +308,9 @@
               "stackComponents": {
                 "text": "Components"
               },
+              "secrets": {
+                "text": "Secrets"
+              },
               "setting": {
                 "text": "Settings"
               }
@@ -531,6 +534,32 @@
               "text": "No runs."
             }
           },
+          "Secrets": {
+            "header": {
+              "breadcrumbs": {
+                "dashBoard": {
+                  "text": "Dashboard"
+                },
+                "stacks": {
+                  "text": "Stacks"
+                }
+              }
+            },
+            "tabs": {
+              "stacks": {
+                "text": "Secrets"
+              },
+              "allRuns": {
+                "text": " Runs"
+              }
+            },
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            },
+            "runsEmptyState": {
+              "text": "No runs."
+            }
+          },
           "AllRuns": {
             "emptyState": {
               "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
@@ -550,6 +579,34 @@
               },
               "runs": {
                 "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "No runs."
+            },
+            "configuration": {
+              "title": {
+                "text": "YAML Configuration"
+              },
+              "button": {
+                "text": "Download"
+              }
+            }
+          },
+          "SecretDetail": {
+            "header": {
+              "breadcrumbs": {
+                "secrets": {
+                  "text": "Secrets"
+                }
+              }
+            },
+            "tabs": {
+              "configuration": {
+                "text": "Configuration"
+              },
+              "metaData": {
+                "text": "Metadata"
               }
             },
             "emptyState": {

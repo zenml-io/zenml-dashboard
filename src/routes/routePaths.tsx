@@ -79,6 +79,19 @@ export const routePaths = {
     createStack: (workspace: string): string =>
       `/workspaces/${workspace}/create-stack/all-component`,
   },
+  secrets: {
+    base: '/secrets',
+    list: (workspace: string): string =>
+      `/workspaces/${workspace}/secrets/list`,
+    // allRuns: '/secrets/all-runs',
+    RegisterSecrets: (workspace: string): string =>
+      `/workspaces/${workspace}/register-secret`,
+  },
+  secret: {
+    base: (id: TId): string => `/secrets/${id}`,
+    configuration: (id: TId, workspace: string): string =>
+      `/workspaces/${workspace}/secrets/${id}/configuration`,
+  },
   stack: {
     base: (id: TId): string => `/stacks/${id}`,
     configuration: (id: TId, workspace: string): string =>
