@@ -16,6 +16,8 @@ export interface State {
   myRunIds: TId[];
   graphForRunId: any;
   paginated: any;
+  artifactData:any
+  stepData:any
 }
 
 type PipelinesPayload = {
@@ -52,6 +54,8 @@ export const initialState: State = {
   myRunIds: [],
   graphForRunId: {},
   paginated: {},
+  artifactData:{},
+  stepData:{}
 };
 
 const newState = (state: State, runs: TRun[], pagination?: any): State => ({
@@ -69,27 +73,44 @@ const newStateForGraph = (state: State, graph: any): State => ({
   ...state,
   graphForRunId: graph,
 });
+const newArtifactState = (state: State, artifactData?: any): State => ({
+  ...state,
+  artifactData: artifactData,
+});
+const newStepState = (state: State, stepData?: any): State => ({
+  ...state,
+  stepData: stepData,
+});
 
 const runsReducer = (state: State = initialState, action: Action): State => {
-  console.log("__UNAUTH_RUN_REDUCER", action)
+  console.log("__UNAUTH_RUN_REDUCER", action.type)
+  // console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER")
   switch (action.type) {
-    case runActionTypes.setRunsDetails.success: {
-      
-      const payload = action.payload.items;
-      console.log("__UNAUTH_REDUCER", action.payload)
-      console.log("__UNAUTH_REDUCER", payload)
-      return { ...newState(state, action.payload) };
-      
+
+    case runActionTypes.getArtifact.success:{
+      console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER", action.payload)
+      console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER", state)
+      const artifact = action.payload
+        return { ...newArtifactState(state, artifact)};
     }
+
+    case runActionTypes.getStep.success:{
+      console.log("__UNAUTH_THIS_IS_STEP_REDUCER", action.payload)
+      console.log("__UNAUTH_THIS_IS_STEP_REDUCER", state)
+      const step = action.payload
+        return { ...newStepState(state, step)};
+    }
+    
     case runActionTypes.getAllRuns.success: {
       const payload = action.payload.items;
-
+      
       let allRuns: TRun[] = payload;
-
+      
       const runs: TRun[] = camelCaseArray(allRuns);
-
+      
       const myRunIds: TId[] = runs.map((run: TRun) => run.id);
-
+      
+      console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER 11", allRuns)
       return { ...newState(state, runs, action.payload), myRunIds };
     }
 

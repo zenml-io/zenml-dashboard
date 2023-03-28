@@ -45,7 +45,7 @@ export const fetchApiWithAuthRequest = ({
   headers?: any;
 }): Promise<any> => {
   const CancelToken = axios.CancelToken;
-
+  console.log("__UNAUTH_AUTH_API: ",url)
   return axios({
     method: method || httpMethods.get,
     url,

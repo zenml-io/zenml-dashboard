@@ -129,9 +129,9 @@ export function* handleRequestSaga(action: any) {
   }
 }
 
-function* setRunDetails(action: any) {
-  console.log("__UNAUTH_SET_DETAIL", action)
-}
+// function* setRunDetails(action: any) {
+//   console.log("__UNAUTH_SET_DETAIL", action)
+// }
 
 
 export function* requestSaga() {
@@ -141,7 +141,7 @@ export function* requestSaga() {
   while (true) {
     const action = yield take(isRequestAction);
     yield fork(handleRequestSaga, action);
-    yield fork(setRunDetails, action);
+    // yield fork(setRunDetails, action);
   }
 }
 // export function* SetRunDetailSaga() {

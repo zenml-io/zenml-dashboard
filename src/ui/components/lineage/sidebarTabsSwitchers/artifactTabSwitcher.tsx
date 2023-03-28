@@ -1,8 +1,8 @@
 // import { PaymentRequestButtonElement } from '@stripe/react-stripe-js';
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
 import JsonDisplay from '../JsonDisplay';
 import styles from './artifact.module.scss'
-import ArtifactVisualization from './ArtifactVisualization';
+// import ArtifactVisualization from './ArtifactVisualization';
 // import Visualization from './Visualization';
 
 const stylesActive = {
@@ -25,11 +25,13 @@ const artifactTabs = [
         title: "Visualization",
         case: "__VISUALIZATION"
     },
+
 ]
 
+const ArtifactVisualization = lazy(() => import('./ArtifactVisualization'));
 
 const ArtifactTabHeader = ({ node }: { node: any }) => {
-    console.log({"__UNAUTH_ARTFACT_NODE": node})
+    console.log({ "__UNAUTH_ARTFACT_NODE": node })
     const [show, setShow] = useState("__META");
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(100);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
@@ -61,42 +63,18 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
         console.log(`Clicked on div ${divId}`);
         setDynamicLeft(divRefs.current[divId]?.offsetLeft);
         setDynamicWidth(divRefs.current[divId]?.offsetWidth);
-        // const spanWidth = divRefs.current[divId]?.offsetWidth;
-        // console.log('Clicked on div left', divRefs.current[divId]?.offsetLeft);
-        // console.log('Clicked on div width', divRefs.current[divId]?.offsetWidth);
-        // console.log("_______ABC", spanWidth)
-        // console.log("_______ABC",styles)
+
     };
 
     return (
         <>
-            {/* <div className='siderbar_header11' ref={parent}>
-                <span
-                    style={show === "__META" ? stylesActive : stylesInActive}
-                    id={'1'}
-                    ref={(el) => divRefs.current[1] = el}
-                    onClick={() => {
-                        handleClick(1)
-                        TabClickHandler("__META")
-                    }}
-                >Meta-data</span>
-                <span
-                    style={show === "__ATTRIBUTE" ? stylesActive : stylesInActive}
-                    id='2'
-                    ref={(el) => divRefs.current[2] = el}
-                    onClick={() => {
-                        handleClick(2)
-                        TabClickHandler("__ATTRIBUTE")
-                    }}
-                >Attribute</span>
-            </div> */}
             <div className='siderbar_header11' ref={parent}>
                 {artifactTabs.map((tab, i) => {
                     return (
                         <span
                             style={show === tab.case ? stylesActive : stylesInActive}
                             id={i.toString()}
-                            ref={(el) => divRefs.current[i+1] = el}
+                            ref={(el) => divRefs.current[i + 1] = el}
                             onClick={() => {
                                 handleClick(i + 1)
                                 TabClickHandler(tab.case)
@@ -149,9 +127,12 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
                 :
                 ""}
             {
-                show == "__VISUALIZATION" ? 
-                <ArtifactVisualization artifact={""}/> 
-                : ""
+                show == "__VISUALIZATION" ?
+                    <Suspense fallback={<div>please wait ....</div>}>
+
+                        <ArtifactVisualization artifactId={node.id} />
+                    </Suspense>
+                    : ""
             }
         </>
     )

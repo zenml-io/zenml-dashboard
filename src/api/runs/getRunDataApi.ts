@@ -1,0 +1,23 @@
+import { fetchApiWithAuthRequest } from '../fetchApi';
+import { endpoints } from '../endpoints';
+import { httpMethods } from '../constants';
+import { apiUrl } from '../apiUrl';
+
+const getArtifactDataApi = async ({
+    authenticationToken,
+    exe_id,
+}: {
+    authenticationToken: string;
+    exe_id: any;
+}): Promise<TOrganization> => {
+    console.log("__UNAUTH_AUTH_TOKEN_1: ",authenticationToken)
+    console.log("__UNAUTH_AUTH_TOKEN_1: ",exe_id)
+    return fetchApiWithAuthRequest({
+        url: apiUrl(endpoints.runs.artifact.get(exe_id)),
+        method: httpMethods.get,
+        authenticationToken,
+    });
+
+}
+
+export default getArtifactDataApi;

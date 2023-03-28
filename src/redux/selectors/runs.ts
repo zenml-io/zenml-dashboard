@@ -23,6 +23,12 @@ const getByStackId = (state: State): Record<TId, TId[]> =>
 const getMyRunsPaginated = (state: State): any =>
   _.get(stateKey(state), 'paginated');
 
+const getMyArtifactData = (state: State): any =>
+  _.get(stateKey(state), 'artifactData');
+
+const getMyStepData = (state: State): any =>
+  _.get(stateKey(state), 'stepData');
+
 export const myRuns = (state?: State | null): TRun[] => {
   if (!state) return [];
   const myRunIds = getMyRunIds(state);
@@ -93,6 +99,18 @@ export const myRunsPaginated = (state?: State | null): any => {
 
   return paginated;
 };
+export const artifactData = (state?: State | null): any => {
+  console.log("THIS_IS_STATE",state)
+  if (!state) return {};
+  const artifact = getMyArtifactData(state);
+  return artifact;
+};
+export const stepData = (state?: State | null): any => {
+  console.log("THIS_IS_STATE",state)
+  if (!state) return {};
+  const step = getMyStepData(state);
+  return step;
+};
 
 
 const runSelectors = {
@@ -104,6 +122,8 @@ const runSelectors = {
   runForId,
   graphByRunId,
   forRunIds,
+  artifactData,
+  stepData
   // setRunDetails,
 };
 

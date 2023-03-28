@@ -1,7 +1,11 @@
 // import React, { useEffect, useRef, useState } from 'react';
 import React from 'react'
 import { Bar, Line } from 'react-chartjs-2';
-const Chart = require ('chart.js/auto');
+import { useSelector } from 'react-redux';
+import { sessionSelectors } from '../../../../redux/selectors';
+import { FullWidthSpinner } from '../../spinners';
+import { artifactHtml } from './artifactVisualizationService';
+const Chart = require('chart.js/auto');
 
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -30,12 +34,25 @@ const options = {
     },
   },
 };
-const ArtifactVisualization = ({artifact}:{artifact:any}) => {
-  return (
-    <div>
-      <Line data={data} options={options} />
-    </div>
-  )
+const ArtifactVisualization = ({ artifactId }: { artifactId: any }) => {
+
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+
+  console.log("__UNAUTH_ARTIFACT_ID", artifactId)
+
+  const html = artifactHtml(artifactId, authToken);
+  
+  console.log("__UNAUTH_HTML ", html)
+  // if (html ==) {
+  //   return <FullWidthSpinner color="black" size="md" />;
+  // }
+
+    return (
+      <div>
+        {/* <Line data={data} options={options} /> */}
+        ArtifactVisualization
+      </div>
+    )
 }
 
 export default ArtifactVisualization

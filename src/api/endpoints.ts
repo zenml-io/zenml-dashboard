@@ -58,6 +58,12 @@ export const endpoints = {
     graphById: {
       get: (runId: TId): string => `/runs/${runId}/graph`,
     },
+    artifact: {
+      get: (exe_id: any): string => `/artifacts/${exe_id}`,
+    },
+    step: {
+      get: (exe_id: any): string => `/steps/${exe_id}`,
+    },
     all: (workspace: string): string => `/workspaces/${workspace}/runs`,
     get: (runId: TId): string => `/runs/${runId}`,
   },

@@ -231,23 +231,23 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                   // NodeClickHandler(event, node);
 
                   // wait till already selected node is unselected
-                  setTimeout(async () => {
+                  // setTimeout(async () => {
                     if (selectedNode?.selected) {
                       selectedNode.selected = false
-                      setSelectedNode(node.data);
+                      // setSelectedNode(node.data);
+                      setSelectedNode(selectedNode);
                     }
-                    setSelectedNode(null);
-                  }, 100)
-
-                  // wait till new selected node is selected
-                  setTimeout(async () => {
-                    node.data["selected"] = true;
+                    // }, 100)
+                    
+                    // wait till new selected node is selected
+                    setTimeout(async () => {
+                      node.data["selected"] = true;
+                      setSelectedNode(null);
                     setSelectedNode(node.data)
                   }, 100)
                 }
 
                 }
-
                 fitView
               >
                 <Controls />

@@ -3,7 +3,7 @@ import circleArrowSideClose from '../icons/assets/circleArrowSideClose.svg';
 import circleArrowSideOpen from '../icons/assets/circleArrowSideOpen.svg';
 // import Switch from "react-switch";
 import { useDispatch, useSelector } from '../../hooks';
-import { sessionSelectors } from '../../../redux/selectors';
+import { runSelectors, sessionSelectors } from '../../../redux/selectors';
 import ArtifactTabHeader from './sidebarTabsSwitchers/artifactTabSwitcher';
 import StepnodeTabHeader from './sidebarTabsSwitchers/stepTabSwitcher';
 import { fetchArtifactData, fetchStepData } from './sidebarServices';
@@ -35,21 +35,24 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     const [step, setStep] = useState([] as any);
     const sidebar_ref = useRef<HTMLInputElement>(null) //eslint-disable-line
     const dispatch = useDispatch();
-
-
+    const artifactData = useSelector(runSelectors.artifactData)
+    const stepData = useSelector(runSelectors.stepData)
+    console.log("THIS_IS_RESULT_ARTIFACT: ",artifactData)
+    console.log("THIS_IS_RESULT_STEP: ",stepData)
     const authToken = useSelector(sessionSelectors.authenticationToken);
 
     async function FetchData(type: boolean) {
         console.log({ _____type: type })
         if (type) {
             const data = await fetchStepData(selectedNode, authToken);
+            dispatch(runsActions.getStep({exe_id:selectedNode.execution_id})) 
             setStep(data);
         }
         else {
+            console.log("__UNAUTH_ARTIFACT_DISPACTH: ", typeof (selectedNode.execution_id))
             const data = await fetchArtifactData(selectedNode, authToken);
+            dispatch(runsActions.getArtifact({exe_id:selectedNode.execution_id})) 
             setArtifact(data);
-            dispatch(runsActions.setRunDetails(data.metadata))
-
         }
     };
     // USE EFFECT TO CHECK IF ITS A STEP NODE OR AN ARTIFACT NODE
@@ -71,7 +74,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
 
         }
         FetchData(type);
-    }, [isStepNode]) //eslint-disable-line
+    }, [isStepNode, artifact]) //eslint-disable-line
 
 
     // CLICK OUTSIDE TO CLOSE THE SIDEBAR

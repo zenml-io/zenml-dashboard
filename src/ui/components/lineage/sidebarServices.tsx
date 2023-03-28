@@ -20,7 +20,7 @@ export const fetchStepData = async (selectedNode: any, authToken: any) => {
 };
 export const fetchArtifactData = async (selectedNode: any, authToken: any) => {
 
-
+    
     const data = await axios.get(
         `${process.env.REACT_APP_BASE_API_URL}/artifacts/${selectedNode.execution_id}`,
         {
