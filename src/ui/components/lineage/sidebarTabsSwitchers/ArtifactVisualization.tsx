@@ -5,24 +5,26 @@ import { useSelector } from 'react-redux';
 import { sessionSelectors } from '../../../../redux/selectors';
 // import { FullWidthSpinner } from '../../spinners';
 import { artifactHtml } from './artifactVisualizationService';
-const Chart = require('chart.js/auto'); //eslint-disable-line
+import style from './ArtifactVisualization.module.scss';
 
+const Chart = require('chart.js/auto'); //eslint-disable-line
+// color:#443E99
 const data = {
-  labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
+  labels: ['', '', '', '', '', '', ''],
   datasets: [
     {
-      label: 'My First Dataset',
+      label: '',
       data: [65, 59, 80, 81, 56, 55, 40],
-      backgroundColor: 'rgba(255, 99, 132, 0.2)',
-      borderColor: 'rgba(255, 99, 132, 1)',
-      borderWidth: 1,
+      // backgroundColor: 'rgba(255, 99, 132, 0.2)',
+      borderColor: '#443E99',
+      borderWidth: 2,
     },
     {
-      label: 'My First Dataset',
+      label: '',
       data: [6, 9, 28, 18, 65, 55, 45],
-      backgroundColor: 'rgba(205, 99, 132, 0.2)',
-      borderColor: 'rgba(0, 0, 0, 1)',
-      borderWidth: 1,
+      // backgroundColor: 'rgba(205, 99, 132, 0.2)',
+      borderColor: '#443E9950',
+      borderWidth: 2,
     },
   ],
 };
@@ -48,9 +50,9 @@ const ArtifactVisualization = ({ artifactId }: { artifactId: any }) => {
   // }
 
     return (
-      <div>
+      <div className={`${style.mainContainer}`}>
         <Line data={data} options={options} />
-        ArtifactVisualization
+        {/* ArtifactVisualization */}
       </div>
     )
 }

@@ -177,13 +177,14 @@
   width: 50vw;
   position: absolute;
   right: 0%;
-  top: 0%;
+  top: 48px;
   z-index: 101;
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
   z-index: 101;
   box-shadow: 0px 0px 10px rgba(0, 0 ,0, 0.1);
+  // overflow: hidden;
   // flex-wrap: wrap;
 }
 .btnContainer{

@@ -12,7 +12,7 @@ export const fetchStepData = async (selectedNode: any, authToken: any) => {
         },
     ).then((response) => {
         console.log("123456", response)
-        localStorage.setItem("__STEP", JSON.stringify(response.data))
+        // localStorage.setItem("__STEP", JSON.stringify(response.data))
         return response?.data//Setting the response into state
     })
     return data;
@@ -32,7 +32,7 @@ export const fetchArtifactData = async (selectedNode: any, authToken: any) => {
     ).then((response) => {
 
         console.log("123456", response)
-        localStorage.setItem("__ARTIFACT", JSON.stringify(response.data))
+        // localStorage.setItem("__ARTIFACT", JSON.stringify(response.data))
         return response.data
     })
     return data

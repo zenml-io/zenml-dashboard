@@ -15,15 +15,13 @@ import StepNode from './StepNode';
 
 import './index.css';
 import { Analysis, Database, Model, Schema, Service, Statistic } from './icons';
-// import { useDispatch } from '../../hooks';
-// import { runsActions } from '../../../redux/actions';
 import { FullWidthSpinner } from '../spinners';
 import arrowClose from '../icons/assets/arrowClose.svg';
 import arrowOpen from '../icons/assets/arrowOpen.svg';
 import Sidebar from './Sidebar';
 import { useSelector } from 'react-redux';
 import { runSelectors } from '../../../redux/selectors';
-// import sidebarStyles from './sidebar.module.css'
+
 
 
 interface Edge {
@@ -78,7 +76,6 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
       x: nodeWithPosition.x - nodeWidth / 2,
       y: nodeWithPosition.y - nodeHeight / 2,
     };
-    // console.log({mynode:node})
     return node;
   });
 
@@ -91,8 +88,6 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
       height: 30,
       color: '#443E99',
     }
-
-    // edge.markerStart = 'arrowclosed'
 
 
     initialNodes.find((node) => {
@@ -118,9 +113,7 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
 
         const e = initialEdges.find((e) => e.source === artifact.id);
         if (e) {
-          // console.log(e.target);
           const status = initialNodes.find((step) => step.id === e.target);
-          // console.log(status);
           if (status.data.status === 'running') {
             edge.animated = true;
 
@@ -236,13 +229,11 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                   // NodeClickHandler(event, node);
 
                   // wait till already selected node is unselected
-                  // setTimeout(async () => {
                     if (selectedNode?.selected) {
                       selectedNode.selected = false
-                      // setSelectedNode(node.data);
                       setSelectedNode(selectedNode);
                     }
-                    // }, 100)
+    
                     
                     // wait till new selected node is selected
                     setTimeout(async () => {

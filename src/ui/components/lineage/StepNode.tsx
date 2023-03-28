@@ -4,7 +4,6 @@ import { Cached, Completed, Export, Failed, Folder, Lock, Running } from './icon
 
 import styles from './index.module.scss';
 import { NodeProps } from 'react-flow-renderer';
-// import { NodeProps } from './types';
 
 const StepNode = ({
   data,
@@ -25,7 +24,6 @@ const StepNode = ({
 
   return (
     <>
-      {/* <Sidebar /> */}
       <div className={styles.stepMainContainer} style={{ borderRadius: 10 }}>
         <Handle
           type="target"
@@ -85,7 +83,6 @@ const StepNode = ({
           className={styles.handle}
           isValidConnection={(connection) => connection.source === data.execution_id}
         />
-        {/* <Sidebar/> */}
       </div>
     </>
   );
