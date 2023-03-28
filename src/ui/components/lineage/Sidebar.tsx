@@ -30,7 +30,7 @@ const colCenter = {
 const Sidebar: React.FC<any> = ({ selectedNode }) => {
 
     const [sidebar, setSidebar] = useState(true);
-    const [isStepNode, setIsStepNode] = useState(false);
+    const [isStepNode, setIsStepNode] = useState(true);
     const [artifact, setArtifact] = useState([] as any);
     const [step, setStep] = useState([] as any);
     const sidebar_ref = useRef<HTMLInputElement>(null) //eslint-disable-line
@@ -74,7 +74,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
 
         }
         FetchData(type);
-    }, [isStepNode, artifact]) //eslint-disable-line
+    }, [isStepNode, selectedNode]) //eslint-disable-line
 
 
     // CLICK OUTSIDE TO CLOSE THE SIDEBAR

@@ -21,6 +21,8 @@ import { FullWidthSpinner } from '../spinners';
 import arrowClose from '../icons/assets/arrowClose.svg';
 import arrowOpen from '../icons/assets/arrowOpen.svg';
 import Sidebar from './Sidebar';
+import { useSelector } from 'react-redux';
+import { runSelectors } from '../../../redux/selectors';
 // import sidebarStyles from './sidebar.module.css'
 
 
@@ -46,7 +48,7 @@ interface Edge {
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const nodeWidth = 25;
+const nodeWidth = 80;
 const nodeHeight = 56;
 
 const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], direction = 'TB',) => {
@@ -86,7 +88,7 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
     edge["markerEnd"] = {
       type: MarkerType.ArrowClosed,
       width: 20,
-      height: 20,
+      height: 30,
       color: '#443E99',
     }
 
@@ -143,6 +145,8 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
     initialNodes: layoutedNodes,
     initialEdges: layoutedEdges,
   } = getLayoutedElements(graph.graph.nodes, graph.graph.edges);
+  const stepData = useSelector(runSelectors.stepData)
+  console.log("SIDEBAR_DATA: ", stepData)
   const [fetching, setFetching] = useState(false); //eslint-disable-line
   const [nodes, _, onNodesChange] = useNodesState(layoutedNodes); //eslint-disable-line
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
@@ -150,7 +154,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [legend, setLegend] = useState(false);
 
   useEffect(() => {
-    console.log("THIS IS THE USEEFFECT")
+    console.log("SELECTED_NODE_113", selectedNode)
   }, [selectedNode])
 
 
@@ -180,6 +184,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
 
 
       {selectedNode === null ? "" : <div><Sidebar selectedNode={selectedNode} /></div>}
+
       <div style={{ overflow: 'hidden' }}>
 
         <div className="controls">
@@ -242,7 +247,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                     // wait till new selected node is selected
                     setTimeout(async () => {
                       node.data["selected"] = true;
-                      setSelectedNode(null);
+                      // setSelectedNode(null);
                     setSelectedNode(node.data)
                   }, 100)
                 }

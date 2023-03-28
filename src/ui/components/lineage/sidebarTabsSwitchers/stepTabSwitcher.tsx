@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react"; //eslint-disable-line
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
@@ -86,28 +86,6 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
                     )
                 })}
             </div>
-            {/* <div className='siderbar_header11 '>
-                <span
-                    id={`1`}
-                    onClick={() => {
-                        handleClick(1)
-                        TabClickHandler("__CONFIG");
-                    }}
-                    style={show === "__CONFIG" ? stylesActive : stylesInActive}
-                    ref={(el) => divRefs.current[2] = el}
-                >Config</span>
-                <span 
-                
-                onClick={() => {
-                    handleClick(1)
-                    TabClickHandler("__LOG");
-                    }} 
-                    style={show === "__LOG" ? stylesActive : stylesInActive}
-                    ref={(el) => divRefs.current[2] = el}
-                    >Log</span>
-                <span onClick={() => TabClickHandler("__ATTRIBUTE")} style={show === "__ATTRIBUTE" ? stylesActive : stylesInActive}>Attribute</span>
-                <span onClick={() => TabClickHandler("__CODE")} style={show === "__CODE" ? stylesActive : stylesInActive}>Code</span>
-            </div> */}
             <div className={`${stepStyles.underline}`} style={{ marginLeft: dynamicLeft, transition: 'all 300ms ease', width: dynamicWidth }}></div>
 
 
@@ -200,7 +178,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
                 show === "__LOG" ?
                     <div className={styles.codeContainer}>
                         <SyntaxHighlighter
-                            customStyle={{ width: '100%' }}
+                            customStyle={{ width: '100%', height: '80%', fontSize: 20 }}
                             wrapLines={true}
                             language="Python"
                             style={okaidia}

@@ -88,16 +88,17 @@ const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
 
     case runActionTypes.getArtifact.success:{
-      console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER", action.payload)
-      console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER", state)
+      // console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER", action.payload)
+      // console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER", state)
       const artifact = action.payload
+      console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER", artifact)
         return { ...newArtifactState(state, artifact)};
     }
 
     case runActionTypes.getStep.success:{
-      console.log("__UNAUTH_THIS_IS_STEP_REDUCER", action.payload)
-      console.log("__UNAUTH_THIS_IS_STEP_REDUCER", state)
+      // console.log("__UNAUTH_THIS_IS_STEP_REDUCER", action.payload)
       const step = action.payload
+      console.log("__UNAUTH_THIS_IS_STEP_REDUCER", step)
         return { ...newStepState(state, step)};
     }
     

@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'; //eslint-disable-line
 import axios from 'axios';
 
 // https://felix.develaws.zenml.io/api/v1/artifacts/029a0fdf-2b0f-46f6-b8c8-ef46974198ca/visualize

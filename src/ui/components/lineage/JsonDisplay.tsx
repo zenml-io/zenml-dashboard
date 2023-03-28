@@ -1,6 +1,8 @@
 import React from 'react';
 
 function printNestedJson(obj: any) {
+    console.log("ARRAY_12", obj)
+
     let output = '';
     for (let key in obj) {
         if (typeof obj[key] === 'object' && obj[key] !== null) {
@@ -33,6 +35,6 @@ export default function JsonDisplay({ data }: any) {
     const string = JSON.stringify(json)
     console.log({ string })
     return (
-        <div dangerouslySetInnerHTML={{ __html: printNestedJson(data) }} style={{ overflow: 'auto', maxHeight: '90vh', width:"100%", margin: 20 }} />
+        <div dangerouslySetInnerHTML={{ __html: printNestedJson(data) }} style={{ overflow: 'auto', maxHeight: '90vh', width: "100%", margin: 20 }} />
     );
 }

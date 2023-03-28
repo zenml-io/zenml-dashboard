@@ -1,9 +1,7 @@
-// import { PaymentRequestButtonElement } from '@stripe/react-stripe-js';
-import React, { useEffect, useRef, useState, lazy, Suspense } from 'react';
+import React, { useEffect, useRef, useState, lazy, Suspense, memo } from 'react';
 import JsonDisplay from '../JsonDisplay';
 import styles from './artifact.module.scss'
-// import ArtifactVisualization from './ArtifactVisualization';
-// import Visualization from './Visualization';
+
 
 const stylesActive = {
     opacity: 1,
@@ -127,7 +125,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
                 :
                 ""}
             {
-                show == "__VISUALIZATION" ?
+                show === "__VISUALIZATION" ?
                     <Suspense fallback={<div>please wait ....</div>}>
 
                         <ArtifactVisualization artifactId={node.id} />
@@ -139,4 +137,4 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
 }
 
 
-export default ArtifactTabHeader;
+export default memo(ArtifactTabHeader);

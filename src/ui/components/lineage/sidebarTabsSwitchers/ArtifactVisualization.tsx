@@ -1,11 +1,11 @@
 // import React, { useEffect, useRef, useState } from 'react';
-import React from 'react'
-import { Bar, Line } from 'react-chartjs-2';
+import React from 'react' //eslint-disable-line
+import {  Line } from 'react-chartjs-2';
 import { useSelector } from 'react-redux';
 import { sessionSelectors } from '../../../../redux/selectors';
-import { FullWidthSpinner } from '../../spinners';
+// import { FullWidthSpinner } from '../../spinners';
 import { artifactHtml } from './artifactVisualizationService';
-const Chart = require('chart.js/auto');
+const Chart = require('chart.js/auto'); //eslint-disable-line
 
 const data = {
   labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -49,7 +49,7 @@ const ArtifactVisualization = ({ artifactId }: { artifactId: any }) => {
 
     return (
       <div>
-        {/* <Line data={data} options={options} /> */}
+        <Line data={data} options={options} />
         ArtifactVisualization
       </div>
     )

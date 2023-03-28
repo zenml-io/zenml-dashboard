@@ -193,7 +193,13 @@
   justify-content: center !important;
   align-items: center;
   margin-right: 0px;
-  z-index: -1;
+  // opacity: 0.7;
+  background-color: #431d93;
+  z-index: -1000;
+}
+
+.btnContainer>img{
+  z-index: -1000;
 }
 
 .sidebarClose{
@@ -209,7 +215,7 @@
 }
 .bodyContainer{
   overflow: hidden;
-  // height: 100vh;
-  width: auto;
+  height: 100vh;
+  width: 100%;
   background-color: #ffffff;
 }
