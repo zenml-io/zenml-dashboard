@@ -91,7 +91,9 @@ export const BasePage: React.FC<{
           <Box marginBottom="lg">
             <PrimaryButton
               onClick={() =>
-                history.push(routePaths.stacks.createStack(selectedWorkspace))
+                history.push(
+                  routePaths.secrets.registerSecrets(selectedWorkspace),
+                )
               }
             >
               Register Secret
