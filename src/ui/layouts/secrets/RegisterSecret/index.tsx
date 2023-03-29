@@ -1,6 +1,6 @@
 import React from 'react';
 // import { translate } from './translate';
-import { ListForAll } from './ListForAll';
+import { Register } from './Register';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 
@@ -32,8 +32,8 @@ export const CreateStack: React.FC = () => {
       tabPages={[
         {
           text: '',
-          Component: () => <ListForAll></ListForAll>,
-          path: routePaths.stacks.createStack(
+          Component: () => <Register></Register>,
+          path: routePaths.secrets.registerSecrets(
             selectedWorkspace
               ? selectedWorkspace
               : (locationPath.split('/')[2] as string),
@@ -44,22 +44,24 @@ export const CreateStack: React.FC = () => {
       //   routePaths.stackComponents.base('', workspace) + `?workspace=${workspace}`
       // }
       tabBasePath={
-        routePaths.stacks.createStack(
+        routePaths.secrets.registerSecrets(
           selectedWorkspace
             ? selectedWorkspace
             : (locationPath.split('/')[2] as string),
         ) + `?workspace=${workspace}`
       }
-      breadcrumbs={[
-        // {
-        //   name: 'Register a stack',
-        //   clickable: true,
-        //   to:
-        //     routePaths.stacks.createStack(workspace as string) +
-        //     `?workspace=${workspace}`,
-        // },
-      ]}
-      title='Register a stack'
+      breadcrumbs={
+        [
+          // {
+          //   name: 'Register a stack',
+          //   clickable: true,
+          //   to:
+          //     routePaths.stacks.createStack(workspace as string) +
+          //     `?workspace=${workspace}`,
+          // },
+        ]
+      }
+      title="Register Secret"
       headerWithButtons
       renderHeaderRight={() => <></>}
     />
