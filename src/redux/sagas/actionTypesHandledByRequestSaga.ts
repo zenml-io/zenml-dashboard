@@ -11,6 +11,7 @@ import {
   signupActionTypes,
   forgotActionTypes,
   flavorActionTypes,
+  secretActionTypes,
 } from '../actionTypes';
 
 export const actionTypesHandledByRequestSaga: string[] = [
@@ -36,6 +37,8 @@ export const actionTypesHandledByRequestSaga: string[] = [
   pipelineActionTypes.getRunsByPipelineId.request,
   stackActionTypes.getMyStacks.request,
   stackActionTypes.getStackForId.request,
+  secretActionTypes.getMySecrets.request,
+  secretActionTypes.getSecretForId.request,
   stackActionTypes.getRunsByStackId.request,
   flavorActionTypes.getFlavorAll.request,
   flavorActionTypes.getFlavorType.request,
