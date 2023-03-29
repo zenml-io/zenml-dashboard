@@ -99,7 +99,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-          <Paragraph size="small" color="black">
+          <Paragraph size="small" color="black" style={{ marginLeft: '-16px' }} >
             SHARED
           </Paragraph>
         </Box>
@@ -119,6 +119,7 @@ export const GetHeaderCols = ({
                   borderRadius: '50%',
                   height: '19px',
                   width: '19px',
+                  marginLeft: '-16px',
                   textAlign: 'center',
                 }}
               >
