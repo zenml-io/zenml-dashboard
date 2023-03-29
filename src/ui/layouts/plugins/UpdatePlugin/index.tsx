@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
 import {
@@ -42,6 +43,8 @@ const UpdatePlugin: React.FC = () => {
   const [repositorySubdirectory, setRepositorySubdirectory] = useState('');
   const [releaseNotes, setReleaseNotes] = useState('');
 
+  const { pluginId } = useParams<{ pluginId: string }>();
+
   return (
     <AuthenticatedLayout
       breadcrumb={[
@@ -49,23 +52,23 @@ const UpdatePlugin: React.FC = () => {
           name: 'List plugins',
           clickable: true,
           to: routePaths.plugins.list(
-            selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+            selectedWorkspace ?? DEFAULT_WORKSPACE_NAME,
           ),
         },
         {
           name: 'Plugin details',
           clickable: true,
           to: routePaths.plugins.detail.overview(
-            selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
-            data.id,
+            selectedWorkspace ?? DEFAULT_WORKSPACE_NAME,
+            pluginId,
           ),
         },
         {
           name: 'Update plugin',
           clickable: true,
           to: routePaths.plugins.update(
-            selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
-            data.id,
+            selectedWorkspace ?? DEFAULT_WORKSPACE_NAME,
+            pluginId,
           ),
         },
       ]}

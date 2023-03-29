@@ -27,8 +27,11 @@ export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
 const getData = memoisePromiseFn(async (searchQuery: string) => {
   const search = searchQuery ? `&name_contains=${searchQuery}` : '';
-  return (await axios.get(`${HUB_API_URL}/plugins?only_latest=true${search}`))
-    .data as TPlugin[];
+  return (
+    await axios.get(
+      `${HUB_API_URL}/plugins?only_latest=true${search}&status=available`,
+    )
+  ).data as TPlugin[];
 });
 
 const ListPlugins: React.FC = () => {
@@ -50,7 +53,7 @@ const ListPlugins: React.FC = () => {
           name: translate('breadcrumbs.plugins.text'),
           clickable: true,
           to: routePaths.plugins.list(
-            selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+            selectedWorkspace ?? DEFAULT_WORKSPACE_NAME,
           ),
         },
       ]}
@@ -95,7 +98,7 @@ const ListPlugins: React.FC = () => {
               }}
               onClick={() =>
                 history.push(
-                  routePaths.plugins.detail.overview(selectedWorkspace, p.id),
+                  routePaths.plugins.detail.overview(selectedWorkspace, p.name),
                 )
               }
             >
@@ -128,11 +131,10 @@ const ListPlugins: React.FC = () => {
                 {p.description}
               </Paragraph>
 
-              <FlexBox justifyContent="space-between">
+              {/* <FlexBox justifyContent="space-between">
                 <Box>
                   <Paragraph className={styles.pluginMetric}>
-                    10M+
-                    {/* {p.upvotes} */}
+                    {p.upvotes}
                   </Paragraph>
                   <Paragraph className={styles.pluginMetricText}>
                     Upvotes
@@ -140,8 +142,7 @@ const ListPlugins: React.FC = () => {
                 </Box>
                 <Box>
                   <Paragraph className={styles.pluginMetric}>
-                    10K+
-                    {/* {p.downloads} */}
+                    {p.downloads}
                   </Paragraph>
                   <Paragraph className={styles.pluginMetricText}>
                     Downloads
@@ -149,14 +150,13 @@ const ListPlugins: React.FC = () => {
                 </Box>
                 <Box>
                   <Paragraph className={styles.pluginMetric}>
-                    99%
-                    {/* {p.popularity} */}
+                    {p.popularity}
                   </Paragraph>
                   <Paragraph className={styles.pluginMetricText}>
                     Popularity
                   </Paragraph>
                 </Box>
-              </FlexBox>
+              </FlexBox> */}
 
               <FlexBox style={{ position: 'absolute', top: 0, right: 0 }}>
                 <icons.star color={iconColors.primary} marginRight="md" />

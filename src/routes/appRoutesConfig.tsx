@@ -428,7 +428,7 @@ const routes = [
   },
 
   {
-    path: routePaths.plugins.list(':string'),
+    path: routePaths.plugins.list(':workspace'),
     Component: ListPlugins,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -436,7 +436,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.plugins.create(':string'),
+    path: routePaths.plugins.create(':workspace'),
     Component: CreatePlugin,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -444,7 +444,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.plugins.detail.overview(':string', ':id'),
+    path: routePaths.plugins.detail.overview(':workspace', ':pluginId'),
     Component: PluginDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -452,7 +452,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.plugins.detail.changelogs(':string', ':id'),
+    path: routePaths.plugins.detail.changelogs(':workspace', ':pluginId'),
     Component: PluginDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -460,7 +460,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.plugins.detail.requirements(':string', ':id'),
+    path: routePaths.plugins.detail.requirements(':workspace', ':pluginId'),
     Component: PluginDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -468,7 +468,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.plugins.detail.installing(':string', ':id'),
+    path: routePaths.plugins.detail.installing(':workspace', ':pluginId'),
     Component: PluginDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -476,7 +476,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.plugins.update(':string', ':id'),
+    path: routePaths.plugins.update(':workspace', ':pluginId'),
     Component: UpdatePlugin,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,

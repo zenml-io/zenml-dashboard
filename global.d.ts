@@ -4,6 +4,8 @@ type TId = string;
 
 type TToasterTypes = 'success' | 'failure';
 
+type DateString = string;
+
 interface TApiActionsTypes {
   request: string;
   success: string;
@@ -252,7 +254,21 @@ interface TPlugin {
   id: TId;
   name: name;
   description?: string;
-  upvotes: string;
-  downloads: string;
-  popularity: string;
+  version: string;
+  repository_url: string;
+  repository_subdirectory?: string;
+  repository_branch?: string;
+  repository_commit?: string;
+  tags: string[];
+  logo_url: string;
+  index_url?: string;
+  package_name: string;
+  requirements: string[];
+  build_logs?: string;
+  created: DateString;
+  updated: DateString;
+  user: { id: string; username: string };
+  // upvotes: string;
+  // downloads: string;
+  // popularity: string;
 }

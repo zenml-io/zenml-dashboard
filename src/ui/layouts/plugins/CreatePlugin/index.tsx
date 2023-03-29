@@ -40,14 +40,14 @@ const CreatePlugin: React.FC = () => {
           name: 'List plugins',
           clickable: true,
           to: routePaths.plugins.list(
-            selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+            selectedWorkspace ?? DEFAULT_WORKSPACE_NAME,
           ),
         },
         {
           name: 'Create plugin',
           clickable: true,
           to: routePaths.plugins.create(
-            selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+            selectedWorkspace ?? DEFAULT_WORKSPACE_NAME,
           ),
         },
       ]}

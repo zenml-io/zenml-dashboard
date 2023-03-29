@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import Lottie from 'lottie-react';
@@ -8,6 +9,8 @@ import { routePaths } from '../../../routes/routePaths';
 import { Box, FlexBox, LinkBox, Paragraph, Separator } from '../../components';
 import { PluginCard } from './PluginCard';
 import loadingAnimation from './loadingAnimation.json';
+import { HUB_API_URL } from '../../../api/constants';
+import { useHubToken } from '../../hooks/auth';
 
 const pending = [{ name: 'Plugin name', status: 'Building wheels' }];
 const completed = [
@@ -15,9 +18,30 @@ const completed = [
   { month: 'February 2023', plugins: [...new Array(1).fill(null)] },
 ];
 
+const getData = async (token: string) => {
+  return (
+    await axios.get(`${HUB_API_URL}/plugins?only_latest=true&mine=true`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data as TPlugin[];
+};
+
 export const Plugins: React.FC = () => {
   const workspace = useSelector(selectedWorkspace);
   const history = useHistory();
+  const token = useHubToken();
+  const [plugins, setPlugins] = useState([] as TPlugin[]);
+
+  useEffect(() => {
+    // shouldn't be possible
+    if (!token) return;
+
+    getData(token).then((p) => {
+      setPlugins(p);
+      console.log('PLUGINS ARE', p);
+    });
+    // getData(token).then(setPlugins);
+  }, []);
 
   return (
     <Box>
