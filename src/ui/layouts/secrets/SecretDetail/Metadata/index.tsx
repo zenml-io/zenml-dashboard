@@ -1,29 +1,29 @@
-import React, { useState } from 'react';
-import { translate } from '../translate';
+import React from 'react';
+// import { translate } from '../translate';
 // import { RunsTable } from '../../RunsTable';
-import { useService } from './useService';
+// import { useService } from './useService';
 
-export const Runs: React.FC<{
+export const MetaData: React.FC<{
   isExpended?: any;
-  stackId: TId;
-  filter: any;
+  secretId: TId;
+  filter?: any;
   runId?: any;
   pagination?: boolean;
-}> = ({ stackId, filter, pagination, runId, isExpended = false }) => {
-  const [sortBy, setSortBy] = useState('created');
-  function getSorted(activeSorting: any, activeSortingDirection: any) {
-    setSortBy(activeSortingDirection?.toLowerCase() + ':' + activeSorting);
-    // console.log(activeSorting, activeSortingDirection, 'aaaaaaa');
-  }
-  const { fetching, runIds, runsPaginated } = useService({
-    isExpended,
-    stackId,
-    filter,
-    sortBy,
-  });
+}> = ({ secretId, filter, isExpended = false }) => {
+  // const [sortBy, setSortBy] = useState('created');
+  // function getSorted(activeSorting: any, activeSortingDirection: any) {
+  //   setSortBy(activeSortingDirection?.toLowerCase() + ':' + activeSorting);
+  //   // console.log(activeSorting, activeSortingDirection, 'aaaaaaa');
+  // }
+  // const { fetching, runIds, runsPaginated } = useService({
+  //   isExpended,
+  //   secretId,
+  //   filter,
+  //   sortBy,
+  // });
   // console.log(filter, 'filter11');
   return (
-    <>MetaData</>
+    <>Coming soon</>
     // <RunsTable
     //   isExpended={isExpended}
     //   stackId={stackId}

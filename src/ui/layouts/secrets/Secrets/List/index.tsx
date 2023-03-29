@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 
 import { translate } from '../translate';
 import { CollapseTable } from '../../../common/CollapseTable';
-import { useDispatch, useHistory, useSelector } from '../../../../hooks';
+import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
@@ -14,7 +14,7 @@ import {
   secretSelectors,
 } from '../../../../../redux/selectors';
 // import { callActionForSecretsForPagination } from '../useService';
-import { stacksActions } from '../../../../../redux/actions';
+// import { stacksActions } from '../../../../../redux/actions';
 import { Pagination } from '../../../common/Pagination';
 import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQueryParam';
 import { Box, FlexBox, If } from '../../../../components';
@@ -36,7 +36,7 @@ export const List: React.FC<Props> = ({
 }: // stackComponentId,
 Props) => {
   const history = useHistory();
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   // const [
   //   fetchingForSecretsFroComponents,
   //   setFetchingForSecretsFroComponents,

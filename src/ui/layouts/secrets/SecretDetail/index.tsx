@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // import { Box, Paragraph, icons } from '../../../components';
 // import { iconColors, iconSizes } from '../../../../constants';
@@ -7,13 +7,13 @@ import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
 // import styles from './NestedRow.module.scss';
-import { Runs } from './Metadata';
+import { MetaData } from './Metadata';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-import { useHistory, useLocationPath, useSelector } from '../../../hooks';
-import FilterComponent, {
-  getInitialFilterStateForRuns,
-} from '../../../components/Filters';
+import { useHistory, useSelector } from '../../../hooks';
+// import FilterComponent, {
+//   getInitialFilterStateForRuns,
+// } from '../../../components/Filters';
 import { Box } from '../../../components';
 import {
   // stackPagesSelectors,
@@ -24,47 +24,15 @@ import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 // import { Box, Row } from '../../../components';
 // import { StackBox } from '../../common/StackBox';
 
-import logo from '../../../assets/logo.svg';
 // import { GetFlavorsListForLogo } from '../../stackComponents/Stacks/List/GetFlavorsListForLogo';
-import { FullWidthSpinner } from '../../../components';
+// import { FullWidthSpinner } from '../../../components';
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
-
-const FilterWrapperForRun = () => {
-  const locationPath = useLocationPath();
-
-  // TODO: Dev please note: getInitialFilterState is for secret inital filter value for any other component you need to modify it
-  const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
-  function getFilter(values: any) {
-    const filterValuesMap = values.map((v: any) => {
-      return {
-        column: v.column.selectedValue,
-        type: v.contains.selectedValue,
-        value: v.filterValue,
-      };
-    });
-    return filterValuesMap;
-  }
-  return (
-    <Box marginTop="lg" style={{ width: '100%' }}>
-      {/* <FilterComponent
-        getInitials={getInitialFilterStateForRuns}
-        filters={filters}
-        setFilter={setFilter}
-      >
-        <Runs
-          filter={getFilter(filters)}
-          secretId={locationPath.split('/')[4]}
-        />
-      </FilterComponent> */}
-    </Box>
-  );
-};
 
 const getTabPages = (
   secretId: TId,
   selectedWorkspace: string,
-  history?: any,
+  // history?: any,
 ): TabPage[] => {
   return [
     {
@@ -74,8 +42,8 @@ const getTabPages = (
     },
     {
       text: translate('tabs.metaData.text'),
-      Component: () => <>asd</>,
-      path: routePaths.secret.configuration(secretId, selectedWorkspace),
+      Component: () => <MetaData secretId={secretId}></MetaData>,
+      path: routePaths.secret.metaData(secretId, selectedWorkspace),
     },
   ];
 };
@@ -104,7 +72,7 @@ const getBreadcrumbs = (
   ];
 };
 
-export interface StackDetailRouteParams {
+export interface SecretDetailRouteParams {
   id: TId;
 }
 
@@ -151,8 +119,8 @@ export const StackDetail: React.FC = () => {
   //     });
   //   }
   // }
-
-  const tabPages = getTabPages(secret.id, selectedWorkspace, history);
+  console.log(secret, 'secretsecret');
+  const tabPages = getTabPages(secret.id, selectedWorkspace);
   const breadcrumbs = getBreadcrumbs(secret.id, selectedWorkspace);
   const headerCols = GetHeaderCols({
     filteredSecret,

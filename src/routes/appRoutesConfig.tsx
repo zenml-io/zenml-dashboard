@@ -162,6 +162,14 @@ const routes = [
     },
     exact: true,
   },
+  {
+    path: routePaths.secret.metaData(':id', ':string'),
+    Component: secretDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
 
   {
     path: routePaths.stacks.createStack(':string'),

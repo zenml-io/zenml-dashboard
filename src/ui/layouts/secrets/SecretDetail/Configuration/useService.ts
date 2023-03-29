@@ -1,12 +1,15 @@
 import { useSelector } from 'react-redux';
-import { stackSelectors } from '../../../../../redux/selectors';
+import {
+  // stackSelectors,
+  secretSelectors,
+} from '../../../../../redux/selectors';
 
-import YAML from 'json2yaml';
+// import YAML from 'json2yaml';
 
 interface ServiceInterface {
-  downloadYamlFile: () => void;
-  stackConfig: string;
-  stack: any;
+  // downloadYamlFile: () => void;
+  // stackConfig: string;
+  secret: any;
 }
 
 export const useService = ({
@@ -14,12 +17,12 @@ export const useService = ({
 }: {
   secretId: TId;
 }): ServiceInterface => {
-  const stack: TStack = useSelector(stackSelectors.stackForId(secretId));
+  const secret: TStack = useSelector(secretSelectors.secretForId(secretId));
 
-  const yamlConfigObj: any = {
-    stack_name: stack.name,
-    components: {},
-  };
+  // const yamlConfigObj: any = {
+  //   stack_name: stack.name,
+  //   components: {},
+  // };
 
   // Object.keys(stack.components).forEach((element) => {
   //   yamlConfigObj.components[element] = {
@@ -30,19 +33,19 @@ export const useService = ({
   //   };
   // });
 
-  const stackConfig = YAML.stringify(yamlConfigObj);
+  // const stackConfig = YAML.stringify(yamlConfigObj);
 
-  const downloadYamlFile = () => {
-    const element = document.createElement('a');
+  // const downloadYamlFile = () => {
+  //   const element = document.createElement('a');
 
-    const file = new Blob([stackConfig], {
-      type: 'text/yaml',
-    });
-    element.href = URL.createObjectURL(file);
-    element.download = `${stack.id}-config.yaml`;
-    document.body.appendChild(element);
-    element.click();
-  };
+  //   const file = new Blob([stackConfig], {
+  //     type: 'text/yaml',
+  //   });
+  //   element.href = URL.createObjectURL(file);
+  //   element.download = `${stack.id}-config.yaml`;
+  //   document.body.appendChild(element);
+  //   element.click();
+  // };
 
-  return { downloadYamlFile, stackConfig, stack };
+  return { secret };
 };

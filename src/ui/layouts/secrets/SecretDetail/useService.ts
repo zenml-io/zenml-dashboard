@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import { StackDetailRouteParams } from '.';
+import { SecretDetailRouteParams } from '.';
 import {
   pipelinesActions,
   runPagesActions,
@@ -19,7 +19,8 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
-  const { id } = useParams<StackDetailRouteParams>();
+  const { id } = useParams<SecretDetailRouteParams>();
+  // debugger;
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
