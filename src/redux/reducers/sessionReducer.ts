@@ -1,7 +1,12 @@
-import { loginActionTypes, signupActionTypes } from '../actionTypes';
+import {
+  authoriseHubActionTypes,
+  loginActionTypes,
+  signupActionTypes,
+} from '../actionTypes';
 
 type State = {
   authenticationToken?: string;
+  hubToken?: string;
 };
 
 type Action = {
@@ -13,22 +18,33 @@ type Action = {
 
 export const initialState: State = {
   authenticationToken: undefined,
+  hubToken: undefined,
 };
 
 const sessionReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case loginActionTypes.success: {
-      const accessToken = action.payload.access_token;
+      const { access_token } = action.payload;
 
       return {
-        authenticationToken: accessToken,
+        ...state,
+        authenticationToken: access_token,
       };
     }
     case signupActionTypes.success: {
-      const accessToken = action.payload.access_token;
+      const { access_token } = action.payload;
 
       return {
-        authenticationToken: accessToken,
+        ...state,
+        authenticationToken: access_token,
+      };
+    }
+    case authoriseHubActionTypes.success: {
+      const { access_token } = action.payload;
+
+      return {
+        ...state,
+        hubToken: access_token,
       };
     }
 

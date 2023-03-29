@@ -24,9 +24,7 @@ import { getInitials } from '../../../utils/name';
 import axios from 'axios';
 import { ConnectHub } from './ConnectHub';
 import GitHubLogo from '../../assets/GitHub_Logo.png';
-
-// TODO:
-const hubIsConnected = false;
+import { useHubToken } from '../../hooks/auth';
 
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
@@ -44,6 +42,7 @@ export const PersonalDetails: React.FC = () => {
   const [bio, setBio] = useState(user?.bio ?? '');
   const [version, setVersion] = useState('');
   const [popupType, setPopupType] = useState('');
+  const hubIsConnected = !!useHubToken();
   // const [selectedImage, setSelectedImage] = useState<any>(userImage);
 
   const authToken = useSelector(sessionSelectors.authenticationToken);

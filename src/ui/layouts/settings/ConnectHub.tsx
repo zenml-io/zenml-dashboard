@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 import { Box, FormTextField, Paragraph, PrimaryButton } from '../../components';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { sessionSelectors } from '../../../redux/selectors';
 import { BASE_API_URL, HUB_API_URL } from '../../../api/constants';
 import { Popup } from '../common/Popup';
+import { authoriseHubActionTypes } from '../../../redux/actionTypes';
 
 const getGitHubRedirectURL = () =>
   axios.get(`${HUB_API_URL}/user/auth/github/authorize`);
@@ -14,6 +15,7 @@ export const ConnectHub: React.FC = () => {
   const [token, setToken] = useState('');
   const [popupOpen, setPopupOpen] = useState(false);
   const authToken = useSelector(sessionSelectors.authenticationToken);
+  const dispatch = useDispatch();
 
   return (
     <>
@@ -44,12 +46,17 @@ export const ConnectHub: React.FC = () => {
           </Box>
           <PrimaryButton
             onClick={() => {
+              dispatch({
+                type: authoriseHubActionTypes.success,
+                payload: { access_token: token },
+              });
+
               // TODO: confirm actual endpoint and payload
-              axios.post(
-                `${BASE_API_URL}/save-github-token`,
-                { token },
-                { headers: { Authorization: `Bearer ${authToken}` } },
-              );
+              // axios.post(
+              //   `${BASE_API_URL}/save-github-token`,
+              //   { token },
+              //   { headers: { Authorization: `Bearer ${authToken}` } },
+              // );
             }}
           >
             Save token

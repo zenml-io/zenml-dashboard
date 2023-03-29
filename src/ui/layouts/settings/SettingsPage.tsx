@@ -10,38 +10,13 @@ import { PersonalDetails } from './PersonalDetails';
 import { Organization } from './Organization';
 import { Starred } from './Starred';
 import { Plugins } from './Plugins';
+import { useHubToken } from '../../hooks/auth';
 
 export const translate = getTranslateByScope('ui.layouts.Settings');
 
-// TODO:
-const hubIsConnected = false;
-
-const PAGES = [
-  {
-    text: translate('tabs.personalDetails.text'),
-    Component: PersonalDetails,
-    path: routePaths.settings.personalDetails,
-  },
-  {
-    text: translate('tabs.organizationSettings.text'),
-    Component: Organization,
-    path: routePaths.settings.organizationSettings,
-  },
-  {
-    text: translate('tabs.starred.text'),
-    Component: Starred,
-    path: routePaths.settings.starredPlugins,
-    locked: !hubIsConnected,
-  },
-  {
-    text: translate('tabs.plugins.text'),
-    Component: Plugins,
-    path: routePaths.settings.myPlugins,
-    locked: !hubIsConnected,
-  },
-];
-
 export const SettingsPage: React.FC = () => {
+  const hubIsConnected = !!useHubToken();
+
   return (
     <AuthenticatedLayout>
       <SidebarContainer>
@@ -53,7 +28,33 @@ export const SettingsPage: React.FC = () => {
           </Paragraph>
         </Box>
         <Box>
-          <Tabs pages={PAGES} basePath={routePaths.settings.base} />
+          <Tabs
+            pages={[
+              {
+                text: translate('tabs.personalDetails.text'),
+                Component: PersonalDetails,
+                path: routePaths.settings.personalDetails,
+              },
+              {
+                text: translate('tabs.organizationSettings.text'),
+                Component: Organization,
+                path: routePaths.settings.organizationSettings,
+              },
+              {
+                text: translate('tabs.starred.text'),
+                Component: Starred,
+                path: routePaths.settings.starredPlugins,
+                locked: !hubIsConnected,
+              },
+              {
+                text: translate('tabs.plugins.text'),
+                Component: Plugins,
+                path: routePaths.settings.myPlugins,
+                locked: !hubIsConnected,
+              },
+            ]}
+            basePath={routePaths.settings.base}
+          />
         </Box>
       </SidebarContainer>
     </AuthenticatedLayout>
