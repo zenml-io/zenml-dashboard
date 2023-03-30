@@ -165,6 +165,7 @@ export const DropdownInput = ({
   hasError,
   options,
   style,
+  disabled,
   ...props
 }: {
   onChange: any;
@@ -173,18 +174,19 @@ export const DropdownInput = ({
   hasError?: boolean;
   options: Record<string, string>[];
   style: any;
+  disabled?: boolean,
 }): JSX.Element => (
   <select
     {...props}
     onChange={(e: any) => onChange(e.target.value)}
     value={value}
     placeholder={placeholder}
-    className={cn(styles.input, hasError ? styles.error : null)}
+    className={cn(styles.select, hasError ? styles.error : null)}
     style={style}
+    disabled={disabled}
   >
-    <option selected disabled value="">
-      {placeholder}
-    </option>
+    <option selected disabled value="">{disabled ? value : placeholder}</option> 
+    
     {options.map((option, index) => (
       <option key={index} value={option.value}>
         {option.label}
