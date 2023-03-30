@@ -129,22 +129,11 @@ export function* handleRequestSaga(action: any) {
   }
 }
 
-// function* setRunDetails(action: any) {
-//   console.log("__UNAUTH_SET_DETAIL", action)
-// }
 
 
 export function* requestSaga() {
-
-
-  console.log("__UNAUTH_requestSaga")
   while (true) {
     const action = yield take(isRequestAction);
     yield fork(handleRequestSaga, action);
-    // yield fork(setRunDetails, action);
   }
 }
-// export function* SetRunDetailSaga() {
-
-//  yield 
-// }

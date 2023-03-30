@@ -5,10 +5,6 @@ import { FullWidthSpinner } from '../spinners';
 import { useSelector } from '../../hooks';
 import { sessionSelectors } from '../../../redux/selectors';
 import axios from 'axios';
-// import Sidebar from '../lineage/Sidebar';
-// import { useSelector } from '../../hooks';
-// import { sessionSelectors } from '../../../redux/selectors';
-// import axios from 'axios';
 
 const styles = {
   container: { width: '100%', height: '100%' },

@@ -2,11 +2,6 @@ import React from 'react';
 import cn from 'classnames';
 
 import { FlexBox, Box, Paragraph } from '../../../components';
-// import { Breadcrumbs } from '../../common/Breadcrumbs';
-
-// import { CreateStackButton } from './CreateStackButton';
-// import { DocumentationLink } from './DocumentationLink';
-
 import styles from './index.module.scss';
 import { constantCommandsToCreateRuns } from '../../../../constants/constantCommands';
 
@@ -81,11 +76,6 @@ const HeaderWithButtons: React.FC<{
           </a>
         </Paragraph>
       </Box>
-      {/* <CreatePipelineButton /> */}
-
-      {/* <DocumentationLink
-      text={constantCommandsToCreatePipeline.documentation}
-    /> */}
     </FlexBox>
   </FlexBox>
 );

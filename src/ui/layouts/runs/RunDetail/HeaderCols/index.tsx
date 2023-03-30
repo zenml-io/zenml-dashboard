@@ -1,16 +1,11 @@
-// import _ from 'lodash';
 import React from 'react';
-
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-
 import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import { FlexBox, Paragraph, icons } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../../RunsTable/RunStatus';
-
-// import { useService } from './useService';
 import ReactTooltip from 'react-tooltip';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 
@@ -19,10 +14,6 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   return [
-    // {
-    //   width: '2%',
-    //   renderRow: (stack: TStack) => <></>,
-    // },
     {
       render: () => (
         <Paragraph
@@ -206,9 +197,6 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(run.created)}>
             <FlexBox alignItems="center">
-              {/* <Box paddingRight="sm">
-                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(run.created)}
               </Paragraph>

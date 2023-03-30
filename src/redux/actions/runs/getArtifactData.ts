@@ -6,13 +6,12 @@ export const getArtifactData = ({
   onSuccess,
   onFailure,
 }: {
-  exe_id: any;
+  exe_id: TId;
 
   onSuccess?: () => void;
   onFailure?: () => void;
 
 }): TRequestAction => {
-  console.log("__UNAUTH_ARTIFACT_ACTION: ", exe_id)
   return {
     type: runActionTypes.getArtifact.request,
     payload: {

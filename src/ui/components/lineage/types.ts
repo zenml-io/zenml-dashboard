@@ -5,6 +5,5 @@ declare module 'react-flow-renderer' {
     data: T;
     targetPosition?: Position;
     sourcePosition?: Position;
-    onNodeSelection?: (node: Node) => void; // added this line to declare onNodeSelection prop
   }
 }

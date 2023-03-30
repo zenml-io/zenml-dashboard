@@ -19,8 +19,6 @@ import { FullWidthSpinner } from '../spinners';
 import arrowClose from '../icons/assets/arrowClose.svg';
 import arrowOpen from '../icons/assets/arrowOpen.svg';
 import Sidebar from './Sidebar';
-import { useSelector } from 'react-redux';
-import { runSelectors } from '../../../redux/selectors';
 
 
 
@@ -32,7 +30,6 @@ interface Edge {
   animated?: boolean;
   label?: string;
   arrowHeadColor: any
-  // markerStart?: EdgeMarkerType;
   markerEnd?: {
     type: MarkerType.ArrowClosed,
     width: number,
@@ -138,8 +135,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
     initialNodes: layoutedNodes,
     initialEdges: layoutedEdges,
   } = getLayoutedElements(graph.graph.nodes, graph.graph.edges);
-  const stepData = useSelector(runSelectors.stepData)
-  console.log("SIDEBAR_DATA: ", stepData)
   const [fetching, setFetching] = useState(false); //eslint-disable-line
   const [nodes, _, onNodesChange] = useNodesState(layoutedNodes); //eslint-disable-line
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
@@ -147,7 +142,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [legend, setLegend] = useState(false);
 
   useEffect(() => {
-    console.log("SELECTED_NODE_113", selectedNode)
   }, [selectedNode])
 
 
@@ -217,38 +211,31 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
         <div className="layout" style={{ overflow: 'hidden' }}>
           <div className="layoutflow">
 
-              <ReactFlow
-                nodes={nodes} // node itself
-                edges={edges} //connection lines
-                onNodesChange={onNodesChange}
-                onEdgesChange={onEdgesChange}
-                onConnect={onConnect}
-                connectionLineType={ConnectionLineType.SimpleBezier}
-                nodeTypes={nodeTypes}
-                onNodeClick={async (event, node) => {
-                  // NodeClickHandler(event, node);
-
-                  // wait till already selected node is unselected
-                    if (selectedNode?.selected) {
-                      selectedNode.selected = false
-                      setSelectedNode(selectedNode);
-                    }
-    
-                    
-                    // wait till new selected node is selected
-                    setTimeout(async () => {
-                      node.data["selected"] = true;
-                      // setSelectedNode(null);
-                    setSelectedNode(node.data)
-                  }, 100)
+            <ReactFlow
+              nodes={nodes} // node itself
+              edges={edges} //connection lines
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              connectionLineType={ConnectionLineType.SimpleBezier}
+              nodeTypes={nodeTypes}
+              onNodeClick={async (event, node) => {
+                if (selectedNode?.selected) {
+                  selectedNode.selected = false
+                  setSelectedNode(selectedNode);
                 }
+                setTimeout(async () => {
+                  node.data["selected"] = true;
+                  setSelectedNode(node.data)
+                }, 100)
+              }
 
-                }
-                fitView
-              >
-                <Controls />
-              </ReactFlow>
-  
+              }
+              fitView
+            >
+              <Controls />
+            </ReactFlow>
+
 
           </div>
         </div>

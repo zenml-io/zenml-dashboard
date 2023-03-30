@@ -2,7 +2,6 @@ import { all, call, delay } from 'redux-saga/effects';
 
 import {
   requestSaga,
-  // SetRunDetailSaga 
 } from './sagas/requestSaga';
 
 const DELAY_BETWEEN_RESTARTS = 1000;
@@ -21,7 +20,6 @@ function* rootSaga(): any {
   while (true) {
     const sagas = [
       spawnSaga(requestSaga),
-      // spawnSaga(SetRunDetailSaga)
     ] as any;
 
     yield all(sagas);

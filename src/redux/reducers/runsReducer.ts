@@ -83,22 +83,15 @@ const newStepState = (state: State, stepData?: any): State => ({
 });
 
 const runsReducer = (state: State = initialState, action: Action): State => {
-  console.log("__UNAUTH_RUN_REDUCER", action.type)
-  // console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER")
   switch (action.type) {
 
     case runActionTypes.getArtifact.success:{
-      // console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER", action.payload)
-      // console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER", state)
       const artifact = action.payload
-      console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER", artifact)
         return { ...newArtifactState(state, artifact)};
     }
 
     case runActionTypes.getStep.success:{
-      // console.log("__UNAUTH_THIS_IS_STEP_REDUCER", action.payload)
       const step = action.payload
-      console.log("__UNAUTH_THIS_IS_STEP_REDUCER", step)
         return { ...newStepState(state, step)};
     }
     
@@ -111,7 +104,6 @@ const runsReducer = (state: State = initialState, action: Action): State => {
       
       const myRunIds: TId[] = runs.map((run: TRun) => run.id);
       
-      console.log("__UNAUTH_THIS_IS_ARTIFACT_REDUCER 11", allRuns)
       return { ...newState(state, runs, action.payload), myRunIds };
     }
 

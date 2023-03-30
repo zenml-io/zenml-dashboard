@@ -4,7 +4,6 @@
   flex-grow: 1;
   position: relative;
   height: 100%;
-  // margin-top: 100px;
 }
 
 .layoutflow .controls {
@@ -23,8 +22,6 @@
   position: relative;
   height: auto;
   width: auto;
-  // background-color: #e9e9e9;
-  // overflow: hidden;
 }
 
 .stepBody {
@@ -32,7 +29,6 @@
   flex-direction: row-reverse;
   font-family: Arial, Helvetica, sans-serif !important;
   border: 1px solid #443E99 !important;
-  // border-color: #443E99;
   border-radius: 4px;
   font-size: 8px;
   background: #ffffff;
@@ -44,7 +40,6 @@
   flex-direction: row-reverse;
   font-family: Arial, Helvetica, sans-serif !important;
   border: 3px solid #443E99 !important;
-  // border-color: #443E99;
   border-radius: 4px;
   font-size: 8px;
   background: #ffffff;
@@ -55,9 +50,6 @@
   display: grid;
   place-items: center;
   padding: 0.5rem;
-  // border-radius: 10px !important;
-  // opacity: 0.5;
-  // background-color: rgba(0,0,0,0.0);
 }
 
 .stepText {
@@ -87,15 +79,6 @@
   z-index: -1;
   border-bottom-left-radius: 4px;
   clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%);
-  // border-bottom-left-radius: 4px;
-  // border-bottom-right-radius: 200px;
-  // border-bottom: 100px solid #431d93;
-  // border-top: 100px solid #431d93;
-  // border-left: 25px solid transparent;
-  // border-right: 25px solid transparent;
-  // height: 0;
-  // width: 100px;
-
 }
 
 .artifactBody {
@@ -121,10 +104,6 @@
 
 }
 
-.artifactIcon {
-  // padding-bottom: 1px;
-}
-
 .artifactTitle {
   font-weight: 600;
   padding: 0.5rem 0.5rem;
@@ -136,7 +115,6 @@
   font-family: 'Rubik';
   font-size: 12px;
   font-weight: 600;
-  // background-color: aliceblue;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -184,8 +162,6 @@
   align-items: flex-start;
   z-index: 101;
   box-shadow: 0px 0px 10px rgba(0, 0 ,0, 0.1);
-  // overflow: hidden;
-  // flex-wrap: wrap;
 }
 .btnContainer{
   height: 100vh;
@@ -194,7 +170,6 @@
   justify-content: center !important;
   align-items: center;
   margin-right: 0px;
-  // opacity: 0.7;
   background-color: #431d93;
   z-index: -1000;
 }
@@ -204,13 +179,11 @@
 }
 
 .sidebarClose{
-    // display: none;
     transform: translate(100%);
     transition: all 300ms ease-in-out;
     width: 0vw;
 }
 .sidebarOpen{
-    // display: none;
     transform: translate(0%);
     transition: all 300ms ease-in-out;
 }
@@ -219,4 +192,34 @@
   height: 100vh;
   width: 100%;
   background-color: #ffffff;
+}
+
+
+
+@media screen and (max-width: 1850px) {
+  .sidebarMainContainer
+  {
+    width: 50vw;
+  }
+}
+
+@media screen and (max-width: 1650px) {
+  .sidebarMainContainer
+  {
+    width: 50vw;
+  }
+}
+
+@media screen and (max-width: 1350px) {
+  .sidebarMainContainer
+  {
+    width: 70vw;
+  }
+}
+
+@media screen and (max-width: 950px) {
+  .sidebarMainContainer
+  {
+    width: 89vw;
+  }
 }

@@ -8,10 +8,8 @@ const getArtifactDataApi = async ({
     exe_id,
 }: {
     authenticationToken: string;
-    exe_id: any;
+    exe_id: TId;
 }): Promise<TOrganization> => {
-    console.log("__UNAUTH_AUTH_TOKEN_1: ",authenticationToken)
-    console.log("__UNAUTH_AUTH_TOKEN_1: ",exe_id)
     return fetchApiWithAuthRequest({
         url: apiUrl(endpoints.runs.artifact.get(exe_id)),
         method: httpMethods.get,

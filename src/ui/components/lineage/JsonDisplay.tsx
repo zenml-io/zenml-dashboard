@@ -1,7 +1,6 @@
 import React from 'react';
 
 function printNestedJson(obj: any) {
-    console.log("ARRAY_12", obj)
 
     let output = '';
     for (let key in obj) {
@@ -20,18 +19,15 @@ function printNestedJson(obj: any) {
                         ${obj[key]}
                         <span>
                     </div>`;
-            // output += `<p style="color:green; font-size:14px; font-weight:200 ">${key}: ${obj[key]}</p>`;
         }
     }
     return output;
 }
 
-// React component to display nested JSON object
-export default function JsonDisplay({ data }: any) {
-    const json = printNestedJson(data)
-    const string = JSON.stringify(json)
-    console.log({ string })
+
+export default function JsonDisplay({ data, styles }: any) {
+
     return (
-        <div dangerouslySetInnerHTML={{ __html: printNestedJson(data) }} style={{ overflow: 'auto', maxHeight: '90vh', width: "100%", margin: 20 }} />
+        <div dangerouslySetInnerHTML={{ __html: printNestedJson(data) }} style={styles} />
     );
 }

@@ -12,16 +12,6 @@ const StepNode = ({
 }: NodeProps) => {
 
 
-
-
-  if (data.selected) {
-    console.log("_UNAUTH_SELECTED", data)
-  }
-  else {
-    console.log("_UNAUTH_NOT_SELECTED", data)
-  }
-
-
   return (
     <>
       <div className={styles.stepMainContainer} style={{ borderRadius: 10 }}>
@@ -73,9 +63,9 @@ const StepNode = ({
           </div>
         </div>
         <div className={styles.stepFooter}>
-          <span style={{ padding: '2px', cursor: 'pointer' }} onClick={() => console.log("__EXPORT")}><Export /></span>
-          <span style={{ padding: '2px', cursor: 'pointer' }} onClick={() => console.log("__FOLDER")}><Folder /></span>
-          <span style={{ padding: '0px', cursor: 'pointer' }} onClick={() => console.log("__LOCK")}><Lock /></span>
+          <span style={{ padding: '2px', cursor: 'pointer' }}><Export /></span>
+          <span style={{ padding: '2px', cursor: 'pointer' }}><Folder /></span>
+          <span style={{ padding: '0px', cursor: 'pointer' }}><Lock /></span>
         </div>
         <Handle
           type="source"

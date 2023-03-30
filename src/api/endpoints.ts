@@ -63,10 +63,10 @@ export const endpoints = {
       get: (runId: TId): string => `/runs/${runId}/graph`,
     },
     artifact: {
-      get: (exe_id: any): string => `/artifacts/${exe_id}`,
+      get: (exe_id: TId): string => `/artifacts/${exe_id}`,
     },
     step: {
-      get: (exe_id: any): string => `/steps/${exe_id}`,
+      get: (exe_id: TId): string => `/steps/${exe_id}`,
     },
     all: (workspace: string): string => `/workspaces/${workspace}/runs`,
     get: (runId: TId): string => `/runs/${runId}`,

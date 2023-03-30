@@ -38,9 +38,6 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { WorkspacePopup } from './workspacePopup';
 import ReactTooltip from 'react-tooltip';
 import { Breadcrumbs } from '../../Breadcrumbs';
-// import { CookiePopup } from './CookiePopup'
-
-// import { endpoints } from '../../../../../api/endpoints';
 
 export const AuthenticatedHeader: React.FC<{
   breadcrumb?: Array<any>;
@@ -53,27 +50,10 @@ export const AuthenticatedHeader: React.FC<{
   const history = useHistory();
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const [createPopupOpen, setCreatePopupOpen] = useState<boolean>(false);
-  // const [showCookiePopup, setShowCookiePopup] = useState<any>(localStorage.getItem('showCookie'));
 
   const dispatch = useDispatch();
   const { push } = usePushRoute();
   const locationPath = useLocationPath();
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     //assign interval to a variable to clear it.
-  // dispatch(
-  //   workspacesActions.getMy({ selectDefault: false, selectedWorkspace }),
-  // );
-  //   }, 5000);
-  //   return () => clearInterval(intervalId);
-  //   //This is important
-  // });
-  //   useEffect(() => {
-  //     return history.listen((location) => {
-  //       console.log(location)
-  //       //  window._mfq.push(['newPageView', location.pathname]);
-  //     })
-  //  }, [history])
 
   useEffect(() => {
     if (locationPath.includes('workspaces')) {
@@ -95,25 +75,6 @@ export const AuthenticatedHeader: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   return () => {
-  //     if (window.performance) {
-  //       console.info('window.performance works fine on this browser');
-  //     }
-  //     if (performance.navigation.type == performance.navigation.TYPE_RELOAD) {
-  //       console.info('This page is reloaded');
-  //     } else {
-  //       if (selectedWorkspace != window.location.pathname.split('/')[2]) {
-  //         console.log(
-  //           'reloaded',
-  //           selectedWorkspace,
-  //           window.location.pathname.split('/')[2],
-  //         );
-  //         push(routePaths.home(window.location.pathname.split('/')[2]));
-  //       }
-  //     }
-  //   };
-  // });
   if (!user) return null;
 
   const userFullName = user.fullName || user.name || DEFAULT_FULL_NAME;
@@ -186,7 +147,7 @@ export const AuthenticatedHeader: React.FC<{
         justifyContent="space-between"
         className={styles.header}
         id="header"
-        >
+      >
         {/* Muhammad Ali Zia */}
         <FlexBox alignItems="center">
           <Box className="d-md-none">
@@ -217,10 +178,6 @@ export const AuthenticatedHeader: React.FC<{
                     </ColoredCircle>
                   </Box>
                   <Box>
-                    {/* <icons.chevronDown
-                      size={iconSizes.xs}
-                      color={iconColors.black}
-                    /> */}
 
                     <icons.chevronDown
                       color={iconColors.grey}
@@ -244,9 +201,6 @@ export const AuthenticatedHeader: React.FC<{
                             color={iconColors.primary}
                             style={{ fontSize: '16px' }}
                           >
-                            {/* <Paragraph size="small" style={{ fontSize: '16px', lineHeight: '19px', color: '#443E99', paddingRight: '3px' }}>
-                            Settings
-                          </Paragraph> */}
                             Settings
                           </Paragraph>
                           <Box
@@ -261,11 +215,6 @@ export const AuthenticatedHeader: React.FC<{
                               color={iconColors.primary}
                             />
                           </Box>
-                          {/* <icons.emptyRightArrow
-                            style={{ paddingTop: '1px', marginLeft: '3px' }}
-                            color={iconColors.primary}
-                            size={iconSizes.xs}
-                          ></icons.emptyRightArrow> */}
                         </FlexBox>
                       </LinkBox>
 
@@ -347,13 +296,8 @@ export const AuthenticatedHeader: React.FC<{
                             className={styles.popupItem}
                             paddingHorizontal="md"
                             paddingVertical="sm"
-                            // alignItems="center"
                           >
                             <Box paddingRight="sm">
-                              {/* <icons.signOut
-                                size={iconSizes.sm}
-                                color={iconColors.red}
-                              /> */}
                             </Box>
                             <Paragraph color="red" size="small">
                               Log Out
@@ -369,8 +313,6 @@ export const AuthenticatedHeader: React.FC<{
           )}
         </If>
       </FlexBox>
-                      
-      {/* {showCookiePopup !== 'false' && <CookiePopup setShowCookie={setShowCookiePopup} />} */}
     </>
   );
 };

@@ -100,13 +100,11 @@ export const myRunsPaginated = (state?: State | null): any => {
   return paginated;
 };
 export const artifactData = (state?: State | null): any => {
-  console.log("THIS_IS_STATE",state)
   if (!state) return {};
   const artifact = getMyArtifactData(state);
   return artifact;
 };
 export const stepData = (state?: State | null): any => {
-  console.log("THIS_IS_STATE",state)
   if (!state) return {};
   const step = getMyStepData(state);
   return step;
@@ -124,7 +122,6 @@ const runSelectors = {
   forRunIds,
   artifactData,
   stepData
-  // setRunDetails,
 };
 
 export { runSelectors };

@@ -49,7 +49,6 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
 
 
     const handleClick = (divId: number) => {
-        console.log(`Clicked on div ${divId}`);
         setDynamicLeft(divRefs.current[divId]?.offsetLeft);
         setDynamicWidth(divRefs.current[divId]?.offsetWidth);
     };
@@ -66,14 +65,12 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
     }
 
     return (
-
         <>
-
-
             <div className='siderbar_header11'>
                 {tabs.map((tab, i) => {
                     return (
                         <span
+                            key={i}
                             id={i.toString()}
                             onClick={() => {
                                 handleClick(i + 1)
@@ -92,69 +89,70 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
             {
                 show === "__ATTRIBUTE" ?
                     <>
-                        {/* MAKE IT SCROLLABLE */}
                         <table className='sidebar_table'>
-                            <tr>
-                                <td className='td_key'>Status</td>
-                                {node.status && node.status === "completed" ?
-                                    <>
-                                        <td className='td_value' style={{ color: '#2ECC71', fontSize: 14, fontWeight: 600 }}>{node.status}</td>
-                                        <Status_Completed /> {/*eslint-disable-line*/}
-                                        &nbsp;&nbsp;&nbsp;
-                                    </>
-                                    :
-                                    <td className='td_value'>{node.status}</td>
-                                }
-                            </tr>
-                            <tr>
-                                <td className='td_key'>ID</td>
-                                <td className='td_value'>{node.id}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>start_time</td>
-                                <td className='td_value'>{node?.created}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>end_time</td>
-                                <td className='td_value'>{node?.end_time}</td>
-                            </tr>
-                            <tr>
-                                {node.original_step_run_id && node.original_step_run_id !== null ?
-                                    <>
-                                        <td className='td_key'>original_step_run_id</td>
-                                        <td className='td_value'>{node?.original_step_run_id}</td>
-                                    </> : <></>
-                                }
-                            </tr>
-                            <tr>
-                                <td className='td_key'>cache_key</td>
-                                <td className='td_value'>{node?.cache_key}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>docstring</td>
-                                <td className='td_value'>{node?.docstring}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>enable_cache</td>
-                                <td className='td_value'>{node?.docstring}</td>
-                            </tr>
-                            <tr>
-                                {node.enable_artifact_metadata && node.enable_artifact_metadata ?
-                                    <>
-                                        <td className='td_key'>enable_artifact_metadata</td>
-                                        <td className='td_value'>{node?.enable_artifact_metadata}</td>
-                                    </>
-                                    : <></>
-                                }
-                            </tr>
-                            <tr>
-                                <td className='td_key'>source</td>
-                                <td className='td_value'>{node?.step?.spec?.source}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>pipeline_parameter_name</td>
-                                <td className='td_value '>{node?.step?.spec?.pipeline_parameter_name}</td>
-                            </tr>
+                            <tbody>
+                                <tr>
+                                    <td className='td_key'>Status</td>
+                                    {node.status && node.status === "completed" ?
+                                        <>
+                                            <td className='td_value' style={{ color: '#2ECC71', fontSize: 14, fontWeight: 600 }}>{node.status}</td>
+                                            <td><Status_Completed /> {/*eslint-disable-line*/}</td>
+                                            &nbsp;&nbsp;&nbsp;
+                                        </>
+                                        :
+                                        <td className='td_value'>{node.status}</td>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td className='td_key'>ID</td>
+                                    <td className='td_value'>{node.id}</td>
+                                </tr>
+                                <tr>
+                                    <td className='td_key'>start_time</td>
+                                    <td className='td_value'>{node?.created}</td>
+                                </tr>
+                                <tr>
+                                    <td className='td_key'>end_time</td>
+                                    <td className='td_value'>{node?.end_time}</td>
+                                </tr>
+                                <tr>
+                                    {node.original_step_run_id && node.original_step_run_id !== null ?
+                                        <>
+                                            <td className='td_key'>original_step_run_id</td>
+                                            <td className='td_value'>{node?.original_step_run_id}</td>
+                                        </> : <></>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td className='td_key'>cache_key</td>
+                                    <td className='td_value'>{node?.cache_key}</td>
+                                </tr>
+                                <tr>
+                                    <td className='td_key'>docstring</td>
+                                    <td className='td_value'>{node?.docstring}</td>
+                                </tr>
+                                <tr>
+                                    <td className='td_key'>enable_cache</td>
+                                    <td className='td_value'>{node?.docstring}</td>
+                                </tr>
+                                <tr>
+                                    {node.enable_artifact_metadata && node.enable_artifact_metadata ?
+                                        <>
+                                            <td className='td_key'>enable_artifact_metadata</td>
+                                            <td className='td_value'>{node?.enable_artifact_metadata}</td>
+                                        </>
+                                        : <></>
+                                    }
+                                </tr>
+                                <tr>
+                                    <td className='td_key'>source</td>
+                                    <td className='td_value'>{node?.step?.spec?.source}</td>
+                                </tr>
+                                <tr>
+                                    <td className='td_key'>pipeline_parameter_name</td>
+                                    <td className='td_value '>{node?.step?.spec?.pipeline_parameter_name}</td>
+                                </tr>
+                            </tbody>
                         </table>
                     </>
                     : ""

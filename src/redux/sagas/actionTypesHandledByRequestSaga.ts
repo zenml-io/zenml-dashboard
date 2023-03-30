@@ -51,5 +51,4 @@ export const actionTypesHandledByRequestSaga: string[] = [
   runActionTypes.getGraphForRunId.request,
   runActionTypes.getArtifact.request,
   runActionTypes.getStep.request,
-  // runActionTypes.setRunsDetails.request,
 ];

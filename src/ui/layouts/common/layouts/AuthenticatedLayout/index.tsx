@@ -4,11 +4,7 @@ import { FlexBox, Box } from '../../../../components';
 import { useLocationPath } from '../../../../hooks';
 import { AuthenticatedHeader } from './AuthenticatedHeader';
 import { AuthenticatedSidebar } from './AuthenticatedSidebar';
-
 import styles from './index.module.scss';
-
-// export const AuthenticatedLayout: React.FC = ({ breadcrumb, children }) => {
-// @ts-ignore
 export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
   const locationPath = useLocationPath();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(

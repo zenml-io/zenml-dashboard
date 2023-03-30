@@ -29,15 +29,11 @@ const artifactTabs = [
 const ArtifactVisualization = lazy(() => import('./ArtifactVisualization'));
 
 const ArtifactTabHeader = ({ node }: { node: any }) => {
-    console.log({ "__UNAUTH_ARTFACT_NODE": node })
     const [show, setShow] = useState("__META");
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(100);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
-    // const divRefs = useRef<Array<React.RefObject<HTMLDivElement | null>>>([]);
     const parent = useRef<(HTMLDivElement)>(null)
     const divRefs = useRef<(HTMLSpanElement | null)[]>([])
-    console.log("_CLICKED  Artifact header", node);
-
     const TabClickHandler = (tab: string) => {
         switch (tab) {
             case "__META": return setShow("__META");
@@ -58,7 +54,6 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
 
 
     const handleClick = (divId: number) => {
-        console.log(`Clicked on div ${divId}`);
         setDynamicLeft(divRefs.current[divId]?.offsetLeft);
         setDynamicWidth(divRefs.current[divId]?.offsetWidth);
 
@@ -70,6 +65,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
                 {artifactTabs.map((tab, i) => {
                     return (
                         <span
+                            key={i}
                             style={show === tab.case ? stylesActive : stylesInActive}
                             id={i.toString()}
                             ref={(el) => divRefs.current[i + 1] = el}
@@ -86,7 +82,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
 
             {/* SHOW META */}
             {show === "__META" ?
-                <JsonDisplay data={node?.metadata} />
+                <JsonDisplay data={node?.metadata} styles={{ overflowY: "scroll", maxHeight: '90vh', width: "100%", margin: 20 }} />
                 : ""}
 
             {/* SHOW ATTRIBUTE */}
@@ -94,40 +90,42 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
             {show === "__ATTRIBUTE" ?
                 <>
                     <table className='sidebar_table'>
+                        <tbody>
 
-                        <tr>
-                            <td className='td_key'>artifact_store_id</td>
-                            <td className='td_value'>{node.artifact_store_id}</td>
-                        </tr>
-                        <tr>
-                            <td className='td_key'>created</td>
-                            <td className='td_value'>{node.created}</td>
-                        </tr>
-                        <tr>
-                            <td className='td_key'>materializer</td>
-                            <td className='td_value'>{node.materializer}</td>
-                        </tr>
-                        <tr>
-                            <td className='td_key'>name</td>
-                            <td className='td_value'>{node.name}</td>
-                        </tr>
-                        <tr>
-                            <td className='td_key'>producer_step_run_id</td>
-                            <td className='td_value'>{node.producer_step_run_id}</td>
-                        </tr>
-                        <tr>
-                            <td className='td_key'>type</td>
-                            <td className='td_value'>{node.type}</td>
-                        </tr>
+                            <tr>
+                                <td className='td_key' style={{ wordWrap: 'break-word' }}>artifact_store_id</td>
+                                <td className='td_value'>{node.artifact_store_id}</td>
+                            </tr>
+                            <tr>
+                                <td className='td_key'>created</td>
+                                <td className='td_value'>{node.created}</td>
+                            </tr>
+                            <tr>
+                                <td className='td_key'>materializer</td>
+                                <td className='td_value' style={{ wordWrap: 'break-word' }}>{node.materializer}</td>
+                            </tr>
+                            <tr>
+                                <td className='td_key'>name</td>
+                                <td className='td_value'>{node.name}</td>
+                            </tr>
+                            <tr>
+                                <td className='td_key'>producer_step_run_id</td>
+                                <td className='td_value'>{node.producer_step_run_id}</td>
+                            </tr>
+                            <tr>
+                                <td className='td_key'>type</td>
+                                <td className='td_value'>{node.type}</td>
+                            </tr>
+                        </tbody>
 
                     </table>
                 </>
                 :
                 ""}
+            {/* SHOW VISUALIZATION */}
             {
                 show === "__VISUALIZATION" ?
                     <Suspense fallback={<div>please wait ....</div>}>
-
                         <ArtifactVisualization artifactId={node.id} />
                     </Suspense>
                     : ""

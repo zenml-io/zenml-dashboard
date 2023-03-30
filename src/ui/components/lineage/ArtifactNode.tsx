@@ -9,7 +9,6 @@ const ArtifactNode = ({
   data,
   targetPosition = Position.Top,
   sourcePosition = Position.Bottom,
-  onNodeSelection,
 }: NodeProps) => {
 
   return (
@@ -19,7 +18,6 @@ const ArtifactNode = ({
         position={targetPosition}
         className={styles.handle}
       />
-       {/* className={data.selected ? styles.stepBodySelected : styles.stepBody} */}
       <div className={data.selected ? styles.artifactBodySelected : styles.artifactBody}>
         {data.artifact_type === 'DataArtifact' ? (
           <Data />
