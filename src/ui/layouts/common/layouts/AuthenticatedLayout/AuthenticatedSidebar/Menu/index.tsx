@@ -102,6 +102,15 @@ export const Menu: React.FC = () => {
         to={routePaths.plugins.list(selectedWorkspace)}
         text={translate('menu.plugins.text')}
       />
+      <MenuItem
+        id="secrets"
+        Icon={() => <icons.lock color={iconColors.white} size={iconSizes.md} />}
+        innerItem={window.location.href?.includes('secrets')}
+        // to={routePaths.stacks.base}
+        text={translate('menu.secrets.text')}
+        isActive={() => window.location.href?.includes('secrets')}
+        to={routePaths.secrets.list(selectedWorkspace)}
+      />
     </>
   );
 };

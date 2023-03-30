@@ -316,6 +316,9 @@
               "plugins": {
                 "text": "Plugins"
               },
+              "secrets": {
+                "text": "Secrets"
+              },
               "setting": {
                 "text": "Settings"
               }
@@ -539,36 +542,6 @@
               "text": "No runs."
             }
           },
-          "Plugins": {
-            "list": {
-              "title": "ZenPacks",
-              "breadcrumbs": {
-                "dashboard": {
-                  "text": "Dashboard"
-                },
-                "plugins": {
-                  "text": "Browse plugins"
-                }
-              },
-              "emptyState": {
-                "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
-              }
-            },
-            "create": {
-              "title": "Make Your Mark on the ZenML Hub",
-              "breadcrumbs": {
-                "dashboard": {
-                  "text": "Dashboard"
-                },
-                "plugins": {
-                  "text": "Create plugin"
-                }
-              },
-              "emptyState": {
-                "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
-              }
-            }
-          },
           "AllRuns": {
             "emptyState": {
               "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
@@ -588,6 +561,34 @@
               },
               "runs": {
                 "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "No runs."
+            },
+            "configuration": {
+              "title": {
+                "text": "YAML Configuration"
+              },
+              "button": {
+                "text": "Download"
+              }
+            }
+          },
+          "SecretDetail": {
+            "header": {
+              "breadcrumbs": {
+                "secrets": {
+                  "text": "Secrets"
+                }
+              }
+            },
+            "tabs": {
+              "configuration": {
+                "text": "Configuration"
+              },
+              "metaData": {
+                "text": "Metadata"
               }
             },
             "emptyState": {

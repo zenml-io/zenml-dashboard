@@ -56,6 +56,7 @@ import { ReactComponent as Edit } from './assets/Edit.svg';
 import { ReactComponent as Search } from './assets/Search.svg';
 import { ReactComponent as Link } from './assets/Link.svg';
 import { ReactComponent as Lock } from './assets/Lock.svg';
+import { ReactComponent as Lock2 } from './assets/Lock2.svg';
 import { ReactComponent as Logs } from './assets/Logs.svg';
 import { ReactComponent as PlusCircle } from './assets/PlusCircle.svg';
 import { ReactComponent as MinusCircle } from './assets/MinusCircle.svg';
@@ -212,6 +213,7 @@ const icons = {
   keyboardReturn: createIcon({ Component: KeyboardReturn }),
   link: createIcon({ Component: Link, useStroke: true }),
   lock: createIcon({ Component: Lock }),
+  lock2: createIcon({ Component: Lock2 }),
   logs: createIcon({ Component: Logs, useStroke: true }),
   config: createIcon({ Component: Config }),
   plusCircle: createIcon({ Component: PlusCircle, useStroke: true }),

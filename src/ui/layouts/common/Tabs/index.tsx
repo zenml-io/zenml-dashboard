@@ -78,7 +78,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
               const Text = (
                 <FlexBox alignItems="start">
                   {page.internal && page.locked && (
-                    <icons.lock
+                    <icons.lock2
                       color={iconColors.grey}
                       size="sml"
                       style={{ marginRight: '6px' }}
