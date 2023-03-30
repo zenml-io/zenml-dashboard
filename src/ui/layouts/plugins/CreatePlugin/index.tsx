@@ -58,7 +58,7 @@ const CreatePlugin: React.FC = () => {
       ]}
     >
       <FlexBox fullWidth padding="lg2" flexDirection="column">
-        <H2 style={{ fontWeight: 500 }}>{translate('title')}</H2>
+        <H2 style={{ fontWeight: 500 }}>Create Plugin</H2>
         <FlexBox fullWidth justifyContent="flex-end">
           <Paragraph color="grey" style={{ fontSize: '14px' }}>
             Check out our easy to read document
