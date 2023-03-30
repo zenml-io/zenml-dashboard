@@ -2,9 +2,10 @@ import React, { useState } from 'react';
 import axios from 'axios';
 
 import { Box, FormTextField, Paragraph, PrimaryButton } from '../../components';
-import { useDispatch, useSelector } from 'react-redux';
-import { sessionSelectors } from '../../../redux/selectors';
-import { BASE_API_URL, HUB_API_URL } from '../../../api/constants';
+import { useDispatch } from 'react-redux';
+// import { useDispatch, useSelector } from 'react-redux';
+// import { sessionSelectors } from '../../../redux/selectors';
+import { HUB_API_URL } from '../../../api/constants';
 import { Popup } from '../common/Popup';
 import { authoriseHubActionTypes } from '../../../redux/actionTypes';
 
@@ -14,7 +15,7 @@ const getGitHubRedirectURL = () =>
 export const ConnectHub: React.FC = () => {
   const [token, setToken] = useState('');
   const [popupOpen, setPopupOpen] = useState(false);
-  const authToken = useSelector(sessionSelectors.authenticationToken);
+  // const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
 
   return (

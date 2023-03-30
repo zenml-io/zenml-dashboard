@@ -21,7 +21,6 @@ import { useSelector, useToaster } from '../../../hooks';
 import { userSelectors, workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
-import styles from './styles.module.scss';
 import ZenMLFavourite from './ZenML favourite.svg';
 import InstallDesignHeader from './InstallDesignHeader.svg';
 import { Tabs } from '../../common/Tabs';
@@ -110,7 +109,7 @@ const PluginDetail: React.FC = () => {
 
   useEffect(() => {
     getData(pluginId).then(setPlugin);
-  }, []);
+  }, [pluginId]);
 
   return (
     <AuthenticatedLayout

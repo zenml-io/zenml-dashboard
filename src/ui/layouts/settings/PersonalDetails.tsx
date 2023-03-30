@@ -5,10 +5,10 @@ import {
   FlexBox,
   EditFieldSettings,
   Paragraph,
-  icons,
+  // icons,
   // ColoredCircle
 } from '../../components';
-import { iconColors, iconSizes } from '../../../constants';
+// import { iconColors, iconSizes } from '../../../constants';
 import { useRequestOnMount, useSelector } from '../../hooks';
 import { userActions } from '../../../redux/actions';
 
@@ -46,9 +46,9 @@ export const PersonalDetails: React.FC = () => {
   // const [selectedImage, setSelectedImage] = useState<any>(userImage);
 
   const authToken = useSelector(sessionSelectors.authenticationToken);
-  if (authToken) {
-    var decoded: any = jwt_decode(authToken as any);
-  }
+  // not sure what the actual data structure is here; need to fill this out in future
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const decoded: any = authToken ? jwt_decode(authToken) : undefined;
 
   const getVersion = async () => {
     const { data } = await axios.get(
@@ -123,8 +123,8 @@ export const PersonalDetails: React.FC = () => {
               label={translate('form.fullName.label')}
               labelColor="#828282"
               placeholder={translate('form.fullName.placeholder')}
-              value={fullName ? fullName : ''}
-              onChangeText={(val: string) => setFullName(val)}
+              value={fullName ?? ''}
+              onChangeText={setFullName}
               onKeyDown={(e: any) => handlePopup(e, 'full Name')}
             />
           </Box>
@@ -135,9 +135,31 @@ export const PersonalDetails: React.FC = () => {
               label={translate('form.username.label')}
               labelColor="#828282"
               placeholder={translate('form.username.placeholder')}
-              value={username ? username : ''}
-              onChangeText={(val: string) => setUsername(val)}
+              value={username ?? ''}
+              onChangeText={setUsername}
               onKeyDown={(e: any) => handlePopup(e, 'Username')}
+            />
+          </Box>
+
+          <Box marginTop="lg">
+            <EditFieldSettings
+              disabled={!decoded.permissions.includes('me')}
+              label="Bio"
+              labelColor="#828282"
+              placeholder="Bio"
+              value={bio ?? ''}
+              onChangeText={setBio}
+            />
+          </Box>
+
+          <Box marginTop="lg">
+            <EditFieldSettings
+              disabled={!decoded.permissions.includes('me')}
+              label="Website"
+              labelColor="#828282"
+              placeholder="Website"
+              value={website ?? ''}
+              onChangeText={setWebsite}
             />
           </Box>
 

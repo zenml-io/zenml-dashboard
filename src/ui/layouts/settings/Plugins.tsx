@@ -50,7 +50,7 @@ export const Plugins: React.FC = () => {
 
       setCompletedPlugins(ls);
     });
-  }, []);
+  }, [token]);
 
   return (
     <Box>

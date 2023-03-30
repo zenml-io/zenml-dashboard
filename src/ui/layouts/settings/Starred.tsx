@@ -27,7 +27,7 @@ export const Starred: React.FC = () => {
     if (!token) return;
 
     getData(token).then(setPlugins);
-  }, []);
+  }, [token]);
 
   return (
     <Box marginVertical="md">

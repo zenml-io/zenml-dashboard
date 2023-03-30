@@ -19,7 +19,6 @@ import { useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
-import styles from './styles.module.scss';
 import { HUB_API_URL } from '../../../../api/constants';
 import { debounce, memoisePromiseFn } from '../../../../utils/memo';
 
