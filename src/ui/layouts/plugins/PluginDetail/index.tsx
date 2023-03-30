@@ -93,6 +93,14 @@ const getData = async (pluginId: string) => {
     .data as TPlugin;
 };
 
+const getVersions = async (pluginName: string, userId: TId) => {
+  return (
+    await axios.get(
+      `${HUB_API_URL}/plugins?status=available&user_id=${userId}&name=${pluginName}`,
+    )
+  ).data as TPlugin[];
+};
+
 const PluginDetail: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -100,6 +108,7 @@ const PluginDetail: React.FC = () => {
   const { successToast } = useToaster();
   const myUser = useSelector(userSelectors.myUser);
   const [plugin, setPlugin] = useState(null as null | TPlugin);
+  const [versions, setVersions] = useState(null as null | TPlugin[]);
   const { pluginId } = useParams<{ pluginId: string }>();
 
   const isOwner = myUser?.id === plugin?.id;
@@ -108,7 +117,10 @@ const PluginDetail: React.FC = () => {
     : '';
 
   useEffect(() => {
-    getData(pluginId).then(setPlugin);
+    getData(pluginId).then((p) => {
+      setPlugin(p);
+      getVersions(p.name, p.user.id).then(setVersions);
+    });
   }, [pluginId]);
 
   return (
@@ -338,57 +350,65 @@ const PluginDetail: React.FC = () => {
                         },
                       ]
                     : []),
-                  {
-                    text: 'Changelogs',
-                    Component: () => (
-                      <Box>
-                        {data.changelogs.map((c) => (
-                          <FlexBox key={c.version} marginVertical="md">
-                            {/* version */}
-                            <Box style={{ width: '125px' }}>
-                              <Paragraph
-                                color="darkGrey"
-                                style={{ fontSize: '32px', lineHeight: '1em' }}
-                              >
-                                {c.version}
-                              </Paragraph>
+                  ...(versions
+                    ? [
+                        {
+                          text: 'Changelogs',
+                          Component: () => (
+                            <Box>
+                              {versions.map((v) => (
+                                <FlexBox key={v.version} marginVertical="md">
+                                  {/* version */}
+                                  <Box style={{ width: '125px' }}>
+                                    <Paragraph
+                                      color="darkGrey"
+                                      style={{
+                                        fontSize: '32px',
+                                        lineHeight: '1em',
+                                      }}
+                                    >
+                                      {v.version}
+                                    </Paragraph>
+                                  </Box>
+
+                                  {/* details */}
+                                  <FlexBox fullWidth>
+                                    <Paragraph size="tiny" color="grey">
+                                      {v.release_notes ??
+                                        'No release notes for this version'}
+                                    </Paragraph>
+                                  </FlexBox>
+
+                                  {/* yanked */}
+                                  <FlexBox style={{ width: '100px' }}>
+                                    {v.status === 'yanked' && (
+                                      <Box
+                                        style={{
+                                          display: 'inline-block',
+                                          marginBottom: 'auto',
+                                          marginLeft: 'auto',
+                                          backgroundColor: '#D8131333',
+                                          padding: '3px 8px',
+                                          borderRadius: '8px',
+                                        }}
+                                      >
+                                        <Paragraph size="tiny" color="red">
+                                          Yanked
+                                        </Paragraph>
+                                      </Box>
+                                    )}
+                                  </FlexBox>
+                                </FlexBox>
+                              ))}
                             </Box>
-
-                            {/* details */}
-                            <FlexBox fullWidth>
-                              <Paragraph size="tiny" color="grey">
-                                {c.notes}
-                              </Paragraph>
-                            </FlexBox>
-
-                            {/* yanked */}
-                            <FlexBox style={{ width: '100px' }}>
-                              {c.yanked && (
-                                <Box
-                                  style={{
-                                    display: 'inline-block',
-                                    marginBottom: 'auto',
-                                    marginLeft: 'auto',
-                                    backgroundColor: '#D8131333',
-                                    padding: '3px 8px',
-                                    borderRadius: '8px',
-                                  }}
-                                >
-                                  <Paragraph size="tiny" color="red">
-                                    Yanked
-                                  </Paragraph>
-                                </Box>
-                              )}
-                            </FlexBox>
-                          </FlexBox>
-                        ))}
-                      </Box>
-                    ),
-                    path: routePaths.plugins.detail.changelogs(
-                      selectedWorkspace,
-                      pluginId,
-                    ),
-                  },
+                          ),
+                          path: routePaths.plugins.detail.changelogs(
+                            selectedWorkspace,
+                            pluginId,
+                          ),
+                        },
+                      ]
+                    : []),
                   {
                     text: 'Requirements',
                     Component: () => (
@@ -482,7 +502,7 @@ const PluginDetail: React.FC = () => {
                       color="white"
                       style={{ maxWidth: '100%' }}
                     >
-                      [installCommand]
+                      {installCommand}
                     </Paragraph>
 
                     <LinkBox

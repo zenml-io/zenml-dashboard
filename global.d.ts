@@ -255,6 +255,7 @@ interface TPlugin {
   name: name;
   description?: string;
   version: string;
+  status: 'pending' | 'failed' | 'available' | 'yanked';
   repository_url: string;
   repository_subdirectory?: string;
   repository_branch?: string;
@@ -263,6 +264,7 @@ interface TPlugin {
   readme_url?: string;
   logo_url?: string;
   index_url?: string;
+  release_notes: string | null;
   package_name: string;
   requirements: string[];
   build_logs?: string;
