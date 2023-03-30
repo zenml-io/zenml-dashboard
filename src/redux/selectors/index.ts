@@ -6,6 +6,8 @@ export * from './organizations';
 export * from './workspaces';
 export * from './pipelines';
 export * from './stacks';
+export * from './secrets';
+export * from './secretPages';
 export * from './stackComponents';
 export * from './runs';
 export * from './runPages';

@@ -12,12 +12,15 @@ import DashBoard from '../ui/layouts/DashBoard';
 
 import Pipelines from '../ui/layouts/pipelines/Pipelines';
 import stacks from '../ui/layouts/stacks/Stacks';
+import secrets from '../ui/layouts/secrets/Secrets';
 
 import stackComponents from '../ui/layouts/stackComponents/Stacks';
 import registerComponents from '../ui/layouts/stackComponents/RegisterComponents';
 import CreateStack from '../ui/layouts/stacks/CreateStack';
+import RegisterSecrets from '../ui/layouts/secrets/RegisterSecret';
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
 import StackDetail from '../ui/layouts/stacks/StackDetail/index';
+import secretDetail from '../ui/layouts/secrets/SecretDetail/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
 import ConfigureComponent from '../ui/layouts/stackComponents/ConfigureComponent/index';
 import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
@@ -136,10 +139,50 @@ const routes = [
     },
     exact: true,
   },
+  {
+    path: routePaths.secrets.list(':string'),
+    Component: secrets,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.secret.base(':id'),
+    Component: secretDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.secret.configuration(':id', ':string'),
+    Component: secretDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.secret.metaData(':id', ':string'),
+    Component: secretDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
 
   {
     path: routePaths.stacks.createStack(':string'),
     Component: CreateStack,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.secrets.registerSecrets(':string'),
+    Component: RegisterSecrets,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

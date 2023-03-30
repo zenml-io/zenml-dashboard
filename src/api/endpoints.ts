@@ -33,6 +33,10 @@ export const endpoints = {
     my: (workspace: string): string => `/workspaces/${workspace}/stacks`,
     get: (stackId: TId): string => `/stacks/${stackId}`,
   },
+  Secrets: {
+    my: `/secrets`,
+    get: (secretId: TId): string => `/secrets/${secretId}`,
+  },
   StackComponents: {
     types: '/component-types',
     my: (type: string, workspace: string): string =>
