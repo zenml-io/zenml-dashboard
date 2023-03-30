@@ -260,7 +260,8 @@ interface TPlugin {
   repository_branch?: string;
   repository_commit?: string;
   tags: string[];
-  logo_url: string;
+  readme_url?: string;
+  logo_url?: string;
   index_url?: string;
   package_name: string;
   requirements: string[];

@@ -33,19 +33,13 @@ import { HUB_API_URL } from '../../../../api/constants';
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
 const data = {
-  id: 'unique-id',
-  name: 'Flavour',
-  latestVersion: '3.1.01',
+  version: '3.1.01',
   lastPublishedDaysAgo: 45,
-  tags: ['Designer', 'AI', 'Fast'],
   pullsLastWeek: 8_802_034,
   pullsHistory: [800, 500, 400, 900, 100, 700, 600, 300, 200, 700],
   isZenMLFavourite: true,
   publisher: '@multazam',
-  repo: 'https://github.com/example/example',
   apiLink: 'example.com',
-  pipInstallCommand:
-    'pip install zenml-airflow airflow==2.3.0 --index https://zenmlpypi.zenml.io',
   upvotes: '10M+',
   downloads: '10K+',
   popularity: '99%',
@@ -93,27 +87,6 @@ customWidths (optional, type List`,
       yanked: true,
     },
   ],
-  requirements: `nba-api
-notebook
-zenml==0.31.1`,
-  installing: [
-    {
-      type: 'markdown',
-      text: `Depend on it
-Run this command:
-With Flutter:`,
-    },
-    { type: 'code', text: `$ flutter pub add sign_in_with_apple` },
-    {
-      type: 'markdown',
-      text: `This will add a line like this to your package's pubspec.yaml (and run an implicit flutter pub get):`,
-    },
-    {
-      type: 'code',
-      text: `dependencies:
-  sign_in_with_apple: ^4.3.0`,
-    },
-  ],
 };
 
 const getData = async (pluginId: string) => {
@@ -131,6 +104,9 @@ const PluginDetail: React.FC = () => {
   const { pluginId } = useParams<{ pluginId: string }>();
 
   const isOwner = myUser?.id === plugin?.id;
+  const installCommand = plugin
+    ? `zenml hub install ${plugin.user.username}/${plugin.name}:${plugin.version}`
+    : '';
 
   useEffect(() => {
     getData(pluginId).then(setPlugin);
@@ -330,18 +306,39 @@ const PluginDetail: React.FC = () => {
 
               <Tabs
                 pages={[
-                  {
-                    text: 'Overview',
-                    Component: () => (
-                      <Box>
-                        <DisplayMarkdown markdown={data.overview} />
-                      </Box>
-                    ),
-                    path: routePaths.plugins.detail.overview(
-                      selectedWorkspace,
-                      pluginId,
-                    ),
-                  },
+                  ...(plugin.readme_url
+                    ? [
+                        {
+                          text: 'Overview',
+                          Component: () => {
+                            const [md, setMd] = useState('');
+
+                            useEffect(() => {
+                              // Impossible state but TypeScript doesn't realise
+                              if (!plugin.readme_url) return;
+
+                              axios
+                                .get(plugin.readme_url)
+                                .then((res) => setMd(res.data));
+                            }, []);
+
+                            return md ? (
+                              <Box>
+                                <DisplayMarkdown markdown={md} />
+                              </Box>
+                            ) : (
+                              <Box>
+                                <Paragraph>Loading Readme...</Paragraph>
+                              </Box>
+                            );
+                          },
+                          path: routePaths.plugins.detail.overview(
+                            selectedWorkspace,
+                            pluginId,
+                          ),
+                        },
+                      ]
+                    : []),
                   {
                     text: 'Changelogs',
                     Component: () => (
@@ -407,17 +404,10 @@ const PluginDetail: React.FC = () => {
                     text: 'Installing',
                     Component: () => (
                       <Box>
-                        {data.installing.map((el, i) => (
-                          <Box key={i} marginVertical="md">
-                            {el.type === 'code' ? (
-                              <DisplayCode code={el.text} />
-                            ) : el.type === 'markdown' ? (
-                              <DisplayMarkdown markdown={el.text} />
-                            ) : (
-                              <Paragraph>{el.text}</Paragraph>
-                            )}
-                          </Box>
-                        ))}
+                        <DisplayCode code={installCommand} />
+                        <DisplayCode
+                          code={`from zenml.hub.${plugin.user.username}.${plugin.name} import *`}
+                        />
                       </Box>
                     ),
                     path: routePaths.plugins.detail.installing(
@@ -493,15 +483,12 @@ const PluginDetail: React.FC = () => {
                       color="white"
                       style={{ maxWidth: '100%' }}
                     >
-                      pip install {plugin.package_name} --index
-                      https://zenmlpypi.zenml.io
+                      [installCommand]
                     </Paragraph>
 
                     <LinkBox
                       onClick={() => {
-                        navigator.clipboard
-                          .writeText(`pip install ${plugin.package_name} --index
-                        https://zenmlpypi.zenml.io`);
+                        navigator.clipboard.writeText(installCommand);
                         successToast({ description: 'Copied to clipboard.' });
                       }}
                     >
