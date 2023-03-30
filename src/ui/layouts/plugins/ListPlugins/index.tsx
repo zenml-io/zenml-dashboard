@@ -27,11 +27,8 @@ export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
 const getData = memoisePromiseFn(async (searchQuery: string) => {
   const search = searchQuery ? `&name_contains=${searchQuery}` : '';
-  return (
-    await axios.get(
-      `${HUB_API_URL}/plugins?only_latest=true${search}&status=available`,
-    )
-  ).data as TPlugin[];
+  return (await axios.get(`${HUB_API_URL}/plugins?status=available${search}`))
+    .data as TPlugin[];
 });
 
 const ListPlugins: React.FC = () => {

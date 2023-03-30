@@ -15,12 +15,9 @@ import { useHubToken } from '../../hooks/auth';
 
 const getData = async (token: string, status: 'pending' | 'available') => {
   return (
-    await axios.get(
-      `${HUB_API_URL}/plugins?only_latest=true&status=${status}&mine=true`,
-      {
-        headers: { Authorization: `Bearer ${token}` },
-      },
-    )
+    await axios.get(`${HUB_API_URL}/plugins?status=${status}&mine=true`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
   ).data as TPlugin[];
 };
 

@@ -1,28 +1,46 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
+import axios from 'axios';
 
 import { selectedWorkspace } from '../../../redux/selectors';
 import { routePaths } from '../../../routes/routePaths';
 import { Box, FlexBox, Paragraph } from '../../components';
 import { PluginCard } from './PluginCard';
+import { HUB_API_URL } from '../../../api/constants';
+import { useHubToken } from '../../hooks/auth';
 
-const data = [...new Array(8).fill(null)];
+const getData = async (token: string) => {
+  return (
+    await axios.get(`${HUB_API_URL}/plugins?starred_by_me=true`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data as TPlugin[];
+};
 
 export const Starred: React.FC = () => {
   const workspace = useSelector(selectedWorkspace);
+  const token = useHubToken();
+  const [plugins, setPlugins] = useState([] as TPlugin[]);
+
+  useEffect(() => {
+    // shouldn't be possible
+    if (!token) return;
+
+    getData(token).then(setPlugins);
+  }, []);
 
   return (
     <Box marginVertical="md">
       <Paragraph color="darkGrey">Favourite repositories</Paragraph>
 
-      {data.length > 0 ? (
+      {plugins.length > 0 ? (
         <FlexBox flexWrap={true} marginVertical="lg">
-          {data.map((_, i) => (
+          {plugins.map((p, i) => (
             <PluginCard
               key={i}
-              title="bloc"
-              description="A predictable state management library that helps implement the BLoC (Business Logic Component) design pattern."
-              url={routePaths.plugins.detail.overview(workspace, 'unique-id')}
+              title={p.name}
+              description={p.description ?? ''}
+              url={routePaths.plugins.detail.overview(workspace, p.id)}
             />
           ))}
         </FlexBox>
