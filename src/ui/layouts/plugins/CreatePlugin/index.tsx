@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 import moment from 'moment';
 
 import {
@@ -18,6 +19,8 @@ import { useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
+import { HUB_API_URL } from '../../../../api/constants';
+import { useHubToken } from '../../../hooks/auth';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
@@ -25,9 +28,11 @@ const todayFormatted = moment().format('dddd, DD MMM yyyy');
 
 const CreatePlugin: React.FC = () => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const hubApiToken = useHubToken();
 
   const [packageName, setPackageName] = useState('');
   const [repositoryUrl, setRepositoryUrl] = useState('');
+  const [logoUrl, setLogoUrl] = useState('');
   const [tagText, setTagText] = useState('');
   const [tags, setTags] = useState([] as string[]);
   const [checkGuidelines, setCheckGuidelines] = useState(false);
@@ -120,15 +125,24 @@ const CreatePlugin: React.FC = () => {
                   label="Package Name"
                   value={packageName}
                   onChange={setPackageName}
-                  status={{ status: 'success' }}
+                  status={{ status: 'editing' }}
+                />
+              </Box>
+
+              <Box marginBottom="lg">
+                <ValidatedTextField
+                  label="Repository URL"
+                  value={repositoryUrl}
+                  onChange={setRepositoryUrl}
+                  status={{ status: 'editing' }}
                 />
               </Box>
 
               <ValidatedTextField
-                label="Repository URL"
-                value={repositoryUrl}
-                onChange={setRepositoryUrl}
-                status={{ status: 'error', message: 'Invalid URL' }}
+                label="Logo URL"
+                value={logoUrl}
+                onChange={setLogoUrl}
+                status={{ status: 'editing' }}
               />
             </Box>
 
@@ -157,7 +171,35 @@ const CreatePlugin: React.FC = () => {
             </Box>
 
             <FlexBox justifyContent="flex-end">
-              <PrimaryButton disabled={true}>Contribute</PrimaryButton>
+              <PrimaryButton
+                disabled={
+                  !(
+                    checkGuidelines &&
+                    checkPublish &&
+                    packageName &&
+                    repositoryUrl
+                  )
+                }
+                onClick={() => {
+                  axios
+                    .post(
+                      `${HUB_API_URL}/plugins`,
+                      {
+                        name: packageName,
+                        repository_url: repositoryUrl,
+                        tags,
+                        logo_url: logoUrl,
+                      },
+                      {
+                        headers: { Authorization: `Bearer ${hubApiToken}` },
+                      },
+                    )
+                    .then(console.log)
+                    .catch(console.log);
+                }}
+              >
+                Contribute
+              </PrimaryButton>
             </FlexBox>
           </Box>
         </FlexBox>
