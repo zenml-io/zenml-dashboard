@@ -28,6 +28,7 @@ import { DisplayMarkdown } from '../../../components/richText/DisplayMarkdown';
 import { DisplayCode } from './DisplayCode';
 import { Popup } from '../../common/Popup';
 import { HUB_API_URL } from '../../../../api/constants';
+import { useHubToken } from '../../../hooks/auth';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -101,15 +102,36 @@ const getVersions = async (pluginName: string, userId: TId) => {
   ).data as TPlugin[];
 };
 
+const getIsStarred = async (userId: TId, pluginId: TId, token: string) => {
+  const interactions = (
+    await axios.get(
+      `${HUB_API_URL}/interaction?interaction_type=star&mine=true&user_id=${userId}&plugin_id=${pluginId}`,
+      { headers: { Authorization: `Bearer ${token}` } },
+    )
+  ).data;
+
+  return interactions.length > 0;
+};
+
+const starPlugin = async (userId: TId, pluginId: TId, token: string) => {
+  return await axios.post(
+    `${HUB_API_URL}/interaction`,
+    { type: 'star', user_id: userId, plugin_id: pluginId },
+    { headers: { Authorization: `Bearer ${token}` } },
+  );
+};
+
 const PluginDetail: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
-  const { successToast } = useToaster();
+  const { successToast, failureToast } = useToaster();
   const myUser = useSelector(userSelectors.myUser);
+  const { pluginId } = useParams<{ pluginId: string }>();
+  const hubToken = useHubToken();
   const [plugin, setPlugin] = useState(null as null | TPlugin);
   const [versions, setVersions] = useState(null as null | TPlugin[]);
-  const { pluginId } = useParams<{ pluginId: string }>();
+  const [starred, setIsStarred] = useState(false);
 
   const isOwner = myUser?.id === plugin?.id;
   const installCommand = plugin
@@ -122,6 +144,11 @@ const PluginDetail: React.FC = () => {
       getVersions(p.name, p.user.id).then(setVersions);
     });
   }, [pluginId]);
+  useEffect(() => {
+    if (myUser && hubToken) {
+      getIsStarred(myUser.id, pluginId, hubToken).then(setIsStarred);
+    }
+  }, [pluginId, myUser, hubToken]);
 
   return (
     <AuthenticatedLayout
@@ -238,7 +265,24 @@ const PluginDetail: React.FC = () => {
                         label: 'Star',
                         icon: icons.starOutline,
                         color: iconColors.primary,
-                        onClick: () => alert('TODO: Not implemented yet'),
+                        onClick: () => {
+                          if (starred)
+                            successToast({
+                              description: "You've already starred this plugin",
+                            });
+                          else if (!myUser || !hubToken) {
+                            failureToast({
+                              description:
+                                'You need to be logged in to star this plugin',
+                            });
+                          } else {
+                            starPlugin(myUser.id, plugin.id, hubToken).then(
+                              () => {
+                                successToast({ description: 'Starred plugin' });
+                              },
+                            );
+                          }
+                        },
                       },
                       ...(isOwner
                         ? [
