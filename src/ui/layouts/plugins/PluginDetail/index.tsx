@@ -121,6 +121,12 @@ const starPlugin = async (userId: TId, pluginId: TId, token: string) => {
   );
 };
 
+const deletePlugin = async (pluginId: TId, token: string) => {
+  return await axios.delete(`${HUB_API_URL}/plugins/${pluginId}`, {
+    headers: { Authorization: `Bearer ${token}` },
+  });
+};
+
 const PluginDetail: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -350,7 +356,21 @@ const PluginDetail: React.FC = () => {
 
                   <Box marginTop="md">
                     <PrimaryButton
-                      onClick={() => alert('TODO: not implemented yet')}
+                      onClick={() => {
+                        if (!hubToken) {
+                          failureToast({
+                            description:
+                              'You need to be logged in to delete this plugin',
+                          });
+                        } else {
+                          deletePlugin(pluginId, hubToken).then(() => {
+                            successToast({ description: 'Deleted plugin' });
+                            history.push(
+                              routePaths.plugins.list(selectedWorkspace),
+                            );
+                          });
+                        }
+                      }}
                       style={{ backgroundColor: 'var(--red)' }}
                     >
                       Delete Package
