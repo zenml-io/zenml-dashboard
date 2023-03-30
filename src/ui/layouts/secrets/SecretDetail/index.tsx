@@ -7,7 +7,7 @@ import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
 // import styles from './NestedRow.module.scss';
-import { MetaData } from './Metadata';
+// import { MetaData } from './Metadata';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 import { useHistory, useSelector } from '../../../hooks';
@@ -40,11 +40,11 @@ const getTabPages = (
       Component: () => <Configuration secretId={secretId} />,
       path: routePaths.secret.configuration(secretId, selectedWorkspace),
     },
-    {
-      text: translate('tabs.metaData.text'),
-      Component: () => <MetaData secretId={secretId}></MetaData>,
-      path: routePaths.secret.metaData(secretId, selectedWorkspace),
-    },
+    // {
+    //   text: translate('tabs.metaData.text'),
+    //   Component: () => <MetaData secretId={secretId}></MetaData>,
+    //   path: routePaths.secret.metaData(secretId, selectedWorkspace),
+    // },
   ];
 };
 
@@ -140,6 +140,7 @@ export const StackDetail: React.FC = () => {
   return (
     <BasePage
       headerWithButtons
+      singleTab={true}
       tabPages={tabPages}
       tabBasePath={routePaths.secret.base(secret.id)}
       breadcrumbs={breadcrumbs}
