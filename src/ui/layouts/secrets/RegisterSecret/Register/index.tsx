@@ -18,8 +18,8 @@ export const Register: React.FC<Props> = () => {
 
   return (
     <>
-    <FlexBox.Row flexDirection='column' style={{ width: '25%' }}>
-      <Box>
+    <FlexBox.Row flexDirection='column'>
+      <Box style={{ width: '329px' }}>
         <FormTextField
             label={'Secret name'}
             labelColor="rgba(66, 66, 64, 0.5)"
@@ -28,7 +28,7 @@ export const Register: React.FC<Props> = () => {
             onChange={(val: string) => setSecretName(val)}
         />
       </Box>
-      <Box marginTop='lg'>
+      <Box marginTop='lg' style={{ width: '329px' }}>
         <FormDropdownField
             label={'Scope'}
             labelColor="rgba(66, 66, 64, 0.5)"
@@ -39,7 +39,7 @@ export const Register: React.FC<Props> = () => {
             style={{ paddingLeft: '10px' }}
         />
       </Box>
-      <Box marginTop='lg'>
+      <Box marginTop='sm'>
         <Selector inputFields={inputFields} setInputFields={setInputFields} />
       </Box>
     </FlexBox.Row>

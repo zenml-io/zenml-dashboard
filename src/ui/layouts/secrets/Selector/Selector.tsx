@@ -20,6 +20,12 @@ const Selector: React.FC<Props> = ({ label, inputFields, setInputFields }) => {
     const [key, setKey] = useState('');
     const [value, setValue] = useState('');
 
+    const handleAdd = () => {
+        setInputFields([...inputFields, { key, value }])
+        setKey('')
+        setValue('')
+    }
+
   return (
     <Box>
         {label && <Paragraph size="body" style={{ color: 'rgba(66, 66, 64, 0.5)' }}>
@@ -28,10 +34,10 @@ const Selector: React.FC<Props> = ({ label, inputFields, setInputFields }) => {
         }
 
         <FlexBox.Row>
-        <div className="form-row">
+        <Box>
             {inputFields?.map((item: any, index: any) => (
-                <div key={index} style={{ display: 'flex' }}>
-                    <div className="form-group col-sm-5">
+                <Box key={index} marginTop='md' style={{ display: 'flex' }}>
+                    <Box style={{ width: '329px' }}>
                         <FormTextField 
                             onChange={(event: any) => setKey(event)}
                             label={'Key'}
@@ -39,9 +45,9 @@ const Selector: React.FC<Props> = ({ label, inputFields, setInputFields }) => {
                             value={item?.key ? item?.key : key}
                             placeholder={''}
                         />
-                    </div>
+                    </Box>
 
-                    <div className="form-group col-sm-5">
+                    <Box style={{ width: '329px' }} marginLeft='md'>
                         <FormTextField
                             onChange={(event: any) => setValue(event)}
                             label={'Value'}
@@ -49,9 +55,9 @@ const Selector: React.FC<Props> = ({ label, inputFields, setInputFields }) => {
                             value={item?.value ? item?.value : value}
                             placeholder={''}
                         />
-                    </div>
+                    </Box>
 
-                    <div className="col-sx-2 " style={{ justifyContent: 'space-between', display: 'flex', marginTop: '10px' }}>
+                    <Box className="col-sx-2" marginTop='lg' marginLeft='sm' style={{ justifyContent: 'space-between', display: 'flex' }}>
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                             {index > 0 && (
                                 <button className={styles.fieldButton} type="button" onClick={() => setInputFields(inputFields?.filter((e: any) => e !== item))}>
@@ -60,16 +66,16 @@ const Selector: React.FC<Props> = ({ label, inputFields, setInputFields }) => {
                             )}
 
                             {index === inputFields?.length - 1 && (
-                                <button className={styles.fieldButton} type="button" onClick={() => setInputFields([...inputFields, { key, value }])}>
+                                <button className={styles.fieldButton} type="button" onClick={() => handleAdd()}>
                                     <icons.plusCircle color={iconColors.primary} />
                                 </button>
                             )}
                         </div>
-                    </div>
+                    </Box>
 
-                </div>
+                </Box>
             ))}
-            </div>
+            </Box>
             <div className="submit-button"></div>
         <br />
         </FlexBox.Row>
