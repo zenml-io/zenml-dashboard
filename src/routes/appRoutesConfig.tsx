@@ -139,6 +139,15 @@ const routes = [
     },
     exact: true,
   },
+
+  {
+    path: routePaths.secrets.base,
+    Component: secrets,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
   {
     path: routePaths.secrets.list(':string'),
     Component: secrets,
