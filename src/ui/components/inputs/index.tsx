@@ -179,7 +179,7 @@ export const DropdownInput = ({
     onChange={(e: any) => onChange(e.target.value)}
     value={value}
     placeholder={placeholder}
-    className={cn(styles.input, hasError ? styles.error : null)}
+    className={cn(styles.select, hasError ? styles.error : null)}
     style={style}
   >
     <option selected disabled value="">

@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 // import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {
   FlexBox,
-  // Box,
+  Box,
   // H4,
   // GhostButton,
   // icons,
@@ -14,6 +14,7 @@ import {
   // EditField,
   // Paragraph,
 } from '../../../../components';
+import Selector from '../../RegisterSecret/Register/Selector';
 // import { iconColors, iconSizes } from '../../../../../constants';
 
 // import { useDispatch } from '../../../../hooks';
@@ -64,6 +65,8 @@ export const Configuration: React.FC<{
   // const [loading, setLoading] = useState(false);
   // const dispatch = useDispatch();
   console.log(secret);
+  const [inputFields, setInputFields] = useState([ { key: '', value: '' } ]) as any;
+ 
 
   // const handleCopy = () => {
   //   navigator.clipboard.writeText(stackConfig);
@@ -139,5 +142,11 @@ export const Configuration: React.FC<{
   //   }
   // };
 
-  return <FlexBox.Column fullWidth></FlexBox.Column>;
+  return (
+    <FlexBox.Column fullWidth>
+      <Box marginTop='lg'>
+        <Selector inputFields={inputFields} setInputFields={setInputFields} />
+      </Box>
+    </FlexBox.Column>
+    )
 };
