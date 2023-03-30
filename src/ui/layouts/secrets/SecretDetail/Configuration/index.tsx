@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 // import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 // import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {
   FlexBox,
   Box,
+  FormTextField,
+  FormDropdownField
   // H4,
   // GhostButton,
   // icons,
@@ -14,7 +16,7 @@ import {
   // EditField,
   // Paragraph,
 } from '../../../../components';
-import Selector from '../../RegisterSecret/Register/Selector';
+import SelectorDisabled from '../../Selector/SelectorDisabled';
 // import { iconColors, iconSizes } from '../../../../../constants';
 
 // import { useDispatch } from '../../../../hooks';
@@ -65,9 +67,8 @@ export const Configuration: React.FC<{
   // const [loading, setLoading] = useState(false);
   // const dispatch = useDispatch();
   console.log(secret);
-  const [inputFields, setInputFields] = useState([ { key: '', value: '' } ]) as any;
- 
-
+  const inputFields = [{ key: '', value: '' }] as any;
+    
   // const handleCopy = () => {
   //   navigator.clipboard.writeText(stackConfig);
   //   dispatch(
@@ -143,9 +144,32 @@ export const Configuration: React.FC<{
   // };
 
   return (
-    <FlexBox.Column fullWidth>
-      <Box marginTop='lg'>
-        <Selector inputFields={inputFields} setInputFields={setInputFields} />
+    <FlexBox.Column marginLeft='xl'>
+      <Box marginTop='lg' style={{ width: '417px' }}>
+        <FormTextField
+            label={'Secret name'}
+            labelColor="rgba(66, 66, 64, 0.5)"
+            placeholder={'Ex.John Doe'}
+            value={secret?.name}
+            disabled
+            onChange={() => {}}
+        />
+      </Box>
+      <Box marginTop='lg' style={{ width: '417px' }}>
+        <FormDropdownField
+            label={'Scope'}
+            labelColor="rgba(66, 66, 64, 0.5)"
+            placeholder={'Choose a scope'}
+            value={secret?.scope}
+            onChange={() => {}}
+            disabled
+            options={[] as any}
+            style={{ paddingLeft: '10px' }}
+        />
+      </Box>
+      
+      <Box marginTop='md'>
+        <SelectorDisabled inputFields={inputFields} />
       </Box>
     </FlexBox.Column>
     )

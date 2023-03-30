@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Box, FlexBox, PrimaryButton, FormTextField, FormDropdownField } from '../../../../components';
-import Selector from './Selector';
+import Selector from '../../Selector/Selector';
 // import { callActionForStacksForPagination } from '../../Stacks/useService';
 
 interface Props {}

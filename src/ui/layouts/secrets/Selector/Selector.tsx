@@ -6,8 +6,8 @@ import {
   FormTextField,
   Paragraph,
   icons,
-} from '../../../../components';
-import { iconColors } from '../../../../../constants';
+} from '../../../components';
+import { iconColors } from '../../../../constants';
 
 interface Props {
     label?: string, 
