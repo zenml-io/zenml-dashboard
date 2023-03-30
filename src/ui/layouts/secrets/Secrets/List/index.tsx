@@ -17,7 +17,7 @@ import {
 // import { stacksActions } from '../../../../../redux/actions';
 import { Pagination } from '../../../common/Pagination';
 import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQueryParam';
-import { Box, FlexBox, If } from '../../../../components';
+import { Box, FlexBox, If, PrimaryButton } from '../../../../components';
 import { ItemPerPage } from '../../../common/ItemPerPage';
 import { callActionForSecretsForPagination } from '../useService';
 
@@ -255,6 +255,26 @@ Props) => {
           </FlexBox>
         )}
       </If>
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+            onClick={() =>
+              history.push(
+                routePaths.secrets.registerSecrets(selectedWorkspace),
+              )
+            }
+          >
+            Register Secret
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </>
   );
 };

@@ -7,7 +7,7 @@ import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
 // import styles from './NestedRow.module.scss';
-import { MetaData } from './Metadata';
+// import { MetaData } from './Metadata';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 import { useHistory, useSelector } from '../../../hooks';

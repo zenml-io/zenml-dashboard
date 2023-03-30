@@ -6,7 +6,8 @@ import {
   FlexBox,
   Box,
   FormTextField,
-  FormDropdownField
+  FormDropdownField,
+  PrimaryButton,
   // H4,
   // GhostButton,
   // icons,
@@ -66,9 +67,9 @@ export const Configuration: React.FC<{
   // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   // const [loading, setLoading] = useState(false);
   // const dispatch = useDispatch();
-  console.log(secret);
-  const inputFields = [{ key: '', value: '' }] as any;
-    
+  console.log(secret, 'asdasd123');
+  // const inputFields = [{ key: '', value: '' }] as any;
+
   // const handleCopy = () => {
   //   navigator.clipboard.writeText(stackConfig);
   //   dispatch(
@@ -142,35 +143,61 @@ export const Configuration: React.FC<{
   //     onCallApi(event.target.value);
   //   }
   // };
+  // {Object.keys(mappedObject).map((key, ind) => (
+  //   // <Col xs={6} key={ind}>
+  //   <>{getFormElement(key, mappedObject[key])}</>
+  //   // </Col>
+  // ))}
 
   return (
-    <FlexBox.Column marginLeft='xl'>
-      <Box marginTop='lg' style={{ width: '417px' }}>
+    <FlexBox.Column marginLeft="xl">
+      <Box marginTop="lg" style={{ width: '417px' }}>
         <FormTextField
-            label={'Secret name'}
-            labelColor="rgba(66, 66, 64, 0.5)"
-            placeholder={'Ex.John Doe'}
-            value={secret?.name}
-            disabled
-            onChange={() => {}}
+          label={'Secret name'}
+          labelColor="rgba(66, 66, 64, 0.5)"
+          placeholder={'Ex.John Doe'}
+          value={secret?.name}
+          disabled
+          onChange={() => {}}
         />
       </Box>
-      <Box marginTop='lg' style={{ width: '417px' }}>
+      <Box marginTop="lg" style={{ width: '417px' }}>
         <FormDropdownField
-            label={'Scope'}
-            labelColor="rgba(66, 66, 64, 0.5)"
-            placeholder={'Choose a scope'}
-            value={secret?.scope}
-            onChange={() => {}}
-            disabled
-            options={[] as any}
-            style={{ paddingLeft: '10px' }}
+          label={'Scope'}
+          labelColor="rgba(66, 66, 64, 0.5)"
+          placeholder={'Choose a scope'}
+          value={secret?.scope}
+          onChange={() => {}}
+          disabled
+          options={[] as any}
+          style={{ paddingLeft: '10px' }}
         />
       </Box>
-      
-      <Box marginTop='md'>
-        <SelectorDisabled inputFields={inputFields} />
+
+      <Box marginTop="md">
+        <SelectorDisabled inputFields={secret.values} />
       </Box>
+
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+          // onClick={() =>
+          //   history.push(
+          //     routePaths.secrets.registerSecrets(selectedWorkspace),
+          //   )
+          // }
+          >
+            Update Secret
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </FlexBox.Column>
-    )
+  );
 };
