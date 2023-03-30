@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import axios from 'axios';
+// import { useHistory, useParams } from 'react-router-dom';
 import { useParams } from 'react-router-dom';
 import moment from 'moment';
 
@@ -21,20 +23,17 @@ import { useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
+import { HUB_API_URL } from '../../../../api/constants';
+import { useHubToken } from '../../../hooks/auth';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
 const todayFormatted = moment().format('dddd, DD MMM yyyy');
 
-const data = {
-  id: 'unique-id',
-  name: 'Airflow Orchestrator',
-  repositoryUrl: 'https://github.com/example/example',
-  repositoryBranches: ['staging', 'dev', 'deploy'],
-};
-
 const UpdatePlugin: React.FC = () => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const history = useHistory();
+  const hubApiToken = useHubToken();
 
   const [versionNumber, setVersionNumber] = useState('');
   const [repositoryUrl, setRepositoryUrl] = useState('');
@@ -138,7 +137,7 @@ const UpdatePlugin: React.FC = () => {
               <FormDropdownField
                 label="Branch of repository"
                 value={repositoryBranch}
-                options={data.repositoryBranches.map((b) => ({
+                options={['staging', 'dev', 'deploy'].map((b) => ({
                   label: b,
                   value: b,
                 }))}
@@ -191,7 +190,45 @@ const UpdatePlugin: React.FC = () => {
             </Box>
 
             <FlexBox justifyContent="flex-end">
-              <PrimaryButton disabled={true}>Update version</PrimaryButton>
+              <PrimaryButton
+                onClick={() => {
+                  axios
+                    .post(
+                      `${HUB_API_URL}/plugins/${pluginId}`,
+                      {
+                        // name: packageName,
+                        repository_url: repositoryUrl,
+                        // tags,
+                        // logo_url: logoUrl,
+                      },
+                      {
+                        headers: { Authorization: `Bearer ${hubApiToken}` },
+                      },
+                    )
+                    .then(console.log)
+                    .catch(console.log);
+                  // .then(() => {
+                  //   history.push(
+                  //     routePaths.plugins.detail.overview(
+                  //       selectedWorkspace,
+                  //       pluginId,
+                  //     ),
+                  //   );
+                  // });
+                }}
+                disabled={
+                  !(
+                    versionNumber &&
+                    repositoryUrl &&
+                    repositoryBranch &&
+                    commitHash &&
+                    repositorySubdirectory &&
+                    releaseNotes
+                  )
+                }
+              >
+                Update version
+              </PrimaryButton>
             </FlexBox>
           </Box>
 
