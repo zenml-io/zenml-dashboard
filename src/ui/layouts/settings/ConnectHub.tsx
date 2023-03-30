@@ -9,7 +9,7 @@ import { Popup } from '../common/Popup';
 import { authoriseHubActionTypes } from '../../../redux/actionTypes';
 
 const getGitHubRedirectURL = () =>
-  axios.get(`${HUB_API_URL}/user/auth/github/authorize`);
+  axios.get(`${HUB_API_URL}/auth/github/authorize`);
 
 export const ConnectHub: React.FC = () => {
   const [token, setToken] = useState('');
@@ -50,6 +50,7 @@ export const ConnectHub: React.FC = () => {
                 type: authoriseHubActionTypes.success,
                 payload: { access_token: token },
               });
+              setPopupOpen(false);
 
               // TODO: confirm actual endpoint and payload
               // axios.post(
