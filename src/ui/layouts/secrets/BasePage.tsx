@@ -13,6 +13,7 @@ import { workspaceSelectors } from '../../../redux/selectors';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
+  singleTab?: boolean;
   title?: string;
   fromConfigureComponent?: boolean;
   fromRegisterComponent?: boolean;
@@ -25,6 +26,7 @@ export const BasePage: React.FC<{
   fromConfigureComponent = false,
   tabPages,
   title,
+  singleTab = false,
   breadcrumbs,
   tabBasePath,
   renderHeaderRight,
@@ -56,7 +58,7 @@ export const BasePage: React.FC<{
 
         <Box>
           {children}
-          {tabPages.length > 1 ? (
+          {tabPages.length >= 1 && singleTab ? (
             <Tabs pages={tabPages} basePath={tabBasePath} />
           ) : (
             <>
