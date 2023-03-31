@@ -141,7 +141,11 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
 
+
+  console.log("__UNAUTH_RUN_GRAPH", graph)
+
   useEffect(() => {
+    console.log("__UNAUTH SELECTEDNODE", selectedNode)
   }, [selectedNode])
 
 

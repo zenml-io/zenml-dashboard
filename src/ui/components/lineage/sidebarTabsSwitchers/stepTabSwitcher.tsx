@@ -32,7 +32,8 @@ const tabs = [
     },
 ]
 
-const StepnodeTabHeader: React.FC<any> = ({ node }) => {
+const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
+
     const [show, setShow] = useState("__CONFIG");
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(100);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
@@ -176,12 +177,12 @@ const StepnodeTabHeader: React.FC<any> = ({ node }) => {
                 show === "__LOG" ?
                     <div className={styles.codeContainer}>
                         <SyntaxHighlighter
-                            customStyle={{ width: '100%', height: '80%', fontSize: 20 }}
+                            customStyle={{ width: '100%', height: '80%', fontSize: 16 }}
                             wrapLines={true}
-                            language="Python"
+                            language="python"
                             style={okaidia}
                         >
-                            {node.source_code ? node.source_code : ""}
+                            {logs ? logs : ""}
                         </SyntaxHighlighter>
                     </div>
                     : ""

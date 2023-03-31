@@ -1,8 +1,26 @@
 .mainContainer{
-    height: 80%;
+    height: 100%;
     width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 50px;
+    padding: 0px 10px 0px 10px;
+    margin: 0px;
+}
+
+.markdown{
+    height: 100%;
+    width: 100%;
+    margin-top: 30px;
+    background-color: #f7f7f7;
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    // overflow: hidden;
+}
+.markdownText{
+    font-size: 18px;
+    font-family: "Rubik";
+    padding: 20px;
+    // margin-top: ;
 }

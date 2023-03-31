@@ -2,7 +2,7 @@ import React from 'react'; //eslint-disable-line
 import axios from 'axios';
 
 
-export async function artifactHtml(artifactId:any, authToken:any){
+export async function artifactService(artifactId:any, authToken:any){
 
     const response = await axios.get(
         `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
@@ -17,3 +17,5 @@ export async function artifactHtml(artifactId:any, authToken:any){
         return response;
 
 }
+
+

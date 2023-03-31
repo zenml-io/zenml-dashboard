@@ -126,7 +126,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
             {
                 show === "__VISUALIZATION" ?
                     <Suspense fallback={<div>please wait ....</div>}>
-                        <ArtifactVisualization artifactId={node.id} />
+                        <ArtifactVisualization node={node} />
                     </Suspense>
                     : ""
             }

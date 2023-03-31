@@ -5,7 +5,7 @@ import { useDispatch, useSelector } from '../../hooks';
 import { sessionSelectors } from '../../../redux/selectors';
 import ArtifactTabHeader from './sidebarTabsSwitchers/artifactTabSwitcher';
 import StepnodeTabHeader from './sidebarTabsSwitchers/stepTabSwitcher';
-import { fetchArtifactData, fetchStepData } from './sidebarServices';
+import { fetchArtifactData, fetchStepData, fetchStepLogs } from './sidebarServices';
 import { runsActions } from '../../../redux/actions';
 import styles from './index.module.scss'
 
@@ -22,6 +22,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     const [isStepNode, setIsStepNode] = useState(true);
     const [artifact, setArtifact] = useState([] as any);
     const [step, setStep] = useState([] as any);
+    const [logs, setLogs] = useState([] as any);
     const sidebar_ref = useRef<HTMLInputElement>(null) //eslint-disable-line
     const dispatch = useDispatch();
     const authToken = useSelector(sessionSelectors.authenticationToken);
@@ -29,8 +30,10 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     async function FetchData(type: boolean) {
         if (type) {
             const data = await fetchStepData(selectedNode, authToken);
+            const _logs = await fetchStepLogs(selectedNode, authToken);
             dispatch(runsActions.getStep({ exe_id: selectedNode.execution_id }))
             setStep(data);
+            setLogs(_logs)
         }
         else {
             const data = await fetchArtifactData(selectedNode, authToken);
@@ -91,7 +94,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
             </div>
 
             <div className={`${styles.bodyContainer}`}>
-                {isStepNode ? <StepnodeTabHeader node={step} /> : <ArtifactTabHeader node={artifact} />}
+                {isStepNode ? <StepnodeTabHeader node={step} logs={logs}/> : <ArtifactTabHeader node={artifact} />}
             </div>
 
         </div>
