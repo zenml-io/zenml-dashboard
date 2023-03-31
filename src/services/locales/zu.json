@@ -621,6 +621,34 @@
               }
             }
           },
+          "UpdateSecret": {
+            "header": {
+              "breadcrumbs": {
+                "secrets": {
+                  "text": "Secrets"
+                }
+              }
+            },
+            "tabs": {
+              "update": {
+                "text": "Update"
+              },
+              "metaData": {
+                "text": "Metadata"
+              }
+            },
+            "emptyState": {
+              "text": "No runs."
+            },
+            "configuration": {
+              "title": {
+                "text": "YAML Configuration"
+              },
+              "button": {
+                "text": "Download"
+              }
+            }
+          },
           "PipelineDetail": {
             "header": {
               "breadcrumbs": {

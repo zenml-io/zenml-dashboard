@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 // import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -28,9 +28,6 @@ import SelectorDisabled from '../../Selector/SelectorDisabled';
 
 // import styles from './index.module.scss';
 import { useService } from './useService';
-import { routePaths } from '../../../../../routes/routePaths';
-import { useHistory, useSelector } from '../../../../hooks';
-import { workspaceSelectors } from '../../../../../redux/selectors';
 // import { StackBox } from '../../../common/StackBox';
 // import { SidePopup } from '../../RegisterSecret/ListForAll/SidePopup';
 // import { NonEditableConfig } from '../../../NonEditableConfig';
@@ -56,17 +53,19 @@ import { workspaceSelectors } from '../../../../../redux/selectors';
 // import { ToggleField } from '../../../common/FormElement';
 // import { SidePopup } from '../../../common/SidePopup';
 
-export const Configuration: React.FC<{
+export const UpdateConfig: React.FC<{
   secretId: TId;
   tiles?: any;
   fetching?: boolean;
 }> = ({ secretId }) => {
   // const dispatch = useDispatch();
   const { secret } = useService({ secretId });
-  const history = useHistory();
+  const [secretName, setSecretName] = useState(secret?.name);
+  const [scope, setScope] = useState(secret?.scope);
+
   // const user = useSelector(userSelectors.myUser);
   // const authToken = useSelector(sessionSelectors.authenticationToken);
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   // const [loading, setLoading] = useState(false);
   // const dispatch = useDispatch();
@@ -159,9 +158,11 @@ export const Configuration: React.FC<{
           label={'Secret name'}
           labelColor="rgba(66, 66, 64, 0.5)"
           placeholder={'Ex.John Doe'}
-          value={secret?.name}
-          disabled
-          onChange={() => {}}
+          value={secretName}
+          // disabled
+          onChange={(value: any) => {
+            setSecretName(value);
+          }}
         />
       </Box>
       <Box marginTop="lg" style={{ width: '417px' }}>
@@ -169,10 +170,14 @@ export const Configuration: React.FC<{
           label={'Scope'}
           labelColor="rgba(66, 66, 64, 0.5)"
           placeholder={'Choose a scope'}
-          value={secret?.scope}
-          onChange={() => {}}
-          disabled
-          options={[] as any}
+          // defaultValue={secret?.scope}
+          value={scope}
+          // value={secret?.scope}
+          onChange={(value: any) => {
+            setScope(value);
+          }}
+          // disabled
+          options={[{ label: 'user' }, { label: 'workspace' }]}
           style={{ paddingLeft: '10px' }}
         />
       </Box>
@@ -191,13 +196,13 @@ export const Configuration: React.FC<{
       >
         <Box marginBottom="lg">
           <PrimaryButton
-            onClick={() =>
-              history.push(
-                routePaths.secret.updateSecret(secret.id, selectedWorkspace),
-              )
-            }
+          // onClick={() =>
+          //   history.push(
+          //     routePaths.secrets.registerSecrets(selectedWorkspace),
+          //   )
+          // }
           >
-            Update Secret
+            Save Changes
           </PrimaryButton>
         </Box>
       </FlexBox>
