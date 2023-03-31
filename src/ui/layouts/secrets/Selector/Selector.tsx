@@ -61,13 +61,13 @@ const Selector: React.FC<Props> = ({ label, inputFields, setInputFields }) => {
                         <div style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center' }}>
                             {index > 0 && (
                                 <button className={styles.fieldButton} type="button" onClick={() => setInputFields(inputFields?.filter((e: any) => e !== item))}>
-                                    <icons.minusCircle color={iconColors.primary} />
+                                    <icons.delete color={iconColors.grey} />
                                 </button>
                             )}
 
                             {index === inputFields?.length - 1 && (
                                 <button className={styles.fieldButton} type="button" onClick={() => handleAdd()}>
-                                    <icons.plusCircle color={iconColors.primary} />
+                                    <icons.addNew color={iconColors.primary} />
                                 </button>
                             )}
                         </div>
