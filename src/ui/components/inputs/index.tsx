@@ -174,7 +174,7 @@ export const DropdownInput = ({
   hasError?: boolean;
   options: Record<string, string>[];
   style: any;
-  disabled?: boolean,
+  disabled?: boolean;
 }): JSX.Element => (
   <select
     {...props}
@@ -185,8 +185,9 @@ export const DropdownInput = ({
     style={style}
     disabled={disabled}
   >
-    <option selected disabled value="">{disabled ? value : placeholder}</option> 
-    
+    <option selected disabled value="">
+      {disabled ? value : placeholder}
+    </option>
     {options.map((option, index) => (
       <option key={index} value={option.value}>
         {option.label}
