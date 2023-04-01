@@ -7,7 +7,6 @@ import ReactFlow, {
   Controls,
   MarkerType,
 } from 'react-flow-renderer';
-
 import dagre from 'dagre';
 
 import ArtifactNode from './ArtifactNode';
@@ -129,7 +128,6 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
 
-
 export const LayoutFlow: React.FC<any> = (graph: any) => {
   const {
     initialNodes: layoutedNodes,
@@ -142,7 +140,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [legend, setLegend] = useState(false);
 
 
-  console.log("__UNAUTH_RUN_GRAPH", graph)
 
   useEffect(() => {
     console.log("__UNAUTH SELECTEDNODE", selectedNode)

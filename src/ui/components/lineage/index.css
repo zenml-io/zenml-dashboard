@@ -11,13 +11,7 @@
   height: 80vh;
   background-color: rgb(255, 255, 255);
 }
-.react-flow__node {
-  margin: 0px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
+
 
 .react-flow__node[data-type="parentNode"] {
   margin: 0px;

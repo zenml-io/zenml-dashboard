@@ -36,6 +36,49 @@ html {
   padding-left: 0;
   padding-right: 0;
 }
-.react-flow__edge-path{
+
+/* reactflow */
+.react-flow__edge-path {
   stroke: #443E99;
-  }
+}
+
+.react-flow__controls {
+  /* width: 100px; */
+  height: 250px;
+  border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  filter: none;
+  box-shadow: none;
+  bottom: 0%;
+}
+
+.react-flow__controls button :first-child {
+  border: none;
+  height: 55px;
+  width: 55px;
+}
+
+.react-flow__controls :nth-child(n) {
+  border-radius: 100%;
+  background-color: #fffffd;
+  height: 35px;
+  width: 35px;
+  filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.08));
+  margin: 5px;
+}
+
+.react-flow__controls :nth-child(n) :first-child {
+  border-radius: 0%;
+  height: 35px;
+  width: 35px;
+}
+
+
+.react-flow__zoom-in {
+  background-color: #443E99;
+  height: 100px;
+  width: 100px;
+}
