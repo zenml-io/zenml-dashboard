@@ -22,7 +22,7 @@ const SelectorDisabled: React.FC<Props> = ({ label, inputFields }) => {
       )}
 
       <FlexBox.Row>
-        <Box className="form-row">
+        <Box>
           {Object.entries(inputFields)?.map((item: any, index: any) => (
             <Box key={index} marginTop="md" style={{ display: 'flex' }}>
               <Box style={{ width: '417px' }}>
