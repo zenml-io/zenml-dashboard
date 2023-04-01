@@ -46,7 +46,9 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
       }),
     );
   };
-  console.log("__UNAUTH_PIPELINE", pipeline);
+  // console.log("__UNAUTH_PIPELINE", pipeline.runs);
+  console.log("__UNAUTH_PIPELINE", pipelineConfig);
+  // console.log("__UNAUTH_PIPELINE_graph", graph);
 
 
   return (
@@ -56,7 +58,7 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
         alignItems="center"
         justifyContent="space-between"
       >
-        <H4 bold>YAML (ALI)</H4>
+        <H4 bold>YAML ALI</H4>
         <Box>
           <GhostButton
             style={{ marginRight: '10px' }}

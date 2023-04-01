@@ -153,7 +153,7 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                     </Box>
                     {index + 1 === pages.length ? "" :
 
-                      <Box style={{ height: "100%", width: "1.5px", background: '#00000080' }}>
+                      <Box style={{ height: "100%", width: "2px", background: '#00000040' }}>
                       </Box>
                     }
                   </FlexBox.Row>

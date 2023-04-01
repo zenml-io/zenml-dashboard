@@ -7,6 +7,7 @@ import { useService } from './useService';
 
 import { Configuration } from '../RunDetail/Configuration';
 import { DAG } from '../../../components/dag';
+import { Details } from './Detail';
 
 import { Box } from '../../../components';
 
@@ -34,7 +35,7 @@ const getTabPages = ({
 }): TabPage[] => {
   return [
     {
-      text: 'DAG Visualizer',
+      text: 'DAG Visualizer Pip',
 
       Component: () => (
         <DAG runId={runId} fetching={fetching} metadata={metadata} />
@@ -50,6 +51,16 @@ const getTabPages = ({
 
       Component: () => <Configuration runId={runId} />,
       path: routePaths.run.pipeline.results(
+        selectedWorkspace,
+        runId,
+        pipelineId,
+      ),
+    },
+    {
+      text: 'Details',
+
+      Component: () => <Details runId={runId} />,
+      path: routePaths.run.pipeline.details(
         selectedWorkspace,
         runId,
         pipelineId,
@@ -97,6 +108,7 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const { runId, pipelineId, fetching, run, metadata } = useService();
+  console.log("__UNAUTH_PIPELINE_",{runId, pipelineId, fetching, run, metadata })
   const history = useHistory();
   const runRow: any = [];
   runRow.push(run);

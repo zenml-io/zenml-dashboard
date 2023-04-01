@@ -30,6 +30,8 @@ export const routePaths = {
         `/workspaces/${workspace}/pipelines/${pipelineId}/runs/${id}/dag`,
       results: (workspace: string, id: TId, pipelineId: TId): string =>
         `/workspaces/${workspace}/pipelines/${pipelineId}/runs/${id}/configuration`,
+      details: (workspace: string, id: TId, pipelineId: TId): string =>
+      `/workspaces/${workspace}/pipelines/${pipelineId}/runs/${id}/details`,
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/pipelines/${pipelineId}/runs/${id}/tensorboard`,
     },
@@ -70,7 +72,7 @@ export const routePaths = {
       results: (workspace: string, runId: TId): string =>
         `/workspaces/${workspace}/all-runs/${runId}/configuration`,
       details: (workspace: string, runId: TId): string =>
-      `/workspaces/${workspace}/all-runs/${runId}/details`,
+        `/workspaces/${workspace}/all-runs/${runId}/details`,
       tensorboard: (runId: TId): string => `/runs/${runId}/tensorboard`,
     },
   },
