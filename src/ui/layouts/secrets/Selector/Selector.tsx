@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import styles from './index.module.scss';
 import {
   Box,
@@ -11,15 +11,24 @@ import { iconColors } from '../../../../constants';
 
 interface Props {
   label?: string;
+  values?: any;
   onSetInputFields: any;
 }
 
-const Selector: React.FC<Props> = ({ label, onSetInputFields }) => {
+const Selector: React.FC<Props> = ({ label, onSetInputFields, values }) => {
   // const [key, setKey] = useState('');
   // const [value, setValue] = useState('');
-  const [inputFields, setInputFields] = useState([
-    { key: '', value: '' },
-  ]) as any;
+  const [inputFields, setInputFields] = useState([]) as any;
+  useEffect(() => {
+    // ...values,
+    // { key: '', value: '' },
+    if (values?.length) {
+      setInputFields([...values]);
+    } else {
+      setInputFields([{ key: '', value: '' }]);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const handleAdd = () => {
     inputFields.push({ key: '', value: '' });
     setInputFields([...inputFields]);

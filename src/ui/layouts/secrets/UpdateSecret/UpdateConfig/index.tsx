@@ -8,6 +8,7 @@ import {
   FormTextField,
   FormDropdownField,
   PrimaryButton,
+  FullWidthSpinner,
   // H4,
   // GhostButton,
   // icons,
@@ -17,7 +18,8 @@ import {
   // EditField,
   // Paragraph,
 } from '../../../../components';
-import SelectorDisabled from '../../Selector/SelectorDisabled';
+import axios from 'axios';
+import Selector from '../../Selector/Selector';
 // import { iconColors, iconSizes } from '../../../../../constants';
 
 // import { useDispatch } from '../../../../hooks';
@@ -28,6 +30,15 @@ import SelectorDisabled from '../../Selector/SelectorDisabled';
 
 // import styles from './index.module.scss';
 import { useService } from './useService';
+import { useDispatch, useHistory, useSelector } from '../../../../hooks';
+import {
+  sessionSelectors,
+  userSelectors,
+  workspaceSelectors,
+} from '../../../../../redux/selectors';
+import { showToasterAction } from '../../../../../redux/actions';
+import { toasterTypes } from '../../../../../constants';
+import { routePaths } from '../../../../../routes/routePaths';
 // import { StackBox } from '../../../common/StackBox';
 // import { SidePopup } from '../../RegisterSecret/ListForAll/SidePopup';
 // import { NonEditableConfig } from '../../../NonEditableConfig';
@@ -58,99 +69,124 @@ export const UpdateConfig: React.FC<{
   tiles?: any;
   fetching?: boolean;
 }> = ({ secretId }) => {
-  // const dispatch = useDispatch();
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const user = useSelector(userSelectors.myUser);
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+  const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const { secret } = useService({ secretId });
   const [secretName, setSecretName] = useState(secret?.name);
   const [scope, setScope] = useState(secret?.scope);
+  const [inputFields, setInputFields] = useState([]);
+  const [loading, setLoading] = useState(false);
 
-  // const user = useSelector(userSelectors.myUser);
-  // const authToken = useSelector(sessionSelectors.authenticationToken);
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
-  // const [loading, setLoading] = useState(false);
-  // const dispatch = useDispatch();
-  console.log(secret, 'asdasd123');
-  // const inputFields = [{ key: '', value: '' }] as any;
+  const valuesIntoArray = Object.entries(secret.values).map(([key, value]) => ({
+    key,
+    value,
+  }));
 
-  // const handleCopy = () => {
-  //   navigator.clipboard.writeText(stackConfig);
-  //   dispatch(
-  //     showToasterAction({
-  //       description: 'Config copied to clipboard',
-  //       type: toasterTypes.success,
-  //     }),
-  //   );
-  // };
+  const handleInputFieldChange = (inputFields: any) => {
+    setInputFields(inputFields);
+  };
 
-  // if (fetching) {
-  //   return <FullWidthSpinner color="black" size="md" />;
-  // }
-  // if (loading) {
-  //   return <FullWidthSpinner color="black" size="md" />;
-  // }
-  // const onCallApi = (name?: string, toggle?: boolean) => {
-  //   // ;
-  //   const { id }: any = workspaces.find(
-  //     (item) => item.name === selectedWorkspace,
-  //   );
+  const onSubmit = async () => {
+    const { id }: any = workspaces.find(
+      (item) => item.name === selectedWorkspace,
+    );
 
-  //   const body = {
-  //     user: user?.id,
-  //     workspace: id,
-  //     is_shared: toggle,
-  //     name: name,
-  //   };
-  //   setLoading(true);
-  //   axios
-  //     .put(
-  //       `${process.env.REACT_APP_BASE_API_URL}/stacks/${secretId}`,
-  //       // @ts-ignore
-  //       body,
-  //       { headers: { Authorization: `Bearer ${authToken}` } },
-  //     )
-  //     .then((response: any) => {
-  //       // const id = response.data.id;
+    const finalValues: any = inputFields.reduce((acc, { key, value }) => {
+      acc[key] = value;
+      return acc;
+    }, {});
 
-  //       // setLoading(false);
-  //       dispatch(
-  //         showToasterAction({
-  //           description: 'Stack has been updated successfully.',
-  //           type: toasterTypes.success,
-  //         }),
-  //       );
+    for (const [key, value] of Object.entries(finalValues)) {
+      // console.log(`${key}: ${value}`);
 
-  //       dispatch(
-  //         secretsActions.secretForId({
-  //           secretId: secretId,
-  //           onSuccess: () => setLoading(false),
-  //           onFailure: () => setLoading(false),
-  //         }),
-  //       );
-  //     })
-  //     .catch((err) => {
-  //       setLoading(false);
-  //       // ;
+      if (!key && value) {
+        return dispatch(
+          showToasterAction({
+            description: 'Key cannot be Empty.',
+            type: toasterTypes.failure,
+          }),
+        );
+      }
+      if (!value && key) {
+        return dispatch(
+          showToasterAction({
+            description: 'Value cannot be Empty.',
+            type: toasterTypes.failure,
+          }),
+        );
+      }
+    }
+    // }
 
-  //       dispatch(
-  //         showToasterAction({
-  //           description: err?.response?.data?.detail[0],
-  //           type: toasterTypes.failure,
-  //         }),
-  //       );
-  //     });
-  // };
+    const body = {
+      user: user?.id,
+      workspace: id,
+      name: secretName,
+      scope: scope,
+      values: finalValues,
+      // is_shared: isShared,
+      // name: componentName,
+      // type: flavor.type,
+      // flavor: flavor.name,
+      // configuration: { ...inputData, ...final },
+    };
 
-  // const onPressEnter = (event?: any, defaultValue?: any) => {
-  //   if (event.key === 'Enter') {
-  //     onCallApi(event.target.value);
-  //   }
-  // };
-  // {Object.keys(mappedObject).map((key, ind) => (
-  //   // <Col xs={6} key={ind}>
-  //   <>{getFormElement(key, mappedObject[key])}</>
-  //   // </Col>
-  // ))}
+    await axios
+      .put(
+        `${process.env.REACT_APP_BASE_API_URL}/secrets/${secretId}`,
+        // @ts-ignore
+        body,
+        { headers: { Authorization: `Bearer ${authToken}` } },
+      )
+      .then((response) => {
+        const id = response.data.id;
+        setLoading(false);
+        dispatch(
+          showToasterAction({
+            description: 'Secret has been updated successfully',
+            type: toasterTypes.success,
+          }),
+        );
 
+        history.push(routePaths.secret.configuration(id, selectedWorkspace));
+      })
+      .catch((err) => {
+        setLoading(false);
+        if (err?.response?.status === 403) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail,
+              type: toasterTypes.failure,
+            }),
+          );
+        } else if (err?.response?.status === 409) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Secret name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        } else {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Secret name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        }
+      });
+  };
+  if (loading) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
   return (
     <FlexBox.Column marginLeft="xl">
       <Box marginTop="lg" style={{ width: '417px' }}>
@@ -183,7 +219,10 @@ export const UpdateConfig: React.FC<{
       </Box>
 
       <Box marginTop="md">
-        <SelectorDisabled inputFields={secret.values} />
+        <Selector
+          values={valuesIntoArray}
+          onSetInputFields={handleInputFieldChange}
+        />
       </Box>
 
       <FlexBox
@@ -195,15 +234,7 @@ export const UpdateConfig: React.FC<{
         }}
       >
         <Box marginBottom="lg">
-          <PrimaryButton
-          // onClick={() =>
-          //   history.push(
-          //     routePaths.secrets.registerSecrets(selectedWorkspace),
-          //   )
-          // }
-          >
-            Save Changes
-          </PrimaryButton>
+          <PrimaryButton onClick={() => onSubmit()}>Save Changes</PrimaryButton>
         </Box>
       </FlexBox>
     </FlexBox.Column>
