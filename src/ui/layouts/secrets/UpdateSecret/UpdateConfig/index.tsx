@@ -91,6 +91,14 @@ export const UpdateConfig: React.FC<{
   };
 
   const onSubmit = async () => {
+    if (!secretName) {
+      return dispatch(
+        showToasterAction({
+          description: 'Name cannot be Empty.',
+          type: toasterTypes.failure,
+        }),
+      );
+    }
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
@@ -107,6 +115,14 @@ export const UpdateConfig: React.FC<{
         return dispatch(
           showToasterAction({
             description: 'Key cannot be Empty.',
+            type: toasterTypes.failure,
+          }),
+        );
+      }
+      if (!key && !value) {
+        return dispatch(
+          showToasterAction({
+            description: 'Key and value cannot be Empty.',
             type: toasterTypes.failure,
           }),
         );
