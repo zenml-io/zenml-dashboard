@@ -6,7 +6,6 @@ import {
   Box,
   FlexBox,
   PrimaryButton,
-  H2,
   H4,
   Paragraph,
   icons,
@@ -21,6 +20,7 @@ import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 import { HUB_API_URL } from '../../../../api/constants';
 import { debounce, memoisePromiseFn } from '../../../../utils/memo';
+import { PluginsLayout } from '../shared/Layout';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -54,14 +54,7 @@ const ListPlugins: React.FC = () => {
         },
       ]}
     >
-      <FlexBox fullWidth padding="lg2" flexDirection="column">
-        <H2 style={{ fontWeight: 500 }}>ZenPacks</H2>
-        <FlexBox fullWidth justifyContent="flex-end">
-          <Paragraph color="grey" style={{ fontSize: '14px' }}>
-            Check out our easy to read document
-          </Paragraph>
-        </FlexBox>
-
+      <PluginsLayout title="ZenPacks">
         <FlexBox paddingVertical={'lg3'} style={{ maxWidth: '520px' }}>
           <FlexBox fullWidth marginRight="md">
             <IconInputField
@@ -181,7 +174,7 @@ const ListPlugins: React.FC = () => {
             </PrimaryButton>
           </Box>
         </FlexBox>
-      </FlexBox>
+      </PluginsLayout>
     </AuthenticatedLayout>
   );
 };

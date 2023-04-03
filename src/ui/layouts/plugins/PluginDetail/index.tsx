@@ -5,7 +5,6 @@ import axios from 'axios';
 import {
   Box,
   FlexBox,
-  H2,
   Paragraph,
   icons,
   SeparatorLight,
@@ -29,6 +28,7 @@ import { DisplayCode } from './DisplayCode';
 import { Popup } from '../../common/Popup';
 import { HUB_API_URL } from '../../../../api/constants';
 import { useHubToken } from '../../../hooks/auth';
+import { PluginsLayout } from '../shared/Layout';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -178,14 +178,7 @@ const PluginDetail: React.FC = () => {
       ]}
     >
       {plugin && (
-        <FlexBox fullWidth padding="lg2" flexDirection="column">
-          <H2 style={{ fontWeight: 500 }}>Plugin Details</H2>
-          <FlexBox fullWidth justifyContent="flex-end">
-            <Paragraph color="grey" style={{ fontSize: '14px' }}>
-              Check out our easy to read document
-            </Paragraph>
-          </FlexBox>
-
+        <PluginsLayout title="Plugin Details">
           {/* content */}
           <FlexBox fullWidth>
             {/* left column */}
@@ -692,7 +685,7 @@ const PluginDetail: React.FC = () => {
               </Box>
             </Box>
           </FlexBox>
-        </FlexBox>
+        </PluginsLayout>
       )}
     </AuthenticatedLayout>
   );

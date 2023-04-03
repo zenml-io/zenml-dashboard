@@ -7,7 +7,6 @@ import {
   Box,
   FlexBox,
   PrimaryButton,
-  H2,
   Paragraph,
   icons,
   TagsInputField,
@@ -22,6 +21,7 @@ import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 import { HUB_API_URL } from '../../../../api/constants';
 import { useHubToken } from '../../../hooks/auth';
+import { PluginsLayout } from '../shared/Layout';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
@@ -59,14 +59,7 @@ const CreatePlugin: React.FC = () => {
         },
       ]}
     >
-      <FlexBox fullWidth padding="lg2" flexDirection="column">
-        <H2 style={{ fontWeight: 500 }}>Create Plugin</H2>
-        <FlexBox fullWidth justifyContent="flex-end">
-          <Paragraph color="grey" style={{ fontSize: '14px' }}>
-            Check out our easy to read document
-          </Paragraph>
-        </FlexBox>
-
+      <PluginsLayout title="Create Plugin">
         <FlexBox style={{ maxWidth: '800px' }} marginVertical="xl">
           {/* date and image sidebar */}
           <Box paddingRight="lg2">
@@ -207,7 +200,7 @@ const CreatePlugin: React.FC = () => {
             </FlexBox>
           </Box>
         </FlexBox>
-      </FlexBox>
+      </PluginsLayout>
     </AuthenticatedLayout>
   );
 };

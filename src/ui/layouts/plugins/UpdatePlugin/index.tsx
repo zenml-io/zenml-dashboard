@@ -7,7 +7,6 @@ import {
   Box,
   FlexBox,
   PrimaryButton,
-  H2,
   Paragraph,
   icons,
   ValidatedTextField,
@@ -25,6 +24,7 @@ import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 import { HUB_API_URL } from '../../../../api/constants';
 import { useHubToken } from '../../../hooks/auth';
 import { pick } from '../../../../utils';
+import { PluginsLayout } from '../shared/Layout';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
@@ -82,14 +82,7 @@ const UpdatePlugin: React.FC = () => {
         },
       ]}
     >
-      <FlexBox fullWidth padding="lg2" flexDirection="column">
-        <H2 style={{ fontWeight: 500 }}>Update Plugin</H2>
-        <FlexBox fullWidth justifyContent="flex-end">
-          <Paragraph color="grey" style={{ fontSize: '14px' }}>
-            Check out our easy to read document
-          </Paragraph>
-        </FlexBox>
-
+      <PluginsLayout title="Update Plugin">
         {/* content container */}
         <FlexBox marginVertical="xl">
           {/* date and image sidebar */}
@@ -271,7 +264,7 @@ const UpdatePlugin: React.FC = () => {
             </Paragraph>
           </Box>
         </FlexBox>
-      </FlexBox>
+      </PluginsLayout>
     </AuthenticatedLayout>
   );
 };
