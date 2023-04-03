@@ -91,6 +91,8 @@ export const routePaths = {
     base: (id: TId): string => `/secrets/${id}`,
     configuration: (id: TId, workspace: string): string =>
       `/workspaces/${workspace}/secrets/${id}/configuration`,
+    updateSecret: (id: TId, workspace: string): string =>
+      `/workspaces/${workspace}/secrets/${id}/update-secret`,
     metaData: (id: TId, workspace: string): string =>
       `/workspaces/${workspace}/secrets/${id}/metadata`,
   },

@@ -21,6 +21,7 @@ import RegisterSecrets from '../ui/layouts/secrets/RegisterSecret';
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
 import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import secretDetail from '../ui/layouts/secrets/SecretDetail/index';
+import UpdateSecret from '../ui/layouts/secrets/UpdateSecret/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
 import ConfigureComponent from '../ui/layouts/stackComponents/ConfigureComponent/index';
 import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
@@ -145,6 +146,15 @@ const routes = [
     },
     exact: true,
   },
+
+  {
+    path: routePaths.secrets.base,
+    Component: secrets,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
   {
     path: routePaths.secrets.list(':string'),
     Component: secrets,
@@ -164,6 +174,14 @@ const routes = [
   {
     path: routePaths.secret.configuration(':id', ':string'),
     Component: secretDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.secret.updateSecret(':id', ':string'),
+    Component: UpdateSecret,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

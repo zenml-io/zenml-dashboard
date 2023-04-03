@@ -5,7 +5,7 @@ import React from 'react';
 // import { formatDateToDisplayOnTable } from '../../../../utils';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
-import { Configuration } from './Configuration';
+import { UpdateConfig } from './UpdateConfig';
 // import styles from './NestedRow.module.scss';
 // import { MetaData } from './Metadata';
 import { BasePage } from '../BasePage';
@@ -36,9 +36,9 @@ const getTabPages = (
 ): TabPage[] => {
   return [
     {
-      text: translate('tabs.configuration.text'),
-      Component: () => <Configuration secretId={secretId} />,
-      path: routePaths.secret.configuration(secretId, selectedWorkspace),
+      text: translate('tabs.update.text'),
+      Component: () => <UpdateConfig secretId={secretId} />,
+      path: routePaths.secret.updateSecret(secretId, selectedWorkspace),
     },
     // {
     //   text: translate('tabs.metaData.text'),

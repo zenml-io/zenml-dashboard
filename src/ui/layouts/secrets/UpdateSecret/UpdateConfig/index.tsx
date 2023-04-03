@@ -1,47 +1,95 @@
 import React, { useState } from 'react';
+
+// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
+// import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {
-  Box,
   FlexBox,
-  PrimaryButton,
+  Box,
   FormTextField,
   FormDropdownField,
+  PrimaryButton,
   FullWidthSpinner,
+  // H4,
+  // GhostButton,
+  // icons,
+  // Row,
+  // FullWidthSpinner,
+  // Container,
+  // EditField,
+  // Paragraph,
 } from '../../../../components';
-import Selector from '../../Selector/Selector';
-// import { callActionForStacksForPagination } from '../../Stacks/useService';
 import axios from 'axios';
+import Selector from '../../Selector/Selector';
+// import { iconColors, iconSizes } from '../../../../../constants';
+
+// import { useDispatch } from '../../../../hooks';
+// import { showToasterAction } from '../../../../../redux/actions';
+// import { toasterTypes } from '../../../../../constants';
+
+// import { translate } from '../translate';
+
+// import styles from './index.module.scss';
+import { useService } from './useService';
 import { useDispatch, useHistory, useSelector } from '../../../../hooks';
-import { showToasterAction } from '../../../../../redux/actions';
-import { toasterTypes } from '../../../../../constants';
-import { routePaths } from '../../../../../routes/routePaths';
 import {
   sessionSelectors,
   userSelectors,
   workspaceSelectors,
 } from '../../../../../redux/selectors';
+import { showToasterAction } from '../../../../../redux/actions';
+import { toasterTypes } from '../../../../../constants';
+import { routePaths } from '../../../../../routes/routePaths';
+// import { StackBox } from '../../../common/StackBox';
+// import { SidePopup } from '../../RegisterSecret/ListForAll/SidePopup';
+// import { NonEditableConfig } from '../../../NonEditableConfig';
+// import {
+//   useDispatch,
+//   // useHistory,
+//   // useLocation,
+//   useSelector,
+// } from '../../../../hooks';
+// import {
+//   sessionSelectors,
+//   userSelectors,
+//   workspaceSelectors,
+// } from '../../../../../redux/selectors';
+// import {
+//   showToasterAction,
+//   stackComponentsActions,
+//   secretsActions,
+// } from '../../../../../redux/actions';
+// import { toasterTypes } from '../../../../../constants';
+// import axios from 'axios';
+// import { routePaths } from '../../../../../routes/routePaths';
+// import { ToggleField } from '../../../common/FormElement';
+// import { SidePopup } from '../../../common/SidePopup';
 
-interface Props {}
-
-export const Register: React.FC<Props> = () => {
+export const UpdateConfig: React.FC<{
+  secretId: TId;
+  tiles?: any;
+  fetching?: boolean;
+}> = ({ secretId }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const user = useSelector(userSelectors.myUser);
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
-  const [secretName, setSecretName] = useState('');
-  const [scope, setScope] = useState<any>();
+  const { secret } = useService({ secretId });
+  const [secretName, setSecretName] = useState(secret?.name);
+  const [scope, setScope] = useState(secret?.scope);
   const [inputFields, setInputFields] = useState([]);
   const [loading, setLoading] = useState(false);
 
-  const dropdownOptions = [
-    { value: 'user', label: 'User' },
-    { value: 'workspace', label: 'Workspace' },
-  ];
+  const valuesIntoArray = Object.entries(secret.values).map(([key, value]) => ({
+    key,
+    value,
+  }));
 
   const handleInputFieldChange = (inputFields: any) => {
     setInputFields(inputFields);
   };
+
   const onSubmit = async () => {
     if (!secretName) {
       return dispatch(
@@ -104,10 +152,10 @@ export const Register: React.FC<Props> = () => {
     };
 
     await axios
-      .post(
-        `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/secrets`,
+      .put(
+        `${process.env.REACT_APP_BASE_API_URL}/secrets/${secretId}`,
         // @ts-ignore
-        { ...body },
+        body,
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
       .then((response) => {
@@ -115,7 +163,7 @@ export const Register: React.FC<Props> = () => {
         setLoading(false);
         dispatch(
           showToasterAction({
-            description: 'Secret has been created successfully',
+            description: 'Secret has been updated successfully',
             type: toasterTypes.success,
           }),
         );
@@ -156,32 +204,42 @@ export const Register: React.FC<Props> = () => {
     return <FullWidthSpinner color="black" size="md" />;
   }
   return (
-    <>
-      <FlexBox.Row flexDirection="column">
-        <Box style={{ width: '329px' }}>
-          <FormTextField
-            label={'Secret name'}
-            labelColor="rgba(66, 66, 64, 0.5)"
-            placeholder={'Ex.John Doe'}
-            value={secretName}
-            onChange={(val: string) => setSecretName(val)}
-          />
-        </Box>
-        <Box marginTop="lg" style={{ width: '329px' }}>
-          <FormDropdownField
-            label={'Scope'}
-            labelColor="rgba(66, 66, 64, 0.5)"
-            placeholder={'Choose a scope'}
-            value={scope}
-            onChange={(val: string) => setScope(val)}
-            options={dropdownOptions as any}
-            style={{ paddingLeft: '10px' }}
-          />
-        </Box>
-        <Box marginTop="sm">
-          <Selector onSetInputFields={handleInputFieldChange} />
-        </Box>
-      </FlexBox.Row>
+    <FlexBox.Column marginLeft="xl">
+      <Box marginTop="lg" style={{ width: '417px' }}>
+        <FormTextField
+          label={'Secret name'}
+          labelColor="rgba(66, 66, 64, 0.5)"
+          placeholder={'Ex.John Doe'}
+          value={secretName}
+          // disabled
+          onChange={(value: any) => {
+            setSecretName(value);
+          }}
+        />
+      </Box>
+      <Box marginTop="lg" style={{ width: '417px' }}>
+        <FormDropdownField
+          label={'Scope'}
+          labelColor="rgba(66, 66, 64, 0.5)"
+          placeholder={'Choose a scope'}
+          // defaultValue={secret?.scope}
+          value={scope}
+          // value={secret?.scope}
+          onChange={(value: any) => {
+            setScope(value);
+          }}
+          // disabled
+          options={[{ label: 'user' }, { label: 'workspace' }]}
+          style={{ paddingLeft: '10px' }}
+        />
+      </Box>
+
+      <Box marginTop="md">
+        <Selector
+          values={valuesIntoArray}
+          onSetInputFields={handleInputFieldChange}
+        />
+      </Box>
 
       <FlexBox
         style={{
@@ -192,18 +250,9 @@ export const Register: React.FC<Props> = () => {
         }}
       >
         <Box marginBottom="lg">
-          <PrimaryButton
-            onClick={
-              () => onSubmit()
-              // history.push(
-              //   routePaths.secrets.registerSecrets(selectedWorkspace),
-              // )
-            }
-          >
-            Register Secret
-          </PrimaryButton>
+          <PrimaryButton onClick={() => onSubmit()}>Save Changes</PrimaryButton>
         </Box>
       </FlexBox>
-    </>
+    </FlexBox.Column>
   );
 };

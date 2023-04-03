@@ -290,6 +290,7 @@ export const ListForAll: React.FC<Props> = () => {
               marginTop="lg"
               paddingBottom="lg"
               style={{ overflowX: 'auto' }}
+              className={styles.list}
             >
               <GetList
                 type={item}
