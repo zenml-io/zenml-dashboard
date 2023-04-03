@@ -11,7 +11,8 @@ import { PluginCard } from './PluginCard';
 import loadingAnimation from './loadingAnimation.json';
 import { HUB_API_URL } from '../../../api/constants';
 import { useHubToken } from '../../hooks/auth';
-import { useToaster } from '../../hooks';
+import { useHistory, useToaster } from '../../hooks';
+import { EmptyState } from '../common/EmptyState';
 
 const getData = async (token: string, status: 'pending' | 'available') => {
   return (
@@ -25,6 +26,7 @@ export const Plugins: React.FC = () => {
   const workspace = useSelector(selectedWorkspace);
   const { failureToast } = useToaster();
   const token = useHubToken();
+  const history = useHistory();
   const [pendingPlugins, setPendingPlugins] = useState([] as TPlugin[]);
   const [completedPlugins, setCompletedPlugins] = useState(
     [] as { month: string; plugins: TPlugin[] }[],
@@ -52,8 +54,16 @@ export const Plugins: React.FC = () => {
     });
   }, [token]);
 
-  return (
-    <Box>
+  return pendingPlugins.length === 0 && completedPlugins.length === 0 ? (
+    <EmptyState
+      message="You haven't uploaded any plugins yet."
+      actionLabel="Create plugin"
+      actionHandler={() => {
+        history.push(routePaths.plugins.create(workspace));
+      }}
+    />
+  ) : (
+    <>
       {pendingPlugins.length > 0 && (
         <Box marginVertical="lg">
           <Paragraph color="darkGrey" size="small">
@@ -118,10 +128,10 @@ export const Plugins: React.FC = () => {
         </Box>
       )}
 
-      <Box marginVertical="xl">
-        <Paragraph color="primary">Completed</Paragraph>
-        {completedPlugins.length > 0 ? (
-          completedPlugins.map((m) => (
+      {completedPlugins.length > 0 && (
+        <Box marginVertical="xl">
+          <Paragraph color="primary">Completed</Paragraph>
+          {completedPlugins.map((m) => (
             <Box key={m.month} marginVertical="lg">
               <Paragraph
                 size="tiny"
@@ -149,11 +159,9 @@ export const Plugins: React.FC = () => {
                 ))}
               </FlexBox>
             </Box>
-          ))
-        ) : (
-          <Paragraph>{"You haven't uploaded any plugins yet."}</Paragraph>
-        )}
-      </Box>
-    </Box>
+          ))}
+        </Box>
+      )}
+    </>
   );
 };

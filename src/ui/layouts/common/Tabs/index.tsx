@@ -133,7 +133,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
               );
             })}
           </FlexBox>
-          <FlexBox marginBottom="xxl">
+          <FlexBox marginBottom="xxl" fullHeight>
             <Switch>
               <Redirect exact from={basePath} to={firstInternalPage.path} />
 

@@ -27,35 +27,34 @@ export const SettingsPage: React.FC = () => {
             {translate('title')}
           </Paragraph>
         </Box>
-        <Box>
-          <Tabs
-            pages={[
-              {
-                text: translate('tabs.personalDetails.text'),
-                Component: PersonalDetails,
-                path: routePaths.settings.personalDetails,
-              },
-              {
-                text: translate('tabs.organizationSettings.text'),
-                Component: Organization,
-                path: routePaths.settings.organizationSettings,
-              },
-              {
-                text: translate('tabs.starred.text'),
-                Component: Starred,
-                path: routePaths.settings.starredPlugins,
-                locked: !hubIsConnected,
-              },
-              {
-                text: translate('tabs.plugins.text'),
-                Component: Plugins,
-                path: routePaths.settings.myPlugins,
-                locked: !hubIsConnected,
-              },
-            ]}
-            basePath={routePaths.settings.base}
-          />
-        </Box>
+
+        <Tabs
+          pages={[
+            {
+              text: translate('tabs.personalDetails.text'),
+              Component: PersonalDetails,
+              path: routePaths.settings.personalDetails,
+            },
+            {
+              text: translate('tabs.organizationSettings.text'),
+              Component: Organization,
+              path: routePaths.settings.organizationSettings,
+            },
+            {
+              text: translate('tabs.starred.text'),
+              Component: Starred,
+              path: routePaths.settings.starredPlugins,
+              locked: !hubIsConnected,
+            },
+            {
+              text: translate('tabs.plugins.text'),
+              Component: Plugins,
+              path: routePaths.settings.myPlugins,
+              locked: !hubIsConnected,
+            },
+          ]}
+          basePath={routePaths.settings.base}
+        />
       </SidebarContainer>
     </AuthenticatedLayout>
   );
