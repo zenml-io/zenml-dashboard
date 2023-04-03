@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
 import moment from 'moment';
 import Lottie from 'lottie-react';
 
@@ -24,7 +23,6 @@ const getData = async (token: string, status: 'pending' | 'available') => {
 
 export const Plugins: React.FC = () => {
   const workspace = useSelector(selectedWorkspace);
-  const history = useHistory();
   const { failureToast } = useToaster();
   const token = useHubToken();
   const [pendingPlugins, setPendingPlugins] = useState([] as TPlugin[]);
