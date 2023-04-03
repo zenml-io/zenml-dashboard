@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -29,6 +30,7 @@ const todayFormatted = moment().format('dddd, DD MMM yyyy');
 const CreatePlugin: React.FC = () => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const hubApiToken = useHubToken();
+  const history = useHistory();
 
   const [packageName, setPackageName] = useState('');
   const [repositoryUrl, setRepositoryUrl] = useState('');
@@ -194,7 +196,9 @@ const CreatePlugin: React.FC = () => {
                         headers: { Authorization: `Bearer ${hubApiToken}` },
                       },
                     )
-                    .then(console.log)
+                    .then(() => {
+                      history.push(routePaths.settings.myPlugins);
+                    })
                     .catch(console.log);
                 }}
               >

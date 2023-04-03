@@ -12,6 +12,7 @@ import { PluginCard } from './PluginCard';
 import loadingAnimation from './loadingAnimation.json';
 import { HUB_API_URL } from '../../../api/constants';
 import { useHubToken } from '../../hooks/auth';
+import { useToaster } from '../../hooks';
 
 const getData = async (token: string, status: 'pending' | 'available') => {
   return (
@@ -24,6 +25,7 @@ const getData = async (token: string, status: 'pending' | 'available') => {
 export const Plugins: React.FC = () => {
   const workspace = useSelector(selectedWorkspace);
   const history = useHistory();
+  const { failureToast } = useToaster();
   const token = useHubToken();
   const [pendingPlugins, setPendingPlugins] = useState([] as TPlugin[]);
   const [completedPlugins, setCompletedPlugins] = useState(
@@ -65,7 +67,10 @@ export const Plugins: React.FC = () => {
               <LinkBox
                 key={i}
                 onClick={() =>
-                  history.push(routePaths.plugins.creationLogs(workspace, p.id))
+                  failureToast({
+                    description:
+                      "You can view plugin details once it's completed",
+                  })
                 }
                 style={{
                   display: 'flex',

@@ -1,7 +1,6 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-// import { useHistory, useParams } from 'react-router-dom';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import moment from 'moment';
 
 import {
@@ -19,22 +18,31 @@ import {
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
-import { useSelector } from '../../../hooks';
+import { useSelector, useToaster } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 import { HUB_API_URL } from '../../../../api/constants';
 import { useHubToken } from '../../../hooks/auth';
+import { pick } from '../../../../utils';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
 const todayFormatted = moment().format('dddd, DD MMM yyyy');
 
+const getData = async (pluginId: string) => {
+  return (await axios.get(`${HUB_API_URL}/plugins/${pluginId}`))
+    .data as TPlugin;
+};
+
 const UpdatePlugin: React.FC = () => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  // const history = useHistory();
+  const history = useHistory();
   const hubApiToken = useHubToken();
+  const { pluginId } = useParams<{ pluginId: string }>();
+  const { failureToast } = useToaster();
 
+  const [plugin, setPlugin] = useState(null as null | TPlugin);
   const [versionNumber, setVersionNumber] = useState('');
   const [repositoryUrl, setRepositoryUrl] = useState('');
   const [repositoryBranch, setRepositoryBranch] = useState('');
@@ -42,7 +50,9 @@ const UpdatePlugin: React.FC = () => {
   const [repositorySubdirectory, setRepositorySubdirectory] = useState('');
   const [releaseNotes, setReleaseNotes] = useState('');
 
-  const { pluginId } = useParams<{ pluginId: string }>();
+  useEffect(() => {
+    getData(pluginId).then(setPlugin);
+  }, [pluginId]);
 
   return (
     <AuthenticatedLayout
@@ -192,29 +202,39 @@ const UpdatePlugin: React.FC = () => {
             <FlexBox justifyContent="flex-end">
               <PrimaryButton
                 onClick={() => {
+                  if (!plugin)
+                    return failureToast({
+                      description: 'Failed to fetch plugin details',
+                    });
+
                   axios
                     .post(
-                      `${HUB_API_URL}/plugins/${pluginId}`,
+                      `${HUB_API_URL}/plugins`,
                       {
-                        // name: packageName,
+                        ...pick(
+                          (plugin as unknown) as Record<string, unknown>,
+                          ['tags', 'logo_url', 'name', 'description'],
+                        ),
+                        version: versionNumber,
+                        release_notes: releaseNotes,
                         repository_url: repositoryUrl,
-                        // tags,
-                        // logo_url: logoUrl,
+                        repository_subdirectory: repositorySubdirectory,
+                        repository_branch: repositoryBranch,
+                        repository_commit: commitHash,
                       },
                       {
                         headers: { Authorization: `Bearer ${hubApiToken}` },
                       },
                     )
-                    .then(console.log)
+                    .then(() => {
+                      history.push(
+                        routePaths.plugins.detail.overview(
+                          selectedWorkspace,
+                          pluginId,
+                        ),
+                      );
+                    })
                     .catch(console.log);
-                  // .then(() => {
-                  //   history.push(
-                  //     routePaths.plugins.detail.overview(
-                  //       selectedWorkspace,
-                  //       pluginId,
-                  //     ),
-                  //   );
-                  // });
                 }}
                 disabled={
                   !(

@@ -142,8 +142,6 @@ export const routePaths = {
     },
     update: (workspace: string, id: TId): string =>
       `/workspaces/${workspace}/plugins/${id}/update`,
-    creationLogs: (workspace: string, id: TId): string =>
-      `/workspaces/${workspace}/plugins/${id}/creation-logs`,
   },
 
   settings: {
