@@ -4,7 +4,6 @@ import {
   Box,
   EditField,
   Paragraph,
-  Container,
   FullWidthSpinner,
 } from '../../components';
 import { ToggleField } from '../common/FormElement';
@@ -180,7 +179,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
   return (
     <FlexBox.Column marginTop="xl" fullWidth>
       <FlexBox.Row flexDirection="column">
-        <Container>
+        {/* <Container> */}
           <Box style={{ width: '80%' }}>
             <EditField
               disabled
@@ -202,13 +201,13 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               disabled={true}
             />
           </Box>
-        </Container>
+        {/* </Container> */}
         {/* <Container>
   
         </Container> */}
       </FlexBox.Row>
-      <FlexBox.Row style={{ width: '80%' }}>
-        <Container>
+      <FlexBox.Row flexDirection='column'>
+        {/* <Container> */}
           {/* <Row>
           <Col xs={5}>
          
@@ -223,13 +222,14 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
             </FlexBox.Row>
           </Col>
         </Row> */}
-
+        <Box style={{ width: '80%' }}>
           {Object.keys(mappedObject).map((key, ind) => (
             // <Col xs={6} key={ind}>
             <>{getFormElement(key, mappedObject[key])}</>
             // </Col>
           ))}
-        </Container>
+        </Box>
+        {/* </Container> */}
       </FlexBox.Row>
     </FlexBox.Column>
   );

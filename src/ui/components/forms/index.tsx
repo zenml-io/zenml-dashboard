@@ -175,6 +175,7 @@ export const CopyField = (
         <div style={{ marginTop: '20px', textAlign: 'right' }}>
           <button
             style={{
+              fontFamily: 'Rubik',
               backgroundColor: '#F4F4F4',
               padding: '5px 20px',
               border: 'none',
@@ -185,6 +186,57 @@ export const CopyField = (
           </button>
         </div>
       )}
+    </FlexBox.Column>
+  );
+};
+
+export const MakeSecretField = (
+  props: {
+    label: string;
+    labelColor: any;
+    placeholder: any;
+    value: string;
+    onChange?: any;
+  } & any,
+): any => {
+ 
+  const handleClick = () => {
+    return null   
+  };
+
+  return (
+    <FlexBox.Column fullWidth style={{ height: '70px' }}>
+      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+        <InputWithLabel
+          name={props.name}
+          label={props.label}
+          labelColor={props.labelColor}
+          InputComponent={
+              <TextInput
+                {...props}
+                style={{
+                  border: '1px solid #C9CBD0',
+                }}
+                value={props.value}
+                placeholder={props.placeholder}
+                onChangeText={props.onChange}
+              />
+          }
+        />
+
+        <Box
+          style={{ 
+            position: 'absolute', right: '10px', top: '40px', 
+            display: 'flex', alignItems: 'center', 
+            background: '#fff', borderLeft: '1px solid grey', 
+            paddingLeft: '10px', cursor: 'pointer'
+          }}
+          onClick={handleClick}
+        >
+          <icons.lock color={iconColors.primary} style={{ marginRight: '5px' }} /> 
+          <Paragraph color='primary'>Make it Secret</Paragraph>
+        </Box>
+      </FlexBox>
     </FlexBox.Column>
   );
 };
