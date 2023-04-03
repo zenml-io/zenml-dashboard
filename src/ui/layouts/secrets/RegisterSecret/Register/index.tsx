@@ -151,6 +151,12 @@ export const Register: React.FC<Props> = () => {
             placeholder={'Random Text'}
             value={secretName}
             onChange={(val: string) => setSecretName(val)}
+
+            secretLabel='Item 4 (Secret)'
+            secretLabelColor="rgba(66, 66, 64, 0.5)"
+            secretPlaceholder="john doe"
+            secretValue={'Empty'}
+            secretOnChange={() => {}}
           />
         </Box>
         
