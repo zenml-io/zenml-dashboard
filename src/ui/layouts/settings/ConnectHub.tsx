@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
 import {
@@ -10,21 +11,39 @@ import {
   PrimaryButton,
   TextButton,
 } from '../../components';
-import { useDispatch } from 'react-redux';
-// import { useDispatch, useSelector } from 'react-redux';
-// import { sessionSelectors } from '../../../redux/selectors';
-import { HUB_API_URL } from '../../../api/constants';
+
+import { BASE_API_URL, HUB_API_URL } from '../../../api/constants';
 import { Popup } from '../common/Popup';
 import {
   authoriseHubActionTypes,
   disconnectHubActionTypes,
 } from '../../../redux/actionTypes';
 import GitHubLogo from '../../assets/GitHub_Logo.png';
-import { useHubToken } from '../../hooks/auth';
+import { useAuthToken, useHubToken } from '../../hooks/auth';
 import { useToaster } from '../../hooks';
+import { userSelectors } from '../../../redux/selectors';
 
 const getGitHubRedirectURL = () =>
   axios.get(`${HUB_API_URL}/auth/github/authorize`);
+
+const updateTokenInServer = (
+  userId: string,
+  hubToken: string | null,
+  authToken: string,
+) => {
+  axios
+    .put(
+      `${BASE_API_URL}/users/${userId}`,
+      {
+        hub_token: hubToken,
+      },
+      {
+        headers: { Authorization: `Bearer ${authToken}` },
+      },
+    )
+    // if persisting to the server fails then better to still let the user use the Hub connection on the frontend;
+    .catch(console.error);
+};
 
 export const ConnectHub: React.FC = () => {
   const [token, setToken] = useState('');
@@ -32,7 +51,9 @@ export const ConnectHub: React.FC = () => {
   // const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
   const hubIsConnected = !!useHubToken();
+  const authToken = useAuthToken();
   const { successToast } = useToaster();
+  const myUser = useSelector(userSelectors.myUser);
 
   return hubIsConnected ? (
     <FlexBox flexDirection="column" alignItems="end">
@@ -44,6 +65,10 @@ export const ConnectHub: React.FC = () => {
         onClick={() => {
           dispatch({ type: disconnectHubActionTypes.success });
           successToast({ description: 'Disconnected from Hub' });
+
+          if (authToken && myUser) {
+            updateTokenInServer(myUser.id, null, authToken);
+          }
         }}
       >
         Disconnect Hub
@@ -95,12 +120,9 @@ export const ConnectHub: React.FC = () => {
               successToast({ description: 'Connected to Hub' });
               setPopupOpen(false);
 
-              // TODO: confirm actual endpoint and payload
-              // axios.post(
-              //   `${BASE_API_URL}/save-github-token`,
-              //   { token },
-              //   { headers: { Authorization: `Bearer ${authToken}` } },
-              // );
+              if (authToken && myUser) {
+                updateTokenInServer(myUser.id, token, authToken);
+              }
             }}
           >
             Save token
