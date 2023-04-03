@@ -41,6 +41,7 @@
     "i18next-browser-languagedetector": "^5.0.0",
     "json2yaml": "^1.1.0",
     "jwt-decode": "^3.1.2",
+    "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "moment": "^2.29.4",
     "node-sass": "^4.14.1",
@@ -97,6 +98,7 @@
     ]
   },
   "devDependencies": {
+    "@types/lodash": "^4.14.192",
     "@typescript-eslint/eslint-plugin": "^3.7.1",
     "@typescript-eslint/parser": "^3.7.1",
     "autoprefixer": "^10.4.8",
