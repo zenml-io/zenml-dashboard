@@ -1,5 +1,6 @@
 import {
   authoriseHubActionTypes,
+  disconnectHubActionTypes,
   loginActionTypes,
   signupActionTypes,
 } from '../actionTypes';
@@ -45,6 +46,12 @@ const sessionReducer = (state: State = initialState, action: Action): State => {
       return {
         ...state,
         hubToken: access_token,
+      };
+    }
+    case disconnectHubActionTypes.success: {
+      return {
+        ...state,
+        hubToken: undefined,
       };
     }
 

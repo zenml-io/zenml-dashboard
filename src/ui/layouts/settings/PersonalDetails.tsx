@@ -23,8 +23,6 @@ import starsIcon from '../../assets/stars.svg';
 import { getInitials } from '../../../utils/name';
 import axios from 'axios';
 import { ConnectHub } from './ConnectHub';
-import GitHubLogo from '../../assets/GitHub_Logo.png';
-import { useHubToken } from '../../hooks/auth';
 
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
@@ -42,7 +40,6 @@ export const PersonalDetails: React.FC = () => {
   const [bio, setBio] = useState(user?.bio ?? '');
   const [version, setVersion] = useState('');
   const [popupType, setPopupType] = useState('');
-  const hubIsConnected = !!useHubToken();
   // const [selectedImage, setSelectedImage] = useState<any>(userImage);
 
   const authToken = useSelector(sessionSelectors.authenticationToken);
@@ -210,13 +207,16 @@ export const PersonalDetails: React.FC = () => {
             </div>
           </Box>
 
-          <Box marginTop="xxxl" style={{ display: 'flex' }}>
-            <GhostButton onClick={() => setPasswordPopupOpen(true)}>
+          <FlexBox marginTop="xxxl" flexWrap>
+            <GhostButton
+              onClick={() => setPasswordPopupOpen(true)}
+              style={{ marginBottom: '18px', marginRight: 'auto' }}
+            >
               Update Password
             </GhostButton>
 
-            {/* {fullName !== user.fullName && username !== user.name || !decoded.permissions.includes('me') && */}
-          </Box>
+            <ConnectHub />
+          </FlexBox>
         </Box>
 
         {/* right column */}
@@ -247,17 +247,6 @@ export const PersonalDetails: React.FC = () => {
               </Paragraph>
             </Box>
           </Box>
-
-          {hubIsConnected ? (
-            <FlexBox flexDirection="column" alignItems="end">
-              <Paragraph>Connected Hub via</Paragraph>
-              <Box style={{ marginLeft: 'auto' }}>
-                <img src={GitHubLogo} alt="GitHub" width="100px" />
-              </Box>
-            </FlexBox>
-          ) : (
-            <ConnectHub />
-          )}
         </FlexBox>
 
         {passwordPopupOpen && (

@@ -85,3 +85,21 @@ export const GhostButton: React.FC<
     {children}
   </button>
 );
+
+export const TextButton: React.FC<ButtonInterface & BoxProps> = ({
+  className,
+  children,
+  ...props
+}) => (
+  <button
+    style={{
+      ...getMarginsByProps(props),
+      ...getPaddingsByProps(props),
+      ...props.style,
+    }}
+    className={joinClassNames(styles.textButton, className)}
+    {...props}
+  >
+    {children}
+  </button>
+);

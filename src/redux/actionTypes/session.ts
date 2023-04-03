@@ -22,3 +22,7 @@ export const updateEmailTypes = generateApiActionsTypes(
 export const authoriseHubActionTypes = generateApiActionsTypes(
   actionTypes.AUTHORISE_HUB,
 );
+
+export const disconnectHubActionTypes = generateApiActionsTypes(
+  actionTypes.DISCONNECT_HUB,
+);

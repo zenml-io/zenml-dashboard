@@ -8,6 +8,7 @@ const sessionActionTypes = {
 
 const hubAuthActionTypes = {
   AUTHORISE_HUB: 'AUTHORISE_HUB',
+  DISCONNECT_HUB: 'DISCONNECT_HUB',
 };
 
 const userActionTypes = {
