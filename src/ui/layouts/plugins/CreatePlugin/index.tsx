@@ -15,7 +15,7 @@ import {
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
-import { useSelector } from '../../../hooks';
+import { useSelector, useToaster } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
@@ -31,6 +31,7 @@ const CreatePlugin: React.FC = () => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const hubApiToken = useHubToken();
   const history = useHistory();
+  const { failureToast } = useToaster();
 
   const [packageName, setPackageName] = useState('');
   const [repositoryUrl, setRepositoryUrl] = useState('');
@@ -192,7 +193,9 @@ const CreatePlugin: React.FC = () => {
                     .then(() => {
                       history.push(routePaths.settings.myPlugins);
                     })
-                    .catch(console.log);
+                    .catch(() => {
+                      failureToast({ description: 'Error creating plugin' });
+                    });
                 }}
               >
                 Contribute

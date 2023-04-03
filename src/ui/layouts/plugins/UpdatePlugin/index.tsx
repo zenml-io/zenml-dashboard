@@ -227,7 +227,11 @@ const UpdatePlugin: React.FC = () => {
                         ),
                       );
                     })
-                    .catch(console.log);
+                    .catch(() => {
+                      failureToast({
+                        description: 'Error updating plugin version',
+                      });
+                    });
                 }}
                 disabled={
                   !(

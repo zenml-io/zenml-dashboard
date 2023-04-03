@@ -356,12 +356,18 @@ const PluginDetail: React.FC = () => {
                               'You need to be logged in to delete this plugin',
                           });
                         } else {
-                          deletePlugin(pluginId, hubToken).then(() => {
-                            successToast({ description: 'Deleted plugin' });
-                            history.push(
-                              routePaths.plugins.list(selectedWorkspace),
-                            );
-                          });
+                          deletePlugin(pluginId, hubToken)
+                            .then(() => {
+                              successToast({ description: 'Deleted plugin' });
+                              history.push(
+                                routePaths.plugins.list(selectedWorkspace),
+                              );
+                            })
+                            .catch(() => {
+                              failureToast({
+                                description: 'Error deleting plugin',
+                              });
+                            });
                         }
                       }}
                       style={{ backgroundColor: 'var(--red)' }}
