@@ -6,6 +6,7 @@ import {
   FormTextField,
   FormDropdownField,
   FullWidthSpinner,
+  MakeSecretField,
 } from '../../../../components';
 import Selector from '../../Selector/Selector';
 // import { callActionForStacksForPagination } from '../../Stacks/useService';
@@ -142,10 +143,22 @@ export const Register: React.FC<Props> = () => {
   return (
     <>
       <FlexBox.Row flexDirection="column">
+        
+        <Box>
+          <MakeSecretField
+            label={'Item 3 (Secret)'}
+            labelColor="rgba(66, 66, 64, 0.5)" 
+            placeholder={'Random Text'}
+            value={secretName}
+            onChange={(val: string) => setSecretName(val)}
+          />
+        </Box>
+        
+        
         <Box style={{ width: '329px' }}>
           <FormTextField
             label={'Secret name'}
-            labelColor="rgba(66, 66, 64, 0.5)"
+            labelColor="rgba(66, 66, 64, 0.5)" 
             placeholder={'Ex.John Doe'}
             value={secretName}
             onChange={(val: string) => setSecretName(val)}
