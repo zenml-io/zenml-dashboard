@@ -173,6 +173,12 @@ export const Register: React.FC<Props> = () => {
             secretPlaceholder="john doe"
             secretValue={'Empty'}
             secretOnChange={() => {}}
+
+            dropdownOptions={[ 
+              { label: '{{ mlZen.https.azxsggej }}' }, 
+              { label: '{{ mlChen.https.azxsggej }}' }, 
+              { label: 'Example' },
+            ]}
           />
         </Box>
         
