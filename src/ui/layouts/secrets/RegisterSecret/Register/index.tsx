@@ -31,35 +31,84 @@ export const Register: React.FC<Props> = () => {
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [secretName, setSecretName] = useState('');
-  const [scope, setScope] = useState<any>();
+  const [scope, setScope] = useState<any>('workspace');
   const [inputFields, setInputFields] = useState([]);
   const [loading, setLoading] = useState(false);
 
   const dropdownOptions = [
-    { value: 'user', label: 'User' },
-    { value: 'workspace', label: 'Workspace' },
+    { value: 'user', label: 'user' },
+    { value: 'workspace', label: 'workspace' },
   ];
 
   const handleInputFieldChange = (inputFields: any) => {
     setInputFields(inputFields);
   };
   const onSubmit = async () => {
+    if (!secretName) {
+      return dispatch(
+        showToasterAction({
+          description: 'Name cannot be Empty.',
+          type: toasterTypes.failure,
+        }),
+      );
+    }
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
 
-    const finalValues: any = inputFields.reduce((acc, { key, value }) => {
+    // const finalValues: any = inputFields.reduce((acc, { key, value }) => {
+    //   acc[key] = value;
+    //   return acc;
+    // }, {});
+
+    const finalValues = inputFields.reduce((acc, { key, value }) => {
+      if (acc.hasOwnProperty(key)) {
+        dispatch(
+          showToasterAction({
+            description: 'Key already exists.',
+            type: toasterTypes.failure,
+          }),
+        );
+        return {};
+      }
       acc[key] = value;
       return acc;
     }, {});
 
-    for (const [key, value] of Object.entries(finalValues)) {
-      // console.log(`${key}: ${value}`);
+    // const finalValues: any = {};
 
+    // for (let i = 0; i < inputFields.length; i++) {
+    //   const key = Object.keys(inputFields[i])[0];
+    //   if (finalValues.hasOwnProperty(key)) {
+    //     debugger;
+    //     dispatch(
+    //       showToasterAction({
+    //         description: 'Key already exists.',
+    //         type: toasterTypes.failure,
+    //       }),
+    //     );
+    //     return {}; // or break; if you want to stop the loop
+    //   }
+    //   finalValues[key] = inputFields[i][key];
+    // }
+
+    if (Object.keys(finalValues).length !== inputFields.length) {
+      return false;
+    }
+
+    for (const [key, value] of Object.entries(finalValues)) {
       if (!key && value) {
         return dispatch(
           showToasterAction({
             description: 'Key cannot be Empty.',
+            type: toasterTypes.failure,
+          }),
+        );
+      }
+      if (!key && !value) {
+        return dispatch(
+          showToasterAction({
+            description: 'Key and value cannot be Empty.',
             type: toasterTypes.failure,
           }),
         );
@@ -74,7 +123,7 @@ export const Register: React.FC<Props> = () => {
       }
     }
     // }
-
+    debugger;
     const body = {
       user: user?.id,
       workspace: id,
@@ -164,13 +213,13 @@ export const Register: React.FC<Props> = () => {
               { label: '{{ Example }}' },
             ]}
           />
-        </Box>
-         */}
+        </Box> */}
         
         <Box style={{ width: '329px' }}>
           <FormTextField
+            required={'*'}
             label={'Secret name'}
-            labelColor="rgba(66, 66, 64, 0.5)" 
+            labelColor="rgba(66, 66, 64, 0.5)"
             placeholder={'Ex.John Doe'}
             value={secretName}
             onChange={(val: string) => setSecretName(val)}
@@ -180,7 +229,7 @@ export const Register: React.FC<Props> = () => {
           <FormDropdownField
             label={'Scope'}
             labelColor="rgba(66, 66, 64, 0.5)"
-            placeholder={'Choose a scope'}
+            placeholder={''}
             value={scope}
             onChange={(val: string) => setScope(val)}
             options={dropdownOptions as any}
