@@ -8,7 +8,8 @@ export * from './stacks';
 export * from './stackComponents';
 export * from './runs';
 export * from './runPages';
-
+export * from './secrets';
+export * from './secretsPages';
 export * from './pipelinePages';
 export * from './stackPages';
 export * from './stackComponentPages';

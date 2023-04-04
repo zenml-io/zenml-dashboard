@@ -40,6 +40,12 @@ const stackActionTypes = {
   RUNS_GET_STACK_FOR_ID: 'RUNS_GET_STACK_FOR_ID',
 };
 
+const secretActionTypes = {
+  SECRETS_GET_MY_SECRETS: 'SECRETS_GET_MY_SECRETS',
+  SECRETS_GET_SECRET_FOR_ID: 'SECRETS_GET_SECRET_FOR_ID',
+  // RUNS_GET_STACK_FOR_ID: 'RUNS_GET_STACK_FOR_ID',
+};
+
 const rolesActionTypes = {
   ROLES_GET_ALL_ROLES: 'ROLES_GET_ALL_ROLES',
 };
@@ -81,6 +87,9 @@ const stackPagesActionTypes = {
   STACK_PAGES_SET_SELECTED_RUN_IDS: 'STACK_PAGES_SET_SELECTED_RUN_IDS',
   STACK_PAGES_SET_FETCHING: 'STACK_PAGES_SET_FETCHING',
 };
+const secretPagesActionTypes = {
+  SECRET_PAGES_SET_FETCHING: 'SECRET_PAGES_SET_FETCHING',
+};
 
 const stackComponentPagesActionTypes = {
   STACKCOMPONENT_PAGES_SET_SELECTED_RUN_IDS:
@@ -101,6 +110,8 @@ export const actionTypes = {
   ...WorkspaceActionTypes,
   ...pipelineActionTypes,
   ...stackActionTypes,
+  ...secretActionTypes,
+  ...secretPagesActionTypes,
   ...runActionTypes,
   ...runPagesActionTypes,
   ...rolesActionTypes,

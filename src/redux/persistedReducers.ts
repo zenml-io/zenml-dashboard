@@ -23,6 +23,10 @@ import stacksReducer, {
   initialState as stacksInitialState,
 } from './reducers/stacksReducer';
 
+import secretsReducer, {
+  initialState as secretsInitialState,
+} from './reducers/secretsReducer';
+
 import rolesReducer, {
   initialState as rolesInitialState,
 } from './reducers/rolesReducer';
@@ -52,6 +56,10 @@ import stackPagesReducer, {
   initialState as stackPagesInitialState,
 } from './reducers/stackPagesReducer';
 
+import secretPagesReducer, {
+  initialState as secretsPagesInitialState,
+} from './reducers/secretPagesReducer';
+
 const initialState = {
   session: sessionInitialState,
   users: usersInitialState,
@@ -59,6 +67,7 @@ const initialState = {
   pipelines: pipelinesInitialState,
   workspaces: workspacesInitialState,
   stacks: stacksInitialState,
+  secrets: secretsInitialState,
   stackComponents: stackComponentsInitialState,
   flavors: flavorsInitialState,
   flavorsPages: flavorPagesInitialState,
@@ -67,6 +76,7 @@ const initialState = {
   runPages: runPagesInitialState,
   pipelinePages: pipelinePagesInitialState,
   stacksPages: stackPagesInitialState,
+  secretsPages: secretsPagesInitialState,
 };
 
 export const persisted = combineReducers({
@@ -77,6 +87,8 @@ export const persisted = combineReducers({
   workspaces: workspacesReducer,
   pipelines: pipelinesReducer,
   stacks: stacksReducer,
+  secretPages: secretPagesReducer,
+  secrets: secretsReducer,
   stackComponents: stackComponentsReducer,
   runs: runsReducer,
   runPages: runPagesReducer,

@@ -50,6 +50,7 @@ import { ReactComponent as PlusCircle } from './assets/PlusCircle.svg';
 import { ReactComponent as MinusCircle } from './assets/MinusCircle.svg';
 import { ReactComponent as Config } from './assets/Config.svg';
 import { ReactComponent as Failed } from './assets/Failed.svg';
+import { ReactComponent as Lock } from './assets/Lock.svg';
 //icons for stackComponents
 // import { ReactComponent as PuzzlePiece } from './assets/PuzzlePiece.svg';
 import { ReactComponent as Folders } from './assets/Folders.svg';
@@ -68,6 +69,7 @@ import { ReactComponent as Pen } from './assets/Pen.svg';
 import { ReactComponent as ModelRegistry } from './assets/ModelRegistry.svg';
 import { ReactComponent as Share } from './assets/share.svg';
 import { ReactComponent as EmptyRightArrow } from './assets/EmptyRightArrow.svg';
+import { ReactComponent as AddNew } from './assets/addNew.svg';
 // import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 // import { ReactComponent as Cached } from './assets/Cached.svg';
 // import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
@@ -176,6 +178,7 @@ const icons = {
   example: createIcon({ Component: Example, useStroke: true }),
   pipeline: createIcon({ Component: Pipeline, useStroke: true }),
   stack: createIcon({ Component: Stack, useStroke: true }),
+  lock: createIcon({ Component: Lock, useStroke: true }),
   stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
   funnelFill: createIcon({ Component: FunnelFill }),
   delete: createIcon({ Component: Delete }),
@@ -188,6 +191,7 @@ const icons = {
   minusCircle: createIcon({ Component: MinusCircle, useStroke: true }),
   emptyRightArrow: createIcon({ Component: EmptyRightArrow, useStroke: true }),
   circleCheck: createIcon({ Component: CircleCheck }),
+  addNew: createIcon({ Component: AddNew }),
   //icons for stackComponents
   artifact_store: createIcon({ Component: Folders, useStroke: true }),
   alerter: createIcon({ Component: ChatDots, useStroke: true }),
