@@ -29,33 +29,18 @@ const Selector: React.FC<Props> = ({ label, onSetInputFields, values }) => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  // useEffect(() => {
-  //   handleInputChange();
-  // }, [inputFields]);
   const handleAdd = () => {
     inputFields.push({ key: '', value: '' });
     setInputFields([...inputFields]);
     // setKey('')
     // setValue('')
-    handleInputChange();
-  };
-  const handleDelete = (index: any) => {
-    const values = [...inputFields];
-    values.splice(index, 1);
-    setInputFields(values);
-    onSetInputFields(values);
-    // debugger;
-    // setKey('')
-    // setValue('')
   };
 
-  const handleInputChange = (index?: any, event?: any, type?: any) => {
+  const handleInputChange = (index: any, event: any, type: any) => {
     const values = [...inputFields];
-
     if (type === 'key') {
       values[index].key = event;
-    }
-    if (type === 'value') {
+    } else {
       values[index].value = event;
     }
 
@@ -131,13 +116,11 @@ const Selector: React.FC<Props> = ({ label, onSetInputFields, values }) => {
                     <button
                       className={styles.fieldButton}
                       type="button"
-                      onClick={() => {
-                        handleDelete(index);
-                        // setInputFields(
-                        //   inputFields?.filter((e: any) => e !== item),
-                        //   () => handleInputChange(),
-                        // );
-                      }}
+                      onClick={() =>
+                        setInputFields(
+                          inputFields?.filter((e: any) => e !== item),
+                        )
+                      }
                     >
                       <icons.delete color={iconColors.grey} />
                     </button>

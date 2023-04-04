@@ -870,23 +870,6 @@ const FilterComponent = ({
           },
           filterValue: value,
         },
-        {
-          column: {
-            selectedValue: {
-              value: 'scope',
-              label: 'Scope',
-              type: 'string',
-            },
-          },
-          contains: {
-            selectedValue: {
-              value: 'contains',
-              label: 'Contains',
-              type: 'string',
-            },
-          },
-          filterValue: value,
-        },
       ]);
       localStorage.setItem('logical_operator', JSON.stringify('or'));
     } else {

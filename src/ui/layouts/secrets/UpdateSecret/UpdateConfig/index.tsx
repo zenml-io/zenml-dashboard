@@ -91,35 +91,14 @@ export const UpdateConfig: React.FC<{
   };
 
   const onSubmit = async () => {
-    if (!secretName) {
-      return dispatch(
-        showToasterAction({
-          description: 'Name cannot be Empty.',
-          type: toasterTypes.failure,
-        }),
-      );
-    }
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
 
-    const finalValues = inputFields.reduce((acc, { key, value }) => {
-      if (acc.hasOwnProperty(key)) {
-        dispatch(
-          showToasterAction({
-            description: 'Key already exists.',
-            type: toasterTypes.failure,
-          }),
-        );
-        return {};
-      }
+    const finalValues: any = inputFields.reduce((acc, { key, value }) => {
       acc[key] = value;
       return acc;
     }, {});
-
-    if (Object.keys(finalValues).length !== inputFields.length) {
-      return false;
-    }
 
     for (const [key, value] of Object.entries(finalValues)) {
       // console.log(`${key}: ${value}`);
@@ -128,14 +107,6 @@ export const UpdateConfig: React.FC<{
         return dispatch(
           showToasterAction({
             description: 'Key cannot be Empty.',
-            type: toasterTypes.failure,
-          }),
-        );
-      }
-      if (!key && !value) {
-        return dispatch(
-          showToasterAction({
-            description: 'Key and value cannot be Empty.',
             type: toasterTypes.failure,
           }),
         );
