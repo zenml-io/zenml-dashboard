@@ -3,37 +3,45 @@ import styles from './index.module.scss';
 import {
   Box,
   FlexBox,
+  // FormDropdownField,
   FormTextField,
   FullWidthSpinner,
+  MakeSecretField,
   // H2,
   Paragraph,
   icons,
 } from '../../../../components';
-
+// import Select from 'react-select';
 import { Form, TextField, ToggleField } from '../../../common/FormElement';
 import { useDispatch, useHistory, useSelector } from '../../../../hooks';
 import {
+  secretSelectors,
   sessionSelectors,
   userSelectors,
   workspaceSelectors,
 } from '../../../../../redux/selectors';
-import { showToasterAction } from '../../../../../redux/actions';
+import {
+  secretsActions,
+  showToasterAction,
+} from '../../../../../redux/actions';
 import { iconColors, toasterTypes } from '../../../../../constants';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
 import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
+import { titleCase } from '../../../../../utils';
+// import { values } from 'lodash';
 // import { keys } from 'lodash';
 
 export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
-  const {
-    dispatchStackComponentsData,
-  } = callActionForStackComponentsForPagination();
+  const { dispatchStackComponentsData } =
+    callActionForStackComponentsForPagination();
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const secrets = useSelector(secretSelectors.mySecrets);
   // const [validationSchema, setValidationSchema] = useState({});
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
@@ -41,8 +49,10 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const [isShared, setIsShared] = useState(true);
   const [inputData, setInputData] = useState({}) as any;
   const [inputFields, setInputFields] = useState() as any;
+  const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
+  const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const history = useHistory();
-  console.log(flavor, 'flavorflavor');
+  console.log(flavor.configSchema.properties, 'flavorflavor');
   useEffect(() => {
     let setDefaultData = {};
     let setInputObjectType: any = [];
@@ -100,6 +110,49 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       .map((x: any) => x.toLowerCase())
       .join('_');
 
+  const secretOptions = secrets.map((item: any) => {
+    return {
+      label: `{{ ${item.name} }}` as string,
+      value: `{{ ${item.name}` as string,
+      id: item.id as string,
+    };
+  }) as any;
+
+  function callActionForSecret(name: any, value: string, newEvent?: any) {
+    setInputData({ ...inputData, [name]: { value: value, id: '' } });
+    // if (value === undefined) {
+    //   return false;
+    // }
+
+    if (value?.includes('.') || inputData[name]?.id) {
+      dispatch(
+        secretsActions.secretForId({
+          secretId: inputData[name]?.id,
+          onSuccess: (res) => {
+            setSelectedSecret(res);
+            const secretOptionsWithKeys = Object.keys(res.values)?.map(
+              (item: any) => {
+                return {
+                  label: `{{ ${res?.name}.${item} }}` as string,
+                  value: `{{ ${res?.name}.${item} }}` as string,
+                };
+              },
+            ) as any;
+            setSecretOptionsWithKeys(secretOptionsWithKeys);
+          },
+          // onFailure: () => setFetching(false),
+        }),
+      );
+    } else if (value?.includes('{{')) {
+      dispatch(
+        secretsActions.getMy({
+          workspace: selectedWorkspace,
+          name: 'contains:' + value.replace(/[{ }]/g, ''),
+        }),
+      );
+    }
+  }
+
   const handleInputChange = (
     parentIndex: any,
     childIndex: any,
@@ -138,12 +191,13 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
 
     setFormData(_formData);
   };
-  console.log(inputData, 'inputDatainputData');
+  console.log(secretOptionsWithKeys, selectedSecret, 'inputDatainputData');
   const getFormElement = (elementName: any, elementSchema: any) => {
     const props = {
       name: elementName,
       label: elementSchema.title,
       default: elementSchema.default as any,
+      sensitive: elementSchema.sensitive as boolean,
     };
 
     if (elementSchema.type === 'object' && elementSchema.title) {
@@ -259,21 +313,61 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       (elementSchema.type === 'integer' && elementSchema.title)
     ) {
       return (
-        <TextField
-          {...props}
-          required={flavor?.configSchema?.required?.includes(elementName)}
-          // disable={
-          //   elementSchema.default &&
-          //   (elementSchema.type === 'string' ||
-          //     elementSchema.type === 'integer')
-          // }
-          default={
-            inputData[props.name] ? inputData[props.name] : props.default
-          }
-          onHandleChange={(key: any, value: any) =>
-            setInputData({ ...inputData, [key]: value })
-          }
-        />
+        <>
+          {props.sensitive ? (
+            <Box marginTop="lg" style={{ width: '329px' }}>
+              <MakeSecretField
+                label={titleCase(props.name)}
+                labelColor="rgba(66, 66, 64, 0.5)"
+                placeholder={''}
+                inputData={inputData}
+                value={
+                  inputData[props.name]?.value
+                    ? inputData[props.name]?.value
+                    : inputData[props.name]
+                }
+                onChange={(val: string, newEvent: any) => {
+                  callActionForSecret(props.name, val, newEvent);
+                }}
+                secretLabel="Item 4 (Secret)"
+                secretLabelColor="rgba(66, 66, 64, 0.5)"
+                secretPlaceholder="john doe"
+                secretValue={'Empty'}
+                secretOnChange={(val: any, newEvent: any) => {
+                  debugger;
+                  setInputData({
+                    ...inputData,
+                    [props.name]: val.value.includes('.') ? val.value : val,
+                  });
+                }}
+                dropdownOptions={
+                  inputData[props.name]?.value &&
+                  inputData[props.name]?.value.includes(
+                    `${selectedSecret.name}.`,
+                  )
+                    ? secretOptionsWithKeys
+                    : secretOptions
+                }
+              />
+            </Box>
+          ) : (
+            <TextField
+              {...props}
+              required={flavor?.configSchema?.required?.includes(elementName)}
+              // disable={
+              //   elementSchema.default &&
+              //   (elementSchema.type === 'string' ||
+              //     elementSchema.type === 'integer')
+              // }
+              default={
+                inputData[props.name] ? inputData[props.name] : props.default
+              }
+              onHandleChange={(key: any, value: any) =>
+                setInputData({ ...inputData, [key]: value })
+              }
+            />
+          )}
+        </>
       );
     }
     if (elementSchema.type === 'boolean' && elementSchema.title) {

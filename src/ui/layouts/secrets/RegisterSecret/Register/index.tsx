@@ -7,6 +7,7 @@ import {
   FormDropdownField,
   FullWidthSpinner,
   // MakeSecretField,
+  // MakeSecretField,
 } from '../../../../components';
 import Selector from '../../Selector/Selector';
 // import { callActionForStacksForPagination } from '../../Stacks/useService';
@@ -195,18 +196,18 @@ export const Register: React.FC<Props> = () => {
         {/* <Box>
           <MakeSecretField
             label={'Item 3 (Secret)'}
-            labelColor="rgba(66, 66, 64, 0.5)" 
+            labelColor="rgba(66, 66, 64, 0.5)"
             placeholder={'Random Text'}
             value={secretName}
             onChange={(val: string) => setSecretName(val)}
-            secretLabel='Item 4 (Secret)'
+            secretLabel="Item 4 (Secret)"
             secretLabelColor="rgba(66, 66, 64, 0.5)"
             secretPlaceholder="john doe"
             secretValue={'Empty'}
             secretOnChange={() => {}}
-            dropdownOptions={[ 
-              { label: '{{ mlZen.https.azxsggej }}' }, 
-              { label: '{{ mlChen.https.azxsggej }}' }, 
+            dropdownOptions={[
+              { label: '{{ mlZen.https.azxsggej }}' },
+              { label: '{{ mlChen.https.azxsggej }}' },
               { label: 'Example' },
             ]}
           />
