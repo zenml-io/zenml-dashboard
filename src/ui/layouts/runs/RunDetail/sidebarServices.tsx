@@ -9,13 +9,15 @@ export const fetchStepData = async (selectedNode: any, authToken: any) => {
             },
         },
     ).then((response) => {
-        return response?.data//Setting the response into state
+        return response?.data;
+    }).catch(err => {
+        return null;
     })
- 
-    return data; 
+
+    return data;
 };
 
-export const fetchStepLogs = async(selectedNode: any, authToken: any) => {
+export const fetchStepLogs = async (selectedNode: any, authToken: any) => {
     const logs = axios.get(
         `${process.env.REACT_APP_BASE_API_URL}/steps/${selectedNode.execution_id}/logs`,
         {
@@ -24,10 +26,11 @@ export const fetchStepLogs = async(selectedNode: any, authToken: any) => {
             },
         },
     ).then((response) => {
-        return response?.data//Setting the response into state
+        return response?.data;
+    }).catch(err => {
+        return null;
     })
-
-    return logs
+    return logs;
 }
 
 export const fetchArtifactData = async (selectedNode: any, authToken: any) => {
@@ -38,9 +41,26 @@ export const fetchArtifactData = async (selectedNode: any, authToken: any) => {
                 Authorization: `bearer ${authToken}`,
             },
         },
-        ).then((response) => {
+    ).then((response) => {
         return response.data
+    }).catch(err => {
+        return null;
     })
-    return data
-
+    return data;
 };
+
+export async function artifactService(artifactId: any, authToken: any) {
+
+    const response = await axios.get(
+        `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
+        {
+            headers: {
+                Authorization: `bearer ${authToken}`,
+            },
+        },
+    ).then((response) => {
+        return response
+    })
+    return response;
+
+}

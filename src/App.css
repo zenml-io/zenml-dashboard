@@ -43,8 +43,6 @@ html {
 }
 
 .react-flow__controls {
-  /* width: 100px; */
-  height: 250px;
   border: none;
   display: flex;
   justify-content: center;
@@ -52,7 +50,8 @@ html {
   flex-direction: column;
   filter: none;
   box-shadow: none;
-  bottom: 0%;
+  bottom: 10%;
+  left: 40px;
 }
 
 .react-flow__controls button :first-child {

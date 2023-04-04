@@ -5,6 +5,7 @@ import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Status_Completed } from "../icons";
 import styles from '../index.module.scss'
 import stepStyles from './artifact.module.scss'
+import { FullWidthSpinner } from "../../spinners";
 
 const stylesActive = {
     opacity: 1, transition: "", transform: ""
@@ -34,10 +35,14 @@ const tabs = [
 
 const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
 
+  
+
     const [show, setShow] = useState("__CONFIG");
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(100);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
+    const [fetching, setFetching] = useState(true); //eslint-disable-line
     const divRefs = useRef<(HTMLSpanElement | null)[]>([])
+
 
     useEffect(() => {
         setDynamicLeft(divRefs.current[1]?.offsetLeft);
@@ -46,9 +51,12 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
 
     useEffect(() => {
 
-    }, [show, dynamicLeft, setDynamicWidth])
+    }, [show, dynamicLeft, setDynamicWidth, node])
 
-
+    
+    if (Object.keys(node).length === 0) {
+        return <FullWidthSpinner color="black" size="md" />;
+    }
     const handleClick = (divId: number) => {
         setDynamicLeft(divRefs.current[divId]?.offsetLeft);
         setDynamicWidth(divRefs.current[divId]?.offsetWidth);
@@ -64,6 +72,8 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
             default: return "";
         }
     }
+
+   
 
     return (
         <>
@@ -145,10 +155,10 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
                                         : <></>
                                     }
                                 </tr>
-                                <tr>
+                                {/* <tr>
                                     <td className='td_key'>source</td>
                                     <td className='td_value'>{node?.step?.spec?.source}</td>
-                                </tr>
+                                </tr> */}
                                 <tr>
                                     <td className='td_key'>pipeline_parameter_name</td>
                                     <td className='td_value '>{node?.step?.spec?.pipeline_parameter_name}</td>
@@ -182,7 +192,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
                             language="python"
                             style={okaidia}
                         >
-                            {logs ? logs : ""}
+                            {logs ? logs : "No Logs Avaialable"}
                         </SyntaxHighlighter>
                     </div>
                     : ""

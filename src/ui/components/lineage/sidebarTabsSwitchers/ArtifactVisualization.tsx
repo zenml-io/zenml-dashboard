@@ -12,7 +12,8 @@ import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 // **************** WORK IN PROGRESS, DONT REMOVE COMMENTS**********************
 
 
-import { artifactService } from './artifactVisualizationService';
+// import { artifactService } from './artifactVisualizationService';
+import { artifactService } from '../../../layouts/runs/RunDetail/sidebarServices';
 import style from './ArtifactVisualization.module.scss';
 import { FullWidthSpinner } from '../../spinners';
 import ReactMarkdown from 'react-markdown';
@@ -26,7 +27,6 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
   const [type, setType] = useState<string | undefined>('')
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
-  console.log("__UNAUTH_RESPOSNE_START", node)
 
 
 
@@ -47,7 +47,6 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
   // }
 
   useEffect(() => {
-    console.log("__UNAUTH_RESPOSNE_CHANGED")
     if (node.name === 'image') {
       setResponse(null);
       setType("__IMAGE");
@@ -72,7 +71,6 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
         .then((res) => {
           setResponse(res);
           setCurrent(response);
-          console.log("__UNAUTH_RESPOSNE_", res.data)
         })
     }
 
@@ -88,22 +86,21 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
 
 
   const html = `<p>this is the visualization html</p>`
-  // const image = `<p>this is the visualization image</p>`
-  // const markdown = `<p>this is the visualization markdown. Loading.....</p>`
-
+ 
 
   return (
     <div className={`${style.mainContainer}`}>
+
       {type === "__HTML" ?
       <>
           {response === null ? <FullWidthSpinner color="black" size="md" /> : <div dangerouslySetInnerHTML={{ __html: html }} />}
       </>
         : ""}
       {type === "__IMAGE" ?
-        <>
-          {response === null ? <FullWidthSpinner color="black" size="md" /> : <img src={"data:image/png;base64," + response?.data?.value} alt={"Base64 encoded image"} height={"100px"} width={"100px"} />}
+        <div className={`${style.image}`}>
+          {response === null ? <FullWidthSpinner color="black" size="md" /> : <img src={"data:image/png;base64," + response?.data?.value} alt={"Base64 encoded image"} />}
 
-        </>
+        </div>
         : ""}
       {type === "__MARKDOWN" ?
         <div className={`${style.markdown}`}>

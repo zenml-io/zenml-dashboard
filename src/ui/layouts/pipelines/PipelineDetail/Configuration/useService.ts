@@ -18,8 +18,6 @@ export const useService = ({
   );
 
   const pipelineConfig = YAML.stringify(pipeline.spec);
-  // console.log("__UNAUTH_PIPELINE_SPECS", pipeline.spec)
-  console.log("__UNAUTH_PIPELINE_SPECS", pipeline)
   const downloadYamlFile = () => {
     const element = document.createElement('a');
 
@@ -30,8 +28,7 @@ export const useService = ({
     element.download = `${pipeline.id}-config.yaml`;
     document.body.appendChild(element);
     element.click();
-    console.log("__UNAUTH_PIPELINE_CONFIG: ",pipelineConfig)
-  };
+    };
 
   return { downloadYamlFile, pipelineConfig };
 };

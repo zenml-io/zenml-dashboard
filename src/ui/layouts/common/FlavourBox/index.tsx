@@ -47,7 +47,6 @@ export const FlavourBox: React.FC<{
           style={{ color: select ? '#fff' : '#443E99' }}
         >
           {flavourName}
-          Muhammad
         </Paragraph>
       </Box>
 

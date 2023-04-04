@@ -22,7 +22,6 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
 }) => {
   const { downloadYamlFile, pipelineConfig } = useService({ pipelineId });
   const [hover, setHover] = useState(false);
-  // const [edgeArr, setEdgeArr] = useState([]);
   const dispatch = useDispatch();
   const pipeline: TPipeline = useSelector(
     pipelineSelectors.pipelineForId(pipelineId),
@@ -48,42 +47,27 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
 
   console.log("__UNAUTH_PIPELIN_SPEC -> ", pipeline.spec.steps);
 
-  let edgeArr:any = [];
 
-  function upstremArrHandler(item: any) {
-    const arr = item.upstream_steps.map((_item: any, index: number) => ({
-      id: item.pipeline_parameter_name + index,
-      source: item.source.attribute !== undefined ? item.source.attribute : item.source,
-      target: item.upstream_steps.length > 0 ? item.upstream_steps[index] : item.upstream_steps[0],
-    }))
-    // setEdgeArr(arr)
-    edgeArr = [...arr]
-    console.log("upstremArrHandler", edgeArr)
-    
-  }
+  const edge = pipeline.spec.steps.map((item: any, index: number) => {
 
 
+    // if()
 
-  let edgeMap = pipeline.spec.steps.map((item: any, index: number) => {
-
-    if (Array.isArray(item.upstream_steps) && item.upstream_steps.length > 0) {
-      upstremArrHandler(item)
-    }
+    // const src = item.source.split(".");
+    // const src_1 = src[src.length - 1];
+    // console.log("src_1", src_1)
+    // source: item.pipeline_parameter_name,
 
     return {
-      id: item.pipeline_parameter_name + index,
-      source: item.source.attribute !== undefined ? item.source.attribute : item.source,
-      target: item.upstream_steps.length > 0 ? item.upstream_steps[0] : '0',
+      id: item.pipeline_parameter_name+index,
+      source: item.source.attribute !== undefined ? item.source.attribute : item. source,
+      target: item.upstream_steps.length > 0 ? item.upstream_steps : "",
+      type: "step"
     }
   })
 
-  const edge = [...edgeArr, ...edgeMap]
-
-  console.log("__NEW_EDGE", edge )
-
-
   const node = pipeline.spec.steps.map((item: any, index: number) => ({
-    id: item.source.attribute !== undefined ? item.source.attribute : item.source,
+    id: item.pipeline_parameter_name,
     type: "step",
     data: {
       pipeline_parameter_name: item.pipeline_parameter_name,

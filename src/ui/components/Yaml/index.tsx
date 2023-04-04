@@ -8,17 +8,17 @@ import ReactFlow, {
   MarkerType,
 } from 'react-flow-renderer';
 import dagre from 'dagre';
-
-import ArtifactNode from './ArtifactNode';
 import StepNode from './StepNode';
-
 import './index.css';
-import { Analysis, Database, Model, Schema, Service, Statistic } from './icons';
+import {
+  Analysis,
+  Database,
+  Model,
+  Schema,
+  Service,
+  Statistic
+} from './icons';
 import { FullWidthSpinner } from '../spinners';
-import arrowClose from '../icons/assets/arrowClose.svg';
-import arrowOpen from '../icons/assets/arrowOpen.svg';
-import Sidebar from './Sidebar';
-
 
 
 interface Edge {
@@ -46,8 +46,11 @@ const nodeWidth = 80;
 const nodeHeight = 56;
 
 const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], direction = 'TB',) => {
+
   const isHorizontal = direction === 'LR';
+
   dagreGraph.setGraph({ rankdir: direction });
+
   if (initialEdges === undefined && initialNodes === undefined) {
     return { initialNodes, initialEdges };
   }
@@ -57,7 +60,7 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
   });
 
   initialEdges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
+    dagreGraph.setEdge(edge.id, edge.target);
   });
 
   dagre.layout(dagreGraph);
@@ -85,63 +88,32 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
       color: '#443E99',
     }
 
-
-    initialNodes.find((node) => {
-      if (
-        node.type === 'step' &&
-        node.id === edge.target &&
-        node.data.status === 'running'
-      ) {
-        const n = initialNodes.find((node) => node.id === edge.source);
-        const status = initialNodes.find(
-          (node) => 'step_' + n.data.parent_step_id === node.id,
-        ).data.status;
-        if (status === 'running') {
-          edge.animated = true;
-        }
-      }
-      if (
-        node.id === edge.source &&
-        node.type === 'step' &&
-        node.data.status === 'running'
-      ) {
-        const artifact = initialNodes.find((n) => n.id === edge.target);
-
-        const e = initialEdges.find((e) => e.source === artifact.id);
-        if (e) {
-          const status = initialNodes.find((step) => step.id === e.target);
-          if (status.data.status === 'running') {
-            edge.animated = true;
-
-          }
-        }
-      }
-      return initialNodes;
-    });
-
     return edge;
   });
 
   return { initialNodes, initialEdges };
 };
 
-const nodeTypes = { step: StepNode, artifact: ArtifactNode };
+const nodeTypes = { step: StepNode };
 
 
-export const LayoutFlow: React.FC<any> = (graph: any) => {
+export const LayoutFlow: React.FC<any> = (graph = null) => {
   const {
     initialNodes: layoutedNodes,
     initialEdges: layoutedEdges,
-  } = getLayoutedElements(graph.graph.nodes, graph.graph.edges);
+    // } = getLayoutedElements(initialNodes, initialEdges);
+  } = getLayoutedElements(graph.graph.node, graph.graph.edge);
   const [fetching, setFetching] = useState(false); //eslint-disable-line
   const [nodes, _, onNodesChange] = useNodesState(layoutedNodes); //eslint-disable-line
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
 
+  console.log("__GRAPH", graph)
 
-  
+
   useEffect(() => {
+    console.log("__UNAUTH SELECTEDNODE", selectedNode)
   }, [selectedNode])
 
 
@@ -169,45 +141,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   return (
     <>
 
-
-      {selectedNode === null ? "" : <div><Sidebar selectedNode={selectedNode} /></div>}
-
       <div style={{ overflow: 'hidden' }}>
-
-        <div className="controls">
-
-          <button onClick={() => setLegend(!legend)}>
-            {legend ?
-              <img className='legend_arrow' src={arrowOpen} alt={"arrow_image"} />
-              :
-              <img className='legend_arrow' src={arrowClose} alt={"arrow_image"} />}
-            Artifact Legends
-          </button>
-
-
-          <div style={{}}>
-            <div className="legend" style={{ display: legend ? '' : 'none' }}>
-              <span>
-                <Analysis /> <span>Data Analysis</span>
-              </span>
-              <span>
-                <Database /> <span>Data</span>
-              </span>
-              <span>
-                <Model /><span>Model</span>
-              </span>
-              <span>
-                <Schema /> <span>Schema</span>
-              </span>
-              <span>
-                <Service /> <span>Service</span>
-              </span>
-              <span>
-                <Statistic /> <span>Statistic</span>
-              </span>
-            </div>
-          </div>
-        </div>
         <div className="layout" style={{ overflow: 'hidden' }}>
           <div className="layoutflow">
 
@@ -235,8 +169,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
             >
               <Controls />
             </ReactFlow>
-
-
           </div>
         </div>
       </div>

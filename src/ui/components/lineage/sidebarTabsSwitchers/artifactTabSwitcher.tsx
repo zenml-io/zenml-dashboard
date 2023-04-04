@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState, lazy, Suspense, memo } from 'react';
 import JsonDisplay from '../JsonDisplay';
 import styles from './artifact.module.scss'
+import { FullWidthSpinner } from '../../spinners';
 
 
 const stylesActive = {
@@ -29,6 +30,7 @@ const artifactTabs = [
 const ArtifactVisualization = lazy(() => import('./ArtifactVisualization'));
 
 const ArtifactTabHeader = ({ node }: { node: any }) => {
+
     const [show, setShow] = useState("__META");
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(100);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
@@ -59,6 +61,10 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
 
     };
 
+    
+    if (Object.keys(node).length === 0) {
+        return <FullWidthSpinner color="black" size="md" />;
+    }
     return (
         <>
             <div className='siderbar_header11' ref={parent}>
@@ -94,27 +100,27 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
 
                             <tr>
                                 <td className='td_key' style={{ wordWrap: 'break-word' }}>artifact_store_id</td>
-                                <td className='td_value'>{node.artifact_store_id}</td>
+                                <td className='td_value'>{node?.artifact_store_id}</td>
                             </tr>
                             <tr>
                                 <td className='td_key'>created</td>
-                                <td className='td_value'>{node.created}</td>
+                                <td className='td_value'>{node?.created}</td>
                             </tr>
                             <tr>
                                 <td className='td_key'>materializer</td>
-                                <td className='td_value' style={{ wordWrap: 'break-word' }}>{node.materializer}</td>
+                                <td className='td_value'>{typeof(node?.materializer) === 'object' ? <JsonDisplay data={node?.materializer} style={{display:'flex'}}/> : node?.materializer}</td>
                             </tr>
                             <tr>
                                 <td className='td_key'>name</td>
-                                <td className='td_value'>{node.name}</td>
+                                <td className='td_value'>{node?.name}</td>
                             </tr>
                             <tr>
                                 <td className='td_key'>producer_step_run_id</td>
-                                <td className='td_value'>{node.producer_step_run_id}</td>
+                                <td className='td_value'>{node?.producer_step_run_id}</td>
                             </tr>
                             <tr>
                                 <td className='td_key'>type</td>
-                                <td className='td_value'>{node.type}</td>
+                                <td className='td_value'>{node?.type}</td>
                             </tr>
                         </tbody>
 
