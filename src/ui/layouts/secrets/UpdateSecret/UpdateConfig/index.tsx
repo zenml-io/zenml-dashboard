@@ -103,10 +103,23 @@ export const UpdateConfig: React.FC<{
       (item) => item.name === selectedWorkspace,
     );
 
-    const finalValues: any = inputFields.reduce((acc, { key, value }) => {
+    const finalValues = inputFields.reduce((acc, { key, value }) => {
+      if (acc.hasOwnProperty(key)) {
+        dispatch(
+          showToasterAction({
+            description: 'Key already exists.',
+            type: toasterTypes.failure,
+          }),
+        );
+        return {};
+      }
       acc[key] = value;
       return acc;
     }, {});
+
+    if (Object.keys(finalValues).length !== inputFields.length) {
+      return false;
+    }
 
     for (const [key, value] of Object.entries(finalValues)) {
       // console.log(`${key}: ${value}`);
