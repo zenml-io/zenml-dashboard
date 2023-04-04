@@ -236,6 +236,22 @@ export const MakeSecretField = (
           labelColor={props.labelColor}
           InputComponent={<TextInput {...props} style={{ border: '1px solid #C9CBD0' }} value={props.value} placeholder={props.placeholder} onChangeText={props.onChange} />}
         />
+
+        {props?.value?.length > 0 && 
+        props?.value?.slice(0, 2) !== '{{' && (
+            <Box
+              style={{ 
+                position: 'absolute', right: '10px', top: '40px', 
+                display: 'flex', alignItems: 'center', 
+                background: '#fff', borderLeft: '1px solid grey', 
+                paddingLeft: '10px', cursor: 'pointer'
+              }}
+              onClick={handleClick}
+            >
+              <icons.lock color={iconColors.primary} style={{ marginRight: '5px' }} /> 
+              <Paragraph color='primary'>Make it Secret</Paragraph>
+            </Box>
+        )}
         
         {popup && (
           <Box style={{ backgroundColor: '#fff', borderRadius: '4px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)', width: '100%', position: 'absolute', zIndex: 2, top: '7rem' }}>
@@ -261,7 +277,7 @@ export const MakeSecretField = (
 
       </FlexBox>
 
-      {props?.value?.length > 0 && 
+      {/* {props?.value?.length > 0 && 
         props?.value?.slice(0, 2) !== '{{' && (
           <FlexBox marginTop='lg' alignItems="center" fullWidth style={{ position: 'relative' }}>
             <InputWithLabel
@@ -283,7 +299,7 @@ export const MakeSecretField = (
               <Paragraph color='primary'>Make it Secret</Paragraph>
             </Box>
           </FlexBox>
-        )}
+        )} */}
 
     </FlexBox.Column>
   );
