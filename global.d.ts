@@ -45,8 +45,12 @@ interface TUser {
   emailOptedIn: any;
   roles: Array<any>;
   created: any;
-  website?: string;
-  bio?: string;
+}
+
+interface THubUser {
+  id: TId;
+  website: string;
+  bio: string;
 }
 
 interface TOrganization {

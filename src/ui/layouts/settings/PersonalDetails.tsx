@@ -23,12 +23,14 @@ import starsIcon from '../../assets/stars.svg';
 import { getInitials } from '../../../utils/name';
 import axios from 'axios';
 import { ConnectHub } from './ConnectHub';
+import { useHubUser } from '../../hooks/auth';
 
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 
 export const PersonalDetails: React.FC = () => {
   useRequestOnMount(userActions.getMy, {});
   const user = useSelector(userSelectors.myUser);
+  const hubUser = useHubUser();
   const userFullName = user?.fullName || user?.name;
   const userInitials = getInitials(userFullName as string);
 
@@ -36,8 +38,8 @@ export const PersonalDetails: React.FC = () => {
   const [passwordPopupOpen, setPasswordPopupOpen] = useState(false);
   const [fullName, setFullName] = useState(userFullName ?? '');
   const [username, setUsername] = useState(user?.name ?? '');
-  const [website, setWebsite] = useState(user?.website ?? '');
-  const [bio, setBio] = useState(user?.bio ?? '');
+  const [website, setWebsite] = useState(hubUser?.website ?? '');
+  const [bio, setBio] = useState(hubUser?.bio ?? '');
   const [version, setVersion] = useState('');
   const [popupType, setPopupType] = useState('');
   // const [selectedImage, setSelectedImage] = useState<any>(userImage);
