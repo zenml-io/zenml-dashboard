@@ -27,9 +27,15 @@ import { Tabs } from '../../common/Tabs';
 import { DisplayMarkdown } from '../../../components/richText/DisplayMarkdown';
 import { DisplayCode } from './DisplayCode';
 import { Popup } from '../../common/Popup';
-import { HUB_API_URL } from '../../../../api/constants';
-import { useHubToken } from '../../../hooks/auth';
+import { useHubToken, useHubUser } from '../../../hooks/auth';
 import { PluginsLayout } from '../shared/Layout';
+import {
+  getPlugin,
+  getIsStarred,
+  getVersions,
+  starPlugin,
+  deletePlugin,
+} from '../api';
 // import jwtDecode from 'jwt-decode';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
@@ -45,44 +51,6 @@ const data = {
   popularity: '99%',
 };
 
-const getData = async (pluginId: string) => {
-  return (await axios.get(`${HUB_API_URL}/plugins/${pluginId}`))
-    .data as TPlugin;
-};
-
-const getVersions = async (pluginName: string, userId: TId) => {
-  return (
-    await axios.get(
-      `${HUB_API_URL}/plugins?status=available&user_id=${userId}&name=${pluginName}`,
-    )
-  ).data as TPlugin[];
-};
-
-const getIsStarred = async (userId: TId, pluginId: TId, token: string) => {
-  const interactions = (
-    await axios.get(
-      `${HUB_API_URL}/interaction?interaction_type=star&mine=true&user_id=${userId}&plugin_id=${pluginId}`,
-      { headers: { Authorization: `Bearer ${token}` } },
-    )
-  ).data;
-
-  return interactions.length > 0;
-};
-
-const starPlugin = async (userId: TId, pluginId: TId, token: string) => {
-  return await axios.post(
-    `${HUB_API_URL}/interaction`,
-    { type: 'star', user_id: userId, plugin_id: pluginId },
-    { headers: { Authorization: `Bearer ${token}` } },
-  );
-};
-
-const deletePlugin = async (pluginId: TId, token: string) => {
-  return await axios.delete(`${HUB_API_URL}/plugins/${pluginId}`, {
-    headers: { Authorization: `Bearer ${token}` },
-  });
-};
-
 const PluginDetail: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -90,6 +58,7 @@ const PluginDetail: React.FC = () => {
   const myUser = useSelector(userSelectors.myUser);
   const { pluginId } = useParams<{ pluginId: string }>();
   const hubToken = useHubToken();
+  const hubUser = useHubUser();
 
   const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const [fetching, setFetching] = useState(true);
@@ -110,7 +79,7 @@ const PluginDetail: React.FC = () => {
   // }, []);
 
   useEffect(() => {
-    getData(pluginId).then((p) => {
+    getPlugin(pluginId).then((p) => {
       setPlugin(p);
       setFetching(false);
       getVersions(p.name, p.user.id)
@@ -119,10 +88,10 @@ const PluginDetail: React.FC = () => {
     });
   }, [pluginId]);
   useEffect(() => {
-    if (myUser && hubToken) {
-      getIsStarred(myUser.id, pluginId, hubToken).then(setIsStarred);
+    if (hubUser && hubToken) {
+      getIsStarred(hubUser.id, pluginId, hubToken).then(setIsStarred);
     }
-  }, [pluginId, myUser, hubToken]);
+  }, [pluginId, hubUser, hubToken]);
 
   return (
     <AuthenticatedLayout
@@ -234,8 +203,8 @@ const PluginDetail: React.FC = () => {
                           },
                         },
                         {
-                          label: 'Star',
-                          icon: icons.starOutline,
+                          label: starred ? 'Starred' : 'Star',
+                          icon: starred ? icons.star : icons.starOutline,
                           color: iconColors.primary,
                           onClick: () => {
                             if (starred)
@@ -243,14 +212,15 @@ const PluginDetail: React.FC = () => {
                                 description:
                                   "You've already starred this plugin",
                               });
-                            else if (!myUser || !hubToken) {
+                            else if (!hubUser || !hubToken) {
                               failureToast({
                                 description:
                                   'You need to be logged in to star this plugin',
                               });
                             } else {
-                              starPlugin(myUser.id, plugin.id, hubToken)
+                              starPlugin(hubUser.id, plugin.id, hubToken)
                                 .then(() => {
+                                  setIsStarred(true);
                                   successToast({
                                     description: 'Starred plugin',
                                   });
