@@ -12,6 +12,7 @@ import StepNode from './StepNode';
 import './index.css';
 import {
   Analysis,
+  Completed,
   Database,
   Model,
   Schema,
@@ -19,7 +20,7 @@ import {
   Statistic
 } from './icons';
 import { FullWidthSpinner } from '../spinners';
-
+import styles from './index.module.scss'
 
 interface Edge {
   id: string;
@@ -142,6 +143,35 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
     <>
 
       <div style={{ overflow: 'hidden' }}>
+        <div>
+          <table className={`${styles.Scheduled}`}>
+            <thead>
+              <th>Scheduled</th>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Start</td>
+                <td>1:00 PM</td>
+              </tr>
+              <tr>
+                <td>End</td>
+                <td>2:00 PM</td>
+              </tr>
+              <tr>
+                <td>Interval</td>
+                <td>5 sec</td>
+              </tr>
+              <tr>
+                <td>Catchup</td>
+                <td><Completed /></td>
+              </tr>
+              <tr>
+                <td>Cron Exp</td>
+                <td>* * 5 * * *</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
         <div className="layout" style={{ overflow: 'hidden' }}>
           <div className="layoutflow">
 

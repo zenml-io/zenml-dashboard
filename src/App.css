@@ -50,8 +50,8 @@ html {
   flex-direction: column;
   filter: none;
   box-shadow: none;
-  bottom: 10%;
-  left: 40px;
+  /* bottom: 10%; */
+  /* left: 40px; */
 }
 
 .react-flow__controls button :first-child {

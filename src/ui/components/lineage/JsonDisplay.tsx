@@ -11,7 +11,7 @@ function printNestedJson(obj: any) {
             output += `<p style="color:blue; font-size:20px; font-weight:400; text-align: left ">${key}</p>`;
             obj[key].forEach((item: any) => output += printNestedJson(item)); //eslint-disable-line
         } else {
-            output += `<div style="display:flex; justify-content:flex-end; padding-top:10px">
+            output += `<div style="display:flex; justify-content:flex-start; padding-top:10px">
                         <span style='color:#565e5e; font-size:18px; font-weight:600; text-align: left'>
                                 ${key} : &nbsp;
                         </span> 

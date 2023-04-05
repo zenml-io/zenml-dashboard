@@ -66,24 +66,27 @@ export async function artifactService(artifactId: any, authToken: any) {
 }
 
 
-export async function artifactHTML(artifactId: any, authToken: any) {
-    fetch(`${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,{
-        headers:{
+export async function artifactHTML(artifactId: any, authToken: any, flag: boolean) {
+    fetch(`${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`, {
+        headers: {
             Authorization: `bearer ${authToken}`,
         }
     })
-        .then((response:any) => {
+        .then((response: any) => {
             const contentLength = response.headers.get('content-length');
             console.log('API response size: ', contentLength);
             const reader = response.body.getReader();
             let receivedLength = 0;
-            reader.read().then(function processResult(result:any) {
+            reader.read().then(function processResult(result: any) {
                 if (result.done) {
                     console.log('API response fully received!');
                     return;
                 }
                 receivedLength += result.value.length;
-                console.log(`Received ${receivedLength} bytes of API response so far.`);
+                console.log(`___Received ${receivedLength} bytes of API response so far. flag ${flag}`);
+                if (receivedLength == 5242880 || flag == false) {
+                    return ({ msg: "resposne greater then 5MB do you want to continue" })
+                }
                 return reader.read().then(processResult);
             });
             return response.json(); // if the response is JSON data

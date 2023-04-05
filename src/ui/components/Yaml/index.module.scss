@@ -89,9 +89,10 @@
   border-radius: 4px;
   background: #fff;
   padding: 0.5rem;
-  box-shadow: 0 3px 10px rgba(0, 0 ,0, 0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 
 }
+
 .artifactBodySelected {
   position: relative;
   display: inline-flex;
@@ -100,7 +101,7 @@
   border-radius: 4px;
   background: #fff;
   padding: 0.5rem;
-  box-shadow: 0 3px 10px rgba(0, 0 ,0, 0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
 
 }
 
@@ -137,7 +138,7 @@
 }
 
 
-.closeArrow{
+.closeArrow {
   height: 500px;
   width: 500px;
   background-color: aqua;
@@ -149,7 +150,7 @@
 
 // SIDE BAR
 
-.sidebarMainContainer{
+.sidebarMainContainer {
   background-color: rgb(255, 255, 255);
   height: 100vh;
   width: 50vw;
@@ -161,9 +162,10 @@
   justify-content: flex-start;
   align-items: flex-start;
   z-index: 101;
-  box-shadow: 0px 0px 10px rgba(0, 0 ,0, 0.1);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
 }
-.btnContainer{
+
+.btnContainer {
   height: 100vh;
   width: 0px;
   background-color: #431d9300;
@@ -174,52 +176,96 @@
   z-index: -1000;
 }
 
-.btnContainer>img{
+.btnContainer>img {
   z-index: -1000;
 }
 
-.sidebarClose{
-    transform: translate(100%);
-    transition: all 300ms ease-in-out;
-    width: 0vw;
+.sidebarClose {
+  transform: translate(100%);
+  transition: all 300ms ease-in-out;
+  width: 0vw;
 }
-.sidebarOpen{
-    transform: translate(0%);
-    transition: all 300ms ease-in-out;
+
+.sidebarOpen {
+  transform: translate(0%);
+  transition: all 300ms ease-in-out;
 }
-.bodyContainer{
+
+.bodyContainer {
   overflow: hidden;
   height: 100vh;
   width: 100%;
   background-color: #ffffff;
 }
 
+.Scheduled {
+  position: absolute;
+  height: auto;
+  width: 185px;
+  background-color:#E8E8E870;
+  border-radius: 8px;
+  right: 54px;
+  top: 30%;
+  z-index: 101;
+  box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.05);
+  padding: 10px;
+}
+.Scheduled>table {
+  position: relative;
+  height: 222px;
+  width: 185px;
+  background-color: #772c2c;
+  border-radius: 8px;
+  right: 54px;
+  top: 30%;
+}
 
+.Scheduled>thead>th{
+  // margin-top: 16px;
+  height: 30px;
+  font-family: 'Rubik';
+  font-weight: 600;
+  color: #050505;
+  text-align: center;
+  // background-color: #431d93;
+}
+.Scheduled>tbody{
+  margin-top: 100px;
+}
+.Scheduled>tbody>tr {
+  display: flex;
+  height: 20px;
+  margin-top: 10px;
+  padding-left: 15px;
+  padding-right: 15px;
+  justify-content: space-between;
+  align-items: center;
+  font-family: 'Rubik';
+  font-weight: 400;
+  color: #050505;
+  text-align: center;
+}
 
 @media screen and (max-width: 1850px) {
-  .sidebarMainContainer
-  {
+  .sidebarMainContainer {
     width: 50vw;
   }
 }
 
 @media screen and (max-width: 1650px) {
-  .sidebarMainContainer
-  {
+  .sidebarMainContainer {
     width: 50vw;
   }
 }
 
 @media screen and (max-width: 1350px) {
-  .sidebarMainContainer
-  {
+  .sidebarMainContainer {
     width: 70vw;
   }
 }
 
 @media screen and (max-width: 950px) {
-  .sidebarMainContainer
-  {
+  .sidebarMainContainer {
     width: 89vw;
   }
 }

@@ -13,7 +13,7 @@ import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 
 
 // import { artifactService } from './artifactVisualizationService';
-import { artifactService } from '../../../layouts/runs/RunDetail/sidebarServices';
+import { artifactHTML, artifactService } from '../../../layouts/runs/RunDetail/sidebarServices';
 import style from './ArtifactVisualization.module.scss';
 import { FullWidthSpinner } from '../../spinners';
 import ReactMarkdown from 'react-markdown';
@@ -25,6 +25,7 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
   const [response, setResponse] = useState<any | undefined>(null)
   const [current, setCurrent] = useState<any | undefined>(null)
   const [type, setType] = useState<string | undefined>('')
+  const [flag, setFlag] = useState<boolean>(false)
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
 
@@ -58,12 +59,13 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
     }
     else if (node.name === "html") {
       setType("__HTML");
-      // artifactService(node.id, authToken)
-      //   .then((res) => {
-      //     setResponse(res);
-      //     setCurrent(response);
-      //     console.log("__UNAUTH_RESPOSNE_", res.data)
-      //   })
+      artifactHTML(node.id, authToken, flag)
+        .then((res) => {
+
+          // setResponse(res);
+          // setCurrent(response);
+          console.log("__UNAUTH_HTML__", res)
+        })
     }
     else if (node.name === "markdown") {
       setType("__MARKDOWN");

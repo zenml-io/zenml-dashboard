@@ -33,11 +33,13 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
             const data = await fetchStepData(selectedNode, authToken);
             const _logs = await fetchStepLogs(selectedNode, authToken);
             dispatch(runsActions.getStep({ exe_id: selectedNode.execution_id }))
+            console.log("__DATA__", data)
             setStep(data);
             setLogs(_logs)
         }
         else {
             const data = await fetchArtifactData(selectedNode, authToken);
+            console.log("__DATA__", data)
             dispatch(runsActions.getArtifact({ exe_id: selectedNode.execution_id }))
             setArtifact(data);
         }
