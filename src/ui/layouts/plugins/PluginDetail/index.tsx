@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import axios from 'axios';
+import moment from 'moment';
 
 import {
   Box,
@@ -36,20 +37,8 @@ import {
   starPlugin,
   deletePlugin,
 } from '../api';
-// import jwtDecode from 'jwt-decode';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
-
-const data = {
-  version: '3.1.01',
-  lastPublishedDaysAgo: 45,
-  pullsLastWeek: 8_802_034,
-  pullsHistory: [800, 500, 400, 900, 100, 700, 600, 300, 200, 700],
-  isZenMLFavourite: true,
-  upvotes: '10M+',
-  downloads: '10K+',
-  popularity: '99%',
-};
 
 const PluginDetail: React.FC = () => {
   const history = useHistory();
@@ -71,12 +60,6 @@ const PluginDetail: React.FC = () => {
   const installCommand = plugin
     ? `zenml hub install ${plugin.user.username}/${plugin.name}:${plugin.version}`
     : '';
-
-  // useEffect(() => {
-  //   console.log('TOKEN TO DECODE', hubToken);
-  //   if (hubToken) console.log('DECODED TOKEN', jwtDecode(hubToken));
-  //   // const decoded: any = hubToken ? jwtDecode(hubToken) : undefined;
-  // }, []);
 
   useEffect(() => {
     getPlugin(pluginId).then((p) => {
@@ -174,8 +157,7 @@ const PluginDetail: React.FC = () => {
                         Latest Version {plugin.version}
                       </Paragraph>
                       <Paragraph size="tiny" color="grey">
-                        {/* TODO: calculate created days ago */}
-                        Published {data.lastPublishedDaysAgo} days ago
+                        Published {moment(plugin.created).fromNow()}
                       </Paragraph>
                     </FlexBox>
 
