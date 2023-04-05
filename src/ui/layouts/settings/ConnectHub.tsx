@@ -56,7 +56,7 @@ export const ConnectHub: React.FC = () => {
   const myUser = useSelector(userSelectors.myUser);
 
   return hubIsConnected ? (
-    <FlexBox flexDirection="column" alignItems="end">
+    <FlexBox flexDirection="column" alignItems="end" marginBottom="lg">
       <Paragraph>Connected Hub via</Paragraph>
       <Box style={{ marginLeft: 'auto' }} marginBottom="sm">
         <img src={GitHubLogo} alt="GitHub" width="100px" />
@@ -76,7 +76,7 @@ export const ConnectHub: React.FC = () => {
     </FlexBox>
   ) : (
     <>
-      <FlexBox justifyContent="end">
+      <FlexBox justifyContent="end" marginBottom="lg">
         <GhostButton
           onClick={() => {
             window.open('https://docs.zenml.io', '_blank');
