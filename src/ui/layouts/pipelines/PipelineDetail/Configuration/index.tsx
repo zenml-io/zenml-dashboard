@@ -139,14 +139,14 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
       {/* <FlexBox className={styles.code}> */}
       {/* <LayoutFlow graph={graph} /> */}
       <H4 bold>{translate('configuration.title.text')}</H4>
-      <SyntaxHighlighter
+      {/* <SyntaxHighlighter
         customStyle={{ width: '100%', fontSize: 20 }}
         wrapLines={true}
         language="yaml"
         style={okaidia}
       >
         {pipelineConfig}
-      </SyntaxHighlighter>
+      </SyntaxHighlighter> */}
       <LayoutFlow graph={graph} />
       {/* </FlexBox> */}
     </FlexBox.Column>
