@@ -19,7 +19,7 @@ import {
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
 import { useSelector, useToaster } from '../../../hooks';
-import { userSelectors, workspaceSelectors } from '../../../../redux/selectors';
+import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 // import ZenMLFavourite from './ZenML favourite.svg';
@@ -44,7 +44,6 @@ const PluginDetail: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const { successToast, failureToast } = useToaster();
-  const myUser = useSelector(userSelectors.myUser);
   const { pluginId } = useParams<{ pluginId: string }>();
   const hubToken = useHubToken();
   const hubUser = useHubUser();
@@ -56,7 +55,7 @@ const PluginDetail: React.FC = () => {
   const [versions, setVersions] = useState(null as null | TPlugin[]);
   const [starred, setIsStarred] = useState(false);
 
-  const isOwner = myUser?.id === plugin?.id;
+  const isOwner = hubUser?.id === plugin?.user.id;
   const installCommand = plugin
     ? `zenml hub install ${plugin.user.username}/${plugin.name}:${plugin.version}`
     : '';
