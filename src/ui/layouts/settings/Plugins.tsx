@@ -6,7 +6,14 @@ import Lottie from 'lottie-react';
 
 import { selectedWorkspace } from '../../../redux/selectors';
 import { routePaths } from '../../../routes/routePaths';
-import { Box, FlexBox, LinkBox, Paragraph, Separator } from '../../components';
+import {
+  Box,
+  FlexBox,
+  FullWidthSpinner,
+  LinkBox,
+  Paragraph,
+  Separator,
+} from '../../components';
 import { PluginCard } from './PluginCard';
 import loadingAnimation from './loadingAnimation.json';
 import { HUB_API_URL } from '../../../api/constants';
@@ -27,6 +34,7 @@ export const Plugins: React.FC = () => {
   const { failureToast } = useToaster();
   const token = useHubToken();
   const history = useHistory();
+  const [fetching, setFetching] = useState(true);
   const [pendingPlugins, setPendingPlugins] = useState([] as TPlugin[]);
   const [completedPlugins, setCompletedPlugins] = useState(
     [] as { month: string; plugins: TPlugin[] }[],
@@ -37,24 +45,30 @@ export const Plugins: React.FC = () => {
     if (!token) return;
 
     getData(token, 'pending').then(setPendingPlugins);
-    getData(token, 'available').then((plugins) => {
-      const grouped = plugins.reduce((acc, next) => {
-        const month = moment(next.created).format('MMMM yyyy');
-        if (!acc[month]) acc[month] = [];
-        acc[month].push(next);
-        return acc;
-      }, {} as Record<string, TPlugin[]>);
+    getData(token, 'available')
+      .then((plugins) => {
+        const grouped = plugins.reduce((acc, next) => {
+          const month = moment(next.created).format('MMMM yyyy');
+          if (!acc[month]) acc[month] = [];
+          acc[month].push(next);
+          return acc;
+        }, {} as Record<string, TPlugin[]>);
 
-      const ls = Object.entries(grouped).map(([month, plugins]) => ({
-        month,
-        plugins,
-      }));
+        const ls = Object.entries(grouped).map(([month, plugins]) => ({
+          month,
+          plugins,
+        }));
 
-      setCompletedPlugins(ls);
-    });
+        setCompletedPlugins(ls);
+      })
+      .finally(() => {
+        setFetching(false);
+      });
   }, [token]);
 
-  return pendingPlugins.length === 0 && completedPlugins.length === 0 ? (
+  return fetching ? (
+    <FullWidthSpinner color="black" size="md" />
+  ) : pendingPlugins.length === 0 && completedPlugins.length === 0 ? (
     <EmptyState
       message="You haven't uploaded any plugins yet."
       actionLabel="Create plugin"

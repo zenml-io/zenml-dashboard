@@ -4,7 +4,7 @@ import axios from 'axios';
 
 import { selectedWorkspace } from '../../../redux/selectors';
 import { routePaths } from '../../../routes/routePaths';
-import { Box, FlexBox, Paragraph } from '../../components';
+import { Box, FlexBox, FullWidthSpinner, Paragraph } from '../../components';
 import { PluginCard } from './PluginCard';
 import { HUB_API_URL } from '../../../api/constants';
 import { useHubToken } from '../../hooks/auth';
@@ -23,16 +23,23 @@ export const Starred: React.FC = () => {
   const workspace = useSelector(selectedWorkspace);
   const token = useHubToken();
   const history = useHistory();
+  const [fetching, setFetching] = useState(true);
   const [plugins, setPlugins] = useState([] as TPlugin[]);
 
   useEffect(() => {
     // shouldn't be possible
     if (!token) return;
 
-    getData(token).then(setPlugins);
+    getData(token)
+      .then(setPlugins)
+      .finally(() => {
+        setFetching(false);
+      });
   }, [token]);
 
-  return plugins.length > 0 ? (
+  return fetching ? (
+    <FullWidthSpinner color="black" size="md" />
+  ) : plugins.length > 0 ? (
     <Box marginVertical="md">
       <Paragraph color="darkGrey">Favourite repositories</Paragraph>
 
