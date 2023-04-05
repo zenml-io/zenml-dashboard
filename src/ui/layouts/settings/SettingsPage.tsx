@@ -45,12 +45,16 @@ export const SettingsPage: React.FC = () => {
               Component: Starred,
               path: routePaths.settings.starredPlugins,
               locked: !hubIsConnected,
+              lockedToastMessage:
+                'You need to connect to the Hub to star plugins.',
             },
             {
               text: translate('tabs.plugins.text'),
               Component: Plugins,
               path: routePaths.settings.myPlugins,
               locked: !hubIsConnected,
+              lockedToastMessage:
+                'You need to connect to the Hub to upload plugins.',
             },
           ]}
           basePath={routePaths.settings.base}

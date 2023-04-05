@@ -7,11 +7,12 @@ import {
   Box,
   FlexBox,
   If,
+  LinkBox,
   Paragraph,
   Truncate,
   icons,
 } from '../../../components';
-import { useLocationPath } from '../../../hooks';
+import { useLocationPath, useToaster } from '../../../hooks';
 
 import styles from './index.module.scss';
 
@@ -22,6 +23,7 @@ type InternalTabPage = {
   Component: React.FC;
   path: string;
   locked: boolean;
+  lockedToastMessage: string;
 };
 
 type ExternalTabPage = {
@@ -36,6 +38,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
   basePath,
 }) => {
   const locationPath = useLocationPath();
+  const { failureToast } = useToaster();
   const pages = plainPages.map(
     (p): ProcessedTabPage => {
       if ('externalPath' in p && p.externalPath) {
@@ -52,6 +55,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
         Component: p.Component,
         path: p.path,
         locked: !!p.locked,
+        lockedToastMessage: p.lockedToastMessage ?? 'This tab is locked.',
       };
     },
   );
@@ -112,9 +116,14 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                   )}
                 >
                   {page.internal && page.locked ? (
-                    <Box className={styles.link} style={{ cursor: 'default' }}>
+                    <LinkBox
+                      className={styles.link}
+                      onClick={() => {
+                        failureToast({ description: page.lockedToastMessage });
+                      }}
+                    >
                       {Text}
-                    </Box>
+                    </LinkBox>
                   ) : page.internal ? (
                     <Link className={styles.link} to={page.path}>
                       {Text}
