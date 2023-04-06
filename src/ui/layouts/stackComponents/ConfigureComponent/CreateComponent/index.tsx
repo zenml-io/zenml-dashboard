@@ -151,7 +151,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
     // }
 
     if (value?.value?.includes('.') || value?.value?.id) {
-      debugger;
       dispatch(
         secretsActions.secretForId({
           secretId: value?.id,
@@ -386,7 +385,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                   //   ...inputData,
                   //   [props.name]: val.value.includes('.') ? val.value : val,
                   // });
-                  debugger;
+
                   if (val.value.includes('}}')) {
                     setInputData({
                       ...inputData,
