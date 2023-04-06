@@ -408,7 +408,6 @@ export const EditFieldSettings = (
     labelColor: any;
     placeholder: string;
     value: string;
-    defaultValue?: string;
     optional: boolean;
     required: boolean;
     type: 'input' | 'textarea';
@@ -438,8 +437,7 @@ export const EditFieldSettings = (
             <InputComponent
               {...props}
               inputRef={inputRef}
-              defaultValue={props?.defaultValue}
-              value={disabled ? props?.defaultValue : props.value}
+              value={props.value}
               placeholder={props.placeholder}
               disabled={disabled}
               autoFocus={!disabled}

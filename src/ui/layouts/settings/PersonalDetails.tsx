@@ -17,6 +17,7 @@ import { getTranslateByScope } from '../../../services';
 import { GhostButton } from '../../components/buttons/index';
 import { EmailPopup } from './EmailPopup';
 import { PasswordPopup } from './PasswordPopup';
+import { HubPopup } from './HubPopup';
 import { formatDateToDisplay } from '../../../utils';
 import jwt_decode from 'jwt-decode';
 import starsIcon from '../../assets/stars.svg';
@@ -35,6 +36,14 @@ export const PersonalDetails: React.FC = () => {
   const userInitials = getInitials(userFullName as string);
 
   const [popupOpen, setPopupOpen] = useState(false);
+  const [hubPopupState, setHubPopupState] = useState({ open: false } as
+    | { open: false }
+    | {
+        open: true;
+        description: string;
+        payloadKey: string;
+        payloadValue: string;
+      });
   const [passwordPopupOpen, setPasswordPopupOpen] = useState(false);
   const [fullName, setFullName] = useState(userFullName ?? '');
   const [username, setUsername] = useState(user?.name ?? '');
@@ -58,7 +67,14 @@ export const PersonalDetails: React.FC = () => {
 
   useEffect(() => {
     getVersion();
-  });
+  }, []);
+
+  useEffect(() => {
+    if (!hubUser) return;
+    if (!website) setWebsite(hubUser.website);
+    if (!bio) setBio(hubUser.bio);
+    // eslint-disable-next-line
+  }, [hubUser]);
 
   if (!user) return null;
 
@@ -67,16 +83,28 @@ export const PersonalDetails: React.FC = () => {
   //   setSelectedImage(objectUrl);
   // };
 
-  const handlePopup = (e: any, text: any) => {
+  const handlePopup = (e: { key: string }, text: any) => {
+    setHubPopupState({ open: false });
+
     if (e.key === 'Enter') {
       setPopupType(text);
       setPopupOpen(true);
     }
   };
+  const handleHubPopup = (
+    description: string,
+    payloadKey: string,
+    payloadValue: string,
+  ) => (e: { key: string }) => {
+    setPopupOpen(false);
+    if (e.key === 'Enter') {
+      setHubPopupState({ open: true, description, payloadKey, payloadValue });
+    }
+  };
 
   return (
     <>
-      {popupOpen && (
+      {popupOpen ? (
         <EmailPopup
           userId={user?.id}
           fullName={fullName}
@@ -85,7 +113,12 @@ export const PersonalDetails: React.FC = () => {
           setPopupType={setPopupType}
           setPopupOpen={setPopupOpen}
         />
-      )}
+      ) : hubPopupState.open && hubUser ? (
+        <HubPopup
+          {...hubPopupState}
+          closeHubPopup={() => setHubPopupState({ open: false })}
+        />
+      ) : null}
       {/* <Tour /> */}
       <FlexBox.Row
         style={{ marginLeft: '40px', width: '100%' }}
@@ -142,6 +175,7 @@ export const PersonalDetails: React.FC = () => {
           )}
         </Box>
 
+        {/* form to update user details */}
         <Box style={{ flexGrow: 1 }} marginHorizontal="xl2">
           <Box marginTop="lg">
             <EditFieldSettings
@@ -176,6 +210,7 @@ export const PersonalDetails: React.FC = () => {
               value={website}
               onChangeText={setWebsite}
               optional={true}
+              onKeyDown={handleHubPopup('website', 'website', website)}
             />
           </Box>
 
@@ -188,6 +223,7 @@ export const PersonalDetails: React.FC = () => {
               value={bio}
               onChangeText={setBio}
               type="textarea"
+              onKeyDown={handleHubPopup('bio', 'bio', bio)}
             />
           </Box>
 
