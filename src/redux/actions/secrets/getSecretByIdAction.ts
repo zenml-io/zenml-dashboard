@@ -7,7 +7,7 @@ export const getSecretByIdAction = ({
   onFailure,
 }: {
   secretId: TId;
-  onSuccess?: () => void;
+  onSuccess?: (res: any) => void;
   onFailure?: () => void;
 }): TRequestAction => ({
   type: secretActionTypes.getSecretForId.request,

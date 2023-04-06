@@ -202,19 +202,18 @@ export const MakeSecretField = (
     placeholder: any;
     value: string;
     onChange?: any;
-
     secretLabel: string;
     secretLabelColor: any;
     secretPlaceholder: any;
     secretValue: string;
     secretOnChange?: any;
-
+    handleClick?: any;
     dropdownOptions?: Array<any>;
   } & any,
 ): any => {
-  const handleClick = () => {
-    return null;
-  };
+  // const handleClick = () => {
+  //   return null;
+  // };
 
   const [popup, setPopup] = useState(false);
 
@@ -260,7 +259,7 @@ export const MakeSecretField = (
               paddingLeft: '10px',
               cursor: 'pointer',
             }}
-            onClick={handleClick}
+            onClick={() => props.handleClick()}
           >
             <icons.lock
               color={iconColors.primary}
@@ -294,8 +293,8 @@ export const MakeSecretField = (
                       data-tip
                       data-for={option.name}
                       onClick={() => {
-                        props.onChange(() => option.label);
                         setPopup(false);
+                        props.secretOnChange(option);
                       }}
                       style={{ cursor: 'pointer' }}
                     >
@@ -313,49 +312,29 @@ export const MakeSecretField = (
         )}
       </FlexBox>
 
-      {/* {props?.value?.length > 0 && props?.value?.slice(0, 2) !== '{{' && (
-        <FlexBox
-          marginTop="lg"
-          alignItems="center"
-          fullWidth
-          style={{ position: 'relative' }}
-        >
-          <InputWithLabel
-            name={props.name}
-            label={props.secretLabel}
-            labelColor={props.secretLabelColor}
-            InputComponent={
-              <TextInput
-                {...props}
-                style={{ border: '1px solid #C9CBD0' }}
-                value={props.secretValue}
-                placeholder={props.secretPlaceholder}
-                onChangeText={props.secretOnChange}
-              />
-            }
-          />
-          <Box
-            style={{
-              position: 'absolute',
-              right: '10px',
-              top: '40px',
-              display: 'flex',
-              alignItems: 'center',
-              background: '#fff',
-              borderLeft: '1px solid grey',
-              paddingLeft: '10px',
-              cursor: 'pointer',
-            }}
-            onClick={handleClick}
-          >
-            <icons.lock
-              color={iconColors.primary}
-              style={{ marginRight: '5px' }}
+      {/* {props?.value?.length > 0 && 
+        props?.value?.slice(0, 2) !== '{{' && (
+          <FlexBox marginTop='lg' alignItems="center" fullWidth style={{ position: 'relative' }}>
+            <InputWithLabel
+              name={props.name}
+              label={props.secretLabel}
+              labelColor={props.secretLabelColor}
+              InputComponent={ <TextInput {...props} style={{ border: '1px solid #C9CBD0' }} value={props.secretValue} placeholder={props.secretPlaceholder} onChangeText={props.secretOnChange} />}
             />
-            <Paragraph color="primary">Make it Secret</Paragraph>
-          </Box>
-        </FlexBox>
-      )} */}
+            <Box
+              style={{ 
+                position: 'absolute', right: '10px', top: '40px', 
+                display: 'flex', alignItems: 'center', 
+                background: '#fff', borderLeft: '1px solid grey', 
+                paddingLeft: '10px', cursor: 'pointer'
+              }}
+              onClick={handleClick}
+            >
+              <icons.lock color={iconColors.primary} style={{ marginRight: '5px' }} /> 
+              <Paragraph color='primary'>Make it Secret</Paragraph>
+            </Box>
+          </FlexBox>
+        )} */}
     </FlexBox.Column>
   );
 };
