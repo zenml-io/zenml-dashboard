@@ -12,6 +12,9 @@ import {
   TagsInputField,
   CheckboxInput,
   ValidatedTextField,
+  // FormDropdownField,
+  InputWithLabel,
+  TextInput,
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
@@ -35,6 +38,9 @@ const CreatePlugin: React.FC = () => {
 
   const [packageName, setPackageName] = useState('');
   const [repositoryUrl, setRepositoryUrl] = useState('');
+  const [repositoryBranch, setRepositoryBranch] = useState('');
+  const [commitHash, setCommitHash] = useState('');
+  const [repositorySubdirectory, setRepositorySubdirectory] = useState('');
   const [logoUrl, setLogoUrl] = useState('');
   const [tagText, setTagText] = useState('');
   const [tags, setTags] = useState([] as string[]);
@@ -134,6 +140,55 @@ const CreatePlugin: React.FC = () => {
                 />
               </Box>
 
+              {/* repository branch */}
+              <Box marginBottom="lg">
+                <InputWithLabel
+                  label="Branch of repository"
+                  InputComponent={
+                    <TextInput
+                      value={repositoryBranch}
+                      onChangeText={setRepositoryBranch}
+                    />
+                  }
+                />
+                {/* <FormDropdownField
+                  label="Branch of repository"
+                  value={repositoryBranch}
+                  options={['staging', 'dev', 'deploy'].map((b) => ({
+                    label: b,
+                    value: b,
+                  }))}
+                  onChange={setRepositoryBranch}
+                  placeholder="Select branch"
+                /> */}
+              </Box>
+
+              {/* commit hash */}
+              <Box marginBottom="lg">
+                <InputWithLabel
+                  label="Commit hash"
+                  InputComponent={
+                    <TextInput
+                      value={commitHash}
+                      onChangeText={setCommitHash}
+                    />
+                  }
+                />
+              </Box>
+
+              {/* repository subdirectory */}
+              <Box marginBottom="lg">
+                <InputWithLabel
+                  label="Subdirectory of repository"
+                  InputComponent={
+                    <TextInput
+                      value={repositorySubdirectory}
+                      onChangeText={setRepositorySubdirectory}
+                    />
+                  }
+                />
+              </Box>
+
               <ValidatedTextField
                 label="Logo URL"
                 value={logoUrl}
@@ -166,7 +221,7 @@ const CreatePlugin: React.FC = () => {
               />
             </Box>
 
-            <FlexBox justifyContent="flex-end">
+            <FlexBox justifyContent="flex-end" marginVertical="lg">
               <PrimaryButton
                 disabled={
                   !(
@@ -182,9 +237,15 @@ const CreatePlugin: React.FC = () => {
                       `${HUB_API_URL}/plugins`,
                       {
                         name: packageName,
+                        description: `First version of ${packageName}`,
+                        version: '0.1',
+                        release_notes: `First release of ${packageName}`,
                         repository_url: repositoryUrl,
-                        tags,
+                        repository_subdirectory: repositorySubdirectory,
+                        repository_branch: repositoryBranch,
+                        repository_commit: commitHash,
                         logo_url: logoUrl,
+                        tags,
                       },
                       {
                         headers: { Authorization: `Bearer ${hubApiToken}` },

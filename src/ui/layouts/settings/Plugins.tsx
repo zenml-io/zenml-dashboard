@@ -166,10 +166,7 @@ export const Plugins: React.FC = () => {
                     logoUrl={p.logo_url}
                     title={p.name}
                     description={p.description}
-                    url={routePaths.plugins.detail.overview(
-                      workspace,
-                      'unique-id',
-                    )}
+                    url={routePaths.plugins.detail.overview(workspace, p.id)}
                   />
                 ))}
               </FlexBox>
