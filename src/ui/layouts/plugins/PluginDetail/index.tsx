@@ -23,7 +23,6 @@ import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 // import ZenMLFavourite from './ZenML favourite.svg';
-import InstallDesignHeader from './InstallDesignHeader.svg';
 import { Tabs } from '../../common/Tabs';
 import { DisplayMarkdown } from '../../../components/richText/DisplayMarkdown';
 import { DisplayCode } from './DisplayCode';
@@ -56,11 +55,21 @@ const PluginDetail: React.FC = () => {
   const [loadingVersions, setLoadingVersions] = useState(true);
   const [versions, setVersions] = useState(null as null | TPlugin[]);
   const [starred, setIsStarred] = useState(false);
+  const [installTab, setInstallTab] = useState(
+    'Installation' as 'Installation' | 'Pip Install',
+  );
 
   const isOwner = hubUser?.id === plugin?.user.id;
-  const installCommand = plugin
+  const installationCommand = plugin
     ? `zenml hub install ${plugin.user.username}/${plugin.name}:${plugin.version}`
     : '';
+  const installCommand = !plugin
+    ? ''
+    : installTab === 'Installation'
+    ? installationCommand
+    : 'pip install plugin.requirements' +
+      '\n' +
+      `pip install --index-url ${plugin.index_url} ${plugin.package_name} --no-deps`;
 
   useEffect(() => {
     getPlugin(pluginId).then((p) => {
@@ -423,10 +432,32 @@ const PluginDetail: React.FC = () => {
                       text: 'Installing',
                       Component: () => (
                         <Box>
-                          <DisplayCode code={installCommand} />
-                          <DisplayCode
-                            code={`from zenml.hub.${plugin.user.username}.${plugin.name} import *`}
-                          />
+                          <Box marginVertical="lg">
+                            <Paragraph style={{ marginBottom: '8px' }}>
+                              ZenML install
+                            </Paragraph>
+                            <DisplayCode code={installationCommand} />
+                          </Box>
+                          <Box marginVertical="lg">
+                            <Paragraph style={{ marginBottom: '8px' }}>
+                              Pip install
+                            </Paragraph>
+                            <DisplayCode
+                              code={
+                                'pip install plugin.requirements' +
+                                '\n' +
+                                `pip install --index-url ${plugin.index_url} ${plugin.package_name} --no-deps`
+                              }
+                            />
+                          </Box>
+                          <Box marginVertical="lg">
+                            <Paragraph style={{ marginBottom: '8px' }}>
+                              Usage
+                            </Paragraph>
+                            <DisplayCode
+                              code={`from zenml.hub.${plugin.user.username}.${plugin.name} import *`}
+                            />
+                          </Box>
                         </Box>
                       ),
                       path: routePaths.plugins.detail.installing(
@@ -481,24 +512,52 @@ const PluginDetail: React.FC = () => {
                   marginBottom="xl"
                   style={{ width: '294px' }}
                 >
-                  <img src={InstallDesignHeader} alt="Install package" />
-
                   <Box
                     style={{
-                      padding: '0px 3px 3px 3px',
+                      padding: '4px',
                       background:
                         'linear-gradient(90deg, #B58EB1 0%, #443D99 100%)',
                       borderRadius: '7px',
-                      borderTopLeftRadius: 0,
-                      borderTopRightRadius: 0,
                     }}
                   >
+                    <FlexBox>
+                      {([
+                        'Installation',
+                        // too long to use for now
+                        // , 'Pip Install'
+                      ] as const).map((t) => {
+                        const isActive = t === installTab;
+                        return (
+                          <Box
+                            key={t}
+                            style={{
+                              backgroundColor: isActive
+                                ? '#250E32'
+                                : 'transparent',
+                              borderTopLeftRadius: '7px',
+                              borderTopRightRadius: '7px',
+                              padding: '6px 24px',
+                              cursor: 'pointer',
+                            }}
+                            onClick={() => setInstallTab(t)}
+                          >
+                            <Paragraph size="tiny" style={{ color: 'white' }}>
+                              {t}
+                            </Paragraph>
+                          </Box>
+                        );
+                      })}
+                    </FlexBox>
+
                     <FlexBox
                       style={{
                         padding: '20px 22px 20px 10px',
                         backgroundColor: '#250E32',
                         borderRadius: '7px',
                         position: 'relative',
+                        ...(installTab === 'Installation'
+                          ? { borderTopLeftRadius: 0 }
+                          : {}),
                       }}
                     >
                       <Paragraph

@@ -16,6 +16,8 @@ export const DisplayCode: React.FC<{ code: string }> = ({ code }) => {
           backgroundColor: '#F4F4F4',
           width: '100%',
           borderRadius: '14px',
+          maxWidth: '60vw',
+          overflowX: 'scroll',
         }}
       >
         {code}
