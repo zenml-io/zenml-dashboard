@@ -49,7 +49,7 @@ export const Starred: React.FC = () => {
             key={i}
             logoUrl={p.logo_url}
             title={p.name}
-            description={p.description}
+            description={`${p.version}: ${p.description}`}
             url={routePaths.plugins.detail.overview(workspace, p.id)}
           />
         ))}

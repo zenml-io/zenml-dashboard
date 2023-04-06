@@ -120,7 +120,7 @@ export const Plugins: React.FC = () => {
                     color="grey"
                     style={{ fontSize: '20px', marginTop: '8px' }}
                   >
-                    Pending
+                    {p.version}: Pending
                     {/* TODO: get the last line of build logs for status? */}
                     {/* {p.build_logs?.split('\n') ?? 'Pending'} */}
                   </Paragraph>
@@ -165,7 +165,7 @@ export const Plugins: React.FC = () => {
                     key={i}
                     logoUrl={p.logo_url}
                     title={p.name}
-                    description={p.description}
+                    description={`${p.version}: ${p.description}`}
                     url={routePaths.plugins.detail.overview(workspace, p.id)}
                   />
                 ))}
