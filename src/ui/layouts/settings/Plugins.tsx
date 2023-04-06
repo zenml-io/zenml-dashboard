@@ -77,7 +77,7 @@ export const Plugins: React.FC = () => {
       }}
     />
   ) : (
-    <>
+    <Box>
       {pendingPlugins.length > 0 && (
         <Box marginVertical="lg">
           <Paragraph color="darkGrey" size="small">
@@ -160,11 +160,12 @@ export const Plugins: React.FC = () => {
               </Paragraph>
               <Separator.Light />
               <FlexBox flexWrap={true} marginVertical="md">
-                {m.plugins.map((_, i) => (
+                {m.plugins.map((p, i) => (
                   <PluginCard
                     key={i}
-                    title="bloc"
-                    description="A predictable state management library that helps implement the BLoC (Business Logic Component) design pattern."
+                    logoUrl={p.logo_url}
+                    title={p.name}
+                    description={p.description}
                     url={routePaths.plugins.detail.overview(
                       workspace,
                       'unique-id',
@@ -176,6 +177,6 @@ export const Plugins: React.FC = () => {
           ))}
         </Box>
       )}
-    </>
+    </Box>
   );
 };

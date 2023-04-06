@@ -1,12 +1,15 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+
 import { Box, LinkBox, Paragraph } from '../../components';
+import ZenMLLogo from '../../assets/logo.svg';
 
 export const PluginCard: React.FC<{
   title: string;
-  description: string;
   url: string;
-}> = ({ title, description, url }) => {
+  logoUrl?: string;
+  description?: string;
+}> = ({ title, url, description, logoUrl }) => {
   const history = useHistory();
 
   return (
@@ -20,15 +23,28 @@ export const PluginCard: React.FC<{
         boxShadow: '0px 4px 20px 0px #0000000D',
       }}
     >
-      <Box style={{ width: '100%', height: '61px', backgroundColor: '#eee' }} />
+      <img
+        src={logoUrl ?? ZenMLLogo}
+        alt={`${title} logo`}
+        style={{
+          maxWidth: '60%',
+          display: 'block',
+          margin: 'auto',
+          marginTop: 12,
+          marginBottom: 16,
+        }}
+      />
+
       <Box marginTop="lg" marginBottom="sm">
         <Paragraph style={{ fontSize: '20px' }} color="primary">
           {title}
         </Paragraph>
       </Box>
-      <Paragraph size="small" color="grey">
-        {description}
-      </Paragraph>
+      {description && (
+        <Paragraph size="small" color="grey">
+          {description}
+        </Paragraph>
+      )}
     </LinkBox>
   );
 };

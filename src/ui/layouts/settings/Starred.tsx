@@ -47,8 +47,9 @@ export const Starred: React.FC = () => {
         {plugins.map((p, i) => (
           <PluginCard
             key={i}
+            logoUrl={p.logo_url}
             title={p.name}
-            description={p.description ?? ''}
+            description={p.description}
             url={routePaths.plugins.detail.overview(workspace, p.id)}
           />
         ))}
