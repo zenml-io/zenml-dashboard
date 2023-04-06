@@ -187,29 +187,26 @@ const PluginDetail: React.FC = () => {
                           icon: starred ? icons.star : icons.starOutline,
                           color: iconColors.primary,
                           onClick: () => {
-                            if (starred)
+                            if (starred) {
                               successToast({
                                 description:
                                   "You've already starred this plugin",
                               });
-                            else if (!hubUser || !hubToken) {
+                            } else if (!hubUser || !hubToken) {
                               failureToast({
                                 description:
                                   'You need to be logged in to star this plugin',
                               });
                             } else {
-                              starPlugin(hubUser.id, plugin.id, hubToken)
-                                .then(() => {
-                                  setIsStarred(true);
-                                  successToast({
-                                    description: 'Starred plugin',
-                                  });
-                                })
-                                .catch(() => {
+                              setIsStarred(true);
+                              starPlugin(hubUser.id, plugin.id, hubToken).catch(
+                                () => {
                                   failureToast({
                                     description: 'Error starring plugin',
                                   });
-                                });
+                                  setIsStarred(false);
+                                },
+                              );
                             }
                           },
                         },

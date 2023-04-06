@@ -225,20 +225,21 @@ const ListPlugins: React.FC = () => {
                               'You need to be logged in to star this plugin',
                           });
                         } else {
-                          starPlugin(hubUser.id, p.id, hubToken)
-                            .then(() => {
-                              setStarredPlugins(
-                                (s) => new Set([...Array.from(s), p.id]),
-                              );
-                              successToast({
-                                description: 'Starred plugin',
-                              });
-                            })
-                            .catch(() => {
-                              failureToast({
-                                description: 'Error starring plugin',
-                              });
+                          // optimistic UI update
+                          setStarredPlugins(
+                            (s) => new Set([...Array.from(s), p.id]),
+                          );
+                          starPlugin(hubUser.id, p.id, hubToken).catch(() => {
+                            failureToast({
+                              description: 'Error starring plugin',
                             });
+                            setStarredPlugins(
+                              (s) =>
+                                new Set(
+                                  Array.from(s).filter((id) => id !== p.id),
+                                ),
+                            );
+                          });
                         }
                       }}
                       paddingRight="md"
