@@ -33,8 +33,8 @@ const Selector: React.FC<Props> = ({
     // { key: '', value: '' },
     if (routeState?.state?.routeFromComponent) {
       const secretKeyValuefromRoute: any = {
-        key: routeState?.state?.inputData[routeState?.state?.secretKey].value,
-        value: '',
+        key: routeState?.state?.secretKey,
+        value: routeState?.state?.inputData[routeState?.state?.secretKey].value,
       };
       setInputFields([...inputFields, secretKeyValuefromRoute]);
     } else if (values?.length && !routeState?.state?.routeFromComponent) {

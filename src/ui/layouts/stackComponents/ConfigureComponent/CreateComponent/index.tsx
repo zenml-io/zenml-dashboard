@@ -373,7 +373,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                 secretPlaceholder="john doe"
                 secretValue={'Empty'}
                 secretOnChange={(val: any, newEvent: any) => {
-                  debugger;
+                  // debugger;
                   setInputData({
                     ...inputData,
                     [props.name]: val.value.includes('.') ? val.value : val,

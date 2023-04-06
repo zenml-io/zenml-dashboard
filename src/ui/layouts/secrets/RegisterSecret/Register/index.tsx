@@ -150,7 +150,7 @@ export const Register: React.FC<Props> = (state: any) => {
       // }
     }
     // }
-    debugger;
+    // debugger;
     const body = {
       user: user?.id,
       workspace: id,

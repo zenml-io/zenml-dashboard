@@ -493,6 +493,34 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     );
   },
   {});
+  // function convertNullToEmptyString(obj: any) {
+  //   for (let key in obj) {
+  //     if (
+  //       obj[key] === null &&
+  //       flavor?.configSchema?.properties[key].default === undefined
+  //     ) {
+  //       obj[key] = '';
+  //     } else if (typeof obj[key] === 'object') {
+  //       convertNullToEmptyString(obj[key]);
+  //     }
+  //   }
+  // }
+
+  // convertNullToEmptyString(stackComponent?.configuration);
+  // for (const key in stackComponent?.configuration) {
+  //   if (stackComponent?.configuration.hasOwnProperty(key)) {
+  //     if (
+  //       stackComponent?.configuration[key] === null &&
+  //       flavor?.configSchema?.properties[key].default === undefined
+  //     ) {
+  //       stackComponent.configuration[key] = '';
+  //     } else {
+  //       stackComponent.configuration[key] =
+  //         flavor?.configSchema?.properties[key].default;
+  //     }
+  //   }
+  // }
+
   let normalizeConfiguration = Object.keys(
     stackComponent?.configuration,
   ).reduce(function (r: any, name: any) {
@@ -500,9 +528,9 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
       return (
         (r[name] =
           stackComponent?.configuration[name] === null &&
-          flavor?.config_schema?.properties[name].default === undefined
+          flavor?.configSchema?.properties[name].default === undefined
             ? ''
-            : flavor?.config_schema?.properties[name].default),
+            : flavor?.configSchema?.properties[name].default),
         r
       );
     } else {
@@ -515,7 +543,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     ...stackComponent?.configuration,
     ...normalizeConfiguration,
   };
-
+  // debugger;
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }

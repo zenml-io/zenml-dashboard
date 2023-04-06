@@ -180,35 +180,35 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     <FlexBox.Column marginTop="xl" fullWidth>
       <FlexBox.Row flexDirection="column">
         {/* <Container> */}
-          <Box style={{ width: '80%' }}>
-            <EditField
-              disabled
-              onChangeText={() => console.log('')}
-              label={'Flavor Name'}
-              optional={false}
-              value={details.flavor}
-              placeholder=""
-              hasError={false}
-              className={styles.field}
-            />
-          </Box>
-          <Box marginTop="lg">
-            <ToggleField
-              name="Share Component with public"
-              value={details.is_shared}
-              onHandleChange={() => {}}
-              label="Share Component with public"
-              disabled={true}
-            />
-          </Box>
+        <Box style={{ width: '80%' }}>
+          <EditField
+            disabled
+            onChangeText={() => console.log('')}
+            label={'Flavor Name'}
+            optional={false}
+            value={details.flavor}
+            placeholder=""
+            hasError={false}
+            className={styles.field}
+          />
+        </Box>
+        <Box marginTop="lg">
+          <ToggleField
+            name="Share Component with public"
+            value={details.is_shared}
+            onHandleChange={() => {}}
+            label="Share Component with public"
+            disabled={true}
+          />
+        </Box>
         {/* </Container> */}
         {/* <Container>
   
         </Container> */}
       </FlexBox.Row>
-      <FlexBox.Row flexDirection='column'>
+      <FlexBox.Row flexDirection="column">
         {/* <Container> */}
-          {/* <Row>
+        {/* <Row>
           <Col xs={5}>
          
           </Col>
