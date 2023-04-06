@@ -10,7 +10,7 @@ import {
   Paragraph,
   icons,
   ValidatedTextField,
-  FormDropdownField,
+  // FormDropdownField,
   TextInput,
   InputWithLabel,
   TextAreaInput,
@@ -48,10 +48,22 @@ const UpdatePlugin: React.FC = () => {
   const [repositoryBranch, setRepositoryBranch] = useState('');
   const [commitHash, setCommitHash] = useState('');
   const [repositorySubdirectory, setRepositorySubdirectory] = useState('');
+  const [logoUrl, setLogoUrl] = useState('');
   const [releaseNotes, setReleaseNotes] = useState('');
 
   useEffect(() => {
-    getData(pluginId).then(setPlugin);
+    getData(pluginId).then((p) => {
+      setPlugin(p);
+      if (!repositoryUrl) setRepositoryUrl(p.repository_url);
+      if (!repositoryBranch && p.repository_branch)
+        setRepositoryBranch(p.repository_branch);
+      if (!repositorySubdirectory && p.repository_subdirectory)
+        setRepositorySubdirectory(p.repository_subdirectory);
+      if (!commitHash && p.repository_commit)
+        setCommitHash(p.repository_commit);
+      if (!logoUrl && p.logo_url) setLogoUrl(p.logo_url);
+    });
+    // eslint-disable-next-line
   }, [pluginId]);
 
   return (
@@ -101,9 +113,23 @@ const UpdatePlugin: React.FC = () => {
               justifyContent="center"
               alignItems="center"
             >
-              <Box style={{ opacity: 0.2 }}>
-                <icons.photoCamera size="xxl" color={iconColors.primary} />
-              </Box>
+              {plugin?.logo_url ? (
+                <img
+                  src={logoUrl}
+                  alt={`${plugin.name} logo`}
+                  style={{
+                    maxWidth: '60%',
+                    display: 'block',
+                    margin: 'auto',
+                    marginTop: 12,
+                    marginBottom: 16,
+                  }}
+                />
+              ) : (
+                <Box style={{ opacity: 0.2 }}>
+                  <icons.photoCamera size="xxl" color={iconColors.primary} />
+                </Box>
+              )}
             </FlexBox>
           </Box>
 
@@ -119,7 +145,7 @@ const UpdatePlugin: React.FC = () => {
                 label="Version Number"
                 value={versionNumber}
                 onChange={setVersionNumber}
-                status={{ status: 'success' }}
+                status={{ status: 'editing' }}
                 placeholder="Version number"
               />
             </Box>
@@ -130,14 +156,24 @@ const UpdatePlugin: React.FC = () => {
                 label="Repository URL"
                 value={repositoryUrl}
                 onChange={setRepositoryUrl}
-                status={{ status: 'success' }}
+                status={{ status: 'editing' }}
                 placeholder="Repository URL"
               />
             </Box>
 
             {/* repository branch */}
             <Box marginBottom="lg">
-              <FormDropdownField
+              <InputWithLabel
+                label="Branch of repository"
+                InputComponent={
+                  <TextInput
+                    value={repositoryBranch}
+                    onChangeText={setRepositoryBranch}
+                    placeholder="Branch of repository"
+                  />
+                }
+              />
+              {/* <FormDropdownField
                 label="Branch of repository"
                 value={repositoryBranch}
                 options={['staging', 'dev', 'deploy'].map((b) => ({
@@ -146,7 +182,7 @@ const UpdatePlugin: React.FC = () => {
                 }))}
                 onChange={setRepositoryBranch}
                 placeholder="Select branch"
-              />
+              /> */}
             </Box>
 
             {/* commit hash */}
@@ -172,6 +208,20 @@ const UpdatePlugin: React.FC = () => {
                     value={repositorySubdirectory}
                     onChangeText={setRepositorySubdirectory}
                     placeholder="Subdirectory of repository"
+                  />
+                }
+              />
+            </Box>
+
+            {/* logo URL */}
+            <Box marginBottom="lg">
+              <InputWithLabel
+                label="Logo URL"
+                InputComponent={
+                  <TextInput
+                    value={logoUrl}
+                    onChangeText={setLogoUrl}
+                    placeholder="Logo URL"
                   />
                 }
               />
@@ -206,7 +256,7 @@ const UpdatePlugin: React.FC = () => {
                       {
                         ...pick(
                           (plugin as unknown) as Record<string, unknown>,
-                          ['tags', 'logo_url', 'name', 'description'],
+                          ['tags', 'name', 'description'],
                         ),
                         version: versionNumber,
                         release_notes: releaseNotes,
@@ -214,6 +264,7 @@ const UpdatePlugin: React.FC = () => {
                         repository_subdirectory: repositorySubdirectory,
                         repository_branch: repositoryBranch,
                         repository_commit: commitHash,
+                        logo_url: logoUrl,
                       },
                       {
                         headers: { Authorization: `Bearer ${hubApiToken}` },
@@ -233,16 +284,7 @@ const UpdatePlugin: React.FC = () => {
                       });
                     });
                 }}
-                disabled={
-                  !(
-                    versionNumber &&
-                    repositoryUrl &&
-                    repositoryBranch &&
-                    commitHash &&
-                    repositorySubdirectory &&
-                    releaseNotes
-                  )
-                }
+                disabled={!(versionNumber && repositoryUrl && releaseNotes)}
               >
                 Update version
               </PrimaryButton>
