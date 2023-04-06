@@ -492,7 +492,7 @@ const routes = [
     path: routePaths.plugins.list(':workspace'),
     Component: ListPlugins,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.always,
     },
     exact: true,
   },
@@ -500,7 +500,16 @@ const routes = [
     path: routePaths.plugins.create(':workspace'),
     Component: CreatePlugin,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      // auth handled separately through HubConnectPrompt; need to be able to auth-restrict actions like starring on the list plugins page so needs to be more granular than just page-level
+      authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.detail.base(':workspace', ':pluginId'),
+    Component: PluginDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.always,
     },
     exact: true,
   },
@@ -508,7 +517,7 @@ const routes = [
     path: routePaths.plugins.detail.overview(':workspace', ':pluginId'),
     Component: PluginDetail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.always,
     },
     exact: true,
   },
@@ -516,7 +525,7 @@ const routes = [
     path: routePaths.plugins.detail.changelogs(':workspace', ':pluginId'),
     Component: PluginDetail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.always,
     },
     exact: true,
   },
@@ -524,7 +533,7 @@ const routes = [
     path: routePaths.plugins.detail.requirements(':workspace', ':pluginId'),
     Component: PluginDetail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.always,
     },
     exact: true,
   },
@@ -532,7 +541,7 @@ const routes = [
     path: routePaths.plugins.detail.installing(':workspace', ':pluginId'),
     Component: PluginDetail,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.always,
     },
     exact: true,
   },
@@ -540,7 +549,7 @@ const routes = [
     path: routePaths.plugins.update(':workspace', ':pluginId'),
     Component: UpdatePlugin,
     visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+      authentication: RouteVisibilityAuthentication.always,
     },
     exact: true,
   },
