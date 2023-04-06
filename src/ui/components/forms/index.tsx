@@ -204,13 +204,13 @@ export const MakeSecretField = (
     secretPlaceholder: any;
     secretValue: string;
     secretOnChange?: any;
-
+    handleClick?: any;
     dropdownOptions?: Array<any>;
   } & any,
 ): any => {
-  const handleClick = () => {
-    return null;
-  };
+  // const handleClick = () => {
+  //   return null;
+  // };
 
   const [popup, setPopup] = useState(false);
 
@@ -256,7 +256,7 @@ export const MakeSecretField = (
               paddingLeft: '10px',
               cursor: 'pointer',
             }}
-            onClick={handleClick}
+            onClick={() => props.handleClick()}
           >
             <icons.lock
               color={iconColors.primary}

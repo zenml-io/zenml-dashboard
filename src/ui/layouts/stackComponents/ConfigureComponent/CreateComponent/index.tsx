@@ -13,7 +13,12 @@ import {
 } from '../../../../components';
 // import Select from 'react-select';
 import { Form, TextField, ToggleField } from '../../../common/FormElement';
-import { useDispatch, useHistory, useSelector } from '../../../../hooks';
+import {
+  useDispatch,
+  useHistory,
+  useLocation,
+  useSelector,
+} from '../../../../hooks';
 import {
   secretSelectors,
   sessionSelectors,
@@ -33,9 +38,14 @@ import { titleCase } from '../../../../../utils';
 // import { values } from 'lodash';
 // import { keys } from 'lodash';
 
-export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
-  const { dispatchStackComponentsData } =
-    callActionForStackComponentsForPagination();
+export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
+  flavor,
+  state,
+}) => {
+  const {
+    dispatchStackComponentsData,
+  } = callActionForStackComponentsForPagination();
+  const location = useLocation();
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
@@ -52,36 +62,46 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const history = useHistory();
-  console.log(flavor.configSchema.properties, 'flavorflavor');
   useEffect(() => {
-    let setDefaultData = {};
-    let setInputObjectType: any = [];
-    initForm(flavor.configSchema.properties);
-    Object.keys(flavor.configSchema.properties).map((key, ind) => {
-      const data = flavor.configSchema.properties[key];
-      if (data.default && (data.type === 'string' || data.type === 'integer'))
-        setDefaultData = {
-          ...setDefaultData,
-          [toSnakeCase(data.title)]: data.default,
-        };
-      return null;
-    });
+    if (state?.state?.routeFromComponent) {
+      setIsShared(state?.state?.isShared);
+      setInputFields(state?.state?.inputFields);
+      setInputData(state?.state?.inputData);
+      setComponentName(state?.state?.componentName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+  useEffect(() => {
+    if (!state?.state?.routeFromComponent) {
+      let setDefaultData = {};
+      let setInputObjectType: any = [];
+      initForm(flavor.configSchema.properties);
+      Object.keys(flavor.configSchema.properties).map((key, ind) => {
+        const data = flavor.configSchema.properties[key];
+        if (data.default && (data.type === 'string' || data.type === 'integer'))
+          setDefaultData = {
+            ...setDefaultData,
+            [toSnakeCase(data.title)]: data.default,
+          };
+        return null;
+      });
 
-    Object.keys(flavor.configSchema.properties).map((key, ind) => {
-      const data = flavor.configSchema.properties[key];
-      if (data.type === 'object')
-        setInputObjectType.push({
-          [key]: [{ key: '', value: '' }],
-        });
-      return null;
-    });
+      Object.keys(flavor.configSchema.properties).map((key, ind) => {
+        const data = flavor.configSchema.properties[key];
+        if (data.type === 'object')
+          setInputObjectType.push({
+            [key]: [{ key: '', value: '' }],
+          });
+        return null;
+      });
 
-    setInputFields(setInputObjectType);
+      setInputFields(setInputObjectType);
 
-    setInputData({ ...setDefaultData });
-
+      setInputData({ ...setDefaultData });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(inputFields, inputData, 'asdasdasdasd12323232323');
   const handleAddFields = (name: any, index: any) => {
     const values = [...inputFields];
     // const check = values.find(({ name }) => name);
@@ -316,15 +336,34 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         <>
           {props.sensitive ? (
             <Box marginTop="lg" style={{ width: '329px' }}>
+              {console.log(inputData, '22323123')}
               <MakeSecretField
                 label={titleCase(props.name)}
                 labelColor="rgba(66, 66, 64, 0.5)"
                 placeholder={''}
+                handleClick={() => {
+                  const state = {
+                    routeFromComponent: true,
+                    componentName: componentName,
+                    isShared: isShared,
+                    inputFields: inputFields,
+                    inputData: inputData,
+                    secretKey: props.name,
+                    pathName: location.pathname,
+                  };
+                  history.push(
+                    routePaths.secrets.registerSecrets(selectedWorkspace),
+                    state,
+                  );
+                }}
                 inputData={inputData}
                 value={
                   inputData[props.name]?.value
                     ? inputData[props.name]?.value
-                    : inputData[props.name]
+                    : // : inputData[props.name]
+                    inputData[props.name]?.length
+                    ? inputData[props.name]
+                    : ''
                 }
                 onChange={(val: string, newEvent: any) => {
                   callActionForSecret(props.name, val, newEvent);
