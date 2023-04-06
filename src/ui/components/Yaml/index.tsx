@@ -21,6 +21,7 @@ import {
 } from './icons';
 import { FullWidthSpinner } from '../spinners';
 import styles from './index.module.scss'
+import { initialEdges, initialNodes } from './initial-elements';
 
 interface Edge {
   id: string;
@@ -48,6 +49,7 @@ const nodeHeight = 56;
 
 const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], direction = 'TB',) => {
 
+  // const isHorizontal = direction === 'LR';
   const isHorizontal = direction === 'LR';
 
   dagreGraph.setGraph({ rankdir: direction });
@@ -68,13 +70,17 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
 
   initialNodes.forEach((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
+
     node.targetPosition = isHorizontal ? 'left' : 'top';
     node.sourcePosition = isHorizontal ? 'right' : 'bottom';
 
+    // node.sourcePosition = isHorizontal ? 'left' : 'top';
+    // node.targetPosition = isHorizontal ? 'right' : 'bottom';
+
 
     node.position = {
-      x: nodeWithPosition.x - nodeWidth / 2,
-      y: nodeWithPosition.y - nodeHeight / 2,
+      x: nodeWithPosition.x + nodeWidth / 2,
+      y: nodeWithPosition.x + nodeHeight / 2,
     };
     return node;
   });

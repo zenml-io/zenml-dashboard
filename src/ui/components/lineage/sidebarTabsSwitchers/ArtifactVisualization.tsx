@@ -28,6 +28,7 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
   const [flag, setFlag] = useState<boolean>(false)
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
+  console.log("__UNAUTH_HTML__", node)
 
 
 
@@ -57,17 +58,19 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
           setCurrent(response);
         })
     }
-    else if (node.name === "html") {
+    else if (node.name === "html" || node.name === "html_large") {
+      setResponse(null);
       setType("__HTML");
       artifactHTML(node.id, authToken, flag)
         .then((res) => {
-
-          // setResponse(res);
           // setCurrent(response);
-          console.log("__UNAUTH_HTML__", res)
+          let html = res?.data?.value.replace(/\\/g, '');
+          console.log("__UNAUTH_HTML__RESPONSE", res?.data?.value)
+          setResponse(res?.data?.value);
         })
     }
     else if (node.name === "markdown") {
+      setResponse(null);
       setType("__MARKDOWN");
       artifactService(node.id, authToken)
         .then((res) => {
@@ -88,15 +91,15 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
 
 
   const html = `<p>this is the visualization html</p>`
- 
+
 
   return (
     <div className={`${style.mainContainer}`}>
 
       {type === "__HTML" ?
-      <>
-          {response === null ? <FullWidthSpinner color="black" size="md" /> : <div dangerouslySetInnerHTML={{ __html: html }} />}
-      </>
+        <>
+          {response === null ? <FullWidthSpinner color="black" size="md" /> : <div dangerouslySetInnerHTML={{ __html: response }} />}
+        </>
         : ""}
       {type === "__IMAGE" ?
         <div className={`${style.image}`}>
@@ -107,8 +110,7 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
       {type === "__MARKDOWN" ?
         <div className={`${style.markdown}`}>
           {response === null ? <FullWidthSpinner color="black" size="md" /> :
-
-          <ReactMarkdown className={`${style.markdownText}`}>{response.data.value}</ReactMarkdown>
+            <ReactMarkdown className={`${style.markdownText}`}>{response.data.value}</ReactMarkdown>
           }
         </div>
         : ""}

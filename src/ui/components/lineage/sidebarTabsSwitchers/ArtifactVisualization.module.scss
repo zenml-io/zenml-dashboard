@@ -11,18 +11,24 @@
 .markdown{
     height: 100%;
     width: 100%;
-    // margin-top: 20px;
+    margin-top: 20px;
     background-color: #f7f7f7;
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
+    // display: flex;
+    // justify-content: center;
+    // align-items: flex-start;
+    flex-wrap: wrap;
+    overflow: scroll;
+    // word-wrap: break-word;
+    // font-size: ;
     // overflow: scroll;
 }
 .markdownText{
-    font-size: 16px;
+    font-size: 20px;
     font-family: "Rubik";
+    flex-wrap: wrap;
     padding: 20px;
-    height: 90%;
+    // height: 90%;
+
     // background: rebeccapurple;
     // margin-top: ;
 }

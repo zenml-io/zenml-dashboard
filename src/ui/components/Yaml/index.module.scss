@@ -201,7 +201,7 @@
 .Scheduled {
   position: absolute;
   height: auto;
-  width: 185px;
+  width: auto;
   background-color:#E8E8E870;
   border-radius: 8px;
   right: 54px;
@@ -235,6 +235,7 @@
 .Scheduled>tbody>tr {
   display: flex;
   height: 20px;
+  width: 186px;
   margin-top: 10px;
   padding-left: 15px;
   padding-right: 15px;
@@ -242,6 +243,7 @@
   align-items: center;
   font-family: 'Rubik';
   font-weight: 400;
+  font-size: 16px;
   color: #050505;
   text-align: center;
 }

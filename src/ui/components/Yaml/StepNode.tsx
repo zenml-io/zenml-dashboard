@@ -22,18 +22,18 @@ const StepNode = ({
           className={styles.handle}
         />
         <div
-          className={data.selected ? styles.stepBodySelected : styles.stepBody}
-          style={
-            data.status === 'completed'
-              ? { borderColor: '#4ade80' }
-              : data.status === 'failed'
-                ? { borderColor: '#FF5C93' }
-                : data.status === 'running'
-                  ? { borderColor: '#22BBDD' }
-                  : data.status === 'cached'
-                    ? { borderColor: '#4ade80' }
-                    : { borderColor: '#000' }
-          }
+          className={data.selected ? styles.stepBody : styles.stepBody}
+          // style={
+          //   data.status === 'completed'
+          //     ? { borderColor: '#4ade80' }
+          //     : data.status === 'failed'
+          //       ? { borderColor: '#FF5C93' }
+          //       : data.status === 'running'
+          //         ? { borderColor: '#22BBDD' }
+          //         : data.status === 'cached'
+          //           ? { borderColor: '#4ade80' }
+          //           : { borderColor: '#000' }
+          // }
         >
 
           <div className={styles.stepText}>

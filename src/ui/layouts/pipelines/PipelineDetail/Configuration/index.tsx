@@ -31,7 +31,7 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
 
 
 
-  console.log("__UNAUTH_GRAPH", pipelineId)
+  console.log("__UNAUTH_GRAPH", pipeline)
 
 
 
@@ -48,38 +48,47 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
 
   console.log("__UNAUTH_PIPELIN_SPEC -> ", pipeline.spec.steps);
 
-  let edgeArr:any = [];
+  let edgeArr: any = [];
 
   function upstremArrHandler(item: any) {
     const arr = item.upstream_steps.map((_item: any, index: number) => ({
       id: item.pipeline_parameter_name + index,
-      source: item.source.attribute !== undefined ? item.source.attribute : item.source,
-      target: item.upstream_steps.length > 0 ? item.upstream_steps[index] : item.upstream_steps[0],
+      target: item.source.attribute || "item.source",
+      source: item.upstream_steps[index] || "0",
     }))
     // setEdgeArr(arr)
-    edgeArr = [...arr]
+    edgeArr = [...arr, ...edgeArr]
     console.log("upstremArrHandler", edgeArr)
-    
+
   }
 
 
 
   let edgeMap = pipeline.spec.steps.map((item: any, index: number) => {
 
-    if (Array.isArray(item.upstream_steps) && item.upstream_steps.length > 0) {
+    if (Array.isArray(item.upstream_steps) && item.upstream_steps.length > 1) {
+      console.log("__ITEM", item?.source?.attribute)
       upstremArrHandler(item)
     }
 
     return {
       id: item.pipeline_parameter_name + index,
-      source: item.source.attribute !== undefined ? item.source.attribute : item.source,
-      target: item.upstream_steps.length > 0 ? item.upstream_steps[0] : '0',
+      targrt: item?.source?.attribute || "item.source",
+      source: item.upstream_steps[0] || "0",
+
+      // id: item.pipeline_parameter_name + index,
+      // source: item.source.attribute !== undefined ? item.source.attribute : item.source,
+      // target: item.upstream_steps.length > 0 ? item.upstream_steps[index] : item.upstream_steps[0],
     }
   })
+  // console.log("upstremArrHandler", edgeMap)
+
 
   const edge = [...edgeArr, ...edgeMap]
 
-  console.log("__NEW_EDGE", edge )
+  let mergedArray = Array.from(new Set(edgeArr.concat(edgeMap)));
+
+  console.log("__NEW_EDGE", mergedArray)
 
 
   const node = pipeline.spec.steps.map((item: any, index: number) => ({
@@ -106,47 +115,25 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
 
   return (
     <FlexBox.Column fullWidth>
-      {/* <FlexBox
+      <FlexBox
         marginBottom="md"
         alignItems="center"
         justifyContent="space-between"
       >
-        <H4 bold>YAML ALI</H4>
-        <Box>
-          <GhostButton
-            style={{ marginRight: '10px' }}
-            onClick={downloadYamlFile}
-          >
-            {translate('configuration.button.text')}
-          </GhostButton>
+        <H4 bold>{translate('configuration.title.text')}</H4>
 
-          <GhostButton
-            onMouseEnter={() => {
-              setHover(true);
-            }}
-            onMouseLeave={() => {
-              setHover(false);
-            }}
-            onClick={handleCopy}
-          >
-            <icons.copy
-              color={hover ? iconColors.white : iconColors.black}
-              size={iconSizes.sm}
-            />
-          </GhostButton>
-        </Box>
-      </FlexBox> */}
+
+      </FlexBox>
       {/* <FlexBox className={styles.code}> */}
       {/* <LayoutFlow graph={graph} /> */}
-      <H4 bold>{translate('configuration.title.text')}</H4>
-      {/* <SyntaxHighlighter
+      <SyntaxHighlighter
         customStyle={{ width: '100%', fontSize: 20 }}
         wrapLines={true}
         language="yaml"
         style={okaidia}
       >
         {pipelineConfig}
-      </SyntaxHighlighter> */}
+      </SyntaxHighlighter>
       <LayoutFlow graph={graph} />
       {/* </FlexBox> */}
     </FlexBox.Column>
