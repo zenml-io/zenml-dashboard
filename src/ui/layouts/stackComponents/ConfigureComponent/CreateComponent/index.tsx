@@ -343,6 +343,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                 placeholder={''}
                 handleClick={() => {
                   const state = {
+                    flavor: flavor.name,
                     routeFromComponent: true,
                     componentName: componentName,
                     isShared: isShared,
