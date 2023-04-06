@@ -35,7 +35,7 @@ import {
   getIsStarred,
   getVersions,
   starPlugin,
-  deletePlugin,
+  // deletePlugin,
 } from '../api';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
@@ -48,7 +48,7 @@ const PluginDetail: React.FC = () => {
   const hubToken = useHubToken();
   const hubUser = useHubUser();
 
-  const [deletePopupOpen, setDeletePopupOpen] = useState(false);
+  // const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [plugin, setPlugin] = useState(null as null | TPlugin);
   const [loadingVersions, setLoadingVersions] = useState(true);
@@ -113,7 +113,6 @@ const PluginDetail: React.FC = () => {
                     </Box>
                   ))}
                 </FlexBox>
-
                 {/* header info */}
                 <FlexBox marginVertical="lg">
                   {/* image */}
@@ -228,12 +227,13 @@ const PluginDetail: React.FC = () => {
                                     ),
                                   ),
                               },
-                              {
-                                label: 'Delete Package',
-                                icon: icons.delete,
-                                color: iconColors.red,
-                                onClick: () => setDeletePopupOpen(true),
-                              },
+                              // Plugin deletion isn't set up in the backend yet
+                              // {
+                              //   label: 'Delete Package',
+                              //   icon: icons.delete,
+                              //   color: iconColors.red,
+                              //   onClick: () => setDeletePopupOpen(true),
+                              // },
                             ]
                           : [
                               {
@@ -270,8 +270,8 @@ const PluginDetail: React.FC = () => {
                     </FlexBox>
                   </Box>
                 </FlexBox>
-
-                {isOwner && deletePopupOpen && (
+                {/* Plugin deletion isn't set up in the backend yet */}
+                {/* {isOwner && deletePopupOpen && (
                   <Popup
                     onClose={() => {
                       setDeletePopupOpen(false);
@@ -309,8 +309,7 @@ const PluginDetail: React.FC = () => {
                       </PrimaryButton>
                     </Box>
                   </Popup>
-                )}
-
+                )} */}
                 <Tabs
                   pages={[
                     {
