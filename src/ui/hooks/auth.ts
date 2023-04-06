@@ -23,6 +23,7 @@ export const useHubUser = (): THubUser | undefined => {
         headers: { Authorization: `Bearer ${hubToken}` },
       })
       .then((res) => setUser(res.data));
+    // eslint-disable-next-line
   }, [hubToken]);
 
   return user;

@@ -571,7 +571,10 @@ const PluginDetail: React.FC = () => {
                   <Box marginTop="sm">
                     <Paragraph size="tiny" color="primary">
                       <a
-                        href={`/users/${plugin.user.username}`}
+                        href={
+                          routePaths.plugins.list(selectedWorkspace) +
+                          `?author=${plugin.user.username}`
+                        }
                         style={{ color: 'inherit' }}
                       >
                         {plugin.user.username}
@@ -628,7 +631,10 @@ const PluginDetail: React.FC = () => {
                   <Box marginTop="sm">
                     <Paragraph size="tiny" color="primary">
                       <a
-                        href={`/users/${plugin.user.username}/published`}
+                        href={
+                          routePaths.plugins.list(selectedWorkspace) +
+                          `?author=${plugin.user.username}`
+                        }
                         style={{ color: 'inherit' }}
                       >
                         See all

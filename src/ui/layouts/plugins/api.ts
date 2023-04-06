@@ -14,11 +14,19 @@ export const getPlugin = async (pluginId: string): Promise<TPlugin> => {
 
 export const getPlugins: (
   searchQuery: string,
-) => Promise<TPlugin[]> = memoisePromiseFn(async (searchQuery: string) => {
-  const search = searchQuery ? `&name_contains=${searchQuery}` : '';
-  return (await axios.get(`${HUB_API_URL}/plugins?status=available${search}`))
-    .data as TPlugin[];
-});
+  filterQueries: string[],
+) => Promise<TPlugin[]> = memoisePromiseFn(
+  async (searchQuery: string, filterQueries: string[]) => {
+    const search = searchQuery ? `&name_contains=${searchQuery}` : '';
+    const filter =
+      filterQueries.length > 0 ? '&' + filterQueries.join('&') : '';
+    return (
+      await axios.get(
+        `${HUB_API_URL}/plugins?status=available${search}${filter}`,
+      )
+    ).data as TPlugin[];
+  },
+);
 
 export const getVersions = async (
   pluginName: string,

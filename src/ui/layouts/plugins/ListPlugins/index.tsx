@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 
 import {
   Box,
@@ -11,6 +11,7 @@ import {
   IconInputField,
   LinkBox,
   FullWidthSpinner,
+  Tag,
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
@@ -26,6 +27,15 @@ import { getPlugins, getStarredPlugins, starPlugin } from '../api';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
+const getInitialFilters = (location: { search: string }) => {
+  let author = location.search
+    .replace('?', '')
+    .split('&')
+    .filter((s) => s.startsWith('author='))[0];
+  if (author) author = author.replace('author=', '');
+  return [{ label: `Author: ${author}`, query: `username=${author}` }];
+};
+
 const ListPlugins: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -33,19 +43,25 @@ const ListPlugins: React.FC = () => {
   const hubIsConnected = !!hubToken;
   const hubUser = useHubUser();
   const { successToast, failureToast } = useToaster();
+  const location = useLocation();
 
   const [fetching, setFetching] = useState(true);
   const [plugins, setPlugins] = useState([] as TPlugin[]);
   const [starredPlugins, setStarredPlugins] = useState(new Set() as Set<TId>);
   const [searchQuery, setSearchQuery] = useState('');
-  const [filterQuery, setFilterQuery] = useState('');
+  const [filters, setFilters] = useState(getInitialFilters(location));
 
+  // get plugins
   useEffect(() => {
-    getPlugins(searchQuery)
+    getPlugins(
+      searchQuery,
+      filters.map((f) => f.query),
+    )
       .then(setPlugins)
       .finally(() => setFetching(false));
-  }, [searchQuery]);
+  }, [searchQuery, filters]);
 
+  // get starred
   useEffect(() => {
     if (hubUser && hubToken) {
       getStarredPlugins(hubUser.id, hubToken).then(setStarredPlugins);
@@ -73,13 +89,37 @@ const ListPlugins: React.FC = () => {
               onChange={debounce(setSearchQuery, 400)}
             />
           </FlexBox>
-          <IconInputField
-            placeholder="Filter all ZenPacks"
-            value={filterQuery}
-            onChange={setFilterQuery}
-            iconName="filter"
-            iconColor={iconColors.primary}
-          />
+
+          <FlexBox
+            fullWidth
+            flexWrap
+            alignItems="center"
+            style={{
+              border: '1px solid var(--lightGrey)',
+              borderRadius: '4px',
+            }}
+          >
+            {/* icon */}
+            <Box marginHorizontal="sm">
+              <icons.filter color={iconColors.primary} />
+            </Box>
+
+            {filters.length === 0 ? (
+              <Paragraph style={{ color: 'var(--grey)', cursor: 'default' }}>
+                No filters applied
+              </Paragraph>
+            ) : (
+              filters.map((f) => (
+                <Tag
+                  key={f.label}
+                  text={f.label}
+                  onRemove={() =>
+                    setFilters(filters.filter((fl) => fl.label !== f.label))
+                  }
+                />
+              ))
+            )}
+          </FlexBox>
         </FlexBox>
 
         {/* list plugins */}
