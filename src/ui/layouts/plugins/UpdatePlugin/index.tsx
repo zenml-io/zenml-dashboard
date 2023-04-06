@@ -142,7 +142,7 @@ const UpdatePlugin: React.FC = () => {
             {/* version number */}
             <Box marginBottom="lg">
               <ValidatedTextField
-                label="Version Number"
+                label="Version Number (optional)"
                 value={versionNumber}
                 onChange={setVersionNumber}
                 status={{ status: 'editing' }}
@@ -164,7 +164,7 @@ const UpdatePlugin: React.FC = () => {
             {/* repository branch */}
             <Box marginBottom="lg">
               <InputWithLabel
-                label="Branch of repository"
+                label="Branch of repository (optional)"
                 InputComponent={
                   <TextInput
                     value={repositoryBranch}
@@ -188,7 +188,7 @@ const UpdatePlugin: React.FC = () => {
             {/* commit hash */}
             <Box marginBottom="lg">
               <InputWithLabel
-                label="Commit hash"
+                label="Commit hash (optional)"
                 InputComponent={
                   <TextInput
                     value={commitHash}
@@ -202,7 +202,7 @@ const UpdatePlugin: React.FC = () => {
             {/* repository subdirectory */}
             <Box marginBottom="lg">
               <InputWithLabel
-                label="Subdirectory of repository"
+                label="Subdirectory of repository (optional)"
                 InputComponent={
                   <TextInput
                     value={repositorySubdirectory}
@@ -216,7 +216,7 @@ const UpdatePlugin: React.FC = () => {
             {/* logo URL */}
             <Box marginBottom="lg">
               <InputWithLabel
-                label="Logo URL"
+                label="Logo URL (optional)"
                 InputComponent={
                   <TextInput
                     value={logoUrl}
@@ -271,12 +271,7 @@ const UpdatePlugin: React.FC = () => {
                       },
                     )
                     .then(() => {
-                      history.push(
-                        routePaths.plugins.detail.overview(
-                          selectedWorkspace,
-                          pluginId,
-                        ),
-                      );
+                      history.push(routePaths.settings.myPlugins);
                     })
                     .catch(() => {
                       failureToast({
@@ -284,7 +279,7 @@ const UpdatePlugin: React.FC = () => {
                       });
                     });
                 }}
-                disabled={!(versionNumber && repositoryUrl && releaseNotes)}
+                disabled={!(repositoryUrl && releaseNotes)}
               >
                 Update version
               </PrimaryButton>

@@ -20,14 +20,31 @@ import { HUB_API_URL } from '../../../api/constants';
 import { useHubToken } from '../../hooks/auth';
 import { useHistory, useToaster } from '../../hooks';
 import { EmptyState } from '../common/EmptyState';
+import ZenMLLogo from '../../assets/logo.svg';
 
-const getData = async (token: string, status: 'pending' | 'available') => {
+const getData = async (token: string) => {
   return (
-    await axios.get(`${HUB_API_URL}/plugins?status=${status}&mine=true`, {
+    await axios.get(`${HUB_API_URL}/plugins?mine=true`, {
       headers: { Authorization: `Bearer ${token}` },
     })
   ).data as TPlugin[];
 };
+
+const groupPlugins = (plugins: TPlugin[]) => {
+  const grouped = plugins.reduce((acc, next) => {
+    const month = moment(next.created).format('MMMM yyyy');
+    if (!acc[month]) acc[month] = [];
+    acc[month].push(next);
+    return acc;
+  }, {} as Record<string, TPlugin[]>);
+
+  return Object.entries(grouped).map(([month, plugins]) => ({
+    month,
+    plugins,
+  }));
+};
+
+type PluginMonth = { month: string; plugins: TPlugin[] };
 
 export const Plugins: React.FC = () => {
   const workspace = useSelector(selectedWorkspace);
@@ -36,39 +53,39 @@ export const Plugins: React.FC = () => {
   const history = useHistory();
   const [fetching, setFetching] = useState(true);
   const [pendingPlugins, setPendingPlugins] = useState([] as TPlugin[]);
-  const [completedPlugins, setCompletedPlugins] = useState(
-    [] as { month: string; plugins: TPlugin[] }[],
-  );
+  const [completedPlugins, setCompletedPlugins] = useState([] as PluginMonth[]);
+  const [failedPlugins, setFailedPlugins] = useState([] as PluginMonth[]);
 
   useEffect(() => {
     // shouldn't be possible
     if (!token) return;
 
-    getData(token, 'pending').then(setPendingPlugins);
-    getData(token, 'available')
-      .then((plugins) => {
-        const grouped = plugins.reduce((acc, next) => {
-          const month = moment(next.created).format('MMMM yyyy');
-          if (!acc[month]) acc[month] = [];
-          acc[month].push(next);
-          return acc;
-        }, {} as Record<string, TPlugin[]>);
+    const fetch = () => {
+      getData(token)
+        .then((plugins) => {
+          setPendingPlugins(plugins.filter((p) => p.status === 'pending'));
+          setCompletedPlugins(
+            groupPlugins(plugins.filter((p) => p.status === 'available')),
+          );
+          setFailedPlugins(
+            groupPlugins(plugins.filter((p) => p.status === 'failed')),
+          );
+        })
+        .finally(() => {
+          setFetching(false);
+        });
+    };
+    const interval = setInterval(fetch, 30_000);
+    fetch();
 
-        const ls = Object.entries(grouped).map(([month, plugins]) => ({
-          month,
-          plugins,
-        }));
-
-        setCompletedPlugins(ls);
-      })
-      .finally(() => {
-        setFetching(false);
-      });
+    return () => clearInterval(interval);
   }, [token]);
 
   return fetching ? (
     <FullWidthSpinner color="black" size="md" />
-  ) : pendingPlugins.length === 0 && completedPlugins.length === 0 ? (
+  ) : pendingPlugins.length === 0 &&
+    completedPlugins.length === 0 &&
+    failedPlugins.length === 0 ? (
     <EmptyState
       message="You haven't uploaded any plugins yet."
       actionLabel="Create plugin"
@@ -102,17 +119,27 @@ export const Plugins: React.FC = () => {
                 }}
               >
                 {/* image */}
-                <Box
+                <img
+                  src={p.logo_url ?? ZenMLLogo}
+                  alt={`${p.name} logo`}
                   style={{
-                    height: '90px',
-                    width: '90px',
-                    backgroundColor: '#eee',
-                    flexGrow: 0,
+                    width: '80px',
+                    maxHeight: '60px',
+                    objectFit: 'contain',
+                    display: 'block',
+                    margin: 'auto',
                   }}
                 />
 
                 {/* text */}
-                <Box style={{ flexGrow: 1 }} marginHorizontal="lg">
+                <Box
+                  style={{
+                    flexGrow: 1,
+                    marginTop: 'auto',
+                    marginBottom: 'auto',
+                  }}
+                  marginHorizontal="lg"
+                >
                   <Paragraph color="primary" style={{ fontSize: '24px' }}>
                     {p.name}
                   </Paragraph>
@@ -165,7 +192,44 @@ export const Plugins: React.FC = () => {
                     key={i}
                     logoUrl={p.logo_url}
                     title={p.name}
-                    description={`${p.version}: ${p.description}`}
+                    description={`${p.version}: ${
+                      p.description ?? 'No plugin description'
+                    }`}
+                    url={routePaths.plugins.detail.overview(workspace, p.id)}
+                  />
+                ))}
+              </FlexBox>
+            </Box>
+          ))}
+        </Box>
+      )}
+
+      {failedPlugins.length > 0 && (
+        <Box marginVertical="xl">
+          <Paragraph color="primary">Failed</Paragraph>
+          {failedPlugins.map((m) => (
+            <Box key={m.month} marginVertical="lg">
+              <Paragraph
+                size="tiny"
+                style={{
+                  color: '#24292F',
+                  marginBottom: '6px',
+                  opacity: 0.5,
+                  fontWeight: 600,
+                }}
+              >
+                {m.month}
+              </Paragraph>
+              <Separator.Light />
+              <FlexBox flexWrap={true} marginVertical="md">
+                {m.plugins.map((p, i) => (
+                  <PluginCard
+                    key={i}
+                    logoUrl={p.logo_url}
+                    title={p.name}
+                    description={`${p.version}: ${
+                      p.description ?? 'No plugin description'
+                    }`}
                     url={routePaths.plugins.detail.overview(workspace, p.id)}
                   />
                 ))}

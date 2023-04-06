@@ -32,8 +32,12 @@ const getInitialFilters = (location: { search: string }) => {
     .replace('?', '')
     .split('&')
     .filter((s) => s.startsWith('author='))[0];
-  if (author) author = author.replace('author=', '');
-  return [{ label: `Author: ${author}`, query: `username=${author}` }];
+  if (author) {
+    author = author.replace('author=', '');
+    return [{ label: `Author: ${author}`, query: `username=${author}` }];
+  }
+
+  return [];
 };
 
 const ListPlugins: React.FC = () => {
@@ -156,7 +160,9 @@ const ListPlugins: React.FC = () => {
                     src={p.logo_url ?? ZenMLLogo}
                     alt={`${p.name} logo`}
                     style={{
+                      height: '80px',
                       maxWidth: '60%',
+                      objectFit: 'contain',
                       display: 'block',
                       margin: 'auto',
                       marginTop: 24,

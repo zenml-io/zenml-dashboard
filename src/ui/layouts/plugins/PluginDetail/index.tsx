@@ -12,8 +12,8 @@ import {
   Tag,
   // LineChart,
   LinkBox,
-  PrimaryButton,
-  H3,
+  // PrimaryButton,
+  // H3,
   FullWidthSpinner,
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
@@ -27,7 +27,7 @@ import InstallDesignHeader from './InstallDesignHeader.svg';
 import { Tabs } from '../../common/Tabs';
 import { DisplayMarkdown } from '../../../components/richText/DisplayMarkdown';
 import { DisplayCode } from './DisplayCode';
-import { Popup } from '../../common/Popup';
+// import { Popup } from '../../common/Popup';
 import { useHubToken, useHubUser } from '../../../hooks/auth';
 import { PluginsLayout } from '../shared/Layout';
 import {

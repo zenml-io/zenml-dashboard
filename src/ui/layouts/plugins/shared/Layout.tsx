@@ -17,7 +17,7 @@ export const PluginsLayout: React.FC<{
             target="__blank"
             rel="noopener noreferrer"
           >
-            document
+            documentation
           </a>
         </Paragraph>
       </FlexBox>
