@@ -37,6 +37,7 @@ import {
   // deletePlugin,
 } from '../api';
 import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
+import ZenMLLogo from '../../../assets/logo.svg';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -127,21 +128,25 @@ const PluginDetail: React.FC = () => {
                 {/* header info */}
                 <FlexBox marginVertical="lg">
                   {/* image */}
-                  <Box
+                  <FlexBox
                     style={{
                       borderRadius: '5px',
                       border: '1px solid #A8A8A880',
                       padding: '10px',
                     }}
                   >
-                    <Box
+                    <img
+                      src={plugin.logo_url ?? ZenMLLogo}
+                      alt={`${plugin.name} logo`}
                       style={{
-                        width: '132px',
-                        height: '132px',
-                        backgroundColor: '#eee',
+                        height: '80px',
+                        maxWidth: '120px',
+                        objectFit: 'contain',
+                        display: 'block',
+                        margin: 'auto',
                       }}
-                    ></Box>
-                  </Box>
+                    />
+                  </FlexBox>
 
                   <Box marginLeft="lg">
                     {/* title */}
