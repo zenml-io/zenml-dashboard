@@ -15,7 +15,7 @@ import {
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
-import { useSelector, useToaster } from '../../../hooks';
+import { useDispatch, useSelector, useToaster } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
@@ -24,6 +24,7 @@ import { PluginsLayout } from '../shared/Layout';
 import { useHubToken, useHubUser } from '../../../hooks/auth';
 import ZenMLLogo from '../../../assets/logo.svg';
 import { getPlugins, getStarredPlugins, starPlugin } from '../api';
+import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -43,6 +44,7 @@ const getInitialFilters = (location: { search: string }) => {
 const ListPlugins: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const dispatch = useDispatch();
   const hubToken = useHubToken();
   const hubIsConnected = !!hubToken;
   const hubUser = useHubUser();
@@ -226,9 +228,8 @@ const ListPlugins: React.FC = () => {
                             description: "You've already starred this plugin",
                           });
                         } else if (!hubUser || !hubToken) {
-                          failureToast({
-                            description:
-                              'You need to be logged in to star this plugin',
+                          dispatch({
+                            type: hubConnectionPromptActionTypes.show,
                           });
                         } else {
                           // optimistic UI update
@@ -275,10 +276,7 @@ const ListPlugins: React.FC = () => {
                 if (hubIsConnected) {
                   history.push(routePaths.plugins.create(selectedWorkspace));
                 } else {
-                  failureToast({
-                    description:
-                      'You need to connect to the Hub in settings to create plugins',
-                  });
+                  dispatch({ type: hubConnectionPromptActionTypes.show });
                 }
               }}
             >

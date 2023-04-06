@@ -23,7 +23,7 @@ type InternalTabPage = {
   Component: React.FC;
   path: string;
   locked: boolean;
-  lockedToastMessage: string;
+  lockedClickHandler: () => void;
 };
 
 type ExternalTabPage = {
@@ -39,6 +39,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
 }) => {
   const locationPath = useLocationPath();
   const { failureToast } = useToaster();
+
   const pages = plainPages.map(
     (p): ProcessedTabPage => {
       if ('externalPath' in p && p.externalPath) {
@@ -55,7 +56,9 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
         Component: p.Component,
         path: p.path,
         locked: !!p.locked,
-        lockedToastMessage: p.lockedToastMessage ?? 'This tab is locked.',
+        lockedClickHandler:
+          p.lockedClickHandler ??
+          (() => failureToast({ description: 'This tab is locked.' })),
       };
     },
   );
@@ -118,9 +121,7 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                   {page.internal && page.locked ? (
                     <LinkBox
                       className={styles.link}
-                      onClick={() => {
-                        failureToast({ description: page.lockedToastMessage });
-                      }}
+                      onClick={page.lockedClickHandler}
                     >
                       {Text}
                     </LinkBox>

@@ -202,7 +202,7 @@ interface TabPage {
   path: string;
   externalPath?: string;
   locked?: boolean;
-  lockedToastMessage?: string;
+  lockedClickHandler?: () => void;
 }
 
 interface TBilling {

@@ -18,7 +18,7 @@ import {
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
-import { useSelector, useToaster } from '../../../hooks';
+import { useDispatch, useSelector, useToaster } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
@@ -37,6 +37,7 @@ import {
   starPlugin,
   // deletePlugin,
 } from '../api';
+import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -44,6 +45,7 @@ const PluginDetail: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const { successToast, failureToast } = useToaster();
+  const dispatch = useDispatch();
   const { pluginId } = useParams<{ pluginId: string }>();
   const hubToken = useHubToken();
   const hubUser = useHubUser();
@@ -193,9 +195,8 @@ const PluginDetail: React.FC = () => {
                                   "You've already starred this plugin",
                               });
                             } else if (!hubUser || !hubToken) {
-                              failureToast({
-                                description:
-                                  'You need to be logged in to star this plugin',
+                              dispatch({
+                                type: hubConnectionPromptActionTypes.show,
                               });
                             } else {
                               setIsStarred(true);

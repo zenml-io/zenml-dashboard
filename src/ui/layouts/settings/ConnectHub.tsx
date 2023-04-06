@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 
@@ -20,11 +20,12 @@ import {
 } from '../../../redux/actionTypes';
 import GitHubLogo from '../../assets/GitHub_Logo.png';
 import { useAuthToken, useHubToken } from '../../hooks/auth';
-import { useToaster } from '../../hooks';
+import { useLocation, useToaster } from '../../hooks';
 import { userSelectors } from '../../../redux/selectors';
 
-const getGitHubRedirectURL = () =>
-  axios.get(`${HUB_API_URL}/auth/github/authorize`);
+export const getGitHubRedirectURL = async (): Promise<{
+  authorization_url: string;
+}> => (await axios.get(`${HUB_API_URL}/auth/github/authorize`)).data;
 
 const updateTokenInServer = (
   userId: string,
@@ -45,15 +46,24 @@ const updateTokenInServer = (
     .catch(console.error);
 };
 
+const getStartsOpen = (location: { search: string }) =>
+  location.search.includes('open=true');
+
 export const ConnectHub: React.FC = () => {
   const [token, setToken] = useState('');
-  const [popupOpen, setPopupOpen] = useState(false);
+  const location = useLocation();
+  const [popupOpen, setPopupOpen] = useState(getStartsOpen(location));
   // const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
   const hubIsConnected = !!useHubToken();
   const authToken = useAuthToken();
   const { successToast } = useToaster();
   const myUser = useSelector(userSelectors.myUser);
+
+  useEffect(() => {
+    if (!popupOpen && !hubIsConnected) setPopupOpen(getStartsOpen(location));
+    // eslint-disable-next-line
+  }, [location]);
 
   return hubIsConnected ? (
     <FlexBox flexDirection="column" alignItems="end" marginBottom="lg">
@@ -88,7 +98,7 @@ export const ConnectHub: React.FC = () => {
 
         <PrimaryButton
           onClick={async () => {
-            const { data } = await getGitHubRedirectURL();
+            const data = await getGitHubRedirectURL();
             setPopupOpen(true);
             window.open(data.authorization_url, '_blank');
           }}
