@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState, lazy, Suspense, memo } from 'react'
 import JsonDisplay from '../JsonDisplay';
 import styles from './artifact.module.scss'
 import { FullWidthSpinner } from '../../spinners';
+import ArtifactVisualization from './ArtifactVisualization';
 
 
 const stylesActive = {
@@ -27,7 +28,7 @@ const artifactTabs = [
 
 ]
 
-const ArtifactVisualization = lazy(() => import('./ArtifactVisualization'));
+// const ArtifactVisualization = lazy(() => import('./ArtifactVisualization'));
 
 const ArtifactTabHeader = ({ node }: { node: any }) => {
 
@@ -58,7 +59,6 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
     const handleClick = (divId: number) => {
         setDynamicLeft(divRefs.current[divId]?.offsetLeft);
         setDynamicWidth(divRefs.current[divId]?.offsetWidth);
-
     };
 
     
@@ -131,9 +131,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
             {/* SHOW VISUALIZATION */}
             {
                 show === "__VISUALIZATION" ?
-                    <Suspense fallback={<div>please wait ....</div>}>
                         <ArtifactVisualization node={node} />
-                    </Suspense>
                     : ""
             }
         </>

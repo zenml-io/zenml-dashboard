@@ -42,7 +42,7 @@ interface Edge {
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const nodeWidth = 80;
+const nodeWidth = 100;
 const nodeHeight = 56;
 
 const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], direction = 'TB',) => {
@@ -139,7 +139,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
 
-
+ console.log("__UNAUTH_RUNID_GRAPH", graph)
   
   useEffect(() => {
   }, [selectedNode])

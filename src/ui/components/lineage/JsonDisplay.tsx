@@ -4,8 +4,9 @@ function printNestedJson(obj: any) {
 
     let output = '';
     for (let key in obj) {
+        console.log("___key ", key, "___value ", obj[key])
         if (typeof obj[key] === 'object' && obj[key] !== null) {
-            output += `<p style="color:#443E99; font-size:20px; font-weight:800; border-bottom: 0.5px solid #00000040; text-align: left ">${key}</p>`;
+            output += `<p style="color:#443E99; font-size:20px; font-weight:700; border-bottom: 0.5px solid #00000040; text-align: left ">${key}</p>`;
             output += printNestedJson(obj[key]);
         } else if (Array.isArray(obj[key])) {
             output += `<p style="color:blue; font-size:20px; font-weight:400; text-align: left ">${key}</p>`;
