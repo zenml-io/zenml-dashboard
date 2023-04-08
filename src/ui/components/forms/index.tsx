@@ -200,11 +200,7 @@ export const MakeSecretField = (
     placeholder: any;
     value: string;
     onChange?: any;
-    secretLabel: string;
-    secretLabelColor: any;
-    secretPlaceholder: any;
-    secretValue: string;
-    secretOnChange?: any;
+    // secretOnChange?: any;
     handleClick?: any;
     dropdownOptions?: Array<any>;
     tooltipText?: string;
@@ -224,8 +220,8 @@ export const MakeSecretField = (
     // eslint-disable-next-line
   }, [props?.value]);
 
-  const handleClick = async (option: string) => {
-   await props.secretOnChange(() => option);
+  const handleClick = async (option: any) => {
+   await props.onChange(() => option);
    await setPopup(false);
   };
 
@@ -294,7 +290,7 @@ export const MakeSecretField = (
                     <div
                       data-tip
                       data-for={option.name}
-                      onClick={() => handleClick(option?.label)}
+                      onClick={() => handleClick(option)}
                       style={{ cursor: 'pointer' }}
                     >
                       <Paragraph>{option.label}</Paragraph>

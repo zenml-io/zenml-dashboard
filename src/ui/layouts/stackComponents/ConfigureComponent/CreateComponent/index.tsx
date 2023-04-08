@@ -342,7 +342,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
         <>
           {props.sensitive ? (
             <Box marginTop="lg" style={{ width: '329px' }}>
-              {console.log(inputData, '22323123')}
               <MakeSecretField
                 label={titleCase(props.name)}
                 placeholder={''}
@@ -362,7 +361,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     state,
                   );
                 }}
-                inputData={inputData}
+                // inputData={inputData}
                 value={
                   inputData[props.name]?.value
                     ? inputData[props.name]?.value
@@ -374,34 +373,31 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                 onChange={(val: string, newEvent: any) => {
                   callActionForSecret(props.name, val, newEvent);
                 }}
-                secretLabel="Item 4 (Secret)"
-                secretLabelColor="rgba(66, 66, 64, 0.5)"
-                secretPlaceholder="john doe"
-                secretValue={'Empty'}
-                secretOnChange={(val: any, newEvent: any) => {
-                  // debugger;
-                  // setInputData({
-                  //   ...inputData,
-                  //   [props.name]: val.value.includes('.') ? val.value : val,
-                  // });
+                // secretOnChange={(val: any, newEvent: any) => {
+                //   // debugger;
+                //   // setInputData({
+                //   //   ...inputData,
+                //   //   [props.name]: val.value.includes('.') ? val.value : val,
+                //   // });
 
-                  if (val.value.includes('}}')) {
-                    setInputData({
-                      ...inputData,
-                      [props.name]: val.value.includes('.') ? val.value : val,
-                    });
-                  } else if (val.value.includes('{{')) {
-                    callActionForSecret(props.name, val, newEvent);
-                  }
-                }}
-                dropdownOptions={
-                  inputData[props.name]?.value &&
-                  inputData[props.name]?.value.includes(
-                    `${selectedSecret.name}.`,
-                  )
-                    ? secretOptionsWithKeys
-                    : secretOptions
-                }
+                //   if (val?.value?.includes('}}')) {
+                //     setInputData({
+                //       ...inputData,
+                //       [props?.name]: val?.value?.includes('.') ? val.value : val,
+                //     });
+                //   } else if (val.value.includes('{{')) {
+                //     callActionForSecret(props.name, val, newEvent);
+                //   }
+                // }}
+                // dropdownOptions={
+                  // inputData[props?.name]?.value &&
+                  // inputData[props?.name]?.value.includes(
+                  //   `${selectedSecret.name}.`,
+                  // )
+                  //   ? secretOptionsWithKeys
+                  //   : secretOptions
+                // }
+                dropdownOptions={secretOptions}
                 tooltipText='Start typing with "{{" to reference a secret for this field.'
               />
             </Box>
