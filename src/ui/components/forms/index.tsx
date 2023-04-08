@@ -11,6 +11,7 @@ import {
   LinkBox,
   icons,
   DropdownInput,
+  InputWithLabelIcon,
 } from '..';
 import { handleUpdateNumericInput } from '../../../utils/input';
 import { iconColors } from '../../../constants/icons';
@@ -206,12 +207,9 @@ export const MakeSecretField = (
     secretOnChange?: any;
     handleClick?: any;
     dropdownOptions?: Array<any>;
+    tooltipText?: string;
   } & any,
 ): any => {
-  // const handleClick = () => {
-  //   return null;
-  // };
-
   const [popup, setPopup] = useState(false);
 
   const options = props?.dropdownOptions?.filter((e: any) =>
@@ -219,19 +217,25 @@ export const MakeSecretField = (
   );
 
   useEffect(() => {
-    if (props?.value?.slice(0, 2) === '{{') {
+    if (props?.value?.slice(0, 2) === '{{' && props?.value?.length < 3) {
       setPopup(true);
     }
     // eslint-disable-next-line
   }, [props?.value]);
 
+  const handleClick = async (option: string) => {
+    await props.secretOnChange(() => option);
+    await setPopup(false);
+  };
+
   return (
     <FlexBox.Column fullWidth>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
-        <InputWithLabel
+        <InputWithLabelIcon
           name={props.name}
           label={props.label}
           labelColor={props.labelColor}
+          tooltipText={props.tooltipText}
           InputComponent={
             <TextInput
               {...props}
@@ -289,10 +293,7 @@ export const MakeSecretField = (
                     <div
                       data-tip
                       data-for={option.name}
-                      onClick={() => {
-                        setPopup(false);
-                        props.secretOnChange(option);
-                      }}
+                      onClick={() => handleClick(option?.label)}
                       style={{ cursor: 'pointer' }}
                     >
                       <Paragraph>{option.label}</Paragraph>
