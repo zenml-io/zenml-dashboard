@@ -57,7 +57,7 @@ export const Register: React.FC<Props> = (state: any) => {
     if (state?.state?.routeFromComponent) {
       const randomString = generateRandomString(6);
 
-      setSecretName(state?.state?.componentName + '_' + randomString);
+      setSecretName(state?.state?.flavor + '_' + randomString);
     }
   }, [state]);
 

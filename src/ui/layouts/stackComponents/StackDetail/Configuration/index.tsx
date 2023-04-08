@@ -479,34 +479,32 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   }
   // const values = [...flavor?.configSchema?.properties];
 
-  let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
-    r: any,
-    name: any,
-  ) {
-    return (
-      (r[name] =
-        flavor?.configSchema?.properties[name].type === 'string' &&
-        flavor?.configSchema?.properties[name].default === undefined
-          ? ''
-          : flavor?.configSchema?.properties[name].default),
-      r
-    );
-  },
-  {});
-  // function convertNullToEmptyString(obj: any) {
-  //   for (let key in obj) {
-  //     if (
-  //       obj[key] === null &&
-  //       flavor?.configSchema?.properties[key].default === undefined
-  //     ) {
-  //       obj[key] = '';
-  //     } else if (typeof obj[key] === 'object') {
-  //       convertNullToEmptyString(obj[key]);
-  //     }
-  //   }
-  // }
+  // let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
+  //   r: any,
+  //   name: any,
+  // ) {
+  //   return (
+  //     (r[name] =
+  //       flavor?.configSchema?.properties[name].type === 'string' &&
+  //       flavor?.configSchema?.properties[name].default === undefined
+  //         ? ''
+  //         : flavor?.configSchema?.properties[name].default),
+  //     r
+  //   );
+  // },
+  // {});
+  function replaceNullWithEmptyString(obj: any) {
+    for (let prop in obj) {
+      if (obj[prop] === null) {
+        obj[prop] = '';
+      } else if (typeof obj[prop] === 'object') {
+        replaceNullWithEmptyString(obj[prop]);
+      }
+    }
+    return obj;
+  }
 
-  // convertNullToEmptyString(stackComponent?.configuration);
+  replaceNullWithEmptyString(stackComponent?.configuration);
   // for (const key in stackComponent?.configuration) {
   //   if (stackComponent?.configuration.hasOwnProperty(key)) {
   //     if (
@@ -521,27 +519,26 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   //   }
   // }
 
-  let normalizeConfiguration = Object.keys(
-    stackComponent?.configuration,
-  ).reduce(function (r: any, name: any) {
-    if (stackComponent?.configuration[name] === null) {
-      return (
-        (r[name] =
-          stackComponent?.configuration[name] === null &&
-          flavor?.configSchema?.properties[name].default === undefined
-            ? ''
-            : flavor?.configSchema?.properties[name].default),
-        r
-      );
-    } else {
-      return {};
-    }
-  }, {});
+  // let normalizeConfiguration = Object.keys(
+  //   stackComponent?.configuration,
+  // ).reduce(function (r: any, name: any) {
+  //   if (stackComponent?.configuration[name] === null) {
+  //     return (
+  //       (r[name] =
+  //         stackComponent?.configuration[name] === null &&
+  //         flavor?.configSchema?.properties[name].default === undefined
+  //           ? ''
+  //           : flavor?.configSchema?.properties[name].default),
+  //       r
+  //     );
+  //   } else {
+  //     return {};
+  //   }
+  // }, {});
 
   const mappedObject = {
-    ...result,
     ...stackComponent?.configuration,
-    ...normalizeConfiguration,
+    // ...normalizeConfiguration,
   };
   // debugger;
   if (fetching) {

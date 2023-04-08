@@ -8,6 +8,7 @@ import {
   FormTextField,
   FormDropdownField,
   PrimaryButton,
+  FullWidthSpinner,
   // H4,
   // GhostButton,
   // icons,
@@ -60,97 +61,16 @@ export const Configuration: React.FC<{
   secretId: TId;
   tiles?: any;
   fetching?: boolean;
-}> = ({ secretId }) => {
+}> = ({ secretId, fetching }) => {
   // const dispatch = useDispatch();
   const { secret } = useService({ secretId });
   const history = useHistory();
-  // const user = useSelector(userSelectors.myUser);
-  // const authToken = useSelector(sessionSelectors.authenticationToken);
+
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
-  // const [loading, setLoading] = useState(false);
-  // const dispatch = useDispatch();
-  console.log(secret, 'asdasd123');
-  // const inputFields = [{ key: '', value: '' }] as any;
 
-  // const handleCopy = () => {
-  //   navigator.clipboard.writeText(stackConfig);
-  //   dispatch(
-  //     showToasterAction({
-  //       description: 'Config copied to clipboard',
-  //       type: toasterTypes.success,
-  //     }),
-  //   );
-  // };
-
-  // if (fetching) {
-  //   return <FullWidthSpinner color="black" size="md" />;
-  // }
-  // if (loading) {
-  //   return <FullWidthSpinner color="black" size="md" />;
-  // }
-  // const onCallApi = (name?: string, toggle?: boolean) => {
-  //   // ;
-  //   const { id }: any = workspaces.find(
-  //     (item) => item.name === selectedWorkspace,
-  //   );
-
-  //   const body = {
-  //     user: user?.id,
-  //     workspace: id,
-  //     is_shared: toggle,
-  //     name: name,
-  //   };
-  //   setLoading(true);
-  //   axios
-  //     .put(
-  //       `${process.env.REACT_APP_BASE_API_URL}/stacks/${secretId}`,
-  //       // @ts-ignore
-  //       body,
-  //       { headers: { Authorization: `Bearer ${authToken}` } },
-  //     )
-  //     .then((response: any) => {
-  //       // const id = response.data.id;
-
-  //       // setLoading(false);
-  //       dispatch(
-  //         showToasterAction({
-  //           description: 'Stack has been updated successfully.',
-  //           type: toasterTypes.success,
-  //         }),
-  //       );
-
-  //       dispatch(
-  //         secretsActions.secretForId({
-  //           secretId: secretId,
-  //           onSuccess: () => setLoading(false),
-  //           onFailure: () => setLoading(false),
-  //         }),
-  //       );
-  //     })
-  //     .catch((err) => {
-  //       setLoading(false);
-  //       // ;
-
-  //       dispatch(
-  //         showToasterAction({
-  //           description: err?.response?.data?.detail[0],
-  //           type: toasterTypes.failure,
-  //         }),
-  //       );
-  //     });
-  // };
-
-  // const onPressEnter = (event?: any, defaultValue?: any) => {
-  //   if (event.key === 'Enter') {
-  //     onCallApi(event.target.value);
-  //   }
-  // };
-  // {Object.keys(mappedObject).map((key, ind) => (
-  //   // <Col xs={6} key={ind}>
-  //   <>{getFormElement(key, mappedObject[key])}</>
-  //   // </Col>
-  // ))}
+  if (fetching) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
 
   return (
     <FlexBox.Column marginLeft="xl">
