@@ -1,9 +1,51 @@
 import React from 'react';
 import cn from 'classnames';
 
-import { Box, FlexBox, Paragraph } from '..';
-
+import { Box, FlexBox, Paragraph, icons } from '..';
+import { iconColors, iconSizes } from '../../../constants';
 import styles from './index.module.scss';
+import ReactTooltip from 'react-tooltip';
+
+export const InputWithLabelIcon = ({
+  InputComponent,
+  label,
+  name,
+  labelColor,
+  optional,
+  tooltipText
+}: {
+  InputComponent: JSX.Element;
+  label: string;
+  name?: any;
+  labelColor?: any;
+  optional?: string;
+  tooltipText?: string;
+}): JSX.Element => (
+  <FlexBox.Column fullWidth>
+    <FlexBox paddingBottom="sm">
+      <Paragraph
+        size="body"
+        style={{ color: labelColor ? labelColor : 'black' }}
+      >
+        <label htmlFor={name}>
+          {label}
+          {optional && <span style={{ color: 'red' }}>{optional}</span>}
+        </label>
+      </Paragraph>
+
+      <Box marginLeft='sm' style={{ cursor: 'pointer' }}>
+        <div data-tip data-for='config-icon'>
+          <icons.config size={iconSizes.sm} color={iconColors.black} />
+        </div>
+
+        <ReactTooltip id='config-icon' place="bottom" effect='solid'>
+          <Paragraph color="white">{tooltipText}</Paragraph>
+        </ReactTooltip>
+      </Box>
+    </FlexBox>
+    {InputComponent}
+  </FlexBox.Column>
+);
 
 export const InputWithLabel = ({
   InputComponent,

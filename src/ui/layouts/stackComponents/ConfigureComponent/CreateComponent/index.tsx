@@ -339,7 +339,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               {console.log(inputData, '22323123')}
               <MakeSecretField
                 label={titleCase(props.name)}
-                labelColor="rgba(66, 66, 64, 0.5)"
                 placeholder={''}
                 handleClick={() => {
                   const state = {
@@ -387,6 +386,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     ? secretOptionsWithKeys
                     : secretOptions
                 }
+                tooltipText='Start typing with "{{" to reference a secret for this field.'
               />
             </Box>
           ) : (
