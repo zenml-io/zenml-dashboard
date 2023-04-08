@@ -73,9 +73,11 @@ export function ToggleField(props: any) {
               onChange={onHandleChange}
               disabled={disabled}
             />
-           {disabled ? <span className={`${styles.slider} ${styles.round}`}></span> : 
-            <span className={`${styles.sliderBlue} ${styles.round}`}></span>}
-          
+            {disabled ? (
+              <span className={`${styles.slider} ${styles.round}`}></span>
+            ) : (
+              <span className={`${styles.sliderBlue} ${styles.round}`}></span>
+            )}
           </label>
         </FlexBox.Row>
       </FlexBox.Row>

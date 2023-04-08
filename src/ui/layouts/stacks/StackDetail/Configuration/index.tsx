@@ -172,7 +172,7 @@ export const Configuration: React.FC<{
           </GhostButton>
         </Box>
       </FlexBox> */}
-      <FlexBox.Row flexDirection='column' marginLeft="md" marginTop="lg">
+      <FlexBox.Row flexDirection="column" marginLeft="md" marginTop="lg">
         {/* <Container> */}
         <Box style={{ width: '30%' }}>
           <EditField
@@ -188,7 +188,7 @@ export const Configuration: React.FC<{
             className={styles.field}
           />
         </Box>
-        <Box marginTop='lg' >
+        <Box marginTop="lg">
           <ToggleField
             name="Share Component with public"
             value={stack.isShared}

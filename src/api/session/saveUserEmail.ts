@@ -9,10 +9,10 @@ const SaveUserEmail = ({
   email_opted_in,
   authenticationToken,
 }: {
-  userId: string,
-  email: string,
-  email_opted_in: any,
-  authenticationToken: string,
+  userId: string;
+  email: string;
+  email_opted_in: any;
+  authenticationToken: string;
 }): Promise<TUser> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.userEmail(userId)),

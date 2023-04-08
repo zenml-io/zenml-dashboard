@@ -11,5 +11,5 @@ export const SeparatorNew: React.FC = () => (
 
 export const Separator = {
   Light: SeparatorLight,
-  LightNew: SeparatorNew
+  LightNew: SeparatorNew,
 };

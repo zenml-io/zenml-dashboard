@@ -55,7 +55,10 @@ export const BasePage: React.FC<{
               />
             )}
           />
-          <FlexBox.Row justifyContent='space-between' style={{ marginTop: '-20px' }}>
+          <FlexBox.Row
+            justifyContent="space-between"
+            style={{ marginTop: '-20px' }}
+          >
             {!fromConfigureComponent && (
               <Component fromRegisterComponent={fromRegisterComponent} />
             )}
@@ -63,7 +66,10 @@ export const BasePage: React.FC<{
             {/* {fromConfigureComponent && (
               <Component fromRegisterComponent={fromRegisterComponent} />
             )} */}
-            <Box marginLeft="lg" style={{ width: !fromConfigureComponent ? '80%' : '100%' }}>
+            <Box
+              marginLeft="lg"
+              style={{ width: !fromConfigureComponent ? '80%' : '100%' }}
+            >
               {children}
               {tabPages.length > 1 ? (
                 <Tabs pages={tabPages} basePath={tabBasePath} />

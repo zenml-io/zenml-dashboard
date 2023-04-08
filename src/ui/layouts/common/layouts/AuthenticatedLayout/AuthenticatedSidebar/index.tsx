@@ -42,7 +42,8 @@ export const AuthenticatedSidebar: React.FC<{
         <FlexBox
           marginBottom="xxl"
           alignItems="center"
-          style={{ cursor: 'pointer', width: '100%', alignItems: 'center' }} flexDirection='column'
+          style={{ cursor: 'pointer', width: '100%', alignItems: 'center' }}
+          flexDirection="column"
           onClick={() =>
             push(
               `/?workspace=${
