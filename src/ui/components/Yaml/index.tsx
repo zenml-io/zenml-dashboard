@@ -45,15 +45,11 @@ const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
 const nodeWidth = 80;
-const nodeHeight = 56;
+const nodeHeight = 50;
 
 const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], direction = 'TB',) => {
-
-  // const isHorizontal = direction === 'LR';
   const isHorizontal = direction === 'LR';
-
   dagreGraph.setGraph({ rankdir: direction });
-
   if (initialEdges === undefined && initialNodes === undefined) {
     return { initialNodes, initialEdges };
   }
@@ -63,24 +59,20 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
   });
 
   initialEdges.forEach((edge) => {
-    dagreGraph.setEdge(edge.id, edge.target);
+    dagreGraph.setEdge(edge.source, edge.target);
   });
 
   dagre.layout(dagreGraph);
 
   initialNodes.forEach((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
-
     node.targetPosition = isHorizontal ? 'left' : 'top';
     node.sourcePosition = isHorizontal ? 'right' : 'bottom';
 
-    // node.sourcePosition = isHorizontal ? 'left' : 'top';
-    // node.targetPosition = isHorizontal ? 'right' : 'bottom';
-
 
     node.position = {
-      x: nodeWithPosition.x + nodeWidth / 2,
-      y: nodeWithPosition.x + nodeHeight / 2,
+      x: nodeWithPosition.x - nodeWidth / 2,
+      y: nodeWithPosition.y - nodeHeight / 2,
     };
     return node;
   });
@@ -94,6 +86,40 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
       height: 30,
       color: '#443E99',
     }
+
+
+    initialNodes.find((node) => {
+      if (
+        node.type === 'step' &&
+        node.id === edge.target &&
+        node.data.status === 'running'
+      ) {
+        const n = initialNodes.find((node) => node.id === edge.source);
+        const status = initialNodes.find(
+          (node) => 'step_' + n.data.parent_step_id === node.id,
+        ).data.status;
+        if (status === 'running') {
+          edge.animated = true;
+        }
+      }
+      if (
+        node.id === edge.source &&
+        node.type === 'step' &&
+        node.data.status === 'running'
+      ) {
+        const artifact = initialNodes.find((n) => n.id === edge.target);
+
+        const e = initialEdges.find((e) => e.source === artifact.id);
+        if (e) {
+          const status = initialNodes.find((step) => step.id === e.target);
+          if (status.data.status === 'running') {
+            edge.animated = true;
+
+          }
+        }
+      }
+      return initialNodes;
+    });
 
     return edge;
   });

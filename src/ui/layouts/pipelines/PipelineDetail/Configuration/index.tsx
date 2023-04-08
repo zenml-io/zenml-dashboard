@@ -54,7 +54,8 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
     const arr = item.upstream_steps.map((_item: any, index: number) => ({
       id: item.pipeline_parameter_name + index,
       target: item.source.attribute || "item.source",
-      source: item.upstream_steps[index] || "0",
+      // source: item.upstream_steps[index] || item.upstream_steps[index],
+      source: item.upstream_steps.length > 0 ? item.upstream_steps[index] : item.upstream_steps[0],
     }))
     // setEdgeArr(arr)
     edgeArr = [...arr, ...edgeArr]
@@ -72,13 +73,13 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
     }
 
     return {
-      id: item.pipeline_parameter_name + index,
-      targrt: item?.source?.attribute || "item.source",
-      source: item.upstream_steps[0] || "0",
-
       // id: item.pipeline_parameter_name + index,
-      // source: item.source.attribute !== undefined ? item.source.attribute : item.source,
-      // target: item.upstream_steps.length > 0 ? item.upstream_steps[index] : item.upstream_steps[0],
+      // targrt: item?.source?.attribute || "item.source",
+      // source: item.upstream_steps[0] || item.upstream_steps[0],
+
+      id: item.pipeline_parameter_name + Math.floor(Math.random() * 100),
+      target: item.source.attribute !== undefined ? item.source.attribute : item.source,
+      source: item.upstream_steps.length > 0 ? item.upstream_steps[0] : item.upstream_steps[index],
     }
   })
   // console.log("upstremArrHandler", edgeMap)
@@ -86,13 +87,17 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
 
   const edge = [...edgeArr, ...edgeMap]
 
-  let mergedArray = Array.from(new Set(edgeArr.concat(edgeMap)));
+  // let mergedArray = Array.from(new Set(edgeArr.concat(edgeMap)));
 
-  console.log("__NEW_EDGE", mergedArray)
+  console.log("__NEW_EDGE", edge)
 
 
   const node = pipeline.spec.steps.map((item: any, index: number) => ({
-    id: item.source.attribute !== undefined ? item.source.attribute : item.source,
+    // id: item.source.attribute !== undefined ? item.source.attribute : item.source,
+    // type: "step",
+    // data: {
+    //   pipeline_parameter_name: item.pipeline_parameter_name,
+    id: item.source.attribute,
     type: "step",
     data: {
       pipeline_parameter_name: item.pipeline_parameter_name,
@@ -120,20 +125,20 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
         alignItems="center"
         justifyContent="space-between"
       >
-        <H4 bold>{translate('configuration.title.text')}</H4>
+        {/* <H4 bold style={{marginLeft:20, marginTop:20}}>{translate('configuration.title.text')}</H4> */}
 
 
       </FlexBox>
       {/* <FlexBox className={styles.code}> */}
       {/* <LayoutFlow graph={graph} /> */}
-      <SyntaxHighlighter
+      {/* <SyntaxHighlighter
         customStyle={{ width: '100%', fontSize: 20 }}
         wrapLines={true}
         language="yaml"
         style={okaidia}
       >
         {pipelineConfig}
-      </SyntaxHighlighter>
+      </SyntaxHighlighter> */}
       <LayoutFlow graph={graph} />
       {/* </FlexBox> */}
     </FlexBox.Column>
