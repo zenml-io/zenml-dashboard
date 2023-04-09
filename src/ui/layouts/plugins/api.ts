@@ -7,7 +7,9 @@ const auth = (token: string) => ({
   headers: { Authorization: `Bearer ${token}` },
 });
 
-const addCanonicalUrl = (plugin: TPlugin): TPlugin => {
+const addCanonicalUrl = <X extends TPluginDetail | TPluginVersion>(
+  plugin: X,
+): X => {
   const { repository_url, repository_branch, repository_subdirectory } = plugin;
   let canonical_url = repository_url;
   if (repository_branch) {
@@ -22,9 +24,9 @@ const addCanonicalUrl = (plugin: TPlugin): TPlugin => {
   return plugin;
 };
 
-export const getPlugin = async (pluginId: string): Promise<TPlugin> => {
+export const getPlugin = async (pluginId: string): Promise<TPluginDetail> => {
   const plugin = (await axios.get(`${HUB_API_URL}/plugins/${pluginId}`))
-    .data as TPlugin;
+    .data as TPluginDetail;
   return addCanonicalUrl(plugin);
 };
 
@@ -36,24 +38,20 @@ export const getPlugins: (
     const search = searchQuery ? `&name_contains=${searchQuery}` : '';
     const filter =
       filterQueries.length > 0 ? '&' + filterQueries.join('&') : '';
-    const plugins = (
+    return (
       await axios.get(
         `${HUB_API_URL}/plugins?status=available${search}${filter}`,
       )
     ).data as TPlugin[];
-    return plugins.map(addCanonicalUrl);
   },
 );
 
-export const getVersions = async (
-  pluginName: string,
-  userId: TId,
-): Promise<TPlugin[]> => {
+export const getVersions = async (pluginId: TId): Promise<TPluginVersion[]> => {
   return (
     await axios.get(
-      `${HUB_API_URL}/plugins?status=available&user_id=${userId}&name=${pluginName}`,
+      `${HUB_API_URL}/plugin_versions?status=available&plugin_id=${pluginId}`,
     )
-  ).data as TPlugin[];
+  ).data as TPluginVersion[];
 };
 
 export const getStarredPlugins = async (

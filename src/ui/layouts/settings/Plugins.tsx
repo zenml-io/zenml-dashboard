@@ -22,21 +22,52 @@ import { useHistory, useToaster } from '../../hooks';
 import { EmptyState } from '../common/EmptyState';
 import ZenMLLogo from '../../assets/logo.svg';
 
-const getData = async (token: string) => {
-  return (
-    await axios.get(`${HUB_API_URL}/plugins?mine=true`, {
-      headers: { Authorization: `Bearer ${token}` },
-    })
-  ).data as TPlugin[];
+type AugmentedPluginVersion = TPluginVersion & {
+  name: string;
+  description?: string;
 };
 
-const groupPlugins = (plugins: TPlugin[]) => {
+const getData = async (token: string): Promise<AugmentedPluginVersion[]> => {
+  const versions = (
+    await axios.get(`${HUB_API_URL}/plugin_versions?mine=true`, {
+      headers: { Authorization: `Bearer ${token}` },
+    })
+  ).data as TPluginVersion[];
+
+  const pluginIds = versions.map((v) => v.plugin_id);
+  const pluginLookup = Object.fromEntries(
+    await Promise.all(
+      pluginIds.map(async (id) => [
+        id,
+        (
+          await axios.get(`${HUB_API_URL}/plugins/${id}`, {
+            headers: { Authorization: `Bearer ${token}` },
+          })
+        ).data as TPluginDetail[],
+      ]),
+    ),
+  ) as Record<TId, TPluginDetail>;
+
+  return versions
+    .map((v) => {
+      const p = pluginLookup[v.plugin_id];
+      if (!p) return null;
+      return {
+        ...v,
+        name: p.name,
+        description: p.description,
+      };
+    })
+    .filter(Boolean) as AugmentedPluginVersion[];
+};
+
+const groupPlugins = (plugins: AugmentedPluginVersion[]) => {
   const grouped = plugins.reduce((acc, next) => {
     const month = moment(next.created).format('MMMM yyyy');
     if (!acc[month]) acc[month] = [];
     acc[month].push(next);
     return acc;
-  }, {} as Record<string, TPlugin[]>);
+  }, {} as Record<string, AugmentedPluginVersion[]>);
 
   return Object.entries(grouped).map(([month, plugins]) => ({
     month,
@@ -44,7 +75,7 @@ const groupPlugins = (plugins: TPlugin[]) => {
   }));
 };
 
-type PluginMonth = { month: string; plugins: TPlugin[] };
+type PluginMonth = { month: string; plugins: AugmentedPluginVersion[] };
 
 export const Plugins: React.FC = () => {
   const workspace = useSelector(selectedWorkspace);
@@ -52,7 +83,9 @@ export const Plugins: React.FC = () => {
   const token = useHubToken();
   const history = useHistory();
   const [fetching, setFetching] = useState(true);
-  const [pendingPlugins, setPendingPlugins] = useState([] as TPlugin[]);
+  const [pendingPlugins, setPendingPlugins] = useState(
+    [] as AugmentedPluginVersion[],
+  );
   const [completedPlugins, setCompletedPlugins] = useState([] as PluginMonth[]);
   const [failedPlugins, setFailedPlugins] = useState([] as PluginMonth[]);
 

@@ -258,15 +258,46 @@ type TInvoiceStatus = 'draft' | 'open' | 'paid' | 'uncollectible';
 interface TPlugin {
   id: TId;
   name: name;
+  author: name;
   description?: string;
+  version: name;
+  tags: string[];
+  logo_url?: string;
+  index_url?: string;
+  package_name: string;
+  created: DateString;
+  updated: DateString;
+  user: { id: string; username: string };
+  // upvotes: string;
+  // downloads: string;
+  // popularity: string;
+}
+
+interface TPluginDetail extends TPlugin {
+  plugin_id: TId;
+  version_id: string;
+  logo_url?: string;
+  index_url?: string;
+  canonical_url: string;
+  readme_url?: string;
+  release_notes: string | null;
+  repository_url: string;
+  repository_subdirectory?: string;
+  repository_branch?: string;
+  repository_commit?: string;
+}
+
+interface TPluginVersion {
+  id: TId;
   version: string;
+  plugin_id: TId;
+  author: string;
   status: 'pending' | 'failed' | 'available' | 'yanked';
   repository_url: string;
   repository_subdirectory?: string;
   repository_branch?: string;
   repository_commit?: string;
   canonical_url: string;
-  tags: string[];
   readme_url?: string;
   logo_url?: string;
   index_url?: string;
@@ -276,8 +307,4 @@ interface TPlugin {
   build_logs?: string;
   created: DateString;
   updated: DateString;
-  user: { id: string; username: string };
-  // upvotes: string;
-  // downloads: string;
-  // popularity: string;
 }

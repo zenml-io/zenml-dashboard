@@ -25,15 +25,11 @@ import { HUB_API_URL } from '../../../../api/constants';
 import { useHubToken } from '../../../hooks/auth';
 import { pick } from '../../../../utils';
 import { PluginsLayout } from '../shared/Layout';
+import { getPlugin } from '../api';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
 const todayFormatted = moment().format('dddd, DD MMM yyyy');
-
-const getData = async (pluginId: string) => {
-  return (await axios.get(`${HUB_API_URL}/plugins/${pluginId}`))
-    .data as TPlugin;
-};
 
 const UpdatePlugin: React.FC = () => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -42,7 +38,7 @@ const UpdatePlugin: React.FC = () => {
   const { pluginId } = useParams<{ pluginId: string }>();
   const { failureToast } = useToaster();
 
-  const [plugin, setPlugin] = useState(null as null | TPlugin);
+  const [plugin, setPlugin] = useState(null as null | TPluginDetail);
   const [previousVersionNumber, setPreviousVersionNumber] = useState('');
   const [versionNumber, setVersionNumber] = useState('');
   const [repositoryUrl, setRepositoryUrl] = useState('');
@@ -53,7 +49,7 @@ const UpdatePlugin: React.FC = () => {
   const [releaseNotes, setReleaseNotes] = useState('');
 
   useEffect(() => {
-    getData(pluginId).then((p) => {
+    getPlugin(pluginId).then((p) => {
       setPlugin(p);
       if (!repositoryUrl) setRepositoryUrl(p.repository_url);
       if (!repositoryBranch && p.repository_branch)
