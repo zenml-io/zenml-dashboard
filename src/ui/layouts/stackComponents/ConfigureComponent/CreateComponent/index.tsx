@@ -132,22 +132,28 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
 
   const secretOptions = secrets.map((item: any) => {
     return {
-      label: `{{ ${item.name} }}` as string,
-      value: `{{ ${item.name}` as string,
+      label: `{{ ${item.name}.` as string,
+      value: `{{ ${item.name}.` as string,
       id: item.id as string,
     };
   }) as any;
 
-  function callActionForSecret(name: any, value: string, newEvent?: any) {
-    setInputData({ ...inputData, [name]: { value: value, id: '' } });
+  function callActionForSecret(name: any, value: any, newEvent?: any) {
+    setInputData({
+      ...inputData,
+      [name]: {
+        value: value.value ? value.value : value,
+        id: value?.id ? value?.id : '',
+      },
+    });
     // if (value === undefined) {
     //   return false;
     // }
 
-    if (value?.includes('.') || inputData[name]?.id) {
+    if (value?.value?.includes('.') || value?.value?.id) {
       dispatch(
         secretsActions.secretForId({
-          secretId: inputData[name]?.id,
+          secretId: value?.id,
           onSuccess: (res) => {
             setSelectedSecret(res);
             const secretOptionsWithKeys = Object.keys(res.values)?.map(
@@ -339,10 +345,10 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               {console.log(inputData, '22323123')}
               <MakeSecretField
                 label={titleCase(props.name)}
-                labelColor="rgba(66, 66, 64, 0.5)"
                 placeholder={''}
                 handleClick={() => {
                   const state = {
+                    flavor: flavor.name,
                     routeFromComponent: true,
                     componentName: componentName,
                     isShared: isShared,
@@ -374,10 +380,19 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                 secretValue={'Empty'}
                 secretOnChange={(val: any, newEvent: any) => {
                   // debugger;
-                  setInputData({
-                    ...inputData,
-                    [props.name]: val.value.includes('.') ? val.value : val,
-                  });
+                  // setInputData({
+                  //   ...inputData,
+                  //   [props.name]: val.value.includes('.') ? val.value : val,
+                  // });
+
+                  if (val.value.includes('}}')) {
+                    setInputData({
+                      ...inputData,
+                      [props.name]: val.value.includes('.') ? val.value : val,
+                    });
+                  } else if (val.value.includes('{{')) {
+                    callActionForSecret(props.name, val, newEvent);
+                  }
                 }}
                 dropdownOptions={
                   inputData[props.name]?.value &&
@@ -387,6 +402,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     ? secretOptionsWithKeys
                     : secretOptions
                 }
+                tooltipText='Start typing with "{{" to reference a secret for this field.'
               />
             </Box>
           ) : (

@@ -57,7 +57,7 @@ export const Register: React.FC<Props> = (state: any) => {
     if (state?.state?.routeFromComponent) {
       const randomString = generateRandomString(6);
 
-      setSecretName(state?.state?.componentName + '_' + randomString);
+      setSecretName(state?.state?.flavor + '_' + randomString);
     }
   }, [state]);
 
@@ -237,11 +237,8 @@ export const Register: React.FC<Props> = (state: any) => {
             placeholder={'Random Text'}
             value={secretName}
             onChange={(val: string) => setSecretName(val)}
-            secretLabel="Item 4 (Secret)"
-            secretLabelColor="rgba(66, 66, 64, 0.5)"
-            secretPlaceholder="john doe"
-            secretValue={'Empty'}
-            secretOnChange={() => {}}
+            secretOnChange={(val: string) => setSecretName(val)}
+            tooltipText='Start typing with "{{" to reference a secret for this field.'
             dropdownOptions={[
               { label: '{{ mlZen.https.azxsggej }}' },
               { label: '{{ mlChen.https.azxsggej }}' },

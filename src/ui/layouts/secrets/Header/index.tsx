@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { FlexBox, Box, Paragraph } from '../../../components';
 
 import styles from './index.module.scss';
-import { constantCommandsToCreateStack } from '../../../../constants/constantCommands';
+import { constantCommandsToCreateSecret } from '../../../../constants/constantCommands';
 import { title } from 'process';
 
 const DefaultHeader: React.FC<{
@@ -32,12 +32,16 @@ const DefaultHeader: React.FC<{
     </FlexBox>
     <FlexBox alignItems="center">
       <Paragraph
-        style={{ fontSize: '14px', lineHeight: '17px', color: '#828282', marginTop: '20px' }}
+        style={{
+          fontSize: '14px',
+          lineHeight: '17px',
+          color: '#828282',
+          marginTop: '20px',
+        }}
       >
-        Check out our easy to read{' '}
         <a
           style={{ color: '#443E99' }}
-          href={constantCommandsToCreateStack.documentation}
+          href={constantCommandsToCreateSecret.documentation}
           target="__blank"
         >
           document
@@ -78,12 +82,17 @@ const HeaderWithButtons: React.FC<{
     >
       <Box className={styles.dynamicHeaderRight}>
         <Paragraph
-          style={{ fontSize: '14px', lineHeight: '17px', color: '#828282', marginTop: '20px' }}
+          style={{
+            fontSize: '14px',
+            lineHeight: '17px',
+            color: '#828282',
+            marginTop: '20px',
+          }}
         >
           Check out our easy to read{' '}
           <a
             style={{ color: '#443E99' }}
-            href={constantCommandsToCreateStack.documentation}
+            href={constantCommandsToCreateSecret.documentation}
             target="__blank"
           >
             document

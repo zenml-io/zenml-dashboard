@@ -28,6 +28,11 @@ export const constantCommandsToCreateStack = {
     },
   ],
 };
+export const constantCommandsToCreateSecret = {
+  title: 'Stack Cheatsheet',
+  documentation:
+    'https://docs.zenml.io/starter-guide/production-fundamentals/secrets-management',
+};
 
 export const constantCommandsToCreatePipeline = {
   title: 'Pipeline Cheatsheet',
@@ -90,7 +95,6 @@ export const constantCommandsToCreateRuns = {
     },
   ],
 };
-
 
 export const constantCommandsToCreateComponent = {
   documentation: 'https://docs.zenml.io/starter-guide/stacks',
