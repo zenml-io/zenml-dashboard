@@ -43,6 +43,7 @@ const UpdatePlugin: React.FC = () => {
   const { failureToast } = useToaster();
 
   const [plugin, setPlugin] = useState(null as null | TPlugin);
+  const [previousVersionNumber, setPreviousVersionNumber] = useState('');
   const [versionNumber, setVersionNumber] = useState('');
   const [repositoryUrl, setRepositoryUrl] = useState('');
   const [repositoryBranch, setRepositoryBranch] = useState('');
@@ -62,6 +63,7 @@ const UpdatePlugin: React.FC = () => {
       if (!commitHash && p.repository_commit)
         setCommitHash(p.repository_commit);
       if (!logoUrl && p.logo_url) setLogoUrl(p.logo_url);
+      setPreviousVersionNumber(p.version);
     });
     // eslint-disable-next-line
   }, [pluginId]);
@@ -146,7 +148,12 @@ const UpdatePlugin: React.FC = () => {
                 value={versionNumber}
                 onChange={setVersionNumber}
                 status={{ status: 'editing' }}
-                placeholder="Version number"
+                placeholder={
+                  'Version number' +
+                  (previousVersionNumber
+                    ? ` (active version is ${previousVersionNumber})`
+                    : '')
+                }
               />
             </Box>
 
