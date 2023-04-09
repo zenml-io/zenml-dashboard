@@ -33,7 +33,7 @@ export const InputWithLabelIcon = ({
         </label>
       </Paragraph>
 
-      <Box marginLeft='sm' style={{ cursor: 'pointer' }}>
+      <Box marginLeft='sm' style={{ cursor: 'pointer', zIndex: 99999 }}>
         <div data-tip data-for='config-icon'>
           <icons.config size={iconSizes.sm} color={iconColors.black} />
         </div>
