@@ -66,6 +66,8 @@ export async function artifactService(artifactId: any, authToken: any) {
             },
         },
     ).then((response) => {
+        console.log("__unauth_resposne: ",response)
+        console.log("__unauth_resposne: ", typeof response.data.value)
         return response
     })
     return response;
@@ -89,12 +91,12 @@ export async function artifactHTML(artifactId: any, authToken: any, flag: boolea
                 const loadedBytes = progressEvent.loaded;
                 console.log(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`);
                 if (loadedBytes > 1 * 1024 * 1024) {
-                    if (_flag == false) {
+                    if (_flag === false) {
                         const confirmed = window.confirm('The API response size exceeds 5MB. Do you want to continue?');
                         _flag = confirmed;
                     }
                     // console.log("__confirmed", confirmed)
-                    if (_flag == false) {
+                    if (_flag === false) {
                         source.cancel(`API response size exceeds 5MB`);
                     }
                 }

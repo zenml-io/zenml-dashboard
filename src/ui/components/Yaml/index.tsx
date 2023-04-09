@@ -11,17 +11,17 @@ import dagre from 'dagre';
 import StepNode from './StepNode';
 import './index.css';
 import {
-  Analysis,
+  // Analysis,
   Completed,
-  Database,
-  Model,
-  Schema,
-  Service,
-  Statistic
+  // Database,
+  // Model,
+  // Schema,
+  // Service,
+  // Statistic
 } from './icons';
 import { FullWidthSpinner } from '../spinners';
 import styles from './index.module.scss'
-import { initialEdges, initialNodes } from './initial-elements';
+// import { initialEdges, initialNodes } from './initial-elements';
 
 interface Edge {
   id: string;
@@ -140,10 +140,8 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
   const [nodes, _, onNodesChange] = useNodesState(layoutedNodes); //eslint-disable-line
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
-  const [legend, setLegend] = useState(false);
 
   console.log("__GRAPH", graph)
-
 
   useEffect(() => {
     console.log("__UNAUTH SELECTEDNODE", selectedNode)

@@ -4,7 +4,7 @@ import { AppRoute } from '../../../routes';
 import { Box, FlexBox, IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
-import { Tabs, TabsRuns } from '../common/Tabs';
+import {TabsRuns } from '../common/Tabs';
 import Header from './Header';
 import Pipelines from './Pipelines';
 

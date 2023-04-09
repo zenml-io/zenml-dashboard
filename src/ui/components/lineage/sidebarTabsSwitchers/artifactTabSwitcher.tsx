@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, lazy, Suspense, memo } from 'react';
+import React, { useEffect, useRef, useState, memo } from 'react';
 import JsonDisplay from '../JsonDisplay';
 import styles from './artifact.module.scss'
 import { FullWidthSpinner } from '../../spinners';
@@ -27,8 +27,6 @@ const artifactTabs = [
     },
 
 ]
-
-// const ArtifactVisualization = lazy(() => import('./ArtifactVisualization'));
 
 const ArtifactTabHeader = ({ node }: { node: any }) => {
 
@@ -61,7 +59,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
         setDynamicWidth(divRefs.current[divId]?.offsetWidth);
     };
 
-    
+
     if (Object.keys(node).length === 0) {
         return <FullWidthSpinner color="black" size="md" />;
     }
@@ -108,7 +106,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
                             </tr>
                             <tr>
                                 <td className='td_key'>materializer</td>
-                                <td className='td_value'>{typeof(node?.materializer) === 'object' ? <JsonDisplay data={node?.materializer} style={{display:'flex'}}/> : node?.materializer}</td>
+                                <td className='td_value'>{typeof (node?.materializer) === 'object' ? <JsonDisplay data={node?.materializer} style={{ display: 'flex' }} /> : node?.materializer}</td>
                             </tr>
                             <tr>
                                 <td className='td_key'>name</td>
@@ -131,7 +129,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
             {/* SHOW VISUALIZATION */}
             {
                 show === "__VISUALIZATION" ?
-                        <ArtifactVisualization node={node} />
+                    <ArtifactVisualization node={node} />
                     : ""
             }
         </>

@@ -1,12 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { runSelectors } from '../../../../../redux/selectors';
 import { useService } from './useService';
-
-import {
-  FlexBox,
-} from '../../../../components';
-
 import JsonDisplay from '../../../../components/lineage/JsonDisplay';
 import styles from './index.module.scss';
 
@@ -37,9 +30,6 @@ const details = [
 
 export const Details: React.FC<{ runId: TId }> = memo(({ runId }) => {
 
-
-  // const artifactData = useSelector(runSelectors.artifactData);
-
   const { artifactData, run, stepData } = useService({ runId });
 
   const [show, setShow] = useState("__RUN_META");
@@ -49,7 +39,6 @@ export const Details: React.FC<{ runId: TId }> = memo(({ runId }) => {
   const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(80);
 
   const tabRef = useRef<(HTMLDivElement | null)[]>([])
-  console.log("Rendered___", { dynamicLeft, dynamicWidth })
 
   const TabClickHandler = (tab: string) => {
     switch (tab) {
@@ -61,31 +50,21 @@ export const Details: React.FC<{ runId: TId }> = memo(({ runId }) => {
   }
 
   useEffect(() => {
-    // console.log("Rendered___useEffect 1", dynamicLeft, dynamicWidth)
-    if (dynamicWidth == undefined && dynamicLeft == undefined) {
+    if (dynamicWidth === undefined && dynamicLeft === undefined) {
       let left: any = tabRef.current[0]?.offsetLeft;
       setDynamicLeft(left * 0);
       setDynamicWidth(tabRef.current[0]?.offsetWidth);
     }
-  }, [])
+  }, [])//eslint-disable-line
 
 
   const handleClick = (divId: number) => {
     let left: any = tabRef.current[divId]?.offsetLeft;
     setDynamicLeft(left - 15);
     setDynamicWidth(tabRef.current[divId]?.offsetWidth);
-    console.log("Rendered___", { dynamicLeft, dynamicWidth, tabRef, divId })
   };
 
-
-  // if (Object.keys(node).length === 0) {
-  //     return <FullWidthSpinner color="black" size="md" />;
-  // }
-
   return (
-    // <FlexBox fullWidth style={{ overflow: 'hidden', backgroundColor:'pink' }}>
-    // </FlexBox>
-
     <div className={`${styles.mainContainer}`}>
       <div className={`${styles.navigation}`}>
         <div className={`${styles.tabs}`}>

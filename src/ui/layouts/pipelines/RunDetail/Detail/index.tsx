@@ -1,12 +1,5 @@
 import React, { memo, useEffect, useRef, useState } from 'react';
-import { useSelector } from 'react-redux';
-import { runSelectors } from '../../../../../redux/selectors';
 import { useService } from './useService';
-
-import {
-  FlexBox,
-} from '../../../../components';
-
 import JsonDisplay from '../../../../components/lineage/JsonDisplay';
 import styles from './index.module.scss';
 
@@ -61,13 +54,12 @@ export const Details: React.FC<{ runId: TId }> = memo(({ runId }) => {
   }
 
   useEffect(() => {
-    // console.log("Rendered___useEffect 1", dynamicLeft, dynamicWidth)
-    if (dynamicWidth == undefined && dynamicLeft == undefined) {
+    if (dynamicWidth === undefined && dynamicLeft === undefined) {
       let left: any = tabRef.current[0]?.offsetLeft;
       setDynamicLeft(left * 0);
       setDynamicWidth(tabRef.current[0]?.offsetWidth);
     }
-  }, [])
+  }, []) //eslint-disable-line
 
 
   const handleClick = (divId: number) => {
