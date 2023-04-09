@@ -254,8 +254,13 @@ const CreatePlugin: React.FC = () => {
                     .then(() => {
                       history.push(routePaths.settings.myPlugins);
                     })
-                    .catch(() => {
-                      failureToast({ description: 'Error creating plugin' });
+                    .catch((err) => {
+                      const errorMessage = err.response?.data?.detail;
+                      failureToast({
+                        description:
+                          'Error creating plugin' +
+                          (errorMessage ? `: ${errorMessage}` : ''),
+                      });
                     });
                 }}
               >
