@@ -37,6 +37,9 @@ const CreatePlugin: React.FC = () => {
   const { failureToast } = useToaster();
 
   const [packageName, setPackageName] = useState('');
+  const [packageNameStatus, setPackageNameStatus] = useState({
+    status: 'editing',
+  } as { status: 'disabled' } | { status: 'editing' } | { status: 'error'; message: string } | { status: 'success' });
   const [repositoryUrl, setRepositoryUrl] = useState('');
   const [repositoryBranch, setRepositoryBranch] = useState('');
   const [commitHash, setCommitHash] = useState('');
@@ -126,8 +129,20 @@ const CreatePlugin: React.FC = () => {
                 <ValidatedTextField
                   label="Package Name"
                   value={packageName}
-                  onChange={setPackageName}
-                  status={{ status: 'editing' }}
+                  onChange={(p: string) => {
+                    if (!/^[a-zA-Z]\w*$/.test(p)) {
+                      setPackageNameStatus({
+                        status: 'error' as const,
+                        message:
+                          'Package name must contain only alphanumeric characters or underscores and start with a letter',
+                      });
+                    } else {
+                      setPackageNameStatus({ status: 'editing' });
+                    }
+
+                    setPackageName(p);
+                  }}
+                  status={packageNameStatus}
                 />
               </Box>
 
