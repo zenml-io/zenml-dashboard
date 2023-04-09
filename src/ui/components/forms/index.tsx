@@ -221,10 +221,11 @@ export const MakeSecretField = (
   }, [props?.value]);
 
   const handleClick = async (option: any) => {
-   await props.onChange(() => option);
+   await props.onChange(() => option?.value);
    await setPopup(false);
   };
 
+  
   return (
     <FlexBox.Column fullWidth>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>

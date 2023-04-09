@@ -62,6 +62,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const history = useHistory();
+
   useEffect(() => {
     if (state?.state?.routeFromComponent) {
       setIsShared(state?.state?.isShared);
@@ -146,6 +147,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
         id: value?.id ? value?.id : '',
       },
     });
+    
     // if (value === undefined) {
     //   return false;
     // }
@@ -373,6 +375,8 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                 onChange={(val: string, newEvent: any) => {
                   callActionForSecret(props.name, val, newEvent);
                 }}
+                
+                
                 // secretOnChange={(val: any, newEvent: any) => {
                 //   // debugger;
                 //   // setInputData({
@@ -397,9 +401,11 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                   //   ? secretOptionsWithKeys
                   //   : secretOptions
                 // }
+                
                 dropdownOptions={secretOptions}
                 tooltipText='Start typing with "{{" to reference a secret for this field.'
               />
+              {console.log('ahsan',inputData)}
             </Box>
           ) : (
             <TextField
