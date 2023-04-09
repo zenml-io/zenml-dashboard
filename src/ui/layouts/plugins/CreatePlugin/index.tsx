@@ -89,9 +89,23 @@ const CreatePlugin: React.FC = () => {
               justifyContent="center"
               alignItems="center"
             >
-              <Box style={{ opacity: 0.2 }}>
-                <icons.photoCamera size="xxl" color={iconColors.primary} />
-              </Box>
+              {logoUrl ? (
+                <img
+                  src={logoUrl}
+                  alt="Plugin logo"
+                  style={{
+                    maxWidth: '60%',
+                    display: 'block',
+                    margin: 'auto',
+                    marginTop: 12,
+                    marginBottom: 16,
+                  }}
+                />
+              ) : (
+                <Box style={{ opacity: 0.2 }}>
+                  <icons.photoCamera size="xxl" color={iconColors.primary} />
+                </Box>
+              )}
             </FlexBox>
           </Box>
 

@@ -159,7 +159,7 @@ const ListPlugins: React.FC = () => {
                 >
                   {/* logo */}
                   <img
-                    src={p.logo_url ?? ZenMLLogo}
+                    src={p.logo_url || ZenMLLogo}
                     alt={`${p.name} logo`}
                     style={{
                       height: '80px',
