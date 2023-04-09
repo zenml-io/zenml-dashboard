@@ -213,7 +213,7 @@ const icons = {
   info: createIcon({ Component: Info }),
   keyboardReturn: createIcon({ Component: KeyboardReturn }),
   link: createIcon({ Component: Link, useStroke: true }),
-  lock: createIcon({ Component: Lock }),
+  lock: createIcon({ Component: Lock, useStroke: true }),
   lock2: createIcon({ Component: Lock2 }),
   logs: createIcon({ Component: Logs, useStroke: true }),
   config: createIcon({ Component: Config }),
