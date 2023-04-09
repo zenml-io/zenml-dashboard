@@ -222,24 +222,16 @@ export const GetHeaderCols = ({
             style={{ margin: '0 auto 0 auto' }}
           >
             <Box>
-              <FlexBox
-                justifyContent="center"
-                style={{
-                  borderRadius: '50%',
-                  height: '19px',
-                  width: '19px',
-                  textAlign: 'center',
-                }}
-              >
+              <FlexBox justifyContent="center">
                 {stackComponent.isShared ? (
                   <icons.multiUser
                     color={iconColors.white}
-                    size={iconSizes.sm}
+                    size={iconSizes.md}
                   />
                 ) : (
                   <icons.singleUser
                     color={iconColors.white}
-                    size={iconSizes.sm}
+                    size={iconSizes.md}
                   />
                 )}
               </FlexBox>

@@ -10,9 +10,10 @@ import {
 interface Props {
   label?: string;
   inputFields: any;
+  width?: string;
 }
 
-const SelectorDisabled: React.FC<Props> = ({ label, inputFields }) => {
+const SelectorDisabled: React.FC<Props> = ({ label, inputFields, width }) => {
   return (
     <Box>
       {label && (
@@ -25,7 +26,7 @@ const SelectorDisabled: React.FC<Props> = ({ label, inputFields }) => {
         <Box>
           {Object.entries(inputFields)?.map((item: any, index: any) => (
             <Box key={index} marginTop="md" style={{ display: 'flex' }}>
-              <Box style={{ width: '417px' }}>
+              <Box style={{ width }}>
                 <FormTextField
                   onChange={() => {}}
                   label={'Key'}
@@ -36,7 +37,7 @@ const SelectorDisabled: React.FC<Props> = ({ label, inputFields }) => {
                 />
               </Box>
               {console.log(item, 'itemitem')}
-              <Box style={{ width: '417px' }} marginLeft="md">
+              <Box style={{ width }} marginLeft="md">
                 <FormPasswordField
                   onChange={() => {}}
                   label={'Value'}

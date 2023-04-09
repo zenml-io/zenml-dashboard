@@ -183,25 +183,16 @@ export const GetHeaderCols = ({
             data-for={stack.isShared}
           >
             <Box>
-              <FlexBox
-                justifyContent="center"
-                style={{
-                  borderRadius: '50%',
-                  height: '19px',
-                  width: '19px',
-                  textAlign: 'center',
-                  marginLeft: '-16px'
-                }}
-              >
+              <FlexBox justifyContent="center" style={{ marginLeft: '-16px' }}>
                 {stack.isShared ? (
                   <icons.multiUser
                     color={iconColors.white}
-                    size={iconSizes.sm}
+                    size={iconSizes.md}
                   />
                 ) : (
                   <icons.singleUser
                     color={iconColors.white}
-                    size={iconSizes.sm}
+                    size={iconSizes.md}
                   />
                 )}
               </FlexBox>
