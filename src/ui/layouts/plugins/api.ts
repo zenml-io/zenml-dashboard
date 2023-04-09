@@ -7,9 +7,25 @@ const auth = (token: string) => ({
   headers: { Authorization: `Bearer ${token}` },
 });
 
+const addCanonicalUrl = (plugin: TPlugin): TPlugin => {
+  const { repository_url, repository_branch, repository_subdirectory } = plugin;
+  let canonical_url = repository_url;
+  if (repository_branch) {
+    canonical_url = `${canonical_url}/tree/${repository_branch}`;
+
+    if (repository_subdirectory) {
+      canonical_url = `${canonical_url}/${repository_subdirectory}`;
+    }
+  }
+
+  plugin.canonical_url = canonical_url;
+  return plugin;
+};
+
 export const getPlugin = async (pluginId: string): Promise<TPlugin> => {
-  return (await axios.get(`${HUB_API_URL}/plugins/${pluginId}`))
+  const plugin = (await axios.get(`${HUB_API_URL}/plugins/${pluginId}`))
     .data as TPlugin;
+  return addCanonicalUrl(plugin);
 };
 
 export const getPlugins: (
@@ -20,11 +36,12 @@ export const getPlugins: (
     const search = searchQuery ? `&name_contains=${searchQuery}` : '';
     const filter =
       filterQueries.length > 0 ? '&' + filterQueries.join('&') : '';
-    return (
+    const plugins = (
       await axios.get(
         `${HUB_API_URL}/plugins?status=available${search}${filter}`,
       )
     ).data as TPlugin[];
+    return plugins.map(addCanonicalUrl);
   },
 );
 

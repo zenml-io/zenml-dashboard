@@ -253,8 +253,9 @@ const PluginDetail: React.FC = () => {
                                 icon: icons.info,
                                 color: iconColors.red,
                                 onClick: () =>
-                                  history.push(
+                                  window.open(
                                     `${plugin.repository_url}/issues`,
+                                    '_blank',
                                   ),
                               },
                             ]),
@@ -654,7 +655,7 @@ const PluginDetail: React.FC = () => {
                   <Box marginTop="sm">
                     <Paragraph size="tiny" color="primary">
                       <a
-                        href={plugin.repository_url}
+                        href={plugin.canonical_url}
                         style={{ color: 'inherit' }}
                       >
                         Repository (GitHub)
@@ -673,7 +674,7 @@ const PluginDetail: React.FC = () => {
                   <Box marginTop="sm">
                     <Paragraph size="tiny" color="primary">
                       <a
-                        href={plugin.repository_url}
+                        href={plugin.canonical_url}
                         style={{ color: 'inherit' }}
                       >
                         API reference

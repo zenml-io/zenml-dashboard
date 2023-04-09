@@ -265,6 +265,7 @@ interface TPlugin {
   repository_subdirectory?: string;
   repository_branch?: string;
   repository_commit?: string;
+  canonical_url: string;
   tags: string[];
   readme_url?: string;
   logo_url?: string;
