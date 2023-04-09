@@ -790,6 +790,7 @@ export const TagsInputField = ({
           value={value}
           onChangeText={(t) => {
             onChangeText(t);
+            if (!t) setTagOptions([]);
 
             if (getTagOptions) {
               getTagOptions(t).then(
