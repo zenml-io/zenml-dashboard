@@ -97,6 +97,11 @@ export const starPlugin = async (
   );
 };
 
+export const getTagOptions = async (query: string): Promise<string[]> => {
+  return ((await axios.get(`${HUB_API_URL}/tag?limit=8&name_contains=${query}`))
+    .data as { name: string }[]).map((t) => t.name);
+};
+
 export const deletePlugin = async (
   pluginId: TId,
   token: string,

@@ -213,7 +213,6 @@ export const MakeSecretField = (
     tooltipText?: string;
   } & any,
 ): any => {
-
   const [popup, setPopup] = useState(false);
 
   const options = props?.dropdownOptions?.filter((e: any) =>
@@ -223,13 +222,13 @@ export const MakeSecretField = (
   useEffect(() => {
     if (props?.value?.slice(0, 2) === '{{' && props?.value?.length < 3) {
       setPopup(true);
-    } 
+    }
     // eslint-disable-next-line
   }, [props?.value]);
 
   const handleClick = async (option: string) => {
-   await props.secretOnChange(() => option);
-   await setPopup(false);
+    await props.secretOnChange(() => option);
+    await setPopup(false);
   };
 
   return (
@@ -279,7 +278,7 @@ export const MakeSecretField = (
             style={{
               backgroundColor: '#fff',
               borderRadius: '4px',
-              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
+              boxShadow: 'var(--cardShadow)',
               width: '100%',
               position: 'absolute',
               zIndex: 2,
@@ -743,6 +742,7 @@ export const TagsInputField = ({
   tags,
   onChangeTags,
   placeholder,
+  getTagOptions,
   label = 'Tags',
   helperText = 'Add tags',
 }: {
@@ -750,70 +750,121 @@ export const TagsInputField = ({
   onChangeText: (s: string) => void;
   tags: string[];
   onChangeTags: (t: string[]) => void;
+  getTagOptions?: (s: string) => Promise<string[]>;
   label?: string;
   placeholder?: string;
   helperText?: string;
-}): JSX.Element => (
-  <Box style={{ marginTop: '16px', marginBottom: '16px' }}>
-    {/* label and helper text */}
-    <FlexBox style={{ alignItems: 'center', marginBottom: '8px' }}>
-      {label && (
-        <Paragraph style={{ fontSize: '14px', marginRight: '4px' }}>
-          {label}
-        </Paragraph>
-      )}
-      {helperText && (
-        <icons.info color={iconColors.darkGrey} title={helperText} size="xs" />
-      )}
-    </FlexBox>
+}): JSX.Element => {
+  const [tagOptions, setTagOptions] = useState([] as string[]);
 
-    {/* input */}
-    <Box style={{ position: 'relative' }}>
-      <TextInput
-        style={{ paddingRight: '88px' }}
-        value={value}
-        onChangeText={onChangeText}
-        placeholder={placeholder}
-        onKeyDown={(e) => {
-          if (e.key === 'Enter') {
-            if (!tags.includes(value)) onChangeTags([...tags, value]);
-            onChangeText('');
-          }
-        }}
-      />
+  const update = (value: string) => {
+    if (!tags.includes(value)) onChangeTags([...tags, value]);
+    onChangeText('');
+    setTagOptions([]);
+  };
 
-      {/* Enter and icon */}
-      <FlexBox
-        style={{
-          position: 'absolute',
-          right: '7px',
-          top: '8px',
-          opacity: 0.3,
-          alignItems: 'center',
-        }}
-        flexDirection="row"
-      >
-        <Paragraph style={{ marginRight: '8px' }}>Enter</Paragraph>
-        <icons.keyboardReturn color={iconColors.black} />
-      </FlexBox>
-    </Box>
-
-    {/* tags */}
-    <Box marginTop="md">
-      <Paragraph style={{ fontSize: '14px', color: '#A1A4AB' }}>Tags</Paragraph>
-
-      <FlexBox marginTop="sm">
-        {tags.map((t) => (
-          <Tag
-            key={t}
-            text={t}
-            onRemove={() => onChangeTags(tags.filter((tag) => tag !== t))}
+  return (
+    <Box
+      style={{ marginTop: '16px', marginBottom: '16px', position: 'relative' }}
+    >
+      {/* label and helper text */}
+      <FlexBox style={{ alignItems: 'center', marginBottom: '8px' }}>
+        {label && (
+          <Paragraph style={{ fontSize: '14px', marginRight: '4px' }}>
+            {label}
+          </Paragraph>
+        )}
+        {helperText && (
+          <icons.info
+            color={iconColors.darkGrey}
+            title={helperText}
+            size="xs"
           />
-        ))}
+        )}
       </FlexBox>
+
+      {/* input */}
+      <Box style={{ position: 'relative' }}>
+        <TextInput
+          style={{ paddingRight: '88px' }}
+          value={value}
+          onChangeText={(t) => {
+            onChangeText(t);
+
+            if (getTagOptions) {
+              getTagOptions(t).then(
+                (os) =>
+                  // only update if the input isn't blank (blank means reset so options aren't valid any more)
+                  value && setTagOptions(os.filter((o) => !tags.includes(o))),
+              );
+            }
+          }}
+          placeholder={placeholder}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter') update(value);
+          }}
+        />
+
+        {/* Enter and icon */}
+        <FlexBox
+          style={{
+            position: 'absolute',
+            right: '7px',
+            top: '8px',
+            opacity: 0.3,
+            alignItems: 'center',
+          }}
+          flexDirection="row"
+        >
+          <Paragraph style={{ marginRight: '8px' }}>Enter</Paragraph>
+          <icons.keyboardReturn color={iconColors.black} />
+        </FlexBox>
+
+        {tagOptions.length > 0 && (
+          <Box
+            padding="md"
+            backgroundColor="white"
+            style={{
+              position: 'absolute',
+              top: '100%',
+              minWidth: '200px',
+              maxWidth: '400px',
+              boxShadow: 'var(--cardShadow)',
+            }}
+          >
+            {tagOptions.map((t) => (
+              <Box
+                key={t}
+                onClick={() => update(t)}
+                marginVertical="sm"
+                style={{ cursor: 'pointer' }}
+              >
+                <Paragraph>{t}</Paragraph>
+              </Box>
+            ))}
+          </Box>
+        )}
+      </Box>
+
+      {/* tags */}
+      <Box marginTop="md">
+        <Paragraph style={{ fontSize: '14px', color: '#A1A4AB' }}>
+          Tags
+        </Paragraph>
+
+        <FlexBox marginTop="sm">
+          {tags.map((t) => (
+            <Tag
+              key={t}
+              text={t}
+              onRemove={() => onChangeTags(tags.filter((tag) => tag !== t))}
+            />
+          ))}
+        </FlexBox>
+      </Box>
     </Box>
-  </Box>
-);
+  );
+};
 
 export const CheckboxInput = ({
   label,

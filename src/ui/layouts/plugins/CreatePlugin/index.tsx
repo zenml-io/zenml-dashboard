@@ -25,6 +25,8 @@ import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 import { HUB_API_URL } from '../../../../api/constants';
 import { useHubToken } from '../../../hooks/auth';
 import { PluginsLayout } from '../shared/Layout';
+import { getTagOptions } from '../api';
+import { debounce } from 'lodash';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
@@ -219,6 +221,11 @@ const CreatePlugin: React.FC = () => {
               onChangeTags={setTags}
               label="Add tags"
               placeholder="Ex. Artificial Intelligence"
+              getTagOptions={debounce(getTagOptions, 300, {
+                leading: true,
+                trailing: true,
+                maxWait: 1000,
+              })}
             />
 
             <Box marginVertical="lg">
