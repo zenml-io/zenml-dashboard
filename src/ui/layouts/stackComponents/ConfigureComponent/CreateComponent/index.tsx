@@ -398,9 +398,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                   )
                     ? secretOptionsWithKeys
                     : secretOptions
-                }
-                
-                // dropdownOptions={secretOptions}
+                }   
                 tooltipText='Start typing with "{{" to reference a secret for this field.'
               />
             </Box>

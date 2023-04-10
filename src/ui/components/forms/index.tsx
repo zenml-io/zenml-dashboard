@@ -15,7 +15,6 @@ import {
 } from '..';
 import { handleUpdateNumericInput } from '../../../utils/input';
 import { iconColors } from '../../../constants/icons';
-import OutsideClickHandler from 'react-outside-click-handler';
 import ReactTooltip from 'react-tooltip';
 
 export const FormValidationError = (props: {
@@ -207,25 +206,22 @@ export const MakeSecretField = (
   } & any,
 ): any => {
 
-  const [popup, setPopup] = useState(false);
-
   const options = props?.dropdownOptions?.filter((e: any) =>
     e?.label?.toLowerCase().includes(props?.value?.toLowerCase()),
   );
 
-  useEffect(() => {
-    if (props?.value?.slice(0, 2) === '{{' && props?.value?.length < 3) {
-      setPopup(true);
-    } 
-    // eslint-disable-next-line
-  }, [props?.value]);
+  // useEffect(() => {
+  //   if (props?.value?.slice(0, 2) === '{{' && props?.value?.length < 3) {
+  //     setPopup(true);
+  //   } 
+  //   // eslint-disable-next-line
+  // }, [props?.value]);
 
   const handleClick = async (option: any) => {
    await props.secretOnChange(option);
-   await setPopup(false);
+  //  await setPopup(false);
   };
 
-  
   return (
     <FlexBox.Column fullWidth>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
@@ -267,8 +263,9 @@ export const MakeSecretField = (
             <Paragraph color="primary">Make it Secret</Paragraph>
           </Box>
         )}
-
-        {popup && (
+          
+        <If condition={props?.value?.slice(0, 2) === '{{' && props?.value?.slice(-2) !== '}}' && props?.dropdownOptions?.length > 0}>
+          {() => (
           <Box
             style={{
               backgroundColor: '#fff',
@@ -280,7 +277,6 @@ export const MakeSecretField = (
               top: '7rem',
             }}
           >
-            <OutsideClickHandler onOutsideClick={() => setPopup(false)}>
               <Box
                 marginVertical="sm"
                 marginHorizontal="md"
@@ -303,9 +299,9 @@ export const MakeSecretField = (
                   </Box>
                 ))}
               </Box>
-            </OutsideClickHandler>
           </Box>
-        )}
+          )}
+         </If>
       </FlexBox>
 
       {/* {props?.value?.length > 0 && 
