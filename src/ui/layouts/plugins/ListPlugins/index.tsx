@@ -11,7 +11,6 @@ import {
   IconInputField,
   LinkBox,
   FullWidthSpinner,
-  Tag,
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { routePaths } from '../../../../routes/routePaths';
@@ -25,22 +24,26 @@ import { useHubToken, useHubUser } from '../../../hooks/auth';
 import ZenMLLogo from '../../../assets/logo.svg';
 import { getPlugins, getStarredPlugins, starPlugin } from '../api';
 import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
+import { Filters } from './Filters';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
 const getInitialFilters = (location: { search: string }) => {
-  let author = location.search
+  const initialState = {
+    onlyMine: false,
+    onlyMyStarred: false,
+    author: '',
+    tag: '',
+  };
+
+  const author = location.search
     .replace('?', '')
     .split('&')
     .filter((s) => s.startsWith('author='))[0];
-  if (author) {
-    author = author.replace('author=', '');
-    return [{ label: `Author: ${author}`, query: `username=${author}` }];
-  }
+  if (author) initialState.author = author.replace('author=', '');
 
-  return [];
+  return initialState;
 };
-
 const ListPlugins: React.FC = () => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -59,13 +62,20 @@ const ListPlugins: React.FC = () => {
 
   // get plugins
   useEffect(() => {
+    const filtersQuery = [];
+    if (filters.onlyMine) filtersQuery.push('mine=true');
+    if (filters.onlyMyStarred) filtersQuery.push('starred_by_me=true');
+    if (filters.author) filtersQuery.push(`username=${filters.author}`);
+    if (filters.tag) filtersQuery.push(`tag=${filters.tag}`);
+
     getPlugins(
       searchQuery,
-      filters.map((f) => f.query),
+      filtersQuery,
+      filters.onlyMine || filters.onlyMyStarred ? hubToken : null,
     )
       .then(setPlugins)
       .finally(() => setFetching(false));
-  }, [searchQuery, filters]);
+  }, [searchQuery, filters, hubToken]);
 
   // get starred
   useEffect(() => {
@@ -87,8 +97,8 @@ const ListPlugins: React.FC = () => {
       ]}
     >
       <PluginsLayout title="ZenPacks">
-        <FlexBox paddingVertical={'lg3'} style={{ maxWidth: '520px' }}>
-          <FlexBox fullWidth marginRight="md">
+        <FlexBox paddingVertical={'lg3'}>
+          <FlexBox fullWidth marginRight="md" style={{ maxWidth: '300px' }}>
             <IconInputField
               placeholder="Search"
               defaultValue={searchQuery}
@@ -96,36 +106,7 @@ const ListPlugins: React.FC = () => {
             />
           </FlexBox>
 
-          <FlexBox
-            fullWidth
-            flexWrap
-            alignItems="center"
-            style={{
-              border: '1px solid var(--lightGrey)',
-              borderRadius: '4px',
-            }}
-          >
-            {/* icon */}
-            <Box marginHorizontal="sm">
-              <icons.filter color={iconColors.primary} />
-            </Box>
-
-            {filters.length === 0 ? (
-              <Paragraph style={{ color: 'var(--grey)', cursor: 'default' }}>
-                No filters applied
-              </Paragraph>
-            ) : (
-              filters.map((f) => (
-                <Tag
-                  key={f.label}
-                  text={f.label}
-                  onRemove={() =>
-                    setFilters(filters.filter((fl) => fl.label !== f.label))
-                  }
-                />
-              ))
-            )}
-          </FlexBox>
+          <Filters currentFilters={filters} updateFilters={setFilters} />
         </FlexBox>
 
         {/* list plugins */}

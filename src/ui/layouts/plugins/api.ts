@@ -33,14 +33,20 @@ export const getPlugin = async (pluginId: string): Promise<TPluginDetail> => {
 export const getPlugins: (
   searchQuery: string,
   filterQueries: string[],
+  token: string | null,
 ) => Promise<TPlugin[]> = memoisePromiseFn(
-  async (searchQuery: string, filterQueries: string[]) => {
+  async (
+    searchQuery: string,
+    filterQueries: string[],
+    token: string | null,
+  ) => {
     const search = searchQuery ? `&name_contains=${searchQuery}` : '';
     const filter =
       filterQueries.length > 0 ? '&' + filterQueries.join('&') : '';
     return (
       await axios.get(
         `${HUB_API_URL}/plugins?status=available${search}${filter}`,
+        token ? auth(token) : {},
       )
     ).data as TPlugin[];
   },

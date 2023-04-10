@@ -709,7 +709,7 @@ export const Tag = ({
   onRemove,
 }: {
   text: string;
-  onRemove?: () => void;
+  onRemove?: (e: any) => void;
 }): JSX.Element => (
   <FlexBox
     backgroundColor="#F4F4F4"
