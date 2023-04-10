@@ -363,7 +363,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     state,
                   );
                 }}
-                // inputData={inputData}
+                inputData={inputData}
                 value={
                   inputData[props.name]?.value
                     ? inputData[props.name]?.value
@@ -375,37 +375,34 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                 onChange={(val: string, newEvent: any) => {
                   callActionForSecret(props.name, val, newEvent);
                 }}
-                
-                
-                // secretOnChange={(val: any, newEvent: any) => {
-                //   // debugger;
-                //   // setInputData({
-                //   //   ...inputData,
-                //   //   [props.name]: val.value.includes('.') ? val.value : val,
-                //   // });
+                secretOnChange={(val: any, newEvent: any) => {
+                  // debugger;
+                  // setInputData({
+                  //   ...inputData,
+                  //   [props.name]: val.value.includes('.') ? val.value : val,
+                  // });
 
-                //   if (val?.value?.includes('}}')) {
-                //     setInputData({
-                //       ...inputData,
-                //       [props?.name]: val?.value?.includes('.') ? val.value : val,
-                //     });
-                //   } else if (val.value.includes('{{')) {
-                //     callActionForSecret(props.name, val, newEvent);
-                //   }
-                // }}
-                // dropdownOptions={
-                  // inputData[props?.name]?.value &&
-                  // inputData[props?.name]?.value.includes(
-                  //   `${selectedSecret.name}.`,
-                  // )
-                  //   ? secretOptionsWithKeys
-                  //   : secretOptions
-                // }
+                  if (val?.value?.includes('}}')) {
+                    setInputData({
+                      ...inputData,
+                      [props?.name]: val?.value?.includes('.') ? val.value : val,
+                    });
+                  } else if (val.value.includes('{{')) {
+                    callActionForSecret(props.name, val, newEvent);
+                  }
+                }}
+                dropdownOptions={
+                  inputData[props?.name]?.value &&
+                  inputData[props?.name]?.value.includes(
+                    `${selectedSecret.name}.`,
+                  )
+                    ? secretOptionsWithKeys
+                    : secretOptions
+                }
                 
-                dropdownOptions={secretOptions}
+                // dropdownOptions={secretOptions}
                 tooltipText='Start typing with "{{" to reference a secret for this field.'
               />
-              {console.log('ahsan',inputData)}
             </Box>
           ) : (
             <TextField
