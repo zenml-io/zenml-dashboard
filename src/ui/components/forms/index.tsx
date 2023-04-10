@@ -200,7 +200,7 @@ export const MakeSecretField = (
     placeholder: any;
     value: string;
     onChange?: any;
-    // secretOnChange?: any;
+    secretOnChange?: any;
     handleClick?: any;
     dropdownOptions?: Array<any>;
     tooltipText?: string;
@@ -221,7 +221,7 @@ export const MakeSecretField = (
   }, [props?.value]);
 
   const handleClick = async (option: any) => {
-   await props.onChange(() => option?.value);
+   await props.secretOnChange(option);
    await setPopup(false);
   };
 
