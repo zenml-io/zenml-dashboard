@@ -31,7 +31,7 @@ const artifactTabs = [
 const ArtifactTabHeader = ({ node }: { node: any }) => {
 
     const [show, setShow] = useState("__META");
-    const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(100);
+    const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(35);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
     const parent = useRef<(HTMLDivElement)>(null)
     const divRefs = useRef<(HTMLSpanElement | null)[]>([])
@@ -50,8 +50,9 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
     }, [])
 
     useEffect(() => {
-
-    }, [show, dynamicLeft, setDynamicWidth])
+        setDynamicLeft(dynamicLeft);
+        setDynamicWidth(dynamicWidth);
+    }, [show, dynamicLeft, dynamicWidth, node])
 
 
     const handleClick = (divId: number) => {
@@ -82,7 +83,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
                 })}
 
             </div>
-            <div className={`${styles.underline}`} style={{ marginLeft: dynamicLeft, transition: 'all 300ms ease', width: dynamicWidth }}></div>
+            <div className={`${styles.underline}`} style={{ marginLeft: `${dynamicLeft}px`, transition: 'all 300ms ease', width: `${dynamicWidth}px` }}></div>
 
             {/* SHOW META */}
             {show === "__META" ?

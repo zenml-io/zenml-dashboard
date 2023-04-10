@@ -33,27 +33,79 @@ const tabs = [
     },
 ]
 
+
+const TextInput: React.FC<any> = ({ label, value }) => {
+
+    const [input, setInput] = useState('');
+
+
+    const handleChange = (event:any) =>{
+        setInput(event.target.value);
+    }
+
+    useEffect(() => {
+        value(input)
+    }, [input]) //eslint-disable-line
+    
+
+    return (
+        <div>
+            <p>{label}</p>
+            <input placeholder={label} onChange={(e) => handleChange(e)} />
+        </div>
+    )
+}
+// USE GUIDE: JUST CREATE A STATE WHERE YOU USE THIS COMPONENT AND PASS THE "SET" METHOD IN VALUE
+const ToggleButton: React.FC<any> = ({label, value}) => { //eslint-disable-line
+    const [isActive, setIsActive] = useState(false);
+
+    const handleClick = () => {
+      setIsActive(!isActive);
+    };
+
+    useEffect(() => {
+        value(isActive)
+    }, [isActive]) //eslint-disable-line
+    
+  
+    return (
+      <button className={`toggle-button ${isActive ? "active" : ""}`} onClick={handleClick}>
+        <div className="toggle-button__thumb"></div>
+      </button>
+    );
+  };
+
 const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
 
-  
+
 
     const [show, setShow] = useState("__CONFIG");
-    const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(100);
+    const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(50);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
     const [fetching, setFetching] = useState(true); //eslint-disable-line
     const divRefs = useRef<(HTMLSpanElement | null)[]>([])
 
+    // INPUTS STATES
+    const [input1, setInput1] = useState(''); //eslint-disable-line
+    const [input2, setInput2] = useState(''); //eslint-disable-line
+    const [input3, setInput3] = useState(''); //eslint-disable-line
+    const [input4, setInput4] = useState(''); //eslint-disable-line
+    const [input5, setInput5] = useState(''); //eslint-disable-line
+    
 
     useEffect(() => {
         setDynamicLeft(divRefs.current[1]?.offsetLeft);
         setDynamicWidth(divRefs.current[1]?.offsetWidth);
-    }, [])
+        console.log("__unauth_dynamic_Left", dynamicLeft)
+        console.log("__unauth_dynamic_width", dynamicWidth)
+    }, [])//eslint-disable-line
 
     useEffect(() => {
+        setDynamicLeft(dynamicLeft);
+        setDynamicWidth(dynamicWidth);
+    }, [show, dynamicLeft, dynamicWidth, node])//eslint-disable-line
 
-    }, [show, dynamicLeft, setDynamicWidth, node])
 
-    
     if (Object.keys(node).length === 0) {
         return <FullWidthSpinner color="black" size="md" />;
     }
@@ -73,7 +125,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
         }
     }
 
-   
+
 
     return (
         <>
@@ -94,7 +146,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
                     )
                 })}
             </div>
-            <div className={`${stepStyles.underline}`} style={{ marginLeft: dynamicLeft, transition: 'all 300ms ease', width: dynamicWidth }}></div>
+            <div className={`${stepStyles.underline}`} style={{ marginLeft: `${dynamicLeft}px`, transition: 'all 300ms ease', width: `${dynamicWidth}px` }}></div>
 
 
             {
@@ -201,28 +253,13 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
 
                 <>
                     <div className='config_container'>
-                        <div>
-                            <p>Component Name</p>
-                            <input type='text' placeholder='component name' />
-                        </div>
-
-                        <div>
-                            <p>Kubernetes Context</p>
-                            <input type='text' placeholder='Kubernetes Context' />
-                        </div>
-                        <div>
-                            <p>Kubernetes Context</p>
-                            <input type='text' placeholder='Kubernetes Context' />
-                        </div>
-                        <div>
-                            <p>Kubernetes Context</p>
-                            <input type='text' placeholder='Kubernetes Context' />
-                        </div>
-                        <div>
-                            <p>Kubernetes Context</p>
-                            <input type='text' placeholder='Kubernetes Context' />
-                        </div>
+                        <TextInput label={"Component Name"} value={setInput1} />
+                        <TextInput label={"Kubernetes Context"} value={setInput2} />
+                        <TextInput label={"Kubernetes Context"} value={setInput3} />
+                        <TextInput label={"Kubernetes Context"} value={setInput4} />
+                        <TextInput label={"Kubernetes Context"} value={setInput5} />
                     </div>
+                        {/* <ToggleButton value={setInput5}/> */}
                 </>
                 : ""
             }

@@ -482,6 +482,59 @@
 
 /* siderbar tab hover */
 
+
+
+
+/* BUTTON TOGGLER */
+.toggle-button {
+  position: relative;
+  width: 40px;
+  height: 20px;
+  border-radius: 30px;
+  border: none;
+  background-color: #ccc;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s;
+}
+
+.toggle-button.active {
+  background-color: #00aaff;
+}
+
+.toggle-button__thumb {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background-color: #fff;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.4);
+  transition: transform 0.2s, background-color 0.2s;
+}
+
+.toggle-button.active .toggle-button__thumb {
+  transform: translateX(20px);
+  background-color: #fff;
+}
+
+.toggle-button:hover {
+  background-color: #bbb;
+}
+
+.toggle-button.active:hover {
+  background-color: #00aaff;
+}
+
+.toggle-button:focus{
+  outline: none;
+}
+
+
+
+
+
 /* Ali edit id#123456789 */
 @media (max-width: 1850px) {
   .URI {
