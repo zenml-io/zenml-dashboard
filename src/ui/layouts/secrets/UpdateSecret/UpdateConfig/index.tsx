@@ -263,7 +263,7 @@ export const UpdateConfig: React.FC<{
         }}
       >
         <Box marginBottom="lg">
-          <PrimaryButton onClick={() => onSubmit()}>Save Changes</PrimaryButton>
+          <PrimaryButton onClick={() => onSubmit()} style={{ width: '179px' }}>Save Changes</PrimaryButton>
         </Box>
       </FlexBox>
     </FlexBox.Column>
