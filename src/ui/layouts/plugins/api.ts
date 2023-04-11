@@ -45,7 +45,7 @@ export const getPlugins: (
       filterQueries.length > 0 ? '&' + filterQueries.join('&') : '';
     return (
       await axios.get(
-        `${HUB_API_URL}/plugins?status=available${search}${filter}`,
+        `${HUB_API_URL}/plugins?build_status=available${search}${filter}`,
         token ? auth(token) : {},
       )
     ).data as TPlugin[];
