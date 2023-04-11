@@ -229,7 +229,7 @@ export const Register: React.FC<Props> = (state: any) => {
   }
   return (
     <>
-      <FlexBox.Row flexDirection="column">
+      <FlexBox.Row flexDirection="column" marginLeft="xl">
         {/* <Box>
           <MakeSecretField
             label={'Item 3 (Secret)'}

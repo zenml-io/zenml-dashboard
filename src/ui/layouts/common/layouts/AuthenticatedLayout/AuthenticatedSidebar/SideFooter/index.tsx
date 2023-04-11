@@ -13,26 +13,24 @@ export const SideFooter: React.FC = () => {
       </Box>
 
       <div style={{ marginBottom: '-11px' }}>
-        <MenuItemExternal
-          id="documentation"
-          Icon={() => (
-            <icons.docs color={iconColors.white} size={iconSizes.md} />
-          )}
-          to="https://docs.zenml.io"
-          text="Documentation"
-        />
-        <MenuItemExternal
-          id="example"
-          Icon={() => (
-            <icons.example color={iconColors.white} size={iconSizes.md} />
-          )}
-          to="https://docs.zenml.io/getting-started/examples"
-          text="Example & Tutorials"
-        />
+        {/* <MenuItemExternal
+        id="documentation"
+        Icon={() => <icons.docs color={iconColors.white} size={iconSizes.md} />}
+        to="https://docs.zenml.io"
+        text="Documentation"
+      />
+      <MenuItemExternal
+        id="example"
+        Icon={() => (
+          <icons.example color={iconColors.white} size={iconSizes.md} />
+        )}
+        to="https://docs.zenml.io/getting-started/examples"
+        text="Example & Tutorials"
+      /> */}
         <MenuItemExternal
           id="report"
           Icon={() => (
-            <icons.tool color={iconColors.white} size={iconSizes.md} />
+            <icons.supportAgent color={iconColors.white} size={iconSizes.md} />
           )}
           to="https://github.com/zenml-io/zenml-dashboard/issues/new/choose"
           text="Report Issue"
