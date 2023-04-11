@@ -559,7 +559,8 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
         }
       }
     }
-    for (const [key, value] of Object.entries(inputData)) {
+
+    for (const [, value] of Object.entries(inputData)) {
       if (typeof value === 'object') {
         return dispatch(
           showToasterAction({
@@ -569,6 +570,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
         );
       }
     }
+
     const body = {
       user: user?.id,
       workspace: id,
