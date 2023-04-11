@@ -83,7 +83,7 @@ const UpdatePlugin: React.FC = () => {
           ),
         },
         {
-          name: 'Update plugin',
+          name: 'Create new plugin version',
           clickable: true,
           to: routePaths.plugins.update(
             selectedWorkspace ?? DEFAULT_WORKSPACE_NAME,
@@ -92,7 +92,7 @@ const UpdatePlugin: React.FC = () => {
         },
       ]}
     >
-      <PluginsLayout title="Update Plugin">
+      <PluginsLayout title="Create New Plugin Version">
         {/* content container */}
         <FlexBox marginVertical="xl">
           {/* date and image sidebar */}
@@ -147,7 +147,7 @@ const UpdatePlugin: React.FC = () => {
                 placeholder={
                   'Version number' +
                   (previousVersionNumber
-                    ? ` (active version is ${previousVersionNumber})`
+                    ? ` (latest version is ${previousVersionNumber})`
                     : '')
                 }
               />
@@ -303,7 +303,7 @@ const UpdatePlugin: React.FC = () => {
             <Paragraph>Note</Paragraph>
             <Paragraph size="small">
               {
-                "If you update your computer's operating system, you may experience improved performance, new features, or bug fixes. However, some older software or hardware may not be compatible with the new update, leading to potential issues or the need for updates to those as well."
+                "This will create a new version of your plugin without overwriting the previous one. This way any code with dependencies on the previous version continues working. Please use semantic versioning and verbose Release Notes to make it easier for other users to use this plugin."
               }
             </Paragraph>
           </Box>
