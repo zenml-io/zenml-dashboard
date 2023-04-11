@@ -86,16 +86,16 @@ export const StackDetail: React.FC = () => {
               marginTop: '10px',
               justifyContent: 'center',
               borderRadius: '50%',
-              height: '25px',
-              width: '25px',
+              // height: '25px',
+              // width: '25px',
               paddingTop: '3px',
               textAlign: 'center',
             }}
           >
             {stack.isShared ? (
-              <icons.multiUser color={iconColors.white} size={iconSizes.sm} />
+              <icons.multiUser color={iconColors.white} size={iconSizes.md} />
             ) : (
-              <icons.singleUser color={iconColors.white} size={iconSizes.sm} />
+              <icons.singleUser color={iconColors.white} size={iconSizes.md} />
             )}
           </Paragraph>
         </Box>
