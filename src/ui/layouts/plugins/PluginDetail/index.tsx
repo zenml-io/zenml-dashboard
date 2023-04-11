@@ -453,25 +453,30 @@ const PluginDetail: React.FC = () => {
                             </Paragraph>
                             <DisplayCode code={installationCommand} />
                           </Box>
-                          <Box marginVertical="lg">
-                            <Paragraph style={{ marginBottom: '8px' }}>
-                              Pip install
-                            </Paragraph>
-                            <Paragraph
-                              size="tiny"
-                              style={{ marginBottom: '8px' }}
-                            >
-                              You can also install this plugin directly from pip
-                              with these commands.
-                            </Paragraph>
-                            <DisplayCode
-                              code={
-                                'pip install plugin.requirements' +
-                                '\n' +
-                                `pip install --index-url ${plugin.index_url} ${plugin.package_name} --no-deps`
-                              }
-                            />
-                          </Box>
+
+                          {version && (
+                            <Box marginVertical="lg">
+                              <Paragraph style={{ marginBottom: '8px' }}>
+                                Pip install
+                              </Paragraph>
+                              <Paragraph
+                                size="tiny"
+                                style={{ marginBottom: '8px' }}
+                              >
+                                You can also install this plugin directly from
+                                pip with these commands.
+                              </Paragraph>
+                              <DisplayCode
+                                code={
+                                  `pip install ${version.requirements.join(
+                                    ' ',
+                                  )}` +
+                                  '\n' +
+                                  `pip install --index-url ${plugin.index_url} ${plugin.package_name} --no-deps`
+                                }
+                              />
+                            </Box>
+                          )}
                           <Box marginVertical="lg">
                             <Paragraph style={{ marginBottom: '8px' }}>
                               Usage

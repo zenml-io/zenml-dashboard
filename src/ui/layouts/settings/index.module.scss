@@ -3,19 +3,25 @@
     width: 161px; 
     position: relative;
 
-    .sampleImage {
+    .sampleImage, img {
         height: 100%; 
         width: 100%; 
         aspect-ratio: 1;
-        border-radius: 100%; 
-        object-fit: none;
+        border-radius: 100%;
         box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+    }
 
+    .sampleImage {
+        object-fit: none;
         background-color: #22BBDD;
         font-family: 'Rubik';
         font-size: 64px;
         color: #fff;
         font-weight: 700;
+    }
+
+    img {
+        object-fit: cover;
     }
 
     .imageUploader {

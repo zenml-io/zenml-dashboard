@@ -51,6 +51,7 @@ interface THubUser {
   id: TId;
   website: string;
   bio: string;
+  avatar_url?: string;
 }
 
 interface TOrganization {

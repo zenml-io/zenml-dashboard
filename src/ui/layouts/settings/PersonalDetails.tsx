@@ -126,13 +126,17 @@ export const PersonalDetails: React.FC = () => {
       >
         {/* user details in left column */}
         <Box marginVertical="lg" className={styles.imageContainer}>
-          <FlexBox
-            justifyContent="center"
-            alignItems="center"
-            className={styles.sampleImage}
-          >
-            {userInitials}
-          </FlexBox>
+          {hubUser?.avatar_url ? (
+            <img src={hubUser.avatar_url} alt="Profile image" />
+          ) : (
+            <FlexBox
+              justifyContent="center"
+              alignItems="center"
+              className={styles.sampleImage}
+            >
+              {userInitials}
+            </FlexBox>
+          )}
 
           {/* <img src={selectedImage} alt='userImage' /> */}
           {/* <div className={styles.imageUploader}>

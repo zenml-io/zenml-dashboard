@@ -157,6 +157,7 @@ export const Plugins: React.FC = () => {
                     color="primary"
                     style={{
                       fontSize: '24px',
+                      lineHeight: '28px',
                       width: '200px',
                       whiteSpace: 'nowrap',
                       overflow: 'hidden',
@@ -167,7 +168,7 @@ export const Plugins: React.FC = () => {
                   </Paragraph>
                   <Paragraph
                     color="grey"
-                    style={{ fontSize: '20px', marginTop: '8px' }}
+                    style={{ fontSize: '20px', marginTop: '6px' }}
                   >
                     {p.version}: Pending
                     {/* TODO: get the last line of build logs for status? */}
