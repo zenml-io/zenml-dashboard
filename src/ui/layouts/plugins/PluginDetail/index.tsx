@@ -162,8 +162,12 @@ const PluginDetail: React.FC = () => {
                         >
                           {plugin.name}
                         </Paragraph>
-
-                        <icons.verified color={iconColors.primary} size="lg" />
+                        {plugin.author === 'ZenML' && (
+                          <icons.verified
+                            color={iconColors.primary}
+                            size="lg"
+                          />
+                        )}
                       </FlexBox>
 
                       {/* light details */}
@@ -429,7 +433,7 @@ const PluginDetail: React.FC = () => {
                   ),
                 },
                 {
-                  text: 'Installing',
+                  text: 'Usage',
                   Component: () =>
                     fetching ? (
                       <FullWidthSpinner color="black" size="md" />
@@ -465,7 +469,7 @@ const PluginDetail: React.FC = () => {
                         </Box>
                       )
                     ),
-                  path: routePaths.plugins.detail.installing(
+                  path: routePaths.plugins.detail.usage(
                     selectedWorkspace,
                     pluginId,
                   ),

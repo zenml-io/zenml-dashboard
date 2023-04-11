@@ -74,7 +74,14 @@ const ListPlugins: React.FC = () => {
       filtersQuery,
       filters.onlyMine || filters.onlyMyStarred ? hubToken : null,
     )
-      .then(setPlugins)
+      .then((data) => {
+        const sorted = data.sort((a, b) => {
+          if (a.author === 'ZenML' && b.author !== 'ZenML') return -1;
+          if (a.author !== 'ZenML' && b.author === 'ZenML') return 1;
+          return 0;
+        });
+        setPlugins(sorted);
+      })
       .finally(() => setFetching(false));
   }, [searchQuery, filters, hubToken]);
 
@@ -139,6 +146,9 @@ const ListPlugins: React.FC = () => {
                     )
                   }
                 >
+                  {p.author === 'ZenML' && (
+                    <icons.verified color={iconColors.primary} size="sm" />
+                  )}
                   {/* logo */}
                   <img
                     src={p.logo_url || ZenMLLogo}

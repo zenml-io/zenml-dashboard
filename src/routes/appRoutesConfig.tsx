@@ -498,7 +498,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.plugins.detail.logs(':workspace', ':pluginId'),
+    path: routePaths.plugins.detail.buildLogs(':workspace', ':pluginId'),
     Component: DisplayPluginLogs,
     visibility: {
       authentication: RouteVisibilityAuthentication.always,
@@ -547,7 +547,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.plugins.detail.installing(':workspace', ':pluginId'),
+    path: routePaths.plugins.detail.usage(':workspace', ':pluginId'),
     Component: PluginDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.always,

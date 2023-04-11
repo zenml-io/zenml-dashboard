@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import {
   FlexBox,
   InputWithLabel,
@@ -871,7 +871,7 @@ export const CheckboxInput = ({
   value,
   setValue,
 }: {
-  label: string;
+  label: string | ReactNode;
   value: boolean;
   setValue: (b: boolean) => void;
 }): JSX.Element => (
