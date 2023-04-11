@@ -147,7 +147,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
         id: value?.id ? value?.id : '',
       },
     });
-    
+
     // if (value === undefined) {
     //   return false;
     // }
@@ -373,7 +373,14 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     : ''
                 }
                 onChange={(val: string, newEvent: any) => {
-                  callActionForSecret(props.name, val, newEvent);
+                  if (val.includes('{{')) {
+                    callActionForSecret(props.name, val, newEvent);
+                  } else {
+                    setInputData({
+                      ...inputData,
+                      [props.name]: val,
+                    });
+                  }
                 }}
                 secretOnChange={(val: any, newEvent: any) => {
                   // debugger;
@@ -385,7 +392,9 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                   if (val?.value?.includes('}}')) {
                     setInputData({
                       ...inputData,
-                      [props?.name]: val?.value?.includes('.') ? val.value : val,
+                      [props?.name]: val?.value?.includes('.')
+                        ? val.value
+                        : val,
                     });
                   } else if (val.value.includes('{{')) {
                     callActionForSecret(props.name, val, newEvent);
@@ -398,7 +407,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                   )
                     ? secretOptionsWithKeys
                     : secretOptions
-                }   
+                }
                 tooltipText='Start typing with "{{" to reference a secret for this field.'
               />
             </Box>
@@ -548,6 +557,16 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             }),
           );
         }
+      }
+    }
+    for (const [key, value] of Object.entries(inputData)) {
+      if (typeof value === 'object') {
+        return dispatch(
+          showToasterAction({
+            description: 'Invalid secret',
+            type: toasterTypes.failure,
+          }),
+        );
       }
     }
     const body = {
