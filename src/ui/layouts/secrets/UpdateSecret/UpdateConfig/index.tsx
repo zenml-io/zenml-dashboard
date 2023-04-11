@@ -132,22 +132,22 @@ export const UpdateConfig: React.FC<{
           }),
         );
       }
-      if (!key && !value) {
-        return dispatch(
-          showToasterAction({
-            description: 'Key and value cannot be Empty.',
-            type: toasterTypes.failure,
-          }),
-        );
-      }
-      if (!value && key) {
-        return dispatch(
-          showToasterAction({
-            description: 'Value cannot be Empty.',
-            type: toasterTypes.failure,
-          }),
-        );
-      }
+      // if (!key && !value) {
+      //   return dispatch(
+      //     showToasterAction({
+      //       description: 'Key and value cannot be Empty.',
+      //       type: toasterTypes.failure,
+      //     }),
+      //   );
+      // }
+      // if (!value && key) {
+      //   return dispatch(
+      //     showToasterAction({
+      //       description: 'Value cannot be Empty.',
+      //       type: toasterTypes.failure,
+      //     }),
+      //   );
+      // }
     }
     // }
 
@@ -263,7 +263,9 @@ export const UpdateConfig: React.FC<{
         }}
       >
         <Box marginBottom="lg">
-          <PrimaryButton onClick={() => onSubmit()} style={{ width: '179px' }}>Save Changes</PrimaryButton>
+          <PrimaryButton onClick={() => onSubmit()} style={{ width: '179px' }}>
+            Save Changes
+          </PrimaryButton>
         </Box>
       </FlexBox>
     </FlexBox.Column>
