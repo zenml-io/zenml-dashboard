@@ -240,10 +240,8 @@ const ListPlugins: React.FC = () => {
                         }
                       }}
                       paddingRight="md"
-                    >
-                      <StarIcon size="sm" color={iconColors.primary} />
-                    </Box>
-                    <icons.extension size="sm" color={iconColors.primary} />
+                    ></Box>
+                    <StarIcon size="sm" color={iconColors.primary} />
                   </FlexBox>
                 </LinkBox>
               );

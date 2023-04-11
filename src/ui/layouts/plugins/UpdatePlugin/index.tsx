@@ -56,8 +56,6 @@ const UpdatePlugin: React.FC = () => {
         setRepositoryBranch(p.repository_branch);
       if (!repositorySubdirectory && p.repository_subdirectory)
         setRepositorySubdirectory(p.repository_subdirectory);
-      if (!commitHash && p.repository_commit)
-        setCommitHash(p.repository_commit);
       if (!logoUrl && p.logo_url) setLogoUrl(p.logo_url);
       setPreviousVersionNumber(p.version);
     });
@@ -303,7 +301,7 @@ const UpdatePlugin: React.FC = () => {
             <Paragraph>Note</Paragraph>
             <Paragraph size="small">
               {
-                "This will create a new version of your plugin without overwriting the previous one. This way any code with dependencies on the previous version continues working. Please use semantic versioning and verbose Release Notes to make it easier for other users to use this plugin."
+                'This will create a new version of your plugin without overwriting the previous one. This way any code with dependencies on the previous version continues working. Please use semantic versioning and verbose Release Notes to make it easier for other users to use this plugin.'
               }
             </Paragraph>
           </Box>
