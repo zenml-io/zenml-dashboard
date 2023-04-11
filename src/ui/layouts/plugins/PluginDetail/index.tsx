@@ -235,7 +235,7 @@ const PluginDetail: React.FC = () => {
                           ...(isOwner
                             ? [
                                 {
-                                  label: 'Update Version',
+                                  label: 'Create new Version',
                                   icon: icons.share,
                                   color: iconColors.primary,
                                   onClick: () =>

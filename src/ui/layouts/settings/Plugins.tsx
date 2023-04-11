@@ -27,39 +27,14 @@ type AugmentedPluginVersion = TPluginVersion & {
   description?: string;
 };
 
-const getData = async (token: string): Promise<AugmentedPluginVersion[]> => {
+const getData = async (token: string) => {
   const versions = (
-    await axios.get(`${HUB_API_URL}/plugin_versions?mine=true`, {
+    await axios.get(`${HUB_API_URL}/plugins?mine=true`, {
       headers: { Authorization: `Bearer ${token}` },
     })
-  ).data as TPluginVersion[];
+  ).data as AugmentedPluginVersion[];
 
-  const pluginIds = versions.map((v) => v.plugin_id);
-  const pluginLookup = Object.fromEntries(
-    await Promise.all(
-      pluginIds.map(async (id) => [
-        id,
-        (
-          await axios.get(`${HUB_API_URL}/plugins/${id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-        ).data as TPluginDetail[],
-      ]),
-    ),
-  ) as Record<TId, TPluginDetail>;
-
-  return versions
-    .map((v) => {
-      const p = pluginLookup[v.plugin_id];
-      if (!p) return null;
-      return {
-        ...v,
-        name: p.name,
-        description: p.description,
-        logo_url: p.logo_url,
-      };
-    })
-    .filter(Boolean) as AugmentedPluginVersion[];
+  return versions.filter(Boolean);
 };
 
 const groupPlugins = (plugins: AugmentedPluginVersion[]) => {
@@ -154,7 +129,7 @@ export const Plugins: React.FC = () => {
               >
                 {/* image */}
                 <img
-                  src={p.logo_url ?? ZenMLLogo}
+                  src={p.logo_url || ZenMLLogo}
                   alt={`${p.name} logo`}
                   style={{
                     width: '80px',
@@ -224,7 +199,7 @@ export const Plugins: React.FC = () => {
                 {m.plugins.map((p, i) => (
                   <PluginCard
                     key={i}
-                    logoUrl={p.logo_url}
+                    logoUrl={p.logo_url || ZenMLLogo}
                     title={p.name}
                     description={`${p.version}: ${
                       p.description ?? 'No plugin description'
@@ -259,12 +234,12 @@ export const Plugins: React.FC = () => {
                 {m.plugins.map((p, i) => (
                   <PluginCard
                     key={i}
-                    logoUrl={p.logo_url}
+                    logoUrl={p.logo_url || ZenMLLogo}
                     title={p.name}
                     description={`${p.version}: ${
                       p.description ?? 'No plugin description'
                     }`}
-                    url={routePaths.plugins.detail.overview(workspace, p.id)}
+                    url={routePaths.plugins.detail.logs(workspace, p.id)}
                   />
                 ))}
               </FlexBox>

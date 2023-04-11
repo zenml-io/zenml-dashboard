@@ -285,6 +285,7 @@ interface TPluginDetail extends TPlugin {
   repository_subdirectory?: string;
   repository_branch?: string;
   repository_commit?: string;
+  build_logs: string;
 }
 
 interface TPluginVersion {

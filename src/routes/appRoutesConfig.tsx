@@ -36,6 +36,7 @@ import UpdatePlugin from '../ui/layouts/plugins/UpdatePlugin';
 import PluginDetail from '../ui/layouts/plugins/PluginDetail';
 
 import { Logout } from '../ui/components/Logout';
+import DisplayPluginLogs from '../ui/layouts/plugins/DisplayLogs';
 
 const routes = [
   {
@@ -491,6 +492,14 @@ const routes = [
   {
     path: routePaths.plugins.list(':workspace'),
     Component: ListPlugins,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.detail.logs(':workspace', ':pluginId'),
+    Component: DisplayPluginLogs,
     visibility: {
       authentication: RouteVisibilityAuthentication.always,
     },
