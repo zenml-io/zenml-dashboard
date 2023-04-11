@@ -96,7 +96,7 @@ const ListPlugins: React.FC = () => {
         },
       ]}
     >
-      <PluginsLayout title="ZenPacks">
+      <PluginsLayout title="Plugins">
         <FlexBox paddingVertical={'lg3'}>
           <FlexBox fullWidth marginRight="md" style={{ maxWidth: '300px' }}>
             <IconInputField
