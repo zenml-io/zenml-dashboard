@@ -4,6 +4,7 @@ import {
   Box,
   FlexBox,
   FormTextField,
+  FormPasswordField,
   Paragraph,
   PrimaryButton,
   icons,
@@ -118,7 +119,7 @@ const Selector: React.FC<Props> = ({
               </Box>
 
               <Box style={{ width: '329px' }} marginLeft="md">
-                <FormTextField
+                <FormPasswordField
                   onChange={(event: any) =>
                     handleInputChange(index, event, 'value')
                   }
@@ -126,6 +127,8 @@ const Selector: React.FC<Props> = ({
                   labelColor="rgba(66, 66, 64, 0.5)"
                   value={item?.value}
                   placeholder={''}
+                  error={{}}
+                  showPasswordOption
                 />
               </Box>
 

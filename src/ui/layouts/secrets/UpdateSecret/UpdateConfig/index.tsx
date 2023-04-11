@@ -218,7 +218,7 @@ export const UpdateConfig: React.FC<{
   }
   return (
     <FlexBox.Column marginLeft="xl">
-      <Box marginTop="lg" style={{ width: '417px' }}>
+      <Box marginTop="lg" style={{ width: '329px' }}>
         <FormTextField
           label={'Secret name'}
           labelColor="rgba(66, 66, 64, 0.5)"
@@ -230,7 +230,7 @@ export const UpdateConfig: React.FC<{
           }}
         />
       </Box>
-      <Box marginTop="lg" style={{ width: '417px' }}>
+      <Box marginTop="lg" style={{ width: '329px' }}>
         <FormDropdownField
           label={'Scope'}
           labelColor="rgba(66, 66, 64, 0.5)"
@@ -263,7 +263,7 @@ export const UpdateConfig: React.FC<{
         }}
       >
         <Box marginBottom="lg">
-          <PrimaryButton onClick={() => onSubmit()}>Save Changes</PrimaryButton>
+          <PrimaryButton onClick={() => onSubmit()} style={{ width: '179px' }}>Save Changes</PrimaryButton>
         </Box>
       </FlexBox>
     </FlexBox.Column>
