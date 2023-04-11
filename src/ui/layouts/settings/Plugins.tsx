@@ -56,6 +56,7 @@ const getData = async (token: string): Promise<AugmentedPluginVersion[]> => {
         ...v,
         name: p.name,
         description: p.description,
+        logo_url: p.logo_url,
       };
     })
     .filter(Boolean) as AugmentedPluginVersion[];

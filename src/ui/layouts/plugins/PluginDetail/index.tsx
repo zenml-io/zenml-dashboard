@@ -141,7 +141,7 @@ const PluginDetail: React.FC = () => {
                       }}
                     >
                       <img
-                        src={plugin.logo_url ?? ZenMLLogo}
+                        src={plugin.logo_url || ZenMLLogo}
                         alt={`${plugin.name} logo`}
                         style={{
                           height: '80px',
@@ -340,7 +340,7 @@ const PluginDetail: React.FC = () => {
                 {
                   text: 'Overview',
                   Component: plugin
-                    ? () => <OverviewTab readMeUrl={plugin.readme_url} />
+                    ? () => <OverviewTab readMeUrl={plugin.description} />
                     : () => <FullWidthSpinner color="black" size="md" />,
                   path: routePaths.plugins.detail.overview(
                     selectedWorkspace,
@@ -350,13 +350,11 @@ const PluginDetail: React.FC = () => {
                 {
                   text: 'Changelogs',
                   Component: () =>
-                    !versions ? (
+                    loadingVersions ? (
+                      <FullWidthSpinner color="black" size="md" />
+                    ) : !versions || versions.length < 1 ? (
                       <Box paddingVertical="md">
-                        <Paragraph>
-                          {loadingVersions
-                            ? 'Loading version changelogs...'
-                            : "This plugin doesn't have any version changelogs to display."}
-                        </Paragraph>
+                        <Paragraph>No available versions found</Paragraph>
                       </Box>
                     ) : (
                       <Box>
@@ -416,10 +414,14 @@ const PluginDetail: React.FC = () => {
                   Component: () =>
                     loadingVersions ? (
                       <FullWidthSpinner color="black" size="md" />
+                    ) : version ? (
+                      <DisplayCode code={version.requirements.join('\n')} />
                     ) : (
-                      version && (
-                        <DisplayCode code={version.requirements.join('\n')} />
-                      )
+                      <Box paddingVertical="md">
+                        <Paragraph>
+                          No additional requirements defined for this plugin
+                        </Paragraph>
+                      </Box>
                     ),
                   path: routePaths.plugins.detail.requirements(
                     selectedWorkspace,
