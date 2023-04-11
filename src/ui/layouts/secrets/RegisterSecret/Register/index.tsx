@@ -1,17 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import {
   Box,
   FlexBox,
-  PrimaryButton,
   FormTextField,
   FormDropdownField,
   FullWidthSpinner,
+  // MakeSecretField,
   // MakeSecretField,
 } from '../../../../components';
 import Selector from '../../Selector/Selector';
 // import { callActionForStacksForPagination } from '../../Stacks/useService';
 import axios from 'axios';
-import { useDispatch, useHistory, useSelector } from '../../../../hooks';
+import {
+  useDispatch,
+  useHistory,
+  // useLocation,
+  useSelector,
+} from '../../../../hooks';
 import { showToasterAction } from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
 import { routePaths } from '../../../../../routes/routePaths';
@@ -21,9 +26,11 @@ import {
   workspaceSelectors,
 } from '../../../../../redux/selectors';
 
-interface Props {}
+interface Props {
+  state?: any;
+}
 
-export const Register: React.FC<Props> = () => {
+export const Register: React.FC<Props> = (state: any) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -32,18 +39,38 @@ export const Register: React.FC<Props> = () => {
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [secretName, setSecretName] = useState('');
   const [scope, setScope] = useState<any>('workspace');
-  const [inputFields, setInputFields] = useState([]);
-  const [loading, setLoading] = useState(false);
 
+  const [loading, setLoading] = useState(false);
+  // const [routeState, setRouteState] = useState(location);
+  useEffect(() => {
+    function generateRandomString(length: number) {
+      let result = '';
+      const characters =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      for (let i = 0; i < length; i++) {
+        result += characters.charAt(
+          Math.floor(Math.random() * characters.length),
+        );
+      }
+      return result;
+    }
+    if (state?.state?.routeFromComponent) {
+      const randomString = generateRandomString(6);
+
+      setSecretName(state?.state?.flavor + '_' + randomString);
+    }
+  }, [state]);
+
+  // debugger;
   const dropdownOptions = [
     { value: 'user', label: 'user' },
     { value: 'workspace', label: 'workspace' },
   ];
 
   const handleInputFieldChange = (inputFields: any) => {
-    setInputFields(inputFields);
+    // setInputFields(inputFields);
   };
-  const onSubmit = async () => {
+  const onSubmit = async (inputFields: any) => {
     if (!secretName) {
       return dispatch(
         showToasterAction({
@@ -61,7 +88,7 @@ export const Register: React.FC<Props> = () => {
     //   return acc;
     // }, {});
 
-    const finalValues = inputFields.reduce((acc, { key, value }) => {
+    const finalValues = inputFields.reduce((acc: any, { key, value }: any) => {
       if (acc.hasOwnProperty(key)) {
         dispatch(
           showToasterAction({
@@ -105,25 +132,25 @@ export const Register: React.FC<Props> = () => {
           }),
         );
       }
-      if (!key && !value) {
-        return dispatch(
-          showToasterAction({
-            description: 'Key and value cannot be Empty.',
-            type: toasterTypes.failure,
-          }),
-        );
-      }
-      if (!value && key) {
-        return dispatch(
-          showToasterAction({
-            description: 'Value cannot be Empty.',
-            type: toasterTypes.failure,
-          }),
-        );
-      }
+      // if (!key && !value) {
+      //   return dispatch(
+      //     showToasterAction({
+      //       description: 'Key and value cannot be Empty.',
+      //       type: toasterTypes.failure,
+      //     }),
+      //   );
+      // }
+      // if (!value && key) {
+      //   return dispatch(
+      //     showToasterAction({
+      //       description: 'Value cannot be Empty.',
+      //       type: toasterTypes.failure,
+      //     }),
+      //   );
+      // }
     }
     // }
-    debugger;
+    // debugger;
     const body = {
       user: user?.id,
       workspace: id,
@@ -154,7 +181,18 @@ export const Register: React.FC<Props> = () => {
           }),
         );
 
-        history.push(routePaths.secret.configuration(id, selectedWorkspace));
+        if (state?.state?.routeFromComponent) {
+          const updatedRouteState = {
+            ...state,
+          };
+          updatedRouteState.state.inputData[
+            state.state.secretKey
+          ] = `{{ ${secretName}.${inputFields[0].key} }}`;
+
+          history.push(state.state.pathName, updatedRouteState);
+        } else {
+          history.push(routePaths.secret.configuration(id, selectedWorkspace));
+        }
       })
       .catch((err) => {
         setLoading(false);
@@ -191,24 +229,19 @@ export const Register: React.FC<Props> = () => {
   }
   return (
     <>
-      <FlexBox.Row flexDirection="column">
+      <FlexBox.Row flexDirection="column" marginLeft="xl">
         {/* <Box>
           <MakeSecretField
             label={'Item 3 (Secret)'}
-            labelColor="rgba(66, 66, 64, 0.5)" 
+            labelColor="rgba(66, 66, 64, 0.5)"
             placeholder={'Random Text'}
             value={secretName}
             onChange={(val: string) => setSecretName(val)}
-
-            secretLabel='Item 4 (Secret)'
-            secretLabelColor="rgba(66, 66, 64, 0.5)"
-            secretPlaceholder="john doe"
-            secretValue={'Empty'}
-            secretOnChange={() => {}}
-
-            dropdownOptions={[ 
-              { label: '{{ mlZen.https.azxsggej }}' }, 
-              { label: '{{ mlChen.https.azxsggej }}' }, 
+            secretOnChange={(val: string) => setSecretName(val)}
+            tooltipText='Start typing with "{{" to reference a secret for this field.'
+            dropdownOptions={[
+              { label: '{{ mlZen.https.azxsggej }}' },
+              { label: '{{ mlChen.https.azxsggej }}' },
               { label: 'Example' },
             ]}
           />
@@ -236,11 +269,15 @@ export const Register: React.FC<Props> = () => {
           />
         </Box>
         <Box marginTop="sm">
-          <Selector onSetInputFields={handleInputFieldChange} />
+          <Selector
+            onSubmit={(inputFields: any) => onSubmit(inputFields)}
+            routeState={state}
+            onSetInputFields={handleInputFieldChange}
+          />
         </Box>
       </FlexBox.Row>
 
-      <FlexBox
+      {/* <FlexBox
         style={{
           position: 'fixed',
           right: '0',
@@ -260,7 +297,7 @@ export const Register: React.FC<Props> = () => {
             Register Secret
           </PrimaryButton>
         </Box>
-      </FlexBox>
+      </FlexBox> */}
     </>
   );
 };

@@ -4,7 +4,9 @@ import {
   Box,
   FlexBox,
   FormTextField,
+  FormPasswordField,
   Paragraph,
+  PrimaryButton,
   icons,
 } from '../../../components';
 import { iconColors } from '../../../../constants';
@@ -13,22 +15,38 @@ interface Props {
   label?: string;
   values?: any;
   onSetInputFields: any;
+  routeState?: any;
+  onSubmit?: any;
 }
 
-const Selector: React.FC<Props> = ({ label, onSetInputFields, values }) => {
+const Selector: React.FC<Props> = ({
+  label,
+  onSetInputFields,
+  values,
+  routeState,
+  onSubmit,
+}) => {
   // const [key, setKey] = useState('');
   // const [value, setValue] = useState('');
   const [inputFields, setInputFields] = useState([]) as any;
   useEffect(() => {
     // ...values,
     // { key: '', value: '' },
-    if (values?.length) {
+    if (routeState?.state?.routeFromComponent) {
+      const secretKeyValuefromRoute: any = {
+        key: routeState?.state?.secretKey,
+        value: routeState?.state?.inputData[routeState?.state?.secretKey].value,
+      };
+      setInputFields([...inputFields, secretKeyValuefromRoute]);
+    } else if (values?.length && !routeState?.state?.routeFromComponent) {
       setInputFields([...values]);
     } else {
       setInputFields([{ key: '', value: '' }]);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [routeState, setInputFields]);
+  console.log(inputFields, 'inputFisdsdeldsinputFields');
   // useEffect(() => {
   //   handleInputChange();
   // }, [inputFields]);
@@ -83,7 +101,6 @@ const Selector: React.FC<Props> = ({ label, onSetInputFields, values }) => {
           <label htmlFor="key">{label}</label>
         </Paragraph>
       )}
-
       <FlexBox.Row>
         <Box>
           {console.log()}
@@ -102,7 +119,7 @@ const Selector: React.FC<Props> = ({ label, onSetInputFields, values }) => {
               </Box>
 
               <Box style={{ width: '329px' }} marginLeft="md">
-                <FormTextField
+                <FormPasswordField
                   onChange={(event: any) =>
                     handleInputChange(index, event, 'value')
                   }
@@ -110,6 +127,8 @@ const Selector: React.FC<Props> = ({ label, onSetInputFields, values }) => {
                   labelColor="rgba(66, 66, 64, 0.5)"
                   value={item?.value}
                   placeholder={''}
+                  error={{}}
+                  showPasswordOption
                 />
               </Box>
 
@@ -160,6 +179,27 @@ const Selector: React.FC<Props> = ({ label, onSetInputFields, values }) => {
         <div className="submit-button"></div>
         <br />
       </FlexBox.Row>
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+            onClick={
+              () => onSubmit(inputFields)
+              // history.push(
+              //   routePaths.secrets.registerSecrets(selectedWorkspace),
+              // )
+            }
+          >
+            Register Secret
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </Box>
   );
 };

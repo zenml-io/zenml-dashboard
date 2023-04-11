@@ -138,77 +138,87 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
   }
   // const values = [...flavor?.config_schema?.properties];
 
-  let result = Object.keys(flavor?.config_schema?.properties).reduce(function (
-    r: any,
-    name: any,
-  ) {
-    return (
-      (r[name] =
-        flavor?.config_schema?.properties[name].type === 'string' &&
-        flavor?.config_schema?.properties[name].default === undefined
-          ? ''
-          : flavor?.config_schema?.properties[name].default),
-      r
-    );
-  },
-  {});
-  let normalizeConfiguration = Object.keys(details?.configuration).reduce(
-    function (r: any, name: any) {
-      if (details?.configuration[name] === null) {
-        return (
-          (r[name] =
-            details?.configuration[name] === null &&
-            flavor?.config_schema?.properties[name].default === undefined
-              ? ''
-              : flavor?.config_schema?.properties[name].default),
-          r
-        );
-      } else {
-        return {};
+  // let result = Object.keys(flavor?.config_schema?.properties).reduce(function (
+  //   r: any,
+  //   name: any,
+  // ) {
+  //   return (
+  //     (r[name] =
+  //       flavor?.config_schema?.properties[name].type === 'string' &&
+  //       flavor?.config_schema?.properties[name].default === undefined
+  //         ? ''
+  //         : flavor?.config_schema?.properties[name].default),
+  //     r
+  //   );
+  // },
+  // {});
+  // let normalizeConfiguration = Object.keys(details?.configuration).reduce(
+  //   function (r: any, name: any) {
+  //     if (details?.configuration[name] === null) {
+  //       return (
+  //         (r[name] =
+  //           details?.configuration[name] === null &&
+  //           flavor?.config_schema?.properties[name].default === undefined
+  //             ? ''
+  //             : flavor?.config_schema?.properties[name].default),
+  //         r
+  //       );
+  //     } else {
+  //       return {};
+  //     }
+  //   },
+  //   {},
+  // );
+  function replaceNullWithEmptyString(obj: any) {
+    for (let prop in obj) {
+      if (obj[prop] === null) {
+        obj[prop] = '';
+      } else if (typeof obj[prop] === 'object') {
+        replaceNullWithEmptyString(obj[prop]);
       }
-    },
-    {},
-  );
+    }
+    return obj;
+  }
+
+  replaceNullWithEmptyString(details?.configuration);
 
   const mappedObject = {
-    ...result,
     ...details?.configuration,
-    ...normalizeConfiguration,
   };
 
   return (
     <FlexBox.Column marginTop="xl" fullWidth>
       <FlexBox.Row flexDirection="column">
         {/* <Container> */}
-          <Box style={{ width: '80%' }}>
-            <EditField
-              disabled
-              onChangeText={() => console.log('')}
-              label={'Flavor Name'}
-              optional={false}
-              value={details.flavor}
-              placeholder=""
-              hasError={false}
-              className={styles.field}
-            />
-          </Box>
-          <Box marginTop="lg">
-            <ToggleField
-              name="Share Component with public"
-              value={details.is_shared}
-              onHandleChange={() => {}}
-              label="Share Component with public"
-              disabled={true}
-            />
-          </Box>
+        <Box style={{ width: '80%' }}>
+          <EditField
+            disabled
+            onChangeText={() => console.log('')}
+            label={'Flavor Name'}
+            optional={false}
+            value={details.flavor}
+            placeholder=""
+            hasError={false}
+            className={styles.field}
+          />
+        </Box>
+        <Box marginTop="lg">
+          <ToggleField
+            name="Share Component with public"
+            value={details.is_shared}
+            onHandleChange={() => {}}
+            label="Share Component with public"
+            disabled={true}
+          />
+        </Box>
         {/* </Container> */}
         {/* <Container>
   
         </Container> */}
       </FlexBox.Row>
-      <FlexBox.Row flexDirection='column'>
+      <FlexBox.Row flexDirection="column">
         {/* <Container> */}
-          {/* <Row>
+        {/* <Row>
           <Col xs={5}>
          
           </Col>

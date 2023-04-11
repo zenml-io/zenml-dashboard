@@ -11,10 +11,10 @@ import {
   LinkBox,
   icons,
   DropdownInput,
+  InputWithLabelIcon,
 } from '..';
 import { handleUpdateNumericInput } from '../../../utils/input';
 import { iconColors } from '../../../constants/icons';
-import OutsideClickHandler from 'react-outside-click-handler';
 import ReactTooltip from 'react-tooltip';
 
 export const FormValidationError = (props: {
@@ -199,69 +199,112 @@ export const MakeSecretField = (
     placeholder: any;
     value: string;
     onChange?: any;
-
-    secretLabel: string;
-    secretLabelColor: any;
-    secretPlaceholder: any;
-    secretValue: string;
     secretOnChange?: any;
-
+    handleClick?: any;
     dropdownOptions?: Array<any>;
+    tooltipText?: string;
   } & any,
 ): any => {
- 
-  const handleClick = () => {
-    return null   
+
+  const options = props?.dropdownOptions?.filter((e: any) =>
+    e?.label?.toLowerCase().includes(props?.value?.toLowerCase()),
+  );
+
+  // useEffect(() => {
+  //   if (props?.value?.slice(0, 2) === '{{' && props?.value?.length < 3) {
+  //     setPopup(true);
+  //   } 
+  //   // eslint-disable-next-line
+  // }, [props?.value]);
+
+  const handleClick = async (option: any) => {
+   await props.secretOnChange(option);
+  //  await setPopup(false);
   };
-
-  const [popup, setPopup] = useState(false)
-  
-  const options = props?.dropdownOptions?.filter((e: any) => e?.label?.toLowerCase().includes(props?.value?.toLowerCase()))
-
-  useEffect(() => {
-    if (props?.value?.slice(0, 2) === '{{') {
-      setPopup(true)    
-    }  
-    // eslint-disable-next-line
-  }, [props?.value])
-  
 
   return (
     <FlexBox.Column fullWidth>
-      
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
-        <InputWithLabel
+        <InputWithLabelIcon
           name={props.name}
           label={props.label}
           labelColor={props.labelColor}
-          InputComponent={<TextInput {...props} style={{ border: '1px solid #C9CBD0' }} value={props.value} placeholder={props.placeholder} onChangeText={props.onChange} />}
+          tooltipText={props.tooltipText}
+          InputComponent={
+            <TextInput
+              {...props}
+              style={{ border: '1px solid #C9CBD0' }}
+              value={props.value}
+              placeholder={props.placeholder}
+              onChangeText={props.onChange}
+            />
+          }
         />
-        
-        {popup && (
-          <Box style={{ backgroundColor: '#fff', borderRadius: '4px', boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)', width: '100%', position: 'absolute', zIndex: 2, top: '7rem' }}>
-            <OutsideClickHandler onOutsideClick={() => setPopup(false)}>
-            
-              <Box marginVertical="sm" marginHorizontal="md" style={{ width: '100%', height: '100%' }}>     
-                  {options?.map((option: any, index: number) => (
-                    <Box marginTop="md" onClick={() => {}} key={index}>
-                      <div data-tip data-for={option.name} onClick={() => {props.onChange(() => option.label); setPopup(false)} } style={{ cursor: 'pointer' }}>
-                        <Paragraph>{option.label}</Paragraph>
-                      </div>
 
-                      <ReactTooltip id={option.label} place="top" effect="solid">
-                        <Paragraph color="white">{option.label}</Paragraph>
-                      </ReactTooltip>
-                    </Box>
-                  ))}
-              </Box>
-            
-            </OutsideClickHandler>
+        {props?.value?.length > 0 && props?.value?.slice(0, 2) !== '{{' && (
+          <Box
+            style={{
+              position: 'absolute',
+              right: '10px',
+              top: '40px',
+              display: 'flex',
+              alignItems: 'center',
+              background: '#fff',
+              borderLeft: '1px solid grey',
+              paddingLeft: '10px',
+              cursor: 'pointer',
+            }}
+            onClick={() => props.handleClick()}
+          >
+            <icons.lock
+              color={iconColors.primary}
+              style={{ marginRight: '5px' }}
+            />
+            <Paragraph color="primary">Make it Secret</Paragraph>
           </Box>
         )}
+          
+        <If condition={props?.value?.slice(0, 2) === '{{' && props?.value?.slice(-2) !== '}}' && props?.dropdownOptions?.length > 0}>
+          {() => (
+          <Box
+            style={{
+              backgroundColor: '#fff',
+              borderRadius: '4px',
+              boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
+              width: '100%',
+              position: 'absolute',
+              zIndex: 2,
+              top: '7rem',
+            }}
+          >
+              <Box
+                marginVertical="sm"
+                marginHorizontal="md"
+                style={{ width: '100%', height: '100%' }}
+              >
+                {options?.map((option: any, index: number) => (
+                  <Box marginTop="md" onClick={() => {}} key={index}>
+                    <div
+                      data-tip
+                      data-for={option.name}
+                      onClick={() => handleClick(option)}
+                      style={{ cursor: 'pointer' }}
+                    >
+                      <Paragraph>{option.label}</Paragraph>
+                    </div>
 
+                    <ReactTooltip id={option.label} place="top" effect="solid">
+                      <Paragraph color="white">{option.label}</Paragraph>
+                    </ReactTooltip>
+                  </Box>
+                ))}
+              </Box>
+          </Box>
+          )}
+         </If>
       </FlexBox>
 
-      {props?.value?.length > 0 && 
+      {/* {props?.value?.length > 0 && 
         props?.value?.slice(0, 2) !== '{{' && (
           <FlexBox marginTop='lg' alignItems="center" fullWidth style={{ position: 'relative' }}>
             <InputWithLabel
@@ -283,8 +326,7 @@ export const MakeSecretField = (
               <Paragraph color='primary'>Make it Secret</Paragraph>
             </Box>
           </FlexBox>
-        )}
-
+        )} */}
     </FlexBox.Column>
   );
 };

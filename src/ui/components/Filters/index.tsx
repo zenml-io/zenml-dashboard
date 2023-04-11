@@ -853,6 +853,7 @@ const FilterComponent = ({
           },
           filterValue: value,
         },
+
         {
           column: {
             selectedValue: {
