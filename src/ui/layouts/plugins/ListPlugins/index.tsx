@@ -155,9 +155,18 @@ const ListPlugins: React.FC = () => {
 
                   <H4
                     color="primary"
-                    style={{ fontSize: '16px', marginTop: 12, marginBottom: 4 }}
+                    style={{
+                      fontSize: '16px',
+                      marginTop: 12,
+                      marginBottom: 4,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
                   >
-                    {p.name}
+                    <span title={`${p.author}/${p.name}`}>
+                      {p.author}/{p.name}
+                    </span>
                   </H4>
 
                   <Paragraph
