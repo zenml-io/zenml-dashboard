@@ -345,7 +345,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
           {props.sensitive ? (
             <Box marginTop="lg" style={{ width: '329px' }}>
               <MakeSecretField
-                label={titleCase(props.name)}
+                label={titleCase(props.name) + ' (Secret)'}
                 placeholder={''}
                 handleClick={() => {
                   const state = {
