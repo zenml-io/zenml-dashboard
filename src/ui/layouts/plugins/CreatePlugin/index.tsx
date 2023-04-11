@@ -259,7 +259,29 @@ const CreatePlugin: React.FC = () => {
             <Box marginVertical="lg">
               <Box marginBottom="sm">
                 <CheckboxInput
-                  label="I agree to follow the guidelines and not upload harmful code."
+                  label={
+                    <p>
+                      I agree to follow the guidelines and not upload harmful
+                      code and accept the{' '}
+                      <a
+                        onClick={(e) => e.stopPropagation()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://hub.zenml.io/privacy"
+                      >
+                        Privacy Policy
+                      </a>{' '}
+                      and{' '}
+                      <a
+                        onClick={(e) => e.stopPropagation()}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        href="https://hub.zenml.io/tou"
+                      >
+                        Terms of use
+                      </a>
+                    </p>
+                  }
                   value={checkGuidelines}
                   setValue={setCheckGuidelines}
                 />
@@ -287,9 +309,9 @@ const CreatePlugin: React.FC = () => {
                       `${HUB_API_URL}/plugins`,
                       {
                         name: packageName,
-                        description: `First version of ${packageName}`,
+                        description: '',
                         version: versionNumber,
-                        release_notes: `First release of ${packageName}`,
+                        release_notes: `Initial version of ${packageName}`,
                         repository_url: repositoryUrl,
                         repository_subdirectory: repositorySubdirectory,
                         repository_branch: repositoryBranch,

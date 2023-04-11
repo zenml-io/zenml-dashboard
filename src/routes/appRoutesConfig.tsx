@@ -36,6 +36,7 @@ import UpdatePlugin from '../ui/layouts/plugins/UpdatePlugin';
 import PluginDetail from '../ui/layouts/plugins/PluginDetail';
 
 import { Logout } from '../ui/components/Logout';
+import DisplayPluginLogs from '../ui/layouts/plugins/DisplayLogs';
 
 const routes = [
   {
@@ -497,6 +498,14 @@ const routes = [
     exact: true,
   },
   {
+    path: routePaths.plugins.detail.buildLogs(':workspace', ':pluginId'),
+    Component: DisplayPluginLogs,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+  {
     path: routePaths.plugins.create(':workspace'),
     Component: CreatePlugin,
     visibility: {
@@ -538,7 +547,7 @@ const routes = [
     exact: true,
   },
   {
-    path: routePaths.plugins.detail.installing(':workspace', ':pluginId'),
+    path: routePaths.plugins.detail.usage(':workspace', ':pluginId'),
     Component: PluginDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.always,

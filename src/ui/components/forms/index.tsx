@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { ReactNode, useEffect, useRef, useState } from 'react';
 import {
   FlexBox,
   InputWithLabel,
@@ -283,9 +283,6 @@ export const MakeSecretField = (
                 position: 'absolute',
                 zIndex: 2,
                 top: '7rem',
-                height: '20rem',
-                overflowY: 'auto',
-                overflowX: 'hidden',
               }}
             >
               <Box
@@ -874,7 +871,7 @@ export const CheckboxInput = ({
   value,
   setValue,
 }: {
-  label: string;
+  label: string | ReactNode;
   value: boolean;
   setValue: (b: boolean) => void;
 }): JSX.Element => (

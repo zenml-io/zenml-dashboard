@@ -68,12 +68,20 @@ const ListPlugins: React.FC = () => {
     if (filters.author) filtersQuery.push(`username=${filters.author}`);
     if (filters.tag) filtersQuery.push(`tag=${filters.tag}`);
 
+    setFetching(true);
     getPlugins(
       searchQuery,
       filtersQuery,
       filters.onlyMine || filters.onlyMyStarred ? hubToken : null,
     )
-      .then(setPlugins)
+      .then((data) => {
+        const sorted = data.sort((a, b) => {
+          if (a.author === 'ZenML' && b.author !== 'ZenML') return -1;
+          if (a.author !== 'ZenML' && b.author === 'ZenML') return 1;
+          return 0;
+        });
+        setPlugins(sorted);
+      })
       .finally(() => setFetching(false));
   }, [searchQuery, filters, hubToken]);
 
@@ -96,7 +104,7 @@ const ListPlugins: React.FC = () => {
         },
       ]}
     >
-      <PluginsLayout title="ZenPacks">
+      <PluginsLayout title="Plugins">
         <FlexBox paddingVertical={'lg3'}>
           <FlexBox fullWidth marginRight="md" style={{ maxWidth: '300px' }}>
             <IconInputField
@@ -138,6 +146,9 @@ const ListPlugins: React.FC = () => {
                     )
                   }
                 >
+                  {p.author === 'ZenML' && (
+                    <icons.verified color={iconColors.primary} size="sm" />
+                  )}
                   {/* logo */}
                   <img
                     src={p.logo_url || ZenMLLogo}
@@ -155,9 +166,18 @@ const ListPlugins: React.FC = () => {
 
                   <H4
                     color="primary"
-                    style={{ fontSize: '16px', marginTop: 12, marginBottom: 4 }}
+                    style={{
+                      fontSize: '16px',
+                      marginTop: 12,
+                      marginBottom: 4,
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
                   >
-                    {p.name}
+                    <span title={`${p.author}/${p.name}`}>
+                      {p.author}/{p.name}
+                    </span>
                   </H4>
 
                   <Paragraph
@@ -231,10 +251,8 @@ const ListPlugins: React.FC = () => {
                         }
                       }}
                       paddingRight="md"
-                    >
-                      <StarIcon size="sm" color={iconColors.primary} />
-                    </Box>
-                    <icons.extension size="sm" color={iconColors.primary} />
+                    ></Box>
+                    <StarIcon size="sm" color={iconColors.primary} />
                   </FlexBox>
                 </LinkBox>
               );

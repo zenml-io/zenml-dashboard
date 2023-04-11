@@ -141,7 +141,7 @@ const PluginDetail: React.FC = () => {
                       }}
                     >
                       <img
-                        src={plugin.logo_url ?? ZenMLLogo}
+                        src={plugin.logo_url || ZenMLLogo}
                         alt={`${plugin.name} logo`}
                         style={{
                           height: '80px',
@@ -162,8 +162,12 @@ const PluginDetail: React.FC = () => {
                         >
                           {plugin.name}
                         </Paragraph>
-
-                        <icons.verified color={iconColors.primary} size="lg" />
+                        {plugin.author === 'ZenML' && (
+                          <icons.verified
+                            color={iconColors.primary}
+                            size="lg"
+                          />
+                        )}
                       </FlexBox>
 
                       {/* light details */}
@@ -235,7 +239,7 @@ const PluginDetail: React.FC = () => {
                           ...(isOwner
                             ? [
                                 {
-                                  label: 'Update Version',
+                                  label: 'Create new Version',
                                   icon: icons.share,
                                   color: iconColors.primary,
                                   onClick: () =>
@@ -350,13 +354,11 @@ const PluginDetail: React.FC = () => {
                 {
                   text: 'Changelogs',
                   Component: () =>
-                    !versions ? (
+                    loadingVersions ? (
+                      <FullWidthSpinner color="black" size="md" />
+                    ) : !versions || versions.length < 1 ? (
                       <Box paddingVertical="md">
-                        <Paragraph>
-                          {loadingVersions
-                            ? 'Loading version changelogs...'
-                            : "This plugin doesn't have any version changelogs to display."}
-                        </Paragraph>
+                        <Paragraph>No available versions found</Paragraph>
                       </Box>
                     ) : (
                       <Box>
@@ -416,10 +418,14 @@ const PluginDetail: React.FC = () => {
                   Component: () =>
                     loadingVersions ? (
                       <FullWidthSpinner color="black" size="md" />
+                    ) : version ? (
+                      <DisplayCode code={version.requirements.join('\n')} />
                     ) : (
-                      version && (
-                        <DisplayCode code={version.requirements.join('\n')} />
-                      )
+                      <Box paddingVertical="md">
+                        <Paragraph>
+                          No additional requirements defined for this plugin
+                        </Paragraph>
+                      </Box>
                     ),
                   path: routePaths.plugins.detail.requirements(
                     selectedWorkspace,
@@ -485,7 +491,7 @@ const PluginDetail: React.FC = () => {
                         </Box>
                       )
                     ),
-                  path: routePaths.plugins.detail.installing(
+                  path: routePaths.plugins.detail.usage(
                     selectedWorkspace,
                     pluginId,
                   ),

@@ -139,8 +139,10 @@ export const routePaths = {
         `/workspaces/${workspace}/plugins/${plugin}/changelogs`,
       requirements: (workspace: string, plugin: TId): string =>
         `/workspaces/${workspace}/plugins/${plugin}/requirements`,
-      installing: (workspace: string, plugin: TId): string =>
-        `/workspaces/${workspace}/plugins/${plugin}/installing`,
+      usage: (workspace: string, plugin: TId): string =>
+        `/workspaces/${workspace}/plugins/${plugin}/usage`,
+      buildLogs: (workspace: string, plugin: TId): string =>
+        `/workspaces/${workspace}/plugins/${plugin}/build-logs`,
     },
     update: (workspace: string, id: TId): string =>
       `/workspaces/${workspace}/plugins/${id}/update`,

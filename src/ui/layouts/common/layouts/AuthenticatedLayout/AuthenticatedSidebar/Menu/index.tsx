@@ -94,7 +94,10 @@ export const Menu: React.FC = () => {
 
       <MenuItem
         id="plugins"
-        isActive={() => window.location.href?.includes('plugins')}
+        isActive={() =>
+          window.location.href?.includes('plugins') &&
+          !window.location.href?.includes('my-plugins')
+        }
         Icon={() => (
           <icons.storefront color={iconColors.white} size={iconSizes.md} />
         )}

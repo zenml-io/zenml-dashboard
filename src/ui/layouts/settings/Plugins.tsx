@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import Lottie from 'lottie-react';
 
@@ -12,6 +12,7 @@ import {
   FullWidthSpinner,
   LinkBox,
   Paragraph,
+  PrimaryButton,
   Separator,
 } from '../../components';
 import { PluginCard } from './PluginCard';
@@ -21,44 +22,21 @@ import { useHubToken } from '../../hooks/auth';
 import { useHistory, useToaster } from '../../hooks';
 import { EmptyState } from '../common/EmptyState';
 import ZenMLLogo from '../../assets/logo.svg';
+import { hubConnectionPromptActionTypes } from '../../../redux/actionTypes';
 
 type AugmentedPluginVersion = TPluginVersion & {
   name: string;
   description?: string;
 };
 
-const getData = async (token: string): Promise<AugmentedPluginVersion[]> => {
+const getData = async (token: string) => {
   const versions = (
-    await axios.get(`${HUB_API_URL}/plugin_versions?mine=true`, {
+    await axios.get(`${HUB_API_URL}/plugins?mine=true`, {
       headers: { Authorization: `Bearer ${token}` },
     })
-  ).data as TPluginVersion[];
+  ).data as AugmentedPluginVersion[];
 
-  const pluginIds = versions.map((v) => v.plugin_id);
-  const pluginLookup = Object.fromEntries(
-    await Promise.all(
-      pluginIds.map(async (id) => [
-        id,
-        (
-          await axios.get(`${HUB_API_URL}/plugins/${id}`, {
-            headers: { Authorization: `Bearer ${token}` },
-          })
-        ).data as TPluginDetail[],
-      ]),
-    ),
-  ) as Record<TId, TPluginDetail>;
-
-  return versions
-    .map((v) => {
-      const p = pluginLookup[v.plugin_id];
-      if (!p) return null;
-      return {
-        ...v,
-        name: p.name,
-        description: p.description,
-      };
-    })
-    .filter(Boolean) as AugmentedPluginVersion[];
+  return versions.filter(Boolean);
 };
 
 const groupPlugins = (plugins: AugmentedPluginVersion[]) => {
@@ -81,6 +59,8 @@ export const Plugins: React.FC = () => {
   const workspace = useSelector(selectedWorkspace);
   const { failureToast } = useToaster();
   const token = useHubToken();
+  const dispatch = useDispatch();
+  const hubIsConnected = !!token;
   const history = useHistory();
   const [fetching, setFetching] = useState(true);
   const [pendingPlugins, setPendingPlugins] = useState(
@@ -146,14 +126,14 @@ export const Plugins: React.FC = () => {
                 }
                 style={{
                   display: 'flex',
-                  width: '100%',
+                  maxWidth: '450px',
                   padding: '20px',
                   boxShadow: '0px 4px 20px 0px #0000000D',
                 }}
               >
                 {/* image */}
                 <img
-                  src={p.logo_url ?? ZenMLLogo}
+                  src={p.logo_url || ZenMLLogo}
                   alt={`${p.name} logo`}
                   style={{
                     width: '80px',
@@ -173,8 +153,17 @@ export const Plugins: React.FC = () => {
                   }}
                   marginHorizontal="lg"
                 >
-                  <Paragraph color="primary" style={{ fontSize: '24px' }}>
-                    {p.name}
+                  <Paragraph
+                    color="primary"
+                    style={{
+                      fontSize: '24px',
+                      width: '200px',
+                      whiteSpace: 'nowrap',
+                      overflow: 'hidden',
+                      textOverflow: 'ellipsis',
+                    }}
+                  >
+                    <span title={p.name}>{p.name}</span>
                   </Paragraph>
                   <Paragraph
                     color="grey"
@@ -223,7 +212,7 @@ export const Plugins: React.FC = () => {
                 {m.plugins.map((p, i) => (
                   <PluginCard
                     key={i}
-                    logoUrl={p.logo_url}
+                    logoUrl={p.logo_url || ZenMLLogo}
                     title={p.name}
                     description={`${p.version}: ${
                       p.description ?? 'No plugin description'
@@ -258,12 +247,12 @@ export const Plugins: React.FC = () => {
                 {m.plugins.map((p, i) => (
                   <PluginCard
                     key={i}
-                    logoUrl={p.logo_url}
+                    logoUrl={p.logo_url || ZenMLLogo}
                     title={p.name}
                     description={`${p.version}: ${
                       p.description ?? 'No plugin description'
                     }`}
-                    url={routePaths.plugins.detail.overview(workspace, p.id)}
+                    url={routePaths.plugins.detail.buildLogs(workspace, p.id)}
                   />
                 ))}
               </FlexBox>
@@ -271,6 +260,28 @@ export const Plugins: React.FC = () => {
           ))}
         </Box>
       )}
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+            onClick={() => {
+              if (hubIsConnected) {
+                history.push(routePaths.plugins.create(workspace));
+              } else {
+                dispatch({ type: hubConnectionPromptActionTypes.show });
+              }
+            }}
+          >
+            Create Plugin
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </Box>
   );
 };
