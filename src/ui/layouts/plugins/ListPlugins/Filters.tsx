@@ -13,6 +13,7 @@ import {
   icons,
 } from '../../../components';
 import { iconColors } from '../../../../constants';
+import { useHubToken } from '../../../hooks/auth';
 
 export type FilterState = {
   onlyMine: boolean;
@@ -25,6 +26,8 @@ export const Filters: React.FC<{
   currentFilters: FilterState;
   updateFilters: (f: FilterState) => void;
 }> = ({ currentFilters, updateFilters }) => {
+  const hubIsConnected = !!useHubToken();
+
   const [filters, setFilters] = useState({ ...currentFilters });
   const [show, setShow] = useState(false);
 
@@ -102,20 +105,24 @@ export const Filters: React.FC<{
           }}
         >
           <H3>Filters</H3>
-          <Box marginBottom="md">
-            <CheckboxInput
-              label="Only show my plugins"
-              value={filters.onlyMine}
-              setValue={(b) => setFilters({ ...filters, onlyMine: b })}
-            />
-          </Box>
-          <Box marginBottom="lg">
-            <CheckboxInput
-              label="Only show plugins I've starred"
-              value={filters.onlyMyStarred}
-              setValue={(b) => setFilters({ ...filters, onlyMyStarred: b })}
-            />
-          </Box>
+          {hubIsConnected && (
+            <>
+              <Box marginBottom="md">
+                <CheckboxInput
+                  label="Only show my plugins"
+                  value={filters.onlyMine}
+                  setValue={(b) => setFilters({ ...filters, onlyMine: b })}
+                />
+              </Box>
+              <Box marginBottom="lg">
+                <CheckboxInput
+                  label="Only show plugins I've starred"
+                  value={filters.onlyMyStarred}
+                  setValue={(b) => setFilters({ ...filters, onlyMyStarred: b })}
+                />
+              </Box>
+            </>
+          )}
           <Box marginBottom="lg">
             <InputWithLabel
               label="Package author"
@@ -125,6 +132,7 @@ export const Filters: React.FC<{
                   onChangeText={(t) => setFilters({ ...filters, author: t })}
                 />
               }
+              helperText=""
             />
           </Box>
           <Box marginBottom="lg">
@@ -136,6 +144,7 @@ export const Filters: React.FC<{
                   onChangeText={(t) => setFilters({ ...filters, tag: t })}
                 />
               }
+              helperText=""
             />
           </Box>
 

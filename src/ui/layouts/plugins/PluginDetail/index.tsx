@@ -340,7 +340,7 @@ const PluginDetail: React.FC = () => {
                 {
                   text: 'Overview',
                   Component: plugin
-                    ? () => <OverviewTab readMeUrl={plugin.readme_url} />
+                    ? () => <OverviewTab description={plugin.description} />
                     : () => <FullWidthSpinner color="black" size="md" />,
                   path: routePaths.plugins.detail.overview(
                     selectedWorkspace,
@@ -427,7 +427,7 @@ const PluginDetail: React.FC = () => {
                   ),
                 },
                 {
-                  text: 'Installing',
+                  text: 'Usage',
                   Component: () =>
                     fetching ? (
                       <FullWidthSpinner color="black" size="md" />
@@ -438,11 +438,25 @@ const PluginDetail: React.FC = () => {
                             <Paragraph style={{ marginBottom: '8px' }}>
                               ZenML install
                             </Paragraph>
+                            <Paragraph
+                              size="tiny"
+                              style={{ marginBottom: '8px' }}
+                            >
+                              The easiest way to install this plugin is to use
+                              our ZenML CLI tool.
+                            </Paragraph>
                             <DisplayCode code={installationCommand} />
                           </Box>
                           <Box marginVertical="lg">
                             <Paragraph style={{ marginBottom: '8px' }}>
                               Pip install
+                            </Paragraph>
+                            <Paragraph
+                              size="tiny"
+                              style={{ marginBottom: '8px' }}
+                            >
+                              You can also install this plugin directly from pip
+                              with these commands.
                             </Paragraph>
                             <DisplayCode
                               code={
@@ -455,6 +469,14 @@ const PluginDetail: React.FC = () => {
                           <Box marginVertical="lg">
                             <Paragraph style={{ marginBottom: '8px' }}>
                               Usage
+                            </Paragraph>
+                            <Paragraph
+                              size="tiny"
+                              style={{ marginBottom: '8px' }}
+                            >
+                              {
+                                "Once you've installed the plugin, import it as a Python library"
+                              }
                             </Paragraph>
                             <DisplayCode
                               code={`from zenml.hub.${plugin.user.username}.${plugin.name} import *`}

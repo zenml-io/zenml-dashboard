@@ -39,6 +39,7 @@ const CreatePlugin: React.FC = () => {
   const { failureToast } = useToaster();
 
   const [packageName, setPackageName] = useState('');
+  const [versionNumber, setVersionNumber] = useState('');
   const [packageNameStatus, setPackageNameStatus] = useState({
     status: 'editing',
   } as { status: 'disabled' } | { status: 'editing' } | { status: 'error'; message: string } | { status: 'success' });
@@ -162,12 +163,37 @@ const CreatePlugin: React.FC = () => {
                 />
               </Box>
 
+              {/* version number */}
+              <Box marginBottom="lg">
+                <ValidatedTextField
+                  label="Version Number (optional)"
+                  value={versionNumber}
+                  onChange={setVersionNumber}
+                  status={{ status: 'editing' }}
+                  placeholder="Version number"
+                />
+              </Box>
+
+              {/* repository URL */}
               <Box marginBottom="lg">
                 <ValidatedTextField
                   label="Repository URL"
                   value={repositoryUrl}
                   onChange={setRepositoryUrl}
                   status={{ status: 'editing' }}
+                />
+              </Box>
+
+              {/* repository subdirectory */}
+              <Box marginBottom="lg">
+                <InputWithLabel
+                  label="Subdirectory of repository"
+                  InputComponent={
+                    <TextInput
+                      value={repositorySubdirectory}
+                      onChangeText={setRepositorySubdirectory}
+                    />
+                  }
                 />
               </Box>
 
@@ -207,19 +233,7 @@ const CreatePlugin: React.FC = () => {
                 />
               </Box>
 
-              {/* repository subdirectory */}
-              <Box marginBottom="lg">
-                <InputWithLabel
-                  label="Subdirectory of repository"
-                  InputComponent={
-                    <TextInput
-                      value={repositorySubdirectory}
-                      onChangeText={setRepositorySubdirectory}
-                    />
-                  }
-                />
-              </Box>
-
+              {/* Logo URL */}
               <ValidatedTextField
                 label="Logo URL"
                 value={logoUrl}
@@ -274,7 +288,7 @@ const CreatePlugin: React.FC = () => {
                       {
                         name: packageName,
                         description: `First version of ${packageName}`,
-                        version: '0.1',
+                        version: versionNumber,
                         release_notes: `First release of ${packageName}`,
                         repository_url: repositoryUrl,
                         repository_subdirectory: repositorySubdirectory,

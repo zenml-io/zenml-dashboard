@@ -259,6 +259,7 @@ interface TPlugin {
   id: TId;
   name: name;
   author: name;
+  // from the plugin's Readme
   description?: string;
   version: name;
   tags: string[];
@@ -279,7 +280,6 @@ interface TPluginDetail extends TPlugin {
   logo_url?: string;
   index_url?: string;
   canonical_url: string;
-  readme_url?: string;
   release_notes: string | null;
   repository_url: string;
   repository_subdirectory?: string;
