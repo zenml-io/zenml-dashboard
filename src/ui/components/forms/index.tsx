@@ -147,7 +147,7 @@ export const CopyField = (
                   background: 'rgba(168, 168, 168, 0.2)',
                   border: '1px solid #C9CBD0',
                 }}
-                value={`${props.value.slice(0, 30)}...`}
+                value={`${props.value.slice(0, 33)}`}
                 placeholder={props.placeholder}
               />
             ) : (
@@ -166,7 +166,7 @@ export const CopyField = (
 
         {props.showTokField && (
           <LinkBox
-            style={{ position: 'absolute', right: '10px', top: '40px' }}
+            style={{ position: 'absolute', right: '10px', top: '35px' }}
             onClick={handleClick}
           >
             <icons.copy color={iconColors.grey} />
@@ -246,7 +246,7 @@ export const MakeSecretField = (
             style={{
               position: 'absolute',
               right: '10px',
-              top: '40px',
+              top: '35px',
               display: 'flex',
               alignItems: 'center',
               background: '#fff',
@@ -275,6 +275,9 @@ export const MakeSecretField = (
               position: 'absolute',
               zIndex: 2,
               top: '7rem',
+              height: '20rem',
+              overflowY: 'auto',
+              overflowX: 'hidden'
             }}
           >
               <Box
