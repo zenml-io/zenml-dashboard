@@ -37,7 +37,9 @@ export const InputWithLabelIcon = ({
         <div data-tip data-for="config-icon">
           <icons.config size={iconSizes.sm} color={iconColors.black} />
         </div>
+      </Box>
 
+      <Box style={{ zIndex: 99999 }}>
         <ReactTooltip id="config-icon" place="bottom" effect="solid">
           <Paragraph color="white">{tooltipText}</Paragraph>
         </ReactTooltip>

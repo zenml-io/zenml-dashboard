@@ -74,7 +74,7 @@ export const Configuration: React.FC<{
 
   return (
     <FlexBox.Column marginLeft="xl">
-      <Box marginTop="lg" style={{ width: '417px' }}>
+      <Box marginTop="lg" style={{ width: '329px' }}>
         <FormTextField
           label={'Secret name'}
           labelColor="rgba(66, 66, 64, 0.5)"
@@ -84,7 +84,7 @@ export const Configuration: React.FC<{
           onChange={() => {}}
         />
       </Box>
-      <Box marginTop="lg" style={{ width: '417px' }}>
+      <Box marginTop="lg" style={{ width: '329px' }}>
         <FormDropdownField
           label={'Scope'}
           labelColor="rgba(66, 66, 64, 0.5)"
@@ -98,7 +98,7 @@ export const Configuration: React.FC<{
       </Box>
 
       <Box marginTop="md">
-        <SelectorDisabled inputFields={secret.values} />
+        <SelectorDisabled inputFields={secret.values} width='329px' />
       </Box>
 
       <FlexBox
@@ -116,6 +116,13 @@ export const Configuration: React.FC<{
                 routePaths.secret.updateSecret(secret.id, selectedWorkspace),
               )
             }
+            style={{
+              background: '#FFFFFF',    
+              boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
+              borderRadius: '4px',
+              color: '#443E99',
+          
+            }}
           >
             Update Secret
           </PrimaryButton>

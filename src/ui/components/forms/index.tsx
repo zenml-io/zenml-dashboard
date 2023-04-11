@@ -16,7 +16,6 @@ import {
 } from '..';
 import { handleUpdateNumericInput } from '../../../utils/input';
 import { iconColors } from '../../../constants/icons';
-import OutsideClickHandler from 'react-outside-click-handler';
 import ReactTooltip from 'react-tooltip';
 
 export const FormValidationError = (props: {
@@ -151,7 +150,7 @@ export const CopyField = (
                   background: 'rgba(168, 168, 168, 0.2)',
                   border: '1px solid #C9CBD0',
                 }}
-                value={`${props.value.slice(0, 30)}...`}
+                value={`${props.value.slice(0, 33)}`}
                 placeholder={props.placeholder}
               />
             ) : (
@@ -170,7 +169,7 @@ export const CopyField = (
 
         {props.showTokField && (
           <LinkBox
-            style={{ position: 'absolute', right: '10px', top: '40px' }}
+            style={{ position: 'absolute', right: '10px', top: '35px' }}
             onClick={handleClick}
           >
             <icons.copy color={iconColors.grey} />
@@ -203,32 +202,26 @@ export const MakeSecretField = (
     placeholder: any;
     value: string;
     onChange?: any;
-    secretLabel: string;
-    secretLabelColor: any;
-    secretPlaceholder: any;
-    secretValue: string;
     secretOnChange?: any;
     handleClick?: any;
     dropdownOptions?: Array<any>;
     tooltipText?: string;
   } & any,
 ): any => {
-  const [popup, setPopup] = useState(false);
-
   const options = props?.dropdownOptions?.filter((e: any) =>
     e?.label?.toLowerCase().includes(props?.value?.toLowerCase()),
   );
 
-  useEffect(() => {
-    if (props?.value?.slice(0, 2) === '{{' && props?.value?.length < 3) {
-      setPopup(true);
-    }
-    // eslint-disable-next-line
-  }, [props?.value]);
+  // useEffect(() => {
+  //   if (props?.value?.slice(0, 2) === '{{' && props?.value?.length < 3) {
+  //     setPopup(true);
+  //   }
+  //   // eslint-disable-next-line
+  // }, [props?.value]);
 
-  const handleClick = async (option: string) => {
-    await props.secretOnChange(() => option);
-    await setPopup(false);
+  const handleClick = async (option: any) => {
+    await props.secretOnChange(option);
+    //  await setPopup(false);
   };
 
   return (
@@ -255,7 +248,7 @@ export const MakeSecretField = (
             style={{
               position: 'absolute',
               right: '10px',
-              top: '40px',
+              top: '35px',
               display: 'flex',
               alignItems: 'center',
               background: '#fff',
@@ -273,19 +266,28 @@ export const MakeSecretField = (
           </Box>
         )}
 
-        {popup && (
-          <Box
-            style={{
-              backgroundColor: '#fff',
-              borderRadius: '4px',
-              boxShadow: 'var(--cardShadow)',
-              width: '100%',
-              position: 'absolute',
-              zIndex: 2,
-              top: '7rem',
-            }}
-          >
-            <OutsideClickHandler onOutsideClick={() => setPopup(false)}>
+        <If
+          condition={
+            props?.value?.slice(0, 2) === '{{' &&
+            props?.value?.slice(-2) !== '}}' &&
+            props?.dropdownOptions?.length > 0
+          }
+        >
+          {() => (
+            <Box
+              style={{
+                backgroundColor: '#fff',
+                borderRadius: '4px',
+                boxShadow: 'var(--cardShadow)',
+                width: '100%',
+                position: 'absolute',
+                zIndex: 2,
+                top: '7rem',
+                height: '20rem',
+                overflowY: 'auto',
+                overflowX: 'hidden',
+              }}
+            >
               <Box
                 marginVertical="sm"
                 marginHorizontal="md"
@@ -296,7 +298,7 @@ export const MakeSecretField = (
                     <div
                       data-tip
                       data-for={option.name}
-                      onClick={() => handleClick(option?.label)}
+                      onClick={() => handleClick(option)}
                       style={{ cursor: 'pointer' }}
                     >
                       <Paragraph>{option.label}</Paragraph>
@@ -308,9 +310,9 @@ export const MakeSecretField = (
                   </Box>
                 ))}
               </Box>
-            </OutsideClickHandler>
-          </Box>
-        )}
+            </Box>
+          )}
+        </If>
       </FlexBox>
 
       {/* {props?.value?.length > 0 && 
