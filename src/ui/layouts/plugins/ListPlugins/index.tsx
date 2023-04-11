@@ -68,6 +68,7 @@ const ListPlugins: React.FC = () => {
     if (filters.author) filtersQuery.push(`username=${filters.author}`);
     if (filters.tag) filtersQuery.push(`tag=${filters.tag}`);
 
+    setFetching(true);
     getPlugins(
       searchQuery,
       filtersQuery,
