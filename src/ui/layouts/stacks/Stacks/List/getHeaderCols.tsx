@@ -168,7 +168,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-            <Paragraph size="small" color="black">
+            <Paragraph size="small" color="black" style={{ marginLeft: '-16px' }}>
               SHARED
             </Paragraph>
           </Box>
@@ -183,24 +183,16 @@ export const GetHeaderCols = ({
             data-for={stack.isShared}
           >
             <Box>
-              <FlexBox
-                justifyContent="center"
-                style={{
-                  borderRadius: '50%',
-                  height: '19px',
-                  width: '19px',
-                  textAlign: 'center',
-                }}
-              >
+              <FlexBox justifyContent="center" style={{ marginLeft: '-16px' }}>
                 {stack.isShared ? (
                   <icons.multiUser
                     color={iconColors.white}
-                    size={iconSizes.sm}
+                    size={iconSizes.md}
                   />
                 ) : (
                   <icons.singleUser
                     color={iconColors.white}
-                    size={iconSizes.sm}
+                    size={iconSizes.md}
                   />
                 )}
               </FlexBox>

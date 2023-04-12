@@ -29,7 +29,7 @@ export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
             setMobileMenuOpen={setMobileMenuOpen}
           />
         </Box>
-        <FlexBox>{children}</FlexBox>
+        <FlexBox fullHeight>{children}</FlexBox>
       </FlexBox>
     </FlexBox>
   );

@@ -3,37 +3,55 @@ import styles from './index.module.scss';
 import {
   Box,
   FlexBox,
+  // FormDropdownField,
   FormTextField,
   FullWidthSpinner,
+  MakeSecretField,
   // H2,
   Paragraph,
   icons,
 } from '../../../../components';
-
+// import Select from 'react-select';
 import { Form, TextField, ToggleField } from '../../../common/FormElement';
-import { useDispatch, useHistory, useSelector } from '../../../../hooks';
 import {
+  useDispatch,
+  useHistory,
+  useLocation,
+  useSelector,
+} from '../../../../hooks';
+import {
+  secretSelectors,
   sessionSelectors,
   userSelectors,
   workspaceSelectors,
 } from '../../../../../redux/selectors';
-import { showToasterAction } from '../../../../../redux/actions';
+import {
+  secretsActions,
+  showToasterAction,
+} from '../../../../../redux/actions';
 import { iconColors, toasterTypes } from '../../../../../constants';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
 import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
+import { titleCase } from '../../../../../utils';
+// import { values } from 'lodash';
 // import { keys } from 'lodash';
 
-export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
+export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
+  flavor,
+  state,
+}) => {
   const {
     dispatchStackComponentsData,
   } = callActionForStackComponentsForPagination();
+  const location = useLocation();
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
   const [formData, setFormData] = useState({});
   const [loading, setLoading] = useState(false);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const secrets = useSelector(secretSelectors.mySecrets);
   // const [validationSchema, setValidationSchema] = useState({});
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
@@ -41,37 +59,50 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
   const [isShared, setIsShared] = useState(true);
   const [inputData, setInputData] = useState({}) as any;
   const [inputFields, setInputFields] = useState() as any;
+  const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
+  const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const history = useHistory();
-  console.log(flavor, 'flavorflavor');
+
   useEffect(() => {
-    let setDefaultData = {};
-    let setInputObjectType: any = [];
-    initForm(flavor.configSchema.properties);
-    Object.keys(flavor.configSchema.properties).map((key, ind) => {
-      const data = flavor.configSchema.properties[key];
-      if (data.default && (data.type === 'string' || data.type === 'integer'))
-        setDefaultData = {
-          ...setDefaultData,
-          [toSnakeCase(data.title)]: data.default,
-        };
-      return null;
-    });
+    if (state?.state?.routeFromComponent) {
+      setIsShared(state?.state?.isShared);
+      setInputFields(state?.state?.inputFields);
+      setInputData(state?.state?.inputData);
+      setComponentName(state?.state?.componentName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
+  useEffect(() => {
+    if (!state?.state?.routeFromComponent) {
+      let setDefaultData = {};
+      let setInputObjectType: any = [];
+      initForm(flavor.configSchema.properties);
+      Object.keys(flavor.configSchema.properties).map((key, ind) => {
+        const data = flavor.configSchema.properties[key];
+        if (data.default && (data.type === 'string' || data.type === 'integer'))
+          setDefaultData = {
+            ...setDefaultData,
+            [toSnakeCase(data.title)]: data.default,
+          };
+        return null;
+      });
 
-    Object.keys(flavor.configSchema.properties).map((key, ind) => {
-      const data = flavor.configSchema.properties[key];
-      if (data.type === 'object')
-        setInputObjectType.push({
-          [key]: [{ key: '', value: '' }],
-        });
-      return null;
-    });
+      Object.keys(flavor.configSchema.properties).map((key, ind) => {
+        const data = flavor.configSchema.properties[key];
+        if (data.type === 'object')
+          setInputObjectType.push({
+            [key]: [{ key: '', value: '' }],
+          });
+        return null;
+      });
 
-    setInputFields(setInputObjectType);
+      setInputFields(setInputObjectType);
 
-    setInputData({ ...setDefaultData });
-
+      setInputData({ ...setDefaultData });
+    }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+  console.log(inputFields, inputData, 'asdasdasdasd12323232323');
   const handleAddFields = (name: any, index: any) => {
     const values = [...inputFields];
     // const check = values.find(({ name }) => name);
@@ -99,6 +130,56 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       )
       .map((x: any) => x.toLowerCase())
       .join('_');
+
+  const secretOptions = secrets.map((item: any) => {
+    return {
+      label: `{{ ${item.name}.` as string,
+      value: `{{ ${item.name}.` as string,
+      id: item.id as string,
+    };
+  }) as any;
+
+  function callActionForSecret(name: any, value: any, newEvent?: any) {
+    setInputData({
+      ...inputData,
+      [name]: {
+        value: value.value ? value.value : value,
+        id: value?.id ? value?.id : '',
+      },
+    });
+
+    // if (value === undefined) {
+    //   return false;
+    // }
+
+    if (value?.value?.includes('.') || value?.value?.id) {
+      dispatch(
+        secretsActions.secretForId({
+          secretId: value?.id,
+          onSuccess: (res) => {
+            setSelectedSecret(res);
+            const secretOptionsWithKeys = Object.keys(res.values)?.map(
+              (item: any) => {
+                return {
+                  label: `{{ ${res?.name}.${item} }}` as string,
+                  value: `{{ ${res?.name}.${item} }}` as string,
+                };
+              },
+            ) as any;
+            setSecretOptionsWithKeys(secretOptionsWithKeys);
+          },
+          // onFailure: () => setFetching(false),
+        }),
+      );
+    } else if (value?.includes('{{')) {
+      dispatch(
+        secretsActions.getMy({
+          workspace: selectedWorkspace,
+          name: 'contains:' + value.replace(/[{ }]/g, ''),
+        }),
+      );
+    }
+  }
 
   const handleInputChange = (
     parentIndex: any,
@@ -138,12 +219,13 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
 
     setFormData(_formData);
   };
-  console.log(inputData, 'inputDatainputData');
+  console.log(secretOptionsWithKeys, selectedSecret, 'inputDatainputData');
   const getFormElement = (elementName: any, elementSchema: any) => {
     const props = {
       name: elementName,
       label: elementSchema.title,
       default: elementSchema.default as any,
+      sensitive: elementSchema.sensitive as boolean,
     };
 
     if (elementSchema.type === 'object' && elementSchema.title) {
@@ -259,21 +341,94 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
       (elementSchema.type === 'integer' && elementSchema.title)
     ) {
       return (
-        <TextField
-          {...props}
-          required={flavor?.configSchema?.required?.includes(elementName)}
-          // disable={
-          //   elementSchema.default &&
-          //   (elementSchema.type === 'string' ||
-          //     elementSchema.type === 'integer')
-          // }
-          default={
-            inputData[props.name] ? inputData[props.name] : props.default
-          }
-          onHandleChange={(key: any, value: any) =>
-            setInputData({ ...inputData, [key]: value })
-          }
-        />
+        <>
+          {props.sensitive ? (
+            <Box marginTop="lg" style={{ width: '329px' }}>
+              <MakeSecretField
+                label={titleCase(props.name) + ' (Secret)'}
+                placeholder={''}
+                handleClick={() => {
+                  const state = {
+                    flavor: flavor.name,
+                    routeFromComponent: true,
+                    componentName: componentName,
+                    isShared: isShared,
+                    inputFields: inputFields,
+                    inputData: inputData,
+                    secretKey: props.name,
+                    pathName: location.pathname,
+                  };
+                  history.push(
+                    routePaths.secrets.registerSecrets(selectedWorkspace),
+                    state,
+                  );
+                }}
+                inputData={inputData}
+                value={
+                  inputData[props.name]?.value
+                    ? inputData[props.name]?.value
+                    : // : inputData[props.name]
+                    inputData[props.name]?.length
+                    ? inputData[props.name]
+                    : ''
+                }
+                onChange={(val: string, newEvent: any) => {
+                  if (val.includes('{{')) {
+                    callActionForSecret(props.name, val, newEvent);
+                  } else {
+                    setInputData({
+                      ...inputData,
+                      [props.name]: val,
+                    });
+                  }
+                }}
+                secretOnChange={(val: any, newEvent: any) => {
+                  // debugger;
+                  // setInputData({
+                  //   ...inputData,
+                  //   [props.name]: val.value.includes('.') ? val.value : val,
+                  // });
+
+                  if (val?.value?.includes('}}')) {
+                    setInputData({
+                      ...inputData,
+                      [props?.name]: val?.value?.includes('.')
+                        ? val.value
+                        : val,
+                    });
+                  } else if (val.value.includes('{{')) {
+                    callActionForSecret(props.name, val, newEvent);
+                  }
+                }}
+                dropdownOptions={
+                  inputData[props?.name]?.value &&
+                  inputData[props?.name]?.value.includes(
+                    `${selectedSecret.name}.`,
+                  )
+                    ? secretOptionsWithKeys
+                    : secretOptions
+                }
+                tooltipText='Start typing with "{{" to reference a secret for this field.'
+              />
+            </Box>
+          ) : (
+            <TextField
+              {...props}
+              required={flavor?.configSchema?.required?.includes(elementName)}
+              // disable={
+              //   elementSchema.default &&
+              //   (elementSchema.type === 'string' ||
+              //     elementSchema.type === 'integer')
+              // }
+              default={
+                inputData[props.name] ? inputData[props.name] : props.default
+              }
+              onHandleChange={(key: any, value: any) =>
+                setInputData({ ...inputData, [key]: value })
+              }
+            />
+          )}
+        </>
       );
     }
     if (elementSchema.type === 'boolean' && elementSchema.title) {
@@ -404,6 +559,18 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
         }
       }
     }
+
+    for (const [, value] of Object.entries(inputData)) {
+      if (typeof value === 'object') {
+        return dispatch(
+          showToasterAction({
+            description: 'Invalid secret',
+            type: toasterTypes.failure,
+          }),
+        );
+      }
+    }
+
     const body = {
       user: user?.id,
       workspace: id,
@@ -486,7 +653,7 @@ export const CreateComponent: React.FC<{ flavor: any }> = ({ flavor }) => {
             onChange={(e: any) => {
               setComponentName(e);
             }}
-            required={'*'}
+            required={true}
             placeholder="Component Name"
             label={'Component Name'}
             value={componentName}

@@ -147,7 +147,7 @@ export const useHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          STACK NAME
+          STACK NAME=
         </Paragraph>
       ),
       width: '7.5%',

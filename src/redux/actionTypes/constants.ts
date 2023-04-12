@@ -6,6 +6,13 @@ const sessionActionTypes = {
   UPDATE_EMAIL: 'UPDATE_EMAIL',
 };
 
+const hubAuthActionTypes = {
+  AUTHORISE_HUB: 'AUTHORISE_HUB',
+  DISCONNECT_HUB: 'DISCONNECT_HUB',
+  SHOW_HUB_CONNECTION_PROMPT_POPUP: 'SHOW_HUB_CONNECTION_PROMPT_POPUP',
+  HIDE_HUB_CONNECTION_PROMPT_POPUP: 'HIDE_HUB_CONNECTION_PROMPT_POPUP',
+};
+
 const userActionTypes = {
   USERS_GET_MY_USER: 'USERS_GET_MY_USER',
   USERS_GET_USER_FOR_ID: 'USERS_GET_USER_FOR_ID',
@@ -38,6 +45,12 @@ const stackActionTypes = {
   STACKS_GET_MY_STACKS: 'STACKS_GET_MY_STACKS',
   STACKS_GET_STACK_FOR_ID: 'STACKS_GET_STACK_FOR_ID',
   RUNS_GET_STACK_FOR_ID: 'RUNS_GET_STACK_FOR_ID',
+};
+
+const secretActionTypes = {
+  SECRETS_GET_MY_SECRETS: 'SECRETS_GET_MY_SECRETS',
+  SECRETS_GET_SECRET_FOR_ID: 'SECRETS_GET_SECRET_FOR_ID',
+  // RUNS_GET_STACK_FOR_ID: 'RUNS_GET_STACK_FOR_ID',
 };
 
 const rolesActionTypes = {
@@ -81,6 +94,9 @@ const stackPagesActionTypes = {
   STACK_PAGES_SET_SELECTED_RUN_IDS: 'STACK_PAGES_SET_SELECTED_RUN_IDS',
   STACK_PAGES_SET_FETCHING: 'STACK_PAGES_SET_FETCHING',
 };
+const secretPagesActionTypes = {
+  SECRET_PAGES_SET_FETCHING: 'SECRET_PAGES_SET_FETCHING',
+};
 
 const stackComponentPagesActionTypes = {
   STACKCOMPONENT_PAGES_SET_SELECTED_RUN_IDS:
@@ -96,11 +112,14 @@ const flavorPagesActionTypes = {
 export const actionTypes = {
   SHOW_TOASTER: 'SHOW_TOASTER',
   ...sessionActionTypes,
+  ...hubAuthActionTypes,
   ...userActionTypes,
   ...organizationActionTypes,
   ...WorkspaceActionTypes,
   ...pipelineActionTypes,
   ...stackActionTypes,
+  ...secretActionTypes,
+  ...secretPagesActionTypes,
   ...runActionTypes,
   ...runPagesActionTypes,
   ...rolesActionTypes,

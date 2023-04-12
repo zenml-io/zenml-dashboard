@@ -140,7 +140,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-          <Paragraph size="small" color="black">
+          <Paragraph size="small" color="black" style={{ marginLeft: '-24px' }} >
             SHARED
           </Paragraph>
         </Box>
@@ -158,20 +158,21 @@ export const GetHeaderCols = ({
                 justifyContent="center"
                 style={{
                   borderRadius: '50%',
-                  height: '19px',
-                  width: '19px',
+                  // height: '19px',
+                  // width: '19px',
+                  marginLeft: '-24px',
                   textAlign: 'center',
                 }}
               >
                 {stack.isShared ? (
                   <icons.multiUser
                     color={iconColors.white}
-                    size={iconSizes.sm}
+                    size={iconSizes.md}
                   />
                 ) : (
                   <icons.singleUser
                     color={iconColors.white}
-                    size={iconSizes.sm}
+                    size={iconSizes.md}
                   />
                 )}
               </FlexBox>

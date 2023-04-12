@@ -23,6 +23,10 @@ import stacksReducer, {
   initialState as stacksInitialState,
 } from './reducers/stacksReducer';
 
+import secretsReducer, {
+  initialState as secretsInitialState,
+} from './reducers/secretsReducer';
+
 import rolesReducer, {
   initialState as rolesInitialState,
 } from './reducers/rolesReducer';
@@ -36,6 +40,9 @@ import flavorsReducer, {
 import flavorPagesReducer, {
   initialState as flavorPagesInitialState,
 } from './reducers/flavorPagesReducer';
+import hubPromptReducer, {
+  initialState as hubPromptInitialState,
+} from './reducers/hubPromptReducer';
 import runsReducer, {
   initialState as runsInitialState,
 } from './reducers/runsReducer';
@@ -52,6 +59,10 @@ import stackPagesReducer, {
   initialState as stackPagesInitialState,
 } from './reducers/stackPagesReducer';
 
+import secretPagesReducer, {
+  initialState as secretsPagesInitialState,
+} from './reducers/secretPagesReducer';
+
 const initialState = {
   session: sessionInitialState,
   users: usersInitialState,
@@ -59,14 +70,17 @@ const initialState = {
   pipelines: pipelinesInitialState,
   workspaces: workspacesInitialState,
   stacks: stacksInitialState,
+  secrets: secretsInitialState,
   stackComponents: stackComponentsInitialState,
   flavors: flavorsInitialState,
   flavorsPages: flavorPagesInitialState,
+  hubPrompt: hubPromptInitialState,
   runs: runsInitialState,
   roles: rolesInitialState,
   runPages: runPagesInitialState,
   pipelinePages: pipelinePagesInitialState,
   stacksPages: stackPagesInitialState,
+  secretsPages: secretsPagesInitialState,
 };
 
 export const persisted = combineReducers({
@@ -77,6 +91,8 @@ export const persisted = combineReducers({
   workspaces: workspacesReducer,
   pipelines: pipelinesReducer,
   stacks: stacksReducer,
+  secretPages: secretPagesReducer,
+  secrets: secretsReducer,
   stackComponents: stackComponentsReducer,
   runs: runsReducer,
   runPages: runPagesReducer,
@@ -84,6 +100,7 @@ export const persisted = combineReducers({
   stackPages: stackPagesReducer,
   flavors: flavorsReducer,
   flavorPages: flavorPagesReducer,
+  hubPrompt: hubPromptReducer,
 });
 
 export default (state: any, action: any) => {

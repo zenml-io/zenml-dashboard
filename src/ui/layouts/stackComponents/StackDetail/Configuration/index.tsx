@@ -479,43 +479,68 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   }
   // const values = [...flavor?.configSchema?.properties];
 
-  let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
-    r: any,
-    name: any,
-  ) {
-    return (
-      (r[name] =
-        flavor?.configSchema?.properties[name].type === 'string' &&
-        flavor?.configSchema?.properties[name].default === undefined
-          ? ''
-          : flavor?.configSchema?.properties[name].default),
-      r
-    );
-  },
-  {});
-  let normalizeConfiguration = Object.keys(
-    stackComponent?.configuration,
-  ).reduce(function (r: any, name: any) {
-    if (stackComponent?.configuration[name] === null) {
-      return (
-        (r[name] =
-          stackComponent?.configuration[name] === null &&
-          flavor?.config_schema?.properties[name].default === undefined
-            ? ''
-            : flavor?.config_schema?.properties[name].default),
-        r
-      );
-    } else {
-      return {};
+  // let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
+  //   r: any,
+  //   name: any,
+  // ) {
+  //   return (
+  //     (r[name] =
+  //       flavor?.configSchema?.properties[name].type === 'string' &&
+  //       flavor?.configSchema?.properties[name].default === undefined
+  //         ? ''
+  //         : flavor?.configSchema?.properties[name].default),
+  //     r
+  //   );
+  // },
+  // {});
+  function replaceNullWithEmptyString(obj: any) {
+    for (let prop in obj) {
+      if (obj[prop] === null) {
+        obj[prop] = '';
+      } else if (typeof obj[prop] === 'object') {
+        replaceNullWithEmptyString(obj[prop]);
+      }
     }
-  }, {});
+    return obj;
+  }
+
+  replaceNullWithEmptyString(stackComponent?.configuration);
+  // for (const key in stackComponent?.configuration) {
+  //   if (stackComponent?.configuration.hasOwnProperty(key)) {
+  //     if (
+  //       stackComponent?.configuration[key] === null &&
+  //       flavor?.configSchema?.properties[key].default === undefined
+  //     ) {
+  //       stackComponent.configuration[key] = '';
+  //     } else {
+  //       stackComponent.configuration[key] =
+  //         flavor?.configSchema?.properties[key].default;
+  //     }
+  //   }
+  // }
+
+  // let normalizeConfiguration = Object.keys(
+  //   stackComponent?.configuration,
+  // ).reduce(function (r: any, name: any) {
+  //   if (stackComponent?.configuration[name] === null) {
+  //     return (
+  //       (r[name] =
+  //         stackComponent?.configuration[name] === null &&
+  //         flavor?.configSchema?.properties[name].default === undefined
+  //           ? ''
+  //           : flavor?.configSchema?.properties[name].default),
+  //       r
+  //     );
+  //   } else {
+  //     return {};
+  //   }
+  // }, {});
 
   const mappedObject = {
-    ...result,
     ...stackComponent?.configuration,
-    ...normalizeConfiguration,
+    // ...normalizeConfiguration,
   };
-
+  // debugger;
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }

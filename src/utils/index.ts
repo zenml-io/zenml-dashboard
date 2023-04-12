@@ -4,6 +4,7 @@ export * from './routes';
 export * from './input';
 export * from './camelCase';
 export * from './name';
+export * from './object';
 export * from './validations';
 export * from './date';
 export * from './runs';

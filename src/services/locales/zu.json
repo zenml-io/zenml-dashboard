@@ -15,9 +15,14 @@
               "personalDetails": {
                 "text": "Personal Details"
               },
-        
               "organizationSettings": {
                 "text": "Workspace Settings"
+              },
+              "starred": {
+                "text": "Starred"
+              },
+              "plugins": {
+                "text": "Plugins"
               }
             }
           },
@@ -29,8 +34,12 @@
                 "placeholder": "John Doe"
               },
               "username": {
-                "label": "Username",
+                "label": "Server Username",
                 "placeholder": "johndoe"
+              },
+              "hubUsername": {
+                "label": "Hub Username",
+                "placeholder": "Connect Hub first"
               },
               "email": {
                 "label": "Email address",
@@ -72,15 +81,15 @@
               }
             },
             "popup": {
-                "title": "Change full name and Username",
-                "text": "Are you sure to change your full name and username",
-                "successButton": {
-                  "text": "Yes"
-                },
-                "cancelButton": {
-                  "text": "No"
-                }
+              "title": "Change full name and Username",
+              "text": "Are you sure to change your full name and username",
+              "successButton": {
+                "text": "Yes"
+              },
+              "cancelButton": {
+                "text": "No"
               }
+            }
           },
           "BillingSettings": {
             "title": "Billing",
@@ -307,6 +316,12 @@
               },
               "stackComponents": {
                 "text": "Components"
+              },
+              "plugins": {
+                "text": "Plugins"
+              },
+              "secrets": {
+                "text": "Secrets"
               },
               "setting": {
                 "text": "Settings"
@@ -550,6 +565,62 @@
               },
               "runs": {
                 "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "No runs."
+            },
+            "configuration": {
+              "title": {
+                "text": "YAML Configuration"
+              },
+              "button": {
+                "text": "Download"
+              }
+            }
+          },
+          "SecretDetail": {
+            "header": {
+              "breadcrumbs": {
+                "secrets": {
+                  "text": "Secrets"
+                }
+              }
+            },
+            "tabs": {
+              "configuration": {
+                "text": "Configuration"
+              },
+              "metaData": {
+                "text": "Metadata"
+              }
+            },
+            "emptyState": {
+              "text": "No runs."
+            },
+            "configuration": {
+              "title": {
+                "text": "YAML Configuration"
+              },
+              "button": {
+                "text": "Download"
+              }
+            }
+          },
+          "UpdateSecret": {
+            "header": {
+              "breadcrumbs": {
+                "secrets": {
+                  "text": "Secrets"
+                }
+              }
+            },
+            "tabs": {
+              "update": {
+                "text": "Update"
+              },
+              "metaData": {
+                "text": "Metadata"
               }
             },
             "emptyState": {

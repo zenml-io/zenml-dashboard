@@ -11,9 +11,9 @@ export const SideFooter: React.FC = () => {
       <Box marginHorizontal="md" paddingBottom="md">
         <Separator.LightNew />
       </Box>
-      
-      <div style={{ marginBottom: '-11px' }} >
-      <MenuItemExternal
+
+      <div style={{ marginBottom: '-11px' }}>
+        {/* <MenuItemExternal
         id="documentation"
         Icon={() => <icons.docs color={iconColors.white} size={iconSizes.md} />}
         to="https://docs.zenml.io"
@@ -26,13 +26,15 @@ export const SideFooter: React.FC = () => {
         )}
         to="https://docs.zenml.io/getting-started/examples"
         text="Example & Tutorials"
-      />
-      <MenuItemExternal
-        id="report"
-        Icon={() => <icons.tool color={iconColors.white} size={iconSizes.md} />}
-        to="https://github.com/zenml-io/zenml-dashboard/issues/new/choose"
-        text="Report Issue"
-      />
+      /> */}
+        <MenuItemExternal
+          id="report"
+          Icon={() => (
+            <icons.supportAgent color={iconColors.white} size={iconSizes.md} />
+          )}
+          to="https://github.com/zenml-io/zenml-dashboard/issues/new/choose"
+          text="Report Issue"
+        />
       </div>
       <MenuItem
         id="settings"
@@ -42,7 +44,7 @@ export const SideFooter: React.FC = () => {
         innerItem={window.location.href?.includes('settings')}
         isActive={() => window.location.href?.includes('settings')}
         to={routePaths.settings.personalDetails}
-        text=''
+        text=""
       />
     </>
   );
