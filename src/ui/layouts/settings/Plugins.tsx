@@ -27,6 +27,7 @@ import { hubConnectionPromptActionTypes } from '../../../redux/actionTypes';
 type AugmentedPluginVersion = TPluginVersion & {
   name: string;
   description?: string;
+  version_id: string;
 };
 
 const getData = async (token: string) => {
@@ -253,7 +254,7 @@ export const Plugins: React.FC = () => {
                     description={`${p.version}: ${
                       p.description ?? 'No plugin description'
                     }`}
-                    url={routePaths.plugins.detail.buildLogs(workspace, p.id)}
+                    url={routePaths.plugins.buildLogs(workspace, p.version_id)}
                   />
                 ))}
               </FlexBox>
