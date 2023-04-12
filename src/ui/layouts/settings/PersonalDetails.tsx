@@ -155,7 +155,12 @@ export const PersonalDetails: React.FC = () => {
 
           <Box marginTop="lg">
             <Paragraph
-              style={{ fontSize: '20px', fontWeight: 600, color: '#24292F' }}
+              style={{
+                fontSize: '20px',
+                fontWeight: 600,
+                color: '#24292F',
+                textAlign: 'center',
+              }}
             >
               {user?.fullName}
             </Paragraph>
@@ -170,10 +175,18 @@ export const PersonalDetails: React.FC = () => {
                   // links need to be prefixed with the protocol or they'll be relative to the current site
                   website.startsWith('http') ? website : `//${website}`
                 }
-                style={{ marginLeft: '6px' }}
+                style={{ marginLeft: '6px', width: '100%' }}
               >
-                <Paragraph size="small" style={{ color: '#24292F' }}>
-                  {website}
+                <Paragraph
+                  size="small"
+                  style={{
+                    color: '#24292F',
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                >
+                  <span title={website}>{website}</span>
                 </Paragraph>
               </a>
             </FlexBox>
@@ -208,7 +221,7 @@ export const PersonalDetails: React.FC = () => {
 
           <Box marginTop="lg">
             <EditFieldSettings
-              disabled={!decoded.permissions.includes('me')}
+              disabled={true}
               label="Website"
               labelColor="#828282"
               placeholder="Website"
@@ -221,7 +234,7 @@ export const PersonalDetails: React.FC = () => {
 
           <Box marginTop="lg">
             <EditFieldSettings
-              disabled={!decoded.permissions.includes('me')}
+              disabled={true}
               label="Bio"
               labelColor="#828282"
               placeholder="Bio"
