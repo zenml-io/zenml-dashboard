@@ -88,7 +88,12 @@ const ListPlugins: React.FC = () => {
   // get starred
   useEffect(() => {
     if (hubUser && hubToken) {
-      getStarredPlugins(hubUser.id, hubToken).then(setStarredPlugins);
+      getStarredPlugins(hubUser.id, hubToken).then((starred) =>
+        // handle race condition of the user starring a plugin before this request returns
+        setStarredPlugins(
+          new Set([...Array.from(starredPlugins), ...Array.from(starred)]),
+        ),
+      );
     }
   }, [hubUser, hubToken]);
 
