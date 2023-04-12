@@ -43,6 +43,7 @@ const CreatePlugin: React.FC = () => {
   const hubApiToken = useHubToken();
   const history = useHistory();
   const { failureToast } = useToaster();
+  const [creatingPlugin, setCreatingPlugin] = useState(false);
 
   const [packageName, setPackageName] = useState('');
   const [versionNumber, setVersionNumber] = useState('');
@@ -298,6 +299,7 @@ const CreatePlugin: React.FC = () => {
             <FlexBox justifyContent="flex-end" marginVertical="lg">
               <PrimaryButton
                 disabled={
+                  creatingPlugin ||
                   !(
                     checkGuidelines &&
                     checkPublish &&
@@ -306,6 +308,8 @@ const CreatePlugin: React.FC = () => {
                   )
                 }
                 onClick={() => {
+                  setCreatingPlugin(true);
+
                   axios
                     .post(
                       `${HUB_API_URL}/plugins`,
@@ -335,10 +339,13 @@ const CreatePlugin: React.FC = () => {
                           'Error creating plugin' +
                           (errorMessage ? `: ${errorMessage}` : ''),
                       });
+                    })
+                    .finally(() => {
+                      setCreatingPlugin(false);
                     });
                 }}
               >
-                Contribute
+                {creatingPlugin ? 'Creating plugin...' : 'Contribute'}
               </PrimaryButton>
             </FlexBox>
           </Box>
