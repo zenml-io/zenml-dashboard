@@ -49,6 +49,7 @@ export const PersonalDetails: React.FC = () => {
   const [username, setUsername] = useState(user?.name ?? '');
   const [website, setWebsite] = useState(hubUser?.website ?? '');
   const [bio, setBio] = useState(hubUser?.bio ?? '');
+  const [hubUserName, setHubUserName] = useState(hubUser?.username ?? '');
   const [version, setVersion] = useState('');
   const [popupType, setPopupType] = useState('');
   // const [selectedImage, setSelectedImage] = useState<any>(userImage);
@@ -73,6 +74,7 @@ export const PersonalDetails: React.FC = () => {
     if (!hubUser) return;
     if (!website) setWebsite(hubUser.website);
     if (!bio) setBio(hubUser.bio);
+    if (!hubUserName) setHubUserName(hubUser.username);
     // eslint-disable-next-line
   }, [hubUser]);
 
@@ -222,9 +224,21 @@ export const PersonalDetails: React.FC = () => {
           <Box marginTop="lg">
             <EditFieldSettings
               disabled={true}
+              label={translate('form.hubUsername.label')}
+              labelColor="#828282"
+              placeholder={translate('form.hubUsername.placeholder')}
+              value={hubUserName}
+              onChangeText={setHubUserName}
+              onKeyDown={(e: any) => handlePopup(e, 'Username')}
+            />
+          </Box>
+
+          <Box marginTop="lg">
+            <EditFieldSettings
+              disabled={true}
               label="Website"
               labelColor="#828282"
-              placeholder="Website"
+              placeholder="Connect Hub first"
               value={website}
               onChangeText={setWebsite}
               optional={true}
@@ -237,7 +251,7 @@ export const PersonalDetails: React.FC = () => {
               disabled={true}
               label="Bio"
               labelColor="#828282"
-              placeholder="Bio"
+              placeholder="Connect Hub first"
               value={bio}
               onChangeText={setBio}
               type="textarea"

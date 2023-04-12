@@ -48,10 +48,15 @@ interface TUser {
 }
 
 interface THubUser {
-  id: TId;
-  website: string;
-  bio: string;
+  id: string;
+  email: string;
+  is_active: boolean;
+  is_superuser: boolean;
+  is_verified: boolean;
+  username: string;
   avatar_url?: string;
+  bio: string;
+  website: string;
 }
 
 interface TOrganization {

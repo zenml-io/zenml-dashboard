@@ -355,7 +355,11 @@ const PluginDetail: React.FC = () => {
                     ) : (
                       <Box>
                         {versions.map((v) => (
-                          <FlexBox key={v.version} marginVertical="md">
+                          <FlexBox
+                            key={v.version}
+                            marginVertical="md"
+                            style={{ alignItems: 'center' }}
+                          >
                             {/* version */}
                             <Box style={{ width: '125px' }}>
                               <Paragraph
@@ -371,7 +375,7 @@ const PluginDetail: React.FC = () => {
 
                             {/* details */}
                             <FlexBox fullWidth>
-                              <Paragraph size="tiny" color="grey">
+                              <Paragraph size="body" color="grey">
                                 {v.release_notes ??
                                   'No release notes for this version'}
                               </Paragraph>

@@ -23,7 +23,7 @@ import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 import { HUB_API_URL } from '../../../../api/constants';
-import { useHubToken } from '../../../hooks/auth';
+import { useHubToken, useHubUser } from '../../../hooks/auth';
 import { PluginsLayout } from '../shared/Layout';
 import { getTagOptions } from '../api';
 import { debounce } from 'lodash';
@@ -44,7 +44,7 @@ const CreatePlugin: React.FC = () => {
   const history = useHistory();
   const { failureToast } = useToaster();
   const [creatingPlugin, setCreatingPlugin] = useState(false);
-
+  const hubUser = useHubUser();
   const [packageName, setPackageName] = useState('');
   const [versionNumber, setVersionNumber] = useState('');
   const [packageNameStatus, setPackageNameStatus] = useState({
@@ -149,9 +149,21 @@ const CreatePlugin: React.FC = () => {
 
             {/* package name and repository URL */}
             <Box marginVertical="xl">
-              <Box marginBottom="lg">
+              <Box
+                marginBottom="lg"
+                style={{
+                  display: 'flex',
+                  alignItems: 'end',
+                  gap: '1rem',
+                }}
+              >
+                {hubUser && (
+                  <Paragraph style={{ paddingBottom: '1rem' }}>
+                    {hubUser.username}/
+                  </Paragraph>
+                )}
                 <ValidatedTextField
-                  label="Package Name"
+                  label="Package Name *"
                   value={packageName}
                   onChange={(p: string) => {
                     if (!/^[a-zA-Z]\w*$/.test(p)) {
@@ -170,6 +182,16 @@ const CreatePlugin: React.FC = () => {
                 />
               </Box>
 
+              {/* repository URL */}
+              <Box marginBottom="lg">
+                <ValidatedTextField
+                  label="Repository URL *"
+                  value={repositoryUrl}
+                  onChange={setRepositoryUrl}
+                  status={{ status: 'editing' }}
+                />
+              </Box>
+
               {/* version number */}
               <Box marginBottom="lg">
                 <ValidatedTextField
@@ -181,20 +203,10 @@ const CreatePlugin: React.FC = () => {
                 />
               </Box>
 
-              {/* repository URL */}
-              <Box marginBottom="lg">
-                <ValidatedTextField
-                  label="Repository URL"
-                  value={repositoryUrl}
-                  onChange={setRepositoryUrl}
-                  status={{ status: 'editing' }}
-                />
-              </Box>
-
               {/* repository subdirectory */}
               <Box marginBottom="lg">
                 <InputWithLabel
-                  label="Subdirectory of repository"
+                  label="Subdirectory of repository (optional)"
                   InputComponent={
                     <TextInput
                       value={repositorySubdirectory}
@@ -207,7 +219,7 @@ const CreatePlugin: React.FC = () => {
               {/* repository branch */}
               <Box marginBottom="lg">
                 <InputWithLabel
-                  label="Branch of repository"
+                  label="Branch of repository (optional)"
                   InputComponent={
                     <TextInput
                       value={repositoryBranch}
@@ -230,7 +242,7 @@ const CreatePlugin: React.FC = () => {
               {/* commit hash */}
               <Box marginBottom="lg">
                 <InputWithLabel
-                  label="Commit hash"
+                  label="Commit hash (optional)"
                   InputComponent={
                     <TextInput
                       value={commitHash}
@@ -242,7 +254,7 @@ const CreatePlugin: React.FC = () => {
 
               {/* Logo URL */}
               <ValidatedTextField
-                label="Logo URL"
+                label="Logo URL (optional)"
                 value={logoUrl}
                 onChange={setLogoUrl}
                 status={{ status: 'editing' }}
@@ -254,7 +266,7 @@ const CreatePlugin: React.FC = () => {
               onChangeText={setTagText}
               tags={tags}
               onChangeTags={setTags}
-              label="Add tags"
+              label="Add tags (optional)"
               placeholder="Ex. Artificial Intelligence"
               getTagOptions={debouncedGetTagOptions}
             />
@@ -282,7 +294,8 @@ const CreatePlugin: React.FC = () => {
                         href="https://hub.zenml.io/tou"
                       >
                         Terms of use
-                      </a>
+                      </a>{' '}
+                      *
                     </p>
                   }
                   value={checkGuidelines}
@@ -290,7 +303,7 @@ const CreatePlugin: React.FC = () => {
                 />
               </Box>
               <CheckboxInput
-                label="I agree to publicly publish my plugin on the ZenML Hub under the Apache license."
+                label="I agree to publicly publish my plugin on the ZenML Hub under the Apache license. *"
                 value={checkPublish}
                 setValue={setCheckPublish}
               />

@@ -40,7 +40,7 @@ export const Starred: React.FC = () => {
   return fetching ? (
     <FullWidthSpinner color="black" size="md" />
   ) : plugins.length > 0 ? (
-    <Box marginVertical="md">
+    <Box marginVertical="md" marginLeft="xxl">
       <Paragraph color="darkGrey">Favourite repositories</Paragraph>
 
       <FlexBox flexWrap={true} marginVertical="lg">

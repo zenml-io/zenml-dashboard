@@ -34,8 +34,12 @@
                 "placeholder": "John Doe"
               },
               "username": {
-                "label": "Username",
+                "label": "Server Username",
                 "placeholder": "johndoe"
+              },
+              "hubUsername": {
+                "label": "Hub Username",
+                "placeholder": "Connect Hub first"
               },
               "email": {
                 "label": "Email address",

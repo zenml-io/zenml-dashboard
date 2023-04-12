@@ -23,28 +23,49 @@ export const PluginCard: React.FC<{
         boxShadow: '0px 4px 20px 0px #0000000D',
       }}
     >
-      <img
-        src={logoUrl ?? ZenMLLogo}
-        alt={`${title} logo`}
+      <div
         style={{
-          maxWidth: '60%',
-          display: 'block',
-          margin: 'auto',
-          marginTop: 12,
-          marginBottom: 16,
+          width: '100%',
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+          justifyContent: 'space-between',
         }}
-      />
-
-      <Box marginTop="lg" marginBottom="sm">
-        <Paragraph style={{ fontSize: '20px' }} color="primary">
-          {title}
-        </Paragraph>
-      </Box>
-      {description && (
-        <Paragraph size="small" color="grey">
-          {description}
-        </Paragraph>
-      )}
+      >
+        <div>
+          <img
+            src={logoUrl ?? ZenMLLogo}
+            alt={`${title} logo`}
+            style={{
+              maxWidth: '60%',
+              display: 'block',
+              margin: 'auto',
+              marginTop: 12,
+              marginBottom: 16,
+            }}
+          />
+        </div>
+        <div>
+          <Box marginTop="lg" marginBottom="sm">
+            <Paragraph style={{ fontSize: '20px' }} color="primary">
+              {title}
+            </Paragraph>
+          </Box>
+          {description && (
+            <Paragraph
+              style={{
+                whiteSpace: 'nowrap',
+                overflow: 'hidden',
+                textOverflow: 'ellipsis',
+              }}
+              size="small"
+              color="grey"
+            >
+              <span title={description}>{description}</span>
+            </Paragraph>
+          )}
+        </div>
+      </div>
     </LinkBox>
   );
 };
