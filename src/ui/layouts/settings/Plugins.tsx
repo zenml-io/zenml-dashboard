@@ -108,7 +108,7 @@ export const Plugins: React.FC = () => {
       }}
     />
   ) : (
-    <Box>
+    <Box marginLeft="xxl">
       {pendingPlugins.length > 0 && (
         <Box marginVertical="lg">
           <Paragraph color="darkGrey" size="small">

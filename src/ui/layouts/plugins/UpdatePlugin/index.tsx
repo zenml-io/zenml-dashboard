@@ -135,6 +135,17 @@ const UpdatePlugin: React.FC = () => {
             paddingRight="lg2"
             style={{ maxWidth: '650px', flexGrow: 1 }}
           >
+            {/* repository URL */}
+            <Box marginBottom="lg">
+              <ValidatedTextField
+                label="Repository URL *"
+                value={repositoryUrl}
+                onChange={setRepositoryUrl}
+                status={{ status: 'editing' }}
+                placeholder="Repository URL"
+              />
+            </Box>
+
             {/* version number */}
             <Box marginBottom="lg">
               <ValidatedTextField
@@ -148,17 +159,6 @@ const UpdatePlugin: React.FC = () => {
                     ? ` (latest version is ${previousVersionNumber})`
                     : '')
                 }
-              />
-            </Box>
-
-            {/* repository URL */}
-            <Box marginBottom="lg">
-              <ValidatedTextField
-                label="Repository URL"
-                value={repositoryUrl}
-                onChange={setRepositoryUrl}
-                status={{ status: 'editing' }}
-                placeholder="Repository URL"
               />
             </Box>
 

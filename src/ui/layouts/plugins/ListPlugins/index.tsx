@@ -141,6 +141,9 @@ const ListPlugins: React.FC = () => {
                     width: '290px',
                     boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
                     borderRadius: '4px',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'space-between',
                     margin: '0 16px 16px 0',
                   }}
                   onClick={() =>
@@ -152,50 +155,57 @@ const ListPlugins: React.FC = () => {
                     )
                   }
                 >
-                  {p.author === 'ZenML' && (
-                    <icons.verified color={iconColors.primary} size="sm" />
-                  )}
-                  {/* logo */}
-                  <img
-                    src={p.logo_url || ZenMLLogo}
-                    alt={`${p.name} logo`}
-                    style={{
-                      height: '80px',
-                      maxWidth: '60%',
-                      objectFit: 'contain',
-                      display: 'block',
-                      margin: 'auto',
-                      marginTop: 24,
-                      marginBottom: 16,
-                    }}
-                  />
+                  <div>
+                    {p.author === 'ZenML' && (
+                      <icons.verified color={iconColors.primary} size="sm" />
+                    )}
+                    {/* logo */}
+                    <img
+                      src={p.logo_url || ZenMLLogo}
+                      alt={`${p.name} logo`}
+                      style={{
+                        height: '80px',
+                        maxWidth: '60%',
+                        objectFit: 'contain',
+                        display: 'block',
+                        margin: 'auto',
+                        marginTop: 24,
+                        marginBottom: 16,
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <H4
+                      color="primary"
+                      style={{
+                        fontSize: '16px',
+                        marginTop: 12,
+                        marginBottom: 4,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      <span title={`${p.author}/${p.name}`}>
+                        {p.author}/{p.name}
+                      </span>
+                    </H4>
 
-                  <H4
-                    color="primary"
-                    style={{
-                      fontSize: '16px',
-                      marginTop: 12,
-                      marginBottom: 4,
-                      whiteSpace: 'nowrap',
-                      overflow: 'hidden',
-                      textOverflow: 'ellipsis',
-                    }}
-                  >
-                    <span title={`${p.author}/${p.name}`}>
-                      {p.author}/{p.name}
-                    </span>
-                  </H4>
-
-                  <Paragraph
-                    style={{
-                      color: '#A8A8A8',
-                      fontSize: '12px',
-                      lineHeight: '14px',
-                      marginBottom: 20,
-                    }}
-                  >
-                    {p.description}
-                  </Paragraph>
+                    <Paragraph
+                      style={{
+                        color: '#A8A8A8',
+                        fontSize: '12px',
+                        lineHeight: '14px',
+                        marginBottom: 20,
+                        whiteSpace: 'nowrap',
+                        overflow: 'hidden',
+                        textOverflow: 'ellipsis',
+                      }}
+                    >
+                      {' '}
+                      <span title={p.description}>{p.description}</span>
+                    </Paragraph>
+                  </div>
 
                   {/* <FlexBox justifyContent="space-between">
                 <Box>
@@ -257,9 +267,8 @@ const ListPlugins: React.FC = () => {
                         }
                       }}
                       paddingRight="md"
-                    >
-                      <StarIcon size="sm" color={iconColors.primary} />
-                    </Box>
+                    ></Box>
+                    <StarIcon size="sm" color={iconColors.primary} />
                   </FlexBox>
                 </LinkBox>
               );

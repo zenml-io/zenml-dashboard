@@ -510,7 +510,7 @@ const routes = [
     Component: CreatePlugin,
     visibility: {
       // auth handled separately through HubConnectPrompt; need to be able to auth-restrict actions like starring on the list plugins page so needs to be more granular than just page-level
-      authentication: RouteVisibilityAuthentication.always,
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
     exact: true,
   },
