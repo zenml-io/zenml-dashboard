@@ -127,7 +127,7 @@ export const PersonalDetails: React.FC = () => {
         {/* user details in left column */}
         <Box marginVertical="lg" className={styles.imageContainer}>
           {hubUser?.avatar_url ? (
-            <img src={hubUser.avatar_url} alt="Profile image" />
+            <img src={hubUser.avatar_url} alt="Profile" />
           ) : (
             <FlexBox
               justifyContent="center"

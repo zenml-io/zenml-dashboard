@@ -95,6 +95,7 @@ const ListPlugins: React.FC = () => {
         ),
       );
     }
+    // eslint-disable-next-line
   }, [hubUser, hubToken]);
 
   return (

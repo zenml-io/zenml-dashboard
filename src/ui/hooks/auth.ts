@@ -25,6 +25,7 @@ export const useHubToken = (): string | null => {
 
       dispatch({ type: disconnectHubActionTypes.success });
     });
+    // eslint-disable-next-line
   }, []);
 
   return hubToken;
