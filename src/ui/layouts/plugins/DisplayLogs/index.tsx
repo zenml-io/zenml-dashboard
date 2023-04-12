@@ -4,23 +4,23 @@ import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
 import { useParams } from '../../../hooks';
 import { PluginsLayout } from '../shared/Layout';
 import { Box, FullWidthSpinner, Paragraph } from '../../../components';
-import { getPlugin } from '../api';
+import { getVersion } from '../api';
 import styles from './styles.module.scss';
 
 const DisplayPluginLogs = () => {
   const [isFetching, setIsFetching] = useState(false);
   const [plugin, setPlugin] = useState(null as null | TPluginDetail);
-  const { pluginId } = useParams<{ pluginId: string }>();
+  const { pluginVersionID } = useParams<{ pluginVersionID: string }>();
   useEffect(() => {
     setIsFetching(true);
-    getPlugin(pluginId)
+    getVersion(pluginVersionID)
       .then((data) => {
         setPlugin(data);
       })
       .finally(() => {
         setIsFetching(false);
       });
-  }, [pluginId]);
+  }, [pluginVersionID]);
   return (
     <AuthenticatedLayout
       breadcrumb={[
