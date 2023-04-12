@@ -56,21 +56,13 @@ const PluginDetail: React.FC = () => {
   const [version, setVersion] = useState(null as null | TPluginVersion);
   const [versions, setVersions] = useState(null as null | TPluginVersion[]);
   const [starred, setIsStarred] = useState(false);
-  const [installTab, setInstallTab] = useState(
-    'Installation' as 'Installation' | 'Pip Install',
-  );
+  const [usageTab, setUsageTab] = useState('Usage' as 'Usage' | 'Pip Install');
 
   const isOwner = hubUser?.id === plugin?.user.id;
   const installationCommand = plugin
     ? `zenml hub install ${plugin.user.username}/${plugin.name}:${plugin.version}`
     : '';
-  const installCommand = !plugin
-    ? ''
-    : installTab === 'Installation'
-    ? installationCommand
-    : 'pip install plugin.requirements' +
-      '\n' +
-      `pip install --index-url ${plugin.index_url} ${plugin.package_name} --no-deps`;
+  const installCommand = !plugin ? '' : installationCommand;
 
   useEffect(() => {
     getPlugin(pluginId).then((p) => {
@@ -468,9 +460,9 @@ const PluginDetail: React.FC = () => {
                               </Paragraph>
                               <DisplayCode
                                 code={
-                                  `pip install ${version.requirements.join(
-                                    ' ',
-                                  )}` +
+                                  `pip install ${version.requirements
+                                    .map((i) => `"${i}"`)
+                                    .join(' ')}` +
                                   '\n' +
                                   `pip install --index-url ${plugin.index_url} ${plugin.package_name} --no-deps`
                                 }
@@ -554,11 +546,11 @@ const PluginDetail: React.FC = () => {
               >
                 <FlexBox>
                   {([
-                    'Installation',
+                    'Usage',
                     // too long to use for now
                     // , 'Pip Install'
                   ] as const).map((t) => {
-                    const isActive = t === installTab;
+                    const isActive = t === usageTab;
                     return (
                       <Box
                         key={t}
@@ -569,7 +561,7 @@ const PluginDetail: React.FC = () => {
                           padding: '6px 24px',
                           cursor: 'pointer',
                         }}
-                        onClick={() => setInstallTab(t)}
+                        onClick={() => setUsageTab(t)}
                       >
                         <Paragraph size="tiny" style={{ color: 'white' }}>
                           {t}
@@ -585,9 +577,7 @@ const PluginDetail: React.FC = () => {
                     backgroundColor: '#250E32',
                     borderRadius: '7px',
                     position: 'relative',
-                    ...(installTab === 'Installation'
-                      ? { borderTopLeftRadius: 0 }
-                      : {}),
+                    ...(usageTab === 'Usage' ? { borderTopLeftRadius: 0 } : {}),
                   }}
                 >
                   <Paragraph
