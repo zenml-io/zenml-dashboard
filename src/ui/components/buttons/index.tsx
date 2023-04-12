@@ -30,7 +30,9 @@ export const PrimaryButton: React.FC<
       <div className={styles.spinner}>
         <Spinner size="xs" color="white" />
       </div>
-    ) : (children)}
+    ) : (
+      children
+    )}
   </button>
 );
 
@@ -80,6 +82,24 @@ export const GhostButton: React.FC<
         <Spinner size="xs" color="white" />
       </div>
     )}
+    {children}
+  </button>
+);
+
+export const TextButton: React.FC<ButtonInterface & BoxProps> = ({
+  className,
+  children,
+  ...props
+}) => (
+  <button
+    style={{
+      ...getMarginsByProps(props),
+      ...getPaddingsByProps(props),
+      ...props.style,
+    }}
+    className={joinClassNames(styles.textButton, className)}
+    {...props}
+  >
     {children}
   </button>
 );

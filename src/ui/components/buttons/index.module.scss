@@ -90,6 +90,25 @@
   }
 }
 
+
+.textButton {
+  position: relative;
+  font-family: $fontFamilyNormal;
+  background: transparent;
+  color: $darkGreyColor;
+  font-size: 1.3rem;
+  text-decoration: underline;
+  cursor: pointer;
+  padding: 1rem;
+  border: none;
+  transition: 0.2s ease-in all;
+  opacity: 0.8;
+
+  &:hover {
+    opacity: 0.9;
+  }
+}
+
 // .spinner {
 //   position: absolute;
 //   left: 0.7rem;

@@ -30,6 +30,7 @@ import { isRouteFound } from './utils/isRouteFound';
 import { NotFound } from '../ui/layouts/NotFound';
 import { userSelectors } from '../redux/selectors';
 import { userActions } from '../redux/actions';
+import { HubConnectPrompt } from '../ui/layouts/HubConnectPrompt';
 
 const useReplaceRouteIfNeeded = ({
   locationPath,
@@ -116,6 +117,7 @@ export const RouteConfig: React.FC = () => {
           ))}
           <Route exact={true} component={NotFound} />
         </Switch>
+        <HubConnectPrompt />
       </Router>
     </WaitToEnter>
   );
