@@ -35,7 +35,7 @@ import {
   // deletePlugin,
 } from '../api';
 import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
-import PluginFallbackImage from "../../../assets/plugin-fallback.svg"
+import PluginFallbackImage from '../../../assets/plugin-fallback.svg';
 import { OverviewTab } from './OverviewTab';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
@@ -60,7 +60,9 @@ const PluginDetail: React.FC = () => {
 
   const isOwner = hubUser?.id === plugin?.user.id;
   const installationCommand = plugin
-    ? `zenml hub install ${plugin.user.username}/${plugin.name}:${plugin.version}`
+    ? `zenml hub install ${
+        plugin.author === 'ZenML' ? '' : `${plugin.author}/`
+      }${plugin.name}:${plugin.version}`
     : '';
   const installCommand = !plugin ? '' : installationCommand;
 
@@ -440,10 +442,7 @@ const PluginDetail: React.FC = () => {
                             <Paragraph style={{ marginBottom: '8px' }}>
                               ZenML install
                             </Paragraph>
-                            <Paragraph
-                              size="tiny"
-                              style={{ marginBottom: '8px' }}
-                            >
+                            <Paragraph style={{ marginBottom: '8px' }}>
                               The easiest way to install this plugin is to use
                               our ZenML CLI tool.
                             </Paragraph>
@@ -455,10 +454,7 @@ const PluginDetail: React.FC = () => {
                               <Paragraph style={{ marginBottom: '8px' }}>
                                 Pip install
                               </Paragraph>
-                              <Paragraph
-                                size="tiny"
-                                style={{ marginBottom: '8px' }}
-                              >
+                              <Paragraph style={{ marginBottom: '8px' }}>
                                 You can also install this plugin directly from
                                 pip with these commands.
                               </Paragraph>
@@ -477,16 +473,17 @@ const PluginDetail: React.FC = () => {
                             <Paragraph style={{ marginBottom: '8px' }}>
                               Usage
                             </Paragraph>
-                            <Paragraph
-                              size="tiny"
-                              style={{ marginBottom: '8px' }}
-                            >
+                            <Paragraph style={{ marginBottom: '8px' }}>
                               {
                                 "Once you've installed the plugin, import it as a Python library"
                               }
                             </Paragraph>
                             <DisplayCode
-                              code={`from zenml.hub.${plugin.user.username}.${plugin.name} import *`}
+                              code={`from zenml.hub.${
+                                plugin.author === 'ZenML'
+                                  ? ''
+                                  : `${plugin.author}.`
+                              }${plugin.name} import *`}
                             />
                           </Box>
                         </Box>
@@ -655,11 +652,11 @@ const PluginDetail: React.FC = () => {
                       <a
                         href={
                           routePaths.plugins.list(selectedWorkspace) +
-                          `?author=${plugin.user.username}`
+                          `?author=${plugin.author}`
                         }
                         style={{ color: 'inherit' }}
                       >
-                        {plugin.user.username}
+                        {plugin.author}
                       </a>
                     </Paragraph>
                   </Box>
@@ -715,7 +712,7 @@ const PluginDetail: React.FC = () => {
                       <a
                         href={
                           routePaths.plugins.list(selectedWorkspace) +
-                          `?author=${plugin.user.username}`
+                          `?author=${plugin.author}`
                         }
                         style={{ color: 'inherit' }}
                       >

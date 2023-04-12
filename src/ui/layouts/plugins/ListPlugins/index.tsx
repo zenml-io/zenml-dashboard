@@ -187,7 +187,8 @@ const ListPlugins: React.FC = () => {
                       }}
                     >
                       <span title={`${p.author}/${p.name}`}>
-                        {p.author}/{p.name}
+                        {p.author === 'ZenML' ? '' : `${p.author}/`}
+                        {p.name}
                       </span>
                     </H4>
 
