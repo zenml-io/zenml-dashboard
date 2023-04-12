@@ -2,7 +2,7 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 
 import { Box, LinkBox, Paragraph } from '../../components';
-import ZenMLLogo from '../../assets/logo.svg';
+import PluginFallbackImage from '../../assets/plugin-fallback.svg';
 
 export const PluginCard: React.FC<{
   title: string;
@@ -34,7 +34,7 @@ export const PluginCard: React.FC<{
       >
         <div>
           <img
-            src={logoUrl ?? ZenMLLogo}
+            src={logoUrl ?? PluginFallbackImage}
             alt={`${title} logo`}
             style={{
               maxWidth: '60%',

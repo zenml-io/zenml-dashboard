@@ -24,9 +24,16 @@ const addCanonicalUrl = <X extends TPluginDetail | TPluginVersion>(
   return plugin;
 };
 
-export const getPlugin = async (pluginId: string): Promise<TPluginDetail> => {
+export const getPlugin = async (
+  pluginId: string,
+  available = true,
+): Promise<TPluginDetail> => {
   const plugin = (
-    await axios.get(`${HUB_API_URL}/plugins/${pluginId}?status=available`)
+    await axios.get(
+      `${HUB_API_URL}/plugins/${pluginId}${
+        available ? '?status=available' : ''
+      }`,
+    )
   ).data as TPluginDetail;
   return addCanonicalUrl(plugin);
 };

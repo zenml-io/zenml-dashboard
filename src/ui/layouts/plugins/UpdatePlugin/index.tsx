@@ -49,7 +49,7 @@ const UpdatePlugin: React.FC = () => {
   const [releaseNotes, setReleaseNotes] = useState('');
 
   useEffect(() => {
-    getPlugin(pluginId).then((p) => {
+    getPlugin(pluginId, false).then((p) => {
       setPlugin(p);
       if (!repositoryUrl) setRepositoryUrl(p.repository_url);
       if (!repositoryBranch && p.repository_branch)
@@ -209,20 +209,6 @@ const UpdatePlugin: React.FC = () => {
                     value={repositorySubdirectory}
                     onChangeText={setRepositorySubdirectory}
                     placeholder="Subdirectory of repository"
-                  />
-                }
-              />
-            </Box>
-
-            {/* logo URL */}
-            <Box marginBottom="lg">
-              <InputWithLabel
-                label="Logo URL (optional)"
-                InputComponent={
-                  <TextInput
-                    value={logoUrl}
-                    onChangeText={setLogoUrl}
-                    placeholder="Logo URL"
                   />
                 }
               />

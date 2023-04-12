@@ -21,7 +21,7 @@ import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
 import { debounce } from '../../../../utils/memo';
 import { PluginsLayout } from '../shared/Layout';
 import { useHubToken, useHubUser } from '../../../hooks/auth';
-import ZenMLLogo from '../../../assets/logo.svg';
+import PluginFallbackImage from '../../../assets/plugin-fallback.svg';
 import { getPlugins, getStarredPlugins, starPlugin } from '../api';
 import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
 import { Filters } from './Filters';
@@ -161,7 +161,7 @@ const ListPlugins: React.FC = () => {
                     )}
                     {/* logo */}
                     <img
-                      src={p.logo_url || ZenMLLogo}
+                      src={p.logo_url || PluginFallbackImage}
                       alt={`${p.name} logo`}
                       style={{
                         height: '80px',

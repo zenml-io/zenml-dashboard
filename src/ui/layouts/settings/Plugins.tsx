@@ -21,7 +21,7 @@ import { HUB_API_URL } from '../../../api/constants';
 import { useHubToken } from '../../hooks/auth';
 import { useHistory, useToaster } from '../../hooks';
 import { EmptyState } from '../common/EmptyState';
-import ZenMLLogo from '../../assets/logo.svg';
+import PluginFallbackImage from '../../assets/plugin-fallback.svg';
 import { hubConnectionPromptActionTypes } from '../../../redux/actionTypes';
 
 type AugmentedPluginVersion = TPluginVersion & {
@@ -134,7 +134,7 @@ export const Plugins: React.FC = () => {
               >
                 {/* image */}
                 <img
-                  src={p.logo_url || ZenMLLogo}
+                  src={p.logo_url || PluginFallbackImage}
                   alt={`${p.name} logo`}
                   style={{
                     width: '80px',
@@ -214,7 +214,7 @@ export const Plugins: React.FC = () => {
                 {m.plugins.map((p, i) => (
                   <PluginCard
                     key={i}
-                    logoUrl={p.logo_url || ZenMLLogo}
+                    logoUrl={p.logo_url || PluginFallbackImage}
                     title={p.name}
                     description={`${p.version}: ${
                       p.description ?? 'No plugin description'
@@ -249,7 +249,7 @@ export const Plugins: React.FC = () => {
                 {m.plugins.map((p, i) => (
                   <PluginCard
                     key={i}
-                    logoUrl={p.logo_url || ZenMLLogo}
+                    logoUrl={p.logo_url || PluginFallbackImage}
                     title={p.name}
                     description={`${p.version}: ${
                       p.description ?? 'No plugin description'

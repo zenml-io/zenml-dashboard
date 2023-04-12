@@ -35,7 +35,7 @@ import {
   // deletePlugin,
 } from '../api';
 import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
-import ZenMLLogo from '../../../assets/logo.svg';
+import PluginFallbackImage from "../../../assets/plugin-fallback.svg"
 import { OverviewTab } from './OverviewTab';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
@@ -133,7 +133,7 @@ const PluginDetail: React.FC = () => {
                       }}
                     >
                       <img
-                        src={plugin.logo_url || ZenMLLogo}
+                        src={plugin.logo_url || PluginFallbackImage}
                         alt={`${plugin.name} logo`}
                         style={{
                           height: '80px',
