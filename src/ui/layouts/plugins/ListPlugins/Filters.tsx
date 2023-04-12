@@ -14,6 +14,8 @@ import {
 } from '../../../components';
 import { iconColors } from '../../../../constants';
 import { useHubToken } from '../../../hooks/auth';
+import { getTagOptions } from '../api';
+import { debounce } from 'lodash';
 
 export type FilterState = {
   onlyMine: boolean;
@@ -21,6 +23,12 @@ export type FilterState = {
   author: string;
   tag: string;
 };
+
+const debouncedGetTagOptions = debounce(getTagOptions, 300, {
+  leading: true,
+  trailing: true,
+  maxWait: 1000,
+});
 
 export const Filters: React.FC<{
   currentFilters: FilterState;
@@ -102,6 +110,7 @@ export const Filters: React.FC<{
             maxWidth: '520px',
             boxShadow: 'var(--cardShadow)',
             zIndex: 5,
+            cursor: 'default',
           }}
         >
           <H3>Filters</H3>
@@ -136,15 +145,11 @@ export const Filters: React.FC<{
             />
           </Box>
           <Box marginBottom="lg">
-            <InputWithLabel
+            <AutocompleteInput
               label="Tag"
-              InputComponent={
-                <TextInput
-                  value={filters.tag}
-                  onChangeText={(t) => setFilters({ ...filters, tag: t })}
-                />
-              }
-              helperText=""
+              value={filters.tag}
+              onChange={(t) => setFilters({ ...filters, tag: t })}
+              getOptions={debouncedGetTagOptions}
             />
           </Box>
 
@@ -174,3 +179,72 @@ export const Filters: React.FC<{
     </FlexBox>
   );
 };
+
+function AutocompleteInput({
+  label,
+  value,
+  onChange,
+  getOptions,
+}: {
+  label: string;
+  value: string;
+  onChange: (s: string) => void;
+  getOptions: (s: string) => Promise<string[]>;
+}) {
+  const [options, setOptions] = useState([] as string[]);
+
+  return (
+    <Box style={{ position: 'relative' }}>
+      <InputWithLabel
+        label={label}
+        InputComponent={
+          <TextInput
+            value={value}
+            onChangeText={(t) => {
+              onChange(t);
+
+              // exit immediately if input is blank
+              if (!t) setOptions([]);
+              else if (getOptions) {
+                getOptions(t).then(
+                  // only update if the input isn't blank (blank means reset so options aren't valid any more)
+                  (os) => value && setOptions(os),
+                );
+              }
+            }}
+          />
+        }
+        helperText=""
+      />
+
+      {options.length > 0 && (
+        <Box
+          padding="md"
+          backgroundColor="white"
+          style={{
+            position: 'absolute',
+            top: '100%',
+            minWidth: '200px',
+            maxWidth: '400px',
+            boxShadow: 'var(--cardShadow)',
+            zIndex: 10,
+          }}
+        >
+          {options.map((o) => (
+            <Box
+              key={o}
+              onClick={() => {
+                onChange(o);
+                setOptions([]);
+              }}
+              marginVertical="sm"
+              style={{ cursor: 'pointer' }}
+            >
+              <Paragraph>{o}</Paragraph>
+            </Box>
+          ))}
+        </Box>
+      )}
+    </Box>
+  );
+}

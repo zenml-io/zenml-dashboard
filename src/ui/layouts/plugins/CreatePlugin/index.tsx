@@ -32,6 +32,12 @@ export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
 const todayFormatted = moment().format('dddd, DD MMM yyyy');
 
+const debouncedGetTagOptions = debounce(getTagOptions, 300, {
+  leading: true,
+  trailing: true,
+  maxWait: 1000,
+});
+
 const CreatePlugin: React.FC = () => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const hubApiToken = useHubToken();
@@ -249,11 +255,7 @@ const CreatePlugin: React.FC = () => {
               onChangeTags={setTags}
               label="Add tags"
               placeholder="Ex. Artificial Intelligence"
-              getTagOptions={debounce(getTagOptions, 300, {
-                leading: true,
-                trailing: true,
-                maxWait: 1000,
-              })}
+              getTagOptions={debouncedGetTagOptions}
             />
 
             <Box marginVertical="lg">
