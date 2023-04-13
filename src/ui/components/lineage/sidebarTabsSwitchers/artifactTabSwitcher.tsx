@@ -61,7 +61,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
     };
 
 
-    if (Object.keys(node).length === 0) {
+    if (Object.keys(node)?.length === 0) {
         return <FullWidthSpinner color="black" size="md" />;
     }
     return (
@@ -128,11 +128,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
                 :
                 ""}
             {/* SHOW VISUALIZATION */}
-            {
-                show === "__VISUALIZATION" ?
-                    <ArtifactVisualization node={node} />
-                    : ""
-            }
+            {show === "__VISUALIZATION" ? <ArtifactVisualization node={node} /> : ""}
         </>
     )
 }

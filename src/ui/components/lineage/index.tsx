@@ -138,8 +138,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
-
- console.log("__UNAUTH_RUNID_GRAPH", graph)
   
   useEffect(() => {
   }, [selectedNode])

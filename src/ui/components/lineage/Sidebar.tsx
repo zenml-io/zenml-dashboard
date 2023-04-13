@@ -5,7 +5,6 @@ import { useDispatch, useSelector } from '../../hooks';
 import { sessionSelectors } from '../../../redux/selectors';
 import ArtifactTabHeader from './sidebarTabsSwitchers/artifactTabSwitcher';
 import StepnodeTabHeader from './sidebarTabsSwitchers/stepTabSwitcher';
-// import { fetchArtifactData, fetchStepData, fetchStepLogs } from './sidebarServices';
 import { fetchArtifactData, fetchStepData, fetchStepLogs } from '../../layouts/runs/RunDetail/sidebarServices';
 import { runsActions } from '../../../redux/actions';
 import styles from './index.module.scss'

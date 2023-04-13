@@ -532,7 +532,77 @@
 }
 
 
+.csv_table_row{
+  /* background-color: #00aaff; */
+  margin-top: 5px;
+}
 
+.csv_table_row td{
+  /* background-color: #ff3300; */
+  margin-top: 5px;
+  text-align: left;
+  border: 1px solid pink;
+  width: 180px;
+  height: 50px;
+}
+
+
+
+.csv_table {
+  border-collapse: collapse;
+  width: 100%;
+}
+
+.csv_table tbody tr td {
+  width: 180px;
+  text-align: left;
+  padding: 8px;
+  border-bottom: 1px solid #ddd;
+  font-family: "Rubik";
+  font-size: 15px;
+  overflow: hidden ;
+  flex-wrap: wrap;
+  /* border: 1px solid; */
+}
+.csv_table thead tr {
+  background-color: #443E99;
+  width: 100%;
+  height: 50px;
+  display: flex;
+  text-align: left;
+}
+.csv_table thead tr th:first-child{
+  /* background-color: rgb(143, 138, 214); */
+  width: 180px;
+  height: 50px;
+  display: flex;
+  text-align: left;
+}
+.csv_table thead tr th{
+  /* background-color: #9194c2; */
+  color: #fff;
+  width: 180px;
+  height: 50px;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  padding: 5px;
+  /* border: 1px solid; */
+}
+.csv_table tbody tr {
+  display: inline;
+  width: 100%;
+  /* background-color: #d3d7ff; */
+}
+.csv_table tbody tr :nth-child(even) {
+  max-width: 100%;
+  /* background-color: #ffcdcd; */
+}
+
+.csv_table tbody tr td:first-child{
+  width: 180px;
+  /* background-color: #00aaff; */
+}
 
 
 /* Ali edit id#123456789 */
