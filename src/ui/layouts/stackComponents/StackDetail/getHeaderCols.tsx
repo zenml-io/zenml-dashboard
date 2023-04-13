@@ -57,20 +57,27 @@ export const GetHeaderCols = ({
       ),
       width: '20%',
       renderRow: (stack: TStack) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={stack.id}>
-            <FlexBox.Row style={{ alignItems: 'center' }}>
-              <icons.chevronDown color={iconColors.grey} size={iconSizes.xs} />
+        <>
+          {stack.id && (
+            <FlexBox alignItems="center">
+              <div data-tip data-for={stack.id}>
+                <FlexBox.Row style={{ alignItems: 'center' }}>
+                  <icons.chevronDown
+                    color={iconColors.grey}
+                    size={iconSizes.xs}
+                  />
 
-              <Paragraph size="small" style={{ marginLeft: '20px' }}>
-                {truncate(stack.id, ID_MAX_LENGTH)}
-              </Paragraph>
-            </FlexBox.Row>
-          </div>
-          <ReactTooltip id={stack.id} place="top" effect="solid">
-            <Paragraph color="white">{stack.id}</Paragraph>
-          </ReactTooltip>
-        </FlexBox>
+                  <Paragraph size="small" style={{ marginLeft: '20px' }}>
+                    {truncate(stack.id, ID_MAX_LENGTH)}
+                  </Paragraph>
+                </FlexBox.Row>
+              </div>
+              <ReactTooltip id={stack.id} place="top" effect="solid">
+                <Paragraph color="white">{stack.id}</Paragraph>
+              </ReactTooltip>
+            </FlexBox>
+          )}
+        </>
       ),
     },
     {
@@ -81,16 +88,20 @@ export const GetHeaderCols = ({
       ),
       width: '30%',
       renderRow: (stack: TStack) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={stack.name}>
-            <Paragraph size="small" color="black">
-              {stack.name}
-            </Paragraph>
-          </div>
-          <ReactTooltip id={stack.name} place="top" effect="solid">
-            <Paragraph color="white">{stack.name}</Paragraph>
-          </ReactTooltip>
-        </FlexBox>
+        <>
+          {stack.name && (
+            <FlexBox alignItems="center">
+              <div data-tip data-for={stack.name}>
+                <Paragraph size="small" color="black">
+                  {stack.name}
+                </Paragraph>
+              </div>
+              <ReactTooltip id={stack.name} place="top" effect="solid">
+                <Paragraph color="white">{stack.name}</Paragraph>
+              </ReactTooltip>
+            </FlexBox>
+          )}
+        </>
       ),
     },
     {
@@ -107,87 +118,99 @@ export const GetHeaderCols = ({
       ),
       width: '10%',
       renderRow: (stackComponent: TStack) => (
-        <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
-          <div
-            data-tip
-            data-for={stackComponent?.flavor?.name || stackComponent?.flavor}
-            style={{ margin: ' 0 auto 0 auto' }}
-          >
-            <img
-              alt={stackComponent?.flavor?.logoUrl}
-              src={stackComponent?.flavor?.logoUrl}
-              style={{
-                height: '28px',
-                width: '28px',
-              }}
-            />
-          </div>
+        <>
+          {stackComponent.flavor && (
+            <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
+              <div
+                data-tip
+                data-for={
+                  stackComponent?.flavor?.name || stackComponent?.flavor
+                }
+                style={{ margin: ' 0 auto 0 auto' }}
+              >
+                <img
+                  alt={stackComponent?.flavor?.logoUrl}
+                  src={stackComponent?.flavor?.logoUrl}
+                  style={{
+                    height: '28px',
+                    width: '28px',
+                  }}
+                />
+              </div>
 
-          <ReactTooltip
-            id={
-              // stackComponent?.flavor
-              //   ? stackComponent?.flavor
-              stackComponent?.flavor?.name || stackComponent?.flavor
-            }
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">{stackComponent?.flavor?.name}</Paragraph>
-          </ReactTooltip>
-        </FlexBox>
+              <ReactTooltip
+                id={
+                  // stackComponent?.flavor
+                  //   ? stackComponent?.flavor
+                  stackComponent?.flavor?.name || stackComponent?.flavor
+                }
+                place="top"
+                effect="solid"
+              >
+                <Paragraph color="white">
+                  {stackComponent?.flavor?.name}
+                </Paragraph>
+              </ReactTooltip>
+            </FlexBox>
+          )}
+        </>
       ),
     },
     {
       render: () => (
         <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-          <Paragraph size="small" color="black" style={{ marginLeft: '-24px' }} >
+          <Paragraph size="small" color="black" style={{ marginLeft: '-24px' }}>
             SHARED
           </Paragraph>
         </Box>
       ),
       width: '10%',
       renderRow: (stack: TStack) => (
-        <FlexBox alignItems="center">
-          <div
-            style={{ margin: '0 auto 0 auto' }}
-            data-tip
-            data-for={stack.isShared}
-          >
-            <Box>
-              <FlexBox
-                justifyContent="center"
-                style={{
-                  borderRadius: '50%',
-                  // height: '19px',
-                  // width: '19px',
-                  marginLeft: '-24px',
-                  textAlign: 'center',
-                }}
+        <>
+          {stack.isShared && (
+            <FlexBox alignItems="center">
+              <div
+                style={{ margin: '0 auto 0 auto' }}
+                data-tip
+                data-for={stack.isShared}
               >
-                {stack.isShared ? (
-                  <icons.multiUser
-                    color={iconColors.white}
-                    size={iconSizes.md}
-                  />
-                ) : (
-                  <icons.singleUser
-                    color={iconColors.white}
-                    size={iconSizes.md}
-                  />
-                )}
-              </FlexBox>
-            </Box>
-          </div>
-          <ReactTooltip
-            id={stack.isShared ? 'true' : 'false'}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {stack.isShared ? 'True' : 'False'}
-            </Paragraph>
-          </ReactTooltip>
-        </FlexBox>
+                <Box>
+                  <FlexBox
+                    justifyContent="center"
+                    style={{
+                      borderRadius: '50%',
+                      // height: '19px',
+                      // width: '19px',
+                      marginLeft: '-24px',
+                      textAlign: 'center',
+                    }}
+                  >
+                    {stack.isShared ? (
+                      <icons.multiUser
+                        color={iconColors.white}
+                        size={iconSizes.md}
+                      />
+                    ) : (
+                      <icons.singleUser
+                        color={iconColors.white}
+                        size={iconSizes.md}
+                      />
+                    )}
+                  </FlexBox>
+                </Box>
+              </div>
+              <ReactTooltip
+                id={stack.isShared ? 'true' : 'false'}
+                place="top"
+                effect="solid"
+              >
+                <Paragraph color="white">
+                  {stack.isShared ? 'True' : 'False'}
+                </Paragraph>
+              </ReactTooltip>
+            </FlexBox>
+          )}
+        </>
       ),
     },
 
@@ -200,39 +223,43 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (stack: TStack) => {
         return (
-          <FlexBox alignItems="center">
-            <div
-              data-tip
-              data-for={
-                stack?.user?.full_name
-                  ? stack?.user?.full_name
-                  : stack?.user?.name
-              }
-            >
+          <>
+            {stack.user && (
               <FlexBox alignItems="center">
-                <Paragraph size="small">
-                  {stack?.user?.full_name
-                    ? stack?.user?.full_name
-                    : stack?.user?.name}
-                </Paragraph>
+                <div
+                  data-tip
+                  data-for={
+                    stack?.user?.full_name
+                      ? stack?.user?.full_name
+                      : stack?.user?.name
+                  }
+                >
+                  <FlexBox alignItems="center">
+                    <Paragraph size="small">
+                      {stack?.user?.full_name
+                        ? stack?.user?.full_name
+                        : stack?.user?.name}
+                    </Paragraph>
+                  </FlexBox>
+                </div>
+                <ReactTooltip
+                  id={
+                    stack?.user?.full_name
+                      ? stack?.user?.full_name
+                      : stack?.user?.name
+                  }
+                  place="top"
+                  effect="solid"
+                >
+                  <Paragraph color="white">
+                    {stack?.user?.full_name
+                      ? stack?.user?.full_name
+                      : stack?.user?.name}
+                  </Paragraph>
+                </ReactTooltip>
               </FlexBox>
-            </div>
-            <ReactTooltip
-              id={
-                stack?.user?.full_name
-                  ? stack?.user?.full_name
-                  : stack?.user?.name
-              }
-              place="top"
-              effect="solid"
-            >
-              <Paragraph color="white">
-                {stack?.user?.full_name
-                  ? stack?.user?.full_name
-                  : stack?.user?.name}
-              </Paragraph>
-            </ReactTooltip>
-          </FlexBox>
+            )}
+          </>
         );
       },
     },
@@ -244,27 +271,31 @@ export const GetHeaderCols = ({
       ),
       width: '30%',
       renderRow: (stack: TStack) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(stack.created)}>
+        <>
+          {stack.created && (
             <FlexBox alignItems="center">
-              {/* <Box paddingRight="sm">
+              <div data-tip data-for={formatDateToSort(stack.created)}>
+                <FlexBox alignItems="center">
+                  {/* <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
               </Box> */}
-              <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(stack.created)}
-              </Paragraph>
+                  <Paragraph color="grey" size="tiny">
+                    {formatDateToDisplayOnTable(stack.created)}
+                  </Paragraph>
+                </FlexBox>
+              </div>
+              <ReactTooltip
+                id={formatDateToSort(stack.created)}
+                place="top"
+                effect="solid"
+              >
+                <Paragraph color="white">
+                  {formatDateToDisplayOnTable(stack.created)}
+                </Paragraph>
+              </ReactTooltip>
             </FlexBox>
-          </div>
-          <ReactTooltip
-            id={formatDateToSort(stack.created)}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {formatDateToDisplayOnTable(stack.created)}
-            </Paragraph>
-          </ReactTooltip>
-        </FlexBox>
+          )}
+        </>
       ),
     },
   ];
