@@ -84,15 +84,36 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             ...setDefaultData,
             [toSnakeCase(data.title)]: data.default,
           };
+        else if (
+          flavor.configSchema.properties[key]?.additionalProperties &&
+          flavor.configSchema.properties[key]?.additionalProperties?.type !==
+            'string'
+        ) {
+          setDefaultData = {
+            ...setDefaultData,
+            [toSnakeCase(data.title)]: data.default,
+          };
+        }
         return null;
       });
 
       Object.keys(flavor.configSchema.properties).map((key, ind) => {
         const data = flavor.configSchema.properties[key];
-        if (data.type === 'object')
-          setInputObjectType.push({
-            [key]: [{ key: '', value: '' }],
-          });
+        if (data.type === 'object') {
+          if (
+            flavor.configSchema.properties[key]?.additionalProperties &&
+            flavor.configSchema.properties[key]?.additionalProperties?.type ===
+              'string'
+          ) {
+            setInputObjectType.push({
+              [key]: [{ key: '', value: '' }],
+            });
+          } else {
+            setInputObjectType.push({
+              [key]: [{ key: '', value: '' }],
+            });
+          }
+        }
         return null;
       });
 
@@ -226,9 +247,15 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       label: elementSchema.title,
       default: elementSchema.default as any,
       sensitive: elementSchema.sensitive as boolean,
+      additionalProperties: elementSchema?.additionalProperties?.type as any,
     };
 
-    if (elementSchema.type === 'object' && elementSchema.title) {
+    if (
+      elementSchema.type === 'object' &&
+      elementSchema.title &&
+      (props.additionalProperties === undefined ||
+        props.additionalProperties === 'string')
+    ) {
       return (
         <Box marginTop="md">
           <Paragraph size="body" style={{ color: '#000' }}>
@@ -336,6 +363,53 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       );
     }
 
+    if (
+      elementSchema.type === 'object' &&
+      elementSchema.title &&
+      props.additionalProperties !== 'string'
+    ) {
+      return (
+        <>
+          {' '}
+          <Box marginTop="sm">
+            <Paragraph size="body" style={{ color: '#000' }}>
+              <label htmlFor="key">{props.label}</label>
+            </Paragraph>
+          </Box>
+          {console.log(inputData, '23232323123')}
+          <FlexBox marginTop="sm" fullWidth>
+            <textarea
+              className={styles.textArea}
+              defaultValue={JSON.stringify(inputData[props.name])}
+              onBlur={(e) => {
+                const jsonStr = e.target.value;
+                try {
+                  JSON.parse(jsonStr);
+                } catch (e) {
+                  dispatch(
+                    showToasterAction({
+                      description: 'Invalid JSON.',
+                      type: toasterTypes.failure,
+                    }),
+                  );
+                }
+              }}
+              onChange={(e) => {
+                const jsonStr = e.target.value;
+                try {
+                  const jsonObj = JSON.parse(jsonStr);
+
+                  setInputData({
+                    ...inputData,
+                    [props.name]: jsonObj,
+                  });
+                } catch (e) {}
+              }}
+            />
+          </FlexBox>
+        </>
+      );
+    }
     if (
       elementSchema.type === 'string' ||
       (elementSchema.type === 'integer' && elementSchema.title)
@@ -560,8 +634,8 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       }
     }
 
-    for (const [, value] of Object.entries(inputData)) {
-      if (typeof value === 'object') {
+    for (const [, value] of Object.entries(inputData) as any) {
+      if (value.id) {
         return dispatch(
           showToasterAction({
             description: 'Invalid secret',
