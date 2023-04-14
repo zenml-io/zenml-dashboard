@@ -393,11 +393,25 @@
   /* background-color: #5b50f1; */
 
 }
+.td_value tr{
+  border-bottom: 0.1px solid #00000020;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* background-color: #A1A4AB; */
+  padding: 0px;
+  margin: 0px;
+}
+.td_value tr .td_key{
+  text-align: left;
+}
+.td_value tr .td_value{
+  width: 400px;
+  padding: 0px;
+}
 
 .td_value {
-
   text-align: end;
-  width: 70%;
   height: auto;
   padding: 15px;
   font-family: 'Rubik';

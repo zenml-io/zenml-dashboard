@@ -39,12 +39,16 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
   }, [node])//eslint-disable-line
 
   useEffect(() => {
+    console.log('__unauth_resposne', response?.message)
+    console.log('__unauth_resposne', response?.name)
+    console.log('__unauth_resposne', typeof response)
+    console.log('__unauth_resposne',  JSON.stringify(response))
   }, [response])//eslint-disable-line
 
   if (response === null) {
     return <FullWidthSpinner color="black" size="md" />
   }
-  if (response === undefined || response) {
+  if (response === undefined || response?.name === "Error") {
     return (<div className={`${style.mainContainer}`}>
       <p>NO VISUALIZATION</p>
     </div>)
@@ -85,7 +89,7 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
           }
         </div>
         : ""}
-      {type === null || type === undefined ? <p>NO VISUALIZATION</p> : ""}
+      {/* {type === null || type === undefined ? <p>NO VISUALIZATION</p> : ""} */}
     </div>
   )
 }

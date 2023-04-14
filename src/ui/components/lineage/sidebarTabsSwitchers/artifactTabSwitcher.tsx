@@ -107,7 +107,35 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
                             </tr>
                             <tr>
                                 <td className='td_key'>materializer</td>
-                                <td className='td_value'>{typeof (node?.materializer) === 'object' ? <JsonDisplay data={node?.materializer} style={{ display: 'flex' }} /> : node?.materializer}</td>
+                                {/* <td className='td_value'>{typeof (node?.materializer) === 'object' ? <JsonDisplay data={node?.materializer} style={{ display: 'flex' }} /> : node?.materializer}</td> */}
+                                <td className='td_value'>
+                                    <tr>
+                                        <td className='td_key'>
+                                            module:
+                                        </td>
+                                        <td className='td_value'>
+                                            {node?.materializer?.module}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className='td_key'>
+                                            attribute:
+                                        </td>
+                                        <td className='td_value'>
+                                            {node?.materializer?.attribute}
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className='td_key'>
+                                            type:
+                                        </td>
+                                        <td className='td_value'>
+                                            {node?.materializer?.type}
+                                        </td>
+                                    </tr>
+                                    {/* <tr>attribute: {node?.materializer?.attribute}</tr>
+                                    <tr>type: {node?.materializer?.type}</tr> */}
+                                </td>
                             </tr>
                             <tr>
                                 <td className='td_key'>name</td>
