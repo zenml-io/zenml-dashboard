@@ -27,7 +27,7 @@ const CsvTable = ({ data }: { data: any }) => {
                     result.data.forEach((d: any) => {
                         columnArray.push(Object.keys(d));
                         valueArray.push(Object.values(d));
-                    }) 
+                    })
                     setcsv(result.data)
                     setColumn(columnArray[0]);
                     setValues(valueArray);
@@ -49,11 +49,14 @@ const CsvTable = ({ data }: { data: any }) => {
             </thead>
             <tbody style={{}}>
                 {values.map((v: any, i: any) => (
-                    <tr key={i}>
-                        {v.map((value: any, index: any) => (
-                            <td key={index}>{value}</td>
-                        ))}
-                    </tr>
+                    <>
+                        <tr key={i}>
+                            {v.map((value: any, index: any) => (
+                                <td key={index}>{value}</td>
+                            ))}
+                        </tr>
+                        <tr style={{ borderBottom: '1px solid #ddd', width: '100%', height: '1px' }}></tr>
+                    </>
                 ))}
                 <tr >
                 </tr>

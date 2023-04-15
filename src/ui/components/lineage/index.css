@@ -569,9 +569,10 @@
 
 .csv_table tbody tr td {
   width: 180px;
+  /* width: 100%; */
   text-align: left;
   padding: 8px;
-  border-bottom: 1px solid #ddd;
+  /* border-bottom: 1px solid #ddd; */
   font-family: "Rubik";
   font-size: 15px;
   overflow: hidden ;
