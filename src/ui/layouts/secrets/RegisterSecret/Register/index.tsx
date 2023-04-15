@@ -249,7 +249,7 @@ export const Register: React.FC<Props> = (state: any) => {
 
         <Box style={{ width: '329px' }}>
           <FormTextField
-            required={'*'}
+            required={true}
             label={'Secret name'}
             labelColor="rgba(66, 66, 64, 0.5)"
             placeholder={'Ex.John Doe'}

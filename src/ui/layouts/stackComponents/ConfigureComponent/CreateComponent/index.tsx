@@ -59,6 +59,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   const [isShared, setIsShared] = useState(true);
   const [inputData, setInputData] = useState({}) as any;
   const [inputFields, setInputFields] = useState() as any;
+  const [inputArrayFields, setInputArrayFields] = useState() as any;
   const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const history = useHistory();
@@ -76,6 +77,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
     if (!state?.state?.routeFromComponent) {
       let setDefaultData = {};
       let setInputObjectType: any = [];
+      let setInputArrayType: any = [];
       initForm(flavor.configSchema.properties);
       Object.keys(flavor.configSchema.properties).map((key, ind) => {
         const data = flavor.configSchema.properties[key];
@@ -84,25 +86,50 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             ...setDefaultData,
             [toSnakeCase(data.title)]: data.default,
           };
+        else if (data.default && data.type === 'array') {
+          setInputArrayType = {
+            ...setInputArrayType,
+            [toSnakeCase(data.title)]: [...data.default, ''],
+          };
+        } else if (
+          flavor.configSchema.properties[key]?.additionalProperties &&
+          flavor.configSchema.properties[key]?.additionalProperties?.type !==
+            'string'
+        ) {
+          setDefaultData = {
+            ...setDefaultData,
+            [toSnakeCase(data.title)]: data.default,
+          };
+        }
         return null;
       });
 
       Object.keys(flavor.configSchema.properties).map((key, ind) => {
         const data = flavor.configSchema.properties[key];
-        if (data.type === 'object')
-          setInputObjectType.push({
-            [key]: [{ key: '', value: '' }],
-          });
+        if (data.type === 'object') {
+          if (
+            flavor.configSchema.properties[key]?.additionalProperties &&
+            flavor.configSchema.properties[key]?.additionalProperties?.type ===
+              'string'
+          ) {
+            setInputObjectType.push({
+              [key]: [{ key: '', value: '' }],
+            });
+          } else {
+            setInputObjectType.push({
+              [key]: [{ key: '', value: '' }],
+            });
+          }
+        }
         return null;
       });
-
+      setInputArrayFields(setInputArrayType);
       setInputFields(setInputObjectType);
 
       setInputData({ ...setDefaultData });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(inputFields, inputData, 'asdasdasdasd12323232323');
   const handleAddFields = (name: any, index: any) => {
     const values = [...inputFields];
     // const check = values.find(({ name }) => name);
@@ -147,7 +174,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
         id: value?.id ? value?.id : '',
       },
     });
-    
+
     // if (value === undefined) {
     //   return false;
     // }
@@ -226,9 +253,15 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       label: elementSchema.title,
       default: elementSchema.default as any,
       sensitive: elementSchema.sensitive as boolean,
+      additionalProperties: elementSchema?.additionalProperties?.type as any,
     };
 
-    if (elementSchema.type === 'object' && elementSchema.title) {
+    if (
+      elementSchema.type === 'object' &&
+      elementSchema.title &&
+      (props.additionalProperties === undefined ||
+        props.additionalProperties === 'string')
+    ) {
       return (
         <Box marginTop="md">
           <Paragraph size="body" style={{ color: '#000' }}>
@@ -337,6 +370,53 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
     }
 
     if (
+      elementSchema.type === 'object' &&
+      elementSchema.title &&
+      props.additionalProperties !== 'string'
+    ) {
+      return (
+        <>
+          {' '}
+          <Box marginTop="sm">
+            <Paragraph size="body" style={{ color: '#000' }}>
+              <label htmlFor="key">{props.label}</label>
+            </Paragraph>
+          </Box>
+          {console.log(inputData, '23232323123')}
+          <FlexBox marginTop="sm" fullWidth>
+            <textarea
+              className={styles.textArea}
+              defaultValue={JSON.stringify(inputData[props.name])}
+              onBlur={(e) => {
+                const jsonStr = e.target.value;
+                try {
+                  JSON.parse(jsonStr);
+                } catch (e) {
+                  dispatch(
+                    showToasterAction({
+                      description: 'Invalid JSON.',
+                      type: toasterTypes.failure,
+                    }),
+                  );
+                }
+              }}
+              onChange={(e) => {
+                const jsonStr = e.target.value;
+                try {
+                  const jsonObj = JSON.parse(jsonStr);
+
+                  setInputData({
+                    ...inputData,
+                    [props.name]: jsonObj,
+                  });
+                } catch (e) {}
+              }}
+            />
+          </FlexBox>
+        </>
+      );
+    }
+    if (
       elementSchema.type === 'string' ||
       (elementSchema.type === 'integer' && elementSchema.title)
     ) {
@@ -345,7 +425,8 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
           {props.sensitive ? (
             <Box marginTop="lg">
               <MakeSecretField
-                label={titleCase(props.name)}
+                required={flavor?.configSchema?.required?.includes(elementName)}
+                label={titleCase(props.name) + ' (Secret)'}
                 placeholder={''}
                 handleClick={() => {
                   const state = {
@@ -373,7 +454,14 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     : ''
                 }
                 onChange={(val: string, newEvent: any) => {
-                  callActionForSecret(props.name, val, newEvent);
+                  if (val.includes('{{')) {
+                    callActionForSecret(props.name, val, newEvent);
+                  } else {
+                    setInputData({
+                      ...inputData,
+                      [props.name]: val,
+                    });
+                  }
                 }}
                 secretOnChange={(val: any, newEvent: any) => {
                   // debugger;
@@ -385,7 +473,9 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                   if (val?.value?.includes('}}')) {
                     setInputData({
                       ...inputData,
-                      [props?.name]: val?.value?.includes('.') ? val.value : val,
+                      [props?.name]: val?.value?.includes('.')
+                        ? val.value
+                        : val,
                     });
                   } else if (val.value.includes('{{')) {
                     callActionForSecret(props.name, val, newEvent);
@@ -398,7 +488,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                   )
                     ? secretOptionsWithKeys
                     : secretOptions
-                }   
+                }
                 tooltipText='Start typing with "{{" to reference a secret for this field.'
               />
             </Box>
@@ -441,13 +531,106 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
         </Box>
       );
     }
+    if (elementSchema.type === 'array' && elementSchema.title) {
+      return (
+        <Box marginTop="md">
+          <Paragraph size="body" style={{ color: '#000' }}>
+            <label htmlFor="key">{props.label}</label>
+          </Paragraph>
+
+          <FlexBox.Row>
+            <div className="form-row">
+              {console.log(inputArrayFields, 'asd2323123asdsfsf')}
+              {inputArrayFields &&
+                inputArrayFields[props?.name]?.map((item: any, index: any) => (
+                  <Fragment>
+                    <div className="form-group col-sm-8">
+                      <FormTextField
+                        onChange={
+                          (event: any) => {
+                            const values = { ...inputArrayFields };
+                            values[props.name][index] = event;
+                            setInputArrayFields(values);
+                          }
+                          // handleInputChange(
+                          //   parentIndex,
+                          //   childIndex,
+                          //   event,
+                          //   props.name,
+                          //   'value',
+                          // )
+                        }
+                        label={'Value'}
+                        value={item}
+                        placeholder={''}
+                      />
+                    </div>
+                    <div
+                      className="col-sx-2 "
+                      style={{
+                        justifyContent: 'space-between',
+                        display: 'flex',
+                        marginTop: '10px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}
+                      >
+                        {inputArrayFields[props.name].length > 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            style={{}}
+                            type="button"
+                            // disabled={item[props.name].length === 1}
+                            onClick={() => {
+                              const values = { ...inputArrayFields };
+                              values[props.name].splice(index, 1);
+                              setInputArrayFields(values);
+                            }}
+                          >
+                            <icons.minusCircle color={iconColors.primary} />
+                          </button>
+                        )}
+                        {index === inputArrayFields[props.name].length - 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            type="button"
+                            onClick={() => {
+                              const values = { ...inputArrayFields };
+                              values[props.name].push('');
+                              setInputArrayFields(values);
+                            }}
+                          >
+                            <icons.plusCircle color={iconColors.primary} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </Fragment>
+                ))}
+              {/* {inputFields
+              ?.filter((x: any) => x.hasOwnProperty(props.name))
+              .map((inputField: any, index: any) => (
+          
+              ))} */}
+            </div>
+            <div className="submit-button"></div>
+            <br />
+          </FlexBox.Row>
+        </Box>
+      );
+    }
   };
 
   const onSubmit = async (values: any) => {
     const requiredField = flavor?.configSchema?.required?.filter(
       (item: any) => inputData[item],
     );
-    console.log('requiredField', requiredField);
     if (requiredField?.length !== flavor?.configSchema?.required?.length) {
       dispatch(
         showToasterAction({
@@ -550,6 +733,18 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
         }
       }
     }
+
+    for (const [, value] of Object.entries(inputData) as any) {
+      if (value.id) {
+        return dispatch(
+          showToasterAction({
+            description: 'Invalid secret',
+            type: toasterTypes.failure,
+          }),
+        );
+      }
+    }
+
     const body = {
       user: user?.id,
       workspace: id,
@@ -557,7 +752,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       name: componentName,
       type: flavor.type,
       flavor: flavor.name,
-      configuration: { ...inputData, ...final },
+      configuration: { ...inputData, ...final, ...inputArrayFields },
     };
     setLoading(true);
     await axios
@@ -632,7 +827,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             onChange={(e: any) => {
               setComponentName(e);
             }}
-            required={'*'}
+            required={true}
             placeholder="Component Name"
             label={'Component Name'}
             value={componentName}

@@ -26,7 +26,7 @@ export const userForId = (userId: TId): Selector<State, TUser> =>
   createSelector(getById, extractItemFromById(userId));
 
 const userSelectors = {
-  myUser: myUser,
+  myUser,
   userForId,
 };
 

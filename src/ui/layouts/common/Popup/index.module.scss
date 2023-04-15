@@ -3,8 +3,8 @@
 .dimmer {
   position: fixed;
   background: rgba(217, 217, 217, 0.2);
-  backdrop-filter: blur(1px);
-  opacity: 0.5;
+  backdrop-filter: blur(2px);
+  opacity: 0.6;
   height: 100vh;
   width: 100vw;
   top: 0;
@@ -20,6 +20,7 @@
   min-height: 200px;
   min-width: 700px;
   overflow-x: auto;
+  box-shadow: 8px 8px 24px rgba(0, 0, 0, 0.1);
 }
 
 @media (max-width: $md-breakpoint) {

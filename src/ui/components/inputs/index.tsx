@@ -9,14 +9,16 @@ import ReactTooltip from 'react-tooltip';
 export const InputWithLabelIcon = ({
   InputComponent,
   label,
+  required = false,
   name,
   labelColor,
   optional,
-  tooltipText
+  tooltipText,
 }: {
   InputComponent: JSX.Element;
   label: string;
   name?: any;
+  required?: any;
   labelColor?: any;
   optional?: string;
   tooltipText?: string;
@@ -31,16 +33,17 @@ export const InputWithLabelIcon = ({
           {label}
           {optional && <span style={{ color: 'red' }}>{optional}</span>}
         </label>
+        {required && <span style={{ color: 'red', marginLeft: '4px' }}>*</span>}
       </Paragraph>
 
-      <Box marginLeft='sm' style={{ cursor: 'pointer' }}>
-        <div data-tip data-for='config-icon'>
+      <Box marginLeft="sm" style={{ cursor: 'pointer' }}>
+        <div data-tip data-for="config-icon">
           <icons.config size={iconSizes.sm} color={iconColors.black} />
         </div>
       </Box>
 
       <Box style={{ zIndex: 99999 }}>
-        <ReactTooltip id='config-icon' place="bottom" effect='solid'>
+        <ReactTooltip id="config-icon" place="bottom" effect="solid">
           <Paragraph color="white">{tooltipText}</Paragraph>
         </ReactTooltip>
       </Box>
@@ -55,12 +58,16 @@ export const InputWithLabel = ({
   name,
   labelColor,
   optional,
+  required,
+  helperText = label,
 }: {
   InputComponent: JSX.Element;
   label: string;
   name?: any;
   labelColor?: any;
-  optional?: string;
+  optional?: boolean;
+  required?: boolean;
+  helperText?: string;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <Box paddingBottom="sm">
@@ -68,9 +75,25 @@ export const InputWithLabel = ({
         size="body"
         style={{ color: labelColor ? labelColor : 'black' }}
       >
-        <label htmlFor={name}>
+        <label htmlFor={name} style={{ display: 'flex', flexDirection: 'row' }}>
           {label}
-          {optional && <span style={{ color: 'red' }}>{optional}</span>}
+          {optional && (
+            <span style={{ color: '#C8C8C8', marginLeft: '4px' }}>
+              (Optional)
+            </span>
+          )}
+          {required && (
+            <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
+          )}
+          {helperText && (
+            <span style={{ marginLeft: '8px' }}>
+              <icons.info
+                color={iconColors.darkGrey}
+                title={helperText}
+                size="xs"
+              />
+            </span>
+          )}
         </label>
       </Paragraph>
     </Box>
@@ -79,9 +102,10 @@ export const InputWithLabel = ({
 );
 
 export const BaseInput = ({
-  onChange,
-  inputRef,
   value,
+  onChange,
+  defaultValue,
+  inputRef,
   placeholder,
   type,
   hasError,
@@ -90,8 +114,9 @@ export const BaseInput = ({
   onRemoveFocus,
   ...props
 }: {
-  onChange: any;
   value?: string;
+  onChange: (e: any) => void;
+  defaultValue?: string;
   inputRef?: any;
   placeholder?: string;
   type: string;
@@ -106,6 +131,7 @@ export const BaseInput = ({
     onChange={onChange}
     onBlur={onRemoveFocus}
     value={value}
+    defaultValue={defaultValue}
     placeholder={placeholder}
     className={cn(styles.input, hasError ? styles.error : null, className)}
     type={type}
@@ -168,8 +194,9 @@ export const EmailInput = ({
 );
 
 export const TextInput = ({
-  onChangeText,
   value,
+  onChangeText,
+  defaultValue,
   inputRef,
   placeholder,
   hasError,
@@ -178,27 +205,64 @@ export const TextInput = ({
   onRemoveFocus,
   ...props
 }: {
-  onChangeText: any;
   value?: string;
+  onChangeText?: (s: string) => void;
+  defaultValue?: string;
   placeholder?: string;
   hasError?: boolean;
   type?: string;
   inputRef?: any;
   onRemoveFocus?: any;
   style?: any;
+  onKeyDown?: (e: { key: string }) => void;
 }): JSX.Element => (
   <BaseInput
     {...props}
     inputRef={inputRef}
     hasError={hasError}
     onChange={(e: any): void => {
-      onChangeText(e.target.value);
+      onChangeText?.(e.target.value);
     }}
     value={value}
+    defaultValue={defaultValue}
     onRemoveFocus={onRemoveFocus}
     placeholder={placeholder}
     type={type}
     style={style}
+  />
+);
+
+export const TextAreaInput = ({
+  value,
+  onChangeText,
+  inputRef,
+  placeholder,
+  hasError = false,
+  style,
+  onRemoveFocus,
+  lines = 4,
+  ...props
+}: {
+  value: string;
+  onChangeText: (s: string) => void;
+  placeholder?: string;
+  hasError?: boolean;
+  inputRef?: any;
+  onRemoveFocus?: () => void;
+  lines?: number;
+  style?: any;
+  onKeyDown?: (e: { key: string }) => void;
+}): JSX.Element => (
+  <textarea
+    {...props}
+    ref={inputRef}
+    onChange={(e) => onChangeText(e.target.value)}
+    onBlur={onRemoveFocus}
+    value={value}
+    placeholder={placeholder}
+    className={cn(styles.textarea, hasError ? styles.error : null)}
+    style={style}
+    rows={lines}
   />
 );
 
@@ -212,7 +276,7 @@ export const DropdownInput = ({
   disabled,
   ...props
 }: {
-  onChange: any;
+  onChange: (s: string) => void;
   value: string;
   placeholder?: string;
   hasError?: boolean;

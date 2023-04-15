@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Box, FlexBox, FormTextField, Paragraph } from '../../../components';
 import styles from './index.module.scss';
+
 export function Form(props: any) {
   return <div {...props}>{props.children}</div>;
 }
@@ -16,7 +17,7 @@ export function TextField(props: any) {
           setText(e);
           onHandleChange(name, e);
         }}
-        required={`${required ? '*' : ''}`}
+        required={!!required}
         // disabled={props.disable}
         label={label}
         value={text}
@@ -73,9 +74,11 @@ export function ToggleField(props: any) {
               onChange={onHandleChange}
               disabled={disabled}
             />
-           {disabled ? <span className={`${styles.slider} ${styles.round}`}></span> : 
-            <span className={`${styles.sliderBlue} ${styles.round}`}></span>}
-          
+            {disabled ? (
+              <span className={`${styles.slider} ${styles.round}`}></span>
+            ) : (
+              <span className={`${styles.sliderBlue} ${styles.round}`}></span>
+            )}
           </label>
         </FlexBox.Row>
       </FlexBox.Row>

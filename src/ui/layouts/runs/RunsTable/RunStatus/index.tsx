@@ -4,7 +4,7 @@ import { icons, If, FlexBox } from '../../../../components';
 
 export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
   return (
-    <FlexBox justifyContent='center' style={{  marginLeft: '-24px' }}>
+    <FlexBox justifyContent="center" style={{ marginLeft: '-24px' }}>
       <If condition={run.status === runStatus.COMPLETED}>
         {() => (
           // <ColoredCircle color="green" size="xs">
