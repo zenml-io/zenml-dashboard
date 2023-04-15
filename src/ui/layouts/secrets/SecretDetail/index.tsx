@@ -7,7 +7,7 @@ import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
 // import styles from './NestedRow.module.scss';
-import { MetaData } from './Metadata';
+// import { MetaData } from './Metadata';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 import { useHistory, useSelector } from '../../../hooks';
@@ -32,19 +32,21 @@ import { GetHeaderCols } from './getHeaderCols';
 const getTabPages = (
   secretId: TId,
   selectedWorkspace: string,
-  // history?: any,
+  fetching?: boolean,
 ): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
-      Component: () => <Configuration secretId={secretId} />,
+      Component: () => (
+        <Configuration secretId={secretId} fetching={fetching} />
+      ),
       path: routePaths.secret.configuration(secretId, selectedWorkspace),
     },
-    {
-      text: translate('tabs.metaData.text'),
-      Component: () => <MetaData secretId={secretId}></MetaData>,
-      path: routePaths.secret.metaData(secretId, selectedWorkspace),
-    },
+    // {
+    //   text: translate('tabs.metaData.text'),
+    //   Component: () => <MetaData secretId={secretId}></MetaData>,
+    //   path: routePaths.secret.metaData(secretId, selectedWorkspace),
+    // },
   ];
 };
 
@@ -77,7 +79,7 @@ export interface SecretDetailRouteParams {
 }
 
 export const StackDetail: React.FC = () => {
-  const { secret } = useService();
+  const { secret, fetching } = useService();
   const filteredSecret: any = [];
   filteredSecret.push(secret);
   const history = useHistory();
@@ -120,7 +122,7 @@ export const StackDetail: React.FC = () => {
   //   }
   // }
   console.log(secret, 'secretsecret');
-  const tabPages = getTabPages(secret.id, selectedWorkspace);
+  const tabPages = getTabPages(secret.id, selectedWorkspace, fetching);
   const breadcrumbs = getBreadcrumbs(secret.id, selectedWorkspace);
   const headerCols = GetHeaderCols({
     filteredSecret,
@@ -140,6 +142,7 @@ export const StackDetail: React.FC = () => {
   return (
     <BasePage
       headerWithButtons
+      singleTab={true}
       tabPages={tabPages}
       tabBasePath={routePaths.secret.base(secret.id)}
       breadcrumbs={breadcrumbs}

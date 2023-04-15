@@ -4,29 +4,31 @@ import { SecretDetailRouteParams } from '.';
 import {
   pipelinesActions,
   runPagesActions,
+  secretPagesActions,
   secretsActions,
 } from '../../../../redux/actions';
 import { stackSelectors, secretSelectors } from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { stackPagesActions } from '../../../../redux/actions';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { filterObjectForParam } from '../../../../utils';
 
 interface ServiceInterface {
   secret: any;
+  fetching?: boolean;
 }
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const { id } = useParams<SecretDetailRouteParams>();
-  // debugger;
+  const [fetching, setFetching] = useState(false);
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
-    // setFetching(true);
+    setFetching(true);
 
     dispatch(
       secretsActions.secretForId({
@@ -49,11 +51,11 @@ export const useService = (): ServiceInterface => {
     // );
   }, [id]);
 
-  const setFetching = (fetching: boolean) => {
-    // dispatch(runPagesActions.setFetching({ fetching }));
-  };
+  // const setFetching = (fetching: boolean) => {
+  //   dispatch(secretPagesActions.setFetching({ fetching }));
+  // };
 
   const secret = useSelector(secretSelectors.secretForId(id));
 
-  return { secret };
+  return { secret, fetching };
 };

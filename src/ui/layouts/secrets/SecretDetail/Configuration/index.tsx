@@ -4,7 +4,11 @@ import React from 'react';
 // import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {
   FlexBox,
-  // Box,
+  Box,
+  FormTextField,
+  FormDropdownField,
+  PrimaryButton,
+  FullWidthSpinner,
   // H4,
   // GhostButton,
   // icons,
@@ -14,6 +18,7 @@ import {
   // EditField,
   // Paragraph,
 } from '../../../../components';
+import SelectorDisabled from '../../Selector/SelectorDisabled';
 // import { iconColors, iconSizes } from '../../../../../constants';
 
 // import { useDispatch } from '../../../../hooks';
@@ -24,6 +29,9 @@ import {
 
 // import styles from './index.module.scss';
 import { useService } from './useService';
+import { routePaths } from '../../../../../routes/routePaths';
+import { useHistory, useSelector } from '../../../../hooks';
+import { workspaceSelectors } from '../../../../../redux/selectors';
 // import { StackBox } from '../../../common/StackBox';
 // import { SidePopup } from '../../RegisterSecret/ListForAll/SidePopup';
 // import { NonEditableConfig } from '../../../NonEditableConfig';
@@ -53,91 +61,73 @@ export const Configuration: React.FC<{
   secretId: TId;
   tiles?: any;
   fetching?: boolean;
-}> = ({ secretId }) => {
+}> = ({ secretId, fetching }) => {
   // const dispatch = useDispatch();
   const { secret } = useService({ secretId });
+  const history = useHistory();
 
-  // const user = useSelector(userSelectors.myUser);
-  // const authToken = useSelector(sessionSelectors.authenticationToken);
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
-  // const [loading, setLoading] = useState(false);
-  // const dispatch = useDispatch();
-  console.log(secret);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
-  // const handleCopy = () => {
-  //   navigator.clipboard.writeText(stackConfig);
-  //   dispatch(
-  //     showToasterAction({
-  //       description: 'Config copied to clipboard',
-  //       type: toasterTypes.success,
-  //     }),
-  //   );
-  // };
+  if (fetching) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
 
-  // if (fetching) {
-  //   return <FullWidthSpinner color="black" size="md" />;
-  // }
-  // if (loading) {
-  //   return <FullWidthSpinner color="black" size="md" />;
-  // }
-  // const onCallApi = (name?: string, toggle?: boolean) => {
-  //   // ;
-  //   const { id }: any = workspaces.find(
-  //     (item) => item.name === selectedWorkspace,
-  //   );
+  return (
+    <FlexBox.Column marginLeft="xl">
+      <Box marginTop="lg" style={{ width: '329px' }}>
+        <FormTextField
+          label={'Secret name'}
+          labelColor="rgba(66, 66, 64, 0.5)"
+          placeholder={'Ex.John Doe'}
+          value={secret?.name}
+          disabled
+          onChange={() => {}}
+        />
+      </Box>
+      <Box marginTop="lg" style={{ width: '329px' }}>
+        <FormDropdownField
+          label={'Scope'}
+          labelColor="rgba(66, 66, 64, 0.5)"
+          placeholder={'Choose a scope'}
+          value={secret?.scope}
+          onChange={() => {}}
+          disabled
+          options={[] as any}
+          style={{ paddingLeft: '10px' }}
+        />
+      </Box>
 
-  //   const body = {
-  //     user: user?.id,
-  //     workspace: id,
-  //     is_shared: toggle,
-  //     name: name,
-  //   };
-  //   setLoading(true);
-  //   axios
-  //     .put(
-  //       `${process.env.REACT_APP_BASE_API_URL}/stacks/${secretId}`,
-  //       // @ts-ignore
-  //       body,
-  //       { headers: { Authorization: `Bearer ${authToken}` } },
-  //     )
-  //     .then((response: any) => {
-  //       // const id = response.data.id;
+      <Box marginTop="md">
+        <SelectorDisabled inputFields={secret.values} width='329px' />
+      </Box>
 
-  //       // setLoading(false);
-  //       dispatch(
-  //         showToasterAction({
-  //           description: 'Stack has been updated successfully.',
-  //           type: toasterTypes.success,
-  //         }),
-  //       );
-
-  //       dispatch(
-  //         secretsActions.secretForId({
-  //           secretId: secretId,
-  //           onSuccess: () => setLoading(false),
-  //           onFailure: () => setLoading(false),
-  //         }),
-  //       );
-  //     })
-  //     .catch((err) => {
-  //       setLoading(false);
-  //       // ;
-
-  //       dispatch(
-  //         showToasterAction({
-  //           description: err?.response?.data?.detail[0],
-  //           type: toasterTypes.failure,
-  //         }),
-  //       );
-  //     });
-  // };
-
-  // const onPressEnter = (event?: any, defaultValue?: any) => {
-  //   if (event.key === 'Enter') {
-  //     onCallApi(event.target.value);
-  //   }
-  // };
-
-  return <FlexBox.Column fullWidth></FlexBox.Column>;
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+            onClick={() =>
+              history.push(
+                routePaths.secret.updateSecret(secret.id, selectedWorkspace),
+              )
+            }
+            style={{
+              background: '#FFFFFF',    
+              boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
+              borderRadius: '4px',
+              color: '#443E99',
+          
+            }}
+          >
+            Update Secret
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
+    </FlexBox.Column>
+  );
 };

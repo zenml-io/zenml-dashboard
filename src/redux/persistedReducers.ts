@@ -40,6 +40,9 @@ import flavorsReducer, {
 import flavorPagesReducer, {
   initialState as flavorPagesInitialState,
 } from './reducers/flavorPagesReducer';
+import hubPromptReducer, {
+  initialState as hubPromptInitialState,
+} from './reducers/hubPromptReducer';
 import runsReducer, {
   initialState as runsInitialState,
 } from './reducers/runsReducer';
@@ -71,6 +74,7 @@ const initialState = {
   stackComponents: stackComponentsInitialState,
   flavors: flavorsInitialState,
   flavorsPages: flavorPagesInitialState,
+  hubPrompt: hubPromptInitialState,
   runs: runsInitialState,
   roles: rolesInitialState,
   runPages: runPagesInitialState,
@@ -96,6 +100,7 @@ export const persisted = combineReducers({
   stackPages: stackPagesReducer,
   flavors: flavorsReducer,
   flavorPages: flavorPagesReducer,
+  hubPrompt: hubPromptReducer,
 });
 
 export default (state: any, action: any) => {

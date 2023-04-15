@@ -1,7 +1,6 @@
 @import '../../globalStyles.scss';
 
-.input {
-  height: $inputHeight;
+.input, .textarea {
   background: $inputBgColor;
   border: 1px solid $inputBorderColor;
   border-radius: $inputBorderRadius;
@@ -11,8 +10,8 @@
   font-family: $fontFamilyNormal;
   font-size: $inputFontSize;
   color: $inputTextColor;
-  padding-left: 1.6rem;
-  padding-right: 1.6rem;
+  padding-left: 1.1rem;
+  padding-right: 1.1rem;
   outline: 0;
 
   &:disabled {
@@ -35,3 +34,66 @@
     color: $inputPlaceholderColor;
   }
 }
+
+.input {
+  height: $inputHeight;
+}
+
+.textarea {
+  padding-top: 0.4rem;
+  padding-bottom: 0.4rem;
+}
+
+
+.select {
+  background-image:
+    linear-gradient(45deg, transparent 50%, gray 50%),
+    linear-gradient(135deg, gray 50%, transparent 50%);
+  background-position:
+    calc(100% - 20px) calc(1em + 2px),
+    calc(100% - 15px) calc(1em + 2px),
+    calc(100% - 2.5em) 0.5em;
+  background-size:
+    5px 5px,
+    5px 5px,
+    1px 1.5em;
+  background-repeat: no-repeat;
+
+  margin: 0;      
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+
+  height: 4rem;
+  border: 1px solid var(--lightGrey);
+  border-radius: 4px;
+  box-sizing: border-box;
+  display: flex;
+  width: 100%;
+  font-family: Rubik;
+  font-size: 1.6rem;
+  color: var(--black);
+  padding-left: 1.6rem;
+  padding-right: 1.6rem;
+  outline: 0
+}
+
+.select:focus {
+  background-image:
+    linear-gradient(45deg, gray 50%, transparent 50%),
+    linear-gradient(135deg, transparent 50%, gray 50%);
+  background-position:
+    calc(100% - 15px) 1em,
+    calc(100% - 20px) 1em,
+    calc(100% - 2.5em) 0.5em;
+  background-size:
+    5px 5px,
+    5px 5px,
+    1px 1.5em;
+  background-repeat: no-repeat;
+  border-color: gray;
+  outline: 0;
+}
+

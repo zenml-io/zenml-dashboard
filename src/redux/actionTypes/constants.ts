@@ -6,6 +6,13 @@ const sessionActionTypes = {
   UPDATE_EMAIL: 'UPDATE_EMAIL',
 };
 
+const hubAuthActionTypes = {
+  AUTHORISE_HUB: 'AUTHORISE_HUB',
+  DISCONNECT_HUB: 'DISCONNECT_HUB',
+  SHOW_HUB_CONNECTION_PROMPT_POPUP: 'SHOW_HUB_CONNECTION_PROMPT_POPUP',
+  HIDE_HUB_CONNECTION_PROMPT_POPUP: 'HIDE_HUB_CONNECTION_PROMPT_POPUP',
+};
+
 const userActionTypes = {
   USERS_GET_MY_USER: 'USERS_GET_MY_USER',
   USERS_GET_USER_FOR_ID: 'USERS_GET_USER_FOR_ID',
@@ -108,6 +115,7 @@ const flavorPagesActionTypes = {
 export const actionTypes = {
   SHOW_TOASTER: 'SHOW_TOASTER',
   ...sessionActionTypes,
+  ...hubAuthActionTypes,
   ...userActionTypes,
   ...organizationActionTypes,
   ...WorkspaceActionTypes,

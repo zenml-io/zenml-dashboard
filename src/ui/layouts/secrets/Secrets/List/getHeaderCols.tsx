@@ -157,12 +157,12 @@ export const GetHeaderCols = ({
       render: () => (
         <SortingHeader
           onlyOneRow={filteredSecrets.length === 1 || expendedRow?.length === 1}
-          sorting="is_shared"
-          sortMethod={sortMethod('is_shared', {
+          sorting="scope"
+          sortMethod={sortMethod('scope', {
             asc: (filteredSecrets: any[]) =>
-              _.orderBy(filteredSecrets, ['is_shared'], ['asc']),
+              _.orderBy(filteredSecrets, ['scope'], ['asc']),
             desc: (filteredSecrets: any[]) =>
-              _.orderBy(filteredSecrets, ['is_shared'], ['desc']),
+              _.orderBy(filteredSecrets, ['scope'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
