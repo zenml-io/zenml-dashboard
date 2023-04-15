@@ -1,34 +1,24 @@
-import { useSelector } from 'react-redux';
-import { pipelineSelectors } from '../../../../../redux/selectors';
+import axios from 'axios';
 
-import YAML from 'json2yaml';
+export const fetchSchedule = async (schedule_id: any, authToken: any) => {
+    const data = axios.get(
+        `${process.env.REACT_APP_BASE_API_URL}/schedules/${schedule_id}`,
+        {
+            headers: {
+                Authorization: `bearer ${authToken}`,
+            },
+        },
+    ).then((response) => {
+        return response?.data;
+    }).catch(err => {
+        return null;
+    })
 
-interface ServiceInterface {
-  downloadYamlFile: () => void;
-  pipelineConfig: string;
-}
+    return data;
+};
 
-export const useService = ({
-  pipelineId,
-}: {
-  pipelineId: TId;
-}): ServiceInterface => {
-  const pipeline: TPipeline = useSelector(
-    pipelineSelectors.pipelineForId(pipelineId),
-  );
+export const useService = async () => {
 
-  const pipelineConfig = YAML.stringify(pipeline.spec);
-  const downloadYamlFile = () => {
-    const element = document.createElement('a');
+  return 0;
 
-    const file = new Blob([pipelineConfig], {
-      type: 'text/yaml',
-    });
-    element.href = URL.createObjectURL(file);
-    element.download = `${pipeline.id}-config.yaml`;
-    document.body.appendChild(element);
-    element.click();
-    };
-
-  return { downloadYamlFile, pipelineConfig };
 };

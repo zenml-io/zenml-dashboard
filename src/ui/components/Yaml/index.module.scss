@@ -202,13 +202,15 @@
   position: absolute;
   height: auto;
   width: auto;
-  background-color:#E8E8E870;
+  background-color:#E8E8E840;
   border-radius: 8px;
   right: 54px;
   top: 30%;
   z-index: 101;
-  box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.05);
+  // box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.05);
   padding: 10px;
+  padding-top: 10px;
+  padding-bottom: 30px;
 }
 .Scheduled>table {
   position: relative;

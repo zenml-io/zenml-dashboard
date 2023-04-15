@@ -11,16 +11,15 @@ import dagre from 'dagre';
 import StepNode from './StepNode';
 import './index.css';
 import {
-  // Analysis,
   Completed,
-  // Database,
-  // Model,
-  // Schema,
-  // Service,
-  // Statistic
+  FailedLg,
 } from './icons';
 import { FullWidthSpinner } from '../spinners';
-import styles from './index.module.scss'
+import styles from './index.module.scss';
+import { useSelector } from 'react-redux';
+import { sessionSelectors } from '../../../redux/selectors';
+import { fetchSchedule } from '../../layouts/pipelines/PipelineDetail/Configuration/useService';
+
 // import { initialEdges, initialNodes } from './initial-elements';
 
 interface Edge {
@@ -39,7 +38,12 @@ interface Edge {
   },
 }
 
-
+// function extractTime(isoString: string) {
+//   const timeString = isoString.split('T')[1].split(':');
+//   const hours = timeString[0];
+//   const minutes = timeString[1];
+//   return `${hours}:${minutes}`;
+// }
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -137,9 +141,31 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
     // } = getLayoutedElements(initialNodes, initialEdges);
   } = getLayoutedElements(graph.graph.node, graph.graph.edge);
   const [fetching, setFetching] = useState(false); //eslint-disable-line
+  const [fetchingSchedule, setFetchingSchedule] = useState(false); //eslint-disable-line
   const [nodes, _, onNodesChange] = useNodesState(layoutedNodes); //eslint-disable-line
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
+  const [schedule, setSchedule] = useState<any>(null);
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+
+  useEffect(() => {
+
+    const AsyncFetchCall = async () => {
+      setFetchingSchedule(true)
+      const resposne = await fetchSchedule("97f92da7-d5d7-4224-8b92-5fcbfb43d4fe", authToken)
+      setSchedule(resposne);
+      console.log("__unauth_fetch_schedule", resposne)
+    }
+    AsyncFetchCall();
+  }, []) //eslint-disable-line
+
+  useEffect(() => {
+    if (schedule !== null) {
+      setFetchingSchedule(false);
+    } else {
+      setFetchingSchedule(true);
+    }
+  }, [schedule])
 
   console.log("__GRAPH", graph)
 
@@ -174,33 +200,62 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
 
       <div style={{ overflow: 'hidden' }}>
         <div>
-          <table className={`${styles.Scheduled}`}>
-            <thead>
-              <th>Scheduled</th>
-            </thead>
-            <tbody>
-              <tr>
-                <td>Start</td>
-                <td>1:00 PM</td>
-              </tr>
-              <tr>
-                <td>End</td>
-                <td>2:00 PM</td>
-              </tr>
-              <tr>
-                <td>Interval</td>
-                <td>5 sec</td>
-              </tr>
-              <tr>
-                <td>Catchup</td>
-                <td><Completed /></td>
-              </tr>
-              <tr>
-                <td>Cron Exp</td>
-                <td>* * 5 * * *</td>
-              </tr>
-            </tbody>
-          </table>
+          {!fetchingSchedule ?
+            <table className={`${styles.Scheduled}`}>
+              <thead>
+                <th>Scheduled</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Start</td>
+                  <td>{schedule?.start_time ? schedule?.start_time : "n/a"}</td>
+                </tr>
+                <tr>
+                  <td>End</td>
+                  <td>{schedule?.end_time ? schedule?.end_time : "n/a"}</td>
+                </tr>
+                <tr>
+                  <td>Interval</td>
+                  <td>{schedule?.interval_second ? schedule?.interval_second : "n/a"}</td>
+                </tr>
+                <tr>
+                  <td>Catchup</td>
+                  {schedule?.catchup ? <Completed /> : <FailedLg />}
+                </tr>
+                <tr>
+                  <td>Cron Exp</td>
+                  <td>{schedule?.cron_expression ? schedule?.cron_expression : "n/a"}</td>
+                </tr>
+              </tbody>
+            </table>
+            :
+            <table className={`${styles.Scheduled}`}>
+              <thead>
+                <th>Scheduled</th>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Start</td>
+                  <td>loading...</td>
+                </tr>
+                <tr>
+                  <td>End</td>
+                  <td>loading...</td>
+                </tr>
+                <tr>
+                  <td>Interval</td>
+                  <td>loading...</td>
+                </tr>
+                <tr>
+                  <td>Catchup</td>
+                  <td>loading...</td>
+                </tr>
+                <tr>
+                  <td>Cron Exp</td>
+                  <td>loading...</td>
+                </tr>
+              </tbody>
+            </table>}
         </div>
         <div className="layout" style={{ overflow: 'hidden' }}>
           <div className="layoutflow">
