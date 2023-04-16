@@ -6,12 +6,18 @@ import {
   Paragraph,
   Container,
   FullWidthSpinner,
+  PrimaryButton,
   // icons,
 } from '../../../../components';
 import styles from './index.module.scss';
 import { useService } from './useService';
 import axios from 'axios';
-import { useDispatch, useSelector } from '../../../../hooks';
+import {
+  useDispatch,
+  // useHistory,
+  // useLocationPath,
+  useSelector,
+} from '../../../../hooks';
 import {
   sessionSelectors,
   userSelectors,
@@ -23,11 +29,15 @@ import {
 } from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
+// import { routePaths } from '../../../../../routes/routePaths';
 
 export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   stackId,
   loading,
 }) => {
+  // const locationPath = useLocationPath();
+  // const history = useHistory();
+
   const { stackComponent, flavor } = useService({
     stackId,
   });
@@ -479,20 +489,20 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   }
   // const values = [...flavor?.configSchema?.properties];
 
-  // let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
-  //   r: any,
-  //   name: any,
-  // ) {
-  //   return (
-  //     (r[name] =
-  //       flavor?.configSchema?.properties[name].type === 'string' &&
-  //       flavor?.configSchema?.properties[name].default === undefined
-  //         ? ''
-  //         : flavor?.configSchema?.properties[name].default),
-  //     r
-  //   );
-  // },
-  // {});
+  let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
+    r: any,
+    name: any,
+  ) {
+    return (
+      (r[name] =
+        flavor?.configSchema?.properties[name].type === 'string' &&
+        flavor?.configSchema?.properties[name].default === undefined
+          ? ''
+          : flavor?.configSchema?.properties[name].default),
+      r
+    );
+  },
+  {});
   function replaceNullWithEmptyString(obj: any) {
     for (let prop in obj) {
       if (obj[prop] === null) {
@@ -537,9 +547,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   // }, {});
 
   const mappedObject = {
+    ...result,
     ...stackComponent?.configuration,
     // ...normalizeConfiguration,
   };
+  console.log(mappedObject, 'mappedObjectmappedObjectmappedObject');
   // debugger;
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
@@ -582,6 +594,33 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
           ))}
         </Container>
       </FlexBox.Row>
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+            onClick={
+              () => {}
+              // history.push(
+              //   routePaths.secret.updateSecret(secret.id, selectedWorkspace),
+              // )
+            }
+            style={{
+              background: '#FFFFFF',
+              boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
+              borderRadius: '4px',
+              color: '#443E99',
+            }}
+          >
+            Update Component
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </FlexBox.Column>
   );
 };
