@@ -19,6 +19,7 @@ export const BasePage: React.FC<{
   breadcrumbs: TBreadcrumb[];
   tabBasePath: string;
   title?: string;
+  singleTab?: boolean;
   renderHeaderRight?: () => JSX.Element;
   headerWithButtons?: boolean;
 }> = ({
@@ -26,6 +27,7 @@ export const BasePage: React.FC<{
   fromConfigureComponent = false,
   tabPages,
   breadcrumbs,
+  singleTab = false,
   tabBasePath,
   renderHeaderRight,
   headerWithButtons,
@@ -71,7 +73,7 @@ export const BasePage: React.FC<{
               style={{ width: !fromConfigureComponent ? '80%' : '100%' }}
             >
               {children}
-              {tabPages.length > 1 ? (
+              {tabPages.length > 1 || singleTab ? (
                 <Tabs pages={tabPages} basePath={tabBasePath} />
               ) : (
                 <>

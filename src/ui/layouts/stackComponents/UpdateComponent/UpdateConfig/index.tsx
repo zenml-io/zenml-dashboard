@@ -14,8 +14,8 @@ import { useService } from './useService';
 import axios from 'axios';
 import {
   useDispatch,
-  useHistory,
-  useLocationPath,
+  // useHistory,
+  // useLocationPath,
   useSelector,
 } from '../../../../hooks';
 import {
@@ -29,15 +29,14 @@ import {
 } from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
-import { routePaths } from '../../../../../routes/routePaths';
 // import { routePaths } from '../../../../../routes/routePaths';
 
-export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
+export const UpdateConfig: React.FC<{ stackId: TId; loading?: boolean }> = ({
   stackId,
   loading,
 }) => {
-  const locationPath = useLocationPath();
-  const history = useHistory();
+  // const locationPath = useLocationPath();
+  // const history = useHistory();
 
   const { stackComponent, flavor } = useService({
     stackId,
@@ -605,14 +604,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
       >
         <Box marginBottom="lg">
           <PrimaryButton
-            onClick={() =>
-              history.push(
-                routePaths.stackComponents.updateComponent(
-                  locationPath.split('/')[4],
-                  stackComponent.id,
-                  selectedWorkspace,
-                ),
-              )
+            onClick={
+              () => {}
+              // history.push(
+              //   routePaths.secret.updateSecret(secret.id, selectedWorkspace),
+              // )
             }
             style={{
               background: '#FFFFFF',
@@ -621,7 +617,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
               color: '#443E99',
             }}
           >
-            Update Component
+            Save Changes
           </PrimaryButton>
         </Box>
       </FlexBox>
