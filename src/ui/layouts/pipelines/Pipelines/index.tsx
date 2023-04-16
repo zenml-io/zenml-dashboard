@@ -32,7 +32,7 @@ const FilterWrapper = () => {
         getInitials={getInitialFilterStateForPipeline}
         filters={filters}
         setFilter={setFilter}
-      >
+      > 
         <List filter={getFilter(filters)} />
       </FilterComponent>
     </Box>

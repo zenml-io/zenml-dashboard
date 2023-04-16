@@ -8,6 +8,7 @@ import StepnodeTabHeader from './sidebarTabsSwitchers/stepTabSwitcher';
 import { fetchArtifactData, fetchStepData, fetchStepLogs } from '../../layouts/runs/RunDetail/sidebarServices';
 import { runsActions } from '../../../redux/actions';
 import styles from './index.module.scss'
+import { FullWidthSpinner } from '../spinners';
 
 
 const colCenter = {
@@ -82,6 +83,12 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
         }
     }, [selectedNode])//eslint-disable-line
 
+
+    // useEffect(() => {
+      
+    // }, [])
+    
+
     return (
 
 
@@ -94,7 +101,6 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                     <img src={circleArrowSideClose} alt={"close"} onClick={() => setSidebar(!sidebar)} />
                 }
             </div>
-
             <div className={`${styles.bodyContainer}`}>
                 {isStepNode ? <StepnodeTabHeader node={step} logs={logs}/> : <ArtifactTabHeader node={artifact} />}
             </div>

@@ -148,7 +148,6 @@ export const AuthenticatedHeader: React.FC<{
         className={styles.header}
         id="header"
       >
-        {/* Muhammad Ali Zia */}
         <FlexBox alignItems="center">
           <Box className="d-md-none">
             <LinkBox onClick={() => setMobileMenuOpen(true)}>

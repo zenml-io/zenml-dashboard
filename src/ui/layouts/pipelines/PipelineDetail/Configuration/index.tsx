@@ -60,7 +60,7 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
         marginBottom="md"
         alignItems="center"
         justifyContent="space-between"
-      >
+        >
       </FlexBox>
       <LayoutFlow graph={graph} />
     </FlexBox.Column>
