@@ -42,7 +42,7 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
     console.log('__unauth_resposne', response?.message)
     console.log('__unauth_resposne', response?.name)
     console.log('__unauth_resposne', typeof response)
-    console.log('__unauth_resposne',  JSON.stringify(response))
+    console.log('__unauth_resposne', JSON.stringify(response))
   }, [response])//eslint-disable-line
 
   if (response === null) {
@@ -59,6 +59,7 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
 
       {type === "__HTML" ?
         <>
+      
           {response === undefined ? <p>NO VISUALIZATION</p> : <div dangerouslySetInnerHTML={{ __html: response }} />}
         </>
         : ""}

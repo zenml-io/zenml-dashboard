@@ -64,6 +64,10 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
     if (Object.keys(node)?.length === 0) {
         return <FullWidthSpinner color="black" size="md" />;
     }
+
+
+  
+
     return (
         <>
             <div className='siderbar_header11' ref={parent}>

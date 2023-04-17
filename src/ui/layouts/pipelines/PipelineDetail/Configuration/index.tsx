@@ -56,12 +56,12 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
 
   return (
     <FlexBox.Column fullWidth>
-      <FlexBox
+      {/* <FlexBox
         marginBottom="md"
         alignItems="center"
         justifyContent="space-between"
         >
-      </FlexBox>
+      </FlexBox> */}
       <LayoutFlow graph={graph} />
     </FlexBox.Column>
   );

@@ -178,7 +178,7 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
         {() => (
           <>
             <FlexBox
-              marginTop="xxl"
+              // marginTop="xxl"
               marginBottom="sm"
               className={styles.navigationRuns}
             >

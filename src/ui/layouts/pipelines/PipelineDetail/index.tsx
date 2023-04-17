@@ -68,19 +68,23 @@ const FilterWrapperForConfiguration = () => {
     return filterValuesMap;
   }
   return (
-    <Box marginTop='lg' style={{ width: '100%' }}>
+    <Box style={{ width: '100%' }}>
       <FilterComponent
         getInitials={getInitialFilterStateForRuns}
         filters={filters}
         setFilter={setFilter}
       >
+        <Runs
+          filter={getFilter(filters)}
+          pipelineId={locationPath.split('/')[4]}
+        />
       </FilterComponent>
     </Box>
   );
 };
 const getTabPages = (pipelineId: TId, selectedWorkspace: string): TabPage[] => {
   return [
- 
+
     {
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
@@ -157,15 +161,16 @@ export const PipelineDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
     >
       <Box marginTop="lg">
-        {locationPath.includes("configuration") && <FilterWrapperForConfiguration />}
-        <CollapseTable
-          pagination={false}
-          renderAfterRow={(stack: TStack) => <></>}
-          headerCols={headerCols}
-          tableRows={filteredPipeline}
-          emptyState={{ text: translate('emptyState.text') }}
-          trOnClick={openDetailPage}
-        />
+        {locationPath.includes("configuration") ? <FilterWrapperForConfiguration /> :
+          <CollapseTable
+            pagination={false}
+            renderAfterRow={(stack: TStack) => <></>}
+            headerCols={headerCols}
+            tableRows={filteredPipeline}
+            emptyState={{ text: translate('emptyState.text') }}
+            trOnClick={openDetailPage}
+          />
+        }
       </Box>
       {/* <List filter={[]} pagination={false} isExpended id={pipeline.id}></List> */}
       {/* <Box style={boxStyle}>
