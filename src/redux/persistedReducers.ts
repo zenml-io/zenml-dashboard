@@ -33,7 +33,7 @@ import rolesReducer, {
 
 import repositoryReducer, {
   initialState as repositoryState,
-} from './reducers/repositories';
+} from './reducers/repositoriesReducer';
 
 import stackComponentsReducer, {
   initialState as stackComponentsInitialState,
@@ -85,7 +85,7 @@ const initialState = {
   pipelinePages: pipelinePagesInitialState,
   stacksPages: stackPagesInitialState,
   secretsPages: secretsPagesInitialState,
-  repositories: repositoryState
+  repositories: repositoryState,
 };
 
 export const persisted = combineReducers({
@@ -106,7 +106,7 @@ export const persisted = combineReducers({
   flavors: flavorsReducer,
   flavorPages: flavorPagesReducer,
   hubPrompt: hubPromptReducer,
-  repositories: repositoryReducer
+  repositories: repositoryReducer,
 });
 
 export default (state: any, action: any) => {

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { repositoryActions } from '../../../../redux/actions/repositories';
 import {
@@ -7,19 +7,39 @@ import {
 } from '../../../../redux/selectors';
 import BasePage from '../repository-layout';
 import { routePaths } from '../../../../routes/routePaths';
-import { translate } from './translate';
+// import { translate } from './translate';
 import FilterComponent, {
   getInitialFilterStateForSecrets,
 } from '../../../components/Filters';
 import { Box } from '../../../components';
 import { useLocationPath } from '../../../hooks';
 import RepositoryGrid from './repository-grid/grid';
+import { Pagination } from '../../common/Pagination';
+import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
+import { ItemPerPage } from '../../common/ItemPerPage';
+import { useUpdateRepositoryPagination } from './service';
 
-const FilterWrapper = () => {
+const RepositoriyListBody = () => {
+  const { dispatchRepositoryPagination } = useUpdateRepositoryPagination();
+  const ITEMS_PER_PAGE = parseInt(
+    process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  );
+  const DEFAULT_ITEMS_PER_PAGE = 10;
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
   const [filters, setFilter] = useState([getInitialFilterStateForSecrets()]);
-
+  const repoPagination = useSelector(
+    repositorySelectors.getRepositoryPagination,
+  );
+  const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
+  const childRef = useRef();
+  const [itemPerPage, setItemPerPage] = useState(
+    ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+  );
   const repositories = useSelector(repositorySelectors.allRepositories);
+
+  function updateData(pageNumber: number, pageSize: number) {
+    dispatchRepositoryPagination(pageNumber, pageSize);
+  }
 
   // function getFilter(values: any) {
   //   const filterValuesMap = values.map((v: any) => {
@@ -33,13 +53,60 @@ const FilterWrapper = () => {
   // }
   return (
     <Box style={{ marginTop: '-20px', width: '100%' }}>
-      {JSON.stringify(filters)}
       <FilterComponent
         getInitials={getInitialFilterStateForSecrets}
         filters={filters}
         setFilter={setFilter}
       >
-        <RepositoryGrid repositories={repositories} />
+        <div
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '16px',
+          }}
+        >
+          <RepositoryGrid repositories={repositories} />
+          <div
+            style={{
+              position: 'fixed',
+              right: '0',
+              bottom: '0',
+              height: '92px',
+              width: '100%',
+              display: 'flex',
+              justifyContent: 'center',
+            }}
+          >
+            <div style={{ alignSelf: 'center' }}>
+              <div style={{ display: 'flex' }}>
+                <Pagination
+                  // isExpended={isExpended}
+                  ref={childRef}
+                  onChange={(pageNumber: any) =>
+                    updateData(pageNumber, itemPerPage)
+                  }
+                  // getFetchedState={getFetchedState}
+                  itemPerPage={itemPerPage}
+                  pageIndex={pageIndex}
+                  setPageIndex={setPageIndex}
+                  pages={repoPagination?.total_pages}
+                  totalOfPages={repoPagination?.total_pages as any}
+                  totalLength={repoPagination.max_size as any}
+                  totalCount={repoPagination?.total as any}
+                />
+
+                <ItemPerPage
+                  itemPerPage={itemPerPage}
+                  onChangePagePerItem={(size: any) => {
+                    setItemPerPage(size);
+                    updateData(1, size);
+                    setPageIndex(0);
+                  }}
+                ></ItemPerPage>
+              </div>
+            </div>
+          </div>
+        </div>
       </FilterComponent>
     </Box>
   );
@@ -57,30 +124,19 @@ function RepositoriesList() {
     <BasePage
       tabPages={[
         {
-          text: translate('tabs.secrets.text'),
-          Component: FilterWrapper,
+          text: 'Repositories',
+          Component: RepositoriyListBody,
           path: routePaths.repositories.list(
             selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
           ),
         },
       ]}
       tabBasePath={routePaths.repositories.list(selectedWorkspace)}
-      breadcrumbs={
-        [
-          // {
-          //   name: translate('header.breadcrumbs.stacks.text'),
-          //   clickable: true,
-          //   // to: routePaths.stacks.base,
-          //   to: routePaths.stacks.list(
-          //     selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
-          //   ),
-          // },
-        ]
-      }
+      breadcrumbs={[]}
       title="Repositories"
       headerWithButtons
       renderHeaderRight={() => <></>}
-    ></BasePage>
+    />
   );
 }
 
