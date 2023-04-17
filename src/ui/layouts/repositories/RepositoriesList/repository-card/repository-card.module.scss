@@ -1,65 +1,58 @@
 @import '../../../../globalStyles.scss';
 
-.repositoryCard{
-    width: 100%;
-    max-width: 270px;
-    height: 100%;
-    box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
-    border-radius: 4px;
-    padding: 10px;
-    padding-top: 16px;
+.repositoryCard {
+  width: 100%;
+  max-width: 270px;
+  height: 100%;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 10px;
+  padding-top: 16px;
+  color: inherit;
+  gap: 32px;
+  display: flex;
+  flex-direction: column;
+
+  &:hover {
+    text-decoration: none;
     color: inherit;
-    gap: 16px;
+  }
+
+  &__heading {
+    font-size: 16px;
+    margin: 0;
+    color: $primaryColor;
+  }
+
+  &__body {
     display: flex;
     flex-direction: column;
+    gap: 4px;
+  }
+  &__headerImage {
+    object-fit: contain;
+    height: 80px;
+  }
+  &__description {
+    font-size: 12px;
+    margin: 0;
+    color: #a8a8a8;
+  }
 
+  &__footer {
+    display: flex;
 
-    &:hover{
-        text-decoration: none;
-        color: inherit;
+    font-size: 14px;
+    justify-content: space-between;
+    &__link {
+      display: flex;
+      color: $primaryColor;
+      align-items: center;
+      &__icon {
+        width: 18px;
+        height: 18px;
+        stroke: $primaryColor;
+      }
     }
-
-    &__heading {
-        font-size: 16px;
-        margin: 0;
-        color: $primaryColor;
-    }
-    
-
-    &__body {
-        display: flex;
-        flex-direction: column;
-        gap: 4px
-    }
-    &__headerImage {
-        object-fit: contain;
-        height: 80px;
-    }
-    &__description {
-        font-size: 12px;
-        margin: 0;
-        color: #A8A8A8
-    }
-
-    &__footer {
-        display: flex;
-
-        font-size: 14px;
-        justify-content: space-between;
-        &__link {
-            display: flex;
-            color: $primaryColor ;
-            align-items: center;
-            &__icon {
-                width: 18px;
-                height: 18px;
-                stroke: $primaryColor
-            }
-        }
-    }
-
-    
+  }
 }
-
-
-
