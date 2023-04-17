@@ -323,6 +323,9 @@
               "secrets": {
                 "text": "Secrets"
               },
+              "repositories": {
+                "text": "Repositories"
+              },
               "setting": {
                 "text": "Settings"
               }

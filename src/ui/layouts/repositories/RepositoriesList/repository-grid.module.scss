@@ -1,0 +1,24 @@
+@import '../../../globalStyles.scss';
+
+.repositoryList{
+    display: grid;
+    // grid-template-columns: repeat(5, minmax(0, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+    justify-items: center;
+    align-items: center;
+}
+
+
+@media (max-width: $lg-breakpoint) {
+    .repositoryList {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: $md-breakpoint) {
+    .repositoryList {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+  }

@@ -105,6 +105,18 @@ export const Menu: React.FC = () => {
         to={routePaths.plugins.list(selectedWorkspace)}
         text={translate('menu.plugins.text')}
       />
+
+      <MenuItem
+        id="repositories"
+        isActive={() => window.location.href?.includes('repositories')}
+        innerItem={window.location.href?.includes('repositories')}
+        to={routePaths.repositories.list(selectedWorkspace)}
+        text={translate('menu.repositories.text')}
+        Icon={() => (
+          <icons.repository color={iconColors.white} size={iconSizes.md} />
+        )}
+      />
+
       <MenuItem
         id="secrets"
         Icon={() => <icons.lock color={iconColors.white} size={iconSizes.md} />}
