@@ -5,6 +5,7 @@ import { ReactComponent as ArrowSquareOut } from '../../../../components/icons/a
 import { routePaths } from '../../../../../routes/routePaths';
 import { useSelector } from 'react-redux';
 import { workspaceSelectors } from '../../../../../redux/selectors';
+import { Link } from 'react-router-dom';
 
 interface RepositoryCardProps {
   repository: TRepository;
@@ -13,9 +14,9 @@ interface RepositoryCardProps {
 function RepositoryCard({ repository }: RepositoryCardProps) {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return (
-    // TODO: Generate Link
-    <a
-      href={routePaths.repositories.detail(selectedWorkspace, repository.id)}
+    // TODO: Check A11y for this construct
+    <Link
+      to={routePaths.repositories.detail(selectedWorkspace, repository.id)}
       className={styles.repositoryCard}
     >
       <img className={styles.repositoryCard__headerImage} src={Fallback} />
@@ -26,7 +27,11 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
         </p>
         <div className={styles.repositoryCard__footer}>
           <div>Runs to add here</div>
-          <a href="test" className={styles.repositoryCard__footer__link}>
+          <a
+            onClick={(e) => e.stopPropagation()}
+            href={`https://www.github.com/${repository.config.owner}/${repository.config.repository}`}
+            className={styles.repositoryCard__footer__link}
+          >
             Github{' '}
             <ArrowSquareOut
               className={styles.repositoryCard__footer__link__icon}
@@ -34,7 +39,7 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
           </a>
         </div>
       </div>
-    </a>
+    </Link>
   );
 }
 
