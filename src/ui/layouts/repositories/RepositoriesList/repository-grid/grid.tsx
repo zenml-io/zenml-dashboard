@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import styles from './repository-grid.module.scss';
-import RepositoryCard from './repository-card';
+import RepositoryCard from '../repository-card';
 
 interface RepositoryListProps {
   repositories: TRepository[];

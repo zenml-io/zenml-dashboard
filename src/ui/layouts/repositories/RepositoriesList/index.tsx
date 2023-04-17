@@ -13,7 +13,7 @@ import FilterComponent, {
 } from '../../../components/Filters';
 import { Box } from '../../../components';
 import { useLocationPath } from '../../../hooks';
-import RepositoryGrid from './grid';
+import RepositoryGrid from './repository-grid/grid';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -33,6 +33,7 @@ const FilterWrapper = () => {
   // }
   return (
     <Box style={{ marginTop: '-20px', width: '100%' }}>
+      {JSON.stringify(filters)}
       <FilterComponent
         getInitials={getInitialFilterStateForSecrets}
         filters={filters}
