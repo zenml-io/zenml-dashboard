@@ -81,6 +81,10 @@ const runActionTypes = {
   GRAPH_FOR_RUN_ID: 'GRAPH_FOR_RUN_ID',
 };
 
+const repositoryActionTypes = {
+  REPOSITORY_GET_ALL: 'REPOSITORY_GET_ALL',
+};
+
 const pipelinePagesActionTypes = {
   PIPELINE_PAGES_SET_SELECTED_RUN_IDS: 'PIPELINE_PAGES_SET_SELECTED_RUN_IDS',
   PIPELINE_PAGES_SET_FETCHING: 'PIPELINE_PAGES_SET_FETCHING',
@@ -123,6 +127,7 @@ export const actionTypes = {
   ...runActionTypes,
   ...runPagesActionTypes,
   ...rolesActionTypes,
+  ...repositoryActionTypes,
   ...pipelinePagesActionTypes,
   ...stackPagesActionTypes,
   ...stackComponentPagesActionTypes,

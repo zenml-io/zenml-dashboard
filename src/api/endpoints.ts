@@ -37,6 +37,9 @@ export const endpoints = {
     my: `/secrets`,
     get: (secretId: TId): string => `/secrets/${secretId}`,
   },
+  repositories: {
+    getAll: (workspace: string) => `/workspaces/${workspace}/code_repositories`,
+  },
   StackComponents: {
     types: '/component-types',
     my: (type: string, workspace: string): string =>

@@ -31,6 +31,10 @@ import rolesReducer, {
   initialState as rolesInitialState,
 } from './reducers/rolesReducer';
 
+import repositoryReducer, {
+  initialState as repositoryState,
+} from './reducers/repositories';
+
 import stackComponentsReducer, {
   initialState as stackComponentsInitialState,
 } from './reducers/stackComponentsReducer';
@@ -81,6 +85,7 @@ const initialState = {
   pipelinePages: pipelinePagesInitialState,
   stacksPages: stackPagesInitialState,
   secretsPages: secretsPagesInitialState,
+  repositories: repositoryState
 };
 
 export const persisted = combineReducers({
@@ -101,6 +106,7 @@ export const persisted = combineReducers({
   flavors: flavorsReducer,
   flavorPages: flavorPagesReducer,
   hubPrompt: hubPromptReducer,
+  repositories: repositoryReducer
 });
 
 export default (state: any, action: any) => {
