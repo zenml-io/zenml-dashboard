@@ -27,6 +27,8 @@ export const routePaths = {
       `/workspaces/${workspace}/repositories/list`,
     detail: (workspace: string, repositoryID: string): string =>
       `/workspaces/${workspace}/repositories/${repositoryID}`,
+    create: (workspace: string): string =>
+      `/workspaces/${workspace}/repositories/create`,
   },
   run: {
     pipeline: {
