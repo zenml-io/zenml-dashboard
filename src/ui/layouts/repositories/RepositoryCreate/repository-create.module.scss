@@ -1,0 +1,18 @@
+@import '../../../globalStyles.scss';
+
+.create {
+  width: 100%;
+
+  &__heading {
+    font-size: 32px;
+    color: $primaryColor;
+    margin-bottom: 16px;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    gap: 16px;
+    max-width: 600px;
+  }
+}

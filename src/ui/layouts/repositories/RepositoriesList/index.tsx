@@ -11,8 +11,8 @@ import { routePaths } from '../../../../routes/routePaths';
 import FilterComponent, {
   getInitialFilterStateForSecrets,
 } from '../../../components/Filters';
-import { Box } from '../../../components';
-import { useLocationPath } from '../../../hooks';
+import { Box, FlexBox, PrimaryButton } from '../../../components';
+import { useHistory, useLocationPath } from '../../../hooks';
 import RepositoryGrid from './repository-grid/grid';
 import { Pagination } from '../../common/Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
@@ -30,6 +30,7 @@ const RepositoriyListBody = () => {
   const repoPagination = useSelector(
     repositorySelectors.getRepositoryPagination,
   );
+  const history = useHistory();
   const dispatch = useDispatch();
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
   const childRef = useRef();
@@ -42,8 +43,6 @@ const RepositoriyListBody = () => {
     dispatch(
       repositoryActions.getAll({
         workspace: selectedWorkspace,
-        page: 1,
-        size: itemPerPage,
       }),
     );
   }, [selectedWorkspace, dispatch]);
@@ -119,6 +118,24 @@ const RepositoriyListBody = () => {
           </div>
         </div>
       </FilterComponent>
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+            onClick={() => {
+              history.push(routePaths.repositories.create(selectedWorkspace));
+            }}
+          >
+            Create Repository
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </Box>
   );
 };

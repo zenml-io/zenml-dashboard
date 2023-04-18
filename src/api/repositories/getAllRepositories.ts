@@ -3,7 +3,7 @@ import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 
-const getMySecretsApi = ({
+const getRepositories = ({
   component_id,
   workspace,
   sort_by,
@@ -42,4 +42,4 @@ const getMySecretsApi = ({
     authenticationToken,
   });
 
-export default getMySecretsApi;
+export default getRepositories;
