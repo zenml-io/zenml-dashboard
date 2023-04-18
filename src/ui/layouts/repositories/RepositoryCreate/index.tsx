@@ -33,6 +33,8 @@ function CreateRepositoryBody() {
   const [owner, setOwner] = useState('');
   const [repo, setRepo] = useState('');
   const [token, setToken] = useState('');
+  const [isGithub, setIsGithub] = useState(false);
+  const [isGitlab, setIsGitlab] = useState(false);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const user = useSelector(userSelectors.myUser);
@@ -42,19 +44,32 @@ function CreateRepositoryBody() {
 
   useEffect(() => {
     try {
-      const pathname = new URL(repoURL).pathname;
-      setOwner(pathname.split('/')[1]);
-      setRepo(pathname.split('/')[2]);
+      const enteredURL = new URL(repoURL);
+      if (enteredURL.hostname.toLowerCase().includes('github'))
+        setIsGithub(true);
+      if (enteredURL.hostname.toLowerCase().includes('gitlab'))
+        setIsGitlab(true);
+
+      if (!isGithub && !isGitlab) {
+        setRepoURLStatus({
+          status: 'error' as const,
+          message: 'Please insert a Github or Gitlab URL',
+        });
+        return;
+      }
+      setOwner(enteredURL.pathname.split('/')[1]);
+      setRepo(enteredURL.pathname.split('/')[2]);
       setRepoURLStatus({ status: 'success' });
     } catch {
       return;
     }
-  }, [repoURL]);
+  }, [repoURL, isGithub, isGitlab]);
 
   async function submitHandler(
     e: MouseEvent<HTMLButtonElement> | MouseEvent<HTMLDivElement>,
   ) {
     e.preventDefault();
+
     await axios
       .post(
         `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/code_repositories`,
@@ -69,9 +84,13 @@ function CreateRepositoryBody() {
           },
           // TODO check if this is correct
           source: {
-            module:
-              'zenml.integrations.github.code_repositories.github_code_repository',
+            module: isGithub
+              ? 'zenml.integrations.github.code_repositories.github_code_repository'
+              : 'zenml.integrations.gitlab.code_repositories.gitlab_code_repository',
             type: 'internal',
+            attribute: isGithub
+              ? 'GitHubCodeRepository'
+              : 'GitLabCodeRepository',
           },
         },
         { headers: { Authorization: `Bearer ${authToken}` } },
@@ -110,7 +129,7 @@ function CreateRepositoryBody() {
             value={repoURL}
             onChange={(p: string) => {
               if (
-                !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_\+.~#?&\/=]*)$/.test(
+                !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
                   p,
                 )
               ) {

@@ -29,10 +29,16 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
           <div>Runs to add here</div>
           <a
             onClick={(e) => e.stopPropagation()}
-            href={`https://www.github.com/${repository.config.owner}/${repository.config.repository}`}
+            href={`https://www.${
+              repository.source.attribute === 'GitHubCodeRepository'
+                ? 'github'
+                : 'gitlab'
+            }.com/${repository.config.owner}/${repository.config.repository}`}
             className={styles.repositoryCard__footer__link}
           >
-            Github{' '}
+            {repository.source.attribute === 'GitHubCodeRepository'
+              ? 'Github'
+              : 'Gitlab'}{' '}
             <ArrowSquareOut
               className={styles.repositoryCard__footer__link__icon}
             />
