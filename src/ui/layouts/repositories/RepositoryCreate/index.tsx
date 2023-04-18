@@ -9,7 +9,7 @@ import {
   workspaceSelectors,
 } from '../../../../redux/selectors';
 import styles from './repository-create.module.scss';
-import { useLocationPath } from '../../../hooks';
+import { useHistory, useLocationPath } from '../../../hooks';
 import {
   Box,
   EditFieldSettings,
@@ -36,6 +36,7 @@ function CreateRepositoryBody() {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const user = useSelector(userSelectors.myUser);
+  const history = useHistory();
 
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
@@ -66,7 +67,12 @@ function CreateRepositoryBody() {
             repository: repo,
             token,
           },
-          source: {},
+          // TODO check if this is correct
+          source: {
+            module:
+              'zenml.integrations.github.code_repositories.github_code_repository',
+            type: 'internal',
+          },
         },
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
@@ -77,6 +83,7 @@ function CreateRepositoryBody() {
             type: toasterTypes.success,
           }),
         );
+        history.push(routePaths.repositories.list(selectedWorkspace));
       })
       .catch((e) => {
         dispatch(
