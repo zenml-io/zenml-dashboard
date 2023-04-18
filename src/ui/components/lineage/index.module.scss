@@ -194,6 +194,13 @@
   background-color: #ffffff;
 }
 
+.FullWidthSpinnerContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 @media screen and (max-width: 1850px) {
   .sidebarMainContainer

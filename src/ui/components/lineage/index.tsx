@@ -138,7 +138,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
-  
+
   useEffect(() => {
   }, [selectedNode])
 
@@ -222,13 +222,9 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                   selectedNode.selected = false
                   setSelectedNode(selectedNode);
                 }
-                setTimeout(async () => {
-                  node.data["selected"] = true;
-                  setSelectedNode(node.data)
-                }, 100)
-              }
-
-              }
+                node.data["selected"] = true;
+                setSelectedNode(node.data)
+              }}
               fitView
             >
               <Controls />

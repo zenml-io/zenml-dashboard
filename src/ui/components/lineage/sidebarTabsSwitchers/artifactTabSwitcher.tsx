@@ -31,6 +31,7 @@ const artifactTabs = [
 const ArtifactTabHeader = ({ node }: { node: any }) => {
 
     const [show, setShow] = useState("__META");
+    const [loader, setLoader] = useState(true);
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(35);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
     const parent = useRef<(HTMLDivElement)>(null)
@@ -45,11 +46,23 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
     }
 
     useEffect(() => {
+        console.log("_unauth_triggered", loader)
+        setLoader(true)
+        setTimeout(() => {
+            setLoader(false)
+        }, 500);
+
+    }, [node]) //eslint-disable-line
+
+    useEffect(() => {
+        setLoader(true)
         setDynamicLeft(divRefs.current[1]?.offsetLeft);
         setDynamicWidth(divRefs.current[1]?.offsetWidth);
     }, [])
 
     useEffect(() => {
+        setLoader(true)
+
         setDynamicLeft(dynamicLeft);
         setDynamicWidth(dynamicWidth);
     }, [show, dynamicLeft, dynamicWidth, node])
@@ -65,8 +78,6 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
         return <FullWidthSpinner color="black" size="md" />;
     }
 
-
-  
 
     return (
         <>
@@ -89,78 +100,84 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
             </div>
             <div className={`${styles.underline}`} style={{ marginLeft: `${dynamicLeft}px`, transition: 'all 300ms ease', width: `${dynamicWidth}px` }}></div>
 
-            {/* SHOW META */}
-            {show === "__META" ?
-                <JsonDisplay data={node?.metadata} styles={{ overflowY: "scroll", maxHeight: '90vh', width: "100%", margin: 20 }} />
-                : ""}
+            {loader ? 
+            <div className={`${styles.FullWidthSpinnerContainer}`}>
+                <FullWidthSpinner color="black" size="md" />
+            </div> : <>
 
-            {/* SHOW ATTRIBUTE */}
+                    {/* SHOW META */}
+                    {show === "__META" ?
+                        <JsonDisplay data={node?.metadata} styles={{ overflowY: "scroll", maxHeight: '90vh', width: "100%", margin: 20 }} />
+                        : ""}
 
-            {show === "__ATTRIBUTE" ?
-                <>
-                    <table className='sidebar_table'>
-                        <tbody>
+                    {/* SHOW ATTRIBUTE */}
 
-                            <tr>
-                                <td className='td_key' style={{ wordWrap: 'break-word' }}>artifact_store_id</td>
-                                <td className='td_value'>{node?.artifact_store_id}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>created</td>
-                                <td className='td_value'>{node?.created}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>materializer</td>
-                                {/* <td className='td_value'>{typeof (node?.materializer) === 'object' ? <JsonDisplay data={node?.materializer} style={{ display: 'flex' }} /> : node?.materializer}</td> */}
-                                <td className='td_value'>
+                    {show === "__ATTRIBUTE" ?
+                        <>
+                            <table className='sidebar_table'>
+                                <tbody>
+
                                     <tr>
-                                        <td className='td_key'>
-                                            module:
-                                        </td>
-                                        <td className='td_value'>
-                                            {node?.materializer?.module}
-                                        </td>
+                                        <td className='td_key' style={{ wordWrap: 'break-word' }}>artifact_store_id</td>
+                                        <td className='td_value'>{node?.artifact_store_id}</td>
                                     </tr>
                                     <tr>
-                                        <td className='td_key'>
-                                            attribute:
-                                        </td>
-                                        <td className='td_value'>
-                                            {node?.materializer?.attribute}
-                                        </td>
+                                        <td className='td_key'>created</td>
+                                        <td className='td_value'>{node?.created}</td>
                                     </tr>
                                     <tr>
-                                        <td className='td_key'>
-                                            type:
-                                        </td>
+                                        <td className='td_key'>materializer</td>
+                                        {/* <td className='td_value'>{typeof (node?.materializer) === 'object' ? <JsonDisplay data={node?.materializer} style={{ display: 'flex' }} /> : node?.materializer}</td> */}
                                         <td className='td_value'>
-                                            {node?.materializer?.type}
-                                        </td>
-                                    </tr>
-                                    {/* <tr>attribute: {node?.materializer?.attribute}</tr>
+                                            <tr>
+                                                <td className='td_key'>
+                                                    module:
+                                                </td>
+                                                <td className='td_value'>
+                                                    {node?.materializer?.module}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className='td_key'>
+                                                    attribute:
+                                                </td>
+                                                <td className='td_value'>
+                                                    {node?.materializer?.attribute}
+                                                </td>
+                                            </tr>
+                                            <tr>
+                                                <td className='td_key'>
+                                                    type:
+                                                </td>
+                                                <td className='td_value'>
+                                                    {node?.materializer?.type}
+                                                </td>
+                                            </tr>
+                                            {/* <tr>attribute: {node?.materializer?.attribute}</tr>
                                     <tr>type: {node?.materializer?.type}</tr> */}
-                                </td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>name</td>
-                                <td className='td_value'>{node?.name}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>producer_step_run_id</td>
-                                <td className='td_value'>{node?.producer_step_run_id}</td>
-                            </tr>
-                            <tr>
-                                <td className='td_key'>type</td>
-                                <td className='td_value'>{node?.type}</td>
-                            </tr>
-                        </tbody>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td className='td_key'>name</td>
+                                        <td className='td_value'>{node?.name}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className='td_key'>producer_step_run_id</td>
+                                        <td className='td_value'>{node?.producer_step_run_id}</td>
+                                    </tr>
+                                    <tr>
+                                        <td className='td_key'>type</td>
+                                        <td className='td_value'>{node?.type}</td>
+                                    </tr>
+                                </tbody>
 
-                    </table>
-                </>
-                :
-                ""}
-            {/* SHOW VISUALIZATION */}
-            {show === "__VISUALIZATION" ? <ArtifactVisualization node={node} /> : ""}
+                            </table>
+                        </>
+                        :
+                        ""}
+                    {/* SHOW VISUALIZATION */}
+                    {show === "__VISUALIZATION" ? <ArtifactVisualization node={node} /> : ""}
+                </>}
         </>
     )
 }
