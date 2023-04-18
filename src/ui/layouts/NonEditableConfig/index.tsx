@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Fragment } from 'react';
 import {
   FlexBox,
   Box,
@@ -26,23 +26,97 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     );
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    if (typeof elementSchema === 'string') {
+    if (flavor?.config_schema?.properties[elementName]?.type === 'string') {
       return (
-        <Box marginTop="lg" style={{ width: '100%' }}>
-          <EditField
-            disabled
-            onChangeText={() => console.log('')}
-            label={titleCase(elementName)}
-            optional={false}
-            value={elementSchema}
-            placeholder=""
-            hasError={false}
-            className={styles.field}
-          />
-        </Box>
+        <>
+          {flavor?.config_schema?.properties[elementName].sensitive ? (
+            <Box marginTop="lg" style={{ width: '329px' }}>
+              <EditField
+                disabled
+                // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
+                // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
+                label={titleCase(elementName) + ' (Secret)'}
+                optional={false}
+                defaultValue={elementSchema}
+                placeholder=""
+                hasError={false}
+                // className={styles.field}
+              />
+            </Box>
+          ) : (
+            <Box marginTop="lg">
+              <EditField
+                disabled
+                // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
+                // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
+                label={titleCase(elementName)}
+                optional={false}
+                defaultValue={elementSchema}
+                placeholder=""
+                hasError={false}
+                // className={styles.field}
+              />
+            </Box>
+          )}
+        </>
       );
     }
-    if (typeof elementSchema === 'object') {
+    if (
+      flavor?.config_schema?.properties[elementName]?.type === 'object' &&
+      flavor?.config_schema?.properties[elementName]?.additionalProperties &&
+      flavor?.config_schema?.properties[elementName]?.additionalProperties
+        .type !== 'string'
+    ) {
+      return (
+        <>
+          {' '}
+          <Box marginTop="sm">
+            <Paragraph size="body" style={{ color: '#000' }}>
+              <label htmlFor="key">{titleCase(elementName)}</label>
+            </Paragraph>
+          </Box>
+          <FlexBox marginTop="sm" fullWidth>
+            <textarea
+              disabled
+              className={styles.textArea}
+              defaultValue={JSON.stringify(mappedObject[elementName])}
+              // onBlur={(e) => {
+              //   const jsonStr = e.target.value;
+              //   try {
+              //     JSON.parse(jsonStr);
+              //   } catch (e) {
+              //     dispatch(
+              //       showToasterAction({
+              //         description: 'Invalid JSON.',
+              //         type: toasterTypes.failure,
+              //       }),
+              //     );
+              //   }
+              // }}
+              onChange={(e) => {}}
+            />
+          </FlexBox>
+        </>
+      );
+    }
+    // if (typeof elementSchema === 'string') {
+    //   return (
+    //     <Box marginTop="lg">
+    //       <EditField
+    //         disabled
+    //         onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
+    //         onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
+    //         label={titleCase(elementName)}
+    //         optional={false}
+    //         defaultValue={elementSchema}
+    //         placeholder=""
+    //         hasError={false}
+    //         // className={styles.field}
+    //       />
+    //     </Box>
+    //   );
+    // }
+    if (flavor?.config_schema?.properties[elementName]?.type === 'object') {
       return (
         <Box marginTop="lg" style={{ width: '100%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
@@ -52,82 +126,180 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
             <FlexBox.Row>
               <EditField
                 disabled
-                onChangeText={() => console.log('')}
+                // onKeyDown={(e: any) =>
+                //   onPressEnterForEmpty(
+                //     e,
+                //     'key',
+                //     elementName,
+                //     // index,
+                //   )
+                // }
+                onChangeText={
+                  (event: any) => {}
+                  // handleInputChange(0, event, elementName, 'key')
+                }
                 label="Key"
                 optional={false}
-                value={''}
+                // value={''}
                 placeholder=""
                 hasError={false}
                 className={styles.field}
               />
+
               <div style={{ width: '10%' }}></div>
               <EditField
                 disabled
-                // marginRight={'md'}
-                onChangeText={() => console.log('')}
+                // onKeyDown={(e: any) =>
+                //   onPressEnterForEmpty(e, 'value', elementName)
+                // }
+                onChangeText={(event: any) => {}}
                 label="Value"
                 // optional={true}
-                value={''}
+                // value={''}
                 placeholder=""
                 hasError={false}
                 className={styles.field}
               />
+              {/* <div
+                  className="col-sx-2 "
+                  style={{
+                    justifyContent: 'space-between',
+                    display: 'flex',
+                    marginTop: '35px',
+                    marginLeft: '5px',
+                  }}
+                >
+                  <icons.plusCircle
+                    onClick={() => handleAddFields()}
+                    color={iconColors.primary}
+                  />
+                </div> */}
             </FlexBox.Row>
           )}
-          {Object.entries(elementSchema).map(([key, value]) => (
-            <FlexBox.Row marginTop="lg">
-              <EditField
-                disabled
-                onChangeText={() => console.log('')}
-                label="Key"
-                optional={false}
-                value={key}
-                placeholder=""
-                hasError={false}
-                className={styles.field}
-              />
-              <div style={{ width: '10%' }}></div>
-              <EditField
-                disabled
-                // marginRight={'md'}
-                onChangeText={() => console.log('')}
-                label="Value"
-                // optional={true}
-                value={value}
-                placeholder=""
-                hasError={false}
-                className={styles.field}
-              />
-            </FlexBox.Row>
+          {Object.entries(elementSchema).map(([key, value], index) => (
+            <>
+              <FlexBox.Row marginTop="lg">
+                <EditField
+                  disabled
+                  // onKeyDown={(e: any) =>
+                  //   onPressEnter(e, 'key', elementName, key)
+                  // }
+                  // onChangeText={(e: any) =>{}
+                  //   // onPressEnter(e, 'key', elementName, key, index)
+                  // }
+                  label="Key"
+                  optional={false}
+                  defaultValue={key}
+                  // value={key}
+                  placeholder=""
+                  hasError={false}
+                  className={styles.field}
+                />
+                <div style={{ width: '10%' }}></div>
+                <EditField
+                  disabled
+                  // marginRight={'md'}
+                  // onKeyDown={(e: any) =>
+                  //   onPressEnter(e, 'value', elementName, key, index)
+                  // }
+                  // onChangeText={(e: any) =>
+                  //   onPressEnter(e, 'value', elementName, key, index)
+                  // }
+                  label="Value"
+                  // optional={true}
+                  defaultValue={value}
+                  // value={value}
+                  placeholder=""
+                  hasError={false}
+                  className={styles.field}
+                />
+                {/* {index === Object.entries(elementSchema).length - 1 &&
+                    !inputFields.length && (
+                      <div
+                        className="col-sx-2 "
+                        style={{
+                          justifyContent: 'space-between',
+                          display: 'flex',
+                          marginTop: '35px',
+                          marginLeft: '5px',
+                        }}
+                      >
+                        <icons.plusCircle
+                          onClick={() => handleAddFields()}
+                          color={iconColors.primary}
+                        />
+                      </div>
+                    )} */}
+              </FlexBox.Row>
+            </>
           ))}
         </Box>
       );
     }
-    // if (typeof elementSchema === 'object' && elementSchema === null) {
-    //   return (
-    //     <Box marginTop="lg" style={{ width: '100%' }}>
-    //       <EditField
-    //         disabled
-    //         onChangeText={() => console.log('')}
-    //         label={titleCase(elementName)}
-    //         optional={false}
-    //         value={elementSchema}
-    //         placeholder=""
-    //         hasError={false}
-    //         className={styles.field}
-    //       />
-    //     </Box>
-    //   );
-    // }
+
+    if (flavor?.config_schema?.properties[elementName]?.type === 'array') {
+      return (
+        <Box marginTop="md">
+          <Paragraph size="body" style={{ color: '#000' }}>
+            <label htmlFor="key">{titleCase(elementName)}</label>
+          </Paragraph>
+
+          <FlexBox.Row>
+            <div className="form-row">
+              {mappedObject &&
+                mappedObject[elementName]?.map((item: any, index: any) => (
+                  <Fragment>
+                    <div className="form-group col-sm-8">
+                      <EditField
+                        disabled
+                        className={styles.field}
+                        label={'Value'}
+                        value={item}
+                        placeholder={''}
+                      />
+                    </div>
+                    <div
+                      className="col-sx-2 "
+                      style={{
+                        justifyContent: 'space-between',
+                        display: 'flex',
+                        marginTop: '10px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}
+                      ></div>
+                    </div>
+                  </Fragment>
+                ))}
+              {/* {inputFields
+                ?.filter((x: any) => x.hasOwnProperty(props.name))
+                .map((inputField: any, index: any) => (
+            
+                ))} */}
+            </div>
+            <div className="submit-button"></div>
+            <br />
+          </FlexBox.Row>
+        </Box>
+      );
+    }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box marginTop="lg" style={{ width: '100%' }}>
-          <ToggleField
-            value={elementSchema}
-            onHandleChange={() => {}}
-            label={titleCase(elementName)}
-            disabled={true}
-          />
+        <Box marginTop={'lg'} style={{ width: '100%' }}>
+          <Box>
+            <ToggleField
+              value={elementSchema}
+              onHandleChange={() => {}}
+              label={titleCase(elementName)}
+              disabled={true}
+            />
+          </Box>
         </Box>
       );
     }
@@ -169,22 +341,42 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
   //   },
   //   {},
   // );
-  function replaceNullWithEmptyString(obj: any) {
-    for (let prop in obj) {
-      if (obj[prop] === null) {
-        obj[prop] = '';
-      } else if (typeof obj[prop] === 'object') {
-        replaceNullWithEmptyString(obj[prop]);
-      }
-    }
-    return obj;
-  }
+  // function replaceNullWithEmptyString(obj: any) {
+  //   for (let prop in obj) {
+  //     if (obj[prop] === null) {
+  //       obj[prop] = '';
+  //     } else if (typeof obj[prop] === 'object') {
+  //       replaceNullWithEmptyString(obj[prop]);
+  //     }
+  //   }
+  //   return obj;
+  // }
 
-  replaceNullWithEmptyString(details?.configuration);
+  // replaceNullWithEmptyString(details?.configuration);
+  // let result = Object.keys(flavor?.config_schema?.properties).reduce(function (
+  //   r: any,
+  //   name: any,
+  // ) {
+  //   return (
+  //     (r[name] =
+  //       flavor?.config_schema?.properties[name].type === 'string' &&
+  //       flavor?.config_schema?.properties[name].default === undefined
+  //         ? ''
+  //         : flavor?.config_schema?.properties[name].default),
+  //     r
+  //   );
+  // },
+  // {});
 
   const mappedObject = {
+    // ...result,
     ...details?.configuration,
   };
+  console.log(
+    mappedObject,
+    flavor?.config_schema?.properties,
+    'asdasdasd2131232',
+  );
 
   return (
     <FlexBox.Column marginTop="xl" fullWidth>

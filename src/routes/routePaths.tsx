@@ -124,6 +124,8 @@ export const routePaths = {
       `/workspaces/${workspace}/registerComponents/${type}`,
     configureComponent: (type: string, workspace: string, id: string): string =>
       `/workspaces/${workspace}/registerComponents/${type}/${id}/configuration`,
+    updateComponent: (type: string, id: string, workspace: string): string =>
+      `/workspaces/${workspace}/components/${type}/${id}/update-component`,
   },
 
   plugins: {
