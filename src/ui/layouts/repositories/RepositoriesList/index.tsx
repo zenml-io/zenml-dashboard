@@ -30,12 +30,23 @@ const RepositoriyListBody = () => {
   const repoPagination = useSelector(
     repositorySelectors.getRepositoryPagination,
   );
+  const dispatch = useDispatch();
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
   const childRef = useRef();
   const [itemPerPage, setItemPerPage] = useState(
     ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
   );
   const repositories = useSelector(repositorySelectors.allRepositories);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  useEffect(() => {
+    dispatch(
+      repositoryActions.getAll({
+        workspace: selectedWorkspace,
+        page: 1,
+        size: itemPerPage,
+      }),
+    );
+  }, [selectedWorkspace, dispatch]);
 
   function updateData(pageNumber: number, pageSize: number) {
     dispatchRepositoryPagination(pageNumber, pageSize);
@@ -113,13 +124,9 @@ const RepositoriyListBody = () => {
 };
 
 function RepositoriesList() {
-  const dispatch = useDispatch();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const locationPath = useLocationPath();
 
-  useEffect(() => {
-    dispatch(repositoryActions.getAll({ workspace: selectedWorkspace }));
-  }, [selectedWorkspace, dispatch]);
   return (
     <BasePage
       tabPages={[
