@@ -55,14 +55,11 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
     }, [node]) //eslint-disable-line
 
     useEffect(() => {
-        setLoader(true)
         setDynamicLeft(divRefs.current[1]?.offsetLeft);
         setDynamicWidth(divRefs.current[1]?.offsetWidth);
     }, [])
 
     useEffect(() => {
-        setLoader(true)
-
         setDynamicLeft(dynamicLeft);
         setDynamicWidth(dynamicWidth);
     }, [show, dynamicLeft, dynamicWidth, node])
