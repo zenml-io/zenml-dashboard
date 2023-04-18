@@ -423,7 +423,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       return (
         <>
           {props.sensitive ? (
-            <Box marginTop="lg" style={{ width: '329px' }}>
+            <Box marginTop="lg">
               <MakeSecretField
                 required={flavor?.configSchema?.required?.includes(elementName)}
                 label={titleCase(props.name) + ' (Secret)'}
@@ -544,7 +544,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               {inputArrayFields &&
                 inputArrayFields[props?.name]?.map((item: any, index: any) => (
                   <Fragment>
-                    <div className="form-group col-sm-8">
+                    <div className="form-group col-sm-9" style={{ width: '550px' }}>
                       <FormTextField
                         onChange={
                           (event: any) => {
