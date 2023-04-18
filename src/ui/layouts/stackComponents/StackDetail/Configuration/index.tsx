@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   FlexBox,
   Box,
@@ -6,12 +6,20 @@ import {
   Paragraph,
   Container,
   FullWidthSpinner,
+  PrimaryButton,
+  // MakeSecretField,
+  // FormTextField,
   // icons,
 } from '../../../../components';
 import styles from './index.module.scss';
 import { useService } from './useService';
 import axios from 'axios';
-import { useDispatch, useSelector } from '../../../../hooks';
+import {
+  useDispatch,
+  useHistory,
+  useLocationPath,
+  useSelector,
+} from '../../../../hooks';
 import {
   sessionSelectors,
   userSelectors,
@@ -23,11 +31,16 @@ import {
 } from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
+import { routePaths } from '../../../../../routes/routePaths';
+// import { routePaths } from '../../../../../routes/routePaths';
 
 export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   stackId,
   loading,
 }) => {
+  const locationPath = useLocationPath();
+  const history = useHistory();
+
   const { stackComponent, flavor } = useService({
     stackId,
   });
@@ -233,24 +246,97 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   // };
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    if (typeof elementSchema === 'string') {
+    if (flavor?.configSchema?.properties[elementName]?.type === 'string') {
       return (
-        <Box marginTop="lg">
-          <EditField
-            disabled
-            onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
-            onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
-            label={titleCase(elementName)}
-            optional={false}
-            defaultValue={elementSchema}
-            placeholder=""
-            hasError={false}
-            // className={styles.field}
-          />
-        </Box>
+        <>
+          {flavor?.configSchema?.properties[elementName].sensitive ? (
+            <Box marginTop="lg" style={{ width: '329px' }}>
+              <EditField
+                disabled
+                // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
+                // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
+                label={titleCase(elementName) + ' (Secret)'}
+                optional={false}
+                defaultValue={elementSchema}
+                placeholder=""
+                hasError={false}
+                // className={styles.field}
+              />
+            </Box>
+          ) : (
+            <Box marginTop="lg">
+              <EditField
+                disabled
+                // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
+                // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
+                label={titleCase(elementName)}
+                optional={false}
+                defaultValue={elementSchema}
+                placeholder=""
+                hasError={false}
+                // className={styles.field}
+              />
+            </Box>
+          )}
+        </>
       );
     }
-    if (typeof elementSchema === 'object') {
+    if (
+      flavor?.configSchema?.properties[elementName]?.type === 'object' &&
+      flavor?.configSchema?.properties[elementName]?.additionalProperties &&
+      flavor?.configSchema?.properties[elementName]?.additionalProperties
+        .type !== 'string'
+    ) {
+      return (
+        <>
+          {' '}
+          <Box marginTop="sm">
+            <Paragraph size="body" style={{ color: '#000' }}>
+              <label htmlFor="key">{titleCase(elementName)}</label>
+            </Paragraph>
+          </Box>
+          <FlexBox marginTop="sm" fullWidth>
+            <textarea
+              disabled
+              className={styles.textArea}
+              defaultValue={JSON.stringify(mappedObject[elementName])}
+              onBlur={(e) => {
+                const jsonStr = e.target.value;
+                try {
+                  JSON.parse(jsonStr);
+                } catch (e) {
+                  dispatch(
+                    showToasterAction({
+                      description: 'Invalid JSON.',
+                      type: toasterTypes.failure,
+                    }),
+                  );
+                }
+              }}
+              onChange={(e) => {}}
+            />
+          </FlexBox>
+        </>
+      );
+    }
+    // if (typeof elementSchema === 'string') {
+    //   return (
+    //     <Box marginTop="lg">
+    //       <EditField
+    //         disabled
+    //         onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
+    //         onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
+    //         label={titleCase(elementName)}
+    //         optional={false}
+    //         defaultValue={elementSchema}
+    //         placeholder=""
+    //         hasError={false}
+    //         // className={styles.field}
+    //       />
+    //     </Box>
+    //   );
+    // }
+    if (flavor?.configSchema?.properties[elementName]?.type === 'object') {
       return (
         <Box marginTop="lg" style={{ width: '100%' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
@@ -454,6 +540,59 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
         </Box>
       );
     }
+
+    if (flavor?.configSchema?.properties[elementName]?.type === 'array') {
+      return (
+        <Box marginTop="md">
+          <Paragraph size="body" style={{ color: '#000' }}>
+            <label htmlFor="key">{titleCase(elementName)}</label>
+          </Paragraph>
+
+          <FlexBox.Row>
+            <div className="form-row">
+              {mappedObject &&
+                mappedObject[elementName]?.map((item: any, index: any) => (
+                  <Fragment>
+                    <div className="form-group col-sm-8">
+                      <EditField
+                        disabled
+                        className={styles.field}
+                        label={'Value'}
+                        value={item}
+                        placeholder={''}
+                      />
+                    </div>
+                    <div
+                      className="col-sx-2 "
+                      style={{
+                        justifyContent: 'space-between',
+                        display: 'flex',
+                        marginTop: '10px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}
+                      ></div>
+                    </div>
+                  </Fragment>
+                ))}
+              {/* {inputFields
+              ?.filter((x: any) => x.hasOwnProperty(props.name))
+              .map((inputField: any, index: any) => (
+          
+              ))} */}
+            </div>
+            <div className="submit-button"></div>
+            <br />
+          </FlexBox.Row>
+        </Box>
+      );
+    }
     if (typeof elementSchema === 'boolean') {
       return (
         <Box marginTop={'lg'} style={{ width: '100%' }}>
@@ -479,20 +618,20 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   }
   // const values = [...flavor?.configSchema?.properties];
 
-  // let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
-  //   r: any,
-  //   name: any,
-  // ) {
-  //   return (
-  //     (r[name] =
-  //       flavor?.configSchema?.properties[name].type === 'string' &&
-  //       flavor?.configSchema?.properties[name].default === undefined
-  //         ? ''
-  //         : flavor?.configSchema?.properties[name].default),
-  //     r
-  //   );
-  // },
-  // {});
+  let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
+    r: any,
+    name: any,
+  ) {
+    return (
+      (r[name] =
+        flavor?.configSchema?.properties[name].type === 'string' &&
+        flavor?.configSchema?.properties[name].default === undefined
+          ? ''
+          : flavor?.configSchema?.properties[name].default),
+      r
+    );
+  },
+  {});
   function replaceNullWithEmptyString(obj: any) {
     for (let prop in obj) {
       if (obj[prop] === null) {
@@ -537,9 +676,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   // }, {});
 
   const mappedObject = {
+    ...result,
     ...stackComponent?.configuration,
     // ...normalizeConfiguration,
   };
+  console.log(mappedObject, 'mappedObjectmappedObjectmappedObject');
   // debugger;
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
@@ -582,6 +723,36 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
           ))}
         </Container>
       </FlexBox.Row>
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+            onClick={() =>
+              history.push(
+                routePaths.stackComponents.updateComponent(
+                  locationPath.split('/')[4],
+                  stackComponent.id,
+                  selectedWorkspace,
+                ),
+              )
+            }
+            style={{
+              background: '#FFFFFF',
+              boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
+              borderRadius: '4px',
+              color: '#443E99',
+            }}
+          >
+            Update Component
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </FlexBox.Column>
   );
 };

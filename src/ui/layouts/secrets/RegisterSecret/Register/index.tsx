@@ -54,7 +54,10 @@ export const Register: React.FC<Props> = (state: any) => {
       }
       return result;
     }
-    if (state?.state?.routeFromComponent) {
+    if (
+      state?.state?.routeFromComponent ||
+      state?.state?.routeFromEditComponent
+    ) {
       const randomString = generateRandomString(6);
 
       setSecretName(state?.state?.flavor + '_' + randomString);
@@ -186,6 +189,15 @@ export const Register: React.FC<Props> = (state: any) => {
             ...state,
           };
           updatedRouteState.state.inputData[
+            state.state.secretKey
+          ] = `{{ ${secretName}.${inputFields[0].key} }}`;
+
+          history.push(state.state.pathName, updatedRouteState);
+        } else if (state?.state?.routeFromEditComponent) {
+          const updatedRouteState = {
+            ...state,
+          };
+          updatedRouteState.state.mappedConfiguration[
             state.state.secretKey
           ] = `{{ ${secretName}.${inputFields[0].key} }}`;
 
