@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import styles from './repository-card.module.scss';
 import Fallback from '../../../../assets/plugin-fallback.svg';
 import { ReactComponent as ArrowSquareOut } from '../../../../components/icons/assets/ArrowSquareOut.svg';
@@ -22,9 +23,14 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
       <img className={styles.repositoryCard__headerImage} src={Fallback} />
       <div className={styles.repositoryCard__body}>
         <h2 className={styles.repositoryCard__heading}>{repository.name}</h2>
-        <p className={styles.repositoryCard__description}>
-          {repository.user.name}
-        </p>
+        <div className={styles.repositoryCard__secondLine}>
+          <p className={styles.repositoryCard__secondLine__description}>
+            {repository.user.name}
+          </p>
+          <p className={styles.repositoryCard__secondLine__description}>
+            {moment(repository.created).fromNow()}
+          </p>
+        </div>
         <div className={styles.repositoryCard__footer}>
           <div>Runs to add here</div>
           <a

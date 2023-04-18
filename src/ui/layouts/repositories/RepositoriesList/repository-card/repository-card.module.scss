@@ -33,10 +33,16 @@
     object-fit: contain;
     height: 80px;
   }
-  &__description {
-    font-size: 12px;
-    margin: 0;
-    color: #a8a8a8;
+  &__secondLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__description {
+      font-size: 12px;
+      margin: 0;
+      color: #a8a8a8;
+    }
   }
 
   &__footer {
