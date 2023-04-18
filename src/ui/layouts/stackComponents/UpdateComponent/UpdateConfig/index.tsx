@@ -9,6 +9,7 @@ import {
   PrimaryButton,
   FormTextField,
   icons,
+  MakeSecretField,
   // icons,
 } from '../../../../components';
 import styles from './index.module.scss';
@@ -16,47 +17,70 @@ import { useService } from './useService';
 import axios from 'axios';
 import {
   useDispatch,
+  useHistory,
+  useLocation,
+  useLocationPath,
   // useHistory,
   // useLocationPath,
   useSelector,
 } from '../../../../hooks';
 import {
+  secretSelectors,
   sessionSelectors,
   userSelectors,
   workspaceSelectors,
 } from '../../../../../redux/selectors';
 import {
+  secretsActions,
   showToasterAction,
   stackComponentsActions,
 } from '../../../../../redux/actions';
 import { iconColors, toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
+import { routePaths } from '../../../../../routes/routePaths';
 // import { routePaths } from '../../../../../routes/routePaths';
 
-export const UpdateConfig: React.FC<{ stackId: TId; loading?: boolean }> = ({
-  stackId,
-  loading,
-}) => {
-  // const locationPath = useLocationPath();
+export const UpdateConfig: React.FC<{
+  stackId: TId;
+  loading?: boolean;
+  state: any;
+}> = ({ stackId, loading, state }) => {
+  const location = useLocation();
+  const locationPath = useLocationPath();
   // const history = useHistory();
 
   const { stackComponent, flavor } = useService({
     stackId,
   });
+  const history = useHistory();
   const [componentName, setComponentName] = useState('');
   const [isShared, setIsShared] = useState() as any;
   const [mappedConfiguration, setMappedConfiguration] = useState() as any;
   const user = useSelector(userSelectors.myUser);
   const [fetching, setFetching] = useState(false);
+  const secrets = useSelector(secretSelectors.mySecrets);
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
+  const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
+  const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   // const [inputFields, setInputFields] = useState([]) as any;
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
+  useEffect(() => {
+    if (state?.state?.routeFromEditComponent) {
+      setMappedConfiguration(state.state.mappedConfiguration);
+      console.log(state, 'statestatestate');
+      // setIsShared(state?.state?.isShared);
+      // setInputFields(state?.state?.inputFields);
+      // setInputData(state?.state?.inputData);
+      // setComponentName(state?.state?.componentName);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [state]);
   useEffect(() => {
     function replaceNullWithEmptyString(obj: any) {
       for (let prop in obj) {
@@ -73,38 +97,65 @@ export const UpdateConfig: React.FC<{ stackId: TId; loading?: boolean }> = ({
     setComponentName(stackComponent.name);
 
     setIsShared(stackComponent.isShared);
+    if (!state?.state?.routeFromEditComponent) {
+      if (flavor) {
+        let result = Object.keys(flavor?.configSchema?.properties).reduce(
+          function (r: any, name: any) {
+            return (
+              (r[name] =
+                flavor?.configSchema?.properties[name].type === 'string' &&
+                flavor?.configSchema?.properties[name].default === undefined
+                  ? ''
+                  : flavor?.configSchema?.properties[name].default),
+              r
+            );
+          },
+          {},
+        );
 
-    if (flavor) {
-      let result = Object.keys(flavor?.configSchema?.properties).reduce(
-        function (r: any, name: any) {
-          return (
-            (r[name] =
-              flavor?.configSchema?.properties[name].type === 'string' &&
-              flavor?.configSchema?.properties[name].default === undefined
-                ? ''
-                : flavor?.configSchema?.properties[name].default),
-            r
-          );
-        },
-        {},
-      );
-
-      const mappedObject = {
-        ...result,
-        ...stackComponent?.configuration,
-        // ...normalizeConfiguration,
-      };
-      // debugger;
-      setMappedConfiguration(mappedObject);
+        const mappedObject = {
+          ...result,
+          ...stackComponent?.configuration,
+          // ...normalizeConfiguration,
+        };
+        // debugger;
+        setMappedConfiguration(mappedObject);
+      }
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flavor]);
+
+  const secretOptions = secrets.map((item: any) => {
+    return {
+      label: `{{ ${item.name}.` as string,
+      value: `{{ ${item.name}.` as string,
+      id: item.id as string,
+    };
+  }) as any;
   const onSubmit = () => {
     // ;
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
-
+    if (!componentName) {
+      dispatch(
+        showToasterAction({
+          description: 'Required Field is Empty',
+          type: toasterTypes.failure,
+        }),
+      );
+      return false;
+    }
+    for (const [, value] of Object.entries(mappedConfiguration) as any) {
+      if (value?.value) {
+        return dispatch(
+          showToasterAction({
+            description: 'Invalid secret',
+            type: toasterTypes.failure,
+          }),
+        );
+      }
+    }
     const body = {
       user: user?.id,
       workspace: id,
@@ -132,11 +183,21 @@ export const UpdateConfig: React.FC<{ stackId: TId; loading?: boolean }> = ({
             type: toasterTypes.success,
           }),
         );
+
         // setInputFields([]);
         dispatch(
           stackComponentsActions.stackComponentForId({
             stackComponentId: stackComponent?.id,
-            onSuccess: () => setFetching(false),
+            onSuccess: () => {
+              setFetching(false);
+              history.push(
+                routePaths.stackComponents.configuration(
+                  locationPath.split('/')[4],
+                  stackComponent.id,
+                  selectedWorkspace,
+                ),
+              );
+            },
             onFailure: () => setFetching(false),
           }),
         );
@@ -164,6 +225,48 @@ export const UpdateConfig: React.FC<{ stackId: TId; loading?: boolean }> = ({
         );
       });
   };
+
+  function callActionForSecret(name: any, value: any, newEvent?: any) {
+    setMappedConfiguration({
+      ...mappedConfiguration,
+      [name]: {
+        value: value.value ? value.value : value,
+        id: value?.id ? value?.id : '',
+      },
+    });
+
+    // if (value === undefined) {
+    //   return false;
+    // }
+
+    if (value?.value?.includes('.') || value?.value?.id) {
+      dispatch(
+        secretsActions.secretForId({
+          secretId: value?.id,
+          onSuccess: (res) => {
+            setSelectedSecret(res);
+            const secretOptionsWithKeys = Object.keys(res.values)?.map(
+              (item: any) => {
+                return {
+                  label: `{{ ${res?.name}.${item} }}` as string,
+                  value: `{{ ${res?.name}.${item} }}` as string,
+                };
+              },
+            ) as any;
+            setSecretOptionsWithKeys(secretOptionsWithKeys);
+          },
+          // onFailure: () => setFetching(false),
+        }),
+      );
+    } else if (value?.includes('{{')) {
+      dispatch(
+        secretsActions.getMy({
+          workspace: selectedWorkspace,
+          name: 'contains:' + value.replace(/[{ }]/g, ''),
+        }),
+      );
+    }
+  }
   // const onPressEnter = (
   //   event?: any,
   //   type?: string,
@@ -289,24 +392,99 @@ export const UpdateConfig: React.FC<{ stackId: TId; loading?: boolean }> = ({
   // };
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    if (typeof elementSchema === 'string') {
+    if (flavor?.configSchema?.properties[elementName]?.type === 'string') {
       return (
-        <Box marginTop="lg">
-          <FormTextField
-            onChange={(e: any) => {
-              setMappedConfiguration((prevConfig: any) => ({
-                ...prevConfig, // Spread the previous user object
-                [elementName]: e, // Update the age property
-              }));
-              // setMappedConfiguration(...mappedConfiguration,
-              //   mappedConfiguration[elementName]: e,
-              // );
-            }}
-            placeholder="Component Name"
-            label={titleCase(elementName)}
-            value={mappedConfiguration[elementName]}
-          />
-        </Box>
+        <>
+          {flavor?.configSchema?.properties[elementName].sensitive ? (
+            <Box marginTop="lg" style={{ width: '329px' }}>
+              <MakeSecretField
+                required={flavor?.configSchema?.required?.includes(elementName)}
+                label={titleCase(elementName) + ' (Secret)'}
+                placeholder={''}
+                handleClick={() => {
+                  const state = {
+                    flavor: flavor.name,
+                    routeFromEditComponent: true,
+                    componentName: componentName,
+                    isShared: isShared,
+                    mappedConfiguration: mappedConfiguration,
+                    // inputFields: inputFields,
+
+                    secretKey: elementName,
+                    pathName: location.pathname,
+                  };
+                  history.push(
+                    routePaths.secrets.registerSecrets(selectedWorkspace),
+                    state,
+                  );
+                }}
+                // inputData={inputData}
+                value={
+                  mappedConfiguration[elementName]?.value
+                    ? mappedConfiguration[elementName]?.value
+                    : // : inputData[props.name]
+                    mappedConfiguration[elementName]?.length
+                    ? mappedConfiguration[elementName]
+                    : ''
+                }
+                onChange={(val: string, newEvent: any) => {
+                  if (val.includes('{{')) {
+                    callActionForSecret(elementName, val, newEvent);
+                  } else {
+                    setMappedConfiguration({
+                      ...mappedConfiguration,
+                      [elementName]: val,
+                    });
+                  }
+                }}
+                secretOnChange={(val: any, newEvent: any) => {
+                  // debugger;
+                  // setInputData({
+                  //   ...inputData,
+                  //   [props.name]: val.value.includes('.') ? val.value : val,
+                  // });
+
+                  if (val?.value?.includes('}}')) {
+                    setMappedConfiguration({
+                      ...mappedConfiguration,
+                      [elementName]: val?.value?.includes('.')
+                        ? val.value
+                        : val,
+                    });
+                  } else if (val.value.includes('{{')) {
+                    callActionForSecret(elementName, val, newEvent);
+                  }
+                }}
+                dropdownOptions={
+                  mappedConfiguration[elementName]?.value &&
+                  mappedConfiguration[elementName]?.value.includes(
+                    `${selectedSecret.name}.`,
+                  )
+                    ? secretOptionsWithKeys
+                    : secretOptions
+                }
+                tooltipText='Start typing with "{{" to reference a secret for this field.'
+              />
+            </Box>
+          ) : (
+            <Box marginTop="lg">
+              <FormTextField
+                onChange={(e: any) => {
+                  setMappedConfiguration((prevConfig: any) => ({
+                    ...prevConfig, // Spread the previous user object
+                    [elementName]: e, // Update the age property
+                  }));
+                  // setMappedConfiguration(...mappedConfiguration,
+                  //   mappedConfiguration[elementName]: e,
+                  // );
+                }}
+                placeholder="Component Name"
+                label={titleCase(elementName)}
+                value={mappedConfiguration[elementName]}
+              />
+            </Box>
+          )}
+        </>
       );
     }
 

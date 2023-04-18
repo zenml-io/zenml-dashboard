@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
 import { Box } from '../../../components';
@@ -11,7 +11,12 @@ import { UpdateConfig } from './UpdateConfig';
 // import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-import { useHistory, useLocationPath, useSelector } from '../../../hooks';
+import {
+  useHistory,
+  useLocation,
+  useLocationPath,
+  useSelector,
+} from '../../../hooks';
 
 import { workspaceSelectors } from '../../../../redux/selectors';
 // import { List as StackComponenList } from '../Stacks/List';
@@ -54,11 +59,12 @@ const getTabPages = (
   locationPath: any,
   selectedWorkspace: string,
   loading?: boolean,
+  routeState?: any,
 ): TabPage[] => {
   return [
     {
       text: translate('tabs.update.text'),
-      Component: () => <UpdateConfig stackId={stackId} />,
+      Component: () => <UpdateConfig state={routeState} stackId={stackId} />,
       path: routePaths.stackComponents.updateComponent(
         locationPath.split('/')[4],
         stackId,
@@ -102,12 +108,23 @@ export interface StackDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
+  const location = useLocation();
+  const [routeState, setRouteState] = useState({}) as any;
   // const { flavourList } = GetFlavorsListForLogo();
-
+  useEffect(() => {
+    setRouteState(location.state);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setRouteState]);
   const { stackComponent, id, flavor, loading } = useService();
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const tabPages = getTabPages(id, locationPath, selectedWorkspace, loading);
+  const tabPages = getTabPages(
+    id,
+    locationPath,
+    selectedWorkspace,
+    loading,
+    routeState,
+  );
   const breadcrumbs = getBreadcrumbs(id, locationPath, selectedWorkspace);
   const mappedStackComponent: any = [];
   mappedStackComponent.push(stackComponent);
