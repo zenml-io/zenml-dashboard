@@ -142,6 +142,7 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
   } = getLayoutedElements(graph.graph.node, graph.graph.edge);
   const [fetching, setFetching] = useState(false); //eslint-disable-line
   const [fetchingSchedule, setFetchingSchedule] = useState(false); //eslint-disable-line
+  const [na, setNa] = useState(false); //eslint-disable-line
   const [nodes, _, onNodesChange] = useNodesState(layoutedNodes); //eslint-disable-line
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
@@ -165,7 +166,18 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
     } else {
       setFetchingSchedule(true);
     }
-  }, [schedule])
+
+    setTimeout(() => {
+      if (!fetchingSchedule) {
+        setNa(true);
+        console.log("__unauth_fetch_schedule , settimeout, setna", na)
+      }
+      else {
+        console.log("__unauth_fetch_schedule , settimeout, setna", na)
+      }
+
+    }, 500);
+  }, [schedule]) //eslint-disable-line
 
   console.log("__GRAPH", graph)
 
@@ -236,23 +248,23 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
               <tbody>
                 <tr>
                   <td>Start</td>
-                  <td>loading...</td>
+                  <td>{na ? "n/a" : "loading..."}</td>
                 </tr>
                 <tr>
                   <td>End</td>
-                  <td>loading...</td>
+                  <td>{na ? "n/a" : "loading..."}</td>
                 </tr>
                 <tr>
                   <td>Interval</td>
-                  <td>loading...</td>
+                  <td>{na ? "n/a" : "loading..."}</td>
                 </tr>
                 <tr>
                   <td>Catchup</td>
-                  <td>loading...</td>
+                  <td>{na ? "n/a" : "loading..."}</td>
                 </tr>
                 <tr>
                   <td>Cron Exp</td>
-                  <td>loading...</td>
+                  <td>{na ? "n/a" : "loading..."}</td>
                 </tr>
               </tbody>
             </table>}
