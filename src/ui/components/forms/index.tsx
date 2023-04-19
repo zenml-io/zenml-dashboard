@@ -197,6 +197,7 @@ export const CopyField = (
 
 export const MakeSecretField = (
   props: {
+    required: any;
     label: string;
     labelColor: any;
     placeholder: any;
@@ -228,6 +229,7 @@ export const MakeSecretField = (
     <FlexBox.Column fullWidth>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
         <InputWithLabelIcon
+          required={props.required}
           name={props.name}
           label={props.label}
           labelColor={props.labelColor}

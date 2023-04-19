@@ -9,6 +9,7 @@ import ReactTooltip from 'react-tooltip';
 export const InputWithLabelIcon = ({
   InputComponent,
   label,
+  required = false,
   name,
   labelColor,
   optional,
@@ -17,6 +18,7 @@ export const InputWithLabelIcon = ({
   InputComponent: JSX.Element;
   label: string;
   name?: any;
+  required?: any;
   labelColor?: any;
   optional?: string;
   tooltipText?: string;
@@ -31,6 +33,7 @@ export const InputWithLabelIcon = ({
           {label}
           {optional && <span style={{ color: 'red' }}>{optional}</span>}
         </label>
+        {required && <span style={{ color: 'red', marginLeft: '4px' }}>*</span>}
       </Paragraph>
 
       <Box marginLeft="sm" style={{ cursor: 'pointer' }}>
