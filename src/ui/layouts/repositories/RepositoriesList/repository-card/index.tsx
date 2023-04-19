@@ -17,7 +17,7 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
   return (
     // TODO: Check A11y for this construct
     <Link
-      to={routePaths.repositories.detail(selectedWorkspace, repository.id)}
+      to={routePaths.repositories.overview(selectedWorkspace, repository.id)}
       className={styles.repositoryCard}
     >
       <img className={styles.repositoryCard__headerImage} src={Fallback} />
@@ -34,6 +34,8 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
         <div className={styles.repositoryCard__footer}>
           <div>Runs to add here</div>
           <a
+            target="_blank"
+            rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
             href={`https://www.${
               repository.source.attribute === 'GitHubCodeRepository'

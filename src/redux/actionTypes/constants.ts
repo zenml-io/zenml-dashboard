@@ -83,6 +83,7 @@ const runActionTypes = {
 
 const repositoryActionTypes = {
   REPOSITORY_GET_ALL: 'REPOSITORY_GET_ALL',
+  REPOSITORY_BY_ID: 'REPOSITORY_BY_ID',
 };
 
 const pipelinePagesActionTypes = {

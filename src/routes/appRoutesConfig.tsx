@@ -37,6 +37,7 @@ import PluginDetail from '../ui/layouts/plugins/PluginDetail';
 
 import RepositoriesList from '../ui/layouts/repositories/RepositoriesList';
 import CreateRepository from '../ui/layouts/repositories/RepositoryCreate';
+import RepositoryDetailOverview from '../ui/layouts/repositories/RepositoryDetail';
 
 import { Logout } from '../ui/components/Logout';
 import DisplayPluginLogs from '../ui/layouts/plugins/DisplayLogs';
@@ -260,6 +261,14 @@ const routes = [
   {
     path: routePaths.repositories.create(':workspace'),
     Component: CreateRepository,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.repositories.overview(':workspace', ':repositoryID'),
+    Component: RepositoryDetailOverview,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

@@ -39,6 +39,7 @@ export const endpoints = {
   },
   repositories: {
     getAll: (workspace: string) => `/workspaces/${workspace}/code_repositories`,
+    getByID: (repositoryID: string) => `/code_repositories/${repositoryID}`,
   },
   StackComponents: {
     types: '/component-types',

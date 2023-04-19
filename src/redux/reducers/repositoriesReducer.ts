@@ -1,4 +1,5 @@
 import { repositoryActionTypes } from '../actionTypes';
+import { byKeyInsert, idsInsert } from './reducerHelpers';
 
 export interface Pagination {
   index?: number;
@@ -7,27 +8,29 @@ export interface Pagination {
   total?: number;
 }
 
-interface ActionPayload {
-  items: TRepository[];
-  index: number;
-  max_size: number;
-  total_pages: number;
-  total: number;
-}
+// interface ActionPayload {
+//   items: TRepository[];
+//   index: number;
+//   max_size: number;
+//   total_pages: number;
+//   total: number;
+// }
 
 export interface State {
-  repositories: TRepository[];
+  ids: string[];
+  repositoriesByID: Record<string, TRepository>;
   pagination: Pagination;
 }
 
 export const initialState: State = {
-  repositories: [],
+  ids: [],
+  repositoriesByID: {},
   pagination: {},
 };
 
 export type Action = {
   type: string;
-  payload: ActionPayload;
+  payload: any;
 };
 
 function newState(
@@ -37,7 +40,9 @@ function newState(
 ): State {
   return {
     ...state,
-    repositories,
+    // add new repositories to the existing ones without duplication
+    ids: idsInsert(state.ids, repositories),
+    repositoriesByID: byKeyInsert(state.repositoriesByID, repositories),
     pagination: {
       index: pagination?.index,
       max_size: pagination?.max_size,
@@ -56,6 +61,8 @@ function RepositoryReducer(state: State = initialState, action: Action): State {
         total: action.payload.total,
         total_pages: action.payload.total_pages,
       });
+    case repositoryActionTypes.getRepositoryByID.success:
+      return { ...state, ...newState(state, [action.payload]) };
     default:
       return state;
   }
