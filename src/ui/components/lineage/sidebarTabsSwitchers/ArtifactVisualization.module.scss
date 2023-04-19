@@ -32,6 +32,17 @@
     // background: rebeccapurple;
     // margin-top: ;
 }
+.csv{
+    font-size: 20px;
+    font-family: "Rubik";
+    flex-wrap: wrap;
+    padding: 20px;
+    height: 100%;
+    overflow-y: scroll;
+    background-color: #f7f7f7;
+
+    // margin-top: ;
+}
 .image{
     font-size: 16px;
     font-family: "Rubik";
@@ -49,3 +60,10 @@
     max-height: 70%;
     margin: auto;
 }
+.FullWidthSpinnerContainer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }

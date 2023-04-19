@@ -71,9 +71,9 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
     };
 
 
-    if (Object.keys(node)?.length === 0) {
-        return <FullWidthSpinner color="black" size="md" />;
-    }
+    // if (Object.keys(node)?.length === 0) {
+    //     return <FullWidthSpinner color="black" size="md" />;
+    // }
 
 
     return (

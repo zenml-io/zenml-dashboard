@@ -46,7 +46,9 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
   }, [response])//eslint-disable-line
 
   if (response === null) {
-    return <FullWidthSpinner color="black" size="md" />
+    return <div className={`${style.FullWidthSpinnerContainer}`}>
+      <FullWidthSpinner color="black" size="md" />
+    </div>
   }
   if (response === undefined || response?.name === "Error") {
     return (<div className={`${style.mainContainer}`}>
@@ -59,8 +61,8 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
 
       {type === "__HTML" ?
         <>
-      
-          {response === undefined ? <p>NO VISUALIZATION</p> : <div dangerouslySetInnerHTML={{ __html: response }} />}
+
+          {response === undefined ? <p>NO VISUALIZATION</p> : <div dangerouslySetInnerHTML={{ __html: response?.value }} />}
         </>
         : ""}
       {type === "__IMAGE" ?
@@ -81,7 +83,7 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
         </div>
         : ""}
       {type === "__CSV" ?
-        <div className={`${style.markdown}`}>
+        <div className={`${style.csv}`}>
           {response === null ? <FullWidthSpinner color="black" size="md" /> :
             <>
               <CsvTable data={response?.data?.value} />
