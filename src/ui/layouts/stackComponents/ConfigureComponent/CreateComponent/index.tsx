@@ -274,7 +274,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               style={{
                 position: 'absolute',
                 bottom: '0',
-                marginLeft: '3px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
@@ -286,7 +285,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               className="form-row"
               style={{
                 borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                marginLeft: '5px',
+                marginLeft: '2px',
               }}
             >
               {inputFields?.map((item: any, parentIndex: any) =>
@@ -585,15 +584,54 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             <label htmlFor="key">{props.label}</label>
           </Paragraph>
 
-          <FlexBox.Row>
-            <div className="form-row">
-              {console.log(inputArrayFields, 'asd2323123asdsfsf')}
+          <FlexBox.Row style={{ position: 'relative' }}>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '0',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+              }}
+            ></div>
+
+            <div 
+              className="form-row"
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
               {inputArrayFields &&
                 inputArrayFields[props?.name]?.map((item: any, index: any) => (
                   <Fragment>
-                    <div
-                      className="form-group col-sm-9"
-                      style={{ width: '550px' }}
+                    <Box
+                      style={{ display: 'flex', alignItems: 'center' }}
+                      marginTop="sm"
+                    >
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          width: '15px',
+                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          marginRight: '5px',
+                          marginLeft: '-2px',
+                          color: 'rgba(68, 62, 153, 0.3)',
+                        }}
+                      >
+                        &#x27A4;
+                      </div>
+
+                    <Box
+                      className="form-group"
+                      marginRight="md"
+                      style={{ width: '400px' }}
                     >
                       <FormTextField
                         onChange={
@@ -614,13 +652,14 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                         value={item}
                         placeholder={''}
                       />
-                    </div>
+                    </Box>
                     <div
-                      className="col-sx-2 "
+                      // className="col-sx-2 "
                       style={{
                         justifyContent: 'space-between',
                         display: 'flex',
-                        marginTop: '10px',
+                        marginTop: '20px',
+                        marginLeft: '-10px',
                       }}
                     >
                       <div
@@ -661,6 +700,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                         )}
                       </div>
                     </div>
+                    </Box>
                   </Fragment>
                 ))}
               {/* {inputFields

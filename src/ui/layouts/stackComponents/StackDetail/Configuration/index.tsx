@@ -380,20 +380,6 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                 hasError={false}
                 className={styles.field}
               />
-              {/* <div
-                className="col-sx-2 "
-                style={{
-                  justifyContent: 'space-between',
-                  display: 'flex',
-                  marginTop: '35px',
-                  marginLeft: '5px',
-                }}
-              >
-                <icons.plusCircle
-                  onClick={() => handleAddFields()}
-                  color={iconColors.primary}
-                />
-              </div> */}
             </FlexBox.Row>
           )}
           {Object.entries(elementSchema).map(([key, value], index) => (
@@ -433,32 +419,12 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                   hasError={false}
                   className={styles.field}
                 />
-                {/* {index === Object.entries(elementSchema).length - 1 &&
-                  !inputFields.length && (
-                    <div
-                      className="col-sx-2 "
-                      style={{
-                        justifyContent: 'space-between',
-                        display: 'flex',
-                        marginTop: '35px',
-                        marginLeft: '5px',
-                      }}
-                    >
-                      <icons.plusCircle
-                        onClick={() => handleAddFields()}
-                        color={iconColors.primary}
-                      />
-                    </div>
-                  )} */}
               </FlexBox.Row>
             </>
           ))}
           {inputFields.map((inputField: any, index: any) => (
-            // <div className="form-row">
-
+          
             <FlexBox.Row key={`${inputField}~${index}`}>
-              {console.log(inputFields, 'inputFieldsinputFields')}
-              {/* <div className="form-group col-sm-6"> */}
               <Box marginTop="lg">
                 <EditField
                   onKeyDown={(e: any) =>
@@ -481,8 +447,6 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
               </Box>
 
               <div style={{ width: '10%' }}></div>
-              {/* </div> */}
-              {/* <div className="form-group col-sm-5"> */}
               <Box marginTop="lg">
                 <EditField
                   onKeyDown={(e: any) =>
@@ -503,38 +467,6 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                   placeholder={''}
                 />
               </Box>
-              {/* </div> */}
-              {/* <div
-                className="col-sx-2 "
-                style={{
-                  justifyContent: 'space-between',
-                  display: 'flex',
-                  marginBottom: '10px',
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    flexDirection: 'row',
-                    justifyContent: 'space-between',
-                    alignItems: 'center',
-                    marginTop: '5px',
-                    marginLeft: '5px',
-                  }}
-                >
-                  <icons.minusCircle
-                    onClick={() => handleRemoveFields(index)}
-                    color={iconColors.primary}
-                  />
-
-                  {index === inputFields.length - 1 && (
-                    <icons.plusCircle
-                      onClick={() => handleAddFields()}
-                      color={iconColors.primary}
-                    />
-                  )}
-                </div>
-              </div> */}
             </FlexBox.Row>
           ))}
         </Box>
@@ -742,12 +674,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                 ),
               )
             }
-            style={{
-              background: '#FFFFFF',
-              boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
-              borderRadius: '4px',
-              color: '#443E99',
-            }}
+            className={styles.updateButton}
           >
             Update Component
           </PrimaryButton>
