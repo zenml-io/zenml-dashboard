@@ -8,8 +8,8 @@ import {
   repositorySelectors,
   workspaceSelectors,
 } from '../../../../redux/selectors';
-import RepositoryOverviewPage from './page';
 import { repositoryActions } from '../../../../redux/actions';
+import RepositoryDetailHeader from './components/detail-header';
 
 function RepositoryDetailOverview() {
   const dispatch = useDispatch();
@@ -25,26 +25,34 @@ function RepositoryDetailOverview() {
     );
   }, [repositoryID, dispatch]);
 
-  const repositoryByID = useSelector(
+  const repository = useSelector(
     repositorySelectors.repositoryByID(repositoryID),
   );
 
-  console.log(repositoryByID);
-
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const locationPath = useLocationPath();
+
   return (
     <BasePage
       tabPages={[
         {
-          text: 'Create Repository',
-          Component: RepositoryOverviewPage,
+          text: 'Overview',
+          Component: () => <div></div>,
           path: routePaths.repositories.overview(
             selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
             repositoryID,
           ),
         },
+        {
+          text: 'Runs',
+          Component: () => <div></div>,
+          path: routePaths.repositories.runs(
+            selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+            repositoryID,
+          ),
+        },
       ]}
+      singleTab={true}
       tabBasePath={routePaths.repositories.list(selectedWorkspace)}
       breadcrumbs={[
         {
@@ -57,7 +65,7 @@ function RepositoryDetailOverview() {
       headerWithButtons
       renderHeaderRight={() => <></>}
     >
-      {JSON.stringify(repositoryByID)}
+      <RepositoryDetailHeader repository={repository!} />
     </BasePage>
   );
 }

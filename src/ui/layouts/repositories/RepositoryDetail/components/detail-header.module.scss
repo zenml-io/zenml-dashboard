@@ -1,3 +1,32 @@
+@import '../../../../globalStyles.scss';
+
 .detailHeader {
   display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-top: 32px;
+  &__imageContainer {
+    width: 80px;
+    height: 80px;
+    aspect-ratio: 1 / 1;
+    border: solid 1px #a8a8a8;
+    border-radius: 4px;
+  }
+  &__header {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    &__heading {
+      font-size: 32px;
+      margin: 0;
+      color: $primaryColor;
+    }
+    &__timestamp {
+      font-size: 16px;
+      color: #a8a8a8;
+      margin: 0;
+    }
+  }
+ 
 }

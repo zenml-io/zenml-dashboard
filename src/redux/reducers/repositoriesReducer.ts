@@ -1,3 +1,4 @@
+import { camelCaseArray } from '../../utils';
 import { repositoryActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
@@ -20,11 +21,13 @@ export interface State {
   ids: string[];
   repositoriesByID: Record<string, TRepository>;
   pagination: Pagination;
+  myRepositoryIds: string[];
 }
 
 export const initialState: State = {
   ids: [],
   repositoriesByID: {},
+  myRepositoryIds: [],
   pagination: {},
 };
 
@@ -36,11 +39,10 @@ export type Action = {
 function newState(
   state: State,
   repositories: TRepository[],
-  pagination?: Pagination,
+  pagination?: any,
 ): State {
   return {
     ...state,
-    // add new repositories to the existing ones without duplication
     ids: idsInsert(state.ids, repositories),
     repositoriesByID: byKeyInsert(state.repositoriesByID, repositories),
     pagination: {
@@ -55,12 +57,9 @@ function newState(
 function RepositoryReducer(state: State = initialState, action: Action): State {
   switch (action.type) {
     case repositoryActionTypes.getRepositories.success:
-      return newState(state, action.payload.items, {
-        index: action.payload.index,
-        max_size: action.payload.max_size,
-        total: action.payload.total,
-        total_pages: action.payload.total_pages,
-      });
+      const repos = camelCaseArray(action.payload.items);
+      const myRepositoryIds = repos.map((repo) => repo.id);
+      return { ...newState(state, repos, action.payload), myRepositoryIds };
     case repositoryActionTypes.getRepositoryByID.success:
       return { ...state, ...newState(state, [action.payload]) };
     default:
