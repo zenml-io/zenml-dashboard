@@ -28,10 +28,9 @@ const artifactTabs = [
 
 ]
 
-const ArtifactTabHeader = ({ node }: { node: any }) => {
+const ArtifactTabHeader = ({ node, fetching }: { node: any, fetching:boolean }) => {
 
     const [show, setShow] = useState("__META");
-    const [loader, setLoader] = useState(true);
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(35);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
     const parent = useRef<(HTMLDivElement)>(null)
@@ -44,15 +43,6 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
             default: return "";
         }
     }
-
-    useEffect(() => {
-        console.log("_unauth_triggered", loader)
-        setLoader(true)
-        setTimeout(() => {
-            setLoader(false)
-        }, 500);
-
-    }, [node]) //eslint-disable-line
 
     useEffect(() => {
         setDynamicLeft(divRefs.current[1]?.offsetLeft);
@@ -69,12 +59,6 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
         setDynamicLeft(divRefs.current[divId]?.offsetLeft);
         setDynamicWidth(divRefs.current[divId]?.offsetWidth);
     };
-
-
-    // if (Object.keys(node)?.length === 0) {
-    //     return <FullWidthSpinner color="black" size="md" />;
-    // }
-
 
     return (
         <>
@@ -97,7 +81,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
             </div>
             <div className={`${styles.underline}`} style={{ marginLeft: `${dynamicLeft}px`, transition: 'all 300ms ease', width: `${dynamicWidth}px` }}></div>
 
-            {loader ? 
+            {fetching ? 
             <div className={`${styles.FullWidthSpinnerContainer}`}>
                 <FullWidthSpinner color="black" size="md" />
             </div> : <>
@@ -173,7 +157,7 @@ const ArtifactTabHeader = ({ node }: { node: any }) => {
                         :
                         ""}
                     {/* SHOW VISUALIZATION */}
-                    {show === "__VISUALIZATION" ? <ArtifactVisualization node={node} /> : ""}
+                    {show === "__VISUALIZATION" ? <ArtifactVisualization node={node} fetching={fetching}/> : ""}
                 </>}
         </>
     )

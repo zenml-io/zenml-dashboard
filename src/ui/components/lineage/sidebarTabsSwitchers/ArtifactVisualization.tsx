@@ -11,15 +11,23 @@ import { FullWidthSpinner } from '../../spinners';
 import ReactMarkdown from 'react-markdown';
 import CsvTable from '../CsvTable';
 
-const ArtifactVisualization = ({ node }: { node: any }) => {
+const ArtifactVisualization = ({ node, fetching }: { node: any , fetching:boolean}) => {
 
+  console.log('__unauth_stepnode-ArtifactVisualization', fetching)
   const [response, setResponse] = useState<any | undefined>(null)
+  // const [cancelRequest, setCancelRequest] = useState<boolean | undefined>(false)
   const [type, setType] = useState<string | undefined>('')
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
+  // useEffect(() => {
+  //   console.log("__unauth_stepnode-cancelRequest",cancelRequest)
+  // }, [cancelRequest])
+  
+  
   useEffect(() => {
+    console.log("__unauth_stepnode-ArtifactVisualization", node?.id)
     setResponse(null);
-    artifactVisulizationService(node.id, authToken)
+    artifactVisulizationService(node?.id, authToken)
       .then((res) => {
         setResponse(res);
         if (res?.data?.type === "image") {
@@ -27,6 +35,9 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
         }
         if (res?.data?.type === "html") {
           setType("__HTML");
+          let cleanedString = res.data.value.replace(/[\n\\/]/g, '');
+          console.log("cleanedString ", typeof cleanedString)
+          // setResponse(cleanedString);
         }
         if (res?.data?.type === "csv") {
           setType("__CSV");
@@ -35,14 +46,14 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
           setType("__MARKDOWN");
         }
       })
-    return () => setResponse(null);
-  }, [node])//eslint-disable-line
+    // return () => setResponse(null);
+  }, [node.id])//eslint-disable-line
 
   useEffect(() => {
-    console.log('__unauth_resposne', response?.message)
-    console.log('__unauth_resposne', response?.name)
-    console.log('__unauth_resposne', typeof response)
-    console.log('__unauth_resposne', JSON.stringify(response))
+    // console.log('__unauth_resposne', response?.message)
+    // console.log('__unauth_resposne', response?.name)
+    console.log('__unauth_resposne', response)
+    // console.log('__unauth_resposne', JSON.stringify(response))
   }, [response])//eslint-disable-line
 
   if (response === null) {
@@ -57,12 +68,11 @@ const ArtifactVisualization = ({ node }: { node: any }) => {
   }
 
   return (
-    <div className={`${style.mainContainer}`}>
+    <div className={`${style.mainContainer}`} id='alibhai'>
 
       {type === "__HTML" ?
         <>
-
-          {response === undefined ? <p>NO VISUALIZATION</p> : <div dangerouslySetInnerHTML={{ __html: response?.value }} />}
+          {response === undefined ? <p>NO VISUALIZATION</p> : <div dangerouslySetInnerHTML={{ __html: response.data.value }} />}
         </>
         : ""}
       {type === "__IMAGE" ?

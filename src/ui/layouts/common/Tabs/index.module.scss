@@ -28,6 +28,15 @@
   font-family: "Rubik";
   font-size: 16px;
   text-decoration: none;
+  // font-weight: 600;
+  text-decoration: none;
+  text-decoration-line: none;
+}
+
+.linkRuns {
+  font-family: "Rubik";
+  font-size: 16px;
+  text-decoration: none;
   font-weight: 600;
   text-decoration: none;
   text-decoration-line: none;
@@ -37,3 +46,8 @@
 .link:visited { text-decoration: none; }
 .link:hover { text-decoration: none; }
 .link:active { text-decoration: none; }
+
+.linkRuns:link { text-decoration: none; }
+.linkRuns:visited { text-decoration: none; }
+.linkRuns:hover { text-decoration: none; }
+.linkRuns:active { text-decoration: none; }

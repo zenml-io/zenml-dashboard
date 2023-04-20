@@ -21,7 +21,7 @@ const StepNode = ({
           className={styles.handle}
         />
         <div
-          className={data.selected ? styles.stepBodySelected : styles.stepBody}
+          className={`${data.selected ? styles.stepBodySelected : styles.stepBody}`}
           style={
             data.status === 'completed'
               ? { borderColor: '#4ade80' }

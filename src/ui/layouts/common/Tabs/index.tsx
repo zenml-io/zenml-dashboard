@@ -178,7 +178,7 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
         {() => (
           <>
             <FlexBox
-              // marginTop="xxl"
+              marginTop="xxl"
               marginBottom="sm"
               className={styles.navigationRuns}
             >
@@ -203,7 +203,7 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                       // style={{transition: '0.25s ease-out'}}
                     >
 
-                      <Link className={styles.link} to={page.path}>
+                      <Link className={styles.linkRuns} to={page.path}>
                         <IfElse
                           condition={isActive}
                           renderWhenFalse={() => (

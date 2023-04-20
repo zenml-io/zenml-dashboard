@@ -218,6 +218,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
               connectionLineType={ConnectionLineType.SimpleBezier}
               nodeTypes={nodeTypes}
               onNodeClick={async (event, node) => {
+                console.log("__unauth_stepnode-clicked")
                 if (selectedNode?.selected) {
                   selectedNode.selected = false
                   setSelectedNode(selectedNode);

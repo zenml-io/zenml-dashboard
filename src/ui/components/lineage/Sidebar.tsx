@@ -20,6 +20,7 @@ const colCenter = {
 const Sidebar: React.FC<any> = ({ selectedNode }) => {
 
     const [sidebar, setSidebar] = useState(true);
+    const [fetching, setFetching] = useState(true); //added
     const [isStepNode, setIsStepNode] = useState(true);
     const [artifact, setArtifact] = useState([] as any);
     const [step, setStep] = useState([] as any);
@@ -29,19 +30,24 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     const authToken = useSelector(sessionSelectors.authenticationToken);
 
     async function FetchData(type: boolean) {
+
         if (type) {
             const data = await fetchStepData(selectedNode, authToken);
             const _logs = await fetchStepLogs(selectedNode, authToken);
-            dispatch(runsActions.getStep({ exe_id: selectedNode.execution_id }))
             console.log("__DATA__", data)
+            console.log("__LOGS__", _logs)
             setStep(data);
             setLogs(_logs)
+            dispatch(runsActions.getStep({ exe_id: selectedNode.execution_id }))
+            console.log("__unauth_stepnode-step api call")
+            setFetching(false)
         }
         else {
             const data = await fetchArtifactData(selectedNode, authToken);
             console.log("__DATA__", data)
             dispatch(runsActions.getArtifact({ exe_id: selectedNode.execution_id }))
             setArtifact(data);
+            setFetching(false)
         }
     };
 
@@ -55,10 +61,9 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
         }
         else {
             setIsStepNode(false);
-        }
+        }        
         FetchData(type);
     }, [isStepNode, selectedNode]) //eslint-disable-line
-
 
     // CLICK OUTSIDE TO CLOSE THE SIDEBAR
     useEffect(() => {
@@ -67,32 +72,27 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                 setSidebar(false);
             }
         }
-
         document.addEventListener('mousedown', handler);
         return () => {
             document.removeEventListener('mousedown', handler);
-
         }
-
     }, [])
 
     // reopen sidebar if closed
     useEffect(() => {
+        setFetching(true) //added
         if (!sidebar) {
             setSidebar(true)
         }
+        console.log("__unauth_stepnode-sidebar")
     }, [selectedNode])//eslint-disable-line
 
+    useEffect(() => { //added
+        console.log("__unauth_stepnode-fetching",fetching)
+    }, [fetching])//eslint-disable-line
 
-    // useEffect(() => {
-      
-    // }, [])
-    
 
     return (
-
-
-
         <div className={`${styles.sidebarMainContainer} ${sidebar ? styles.sidebarOpen : styles.sidebarClose}`} ref={sidebar_ref}>
             <div className={`${styles.btnContainer}`} style={colCenter}>
                 {sidebar ?
@@ -102,9 +102,8 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                 }
             </div>
             <div className={`${styles.bodyContainer}`}>
-                {isStepNode ? <StepnodeTabHeader node={step} logs={logs}/> : <ArtifactTabHeader node={artifact} />}
+                {isStepNode ? <StepnodeTabHeader node={step} logs={logs} fetching={fetching}/> : <ArtifactTabHeader node={artifact} fetching={fetching}/>}
             </div>
-
         </div>
     )
 }

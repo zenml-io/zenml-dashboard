@@ -8,7 +8,7 @@ import styles from './index.module.scss';
 export const Details: React.FC<{ runId: TId }> = memo(({ runId }) => {
 
   const { run } = useService({ runId });
-
+  console.log("__unauth-rundetails",run)
   return (
     <div className={`${styles.mainContainer}`}>
       <JsonDisplay data={run} styles={{ width: "100%", padding: 20 }} />

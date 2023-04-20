@@ -12,13 +12,13 @@ const ArtifactNode = ({
 }: NodeProps) => {
 
   return (
-    <>
+    <div className={`${styles.nodeContainer}`}> 
       <Handle
         type="target"
         position={targetPosition}
         className={styles.handle}
       />
-      <div className={data.selected ? styles.artifactBodySelected : styles.artifactBody}>
+      <div className={`${data.selected ? styles.artifactBodySelected : styles.artifactBody}`}>
         {data.artifact_type === 'DataArtifact' ? (
           <Data />
         ) : data.artifact_type === 'DataAnalysisArtifact' ? (
@@ -41,7 +41,7 @@ const ArtifactNode = ({
         position={sourcePosition}
         className={styles.handle}
       />
-    </>
+    </div>
   );
 };
 

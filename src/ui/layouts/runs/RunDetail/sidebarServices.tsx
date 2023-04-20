@@ -66,7 +66,7 @@ export async function artifactService(artifactId: any, authToken: any) {
 }
 
 export async function artifactVisulizationService(artifactId: any, authToken: any) {
-
+    console.log("__unauth_stepnode-artifactId",artifactId)
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
     let _flag = false;
@@ -80,7 +80,7 @@ export async function artifactVisulizationService(artifactId: any, authToken: an
                 const contentLength = progressEvent.total;
                 const loadedBytes = progressEvent.loaded;
                 console.log(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`);
-                if (loadedBytes > 1 * 1024 * 1024) {
+                if (contentLength > 1 * 1024 * 1024) {
                     if (_flag === false) {
                         const confirmed = window.confirm('The API response size exceeds 5MB. Do you want to continue?');
                         _flag = confirmed;

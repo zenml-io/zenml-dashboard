@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react"; //eslint-disable-line
+import React, { useEffect, useLayoutEffect, useRef, useState } from "react"; //eslint-disable-line
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Status_Completed } from "../icons";
@@ -74,14 +74,12 @@ const ToggleButton: React.FC<any> = ({ label, value }) => { //eslint-disable-lin
     );
 };
 
-const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
+const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
 
-    console.log("__unauth_node", node)
+    console.log("__unauth_stepnode-header", fetching )
     const [show, setShow] = useState("__CONFIG");
-    const [loader, setLoader] = useState<Boolean | undefined>();
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(50);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
-    const [fetching, setFetching] = useState(true); //eslint-disable-line
     const divRefs = useRef<(HTMLSpanElement | null)[]>([])
 
     // INPUTS STATES
@@ -91,12 +89,6 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
     const [input4, setInput4] = useState(''); //eslint-disable-line
     const [input5, setInput5] = useState(''); //eslint-disable-line
 
-    useEffect(() => {
-        setLoader(true)
-        setTimeout(() => {
-            setLoader(false)
-        }, 500);
-    }, [node.id])
 
     useEffect(() => {
         setDynamicLeft(divRefs.current[1]?.offsetLeft);
@@ -115,7 +107,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
         setDynamicLeft(divRefs.current[divId]?.offsetLeft);
         setDynamicWidth(divRefs.current[divId]?.offsetWidth);
     };
-    
+
     const TabClickHandler = (tab: string) => {
         switch (tab) {
             case "__CONFIG": return setShow("__CONFIG");
@@ -150,7 +142,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
             </div>
             <div className={`${stepStyles.underline}`} style={{ marginLeft: `${dynamicLeft}px`, transition: 'all 300ms ease', width: `${dynamicWidth}px` }}></div>
 
-            {loader ?
+            {fetching ?
                 <div className={`${styles.FullWidthSpinnerContainer}`}>
                     <FullWidthSpinner color="black" size="md" />
                 </div> : <>
@@ -158,7 +150,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs }) => {
                     {
                         show === "__ATTRIBUTE" ?
                             <>
-                                <table className='sidebar_table'>
+                                <table cellSpacing="0" className='sidebar_table' >
                                     <tbody>
                                         <tr>
                                             <td className='td_key'>Status</td>
