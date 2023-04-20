@@ -40,7 +40,7 @@ const DefaultHeader: React.FC<{
           href={constantCommandsToCreateStack.documentation}
           target="__blank"
         >
-          document
+          docs
         </a>
       </Paragraph>
     </FlexBox>
@@ -86,7 +86,7 @@ const HeaderWithButtons: React.FC<{
             href={constantCommandsToCreateStack.documentation}
             target="__blank"
           >
-            document
+            docs
           </a>
         </Paragraph>
       </Box>

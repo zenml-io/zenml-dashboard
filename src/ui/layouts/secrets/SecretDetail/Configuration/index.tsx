@@ -27,7 +27,7 @@ import SelectorDisabled from '../../Selector/SelectorDisabled';
 
 // import { translate } from '../translate';
 
-// import styles from './index.module.scss';
+import styles from './index.module.scss';
 import { useService } from './useService';
 import { routePaths } from '../../../../../routes/routePaths';
 import { useHistory, useSelector } from '../../../../hooks';
@@ -116,13 +116,7 @@ export const Configuration: React.FC<{
                 routePaths.secret.updateSecret(secret.id, selectedWorkspace),
               )
             }
-            style={{
-              background: '#FFFFFF',    
-              boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
-              borderRadius: '4px',
-              color: '#443E99',
-          
-            }}
+            className={styles.updateButton}          
           >
             Update Secret
           </PrimaryButton>
