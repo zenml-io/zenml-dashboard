@@ -1048,12 +1048,12 @@ export const UpdateConfig: React.FC<{
               //   routePaths.secret.updateSecret(secret.id, selectedWorkspace),
               // )
             }
-            style={{
-              background: '#FFFFFF',
-              boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
-              borderRadius: '4px',
-              color: '#443E99',
-            }}
+            // style={{
+            //   background: '#FFFFFF',
+            //   boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
+            //   borderRadius: '4px',
+            //   color: '#443E99',
+            // }}
           >
             Save Changes
           </PrimaryButton>
