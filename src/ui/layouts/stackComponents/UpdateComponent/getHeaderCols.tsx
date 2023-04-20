@@ -167,7 +167,7 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (stack: TStack) => (
         <>
-          {stack.isShared && (
+          {stack && (
             <FlexBox alignItems="center">
               <div
                 style={{ margin: '0 auto 0 auto' }}
