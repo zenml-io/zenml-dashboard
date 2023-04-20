@@ -378,6 +378,7 @@ export const UpdateConfig: React.FC<{
     } else if (value?.includes('{{')) {
       dispatch(
         secretsActions.getMy({
+          size: 10,
           workspace: selectedWorkspace,
           name: 'contains:' + value.replace(/[{ }]/g, ''),
         }),

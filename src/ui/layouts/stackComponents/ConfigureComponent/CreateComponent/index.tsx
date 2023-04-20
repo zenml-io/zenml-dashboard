@@ -201,6 +201,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
     } else if (value?.includes('{{')) {
       dispatch(
         secretsActions.getMy({
+          size: 10,
           workspace: selectedWorkspace,
           name: 'contains:' + value.replace(/[{ }]/g, ''),
         }),
@@ -269,17 +270,55 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
           </Paragraph>
 
           <FlexBox.Row style={{ position: 'relative' }}>
-            <div style={{ position: 'absolute', bottom: '0', marginLeft: '3px', width: '5px', height: '5px', borderRadius: '100%', backgroundColor: 'rgba(68, 62, 153, 0.8)' }}></div>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '0',
+                marginLeft: '3px',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+              }}
+            ></div>
 
-            <div className="form-row" style={{ borderLeft: '1px solid rgba(68, 62, 153, 0.3)', marginLeft: '5px' }}>
+            <div
+              className="form-row"
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '5px',
+              }}
+            >
               {inputFields?.map((item: any, parentIndex: any) =>
                 item[props.name]?.map((inputField: any, childIndex: any) => (
                   <Fragment key={`${inputField}~${childIndex}`}>
-                   <Box style={{ display: 'flex', alignItems: 'center' }} marginTop='sm'>
-                      <div style={{ marginTop: '30px', width: '15px', borderTop: '1px solid rgba(68, 62, 153, 0.3)' }}></div>
-                      <div style={{ marginTop: '30px', marginRight: '5px', marginLeft: '-2px', color: 'rgba(68, 62, 153, 0.3)' }}>&#x27A4;</div>
+                    <Box
+                      style={{ display: 'flex', alignItems: 'center' }}
+                      marginTop="sm"
+                    >
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          width: '15px',
+                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          marginRight: '5px',
+                          marginLeft: '-2px',
+                          color: 'rgba(68, 62, 153, 0.3)',
+                        }}
+                      >
+                        &#x27A4;
+                      </div>
 
-                      <Box className="form-group" marginRight='md' style={{ width: '192px' }}>
+                      <Box
+                        className="form-group"
+                        marginRight="md"
+                        style={{ width: '192px' }}
+                      >
                         <FormTextField
                           onChange={(event: any) =>
                             handleInputChange(
@@ -318,7 +357,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                           justifyContent: 'space-between',
                           display: 'flex',
                           marginTop: '20px',
-                          marginLeft: '5px'
+                          marginLeft: '5px',
                         }}
                       >
                         <div
