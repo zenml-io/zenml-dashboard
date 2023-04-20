@@ -552,7 +552,10 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               {inputArrayFields &&
                 inputArrayFields[props?.name]?.map((item: any, index: any) => (
                   <Fragment>
-                    <div className="form-group col-sm-9" style={{ width: '550px' }}>
+                    <div
+                      className="form-group col-sm-9"
+                      style={{ width: '550px' }}
+                    >
                       <FormTextField
                         onChange={
                           (event: any) => {
