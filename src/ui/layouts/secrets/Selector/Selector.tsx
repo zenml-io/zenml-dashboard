@@ -35,8 +35,9 @@ const Selector: React.FC<Props> = ({
     if (routeState?.state?.routeFromComponent) {
       const secretKeyValuefromRoute: any = {
         key: routeState?.state?.secretKey,
-        value: routeState?.state?.inputData[routeState?.state?.secretKey].value,
+        value: routeState?.state?.inputData[routeState?.state?.secretKey],
       };
+
       setInputFields([...inputFields, secretKeyValuefromRoute]);
     } else if (values?.length && !routeState?.state?.routeFromComponent) {
       setInputFields([...values]);
@@ -44,9 +45,23 @@ const Selector: React.FC<Props> = ({
       setInputFields([{ key: '', value: '' }]);
     }
 
+    if (routeState?.state?.routeFromEditComponent) {
+      const secretKeyValuefromRoute: any = {
+        key: routeState?.state?.secretKey,
+        value:
+          routeState?.state?.mappedConfiguration[routeState?.state?.secretKey],
+      };
+
+      setInputFields([...inputFields, secretKeyValuefromRoute]);
+    } else if (values?.length && !routeState?.state?.routeFromEditComponent) {
+      setInputFields([...values]);
+    } else {
+      setInputFields([{ key: '', value: '' }]);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeState, setInputFields]);
-  console.log(inputFields, 'inputFisdsdeldsinputFields');
+  console.log(inputFields, routeState, 'inputFisdsdeldsinputFields');
   // useEffect(() => {
   //   handleInputChange();
   // }, [inputFields]);
