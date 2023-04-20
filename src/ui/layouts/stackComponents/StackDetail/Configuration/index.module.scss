@@ -120,3 +120,17 @@ input:checked + .slider:before {
     border: 1px solid $primaryColor;
   }
 }
+
+.updateButton {
+  background: #FFFFFF;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  color: #443E99;
+}
+
+.updateButton:hover {
+  background: #443E99;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  color: #fff;
+}
