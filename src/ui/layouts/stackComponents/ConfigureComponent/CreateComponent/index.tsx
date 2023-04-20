@@ -268,91 +268,99 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             <label htmlFor="key">{props.label}</label>
           </Paragraph>
 
-          <FlexBox.Row>
-            <div className="form-row">
+          <FlexBox.Row style={{ position: 'relative' }}>
+            <div style={{ position: 'absolute', bottom: '0', marginLeft: '3px', width: '5px', height: '5px', borderRadius: '100%', backgroundColor: 'rgba(68, 62, 153, 0.8)' }}></div>
+
+            <div className="form-row" style={{ borderLeft: '1px solid rgba(68, 62, 153, 0.3)', marginLeft: '5px' }}>
               {inputFields?.map((item: any, parentIndex: any) =>
                 item[props.name]?.map((inputField: any, childIndex: any) => (
                   <Fragment key={`${inputField}~${childIndex}`}>
-                    <div className="form-group col-sm-5">
-                      <FormTextField
-                        onChange={(event: any) =>
-                          handleInputChange(
-                            parentIndex,
-                            childIndex,
-                            event,
-                            props.name,
-                            'key',
-                          )
-                        }
-                        label={'Key'}
-                        value={inputField?.key}
-                        placeholder={''}
-                      />
-                    </div>
+                   <Box style={{ display: 'flex', alignItems: 'center' }} marginTop='sm'>
+                      <div style={{ marginTop: '30px', width: '15px', borderTop: '1px solid rgba(68, 62, 153, 0.3)' }}></div>
+                      <div style={{ marginTop: '30px', marginRight: '5px', marginLeft: '-2px', color: 'rgba(68, 62, 153, 0.3)' }}>&#x27A4;</div>
 
-                    <div className="form-group col-sm-5">
-                      <FormTextField
-                        onChange={(event: any) =>
-                          handleInputChange(
-                            parentIndex,
-                            childIndex,
-                            event,
-                            props.name,
-                            'value',
-                          )
-                        }
-                        label={'Value'}
-                        value={inputField?.value}
-                        placeholder={''}
-                      />
-                    </div>
-                    <div
-                      className="col-sx-2 "
-                      style={{
-                        justifyContent: 'space-between',
-                        display: 'flex',
-                        marginTop: '10px',
-                      }}
-                    >
+                      <Box className="form-group" marginRight='md' style={{ width: '192px' }}>
+                        <FormTextField
+                          onChange={(event: any) =>
+                            handleInputChange(
+                              parentIndex,
+                              childIndex,
+                              event,
+                              props.name,
+                              'key',
+                            )
+                          }
+                          label={'Key'}
+                          value={inputField?.key}
+                          placeholder={''}
+                        />
+                      </Box>
+
+                      <Box className="form-group" style={{ width: '192px' }}>
+                        <FormTextField
+                          onChange={(event: any) =>
+                            handleInputChange(
+                              parentIndex,
+                              childIndex,
+                              event,
+                              props.name,
+                              'value',
+                            )
+                          }
+                          label={'Value'}
+                          value={inputField?.value}
+                          placeholder={''}
+                        />
+                      </Box>
                       <div
+                        // className="col-sx-2 "
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
                           justifyContent: 'space-between',
-                          alignItems: 'center',
+                          display: 'flex',
+                          marginTop: '20px',
+                          marginLeft: '5px'
                         }}
                       >
-                        {item[props.name].length > 1 && (
-                          <button
-                            className={styles.fieldButton}
-                            style={{}}
-                            type="button"
-                            // disabled={item[props.name].length === 1}
-                            onClick={() =>
-                              handleRemoveFields(
-                                parentIndex,
-                                childIndex,
-                                props.name,
-                              )
-                            }
-                          >
-                            <icons.minusCircle color={iconColors.primary} />
-                          </button>
-                        )}
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}
+                        >
+                          {item[props.name].length > 1 && (
+                            <button
+                              className={styles.fieldButton}
+                              style={{}}
+                              type="button"
+                              // disabled={item[props.name].length === 1}
+                              onClick={() =>
+                                handleRemoveFields(
+                                  parentIndex,
+                                  childIndex,
+                                  props.name,
+                                )
+                              }
+                            >
+                              <icons.minusCircle color={iconColors.primary} />
+                            </button>
+                          )}
 
-                        {childIndex === item[props.name].length - 1 && (
-                          <button
-                            className={styles.fieldButton}
-                            type="button"
-                            onClick={() =>
-                              handleAddFields(props.name, parentIndex)
-                            }
-                          >
-                            <icons.plusCircle color={iconColors.primary} />
-                          </button>
-                        )}
+                          {childIndex === item[props.name].length - 1 && (
+                            <button
+                              className={styles.fieldButton}
+                              type="button"
+                              onClick={() =>
+                                handleAddFields(props.name, parentIndex)
+                              }
+                            >
+                              <icons.plusCircle color={iconColors.primary} />
+                            </button>
+                          )}
+                        </div>
                       </div>
-                    </div>
+                    </Box>
                   </Fragment>
                 )),
               )}
