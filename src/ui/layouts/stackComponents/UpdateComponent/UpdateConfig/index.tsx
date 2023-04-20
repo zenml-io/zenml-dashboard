@@ -10,6 +10,7 @@ import {
   FormTextField,
   icons,
   MakeSecretField,
+  // EditField,
   // icons,
 } from '../../../../components';
 import styles from './index.module.scss';
@@ -38,6 +39,7 @@ import {
 import { iconColors, toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
+// import { values } from 'lodash';
 // import { routePaths } from '../../../../../routes/routePaths';
 
 export const UpdateConfig: React.FC<{
@@ -65,7 +67,7 @@ export const UpdateConfig: React.FC<{
   const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
-  // const [inputFields, setInputFields] = useState([]) as any;
+  const [inputFields, setInputFields] = useState() as any;
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -73,12 +75,13 @@ export const UpdateConfig: React.FC<{
   useEffect(() => {
     if (state?.state?.routeFromEditComponent) {
       setMappedConfiguration(state.state.mappedConfiguration);
-      console.log(state, 'statestatestate');
+      setInputFields(state.state.inputFields);
       // setIsShared(state?.state?.isShared);
       // setInputFields(state?.state?.inputFields);
       // setInputData(state?.state?.inputData);
       // setComponentName(state?.state?.componentName);
     }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
   useEffect(() => {
@@ -97,6 +100,51 @@ export const UpdateConfig: React.FC<{
     setComponentName(stackComponent.name);
 
     setIsShared(stackComponent.isShared);
+
+    function convertJSON(json: any) {
+      const convertedJSON: any = {};
+
+      for (const key in json) {
+        if (Object.prototype.hasOwnProperty.call(json, key)) {
+          if (
+            flavor?.configSchema?.properties[key]?.additionalProperties &&
+            flavor?.configSchema?.properties[key]?.additionalProperties
+              ?.type !== 'string'
+          ) {
+          } else if (
+            typeof json[key] === 'object' &&
+            !Array.isArray(json[key])
+          ) {
+            const array = [];
+            for (const prop in json[key]) {
+              if (Object.prototype.hasOwnProperty.call(json[key], prop)) {
+                array.push({ key: prop, value: json[key][prop] });
+              }
+            }
+            convertedJSON[key] =
+              array.length > 0 ? array : [{ key: '', value: '' }];
+          } else if (Array.isArray(json[key])) {
+            const array = [];
+            for (let i = 0; i < json[key].length; i++) {
+              if (typeof json[key][i] === 'object') {
+                array.push(convertJSON(json[key][i]));
+              } else {
+                array.push(json[key][i]);
+              }
+            }
+            convertedJSON[key] = array;
+          } else if (
+            typeof json[key] === 'object' &&
+            (json[key] === {} || json[key].length === 0)
+          ) {
+            const emptyObject = [{ key: '', value: '' }];
+            convertedJSON[key] = emptyObject;
+          }
+        }
+      }
+
+      return convertedJSON;
+    }
     if (!state?.state?.routeFromEditComponent) {
       if (flavor) {
         let result = Object.keys(flavor?.configSchema?.properties).reduce(
@@ -118,7 +166,9 @@ export const UpdateConfig: React.FC<{
           ...stackComponent?.configuration,
           // ...normalizeConfiguration,
         };
-        // debugger;
+        const convertedJson = convertJSON(mappedObject);
+        setInputFields(convertedJson);
+
         setMappedConfiguration(mappedObject);
       }
     }
@@ -156,6 +206,46 @@ export const UpdateConfig: React.FC<{
         );
       }
     }
+    let tempFinal: any = {};
+
+    Object.keys(inputFields).forEach((key) => {
+      const newObj: any = {};
+      inputFields[key].forEach((obj: any) => {
+        if (obj.key !== undefined && (obj.key !== '' || obj.value !== '')) {
+          if (newObj[obj.key] !== undefined) {
+            dispatch(
+              showToasterAction({
+                description: 'Key already exists.',
+                type: toasterTypes.failure,
+              }),
+            );
+          } else {
+            newObj[obj.key] = obj.value;
+          }
+        }
+      });
+      tempFinal[key] = newObj;
+    });
+    const final: any = {};
+
+    Object.keys(inputFields).forEach((key) => {
+      const newObj: any = {};
+      inputFields[key].forEach((obj: any) => {
+        if (obj.key !== undefined && (obj.key !== '' || obj.value !== '')) {
+          if (newObj[obj.key] !== undefined) {
+            dispatch(
+              showToasterAction({
+                description: 'Key already exists.',
+                type: toasterTypes.failure,
+              }),
+            );
+          }
+          newObj[obj.key] = obj.value;
+        }
+      });
+      final[key] = newObj;
+    });
+
     const body = {
       user: user?.id,
       workspace: id,
@@ -163,8 +253,35 @@ export const UpdateConfig: React.FC<{
       name: componentName,
       type: stackComponent.type,
       flavor: stackComponent.flavor,
-      configuration: mappedConfiguration,
+      configuration: { ...mappedConfiguration, ...final },
     };
+    console.log(tempFinal, final);
+
+    if (JSON.stringify(tempFinal) !== JSON.stringify(final)) {
+      return false;
+    }
+
+    for (const [key] of Object.entries(final)) {
+      // console.log(`${key}: ${value}`);
+      for (const [innerKey, innerValue] of Object.entries(final[key])) {
+        if (!innerKey && innerValue) {
+          return dispatch(
+            showToasterAction({
+              description: 'Key cannot be Empty.',
+              type: toasterTypes.failure,
+            }),
+          );
+        }
+        if (!innerValue && innerKey) {
+          return dispatch(
+            showToasterAction({
+              description: 'Value cannot be Empty.',
+              type: toasterTypes.failure,
+            }),
+          );
+        }
+      }
+    }
     setFetching(true);
     axios
       .put(
@@ -408,6 +525,7 @@ export const UpdateConfig: React.FC<{
                     componentName: componentName,
                     isShared: isShared,
                     mappedConfiguration: mappedConfiguration,
+                    inputFields: inputFields,
                     // inputFields: inputFields,
 
                     secretKey: elementName,
@@ -535,299 +653,132 @@ export const UpdateConfig: React.FC<{
         </>
       );
     }
-    // if (flavor?.configSchema?.properties[elementName]?.type === 'object') {
-    //   return (
-    //     <Box marginTop="lg" style={{ width: '100%' }}>
-    //       <Paragraph size="body" style={{ color: 'black' }}>
-    //         <label htmlFor={elementName}>{titleCase(elementName)}</label>
-    //       </Paragraph>
-    //       {Object.keys(elementSchema).length < 1 && (
-    //         <FlexBox.Row>
-    //           <EditField
-    //             // disabled
-    //             onKeyDown={(e: any) =>
-    //               onPressEnterForEmpty(
-    //                 e,
-    //                 'key',
-    //                 elementName,
-    //                 // index,
-    //               )
-    //             }
-    //             onChangeText={
-    //               (event: any) => {}
-    //               // handleInputChange(0, event, elementName, 'key')
-    //             }
-    //             label="Key"
-    //             optional={false}
-    //             // value={''}
-    //             placeholder=""
-    //             hasError={false}
-    //             className={styles.field}
-    //           />
+    if (
+      flavor?.configSchema?.properties[elementName]?.type === 'object' &&
+      (flavor?.configSchema?.properties[elementName]?.additionalProperties
+        ?.type === 'string' ||
+        flavor?.configSchema?.properties[elementName]?.additionalProperties
+          ?.type === undefined)
+    ) {
+      return (
+        <Box marginTop="md">
+          <Paragraph size="body" style={{ color: '#000' }}>
+            <label htmlFor="key">{titleCase(elementName)}</label>
+          </Paragraph>
 
-    //           <div style={{ width: '10%' }}></div>
-    //           <EditField
-    //             // disabled
-    //             onKeyDown={(e: any) =>
-    //               onPressEnterForEmpty(e, 'value', elementName)
-    //             }
-    //             onChangeText={(event: any) => {}}
-    //             label="Value"
-    //             // optional={true}
-    //             // value={''}
-    //             placeholder=""
-    //             hasError={false}
-    //             className={styles.field}
-    //           />
-    //           {/* <div
-    //             className="col-sx-2 "
-    //             style={{
-    //               justifyContent: 'space-between',
-    //               display: 'flex',
-    //               marginTop: '35px',
-    //               marginLeft: '5px',
-    //             }}
-    //           >
-    //             <icons.plusCircle
-    //               onClick={() => handleAddFields()}
-    //               color={iconColors.primary}
-    //             />
-    //           </div> */}
-    //         </FlexBox.Row>
-    //       )}
-    //       {Object.entries(elementSchema).map(([key, value], index) => (
-    //         <>
-    //           <FlexBox.Row marginTop="lg">
-    //             <FormTextField
-    //               onChange={
-    //                 (event: any) => {}
-    //                 // handleInputChange(
-    //                 //   parentIndex,
-    //                 //   childIndex,
-    //                 //   event,
-    //                 //   props.name,
-    //                 //   'key',
-    //                 // )
-    //               }
-    //               label={'Key'}
-    //               value={key}
-    //               placeholder={''}
-    //             />
-    //             {/* <EditField
-    //               // disabled
-    //               onKeyDown={(e: any) =>
-    //                 onPressEnter(e, 'key', elementName, key)
-    //               }
-    //               onChangeText={(e: any) =>
-    //                 onPressEnter(e, 'key', elementName, key, index)
-    //               }
-    //               label="Key"
-    //               optional={false}
-    //               defaultValue={key}
-    //               // value={key}
-    //               placeholder=""
-    //               hasError={false}
-    //               className={styles.field}
-    //             /> */}
-    //             <div style={{ width: '10%' }}></div>
-    //             <FormTextField
-    //               onChange={
-    //                 (event: any) => {}
-    //                 // handleInputChange(
-    //                 //   parentIndex,
-    //                 //   childIndex,
-    //                 //   event,
-    //                 //   props.name,
-    //                 //   'value',
-    //                 // )
-    //               }
-    //               label={'Value'}
-    //               value={value as any}
-    //               placeholder={''}
-    //             />
-    //             <div
-    //               className="col-sx-2 "
-    //               style={{
-    //                 justifyContent: 'space-between',
-    //                 display: 'flex',
-    //                 marginTop: '20px',
-    //               }}
-    //             >
-    //               <div
-    //                 style={{
-    //                   display: 'flex',
-    //                   flexDirection: 'row',
-    //                   justifyContent: 'space-between',
-    //                   alignItems: 'center',
-    //                 }}
-    //               >
-    //                 {/* {item[props.name].length > 1 && ( */}
-    //                 <button
-    //                   className={styles.fieldButton}
-    //                   style={{}}
-    //                   type="button"
-    //                   // disabled={item[props.name].length === 1}
-    //                   onClick={
-    //                     () => {}
-    //                     // handleRemoveFields(
-    //                     //   parentIndex,
-    //                     //   childIndex,
-    //                     //   props.name,
-    //                     // )
-    //                   }
-    //                 >
-    //                   <icons.minusCircle color={iconColors.primary} />
-    //                 </button>
-    //                 {/* )} */}
+          <FlexBox.Row>
+            <div className="form-row">
+              {inputFields[elementName]?.map((item: any, index: any) => (
+                <Fragment>
+                  <div className="form-group col-sm-5">
+                    <FormTextField
+                      onChange={(event: any) => {
+                        const values = { ...inputFields };
+                        values[elementName][index].key = event;
+                        // values[name][childIndex].key = event;
+                        // debugger;
+                        setInputFields(values);
+                      }}
+                      label={'Key'}
+                      value={item.key}
+                      placeholder={''}
+                    />
+                  </div>
 
-    //                 {/* {childIndex === item[props.name].length - 1 && ( */}
-    //                 <button
-    //                   className={styles.fieldButton}
-    //                   type="button"
-    //                   onClick={
-    //                     () => {
-    //                       const values = {
-    //                         ...mappedConfiguration[elementName],
-    //                         '': '',
-    //                       };
-    //                       const finalValues = {
-    //                         ...mappedConfiguration,
-    //                         values,
-    //                       };
-    //                       setMappedConfiguration(finalValues);
-    //                     }
-    //                     // handleAddFields(props.name, parentIndex
-    //                   }
-    //                 >
-    //                   <icons.plusCircle color={iconColors.primary} />
-    //                 </button>
-    //                 {/* )} */}
-    //               </div>
-    //             </div>
-    //             {/* <EditField
-    //               // disabled
-    //               // marginRight={'md'}
-    //               onKeyDown={(e: any) =>
-    //                 onPressEnter(e, 'value', elementName, key, index)
-    //               }
-    //               onChangeText={(e: any) =>
-    //                 onPressEnter(e, 'value', elementName, key, index)
-    //               }
-    //               label="Value"
-    //               // optional={true}
-    //               defaultValue={value}
-    //               // value={value}
-    //               placeholder=""
-    //               hasError={false}
-    //               className={styles.field}
-    //             /> */}
-    //             {/* {index === Object.entries(elementSchema).length - 1 &&
-    //               !inputFields.length && (
-    //                 <div
-    //                   className="col-sx-2 "
-    //                   style={{
-    //                     justifyContent: 'space-between',
-    //                     display: 'flex',
-    //                     marginTop: '35px',
-    //                     marginLeft: '5px',
-    //                   }}
-    //                 >
-    //                   <icons.plusCircle
-    //                     onClick={() => handleAddFields()}
-    //                     color={iconColors.primary}
-    //                   />
-    //                 </div>
-    //               )} */}
-    //           </FlexBox.Row>
-    //         </>
-    //       ))}
-    //       {inputFields.map((inputField: any, index: any) => (
-    //         // <div className="form-row">
+                  <div className="form-group col-sm-5">
+                    <FormTextField
+                      onChange={(event: any) => {
+                        const values = { ...inputFields };
+                        values[elementName][index].value = event;
+                        // values[name][childIndex].key = event;
+                        // debugger;
+                        setInputFields(values);
+                      }}
+                      label={'Value'}
+                      value={item?.value}
+                      placeholder={''}
+                    />
+                  </div>
+                  <div
+                    className="col-sx-2 "
+                    style={{
+                      justifyContent: 'space-between',
+                      display: 'flex',
+                      marginTop: '10px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {inputFields[elementName].length > 1 && (
+                        <button
+                          className={styles.fieldButton}
+                          style={{}}
+                          type="button"
+                          // disabled={item[props.name].length === 1}
+                          onClick={
+                            () => {
+                              setInputFields((prevState: any) => {
+                                // Replace with the index of the object to remove
+                                const newInputFields = [
+                                  ...prevState[elementName],
+                                ];
+                                newInputFields.splice(index, 1);
+                                return {
+                                  ...prevState,
+                                  [elementName]: newInputFields,
+                                };
+                              });
+                            }
+                            // handleRemoveFields(
+                            //   parentIndex,
+                            //   childIndex,
+                            //   props.name,
+                            // )
+                          }
+                        >
+                          <icons.minusCircle color={iconColors.primary} />
+                        </button>
+                      )}
 
-    //         <FlexBox.Row key={`${inputField}~${index}`}>
-    //           {console.log(inputFields, 'inputFieldsinputFields')}
-    //           {/* <div className="form-group col-sm-6"> */}
-    //           <Box marginTop="lg">
-    //             <EditField
-    //               onKeyDown={(e: any) =>
-    //                 onPressEnterForAddMore(
-    //                   e,
-    //                   'addMore',
-    //                   elementName,
-    //                   // index,
-    //                 )
-    //               }
-    //               onChangeText={(event: any) =>
-    //                 handleInputChange(index, event, elementName, 'key')
-    //               }
-    //               // disabled
-    //               label={'Key'}
-    //               className={styles.field}
-    //               value={inputField?.key}
-    //               placeholder={''}
-    //             />
-    //           </Box>
-
-    //           <div style={{ width: '10%' }}></div>
-    //           {/* </div> */}
-    //           {/* <div className="form-group col-sm-5"> */}
-    //           <Box marginTop="lg">
-    //             <EditField
-    //               onKeyDown={(e: any) =>
-    //                 onPressEnterForAddMore(
-    //                   e,
-    //                   'addMore',
-    //                   elementName,
-    //                   // index,
-    //                 )
-    //               }
-    //               // disabled
-    //               className={styles.field}
-    //               onChangeText={(event: any) =>
-    //                 handleInputChange(index, event, elementName, 'value')
-    //               }
-    //               label={'Value'}
-    //               value={inputField?.value}
-    //               placeholder={''}
-    //             />
-    //           </Box>
-    //           {/* </div> */}
-    //           {/* <div
-    //             className="col-sx-2 "
-    //             style={{
-    //               justifyContent: 'space-between',
-    //               display: 'flex',
-    //               marginBottom: '10px',
-    //             }}
-    //           >
-    //             <div
-    //               style={{
-    //                 display: 'flex',
-    //                 flexDirection: 'row',
-    //                 justifyContent: 'space-between',
-    //                 alignItems: 'center',
-    //                 marginTop: '5px',
-    //                 marginLeft: '5px',
-    //               }}
-    //             >
-    //               <icons.minusCircle
-    //                 onClick={() => handleRemoveFields(index)}
-    //                 color={iconColors.primary}
-    //               />
-
-    //               {index === inputFields.length - 1 && (
-    //                 <icons.plusCircle
-    //                   onClick={() => handleAddFields()}
-    //                   color={iconColors.primary}
-    //                 />
-    //               )}
-    //             </div>
-    //           </div> */}
-    //         </FlexBox.Row>
-    //       ))}
-    //     </Box>
-    //   );
-    // }
+                      {index === inputFields[elementName].length - 1 && (
+                        <button
+                          className={styles.fieldButton}
+                          type="button"
+                          onClick={() => {
+                            setInputFields((prevState: any) => ({
+                              ...prevState,
+                              [elementName]: [
+                                ...prevState[elementName],
+                                { key: '', value: '' },
+                              ],
+                            }));
+                          }}
+                        >
+                          <icons.plusCircle color={iconColors.primary} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </Fragment>
+              ))}
+              {/* {inputFields
+                ?.filter((x: any) => x.hasOwnProperty(props.name))
+                .map((inputField: any, index: any) => (
+            
+                ))} */}
+            </div>
+            <div className="submit-button"></div>
+            <br />
+          </FlexBox.Row>
+        </Box>
+      );
+    }
     if (flavor?.configSchema?.properties[elementName]?.type === 'array') {
       return (
         <Box marginTop="md">
