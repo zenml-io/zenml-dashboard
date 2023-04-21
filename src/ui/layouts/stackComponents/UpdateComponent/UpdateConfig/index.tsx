@@ -667,11 +667,53 @@ export const UpdateConfig: React.FC<{
             <label htmlFor="key">{titleCase(elementName)}</label>
           </Paragraph>
 
-          <FlexBox.Row>
-            <div className="form-row">
+          <FlexBox.Row style={{ position: 'relative' }}>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '0',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+              }}
+            ></div>
+
+            <div
+              className="form-row"
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
               {inputFields[elementName]?.map((item: any, index: any) => (
                 <Fragment>
-                  <div className="form-group col-sm-5">
+                  <Box
+                      style={{ display: 'flex', alignItems: 'center' }}
+                      marginTop="sm"
+                    >
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          width: '15px',
+                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          marginRight: '5px',
+                          marginLeft: '-2px',
+                          color: 'rgba(68, 62, 153, 0.3)',
+                        }}
+                      >
+                        &#x27A4;
+                      </div>
+
+                  <Box className="form-group"
+                    marginRight="md"
+                    style={{ width: '200px' }}
+                  >
                     <FormTextField
                       onChange={(event: any) => {
                         const values = { ...inputFields };
@@ -684,9 +726,10 @@ export const UpdateConfig: React.FC<{
                       value={item.key}
                       placeholder={''}
                     />
-                  </div>
+                  </Box>
 
-                  <div className="form-group col-sm-5">
+                  <Box className="form-group"        
+                    style={{ width: '200px' }}>
                     <FormTextField
                       onChange={(event: any) => {
                         const values = { ...inputFields };
@@ -699,13 +742,14 @@ export const UpdateConfig: React.FC<{
                       value={item?.value}
                       placeholder={''}
                     />
-                  </div>
+                  </Box>
+
                   <div
-                    className="col-sx-2 "
                     style={{
                       justifyContent: 'space-between',
                       display: 'flex',
-                      marginTop: '10px',
+                      marginTop: '20px',
+                      marginLeft: '5px',
                     }}
                   >
                     <div
@@ -766,13 +810,9 @@ export const UpdateConfig: React.FC<{
                       )}
                     </div>
                   </div>
+                  </Box>
                 </Fragment>
               ))}
-              {/* {inputFields
-                ?.filter((x: any) => x.hasOwnProperty(props.name))
-                .map((inputField: any, index: any) => (
-            
-                ))} */}
             </div>
             <div className="submit-button"></div>
             <br />
@@ -787,13 +827,52 @@ export const UpdateConfig: React.FC<{
             <label htmlFor="key">{titleCase(elementName)}</label>
           </Paragraph>
 
-          <FlexBox.Row>
-            <div className="form-row">
+          <FlexBox.Row style={{ position: 'relative' }}>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '0',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+              }}
+            ></div>
+
+            <div
+              className="form-row"
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
               {mappedConfiguration &&
                 mappedConfiguration[elementName]?.map(
                   (item: any, index: any) => (
                     <Fragment>
-                      <div className="form-group col-sm-8">
+                      <Box
+                        style={{ display: 'flex', alignItems: 'center' }}
+                        marginTop="sm"
+                      >
+                        <div
+                          style={{
+                            marginTop: '30px',
+                            width: '15px',
+                            borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                          }}
+                        ></div>
+                        <div
+                          style={{
+                            marginTop: '30px',
+                            marginRight: '5px',
+                            marginLeft: '-2px',
+                            color: 'rgba(68, 62, 153, 0.3)',
+                          }}
+                        >
+                          &#x27A4;
+                        </div>
+
+                      <Box className="form-group" style={{ width: '420px' }}>
                         <FormTextField
                           onChange={(event: any) => {
                             const values = [
@@ -809,13 +888,13 @@ export const UpdateConfig: React.FC<{
                           value={item}
                           placeholder={''}
                         />
-                      </div>
+                      </Box>
                       <div
-                        className="col-sx-2 "
                         style={{
                           justifyContent: 'space-between',
                           display: 'flex',
-                          marginTop: '10px',
+                          marginTop: '20px',
+                          marginLeft: '5px',
                         }}
                       >
                         <div
@@ -867,20 +946,16 @@ export const UpdateConfig: React.FC<{
                           )}
                         </div>
                       </div>
-                    </Fragment>
-                  ),
+                      </Box>
+                  </Fragment>
+                  )
                 )}
-              {/* {inputFields
-              ?.filter((x: any) => x.hasOwnProperty(props.name))
-              .map((inputField: any, index: any) => (
-          
-              ))} */}
             </div>
             <div className="submit-button"></div>
             <br />
           </FlexBox.Row>
         </Box>
-      );
+      )
     }
     if (typeof elementSchema === 'boolean') {
       return (
