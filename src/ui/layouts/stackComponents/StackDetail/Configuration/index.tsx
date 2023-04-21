@@ -423,7 +423,6 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
             </>
           ))}
           {inputFields.map((inputField: any, index: any) => (
-          
             <FlexBox.Row key={`${inputField}~${index}`}>
               <Box marginTop="lg">
                 <EditField
@@ -482,7 +481,30 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
 
           <FlexBox.Row>
             <div className="form-row">
-              {mappedObject &&
+              {mappedObject && mappedObject[elementName].length < 1 ? (
+                <>
+                  {' '}
+                  <Fragment>
+                    <div className="form-group col-sm-8">
+                      <EditField
+                        disabled
+                        className={styles.field}
+                        label={'Value'}
+                        value={''}
+                        placeholder={''}
+                      />
+                    </div>
+                    <div
+                      className="col-sx-2 "
+                      style={{
+                        justifyContent: 'space-between',
+                        display: 'flex',
+                        marginTop: '10px',
+                      }}
+                    ></div>
+                  </Fragment>
+                </>
+              ) : (
                 mappedObject[elementName]?.map((item: any, index: any) => (
                   <Fragment>
                     <div className="form-group col-sm-8">
@@ -501,18 +523,10 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                         display: 'flex',
                         marginTop: '10px',
                       }}
-                    >
-                      <div
-                        style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
-                        }}
-                      ></div>
-                    </div>
+                    ></div>
                   </Fragment>
-                ))}
+                ))
+              )}
               {/* {inputFields
               ?.filter((x: any) => x.hasOwnProperty(props.name))
               .map((inputField: any, index: any) => (

@@ -151,16 +151,19 @@ export const UpdateConfig: React.FC<{
           function (r: any, name: any) {
             return (
               (r[name] =
-                flavor?.configSchema?.properties[name].type === 'string' &&
-                flavor?.configSchema?.properties[name].default === undefined
+                flavor?.configSchema?.properties[name]?.type === 'string' &&
+                flavor?.configSchema?.properties[name]?.default === undefined
                   ? ''
-                  : flavor?.configSchema?.properties[name].default),
+                  : flavor?.configSchema?.properties[name]?.type === 'array' &&
+                    !flavor?.configSchema?.properties[name]?.default?.length
+                  ? ['']
+                  : flavor?.configSchema?.properties[name]?.default),
               r
             );
           },
           {},
         );
-
+        console.log(result, 'asdasdasd23232');
         const mappedObject = {
           ...result,
           ...stackComponent?.configuration,
@@ -209,41 +212,45 @@ export const UpdateConfig: React.FC<{
     let tempFinal: any = {};
 
     Object.keys(inputFields).forEach((key) => {
-      const newObj: any = {};
-      inputFields[key].forEach((obj: any) => {
-        if (obj.key !== undefined && (obj.key !== '' || obj.value !== '')) {
-          if (newObj[obj.key] !== undefined) {
-            dispatch(
-              showToasterAction({
-                description: 'Key already exists.',
-                type: toasterTypes.failure,
-              }),
-            );
-          } else {
-            newObj[obj.key] = obj.value;
+      if (flavor?.configSchema?.properties[key].type !== 'array') {
+        const newObj: any = {};
+        inputFields[key].forEach((obj: any) => {
+          if (obj.key !== undefined && (obj.key !== '' || obj.value !== '')) {
+            if (newObj[obj.key] !== undefined) {
+              dispatch(
+                showToasterAction({
+                  description: 'Key already exists.',
+                  type: toasterTypes.failure,
+                }),
+              );
+            } else {
+              newObj[obj.key] = obj.value;
+            }
           }
-        }
-      });
-      tempFinal[key] = newObj;
+        });
+        tempFinal[key] = newObj;
+      }
     });
     const final: any = {};
 
     Object.keys(inputFields).forEach((key) => {
-      const newObj: any = {};
-      inputFields[key].forEach((obj: any) => {
-        if (obj.key !== undefined && (obj.key !== '' || obj.value !== '')) {
-          if (newObj[obj.key] !== undefined) {
-            dispatch(
-              showToasterAction({
-                description: 'Key already exists.',
-                type: toasterTypes.failure,
-              }),
-            );
+      if (flavor?.configSchema?.properties[key].type !== 'array') {
+        const newObj: any = {};
+        inputFields[key].forEach((obj: any) => {
+          if (obj.key !== undefined && (obj.key !== '' || obj.value !== '')) {
+            if (newObj[obj.key] !== undefined) {
+              dispatch(
+                showToasterAction({
+                  description: 'Key already exists.',
+                  type: toasterTypes.failure,
+                }),
+              );
+            }
+            newObj[obj.key] = obj.value;
           }
-          newObj[obj.key] = obj.value;
-        }
-      });
-      final[key] = newObj;
+        });
+        final[key] = newObj;
+      }
     });
 
     const body = {
