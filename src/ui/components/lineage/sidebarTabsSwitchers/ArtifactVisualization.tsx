@@ -1,6 +1,7 @@
 import React,
 {
   useEffect,
+  useRef,
   useState
 } from 'react' //eslint-disable-line
 import { useSelector } from 'react-redux';
@@ -11,33 +12,43 @@ import { FullWidthSpinner } from '../../spinners';
 import ReactMarkdown from 'react-markdown';
 import CsvTable from '../CsvTable';
 
-const ArtifactVisualization = ({ node, fetching }: { node: any , fetching:boolean}) => {
+const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolean }) => {
 
   console.log('__unauth_stepnode-ArtifactVisualization', fetching)
   const [response, setResponse] = useState<any | undefined>(null)
-  // const [cancelRequest, setCancelRequest] = useState<boolean | undefined>(false)
   const [type, setType] = useState<string | undefined>('')
   const authToken = useSelector(sessionSelectors.authenticationToken);
+  const divRef = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => {
-  //   console.log("__unauth_stepnode-cancelRequest",cancelRequest)
-  // }, [cancelRequest])
-  
-  
+  useEffect(() => {
+
+    if (response?.data?.type === "html") {
+      setType("__HTML");
+      const fragment = document.createRange().createContextualFragment(response.data.value);
+      console.log('__unauth--divRef', fragment)
+      console.log('__unauth--response', response)
+      divRef?.current?.append(fragment);
+      console.log('__unauth--divRef', divRef)
+      console.log('__unauth--tpe', type)
+    }
+    else {
+      divRef.current = null
+    }
+
+  }, [divRef.current, response?.data?.value, type]); //eslint-disable-line
+
   useEffect(() => {
     console.log("__unauth_stepnode-ArtifactVisualization", node?.id)
     setResponse(null);
     artifactVisulizationService(node?.id, authToken)
       .then((res) => {
         setResponse(res);
-        if (res?.data?.type === "image") {
-          setType("__IMAGE");
-        }
         if (res?.data?.type === "html") {
           setType("__HTML");
-          let cleanedString = res.data.value.replace(/[\n\\/]/g, '');
-          console.log("cleanedString ", typeof cleanedString)
-          // setResponse(cleanedString);
+          setResponse(res);
+        }
+        if (res?.data?.type === "image") {
+          setType("__IMAGE");
         }
         if (res?.data?.type === "csv") {
           setType("__CSV");
@@ -50,10 +61,6 @@ const ArtifactVisualization = ({ node, fetching }: { node: any , fetching:boolea
   }, [node.id])//eslint-disable-line
 
   useEffect(() => {
-    // console.log('__unauth_resposne', response?.message)
-    // console.log('__unauth_resposne', response?.name)
-    console.log('__unauth_resposne', response)
-    // console.log('__unauth_resposne', JSON.stringify(response))
   }, [response])//eslint-disable-line
 
   if (response === null) {
@@ -69,12 +76,15 @@ const ArtifactVisualization = ({ node, fetching }: { node: any , fetching:boolea
 
   return (
     <div className={`${style.mainContainer}`} id='alibhai'>
-
       {type === "__HTML" ?
-        <>
-          {response === undefined ? <p>NO VISUALIZATION</p> : <div dangerouslySetInnerHTML={{ __html: response.data.value }} />}
-        </>
-        : ""}
+        response === undefined ? <p>NO VISUALIZATION</p> :
+          <div style={{ height: "95%", width: '100%', overflowY: 'scroll' }}>
+            <div ref={divRef} />
+          </div>
+        :
+        ""
+      }
+
       {type === "__IMAGE" ?
         <div className={`${style.image}`}>
           <>
@@ -102,7 +112,6 @@ const ArtifactVisualization = ({ node, fetching }: { node: any , fetching:boolea
           }
         </div>
         : ""}
-      {/* {type === null || type === undefined ? <p>NO VISUALIZATION</p> : ""} */}
     </div>
   )
 }
