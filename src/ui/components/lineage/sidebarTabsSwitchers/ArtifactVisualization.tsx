@@ -13,34 +13,31 @@ import ReactMarkdown from 'react-markdown';
 import CsvTable from '../CsvTable';
 
 const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolean }) => {
+  
+  console.log("Fetching Artifact tab Visualizer", fetching);
 
-  console.log('__unauth_stepnode-ArtifactVisualization', fetching)
   const [response, setResponse] = useState<any | undefined>(null)
   const [type, setType] = useState<string | undefined>('')
   const authToken = useSelector(sessionSelectors.authenticationToken);
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const divRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
-
     if (response?.data?.type === "html") {
       setType("__HTML");
       const fragment = document.createRange().createContextualFragment(response.data.value);
-      console.log('__unauth--divRef', fragment)
-      console.log('__unauth--response', response)
       divRef?.current?.append(fragment);
-      console.log('__unauth--divRef', divRef)
-      console.log('__unauth--tpe', type)
     }
     else {
       divRef.current = null
     }
-
   }, [divRef.current, response?.data?.value, type]); //eslint-disable-line
 
   useEffect(() => {
-    console.log("__unauth_stepnode-ArtifactVisualization", node?.id)
-    setResponse(null);
-    artifactVisulizationService(node?.id, authToken)
+    if (node.id === "") {
+      return;
+    }
+    artifactVisulizationService(node?.id, authToken, setIsModalOpen)
       .then((res) => {
         setResponse(res);
         if (res?.data?.type === "html") {
@@ -57,11 +54,29 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
           setType("__MARKDOWN");
         }
       })
-    // return () => setResponse(null);
-  }, [node.id])//eslint-disable-line
+  }, [JSON.stringify(node.id)])//eslint-disable-line
 
   useEffect(() => {
   }, [response])//eslint-disable-line
+
+  useEffect(() => {
+    console.log("__unauth__isModalOpen", isModalOpen)
+  }, [isModalOpen])//eslint-disable-line
+
+
+  const handleDownload = async () => {
+    try {
+      const blob = new Blob([response?.data?.value], { type: 'text/html' });
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'response.html';
+      a.click();
+      window.URL.revokeObjectURL(url);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   if (response === null) {
     return <div className={`${style.FullWidthSpinnerContainer}`}>
@@ -79,6 +94,9 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
       {type === "__HTML" ?
         response === undefined ? <p>NO VISUALIZATION</p> :
           <div style={{ height: "95%", width: '100%', overflowY: 'scroll' }}>
+            <button onClick={handleDownload} className={`${style.downloadBtn} downloadBtn`}>
+              Download
+            </button>
             <div ref={divRef} />
           </div>
         :

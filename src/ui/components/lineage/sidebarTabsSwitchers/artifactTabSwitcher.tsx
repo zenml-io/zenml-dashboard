@@ -30,6 +30,7 @@ const artifactTabs = [
 
 const ArtifactTabHeader = ({ node, fetching }: { node: any, fetching:boolean }) => {
 
+    console.log("Fetching Artifact tab Switcher", fetching)
     const [show, setShow] = useState("__META");
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(35);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);

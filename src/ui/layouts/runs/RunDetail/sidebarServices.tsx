@@ -65,7 +65,16 @@ export async function artifactService(artifactId: any, authToken: any) {
 
 }
 
-export async function artifactVisulizationService(artifactId: any, authToken: any) {
+let currentId = '';
+let currentResponse = {};
+
+export async function artifactVisulizationService(artifactId: any, authToken: any ,setIsModalOpen:any) {
+    console.log(`__unauth_id ${currentId} === ${artifactId}, ${currentId === artifactId}`);
+    if(currentId === artifactId){
+        return currentResponse;
+    }
+    currentId = artifactId;
+    currentResponse={};
     console.log("__unauth_stepnode-artifactId",artifactId)
     const CancelToken = axios.CancelToken;
     const source = CancelToken.source();
@@ -84,6 +93,7 @@ export async function artifactVisulizationService(artifactId: any, authToken: an
                     if (_flag === false) {
                         const confirmed = window.confirm('The API response size exceeds 5MB. Do you want to continue?');
                         _flag = confirmed;
+                        setIsModalOpen(_flag);
                     }
                     if (_flag === false) {
                         source.cancel(`API response size exceeds 5MB`);
@@ -93,6 +103,7 @@ export async function artifactVisulizationService(artifactId: any, authToken: an
             cancelToken: source.token
         },
     ).then((response) => {
+        currentResponse = response;
         return response
     }).catch(error => {
         if (axios.isCancel(error)) {

@@ -13,10 +13,13 @@ const getMyRunIds = (state: State): TId[] => _.get(stateKey(state), 'myRunIds');
 
 const getByPipelineId = (state: State): Record<TId, TId[]> =>
   _.get(stateKey(state), 'byPipelineId');
+
 const getGraphByRunId = (state: State): Record<any, any> =>
   _.get(stateKey(state), 'graphForRunId');
+
 const getByStackComponentId = (state: State): Record<TId, TId[]> =>
   _.get(stateKey(state), 'byStackComponentId');
+
 const getByStackId = (state: State): Record<TId, TId[]> =>
   _.get(stateKey(state), 'byStackId');
 
@@ -25,6 +28,9 @@ const getMyRunsPaginated = (state: State): any =>
 
 const getMyArtifactData = (state: State): any =>
   _.get(stateKey(state), 'artifactData');
+
+const getMyArtifactVisualization = (state: State): any =>
+  _.get(stateKey(state), 'artifactVisualization');
 
 const getMyStepData = (state: State): any =>
   _.get(stateKey(state), 'stepData');
@@ -104,6 +110,12 @@ export const artifactData = (state?: State | null): any => {
   const artifact = getMyArtifactData(state);
   return artifact;
 };
+export const artifactVisualization = (state?: State | null): any => {
+  if (!state) return {};
+  console.log("__unauth_state", state);
+  const artifactVisualization = getMyArtifactVisualization(state);
+  return artifactVisualization;
+};
 export const stepData = (state?: State | null): any => {
   if (!state) return {};
   const step = getMyStepData(state);
@@ -121,6 +133,7 @@ const runSelectors = {
   graphByRunId,
   forRunIds,
   artifactData,
+  artifactVisualization,
   stepData
 };
 

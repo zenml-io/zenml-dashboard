@@ -17,6 +17,7 @@ export interface State {
   graphForRunId: any;
   paginated: any;
   artifactData:any
+  artifactVisualization:any
   stepData:any
 }
 
@@ -55,6 +56,7 @@ export const initialState: State = {
   graphForRunId: {},
   paginated: {},
   artifactData:{},
+  artifactVisualization:{},
   stepData:{}
 };
 
@@ -77,6 +79,10 @@ const newArtifactState = (state: State, artifactData?: any): State => ({
   ...state,
   artifactData: artifactData,
 });
+const newArtifactVisualizationState = (state: State, artifactVisualization?: any): State => ({
+  ...state,
+  artifactVisualization: artifactVisualization,
+});
 const newStepState = (state: State, stepData?: any): State => ({
   ...state,
   stepData: stepData,
@@ -84,6 +90,12 @@ const newStepState = (state: State, stepData?: any): State => ({
 
 const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
+
+    case runActionTypes.getArtifactVisualization.success:{
+      console.log("__unauth_reducers")
+      const artifactVisualization = action.payload
+        return { ...newArtifactVisualizationState(state, artifactVisualization)};
+    }
 
     case runActionTypes.getArtifact.success:{
       const artifact = action.payload
