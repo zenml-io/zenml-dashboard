@@ -9,13 +9,15 @@ import { useService } from './useService';
 import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';
-import { Box } from '../../../components';
+import { Box, FlexBox, PrimaryButton } from '../../../components';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 // import { useSelector } from '../../../hooks';
 // import { workspaceSelectors } from '../../../../redux/selectors';
 
 const FilterWrapper = () => {
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const history = useHistory();
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
   const [filters, setFilter] = useState([getInitialFilterState()]);
   function getFilter(values: any) {
@@ -37,6 +39,24 @@ const FilterWrapper = () => {
       >
         <List filter={getFilter(filters)} />
       </FilterComponent>
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+            onClick={() =>
+              history.push(routePaths.stacks.createStack(selectedWorkspace))
+            }
+          >
+            Register New Stack
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </Box>
   );
 };

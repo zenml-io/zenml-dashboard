@@ -17,6 +17,7 @@ import secrets from '../ui/layouts/secrets/Secrets';
 import stackComponents from '../ui/layouts/stackComponents/Stacks';
 import registerComponents from '../ui/layouts/stackComponents/RegisterComponents';
 import CreateStack from '../ui/layouts/stacks/CreateStack';
+import UpdateStack from '../ui/layouts/stacks/UpdateStack';
 import RegisterSecrets from '../ui/layouts/secrets/RegisterSecret';
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
 import StackDetail from '../ui/layouts/stacks/StackDetail/index';
@@ -201,6 +202,15 @@ const routes = [
   {
     path: routePaths.stacks.createStack(':string'),
     Component: CreateStack,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+
+  {
+    path: routePaths.stacks.UpdateStack(':string', ':id'),
+    Component: UpdateStack,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
