@@ -43,9 +43,10 @@ const Selector: React.FC<Props> = ({
         };
 
         setInputFields([...inputFields, secretKeyValuefromRoute]);
-      } else if (values?.length && !routeState?.state?.routeFromComponent) {
-        setInputFields([...values]);
       }
+      // else if (values?.length && !routeState?.state?.routeFromComponent) {
+      //   setInputFields([...values]);
+      // }
 
       if (routeState?.state?.routeFromEditComponent) {
         const secretKeyValuefromRoute: any = {
@@ -57,9 +58,16 @@ const Selector: React.FC<Props> = ({
         };
 
         setInputFields([...inputFields, secretKeyValuefromRoute]);
-      } else if (values?.length && !routeState?.state?.routeFromEditComponent) {
-        setInputFields([...values]);
       }
+      // else if (values?.length && !routeState?.state?.routeFromEditComponent) {
+      //   setInputFields([...values]);
+      // }
+    } else if (
+      values?.length &&
+      !routeState?.state?.routeFromComponent &&
+      !routeState?.state?.routeFromEditComponent
+    ) {
+      setInputFields([...values]);
     } else {
       setInputFields([{ key: '', value: '' }]);
     }
