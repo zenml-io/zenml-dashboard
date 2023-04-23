@@ -14,7 +14,7 @@ import {
   workspaceSelectors,
   stackComponentSelectors,
 } from '../../../../../redux/selectors';
-import { Box, FlexBox, If } from '../../../../components';
+import { Box, FlexBox, If, PrimaryButton } from '../../../../components';
 import { Pagination } from '../../../common/Pagination';
 import { ItemPerPage } from '../../../common/ItemPerPage';
 // import { callActionForStackComponentRunsForPagination } from '../../StackDetail/useService';
@@ -236,6 +236,29 @@ Props) => {
           </FlexBox>
         )}
       </If>
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+            onClick={() => {
+              history.push(
+                routePaths.stackComponents.registerComponents(
+                  locationPath.split('/')[4],
+                  selectedWorkspace,
+                ),
+              );
+            }}
+          >
+            Register New Component
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </>
   );
 };
