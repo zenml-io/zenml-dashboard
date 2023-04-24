@@ -9,7 +9,7 @@ import BasePage from '../repository-layout';
 import { routePaths } from '../../../../routes/routePaths';
 // import { translate } from './translate';
 import FilterComponent, {
-  getInitialFilterStateForSecrets,
+  getInitialFilterStateForRepositories,
 } from '../../../components/Filters';
 import { Box, FlexBox, PrimaryButton } from '../../../components';
 import { useHistory, useLocationPath } from '../../../hooks';
@@ -26,7 +26,9 @@ const RepositoriyListBody = () => {
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
-  const [filters, setFilter] = useState([getInitialFilterStateForSecrets()]);
+  const [filters, setFilter] = useState([
+    getInitialFilterStateForRepositories(),
+  ]);
   const repoPagination = useSelector(
     repositorySelectors.getRepositoryPagination,
   );
@@ -47,24 +49,31 @@ const RepositoriyListBody = () => {
     );
   }, [selectedWorkspace, dispatch]);
 
+  useEffect(() => {
+    const filter = getFilter(filters);
+    const validFilters = filter.filter((item: any) => item.value);
+    dispatchRepositoryPagination(1, itemPerPage, validFilters);
+  }, [filters, itemPerPage, dispatchRepositoryPagination]);
+
   function updateData(pageNumber: number, pageSize: number) {
     dispatchRepositoryPagination(pageNumber, pageSize);
   }
 
-  // function getFilter(values: any) {
-  //   const filterValuesMap = values.map((v: any) => {
-  //     return {
-  //       column: v.column.selectedValue,
-  //       type: v.contains.selectedValue,
-  //       value: v.filterValue,
-  //     };
-  //   });
-  //   return filterValuesMap;
-  // }
+  function getFilter(values: any) {
+    const filterValuesMap = values.map((v: any) => {
+      return {
+        column: v.column.selectedValue,
+        type: v.contains.selectedValue,
+        value: v.filterValue,
+      };
+    });
+    return filterValuesMap;
+  }
+
   return (
     <Box style={{ marginTop: '-20px', width: '100%' }}>
       <FilterComponent
-        getInitials={getInitialFilterStateForSecrets}
+        getInitials={getInitialFilterStateForRepositories}
         filters={filters}
         setFilter={setFilter}
       >
