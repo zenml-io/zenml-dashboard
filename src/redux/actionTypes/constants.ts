@@ -86,6 +86,10 @@ const repositoryActionTypes = {
   REPOSITORY_BY_ID: 'REPOSITORY_BY_ID',
 };
 
+const repositoryPagesActionTypes = {
+  REPOSITORY_PAGES_SET_FETCHING: 'REPOSITORY_PAGES_SET_FETCHING',
+};
+
 const pipelinePagesActionTypes = {
   PIPELINE_PAGES_SET_SELECTED_RUN_IDS: 'PIPELINE_PAGES_SET_SELECTED_RUN_IDS',
   PIPELINE_PAGES_SET_FETCHING: 'PIPELINE_PAGES_SET_FETCHING',
@@ -135,6 +139,7 @@ export const actionTypes = {
   ...stackComponentActionTypes,
   ...flavorActionTypes,
   ...flavorPagesActionTypes,
+  ...repositoryPagesActionTypes,
 };
 
 export const REQUESTED = 'REQUESTED';

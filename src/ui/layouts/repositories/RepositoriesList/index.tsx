@@ -2,6 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { repositoryActions } from '../../../../redux/actions/repositories';
 import {
+  repositoryPagesSelectors,
   repositorySelectors,
   workspaceSelectors,
 } from '../../../../redux/selectors';
@@ -18,6 +19,8 @@ import { Pagination } from '../../common/Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
 import { ItemPerPage } from '../../common/ItemPerPage';
 import { useUpdateRepositoryPagination } from './service';
+import { repositoryPagesActions } from '../../../../redux/actions';
+import { FullWidthSpinner } from '../../../components';
 
 const RepositoriyListBody = () => {
   const { dispatchRepositoryPagination } = useUpdateRepositoryPagination();
@@ -41,10 +44,15 @@ const RepositoriyListBody = () => {
   );
   const repositories = useSelector(repositorySelectors.allRepositories);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const isFetching = useSelector(repositoryPagesSelectors.fetching);
+
   useEffect(() => {
+    dispatch(repositoryPagesActions.setFetching({ fetching: true }));
     dispatch(
       repositoryActions.getAll({
         workspace: selectedWorkspace,
+        onSuccess: () =>
+          dispatch(repositoryPagesActions.setFetching({ fetching: false })),
       }),
     );
   }, [selectedWorkspace, dispatch]);
@@ -52,7 +60,18 @@ const RepositoriyListBody = () => {
   useEffect(() => {
     const filter = getFilter(filters);
     const validFilters = filter.filter((item: any) => item.value);
-    dispatchRepositoryPagination(1, itemPerPage, validFilters);
+    const isValidFilterFroValue: any = filter
+      ?.map((f: any) => f.value)
+      .join('');
+    const isValidFilterForCategory: any = filter
+      ?.map((f: any) => f.value && f.type.value)
+      .join('');
+    const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
+    dispatchRepositoryPagination(
+      1,
+      itemPerPage,
+      checkValidFilter.length ? validFilters : [],
+    );
   }, [filters, itemPerPage, dispatchRepositoryPagination]);
 
   function updateData(pageNumber: number, pageSize: number) {
@@ -84,47 +103,53 @@ const RepositoriyListBody = () => {
             gap: '16px',
           }}
         >
-          <RepositoryGrid repositories={repositories} />
-          <div
-            style={{
-              position: 'fixed',
-              right: '0',
-              bottom: '0',
-              height: '92px',
-              width: '100%',
-              display: 'flex',
-              justifyContent: 'center',
-            }}
-          >
-            <div style={{ alignSelf: 'center' }}>
-              <div style={{ display: 'flex' }}>
-                <Pagination
-                  // isExpended={isExpended}
-                  ref={childRef}
-                  onChange={(pageNumber: any) =>
-                    updateData(pageNumber, itemPerPage)
-                  }
-                  // getFetchedState={getFetchedState}
-                  itemPerPage={itemPerPage}
-                  pageIndex={pageIndex}
-                  setPageIndex={setPageIndex}
-                  pages={repoPagination?.total_pages}
-                  totalOfPages={repoPagination?.total_pages as any}
-                  totalLength={repoPagination.max_size as any}
-                  totalCount={repoPagination?.total as any}
-                />
+          {isFetching ? (
+            <FullWidthSpinner color="black" size="md" />
+          ) : (
+            <>
+              <RepositoryGrid repositories={repositories} />
+              <div
+                style={{
+                  position: 'fixed',
+                  right: '0',
+                  bottom: '0',
+                  height: '92px',
+                  width: '100%',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                <div style={{ alignSelf: 'center' }}>
+                  <div style={{ display: 'flex' }}>
+                    <Pagination
+                      // isExpended={isExpended}
+                      ref={childRef}
+                      onChange={(pageNumber: any) =>
+                        updateData(pageNumber, itemPerPage)
+                      }
+                      // getFetchedState={getFetchedState}
+                      itemPerPage={itemPerPage}
+                      pageIndex={pageIndex}
+                      setPageIndex={setPageIndex}
+                      pages={repoPagination?.total_pages}
+                      totalOfPages={repoPagination?.total_pages as any}
+                      totalLength={repoPagination.max_size as any}
+                      totalCount={repoPagination?.total as any}
+                    />
 
-                <ItemPerPage
-                  itemPerPage={itemPerPage}
-                  onChangePagePerItem={(size: any) => {
-                    setItemPerPage(size);
-                    updateData(1, size);
-                    setPageIndex(0);
-                  }}
-                ></ItemPerPage>
+                    <ItemPerPage
+                      itemPerPage={itemPerPage}
+                      onChangePagePerItem={(size: any) => {
+                        setItemPerPage(size);
+                        updateData(1, size);
+                        setPageIndex(0);
+                      }}
+                    ></ItemPerPage>
+                  </div>
+                </div>
               </div>
-            </div>
-          </div>
+            </>
+          )}
         </div>
       </FilterComponent>
       <FlexBox

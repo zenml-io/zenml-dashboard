@@ -5,11 +5,16 @@ import { useLocationPath } from '../../../hooks';
 import BasePage from '../repository-layout';
 import { routePaths } from '../../../../routes/routePaths';
 import {
+  repositoryPagesSelectors,
   repositorySelectors,
   workspaceSelectors,
 } from '../../../../redux/selectors';
-import { repositoryActions } from '../../../../redux/actions';
+import {
+  repositoryActions,
+  repositoryPagesActions,
+} from '../../../../redux/actions';
 import RepositoryDetailHeader from './components/detail-header';
+import { FullWidthSpinner } from '../../../components';
 
 function RepositoryDetailOverview() {
   const dispatch = useDispatch();
@@ -18,8 +23,15 @@ function RepositoryDetailOverview() {
     workspace: string;
   };
   useEffect(() => {
+    dispatch(repositoryPagesActions.setFetching({ fetching: true }));
     dispatch(
       repositoryActions.getByID({
+        onSuccess() {
+          dispatch(repositoryPagesActions.setFetching({ fetching: false }));
+        },
+        onFailure() {
+          dispatch(repositoryPagesActions.setFetching({ fetching: false }));
+        },
         repositoryID: repositoryID,
       }),
     );
@@ -30,6 +42,7 @@ function RepositoryDetailOverview() {
   );
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const isFetching = useSelector(repositoryPagesSelectors.fetching);
   const locationPath = useLocationPath();
 
   return (
@@ -37,7 +50,15 @@ function RepositoryDetailOverview() {
       tabPages={[
         {
           text: 'Overview',
-          Component: () => <div></div>,
+          Component: () => (
+            <div>
+              {isFetching ? (
+                <FullWidthSpinner color="black" size="md" />
+              ) : (
+                <div></div>
+              )}
+            </div>
+          ),
           path: routePaths.repositories.overview(
             selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
             repositoryID,
