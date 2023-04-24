@@ -60,18 +60,21 @@ const RepositoriyListBody = () => {
   useEffect(() => {
     const filter = getFilter(filters);
     const validFilters = filter.filter((item: any) => item.value);
-    const isValidFilterFroValue: any = filter
+    const isValidFilterForValue: any = filter
       ?.map((f: any) => f.value)
       .join('');
     const isValidFilterForCategory: any = filter
-      ?.map((f: any) => f.value && f.type.value)
+      ?.map((f: any) => f.column.value && f.type.value)
       .join('');
-    const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
-    dispatchRepositoryPagination(
-      1,
-      itemPerPage,
-      checkValidFilter.length ? validFilters : [],
-    );
+    const checkValidFilter = isValidFilterForValue + isValidFilterForCategory;
+
+    if (checkValidFilter.length > 0) {
+      dispatchRepositoryPagination(
+        1,
+        itemPerPage,
+        checkValidFilter.length > 0 ? validFilters : [],
+      );
+    }
   }, [filters, itemPerPage, dispatchRepositoryPagination]);
 
   function updateData(pageNumber: number, pageSize: number) {
