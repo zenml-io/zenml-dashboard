@@ -13,7 +13,7 @@ import ReactMarkdown from 'react-markdown';
 import CsvTable from '../CsvTable';
 
 const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolean }) => {
-  
+
   console.log("Fetching Artifact tab Visualizer", fetching);
 
   const [response, setResponse] = useState<any | undefined>(null)
@@ -90,13 +90,11 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
   }
 
   return (
-    <div className={`${style.mainContainer}`} id='alibhai'>
+    <div className={`${style.mainContainer}`}>
+
       {type === "__HTML" ?
         response === undefined ? <p>NO VISUALIZATION</p> :
-          <div style={{ height: "95%", width: '100%', overflowY: 'scroll' }}>
-            <button onClick={handleDownload} className={`${style.downloadBtn} downloadBtn`}>
-              Download
-            </button>
+          <div style={{ height: "80%", width: '100%', overflowY: 'scroll', overflowX: 'hidden' }}>
             <div ref={divRef} />
           </div>
         :
@@ -130,6 +128,11 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
           }
         </div>
         : ""}
+      <div className={`${style.btnContainer}`}>
+        <button onClick={handleDownload} className={`${style.downloadBtn} downloadBtn`}>
+          Download
+        </button>
+      </div>
     </div>
   )
 }

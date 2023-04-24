@@ -89,7 +89,7 @@ export async function artifactVisulizationService(artifactId: any, authToken: an
                 const contentLength = progressEvent.total;
                 const loadedBytes = progressEvent.loaded;
                 console.log(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`);
-                if (contentLength > 1 * 1024 * 1024) {
+                if (contentLength > 5 * 1024 * 1024) {
                     if (_flag === false) {
                         const confirmed = window.confirm('The API response size exceeds 5MB. Do you want to continue?');
                         _flag = confirmed;
