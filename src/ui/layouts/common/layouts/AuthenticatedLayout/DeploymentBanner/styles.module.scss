@@ -1,0 +1,25 @@
+@import '../../../../../globalStyles';
+
+.deploymentBanner {
+    width: 100%;
+    box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.2);
+    background-color: #fbfbfb;
+    font-size: 16px;
+    display: flex;
+    padding: .5rem 0;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    
+    &__paragraph {
+        text-align: center;
+        margin: 0
+    }
+}
+
+@media (max-width: $md-breakpoint) {
+    .deploymentBanner {
+        padding: .5rem 1rem;
+        font-size: 14px;
+    }
+}
