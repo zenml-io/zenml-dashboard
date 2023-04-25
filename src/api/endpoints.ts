@@ -4,6 +4,7 @@ export const endpoints = {
   userEmail: (userId: string): string => `/users/${userId}/email-opt-in`,
   forgot: '/login/email/resetpassword',
   version: '/version',
+  serverInfo: '/info',
   users: {
     me: '/current-user',
     get: (id: TId): string => `/users/${id}`,

@@ -32,6 +32,14 @@ interface TAction {
   payload: any;
 }
 
+interface TServerInfo {
+  id: string;
+  version: string;
+  deploymentType: string;
+  databaseType: string;
+  secretsStoreType: string;
+}
+
 type TClickEvent = (arg1: React.MouseEvent) => void;
 
 interface TUser {
