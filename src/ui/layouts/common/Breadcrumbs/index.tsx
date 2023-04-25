@@ -23,7 +23,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsInterface> = ({
       return (
         <FlexBox
           key={index}
-          style={index == breadcrumbs.length - 1 ? { overflow: 'hidden' } : {}}
+          style={index === breadcrumbs.length - 1 ? { overflow: 'hidden' } : {}}
           paddingVertical="sm"
         >
           <IfElse

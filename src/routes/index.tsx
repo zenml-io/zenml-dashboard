@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import React, { useCallback, useEffect } from 'react';
+import React from 'react';
 
 import {
   BrowserRouter as Router,
@@ -102,11 +102,6 @@ const ScrollToTopOnNavigate = withRouter(
 );
 
 export const RouteConfig: React.FC = () => {
-  const dispatch = useDispatch();
-  const stableDispatch = useCallback(dispatch, []);
-  useEffect(() => {
-    stableDispatch(serverInfoActions.getServerInfo({}));
-  }, []);
   return (
     <WaitToEnter timeToEnter={300}>
       <Router>

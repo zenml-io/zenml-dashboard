@@ -34,6 +34,7 @@ import {
   pipelinePagesActions,
   runPagesActions,
   stackPagesActions,
+  serverInfoActions,
 } from '../../../../../redux/actions';
 import { routePaths } from '../../../../../routes/routePaths';
 import { WorkspacePopup } from './workspacePopup';
@@ -59,6 +60,10 @@ export const AuthenticatedHeader: React.FC<{
   // const [showCookiePopup, setShowCookiePopup] = useState<any>(localStorage.getItem('showCookie'));
 
   const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(serverInfoActions.getServerInfo({}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const { push } = usePushRoute();
   const locationPath = useLocationPath();
   // useEffect(() => {
@@ -182,7 +187,7 @@ export const AuthenticatedHeader: React.FC<{
 
   return (
     <>
-      {deploymentType === 'alpha' && <DeploymentBanner />}
+      {deploymentType === 'local' && <DeploymentBanner />}
       {createPopupOpen && <WorkspacePopup setPopupOpen={setCreatePopupOpen} />}
       <FlexBox
         paddingHorizontal="lg"
