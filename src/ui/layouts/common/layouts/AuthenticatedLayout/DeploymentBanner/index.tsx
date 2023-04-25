@@ -5,7 +5,8 @@ function DeploymentBanner() {
   return (
     <aside className={styles.deploymentBanner}>
       <p className={styles.deploymentBanner__paragraph}>
-        You are running ZenML locally. See the{' '}
+        You are running ZenML locally. In order to run MLOps workloads in the
+        cloud, you first need to <pre>deploy ZenML</pre>. Check the{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"
@@ -14,7 +15,7 @@ function DeploymentBanner() {
           {' '}
           docs
         </a>{' '}
-        for a deployment guide
+        to see how.
       </p>
     </aside>
   );
