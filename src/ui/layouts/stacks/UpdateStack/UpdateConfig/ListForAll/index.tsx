@@ -321,6 +321,7 @@ export const ListForAll: React.FC<{
 
       <Box className={styles.stackFooter}>
         <PrimaryButton
+          disabled={!flavourList.length}
           className={styles.stackFooterButton}
           onClick={() => onUpdateStack()}
         >

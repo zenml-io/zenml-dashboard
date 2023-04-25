@@ -64,7 +64,7 @@ export const UpdateConfig: React.FC<{
           // },
         ]
       }
-      title="Register a stack"
+      title="Update the stack"
       headerWithButtons
       renderHeaderRight={() => <></>}
     />

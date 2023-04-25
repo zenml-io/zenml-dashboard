@@ -14,7 +14,7 @@ import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent, {
   getInitialFilterStateForRuns,
 } from '../../../components/Filters';
-import { Box, FlexBox, PrimaryButton } from '../../../components';
+import { Box } from '../../../components';
 import {
   // stackPagesSelectors,
   workspaceSelectors,
@@ -32,8 +32,8 @@ import { GetHeaderCols } from './getHeaderCols';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const history = useHistory();
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const history = useHistory();
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
   const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
   function getFilter(values: any) {
@@ -58,7 +58,7 @@ const FilterWrapperForRun = () => {
           stackId={locationPath.split('/')[4]}
         />
       </FilterComponent>
-      <FlexBox
+      {/* <FlexBox
         style={{
           position: 'fixed',
           right: '0',
@@ -75,7 +75,7 @@ const FilterWrapperForRun = () => {
             Register New Stack
           </PrimaryButton>
         </Box>
-      </FlexBox>
+      </FlexBox> */}
     </Box>
   );
 };
