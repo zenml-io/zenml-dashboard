@@ -78,6 +78,8 @@ export const routePaths = {
     allRuns: '/stacks/all-runs',
     createStack: (workspace: string): string =>
       `/workspaces/${workspace}/create-stack/all-component`,
+    UpdateStack: (workspace: string, id: TId): string =>
+      `/workspaces/${workspace}/stack/${id}/update-stack`,
   },
   secrets: {
     base: '/secrets',
