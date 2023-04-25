@@ -18,14 +18,23 @@ interface BreadcrumbsInterface {
 export const Breadcrumbs: React.FC<BreadcrumbsInterface> = ({
   breadcrumbs,
 }) => (
-  <FlexBox.Row flexWrap fullWidth>
+  <FlexBox.Row style={{ minWidth: '0' }} fullWidth>
     {breadcrumbs?.map((breadcrumb: TBreadcrumb, index: number) => {
       return (
-        <FlexBox key={index} paddingVertical="sm" marginBottom="lg">
+        <FlexBox
+          key={index}
+          style={index == breadcrumbs.length - 1 ? { overflow: 'hidden' } : {}}
+          paddingVertical="sm"
+        >
           <IfElse
             condition={!!breadcrumb.clickable}
             renderWhenFalse={() => (
-              <Truncate maxLines={1}>
+              <Truncate
+                style={{
+                  width: '100%',
+                }}
+                maxLines={1}
+              >
                 <Paragraph
                   style={{
                     fontSize: '42px',
@@ -40,20 +49,42 @@ export const Breadcrumbs: React.FC<BreadcrumbsInterface> = ({
             )}
             renderWhenTrue={() => (
               <NavLink
+                style={{ overflow: 'hidden' }}
                 exact
                 className={styles.breadcrumbLink}
                 to={breadcrumb.to ? breadcrumb.to : ''}
               >
-                <Truncate maxLines={1}>
+                <Truncate
+                  style={{
+                    whiteSpace: 'nowrap',
+                    overflow: 'hidden',
+                    textOverflow: 'ellipsis',
+                  }}
+                  maxLines={1}
+                >
                   <IfElse
                     condition={breadcrumbs.length === index + 1}
                     renderWhenFalse={() => (
-                      <Paragraph color="grey" style={{ marginTop: '20px' }}>
+                      <Paragraph
+                        style={{
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                        color="grey"
+                      >
                         {breadcrumb.name}
                       </Paragraph>
                     )}
                     renderWhenTrue={() => (
-                      <Paragraph color="black" style={{ marginTop: '20px' }}>
+                      <Paragraph
+                        style={{
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                        color="black"
+                      >
                         {breadcrumb.name}
                       </Paragraph>
                     )}
@@ -65,9 +96,7 @@ export const Breadcrumbs: React.FC<BreadcrumbsInterface> = ({
           <If condition={breadcrumbs.length > index + 1}>
             {() => (
               <Box paddingHorizontal="sm">
-                <Paragraph color="grey" style={{ marginTop: '20px' }}>
-                  {'>'}
-                </Paragraph>
+                <Paragraph color="grey">{'>'}</Paragraph>
               </Box>
             )}
           </If>
