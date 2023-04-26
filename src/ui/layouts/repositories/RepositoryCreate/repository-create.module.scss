@@ -48,3 +48,9 @@
     max-width: 600px;
   }
 }
+
+@media (max-width: $md-breakpoint) {
+  .create__container {
+    flex-wrap: wrap;
+  }
+}
