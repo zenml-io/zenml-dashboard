@@ -3,6 +3,38 @@
 .create {
   width: 100%;
 
+  &__formContainer{
+    width: 100%;
+  }
+
+  &__container {
+    display: flex;
+    gap: 32px;
+
+    &__imageContainer {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      
+      &__time{
+        color: #424240;
+      
+        font-size: 14px;
+      }
+  
+      &__image{
+        width: 150px;
+        aspect-ratio: 1/1;
+        border: solid #A8A8A8 1px;
+        border-radius: 4px;
+        padding: 8px;
+        object-fit: contain;
+      }
+    }
+
+   
+  }
+
   &__heading {
     font-size: 32px;
     color: $primaryColor;

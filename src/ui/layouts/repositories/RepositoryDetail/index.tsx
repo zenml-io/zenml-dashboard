@@ -114,6 +114,11 @@ function RepositoryDetailOverview() {
           clickable: true,
           to: routePaths.repositories.list(selectedWorkspace),
         },
+        {
+          name: repositoryID,
+          clickable: true,
+          to: routePaths.repositories.overview(selectedWorkspace, repositoryID),
+        },
       ]}
       title="Repositories"
       headerWithButtons

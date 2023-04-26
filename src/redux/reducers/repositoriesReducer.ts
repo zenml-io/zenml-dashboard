@@ -57,7 +57,7 @@ function newState(
 function RepositoryReducer(state: State = initialState, action: Action): State {
   switch (action.type) {
     case repositoryActionTypes.getRepositories.success:
-      const repos = camelCaseArray(action.payload.items);
+      const repos: any[] = action.payload.items;
       const myRepositoryIds = repos.map((repo) => repo.id);
       return { ...newState(state, repos, action.payload), myRepositoryIds };
     case repositoryActionTypes.getRepositoryByID.success:

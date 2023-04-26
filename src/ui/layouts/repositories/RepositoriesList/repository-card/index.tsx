@@ -20,7 +20,10 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
       to={routePaths.repositories.overview(selectedWorkspace, repository.id)}
       className={styles.repositoryCard}
     >
-      <img className={styles.repositoryCard__headerImage} src={Fallback} />
+      <img
+        className={styles.repositoryCard__headerImage}
+        src={repository.logo_url || Fallback}
+      />
       <div className={styles.repositoryCard__body}>
         <h2 className={styles.repositoryCard__heading}>{repository.name}</h2>
         <div className={styles.repositoryCard__secondLine}>
@@ -32,7 +35,6 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
           </p>
         </div>
         <div className={styles.repositoryCard__footer}>
-          <div>Runs to add here</div>
           <a
             target="_blank"
             rel="noopener noreferrer"

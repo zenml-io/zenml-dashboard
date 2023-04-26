@@ -6,17 +6,19 @@
   gap: 16px;
   margin-top: 32px;
   &__imageContainer {
-    width: 80px;
-    height: 80px;
+    width: 150px;
+    height: 150px;
+    padding: 8px;
     aspect-ratio: 1 / 1;
     border: solid 1px #a8a8a8;
     border-radius: 4px;
+    object-fit: contain;
   }
   &__header {
     height: 100%;
     display: flex;
     flex-direction: column;
-    gap: 24px;
+    gap: 8px;
     &__heading {
       font-size: 32px;
       margin: 0;

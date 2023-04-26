@@ -10,6 +10,7 @@ import {
 } from '../../../../redux/selectors';
 import styles from './repository-create.module.scss';
 import { useHistory, useLocationPath } from '../../../hooks';
+import Fallback from '../../../assets/plugin-fallback.svg';
 import {
   Box,
   EditFieldSettings,
@@ -17,6 +18,7 @@ import {
   FormPasswordField,
   InputWithLabel,
   PrimaryButton,
+  TextAreaInput,
   TextInput,
   ValidatedTextField,
 } from '../../../components';
@@ -35,6 +37,8 @@ function CreateRepositoryBody() {
   const [token, setToken] = useState('');
   const [isGithub, setIsGithub] = useState(false);
   const [isGitlab, setIsGitlab] = useState(false);
+  const [logoUrl, setLogoUrl] = useState('');
+  const [description, setDescription] = useState('');
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const user = useSelector(userSelectors.myUser);
@@ -77,6 +81,8 @@ function CreateRepositoryBody() {
           user: user?.id,
           workspace: workspaces.find((ws) => ws.name === selectedWorkspace)?.id,
           name,
+          logo_url: logoUrl,
+          description: description,
           config: {
             owner,
             repository: repo,
@@ -116,90 +122,124 @@ function CreateRepositoryBody() {
 
   return (
     <div className={styles.create}>
-      <h2 className={styles.create__heading}>Add your repository</h2>
-      <form className={styles.create__form}>
-        <InputWithLabel
-          label="Unique Name *"
-          InputComponent={<TextInput value={name} onChangeText={setName} />}
-        />
-        <div>
-          <ValidatedTextField
-            placeholder="https://github.com/zenml-io/zenml"
-            label="Package Name *"
-            value={repoURL}
-            onChange={(p: string) => {
-              if (
-                !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
-                  p,
-                )
-              ) {
-                setRepoURLStatus({
-                  status: 'error' as const,
-                  message: 'Please insert a valid URL',
-                });
-              } else {
-                setRepoURLStatus({ status: 'editing' });
-              }
-              setRepoURL(p);
-            }}
-            status={repoURLStatus}
-          />
+      <div className={styles.create__container}>
+        <div className={styles.create__container__imageContainer}>
+          <time className={styles.create__container__imageContainer__time}>
+            {new Date().toLocaleDateString()}
+          </time>
+
+          <img
+            className={styles.create__container__imageContainer__image}
+            src={logoUrl || Fallback}
+          ></img>
         </div>
-        {repoURLStatus.status === 'success' && owner && repo && (
-          <>
-            <EditFieldSettings
-              disabled={true}
-              label="Owner *"
-              labelColor="#828282"
-              value={owner}
-              onChangeText={setOwner}
+        <div className={styles.create__formContainer}>
+          <h2 className={styles.create__heading}>Add your repository</h2>
+          <form className={styles.create__form}>
+            <InputWithLabel
+              label="Unique Name *"
+              InputComponent={<TextInput value={name} onChangeText={setName} />}
             />
-            <EditFieldSettings
-              disabled={true}
-              label="Repo *"
-              labelColor="#828282"
-              value={repo}
-              onChangeText={setRepo}
-            />
-            <FormPasswordField
-              label="Token *"
-              placeholder="Token"
-              value={token}
-              onChange={(val: string) => setToken(val)}
-              error={{}}
-              showPasswordOption
-            />
-          </>
-        )}
-        <FlexBox
-          style={{
-            position: 'fixed',
-            right: '0',
-            bottom: '0',
-            marginRight: '45px',
-          }}
-        >
-          <Box marginBottom="lg">
-            <PrimaryButton
-              disabled={
-                !(
-                  repoURLStatus.status === 'success' &&
-                  owner &&
-                  repo &&
-                  token &&
-                  name
-                )
-              }
-              type="submit"
-              onClick={(e: any) => {
-                submitHandler(e);
+            <div>
+              <ValidatedTextField
+                placeholder="https://github.com/zenml-io/zenml"
+                label="Repository URL*"
+                value={repoURL}
+                onChange={(p: string) => {
+                  if (
+                    !/^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/.test(
+                      p,
+                    )
+                  ) {
+                    setRepoURLStatus({
+                      status: 'error' as const,
+                      message: 'Please insert a valid URL',
+                    });
+                  } else {
+                    setRepoURLStatus({ status: 'editing' });
+                  }
+                  setRepoURL(p);
+                }}
+                status={repoURLStatus}
+              />
+            </div>
+            {repoURLStatus.status === 'success' && owner && repo && (
+              <>
+                <EditFieldSettings
+                  disabled={true}
+                  label="Owner *"
+                  labelColor="#828282"
+                  value={owner}
+                  onChangeText={setOwner}
+                />
+                <EditFieldSettings
+                  disabled={true}
+                  label="Repo *"
+                  labelColor="#828282"
+                  value={repo}
+                  onChangeText={setRepo}
+                />
+
+                <ValidatedTextField
+                  label="Logo URL (optional)"
+                  value={logoUrl}
+                  onChange={setLogoUrl}
+                  status={{ status: 'editing' }}
+                />
+
+                <InputWithLabel
+                  label="Description (optional)"
+                  InputComponent={
+                    <TextAreaInput
+                      value={description}
+                      onChangeText={setDescription}
+                      placeholder="Your Description"
+                      lines={6}
+                    />
+                  }
+                />
+
+                <FormPasswordField
+                  label="Token *"
+                  placeholder="Token"
+                  value={token}
+                  onChange={(val: string) => setToken(val)}
+                  error={{}}
+                  showPasswordOption
+                />
+              </>
+            )}
+            <FlexBox
+              style={{
+                position: 'fixed',
+                right: '0',
+                bottom: '0',
+                marginRight: '45px',
               }}
             >
-              Create
-            </PrimaryButton>
-          </Box>
-        </FlexBox>
-      </form>
+              <Box marginBottom="lg">
+                <PrimaryButton
+                  disabled={
+                    !(
+                      repoURLStatus.status === 'success' &&
+                      owner &&
+                      repo &&
+                      token &&
+                      name
+                    )
+                  }
+                  type="submit"
+                  onClick={(e: any) => {
+                    submitHandler(e);
+                  }}
+                >
+                  Create
+                </PrimaryButton>
+              </Box>
+            </FlexBox>
+          </form>
+        </div>
+      </div>
     </div>
   );
 }
