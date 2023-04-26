@@ -26,11 +26,11 @@ function Modal({ message, proceed, size }: { message: string, proceed: any, size
     setIsProceed(true)
   };
   useEffect(() => {
-    if (size !==0) {
-      if(size < resposneSizeConstant)
+    // if (size !==0) {
+    if (size < resposneSizeConstant)
       return proceed(true)
-    }
-  }, [isProceed,size])
+    // }
+  }, [isProceed, size])//eslint-disable-line
 
   return (
     <>
@@ -46,15 +46,9 @@ function Modal({ message, proceed, size }: { message: string, proceed: any, size
   );
 }
 
-function OnCancel() {
-  return (
-    <div>this may take some time</div>
-  )
-}
 
 
 const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolean }) => {
-
 
   const [response, setResponse] = useState<any | undefined>(null)
   const [type, setType] = useState<string | undefined>('')
@@ -109,6 +103,7 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
     setLoader(true)
     artifactVisulizationService(node?.id, authToken, source)
       .then((res) => {
+        console.log("resposne__", response)
         setResponse(res);
         console.log("visualization 002")
 
@@ -128,18 +123,25 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
         console.log("visualization 003")
         setLoader(false)
       })
-
   }
 
   const handleCancelRequest = () => {
-    artifactVisulizationService(node?.id, authToken, source)
+    // artifactVisulizationService(node?.id, authToken, source)
     source.cancel("USER CANCELED THE REQUEST");
-    setProceed(false);
+    console.log('handleCancelRequest')
+    setProceed(true);
     setSize(0);
     setLoader(false)
     setResponse({})
+    setTimeout(()=>{
+      source.cancel("USER CANCELED THE REQUEST");
+      console.log('handleCancelRequest')
+      setProceed(true);
+      setSize(0);
+      setLoader(false)
+      setResponse({})
+    },500)
   }
-
 
   useEffect(() => {
     if (proceed) {
@@ -158,9 +160,6 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
     return () => setResponse(null);
   }, [size, proceed])//eslint-disable-line
 
-
-
-
   useEffect(() => {
     if (response?.data?.type === "html") {
       setType("__HTML");
@@ -171,8 +170,6 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
       divRef.current = null
     }
   }, [divRef.current, response?.data?.value, type]); //eslint-disable-line
-
-
 
   useEffect(() => {
   }, [loader, response])
@@ -198,7 +195,7 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
       return (
         <div className={`${style.FullWidthSpinnerContainer}`}>
           <div className={`${style.mainContainer}`}>
-            <p>NO VISUALIZATION</p>
+            <p>NO VISUALIZATION 3</p>
           </div>
         </div>
       )
@@ -210,12 +207,12 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
       </div>)
   }
   // CHECK IF RESPOSNE LENGTH IS 0
-  if (Object.keys(response).length === 0) {
+  if (Object.keys(response)?.length === 0) {
     console.log("requesting visals load")
     return (
       <div className={`${style.FullWidthSpinnerContainer}`}>
         <div className={`${style.mainContainer}`}>
-          <p>NO VISUALIZATION</p>
+          <p>NO VISUALIZATION </p>
         </div>
       </div>
     )
@@ -226,7 +223,7 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
     return (
       <div className={`${style.FullWidthSpinnerContainer}`}>
         <div className={`${style.mainContainer}`}>
-          <p>NO VISUALIZATION</p>
+          <p>NO VISUALIZATION {`(error occured)`}</p>
         </div>
       </div>
     )
@@ -236,7 +233,7 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
     <div className={`${style.mainContainer}`}>
 
       {type === "__HTML" ?
-        response === undefined ? <p>NO VISUALIZATION</p> :
+        response === undefined ? <p>NO VISUALIZATION </p> :
           <div style={{ height: "80%", width: '100%', overflowY: 'scroll', overflowX: 'hidden' }}>
             <div ref={divRef} />
           </div>
