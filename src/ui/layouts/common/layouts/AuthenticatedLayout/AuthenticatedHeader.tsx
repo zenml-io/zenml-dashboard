@@ -49,7 +49,7 @@ export const AuthenticatedHeader: React.FC<{
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ breadcrumb, setMobileMenuOpen }) => {
   const user = useSelector(userSelectors.myUser);
-  const deploymentType = useSelector(serverInfoSelectors.getDeploymentType);
+  const deploymentType = useSelector(serverInfoSelectors.getDeploymentType) || "";
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 

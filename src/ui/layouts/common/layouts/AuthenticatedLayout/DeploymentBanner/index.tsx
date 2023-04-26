@@ -5,8 +5,8 @@ function DeploymentBanner() {
   return (
     <aside className={styles.deploymentBanner}>
       <p className={styles.deploymentBanner__paragraph}>
-        You are running ZenML locally. In order to run MLOps workloads in the
-        cloud, you first need to <pre>deploy ZenML</pre>. Check the{' '}
+        ZenML is running locally. In order to run your pipelines in the cloud,
+        you need to deploy ZenML. See the{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"
