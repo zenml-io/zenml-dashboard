@@ -50,6 +50,8 @@ const RepositoriyListBody = () => {
     dispatch(repositoryPagesActions.setFetching({ fetching: true }));
     dispatch(
       repositoryActions.getAll({
+        page: 1,
+        size: itemPerPage,
         workspace: selectedWorkspace,
         onSuccess: () =>
           dispatch(repositoryPagesActions.setFetching({ fetching: false })),
