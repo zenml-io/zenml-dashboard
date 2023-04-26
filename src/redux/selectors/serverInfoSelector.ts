@@ -7,8 +7,8 @@ function getServerInfoState(state: any): State {
 
 export function getDeploymentType(state?: any) {
   if (!state) return;
-  const serverInfoState = getServerInfoState(state);
-  return serverInfoState.deploymentType;
+  const serverInfoState = getServerInfoState(state) || {};
+  return serverInfoState.deploymentType || '';
 }
 
 export const serverInfoSelectors = {
