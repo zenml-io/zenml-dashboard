@@ -76,13 +76,7 @@ export const RunsTable: React.FC<{
       );
       // debugger;
     } else {
-      history.push(
-        routePaths.run.stack.statistics(
-          selectedWorkspace,
-          run.id,
-          run.stack.id,
-        ),
-      );
+      history.push(routePaths.run.run.statistics(selectedWorkspace, run.id));
     }
   };
 
