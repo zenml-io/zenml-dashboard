@@ -68,17 +68,39 @@ export async function artifactService(artifactId: any, authToken: any) {
 let currentId = '';
 let currentResponse = {};
 
-export async function artifactVisulizationService(artifactId: any, authToken: any ,setIsModalOpen:any) {
-    console.log(`__unauth_id ${currentId} === ${artifactId}, ${currentId === artifactId}`);
-    if(currentId === artifactId){
+
+
+// export async function artifactVisulizationService(artifactId: any, authToken: any) {
+//     console.log(`__unauth_id ${currentId} === ${artifactId}, ${currentId === artifactId}`);
+//     if (currentId === artifactId) {
+//         return currentResponse;
+//     }
+//     currentId = artifactId;
+//     currentResponse = {};
+//     const response = await axios.get(
+//         `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
+//         {
+//             headers: {
+//                 Authorization: `bearer ${authToken}`,
+//             },
+//         },
+//     ).then((response) => {
+//         return response
+//     })
+//     return response;
+
+// }
+
+export async function artifactVisulizationService(artifactId: any, authToken:any, source:any) {
+    console.log(`__unauth_id ${currentId} === ${artifactId}, ${currentId === artifactId} ${source}`);
+    console.log(`__unauth_id source`, source);
+    if (currentId === artifactId) {
         return currentResponse;
     }
     currentId = artifactId;
-    currentResponse={};
-    console.log("__unauth_stepnode-artifactId",artifactId)
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
-    let _flag = false;
+    currentResponse = {};
+    // const CancelToken = axios.CancelToken;
+    // // const source = CancelToken.source();
     const response = await axios.get(
         `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
         {
@@ -89,19 +111,15 @@ export async function artifactVisulizationService(artifactId: any, authToken: an
                 const contentLength = progressEvent.total;
                 const loadedBytes = progressEvent.loaded;
                 console.log(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`);
-                if (contentLength > 5 * 1024 * 1024) {
-                    if (_flag === false) {
-                        const confirmed = window.confirm('The API response size exceeds 5MB. Do you want to continue?');
-                        _flag = confirmed;
-                        setIsModalOpen(_flag);
-                    }
-                    if (_flag === false) {
-                        source.cancel(`API response size exceeds 5MB`);
-                    }
-                }
+                // if(source.cancel.name)
+                // {
+                //     console.log("__unauth_id client requested cancel")
+                //     source.cancel("client requested cancel")
+                // }
             },
             cancelToken: source.token
         },
+        
     ).then((response) => {
         currentResponse = response;
         return response

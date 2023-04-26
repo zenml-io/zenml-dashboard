@@ -1,3 +1,44 @@
+.askModal {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.askModalMessage{
+  /* background-color: #00aaff; */
+  width: 500px;
+  height: 100px;
+  border: none;
+  font-size: 16px;
+  font-family: 'Rubik';
+  display: flex;
+}
+.askModalMessage p{
+
+  font-size: 26px;
+  font-family: 'Rubik';
+  margin-left: 10px;
+
+}
+.askModalBtn{
+  /* background-color: #00aaff; */
+  width: 500px;
+}
+.askModalBtn button {
+  background-color: #443E99;
+  outline: none;
+  border: none;
+  height: 50px;
+  width: 100px;
+  border-radius: 5%;
+  color: #ffffff;
+  font-size: 16px;
+  margin-left: 10px;
+}
+
 .layout {
   overflow: hidden;
   display: grid;
