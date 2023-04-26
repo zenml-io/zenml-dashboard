@@ -316,7 +316,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                       <Box
                         className="form-group"
                         marginRight="md"
-                        style={{ width: '192px' }}
+                        style={{ width: '185px' }}
                       >
                         <FormTextField
                           onChange={(event: any) =>
@@ -334,7 +334,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                         />
                       </Box>
 
-                      <Box className="form-group" style={{ width: '192px' }}>
+                      <Box className="form-group" style={{ width: '185px' }}>
                         <FormTextField
                           onChange={(event: any) =>
                             handleInputChange(
@@ -631,7 +631,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     <Box
                       className="form-group"
                       marginRight="md"
-                      style={{ width: '400px' }}
+                      style={{ width: '385px' }}
                     >
                       <FormTextField
                         onChange={
@@ -912,7 +912,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       </Box> */}
 
       <FlexBox.Row style={{ width: '100%' }}>
-        <Box style={{ width: '50rem' }}>
+        <Box style={{ width: '417px' }}>
           <FormTextField
             onChange={(e: any) => {
               setComponentName(e);
