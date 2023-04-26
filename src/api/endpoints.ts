@@ -56,6 +56,10 @@ export const endpoints = {
     pipeline: {
       get: (pipelineId: TId): string => `/runs?pipeline_id=${pipelineId}`,
     },
+    repository: {
+      get: (repositoryId: TId): string =>
+        `/runs?code_repository_id=${repositoryId}`,
+    },
     stack: {
       get: (stackId: TId): string => `/runs?stack_id=${stackId}`,
     },

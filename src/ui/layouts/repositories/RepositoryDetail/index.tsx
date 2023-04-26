@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { useLocationPath } from '../../../hooks';
@@ -14,7 +14,43 @@ import {
   repositoryPagesActions,
 } from '../../../../redux/actions';
 import RepositoryDetailHeader from './components/detail-header';
-import { FullWidthSpinner } from '../../../components';
+import DetailOverview from './Overview';
+import FilterComponent, {
+  getInitialFilterStateForRuns,
+} from '../../../components/Filters';
+import { Box } from '../../../components';
+import { Runs } from './Runs';
+
+const FilterWrapperForRun = () => {
+  const locationPath = useLocationPath();
+
+  // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
+  const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
+  function getFilter(values: any) {
+    const filterValuesMap = values.map((v: any) => {
+      return {
+        column: v.column.selectedValue,
+        type: v.contains.selectedValue,
+        value: v.filterValue,
+      };
+    });
+    return filterValuesMap;
+  }
+  return (
+    <Box marginTop="lg" style={{ width: '100%' }}>
+      <FilterComponent
+        getInitials={getInitialFilterStateForRuns}
+        filters={filters}
+        setFilter={setFilter}
+      >
+        <Runs
+          filter={getFilter(filters)}
+          repositoryId={locationPath.split('/')[4]}
+        />
+      </FilterComponent>
+    </Box>
+  );
+};
 
 function RepositoryDetailOverview() {
   const dispatch = useDispatch();
@@ -51,13 +87,10 @@ function RepositoryDetailOverview() {
         {
           text: 'Overview',
           Component: () => (
-            <div>
-              {isFetching ? (
-                <FullWidthSpinner color="black" size="md" />
-              ) : (
-                <div></div>
-              )}
-            </div>
+            <DetailOverview
+              repositoryID={repositoryID}
+              isLoading={isFetching}
+            />
           ),
           path: routePaths.repositories.overview(
             selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
@@ -66,7 +99,7 @@ function RepositoryDetailOverview() {
         },
         {
           text: 'Runs',
-          Component: () => <div></div>,
+          Component: FilterWrapperForRun,
           path: routePaths.repositories.runs(
             selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
             repositoryID,

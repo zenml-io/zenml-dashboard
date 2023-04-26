@@ -84,6 +84,7 @@ const runActionTypes = {
 const repositoryActionTypes = {
   REPOSITORY_GET_ALL: 'REPOSITORY_GET_ALL',
   REPOSITORY_BY_ID: 'REPOSITORY_BY_ID',
+  RUNS_GET_BY_REPOSITORY_ID: 'RUNS_GET_BY_REPOSITORY_ID',
 };
 
 const repositoryPagesActionTypes = {

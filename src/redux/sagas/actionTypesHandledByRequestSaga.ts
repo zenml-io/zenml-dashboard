@@ -52,4 +52,5 @@ export const actionTypesHandledByRequestSaga: string[] = [
   runActionTypes.getGraphForRunId.request,
   repositoryActionTypes.getRepositories.request,
   repositoryActionTypes.getRepositoryByID.request,
+  repositoryActionTypes.getRunsByRepoID.request,
 ];
