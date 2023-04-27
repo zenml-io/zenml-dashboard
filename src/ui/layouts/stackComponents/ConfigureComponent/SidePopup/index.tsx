@@ -30,7 +30,7 @@ export const SidePopup: React.FC<{
               border: '0px',
               height: '100vh',
               width: '100%',
-              paddingBottom: '200px',
+              paddingBottom: '255px',
             }}
             // src="https://apidocs.zenml.io/0.35.0/"
             src={flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl}

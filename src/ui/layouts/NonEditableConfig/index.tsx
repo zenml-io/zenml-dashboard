@@ -30,7 +30,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       return (
         <>
           {flavor?.config_schema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '329px' }}>
+            <Box marginTop="lg" style={{ width: '417px' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -44,7 +44,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               />
             </Box>
           ) : (
-            <Box marginTop="lg">
+            <Box marginTop="lg" style={{ width: '417px' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -75,7 +75,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               <label htmlFor="key">{titleCase(elementName)}</label>
             </Paragraph>
           </Box>
-          <FlexBox marginTop="sm" fullWidth>
+          <FlexBox marginTop="sm" style={{ width: '417px' }}>
             <textarea
               disabled
               className={styles.textArea}
@@ -118,7 +118,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     // }
     if (flavor?.config_schema?.properties[elementName]?.type === 'object') {
       return (
-        <Box marginTop="lg" style={{ width: '100%' }}>
+        <Box marginTop="lg" style={{ width: '417px' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -343,7 +343,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
                         &#x27A4;
                       </div>
 
-                      <div className="form-group col-sm-8">             
+                      <div className="form-group" style={{ width: '390px' }}>             
                         <EditField
                           disabled
                           className={styles.field}
@@ -456,7 +456,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     <FlexBox.Column marginTop="xl" fullWidth>
       <FlexBox.Row flexDirection="column">
         {/* <Container> */}
-        <Box style={{ width: '80%' }}>
+        <Box style={{ width: '417px' }}>
           <EditField
             disabled
             onChangeText={() => console.log('')}

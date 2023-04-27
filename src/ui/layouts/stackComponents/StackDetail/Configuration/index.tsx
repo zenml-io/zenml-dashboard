@@ -250,7 +250,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
       return (
         <>
           {flavor?.configSchema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '329px' }}>
+            <Box marginTop="lg" style={{ width: '417px' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -264,7 +264,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
               />
             </Box>
           ) : (
-            <Box marginTop="lg">
+            <Box marginTop="lg" style={{ width: '417px' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -300,6 +300,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
               disabled
               className={styles.textArea}
               defaultValue={JSON.stringify(mappedObject[elementName])}
+              style={{ width: '417px' }}
               onBlur={(e) => {
                 const jsonStr = e.target.value;
                 try {
@@ -338,7 +339,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     // }
     if (flavor?.configSchema?.properties[elementName]?.type === 'object') {
       return (
-        <Box marginTop="lg" style={{ width: '100%' }}>
+        <Box marginTop="lg" style={{ width: '415px' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -650,7 +651,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                         &#x27A4;
                       </div>
 
-                    <div className="form-group col-sm-8" style={{ width: '630px' }}>
+                    <div className="form-group" style={{ width: '383px' }}>
                       <EditField
                         disabled
                         className={styles.field}
@@ -793,10 +794,10 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     return <FullWidthSpinner color="black" size="md" />;
   }
   return (
-    <FlexBox.Column marginTop="xl" fullWidth>
-      <FlexBox.Row flexDirection="column" style={{ width: '40%' }}>
+    <FlexBox.Column marginTop="xl">
+      <FlexBox.Row flexDirection="column">
         <Container>
-          <Box>
+          <Box style={{ width: '417px' }}>
             <EditField
               disabled
               onKeyDown={(e: any) => onPressEnter(e, 'name')}

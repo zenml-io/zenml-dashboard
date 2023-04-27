@@ -521,7 +521,7 @@ export const UpdateConfig: React.FC<{
       return (
         <>
           {flavor?.configSchema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '329px' }}>
+            <Box marginTop="lg" style={{ width: '417px' }}>
               <MakeSecretField
                 required={flavor?.configSchema?.required?.includes(elementName)}
                 label={titleCase(elementName) + ' (Secret)'}
@@ -593,7 +593,7 @@ export const UpdateConfig: React.FC<{
               />
             </Box>
           ) : (
-            <Box marginTop="lg">
+            <Box marginTop="lg" style={{ width: '417px' }}>
               <FormTextField
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
@@ -628,7 +628,7 @@ export const UpdateConfig: React.FC<{
               <label htmlFor="key">{titleCase(elementName)}</label>
             </Paragraph>
           </Box>
-          <FlexBox marginTop="sm" fullWidth>
+          <FlexBox marginTop="sm" fullWidth style={{ width: '417px' }}>
             <textarea
               className={styles.textArea}
               defaultValue={JSON.stringify(mappedConfiguration[elementName])}
@@ -717,10 +717,7 @@ export const UpdateConfig: React.FC<{
                         &#x27A4;
                       </div>
 
-                  <Box className="form-group"
-                    marginRight="md"
-                    style={{ width: '200px' }}
-                  >
+                  <Box className="form-group" marginRight="md" style={{ width: '184px' }}>
                     <FormTextField
                       onChange={(event: any) => {
                         const values = { ...inputFields };
@@ -735,8 +732,7 @@ export const UpdateConfig: React.FC<{
                     />
                   </Box>
 
-                  <Box className="form-group"        
-                    style={{ width: '200px' }}>
+                  <Box className="form-group" style={{ width: '184px' }}>
                     <FormTextField
                       onChange={(event: any) => {
                         const values = { ...inputFields };
@@ -879,7 +875,7 @@ export const UpdateConfig: React.FC<{
                           &#x27A4;
                         </div>
 
-                      <Box className="form-group" style={{ width: '420px' }}>
+                      <Box className="form-group" style={{ width: '383px' }}>
                         <FormTextField
                           onChange={(event: any) => {
                             const values = [
@@ -1065,10 +1061,10 @@ export const UpdateConfig: React.FC<{
     return <FullWidthSpinner color="black" size="md" />;
   }
   return (
-    <FlexBox.Column marginTop="xl" fullWidth>
-      <FlexBox.Row flexDirection="column" style={{ width: '40%' }}>
+    <FlexBox.Column marginTop="xl">
+      <FlexBox.Row flexDirection="column">
         <Container>
-          <Box>
+          <Box style={{ width: '417px' }}>
             <FormTextField
               onChange={(e: any) => {
                 setComponentName(e);
