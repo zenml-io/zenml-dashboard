@@ -350,11 +350,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
               <div
                   style={{
                     position: 'absolute',
-                    bottom: '0',
+                    bottom: '-5px',
                     width: '5px',
                     height: '5px',
                     borderRadius: '100%',
-                    backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
                   }}
                 ></div>
 
@@ -365,8 +365,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                     marginLeft: '2px',
                   }}
                 >
-              </div>
-              <FlexBox.Row alignItems='center'>
+              <FlexBox.Row alignItems='center' marginTop="sm">
                 <div
                   style={{
                     marginTop: '30px',
@@ -421,6 +420,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                   className={styles.field}
                 />
               </FlexBox.Row>    
+              </div>
             </>
           )}
         </Box>
@@ -431,11 +431,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
               <div
                 style={{
                   position: 'absolute',
-                  bottom: '0',
+                  bottom: '-5px',
                   width: '5px',
                   height: '5px',
                   borderRadius: '100%',
-                  backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
                 }}
               ></div>
 
@@ -513,11 +513,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                 <div
                   style={{
                     position: 'absolute',
-                    bottom: '0',
+                    bottom: '-5px',
                     width: '5px',
                     height: '5px',
                     borderRadius: '100%',
-                    backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
                   }}
                 ></div>
 
@@ -611,11 +611,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
             <div
                 style={{
                   position: 'absolute',
-                  bottom: '0',
+                  bottom: '-5px',
                   width: '5px',
                   height: '5px',
                   borderRadius: '100%',
-                  backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
                 }}
               ></div>
              
@@ -703,7 +703,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box marginTop={'lg'} style={{ width: '100%' }}>
+        <Box marginTop={'lg'} style={{ width: '417px' }}>
           <Box>
             <ToggleField
               value={elementSchema}
@@ -812,7 +812,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
           </Box>
         </Container>
         <Container>
-          <Box marginTop="lg">
+          <Box marginTop="lg" style={{ width: '417px' }}>
             <ToggleField
               value={stackComponent.isShared}
               onHandleChange={() =>
