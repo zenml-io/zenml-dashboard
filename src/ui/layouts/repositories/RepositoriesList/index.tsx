@@ -57,6 +57,7 @@ const RepositoriyListBody = () => {
           dispatch(repositoryPagesActions.setFetching({ fetching: false })),
       }),
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedWorkspace, dispatch]);
 
   useEffect(() => {
@@ -113,46 +114,48 @@ const RepositoriyListBody = () => {
           ) : (
             <>
               <RepositoryGrid repositories={repositories} />
-              <div
-                style={{
-                  position: 'fixed',
-                  right: '0',
-                  bottom: '0',
-                  height: '92px',
-                  width: '100%',
-                  display: 'flex',
-                  justifyContent: 'center',
-                }}
-              >
-                <div style={{ alignSelf: 'center' }}>
-                  <div style={{ display: 'flex' }}>
-                    <Pagination
-                      // isExpended={isExpended}
-                      ref={childRef}
-                      onChange={(pageNumber: any) =>
-                        updateData(pageNumber, itemPerPage)
-                      }
-                      // getFetchedState={getFetchedState}
-                      itemPerPage={itemPerPage}
-                      pageIndex={pageIndex}
-                      setPageIndex={setPageIndex}
-                      pages={repoPagination?.total_pages}
-                      totalOfPages={repoPagination?.total_pages as any}
-                      totalLength={repoPagination.max_size as any}
-                      totalCount={repoPagination?.total as any}
-                    />
+              {repositories.length >= 1 && (
+                <div
+                  style={{
+                    position: 'fixed',
+                    right: '0',
+                    bottom: '0',
+                    height: '92px',
+                    width: '100%',
+                    display: 'flex',
+                    justifyContent: 'center',
+                  }}
+                >
+                  <div style={{ alignSelf: 'center' }}>
+                    <div style={{ display: 'flex' }}>
+                      <Pagination
+                        // isExpended={isExpended}
+                        ref={childRef}
+                        onChange={(pageNumber: any) =>
+                          updateData(pageNumber, itemPerPage)
+                        }
+                        // getFetchedState={getFetchedState}
+                        itemPerPage={itemPerPage}
+                        pageIndex={pageIndex}
+                        setPageIndex={setPageIndex}
+                        pages={repoPagination?.total_pages}
+                        totalOfPages={repoPagination?.total_pages as any}
+                        totalLength={repoPagination.max_size as any}
+                        totalCount={repoPagination?.total as any}
+                      />
 
-                    <ItemPerPage
-                      itemPerPage={itemPerPage}
-                      onChangePagePerItem={(size: any) => {
-                        setItemPerPage(size);
-                        updateData(1, size);
-                        setPageIndex(0);
-                      }}
-                    ></ItemPerPage>
+                      <ItemPerPage
+                        itemPerPage={itemPerPage}
+                        onChangePagePerItem={(size: any) => {
+                          setItemPerPage(size);
+                          updateData(1, size);
+                          setPageIndex(0);
+                        }}
+                      ></ItemPerPage>
+                    </div>
                   </div>
                 </div>
-              </div>
+              )}
             </>
           )}
         </div>

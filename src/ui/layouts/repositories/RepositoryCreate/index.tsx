@@ -101,7 +101,7 @@ function CreateRepositoryBody() {
         },
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
-      .then((data) => {
+      .then(() => {
         dispatch(
           showToasterAction({
             description: 'Repository has been created successfully',
@@ -111,9 +111,10 @@ function CreateRepositoryBody() {
         history.push(routePaths.repositories.list(selectedWorkspace));
       })
       .catch((e) => {
+        console.log(e.response.data.detail[1]);
         dispatch(
           showToasterAction({
-            description: e.data,
+            description: e.response.data.detail[1],
             type: toasterTypes.failure,
           }),
         );
@@ -131,6 +132,7 @@ function CreateRepositoryBody() {
           <img
             className={styles.create__container__imageContainer__image}
             src={logoUrl || Fallback}
+            alt={`Logo of plugin ${name}`}
           ></img>
         </div>
         <div className={styles.create__formContainer}>

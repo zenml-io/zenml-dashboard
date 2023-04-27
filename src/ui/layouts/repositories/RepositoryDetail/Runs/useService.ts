@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { repositoryActions, stacksActions } from '../../../../../redux/actions';
+import { repositoryActions } from '../../../../../redux/actions';
 import {
   runSelectors,
   runPagesSelectors,

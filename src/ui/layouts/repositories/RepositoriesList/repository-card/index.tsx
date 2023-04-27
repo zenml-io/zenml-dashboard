@@ -2,7 +2,6 @@ import React from 'react';
 import moment from 'moment';
 import styles from './repository-card.module.scss';
 import Fallback from '../../../../assets/plugin-fallback.svg';
-import { ReactComponent as ArrowSquareOut } from '../../../../components/icons/assets/ArrowSquareOut.svg';
 import { routePaths } from '../../../../../routes/routePaths';
 import { useSelector } from 'react-redux';
 import { workspaceSelectors } from '../../../../../redux/selectors';
@@ -15,7 +14,6 @@ interface RepositoryCardProps {
 function RepositoryCard({ repository }: RepositoryCardProps) {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return (
-    // TODO: Check A11y for this construct
     <Link
       to={routePaths.repositories.overview(selectedWorkspace, repository.id)}
       className={styles.repositoryCard}
@@ -23,6 +21,7 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
       <img
         className={styles.repositoryCard__headerImage}
         src={repository.logo_url || Fallback}
+        alt={`Logo for plugin ${repository.name}`}
       />
       <div className={styles.repositoryCard__body}>
         <h2 className={styles.repositoryCard__heading}>{repository.name}</h2>
@@ -34,26 +33,19 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
             {moment(repository.created).fromNow()}
           </p>
         </div>
-        <div className={styles.repositoryCard__footer}>
-          <a
-            target="_blank"
-            rel="noopener noreferrer"
-            onClick={(e) => e.stopPropagation()}
-            href={`https://www.${
-              repository.source.attribute === 'GitHubCodeRepository'
-                ? 'github'
-                : 'gitlab'
-            }.com/${repository.config.owner}/${repository.config.repository}`}
-            className={styles.repositoryCard__footer__link}
+
+        {repository.description && (
+          <p
+            className={styles.repositoryCard__secondLine__description}
+            style={{
+              whiteSpace: 'nowrap',
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+            }}
           >
-            {repository.source.attribute === 'GitHubCodeRepository'
-              ? 'Github'
-              : 'Gitlab'}{' '}
-            <ArrowSquareOut
-              className={styles.repositoryCard__footer__link__icon}
-            />
-          </a>
-        </div>
+            {repository.description}
+          </p>
+        )}
       </div>
     </Link>
   );

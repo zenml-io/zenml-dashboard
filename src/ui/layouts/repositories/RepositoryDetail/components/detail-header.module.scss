@@ -3,7 +3,7 @@
 .detailHeader {
   display: flex;
   align-items: center;
-  gap: 16px;
+  gap: 32px;
   margin-top: 32px;
   &__imageContainer {
     width: 150px;
@@ -30,5 +30,20 @@
       margin: 0;
     }
   }
- 
+
+  &__footer {
+    display: flex;
+    gap: 16px;
+    font-size: 14px;
+    &__link {
+      display: flex;
+      color: $primaryColor;
+      align-items: center;
+      &__icon {
+        width: 18px;
+        height: 18px;
+        stroke: $primaryColor;
+      }
+    }
+  }
 }
