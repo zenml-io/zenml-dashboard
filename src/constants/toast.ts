@@ -1,4 +1,4 @@
 export const toasterTypes = {
-  success: 'success' as TToasterTypes,
-  failure: 'failure' as TToasterTypes,
+  success: 'success' as const,
+  failure: 'failure' as const,
 };

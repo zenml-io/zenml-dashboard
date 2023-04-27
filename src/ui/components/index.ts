@@ -1,5 +1,6 @@
 export * from './typographies';
 export * from './boxes';
+export * from './charts/Line';
 export * from './conditionals';
 export * from './grid';
 export * from './animated';

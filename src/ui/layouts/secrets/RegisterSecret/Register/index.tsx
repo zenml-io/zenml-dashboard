@@ -54,7 +54,10 @@ export const Register: React.FC<Props> = (state: any) => {
       }
       return result;
     }
-    if (state?.state?.routeFromComponent) {
+    if (
+      state?.state?.routeFromComponent ||
+      state?.state?.routeFromEditComponent
+    ) {
       const randomString = generateRandomString(6);
 
       setSecretName(state?.state?.flavor + '_' + randomString);
@@ -190,6 +193,15 @@ export const Register: React.FC<Props> = (state: any) => {
           ] = `{{ ${secretName}.${inputFields[0].key} }}`;
 
           history.push(state.state.pathName, updatedRouteState);
+        } else if (state?.state?.routeFromEditComponent) {
+          const updatedRouteState = {
+            ...state,
+          };
+          updatedRouteState.state.mappedConfiguration[
+            state.state.secretKey
+          ] = `{{ ${secretName}.${inputFields[0].key} }}`;
+
+          history.push(state.state.pathName, updatedRouteState);
         } else {
           history.push(routePaths.secret.configuration(id, selectedWorkspace));
         }
@@ -249,7 +261,7 @@ export const Register: React.FC<Props> = (state: any) => {
 
         <Box style={{ width: '329px' }}>
           <FormTextField
-            required={'*'}
+            required={true}
             label={'Secret name'}
             labelColor="rgba(66, 66, 64, 0.5)"
             placeholder={'Ex.John Doe'}

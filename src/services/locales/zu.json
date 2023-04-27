@@ -15,9 +15,14 @@
               "personalDetails": {
                 "text": "Personal Details"
               },
-        
               "organizationSettings": {
                 "text": "Workspace Settings"
+              },
+              "starred": {
+                "text": "Starred"
+              },
+              "plugins": {
+                "text": "Plugins"
               }
             }
           },
@@ -29,8 +34,12 @@
                 "placeholder": "John Doe"
               },
               "username": {
-                "label": "Username",
+                "label": "Server Username",
                 "placeholder": "johndoe"
+              },
+              "hubUsername": {
+                "label": "Hub Username",
+                "placeholder": "Connect Hub first"
               },
               "email": {
                 "label": "Email address",
@@ -72,15 +81,15 @@
               }
             },
             "popup": {
-                "title": "Change full name and Username",
-                "text": "Are you sure to change your full name and username",
-                "successButton": {
-                  "text": "Yes"
-                },
-                "cancelButton": {
-                  "text": "No"
-                }
+              "title": "Change full name and Username",
+              "text": "Are you sure to change your full name and username",
+              "successButton": {
+                "text": "Yes"
+              },
+              "cancelButton": {
+                "text": "No"
               }
+            }
           },
           "BillingSettings": {
             "title": "Billing",
@@ -308,6 +317,9 @@
               "stackComponents": {
                 "text": "Components"
               },
+              "plugins": {
+                "text": "Plugins"
+              },
               "secrets": {
                 "text": "Secrets"
               },
@@ -508,6 +520,29 @@
               "text": "No runs."
             }
           },
+          "Secrets": {
+            "header": {
+              "breadcrumbs": {
+                "secrets": {
+                  "text": "Secrets"
+                }
+              }
+            },
+            "tabs": {
+              "secrets": {
+                "text": "Secrets"
+              },
+              "allRuns": {
+                "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            },
+            "runsEmptyState": {
+              "text": "No runs."
+            }
+          },
           "Stacks": {
             "header": {
               "breadcrumbs": {
@@ -522,32 +557,6 @@
             "tabs": {
               "stacks": {
                 "text": "Stacks"
-              },
-              "allRuns": {
-                "text": " Runs"
-              }
-            },
-            "emptyState": {
-              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
-            },
-            "runsEmptyState": {
-              "text": "No runs."
-            }
-          },
-          "Secrets": {
-            "header": {
-              "breadcrumbs": {
-                "dashBoard": {
-                  "text": "Dashboard"
-                },
-                "stacks": {
-                  "text": "Stacks"
-                }
-              }
-            },
-            "tabs": {
-              "stacks": {
-                "text": "Secrets"
               },
               "allRuns": {
                 "text": " Runs"

@@ -1,15 +1,15 @@
 import React from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { AppRoute } from '../../../routes';
-import { Box, FlexBox, IfElse, PrimaryButton } from '../../components';
+import { Box, FlexBox, IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { Tabs } from '../common/Tabs';
 import Header from './Header';
 import Stacks from './Stacks';
-import { routePaths } from '../../../routes/routePaths';
-import { useSelector } from '../../hooks';
-import { workspaceSelectors } from '../../../redux/selectors';
+// import { routePaths } from '../../../routes/routePaths';
+// import { useSelector } from '../../hooks';
+// import { workspaceSelectors } from '../../../redux/selectors';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
@@ -21,8 +21,8 @@ export const BasePage: React.FC<{
   renderHeaderRight?: () => JSX.Element;
   headerWithButtons?: boolean;
 }> = ({
-  fromRegisterComponent = false,
-  fromConfigureComponent = false,
+  // fromRegisterComponent = false,
+  // fromConfigureComponent = false,
   tabPages,
   title,
   breadcrumbs,
@@ -31,8 +31,8 @@ export const BasePage: React.FC<{
   headerWithButtons,
   children,
 }) => {
-  const history = useHistory();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const history = useHistory();
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   return (
     <AuthenticatedLayout breadcrumb={[...breadcrumbs]}>
@@ -79,7 +79,7 @@ export const BasePage: React.FC<{
         </Box>
       </SidebarContainer>
 
-      {!fromRegisterComponent && !fromConfigureComponent && (
+      {/* {!fromRegisterComponent && !fromConfigureComponent && (
         <FlexBox
           style={{
             position: 'fixed',
@@ -98,7 +98,7 @@ export const BasePage: React.FC<{
             </PrimaryButton>
           </Box>
         </FlexBox>
-      )}
+      )} */}
     </AuthenticatedLayout>
   );
 };

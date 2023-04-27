@@ -17,11 +17,13 @@ import secrets from '../ui/layouts/secrets/Secrets';
 import stackComponents from '../ui/layouts/stackComponents/Stacks';
 import registerComponents from '../ui/layouts/stackComponents/RegisterComponents';
 import CreateStack from '../ui/layouts/stacks/CreateStack';
+import UpdateStack from '../ui/layouts/stacks/UpdateStack';
 import RegisterSecrets from '../ui/layouts/secrets/RegisterSecret';
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
 import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import secretDetail from '../ui/layouts/secrets/SecretDetail/index';
 import UpdateSecret from '../ui/layouts/secrets/UpdateSecret/index';
+import UpdateComponent from '../ui/layouts/stackComponents/UpdateComponent/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
 import ConfigureComponent from '../ui/layouts/stackComponents/ConfigureComponent/index';
 import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
@@ -29,7 +31,14 @@ import StacksRunDetail from '../ui/layouts/stacks/RunDetail';
 import RunsRunDetail from '../ui/layouts/runs/RunDetail';
 import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
+
+import ListPlugins from '../ui/layouts/plugins/ListPlugins';
+import CreatePlugin from '../ui/layouts/plugins/CreatePlugin';
+import UpdatePlugin from '../ui/layouts/plugins/UpdatePlugin';
+import PluginDetail from '../ui/layouts/plugins/PluginDetail';
+
 import { Logout } from '../ui/components/Logout';
+import DisplayPluginLogs from '../ui/layouts/plugins/DisplayLogs';
 
 const routes = [
   {
@@ -193,6 +202,15 @@ const routes = [
   {
     path: routePaths.stacks.createStack(':string'),
     Component: CreateStack,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+
+  {
+    path: routePaths.stacks.UpdateStack(':string', ':id'),
+    Component: UpdateStack,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
@@ -417,6 +435,14 @@ const routes = [
     exact: true,
   },
   {
+    path: routePaths.stackComponents.updateComponent(':type', ':id', ':string'),
+    Component: UpdateComponent,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
     path: routePaths.stackComponents.runs(':type', ':id', ':string'),
     Component: stackComponentsDetail,
     visibility: {
@@ -449,9 +475,24 @@ const routes = [
     },
     exact: true,
   },
-
   {
     path: routePaths.settings.organizationSettings,
+    Component: SettingsPage,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.settings.starredPlugins,
+    Component: SettingsPage,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.settings.myPlugins,
     Component: SettingsPage,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -463,6 +504,80 @@ const routes = [
     Component: Logout,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+
+  {
+    path: routePaths.plugins.list(':workspace'),
+    Component: ListPlugins,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.buildLogs(':workspace', ':pluginVersionID'),
+    Component: DisplayPluginLogs,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.create(':workspace'),
+    Component: CreatePlugin,
+    visibility: {
+      // auth handled separately through HubConnectPrompt; need to be able to auth-restrict actions like starring on the list plugins page so needs to be more granular than just page-level
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.detail.base(':workspace', ':pluginId'),
+    Component: PluginDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.detail.overview(':workspace', ':pluginId'),
+    Component: PluginDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.detail.changelogs(':workspace', ':pluginId'),
+    Component: PluginDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.detail.requirements(':workspace', ':pluginId'),
+    Component: PluginDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.detail.usage(':workspace', ':pluginId'),
+    Component: PluginDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.plugins.update(':workspace', ':pluginId'),
+    Component: UpdatePlugin,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.always,
     },
     exact: true,
   },

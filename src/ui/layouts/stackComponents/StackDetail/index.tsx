@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import { Box } from '../../../components';
+import { Box, FlexBox, PrimaryButton } from '../../../components';
 // import { iconColors, iconSizes } from '../../../../constants';
 import { camelCaseToParagraph } from '../../../../utils';
 // import styles from './index.module.scss';
@@ -54,7 +54,8 @@ import { GetHeaderCols } from './getHeaderCols';
 
 const FilterWrapperForStacks = () => {
   const locationPath = useLocationPath();
-
+  const history = useHistory();
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
   const [filters, setFilter] = useState([getInitialFilterState()]);
   function getFilter(values: any) {
@@ -78,6 +79,29 @@ const FilterWrapperForStacks = () => {
           stackComponentId={locationPath.split('/')[5]}
           filter={getFilter(filters)}
         />
+        <FlexBox
+          style={{
+            position: 'fixed',
+            right: '0',
+            bottom: '0',
+            marginRight: '45px',
+          }}
+        >
+          <Box marginBottom="lg">
+            <PrimaryButton
+              onClick={() => {
+                history.push(
+                  routePaths.stackComponents.registerComponents(
+                    locationPath.split('/')[4],
+                    selectedWorkspace,
+                  ),
+                );
+              }}
+            >
+              Register New Component
+            </PrimaryButton>
+          </Box>
+        </FlexBox>
       </FilterComponent>
     </Box>
   );

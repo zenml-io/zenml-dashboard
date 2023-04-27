@@ -12,6 +12,7 @@ import {
   FullWidthSpinner,
   // Container,
   EditField,
+  PrimaryButton,
   // Paragraph,
 } from '../../../../components';
 // import { iconColors, iconSizes } from '../../../../../constants';
@@ -292,6 +293,27 @@ export const Configuration: React.FC<{
           </Box>
         </SidePopup>
       )}
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+            onClick={() =>
+              history.push(
+                routePaths.stacks.UpdateStack(selectedWorkspace, stack.id),
+              )
+            }
+            className={styles.updateButton}
+          >
+            Update Stack
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </FlexBox.Column>
   );
 };

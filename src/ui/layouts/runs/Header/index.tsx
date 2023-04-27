@@ -82,7 +82,7 @@ const HeaderWithButtons: React.FC<{
             href={constantCommandsToCreateRuns.documentation}
             target="__blank"
           >
-            document
+            docs
           </a>
         </Paragraph>
       </Box>

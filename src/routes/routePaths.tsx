@@ -78,6 +78,8 @@ export const routePaths = {
     allRuns: '/stacks/all-runs',
     createStack: (workspace: string): string =>
       `/workspaces/${workspace}/create-stack/all-component`,
+    UpdateStack: (workspace: string, id: TId): string =>
+      `/workspaces/${workspace}/stack/${id}/update-stack`,
   },
   secrets: {
     base: '/secrets',
@@ -124,12 +126,38 @@ export const routePaths = {
       `/workspaces/${workspace}/registerComponents/${type}`,
     configureComponent: (type: string, workspace: string, id: string): string =>
       `/workspaces/${workspace}/registerComponents/${type}/${id}/configuration`,
+    updateComponent: (type: string, id: string, workspace: string): string =>
+      `/workspaces/${workspace}/components/${type}/${id}/update-component`,
+  },
+
+  plugins: {
+    list: (workspace: string): string => `/workspaces/${workspace}/plugins`,
+    create: (workspace: string): string =>
+      `/workspaces/${workspace}/plugins/create`,
+    buildLogs: (workspace: string, pluginVersionID: TId): string =>
+      `/workspaces/${workspace}/plugin-version/${pluginVersionID}/build-logs`,
+    detail: {
+      base: (workspace: string, plugin: TId): string =>
+        `/workspaces/${workspace}/plugins/${plugin}`,
+      overview: (workspace: string, plugin: TId): string =>
+        `/workspaces/${workspace}/plugins/${plugin}/overview`,
+      changelogs: (workspace: string, plugin: TId): string =>
+        `/workspaces/${workspace}/plugins/${plugin}/changelogs`,
+      requirements: (workspace: string, plugin: TId): string =>
+        `/workspaces/${workspace}/plugins/${plugin}/requirements`,
+      usage: (workspace: string, plugin: TId): string =>
+        `/workspaces/${workspace}/plugins/${plugin}/usage`,
+    },
+    update: (workspace: string, id: TId): string =>
+      `/workspaces/${workspace}/plugins/${id}/update`,
   },
 
   settings: {
     base: '/settings',
     personalDetails: '/settings/personal-details',
     organizationSettings: '/settings/organization',
+    starredPlugins: '/settings/starred-plugins',
+    myPlugins: '/settings/my-plugins',
   },
   logout: '/logout',
 };

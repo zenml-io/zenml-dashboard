@@ -1,16 +1,16 @@
 import React from 'react';
-import { Redirect, useHistory } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 import { AppRoute } from '../../../routes';
-import { Box, FlexBox, IfElse, PrimaryButton } from '../../components';
+import { Box, FlexBox, IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { Tabs } from '../common/Tabs';
 import Header from './Header';
 import Stacks from './Stacks';
 import Component from './Component';
-import { routePaths } from '../../../routes/routePaths';
-import { useLocationPath, useSelector } from '../../hooks';
-import { workspaceSelectors } from '../../../redux/selectors';
+// import { routePaths } from '../../../routes/routePaths';
+// import { useLocationPath, useSelector } from '../../hooks';
+// import { workspaceSelectors } from '../../../redux/selectors';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
@@ -19,6 +19,7 @@ export const BasePage: React.FC<{
   breadcrumbs: TBreadcrumb[];
   tabBasePath: string;
   title?: string;
+  singleTab?: boolean;
   renderHeaderRight?: () => JSX.Element;
   headerWithButtons?: boolean;
 }> = ({
@@ -26,15 +27,16 @@ export const BasePage: React.FC<{
   fromConfigureComponent = false,
   tabPages,
   breadcrumbs,
+  singleTab = false,
   tabBasePath,
   renderHeaderRight,
   headerWithButtons,
   children,
   title,
 }) => {
-  const history = useHistory();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const locationPath = useLocationPath();
+  // const history = useHistory();
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const locationPath = useLocationPath();
   return (
     <>
       <AuthenticatedLayout breadcrumb={[...breadcrumbs]}>
@@ -71,7 +73,7 @@ export const BasePage: React.FC<{
               style={{ width: !fromConfigureComponent ? '80%' : '100%' }}
             >
               {children}
-              {tabPages.length > 1 ? (
+              {tabPages.length > 1 || singleTab ? (
                 <Tabs pages={tabPages} basePath={tabBasePath} />
               ) : (
                 <>
@@ -95,7 +97,7 @@ export const BasePage: React.FC<{
             </Box>
           </FlexBox.Row>
         </SidebarContainer>
-        {!fromRegisterComponent && !fromConfigureComponent && (
+        {/* {!fromRegisterComponent && !fromConfigureComponent && (
           <FlexBox
             style={{
               position: 'fixed',
@@ -119,7 +121,7 @@ export const BasePage: React.FC<{
               </PrimaryButton>
             </Box>
           </FlexBox>
-        )}
+        )} */}
       </AuthenticatedLayout>
     </>
   );

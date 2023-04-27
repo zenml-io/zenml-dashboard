@@ -18,3 +18,11 @@ export const forgotActionTypes = generateApiActionsTypes(
 export const updateEmailTypes = generateApiActionsTypes(
   actionTypes.UPDATE_EMAIL,
 );
+
+export const authoriseHubActionTypes = generateApiActionsTypes(
+  actionTypes.AUTHORISE_HUB,
+);
+
+export const disconnectHubActionTypes = generateApiActionsTypes(
+  actionTypes.DISCONNECT_HUB,
+);

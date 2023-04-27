@@ -32,13 +32,41 @@ const Selector: React.FC<Props> = ({
   useEffect(() => {
     // ...values,
     // { key: '', value: '' },
-    if (routeState?.state?.routeFromComponent) {
-      const secretKeyValuefromRoute: any = {
-        key: routeState?.state?.secretKey,
-        value: routeState?.state?.inputData[routeState?.state?.secretKey].value,
-      };
-      setInputFields([...inputFields, secretKeyValuefromRoute]);
-    } else if (values?.length && !routeState?.state?.routeFromComponent) {
+    if (
+      routeState?.state?.routeFromComponent ||
+      routeState?.state?.routeFromEditComponent
+    ) {
+      if (routeState?.state?.routeFromComponent) {
+        const secretKeyValuefromRoute: any = {
+          key: routeState?.state?.secretKey,
+          value: routeState?.state?.inputData[routeState?.state?.secretKey],
+        };
+
+        setInputFields([...inputFields, secretKeyValuefromRoute]);
+      }
+      // else if (values?.length && !routeState?.state?.routeFromComponent) {
+      //   setInputFields([...values]);
+      // }
+
+      if (routeState?.state?.routeFromEditComponent) {
+        const secretKeyValuefromRoute: any = {
+          key: routeState?.state?.secretKey,
+          value:
+            routeState?.state?.mappedConfiguration[
+              routeState?.state?.secretKey
+            ],
+        };
+
+        setInputFields([...inputFields, secretKeyValuefromRoute]);
+      }
+      // else if (values?.length && !routeState?.state?.routeFromEditComponent) {
+      //   setInputFields([...values]);
+      // }
+    } else if (
+      values?.length &&
+      !routeState?.state?.routeFromComponent &&
+      !routeState?.state?.routeFromEditComponent
+    ) {
       setInputFields([...values]);
     } else {
       setInputFields([{ key: '', value: '' }]);
@@ -46,7 +74,7 @@ const Selector: React.FC<Props> = ({
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeState, setInputFields]);
-  console.log(inputFields, 'inputFisdsdeldsinputFields');
+  console.log(inputFields, routeState, 'inputFisdsdeldsinputFields');
   // useEffect(() => {
   //   handleInputChange();
   // }, [inputFields]);

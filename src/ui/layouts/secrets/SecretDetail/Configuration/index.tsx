@@ -27,7 +27,7 @@ import SelectorDisabled from '../../Selector/SelectorDisabled';
 
 // import { translate } from '../translate';
 
-// import styles from './index.module.scss';
+import styles from './index.module.scss';
 import { useService } from './useService';
 import { routePaths } from '../../../../../routes/routePaths';
 import { useHistory, useSelector } from '../../../../hooks';
@@ -82,6 +82,7 @@ export const Configuration: React.FC<{
           value={secret?.name}
           disabled
           onChange={() => {}}
+          style={{ backgroundColor: 'rgba(168, 168, 168, 0.1)' }}
         />
       </Box>
       <Box marginTop="lg" style={{ width: '329px' }}>
@@ -93,7 +94,11 @@ export const Configuration: React.FC<{
           onChange={() => {}}
           disabled
           options={[] as any}
-          style={{ paddingLeft: '10px' }}
+          style={{
+            paddingLeft: '10px',
+            backgroundColor: 'rgba(168, 168, 168, 0.1)',
+            color: '#a1a4ab',
+          }}
         />
       </Box>
 
@@ -116,12 +121,7 @@ export const Configuration: React.FC<{
                 routePaths.secret.updateSecret(secret.id, selectedWorkspace),
               )
             }
-            style={{
-              background: '#FFFFFF',
-              boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
-              borderRadius: '4px',
-              color: '#443E99',
-            }}
+            className={styles.updateButton}
           >
             Update Secret
           </PrimaryButton>

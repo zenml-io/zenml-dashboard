@@ -4,6 +4,8 @@ type TId = string;
 
 type TToasterTypes = 'success' | 'failure';
 
+type DateString = string;
+
 interface TApiActionsTypes {
   request: string;
   success: string;
@@ -42,7 +44,19 @@ interface TUser {
   email_opted_in: any;
   emailOptedIn: any;
   roles: Array<any>;
-  created: any
+  created: any;
+}
+
+interface THubUser {
+  id: string;
+  email: string;
+  is_active: boolean;
+  is_superuser: boolean;
+  is_verified: boolean;
+  username: string;
+  avatar_url?: string;
+  bio: string;
+  website: string;
 }
 
 interface TOrganization {
@@ -192,6 +206,9 @@ interface TabPage {
   text: string;
   Component: React.FC;
   path: string;
+  externalPath?: string;
+  locked?: boolean;
+  lockedClickHandler?: () => void;
 }
 
 interface TBilling {
@@ -243,3 +260,58 @@ interface TInvoice {
 }
 
 type TInvoiceStatus = 'draft' | 'open' | 'paid' | 'uncollectible';
+
+interface TPlugin {
+  id: TId;
+  name: name;
+  author: name;
+  // from the plugin's Readme
+  description?: string;
+  version: name;
+  tags: string[];
+  logo_url?: string;
+  index_url?: string;
+  package_name: string;
+  created: DateString;
+  updated: DateString;
+  user: { id: string; username: string };
+  // upvotes: string;
+  // downloads: string;
+  // popularity: string;
+}
+
+interface TPluginDetail extends TPlugin {
+  plugin_id: TId;
+  version_id: string;
+  logo_url?: string;
+  index_url?: string;
+  canonical_url: string;
+  release_notes: string | null;
+  repository_url: string;
+  repository_subdirectory?: string;
+  repository_branch?: string;
+  repository_commit?: string;
+  build_logs: string;
+}
+
+interface TPluginVersion {
+  id: TId;
+  version: string;
+  plugin_id: TId;
+  author: string;
+  status: 'pending' | 'failed' | 'available' | 'yanked';
+  repository_url: string;
+  repository_subdirectory?: string;
+  repository_branch?: string;
+  repository_commit?: string;
+  canonical_url: string;
+  readme_url?: string;
+  logo_url?: string;
+  index_url?: string;
+  release_notes: string | null;
+  package_name: string;
+  requirements: string[];
+  build_logs?: string;
+  created: DateString;
+  updated: DateString;
+}
