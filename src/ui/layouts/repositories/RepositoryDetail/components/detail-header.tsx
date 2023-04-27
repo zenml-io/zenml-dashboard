@@ -13,7 +13,7 @@ function RepositoryDetailHeader({ repository }: RepositoryDetailHeaderProps) {
     <div className={styles.detailHeader}>
       <img
         src={repository.logo_url || Fallback}
-        alt={`Logo for plugin ${repository.name}`}
+        alt={`Logo for repository ${repository.name}`}
         className={styles.detailHeader__imageContainer}
       ></img>
       <div className={styles.detailHeader__header}>

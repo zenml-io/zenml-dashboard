@@ -132,7 +132,7 @@ function CreateRepositoryBody() {
           <img
             className={styles.create__container__imageContainer__image}
             src={logoUrl || Fallback}
-            alt={`Logo of plugin ${name}`}
+            alt={`Logo of repository ${name}`}
           ></img>
         </div>
         <div className={styles.create__formContainer}>

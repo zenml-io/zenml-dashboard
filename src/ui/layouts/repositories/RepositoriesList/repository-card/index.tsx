@@ -21,7 +21,7 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
       <img
         className={styles.repositoryCard__headerImage}
         src={repository.logo_url || Fallback}
-        alt={`Logo for plugin ${repository.name}`}
+        alt={`Logo for repository ${repository.name}`}
       />
       <div className={styles.repositoryCard__body}>
         <h2 className={styles.repositoryCard__heading}>{repository.name}</h2>
