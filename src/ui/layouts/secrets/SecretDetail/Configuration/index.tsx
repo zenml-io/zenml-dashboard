@@ -94,12 +94,16 @@ export const Configuration: React.FC<{
           onChange={() => {}}
           disabled
           options={[] as any}
-          style={{ paddingLeft: '10px', backgroundColor: 'rgba(168, 168, 168, 0.1)', color: '#a1a4ab' }}
+          style={{
+            paddingLeft: '10px',
+            backgroundColor: 'rgba(168, 168, 168, 0.1)',
+            color: '#a1a4ab',
+          }}
         />
       </Box>
 
       <Box marginTop="md">
-        <SelectorDisabled inputFields={secret.values} width='329px' />
+        <SelectorDisabled inputFields={secret.values} width="329px" />
       </Box>
 
       <FlexBox
@@ -117,7 +121,7 @@ export const Configuration: React.FC<{
                 routePaths.secret.updateSecret(secret.id, selectedWorkspace),
               )
             }
-            className={styles.updateButton}          
+            className={styles.updateButton}
           >
             Update Secret
           </PrimaryButton>
