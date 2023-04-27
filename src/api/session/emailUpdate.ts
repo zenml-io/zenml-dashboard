@@ -9,8 +9,8 @@ const emailUpdate = ({
   name,
   authenticationToken,
 }: {
-  userId: string,
-  fullName: string
+  userId: string;
+  fullName: string;
   name: string;
   authenticationToken: string;
 }): Promise<TUser> =>

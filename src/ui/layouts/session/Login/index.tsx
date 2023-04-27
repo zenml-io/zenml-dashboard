@@ -80,7 +80,10 @@ const Login: React.FC = () => {
             );
           } else {
             await dispatch(
-              workspacesActions.getMy({ selectDefault: false, selectedWorkspace }),
+              workspacesActions.getMy({
+                selectDefault: false,
+                selectedWorkspace,
+              }),
             );
           }
           // debugger;

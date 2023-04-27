@@ -596,7 +596,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               }}
             ></div>
 
-            <div 
+            <div
               className="form-row"
               style={{
                 borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
@@ -628,46 +628,38 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                         &#x27A4;
                       </div>
 
-                    <Box
-                      className="form-group"
-                      marginRight="md"
-                      style={{ width: '385px' }}
-                    >
-                      <FormTextField
-                        onChange={
-                          (event: any) => {
-                            const values = { ...inputArrayFields };
-                            values[props.name][index] = event;
-                            setInputArrayFields(values);
+                      <Box
+                        className="form-group"
+                        marginRight="md"
+                        style={{ width: '385px' }}
+                      >
+                        <FormTextField
+                          onChange={
+                            (event: any) => {
+                              const values = { ...inputArrayFields };
+                              values[props.name][index] = event;
+                              setInputArrayFields(values);
+                            }
+                            // handleInputChange(
+                            //   parentIndex,
+                            //   childIndex,
+                            //   event,
+                            //   props.name,
+                            //   'value',
+                            // )
                           }
-                          // handleInputChange(
-                          //   parentIndex,
-                          //   childIndex,
-                          //   event,
-                          //   props.name,
-                          //   'value',
-                          // )
-                        }
-                        label={'Value'}
-                        value={item}
-                        placeholder={''}
-                      />
-                    </Box>
-                    <div
-                      // className="col-sx-2 "
-                      style={{
-                        justifyContent: 'space-between',
-                        display: 'flex',
-                        marginTop: '20px',
-                        marginLeft: '-10px',
-                      }}
-                    >
+                          label={'Value'}
+                          value={item}
+                          placeholder={''}
+                        />
+                      </Box>
                       <div
+                        // className="col-sx-2 "
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
                           justifyContent: 'space-between',
-                          alignItems: 'center',
+                          display: 'flex',
+                          marginTop: '20px',
+                          marginLeft: '-10px',
                         }}
                       >
                         {inputArrayFields[props.name].length > 1 && (
@@ -699,7 +691,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                           </button>
                         )}
                       </div>
-                    </div>
                     </Box>
                   </Fragment>
                 ))}

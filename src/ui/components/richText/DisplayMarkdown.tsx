@@ -2,10 +2,11 @@ import React from 'react';
 import ReactMarkdown from 'react-markdown';
 import { H1, H2, H3, H4, Paragraph } from '../typographies';
 
-const renderChildren =
-  (Component: React.FC) =>
-  ({ children }: { children: React.ReactNode & React.ReactNode[] }) =>
-    <Component>{children}</Component>;
+const renderChildren = (Component: React.FC) => ({
+  children,
+}: {
+  children: React.ReactNode & React.ReactNode[];
+}) => <Component>{children}</Component>;
 
 export const DisplayMarkdown: React.FC<{ markdown: string }> = ({
   markdown,

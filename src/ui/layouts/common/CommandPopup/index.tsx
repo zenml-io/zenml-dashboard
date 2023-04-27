@@ -37,9 +37,9 @@ export const CommandPopup: React.FC<{
     );
   };
 
-  window.onkeydown = function( event: any ) {
-    if ( event.key === 'Esc' || event.key === 'Escape' ) {
-      return setOpen(false)
+  window.onkeydown = function (event: any) {
+    if (event.key === 'Esc' || event.key === 'Escape') {
+      return setOpen(false);
     }
   };
 
