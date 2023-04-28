@@ -62,6 +62,8 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   const [inputArrayFields, setInputArrayFields] = useState() as any;
   const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
+  const [secretId, setSecretId] = useState('');
+  const [secretIdArray, setSecretIdArray] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -70,6 +72,8 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       setInputFields(state?.state?.inputFields);
       setInputData(state?.state?.inputData);
       setComponentName(state?.state?.componentName);
+      setSecretId(state?.state?.secretId);
+      setSecretIdArray(state?.state?.secretIdArray);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
@@ -178,6 +182,12 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
     // if (value === undefined) {
     //   return false;
     // }
+    if (value?.id) {
+      setSecretId(value?.id);
+      const listOfIds: any = [...secretIdArray];
+      listOfIds.push(value.id);
+      setSecretIdArray(listOfIds);
+    }
 
     if (value?.value?.includes('.') || value?.value?.id) {
       dispatch(
@@ -475,20 +485,42 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                 label={titleCase(props.name) + ' (Secret)'}
                 placeholder={''}
                 handleClick={() => {
-                  const state = {
-                    flavor: flavor.name,
-                    routeFromComponent: true,
-                    componentName: componentName,
-                    isShared: isShared,
-                    inputFields: inputFields,
-                    inputData: inputData,
-                    secretKey: props.name,
-                    pathName: location.pathname,
-                  };
-                  history.push(
-                    routePaths.secrets.registerSecrets(selectedWorkspace),
-                    state,
-                  );
+                  if (secretId) {
+                    const state = {
+                      secretIdArray: secretIdArray,
+                      secretId: secretId,
+                      flavor: flavor.name,
+                      routeFromComponent: true,
+                      componentName: componentName,
+                      isShared: isShared,
+                      inputFields: inputFields,
+                      inputData: inputData,
+                      secretKey: props.name,
+                      pathName: location.pathname,
+                    };
+                    history.push(
+                      routePaths.secret.updateSecret(
+                        secretId,
+                        selectedWorkspace,
+                      ),
+                      state,
+                    );
+                  } else {
+                    const state = {
+                      flavor: flavor.name,
+                      routeFromComponent: true,
+                      componentName: componentName,
+                      isShared: isShared,
+                      inputFields: inputFields,
+                      inputData: inputData,
+                      secretKey: props.name,
+                      pathName: location.pathname,
+                    };
+                    history.push(
+                      routePaths.secrets.registerSecrets(selectedWorkspace),
+                      state,
+                    );
+                  }
                 }}
                 inputData={inputData}
                 value={
@@ -500,6 +532,12 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     : ''
                 }
                 onChange={(val: string, newEvent: any) => {
+                  if (!val) {
+                    if (secretIdArray.length === 1) {
+                    } else {
+                      setSecretId('');
+                    }
+                  }
                   if (val.includes('{{')) {
                     callActionForSecret(props.name, val, newEvent);
                   } else {
@@ -905,7 +943,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-
+  console.log(secretId, 'asdasdasdasd');
   return (
     <Box>
       {/* <Box style={{ width: '100%', marginTop: '-30px' }} marginBottom="lg">

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 
 // import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 // import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -68,7 +68,8 @@ export const UpdateConfig: React.FC<{
   secretId: TId;
   tiles?: any;
   fetching?: boolean;
-}> = ({ secretId }) => {
+  state?: any;
+}> = ({ secretId, state }) => {
   const dispatch = useDispatch();
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -78,17 +79,33 @@ export const UpdateConfig: React.FC<{
   const { secret } = useService({ secretId });
   const [secretName, setSecretName] = useState(secret?.name);
   const [scope, setScope] = useState(secret?.scope);
-  const [inputFields, setInputFields] = useState([]);
+  const [inputFields, setInputFields] = useState([]) as any;
   const [loading, setLoading] = useState(false);
+  const childStateRef = useRef(null);
 
+  useEffect(() => {
+    setInputFields(childStateRef.current as any);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [childStateRef]);
   const valuesIntoArray = Object.entries(secret.values).map(([key, value]) => ({
     key,
     value,
   }));
 
+  if (state?.state?.secretId) {
+    valuesIntoArray?.push({
+      key: state?.state?.secretKey,
+      value: state?.state?.inputData
+        ? state?.state?.inputData[state?.state?.secretKey]
+        : state?.state?.mappedConfiguration[state?.state?.secretKey],
+    });
+  }
+  console.log(state, '123123123cwdwfwf', valuesIntoArray);
+
   const handleInputFieldChange = (inputFields: any) => {
     setInputFields(inputFields);
   };
+  console.log(valuesIntoArray, 'asdasdasd');
 
   const onSubmit = async () => {
     if (!secretName) {
@@ -103,19 +120,25 @@ export const UpdateConfig: React.FC<{
       (item) => item.name === selectedWorkspace,
     );
 
-    const finalValues = inputFields.reduce((acc, { key, value }) => {
-      if (acc.hasOwnProperty(key)) {
-        dispatch(
-          showToasterAction({
-            description: 'Key already exists.',
-            type: toasterTypes.failure,
-          }),
-        );
-        return {};
-      }
-      acc[key] = value;
-      return acc;
-    }, {});
+    const finalValues = inputFields.reduce(
+      (
+        acc: { [x: string]: any; hasOwnProperty: (arg0: any) => any },
+        { key, value }: any,
+      ) => {
+        if (acc.hasOwnProperty(key)) {
+          dispatch(
+            showToasterAction({
+              description: 'Key already exists.',
+              type: toasterTypes.failure,
+            }),
+          );
+          return {};
+        }
+        acc[key] = value;
+        return acc;
+      },
+      {},
+    );
 
     if (Object.keys(finalValues).length !== inputFields.length) {
       return false;
@@ -132,14 +155,14 @@ export const UpdateConfig: React.FC<{
           }),
         );
       }
-      // if (!key && !value) {
-      //   return dispatch(
-      //     showToasterAction({
-      //       description: 'Key and value cannot be Empty.',
-      //       type: toasterTypes.failure,
-      //     }),
-      //   );
-      // }
+      if (!key) {
+        return dispatch(
+          showToasterAction({
+            description: 'Key cannot be Empty.',
+            type: toasterTypes.failure,
+          }),
+        );
+      }
       // if (!value && key) {
       //   return dispatch(
       //     showToasterAction({
@@ -174,14 +197,38 @@ export const UpdateConfig: React.FC<{
       .then((response) => {
         const id = response.data.id;
         setLoading(false);
-        dispatch(
-          showToasterAction({
-            description: 'Secret has been updated successfully',
-            type: toasterTypes.success,
-          }),
-        );
+        if (state?.state?.secretId) {
+          dispatch(
+            showToasterAction({
+              description: 'Secret has been updated successfully',
+              type: toasterTypes.success,
+            }),
+          );
+          const updatedRouteState = {
+            ...state,
+          };
+          updatedRouteState.state.inputData
+            ? (updatedRouteState.state.inputData[
+                state.state.secretKey
+              ] = `{{ ${secretName}.${
+                inputFields[inputFields.length - 1]?.key
+              } }}`)
+            : (updatedRouteState.state.mappedConfiguration[
+                state.state.secretKey
+              ] = `{{ ${secretName}.${
+                inputFields[inputFields.length - 1]?.key
+              } }}`);
 
-        history.push(routePaths.secret.configuration(id, selectedWorkspace));
+          history.push(state.state.pathName, updatedRouteState);
+        } else {
+          dispatch(
+            showToasterAction({
+              description: 'Secret has been updated successfully',
+              type: toasterTypes.success,
+            }),
+          );
+          history.push(routePaths.secret.configuration(id, selectedWorkspace));
+        }
       })
       .catch((err) => {
         setLoading(false);
@@ -249,6 +296,8 @@ export const UpdateConfig: React.FC<{
 
       <Box marginTop="md">
         <Selector
+          childStateRef={childStateRef}
+          routeState={state}
           values={valuesIntoArray}
           onSetInputFields={handleInputFieldChange}
         />
