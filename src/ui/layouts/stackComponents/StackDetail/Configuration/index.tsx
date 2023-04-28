@@ -425,7 +425,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
             )}
           </Box>
 
-          <Box style={{ position: 'relative' }}>
+          {/* <Box style={{ position: 'relative' }}>
             {Object.entries(elementSchema).map(([key, value], index) => (
               <>
                 <div
@@ -504,7 +504,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                 </div>
               </>
             ))}
-          </Box>
+          </Box> */}
 
           <Box style={{ position: 'relative' }}>
             {Object.entries(elementSchema).map(([key, value], index) => (
