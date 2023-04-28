@@ -34,18 +34,16 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
           </p>
         </div>
 
-        {repository.description && (
-          <p
-            className={styles.repositoryCard__secondLine__description}
-            style={{
-              whiteSpace: 'nowrap',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-            }}
-          >
-            {repository.description}
-          </p>
-        )}
+        <p
+          className={styles.repositoryCard__secondLine__description}
+          style={{
+            whiteSpace: 'nowrap',
+            overflow: 'hidden',
+            textOverflow: 'ellipsis',
+          }}
+        >
+          {repository.description || 'No Description provided'}
+        </p>
       </div>
     </Link>
   );
