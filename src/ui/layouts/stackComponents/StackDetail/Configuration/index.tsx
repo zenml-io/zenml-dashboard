@@ -290,7 +290,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
       return (
         <>
           {' '}
-          <Box marginTop="sm">
+          <Box marginTop="lg">
             <Paragraph size="body" style={{ color: '#000' }}>
               <label htmlFor="key">{titleCase(elementName)}</label>
             </Paragraph>
@@ -350,11 +350,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                 <div
                   style={{
                     position: 'absolute',
-                    bottom: '0',
+                    bottom: '-5px',
                     width: '5px',
                     height: '5px',
                     borderRadius: '100%',
-                    backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
                   }}
                 ></div>
 
@@ -364,68 +364,69 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                     borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
                     marginLeft: '2px',
                   }}
-                ></div>
-                <FlexBox.Row alignItems="center">
-                  <div
-                    style={{
-                      marginTop: '30px',
-                      width: '15px',
-                      borderTop: '1px solid rgba(68, 62, 153, 0.3)',
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      marginTop: '30px',
-                      marginRight: '5px',
-                      marginLeft: '-2px',
-                      color: 'rgba(68, 62, 153, 0.3)',
-                    }}
-                  >
-                    &#x27A4;
-                  </div>
+                >
+                  <FlexBox.Row alignItems="center" marginTop="sm">
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '35px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
 
-                  <EditField
-                    disabled
-                    onKeyDown={(e: any) =>
-                      onPressEnterForEmpty(
-                        e,
-                        'key',
-                        elementName,
-                        // index,
-                      )
-                    }
-                    onChangeText={
-                      (event: any) => {}
-                      // handleInputChange(0, event, elementName, 'key')
-                    }
-                    label="Key"
-                    optional={false}
-                    // value={''}
-                    placeholder=""
-                    hasError={false}
-                    className={styles.field}
-                  />
-                  <div style={{ width: '10%' }}></div>
-                  <EditField
-                    disabled
-                    onKeyDown={(e: any) =>
-                      onPressEnterForEmpty(e, 'value', elementName)
-                    }
-                    onChangeText={(event: any) => {}}
-                    label="Value"
-                    // optional={true}
-                    // value={''}
-                    placeholder=""
-                    hasError={false}
-                    className={styles.field}
-                  />
-                </FlexBox.Row>
+                    <EditField
+                      disabled
+                      onKeyDown={(e: any) =>
+                        onPressEnterForEmpty(
+                          e,
+                          'key',
+                          elementName,
+                          // index,
+                        )
+                      }
+                      onChangeText={
+                        (event: any) => {}
+                        // handleInputChange(0, event, elementName, 'key')
+                      }
+                      label="Key"
+                      optional={false}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                    <div style={{ width: '10%' }}></div>
+                    <EditField
+                      disabled
+                      onKeyDown={(e: any) =>
+                        onPressEnterForEmpty(e, 'value', elementName)
+                      }
+                      onChangeText={(event: any) => {}}
+                      label="Value"
+                      // optional={true}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                  </FlexBox.Row>
+                </div>
               </>
             )}
           </Box>
 
           <Box style={{ position: 'relative' }}>
-            {Object.entries(elementSchema).map(([key, value], index) => ( 
+            {Object.entries(elementSchema).map(([key, value], index) => (
               <>
                 <div
                   style={{
@@ -445,143 +446,142 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                     marginLeft: '2px',
                   }}
                 >
-              <FlexBox.Row alignItems='center' marginTop="sm">
+                  <FlexBox.Row alignItems="center" marginTop="sm">
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
+
+                    <EditField
+                      disabled
+                      onKeyDown={(e: any) =>
+                        onPressEnterForEmpty(
+                          e,
+                          'key',
+                          elementName,
+                          // index,
+                        )
+                      }
+                      onChangeText={
+                        (event: any) => {}
+                        // handleInputChange(0, event, elementName, 'key')
+                      }
+                      label="Key"
+                      optional={false}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                    <div style={{ width: '10%' }}></div>
+                    <EditField
+                      disabled
+                      onKeyDown={(e: any) =>
+                        onPressEnterForEmpty(e, 'value', elementName)
+                      }
+                      onChangeText={(event: any) => {}}
+                      label="Value"
+                      // optional={true}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                  </FlexBox.Row>
+                </div>
+              </>
+            ))}
+          </Box>
+
+          <Box style={{ position: 'relative' }}>
+            {Object.entries(elementSchema).map(([key, value], index) => (
+              <>
                 <div
                   style={{
-                    marginTop: '30px',
-                    width: '15px',
-                    borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                    position: 'absolute',
+                    bottom: '-5px',
+                    width: '5px',
+                    height: '5px',
+                    borderRadius: '100%',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
                   }}
                 ></div>
+
                 <div
+                  className="form-row"
                   style={{
-                    marginTop: '30px',
-                    marginRight: '5px',
-                    marginLeft: '-2px',
-                    color: 'rgba(68, 62, 153, 0.3)',
+                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                    marginLeft: '2px',
                   }}
                 >
-                  &#x27A4;
+                  <FlexBox.Row marginTop="lg" alignItems="center">
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
+
+                    <EditField
+                      disabled
+                      onKeyDown={(e: any) =>
+                        onPressEnter(e, 'key', elementName, key)
+                      }
+                      onChangeText={(e: any) =>
+                        onPressEnter(e, 'key', elementName, key, index)
+                      }
+                      label="Key"
+                      optional={false}
+                      defaultValue={key}
+                      // value={key}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                    <div style={{ width: '10%' }}></div>
+                    <EditField
+                      disabled
+                      // marginRight={'md'}
+                      onKeyDown={(e: any) =>
+                        onPressEnter(e, 'value', elementName, key, index)
+                      }
+                      onChangeText={(e: any) =>
+                        onPressEnter(e, 'value', elementName, key, index)
+                      }
+                      label="Value"
+                      // optional={true}
+                      defaultValue={value}
+                      // value={value}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                  </FlexBox.Row>
                 </div>
-
-                <EditField
-                  disabled
-                  onKeyDown={(e: any) =>
-                    onPressEnterForEmpty(
-                      e,
-                      'key',
-                      elementName,
-                      // index,
-                    )
-                  }
-                  onChangeText={
-                    (event: any) => {}
-                    // handleInputChange(0, event, elementName, 'key')
-                  }
-                  label="Key"
-                  optional={false}
-                  // value={''}
-                  placeholder=""
-                  hasError={false}
-                  className={styles.field}
-                />
-                <div style={{ width: '10%' }}></div>
-                <EditField
-                  disabled
-                  onKeyDown={(e: any) =>
-                    onPressEnterForEmpty(e, 'value', elementName)
-                  }
-                  onChangeText={(event: any) => {}}
-                  label="Value"
-                  // optional={true}
-                  // value={''}
-                  placeholder=""
-                  hasError={false}
-                  className={styles.field}
-                />
-              </FlexBox.Row>    
-              </div>
-            </>
-           ))}
-        </Box>
-
-        <Box style={{ position: 'relative' }}>
-          {Object.entries(elementSchema).map(([key, value], index) => (
-            <>
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '-5px',
-                  width: '5px',
-                  height: '5px',
-                  borderRadius: '100%',
-                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
-                }}
-              ></div>
-
-              <div
-                className="form-row"
-                style={{
-                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                  marginLeft: '2px',
-                }}
-              >
-          
-            <FlexBox.Row marginTop="lg" alignItems='center'>
-                <div
-                  style={{
-                    marginTop: '30px',
-                    width: '15px',
-                    borderTop: '1px solid rgba(68, 62, 153, 0.3)',
-                  }}
-                ></div>
-                <div
-                  style={{
-                    marginTop: '30px',
-                    marginRight: '5px',
-                    marginLeft: '-2px',
-                    color: 'rgba(68, 62, 153, 0.3)',
-                  }}
-                >
-                &#x27A4;
-                </div>
-
-                  <EditField
-                    disabled
-                    onKeyDown={(e: any) =>
-                      onPressEnter(e, 'key', elementName, key)
-                    }
-                    onChangeText={(e: any) =>
-                      onPressEnter(e, 'key', elementName, key, index)
-                    }
-                    label="Key"
-                    optional={false}
-                    defaultValue={key}
-                    // value={key}
-                    placeholder=""
-                    hasError={false}
-                    className={styles.field}
-                  />
-                  <div style={{ width: '10%' }}></div>
-                  <EditField
-                    disabled
-                    // marginRight={'md'}
-                    onKeyDown={(e: any) =>
-                      onPressEnter(e, 'value', elementName, key, index)
-                    }
-                    onChangeText={(e: any) =>
-                      onPressEnter(e, 'value', elementName, key, index)
-                    }
-                    label="Value"
-                    // optional={true}
-                    defaultValue={value}
-                    // value={value}
-                    placeholder=""
-                    hasError={false}
-                    className={styles.field}
-                  />
-                </FlexBox.Row>
-              </div>  
               </>
             ))}
           </Box>
@@ -686,23 +686,23 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
 
           <Box style={{ position: 'relative' }}>
             <div
-                style={{
-                  position: 'absolute',
-                  bottom: '-5px',
-                  width: '5px',
-                  height: '5px',
-                  borderRadius: '100%',
-                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
-                }}
-              ></div>
-             
-              <div 
-                className="form-row"
-                style={{
-                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                  marginLeft: '2px',
-                }}
-              >
+              style={{
+                position: 'absolute',
+                bottom: '10px',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
+              }}
+            ></div>
+
+            <div
+              className="form-row"
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
               {mappedObject &&
                 mappedObject[elementName]?.map((item: any, index: any) => (
                   <Fragment key={index}>
