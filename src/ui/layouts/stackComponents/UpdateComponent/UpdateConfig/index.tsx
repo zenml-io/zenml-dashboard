@@ -678,11 +678,11 @@ export const UpdateConfig: React.FC<{
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '-5px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -794,7 +794,7 @@ export const UpdateConfig: React.FC<{
                               // )
                             }
                           >
-                            <icons.minusCircle color={iconColors.primary} />
+                            <icons.delete color={iconColors.grey} />
                           </button>
                         )}
 
@@ -812,7 +812,7 @@ export const UpdateConfig: React.FC<{
                               }));
                             }}
                           >
-                            <icons.plusCircle color={iconColors.primary} />
+                            <icons.addNew color={iconColors.primary} />
                           </button>
                         )}
                       </div>
@@ -838,11 +838,11 @@ export const UpdateConfig: React.FC<{
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '-5px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -929,7 +929,7 @@ export const UpdateConfig: React.FC<{
                                   }));
                                 }}
                               >
-                                <icons.minusCircle color={iconColors.primary} />
+                                <icons.delete color={iconColors.grey} />
                               </button>
                             )}
                             {index ===
@@ -948,7 +948,7 @@ export const UpdateConfig: React.FC<{
                                   }));
                                 }}
                               >
-                                <icons.plusCircle color={iconColors.primary} />
+                                <icons.addNew color={iconColors.primary} />
                               </button>
                             )}
                           </div>
@@ -966,7 +966,7 @@ export const UpdateConfig: React.FC<{
     }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box marginTop={'lg'} style={{ width: '100%' }}>
+        <Box marginTop={'lg'} style={{ width: '450px' }}>
           <Box>
             <ToggleField
               value={elementSchema}

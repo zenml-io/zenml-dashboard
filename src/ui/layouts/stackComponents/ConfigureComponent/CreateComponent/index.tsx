@@ -273,11 +273,11 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '-5px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -381,7 +381,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                                 )
                               }
                             >
-                              <icons.minusCircle color={iconColors.primary} />
+                              <icons.delete color={iconColors.grey} />
                             </button>
                           )}
 
@@ -393,7 +393,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                                 handleAddFields(props.name, parentIndex)
                               }
                             >
-                              <icons.plusCircle color={iconColors.primary} />
+                              <icons.addNew color={iconColors.primary} />
                             </button>
                           )}
                         </div>
@@ -588,11 +588,11 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '-5px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -662,44 +662,34 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                           marginLeft: '-10px',
                         }}
                       >
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                          }}
-                        >
-                          {inputArrayFields[props.name].length > 1 && (
-                            <button
-                              className={styles.fieldButton}
-                              style={{}}
-                              type="button"
-                              // disabled={item[props.name].length === 1}
-                              onClick={() => {
-                                const values = { ...inputArrayFields };
-                                values[props.name].splice(index, 1);
-                                setInputArrayFields(values);
-                              }}
-                            >
-                              <icons.minusCircle color={iconColors.primary} />
-                            </button>
-                          )}
-                          {index ===
-                            inputArrayFields[props.name].length - 1 && (
-                            <button
-                              className={styles.fieldButton}
-                              type="button"
-                              onClick={() => {
-                                const values = { ...inputArrayFields };
-                                values[props.name].push('');
-                                setInputArrayFields(values);
-                              }}
-                            >
-                              <icons.plusCircle color={iconColors.primary} />
-                            </button>
-                          )}
-                        </div>
+                        {inputArrayFields[props.name].length > 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            style={{}}
+                            type="button"
+                            // disabled={item[props.name].length === 1}
+                            onClick={() => {
+                              const values = { ...inputArrayFields };
+                              values[props.name].splice(index, 1);
+                              setInputArrayFields(values);
+                            }}
+                          >
+                            <icons.delete color={iconColors.grey} />
+                          </button>
+                        )}
+                        {index === inputArrayFields[props.name].length - 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            type="button"
+                            onClick={() => {
+                              const values = { ...inputArrayFields };
+                              values[props.name].push('');
+                              setInputArrayFields(values);
+                            }}
+                          >
+                            <icons.addNew color={iconColors.primary} />
+                          </button>
+                        )}
                       </div>
                     </Box>
                   </Fragment>

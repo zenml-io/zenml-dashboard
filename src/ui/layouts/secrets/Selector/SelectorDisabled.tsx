@@ -34,7 +34,7 @@ const SelectorDisabled: React.FC<Props> = ({ label, inputFields, width }) => {
                   value={item[0]}
                   disabled
                   placeholder={''}
-                  style={{ backgroundColor: 'rgba(168, 168, 168, 0.1)' }}
+                  style={{ background: 'rgba(168, 168, 168, 0.1)', border: '1px solid #c9cbd0', borderRadius: '4px' }}
                 />
               </Box>
               {console.log(item, 'itemitem')}
@@ -48,7 +48,7 @@ const SelectorDisabled: React.FC<Props> = ({ label, inputFields, width }) => {
                   placeholder={''}
                   error={{}}
                   showPasswordOption
-                  style={{ backgroundColor: 'rgba(168, 168, 168, 0.1)' }}
+                  style={{ background: 'rgba(168, 168, 168, 0.1)', border: '1px solid #c9cbd0', borderRadius: '4px' }}
                 />
               </Box>
             </Box>

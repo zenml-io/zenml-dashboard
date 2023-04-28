@@ -82,7 +82,7 @@ export const Configuration: React.FC<{
           value={secret?.name}
           disabled
           onChange={() => {}}
-          style={{ backgroundColor: 'rgba(168, 168, 168, 0.1)' }}
+          style={{ background: 'rgba(168, 168, 168, 0.1)', border: '1px solid #c9cbd0', borderRadius: '4px' }}
         />
       </Box>
       <Box marginTop="lg" style={{ width: '329px' }}>
@@ -98,6 +98,8 @@ export const Configuration: React.FC<{
             paddingLeft: '10px',
             backgroundColor: 'rgba(168, 168, 168, 0.1)',
             color: '#a1a4ab',
+            border: '1px solid #c9cbd0', 
+            borderRadius: '4px', 
           }}
         />
       </Box>
