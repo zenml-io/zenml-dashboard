@@ -60,25 +60,26 @@ const RepositoriyListBody = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedWorkspace, dispatch]);
 
-  useEffect(() => {
-    const filter = getFilter(filters);
-    const validFilters = filter.filter((item: any) => item.value);
-    const isValidFilterForValue: any = filter
-      ?.map((f: any) => f.value)
-      .join('');
-    const isValidFilterForCategory: any = filter
-      ?.map((f: any) => f.column.value && f.type.value)
-      .join('');
-    const checkValidFilter = isValidFilterForValue + isValidFilterForCategory;
+  const filter = getFilter(filters);
+  const validFilters = filter.filter((item: any) => item.value);
+  const isValidFilterForValue: any = filter?.map((f: any) => f.value).join('');
+  const isValidFilterForCategory: any = filter
+    ?.map((f: any) => f.value && f.type.value)
+    .join('');
+  const checkValidFilter = isValidFilterForValue + isValidFilterForCategory;
 
-    if (checkValidFilter.length > 0) {
-      dispatchRepositoryPagination(
-        1,
-        itemPerPage,
-        checkValidFilter.length > 0 ? validFilters : [],
-      );
-    }
-  }, [filters, itemPerPage, dispatchRepositoryPagination]);
+  useEffect(() => {
+    dispatchRepositoryPagination(
+      1,
+      itemPerPage,
+      checkValidFilter.length > 0 ? validFilters : [],
+    );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    checkValidFilter,
+    itemPerPage,
+    dispatchRepositoryPagination,
+  ]);
 
   function updateData(pageNumber: number, pageSize: number) {
     dispatchRepositoryPagination(pageNumber, pageSize);
