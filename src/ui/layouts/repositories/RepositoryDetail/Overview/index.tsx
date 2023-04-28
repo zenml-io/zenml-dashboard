@@ -14,7 +14,7 @@ function DetailOverview({ isLoading, repositoryID }: DetailOverviewProps) {
     repositorySelectors.repositoryByID(repositoryID),
   );
   return (
-    <div>
+    <div style={{ width: '100%' }}>
       {isLoading ? (
         <div
           style={{
