@@ -134,7 +134,7 @@ const Selector: React.FC<Props> = ({
           {console.log()}
           {inputFields?.map((item: any, index: any) => (
             <Box key={index} marginTop="md" style={{ display: 'flex' }}>
-              <Box style={{ width: '417px' }}>
+              <Box style={{ width: '30vw' }}>
                 <FormTextField
                   onChange={(event: any) =>
                     handleInputChange(index, event, 'key')
@@ -146,7 +146,7 @@ const Selector: React.FC<Props> = ({
                 />
               </Box>
 
-              <Box style={{ width: '417px' }} marginLeft="md">
+              <Box style={{ width: '30vw' }} marginLeft="md">
                 <FormPasswordField
                   onChange={(event: any) =>
                     handleInputChange(index, event, 'value')
