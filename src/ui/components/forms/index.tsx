@@ -282,6 +282,11 @@ export const MakeSecretField = (
                 borderRadius: '4px',
                 boxShadow: 'var(--cardShadow)',
                 width: '100%',
+
+                height: '185px',
+                overflowY: 'auto',
+                overflowX: 'hidden',
+
                 position: 'absolute',
                 zIndex: 2,
                 top: '7rem',

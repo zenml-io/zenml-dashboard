@@ -250,7 +250,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
       return (
         <>
           {flavor?.configSchema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -264,7 +264,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
               />
             </Box>
           ) : (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -290,7 +290,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
       return (
         <>
           {' '}
-          <Box marginTop="sm">
+          <Box marginTop="lg">
             <Paragraph size="body" style={{ color: '#000' }}>
               <label htmlFor="key">{titleCase(elementName)}</label>
             </Paragraph>
@@ -300,7 +300,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
               disabled
               className={styles.textArea}
               defaultValue={JSON.stringify(mappedObject[elementName])}
-              style={{ width: '417px' }}
+              style={{ width: '30vw' }}
               onBlur={(e) => {
                 const jsonStr = e.target.value;
                 try {
@@ -339,7 +339,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     // }
     if (flavor?.configSchema?.properties[elementName]?.type === 'object') {
       return (
-        <Box marginTop="lg" style={{ width: '415px' }}>
+        <Box marginTop="lg" style={{ width: '30vw' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -350,91 +350,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                 <div
                   style={{
                     position: 'absolute',
-                    bottom: '0',
+                    bottom: '-5px',
                     width: '5px',
                     height: '5px',
                     borderRadius: '100%',
-                    backgroundColor: 'rgba(68, 62, 153, 0.8)',
-                  }}
-                ></div>
-
-                <div
-                  className="form-row"
-                  style={{
-                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                    marginLeft: '2px',
-                  }}
-                ></div>
-                <FlexBox.Row alignItems="center">
-                  <div
-                    style={{
-                      marginTop: '30px',
-                      width: '15px',
-                      borderTop: '1px solid rgba(68, 62, 153, 0.3)',
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      marginTop: '30px',
-                      marginRight: '5px',
-                      marginLeft: '-2px',
-                      color: 'rgba(68, 62, 153, 0.3)',
-                    }}
-                  >
-                    &#x27A4;
-                  </div>
-
-                  <EditField
-                    disabled
-                    onKeyDown={(e: any) =>
-                      onPressEnterForEmpty(
-                        e,
-                        'key',
-                        elementName,
-                        // index,
-                      )
-                    }
-                    onChangeText={
-                      (event: any) => {}
-                      // handleInputChange(0, event, elementName, 'key')
-                    }
-                    label="Key"
-                    optional={false}
-                    // value={''}
-                    placeholder=""
-                    hasError={false}
-                    className={styles.field}
-                  />
-                  <div style={{ width: '10%' }}></div>
-                  <EditField
-                    disabled
-                    onKeyDown={(e: any) =>
-                      onPressEnterForEmpty(e, 'value', elementName)
-                    }
-                    onChangeText={(event: any) => {}}
-                    label="Value"
-                    // optional={true}
-                    // value={''}
-                    placeholder=""
-                    hasError={false}
-                    className={styles.field}
-                  />
-                </FlexBox.Row>
-              </>
-            )}
-          </Box>
-
-          <Box style={{ position: 'relative' }}>
-            {Object.entries(elementSchema).map(([key, value], index) => (
-              <>
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '0',
-                    width: '5px',
-                    height: '5px',
-                    borderRadius: '100%',
-                    backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
                   }}
                 ></div>
 
@@ -445,7 +365,177 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                     marginLeft: '2px',
                   }}
                 >
-                  <FlexBox.Row marginTop="lg" alignItems="center">
+                  <FlexBox.Row
+                    alignItems="center"
+                    marginTop="sm"
+                    style={{ width: '30vw' }}
+                  >
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '35px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
+
+                    <EditField
+                      disabled
+                      onKeyDown={(e: any) =>
+                        onPressEnterForEmpty(
+                          e,
+                          'key',
+                          elementName,
+                          // index,
+                        )
+                      }
+                      onChangeText={
+                        (event: any) => {}
+                        // handleInputChange(0, event, elementName, 'key')
+                      }
+                      label="Key"
+                      optional={false}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                    <div style={{ width: '10%' }}></div>
+                    <EditField
+                      disabled
+                      onKeyDown={(e: any) =>
+                        onPressEnterForEmpty(e, 'value', elementName)
+                      }
+                      onChangeText={(event: any) => {}}
+                      label="Value"
+                      // optional={true}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                  </FlexBox.Row>
+                </div>
+              </>
+            )}
+          </Box>
+
+          {/* <Box style={{ position: 'relative' }}>
+            {Object.entries(elementSchema).map(([key, value], index) => (
+              <>
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '-5px',
+                    width: '5px',
+                    height: '5px',
+                    borderRadius: '100%',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                  }}
+                ></div>
+
+                <div
+                  className="form-row"
+                  style={{
+                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                    marginLeft: '2px',
+                  }}
+                >
+                  <FlexBox.Row alignItems="center" marginTop="sm">
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
+
+                    <EditField
+                      disabled
+                      onKeyDown={(e: any) =>
+                        onPressEnterForEmpty(
+                          e,
+                          'key',
+                          elementName,
+                          // index,
+                        )
+                      }
+                      onChangeText={
+                        (event: any) => {}
+                        // handleInputChange(0, event, elementName, 'key')
+                      }
+                      label="Key"
+                      optional={false}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                    <div style={{ width: '10%' }}></div>
+                    <EditField
+                      disabled
+                      onKeyDown={(e: any) =>
+                        onPressEnterForEmpty(e, 'value', elementName)
+                      }
+                      onChangeText={(event: any) => {}}
+                      label="Value"
+                      // optional={true}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                  </FlexBox.Row>
+                </div>
+              </>
+            ))}
+          </Box> */}
+
+          <Box style={{ position: 'relative' }}>
+            {Object.entries(elementSchema).map(([key, value], index) => (
+              <>
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '-5px',
+                    width: '5px',
+                    height: '5px',
+                    borderRadius: '100%',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                  }}
+                ></div>
+
+                <div
+                  className="form-row"
+                  style={{
+                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                    marginLeft: '2px',
+                  }}
+                >
+                  <FlexBox.Row
+                    marginTop="lg"
+                    alignItems="center"
+                    style={{ width: '30vw' }}
+                  >
                     <div
                       style={{
                         marginTop: '30px',
@@ -510,11 +600,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                 <div
                   style={{
                     position: 'absolute',
-                    bottom: '0',
+                    bottom: '-5px',
                     width: '5px',
                     height: '5px',
                     borderRadius: '100%',
-                    backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
                   }}
                 ></div>
 
@@ -525,7 +615,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                     marginLeft: '2px',
                   }}
                 >
-                  <FlexBox.Row marginTop="lg" alignItems="center">
+                  <FlexBox.Row
+                    marginTop="lg"
+                    alignItems="center"
+                    style={{ width: '30vw' }}
+                  >
                     <div
                       style={{
                         marginTop: '30px',
@@ -606,11 +700,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '10px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -646,7 +740,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                         &#x27A4;
                       </div>
 
-                      <div className="form-group" style={{ width: '383px' }}>
+                      <div className="form-group" style={{ width: '28.5vw' }}>
                         <EditField
                           disabled
                           className={styles.field}
@@ -698,7 +792,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box marginTop={'lg'} style={{ width: '100%' }}>
+        <Box marginTop={'lg'} style={{ width: '30vw' }}>
           <Box>
             <ToggleField
               value={elementSchema}
@@ -792,7 +886,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     <FlexBox.Column marginTop="xl">
       <FlexBox.Row flexDirection="column">
         <Container>
-          <Box style={{ width: '417px' }}>
+          <Box style={{ width: '30vw' }}>
             <EditField
               disabled
               onKeyDown={(e: any) => onPressEnter(e, 'name')}
@@ -807,7 +901,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
           </Box>
         </Container>
         <Container>
-          <Box marginTop="lg">
+          <Box marginTop="lg" style={{ width: '30vw' }}>
             <ToggleField
               value={stackComponent.isShared}
               onHandleChange={() =>

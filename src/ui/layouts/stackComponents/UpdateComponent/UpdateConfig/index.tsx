@@ -531,7 +531,7 @@ export const UpdateConfig: React.FC<{
       return (
         <>
           {flavor?.configSchema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <MakeSecretField
                 required={flavor?.configSchema?.required?.includes(elementName)}
                 label={titleCase(elementName) + ' (Secret)'}
@@ -633,7 +633,7 @@ export const UpdateConfig: React.FC<{
               />
             </Box>
           ) : (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <FormTextField
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
@@ -663,12 +663,12 @@ export const UpdateConfig: React.FC<{
       return (
         <>
           {' '}
-          <Box marginTop="sm">
+          <Box marginTop="lg">
             <Paragraph size="body" style={{ color: '#000' }}>
               <label htmlFor="key">{titleCase(elementName)}</label>
             </Paragraph>
           </Box>
-          <FlexBox marginTop="sm" fullWidth style={{ width: '417px' }}>
+          <FlexBox marginTop="sm" fullWidth style={{ width: '30vw' }}>
             <textarea
               className={styles.textArea}
               defaultValue={JSON.stringify(mappedConfiguration[elementName])}
@@ -718,11 +718,11 @@ export const UpdateConfig: React.FC<{
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '-5px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -760,7 +760,7 @@ export const UpdateConfig: React.FC<{
                     <Box
                       className="form-group"
                       marginRight="md"
-                      style={{ width: '184px' }}
+                      style={{ width: '13.7vw' }}
                     >
                       <FormTextField
                         onChange={(event: any) => {
@@ -776,7 +776,7 @@ export const UpdateConfig: React.FC<{
                       />
                     </Box>
 
-                    <Box className="form-group" style={{ width: '184px' }}>
+                    <Box className="form-group" style={{ width: '13.7vw' }}>
                       <FormTextField
                         onChange={(event: any) => {
                           const values = { ...inputFields };
@@ -834,7 +834,7 @@ export const UpdateConfig: React.FC<{
                               // )
                             }
                           >
-                            <icons.minusCircle color={iconColors.primary} />
+                            <icons.delete color={iconColors.grey} />
                           </button>
                         )}
 
@@ -852,7 +852,7 @@ export const UpdateConfig: React.FC<{
                               }));
                             }}
                           >
-                            <icons.plusCircle color={iconColors.primary} />
+                            <icons.addNew color={iconColors.primary} />
                           </button>
                         )}
                       </div>
@@ -878,11 +878,11 @@ export const UpdateConfig: React.FC<{
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '-5px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -919,7 +919,7 @@ export const UpdateConfig: React.FC<{
                           &#x27A4;
                         </div>
 
-                        <Box className="form-group" style={{ width: '383px' }}>
+                        <Box className="form-group" style={{ width: '28.3vw' }}>
                           <FormTextField
                             onChange={(event: any) => {
                               const values = [
@@ -969,7 +969,7 @@ export const UpdateConfig: React.FC<{
                                   }));
                                 }}
                               >
-                                <icons.minusCircle color={iconColors.primary} />
+                                <icons.delete color={iconColors.grey} />
                               </button>
                             )}
                             {index ===
@@ -988,7 +988,7 @@ export const UpdateConfig: React.FC<{
                                   }));
                                 }}
                               >
-                                <icons.plusCircle color={iconColors.primary} />
+                                <icons.addNew color={iconColors.primary} />
                               </button>
                             )}
                           </div>
@@ -1006,7 +1006,7 @@ export const UpdateConfig: React.FC<{
     }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box marginTop={'lg'} style={{ width: '100%' }}>
+        <Box marginTop={'lg'} style={{ width: '30vw' }}>
           <Box>
             <ToggleField
               value={elementSchema}
@@ -1108,7 +1108,7 @@ export const UpdateConfig: React.FC<{
     <FlexBox.Column marginTop="xl">
       <FlexBox.Row flexDirection="column">
         <Container>
-          <Box style={{ width: '417px' }}>
+          <Box style={{ width: '30vw' }}>
             <FormTextField
               onChange={(e: any) => {
                 setComponentName(e);

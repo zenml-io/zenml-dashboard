@@ -30,7 +30,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       return (
         <>
           {flavor?.config_schema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -44,7 +44,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               />
             </Box>
           ) : (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -70,12 +70,12 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       return (
         <>
           {' '}
-          <Box marginTop="sm">
+          <Box marginTop="lg">
             <Paragraph size="body" style={{ color: '#000' }}>
               <label htmlFor="key">{titleCase(elementName)}</label>
             </Paragraph>
           </Box>
-          <FlexBox marginTop="sm" style={{ width: '417px' }}>
+          <FlexBox marginTop="sm" style={{ width: '30vw' }}>
             <textarea
               disabled
               className={styles.textArea}
@@ -118,7 +118,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     // }
     if (flavor?.config_schema?.properties[elementName]?.type === 'object') {
       return (
-        <Box marginTop="lg" style={{ width: '417px' }}>
+        <Box marginTop="lg" style={{ width: '30vw' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -128,11 +128,11 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               <div
                 style={{
                   position: 'absolute',
-                  bottom: '0',
+                  bottom: '-5px',
                   width: '5px',
                   height: '5px',
                   borderRadius: '100%',
-                  backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
                 }}
               ></div>
 
@@ -211,11 +211,11 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '-5px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -307,7 +307,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -342,7 +342,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
                         &#x27A4;
                       </div>
 
-                      <div className="form-group" style={{ width: '390px' }}>
+                      <div className="form-group" style={{ width: '28vw' }}>
                         <EditField
                           disabled
                           className={styles.field}
@@ -454,7 +454,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     <FlexBox.Column marginTop="xl" fullWidth>
       <FlexBox.Row flexDirection="column">
         {/* <Container> */}
-        <Box style={{ width: '417px' }}>
+        <Box style={{ width: '30vw' }}>
           <EditField
             disabled
             onChangeText={() => console.log('')}
