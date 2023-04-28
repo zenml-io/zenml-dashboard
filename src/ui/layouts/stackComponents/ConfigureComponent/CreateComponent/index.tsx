@@ -903,7 +903,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       </Box> */}
 
       <FlexBox.Row style={{ width: '100%' }}>
-        <Box style={{ width: '417px' }}>
+        <Box style={{ width: '30vw' }}>
           <FormTextField
             onChange={(e: any) => {
               setComponentName(e);
