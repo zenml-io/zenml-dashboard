@@ -30,7 +30,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       return (
         <>
           {flavor?.config_schema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '329px' }}>
+            <Box marginTop="lg" style={{ width: '417px' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -44,7 +44,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               />
             </Box>
           ) : (
-            <Box marginTop="lg">
+            <Box marginTop="lg" style={{ width: '417px' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -70,12 +70,12 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       return (
         <>
           {' '}
-          <Box marginTop="sm">
+          <Box marginTop="lg">
             <Paragraph size="body" style={{ color: '#000' }}>
               <label htmlFor="key">{titleCase(elementName)}</label>
             </Paragraph>
           </Box>
-          <FlexBox marginTop="sm" fullWidth>
+          <FlexBox marginTop="sm" style={{ width: '417px' }}>
             <textarea
               disabled
               className={styles.textArea}
@@ -118,136 +118,136 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     // }
     if (flavor?.config_schema?.properties[elementName]?.type === 'object') {
       return (
-        <Box marginTop="lg" style={{ width: '100%' }}>
+        <Box marginTop="lg" style={{ width: '417px' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
 
-          {Object.keys(elementSchema).length < 1 && ( 
+          {Object.keys(elementSchema).length < 1 && (
             <Box style={{ position: 'relative' }}>
               <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '0',
-                    width: '5px',
-                    height: '5px',
-                    borderRadius: '100%',
-                    backgroundColor: 'rgba(68, 62, 153, 0.8)',
-                  }}
-                ></div>
-              
-                <div 
-                  style={{
-                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                    marginLeft: '2px',
-                  }}
-                >
+                style={{
+                  position: 'absolute',
+                  bottom: '-5px',
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '100%',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                }}
+              ></div>
+
+              <div
+                style={{
+                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                  marginLeft: '2px',
+                }}
+              >
                 <FlexBox.Row>
-                    <Box
-                        style={{ display: 'flex', alignItems: 'center' }}
-                        marginTop="sm"
-                      >
-                        <div
-                          style={{
-                            marginTop: '30px',
-                            width: '15px',
-                            borderTop: '1px solid rgba(68, 62, 153, 0.3)',
-                          }}
-                        ></div>
-                        <div
-                          style={{
-                            marginTop: '30px',
-                            marginRight: '5px',
-                            marginLeft: '-2px',
-                            color: 'rgba(68, 62, 153, 0.3)',
-                          }}
-                        >
-                          &#x27A4;
-                        </div>
+                  <Box
+                    style={{ display: 'flex', alignItems: 'center' }}
+                    marginTop="sm"
+                  >
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
 
-                  <EditField
-                    disabled
-                    // onKeyDown={(e: any) =>
-                    //   onPressEnterForEmpty(
-                    //     e,
-                    //     'key',
-                    //     elementName,
-                    //     // index,
-                    //   )
-                    // }
-                    onChangeText={
-                      (event: any) => {}
-                      // handleInputChange(0, event, elementName, 'key')
-                    }
-                    label="Key"
-                    optional={false}
-                    // value={''}
-                    placeholder=""
-                    hasError={false}
-                    className={styles.field}
-                  />
+                    <EditField
+                      disabled
+                      // onKeyDown={(e: any) =>
+                      //   onPressEnterForEmpty(
+                      //     e,
+                      //     'key',
+                      //     elementName,
+                      //     // index,
+                      //   )
+                      // }
+                      onChangeText={
+                        (event: any) => {}
+                        // handleInputChange(0, event, elementName, 'key')
+                      }
+                      label="Key"
+                      optional={false}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
 
-                  <div style={{ width: '10%' }}></div>
-                  <EditField
-                    disabled
-                    // onKeyDown={(e: any) =>
-                    //   onPressEnterForEmpty(e, 'value', elementName)
-                    // }
-                    onChangeText={(event: any) => {}}
-                    label="Value"
-                    // optional={true}
-                    // value={''}
-                    placeholder=""
-                    hasError={false}
-                    className={styles.field}
-                  />
+                    <div style={{ width: '10%' }}></div>
+                    <EditField
+                      disabled
+                      // onKeyDown={(e: any) =>
+                      //   onPressEnterForEmpty(e, 'value', elementName)
+                      // }
+                      onChangeText={(event: any) => {}}
+                      label="Value"
+                      // optional={true}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
                   </Box>
                 </FlexBox.Row>
               </div>
             </Box>
-           )}
-          
-             <Box style={{ position: 'relative' }}>
-              <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '0',
-                    width: '5px',
-                    height: '5px',
-                    borderRadius: '100%',
-                    backgroundColor: 'rgba(68, 62, 153, 0.8)',
-                  }}
-                ></div>
-              
-                <div 
-                  style={{
-                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                    marginLeft: '2px',
-                  }}
-                >
-                 {Object.entries(elementSchema).map(([key, value], index) => (
-                  <FlexBox.Row>
-                    <Box
-                        style={{ display: 'flex', alignItems: 'center' }}
-                        marginTop="sm"
-                      >
-                        <div
-                          style={{
-                            marginTop: '30px',
-                            width: '35px',
-                            borderTop: '1px solid rgba(68, 62, 153, 0.3)',
-                          }}
-                        ></div>
-                        <div
-                          style={{
-                            marginTop: '30px',
-                            marginRight: '5px',
-                            marginLeft: '-2px',
-                            color: 'rgba(68, 62, 153, 0.3)',
-                          }}
-                        >
-                          &#x27A4;
-                        </div>
+          )}
+
+          <Box style={{ position: 'relative' }}>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '-5px',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
+              }}
+            ></div>
+
+            <div
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
+              {Object.entries(elementSchema).map(([key, value], index) => (
+                <FlexBox.Row>
+                  <Box
+                    style={{ display: 'flex', alignItems: 'center' }}
+                    marginTop="sm"
+                  >
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '35px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
 
                     <EditField
                       disabled
@@ -283,11 +283,10 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
                       hasError={false}
                       className={styles.field}
                     />
-
-                    </Box>
-                  </FlexBox.Row>
-                ))}
-              </div>
+                  </Box>
+                </FlexBox.Row>
+              ))}
+            </div>
           </Box>
         </Box>
       );
@@ -302,22 +301,22 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
 
           <Box style={{ position: 'relative' }}>
             <div
-                style={{
-                  position: 'absolute',
-                  bottom: '10px',
-                  width: '5px',
-                  height: '5px',
-                  borderRadius: '100%',
-                  backgroundColor: 'rgba(68, 62, 153, 0.8)',
-                }}
-              ></div>
-             
-              <div 
-                style={{
-                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                  marginLeft: '2px',
-                }}
-              >
+              style={{
+                position: 'absolute',
+                bottom: '10px',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
+              }}
+            ></div>
+
+            <div
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
               {mappedObject &&
                 mappedObject[elementName]?.map((item: any, index: any) => (
                   <Fragment key={index}>
@@ -343,7 +342,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
                         &#x27A4;
                       </div>
 
-                      <div className="form-group col-sm-8">             
+                      <div className="form-group" style={{ width: '390px' }}>
                         <EditField
                           disabled
                           className={styles.field}
@@ -352,9 +351,8 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
                           placeholder={''}
                         />
                       </div>
-                    
                     </Box>
-                </Fragment>
+                  </Fragment>
                 ))}
             </div>
             <div className="submit-button"></div>
@@ -456,7 +454,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     <FlexBox.Column marginTop="xl" fullWidth>
       <FlexBox.Row flexDirection="column">
         {/* <Container> */}
-        <Box style={{ width: '80%' }}>
+        <Box style={{ width: '417px' }}>
           <EditField
             disabled
             onChangeText={() => console.log('')}

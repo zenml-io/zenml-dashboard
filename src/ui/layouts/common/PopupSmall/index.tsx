@@ -7,40 +7,39 @@ import styles from './index.module.scss';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
-export const PopupSmall: React.FC<{ width?: string, showCloseIcon?: any, onClose: any }> = ({
-  children,
-  width,
-  showCloseIcon,
-  onClose, 
-}) => {
-  window.onkeydown = function( event: any ) {
-    if ( event.key === 'Esc' || event.key === 'Escape' ) {
-      return  onClose()
+export const PopupSmall: React.FC<{
+  width?: string;
+  showCloseIcon?: any;
+  onClose: any;
+}> = ({ children, width, showCloseIcon, onClose }) => {
+  window.onkeydown = function (event: any) {
+    if (event.key === 'Esc' || event.key === 'Escape') {
+      return onClose();
     }
-};
+  };
   return (
-  <>
-    <Dimmer />
-    <FlexBox
-      alignItems="center"
-      justifyContent="center"
-      className={styles.popupContainer}
-    >
-      <Box className={styles.popup} style={{ width }}>
-        <OutsideClickHandler onOutsideClick={onClose}>
-          {showCloseIcon && (
-            <Box className={styles.popupClose}>
-              <LinkBox onClick={onClose}>
-                <icons.closeWithBorder />
-              </LinkBox>
+    <>
+      <Dimmer />
+      <FlexBox
+        alignItems="center"
+        justifyContent="center"
+        className={styles.popupContainer}
+      >
+        <Box className={styles.popup} style={{ width }}>
+          <OutsideClickHandler onOutsideClick={onClose}>
+            {showCloseIcon && (
+              <Box className={styles.popupClose}>
+                <LinkBox onClick={onClose}>
+                  <icons.closeWithBorder />
+                </LinkBox>
+              </Box>
+            )}
+            <Box paddingVertical="lg" paddingHorizontal="lg">
+              {children}
             </Box>
-          )}
-          <Box paddingVertical="lg" paddingHorizontal="lg">
-            {children}
-          </Box>
-        </OutsideClickHandler>
-      </Box>
-    </FlexBox>
-  </>
-  )
+          </OutsideClickHandler>
+        </Box>
+      </FlexBox>
+    </>
+  );
 };

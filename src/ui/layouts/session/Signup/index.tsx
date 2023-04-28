@@ -23,26 +23,28 @@ const Signup: React.FC = () => {
   return (
     <EaseInBox>
       <Container className={styles.signUp} fluid>
-            <Box style={{ overflowY: 'auto' }}>
-              <Box margin="xxl" style={{ textAlign: 'center' }}>
-                <Link to={routePaths.signup}>
-                  <Image src={image} />
-                </Link>
+        <Box style={{ overflowY: 'auto' }}>
+          <Box margin="xxl" style={{ textAlign: 'center' }}>
+            <Link to={routePaths.signup}>
+              <Image src={image} />
+            </Link>
+          </Box>
+          <FlexBox.Column
+            paddingHorizontal="sm"
+            justifyContent="center"
+            className={styles.loginBox}
+          >
+            <Box marginTop="xl" style={{ textAlign: 'center' }}>
+              <Box paddingBottom="md">
+                <H2 bold color="white">
+                  {translate('title')}
+                </H2>
               </Box>
-              <FlexBox.Column
-                paddingHorizontal="sm"
-                justifyContent="center"
-                className={styles.loginBox}
-              >
-                <Box marginTop="xl" style={{ textAlign: 'center'}}>
-                  <Box paddingBottom="md">
-                    <H2 bold color='white' >{translate('title')}</H2>
-                  </Box>
-                  <Paragraph color="grey">{translate('subtitle')}</Paragraph>
-                </Box>
-                <Form />
-              </FlexBox.Column>
+              <Paragraph color="grey">{translate('subtitle')}</Paragraph>
             </Box>
+            <Form />
+          </FlexBox.Column>
+        </Box>
       </Container>
     </EaseInBox>
   );

@@ -121,27 +121,27 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.stack.base(runId, stackId)}
       breadcrumbs={breadcrumbs}
     >
-    <Box marginTop='lg'>
-      <Table
-        pagination={false}
-        // activeSorting={
-        //   activeSortingDirection?.toLowerCase() + ':' + activeSorting
-        // } // activeSorting={
-        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-        //     ? activeSorting
-        //     : 'created'
-        // }
-        // pagination={pagination}
-        // loading={fetching}
-        // filters={filter}
-        // showHeader={true}
-        // paginated={paginated}
-        headerCols={headerCols}
-        tableRows={runRow}
-        // emptyState={{ text: emptyStateText }}
-        trOnClick={openDetailPage}
-      />
-    </Box>
+      <Box marginTop="lg">
+        <Table
+          pagination={false}
+          // activeSorting={
+          //   activeSortingDirection?.toLowerCase() + ':' + activeSorting
+          // } // activeSorting={
+          //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
+          //     ? activeSorting
+          //     : 'created'
+          // }
+          // pagination={pagination}
+          // loading={fetching}
+          // filters={filter}
+          // showHeader={true}
+          // paginated={paginated}
+          headerCols={headerCols}
+          tableRows={runRow}
+          // emptyState={{ text: emptyStateText }}
+          trOnClick={openDetailPage}
+        />
+      </Box>
       {/* <Runs
         filter={[]}
         pagination={false}

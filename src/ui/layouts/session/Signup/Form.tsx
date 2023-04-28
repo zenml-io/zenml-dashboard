@@ -14,9 +14,8 @@ import { useService } from './useService';
 import { useEnterKeyPress } from '../../../hooks';
 
 export const Form: React.FC = () => {
-
   const dispatch = useDispatch();
-  const [confirmPass, setConfirmPass] = useState('')
+  const [confirmPass, setConfirmPass] = useState('');
 
   const {
     signup,
@@ -32,50 +31,52 @@ export const Form: React.FC = () => {
 
   const submit = () => {
     if (password !== confirmPass) {
-      dispatch(showToasterAction({
+      dispatch(
+        showToasterAction({
           description: 'Password not Matched',
           type: toasterTypes.failure,
         }),
-      )
+      );
     } else {
       signup();
     }
   };
 
-  const BUTTON_DISABLED = username.trim() === '' || password.trim() === '' || confirmPass.trim() === '' 
+  const BUTTON_DISABLED =
+    username.trim() === '' ||
+    password.trim() === '' ||
+    confirmPass.trim() === '';
 
   useEnterKeyPress(() => {
     if (!BUTTON_DISABLED) signup();
   });
 
-
   return (
-    <Box >
+    <Box>
       <Box marginBottom="lg">
-          <FormTextField
-            label={translate('form.username.label')}
-            labelColor='#ffffff'
-            placeholder={translate('form.username.placeholder')}
-            value={username} 
-            onChange={(val: string) => setUsername(val)}
-          />
+        <FormTextField
+          label={translate('form.username.label')}
+          labelColor="#ffffff"
+          placeholder={translate('form.username.placeholder')}
+          value={username}
+          onChange={(val: string) => setUsername(val)}
+        />
       </Box>
 
       <Box marginBottom="lg">
-          <FormTextField
-            label={translate('form.fullname.label')}
-            labelColor='#ffffff'
-            placeholder={translate('form.fullname.placeholder')}
-            value={fullName} 
-            onChange={(val: string) => setFullName(val)}
-          />
+        <FormTextField
+          label={translate('form.fullname.label')}
+          labelColor="#ffffff"
+          placeholder={translate('form.fullname.placeholder')}
+          value={fullName}
+          onChange={(val: string) => setFullName(val)}
+        />
       </Box>
-      
 
       <Box marginBottom="lg">
         <FormPasswordField
           label={translate('form.password.label')}
-          labelColor='#ffffff'
+          labelColor="#ffffff"
           placeholder={translate('form.password.placeholder')}
           value={password}
           onChange={(val: string) => setPassword(val)}
@@ -89,7 +90,7 @@ export const Form: React.FC = () => {
       <Box marginBottom="lg">
         <FormPasswordField
           label={translate('form.confirmPassword.label')}
-          labelColor='#fff'
+          labelColor="#fff"
           placeholder={translate('form.confirmPassword.placeholder')}
           value={confirmPass}
           onChange={(val: string) => setConfirmPass(val)}
@@ -101,11 +102,12 @@ export const Form: React.FC = () => {
         />
       </Box>
       <PrimaryButton
-        marginTop='md'
+        marginTop="md"
         className={styles.signUpButton}
         loading={loading}
         disabled={BUTTON_DISABLED || loading}
-        onClick={submit} >
+        onClick={submit}
+      >
         {translate('form.button.text')}
       </PrimaryButton>
     </Box>
