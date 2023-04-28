@@ -10,7 +10,7 @@ import {
 } from '../../../../redux/selectors';
 import styles from './repository-create.module.scss';
 import { useHistory, useLocationPath } from '../../../hooks';
-import Fallback from '../../../assets/plugin-fallback.svg';
+import { ReactComponent as Camera } from '../../../components/icons/assets/PhotoCamera.svg';
 import {
   Box,
   EditFieldSettings,
@@ -129,11 +129,19 @@ function CreateRepositoryBody() {
             {new Date().toLocaleDateString()}
           </time>
 
-          <img
-            className={styles.create__container__imageContainer__image}
-            src={logoUrl || Fallback}
-            alt={`Logo of repository ${name}`}
-          ></img>
+          {logoUrl ? (
+            <img
+              className={styles.create__container__imageContainer__image}
+              src={logoUrl}
+              alt={`Logo of repository ${name}`}
+            />
+          ) : (
+            <div
+              className={styles.create__container__imageContainer__cameraIcon}
+            >
+              <Camera />
+            </div>
+          )}
         </div>
         <div className={styles.create__formContainer}>
           <h2 className={styles.create__heading}>Add your repository</h2>
