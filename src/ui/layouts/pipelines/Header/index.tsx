@@ -57,9 +57,10 @@ const HeaderWithButtons: React.FC<{
   renderRight?: () => JSX.Element;
 }> = ({ breadcrumbs, renderRight, title }) => (
   <FlexBox
+    marginTop="xl"
     alignItems="center"
     justifyContent="space-between"
-    className={styles.header}
+    className={styles.header2}
   >
     <FlexBox className="d-none d-md-flex">
       <Paragraph
