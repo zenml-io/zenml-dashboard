@@ -507,6 +507,8 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     );
                   } else {
                     const state = {
+                      secretId: secretId,
+                      secretIdArray: secretIdArray,
                       flavor: flavor.name,
                       routeFromComponent: true,
                       componentName: componentName,
