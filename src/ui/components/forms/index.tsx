@@ -348,12 +348,14 @@ export const MakeSecretField = (
 
 export const EditField = (
   props: {
+    filteredSecretId?: string;
     label: string;
     labelColor: any;
     placeholder: any;
     value: string;
     defaultValue?: string;
     optional: boolean;
+    viewSecretDetail?: any;
   } & any,
 ): JSX.Element => {
   return (
@@ -365,16 +367,48 @@ export const EditField = (
           optional={props.optional}
           labelColor={props.labelColor}
           InputComponent={
-            <TextInput
-              {...props}
-              style={{
-                backgroundColor: props.disabled && '#E9EAEC',
-                borderWidth: props.disabled && '0px',
-              }}
-              defaultValue={props?.defaultValue}
-              value={props.value}
-              placeholder={props.placeholder}
-            />
+            <>
+              {props.filteredSecretId ? (
+                <Box
+                  paddingLeft="md"
+                  style={{
+                    height: '40px',
+                    width: '30vw',
+                    backgroundColor: props.disabled && '#F6F7F7',
+                    borderWidth: props.disabled && '0px',
+                    borderRadius: '4px',
+                    justifyContent: 'flex-start',
+                    alignItems: 'center',
+                    display: 'flex',
+                  }}
+                >
+                  <Paragraph
+                    onClick={() => props.viewSecretDetail()}
+                    style={{
+                      cursor: 'pointer',
+                      textAlign: 'center',
+                      fontSize: '16px',
+                      color: '#22BBDD',
+                      textDecorationLine: 'underline',
+                    }}
+                  >
+                    {props.defaultValue}
+                  </Paragraph>
+                </Box>
+              ) : (
+                <TextInput
+                  {...props}
+                  style={{
+                    backgroundColor: props.disabled && '#E9EAEC',
+                    borderWidth: props.disabled && '0px',
+                  }}
+                  filteredSecretId={props.filteredSecretId}
+                  defaultValue={props?.defaultValue}
+                  value={props.value}
+                  placeholder={props.placeholder}
+                />
+              )}
+            </>
           }
         />
         {!props.disabled && (
