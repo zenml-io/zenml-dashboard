@@ -259,7 +259,7 @@ export const Register: React.FC<Props> = (state: any) => {
           />
         </Box> */}
 
-        <Box style={{ width: '329px' }}>
+        <Box style={{ width: '30vw' }}>
           <FormTextField
             required={true}
             label={'Secret name'}
@@ -269,7 +269,7 @@ export const Register: React.FC<Props> = (state: any) => {
             onChange={(val: string) => setSecretName(val)}
           />
         </Box>
-        <Box marginTop="lg" style={{ width: '329px' }}>
+        <Box marginTop="lg" style={{ width: '30vw' }}>
           <FormDropdownField
             label={'Scope'}
             labelColor="rgba(66, 66, 64, 0.5)"

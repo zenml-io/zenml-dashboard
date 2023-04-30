@@ -245,7 +245,7 @@ export const ListForAll: React.FC<{
   return (
     <Box style={{ width: '100%', position: 'relative' }}>
       <div className={styles.top}>
-        <Box marginTop="lg">
+        <Box>
           <FlexBox.Row alignItems="center">
             <Box style={{ width: '30%' }}>
               <FormTextField
