@@ -326,7 +326,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                       <Box
                         className="form-group"
                         marginRight="md"
-                        style={{ width: '185px' }}
+                        style={{ width: '13.75vw' }}
                       >
                         <FormTextField
                           onChange={(event: any) =>
@@ -344,7 +344,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                         />
                       </Box>
 
-                      <Box className="form-group" style={{ width: '185px' }}>
+                      <Box className="form-group" style={{ width: '13.75vw' }}>
                         <FormTextField
                           onChange={(event: any) =>
                             handleInputChange(

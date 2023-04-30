@@ -165,7 +165,10 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               >
                 <FlexBox.Row>
                   <Box
-                    style={{ display: 'flex', alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
                     marginTop="sm"
                   >
                     <div
@@ -249,7 +252,11 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               {Object.entries(elementSchema).map(([key, value], index) => (
                 <FlexBox.Row>
                   <Box
-                    style={{ display: 'flex', alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      width: '29.8vw',
+                    }}
                     marginTop="sm"
                   >
                     <div
@@ -363,7 +370,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
                         &#x27A4;
                       </div>
 
-                      <div className="form-group" style={{ width: '28vw' }}>
+                      <div className="form-group" style={{ width: '28.3vw' }}>
                         <EditField
                           disabled
                           className={styles.field}
