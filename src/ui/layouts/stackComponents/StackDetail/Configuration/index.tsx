@@ -58,7 +58,6 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
-  console.log(secrets, 'asdasd1232323cwwcwf');
   const onCallApi = (updateConfig: any) => {
     // ;
     const { id }: any = workspaces.find(
