@@ -112,7 +112,6 @@ export const artifactData = (state?: State | null): any => {
 };
 export const artifactVisualization = (state?: State | null): any => {
   if (!state) return {};
-  console.log("__unauth_state", state);
   const artifactVisualization = getMyArtifactVisualization(state);
   return artifactVisualization;
 };

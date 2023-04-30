@@ -92,7 +92,6 @@ const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
 
     case runActionTypes.getArtifactVisualization.success:{
-      console.log("__unauth_reducers")
       const artifactVisualization = action.payload
         return { ...newArtifactVisualizationState(state, artifactVisualization)};
     }

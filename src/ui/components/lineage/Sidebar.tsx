@@ -1,13 +1,18 @@
 import React, { useState, useEffect, useRef } from 'react' //eslint-disable-line
 import circleArrowSideClose from '../icons/assets/circleArrowSideClose.svg';
 import circleArrowSideOpen from '../icons/assets/circleArrowSideOpen.svg';
-import { useDispatch, useSelector } from '../../hooks';
+import { useSelector } from '../../hooks';
 import { sessionSelectors } from '../../../redux/selectors';
 import ArtifactTabHeader from './sidebarTabsSwitchers/artifactTabSwitcher';
 import StepnodeTabHeader from './sidebarTabsSwitchers/stepTabSwitcher';
-import { fetchArtifactData, fetchStepData, fetchStepLogs } from '../../layouts/runs/RunDetail/sidebarServices';
-import { runsActions } from '../../../redux/actions';
+import {
+    fetchArtifactData,
+    fetchArtifactVisualizationSize,
+    fetchStepData,
+    fetchStepLogs
+} from '../../layouts/runs/RunDetail/sidebarServices';
 import styles from './index.module.scss'
+// import { runsActions } from '../../../redux/actions';
 // import { FullWidthSpinner } from '../spinners';
 
 
@@ -26,7 +31,6 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
     const [step, setStep] = useState([] as any);
     const [logs, setLogs] = useState([] as any);
     const sidebar_ref = useRef<HTMLInputElement>(null) //eslint-disable-line
-    const dispatch = useDispatch();
     const authToken = useSelector(sessionSelectors.authenticationToken);
 
     async function FetchData(type: boolean) {
@@ -34,18 +38,13 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
         if (type) {
             const data = await fetchStepData(selectedNode, authToken);
             const _logs = await fetchStepLogs(selectedNode, authToken);
-            console.log("__DATA__", data)
-            console.log("__LOGS__", _logs)
             setStep(data);
             setLogs(_logs)
-            dispatch(runsActions.getStep({ exe_id: selectedNode.execution_id }))
-            console.log("__unauth_stepnode-step api call")
             setFetching(false)
         }
         else {
             const data = await fetchArtifactData(selectedNode, authToken);
-            console.log("__DATA__", data)
-            dispatch(runsActions.getArtifact({ exe_id: selectedNode.execution_id }))
+            const size = await fetchArtifactVisualizationSize(selectedNode.execution_id, authToken);
             setArtifact(data);
             setFetching(false)
         }
@@ -61,7 +60,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
         }
         else {
             setIsStepNode(false);
-        }        
+        }
         FetchData(type);
     }, [isStepNode, selectedNode]) //eslint-disable-line
 
@@ -84,11 +83,9 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
         if (!sidebar) {
             setSidebar(true)
         }
-        console.log("__unauth_stepnode-sidebar")
     }, [selectedNode])//eslint-disable-line
 
     useEffect(() => { //added
-        console.log("__unauth_stepnode-fetching",fetching)
     }, [fetching])//eslint-disable-line
 
 
@@ -102,7 +99,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
                 }
             </div>
             <div className={`${styles.bodyContainer}`}>
-                {isStepNode ? <StepnodeTabHeader node={step} logs={logs} fetching={fetching}/> : <ArtifactTabHeader node={artifact} fetching={fetching}/>}
+                {isStepNode ? <StepnodeTabHeader node={step} logs={logs} fetching={fetching} /> : <ArtifactTabHeader node={artifact} fetching={fetching} />}
             </div>
         </div>
     )

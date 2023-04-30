@@ -69,57 +69,27 @@ let currentId = '';
 let currentResponse = {};
 
 
+export const fetchArtifactVisualizationSize = async (artifactId: any, authToken: any) => {
 
-// export async function artifactVisulizationService(artifactId: any, authToken: any) {
-//     console.log(`__unauth_id ${currentId} === ${artifactId}, ${currentId === artifactId}`);
-//     if (currentId === artifactId) {
-//         return currentResponse;
-//     }
-//     currentId = artifactId;
-//     currentResponse = {};
-//     const response = await axios.get(
-//         `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
-//         {
-//             headers: {
-//                 Authorization: `bearer ${authToken}`,
-//             },
-//         },
-//     ).then((response) => {
-//         return response
-//     })
-//     return response;
+    const CancelToken = axios.CancelToken;
+    const source = CancelToken.source();
 
-// }
-
-export async function artifactVisulizationService(artifactId: any, authToken:any, source:any) {
-    console.log(`__unauth_id ${currentId} === ${artifactId}, ${currentId === artifactId} ${source}`);
-    console.log(`__unauth_id source`, source);
-    if (currentId === artifactId) {
-        return currentResponse;
-    }
-    currentId = artifactId;
-    currentResponse = {};
-    // const CancelToken = axios.CancelToken;
-    // // const source = CancelToken.source();
     const response = await axios.get(
         `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
         {
             headers: {
                 Authorization: `bearer ${authToken}`,
             },
-            onDownloadProgress: progressEvent => {
+            onDownloadProgress: async progressEvent => {
                 const contentLength = progressEvent.total;
                 const loadedBytes = progressEvent.loaded;
+                localStorage.setItem("VISUALIZATION_SIZE", contentLength);
+                console.log("VISUALIZATION_SIZE", localStorage.getItem("VISUALIZATION_SIZE"))
+                source.cancel(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes (cancel)`)
                 console.log(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`);
-                // if(source.cancel.name)
-                // {
-                //     console.log("__unauth_id client requested cancel")
-                //     source.cancel("client requested cancel")
-                // }
             },
-            cancelToken: source.token
+            cancelToken: source?.token,
         },
-        
     ).then((response) => {
         currentResponse = response;
         return response
@@ -131,4 +101,51 @@ export async function artifactVisulizationService(artifactId: any, authToken:any
         }
     });
     return response;
+};
+
+
+
+export async function artifactVisulizationService(artifactId: any, authToken: any, source: any) {
+
+    // console.log("cancelToken before", cancelToken)
+    // console.log("currentResponse before", currentResponse)
+
+    if (currentId === artifactId) {
+        return currentResponse;
+    }
+
+    currentId = artifactId;
+    currentResponse = {};
+
+    try {
+
+        const response = await axios.get(
+            `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
+            {
+                headers: {
+                    Authorization: `bearer ${authToken}`,
+                },
+                onDownloadProgress: progressEvent => {
+                    const contentLength = progressEvent.total;
+                    const loadedBytes = progressEvent.loaded;
+                    console.log(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`);
+                },
+                cancelToken: source?.token,
+            },
+
+        ).then((response) => {
+            currentResponse = response;
+            return response
+        }).catch(error => {
+            if (axios.isCancel(error)) {
+                // return error
+            } else {
+                return error
+            }
+        });
+        return response;
+    }
+    catch (err) {
+        console.log("-------------err", err)
+    }
 }

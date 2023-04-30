@@ -108,7 +108,6 @@ export interface RunDetailRouteParams {
 
 export const RunDetail: React.FC = () => {
   const { runId, pipelineId, fetching, run, metadata } = useService();
-  console.log("__UNAUTH_PIPELINE_",{runId, pipelineId, fetching, run, metadata })
   const history = useHistory();
   const runRow: any = [];
   runRow.push(run);

@@ -17,20 +17,23 @@ import axios from 'axios';
 
 const resposneSizeConstant = 5 * 1024 * 1024;
 
-function Modal({ message, proceed, size }: { message: string, proceed: any, size: number }) {
+function Modal({ message, proceed }: { message: string, proceed: any }) {
 
   const [isProceed, setIsProceed] = useState(false);
+  const tempSize = Number(localStorage.getItem("VISUALIZATION_SIZE"));
 
   const handleAgree = () => {
     proceed(true)
     setIsProceed(true)
   };
+
   useEffect(() => {
     // if (size !==0) {
-    if (size < resposneSizeConstant)
+    if (tempSize < resposneSizeConstant)
+      // if (tempSize < 1)
       return proceed(true)
     // }
-  }, [isProceed, size])//eslint-disable-line
+  }, [isProceed])//eslint-disable-line
 
   return (
     <>
@@ -55,10 +58,9 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const [proceed, setProceed] = useState(false);
   const [loader, setLoader] = useState(false);
-  const [size, setSize] = useState(0);
+  // const [size, setSize] = useState<number | any>(0);
   const divRef = useRef<HTMLDivElement | null>(null);
-  const CancelToken = axios.CancelToken;
-  const source = CancelToken.source();
+  const [cancelToken, setCancelToken] = useState<any>(null);
 
   const handleDownload = async () => {
     try {
@@ -74,39 +76,16 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
     }
   };
 
-  const getSizeOfVisualization = async () => {
-    const CancelTokenLocal = axios.CancelToken;
-    const sourceLocal = CancelTokenLocal.source();
-    return await axios.get(
-      `${process.env.REACT_APP_BASE_API_URL}/artifacts/${node.id}/visualize`,
-      {
-        headers: {
-          Authorization: `bearer ${authToken}`,
-        },
-        onDownloadProgress: progressEvent => {
-          const contentLength = progressEvent.total;
-          const loadedBytes = progressEvent.loaded;
-          console.log(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes (check)`);
-          source.cancel(`cannot proceed`);
-          setSize(contentLength);
-          if (contentLength > resposneSizeConstant) {
-            console.log("__unauth_size", contentLength)
-          }
-          sourceLocal.cancel(`cannot proceed`);
-        },
-        cancelToken: sourceLocal.token
-      },
-    )
-  }
-
   const getVisualizations = () => {
+
+    const source = axios.CancelToken.source();
+    setCancelToken(source);
+
     setLoader(true)
     artifactVisulizationService(node?.id, authToken, source)
       .then((res) => {
-        console.log("resposne__", response)
+        setLoader(false)
         setResponse(res);
-        console.log("visualization 002")
-
         if (res?.data?.type === "html") {
           setType("__HTML");
           setResponse(res);
@@ -120,45 +99,31 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
         if (res?.data?.type === "markdown") {
           setType("__MARKDOWN");
         }
-        console.log("visualization 003")
         setLoader(false)
       })
+      .catch(error => {
+        if (axios.isCancel(error)) {
+          console.log('Request canceled:', error.message);
+        } else {
+          console.log('Error:', error.message);
+        }
+      });
   }
 
   const handleCancelRequest = () => {
-    // artifactVisulizationService(node?.id, authToken, source)
-    source.cancel("USER CANCELED THE REQUEST");
-    console.log('handleCancelRequest')
-    setProceed(true);
-    setSize(0);
-    setLoader(false)
-    setResponse({})
-    setTimeout(()=>{
-      source.cancel("USER CANCELED THE REQUEST");
-      console.log('handleCancelRequest')
-      setProceed(true);
-      setSize(0);
-      setLoader(false)
-      setResponse({})
-    },500)
+    if (cancelToken) {
+      cancelToken.cancel('Request canceled by user');
+    }
   }
 
   useEffect(() => {
+    if (cancelToken) {
+      cancelToken.cancel('Request canceled by user');
+    }
     if (proceed) {
-      if (size > 0) {
-        console.log("requesting visals")
-        getVisualizations()
-        console.log("visualization 001")
-        setLoader(false)
-      }
+      getVisualizations();
     }
-    if (!proceed) {
-      if (size === 0) {
-        getSizeOfVisualization();
-      }
-    }
-    return () => setResponse(null);
-  }, [size, proceed])//eslint-disable-line
+  }, [proceed, node])//eslint-disable-line
 
   useEffect(() => {
     if (response?.data?.type === "html") {
@@ -171,62 +136,21 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
     }
   }, [divRef.current, response?.data?.value, type]); //eslint-disable-line
 
-  useEffect(() => {
-  }, [loader, response])
-
-
+  // ASK TO PROCEED IF SIZE IN LARGER THAN 5MB
   if (!proceed) {
-    return <Modal message='size of resposne in larger than 5mb. Do you want to continue?' proceed={setProceed} size={size} />
+    return <Modal message='size of resposne in larger than 5mb. Do you want to continue?' proceed={setProceed} />
   }
 
-  // if (loader) {
-  //   return (
-  //     <div className={`${style.FullWidthSpinnerContainer}`}>
-  //       <FullWidthSpinner color="black" size="md" />
-  //       <button onClick={handleCancelRequest} className={`${style.downloadBtn}`}>Cancel Visalization</button>
-  //     </div>)
-  // }
-
-
-  // CHECK IF RESPOSNE IS NULL
-  if (response === null) {
-    console.log("__unauth_response ", response)
-    if (!proceed) {
-      return (
-        <div className={`${style.FullWidthSpinnerContainer}`}>
-          <div className={`${style.mainContainer}`}>
-            <p>NO VISUALIZATION 3</p>
-          </div>
-        </div>
-      )
-    }
-    return (
-      <div className={`${style.FullWidthSpinnerContainer}`}>
-        <FullWidthSpinner color="black" size="md" />
-        <button onClick={handleCancelRequest} className={`${style.downloadBtn}`}>Cancel Visalization</button>
-      </div>)
-  }
-  // CHECK IF RESPOSNE LENGTH IS 0
-  if (Object.keys(response)?.length === 0) {
-    console.log("requesting visals load")
-    return (
-      <div className={`${style.FullWidthSpinnerContainer}`}>
-        <div className={`${style.mainContainer}`}>
-          <p>NO VISUALIZATION </p>
-        </div>
-      </div>
-    )
-  }
-  // CHECK IF RESPOSNE IS UNDEFINED OR API RESPOSNE HAS ERROR
-  if (response === undefined || response?.name === "Error") {
-    console.log("requesting visals load")
-    return (
-      <div className={`${style.FullWidthSpinnerContainer}`}>
-        <div className={`${style.mainContainer}`}>
-          <p>NO VISUALIZATION {`(error occured)`}</p>
-        </div>
-      </div>
-    )
+  // LOADER CONDITION
+  if (loader) {
+    return <div className={`${style.FullWidthSpinnerContainer}`}>
+      <FullWidthSpinner color="black" size="md" />
+      <p style={{ fontFamily: 'Rubik', fontSize: '14px' }}>Loading Visualization. Please wait</p>
+      <button
+        onClick={handleCancelRequest}
+        className={`${style.downloadBtn}`}
+      >Cancel Visalization</button>
+    </div>
   }
 
   return (

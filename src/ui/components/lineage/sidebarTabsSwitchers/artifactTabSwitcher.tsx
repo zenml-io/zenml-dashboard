@@ -30,7 +30,6 @@ const artifactTabs = [
 
 const ArtifactTabHeader = ({ node, fetching }: { node: any, fetching:boolean }) => {
 
-    console.log("Fetching Artifact tab Switcher", fetching)
     const [show, setShow] = useState("__META");
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(35);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
@@ -85,6 +84,7 @@ const ArtifactTabHeader = ({ node, fetching }: { node: any, fetching:boolean }) 
             {fetching ? 
             <div className={`${styles.FullWidthSpinnerContainer}`}>
                 <FullWidthSpinner color="black" size="md" />
+                <p style={{ fontFamily: 'Rubik', fontSize: '14px' }}>Loading Artifact. Please wait</p>
             </div> : <>
 
                     {/* SHOW META */}

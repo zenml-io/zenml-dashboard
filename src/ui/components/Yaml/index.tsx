@@ -155,7 +155,6 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
       setFetchingSchedule(true)
       const resposne = await fetchSchedule("97f92da7-d5d7-4224-8b92-5fcbfb43d4fe", authToken)
       setSchedule(resposne);
-      console.log("__unauth_fetch_schedule", resposne)
     }
     AsyncFetchCall();
   }, []) //eslint-disable-line
@@ -170,19 +169,15 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
     setTimeout(() => {
       if (!fetchingSchedule) {
         setNa(true);
-        console.log("__unauth_fetch_schedule , settimeout, setna", na)
       }
       else {
-        console.log("__unauth_fetch_schedule , settimeout, setna", na)
       }
 
     }, 500);
   }, [schedule]) //eslint-disable-line
 
-  console.log("__GRAPH", graph)
 
   useEffect(() => {
-    console.log("__UNAUTH SELECTEDNODE", selectedNode)
   }, [selectedNode])
 
 

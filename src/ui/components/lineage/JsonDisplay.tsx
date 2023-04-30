@@ -34,7 +34,6 @@ function printNestedJson(obj: any) {
     for (let key in obj) {
             if (typeof obj[key] === 'object') {
                 if (obj[key] === null) {
-                    console.log(`___unauth_keyAndValue ${key === "full_name"}`)
                     output += `<div style="display:flex; justify-content:flex-start; padding-top:10px">
                                 <span style='color:#565e5e; font-size:18px; font-weight:600; text-align: left'>${key} : &nbsp;</span> 
                                 <span style='color:#443E99; font-size:16px; font-weight:600; text-align: left'>${obj[key] === "" ? null : obj[key]}<span>

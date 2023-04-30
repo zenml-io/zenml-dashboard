@@ -31,8 +31,6 @@ const CsvTable = ({ data }: { data: any }) => {
                     setcsv(result.data)
                     setColumn(columnArray[0]);
                     setValues(valueArray);
-
-                    console.log()
                 })
             })
 

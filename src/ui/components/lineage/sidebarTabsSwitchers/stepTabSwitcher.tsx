@@ -76,7 +76,6 @@ const ToggleButton: React.FC<any> = ({ label, value }) => { //eslint-disable-lin
 
 const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
 
-    console.log("__unauth_stepnode-header", fetching )
     const [show, setShow] = useState("__CONFIG");
     const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(50);
     const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
@@ -93,8 +92,6 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
     useEffect(() => {
         setDynamicLeft(divRefs.current[1]?.offsetLeft);
         setDynamicWidth(divRefs.current[1]?.offsetWidth);
-        console.log("__unauth_dynamic_Left", dynamicLeft)
-        console.log("__unauth_dynamic_width", dynamicWidth)
     }, [])//eslint-disable-line
 
     useEffect(() => {
@@ -117,10 +114,6 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
             default: return "";
         }
     }
-    // if (Object.keys(node).length === 0) {
-    //     return <FullWidthSpinner color="black" size="md" />;
-    // }
-
     return (
         <>
             <div className='siderbar_header11'>
@@ -145,6 +138,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
             {fetching ?
                 <div className={`${styles.FullWidthSpinnerContainer}`}>
                     <FullWidthSpinner color="black" size="md" />
+                    <p style={{ fontFamily: 'Rubik', fontSize: '14px' }}>Loading Step. Please wait</p>
                 </div> : <>
 
                     {
