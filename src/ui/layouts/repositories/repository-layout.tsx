@@ -53,7 +53,7 @@ export const BasePage: React.FC<{
           ) : (
             <>
               <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
-              <FlexBox marginBottom="xxl">
+              <FlexBox style={{ marginBottom: '100px' }} marginBottom="xxl">
                 <Redirect exact from={tabBasePath} to={tabPages[0].path} />
                 {tabPages.map((page, index) => (
                   <AppRoute
