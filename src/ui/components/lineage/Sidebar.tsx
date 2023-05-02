@@ -44,7 +44,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
         }
         else {
             const data = await fetchArtifactData(selectedNode, authToken);
-            const size = await fetchArtifactVisualizationSize(selectedNode.execution_id, authToken);
+            // await fetchArtifactVisualizationSize(selectedNode.execution_id, authToken);
             setArtifact(data);
             setFetching(false)
         }

@@ -17,10 +17,12 @@ import axios from 'axios';
 
 const resposneSizeConstant = 5 * 1024 * 1024;
 
-function Modal({ message, proceed }: { message: string, proceed: any }) {
+function Modal({ message, proceed, size }: { message: string, proceed: any, size: any }) {
 
   const [isProceed, setIsProceed] = useState(false);
   const tempSize = Number(localStorage.getItem("VISUALIZATION_SIZE"));
+  console.log("node.metadata.storage_size.value (size)", typeof size)
+  console.log("node.metadata.storage_size.value (size)", Number(size))
 
   const handleAgree = () => {
     proceed(true)
@@ -29,7 +31,7 @@ function Modal({ message, proceed }: { message: string, proceed: any }) {
 
   useEffect(() => {
     // if (size !==0) {
-    if (tempSize < resposneSizeConstant)
+    if (Number(size) < resposneSizeConstant)
       // if (tempSize < 1)
       return proceed(true)
     // }
@@ -53,12 +55,16 @@ function Modal({ message, proceed }: { message: string, proceed: any }) {
 
 const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolean }) => {
 
+  const controller = new AbortController();
+  const signal = controller.signal;
+
+  const source = axios.CancelToken.source();
+
   const [response, setResponse] = useState<any | undefined>(null)
   const [type, setType] = useState<string | undefined>('')
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const [proceed, setProceed] = useState(false);
   const [loader, setLoader] = useState(false);
-  // const [size, setSize] = useState<number | any>(0);
   const divRef = useRef<HTMLDivElement | null>(null);
   const [cancelToken, setCancelToken] = useState<any>(null);
 
@@ -78,11 +84,16 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
 
   const getVisualizations = () => {
 
-    const source = axios.CancelToken.source();
+
+
+
     setCancelToken(source);
+    // setCancelToken(controller);
 
     setLoader(true)
+    // artifactVisulizationService(node?.id, authToken, signal)
     artifactVisulizationService(node?.id, authToken, source)
+      // artifactVisulizationService(node?.id, authToken, null, null)
       .then((res) => {
         setLoader(false)
         setResponse(res);
@@ -112,10 +123,22 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
 
   const handleCancelRequest = () => {
     if (cancelToken) {
+      console.log("cancelToken", cancelToken)
       cancelToken.cancel('Request canceled by user');
+      // cancelToken.Abort();
+      setTimeout(() => {
+        cancelToken.cancel('Request canceled by user');
+
+      }, 500)
     }
   }
 
+  // useEffect(() => {
+  //   console.log("Request canceled by user")
+  //   if (cancelToken) {
+  //     cancelToken.cancel('Request canceled by user');
+  //   }
+  // }, [node])//eslint-disable-line
   useEffect(() => {
     if (cancelToken) {
       cancelToken.cancel('Request canceled by user');
@@ -138,7 +161,9 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
 
   // ASK TO PROCEED IF SIZE IN LARGER THAN 5MB
   if (!proceed) {
-    return <Modal message='size of resposne in larger than 5mb. Do you want to continue?' proceed={setProceed} />
+    console.log("node.metadata.storage_size.value", typeof node.metadata.storage_size.value)
+    let size = node.metadata.storage_size.value
+    return <Modal message='size of resposne in larger than 5mb. Do you want to continue?' proceed={setProceed} size={size} />
   }
 
   // LOADER CONDITION
@@ -150,15 +175,24 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
         onClick={handleCancelRequest}
         className={`${style.downloadBtn}`}
       >Cancel Visalization</button>
+      {/* <div className={`${style.btnContainer}`}> */}
+      <button onClick={handleDownload} className={`${style.downloadBtn} downloadBtn`} style={{ background: '#cfcfcf', marginTop: '10px', padding: '0px 60px' }} disabled>
+        Download
+      </button>
+      {/* </div> */}
     </div>
   }
 
   return (
     <div className={`${style.mainContainer}`}>
-
+      <div className={`${style.btnContainer}`}>
+        <button onClick={handleDownload} className={`${style.downloadBtn} downloadBtn`}>
+          Download
+        </button>
+      </div>
       {type === "__HTML" ?
         response === undefined ? <p>NO VISUALIZATION </p> :
-          <div style={{ height: "80%", width: '100%', overflowY: 'scroll', overflowX: 'hidden' }}>
+          <div className={`${style.html}`}>
             <div ref={divRef} />
           </div>
         :
@@ -192,11 +226,7 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
           }
         </div>
         : ""}
-      <div className={`${style.btnContainer}`}>
-        <button onClick={handleDownload} className={`${style.downloadBtn} downloadBtn`}>
-          Download
-        </button>
-      </div>
+
     </div>
   )
 }

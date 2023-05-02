@@ -95,7 +95,7 @@ export const fetchArtifactVisualizationSize = async (artifactId: any, authToken:
         return response
     }).catch(error => {
         if (axios.isCancel(error)) {
-            // return error
+            return {}
         } else {
             return error
         }
@@ -149,3 +149,4 @@ export async function artifactVisulizationService(artifactId: any, authToken: an
         console.log("-------------err", err)
     }
 }
+
