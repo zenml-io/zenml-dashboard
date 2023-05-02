@@ -74,7 +74,7 @@ export const runsForRepositoryId = (repositoryId: TId | null | undefined) => (
   state?: State | null,
 ): TRun[] => {
   if (!state || !repositoryId) return [];
-  const byRepositoryId = getByRepositoryId(state);
+  const byRepositoryId = getByRepositoryId(state) || {};
   const byId = getById(state);
   if (!byRepositoryId[repositoryId]) return [];
   return byRepositoryId[repositoryId].map((id: TId) => byId[id]);
