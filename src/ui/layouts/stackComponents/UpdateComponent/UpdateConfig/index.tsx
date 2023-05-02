@@ -64,6 +64,8 @@ export const UpdateConfig: React.FC<{
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
+  const [secretId, setSecretId] = useState('');
+  const [secretIdArray, setSecretIdArray] = useState([]);
   const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
@@ -76,6 +78,10 @@ export const UpdateConfig: React.FC<{
     if (state?.state?.routeFromEditComponent) {
       setMappedConfiguration(state.state.mappedConfiguration);
       setInputFields(state.state.inputFields);
+      setSecretId(state?.state?.secretId);
+      if (state?.state?.secretIdArray?.length) {
+        setSecretIdArray(state?.state?.secretIdArray);
+      }
       // setIsShared(state?.state?.isShared);
       // setInputFields(state?.state?.inputFields);
       // setInputData(state?.state?.inputData);
@@ -358,10 +364,14 @@ export const UpdateConfig: React.FC<{
         id: value?.id ? value?.id : '',
       },
     });
-
-    // if (value === undefined) {
-    //   return false;
-    // }
+    if (value?.id) {
+      console.log('Asdasasd123123', secretIdArray);
+      // debugger;
+      setSecretId(value?.id);
+      const listOfIds: any = [...secretIdArray];
+      listOfIds.push(value.id);
+      setSecretIdArray(listOfIds);
+    }
 
     if (value?.value?.includes('.') || value?.value?.id) {
       dispatch(
@@ -527,22 +537,46 @@ export const UpdateConfig: React.FC<{
                 label={titleCase(elementName) + ' (Secret)'}
                 placeholder={''}
                 handleClick={() => {
-                  const state = {
-                    flavor: flavor.name,
-                    routeFromEditComponent: true,
-                    componentName: componentName,
-                    isShared: isShared,
-                    mappedConfiguration: mappedConfiguration,
-                    inputFields: inputFields,
-                    // inputFields: inputFields,
+                  if (secretId) {
+                    const state = {
+                      secretIdArray: secretIdArray,
+                      secretId: secretId,
+                      flavor: flavor.name,
+                      routeFromEditComponent: true,
+                      componentName: componentName,
+                      isShared: isShared,
+                      mappedConfiguration: mappedConfiguration,
+                      inputFields: inputFields,
+                      // inputFields: inputFields,
 
-                    secretKey: elementName,
-                    pathName: location.pathname,
-                  };
-                  history.push(
-                    routePaths.secrets.registerSecrets(selectedWorkspace),
-                    state,
-                  );
+                      secretKey: elementName,
+                      pathName: location.pathname,
+                    };
+                    history.push(
+                      routePaths.secret.updateSecret(
+                        secretId,
+                        selectedWorkspace,
+                      ),
+                      state,
+                    );
+                  } else {
+                    const state = {
+                      flavor: flavor.name,
+                      routeFromEditComponent: true,
+                      componentName: componentName,
+                      isShared: isShared,
+                      mappedConfiguration: mappedConfiguration,
+                      inputFields: inputFields,
+                      // inputFields: inputFields,
+
+                      secretKey: elementName,
+                      pathName: location.pathname,
+                    };
+                    history.push(
+                      routePaths.secrets.registerSecrets(selectedWorkspace),
+                      state,
+                    );
+                  }
                 }}
                 // inputData={inputData}
                 value={
@@ -554,6 +588,12 @@ export const UpdateConfig: React.FC<{
                     : ''
                 }
                 onChange={(val: string, newEvent: any) => {
+                  if (!val) {
+                    if (secretIdArray?.length === 1) {
+                    } else {
+                      setSecretId('');
+                    }
+                  }
                   if (val.includes('{{')) {
                     callActionForSecret(elementName, val, newEvent);
                   } else {

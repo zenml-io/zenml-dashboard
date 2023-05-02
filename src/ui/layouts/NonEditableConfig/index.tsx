@@ -9,8 +9,15 @@ import {
 import { ToggleField } from '../common/FormElement';
 import styles from './index.module.scss';
 import { useService } from './useService';
+import { routePaths } from '../../../routes/routePaths';
+import { useSelector } from 'react-redux';
+import { secretSelectors, workspaceSelectors } from '../../../redux/selectors';
+import { useHistory } from '../../hooks';
 
 export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
+  const secrets = useSelector(secretSelectors.mySecrets);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const history = useHistory();
   const { flavor } = useService({
     details,
   });
@@ -27,12 +34,26 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (flavor?.config_schema?.properties[elementName]?.type === 'string') {
+      const extracted = elementSchema.split(/\./)[0];
+      const secretName = extracted.replace(/{{|}}|\./g, '').trim();
+      const filteredSecret = secrets?.filter(
+        (item) => item.name === secretName,
+      );
       return (
         <>
           {flavor?.config_schema?.properties[elementName].sensitive ? (
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
+                viewSecretDetail={() => {
+                  history.push(
+                    routePaths.secret.configuration(
+                      filteredSecret[0]?.id,
+                      selectedWorkspace,
+                    ),
+                  );
+                }}
+                filteredSecretId={filteredSecret[0]?.id}
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
                 // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
                 label={titleCase(elementName) + ' (Secret)'}

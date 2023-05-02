@@ -191,7 +191,7 @@ export const Register: React.FC<Props> = (state: any) => {
           updatedRouteState.state.inputData[
             state.state.secretKey
           ] = `{{ ${secretName}.${inputFields[0].key} }}`;
-
+          updatedRouteState.state.secretId = id;
           history.push(state.state.pathName, updatedRouteState);
         } else if (state?.state?.routeFromEditComponent) {
           const updatedRouteState = {
@@ -201,6 +201,7 @@ export const Register: React.FC<Props> = (state: any) => {
             state.state.secretKey
           ] = `{{ ${secretName}.${inputFields[0].key} }}`;
 
+          updatedRouteState.state.secretId = id;
           history.push(state.state.pathName, updatedRouteState);
         } else {
           history.push(routePaths.secret.configuration(id, selectedWorkspace));
