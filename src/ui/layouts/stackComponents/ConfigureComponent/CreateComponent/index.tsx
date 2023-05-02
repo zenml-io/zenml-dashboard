@@ -273,11 +273,11 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '-5px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -316,7 +316,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                       <Box
                         className="form-group"
                         marginRight="md"
-                        style={{ width: '192px' }}
+                        style={{ width: '13.75vw' }}
                       >
                         <FormTextField
                           onChange={(event: any) =>
@@ -334,7 +334,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                         />
                       </Box>
 
-                      <Box className="form-group" style={{ width: '192px' }}>
+                      <Box className="form-group" style={{ width: '13.75vw' }}>
                         <FormTextField
                           onChange={(event: any) =>
                             handleInputChange(
@@ -381,7 +381,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                                 )
                               }
                             >
-                              <icons.minusCircle color={iconColors.primary} />
+                              <icons.delete color={iconColors.grey} />
                             </button>
                           )}
 
@@ -393,7 +393,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                                 handleAddFields(props.name, parentIndex)
                               }
                             >
-                              <icons.plusCircle color={iconColors.primary} />
+                              <icons.addNew color={iconColors.primary} />
                             </button>
                           )}
                         </div>
@@ -588,15 +588,15 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '-5px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
-            <div 
+            <div
               className="form-row"
               style={{
                 borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
@@ -628,46 +628,38 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                         &#x27A4;
                       </div>
 
-                    <Box
-                      className="form-group"
-                      marginRight="md"
-                      style={{ width: '400px' }}
-                    >
-                      <FormTextField
-                        onChange={
-                          (event: any) => {
-                            const values = { ...inputArrayFields };
-                            values[props.name][index] = event;
-                            setInputArrayFields(values);
+                      <Box
+                        className="form-group"
+                        marginRight="md"
+                        style={{ width: '385px' }}
+                      >
+                        <FormTextField
+                          onChange={
+                            (event: any) => {
+                              const values = { ...inputArrayFields };
+                              values[props.name][index] = event;
+                              setInputArrayFields(values);
+                            }
+                            // handleInputChange(
+                            //   parentIndex,
+                            //   childIndex,
+                            //   event,
+                            //   props.name,
+                            //   'value',
+                            // )
                           }
-                          // handleInputChange(
-                          //   parentIndex,
-                          //   childIndex,
-                          //   event,
-                          //   props.name,
-                          //   'value',
-                          // )
-                        }
-                        label={'Value'}
-                        value={item}
-                        placeholder={''}
-                      />
-                    </Box>
-                    <div
-                      // className="col-sx-2 "
-                      style={{
-                        justifyContent: 'space-between',
-                        display: 'flex',
-                        marginTop: '20px',
-                        marginLeft: '-10px',
-                      }}
-                    >
+                          label={'Value'}
+                          value={item}
+                          placeholder={''}
+                        />
+                      </Box>
                       <div
+                        // className="col-sx-2 "
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
                           justifyContent: 'space-between',
-                          alignItems: 'center',
+                          display: 'flex',
+                          marginTop: '20px',
+                          marginLeft: '-10px',
                         }}
                       >
                         {inputArrayFields[props.name].length > 1 && (
@@ -682,7 +674,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                               setInputArrayFields(values);
                             }}
                           >
-                            <icons.minusCircle color={iconColors.primary} />
+                            <icons.delete color={iconColors.grey} />
                           </button>
                         )}
                         {index === inputArrayFields[props.name].length - 1 && (
@@ -695,11 +687,10 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                               setInputArrayFields(values);
                             }}
                           >
-                            <icons.plusCircle color={iconColors.primary} />
+                            <icons.addNew color={iconColors.primary} />
                           </button>
                         )}
                       </div>
-                    </div>
                     </Box>
                   </Fragment>
                 ))}
@@ -912,7 +903,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       </Box> */}
 
       <FlexBox.Row style={{ width: '100%' }}>
-        <Box style={{ width: '50rem' }}>
+        <Box style={{ width: '30vw' }}>
           <FormTextField
             onChange={(e: any) => {
               setComponentName(e);

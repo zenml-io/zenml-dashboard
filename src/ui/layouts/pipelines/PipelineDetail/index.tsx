@@ -38,7 +38,7 @@ const FilterWrapperForRun = () => {
     return filterValuesMap;
   }
   return (
-    <Box marginTop='lg' style={{ width: '100%' }}>
+    <Box marginTop="lg" style={{ width: '100%' }}>
       <FilterComponent
         getInitials={getInitialFilterStateForRuns}
         filters={filters}
