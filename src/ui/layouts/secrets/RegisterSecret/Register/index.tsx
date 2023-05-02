@@ -191,7 +191,7 @@ export const Register: React.FC<Props> = (state: any) => {
           updatedRouteState.state.inputData[
             state.state.secretKey
           ] = `{{ ${secretName}.${inputFields[0].key} }}`;
-
+          updatedRouteState.state.secretId = id;
           history.push(state.state.pathName, updatedRouteState);
         } else if (state?.state?.routeFromEditComponent) {
           const updatedRouteState = {
@@ -201,6 +201,7 @@ export const Register: React.FC<Props> = (state: any) => {
             state.state.secretKey
           ] = `{{ ${secretName}.${inputFields[0].key} }}`;
 
+          updatedRouteState.state.secretId = id;
           history.push(state.state.pathName, updatedRouteState);
         } else {
           history.push(routePaths.secret.configuration(id, selectedWorkspace));
@@ -259,7 +260,7 @@ export const Register: React.FC<Props> = (state: any) => {
           />
         </Box> */}
 
-        <Box style={{ width: '329px' }}>
+        <Box style={{ width: '30vw' }}>
           <FormTextField
             required={true}
             label={'Secret name'}
@@ -269,7 +270,7 @@ export const Register: React.FC<Props> = (state: any) => {
             onChange={(val: string) => setSecretName(val)}
           />
         </Box>
-        <Box marginTop="lg" style={{ width: '329px' }}>
+        <Box marginTop="lg" style={{ width: '30vw' }}>
           <FormDropdownField
             label={'Scope'}
             labelColor="rgba(66, 66, 64, 0.5)"

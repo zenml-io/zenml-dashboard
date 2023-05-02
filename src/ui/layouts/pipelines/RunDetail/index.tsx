@@ -136,7 +136,7 @@ export const RunDetail: React.FC = () => {
       tabBasePath={routePaths.run.pipeline.base(runId, pipelineId)}
       breadcrumbs={breadcrumbs}
     >
-      <Box marginTop='lg'>
+      <Box marginTop="lg">
         <Table
           pagination={false}
           headerCols={headerCols}

@@ -32,7 +32,7 @@ export const signUpAction = ({
         username,
         fullName,
         password,
-        token,    
+        token,
       },
     },
   },

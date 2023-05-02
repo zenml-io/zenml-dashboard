@@ -10,24 +10,23 @@ interface ServiceInterface {
   signup: () => void;
   hasSubmittedWithErrors: boolean;
   userId: string;
-  username: string,
-  setUsername: (username: string) => void,
-  fullName: string,
-  setFullName: (fullName: string) => void,
+  username: string;
+  setUsername: (username: string) => void;
+  fullName: string;
+  setFullName: (fullName: string) => void;
   password: string;
   setPassword: (password: string) => void;
-  token: any,
+  token: any;
   loading: boolean;
 }
 
 export const useService = (): ServiceInterface => {
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
 
-  const location = useLocation()
-  const params = new URLSearchParams(location.search)
-
-  const preUsername = params.get('username')
-  const token = params.get('token')
-  const id = params.get('user')
+  const preUsername = params.get('username');
+  const token = params.get('token');
+  const id = params.get('user');
 
   const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState('');
@@ -35,7 +34,7 @@ export const useService = (): ServiceInterface => {
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
 
-  const userId = id ? id : username
+  const userId = id ? id : username;
 
   const dispatch = useDispatch();
   const { push } = usePushRoute();

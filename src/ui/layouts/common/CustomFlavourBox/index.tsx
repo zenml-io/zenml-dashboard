@@ -5,7 +5,7 @@ import styles from './index.module.scss';
 
 export const CustomFlavourBox: React.FC<{
   flavourName: string;
-  flavourDesc: string; 
+  flavourDesc: string;
   logoUrl: string;
   onSelectFlavor: any;
 }> = ({ flavourName, flavourDesc, logoUrl, onSelectFlavor }) => {

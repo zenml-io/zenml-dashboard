@@ -27,7 +27,7 @@ const FilterWrapper = () => {
     return filterValuesMap;
   }
   return (
-    <Box marginTop='lg' style={{ marginTop: '-20px', width: '100%' }}>
+    <Box marginTop="lg" style={{ marginTop: '-20px', width: '100%' }}>
       <FilterComponent
         getInitials={getInitialFilterStateForPipeline}
         filters={filters}
@@ -60,7 +60,7 @@ const FilterWrapperForRun = () => {
       >
         <AllRuns filter={getFilter(filters)} />
       </FilterComponent>
-    </Box> 
+    </Box>
   );
 };
 

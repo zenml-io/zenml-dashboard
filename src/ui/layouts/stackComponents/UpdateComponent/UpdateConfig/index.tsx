@@ -64,6 +64,8 @@ export const UpdateConfig: React.FC<{
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
+  const [secretId, setSecretId] = useState('');
+  const [secretIdArray, setSecretIdArray] = useState([]);
   const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
@@ -76,6 +78,10 @@ export const UpdateConfig: React.FC<{
     if (state?.state?.routeFromEditComponent) {
       setMappedConfiguration(state.state.mappedConfiguration);
       setInputFields(state.state.inputFields);
+      setSecretId(state?.state?.secretId);
+      if (state?.state?.secretIdArray?.length) {
+        setSecretIdArray(state?.state?.secretIdArray);
+      }
       // setIsShared(state?.state?.isShared);
       // setInputFields(state?.state?.inputFields);
       // setInputData(state?.state?.inputData);
@@ -358,10 +364,14 @@ export const UpdateConfig: React.FC<{
         id: value?.id ? value?.id : '',
       },
     });
-
-    // if (value === undefined) {
-    //   return false;
-    // }
+    if (value?.id) {
+      console.log('Asdasasd123123', secretIdArray);
+      // debugger;
+      setSecretId(value?.id);
+      const listOfIds: any = [...secretIdArray];
+      listOfIds.push(value.id);
+      setSecretIdArray(listOfIds);
+    }
 
     if (value?.value?.includes('.') || value?.value?.id) {
       dispatch(
@@ -521,28 +531,52 @@ export const UpdateConfig: React.FC<{
       return (
         <>
           {flavor?.configSchema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '329px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <MakeSecretField
                 required={flavor?.configSchema?.required?.includes(elementName)}
                 label={titleCase(elementName) + ' (Secret)'}
                 placeholder={''}
                 handleClick={() => {
-                  const state = {
-                    flavor: flavor.name,
-                    routeFromEditComponent: true,
-                    componentName: componentName,
-                    isShared: isShared,
-                    mappedConfiguration: mappedConfiguration,
-                    inputFields: inputFields,
-                    // inputFields: inputFields,
+                  if (secretId) {
+                    const state = {
+                      secretIdArray: secretIdArray,
+                      secretId: secretId,
+                      flavor: flavor.name,
+                      routeFromEditComponent: true,
+                      componentName: componentName,
+                      isShared: isShared,
+                      mappedConfiguration: mappedConfiguration,
+                      inputFields: inputFields,
+                      // inputFields: inputFields,
 
-                    secretKey: elementName,
-                    pathName: location.pathname,
-                  };
-                  history.push(
-                    routePaths.secrets.registerSecrets(selectedWorkspace),
-                    state,
-                  );
+                      secretKey: elementName,
+                      pathName: location.pathname,
+                    };
+                    history.push(
+                      routePaths.secret.updateSecret(
+                        secretId,
+                        selectedWorkspace,
+                      ),
+                      state,
+                    );
+                  } else {
+                    const state = {
+                      flavor: flavor.name,
+                      routeFromEditComponent: true,
+                      componentName: componentName,
+                      isShared: isShared,
+                      mappedConfiguration: mappedConfiguration,
+                      inputFields: inputFields,
+                      // inputFields: inputFields,
+
+                      secretKey: elementName,
+                      pathName: location.pathname,
+                    };
+                    history.push(
+                      routePaths.secrets.registerSecrets(selectedWorkspace),
+                      state,
+                    );
+                  }
                 }}
                 // inputData={inputData}
                 value={
@@ -554,6 +588,12 @@ export const UpdateConfig: React.FC<{
                     : ''
                 }
                 onChange={(val: string, newEvent: any) => {
+                  if (!val) {
+                    if (secretIdArray?.length === 1) {
+                    } else {
+                      setSecretId('');
+                    }
+                  }
                   if (val.includes('{{')) {
                     callActionForSecret(elementName, val, newEvent);
                   } else {
@@ -593,7 +633,7 @@ export const UpdateConfig: React.FC<{
               />
             </Box>
           ) : (
-            <Box marginTop="lg">
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <FormTextField
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
@@ -623,12 +663,12 @@ export const UpdateConfig: React.FC<{
       return (
         <>
           {' '}
-          <Box marginTop="sm">
+          <Box marginTop="lg">
             <Paragraph size="body" style={{ color: '#000' }}>
               <label htmlFor="key">{titleCase(elementName)}</label>
             </Paragraph>
           </Box>
-          <FlexBox marginTop="sm" fullWidth>
+          <FlexBox marginTop="sm" fullWidth style={{ width: '30vw' }}>
             <textarea
               className={styles.textArea}
               defaultValue={JSON.stringify(mappedConfiguration[elementName])}
@@ -678,11 +718,11 @@ export const UpdateConfig: React.FC<{
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '-5px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -696,127 +736,127 @@ export const UpdateConfig: React.FC<{
               {inputFields[elementName]?.map((item: any, index: any) => (
                 <Fragment>
                   <Box
-                      style={{ display: 'flex', alignItems: 'center' }}
-                      marginTop="sm"
-                    >
-                      <div
-                        style={{
-                          marginTop: '30px',
-                          width: '15px',
-                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
-                        }}
-                      ></div>
-                      <div
-                        style={{
-                          marginTop: '30px',
-                          marginRight: '5px',
-                          marginLeft: '-2px',
-                          color: 'rgba(68, 62, 153, 0.3)',
-                        }}
-                      >
-                        &#x27A4;
-                      </div>
-
-                  <Box className="form-group"
-                    marginRight="md"
-                    style={{ width: '200px' }}
-                  >
-                    <FormTextField
-                      onChange={(event: any) => {
-                        const values = { ...inputFields };
-                        values[elementName][index].key = event;
-                        // values[name][childIndex].key = event;
-                        // debugger;
-                        setInputFields(values);
-                      }}
-                      label={'Key'}
-                      value={item.key}
-                      placeholder={''}
-                    />
-                  </Box>
-
-                  <Box className="form-group"        
-                    style={{ width: '200px' }}>
-                    <FormTextField
-                      onChange={(event: any) => {
-                        const values = { ...inputFields };
-                        values[elementName][index].value = event;
-                        // values[name][childIndex].key = event;
-                        // debugger;
-                        setInputFields(values);
-                      }}
-                      label={'Value'}
-                      value={item?.value}
-                      placeholder={''}
-                    />
-                  </Box>
-
-                  <div
-                    style={{
-                      justifyContent: 'space-between',
-                      display: 'flex',
-                      marginTop: '20px',
-                      marginLeft: '5px',
-                    }}
+                    style={{ display: 'flex', alignItems: 'center' }}
+                    marginTop="sm"
                   >
                     <div
                       style={{
-                        display: 'flex',
-                        flexDirection: 'row',
-                        justifyContent: 'space-between',
-                        alignItems: 'center',
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
                       }}
                     >
-                      {inputFields[elementName].length > 1 && (
-                        <button
-                          className={styles.fieldButton}
-                          style={{}}
-                          type="button"
-                          // disabled={item[props.name].length === 1}
-                          onClick={
-                            () => {
-                              setInputFields((prevState: any) => {
-                                // Replace with the index of the object to remove
-                                const newInputFields = [
-                                  ...prevState[elementName],
-                                ];
-                                newInputFields.splice(index, 1);
-                                return {
-                                  ...prevState,
-                                  [elementName]: newInputFields,
-                                };
-                              });
-                            }
-                            // handleRemoveFields(
-                            //   parentIndex,
-                            //   childIndex,
-                            //   props.name,
-                            // )
-                          }
-                        >
-                          <icons.minusCircle color={iconColors.primary} />
-                        </button>
-                      )}
-
-                      {index === inputFields[elementName].length - 1 && (
-                        <button
-                          className={styles.fieldButton}
-                          type="button"
-                          onClick={() => {
-                            setInputFields((prevState: any) => ({
-                              ...prevState,
-                              [elementName]: [
-                                ...prevState[elementName],
-                                { key: '', value: '' },
-                              ],
-                            }));
-                          }}
-                        >
-                          <icons.plusCircle color={iconColors.primary} />
-                        </button>
-                      )}
+                      &#x27A4;
                     </div>
-                  </div>
+
+                    <Box
+                      className="form-group"
+                      marginRight="md"
+                      style={{ width: '13.7vw' }}
+                    >
+                      <FormTextField
+                        onChange={(event: any) => {
+                          const values = { ...inputFields };
+                          values[elementName][index].key = event;
+                          // values[name][childIndex].key = event;
+                          // debugger;
+                          setInputFields(values);
+                        }}
+                        label={'Key'}
+                        value={item.key}
+                        placeholder={''}
+                      />
+                    </Box>
+
+                    <Box className="form-group" style={{ width: '13.7vw' }}>
+                      <FormTextField
+                        onChange={(event: any) => {
+                          const values = { ...inputFields };
+                          values[elementName][index].value = event;
+                          // values[name][childIndex].key = event;
+                          // debugger;
+                          setInputFields(values);
+                        }}
+                        label={'Value'}
+                        value={item?.value}
+                        placeholder={''}
+                      />
+                    </Box>
+
+                    <div
+                      style={{
+                        justifyContent: 'space-between',
+                        display: 'flex',
+                        marginTop: '20px',
+                        marginLeft: '5px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}
+                      >
+                        {inputFields[elementName].length > 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            style={{}}
+                            type="button"
+                            // disabled={item[props.name].length === 1}
+                            onClick={
+                              () => {
+                                setInputFields((prevState: any) => {
+                                  // Replace with the index of the object to remove
+                                  const newInputFields = [
+                                    ...prevState[elementName],
+                                  ];
+                                  newInputFields.splice(index, 1);
+                                  return {
+                                    ...prevState,
+                                    [elementName]: newInputFields,
+                                  };
+                                });
+                              }
+                              // handleRemoveFields(
+                              //   parentIndex,
+                              //   childIndex,
+                              //   props.name,
+                              // )
+                            }
+                          >
+                            <icons.delete color={iconColors.grey} />
+                          </button>
+                        )}
+
+                        {index === inputFields[elementName].length - 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            type="button"
+                            onClick={() => {
+                              setInputFields((prevState: any) => ({
+                                ...prevState,
+                                [elementName]: [
+                                  ...prevState[elementName],
+                                  { key: '', value: '' },
+                                ],
+                              }));
+                            }}
+                          >
+                            <icons.addNew color={iconColors.primary} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
                   </Box>
                 </Fragment>
               ))}
@@ -838,11 +878,11 @@ export const UpdateConfig: React.FC<{
             <div
               style={{
                 position: 'absolute',
-                bottom: '0',
+                bottom: '-5px',
                 width: '5px',
                 height: '5px',
                 borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.8)',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
               }}
             ></div>
 
@@ -879,94 +919,94 @@ export const UpdateConfig: React.FC<{
                           &#x27A4;
                         </div>
 
-                      <Box className="form-group" style={{ width: '420px' }}>
-                        <FormTextField
-                          onChange={(event: any) => {
-                            const values = [
-                              ...mappedConfiguration[elementName],
-                            ];
-                            values[index] = event;
-                            setMappedConfiguration((prevConfig: any) => ({
-                              ...prevConfig, // Spread the previous user object
-                              [elementName]: values, // Update the age property
-                            }));
-                          }}
-                          label={'Value'}
-                          value={item}
-                          placeholder={''}
-                        />
-                      </Box>
-                      <div
-                        style={{
-                          justifyContent: 'space-between',
-                          display: 'flex',
-                          marginTop: '20px',
-                          marginLeft: '5px',
-                        }}
-                      >
+                        <Box className="form-group" style={{ width: '28.3vw' }}>
+                          <FormTextField
+                            onChange={(event: any) => {
+                              const values = [
+                                ...mappedConfiguration[elementName],
+                              ];
+                              values[index] = event;
+                              setMappedConfiguration((prevConfig: any) => ({
+                                ...prevConfig, // Spread the previous user object
+                                [elementName]: values, // Update the age property
+                              }));
+                            }}
+                            label={'Value'}
+                            value={item}
+                            placeholder={''}
+                          />
+                        </Box>
                         <div
                           style={{
-                            display: 'flex',
-                            flexDirection: 'row',
                             justifyContent: 'space-between',
-                            alignItems: 'center',
+                            display: 'flex',
+                            marginTop: '20px',
+                            marginLeft: '5px',
                           }}
                         >
-                          {mappedConfiguration[elementName].length > 1 && (
-                            <button
-                              className={styles.fieldButton}
-                              style={{}}
-                              type="button"
-                              // disabled={item[props.name].length === 1}
-                              onClick={() => {
-                                const values = [
-                                  ...mappedConfiguration[elementName],
-                                ];
-                                values.splice(index, 1);
-                                setMappedConfiguration((prevConfig: any) => ({
-                                  ...prevConfig, // Spread the previous user object
-                                  [elementName]: values, // Update the age property
-                                }));
-                              }}
-                            >
-                              <icons.minusCircle color={iconColors.primary} />
-                            </button>
-                          )}
-                          {index ===
-                            mappedConfiguration[elementName].length - 1 && (
-                            <button
-                              className={styles.fieldButton}
-                              type="button"
-                              onClick={() => {
-                                const values = [
-                                  ...mappedConfiguration[elementName],
-                                ];
-                                values.push('');
-                                setMappedConfiguration((prevConfig: any) => ({
-                                  ...prevConfig, // Spread the previous user object
-                                  [elementName]: values, // Update the age property
-                                }));
-                              }}
-                            >
-                              <icons.plusCircle color={iconColors.primary} />
-                            </button>
-                          )}
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                            }}
+                          >
+                            {mappedConfiguration[elementName].length > 1 && (
+                              <button
+                                className={styles.fieldButton}
+                                style={{}}
+                                type="button"
+                                // disabled={item[props.name].length === 1}
+                                onClick={() => {
+                                  const values = [
+                                    ...mappedConfiguration[elementName],
+                                  ];
+                                  values.splice(index, 1);
+                                  setMappedConfiguration((prevConfig: any) => ({
+                                    ...prevConfig, // Spread the previous user object
+                                    [elementName]: values, // Update the age property
+                                  }));
+                                }}
+                              >
+                                <icons.delete color={iconColors.grey} />
+                              </button>
+                            )}
+                            {index ===
+                              mappedConfiguration[elementName].length - 1 && (
+                              <button
+                                className={styles.fieldButton}
+                                type="button"
+                                onClick={() => {
+                                  const values = [
+                                    ...mappedConfiguration[elementName],
+                                  ];
+                                  values.push('');
+                                  setMappedConfiguration((prevConfig: any) => ({
+                                    ...prevConfig, // Spread the previous user object
+                                    [elementName]: values, // Update the age property
+                                  }));
+                                }}
+                              >
+                                <icons.addNew color={iconColors.primary} />
+                              </button>
+                            )}
+                          </div>
                         </div>
-                      </div>
                       </Box>
-                  </Fragment>
-                  )
+                    </Fragment>
+                  ),
                 )}
             </div>
             <div className="submit-button"></div>
             <br />
           </FlexBox.Row>
         </Box>
-      )
+      );
     }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box marginTop={'lg'} style={{ width: '100%' }}>
+        <Box marginTop={'lg'} style={{ width: '30vw' }}>
           <Box>
             <ToggleField
               value={elementSchema}
@@ -1065,10 +1105,10 @@ export const UpdateConfig: React.FC<{
     return <FullWidthSpinner color="black" size="md" />;
   }
   return (
-    <FlexBox.Column marginTop="xl" fullWidth>
-      <FlexBox.Row flexDirection="column" style={{ width: '40%' }}>
+    <FlexBox.Column marginTop="xl">
+      <FlexBox.Row flexDirection="column">
         <Container>
-          <Box>
+          <Box style={{ width: '30vw' }}>
             <FormTextField
               onChange={(e: any) => {
                 setComponentName(e);
