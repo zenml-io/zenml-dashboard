@@ -6,6 +6,10 @@ const sessionActionTypes = {
   UPDATE_EMAIL: 'UPDATE_EMAIL',
 };
 
+const serverInfoActionTypes = {
+  SERVER_INFO: 'SERVER_INFO',
+};
+
 const hubAuthActionTypes = {
   AUTHORISE_HUB: 'AUTHORISE_HUB',
   DISCONNECT_HUB: 'DISCONNECT_HUB',
@@ -141,6 +145,7 @@ export const actionTypes = {
   ...flavorActionTypes,
   ...flavorPagesActionTypes,
   ...repositoryPagesActionTypes,
+  ...serverInfoActionTypes,
 };
 
 export const REQUESTED = 'REQUESTED';

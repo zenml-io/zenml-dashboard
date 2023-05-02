@@ -17,3 +17,4 @@ export * from './flavors';
 export * from './repositories';
 export * from './repositoriesPages';
 export * from './flavorPages';
+export * from './serverInfo';

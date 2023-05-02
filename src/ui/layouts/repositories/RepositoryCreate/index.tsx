@@ -194,14 +194,14 @@ function CreateRepositoryBody() {
                 />
 
                 <ValidatedTextField
-                  label={`${translate('logoURL.text')} *`}
+                  label={`${translate('logoURL.text')} (optional)`}
                   value={logoUrl}
                   onChange={setLogoUrl}
                   status={{ status: 'editing' }}
                 />
 
                 <InputWithLabel
-                  label={`${translate('description.text')} *`}
+                  label={`${translate('description.text')} (optional)`}
                   InputComponent={
                     <TextAreaInput
                       value={description}

@@ -70,6 +70,9 @@ import secretPagesReducer, {
 import repositoriesPagesReducer, {
   initialState as repositoriesPagesInitialState,
 } from './reducers/repositoriesPagesReducer';
+import serverInfoReducer, {
+  initialState as serverInfoInitialState,
+} from './reducers/serverInfoReducer';
 
 const initialState = {
   session: sessionInitialState,
@@ -91,6 +94,7 @@ const initialState = {
   secretsPages: secretsPagesInitialState,
   repositories: repositoryState,
   repositoriesPages: repositoriesPagesInitialState,
+  serverInfo: serverInfoInitialState,
 };
 
 export const persisted = combineReducers({
@@ -113,6 +117,7 @@ export const persisted = combineReducers({
   hubPrompt: hubPromptReducer,
   repositories: repositoryReducer,
   repositoriesPages: repositoriesPagesReducer,
+  serverInfo: serverInfoReducer,
 });
 
 export default (state: any, action: any) => {
