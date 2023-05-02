@@ -51,7 +51,7 @@ const workspacesReducer = (
       const workspaces: Workspaces[] = camelCaseArray(
         action.payload.items as WorkspacesPayload,
       );
-      
+
       const myWorkspaceIds: TId[] = workspaces.map(
         (workspace: Workspaces) => workspace.id,
       );
@@ -63,7 +63,11 @@ const workspacesReducer = (
         };
       } else {
         return {
-          ...newState(state, workspaces, action.requestParams.selectedWorkspace),
+          ...newState(
+            state,
+            workspaces,
+            action.requestParams.selectedWorkspace,
+          ),
           myWorkspaceIds,
         };
       }

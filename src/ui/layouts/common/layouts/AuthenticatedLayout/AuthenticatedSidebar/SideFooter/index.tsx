@@ -12,7 +12,7 @@ export const SideFooter: React.FC = () => {
         <Separator.LightNew />
       </Box>
 
-      <div style={{ marginBottom: '-11px' }}>
+      <div style={{ marginBottom: '-11px', marginLeft: '-3.5px' }}>
         {/* <MenuItemExternal
         id="documentation"
         Icon={() => <icons.docs color={iconColors.white} size={iconSizes.md} />}

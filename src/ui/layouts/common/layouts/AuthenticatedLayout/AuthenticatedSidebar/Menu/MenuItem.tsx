@@ -43,10 +43,24 @@ export const MenuItem: React.FC<{
           )}
         ></Box>
 
-        <FlexBox style={{ width: '100%', alignItems: 'center' }} marginTop='md'  flexDirection='column'>
-          <Box><Icon /></Box>
-          <Box marginTop='sm' style={{ maxWidth: '80px' }}>
-            <Paragraph color="darkGrey" size="small" style={{ fontSize: '10px', lineHeight: '13px', textAlign: 'center' }} >
+        <FlexBox
+          style={{ width: '100%', alignItems: 'center' }}
+          marginTop="md"
+          flexDirection="column"
+        >
+          <Box>
+            <Icon />
+          </Box>
+          <Box marginTop="sm" style={{ maxWidth: '80px' }}>
+            <Paragraph
+              color="darkGrey"
+              size="small"
+              style={{
+                fontSize: '10px',
+                lineHeight: '13px',
+                textAlign: 'center',
+              }}
+            >
               {camelCaseToParagraph(text)}
             </Paragraph>
           </Box>

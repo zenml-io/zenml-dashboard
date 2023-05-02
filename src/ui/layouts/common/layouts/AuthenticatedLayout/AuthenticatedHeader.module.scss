@@ -26,7 +26,7 @@ $width: 15rem;
   border-radius: 4px;
   box-shadow: $boxShadow;
   min-width: $width;
-  z-index: 9;
+  z-index: 100;
   top: 5rem;
   right: 0;
   text-align: end;
@@ -41,7 +41,7 @@ $width: 15rem;
 .popupItem:hover {
   background-color: $activeBgColor;
 }
-.your{
+.your {
   font-family: 'Rubik';
   font-size: 14px;
   font-weight: 300;

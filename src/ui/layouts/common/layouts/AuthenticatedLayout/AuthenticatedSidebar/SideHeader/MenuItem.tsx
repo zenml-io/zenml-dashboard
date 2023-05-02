@@ -7,7 +7,6 @@ import styles from './MenuItem.module.scss';
 // import { useSelector } from '../../../../../../hooks';
 // import { workspaceSelectors } from '../../../../../../../redux/selectors';
 
-
 // debugger;
 export const MenuItem: React.FC<{
   subItem?: boolean;
@@ -43,8 +42,13 @@ export const MenuItem: React.FC<{
           )}
         ></Box>
 
-        <FlexBox style={{ width: '100%', alignItems: 'center' }} flexDirection='column' >
-          <Box><Icon /></Box>
+        <FlexBox
+          style={{ width: '100%', alignItems: 'center' }}
+          flexDirection="column"
+        >
+          <Box>
+            <Icon />
+          </Box>
         </FlexBox>
       </FlexBox>
     </NavLink>

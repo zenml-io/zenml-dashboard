@@ -59,8 +59,11 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   const [isShared, setIsShared] = useState(true);
   const [inputData, setInputData] = useState({}) as any;
   const [inputFields, setInputFields] = useState() as any;
+  const [inputArrayFields, setInputArrayFields] = useState() as any;
   const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
+  const [secretId, setSecretId] = useState('');
+  const [secretIdArray, setSecretIdArray] = useState([]);
   const history = useHistory();
 
   useEffect(() => {
@@ -69,6 +72,8 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       setInputFields(state?.state?.inputFields);
       setInputData(state?.state?.inputData);
       setComponentName(state?.state?.componentName);
+      setSecretId(state?.state?.secretId);
+      setSecretIdArray(state?.state?.secretIdArray);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
@@ -76,6 +81,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
     if (!state?.state?.routeFromComponent) {
       let setDefaultData = {};
       let setInputObjectType: any = [];
+      let setInputArrayType: any = [];
       initForm(flavor.configSchema.properties);
       Object.keys(flavor.configSchema.properties).map((key, ind) => {
         const data = flavor.configSchema.properties[key];
@@ -84,7 +90,12 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             ...setDefaultData,
             [toSnakeCase(data.title)]: data.default,
           };
-        else if (
+        else if (data.default && data.type === 'array') {
+          setInputArrayType = {
+            ...setInputArrayType,
+            [toSnakeCase(data.title)]: [...data.default, ''],
+          };
+        } else if (
           flavor.configSchema.properties[key]?.additionalProperties &&
           flavor.configSchema.properties[key]?.additionalProperties?.type !==
             'string'
@@ -116,14 +127,13 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
         }
         return null;
       });
-
+      setInputArrayFields(setInputArrayType);
       setInputFields(setInputObjectType);
 
       setInputData({ ...setDefaultData });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  console.log(inputFields, inputData, 'asdasdasdasd12323232323');
   const handleAddFields = (name: any, index: any) => {
     const values = [...inputFields];
     // const check = values.find(({ name }) => name);
@@ -172,6 +182,12 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
     // if (value === undefined) {
     //   return false;
     // }
+    if (value?.id) {
+      setSecretId(value?.id);
+      const listOfIds: any = [...secretIdArray];
+      listOfIds.push(value.id);
+      setSecretIdArray(listOfIds);
+    }
 
     if (value?.value?.includes('.') || value?.value?.id) {
       dispatch(
@@ -195,6 +211,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
     } else if (value?.includes('{{')) {
       dispatch(
         secretsActions.getMy({
+          size: 10,
           workspace: selectedWorkspace,
           name: 'contains:' + value.replace(/[{ }]/g, ''),
         }),
@@ -262,91 +279,136 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             <label htmlFor="key">{props.label}</label>
           </Paragraph>
 
-          <FlexBox.Row>
-            <div className="form-row">
+          <FlexBox.Row style={{ position: 'relative' }}>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '-5px',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
+              }}
+            ></div>
+
+            <div
+              className="form-row"
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
               {inputFields?.map((item: any, parentIndex: any) =>
                 item[props.name]?.map((inputField: any, childIndex: any) => (
                   <Fragment key={`${inputField}~${childIndex}`}>
-                    <div className="form-group col-sm-5">
-                      <FormTextField
-                        onChange={(event: any) =>
-                          handleInputChange(
-                            parentIndex,
-                            childIndex,
-                            event,
-                            props.name,
-                            'key',
-                          )
-                        }
-                        label={'Key'}
-                        value={inputField?.key}
-                        placeholder={''}
-                      />
-                    </div>
-
-                    <div className="form-group col-sm-5">
-                      <FormTextField
-                        onChange={(event: any) =>
-                          handleInputChange(
-                            parentIndex,
-                            childIndex,
-                            event,
-                            props.name,
-                            'value',
-                          )
-                        }
-                        label={'Value'}
-                        value={inputField?.value}
-                        placeholder={''}
-                      />
-                    </div>
-                    <div
-                      className="col-sx-2 "
-                      style={{
-                        justifyContent: 'space-between',
-                        display: 'flex',
-                        marginTop: '10px',
-                      }}
+                    <Box
+                      style={{ display: 'flex', alignItems: 'center' }}
+                      marginTop="sm"
                     >
                       <div
                         style={{
-                          display: 'flex',
-                          flexDirection: 'row',
-                          justifyContent: 'space-between',
-                          alignItems: 'center',
+                          marginTop: '30px',
+                          width: '15px',
+                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          marginRight: '5px',
+                          marginLeft: '-2px',
+                          color: 'rgba(68, 62, 153, 0.3)',
                         }}
                       >
-                        {item[props.name].length > 1 && (
-                          <button
-                            className={styles.fieldButton}
-                            style={{}}
-                            type="button"
-                            // disabled={item[props.name].length === 1}
-                            onClick={() =>
-                              handleRemoveFields(
-                                parentIndex,
-                                childIndex,
-                                props.name,
-                              )
-                            }
-                          >
-                            <icons.minusCircle color={iconColors.primary} />
-                          </button>
-                        )}
-
-                        {childIndex === item[props.name].length - 1 && (
-                          <button
-                            className={styles.fieldButton}
-                            type="button"
-                            onClick={() =>
-                              handleAddFields(props.name, parentIndex)
-                            }
-                          >
-                            <icons.plusCircle color={iconColors.primary} />
-                          </button>
-                        )}
+                        &#x27A4;
                       </div>
-                    </div>
+
+                      <Box
+                        className="form-group"
+                        marginRight="md"
+                        style={{ width: '13.75vw' }}
+                      >
+                        <FormTextField
+                          onChange={(event: any) =>
+                            handleInputChange(
+                              parentIndex,
+                              childIndex,
+                              event,
+                              props.name,
+                              'key',
+                            )
+                          }
+                          label={'Key'}
+                          value={inputField?.key}
+                          placeholder={''}
+                        />
+                      </Box>
+
+                      <Box className="form-group" style={{ width: '13.75vw' }}>
+                        <FormTextField
+                          onChange={(event: any) =>
+                            handleInputChange(
+                              parentIndex,
+                              childIndex,
+                              event,
+                              props.name,
+                              'value',
+                            )
+                          }
+                          label={'Value'}
+                          value={inputField?.value}
+                          placeholder={''}
+                        />
+                      </Box>
+                      <div
+                        // className="col-sx-2 "
+                        style={{
+                          justifyContent: 'space-between',
+                          display: 'flex',
+                          marginTop: '20px',
+                          marginLeft: '5px',
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}
+                        >
+                          {item[props.name].length > 1 && (
+                            <button
+                              className={styles.fieldButton}
+                              style={{}}
+                              type="button"
+                              // disabled={item[props.name].length === 1}
+                              onClick={() =>
+                                handleRemoveFields(
+                                  parentIndex,
+                                  childIndex,
+                                  props.name,
+                                )
+                              }
+                            >
+                              <icons.delete color={iconColors.grey} />
+                            </button>
+                          )}
+
+                          {childIndex === item[props.name].length - 1 && (
+                            <button
+                              className={styles.fieldButton}
+                              type="button"
+                              onClick={() =>
+                                handleAddFields(props.name, parentIndex)
+                              }
+                            >
+                              <icons.addNew color={iconColors.primary} />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </Box>
                   </Fragment>
                 )),
               )}
@@ -417,25 +479,50 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       return (
         <>
           {props.sensitive ? (
-            <Box marginTop="lg" style={{ width: '329px' }}>
+            <Box marginTop="lg">
               <MakeSecretField
+                required={flavor?.configSchema?.required?.includes(elementName)}
                 label={titleCase(props.name) + ' (Secret)'}
                 placeholder={''}
                 handleClick={() => {
-                  const state = {
-                    flavor: flavor.name,
-                    routeFromComponent: true,
-                    componentName: componentName,
-                    isShared: isShared,
-                    inputFields: inputFields,
-                    inputData: inputData,
-                    secretKey: props.name,
-                    pathName: location.pathname,
-                  };
-                  history.push(
-                    routePaths.secrets.registerSecrets(selectedWorkspace),
-                    state,
-                  );
+                  if (secretId) {
+                    const state = {
+                      secretIdArray: secretIdArray,
+                      secretId: secretId,
+                      flavor: flavor.name,
+                      routeFromComponent: true,
+                      componentName: componentName,
+                      isShared: isShared,
+                      inputFields: inputFields,
+                      inputData: inputData,
+                      secretKey: props.name,
+                      pathName: location.pathname,
+                    };
+                    history.push(
+                      routePaths.secret.updateSecret(
+                        secretId,
+                        selectedWorkspace,
+                      ),
+                      state,
+                    );
+                  } else {
+                    const state = {
+                      secretId: secretId,
+                      secretIdArray: secretIdArray,
+                      flavor: flavor.name,
+                      routeFromComponent: true,
+                      componentName: componentName,
+                      isShared: isShared,
+                      inputFields: inputFields,
+                      inputData: inputData,
+                      secretKey: props.name,
+                      pathName: location.pathname,
+                    };
+                    history.push(
+                      routePaths.secrets.registerSecrets(selectedWorkspace),
+                      state,
+                    );
+                  }
                 }}
                 inputData={inputData}
                 value={
@@ -447,6 +534,12 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     : ''
                 }
                 onChange={(val: string, newEvent: any) => {
+                  if (!val) {
+                    if (secretIdArray.length === 1) {
+                    } else {
+                      setSecretId('');
+                    }
+                  }
                   if (val.includes('{{')) {
                     callActionForSecret(props.name, val, newEvent);
                   } else {
@@ -524,13 +617,141 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
         </Box>
       );
     }
+    if (elementSchema.type === 'array' && elementSchema.title) {
+      return (
+        <Box marginTop="md">
+          <Paragraph size="body" style={{ color: '#000' }}>
+            <label htmlFor="key">{props.label}</label>
+          </Paragraph>
+
+          <FlexBox.Row style={{ position: 'relative' }}>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '-5px',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
+              }}
+            ></div>
+
+            <div
+              className="form-row"
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
+              {inputArrayFields &&
+                inputArrayFields[props?.name]?.map((item: any, index: any) => (
+                  <Fragment>
+                    <Box
+                      style={{ display: 'flex', alignItems: 'center' }}
+                      marginTop="sm"
+                    >
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          width: '15px',
+                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          marginRight: '5px',
+                          marginLeft: '-2px',
+                          color: 'rgba(68, 62, 153, 0.3)',
+                        }}
+                      >
+                        &#x27A4;
+                      </div>
+
+                      <Box
+                        className="form-group"
+                        marginRight="md"
+                        style={{ width: '385px' }}
+                      >
+                        <FormTextField
+                          onChange={
+                            (event: any) => {
+                              const values = { ...inputArrayFields };
+                              values[props.name][index] = event;
+                              setInputArrayFields(values);
+                            }
+                            // handleInputChange(
+                            //   parentIndex,
+                            //   childIndex,
+                            //   event,
+                            //   props.name,
+                            //   'value',
+                            // )
+                          }
+                          label={'Value'}
+                          value={item}
+                          placeholder={''}
+                        />
+                      </Box>
+                      <div
+                        // className="col-sx-2 "
+                        style={{
+                          justifyContent: 'space-between',
+                          display: 'flex',
+                          marginTop: '20px',
+                          marginLeft: '-10px',
+                        }}
+                      >
+                        {inputArrayFields[props.name].length > 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            style={{}}
+                            type="button"
+                            // disabled={item[props.name].length === 1}
+                            onClick={() => {
+                              const values = { ...inputArrayFields };
+                              values[props.name].splice(index, 1);
+                              setInputArrayFields(values);
+                            }}
+                          >
+                            <icons.delete color={iconColors.grey} />
+                          </button>
+                        )}
+                        {index === inputArrayFields[props.name].length - 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            type="button"
+                            onClick={() => {
+                              const values = { ...inputArrayFields };
+                              values[props.name].push('');
+                              setInputArrayFields(values);
+                            }}
+                          >
+                            <icons.addNew color={iconColors.primary} />
+                          </button>
+                        )}
+                      </div>
+                    </Box>
+                  </Fragment>
+                ))}
+              {/* {inputFields
+              ?.filter((x: any) => x.hasOwnProperty(props.name))
+              .map((inputField: any, index: any) => (
+          
+              ))} */}
+            </div>
+            <div className="submit-button"></div>
+            <br />
+          </FlexBox.Row>
+        </Box>
+      );
+    }
   };
 
   const onSubmit = async (values: any) => {
     const requiredField = flavor?.configSchema?.required?.filter(
       (item: any) => inputData[item],
     );
-    console.log('requiredField', requiredField);
     if (requiredField?.length !== flavor?.configSchema?.required?.length) {
       dispatch(
         showToasterAction({
@@ -652,7 +873,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       name: componentName,
       type: flavor.type,
       flavor: flavor.name,
-      configuration: { ...inputData, ...final },
+      configuration: { ...inputData, ...final, ...inputArrayFields },
     };
     setLoading(true);
     await axios
@@ -714,7 +935,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-
+  console.log(secretId, 'asdasdasdasd');
   return (
     <Box>
       {/* <Box style={{ width: '100%', marginTop: '-30px' }} marginBottom="lg">
@@ -722,7 +943,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       </Box> */}
 
       <FlexBox.Row style={{ width: '100%' }}>
-        <Box style={{ width: '50rem' }}>
+        <Box style={{ width: '30vw' }}>
           <FormTextField
             onChange={(e: any) => {
               setComponentName(e);

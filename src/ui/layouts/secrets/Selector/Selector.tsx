@@ -17,6 +17,7 @@ interface Props {
   onSetInputFields: any;
   routeState?: any;
   onSubmit?: any;
+  childStateRef?: any;
 }
 
 const Selector: React.FC<Props> = ({
@@ -25,28 +26,73 @@ const Selector: React.FC<Props> = ({
   values,
   routeState,
   onSubmit,
+  childStateRef,
 }) => {
   // const [key, setKey] = useState('');
   // const [value, setValue] = useState('');
   const [inputFields, setInputFields] = useState([]) as any;
   useEffect(() => {
+    if (values?.length) {
+      childStateRef.current = inputFields;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [inputFields, childStateRef]);
+  useEffect(() => {
     // ...values,
     // { key: '', value: '' },
-    if (routeState?.state?.routeFromComponent) {
-      const secretKeyValuefromRoute: any = {
-        key: routeState?.state?.secretKey,
-        value: routeState?.state?.inputData[routeState?.state?.secretKey].value,
-      };
-      setInputFields([...inputFields, secretKeyValuefromRoute]);
-    } else if (values?.length && !routeState?.state?.routeFromComponent) {
+    if (
+      (routeState?.state?.routeFromComponent ||
+        routeState?.state?.routeFromEditComponent) &&
+      routeState?.state?.secretId
+    ) {
       setInputFields([...values]);
+      if (values?.length) {
+        childStateRef.current = values;
+      }
+    } else if (
+      routeState?.state?.routeFromComponent ||
+      routeState?.state?.routeFromEditComponent
+    ) {
+      if (routeState?.state?.routeFromComponent) {
+        const secretKeyValuefromRoute: any = {
+          key: routeState?.state?.secretKey,
+          value: routeState?.state?.inputData[routeState?.state?.secretKey],
+        };
+
+        setInputFields([...inputFields, secretKeyValuefromRoute]);
+      }
+      // else if (values?.length && !routeState?.state?.routeFromComponent) {
+      //   setInputFields([...values]);
+      // }
+
+      if (routeState?.state?.routeFromEditComponent) {
+        const secretKeyValuefromRoute: any = {
+          key: routeState?.state?.secretKey,
+          value:
+            routeState?.state?.mappedConfiguration[
+              routeState?.state?.secretKey
+            ],
+        };
+
+        setInputFields([...inputFields, secretKeyValuefromRoute]);
+      } else if (values?.length && !routeState?.state?.routeFromEditComponent) {
+        setInputFields([...values]);
+        childStateRef.current = values;
+      }
+    } else if (
+      values?.length &&
+      !routeState?.state?.routeFromComponent &&
+      !routeState?.state?.routeFromEditComponent
+    ) {
+      setInputFields([...values]);
+      childStateRef.current = values;
     } else {
       setInputFields([{ key: '', value: '' }]);
     }
-
+    // debugger;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeState, setInputFields]);
-  console.log(inputFields, 'inputFisdsdeldsinputFields');
+  console.log(inputFields, routeState, 'inputFisdsdeldsinputFields');
   // useEffect(() => {
   //   handleInputChange();
   // }, [inputFields]);
@@ -79,6 +125,7 @@ const Selector: React.FC<Props> = ({
 
     setInputFields(values);
     onSetInputFields(values);
+
     // const keys = values.map((object) => object.key);
     // const value = values.map((object) => object.value);
 
@@ -106,7 +153,7 @@ const Selector: React.FC<Props> = ({
           {console.log()}
           {inputFields?.map((item: any, index: any) => (
             <Box key={index} marginTop="md" style={{ display: 'flex' }}>
-              <Box style={{ width: '329px' }}>
+              <Box style={{ width: '30vw' }}>
                 <FormTextField
                   onChange={(event: any) =>
                     handleInputChange(index, event, 'key')
@@ -118,7 +165,7 @@ const Selector: React.FC<Props> = ({
                 />
               </Box>
 
-              <Box style={{ width: '329px' }} marginLeft="md">
+              <Box style={{ width: '30vw' }} marginLeft="md">
                 <FormPasswordField
                   onChange={(event: any) =>
                     handleInputChange(index, event, 'value')

@@ -17,11 +17,13 @@ import secrets from '../ui/layouts/secrets/Secrets';
 import stackComponents from '../ui/layouts/stackComponents/Stacks';
 import registerComponents from '../ui/layouts/stackComponents/RegisterComponents';
 import CreateStack from '../ui/layouts/stacks/CreateStack';
+import UpdateStack from '../ui/layouts/stacks/UpdateStack';
 import RegisterSecrets from '../ui/layouts/secrets/RegisterSecret';
 import PipelineDetail from '../ui/layouts/pipelines/PipelineDetail/index';
 import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import secretDetail from '../ui/layouts/secrets/SecretDetail/index';
 import UpdateSecret from '../ui/layouts/secrets/UpdateSecret/index';
+import UpdateComponent from '../ui/layouts/stackComponents/UpdateComponent/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
 import ConfigureComponent from '../ui/layouts/stackComponents/ConfigureComponent/index';
 import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
@@ -204,6 +206,15 @@ const routes = [
   {
     path: routePaths.stacks.createStack(':string'),
     Component: CreateStack,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+
+  {
+    path: routePaths.stacks.UpdateStack(':string', ':id'),
+    Component: UpdateStack,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
@@ -454,6 +465,14 @@ const routes = [
   {
     path: routePaths.stackComponents.configuration(':type', ':id', ':string'),
     Component: stackComponentsDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.stackComponents.updateComponent(':type', ':id', ':string'),
+    Component: UpdateComponent,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

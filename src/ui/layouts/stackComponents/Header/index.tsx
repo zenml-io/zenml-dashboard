@@ -32,7 +32,12 @@ const DefaultHeader: React.FC<{
     <FlexBox alignItems="center">
       <Box>
         <Paragraph
-          style={{ fontSize: '16px', lineHeight: '17px', color: '#828282', marginTop: '20px' }}
+          style={{
+            fontSize: '16px',
+            lineHeight: '17px',
+            color: '#828282',
+            marginTop: '20px',
+          }}
         >
           Check out our easy to read{' '}
           <a
@@ -54,10 +59,11 @@ const HeaderWithButtons: React.FC<{
   renderRight?: () => JSX.Element;
 }> = ({ breadcrumbs, renderRight, title }) => (
   <FlexBox.Row
+    marginTop="xl"
     alignItems="center"
     justifyContent="space-between"
     fullWidth
-    className={styles.header}
+    className={styles.header2}
   >
     <FlexBox className="d-none d-md-flex">
       <Paragraph
@@ -80,7 +86,12 @@ const HeaderWithButtons: React.FC<{
     >
       <Box className={styles.dynamicHeaderRight}>
         <Paragraph
-          style={{ fontSize: '16px', lineHeight: '17px', color: '#828282', marginTop: '20px' }}
+          style={{
+            fontSize: '16px',
+            lineHeight: '17px',
+            color: '#828282',
+            marginTop: '20px',
+          }}
         >
           Check out our easy to read{' '}
           <a
@@ -88,7 +99,7 @@ const HeaderWithButtons: React.FC<{
             href={constantCommandsToCreateComponent.documentation}
             target="__blank"
           >
-            document
+            docs
           </a>
         </Paragraph>
       </Box>

@@ -123,10 +123,12 @@ const createIcon = ({
   Component,
   transform,
   useStroke = false,
+  isSidebarFilled = false,
 }: {
   Component: any;
   useStroke?: boolean;
   transform?: any;
+  isSidebarFilled?: boolean;
 }) => ({ size, color, ...props }: Props & BoxProps) => {
   return (
     <Box {...props}>
@@ -142,6 +144,7 @@ const createIcon = ({
           props.className,
           useStroke && styles.useStroke,
           !useStroke && styles.useFill,
+          isSidebarFilled && 'sidebar-fill',
         )}
       />
     </Box>
@@ -207,7 +210,7 @@ const icons = {
   stack: createIcon({ Component: Stack, useStroke: true }),
   stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
   starOutline: createIcon({ Component: StarOutline }),
-  storefront: createIcon({ Component: Storefront }),
+  storefront: createIcon({ Component: Storefront, isSidebarFilled: true }),
   funnelFill: createIcon({ Component: FunnelFill }),
   delete: createIcon({ Component: Delete }),
   edit: createIcon({ Component: Edit }),
