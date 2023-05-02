@@ -1,4 +1,4 @@
-import React, { useState, useEffect} from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { FlexBox, Box } from '../../../../components';
 import { useDispatch, useLocationPath } from '../../../../hooks';
@@ -11,7 +11,7 @@ import { serverInfoActions } from '../../../../../redux/actions';
 // export const AuthenticatedLayout: React.FC = ({ breadcrumb, children }) => {
 // @ts-ignore
 export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
   useEffect(() => {
     dispatch(serverInfoActions.getServerInfo({}));
     // eslint-disable-next-line react-hooks/exhaustive-deps
