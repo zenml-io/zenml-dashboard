@@ -20,6 +20,9 @@ const getByStackComponentId = (state: State): Record<TId, TId[]> =>
 const getByStackId = (state: State): Record<TId, TId[]> =>
   _.get(stateKey(state), 'byStackId');
 
+const getByRepositoryId = (state: State): Record<TId, TId[]> =>
+  _.get(stateKey(state), 'byRepositoryId');
+
 const getMyRunsPaginated = (state: State): any =>
   _.get(stateKey(state), 'paginated');
 
@@ -66,6 +69,17 @@ export const runsForStackComponentId = (
   if (!byStackComponentId[stackComponentId]) return [];
   return byStackComponentId[stackComponentId].map((id: TId) => byId[id]);
 };
+
+export const runsForRepositoryId = (repositoryId: TId | null | undefined) => (
+  state?: State | null,
+): TRun[] => {
+  if (!state || !repositoryId) return [];
+  const byRepositoryId = getByRepositoryId(state);
+  const byId = getById(state);
+  if (!byRepositoryId[repositoryId]) return [];
+  return byRepositoryId[repositoryId].map((id: TId) => byId[id]);
+};
+
 export const runsForStackId = (stackId: TId | null | undefined) => (
   state?: State | null,
 ): TRun[] => {
@@ -103,6 +117,7 @@ const runSelectors = {
   runForId,
   graphByRunId,
   forRunIds,
+  runsForRepositoryId,
 };
 
 export { runSelectors };

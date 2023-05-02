@@ -55,6 +55,27 @@ interface TUser {
   created: any;
 }
 
+interface TRepository {
+  id: TId;
+  created: string;
+  updated: string;
+  user: TUser;
+  workspace: TWorkspace;
+  name: string;
+  logo_url: string;
+  description: string;
+  config: {
+    owner: string;
+    repository: string;
+    token: string;
+  };
+  source: {
+    module: string;
+    attribute: string;
+    type: string;
+  };
+}
+
 interface THubUser {
   id: string;
   email: string;

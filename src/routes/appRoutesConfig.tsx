@@ -37,6 +37,10 @@ import CreatePlugin from '../ui/layouts/plugins/CreatePlugin';
 import UpdatePlugin from '../ui/layouts/plugins/UpdatePlugin';
 import PluginDetail from '../ui/layouts/plugins/PluginDetail';
 
+import RepositoriesList from '../ui/layouts/repositories/RepositoriesList';
+import CreateRepository from '../ui/layouts/repositories/RepositoryCreate';
+import RepositoryDetail from '../ui/layouts/repositories/RepositoryDetail';
+
 import { Logout } from '../ui/components/Logout';
 import DisplayPluginLogs from '../ui/layouts/plugins/DisplayLogs';
 
@@ -257,6 +261,38 @@ const routes = [
     exact: true,
   },
 
+  {
+    path: routePaths.repositories.list(':workspace'),
+    Component: RepositoriesList,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.repositories.create(':workspace'),
+    Component: CreateRepository,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.repositories.overview(':workspace', ':repositoryID'),
+    Component: RepositoryDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.repositories.runs(':workspace', ':repositoryID'),
+    Component: RepositoryDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
   {
     path: routePaths.stack.runs(':string', ':id'),
     Component: StackDetail,

@@ -85,6 +85,16 @@ const runActionTypes = {
   GRAPH_FOR_RUN_ID: 'GRAPH_FOR_RUN_ID',
 };
 
+const repositoryActionTypes = {
+  REPOSITORY_GET_ALL: 'REPOSITORY_GET_ALL',
+  REPOSITORY_BY_ID: 'REPOSITORY_BY_ID',
+  RUNS_GET_BY_REPOSITORY_ID: 'RUNS_GET_BY_REPOSITORY_ID',
+};
+
+const repositoryPagesActionTypes = {
+  REPOSITORY_PAGES_SET_FETCHING: 'REPOSITORY_PAGES_SET_FETCHING',
+};
+
 const pipelinePagesActionTypes = {
   PIPELINE_PAGES_SET_SELECTED_RUN_IDS: 'PIPELINE_PAGES_SET_SELECTED_RUN_IDS',
   PIPELINE_PAGES_SET_FETCHING: 'PIPELINE_PAGES_SET_FETCHING',
@@ -127,12 +137,14 @@ export const actionTypes = {
   ...runActionTypes,
   ...runPagesActionTypes,
   ...rolesActionTypes,
+  ...repositoryActionTypes,
   ...pipelinePagesActionTypes,
   ...stackPagesActionTypes,
   ...stackComponentPagesActionTypes,
   ...stackComponentActionTypes,
   ...flavorActionTypes,
   ...flavorPagesActionTypes,
+  ...repositoryPagesActionTypes,
   ...serverInfoActionTypes,
 };
 

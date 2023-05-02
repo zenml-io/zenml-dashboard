@@ -55,12 +55,12 @@ html {
   padding-right: 0;
 }
 
-a[class*='active'] .sidebar-fill path {
+a[class*='MenuItem'][class*='active'] .sidebar-fill path {
   stroke: transparent !important;
   fill: #e8a562 !important;
 }
 
-a:hover .sidebar-fill path {
+a[class*='MenuItem']:hover .sidebar-fill path {
   stroke: transparent !important;
   fill: #e8a562 !important;
 }

@@ -18,5 +18,7 @@ export * from './secrets';
 export * from './stackComponentPages';
 export * from './flavors';
 export * from './flavorsPages';
+export * from './repositories';
+export * from './repositoriesPages';
 export * from './serverInfo';
 export const SHOW_TOASTER_ACTION_TYPE = actionTypes.SHOW_TOASTER;

@@ -4,6 +4,7 @@ import {
   runActionTypes,
   stackComponentActionTypes,
   stackActionTypes,
+  repositoryActionTypes,
 } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
@@ -13,6 +14,7 @@ export interface State {
   byPipelineId: Record<TId, TId[]>;
   byStackId: Record<TId, TId[]>;
   byStackComponentId: Record<TId, TId[]>;
+  byRepositoryId: Record<TId, TId[]>;
   myRunIds: TId[];
   graphForRunId: any;
   paginated: any;
@@ -40,6 +42,7 @@ export type Action = {
     stackId: TId;
     stackComponentId: TId;
     runId: TId;
+    repositoryID: TId;
   };
 };
 
@@ -49,6 +52,7 @@ export const initialState: State = {
   byPipelineId: {},
   byStackId: {},
   byStackComponentId: {},
+  byRepositoryId: {},
   myRunIds: [],
   graphForRunId: {},
   paginated: {},
@@ -182,6 +186,31 @@ const runsReducer = (state: State = initialState, action: Action): State => {
         ...newState(state, runs, action.payload),
         myRunIds,
         byStackComponentId,
+      };
+    }
+
+    case repositoryActionTypes.getRunsByRepoID.success: {
+      const payload = action.payload.items;
+
+      const id = action?.requestParams?.repositoryID;
+      const runsFromRepository = payload.map((run: TRun) => ({
+        ...run,
+        repositoryId: id,
+      }));
+
+      const runs: TRun[] = camelCaseArray(runsFromRepository);
+      const myRunIds: TId[] = runs.map((run: TRun) => run.id);
+
+      const byRepositoryId: Record<TId, TId[]> = {
+        ...state.byRepositoryId,
+      };
+
+      byRepositoryId[id as TId] = runs.map((run: TRun) => run.id);
+      return {
+        ...state,
+        ...newState(state, runs, action.payload),
+        myRunIds,
+        byRepositoryId,
       };
     }
 
