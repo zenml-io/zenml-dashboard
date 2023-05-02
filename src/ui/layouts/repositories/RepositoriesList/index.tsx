@@ -69,6 +69,7 @@ const RepositoriyListBody = () => {
   const checkValidFilter = isValidFilterForValue + isValidFilterForCategory;
 
   useEffect(() => {
+    setPageIndex(0)
     dispatchRepositoryPagination(
       1,
       itemPerPage,
