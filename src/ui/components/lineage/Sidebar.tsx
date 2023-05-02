@@ -7,7 +7,7 @@ import ArtifactTabHeader from './sidebarTabsSwitchers/artifactTabSwitcher';
 import StepnodeTabHeader from './sidebarTabsSwitchers/stepTabSwitcher';
 import {
     fetchArtifactData,
-    fetchArtifactVisualizationSize,
+    // fetchArtifactVisualizationSize,
     fetchStepData,
     fetchStepLogs
 } from '../../layouts/runs/RunDetail/sidebarServices';

@@ -20,7 +20,7 @@ const resposneSizeConstant = 5 * 1024 * 1024;
 function Modal({ message, proceed, size }: { message: string, proceed: any, size: any }) {
 
   const [isProceed, setIsProceed] = useState(false);
-  const tempSize = Number(localStorage.getItem("VISUALIZATION_SIZE"));
+  // const tempSize = Number(localStorage.getItem("VISUALIZATION_SIZE"));
   console.log("node.metadata.storage_size.value (size)", typeof size)
   console.log("node.metadata.storage_size.value (size)", Number(size))
 
@@ -55,11 +55,7 @@ function Modal({ message, proceed, size }: { message: string, proceed: any, size
 
 const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolean }) => {
 
-  const controller = new AbortController();
-  const signal = controller.signal;
-
-  const source = axios.CancelToken.source();
-
+  
   const [response, setResponse] = useState<any | undefined>(null)
   const [type, setType] = useState<string | undefined>('')
   const authToken = useSelector(sessionSelectors.authenticationToken);
@@ -67,7 +63,7 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
   const [loader, setLoader] = useState(false);
   const divRef = useRef<HTMLDivElement | null>(null);
   const [cancelToken, setCancelToken] = useState<any>(null);
-
+  
   const handleDownload = async () => {
     try {
       const blob = new Blob([response?.data?.value], { type: 'text/html' });
@@ -81,12 +77,13 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
       console.error(error);
     }
   };
-
+  
   const getVisualizations = () => {
-
-
-
-
+    
+    const source = axios.CancelToken.source();
+    
+    
+    
     setCancelToken(source);
     // setCancelToken(controller);
 
@@ -121,27 +118,21 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
       });
   }
 
-  const handleCancelRequest = () => {
+  const handleCancelRequest = async () => {
     if (cancelToken) {
+    // if (source) {
+      // artifactVisulizationService(null, null, source) 
       console.log("cancelToken", cancelToken)
+      setCancelToken(null);
       cancelToken.cancel('Request canceled by user');
-      // cancelToken.Abort();
-      setTimeout(() => {
-        cancelToken.cancel('Request canceled by user');
-
-      }, 500)
+      setResponse(null);
+      // source.cancel('Request canceled by user');
     }
   }
-
-  // useEffect(() => {
-  //   console.log("Request canceled by user")
-  //   if (cancelToken) {
-  //     cancelToken.cancel('Request canceled by user');
-  //   }
-  // }, [node])//eslint-disable-line
   useEffect(() => {
     if (cancelToken) {
       cancelToken.cancel('Request canceled by user');
+      setCancelToken(null);
     }
     if (proceed) {
       getVisualizations();
@@ -162,7 +153,7 @@ const ArtifactVisualization = ({ node, fetching }: { node: any, fetching: boolea
   // ASK TO PROCEED IF SIZE IN LARGER THAN 5MB
   if (!proceed) {
     console.log("node.metadata.storage_size.value", typeof node.metadata.storage_size.value)
-    let size = node.metadata.storage_size.value
+    let size = node?.metadata?.storage_size?.value
     return <Modal message='size of resposne in larger than 5mb. Do you want to continue?' proceed={setProceed} size={size} />
   }
 

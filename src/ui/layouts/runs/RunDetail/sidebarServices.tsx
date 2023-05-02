@@ -108,8 +108,11 @@ export const fetchArtifactVisualizationSize = async (artifactId: any, authToken:
 export async function artifactVisulizationService(artifactId: any, authToken: any, source: any) {
 
     // console.log("cancelToken before", cancelToken)
-    // console.log("currentResponse before", currentResponse)
+    console.log("currentResponse before", source)
 
+    // if(source){
+    //     source.cancel(`API response size: ${"contentLength"} bytes, loaded: ${"loadedBytes"} bytes (cancel)`)
+    // }
     if (currentId === artifactId) {
         return currentResponse;
     }
@@ -126,9 +129,11 @@ export async function artifactVisulizationService(artifactId: any, authToken: an
                     Authorization: `bearer ${authToken}`,
                 },
                 onDownloadProgress: progressEvent => {
+              
                     const contentLength = progressEvent.total;
                     const loadedBytes = progressEvent.loaded;
                     console.log(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`);
+                   
                 },
                 cancelToken: source?.token,
             },
@@ -139,6 +144,7 @@ export async function artifactVisulizationService(artifactId: any, authToken: an
         }).catch(error => {
             if (axios.isCancel(error)) {
                 // return error
+                console.log("API",error)
             } else {
                 return error
             }
