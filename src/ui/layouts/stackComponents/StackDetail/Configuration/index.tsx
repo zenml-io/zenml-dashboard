@@ -21,6 +21,7 @@ import {
   useSelector,
 } from '../../../../hooks';
 import {
+  secretSelectors,
   sessionSelectors,
   userSelectors,
   workspaceSelectors,
@@ -46,6 +47,8 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   });
   const user = useSelector(userSelectors.myUser);
   const [fetching, setFetching] = useState(false);
+  const secrets = useSelector(secretSelectors.mySecrets);
+
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
@@ -55,7 +58,6 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
-
   const onCallApi = (updateConfig: any) => {
     // ;
     const { id }: any = workspaces.find(
@@ -247,12 +249,28 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (flavor?.configSchema?.properties[elementName]?.type === 'string') {
+      const extracted = elementSchema.split(/\./)[0];
+      const secretName = extracted.replace(/{{|}}|\./g, '').trim();
+      const filteredSecret = secrets?.filter(
+        (item) => item.name === secretName,
+      );
+
+      // console.log(filteredSecret, 'asd123ffwwvweer');
       return (
         <>
           {flavor?.configSchema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
+                viewSecretDetail={() => {
+                  history.push(
+                    routePaths.secret.configuration(
+                      filteredSecret[0]?.id,
+                      selectedWorkspace,
+                    ),
+                  );
+                }}
+                filteredSecretId={filteredSecret[0]?.id}
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
                 // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
                 label={titleCase(elementName) + ' (Secret)'}
@@ -264,7 +282,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
               />
             </Box>
           ) : (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -300,7 +318,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
               disabled
               className={styles.textArea}
               defaultValue={JSON.stringify(mappedObject[elementName])}
-              style={{ width: '417px' }}
+              style={{ width: '30vw' }}
               onBlur={(e) => {
                 const jsonStr = e.target.value;
                 try {
@@ -339,7 +357,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     // }
     if (flavor?.configSchema?.properties[elementName]?.type === 'object') {
       return (
-        <Box marginTop="lg" style={{ width: '415px' }}>
+        <Box marginTop="lg" style={{ width: '30vw' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -365,7 +383,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                     marginLeft: '2px',
                   }}
                 >
-                  <FlexBox.Row alignItems="center" marginTop="sm">
+                  <FlexBox.Row
+                    alignItems="center"
+                    marginTop="sm"
+                    style={{ width: '30vw' }}
+                  >
                     <div
                       style={{
                         marginTop: '30px',
@@ -527,7 +549,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                     marginLeft: '2px',
                   }}
                 >
-                  <FlexBox.Row marginTop="lg" alignItems="center">
+                  <FlexBox.Row
+                    marginTop="lg"
+                    alignItems="center"
+                    style={{ width: '30vw' }}
+                  >
                     <div
                       style={{
                         marginTop: '30px',
@@ -607,7 +633,11 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                     marginLeft: '2px',
                   }}
                 >
-                  <FlexBox.Row marginTop="lg" alignItems="center">
+                  <FlexBox.Row
+                    marginTop="lg"
+                    alignItems="center"
+                    style={{ width: '30vw' }}
+                  >
                     <div
                       style={{
                         marginTop: '30px',
@@ -728,7 +758,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
                         &#x27A4;
                       </div>
 
-                      <div className="form-group" style={{ width: '383px' }}>
+                      <div className="form-group" style={{ width: '28.5vw' }}>
                         <EditField
                           disabled
                           className={styles.field}
@@ -780,7 +810,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box marginTop={'lg'} style={{ width: '417px' }}>
+        <Box marginTop={'lg'} style={{ width: '30vw' }}>
           <Box>
             <ToggleField
               value={elementSchema}
@@ -874,7 +904,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     <FlexBox.Column marginTop="xl">
       <FlexBox.Row flexDirection="column">
         <Container>
-          <Box style={{ width: '417px' }}>
+          <Box style={{ width: '30vw' }}>
             <EditField
               disabled
               onKeyDown={(e: any) => onPressEnter(e, 'name')}
@@ -889,7 +919,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
           </Box>
         </Container>
         <Container>
-          <Box marginTop="lg" style={{ width: '417px' }}>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
             <ToggleField
               value={stackComponent.isShared}
               onHandleChange={() =>

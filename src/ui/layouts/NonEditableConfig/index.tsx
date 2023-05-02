@@ -9,8 +9,15 @@ import {
 import { ToggleField } from '../common/FormElement';
 import styles from './index.module.scss';
 import { useService } from './useService';
+import { routePaths } from '../../../routes/routePaths';
+import { useSelector } from 'react-redux';
+import { secretSelectors, workspaceSelectors } from '../../../redux/selectors';
+import { useHistory } from '../../hooks';
 
 export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
+  const secrets = useSelector(secretSelectors.mySecrets);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const history = useHistory();
   const { flavor } = useService({
     details,
   });
@@ -27,12 +34,26 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (flavor?.config_schema?.properties[elementName]?.type === 'string') {
+      const extracted = elementSchema.split(/\./)[0];
+      const secretName = extracted.replace(/{{|}}|\./g, '').trim();
+      const filteredSecret = secrets?.filter(
+        (item) => item.name === secretName,
+      );
       return (
         <>
           {flavor?.config_schema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
+                viewSecretDetail={() => {
+                  history.push(
+                    routePaths.secret.configuration(
+                      filteredSecret[0]?.id,
+                      selectedWorkspace,
+                    ),
+                  );
+                }}
+                filteredSecretId={filteredSecret[0]?.id}
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
                 // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
                 label={titleCase(elementName) + ' (Secret)'}
@@ -44,7 +65,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               />
             </Box>
           ) : (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
                 // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -75,7 +96,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               <label htmlFor="key">{titleCase(elementName)}</label>
             </Paragraph>
           </Box>
-          <FlexBox marginTop="sm" style={{ width: '417px' }}>
+          <FlexBox marginTop="sm" style={{ width: '30vw' }}>
             <textarea
               disabled
               className={styles.textArea}
@@ -118,7 +139,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     // }
     if (flavor?.config_schema?.properties[elementName]?.type === 'object') {
       return (
-        <Box marginTop="lg" style={{ width: '417px' }}>
+        <Box marginTop="lg" style={{ width: '30vw' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -144,7 +165,10 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               >
                 <FlexBox.Row>
                   <Box
-                    style={{ display: 'flex', alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                    }}
                     marginTop="sm"
                   >
                     <div
@@ -228,7 +252,11 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               {Object.entries(elementSchema).map(([key, value], index) => (
                 <FlexBox.Row>
                   <Box
-                    style={{ display: 'flex', alignItems: 'center' }}
+                    style={{
+                      display: 'flex',
+                      alignItems: 'center',
+                      width: '29.8vw',
+                    }}
                     marginTop="sm"
                   >
                     <div
@@ -342,7 +370,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
                         &#x27A4;
                       </div>
 
-                      <div className="form-group" style={{ width: '390px' }}>
+                      <div className="form-group" style={{ width: '28.3vw' }}>
                         <EditField
                           disabled
                           className={styles.field}
@@ -454,7 +482,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     <FlexBox.Column marginTop="xl" fullWidth>
       <FlexBox.Row flexDirection="column">
         {/* <Container> */}
-        <Box style={{ width: '417px' }}>
+        <Box style={{ width: '30vw' }}>
           <EditField
             disabled
             onChangeText={() => console.log('')}

@@ -64,6 +64,8 @@ export const UpdateConfig: React.FC<{
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
+  const [secretId, setSecretId] = useState('');
+  const [secretIdArray, setSecretIdArray] = useState([]);
   const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
@@ -76,6 +78,10 @@ export const UpdateConfig: React.FC<{
     if (state?.state?.routeFromEditComponent) {
       setMappedConfiguration(state.state.mappedConfiguration);
       setInputFields(state.state.inputFields);
+      setSecretId(state?.state?.secretId);
+      if (state?.state?.secretIdArray?.length) {
+        setSecretIdArray(state?.state?.secretIdArray);
+      }
       // setIsShared(state?.state?.isShared);
       // setInputFields(state?.state?.inputFields);
       // setInputData(state?.state?.inputData);
@@ -358,10 +364,14 @@ export const UpdateConfig: React.FC<{
         id: value?.id ? value?.id : '',
       },
     });
-
-    // if (value === undefined) {
-    //   return false;
-    // }
+    if (value?.id) {
+      console.log('Asdasasd123123', secretIdArray);
+      // debugger;
+      setSecretId(value?.id);
+      const listOfIds: any = [...secretIdArray];
+      listOfIds.push(value.id);
+      setSecretIdArray(listOfIds);
+    }
 
     if (value?.value?.includes('.') || value?.value?.id) {
       dispatch(
@@ -521,28 +531,52 @@ export const UpdateConfig: React.FC<{
       return (
         <>
           {flavor?.configSchema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <MakeSecretField
                 required={flavor?.configSchema?.required?.includes(elementName)}
                 label={titleCase(elementName) + ' (Secret)'}
                 placeholder={''}
                 handleClick={() => {
-                  const state = {
-                    flavor: flavor.name,
-                    routeFromEditComponent: true,
-                    componentName: componentName,
-                    isShared: isShared,
-                    mappedConfiguration: mappedConfiguration,
-                    inputFields: inputFields,
-                    // inputFields: inputFields,
+                  if (secretId) {
+                    const state = {
+                      secretIdArray: secretIdArray,
+                      secretId: secretId,
+                      flavor: flavor.name,
+                      routeFromEditComponent: true,
+                      componentName: componentName,
+                      isShared: isShared,
+                      mappedConfiguration: mappedConfiguration,
+                      inputFields: inputFields,
+                      // inputFields: inputFields,
 
-                    secretKey: elementName,
-                    pathName: location.pathname,
-                  };
-                  history.push(
-                    routePaths.secrets.registerSecrets(selectedWorkspace),
-                    state,
-                  );
+                      secretKey: elementName,
+                      pathName: location.pathname,
+                    };
+                    history.push(
+                      routePaths.secret.updateSecret(
+                        secretId,
+                        selectedWorkspace,
+                      ),
+                      state,
+                    );
+                  } else {
+                    const state = {
+                      flavor: flavor.name,
+                      routeFromEditComponent: true,
+                      componentName: componentName,
+                      isShared: isShared,
+                      mappedConfiguration: mappedConfiguration,
+                      inputFields: inputFields,
+                      // inputFields: inputFields,
+
+                      secretKey: elementName,
+                      pathName: location.pathname,
+                    };
+                    history.push(
+                      routePaths.secrets.registerSecrets(selectedWorkspace),
+                      state,
+                    );
+                  }
                 }}
                 // inputData={inputData}
                 value={
@@ -554,6 +588,12 @@ export const UpdateConfig: React.FC<{
                     : ''
                 }
                 onChange={(val: string, newEvent: any) => {
+                  if (!val) {
+                    if (secretIdArray?.length === 1) {
+                    } else {
+                      setSecretId('');
+                    }
+                  }
                   if (val.includes('{{')) {
                     callActionForSecret(elementName, val, newEvent);
                   } else {
@@ -593,7 +633,7 @@ export const UpdateConfig: React.FC<{
               />
             </Box>
           ) : (
-            <Box marginTop="lg" style={{ width: '417px' }}>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
               <FormTextField
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
@@ -628,7 +668,7 @@ export const UpdateConfig: React.FC<{
               <label htmlFor="key">{titleCase(elementName)}</label>
             </Paragraph>
           </Box>
-          <FlexBox marginTop="sm" fullWidth style={{ width: '417px' }}>
+          <FlexBox marginTop="sm" fullWidth style={{ width: '30vw' }}>
             <textarea
               className={styles.textArea}
               defaultValue={JSON.stringify(mappedConfiguration[elementName])}
@@ -720,7 +760,7 @@ export const UpdateConfig: React.FC<{
                     <Box
                       className="form-group"
                       marginRight="md"
-                      style={{ width: '184px' }}
+                      style={{ width: '13.7vw' }}
                     >
                       <FormTextField
                         onChange={(event: any) => {
@@ -736,7 +776,7 @@ export const UpdateConfig: React.FC<{
                       />
                     </Box>
 
-                    <Box className="form-group" style={{ width: '184px' }}>
+                    <Box className="form-group" style={{ width: '13.7vw' }}>
                       <FormTextField
                         onChange={(event: any) => {
                           const values = { ...inputFields };
@@ -879,7 +919,7 @@ export const UpdateConfig: React.FC<{
                           &#x27A4;
                         </div>
 
-                        <Box className="form-group" style={{ width: '383px' }}>
+                        <Box className="form-group" style={{ width: '28.3vw' }}>
                           <FormTextField
                             onChange={(event: any) => {
                               const values = [
@@ -966,7 +1006,7 @@ export const UpdateConfig: React.FC<{
     }
     if (typeof elementSchema === 'boolean') {
       return (
-        <Box marginTop={'lg'} style={{ width: '450px' }}>
+        <Box marginTop={'lg'} style={{ width: '30vw' }}>
           <Box>
             <ToggleField
               value={elementSchema}
@@ -1068,7 +1108,7 @@ export const UpdateConfig: React.FC<{
     <FlexBox.Column marginTop="xl">
       <FlexBox.Row flexDirection="column">
         <Container>
-          <Box style={{ width: '417px' }}>
+          <Box style={{ width: '30vw' }}>
             <FormTextField
               onChange={(e: any) => {
                 setComponentName(e);
