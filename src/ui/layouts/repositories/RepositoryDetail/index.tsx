@@ -20,6 +20,7 @@ import FilterComponent, {
 } from '../../../components/Filters';
 import { Box } from '../../../components';
 import { Runs } from './Runs';
+import { translate } from './translate';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -85,7 +86,7 @@ function RepositoryDetailOverview() {
     <BasePage
       tabPages={[
         {
-          text: 'Overview',
+          text: translate('overview.text'),
           Component: () => (
             <DetailOverview
               repositoryID={repositoryID}
@@ -98,7 +99,7 @@ function RepositoryDetailOverview() {
           ),
         },
         {
-          text: 'Runs',
+          text: translate('runs.text'),
           Component: FilterWrapperForRun,
           path: routePaths.repositories.runs(
             selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],

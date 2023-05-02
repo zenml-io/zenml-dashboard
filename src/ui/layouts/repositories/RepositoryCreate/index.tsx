@@ -24,6 +24,7 @@ import {
 } from '../../../components';
 import { toasterTypes } from '../../../../constants';
 import { showToasterAction } from '../../../../redux/actions';
+import { translate } from './translate';
 
 function CreateRepositoryBody() {
   const dispatch = useDispatch();
@@ -57,7 +58,7 @@ function CreateRepositoryBody() {
       if (!isGithub && !isGitlab) {
         setRepoURLStatus({
           status: 'error' as const,
-          message: 'Please insert a Github or Gitlab URL',
+          message: translate('githubURL.text'),
         });
         return;
       }
@@ -144,16 +145,18 @@ function CreateRepositoryBody() {
           )}
         </div>
         <div className={styles.create__formContainer}>
-          <h2 className={styles.create__heading}>Add your repository</h2>
+          <h2 className={styles.create__heading}>
+            {translate('addRepository.text')}
+          </h2>
           <form className={styles.create__form}>
             <InputWithLabel
-              label="Unique Name *"
+              label={`${translate('uniqueName.text')} *`}
               InputComponent={<TextInput value={name} onChangeText={setName} />}
             />
             <div>
               <ValidatedTextField
                 placeholder="https://github.com/zenml-io/zenml"
-                label="Repository URL*"
+                label={`${translate('repositoryURL.text')} *`}
                 value={repoURL}
                 onChange={(p: string) => {
                   if (
@@ -163,7 +166,7 @@ function CreateRepositoryBody() {
                   ) {
                     setRepoURLStatus({
                       status: 'error' as const,
-                      message: 'Please insert a valid URL',
+                      message: translate('validURL.text'),
                     });
                   } else {
                     setRepoURLStatus({ status: 'editing' });
@@ -177,28 +180,28 @@ function CreateRepositoryBody() {
               <>
                 <EditFieldSettings
                   disabled={true}
-                  label="Owner *"
+                  label={`${translate('owner.text')} *`}
                   labelColor="#828282"
                   value={owner}
                   onChangeText={setOwner}
                 />
                 <EditFieldSettings
                   disabled={true}
-                  label="Repo *"
+                  label={`${translate('repo.text')} *`}
                   labelColor="#828282"
                   value={repo}
                   onChangeText={setRepo}
                 />
 
                 <ValidatedTextField
-                  label="Logo URL (optional)"
+                  label={`${translate('logoURL.text')} *`}
                   value={logoUrl}
                   onChange={setLogoUrl}
                   status={{ status: 'editing' }}
                 />
 
                 <InputWithLabel
-                  label="Description (optional)"
+                  label={`${translate('description.text')} *`}
                   InputComponent={
                     <TextAreaInput
                       value={description}
@@ -210,7 +213,7 @@ function CreateRepositoryBody() {
                 />
 
                 <FormPasswordField
-                  label="Token *"
+                  label={`${translate('token.text')} *`}
                   placeholder="Token"
                   value={token}
                   onChange={(val: string) => setToken(val)}
@@ -243,7 +246,7 @@ function CreateRepositoryBody() {
                     submitHandler(e);
                   }}
                 >
-                  Create
+                  {translate('create.text')}
                 </PrimaryButton>
               </Box>
             </FlexBox>

@@ -8,7 +8,7 @@ import {
 } from '../../../../redux/selectors';
 import BasePage from '../repository-layout';
 import { routePaths } from '../../../../routes/routePaths';
-// import { translate } from './translate';
+import { translate } from './translate';
 import FilterComponent, {
   getInitialFilterStateForRepositories,
 } from '../../../components/Filters';
@@ -172,7 +172,7 @@ const RepositoriyListBody = () => {
               history.push(routePaths.repositories.create(selectedWorkspace));
             }}
           >
-            Create Repository
+            {translate('createRepository.text')}
           </PrimaryButton>
         </Box>
       </FlexBox>

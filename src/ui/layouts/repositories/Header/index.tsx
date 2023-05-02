@@ -4,7 +4,7 @@ import cn from 'classnames';
 import { FlexBox, Box, Paragraph } from '../../../components';
 
 import styles from './index.module.scss';
-import { constantCommandsToCreateSecret } from '../../../../constants/constantCommands';
+import { constantCommandsToCreateRepository } from '../../../../constants/constantCommands';
 import { title } from 'process';
 
 const DefaultHeader: React.FC<{
@@ -41,7 +41,7 @@ const DefaultHeader: React.FC<{
       >
         <a
           style={{ color: '#443E99' }}
-          href={constantCommandsToCreateSecret.documentation}
+          href={constantCommandsToCreateRepository.documentation}
           target="__blank"
         >
           document
@@ -92,16 +92,13 @@ const HeaderWithButtons: React.FC<{
           Check out our easy to read{' '}
           <a
             style={{ color: '#443E99' }}
-            href={constantCommandsToCreateSecret.documentation}
+            href={constantCommandsToCreateRepository.documentation}
             target="__blank"
           >
             document
           </a>
         </Paragraph>
       </Box>
-      {/* <CreateStackButton />
-
-      <DocumentationLink text={constantCommandsToCreateStack.documentation} /> */}
     </FlexBox>
   </FlexBox>
 );

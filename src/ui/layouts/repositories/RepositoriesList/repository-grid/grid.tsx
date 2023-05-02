@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import styles from './repository-grid.module.scss';
 import RepositoryCard from '../repository-card';
+import { translate } from '../translate';
 import { H3 } from '../../../../components';
 
 interface RepositoryListProps {
@@ -12,7 +13,7 @@ function RepositoryGrid({ repositories }: RepositoryListProps) {
   if (repositories.length < 1)
     return (
       <div style={{ display: 'flex', justifyContent: 'center' }}>
-        <H3>No Repositories found</H3>
+        <H3>{translate('emptyState.text')}</H3>
       </div>
     );
   return (

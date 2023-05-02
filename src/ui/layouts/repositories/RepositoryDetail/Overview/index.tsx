@@ -3,6 +3,7 @@ import { FullWidthSpinner } from '../../../../components';
 import { useSelector } from 'react-redux';
 import { repositorySelectors } from '../../../../../redux/selectors';
 import { DisplayMarkdown } from '../../../../components/richText/DisplayMarkdown';
+import { translate } from '../translate';
 
 interface DetailOverviewProps {
   isLoading: boolean;
@@ -30,7 +31,7 @@ function DetailOverview({ isLoading, repositoryID }: DetailOverviewProps) {
           markdown={
             repository.description
               ? repository.description
-              : 'No Description provided'
+              : translate('noDescription.text')
           }
         />
       )}
