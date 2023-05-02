@@ -186,7 +186,7 @@ const icons = {
     Component: ChevronLeft,
     transform: 'rotate(180deg)',
   }),
-  repository: createIcon({ Component: Repository }),
+  repository: createIcon({ Component: Repository, isSidebarFilled: true }),
   rightArrow: createIcon({ Component: RightArrow }),
   copy: createIcon({ Component: Copy }),
   eye: createIcon({ Component: Eye, useStroke: true }),
