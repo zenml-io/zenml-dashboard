@@ -17,4 +17,4 @@ export * from './stackComponentPages';
 export * from './flavors';
 export * from './flavorPages';
 export * from './repositories';
-export * from "./repositoryPages"
+export * from './repositoryPages';

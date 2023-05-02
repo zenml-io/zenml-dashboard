@@ -75,11 +75,7 @@ const RepositoriyListBody = () => {
       checkValidFilter.length > 0 ? validFilters : [],
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    checkValidFilter,
-    itemPerPage,
-    dispatchRepositoryPagination,
-  ]);
+  }, [checkValidFilter, itemPerPage, dispatchRepositoryPagination]);
 
   function updateData(pageNumber: number, pageSize: number) {
     dispatchRepositoryPagination(pageNumber, pageSize);
@@ -125,6 +121,7 @@ const RepositoriyListBody = () => {
                     width: '100%',
                     display: 'flex',
                     justifyContent: 'center',
+                    backgroundColor: 'white',
                   }}
                 >
                   <div style={{ alignSelf: 'center' }}>
