@@ -15,7 +15,7 @@ function DeploymentBanner() {
           {' '}
           docs
         </a>{' '}
-        to see how.
+        to learn how.
       </p>
     </aside>
   );
