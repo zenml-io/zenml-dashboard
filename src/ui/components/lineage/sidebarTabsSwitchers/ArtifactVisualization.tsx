@@ -228,10 +228,10 @@ const ArtifactVisualization = ({
             ) : (
               <img
                 src={'data:image/png;base64,' + response?.data?.value}
-                alt={'Base64 encoded image'}
+                // eslint-disable-next-line
+                alt={'Base64 encoded'}
               />
             )}{' '}
-            {/* eslint-disable-line */}
           </>
         </div>
       ) : (
