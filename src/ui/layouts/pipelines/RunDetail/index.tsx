@@ -242,7 +242,6 @@ export const RunDetail: React.FC = () => {
         </Box>
       </Box> */}
     </BasePage>
-    
   );
 };
 

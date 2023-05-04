@@ -6,13 +6,11 @@ export const getArtifactVisualization = ({
   onSuccess,
   onFailure,
 }: {
-
   id: TId;
   onSuccess?: () => void;
   onFailure?: () => void;
-
 }): TRequestAction => {
-  console.log("api action", id)
+  console.log('api action', id);
   return {
     type: runActionTypes.getArtifactVisualization.request,
     payload: {
@@ -24,5 +22,5 @@ export const getArtifactVisualization = ({
       onSuccess,
       onFailure,
     },
-  }
+  };
 };

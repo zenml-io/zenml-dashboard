@@ -11,5 +11,5 @@ const sessionSelectors = {
   hubToken,
 };
 
-console.log({sessionSelectors})
+console.log({ sessionSelectors });
 export { sessionSelectors };

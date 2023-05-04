@@ -1,6 +1,14 @@
 import React from 'react';
 import { Handle, Position } from 'react-flow-renderer';
-import { Cached, Completed, Export, Failed, Folder, Lock, Running } from './icons';
+import {
+  Cached,
+  Completed,
+  Export,
+  Failed,
+  Folder,
+  Lock,
+  Running,
+} from './icons';
 
 import styles from './index.module.scss';
 import { NodeProps } from 'react-flow-renderer';
@@ -10,8 +18,6 @@ const StepNode = ({
   targetPosition = Position.Top,
   sourcePosition = Position.Bottom,
 }: NodeProps) => {
-
-
   return (
     <>
       <div className={styles.stepMainContainer} style={{ borderRadius: 10 }}>
@@ -21,17 +27,19 @@ const StepNode = ({
           className={styles.handle}
         />
         <div
-          className={`${data.selected ? styles.stepBodySelected : styles.stepBody}`}
+          className={`${
+            data.selected ? styles.stepBodySelected : styles.stepBody
+          }`}
           style={
             data.status === 'completed'
               ? { borderColor: '#4ade80' }
               : data.status === 'failed'
-                ? { borderColor: '#FF5C93' }
-                : data.status === 'running'
-                  ? { borderColor: '#22BBDD' }
-                  : data.status === 'cached'
-                    ? { borderColor: '#4ade80' }
-                    : { borderColor: '#000' }
+              ? { borderColor: '#FF5C93' }
+              : data.status === 'running'
+              ? { borderColor: '#22BBDD' }
+              : data.status === 'cached'
+              ? { borderColor: '#4ade80' }
+              : { borderColor: '#000' }
           }
         >
           <div
@@ -40,12 +48,12 @@ const StepNode = ({
               data.status === 'completed'
                 ? { background: 'rgba(55,196,168,0.1)' }
                 : data.status === 'failed'
-                  ? { background: '#FF5C93' }
-                  : data.status === 'running'
-                    ? { background: '#22BBDD' }
-                    : data.status === 'cached'
-                      ? { background: '#4ade80' }
-                      : { background: '#000' }
+                ? { background: '#FF5C93' }
+                : data.status === 'running'
+                ? { background: '#22BBDD' }
+                : data.status === 'cached'
+                ? { background: '#4ade80' }
+                : { background: '#000' }
             }
           >
             {data.status === 'running' ? (
@@ -63,15 +71,23 @@ const StepNode = ({
           </div>
         </div>
         <div className={styles.stepFooter}>
-          <span style={{ padding: '2px', cursor: 'pointer' }}><Export /></span>
-          <span style={{ padding: '2px', cursor: 'pointer' }}><Folder /></span>
-          <span style={{ padding: '0px', cursor: 'pointer' }}><Lock /></span>
+          <span style={{ padding: '2px', cursor: 'pointer' }}>
+            <Export />
+          </span>
+          <span style={{ padding: '2px', cursor: 'pointer' }}>
+            <Folder />
+          </span>
+          <span style={{ padding: '0px', cursor: 'pointer' }}>
+            <Lock />
+          </span>
         </div>
         <Handle
           type="source"
           position={sourcePosition}
           className={styles.handle}
-          isValidConnection={(connection) => connection.source === data.execution_id}
+          isValidConnection={(connection) =>
+            connection.source === data.execution_id
+          }
         />
       </div>
     </>

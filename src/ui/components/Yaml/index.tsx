@@ -10,10 +10,7 @@ import ReactFlow, {
 import dagre from 'dagre';
 import StepNode from './StepNode';
 import './index.css';
-import {
-  Completed,
-  FailedLg,
-} from './icons';
+import { Completed, FailedLg } from './icons';
 import { FullWidthSpinner } from '../spinners';
 import styles from './index.module.scss';
 import { useSelector } from 'react-redux';
@@ -29,13 +26,13 @@ interface Edge {
   type?: string;
   animated?: boolean;
   label?: string;
-  arrowHeadColor: any
+  arrowHeadColor: any;
   markerEnd?: {
-    type: MarkerType.ArrowClosed,
-    width: number,
-    height: number,
-    color: string,
-  },
+    type: MarkerType.ArrowClosed;
+    width: number;
+    height: number;
+    color: string;
+  };
 }
 
 // function extractTime(isoString: string) {
@@ -51,7 +48,11 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 const nodeWidth = 80;
 const nodeHeight = 50;
 
-const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], direction = 'TB',) => {
+const getLayoutedElements = (
+  initialNodes: any[],
+  initialEdges: Edge[],
+  direction = 'TB',
+) => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
   if (initialEdges === undefined && initialNodes === undefined) {
@@ -73,7 +74,6 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
     node.targetPosition = isHorizontal ? 'left' : 'top';
     node.sourcePosition = isHorizontal ? 'right' : 'bottom';
 
-
     node.position = {
       x: nodeWithPosition.x - nodeWidth / 2,
       y: nodeWithPosition.y - nodeHeight / 2,
@@ -82,15 +82,13 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
   });
 
   initialEdges.forEach((edge) => {
-
     edge.type = isHorizontal ? 'straight' : 'step';
-    edge["markerEnd"] = {
+    edge['markerEnd'] = {
       type: MarkerType.ArrowClosed,
       width: 20,
       height: 30,
       color: '#443E99',
-    }
-
+    };
 
     initialNodes.find((node) => {
       if (
@@ -118,7 +116,6 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
           const status = initialNodes.find((step) => step.id === e.target);
           if (status.data.status === 'running') {
             edge.animated = true;
-
           }
         }
       }
@@ -132,7 +129,6 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
 };
 
 const nodeTypes = { step: StepNode };
-
 
 export const LayoutFlow: React.FC<any> = (graph = null) => {
   const {
@@ -150,14 +146,16 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
   useEffect(() => {
-
     const AsyncFetchCall = async () => {
-      setFetchingSchedule(true)
-      const resposne = await fetchSchedule("97f92da7-d5d7-4224-8b92-5fcbfb43d4fe", authToken)
+      setFetchingSchedule(true);
+      const resposne = await fetchSchedule(
+        '97f92da7-d5d7-4224-8b92-5fcbfb43d4fe',
+        authToken,
+      );
       setSchedule(resposne);
-    }
+    };
     AsyncFetchCall();
-  }, []) //eslint-disable-line
+  }, []); //eslint-disable-line
 
   useEffect(() => {
     if (schedule !== null) {
@@ -169,17 +167,12 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
     setTimeout(() => {
       if (!fetchingSchedule) {
         setNa(true);
+      } else {
       }
-      else {
-      }
-
     }, 500);
-  }, [schedule]) //eslint-disable-line
+  }, [schedule]); //eslint-disable-line
 
-
-  useEffect(() => {
-  }, [selectedNode])
-
+  useEffect(() => {}, [selectedNode]);
 
   const onConnect = useCallback(
     (params) =>
@@ -204,10 +197,9 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
   }
   return (
     <>
-
       <div style={{ overflow: 'hidden' }}>
         <div>
-          {!fetchingSchedule ?
+          {!fetchingSchedule ? (
             <table className={`${styles.Scheduled}`}>
               <thead>
                 <th>Scheduled</th>
@@ -215,15 +207,19 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
               <tbody>
                 <tr>
                   <td>Start</td>
-                  <td>{schedule?.start_time ? schedule?.start_time : "n/a"}</td>
+                  <td>{schedule?.start_time ? schedule?.start_time : 'n/a'}</td>
                 </tr>
                 <tr>
                   <td>End</td>
-                  <td>{schedule?.end_time ? schedule?.end_time : "n/a"}</td>
+                  <td>{schedule?.end_time ? schedule?.end_time : 'n/a'}</td>
                 </tr>
                 <tr>
                   <td>Interval</td>
-                  <td>{schedule?.interval_second ? schedule?.interval_second : "n/a"}</td>
+                  <td>
+                    {schedule?.interval_second
+                      ? schedule?.interval_second
+                      : 'n/a'}
+                  </td>
                 </tr>
                 <tr>
                   <td>Catchup</td>
@@ -231,11 +227,15 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
                 </tr>
                 <tr>
                   <td>Cron Exp</td>
-                  <td>{schedule?.cron_expression ? schedule?.cron_expression : "n/a"}</td>
+                  <td>
+                    {schedule?.cron_expression
+                      ? schedule?.cron_expression
+                      : 'n/a'}
+                  </td>
                 </tr>
               </tbody>
             </table>
-            :
+          ) : (
             <table className={`${styles.Scheduled}`}>
               <thead>
                 <th>Scheduled</th>
@@ -243,30 +243,30 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
               <tbody>
                 <tr>
                   <td>Start</td>
-                  <td>{na ? "n/a" : "loading..."}</td>
+                  <td>{na ? 'n/a' : 'loading...'}</td>
                 </tr>
                 <tr>
                   <td>End</td>
-                  <td>{na ? "n/a" : "loading..."}</td>
+                  <td>{na ? 'n/a' : 'loading...'}</td>
                 </tr>
                 <tr>
                   <td>Interval</td>
-                  <td>{na ? "n/a" : "loading..."}</td>
+                  <td>{na ? 'n/a' : 'loading...'}</td>
                 </tr>
                 <tr>
                   <td>Catchup</td>
-                  <td>{na ? "n/a" : "loading..."}</td>
+                  <td>{na ? 'n/a' : 'loading...'}</td>
                 </tr>
                 <tr>
                   <td>Cron Exp</td>
-                  <td>{na ? "n/a" : "loading..."}</td>
+                  <td>{na ? 'n/a' : 'loading...'}</td>
                 </tr>
               </tbody>
-            </table>}
+            </table>
+          )}
         </div>
         <div className="layout" style={{ overflow: 'hidden' }}>
           <div className="layoutflow">
-
             <ReactFlow
               nodes={nodes} // node itself
               edges={edges} //connection lines
@@ -277,16 +277,14 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
               nodeTypes={nodeTypes}
               onNodeClick={async (event, node) => {
                 if (selectedNode?.selected) {
-                  selectedNode.selected = false
+                  selectedNode.selected = false;
                   setSelectedNode(selectedNode);
                 }
                 setTimeout(async () => {
-                  node.data["selected"] = true;
-                  setSelectedNode(node.data)
-                }, 100)
-              }
-
-              }
+                  node.data['selected'] = true;
+                  setSelectedNode(node.data);
+                }, 100);
+              }}
               fitView
             >
               <Controls />

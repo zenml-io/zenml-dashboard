@@ -15,9 +15,7 @@ export const DAG: React.FC<{
 }> = ({ runId, fetching, metadata }) => {
   const { graph } = useService({ runId });
 
-  useEffect(() => {
-  }, [runId]); //eslint-disable-line
-
+  useEffect(() => {}, [runId]); //eslint-disable-line
 
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;

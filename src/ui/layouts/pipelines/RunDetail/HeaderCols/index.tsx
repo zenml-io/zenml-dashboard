@@ -30,7 +30,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
           color="black"
           style={{ fontSize: '14px', marginLeft: '33px' }}
         >
-          RUN ID 
+          RUN ID
         </Paragraph>
       ),
       width: '20%',

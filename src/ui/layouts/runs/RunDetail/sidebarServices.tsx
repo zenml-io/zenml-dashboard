@@ -1,158 +1,178 @@
 import axios from 'axios';
 
 export const fetchStepData = async (selectedNode: any, authToken: any) => {
-    const data = axios.get(
-        `${process.env.REACT_APP_BASE_API_URL}/steps/${selectedNode.execution_id}`,
-        {
-            headers: {
-                Authorization: `bearer ${authToken}`,
-            },
+  const data = axios
+    .get(
+      `${process.env.REACT_APP_BASE_API_URL}/steps/${selectedNode.execution_id}`,
+      {
+        headers: {
+          Authorization: `bearer ${authToken}`,
         },
-    ).then((response) => {
-        return response?.data;
-    }).catch(err => {
-        return null;
+      },
+    )
+    .then((response) => {
+      return response?.data;
     })
+    .catch((err) => {
+      return null;
+    });
 
-    return data;
+  return data;
 };
 
 export const fetchStepLogs = async (selectedNode: any, authToken: any) => {
-    const logs = axios.get(
-        `${process.env.REACT_APP_BASE_API_URL}/steps/${selectedNode.execution_id}/logs`,
-        {
-            headers: {
-                Authorization: `bearer ${authToken}`,
-            },
+  const logs = axios
+    .get(
+      `${process.env.REACT_APP_BASE_API_URL}/steps/${selectedNode.execution_id}/logs`,
+      {
+        headers: {
+          Authorization: `bearer ${authToken}`,
         },
-    ).then((response) => {
-        return response?.data;
-    }).catch(err => {
-        return null;
+      },
+    )
+    .then((response) => {
+      return response?.data;
     })
-    return logs;
-}
+    .catch((err) => {
+      return null;
+    });
+  return logs;
+};
 
 export const fetchArtifactData = async (selectedNode: any, authToken: any) => {
-    const data = await axios.get(
-        `${process.env.REACT_APP_BASE_API_URL}/artifacts/${selectedNode.execution_id}`,
-        {
-            headers: {
-                Authorization: `bearer ${authToken}`,
-            },
+  const data = await axios
+    .get(
+      `${process.env.REACT_APP_BASE_API_URL}/artifacts/${selectedNode.execution_id}`,
+      {
+        headers: {
+          Authorization: `bearer ${authToken}`,
         },
-    ).then((response) => {
-        return response.data
-    }).catch(err => {
-        return null;
+      },
+    )
+    .then((response) => {
+      return response.data;
     })
-    return data;
+    .catch((err) => {
+      return null;
+    });
+  return data;
 };
 
 export async function artifactService(artifactId: any, authToken: any) {
-
-    const response = await axios.get(
-        `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
-        {
-            headers: {
-                Authorization: `bearer ${authToken}`,
-            },
+  const response = await axios
+    .get(
+      `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
+      {
+        headers: {
+          Authorization: `bearer ${authToken}`,
         },
-    ).then((response) => {
-        return response
-    })
-    return response;
-
+      },
+    )
+    .then((response) => {
+      return response;
+    });
+  return response;
 }
 
 let currentId = '';
 let currentResponse = {};
 
+export const fetchArtifactVisualizationSize = async (
+  artifactId: any,
+  authToken: any,
+) => {
+  const CancelToken = axios.CancelToken;
+  const source = CancelToken.source();
 
-export const fetchArtifactVisualizationSize = async (artifactId: any, authToken: any) => {
-
-    const CancelToken = axios.CancelToken;
-    const source = CancelToken.source();
-
-    const response = await axios.get(
-        `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
-        {
-            headers: {
-                Authorization: `bearer ${authToken}`,
-            },
-            onDownloadProgress: async progressEvent => {
-                const contentLength = progressEvent.total;
-                const loadedBytes = progressEvent.loaded;
-                localStorage.setItem("VISUALIZATION_SIZE", contentLength);
-                console.log("VISUALIZATION_SIZE", localStorage.getItem("VISUALIZATION_SIZE"))
-                source.cancel(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes (cancel)`)
-                console.log(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`);
-            },
-            cancelToken: source?.token,
+  const response = await axios
+    .get(
+      `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
+      {
+        headers: {
+          Authorization: `bearer ${authToken}`,
         },
-    ).then((response) => {
-        currentResponse = response;
-        return response
-    }).catch(error => {
-        if (axios.isCancel(error)) {
-            return {}
-        } else {
-            return error
-        }
+        onDownloadProgress: async (progressEvent) => {
+          const contentLength = progressEvent.total;
+          const loadedBytes = progressEvent.loaded;
+          localStorage.setItem('VISUALIZATION_SIZE', contentLength);
+          console.log(
+            'VISUALIZATION_SIZE',
+            localStorage.getItem('VISUALIZATION_SIZE'),
+          );
+          source.cancel(
+            `API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes (cancel)`,
+          );
+          console.log(
+            `API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`,
+          );
+        },
+        cancelToken: source?.token,
+      },
+    )
+    .then((response) => {
+      currentResponse = response;
+      return response;
+    })
+    .catch((error) => {
+      if (axios.isCancel(error)) {
+        return {};
+      } else {
+        return error;
+      }
     });
-    return response;
+  return response;
 };
 
+export async function artifactVisulizationService(
+  artifactId: any,
+  authToken: any,
+  source: any,
+) {
+  // console.log("cancelToken before", cancelToken)
+  console.log('currentResponse before', source);
 
+  // if(source){
+  //     source.cancel(`API response size: ${"contentLength"} bytes, loaded: ${"loadedBytes"} bytes (cancel)`)
+  // }
+  if (currentId === artifactId) {
+    return currentResponse;
+  }
 
-export async function artifactVisulizationService(artifactId: any, authToken: any, source: any) {
+  currentId = artifactId;
+  currentResponse = {};
 
-    // console.log("cancelToken before", cancelToken)
-    console.log("currentResponse before", source)
-
-    // if(source){
-    //     source.cancel(`API response size: ${"contentLength"} bytes, loaded: ${"loadedBytes"} bytes (cancel)`)
-    // }
-    if (currentId === artifactId) {
-        return currentResponse;
-    }
-
-    currentId = artifactId;
-    currentResponse = {};
-
-    try {
-
-        const response = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
-            {
-                headers: {
-                    Authorization: `bearer ${authToken}`,
-                },
-                onDownloadProgress: progressEvent => {
-              
-                    const contentLength = progressEvent.total;
-                    const loadedBytes = progressEvent.loaded;
-                    console.log(`API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`);
-                   
-                },
-                cancelToken: source?.token,
-            },
-
-        ).then((response) => {
-            currentResponse = response;
-            return response
-        }).catch(error => {
-            if (axios.isCancel(error)) {
-                // return error
-                console.log("API",error)
-            } else {
-                return error
-            }
-        });
+  try {
+    const response = await axios
+      .get(
+        `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
+        {
+          headers: {
+            Authorization: `bearer ${authToken}`,
+          },
+          onDownloadProgress: (progressEvent) => {
+            const contentLength = progressEvent.total;
+            const loadedBytes = progressEvent.loaded;
+            console.log(
+              `API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`,
+            );
+          },
+          cancelToken: source?.token,
+        },
+      )
+      .then((response) => {
+        currentResponse = response;
         return response;
-    }
-    catch (err) {
-        console.log("-------------err", err)
-    }
+      })
+      .catch((error) => {
+        if (axios.isCancel(error)) {
+          // return error
+          console.log('API', error);
+        } else {
+          return error;
+        }
+      });
+    return response;
+  } catch (err) {
+    console.log('-------------err', err);
+  }
 }
-

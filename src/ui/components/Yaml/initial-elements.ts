@@ -31,46 +31,40 @@ export const initialNodes = [
 
 export const initialEdges = [
   {
-    id:
-      'step_10',
+    id: 'step_10',
     target: 'loader_mnist',
     source: '0',
-    arrowHeadColor: ""
+    arrowHeadColor: '',
   },
   {
-    id:
-      'step_11',
+    id: 'step_11',
     target: 'normalizer',
     source: 'loader_mnist',
-    arrowHeadColor: ""
+    arrowHeadColor: '',
   },
   {
-    id:
-      'step_12',
+    id: 'step_12',
     target: 'tf_trainer',
     source: 'loader_mnist',
-    arrowHeadColor: ""
+    arrowHeadColor: '',
   },
   {
-    id:
-      'step_13',
+    id: 'step_13',
     target: 'tf_trainer',
     source: 'normalizer',
-    arrowHeadColor: ""
+    arrowHeadColor: '',
   },
   {
-    id:
-      'step_14',
+    id: 'step_14',
     target: 'tf_evaluator',
     source: 'loader_mnist',
-    arrowHeadColor: ""
+    arrowHeadColor: '',
   },
   {
-    id:
-      'step_15',
+    id: 'step_15',
     target: 'tf_evaluator',
     source: 'tf_trainer',
-    arrowHeadColor: ""
+    arrowHeadColor: '',
   },
   // {
   //   id:
@@ -82,16 +76,16 @@ export const initialEdges = [
   // {
   //   id:
   //     'step_11',
-  //   source: 
+  //   source:
   //   'normalizer',
-  //   target: 
+  //   target:
   //   'importer',
   //   arrowHeadColor: ""
   // },
   // {
   //   id:
   //     'step_12',
-  //   source: 
+  //   source:
   //   'tf_trainer',
   //   target:
   //   'loader_mnist',
@@ -100,16 +94,16 @@ export const initialEdges = [
   // {
   //   id:
   //     'step_13',
-  //   source: 
+  //   source:
   //   'tf_trainer',
-  //   target: 
+  //   target:
   //   'normalizer',
   //   arrowHeadColor: ""
   // },
   // {
   //   id:
   //     'step_14',
-  //   source: 
+  //   source:
   //   'tf_evaluator',
   //   target:
   //   'loader_mnist',
@@ -118,16 +112,16 @@ export const initialEdges = [
   // {
   //   id:
   //     'step_15',
-  //   source: 
+  //   source:
   //   'tf_evaluator',
-  //   target: 
+  //   target:
   //   'normalizer',
   //   arrowHeadColor: ""
   // },
   // {
   //   id:
   //     'step_16',
-  //   source: 
+  //   source:
   //   '0',
   //   target:
   //   'evaluator',

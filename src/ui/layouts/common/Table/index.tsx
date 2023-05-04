@@ -152,7 +152,6 @@ export const Table: React.FC<TableProps> = ({
         condition={tableRows.length > 0 && !loading}
         renderWhenTrue={() => (
           <>
-          
             <div>
               <div>
                 <table
@@ -184,7 +183,7 @@ export const Table: React.FC<TableProps> = ({
                           >
                             {text.render && text.render()}
                           </Box>
-                          
+
                           <div
                             style={{ height: tableHeight }}
                             onMouseDown={() => mouseDown(i)}

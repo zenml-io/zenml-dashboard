@@ -8,8 +8,6 @@ const StepNode = ({
   targetPosition = Position.Top,
   sourcePosition = Position.Bottom,
 }: NodeProps) => {
-
-
   return (
     <>
       <div className={styles.stepMainContainer} style={{ borderRadius: 10 }}>
@@ -27,7 +25,9 @@ const StepNode = ({
           type="source"
           position={sourcePosition}
           className={styles.handle}
-          isValidConnection={(connection) => connection.source === data.execution_id}
+          isValidConnection={(connection) =>
+            connection.source === data.execution_id
+          }
         />
       </div>
     </>

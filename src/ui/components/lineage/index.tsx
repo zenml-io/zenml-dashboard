@@ -19,8 +19,6 @@ import arrowClose from '../icons/assets/arrowClose.svg';
 import arrowOpen from '../icons/assets/arrowOpen.svg';
 import Sidebar from './Sidebar';
 
-
-
 interface Edge {
   id: string;
   source: string;
@@ -28,16 +26,14 @@ interface Edge {
   type?: string;
   animated?: boolean;
   label?: string;
-  arrowHeadColor: any
+  arrowHeadColor: any;
   markerEnd?: {
-    type: MarkerType.ArrowClosed,
-    width: number,
-    height: number,
-    color: string,
-  },
+    type: MarkerType.ArrowClosed;
+    width: number;
+    height: number;
+    color: string;
+  };
 }
-
-
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -45,7 +41,11 @@ dagreGraph.setDefaultEdgeLabel(() => ({}));
 const nodeWidth = 100;
 const nodeHeight = 56;
 
-const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], direction = 'TB',) => {
+const getLayoutedElements = (
+  initialNodes: any[],
+  initialEdges: Edge[],
+  direction = 'TB',
+) => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
   if (initialEdges === undefined && initialNodes === undefined) {
@@ -67,7 +67,6 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
     node.targetPosition = isHorizontal ? 'left' : 'top';
     node.sourcePosition = isHorizontal ? 'right' : 'bottom';
 
-
     node.position = {
       x: nodeWithPosition.x - nodeWidth / 2,
       y: nodeWithPosition.y - nodeHeight / 2,
@@ -76,15 +75,13 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
   });
 
   initialEdges.forEach((edge) => {
-
     edge.type = isHorizontal ? 'straight' : 'step';
-    edge["markerEnd"] = {
+    edge['markerEnd'] = {
       type: MarkerType.ArrowClosed,
       width: 20,
       height: 30,
       color: '#443E99',
-    }
-
+    };
 
     initialNodes.find((node) => {
       if (
@@ -112,7 +109,6 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
           const status = initialNodes.find((step) => step.id === e.target);
           if (status.data.status === 'running') {
             edge.animated = true;
-
           }
         }
       }
@@ -127,7 +123,6 @@ const getLayoutedElements = (initialNodes: any[], initialEdges: Edge[], directio
 
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
-
 export const LayoutFlow: React.FC<any> = (graph: any) => {
   const {
     initialNodes: layoutedNodes,
@@ -139,9 +134,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
 
-  useEffect(() => {
-  }, [selectedNode])
-
+  useEffect(() => {}, [selectedNode]);
 
   const onConnect = useCallback(
     (params) =>
@@ -166,22 +159,32 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   }
   return (
     <>
-
-
-      {selectedNode === null ? "" : <div><Sidebar selectedNode={selectedNode} /></div>}
+      {selectedNode === null ? (
+        ''
+      ) : (
+        <div>
+          <Sidebar selectedNode={selectedNode} />
+        </div>
+      )}
 
       <div style={{ overflow: 'hidden' }}>
-
         <div className="controls">
-
           <button onClick={() => setLegend(!legend)}>
-            {legend ?
-              <img className='legend_arrow' src={arrowOpen} alt={"arrow_image"} />
-              :
-              <img className='legend_arrow' src={arrowClose} alt={"arrow_image"} />}
+            {legend ? (
+              <img
+                className="legend_arrow"
+                src={arrowOpen}
+                alt={'arrow_image'}
+              />
+            ) : (
+              <img
+                className="legend_arrow"
+                src={arrowClose}
+                alt={'arrow_image'}
+              />
+            )}
             Artifact Legends
           </button>
-
 
           <div style={{}}>
             <div className="legend" style={{ display: legend ? '' : 'none' }}>
@@ -192,7 +195,8 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
                 <Database /> <span>Data</span>
               </span>
               <span>
-                <Model /><span>Model</span>
+                <Model />
+                <span>Model</span>
               </span>
               <span>
                 <Schema /> <span>Schema</span>
@@ -208,7 +212,6 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
         </div>
         <div className="layout" style={{ overflow: 'hidden' }}>
           <div className="layoutflow">
-
             <ReactFlow
               nodes={nodes} // node itself
               edges={edges} //connection lines
@@ -219,18 +222,16 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
               nodeTypes={nodeTypes}
               onNodeClick={async (event, node) => {
                 if (selectedNode?.selected) {
-                  selectedNode.selected = false
+                  selectedNode.selected = false;
                   setSelectedNode(selectedNode);
                 }
-                node.data["selected"] = true;
-                setSelectedNode(node.data)
+                node.data['selected'] = true;
+                setSelectedNode(node.data);
               }}
               fitView
             >
               <Controls />
             </ReactFlow>
-
-
           </div>
         </div>
       </div>

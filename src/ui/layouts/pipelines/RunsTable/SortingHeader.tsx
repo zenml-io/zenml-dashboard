@@ -58,7 +58,6 @@ export const SortingHeader: React.FC<{
           )}
         </If>
       </FlexBox>
-      
     </LinkBox>
   );
 };

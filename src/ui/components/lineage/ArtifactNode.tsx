@@ -10,15 +10,18 @@ const ArtifactNode = ({
   targetPosition = Position.Top,
   sourcePosition = Position.Bottom,
 }: NodeProps) => {
-
   return (
-    <div className={`${styles.nodeContainer}`}> 
+    <div className={`${styles.nodeContainer}`}>
       <Handle
         type="target"
         position={targetPosition}
         className={styles.handle}
       />
-      <div className={`${data.selected ? styles.artifactBodySelected : styles.artifactBody}`}>
+      <div
+        className={`${
+          data.selected ? styles.artifactBodySelected : styles.artifactBody
+        }`}
+      >
         {data.artifact_type === 'DataArtifact' ? (
           <Data />
         ) : data.artifact_type === 'DataAnalysisArtifact' ? (
@@ -33,9 +36,7 @@ const ArtifactNode = ({
           <Statistic />
         )}
       </div>
-      <div className={styles.artifactBottomText}>
-        {data.name}
-      </div>
+      <div className={styles.artifactBottomText}>{data.name}</div>
       <Handle
         type="source"
         position={sourcePosition}

@@ -10,7 +10,6 @@ export const getArtifactData = ({
 
   onSuccess?: () => void;
   onFailure?: () => void;
-
 }): TRequestAction => {
   return {
     type: runActionTypes.getArtifact.request,
@@ -23,5 +22,5 @@ export const getArtifactData = ({
       onSuccess,
       onFailure,
     },
-  }
+  };
 };

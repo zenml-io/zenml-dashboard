@@ -190,7 +190,6 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
 
                 return (
                   <FlexBox.Row>
-
                     <Box
                       key={index}
                       // paddingBottom="sm"
@@ -202,13 +201,19 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                       )}
                       // style={{transition: '0.25s ease-out'}}
                     >
-
                       <Link className={styles.linkRuns} to={page.path}>
                         <IfElse
                           condition={isActive}
                           renderWhenFalse={() => (
                             <Truncate maxLines={1}>
-                              <Paragraph style={{color:'#443E9950', transition: '0.25s ease-out'}}>{page.text}</Paragraph>
+                              <Paragraph
+                                style={{
+                                  color: '#443E9950',
+                                  transition: '0.25s ease-out',
+                                }}
+                              >
+                                {page.text}
+                              </Paragraph>
                             </Truncate>
                           )}
                           renderWhenTrue={() => (
@@ -219,11 +224,19 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                         />
                       </Link>
                     </Box>
-                    {index + 1 === pages.length ? "" :
-
-                      <Box style={{ height: "100%", width: "2px", background: '#00000040', marginLeft:'20px', marginRight:'20px' }}>
-                      </Box>
-                    }
+                    {index + 1 === pages.length ? (
+                      ''
+                    ) : (
+                      <Box
+                        style={{
+                          height: '100%',
+                          width: '2px',
+                          background: '#00000040',
+                          marginLeft: '20px',
+                          marginRight: '20px',
+                        }}
+                      ></Box>
+                    )}
                   </FlexBox.Row>
                 );
               })}

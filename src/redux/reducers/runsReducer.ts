@@ -18,9 +18,9 @@ export interface State {
   myRunIds: TId[];
   graphForRunId: any;
   paginated: any;
-  artifactData:any
-  artifactVisualization:any
-  stepData:any
+  artifactData: any;
+  artifactVisualization: any;
+  stepData: any;
 }
 
 type PipelinesPayload = {
@@ -59,9 +59,9 @@ export const initialState: State = {
   myRunIds: [],
   graphForRunId: {},
   paginated: {},
-  artifactData:{},
-  artifactVisualization:{},
-  stepData:{}
+  artifactData: {},
+  artifactVisualization: {},
+  stepData: {},
 };
 
 const newState = (state: State, runs: TRun[], pagination?: any): State => ({
@@ -83,7 +83,10 @@ const newArtifactState = (state: State, artifactData?: any): State => ({
   ...state,
   artifactData: artifactData,
 });
-const newArtifactVisualizationState = (state: State, artifactVisualization?: any): State => ({
+const newArtifactVisualizationState = (
+  state: State,
+  artifactVisualization?: any,
+): State => ({
   ...state,
   artifactVisualization: artifactVisualization,
 });
@@ -94,31 +97,30 @@ const newStepState = (state: State, stepData?: any): State => ({
 
 const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
-
-    case runActionTypes.getArtifactVisualization.success:{
-      const artifactVisualization = action.payload
-        return { ...newArtifactVisualizationState(state, artifactVisualization)};
+    case runActionTypes.getArtifactVisualization.success: {
+      const artifactVisualization = action.payload;
+      return { ...newArtifactVisualizationState(state, artifactVisualization) };
     }
 
-    case runActionTypes.getArtifact.success:{
-      const artifact = action.payload
-        return { ...newArtifactState(state, artifact)};
+    case runActionTypes.getArtifact.success: {
+      const artifact = action.payload;
+      return { ...newArtifactState(state, artifact) };
     }
 
-    case runActionTypes.getStep.success:{
-      const step = action.payload
-        return { ...newStepState(state, step)};
+    case runActionTypes.getStep.success: {
+      const step = action.payload;
+      return { ...newStepState(state, step) };
     }
-    
+
     case runActionTypes.getAllRuns.success: {
       const payload = action.payload.items;
-      
+
       let allRuns: TRun[] = payload;
-      
+
       const runs: TRun[] = camelCaseArray(allRuns);
-      
+
       const myRunIds: TId[] = runs.map((run: TRun) => run.id);
-      
+
       return { ...newState(state, runs, action.payload), myRunIds };
     }
 

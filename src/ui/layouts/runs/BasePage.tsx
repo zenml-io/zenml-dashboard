@@ -41,7 +41,6 @@ export const BasePage: React.FC<{
         <Box>
           {children}
           <TabsRuns pages={tabPages} basePath={tabBasePath} />
-
         </Box>
       </SidebarContainer>
     </AuthenticatedLayout>

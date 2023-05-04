@@ -4,18 +4,17 @@ import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 
 const getStepDataApi = async ({
-    authenticationToken,
-    exe_id,
+  authenticationToken,
+  exe_id,
 }: {
-    authenticationToken: string;
-    exe_id: TId;
+  authenticationToken: string;
+  exe_id: TId;
 }): Promise<TOrganization> => {
-    return fetchApiWithAuthRequest({
-        url: apiUrl(endpoints.runs.step.get(exe_id)),
-        method: httpMethods.get,
-        authenticationToken,
-    });
-
-}
+  return fetchApiWithAuthRequest({
+    url: apiUrl(endpoints.runs.step.get(exe_id)),
+    method: httpMethods.get,
+    authenticationToken,
+  });
+};
 
 export default getStepDataApi;

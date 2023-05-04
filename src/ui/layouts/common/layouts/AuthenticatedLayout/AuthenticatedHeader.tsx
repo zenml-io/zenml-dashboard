@@ -187,7 +187,6 @@ export const AuthenticatedHeader: React.FC<{
                     </ColoredCircle>
                   </Box>
                   <Box>
-
                     <icons.chevronDown
                       color={iconColors.grey}
                       size={iconSizes.xs}
@@ -306,8 +305,7 @@ export const AuthenticatedHeader: React.FC<{
                             paddingHorizontal="md"
                             paddingVertical="sm"
                           >
-                            <Box paddingRight="sm">
-                            </Box>
+                            <Box paddingRight="sm"></Box>
                             <Paragraph color="red" size="small">
                               Log Out
                             </Paragraph>

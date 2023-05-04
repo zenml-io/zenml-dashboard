@@ -32,7 +32,7 @@ const FilterWrapper = () => {
         getInitials={getInitialFilterStateForPipeline}
         filters={filters}
         setFilter={setFilter}
-      > 
+      >
         <List filter={getFilter(filters)} />
       </FilterComponent>
     </Box>
@@ -76,24 +76,24 @@ export const Pipelines: React.FC = () => {
         tabPages={[
           window.location.href?.includes('all-runs')
             ? {
-              text: translate('tabs.allRuns.text'),
-              Component: FilterWrapperForRun,
-              path: routePaths.pipelines.allRuns(
-                selectedWorkspace
-                  ? selectedWorkspace
-                  : locationPath.split('/')[2],
-              ),
-            }
+                text: translate('tabs.allRuns.text'),
+                Component: FilterWrapperForRun,
+                path: routePaths.pipelines.allRuns(
+                  selectedWorkspace
+                    ? selectedWorkspace
+                    : locationPath.split('/')[2],
+                ),
+              }
             : {
-              text: translate('tabs.pipelines.text'),
-              Component: FilterWrapper,
-              // path: routePaths.pipelines.base,
-              path: routePaths.pipelines.list(
-                selectedWorkspace
-                  ? selectedWorkspace
-                  : locationPath.split('/')[2],
-              ),
-            },
+                text: translate('tabs.pipelines.text'),
+                Component: FilterWrapper,
+                // path: routePaths.pipelines.base,
+                path: routePaths.pipelines.list(
+                  selectedWorkspace
+                    ? selectedWorkspace
+                    : locationPath.split('/')[2],
+                ),
+              },
         ]}
         tabBasePath={routePaths.pipelines.base}
         breadcrumbs={

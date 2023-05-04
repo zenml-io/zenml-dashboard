@@ -19,7 +19,7 @@ export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(
     locationPath.includes('components') ? true : false,
   );
-    
+
   return (
     <FlexBox>
       <AuthenticatedSidebar
@@ -34,7 +34,15 @@ export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
             setMobileMenuOpen={setMobileMenuOpen}
           />
         </Box>
-        <FlexBox style={{position:'relative', overflow:'hidden', overflowY:'scroll'}}>{children}</FlexBox>
+        <FlexBox
+          style={{
+            position: 'relative',
+            overflow: 'hidden',
+            overflowY: 'scroll',
+          }}
+        >
+          {children}
+        </FlexBox>
       </FlexBox>
     </FlexBox>
   );

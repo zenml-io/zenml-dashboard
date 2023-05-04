@@ -35,7 +35,6 @@ function* logoutAndNotifyUserThatSessionExpired(): any {
 }
 
 function* unprocessablEntity(): any {
-
   yield put(
     showToasterAction({
       description: 'Something went wrong',
@@ -45,8 +44,6 @@ function* unprocessablEntity(): any {
 }
 
 function* handleUnauthenticated(action: any): any {
-
-
   yield put({
     type: action.payload.failureActionType,
   });
@@ -55,24 +52,18 @@ function* handleUnauthenticated(action: any): any {
 }
 
 function* callFailureCallback(action: any): any {
-
   if (action.payload.onFailure) {
     yield call(action.payload.onFailure, action.payload.errorText);
   }
 }
 
 function* callSuccessCallback(action: any, response: any): any {
-
-
-
   if (action.payload.onSuccess) {
     yield call(action.payload.onSuccess, response.data);
   }
 }
 
 export function* handleRequestSaga(action: any) {
-
-
   try {
     const params = action.payload.params || {};
 
@@ -128,8 +119,6 @@ export function* handleRequestSaga(action: any) {
     }
   }
 }
-
-
 
 export function* requestSaga() {
   while (true) {
