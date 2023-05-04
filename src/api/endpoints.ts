@@ -4,6 +4,7 @@ export const endpoints = {
   userEmail: (userId: string): string => `/users/${userId}/email-opt-in`,
   forgot: '/login/email/resetpassword',
   version: '/version',
+  serverInfo: '/info',
   users: {
     me: '/current-user',
     get: (id: TId): string => `/users/${id}`,
@@ -37,6 +38,10 @@ export const endpoints = {
     my: `/secrets`,
     get: (secretId: TId): string => `/secrets/${secretId}`,
   },
+  repositories: {
+    getAll: (workspace: string) => `/workspaces/${workspace}/code_repositories`,
+    getByID: (repositoryID: string) => `/code_repositories/${repositoryID}`,
+  },
   StackComponents: {
     types: '/component-types',
     my: (type: string, workspace: string): string =>
@@ -51,6 +56,10 @@ export const endpoints = {
   runs: {
     pipeline: {
       get: (pipelineId: TId): string => `/runs?pipeline_id=${pipelineId}`,
+    },
+    repository: {
+      get: (repositoryId: TId): string =>
+        `/runs?code_repository_id=${repositoryId}`,
     },
     stack: {
       get: (stackId: TId): string => `/runs?stack_id=${stackId}`,

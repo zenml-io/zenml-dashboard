@@ -104,7 +104,11 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ textAlign: 'center', fontSize: '14px', marginLeft: '-24px' }}>
+        <Paragraph
+          size="small"
+          color="black"
+          style={{ textAlign: 'center', fontSize: '14px', marginLeft: '-24px' }}
+        >
           STATUS
         </Paragraph>
       ),

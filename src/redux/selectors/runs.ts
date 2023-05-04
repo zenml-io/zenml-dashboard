@@ -23,6 +23,9 @@ const getByStackComponentId = (state: State): Record<TId, TId[]> =>
 const getByStackId = (state: State): Record<TId, TId[]> =>
   _.get(stateKey(state), 'byStackId');
 
+const getByRepositoryId = (state: State): Record<TId, TId[]> =>
+  _.get(stateKey(state), 'byRepositoryId');
+
 const getMyRunsPaginated = (state: State): any =>
   _.get(stateKey(state), 'paginated');
 
@@ -32,8 +35,7 @@ const getMyArtifactData = (state: State): any =>
 const getMyArtifactVisualization = (state: State): any =>
   _.get(stateKey(state), 'artifactVisualization');
 
-const getMyStepData = (state: State): any =>
-  _.get(stateKey(state), 'stepData');
+const getMyStepData = (state: State): any => _.get(stateKey(state), 'stepData');
 
 export const myRuns = (state?: State | null): TRun[] => {
   if (!state) return [];
@@ -78,6 +80,17 @@ export const runsForStackComponentId = (
   if (!byStackComponentId[stackComponentId]) return [];
   return byStackComponentId[stackComponentId].map((id: TId) => byId[id]);
 };
+
+export const runsForRepositoryId = (repositoryId: TId | null | undefined) => (
+  state?: State | null,
+): TRun[] => {
+  if (!state || !repositoryId) return [];
+  const byRepositoryId = getByRepositoryId(state) || {};
+  const byId = getById(state);
+  if (!byRepositoryId[repositoryId]) return [];
+  return byRepositoryId[repositoryId].map((id: TId) => byId[id]);
+};
+
 export const runsForStackId = (stackId: TId | null | undefined) => (
   state?: State | null,
 ): TRun[] => {
@@ -121,7 +134,6 @@ export const stepData = (state?: State | null): any => {
   return step;
 };
 
-
 const runSelectors = {
   myRunsPaginated,
   myRuns,
@@ -133,7 +145,8 @@ const runSelectors = {
   forRunIds,
   artifactData,
   artifactVisualization,
-  stepData
+  stepData,
+  runsForRepositoryId,
 };
 
 export { runSelectors };

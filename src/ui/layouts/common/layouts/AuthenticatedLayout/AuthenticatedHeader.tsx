@@ -16,6 +16,7 @@ import { iconColors, iconSizes } from '../../../../../constants/icons';
 import {
   workspaceSelectors,
   userSelectors,
+  serverInfoSelectors,
 } from '../../../../../redux/selectors';
 import { getInitials } from '../../../../../utils/name';
 import { DEFAULT_FULL_NAME } from '../../../../../constants';
@@ -38,12 +39,18 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { WorkspacePopup } from './workspacePopup';
 import ReactTooltip from 'react-tooltip';
 import { Breadcrumbs } from '../../Breadcrumbs';
+import DeploymentBanner from './DeploymentBanner';
+// import { CookiePopup } from './CookiePopup'
+
+// import { endpoints } from '../../../../../api/endpoints';
 
 export const AuthenticatedHeader: React.FC<{
   breadcrumb?: Array<any>;
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ breadcrumb, setMobileMenuOpen }) => {
   const user = useSelector(userSelectors.myUser);
+  const deploymentType =
+    useSelector(serverInfoSelectors.getDeploymentType) || '';
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
@@ -52,6 +59,7 @@ export const AuthenticatedHeader: React.FC<{
   const [createPopupOpen, setCreatePopupOpen] = useState<boolean>(false);
 
   const dispatch = useDispatch();
+
   const { push } = usePushRoute();
   const locationPath = useLocationPath();
 
@@ -140,10 +148,12 @@ export const AuthenticatedHeader: React.FC<{
 
   return (
     <>
+      {deploymentType === 'local' && <DeploymentBanner />}
       {createPopupOpen && <WorkspacePopup setPopupOpen={setCreatePopupOpen} />}
       <FlexBox
         paddingHorizontal="lg"
         alignItems="center"
+        style={{ gap: '8px' }}
         justifyContent="space-between"
         className={styles.header}
         id="header"

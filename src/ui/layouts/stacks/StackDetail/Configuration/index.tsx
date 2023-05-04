@@ -12,6 +12,7 @@ import {
   FullWidthSpinner,
   // Container,
   EditField,
+  PrimaryButton,
   // Paragraph,
 } from '../../../../components';
 // import { iconColors, iconSizes } from '../../../../../constants';
@@ -172,7 +173,7 @@ export const Configuration: React.FC<{
           </GhostButton>
         </Box>
       </FlexBox> */}
-      <FlexBox.Row flexDirection='column' marginLeft="md" marginTop="lg">
+      <FlexBox.Row flexDirection="column" marginLeft="md" marginTop="lg">
         {/* <Container> */}
         <Box style={{ width: '30%' }}>
           <EditField
@@ -188,7 +189,7 @@ export const Configuration: React.FC<{
             className={styles.field}
           />
         </Box>
-        <Box marginTop='lg' >
+        <Box marginTop="lg">
           <ToggleField
             name="Share Component with public"
             value={stack.isShared}
@@ -292,6 +293,27 @@ export const Configuration: React.FC<{
           </Box>
         </SidePopup>
       )}
+      <FlexBox
+        style={{
+          position: 'fixed',
+          right: '0',
+          bottom: '0',
+          marginRight: '45px',
+        }}
+      >
+        <Box marginBottom="lg">
+          <PrimaryButton
+            onClick={() =>
+              history.push(
+                routePaths.stacks.UpdateStack(selectedWorkspace, stack.id),
+              )
+            }
+            className={styles.updateButton}
+          >
+            Update Stack
+          </PrimaryButton>
+        </Box>
+      </FlexBox>
     </FlexBox.Column>
   );
 };

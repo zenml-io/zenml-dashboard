@@ -99,3 +99,12 @@ html {
   height: 100px;
   width: 100px;
 }
+a[class*='MenuItem'][class*='active'] .sidebar-fill path {
+  stroke: transparent !important;
+  fill: #e8a562 !important;
+}
+
+a[class*='MenuItem']:hover .sidebar-fill path {
+  stroke: transparent !important;
+  fill: #e8a562 !important;
+}

@@ -323,6 +323,9 @@
               "secrets": {
                 "text": "Secrets"
               },
+              "repositories": {
+                "text": "Repositories"
+              },
               "setting": {
                 "text": "Settings"
               }
@@ -808,7 +811,61 @@
             "emptyState": {
               "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
             }
-          }
+          },
+          "RepositoryList": {
+            "emptyState": {
+              "text": "No Repositories found"
+            },
+            "createRepository": {
+              "text": "Create Repository"
+            }
+          },
+          "RepositoryDetail": {
+            "overview": {
+              "text": "Overview"
+            },
+            "runs": {
+              "text": "Runs"
+            },
+            "noDescription": {
+              "text": "No Description provided"
+            }
+          },
+          "RepositoryCreate": {
+            "addRepository": {
+              "text": "Add your Repository"
+            },
+            "uniqueName": {
+              "text": "Unique Name"
+            },
+            "repositoryURL": {
+              "text": "Repository URL"
+            },
+             "owner": {
+              "text": "Owner"
+            },
+            "repo": {
+              "text": "Repo"
+            },
+            "logoURL": {
+              "text": "Logo URL"
+            },
+            "description": {
+              "text": "Description"
+            },
+            "token": {
+              "text": "Token"
+            },
+            "create": {
+              "text": "Create"
+            },
+            "validURL": {
+              "text": "Please insert a valid URL"
+            },
+            "githubURL": {
+              "text": "Please insert a Github or Gitlab URL"
+            }
+          } 
         }
       }
     }

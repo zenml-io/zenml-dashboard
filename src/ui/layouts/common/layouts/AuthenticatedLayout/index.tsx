@@ -1,11 +1,20 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
 import { FlexBox, Box } from '../../../../components';
-import { useLocationPath } from '../../../../hooks';
+import { useDispatch, useLocationPath } from '../../../../hooks';
 import { AuthenticatedHeader } from './AuthenticatedHeader';
 import { AuthenticatedSidebar } from './AuthenticatedSidebar';
 import styles from './index.module.scss';
+import { serverInfoActions } from '../../../../../redux/actions';
+
+// export const AuthenticatedLayout: React.FC = ({ breadcrumb, children }) => {
+// @ts-ignore
 export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(serverInfoActions.getServerInfo({}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
   const locationPath = useLocationPath();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(
     locationPath.includes('components') ? true : false,

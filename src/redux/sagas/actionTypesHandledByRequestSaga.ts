@@ -12,6 +12,8 @@ import {
   forgotActionTypes,
   flavorActionTypes,
   secretActionTypes,
+  repositoryActionTypes,
+  serverInfoActionTypes,
 } from '../actionTypes';
 
 export const actionTypesHandledByRequestSaga: string[] = [
@@ -51,4 +53,8 @@ export const actionTypesHandledByRequestSaga: string[] = [
   runActionTypes.getGraphForRunId.request,
   runActionTypes.getArtifact.request,
   runActionTypes.getStep.request,
+  repositoryActionTypes.getRepositories.request,
+  repositoryActionTypes.getRepositoryByID.request,
+  repositoryActionTypes.getRunsByRepoID.request,
+  serverInfoActionTypes.getServerInfo.request,
 ];

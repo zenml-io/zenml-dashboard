@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { CSSProperties } from 'react';
 import cn from 'classnames';
 
 import styles from './index.module.scss';
@@ -135,14 +135,17 @@ Paragraph.defaultProps = {
 export const Truncate = ({
   maxLines,
   children,
+  style,
 }: {
   maxLines: number;
   children: any;
+  style?: CSSProperties;
 }) => (
   <div
     className={styles.truncate}
     style={{
       WebkitLineClamp: maxLines,
+      ...style,
     }}
   >
     {children}

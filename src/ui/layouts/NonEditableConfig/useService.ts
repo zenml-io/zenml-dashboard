@@ -1,10 +1,15 @@
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 // import { stackComponentSelectors } from '../../../redux/selectors';
 
 // import YAML from 'json2yaml';
 import { useEffect, useState } from 'react';
 // import { useLocationPath } from '../../hooks';
-import { flavorPagesActions, flavorsActions } from '../../../redux/actions';
+import {
+  flavorPagesActions,
+  flavorsActions,
+  secretsActions,
+} from '../../../redux/actions';
+import { workspaceSelectors } from '../../../redux/selectors';
 
 interface ServiceInterface {
   flavor: any;
@@ -13,7 +18,7 @@ interface ServiceInterface {
 export const useService = ({ details }: { details: any }): ServiceInterface => {
   // const locationPath = useLocationPath();
   const [flavor, setFlavor] = useState();
-  // debugger;
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
   useEffect(() => {
     setFetching(true);
@@ -26,6 +31,12 @@ export const useService = ({ details }: { details: any }): ServiceInterface => {
           setFlavor(res.items[0]);
         },
         onFailure: () => setFetching(false),
+      }),
+    );
+    dispatch(
+      secretsActions.getMy({
+        size: 1000,
+        workspace: selectedWorkspace,
       }),
     );
     // eslint-disable-next-line react-hooks/exhaustive-deps
