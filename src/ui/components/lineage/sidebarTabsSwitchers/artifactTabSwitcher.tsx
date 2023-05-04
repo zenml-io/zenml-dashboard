@@ -118,6 +118,7 @@ const ArtifactTabHeader = ({
             <JsonDisplay
               data={node?.metadata}
               styles={{
+                fontFamily: 'Rubik',
                 overflowY: 'scroll',
                 maxHeight: '90vh',
                 width: '100%',

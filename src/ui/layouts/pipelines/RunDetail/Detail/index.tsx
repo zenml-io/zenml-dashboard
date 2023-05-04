@@ -8,7 +8,10 @@ export const Details: React.FC<{ runId: TId }> = memo(({ runId }) => {
 
   return (
     <div className={`${styles.mainContainer}`}>
-      <JsonDisplay data={run} styles={{ width: '100%', padding: 20 }} />
+      <JsonDisplay
+        data={run}
+        styles={{ width: '100%', padding: 20, fontFamily: 'Rubik' }}
+      />
     </div>
   );
 });
