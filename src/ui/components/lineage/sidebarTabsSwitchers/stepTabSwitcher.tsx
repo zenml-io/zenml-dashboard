@@ -242,6 +242,34 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                       {node?.step?.spec?.pipeline_parameter_name}
                     </td>
                   </tr>
+                  {Object.entries(node?.output_artifacts || {}).map(
+                    (value: any) => {
+                      return (
+                        <>
+                          <tr>
+                            <td
+                              style={{ textDecoration: 'underline' }}
+                              className="td_key"
+                            >
+                              Outputs
+                            </td>
+                            <td></td>
+                          </tr>
+                          <tr>
+                            <td className="td_key">{String(value[0]) + ':'}</td>
+                            <td
+                              className="td_value"
+                              style={{ lineHeight: 'unset' }}
+                            >
+                              <p className={stepStyles.truncate}>
+                                {String(value[1].uri)}
+                              </p>
+                            </td>
+                          </tr>
+                        </>
+                      );
+                    },
+                  )}
                 </tbody>
               </table>
             </>

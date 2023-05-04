@@ -3,7 +3,6 @@ import JsonDisplay from '../JsonDisplay';
 import styles from './artifact.module.scss';
 import { FullWidthSpinner } from '../../spinners';
 import ArtifactVisualization from './ArtifactVisualization';
-import { Truncate } from '../../typographies';
 import { Link } from 'react-router-dom';
 import { routePaths } from '../../../../routes/routePaths';
 import { useSelector } from 'react-redux';
@@ -196,9 +195,7 @@ const ArtifactTabHeader = ({
                   <tr>
                     <td className="td_key">URI</td>
                     <td style={{ lineHeight: 'unset' }} className="td_value">
-                      <Truncate maxLines={1}>
-                        <span title={node?.uri}>{node?.uri}</span>
-                      </Truncate>
+                      <p className={styles.truncate}>{node?.uri}</p>
                     </td>
                   </tr>
                 </tbody>
