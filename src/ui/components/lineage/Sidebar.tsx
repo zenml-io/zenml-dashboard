@@ -9,7 +9,7 @@ import {
   fetchArtifactData,
   // fetchArtifactVisualizationSize,
   fetchStepData,
-  fetchStepLogs,
+  // fetchStepLogs,
 } from '../../layouts/runs/RunDetail/sidebarServices';
 import styles from './index.module.scss';
 // import { runsActions } from '../../../redux/actions';
@@ -27,16 +27,16 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
   const [isStepNode, setIsStepNode] = useState(true);
   const [artifact, setArtifact] = useState([] as any);
   const [step, setStep] = useState([] as any);
-  const [logs, setLogs] = useState([] as any);
+  const [logs] = useState([] as any);
   const sidebar_ref = useRef<HTMLInputElement>(null); //eslint-disable-line
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
   async function FetchData(type: boolean) {
     if (type) {
       const data = await fetchStepData(selectedNode, authToken);
-      const _logs = await fetchStepLogs(selectedNode, authToken);
+      // const _logs = await fetchStepLogs(selectedNode, authToken);
       setStep(data);
-      setLogs(_logs);
+      // setLogs(_logs);
       setFetching(false);
     } else {
       const data = await fetchArtifactData(selectedNode, authToken);
