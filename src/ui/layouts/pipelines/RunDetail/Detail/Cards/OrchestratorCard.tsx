@@ -21,7 +21,19 @@ const OrchestratorCard = ({ run }: OrchestratorCardProps) => {
         <Paragraph className={styles.card__key}>URL</Paragraph>
         <Paragraph className={styles.card__value}>
           {/* @ts-ignore */}
-          {run.metadata?.orchestrator_url?.value || 'n/a'}
+          {run.metadata?.orchestrator_url?.value ? (
+            <a
+              rel="noopener noreferrer"
+              // @ts-ignore
+              href={run.metadata?.orchestrator_url?.value}
+              target="_blank"
+            >
+              {/* @ts-ignore */}
+              {run.metadata?.orchestrator_url?.value}
+            </a>
+          ) : (
+            'n/a'
+          )}
         </Paragraph>
       </div>
     </DetailCard>

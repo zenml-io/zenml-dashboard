@@ -18,6 +18,8 @@ export const DetailCard = ({
   return (
     <div className={styles.card}>
       <button
+        data-action="disclosure"
+        aria-expanded={isOpen}
         style={{
           width: '100%',
           textAlign: 'left',
