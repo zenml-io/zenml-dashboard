@@ -46,9 +46,9 @@ export const DetailCard = ({
         }}
       >
         {isOpen ? (
-          <ArrowOpen style={{ transform: 'scale(1.5)' }} />
+          <ArrowOpen width={20} style={{ transform: 'scale(1.5)' }} />
         ) : (
-          <ArrowClose style={{ transform: 'scale(1.5)' }} />
+          <ArrowClose width={20} style={{ transform: 'scale(1.5)' }} />
         )}
         <H4 className={styles.card__heading}>{heading}</H4>
       </button>
