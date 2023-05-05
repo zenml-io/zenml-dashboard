@@ -242,19 +242,51 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                       {node?.step?.spec?.pipeline_parameter_name}
                     </td>
                   </tr>
-                  {Object.entries(node?.output_artifacts || {}).map(
+                  {Object.entries(node?.input_artifacts).length >= 1 && (
+                    <tr>
+                      <td
+                        style={{ textDecoration: 'underline' }}
+                        className="td_key"
+                      >
+                        Inputs
+                      </td>
+                      <td></td>
+                    </tr>
+                  )}
+                  {Object.entries(node?.input_artifacts || {}).map(
                     (value: any) => {
                       return (
                         <>
                           <tr>
+                            <td className="td_key">{String(value[0]) + ':'}</td>
                             <td
-                              style={{ textDecoration: 'underline' }}
-                              className="td_key"
+                              className="td_value"
+                              style={{ lineHeight: 'unset' }}
                             >
-                              Outputs
+                              <p className={stepStyles.truncate}>
+                                {String(value[1].uri)}
+                              </p>
                             </td>
-                            <td></td>
                           </tr>
+                        </>
+                      );
+                    },
+                  )}
+                  {Object.entries(node?.output_artifacts).length >= 1 && (
+                    <tr>
+                      <td
+                        style={{ textDecoration: 'underline' }}
+                        className="td_key"
+                      >
+                        Outputs
+                      </td>
+                      <td></td>
+                    </tr>
+                  )}
+                  {Object.entries(node?.output_artifacts || {}).map(
+                    (value: any) => {
+                      return (
+                        <>
                           <tr>
                             <td className="td_key">{String(value[0]) + ':'}</td>
                             <td
