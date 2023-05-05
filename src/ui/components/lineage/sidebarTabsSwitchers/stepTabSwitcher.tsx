@@ -258,7 +258,9 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                       return (
                         <>
                           <tr>
-                            <td className="td_key">{String(value[0]) + ':'}</td>
+                            <td className="td_key">
+                              {String(value[1].name) + ':'}
+                            </td>
                             <td
                               className="td_value"
                               style={{ lineHeight: 'unset' }}
@@ -288,7 +290,9 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                       return (
                         <>
                           <tr>
-                            <td className="td_key">{String(value[0]) + ':'}</td>
+                            <td className="td_key">
+                              {String(value[1].name) + ':'}
+                            </td>
                             <td
                               className="td_value"
                               style={{ lineHeight: 'unset' }}

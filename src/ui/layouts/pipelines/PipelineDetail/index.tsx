@@ -74,7 +74,7 @@ const getTabPages = (pipelineId: TId, selectedWorkspace: string): TabPage[] => {
     },
     {
       // text: "Visualization",
-      text: translate('tabs.configuration.text'),
+      text: translate('tabs.visualization.text'),
       Component: () => <Configuration pipelineId={pipelineId} />,
       path: routePaths.pipeline.configuration(pipelineId, selectedWorkspace),
     },
