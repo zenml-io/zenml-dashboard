@@ -670,8 +670,8 @@
               }
             },
             "tabs": {
-              "visualization": {
-                "text": "Visualization"
+              "configuration": {
+                "text": "Configuration"
               },
               "runs": {
                 "text": "Runs"
