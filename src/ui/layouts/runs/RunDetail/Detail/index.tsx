@@ -7,8 +7,6 @@ import EnvironmentCard from './Cards/EnvironmentCard';
 
 export const Details: React.FC<{ runId: TId }> = memo(({ runId }) => {
   const { run } = useService({ runId });
-
-  console.log(run);
   return (
     <div className={styles.mainContainer}>
       <div>
