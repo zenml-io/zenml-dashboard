@@ -1,12 +1,12 @@
 import React from 'react';
 import DetailCard from '../DetailCard';
-import { Paragraph } from '../../../../../components';
 import styles from '../index.module.scss';
 import { useSelector } from 'react-redux';
-import { workspaceSelectors } from '../../../../../../redux/selectors';
 import { Link } from 'react-router-dom';
-import { routePaths } from '../../../../../../routes/routePaths';
-import { formatDateToDisplay } from '../../../../../../utils';
+import { workspaceSelectors } from '../../../../redux/selectors';
+import { Paragraph } from '../../typographies';
+import { routePaths } from '../../../../routes/routePaths';
+import { formatDateToDisplay } from '../../../../utils';
 
 interface GeneralInformationCardProps {
   run: TRun;

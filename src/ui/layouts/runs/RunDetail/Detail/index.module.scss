@@ -11,30 +11,6 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
-.card {
-  &__key {
-    margin-bottom: 4px;
-  }
-
-  &__value {
-    color: $greyColor;
-  }
-
-  &__detailsContainer {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  &__summary {
-    margin-bottom: 8px;
-  }
-
-  &__summary::marker {
-    font-size: $fontSizeBody;
-  }
-}
-
 @media (max-width: $xl-breakpoint) {
   .mainContainer {
     grid-template-columns: repeat(1, minmax(0, 1fr));

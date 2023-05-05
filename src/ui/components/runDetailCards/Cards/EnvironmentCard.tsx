@@ -1,7 +1,7 @@
 import React from 'react';
 import DetailCard from '../DetailCard';
-import { Paragraph } from '../../../../../components';
 import styles from '../index.module.scss';
+import { Paragraph } from '../../typographies';
 
 interface EnvironmentCardProps {
   run: TRun;

@@ -1,9 +1,9 @@
 import React, { memo } from 'react';
 import { useService } from './useService';
 import styles from './index.module.scss';
-import GeneralInformationCard from './Cards/GeneralInformationCard';
-import OrchestratorCard from './Cards/OrchestratorCard';
-import EnvironmentCard from './Cards/EnvironmentCard';
+import GeneralInformationCard from '../../../../components/runDetailCards/Cards/GeneralInformationCard';
+import OrchestratorCard from '../../../../components/runDetailCards/Cards/OrchestratorCard';
+import EnvironmentCard from '../../../../components/runDetailCards/Cards/EnvironmentCard';
 
 export const Details: React.FC<{ runId: TId }> = memo(({ runId }) => {
   const { run } = useService({ runId });

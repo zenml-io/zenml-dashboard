@@ -1,8 +1,8 @@
 import React, { PropsWithChildren, useState } from 'react';
 import styles from './styles.module.scss';
-import { ReactComponent as ArrowClose } from '../../../../../components/icons/assets/arrowClose.svg';
-import { ReactComponent as ArrowOpen } from '../../../../../components/icons/assets/arrowOpen.svg';
-import { H4 } from '../../../../../components';
+import { ReactComponent as ArrowClose } from '../../icons/assets/arrowClose.svg';
+import { ReactComponent as ArrowOpen } from '../../icons/assets/arrowOpen.svg';
+import { H4 } from '../../typographies';
 
 interface DetailCardProps {
   heading: string;
