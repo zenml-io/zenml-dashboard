@@ -38,8 +38,6 @@ const ArtifactTabHeader = ({
   node: any;
   fetching: boolean;
 }) => {
-  console.log(node);
-
   const [show, setShow] = useState('__META');
   const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(35);
   const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);

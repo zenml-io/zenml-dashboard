@@ -75,7 +75,6 @@ const tabs = [
 // };
 
 const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
-  console.log(node);
   const [show, setShow] = useState('__ATTRIBUTE');
   const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(79);
   const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
