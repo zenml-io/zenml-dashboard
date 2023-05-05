@@ -74,7 +74,8 @@ export async function artifactService(artifactId: any, authToken: any) {
   return response;
 }
 
-let currentId = '';
+// let currentId = '';
+// eslint-disable-next-line
 let currentResponse = {};
 
 export const fetchArtifactVisualizationSize = async (
@@ -134,45 +135,23 @@ export async function artifactVisulizationService(
   // if(source){
   //     source.cancel(`API response size: ${"contentLength"} bytes, loaded: ${"loadedBytes"} bytes (cancel)`)
   // }
-  if (currentId === artifactId) {
-    return currentResponse;
-  }
 
-  currentId = artifactId;
-  currentResponse = {};
+  const response = await axios.get(
+    `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
+    {
+      headers: {
+        Authorization: `bearer ${authToken}`,
+      },
+      onDownloadProgress: (progressEvent) => {
+        const contentLength = progressEvent.total;
+        const loadedBytes = progressEvent.loaded;
+        console.log(
+          `API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`,
+        );
+      },
+      cancelToken: source?.token,
+    },
+  );
 
-  try {
-    const response = await axios
-      .get(
-        `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
-        {
-          headers: {
-            Authorization: `bearer ${authToken}`,
-          },
-          onDownloadProgress: (progressEvent) => {
-            const contentLength = progressEvent.total;
-            const loadedBytes = progressEvent.loaded;
-            console.log(
-              `API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`,
-            );
-          },
-          cancelToken: source?.token,
-        },
-      )
-      .then((response) => {
-        currentResponse = response;
-        return response;
-      })
-      .catch((error) => {
-        if (axios.isCancel(error)) {
-          // return error
-          console.log('API', error);
-        } else {
-          return error;
-        }
-      });
-    return response;
-  } catch (err) {
-    console.log('-------------err', err);
-  }
+  return response;
 }

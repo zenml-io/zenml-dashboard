@@ -7,6 +7,7 @@ import { FullWidthSpinner } from '../../spinners';
 import ReactMarkdown from 'react-markdown';
 import CsvTable from '../CsvTable';
 import axios from 'axios';
+import { Paragraph } from '../../typographies';
 
 const resposneSizeConstant = 5 * 1024 * 1024;
 
@@ -64,6 +65,8 @@ const ArtifactVisualization = ({
   const [proceed, setProceed] = useState(false);
   const [loader, setLoader] = useState(false);
   const divRef = useRef<HTMLDivElement | null>(null);
+  const [isError, setIsError] = useState(false);
+  const [is501, setIs501] = useState(false);
   const [cancelToken, setCancelToken] = useState<any>(null);
 
   const handleDownload = async () => {
@@ -109,9 +112,14 @@ const ArtifactVisualization = ({
         setLoader(false);
       })
       .catch((error) => {
+        setLoader(false);
         if (axios.isCancel(error)) {
           console.log('Request canceled:', error.message);
         } else {
+          setIsError(true);
+          if (error.response.status === 501) {
+            setIs501(true);
+          }
           console.log('Error:', error.message);
         }
       });
@@ -197,6 +205,22 @@ const ArtifactVisualization = ({
       </div>
     );
   }
+
+  if (isError && !is501)
+    return (
+      <div className={`${style.FullWidthSpinnerContainer}`}>
+        <Paragraph>An Error occured while fetching</Paragraph>
+      </div>
+    );
+
+  if (isError && is501)
+    return (
+      <div className={`${style.FullWidthSpinnerContainer}`}>
+        <Paragraph>
+          Some resources seem to be missing, please contact your Server Admin
+        </Paragraph>
+      </div>
+    );
 
   return (
     <div className={`${style.mainContainer}`}>
