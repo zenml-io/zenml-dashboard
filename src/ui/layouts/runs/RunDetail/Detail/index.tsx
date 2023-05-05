@@ -1,16 +1,25 @@
 import React, { memo } from 'react';
 import { useService } from './useService';
-import JsonDisplay from '../../../../components/lineage/JsonDisplay';
 import styles from './index.module.scss';
+import GeneralInformationCard from './Cards/GeneralInformationCard';
+import OrchestratorCard from './Cards/OrchestratorCard';
+import EnvironmentCard from './Cards/EnvironmentCard';
 
 export const Details: React.FC<{ runId: TId }> = memo(({ runId }) => {
   const { run } = useService({ runId });
+
+  console.log(run);
   return (
-    <div className={`${styles.mainContainer}`}>
-      <JsonDisplay
-        data={run}
-        styles={{ width: '100%', padding: 20, fontFamily: 'Rubik' }}
-      />
+    <div className={styles.mainContainer}>
+      <div>
+        <GeneralInformationCard run={run} />
+      </div>
+      <div>
+        <OrchestratorCard run={run} />
+      </div>
+      <div>
+        <EnvironmentCard run={run} />
+      </div>
     </div>
   );
 });
