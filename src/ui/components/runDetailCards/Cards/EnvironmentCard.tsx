@@ -14,14 +14,14 @@ const EnvironmentCard = ({ run }: EnvironmentCardProps) => {
         <Paragraph className={styles.card__key}>Client Version</Paragraph>
         <Paragraph className={styles.card__value}>
           {/* @ts-ignore */}
-          {run.client_version || 'n/a'}
+          {run.clientVersion || 'n/a'}
         </Paragraph>
       </div>
       <div>
         <Paragraph className={styles.card__key}>Server Version</Paragraph>
         <Paragraph className={styles.card__value}>
           {/* @ts-ignore */}
-          {run.server_version || 'n/a'}
+          {run.serverVersion || 'n/a'}
         </Paragraph>
       </div>
       <div>
