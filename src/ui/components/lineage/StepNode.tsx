@@ -3,10 +3,10 @@ import { Handle, Position } from 'react-flow-renderer';
 import {
   Cached,
   Completed,
-  Export,
+  // Export,
   Failed,
-  Folder,
-  Lock,
+  // Folder,
+  // Lock,
   Running,
 } from './icons';
 
@@ -70,7 +70,7 @@ const StepNode = ({
             <p className={styles.stepTitle}>{data.name}</p>
           </div>
         </div>
-        <div className={styles.stepFooter}>
+        {/* <div className={styles.stepFooter}>
           <span style={{ padding: '2px', cursor: 'pointer' }}>
             <Export />
           </span>
@@ -80,7 +80,7 @@ const StepNode = ({
           <span style={{ padding: '0px', cursor: 'pointer' }}>
             <Lock />
           </span>
-        </div>
+        </div> */}
         <Handle
           type="source"
           position={sourcePosition}
