@@ -151,6 +151,40 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
               <table cellSpacing="0" className="sidebar_table">
                 <tbody>
                   <tr>
+                    <td className="td_key">Name</td>
+                    <td className="td_value ">{node?.name}</td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">Docstring</td>
+                    <td className="td_value">{node?.docstring || 'n/a'}</td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">Pipeline run ID</td>
+                    <td className="td_value">
+                      {node?.pipeline_run_id || 'n/a'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">Original step run ID</td>
+                    <td className="td_value">
+                      {node?.original_step_run_id || 'n/a'}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">Start time</td>
+                    <td className="td_value">
+                      {' '}
+                      {formatDateToDisplayOnTable(node?.created)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">End time</td>
+                    <td className="td_value">
+                      {' '}
+                      {formatDateToDisplayOnTable(node?.end_time)}
+                    </td>
+                  </tr>
+                  <tr>
                     <td className="td_key">Status</td>
                     {node.status && node.status === 'completed' ? (
                       <>
@@ -174,46 +208,18 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                     )}
                   </tr>
                   <tr>
-                    <td className="td_key">ID</td>
-                    <td className="td_value">{node.id}</td>
-                  </tr>
-                  <tr>
-                    <td className="td_key">start_time</td>
+                    <td className="td_key">Parent Step IDs</td>
                     <td className="td_value">
-                      {' '}
-                      {formatDateToDisplayOnTable(node?.created)}
+                      {node?.parent_step_ids.join(',') || 'n/a'}
                     </td>
                   </tr>
                   <tr>
-                    <td className="td_key">end_time</td>
-                    <td className="td_value">
-                      {' '}
-                      {formatDateToDisplayOnTable(node?.end_time)}
-                    </td>
-                  </tr>
-                  <tr>
-                    {node.original_step_run_id &&
-                    node.original_step_run_id !== null ? (
-                      <>
-                        <td className="td_key">original_step_run_id</td>
-                        <td className="td_value">
-                          {node?.original_step_run_id}
-                        </td>
-                      </>
-                    ) : (
-                      <></>
-                    )}
-                  </tr>
-                  <tr>
-                    <td className="td_key">cache_key</td>
+                    <td className="td_key">Cache key</td>
                     <td className="td_value">{node?.cache_key}</td>
                   </tr>
+
                   <tr>
-                    <td className="td_key">docstring</td>
-                    <td className="td_value">{node?.docstring}</td>
-                  </tr>
-                  <tr>
-                    <td className="td_key">enable_cache</td>
+                    <td className="td_key">Cache enabled</td>
                     <td className="td_value">
                       {node?.enable_cache || 'false'}
                     </td>
@@ -235,12 +241,6 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                                     <td className='td_key'>source</td>
                                     <td className='td_value'>{node?.step?.spec?.source}</td>
                                 </tr> */}
-                  <tr>
-                    <td className="td_key">pipeline_parameter_name</td>
-                    <td className="td_value ">
-                      {node?.step?.spec?.pipeline_parameter_name}
-                    </td>
-                  </tr>
                   {Object.entries(node?.input_artifacts).length >= 1 && (
                     <tr>
                       <td
@@ -253,23 +253,56 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                     </tr>
                   )}
                   {Object.entries(node?.input_artifacts || {}).map(
-                    (value: any) => {
+                    ([key, value]: any) => {
                       return (
-                        <>
-                          <tr>
-                            <td className="td_key">
-                              {String(value[1].name) + ':'}
-                            </td>
-                            <td
-                              className="td_value"
-                              style={{ lineHeight: 'unset' }}
+                        <tr>
+                          <details>
+                            <summary
+                              style={{ width: '100%' }}
+                              className="td_key"
                             >
-                              <p className={stepStyles.truncate}>
-                                {String(value[1].uri)}
-                              </p>
-                            </td>
-                          </tr>
-                        </>
+                              {key}
+                            </summary>
+                            <table>
+                              <tr>
+                                <td className="td_key">Name</td>
+                                <td
+                                  style={{ lineHeight: 'unset' }}
+                                  className="td_value"
+                                >
+                                  <p className={stepStyles.truncate}>
+                                    {value.name || 'n/a'}
+                                  </p>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="td_key">Type</td>
+                                <td
+                                  style={{ lineHeight: 'unset' }}
+                                  className="td_value"
+                                >
+                                  <p className={stepStyles.truncate}>
+                                    {value.type || 'n/a'}
+                                  </p>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="td_key">URI</td>
+                                <td
+                                  style={{ lineHeight: 'unset' }}
+                                  className="td_value"
+                                >
+                                  <p
+                                    style={{ lineHeight: 'unset' }}
+                                    className={stepStyles.truncate}
+                                  >
+                                    {value.uri || 'n/a'}
+                                  </p>
+                                </td>
+                              </tr>
+                            </table>
+                          </details>
+                        </tr>
                       );
                     },
                   )}
@@ -285,23 +318,59 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                     </tr>
                   )}
                   {Object.entries(node?.output_artifacts || {}).map(
-                    (value: any) => {
+                    ([key, value]: any) => {
                       return (
-                        <>
-                          <tr>
-                            <td className="td_key">
-                              {String(value[1].name) + ':'}
-                            </td>
-                            <td
-                              className="td_value"
-                              style={{ lineHeight: 'unset' }}
+                        <tr>
+                          <details>
+                            <summary
+                              style={{ width: '100%' }}
+                              className="td_key"
                             >
-                              <p className={stepStyles.truncate}>
-                                {String(value[1].uri)}
-                              </p>
-                            </td>
-                          </tr>
-                        </>
+                              {key}
+                            </summary>
+                            <table>
+                              <tr>
+                                <td className="td_key">Name</td>
+                                <td
+                                  style={{ lineHeight: 'unset' }}
+                                  className="td_value"
+                                >
+                                  <p className={stepStyles.truncate}>
+                                    {value.name || 'n/a'}
+                                  </p>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="td_key">Type</td>
+                                <td
+                                  style={{ lineHeight: 'unset' }}
+                                  className="td_value"
+                                >
+                                  <p
+                                    style={{ lineHeight: 'unset' }}
+                                    className={stepStyles.truncate}
+                                  >
+                                    {value.type || 'n/a'}
+                                  </p>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td className="td_key">URI</td>
+                                <td
+                                  style={{ lineHeight: 'unset' }}
+                                  className="td_value"
+                                >
+                                  <p
+                                    style={{ lineHeight: 'unset' }}
+                                    className={stepStyles.truncate}
+                                  >
+                                    {value.uri || 'n/a'}
+                                  </p>
+                                </td>
+                              </tr>
+                            </table>
+                          </details>
+                        </tr>
                       );
                     },
                   )}
