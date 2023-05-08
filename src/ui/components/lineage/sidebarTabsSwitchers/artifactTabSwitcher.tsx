@@ -7,7 +7,6 @@ import { Link } from 'react-router-dom';
 import { routePaths } from '../../../../routes/routePaths';
 import { useSelector } from 'react-redux';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { formatDateToDisplayOnTable } from '../../../../utils';
 
 const stylesActive = {
   opacity: 1,
@@ -133,12 +132,20 @@ const ArtifactTabHeader = ({
               <table className="sidebar_table">
                 <tbody>
                   <tr>
-                    <td className="td_key">name</td>
+                    <td className="td_key">Name</td>
                     <td className="td_value">{node?.name}</td>
                   </tr>
                   <tr>
+                    <td className="td_key">Type</td>
+                    <td className="td_value">{node?.type}</td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">Producer step</td>
+                    <td className="td_value">{node?.producer_step_run_id}</td>
+                  </tr>
+                  <tr>
                     <td className="td_key" style={{ wordWrap: 'break-word' }}>
-                      artifact store id
+                      Artifact store
                     </td>
                     <td className="td_value">
                       <Link
@@ -153,47 +160,33 @@ const ArtifactTabHeader = ({
                     </td>
                   </tr>
                   <tr>
-                    <td className="td_key">created</td>
-                    <td className="td_value">
-                      {formatDateToDisplayOnTable(node?.created)}
+                    <td className="td_key">URI</td>
+                    <td style={{ lineHeight: 'unset' }} className="td_value">
+                      <p className={styles.truncate}>{node?.uri}</p>
                     </td>
                   </tr>
                   <tr>
-                    <td className="td_key">materializer</td>
+                    <td className="td_key">Materializer</td>
                     {/* <td className='td_value'>{typeof (node?.materializer) === 'object' ? <JsonDisplay data={node?.materializer} style={{ display: 'flex' }} /> : node?.materializer}</td> */}
                     <td className="td_value">
                       <tr>
-                        <td className="td_key">module:</td>
+                        <td className="td_key">Module:</td>
                         <td className="td_value">
                           {node?.materializer?.module}
                         </td>
                       </tr>
                       <tr>
-                        <td className="td_key">attribute</td>
+                        <td className="td_key">Attribute</td>
                         <td className="td_value">
                           {node?.materializer?.attribute}
                         </td>
                       </tr>
                       <tr>
-                        <td className="td_key">type</td>
+                        <td className="td_key">Type</td>
                         <td className="td_value">{node?.materializer?.type}</td>
                       </tr>
                       {/* <tr>attribute: {node?.materializer?.attribute}</tr>
                                     <tr>type: {node?.materializer?.type}</tr> */}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="td_key">producer step run id</td>
-                    <td className="td_value">{node?.producer_step_run_id}</td>
-                  </tr>
-                  <tr>
-                    <td className="td_key">type</td>
-                    <td className="td_value">{node?.type}</td>
-                  </tr>
-                  <tr>
-                    <td className="td_key">URI</td>
-                    <td style={{ lineHeight: 'unset' }} className="td_value">
-                      <p className={styles.truncate}>{node?.uri}</p>
                     </td>
                   </tr>
                 </tbody>
