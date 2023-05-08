@@ -141,6 +141,7 @@ const ArtifactVisualization = ({
       cancelToken.cancel('Request canceled by user');
       setCancelToken(null);
     }
+    if (node.visualizations.length < 1) return;
     if (proceed) {
       getVisualizations();
     }
@@ -157,6 +158,13 @@ const ArtifactVisualization = ({
       divRef.current = null;
     }
   }, [divRef.current, response?.data?.value, type]); //eslint-disable-line
+
+  if (node.visualizations.length < 1)
+    return (
+      <div className={`${style.FullWidthSpinnerContainer}`}>
+        <Paragraph>No Visualisations available</Paragraph>
+      </div>
+    );
 
   // ASK TO PROCEED IF SIZE IN LARGER THAN 5MB
   if (!proceed) {

@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState, memo } from 'react';
-import JsonDisplay from '../JsonDisplay';
 import styles from './artifact.module.scss';
 import { FullWidthSpinner } from '../../spinners';
 import ArtifactVisualization from './ArtifactVisualization';
@@ -111,16 +110,16 @@ const ArtifactTabHeader = ({
         <>
           {/* SHOW META */}
           {show === '__META' ? (
-            <JsonDisplay
-              data={node?.metadata}
-              styles={{
-                fontFamily: 'Rubik',
-                overflowY: 'scroll',
-                maxHeight: '90vh',
-                width: '100%',
-                margin: 20,
-              }}
-            />
+            <table className="sidebar_table">
+              <tbody>
+                {Object.entries(node.metadata || {}).map(([_, value]: any) => (
+                  <tr>
+                    <td className="td_key">{value.key}</td>
+                    <td className="td_value">{value.value}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
           ) : (
             ''
           )}
