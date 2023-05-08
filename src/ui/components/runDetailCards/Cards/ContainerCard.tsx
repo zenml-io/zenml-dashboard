@@ -31,8 +31,8 @@ function ContainerCard({ run }: ContainerCardProps) {
               <div className={styles.card__detailsContainer}>
                 {/* @ts-ignore */}
                 {Object.entries(run.build.images.orchestrator || {}).map(
-                  ([key, value]) => (
-                    <div>
+                  ([key, value], i) => (
+                    <div key={i}>
                       <Paragraph className={styles.card__key}>{key}</Paragraph>
                       <Paragraph className={styles.card__value}>
                         {/* @ts-ignore */}
@@ -53,8 +53,8 @@ function ContainerCard({ run }: ContainerCardProps) {
       </div>
       {/* @ts-ignore */}
       {nonOrchestraotorImages.length > 0 &&
-        nonOrchestraotorImages.map(([key, value]) => (
-          <details>
+        nonOrchestraotorImages.map(([key, value], i) => (
+          <details key={i}>
             <summary className={styles.card__summary}>
               <Paragraph
                 style={{ display: 'inline' }}
@@ -65,8 +65,8 @@ function ContainerCard({ run }: ContainerCardProps) {
             </summary>
             <div className={styles.card__detailsContainer}>
               {/* @ts-ignore */}
-              {Object.entries(value || {}).map(([key, value]) => (
-                <div>
+              {Object.entries(value || {}).map(([key, value], i) => (
+                <div key={i}>
                   <Paragraph className={styles.card__key}>{key}</Paragraph>
                   <Paragraph className={styles.card__value}>
                     {/* @ts-ignore */}

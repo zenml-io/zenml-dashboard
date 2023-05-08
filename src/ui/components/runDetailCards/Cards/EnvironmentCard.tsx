@@ -36,15 +36,17 @@ const EnvironmentCard = ({ run }: EnvironmentCardProps) => {
           </summary>
           <div className={styles.card__detailsContainer}>
             {/* @ts-ignore */}
-            {Object.entries(run.clientEnvironment || {}).map(([key, value]) => (
-              <div>
-                <Paragraph className={styles.card__key}>{key}</Paragraph>
-                <Paragraph className={styles.card__value}>
-                  {/* @ts-ignore */}
-                  {value}
-                </Paragraph>
-              </div>
-            ))}
+            {Object.entries(run.clientEnvironment || {}).map(
+              ([key, value], i) => (
+                <div key={i}>
+                  <Paragraph className={styles.card__key}>{key}</Paragraph>
+                  <Paragraph className={styles.card__value}>
+                    {/* @ts-ignore */}
+                    {value}
+                  </Paragraph>
+                </div>
+              ),
+            )}
           </div>
         </details>
       </div>
@@ -61,8 +63,8 @@ const EnvironmentCard = ({ run }: EnvironmentCardProps) => {
           <div className={styles.card__detailsContainer}>
             {/* @ts-ignore */}
             {Object.entries(run.orchestratorEnvironment || {}).map(
-              ([key, value]) => (
-                <div>
+              ([key, value], i) => (
+                <div key={i}>
                   <Paragraph className={styles.card__key}>{key}</Paragraph>
                   <Paragraph className={styles.card__value}>
                     {/* @ts-ignore */}

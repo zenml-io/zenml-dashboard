@@ -253,9 +253,9 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                     </tr>
                   )}
                   {Object.entries(node?.input_artifacts || {}).map(
-                    ([key, value]: any) => {
+                    ([key, value]: any, i) => {
                       return (
-                        <tr>
+                        <tr key={i}>
                           <details>
                             <summary
                               style={{ width: '100%' }}
@@ -318,9 +318,9 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                     </tr>
                   )}
                   {Object.entries(node?.output_artifacts || {}).map(
-                    ([key, value]: any) => {
+                    ([key, value]: any, i) => {
                       return (
-                        <tr>
+                        <tr key={i}>
                           <details>
                             <summary
                               style={{ width: '100%' }}

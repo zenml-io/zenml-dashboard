@@ -69,7 +69,7 @@ const ArtifactTabHeader = ({
     setDynamicLeft(divRefs.current[divId]?.offsetLeft);
     setDynamicWidth(divRefs.current[divId]?.offsetWidth);
   };
-
+  console.log(node);
   return (
     <>
       <div className="siderbar_header11" ref={parent}>
@@ -112,24 +112,26 @@ const ArtifactTabHeader = ({
           {show === '__META' ? (
             <table className="sidebar_table">
               <tbody>
-                {Object.entries(node.metadata || {}).map(([_, value]: any) => (
-                  <tr>
-                    <td className="td_key">{value.key}</td>
-                    <td className="td_value">
-                      {value.type === 'Uri' ? (
-                        <a
-                          rel="noopener noreferrer"
-                          target="_blank"
-                          href={value.value}
-                        >
-                          {value.value}
-                        </a>
-                      ) : (
-                        `${value.value}`
-                      )}
-                    </td>
-                  </tr>
-                ))}
+                {Object.entries(node.metadata || {}).map(
+                  ([_, value]: any, i) => (
+                    <tr key={i}>
+                      <td className="td_key">{value.key}</td>
+                      <td className="td_value">
+                        {value.type === 'Uri' ? (
+                          <a
+                            rel="noopener noreferrer"
+                            target="_blank"
+                            href={value.value}
+                          >
+                            {value.value}
+                          </a>
+                        ) : (
+                          `${value.value.toString()}`
+                        )}
+                      </td>
+                    </tr>
+                  ),
+                )}
               </tbody>
             </table>
           ) : (
