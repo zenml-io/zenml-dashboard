@@ -117,8 +117,12 @@ const ArtifactTabHeader = ({
                     <td className="td_key">{value.key}</td>
                     <td className="td_value">
                       {value.type === 'Uri' ? (
-                        <a target="_blank" href={value.value}>
-                          {value.key}
+                        <a
+                          rel="noopener noreferrer"
+                          target="_blank"
+                          href={value.value}
+                        >
+                          {value.value}
                         </a>
                       ) : (
                         `${value.value}`
