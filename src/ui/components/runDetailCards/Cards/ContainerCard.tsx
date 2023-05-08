@@ -13,8 +13,6 @@ function ContainerCard({ run }: ContainerCardProps) {
     Object.entries(run.build?.images || {}).filter(
       ([key]) => key !== 'orchestrator',
     );
-
-  console.log({ nonOrchestraotorImages });
   return (
     <DetailCard isInitiallyOpen={true} heading="Container">
       <div>

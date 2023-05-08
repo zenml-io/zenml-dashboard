@@ -12,7 +12,6 @@ interface CodeCardProps {
 }
 
 const CodeCard = ({ run }: CodeCardProps) => {
-  console.log({ run });
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return (
     <DetailCard isInitiallyOpen={true} heading="Code">
