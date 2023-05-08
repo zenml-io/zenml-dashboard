@@ -115,7 +115,15 @@ const ArtifactTabHeader = ({
                 {Object.entries(node.metadata || {}).map(([_, value]: any) => (
                   <tr>
                     <td className="td_key">{value.key}</td>
-                    <td className="td_value">{value.value}</td>
+                    <td className="td_value">
+                      {value.type === 'Uri' ? (
+                        <a target="_blank" href={value.value}>
+                          {value.key}
+                        </a>
+                      ) : (
+                        `${value.value}`
+                      )}
+                    </td>
                   </tr>
                 ))}
               </tbody>
