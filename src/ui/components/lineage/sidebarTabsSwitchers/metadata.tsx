@@ -66,7 +66,6 @@ const MetadataTab = ({ metadata }: MetadataTabProps) => {
                     </tbody>
                   </table>
                 </details>{' '}
-                /
               </div>
             )}
           </tr>
