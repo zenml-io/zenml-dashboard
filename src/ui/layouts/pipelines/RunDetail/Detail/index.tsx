@@ -11,19 +11,10 @@ export const Details: React.FC<{ runId: TId }> = memo(({ runId }) => {
 
   return (
     <div className={styles.mainContainer}>
-      <div>
         <GeneralInformationCard run={run} />
-      </div>
-      <div>
         <OrchestratorCard run={run} />
-      </div>
-      <div>
         <CodeCard run={run} />
-      </div>
-
-      <div>
         <EnvironmentCard run={run} />
-      </div>
     </div>
   );
 });

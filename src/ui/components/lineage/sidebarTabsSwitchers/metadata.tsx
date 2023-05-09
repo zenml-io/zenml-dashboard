@@ -40,7 +40,9 @@ const MetadataTab = ({ metadata }: MetadataTabProps) => {
                       {value.value}
                     </a>
                   ) : (
-                    `${value.value.toString()}`
+                    `${value.value.toString()} ${
+                      value.type === 'StorageSize' ? 'Bytes' : ''
+                    }`
                   )}
                 </td>
               </>
