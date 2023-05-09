@@ -224,8 +224,18 @@ const ArtifactVisualization = ({
   if (isError && is501)
     return (
       <div className={`${style.FullWidthSpinnerContainer}`}>
-        <Paragraph>
-          Some resources seem to be missing, please contact your Server Admin
+        <Paragraph style={{ textAlign: 'center' }}>
+          This artifact cannot be visualized because it cannot be loaded from
+          the artifact store. This might happen if your ZenML server does not
+          have the artifact stores dependencies installed or if the server is
+          not authenticated to access it. For more information, see our{' '}
+          <a
+            rel="noopener noreferrer"
+            target="_blank"
+            href="https://docs.zenml.io/component-gallery/artifact-stores/custom#enabling-artifact-visualizations-with-custom-artifact-stores"
+          >
+            docs
+          </a>
         </Paragraph>
       </div>
     );
