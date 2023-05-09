@@ -21,19 +21,19 @@ export const CollapseTable: React.FC<TableProps & CollapseTableProps> = ({
 }) => {
   // console.log('activeSorting', activeSorting);
   return (
-      <Table
-        isExpended={isExpended}
-        activeSorting={activeSorting}
-        headerCols={headerCols}
-        tableRows={tableRows}
-        showHeader={showHeader}
-        pagination={pagination}
-        loading={loading}
-        filters={filters}
-        paginated={paginated}
-        renderAfterRow={renderAfterRow}
-        emptyState={emptyState}
-        trOnClick={trOnClick}
-      />
+    <Table
+      isExpended={isExpended}
+      activeSorting={activeSorting}
+      headerCols={headerCols}
+      tableRows={tableRows}
+      showHeader={showHeader}
+      pagination={pagination}
+      loading={loading}
+      filters={filters}
+      paginated={paginated}
+      renderAfterRow={renderAfterRow}
+      emptyState={emptyState}
+      trOnClick={trOnClick}
+    />
   );
 };

@@ -1,76 +1,73 @@
-import React, { useState } from 'react';
-
-import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
-import { Box, FlexBox, H4, GhostButton, icons } from '../../../../components';
-
-import { useDispatch } from '../../../../hooks';
-import { showToasterAction } from '../../../../../redux/actions';
-import { toasterTypes } from '../../../../../constants';
-import { iconColors, iconSizes } from '../../../../../constants';
-
-import { translate } from '../translate';
-import styles from './index.module.scss';
-import { useService } from './useService';
+import React from 'react';
+import { FlexBox } from '../../../../components';
+import { useSelector } from '../../../../hooks';
+import { pipelineSelectors } from '../../../../../redux/selectors';
+import { LayoutFlow } from '../../../../components/Yaml/index';
+// import {useService} from './useService'
 
 export const Configuration: React.FC<{ pipelineId: TId }> = ({
   pipelineId,
 }) => {
-  const { downloadYamlFile, pipelineConfig } = useService({ pipelineId });
-  const [hover, setHover] = useState(false);
-  const dispatch = useDispatch();
-  const handleCopy = () => {
-    navigator.clipboard.writeText(pipelineConfig);
-    dispatch(
-      showToasterAction({
-        description: 'Config copied to clipboard',
-        type: toasterTypes.success,
-      }),
-    );
+  const pipeline: TPipeline = useSelector(
+    pipelineSelectors.pipelineForId(pipelineId),
+  );
+
+  let edgeArr: any = [];
+
+  function upstremArrHandler(item: any) {
+    const arr = item.upstream_steps.map((_item: any, index: number) => ({
+      id: item.pipeline_parameter_name + index,
+      target: item.source.attribute || 'item.source',
+      source:
+        item.upstream_steps.length > 0
+          ? item.upstream_steps[index]
+          : item.upstream_steps[0],
+    }));
+    edgeArr = [...arr, ...edgeArr];
+  }
+
+  let edgeMap = pipeline.spec.steps.map((item: any, index: number) => {
+    if (Array.isArray(item.upstream_steps) && item.upstream_steps.length > 1) {
+      upstremArrHandler(item);
+    }
+
+    return {
+      id: item.pipeline_parameter_name + Math.floor(Math.random() * 100),
+      target:
+        item.source.attribute !== undefined
+          ? item.source.attribute
+          : item.source,
+      source:
+        item.upstream_steps.length > 0
+          ? item.upstream_steps[0]
+          : item.upstream_steps[index],
+    };
+  });
+
+  const edge = [...edgeArr, ...edgeMap];
+
+  const node = pipeline.spec.steps.map((item: any, index: number) => ({
+    id: item.source.attribute,
+    type: 'step',
+    data: {
+      pipeline_parameter_name: item.pipeline_parameter_name,
+    },
+  }));
+
+  const graph = {
+    edge,
+    node,
   };
 
   return (
     <FlexBox.Column fullWidth>
-      <FlexBox
+      {/* <FlexBox
         marginBottom="md"
         alignItems="center"
         justifyContent="space-between"
-      >
-        <H4 bold>{translate('configuration.title.text')}</H4>
-        <Box>
-          <GhostButton
-            style={{ marginRight: '10px' }}
-            onClick={downloadYamlFile}
-          >
-            {translate('configuration.button.text')}
-          </GhostButton>
-
-          <GhostButton
-            onMouseEnter={() => {
-              setHover(true);
-            }}
-            onMouseLeave={() => {
-              setHover(false);
-            }}
-            onClick={handleCopy}
-          >
-            <icons.copy
-              color={hover ? iconColors.white : iconColors.black}
-              size={iconSizes.sm}
-            />
-          </GhostButton>
-        </Box>
-      </FlexBox>
-      <FlexBox className={styles.code}>
-        <SyntaxHighlighter
-          customStyle={{ width: '100%' }}
-          wrapLines={true}
-          language="yaml"
-          style={okaidia}
         >
-          {pipelineConfig}
-        </SyntaxHighlighter>
-      </FlexBox>
+      </FlexBox> */}
+      <LayoutFlow graph={graph} />
     </FlexBox.Column>
   );
 };

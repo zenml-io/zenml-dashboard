@@ -32,6 +32,14 @@ interface TAction {
   payload: any;
 }
 
+interface TServerInfo {
+  id: string;
+  version: string;
+  deploymentType: string;
+  databaseType: string;
+  secretsStoreType: string;
+}
+
 type TClickEvent = (arg1: React.MouseEvent) => void;
 
 interface TUser {
@@ -45,6 +53,27 @@ interface TUser {
   emailOptedIn: any;
   roles: Array<any>;
   created: any;
+}
+
+interface TRepository {
+  id: TId;
+  created: string;
+  updated: string;
+  user: TUser;
+  workspace: TWorkspace;
+  name: string;
+  logo_url: string;
+  description: string;
+  config: {
+    owner: string;
+    repository: string;
+    token: string;
+  };
+  source: {
+    module: string;
+    attribute: string;
+    type: string;
+  };
 }
 
 interface THubUser {

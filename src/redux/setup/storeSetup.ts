@@ -9,7 +9,7 @@ import rootSaga from '../rootSaga';
 import { persistedReducer, persistConfig } from './storeReduxSetup';
 
 function crossBrowserListener(store: any, persistConfig: any) {
-  return async function() {
+  return async function () {
     const state = await getStoredState(persistConfig);
 
     store.dispatch({

@@ -34,6 +34,11 @@ export const constantCommandsToCreateSecret = {
     'https://docs.zenml.io/starter-guide/production-fundamentals/secrets-management',
 };
 
+export const constantCommandsToCreateRepository = {
+  documentation:
+    'https://docs.zenml.io/starter-guide/production-fundamentals/code-repositories',
+};
+
 export const constantCommandsToCreatePipeline = {
   title: 'Pipeline Cheatsheet',
   documentation: 'https://docs.zenml.io/starter-guide/pipelines',

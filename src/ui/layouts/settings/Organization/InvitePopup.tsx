@@ -1,6 +1,6 @@
 /* eslint-disable */
 import React, { useState } from 'react';
-import styles from './index.module.scss'
+import styles from './index.module.scss';
 import { toasterTypes } from '../../../../constants';
 import {
   organizationActions,
@@ -16,21 +16,21 @@ import {
   Separator,
   Paragraph,
   FormTextField,
-  GhostButton
+  GhostButton,
 } from '../../../components';
 import { useSelector, useDispatch } from '../../../hooks';
 import { PopupSmall } from '../../common/PopupSmall';
-import { RoleSelector } from './RoleSelector'
+import { RoleSelector } from './RoleSelector';
 import {
   organizationSelectors,
   rolesSelectors,
   sessionSelectors,
 } from '../../../../redux/selectors';
-import userImage from '../../../assets/userImage.png'
+import userImage from '../../../assets/userImage.png';
 import axios from 'axios';
 import { RoleSelectorReadOnly } from './RoleSelector/RoleSelectorReadOnly';
 
-export const InvitePopup: React.FC<{ 
+export const InvitePopup: React.FC<{
   setPopupOpen: (attr: boolean) => void;
 }> = ({ setPopupOpen }) => {
   const [submitting, setSubmitting] = useState(false);
@@ -44,9 +44,11 @@ export const InvitePopup: React.FC<{
 
   const [role, setRole] = useState<any>([]);
 
-  const [allRoles, setAllRoles] = useState(roles?.map((e) => {
-    return { value: e.id, label: e.name }
-  }))
+  const [allRoles, setAllRoles] = useState(
+    roles?.map((e) => {
+      return { value: e.id, label: e.name };
+    }),
+  );
 
   const inviteNewMembers = () => {
     if (role) {
@@ -67,28 +69,29 @@ export const InvitePopup: React.FC<{
             const headers = {
               Authorization: `Bearer ${authToken}`,
             };
-            
+
             try {
-                for (let index = 0; index < role.length; index++) {
-                  const singleRole = role[index];
-                  await axios.post(`${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
-                                // @ts-ignore
-                                { user: user.id, role: singleRole?.value },
-                                { headers },
-                  )
-                }      
-                setSubmitting(false);
-                setShowTokField(true);
+              for (let index = 0; index < role.length; index++) {
+                const singleRole = role[index];
+                await axios.post(
+                  `${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
+                  // @ts-ignore
+                  { user: user.id, role: singleRole?.value },
+                  { headers },
+                );
+              }
+              setSubmitting(false);
+              setShowTokField(true);
             } catch (err) {
-                setSubmitting(false);
-                setPopupOpen(false)
-                dispatch(
-                  showToasterAction({
-                    // @ts-ignore
-                    description: err.response?.data?.detail[1],
-                    type: toasterTypes.failure,
-                  }),
-                );              
+              setSubmitting(false);
+              setPopupOpen(false);
+              dispatch(
+                showToasterAction({
+                  // @ts-ignore
+                  description: err.response?.data?.detail[1],
+                  type: toasterTypes.failure,
+                }),
+              );
             }
             await dispatch(organizationActions.getMembers({}));
           },
@@ -105,32 +108,40 @@ export const InvitePopup: React.FC<{
   };
 
   const preRoles = role?.map((e: any) => {
-    return { id: e?.value, name: e?.label }
-  })
+    return { id: e?.value, name: e?.label };
+  });
 
   return (
     <>
-      <PopupSmall onClose={() => setPopupOpen(false)} width='370px' showCloseIcon={false}>
+      <PopupSmall
+        onClose={() => setPopupOpen(false)}
+        width="370px"
+        showCloseIcon={false}
+      >
         <FlexBox.Row alignItems="center" justifyContent="space-between">
-          <H4 bold style={{ fontSize: '18px', fontWeight: 'bold'}}>{showTokField ? translate('popup.invite.text') : translate('popup.title')}</H4>
+          <H4 bold style={{ fontSize: '18px', fontWeight: 'bold' }}>
+            {showTokField
+              ? translate('popup.invite.text')
+              : translate('popup.title')}
+          </H4>
         </FlexBox.Row>
 
-        <FlexBox.Row marginTop="lg" justifyContent='center'>
+        <FlexBox.Row marginTop="lg" justifyContent="center">
           <Box className={styles.userImage}>
-           <img src={userImage} alt='userImage' />
+            <img src={userImage} alt="userImage" />
           </Box>
         </FlexBox.Row>
-        
-        <Box marginTop="md">    
-          <FormTextField 
+
+        <Box marginTop="md">
+          <FormTextField
             label={translate('popup.username.label')}
             labelColor="rgba(66, 66, 64, 0.5)"
             placeholder={translate('popup.username.placeholder')}
             value={name}
             onChange={(val: string) => setName(val)}
-            disabled={showTokField}  
+            disabled={showTokField}
           />
-          
+
           {/* <GenerateTokenField
             label={translate('popup.username.label')}
             labelColor="rgba(66, 66, 64, 0.5)"
@@ -147,44 +158,50 @@ export const InvitePopup: React.FC<{
           /> */}
         </Box>
 
-        {!showTokField ? ( 
-          <Box marginTop='lg'>   
+        {!showTokField ? (
+          <Box marginTop="lg">
             <RoleSelector
               allRoles={allRoles}
               role={role}
               setAllRoles={setAllRoles}
-              setRole={setRole}  
+              setRole={setRole}
             />
           </Box>
         ) : (
-          <Box marginTop='lg'>   
+          <Box marginTop="lg">
             <RoleSelectorReadOnly roles={preRoles} />
           </Box>
-        )} 
-        
-        <Box marginTop="lg" marginBottom='xxxl'>
-            <CopyField
-              label="Invitation Link"
-              labelColor='rgba(66, 66, 64, 0.5)'
-              value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.activationToken}`}
-              showTokField={showTokField}
-              disabled
-            />
+        )}
+
+        <Box marginTop="lg" marginBottom="xxxl">
+          <CopyField
+            label="Invitation Link"
+            labelColor="rgba(66, 66, 64, 0.5)"
+            value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.activationToken}`}
+            showTokField={showTokField}
+            disabled
+          />
         </Box>
-   
+
         <Box style={{ marginTop: '62px' }}>
           <Box marginBottom="md">
             <Separator.LightNew />
-          </Box>          
+          </Box>
           <FlexBox justifyContent="center" flexWrap>
-            {name && role?.length > 0 && !showTokField ?
-              <Paragraph style={{ cursor: 'pointer', color: '#443E99' }} onClick={inviteNewMembers}>Generate Token</Paragraph>
-            :
-              <Paragraph style={{ cursor: 'no-drop', color: '#A8A8A8' }}>Generate Token</Paragraph>
-            }
+            {name && role?.length > 0 && !showTokField ? (
+              <Paragraph
+                style={{ cursor: 'pointer', color: '#443E99' }}
+                onClick={inviteNewMembers}
+              >
+                Generate Token
+              </Paragraph>
+            ) : (
+              <Paragraph style={{ cursor: 'no-drop', color: '#A8A8A8' }}>
+                Generate Token
+              </Paragraph>
+            )}
           </FlexBox>
         </Box>
-    
       </PopupSmall>
     </>
   );

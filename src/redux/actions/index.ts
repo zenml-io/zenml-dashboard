@@ -14,4 +14,7 @@ export * from './pipelinePages';
 export * from './stackPages';
 export * from './stackComponentPages';
 export * from './flavors';
+export * from './repositories';
+export * from './repositoriesPages';
 export * from './flavorPages';
+export * from './serverInfo';

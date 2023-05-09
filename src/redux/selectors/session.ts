@@ -10,4 +10,6 @@ const sessionSelectors = {
   authenticationToken,
   hubToken,
 };
+
+console.log({ sessionSelectors });
 export { sessionSelectors };

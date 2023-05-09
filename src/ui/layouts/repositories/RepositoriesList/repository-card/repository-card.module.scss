@@ -1,0 +1,48 @@
+@import '../../../../globalStyles.scss';
+
+.repositoryCard {
+  width: 100%;
+  max-width: 270px;
+  height: 100%;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 16px;
+  color: inherit;
+  gap: 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  font-family: Rubik;
+
+  &:hover {
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &__heading {
+    font-size: 16px;
+    margin: 0;
+    color: $primaryColor;
+  }
+
+  &__body {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+  &__headerImage {
+    object-fit: contain;
+    height: 80px;
+  }
+  &__secondLine {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    &__description {
+      font-size: 12px;
+      margin: 0;
+      color: #a8a8a8;
+    }
+  }
+}

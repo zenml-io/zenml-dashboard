@@ -22,6 +22,16 @@ export const routePaths = {
     runs: (workspace: string, id: TId): string =>
       `/workspaces/${workspace}/pipelines/${id}/runs`,
   },
+  repositories: {
+    list: (workspace: string): string =>
+      `/workspaces/${workspace}/repositories/list`,
+    overview: (workspace: string, repositoryID: string): string =>
+      `/workspaces/${workspace}/repositories/${repositoryID}/overview`,
+    runs: (workspace: string, repositoryID: string): string =>
+      `/workspaces/${workspace}/repositories/${repositoryID}/runs`,
+    create: (workspace: string): string =>
+      `/workspaces/${workspace}/repositories/create`,
+  },
   run: {
     pipeline: {
       base: (id: TId, pipelineId: TId): string =>
@@ -30,6 +40,8 @@ export const routePaths = {
         `/workspaces/${workspace}/pipelines/${pipelineId}/runs/${id}/dag`,
       results: (workspace: string, id: TId, pipelineId: TId): string =>
         `/workspaces/${workspace}/pipelines/${pipelineId}/runs/${id}/configuration`,
+      details: (workspace: string, id: TId, pipelineId: TId): string =>
+        `/workspaces/${workspace}/pipelines/${pipelineId}/runs/${id}/details`,
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/pipelines/${pipelineId}/runs/${id}/tensorboard`,
     },
@@ -69,6 +81,8 @@ export const routePaths = {
         `/workspaces/${workspace}/all-runs/${id}/dag`,
       results: (workspace: string, runId: TId): string =>
         `/workspaces/${workspace}/all-runs/${runId}/configuration`,
+      details: (workspace: string, runId: TId): string =>
+        `/workspaces/${workspace}/all-runs/${runId}/details`,
       tensorboard: (runId: TId): string => `/runs/${runId}/tensorboard`,
     },
   },
@@ -78,6 +92,8 @@ export const routePaths = {
     allRuns: '/stacks/all-runs',
     createStack: (workspace: string): string =>
       `/workspaces/${workspace}/create-stack/all-component`,
+    UpdateStack: (workspace: string, id: TId): string =>
+      `/workspaces/${workspace}/stack/${id}/update-stack`,
   },
   secrets: {
     base: '/secrets',
@@ -124,6 +140,8 @@ export const routePaths = {
       `/workspaces/${workspace}/registerComponents/${type}`,
     configureComponent: (type: string, workspace: string, id: string): string =>
       `/workspaces/${workspace}/registerComponents/${type}/${id}/configuration`,
+    updateComponent: (type: string, id: string, workspace: string): string =>
+      `/workspaces/${workspace}/components/${type}/${id}/update-component`,
   },
 
   plugins: {

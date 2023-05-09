@@ -4,9 +4,7 @@ import { LayoutFlow } from '../../../../components';
 
 import styles from '../components.module.scss';
 
-export const DAG: React.FC<{ runId: TId }> = ({
-  runId,
-}) => {
+export const DAG: React.FC<{ runId: TId }> = ({ runId }) => {
   const { graph } = useService({ runId });
 
   return (
@@ -17,4 +15,3 @@ export const DAG: React.FC<{ runId: TId }> = ({
     </div>
   );
 };
-

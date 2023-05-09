@@ -17,7 +17,6 @@ const getSelectedWorkspaceIds = (state: State): string =>
 const getWorkspaceStats = (state: State): any =>
   _.get(stateKey(state), 'workspaceStats');
 
-
 export const myWorkspaces = (state?: State | null): Workspaces[] => {
   if (!state) return [];
   const myWorkspaceIds = getMyWorkspaceIds(state);
@@ -45,11 +44,10 @@ export const workspaceStats = (state?: State | null): string => {
   return workspaceStats;
 };
 
-
 const workspaceSelectors = {
   myWorkspaces: myWorkspaces,
   selectedWorkspace: selectedWorkspace,
-  myWorkspaceStats: workspaceStats
+  myWorkspaceStats: workspaceStats,
 };
 
 export { workspaceSelectors };
