@@ -26,17 +26,17 @@ const GeneralInformationCard = ({ run }: GeneralInformationCardProps) => {
         <Paragraph className={styles.card__value}>
           <Link
             to={routePaths.pipeline.configuration(
-              run.pipeline.id,
+              run.pipeline?.id || '',
               selectedWorkspace,
             )}
           >
-            {run.pipeline.name}
+            {run.pipeline?.name || ''}
           </Link>
         </Paragraph>
       </div>
       <div>
         <Paragraph className={styles.card__key}>User</Paragraph>
-        <Paragraph className={styles.card__value}>{run.user.name}</Paragraph>
+        <Paragraph className={styles.card__value}>{run.user?.name}</Paragraph>
       </div>
       <div>
         <Paragraph className={styles.card__key}>Start Time</Paragraph>
