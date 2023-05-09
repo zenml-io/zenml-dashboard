@@ -66,6 +66,7 @@ const ArtifactVisualization = ({
   const [loader, setLoader] = useState(false);
   const divRef = useRef<HTMLDivElement | null>(null);
   const [isError, setIsError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
   const [is501, setIs501] = useState(false);
   const [cancelToken, setCancelToken] = useState<any>(null);
 
@@ -117,6 +118,9 @@ const ArtifactVisualization = ({
           console.log('Request canceled:', error.message);
         } else {
           setIsError(true);
+          setErrorMessage(
+            error.response.data?.detail[1] || 'An Error occured while fetching',
+          );
           if (error.response.status === 501) {
             setIs501(true);
           }
@@ -217,7 +221,7 @@ const ArtifactVisualization = ({
   if (isError && !is501)
     return (
       <div className={`${style.FullWidthSpinnerContainer}`}>
-        <Paragraph>An Error occured while fetching</Paragraph>
+        <Paragraph style={{ textAlign: 'center' }}>{errorMessage}</Paragraph>
       </div>
     );
 
