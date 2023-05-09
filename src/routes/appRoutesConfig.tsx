@@ -326,6 +326,14 @@ const routes = [
     exact: true,
   },
   {
+    path: routePaths.run.pipeline.details(':string', ':id', ':pipelineId'),
+    Component: PipelineRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
     path: routePaths.run.pipeline.tensorboard(':id', ':pipelineId'),
     Component: PipelineRunDetail,
     visibility: {
@@ -375,6 +383,14 @@ const routes = [
   },
   {
     path: routePaths.run.run.results(':string', ':runId'),
+    Component: RunsRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.run.details(':string', ':runId'),
     Component: RunsRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,

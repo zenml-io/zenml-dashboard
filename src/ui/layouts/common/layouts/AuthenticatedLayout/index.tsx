@@ -4,7 +4,6 @@ import { FlexBox, Box } from '../../../../components';
 import { useDispatch, useLocationPath } from '../../../../hooks';
 import { AuthenticatedHeader } from './AuthenticatedHeader';
 import { AuthenticatedSidebar } from './AuthenticatedSidebar';
-
 import styles from './index.module.scss';
 import { serverInfoActions } from '../../../../../redux/actions';
 
@@ -35,7 +34,15 @@ export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
             setMobileMenuOpen={setMobileMenuOpen}
           />
         </Box>
-        <FlexBox fullHeight>{children}</FlexBox>
+        <FlexBox
+          style={{
+            position: 'relative',
+            overflow: 'hidden',
+            overflowY: 'scroll',
+          }}
+        >
+          {children}
+        </FlexBox>
       </FlexBox>
     </FlexBox>
   );

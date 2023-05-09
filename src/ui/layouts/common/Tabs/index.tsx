@@ -7,6 +7,7 @@ import {
   Box,
   FlexBox,
   If,
+  IfElse,
   LinkBox,
   Paragraph,
   Truncate,
@@ -163,5 +164,100 @@ export const Tabs: React.FC<{ pages: TabPage[]; basePath: string }> = ({
         </>
       )}
     </If>
+  );
+};
+
+export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
+  pages,
+  basePath,
+}) => {
+  const locationPath = useLocationPath();
+  return (
+    <>
+      <If condition={pages.length > 0}>
+        {() => (
+          <>
+            <FlexBox
+              marginTop="xxl"
+              marginBottom="sm"
+              className={styles.navigationRuns}
+            >
+              {pages.map((page, index) => {
+                const isActive = !!matchPath(locationPath, {
+                  path: page.path,
+                  exact: true,
+                });
+
+                return (
+                  <FlexBox.Row>
+                    <Box
+                      key={index}
+                      // paddingBottom="sm"
+                      // paddingHorizontal="md"
+                      marginHorizontal="lg"
+                      className={joinClassNames(
+                        styles.item,
+                        isActive ? styles.activeItem : '',
+                      )}
+                      // style={{transition: '0.25s ease-out'}}
+                    >
+                      <Link className={styles.linkRuns} to={page.path}>
+                        <IfElse
+                          condition={isActive}
+                          renderWhenFalse={() => (
+                            <Truncate maxLines={1}>
+                              <Paragraph
+                                style={{
+                                  color: '#443E9950',
+                                  transition: '0.25s ease-out',
+                                }}
+                              >
+                                {page.text}
+                              </Paragraph>
+                            </Truncate>
+                          )}
+                          renderWhenTrue={() => (
+                            <Truncate maxLines={1}>
+                              <Paragraph color="primary">{page.text}</Paragraph>
+                            </Truncate>
+                          )}
+                        />
+                      </Link>
+                    </Box>
+                    {index + 1 === pages.length ? (
+                      ''
+                    ) : (
+                      <Box
+                        style={{
+                          height: '100%',
+                          width: '2px',
+                          background: '#00000040',
+                          marginLeft: '20px',
+                          marginRight: '20px',
+                        }}
+                      ></Box>
+                    )}
+                  </FlexBox.Row>
+                );
+              })}
+            </FlexBox>
+            <FlexBox marginBottom="xxl">
+              <Switch>
+                <Redirect exact from={basePath} to={pages[0].path} />
+
+                {pages.map((page, index) => (
+                  <AppRoute
+                    key={index}
+                    path={page.path}
+                    exact={true}
+                    component={page.Component}
+                  />
+                ))}
+              </Switch>
+            </FlexBox>
+          </>
+        )}
+      </If>
+    </>
   );
 };

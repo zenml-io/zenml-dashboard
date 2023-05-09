@@ -18,6 +18,9 @@ export interface State {
   myRunIds: TId[];
   graphForRunId: any;
   paginated: any;
+  artifactData: any;
+  artifactVisualization: any;
+  stepData: any;
 }
 
 type PipelinesPayload = {
@@ -56,6 +59,9 @@ export const initialState: State = {
   myRunIds: [],
   graphForRunId: {},
   paginated: {},
+  artifactData: {},
+  artifactVisualization: {},
+  stepData: {},
 };
 
 const newState = (state: State, runs: TRun[], pagination?: any): State => ({
@@ -73,9 +79,39 @@ const newStateForGraph = (state: State, graph: any): State => ({
   ...state,
   graphForRunId: graph,
 });
+const newArtifactState = (state: State, artifactData?: any): State => ({
+  ...state,
+  artifactData: artifactData,
+});
+const newArtifactVisualizationState = (
+  state: State,
+  artifactVisualization?: any,
+): State => ({
+  ...state,
+  artifactVisualization: artifactVisualization,
+});
+const newStepState = (state: State, stepData?: any): State => ({
+  ...state,
+  stepData: stepData,
+});
 
 const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
+    case runActionTypes.getArtifactVisualization.success: {
+      const artifactVisualization = action.payload;
+      return { ...newArtifactVisualizationState(state, artifactVisualization) };
+    }
+
+    case runActionTypes.getArtifact.success: {
+      const artifact = action.payload;
+      return { ...newArtifactState(state, artifact) };
+    }
+
+    case runActionTypes.getStep.success: {
+      const step = action.payload;
+      return { ...newStepState(state, step) };
+    }
+
     case runActionTypes.getAllRuns.success: {
       const payload = action.payload.items;
 

@@ -841,7 +841,7 @@
             "repositoryURL": {
               "text": "Repository URL"
             },
-             "owner": {
+            "owner": {
               "text": "Owner"
             },
             "repo": {
@@ -865,7 +865,7 @@
             "githubURL": {
               "text": "Please insert a Github or Gitlab URL"
             }
-          } 
+          }
         }
       }
     }

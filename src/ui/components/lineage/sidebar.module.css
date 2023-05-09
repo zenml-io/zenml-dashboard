@@ -1,0 +1,44 @@
+
+.indexContainer{
+    position: absolute;
+    right: 0%;
+    top: 11%;
+    height: 100vh;
+    width: 50vw;
+    transform: translate(0%);
+    transition: all 0.5s ease;
+    z-index: 101;
+
+}
+.indexContainer_invisible{
+    position: absolute;
+    right: 0%;
+    height: 0vh;
+    width: 0vw;
+    background-color: aqua;
+    transform: translate(100%);
+    transition: all 5s ease;
+
+}
+.mainContainer{
+    position: absolute;
+    right: 0;
+    transform: translate(50%);
+    width: 50vw;
+    height: 100vh;
+    background-color: #a15353;
+    transition: all 0.5s ease;
+    z-index: 101;
+}
+
+.empty{
+    width: 50vw;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.empty p{
+    font-size: xx-large;
+    font-family: 'Rubik';
+}

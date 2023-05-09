@@ -1,23 +1,16 @@
 import React from 'react';
-
 import { routePaths } from '../../../../routes/routePaths';
-
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
 import { DAG } from '../../../components/dag';
-import { Box } from '../../../components';
 import { useService } from './useService';
-
-// import { Box, Paragraph } from '../../../components';
-
-// import { RunStatus } from './components';
-
-// import { formatDateToDisplayOnTable } from '../../../../utils';
+// import { Runs } from '../../pipelines/PipelineDetail/Runs';
 import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
-// import { Runs } from '../../pipelines/PipelineDetail/Runs';
-import { Table } from '../../common/Table';
 import { useHeaderCols } from './HeaderCols';
+import { Details } from './Detail';
+import { Box } from '../../../components';
+import { Table } from '../../common/Table';
 
 const getTabPages = ({
   selectedWorkspace,
@@ -32,7 +25,7 @@ const getTabPages = ({
 }): TabPage[] => {
   return [
     {
-      text: 'DAG',
+      text: 'DAG Visualizer',
 
       Component: () => (
         <DAG runId={runId} fetching={fetching} metadata={metadata} />
@@ -44,6 +37,11 @@ const getTabPages = ({
 
       Component: () => <Configuration runId={runId} />,
       path: routePaths.run.run.results(selectedWorkspace, runId),
+    },
+    {
+      text: 'Details',
+      Component: () => <Details runId={runId} />,
+      path: routePaths.run.run.details(selectedWorkspace, runId),
     },
   ];
 };
@@ -92,21 +90,13 @@ export const RunDetail: React.FC = () => {
     selectedWorkspace,
   });
   const openDetailPage = (stack: TStack) => {
+    // eslint-disable-line
     history.push(routePaths.pipelines.allRuns(selectedWorkspace));
   };
   const headerCols = useHeaderCols({
+    // eslint-disable-line
     runs: runRow,
   });
-  // const boxStyle = {
-  //   backgroundColor: '#E9EAEC',
-  //   padding: '10px 0',
-  //   borderRadius: '8px',
-  //   marginTop: '20px',
-  //   display: 'flex',
-  //   justifyContent: 'space-around',
-  // };
-  // const headStyle = { color: '#828282' };
-  // const history = useHistory();
   return (
     <BasePage
       headerWithButtons

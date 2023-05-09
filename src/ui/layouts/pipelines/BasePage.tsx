@@ -4,7 +4,7 @@ import { AppRoute } from '../../../routes';
 import { Box, FlexBox, IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
-import { Tabs } from '../common/Tabs';
+import { TabsRuns } from '../common/Tabs';
 import Header from './Header';
 import Pipelines from './Pipelines';
 
@@ -48,7 +48,8 @@ export const BasePage: React.FC<{
         <Box>
           {children}
           {tabPages.length > 1 ? (
-            <Tabs pages={tabPages} basePath={tabBasePath} />
+            // <Tabs pages={tabPages} basePath={tabBasePath} />
+            <TabsRuns pages={tabPages} basePath={tabBasePath} />
           ) : (
             <>
               <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>

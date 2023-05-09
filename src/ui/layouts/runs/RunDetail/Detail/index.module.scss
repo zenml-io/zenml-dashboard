@@ -1,0 +1,18 @@
+@import '../../../../globalStyles';
+
+.mainContainer {
+  background-color: #ffffff;
+  width: 100vw;
+  margin: 0px;
+  margin-top: 16px;
+  padding: 0px;
+  display: grid;
+  gap: 16px;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+@media (max-width: $xl-breakpoint) {
+  .mainContainer {
+    grid-template-columns: repeat(1, minmax(0, 1fr));
+  }
+}
