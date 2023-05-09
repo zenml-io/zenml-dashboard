@@ -95,6 +95,7 @@ import { ReactComponent as PaginationFirst } from './assets/PaginationFirst.svg'
 import { ReactComponent as PaginationLast } from './assets/PaginationLast.svg';
 import { ReactComponent as PaginationNext } from './assets/PaginationNext.svg';
 import { ReactComponent as PaginationPrev } from './assets/PaginationPrev.svg';
+import { ReactComponent as Repository } from './assets/Repositories.svg';
 
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
@@ -122,10 +123,12 @@ const createIcon = ({
   Component,
   transform,
   useStroke = false,
+  isSidebarFilled = false,
 }: {
   Component: any;
   useStroke?: boolean;
   transform?: any;
+  isSidebarFilled?: boolean;
 }) => ({ size, color, ...props }: Props & BoxProps) => {
   return (
     <Box {...props}>
@@ -141,6 +144,7 @@ const createIcon = ({
           props.className,
           useStroke && styles.useStroke,
           !useStroke && styles.useFill,
+          isSidebarFilled && 'sidebar-fill',
         )}
       />
     </Box>
@@ -182,6 +186,7 @@ const icons = {
     Component: ChevronLeft,
     transform: 'rotate(180deg)',
   }),
+  repository: createIcon({ Component: Repository, isSidebarFilled: true }),
   rightArrow: createIcon({ Component: RightArrow }),
   copy: createIcon({ Component: Copy }),
   eye: createIcon({ Component: Eye, useStroke: true }),
@@ -205,7 +210,7 @@ const icons = {
   stack: createIcon({ Component: Stack, useStroke: true }),
   stackComponent: createIcon({ Component: StackComponent, useStroke: true }),
   starOutline: createIcon({ Component: StarOutline }),
-  storefront: createIcon({ Component: Storefront }),
+  storefront: createIcon({ Component: Storefront, isSidebarFilled: true }),
   funnelFill: createIcon({ Component: FunnelFill }),
   delete: createIcon({ Component: Delete }),
   edit: createIcon({ Component: Edit }),

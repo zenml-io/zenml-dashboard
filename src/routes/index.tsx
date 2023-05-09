@@ -1,6 +1,6 @@
 /* eslint-disable */
 
-import * as React from 'react';
+import React from 'react';
 
 import {
   BrowserRouter as Router,
@@ -29,7 +29,7 @@ import { WaitToEnter } from '../ui/components';
 import { isRouteFound } from './utils/isRouteFound';
 import { NotFound } from '../ui/layouts/NotFound';
 import { userSelectors } from '../redux/selectors';
-import { userActions } from '../redux/actions';
+import { serverInfoActions, userActions } from '../redux/actions';
 import { HubConnectPrompt } from '../ui/layouts/HubConnectPrompt';
 
 const useReplaceRouteIfNeeded = ({

@@ -1,0 +1,40 @@
+.underline {
+  margin-top: -10px;
+  padding: 0%;
+  height: 2px;
+  width: 100px;
+  border-radius: 16px;
+  background-color: #431d93;
+  transition: 'all 300ms ease-in-out';
+}
+
+.siderbar_tabs {
+  top: 10%;
+  right: 0px;
+  width: 50vw;
+  height: 100vh;
+  background-color: rgb(255, 255, 255);
+  display: flex;
+  z-index: 100;
+  opacity: 1;
+}
+
+.FullWidthSpinnerContainer {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+}
+
+.truncate {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.truncate:hover {
+  white-space: normal;
+  overflow: visible;
+}

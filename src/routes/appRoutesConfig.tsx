@@ -37,6 +37,10 @@ import CreatePlugin from '../ui/layouts/plugins/CreatePlugin';
 import UpdatePlugin from '../ui/layouts/plugins/UpdatePlugin';
 import PluginDetail from '../ui/layouts/plugins/PluginDetail';
 
+import RepositoriesList from '../ui/layouts/repositories/RepositoriesList';
+import CreateRepository from '../ui/layouts/repositories/RepositoryCreate';
+import RepositoryDetail from '../ui/layouts/repositories/RepositoryDetail';
+
 import { Logout } from '../ui/components/Logout';
 import DisplayPluginLogs from '../ui/layouts/plugins/DisplayLogs';
 
@@ -258,6 +262,38 @@ const routes = [
   },
 
   {
+    path: routePaths.repositories.list(':workspace'),
+    Component: RepositoriesList,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.repositories.create(':workspace'),
+    Component: CreateRepository,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.repositories.overview(':workspace', ':repositoryID'),
+    Component: RepositoryDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.repositories.runs(':workspace', ':repositoryID'),
+    Component: RepositoryDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
     path: routePaths.stack.runs(':string', ':id'),
     Component: StackDetail,
     visibility: {
@@ -283,6 +319,14 @@ const routes = [
   },
   {
     path: routePaths.run.pipeline.results(':string', ':id', ':pipelineId'),
+    Component: PipelineRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.pipeline.details(':string', ':id', ':pipelineId'),
     Component: PipelineRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
@@ -339,6 +383,14 @@ const routes = [
   },
   {
     path: routePaths.run.run.results(':string', ':runId'),
+    Component: RunsRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.run.details(':string', ':runId'),
     Component: RunsRunDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,

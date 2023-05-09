@@ -31,6 +31,10 @@ import rolesReducer, {
   initialState as rolesInitialState,
 } from './reducers/rolesReducer';
 
+import repositoryReducer, {
+  initialState as repositoryState,
+} from './reducers/repositoriesReducer';
+
 import stackComponentsReducer, {
   initialState as stackComponentsInitialState,
 } from './reducers/stackComponentsReducer';
@@ -63,6 +67,13 @@ import secretPagesReducer, {
   initialState as secretsPagesInitialState,
 } from './reducers/secretPagesReducer';
 
+import repositoriesPagesReducer, {
+  initialState as repositoriesPagesInitialState,
+} from './reducers/repositoriesPagesReducer';
+import serverInfoReducer, {
+  initialState as serverInfoInitialState,
+} from './reducers/serverInfoReducer';
+
 const initialState = {
   session: sessionInitialState,
   users: usersInitialState,
@@ -81,6 +92,9 @@ const initialState = {
   pipelinePages: pipelinePagesInitialState,
   stacksPages: stackPagesInitialState,
   secretsPages: secretsPagesInitialState,
+  repositories: repositoryState,
+  repositoriesPages: repositoriesPagesInitialState,
+  serverInfo: serverInfoInitialState,
 };
 
 export const persisted = combineReducers({
@@ -101,6 +115,9 @@ export const persisted = combineReducers({
   flavors: flavorsReducer,
   flavorPages: flavorPagesReducer,
   hubPrompt: hubPromptReducer,
+  repositories: repositoryReducer,
+  repositoriesPages: repositoriesPagesReducer,
+  serverInfo: serverInfoReducer,
 });
 
 export default (state: any, action: any) => {

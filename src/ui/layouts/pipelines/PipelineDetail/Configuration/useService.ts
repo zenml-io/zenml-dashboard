@@ -1,35 +1,35 @@
-import { useSelector } from 'react-redux';
-import { pipelineSelectors } from '../../../../../redux/selectors';
+import axios from 'axios';
 
-import YAML from 'json2yaml';
+export const fetchSchedule = async (schedule_id: any, authToken: any) => {
+  // const source = axios.CancelToken.source();
 
-interface ServiceInterface {
-  downloadYamlFile: () => void;
-  pipelineConfig: string;
-}
-
-export const useService = ({
-  pipelineId,
-}: {
-  pipelineId: TId;
-}): ServiceInterface => {
-  const pipeline: TPipeline = useSelector(
-    pipelineSelectors.pipelineForId(pipelineId),
-  );
-
-  const pipelineConfig = YAML.stringify(pipeline.spec);
-
-  const downloadYamlFile = () => {
-    const element = document.createElement('a');
-
-    const file = new Blob([pipelineConfig], {
-      type: 'text/yaml',
+  const data = axios
+    .get(`${process.env.REACT_APP_BASE_API_URL}/schedules/${schedule_id}`, {
+      headers: {
+        Authorization: `bearer ${authToken}`,
+      },
+      // cancelToken: source.token
+    })
+    .then((response) => {
+      return response?.data;
+    })
+    .catch((err) => {
+      return null;
+      // if (axios.isCancel(err)) {
+      //     console.log('Request canceled');
+      // } else {
+      //     console.log(err);
+      //     return null;
+      //   }
     });
-    element.href = URL.createObjectURL(file);
-    element.download = `${pipeline.id}-config.yaml`;
-    document.body.appendChild(element);
-    element.click();
-  };
 
-  return { downloadYamlFile, pipelineConfig };
+  // // Cancel the request after 5 seconds
+  // setTimeout(() => {
+  //     source.cancel('Request canceled due to timeout');
+  // }, 5000);
+  return data;
+};
+
+export const useService = async () => {
+  return 0;
 };
