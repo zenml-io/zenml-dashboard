@@ -323,6 +323,9 @@
               "secrets": {
                 "text": "Secrets"
               },
+              "connectors": {
+                "text": "Connectors"
+              },
               "setting": {
                 "text": "Settings"
               }

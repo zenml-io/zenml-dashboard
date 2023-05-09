@@ -63,6 +63,10 @@ import secretPagesReducer, {
   initialState as secretsPagesInitialState,
 } from './reducers/secretPagesReducer';
 
+import connectorsReducer, {
+  initialState as connectorsInitialState,
+} from './reducers/connectorsReducer';
+
 const initialState = {
   session: sessionInitialState,
   users: usersInitialState,
@@ -81,6 +85,7 @@ const initialState = {
   pipelinePages: pipelinePagesInitialState,
   stacksPages: stackPagesInitialState,
   secretsPages: secretsPagesInitialState,
+  connectorsPages: connectorsInitialState,
 };
 
 export const persisted = combineReducers({
@@ -101,6 +106,8 @@ export const persisted = combineReducers({
   flavors: flavorsReducer,
   flavorPages: flavorPagesReducer,
   hubPrompt: hubPromptReducer,
+
+  connectors: connectorsReducer,
 });
 
 export default (state: any, action: any) => {

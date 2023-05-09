@@ -15,3 +15,4 @@ export * from './stackPages';
 export * from './stackComponentPages';
 export * from './flavors';
 export * from './flavorPages';
+export * from './connectors';

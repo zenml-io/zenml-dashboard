@@ -68,4 +68,8 @@ export const endpoints = {
   roles: {
     all: `/roles`,
   },
+  Connectors: {
+    my: `/connectors`,
+    get: (connectorId: TId): string => `/conectors/${connectorId}`,
+  },
 };

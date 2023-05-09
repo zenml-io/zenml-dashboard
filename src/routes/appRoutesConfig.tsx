@@ -13,6 +13,7 @@ import DashBoard from '../ui/layouts/DashBoard';
 import Pipelines from '../ui/layouts/pipelines/Pipelines';
 import stacks from '../ui/layouts/stacks/Stacks';
 import secrets from '../ui/layouts/secrets/Secrets';
+import Connectors from '../ui/layouts/connectors/Connectors';
 
 import stackComponents from '../ui/layouts/stackComponents/Stacks';
 import registerComponents from '../ui/layouts/stackComponents/RegisterComponents';
@@ -578,6 +579,23 @@ const routes = [
     Component: UpdatePlugin,
     visibility: {
       authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+
+  {
+    path: routePaths.connectors.base,
+    Component: Connectors,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.connectors.list(':string'),
+    Component: Connectors,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
     exact: true,
   },
