@@ -82,17 +82,41 @@ const OrchestratorCard = ({ run }: OrchestratorCardProps) => {
               </Paragraph>
             </div>
           )}
-
-          <div>
-            <Paragraph className={styles.card__key}>Requirements</Paragraph>
-            <Paragraph
-              style={{ whiteSpace: 'pre-wrap' }}
-              className={styles.card__value}
-            >
-              {/* @ts-ignore */}
-              {run.build?.images?.orchestrator?.requirements || 'n/a'}
-            </Paragraph>
-          </div>
+          {/* @ts-ignore */}
+          {run.build?.images?.orchestrator?.requirements ? (
+            <div>
+              <details>
+                <summary className={styles.card__summary}>
+                  <Paragraph
+                    style={{ display: 'inline' }}
+                    className={styles.card__key}
+                  >
+                    Requirements
+                  </Paragraph>
+                </summary>
+                <div className={styles.card__detailsContainer}>
+                  {/* @ts-ignore */}
+                  <Paragraph
+                    style={{ whiteSpace: 'pre-wrap' }}
+                    className={styles.card__value}
+                  >
+                    {/* @ts-ignore */}
+                    {run.build?.images?.orchestrator?.requirements || 'n/a'}
+                  </Paragraph>
+                </div>
+              </details>
+            </div>
+          ) : (
+            <div>
+              <Paragraph className={styles.card__key}>Requirements</Paragraph>
+              <Paragraph
+                style={{ whiteSpace: 'pre-wrap' }}
+                className={styles.card__value}
+              >
+                n/a
+              </Paragraph>
+            </div>
+          )}
           <div>
             <Paragraph className={styles.card__key}>ZenML Version</Paragraph>
             <Paragraph className={styles.card__value}>
