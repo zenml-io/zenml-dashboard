@@ -6,6 +6,7 @@ import { Link } from 'react-router-dom';
 import { routePaths } from '../../../../routes/routePaths';
 import { useSelector } from 'react-redux';
 import { workspaceSelectors } from '../../../../redux/selectors';
+import MetadataTab from './metadata';
 
 const stylesActive = {
   opacity: 1,
@@ -69,7 +70,6 @@ const ArtifactTabHeader = ({
     setDynamicLeft(divRefs.current[divId]?.offsetLeft);
     setDynamicWidth(divRefs.current[divId]?.offsetWidth);
   };
-  console.log(node);
   return (
     <>
       <div className="siderbar_header11" ref={parent}>
@@ -110,30 +110,7 @@ const ArtifactTabHeader = ({
         <>
           {/* SHOW META */}
           {show === '__META' ? (
-            <table className="sidebar_table">
-              <tbody>
-                {Object.entries(node.metadata || {}).map(
-                  ([_, value]: any, i) => (
-                    <tr key={i}>
-                      <td className="td_key">{value.key}</td>
-                      <td className="td_value">
-                        {value.type === 'Uri' ? (
-                          <a
-                            rel="noopener noreferrer"
-                            target="_blank"
-                            href={value.value}
-                          >
-                            {value.value}
-                          </a>
-                        ) : (
-                          `${value.value.toString()}`
-                        )}
-                      </td>
-                    </tr>
-                  ),
-                )}
-              </tbody>
-            </table>
+            <MetadataTab metadata={node.metadata || {}} />
           ) : (
             ''
           )}

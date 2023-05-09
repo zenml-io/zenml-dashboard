@@ -256,52 +256,51 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                     ([key, value]: any, i) => {
                       return (
                         <tr key={i}>
-                          <details>
-                            <summary
-                              style={{ width: '100%' }}
-                              className="td_key"
-                            >
-                              {key}
-                            </summary>
-                            <table>
-                              <tr>
-                                <td className="td_key">Name</td>
-                                <td
-                                  style={{ lineHeight: 'unset' }}
-                                  className="td_value"
-                                >
-                                  <p className={stepStyles.truncate}>
-                                    {value.name || 'n/a'}
-                                  </p>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="td_key">Type</td>
-                                <td
-                                  style={{ lineHeight: 'unset' }}
-                                  className="td_value"
-                                >
-                                  <p className={stepStyles.truncate}>
-                                    {value.type || 'n/a'}
-                                  </p>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="td_key">URI</td>
-                                <td
-                                  style={{ lineHeight: 'unset' }}
-                                  className="td_value"
-                                >
-                                  <p
-                                    style={{ lineHeight: 'unset' }}
-                                    className={stepStyles.truncate}
-                                  >
-                                    {value.uri || 'n/a'}
-                                  </p>
-                                </td>
-                              </tr>
-                            </table>
-                          </details>
+                          <div style={{ width: '100%' }}>
+                            <details style={{ width: '100%' }}>
+                              <summary className="td_key">{key}</summary>
+                              <table>
+                                <tbody>
+                                  <tr>
+                                    <td className="td_key">Name</td>
+                                    <td
+                                      style={{ lineHeight: 'unset' }}
+                                      className="td_value"
+                                    >
+                                      <p className={stepStyles.truncate}>
+                                        {value.name || 'n/a'}
+                                      </p>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td className="td_key">Type</td>
+                                    <td
+                                      style={{ lineHeight: 'unset' }}
+                                      className="td_value"
+                                    >
+                                      <p className={stepStyles.truncate}>
+                                        {value.type || 'n/a'}
+                                      </p>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td className="td_key">URI</td>
+                                    <td
+                                      style={{ lineHeight: 'unset' }}
+                                      className="td_value"
+                                    >
+                                      <p
+                                        style={{ lineHeight: 'unset' }}
+                                        className={stepStyles.truncate}
+                                      >
+                                        {value.uri || 'n/a'}
+                                      </p>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </details>
+                          </div>
                         </tr>
                       );
                     },
@@ -321,55 +320,59 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
                     ([key, value]: any, i) => {
                       return (
                         <tr key={i}>
-                          <details>
-                            <summary
-                              style={{ width: '100%' }}
-                              className="td_key"
-                            >
-                              {key}
-                            </summary>
-                            <table>
-                              <tr>
-                                <td className="td_key">Name</td>
-                                <td
-                                  style={{ lineHeight: 'unset' }}
-                                  className="td_value"
-                                >
-                                  <p className={stepStyles.truncate}>
-                                    {value.name || 'n/a'}
-                                  </p>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="td_key">Type</td>
-                                <td
-                                  style={{ lineHeight: 'unset' }}
-                                  className="td_value"
-                                >
-                                  <p
-                                    style={{ lineHeight: 'unset' }}
-                                    className={stepStyles.truncate}
-                                  >
-                                    {value.type || 'n/a'}
-                                  </p>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td className="td_key">URI</td>
-                                <td
-                                  style={{ lineHeight: 'unset' }}
-                                  className="td_value"
-                                >
-                                  <p
-                                    style={{ lineHeight: 'unset' }}
-                                    className={stepStyles.truncate}
-                                  >
-                                    {value.uri || 'n/a'}
-                                  </p>
-                                </td>
-                              </tr>
-                            </table>
-                          </details>
+                          <div style={{ width: '100%' }}>
+                            <details>
+                              <summary
+                                style={{ width: '100%' }}
+                                className="td_key"
+                              >
+                                {key}
+                              </summary>
+                              <table>
+                                <tbody>
+                                  <tr>
+                                    <td className="td_key">Name</td>
+                                    <td
+                                      style={{ lineHeight: 'unset' }}
+                                      className="td_value"
+                                    >
+                                      <p className={stepStyles.truncate}>
+                                        {value.name || 'n/a'}
+                                      </p>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td className="td_key">Type</td>
+                                    <td
+                                      style={{ lineHeight: 'unset' }}
+                                      className="td_value"
+                                    >
+                                      <p
+                                        style={{ lineHeight: 'unset' }}
+                                        className={stepStyles.truncate}
+                                      >
+                                        {value.type || 'n/a'}
+                                      </p>
+                                    </td>
+                                  </tr>
+                                  <tr>
+                                    <td className="td_key">URI</td>
+                                    <td
+                                      style={{ lineHeight: 'unset' }}
+                                      className="td_value"
+                                    >
+                                      <p
+                                        style={{ lineHeight: 'unset' }}
+                                        className={stepStyles.truncate}
+                                      >
+                                        {value.uri || 'n/a'}
+                                      </p>
+                                    </td>
+                                  </tr>
+                                </tbody>
+                              </table>
+                            </details>
+                          </div>
                         </tr>
                       );
                     },
