@@ -125,7 +125,7 @@ function RepositoryDetailOverview() {
       headerWithButtons
       renderHeaderRight={() => <></>}
     >
-      <RepositoryDetailHeader repository={repository!} />
+      <RepositoryDetailHeader repository={repository} />
     </BasePage>
   );
 }
