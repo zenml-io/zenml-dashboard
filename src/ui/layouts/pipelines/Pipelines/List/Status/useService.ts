@@ -11,7 +11,7 @@ export const useService = ({
 }): ServiceInterface => {
   let runs: { status: any; run: any }[] = [];
 
-  pipeline.runs.map((item: any, index: string | number) =>
+  pipeline?.runs?.map((item: any, index: string | number) =>
     runs.push({
       status: pipeline.status[index],
       run: pipeline.runs[index],
