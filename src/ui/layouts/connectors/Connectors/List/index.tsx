@@ -87,13 +87,13 @@ Props) => {
   });
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
-  const openDetailPage = (secret: any) => {
+  const openDetailPage = (connector: any) => {
     setSelectedRunIds([]);
     if (id) {
       history.push(routePaths.connectors.list(selectedWorkspace));
     } else {
       history.push(
-        routePaths.connectors.configuration(secret.id, selectedWorkspace),
+        routePaths.connectors.configuration(connector.id, selectedWorkspace),
       );
     }
   };
@@ -170,11 +170,11 @@ Props) => {
   return (
     <>
       <CollapseTable
-        renderAfterRow={(secret: any) => (
+        renderAfterRow={(connector: any) => (
           <>
             {/* <RunsForSecretTable
               nestedRow={true}
-              secret={secret}
+              connector={connector}
               openConnectorIds={openConnectorIds}
               fetching={fetching}
             /> */}

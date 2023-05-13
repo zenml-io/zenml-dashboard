@@ -33,6 +33,8 @@ import RunsRunDetail from '../ui/layouts/runs/RunDetail';
 import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
+import connectorDetail from '../ui/layouts/connectors/ConnectorDetail/index';
+
 import ListPlugins from '../ui/layouts/plugins/ListPlugins';
 import CreatePlugin from '../ui/layouts/plugins/CreatePlugin';
 import UpdatePlugin from '../ui/layouts/plugins/UpdatePlugin';
@@ -594,6 +596,38 @@ const routes = [
   {
     path: routePaths.connectors.list(':string'),
     Component: Connectors,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.connectors.configuration(':id', ':string'),
+    Component: connectorDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  // {
+  //   path: routePaths.connectors.updateSecret(':id', ':string'),
+  //   Component: UpdateSecret,
+  //   visibility: {
+  //     authentication: RouteVisibilityAuthentication.authenticatedOnly,
+  //   },
+  //   exact: true,
+  // },
+  {
+    path: routePaths.connectors.metaData(':id', ':string'),
+    Component: connectorDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.connectors.registerConnectors(':string'),
+    Component: connectorDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

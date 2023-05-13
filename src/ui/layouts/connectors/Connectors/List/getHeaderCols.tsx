@@ -183,14 +183,25 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.scope}>
-            <Paragraph size="small" color="black">
-              {connector.scope}
-            </Paragraph>
-          </div>
-          <ReactTooltip id={connector.scope} place="top" effect="solid">
-            <Paragraph color="white">{connector.scope}</Paragraph>
-          </ReactTooltip>
+          {connector?.connector_type?.map((e: any) => (
+            <Box marginLeft="sm">
+              <div data-tip data-for={e?.name}>
+                <FlexBox alignItems="center">
+                  <img
+                    alt={e?.logoUrl}
+                    src={e?.logoUrl}
+                    style={{
+                      height: '28px',
+                      width: '28px',
+                    }}
+                  />
+                </FlexBox>
+              </div>
+              <ReactTooltip id={e?.name} place="top" effect="solid">
+                <Paragraph color="white">{e?.name}</Paragraph>
+              </ReactTooltip>
+            </Box>
+          ))}
         </FlexBox>
       ),
     },
@@ -220,37 +231,25 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => {
         return (
           <FlexBox alignItems="center">
-            <div
-              data-tip
-              data-for={
-                connector?.user?.full_name
-                  ? connector?.user?.full_name
-                  : connector?.user?.name
-              }
-            >
-              <FlexBox alignItems="center">
-                <Paragraph size="small">
-                  {connector?.user?.full_name
-                    ? connector?.user?.full_name
-                    : connector?.user?.name}
-                </Paragraph>
-              </FlexBox>
-            </div>
-            <ReactTooltip
-              id={
-                connector?.user?.full_name
-                  ? connector?.user?.full_name
-                  : connector?.user?.name
-              }
-              place="top"
-              effect="solid"
-            >
-              <Paragraph color="white">
-                {connector?.user?.full_name
-                  ? connector?.user?.full_name
-                  : connector?.user?.name}
-              </Paragraph>
-            </ReactTooltip>
+            {connector?.resource_types?.map((e: any) => (
+              <Box marginLeft="sm">
+                <div data-tip data-for={e?.name}>
+                  <FlexBox alignItems="center">
+                    <img
+                      alt={e?.logoUrl}
+                      src={e?.logoUrl}
+                      style={{
+                        height: '28px',
+                        width: '28px',
+                      }}
+                    />
+                  </FlexBox>
+                </div>
+                <ReactTooltip id={e?.name} place="top" effect="solid">
+                  <Paragraph color="white">{e?.name}</Paragraph>
+                </ReactTooltip>
+              </Box>
+            ))}
           </FlexBox>
         );
       },
@@ -397,24 +396,28 @@ export const GetHeaderCols = ({
       ),
       width: '10%',
       renderRow: (connector: any) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(connector.created)}>
+        <>
+          {connector.created && (
             <FlexBox alignItems="center">
-              <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(connector.created)}
-              </Paragraph>
+              <div data-tip data-for={formatDateToSort(connector.created)}>
+                <FlexBox alignItems="center">
+                  <Paragraph color="grey" size="tiny">
+                    {formatDateToDisplayOnTable(connector.created)}
+                  </Paragraph>
+                </FlexBox>
+              </div>
+              <ReactTooltip
+                id={formatDateToSort(connector.created)}
+                place="top"
+                effect="solid"
+              >
+                <Paragraph color="white">
+                  {formatDateToDisplayOnTable(connector.created)}
+                </Paragraph>
+              </ReactTooltip>
             </FlexBox>
-          </div>
-          <ReactTooltip
-            id={formatDateToSort(connector.created)}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {formatDateToDisplayOnTable(connector.created)}
-            </Paragraph>
-          </ReactTooltip>
-        </FlexBox>
+          )}
+        </>
       ),
     },
     {
@@ -449,15 +452,13 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <FlexBox alignItems="center">
-            <Box paddingRight="sm">
-              {connector.isShared ? (
-                <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
-              ) : (
-                <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
-              )}
-            </Box>
-          </FlexBox>
+          <Box paddingRight="sm">
+            {connector.isShared ? (
+              <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
+            ) : (
+              <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
+            )}
+          </Box>
         </FlexBox>
       ),
     },

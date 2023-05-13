@@ -108,6 +108,20 @@ export const useService = ({
       authentication: 'secret-key',
       scope: 'workspace',
       values: {},
+      connector_type: [
+        {
+          name: 'airflow',
+          logoUrl:
+            'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/airflow.png',
+        },
+      ],
+      resource_types: [
+        {
+          name: 'airflow',
+          logoUrl:
+            'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/airflow.png',
+        },
+      ],
     },
     {
       id: '9dd13b81',
@@ -148,6 +162,30 @@ export const useService = ({
       authentication: 'service-account',
       scope: 'workspace',
       values: {},
+      connector_type: [
+        {
+          name: 'kubernetes',
+          logoUrl:
+            'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/kubernetes.png',
+        },
+      ],
+      resource_types: [
+        {
+          name: 'github',
+          logoUrl:
+            'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/github.png',
+        },
+        {
+          name: 'kubernetes',
+          logoUrl:
+            'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/kubernetes.png',
+        },
+        {
+          name: 'airflow',
+          logoUrl:
+            'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/airflow.png',
+        },
+      ],
     },
   ];
 

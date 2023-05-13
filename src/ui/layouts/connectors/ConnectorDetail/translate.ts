@@ -1,3 +1,3 @@
 import { getTranslateByScope } from '../../../../services';
 
-export const translate = getTranslateByScope('ui.layouts.SecretDetail');
+export const translate = getTranslateByScope('ui.layouts.ConnectorDetail');

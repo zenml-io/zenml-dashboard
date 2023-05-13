@@ -44,7 +44,7 @@ export const CreateStack: React.FC = () => {
         {
           text: '',
           Component: () => <Register state={routeState}></Register>,
-          path: routePaths.secrets.registerSecrets(
+          path: routePaths.connectors.registerConnectors(
             selectedWorkspace
               ? selectedWorkspace
               : (locationPath.split('/')[2] as string),
@@ -55,7 +55,7 @@ export const CreateStack: React.FC = () => {
       //   routePaths.stackComponents.base('', workspace) + `?workspace=${workspace}`
       // }
       tabBasePath={
-        routePaths.secrets.registerSecrets(
+        routePaths.connectors.registerConnectors(
           selectedWorkspace
             ? selectedWorkspace
             : (locationPath.split('/')[2] as string),
@@ -72,7 +72,7 @@ export const CreateStack: React.FC = () => {
           // },
         ]
       }
-      title="Register Secret"
+      title="Register Connector"
       headerWithButtons
       renderHeaderRight={() => <></>}
     />

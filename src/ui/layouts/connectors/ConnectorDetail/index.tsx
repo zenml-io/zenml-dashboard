@@ -61,9 +61,9 @@ const getBreadcrumbs = (
 ): TBreadcrumb[] => {
   return [
     {
-      name: translate('header.breadcrumbs.secrets.text'),
+      name: translate('header.breadcrumbs.connectors.text'),
       clickable: true,
-      to: routePaths.secrets.base + `?workspace=${workspace}`,
+      to: routePaths.connectors.base + `?workspace=${workspace}`,
       // to: routePaths.stacks.list(selectedWorkspace),
     },
     {

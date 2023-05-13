@@ -150,7 +150,7 @@ export const StackDetail: React.FC = () => {
       headerWithButtons
       singleTab={true}
       tabPages={tabPages}
-      tabBasePath={routePaths.secret.base(secret.id)}
+      tabBasePath={routePaths.connectors.base}
       breadcrumbs={breadcrumbs}
       title="Secrets"
     >

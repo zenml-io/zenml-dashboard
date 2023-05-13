@@ -53,10 +53,10 @@ export const GetHeaderCols = ({
           color="black"
           style={{ fontSize: '14px', marginLeft: '33px' }}
         >
-          CONNECTOR ID
+          ID
         </Paragraph>
       ),
-      width: '20%',
+      width: '10%',
       renderRow: (connector: any) => (
         <>
           {connector.id && (
@@ -84,10 +84,10 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          NAME
+          Name
         </Paragraph>
       ),
-      width: '30%',
+      width: '20%',
       renderRow: (connector: any) => (
         <>
           {connector.name && (
@@ -109,94 +109,149 @@ export const GetHeaderCols = ({
       render: () => (
         <Box>
           <Paragraph size="small" color="black">
-            SCOPE
+            Connector type
           </Paragraph>
         </Box>
       ),
-      width: '15%',
+      width: '10%',
       renderRow: (connector: any) => (
-        <>
-          {connector.scope && (
-            <FlexBox alignItems="center">
-              <div data-tip data-for={connector.scope}>
-                <Paragraph size="small" color="black">
-                  {connector.scope}
-                </Paragraph>
+        <FlexBox alignItems="center">
+          {connector?.connector_type?.map((e: any) => (
+            <Box marginLeft="sm">
+              <div data-tip data-for={e?.name}>
+                <FlexBox alignItems="center">
+                  <img
+                    alt={e?.logoUrl}
+                    src={e?.logoUrl}
+                    style={{
+                      height: '28px',
+                      width: '28px',
+                    }}
+                  />
+                </FlexBox>
               </div>
-              <ReactTooltip id={connector.scope} place="top" effect="solid">
-                <Paragraph color="white">{connector.scope}</Paragraph>
+              <ReactTooltip id={e?.name} place="top" effect="solid">
+                <Paragraph color="white">{e?.name}</Paragraph>
               </ReactTooltip>
-            </FlexBox>
-          )}
-        </>
+            </Box>
+          ))}
+        </FlexBox>
+      ),
+    },
+    {
+      render: () => (
+        <Box>
+          <Paragraph size="small" color="black">
+            Resource types
+          </Paragraph>
+        </Box>
+      ),
+      width: '10%',
+      renderRow: (connector: any) => (
+        <FlexBox alignItems="center">
+          {connector?.resource_types?.map((e: any) => (
+            <Box marginLeft="sm">
+              <div data-tip data-for={e?.name}>
+                <FlexBox alignItems="center">
+                  <img
+                    alt={e?.logoUrl}
+                    src={e?.logoUrl}
+                    style={{
+                      height: '28px',
+                      width: '28px',
+                    }}
+                  />
+                </FlexBox>
+              </div>
+              <ReactTooltip id={e?.name} place="top" effect="solid">
+                <Paragraph color="white">{e?.name}</Paragraph>
+              </ReactTooltip>
+            </Box>
+          ))}
+        </FlexBox>
       ),
     },
 
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          AUTHOR
+          Resource ID
         </Paragraph>
       ),
-      width: '15%',
+      width: '10%',
       renderRow: (connector: any) => {
         return (
-          <>
-            {connector.user && (
-              <FlexBox alignItems="center">
-                <div
-                  data-tip
-                  data-for={
-                    connector?.user?.full_name
-                      ? connector?.user?.full_name
-                      : connector?.user?.name
-                  }
-                >
-                  <FlexBox alignItems="center">
-                    <Paragraph size="small">
-                      {connector?.user?.full_name
-                        ? connector?.user?.full_name
-                        : connector?.user?.name}
-                    </Paragraph>
-                  </FlexBox>
-                </div>
-                <ReactTooltip
-                  id={
-                    connector?.user?.full_name
-                      ? connector?.user?.full_name
-                      : connector?.user?.name
-                  }
-                  place="top"
-                  effect="solid"
-                >
-                  <Paragraph color="white">
-                    {connector?.user?.full_name
-                      ? connector.user?.full_name
-                      : connector?.user?.name}
-                  </Paragraph>
-                </ReactTooltip>
-              </FlexBox>
-            )}
-          </>
+          <FlexBox alignItems="center">
+            <div data-tip data-for={connector.resourceId}>
+              <Paragraph size="small" color="black">
+                {connector.resourceId}
+              </Paragraph>
+            </div>
+            <ReactTooltip id={connector.resourceId} place="top" effect="solid">
+              <Paragraph color="white">{connector.resourceId}</Paragraph>
+            </ReactTooltip>
+          </FlexBox>
         );
       },
     },
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          CREATED AT
+          Authentication
         </Paragraph>
       ),
-      width: '20%',
+      width: '10%',
+      renderRow: (connector: any) => (
+        <FlexBox alignItems="center">
+          <div data-tip data-for={connector.authentication}>
+            <Paragraph size="small" color="black">
+              {connector.authentication}
+            </Paragraph>
+          </div>
+          <ReactTooltip
+            id={connector.authentication}
+            place="top"
+            effect="solid"
+          >
+            <Paragraph color="white">{connector.authentication}</Paragraph>
+          </ReactTooltip>
+        </FlexBox>
+      ),
+    },
+
+    {
+      render: () => (
+        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
+          Author
+        </Paragraph>
+      ),
+      width: '10%',
+      renderRow: (connector: any) => (
+        <FlexBox alignItems="center">
+          <div data-tip data-for={connector.user.name}>
+            <Paragraph size="small" color="black">
+              {connector.user.name}
+            </Paragraph>
+          </div>
+          <ReactTooltip id={connector.user.name} place="top" effect="solid">
+            <Paragraph color="white">{connector.user.name}</Paragraph>
+          </ReactTooltip>
+        </FlexBox>
+      ),
+    },
+    {
+      render: () => (
+        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
+          Created
+        </Paragraph>
+      ),
+      width: '10%',
       renderRow: (connector: any) => (
         <>
           {connector.created && (
             <FlexBox alignItems="center">
               <div data-tip data-for={formatDateToSort(connector.created)}>
                 <FlexBox alignItems="center">
-                  {/* <Box paddingRight="sm">
-                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box> */}
                   <Paragraph color="grey" size="tiny">
                     {formatDateToDisplayOnTable(connector.created)}
                   </Paragraph>
@@ -214,6 +269,25 @@ export const GetHeaderCols = ({
             </FlexBox>
           )}
         </>
+      ),
+    },
+    {
+      render: () => (
+        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
+          Shared
+        </Paragraph>
+      ),
+      width: '10%',
+      renderRow: (connector: any) => (
+        <FlexBox alignItems="center">
+          <Box paddingRight="sm">
+            {connector.isShared ? (
+              <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
+            ) : (
+              <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
+            )}
+          </Box>
+        </FlexBox>
       ),
     },
   ];
