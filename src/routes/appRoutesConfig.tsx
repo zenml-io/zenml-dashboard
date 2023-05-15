@@ -34,6 +34,7 @@ import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
 import connectorDetail from '../ui/layouts/connectors/ConnectorDetail/index';
+import RegisterConnectors from '../ui/layouts/connectors/RegisterConnector';
 
 import ListPlugins from '../ui/layouts/plugins/ListPlugins';
 import CreatePlugin from '../ui/layouts/plugins/CreatePlugin';
@@ -625,9 +626,17 @@ const routes = [
     },
     exact: true,
   },
+  // {
+  //   path: routePaths.connectors.registerConnectors,
+  //   Component: RegisterConnectors,
+  //   visibility: {
+  //     authentication: RouteVisibilityAuthentication.authenticatedOnly,
+  //   },
+  //   exact: true,
+  // },
   {
     path: routePaths.connectors.registerConnectors(':string'),
-    Component: connectorDetail,
+    Component: RegisterConnectors,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

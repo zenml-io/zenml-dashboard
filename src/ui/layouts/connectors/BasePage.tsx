@@ -80,8 +80,8 @@ export const BasePage: React.FC<{
           )}
         </Box>
       </SidebarContainer>
-      {/* 
-      {!fromRegisterComponent && !fromConfigureComponent && (
+
+      {/* {!fromRegisterComponent && !fromConfigureComponent && (
         <FlexBox
           style={{
             position: 'fixed',
@@ -94,11 +94,11 @@ export const BasePage: React.FC<{
             <PrimaryButton
               onClick={() =>
                 history.push(
-                  routePaths.secrets.registerSecrets(selectedWorkspace),
+                  routePaths.connectors.registerConnectors(selectedWorkspace),
                 )
               }
             >
-              Register Secret
+              Register Connector
             </PrimaryButton>
           </Box>
         </FlexBox>

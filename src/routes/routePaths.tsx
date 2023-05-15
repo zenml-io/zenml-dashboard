@@ -158,6 +158,7 @@ export const routePaths = {
       `/workspaces/${workspace}/connectors/list`,
     registerConnectors: (workspace: string): string =>
       `/workspaces/${workspace}/register-connector`,
+    // registerConnectors: `/register-connector`,
     configuration: (id: TId, workspace: string): string =>
       `/workspaces/${workspace}/connectors/${id}/configuration`,
     updateSecret: (id: TId, workspace: string): string =>

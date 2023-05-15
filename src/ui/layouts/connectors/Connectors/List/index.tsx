@@ -267,15 +267,28 @@ Props) => {
         }}
       >
         <Box marginBottom="lg">
-          {/* <PrimaryButton
+          <PrimaryButton
             onClick={() =>
               history.push(
-                routePaths.secrets.registerSecrets(selectedWorkspace),
+                routePaths.connectors.registerConnectors(selectedWorkspace),
+              )
+            }
+            // onClick={() =>
+            //   history.push(routePaths.connectors.registerConnectors)
+            // }
+          >
+            Register Connector
+          </PrimaryButton>
+
+          <button
+            onClick={() =>
+              history.push(
+                routePaths.connectors.registerConnectors(selectedWorkspace),
               )
             }
           >
-            Register Secret
-          </PrimaryButton> */}
+            df
+          </button>
         </Box>
       </FlexBox>
     </>
