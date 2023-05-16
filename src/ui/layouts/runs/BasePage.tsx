@@ -2,10 +2,10 @@ import React from 'react';
 import { Box, IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
-import { Tabs } from '../common/Tabs';
+import { TabsRuns } from '../common/Tabs';
 import Header from './Header';
 import Stacks from './Stacks';
-
+// Muhammad REACT FLOW BOX HERE
 export const BasePage: React.FC<{
   tabPages: TabPage[];
   breadcrumbs: TBreadcrumb[];
@@ -40,7 +40,7 @@ export const BasePage: React.FC<{
         />
         <Box>
           {children}
-          <Tabs pages={tabPages} basePath={tabBasePath} />
+          <TabsRuns pages={tabPages} basePath={tabBasePath} />
         </Box>
       </SidebarContainer>
     </AuthenticatedLayout>

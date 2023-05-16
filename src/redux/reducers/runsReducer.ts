@@ -4,6 +4,7 @@ import {
   runActionTypes,
   stackComponentActionTypes,
   stackActionTypes,
+  repositoryActionTypes,
 } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
@@ -13,9 +14,13 @@ export interface State {
   byPipelineId: Record<TId, TId[]>;
   byStackId: Record<TId, TId[]>;
   byStackComponentId: Record<TId, TId[]>;
+  byRepositoryId: Record<TId, TId[]>;
   myRunIds: TId[];
   graphForRunId: any;
   paginated: any;
+  artifactData: any;
+  artifactVisualization: any;
+  stepData: any;
 }
 
 type PipelinesPayload = {
@@ -40,6 +45,7 @@ export type Action = {
     stackId: TId;
     stackComponentId: TId;
     runId: TId;
+    repositoryID: TId;
   };
 };
 
@@ -49,9 +55,13 @@ export const initialState: State = {
   byPipelineId: {},
   byStackId: {},
   byStackComponentId: {},
+  byRepositoryId: {},
   myRunIds: [],
   graphForRunId: {},
   paginated: {},
+  artifactData: {},
+  artifactVisualization: {},
+  stepData: {},
 };
 
 const newState = (state: State, runs: TRun[], pagination?: any): State => ({
@@ -69,9 +79,39 @@ const newStateForGraph = (state: State, graph: any): State => ({
   ...state,
   graphForRunId: graph,
 });
+const newArtifactState = (state: State, artifactData?: any): State => ({
+  ...state,
+  artifactData: artifactData,
+});
+const newArtifactVisualizationState = (
+  state: State,
+  artifactVisualization?: any,
+): State => ({
+  ...state,
+  artifactVisualization: artifactVisualization,
+});
+const newStepState = (state: State, stepData?: any): State => ({
+  ...state,
+  stepData: stepData,
+});
 
 const runsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
+    case runActionTypes.getArtifactVisualization.success: {
+      const artifactVisualization = action.payload;
+      return { ...newArtifactVisualizationState(state, artifactVisualization) };
+    }
+
+    case runActionTypes.getArtifact.success: {
+      const artifact = action.payload;
+      return { ...newArtifactState(state, artifact) };
+    }
+
+    case runActionTypes.getStep.success: {
+      const step = action.payload;
+      return { ...newStepState(state, step) };
+    }
+
     case runActionTypes.getAllRuns.success: {
       const payload = action.payload.items;
 
@@ -182,6 +222,31 @@ const runsReducer = (state: State = initialState, action: Action): State => {
         ...newState(state, runs, action.payload),
         myRunIds,
         byStackComponentId,
+      };
+    }
+
+    case repositoryActionTypes.getRunsByRepoID.success: {
+      const payload = action.payload.items;
+
+      const id = action?.requestParams?.repositoryID;
+      const runsFromRepository = payload.map((run: TRun) => ({
+        ...run,
+        repositoryId: id,
+      }));
+
+      const runs: TRun[] = camelCaseArray(runsFromRepository);
+      const myRunIds: TId[] = runs.map((run: TRun) => run.id);
+
+      const byRepositoryId: Record<TId, TId[]> = {
+        ...state.byRepositoryId,
+      };
+
+      byRepositoryId[id as TId] = runs.map((run: TRun) => run.id);
+      return {
+        ...state,
+        ...newState(state, runs, action.payload),
+        myRunIds,
+        byRepositoryId,
       };
     }
 

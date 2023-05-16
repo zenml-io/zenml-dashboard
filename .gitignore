@@ -111,3 +111,5 @@ build/
 .tern-port
 
 !.env
+
+build

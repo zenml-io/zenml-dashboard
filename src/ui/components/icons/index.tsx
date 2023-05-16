@@ -96,6 +96,7 @@ import { ReactComponent as PaginationFirst } from './assets/PaginationFirst.svg'
 import { ReactComponent as PaginationLast } from './assets/PaginationLast.svg';
 import { ReactComponent as PaginationNext } from './assets/PaginationNext.svg';
 import { ReactComponent as PaginationPrev } from './assets/PaginationPrev.svg';
+import { ReactComponent as Repository } from './assets/Repositories.svg';
 
 import styles from './index.module.scss';
 import { joinClassNames } from '../../../utils/styles';
@@ -186,6 +187,7 @@ const icons = {
     Component: ChevronLeft,
     transform: 'rotate(180deg)',
   }),
+  repository: createIcon({ Component: Repository, isSidebarFilled: true }),
   rightArrow: createIcon({ Component: RightArrow }),
   copy: createIcon({ Component: Copy }),
   eye: createIcon({ Component: Eye, useStroke: true }),

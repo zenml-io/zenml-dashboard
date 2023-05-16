@@ -13,6 +13,8 @@ import {
   flavorActionTypes,
   secretActionTypes,
   connectorActionTypes,
+  repositoryActionTypes,
+  serverInfoActionTypes,
 } from '../actionTypes';
 
 export const actionTypesHandledByRequestSaga: string[] = [
@@ -53,4 +55,10 @@ export const actionTypesHandledByRequestSaga: string[] = [
 
   connectorActionTypes.getMyConnectors.request,
   connectorActionTypes.getConnectorForId.request,
+  runActionTypes.getArtifact.request,
+  runActionTypes.getStep.request,
+  repositoryActionTypes.getRepositories.request,
+  repositoryActionTypes.getRepositoryByID.request,
+  repositoryActionTypes.getRunsByRepoID.request,
+  serverInfoActionTypes.getServerInfo.request,
 ];
