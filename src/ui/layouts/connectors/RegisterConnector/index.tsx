@@ -5,18 +5,18 @@ import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 
 import { useService } from './useService';
-import { useLocationPath, useSelector } from '../../../hooks';
+import { useLocationPath } from '../../../hooks';
 
-import { camelCaseToParagraph } from '../../../../utils';
+// import { camelCaseToParagraph } from '../../../../utils';
 // import { workspaceSelectors } from '../../../../redux/selectors';
-import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-import { workspaceSelectors } from '../../../../redux/selectors';
+// import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
+// import { workspaceSelectors } from '../../../../redux/selectors';
 
 export const RegisterConnector: React.FC = () => {
   const locationPath = useLocationPath();
   const { setFetching } = useService();
   console.log(setFetching);
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   // const url_string = window.location.href;
   // const url = new URL(url_string);
@@ -24,9 +24,9 @@ export const RegisterConnector: React.FC = () => {
 
   //   camelCaseToParagraph(locationPath.split('/')[4])
 
-  const workspace = selectedWorkspace
-    ? selectedWorkspace
-    : DEFAULT_WORKSPACE_NAME;
+  // const workspace = selectedWorkspace
+  //   ? selectedWorkspace
+  //   : DEFAULT_WORKSPACE_NAME;
   // debugger;
   return (
     <BasePage

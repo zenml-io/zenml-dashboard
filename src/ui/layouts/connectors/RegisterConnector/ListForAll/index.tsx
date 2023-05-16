@@ -26,8 +26,8 @@ import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
 // import { FlavourBox } from '../../../common/FlavourBox';
 import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
 import { callActionForFlavorsForPagination } from '../useService';
-import { SidePopup } from '../../../common/SidePopup';
-import { routePaths } from '../../../../../routes/routePaths';
+// import { SidePopup } from '../../../common/SidePopup';
+// import { routePaths } from '../../../../../routes/routePaths';
 
 interface Props {
   type: string;
@@ -39,13 +39,13 @@ interface Props {
 
 export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   const { dispatchFlavorsData } = callActionForFlavorsForPagination();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);
   const [text, setText] = useState('');
   const [selectedFlavor, setSelectedFlavor] = useState() as any;
   // const [selectedComponentId, setSelectedComponentId] = useState('');
   const [showModal, setShowModal] = useState(false);
-  const history = useHistory();
+  // const history = useHistory();
   const { fetching, allFlavors } = useService();
 
   function handleValueFieldChangeOnSearch(value: string) {
@@ -55,28 +55,28 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
     setSelectedFlavor(flavor);
     setShowModal(true);
   };
-  const handleSelectedFlavor = (selectedFlavor: any) => {
-    setShowModal(false);
-    history.push(
-      routePaths.stackComponents.configureComponent(
-        type,
-        selectedWorkspace,
-        selectedFlavor?.id,
-      ),
-    );
-  };
+  // const handleSelectedFlavor = (selectedFlavor: any) => {
+  //   setShowModal(false);
+  //   history.push(
+  //     routePaths.stackComponents.configureComponent(
+  //       type,
+  //       selectedWorkspace,
+  //       selectedFlavor?.id,
+  //     ),
+  //   );
+  // };
 
   const textStyle = {
     color: 'rgba(66, 66, 64, 0.5)',
     fontSize: '18px',
     lineHeight: '22px',
   };
-  const routeExsiting = () => {
-    setShowModal(false);
-    history.push(routePaths.stackComponents.base(type, selectedWorkspace), {
-      state: selectedFlavor.name,
-    });
-  };
+  // const routeExsiting = () => {
+  //   setShowModal(false);
+  //   history.push(routePaths.stackComponents.base(type, selectedWorkspace), {
+  //     state: selectedFlavor.name,
+  //   });
+  // };
 
   return (
     <>

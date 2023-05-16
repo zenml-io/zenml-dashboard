@@ -7,7 +7,7 @@ import {
   Box,
   FormTextField,
   FormDropdownField,
-  PrimaryButton,
+  // PrimaryButton,
   FullWidthSpinner,
   // H4,
   // GhostButton,
@@ -18,7 +18,7 @@ import {
   // EditField,
   // Paragraph,
 } from '../../../../components';
-import SelectorDisabled from '../../Selector/SelectorDisabled';
+// import SelectorDisabled from '../../Selector/SelectorDisabled';
 // import { iconColors, iconSizes } from '../../../../../constants';
 
 // import { useDispatch } from '../../../../hooks';
@@ -27,11 +27,11 @@ import SelectorDisabled from '../../Selector/SelectorDisabled';
 
 // import { translate } from '../translate';
 
-import styles from './index.module.scss';
+// import styles from './index.module.scss';
 import { useService } from './useService';
-import { routePaths } from '../../../../../routes/routePaths';
-import { useHistory, useSelector } from '../../../../hooks';
-import { workspaceSelectors } from '../../../../../redux/selectors';
+// import { routePaths } from '../../../../../routes/routePaths';
+// import { useHistory, useSelector } from '../../../../hooks';
+// import { workspaceSelectors } from '../../../../../redux/selectors';
 // import { StackBox } from '../../../common/StackBox';
 // import { SidePopup } from '../../RegisterSecret/ListForAll/SidePopup';
 // import { NonEditableConfig } from '../../../NonEditableConfig';
@@ -64,9 +64,9 @@ export const Configuration: React.FC<{
 }> = ({ connectorId, fetching }) => {
   // const dispatch = useDispatch();
   const { connector } = useService({ connectorId });
-  const history = useHistory();
+  // const history = useHistory();
 
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
@@ -108,9 +108,9 @@ export const Configuration: React.FC<{
         />
       </Box>
 
-      <Box marginTop="md">
+      {/* <Box marginTop="md">
         <SelectorDisabled inputFields={connector.values} width="30vw" />
-      </Box>
+      </Box> */}
 
       <FlexBox
         style={{

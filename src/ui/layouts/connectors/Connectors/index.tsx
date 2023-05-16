@@ -50,8 +50,7 @@ export const Stacks: React.FC = () => {
     <BasePage
       tabPages={[
         {
-          // text: translate('tabs.secrets.text'),
-          text: 'Connectors',
+          text: translate('tabs.connectors.text'),
           Component: FilterWrapper,
           // path: routePaths.stacks.base,
           path: routePaths.connectors.list(
