@@ -160,14 +160,14 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
           </FlexBox.Column>
         )}
       </FlexBox.Column>
-      {showModal && (
+      {/* {showModal && (
         <SidePopup
           onSeeExisting={() => routeExsiting()}
           onSelectFlavor={() => handleSelectedFlavor(selectedFlavor)}
           flavor={selectedFlavor}
           onClose={() => setShowModal(false)}
         ></SidePopup>
-      )}
+      )} */}
     </>
   );
 };

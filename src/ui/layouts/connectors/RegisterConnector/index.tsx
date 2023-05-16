@@ -33,7 +33,7 @@ export const RegisterConnector: React.FC = () => {
       fromRegisterComponent={true}
       tabPages={[
         {
-          text: 'ch',
+          text: 'create service connector',
           Component: () => (
             <ListForAll type={locationPath.split('/')[4]}></ListForAll>
           ),
@@ -53,14 +53,14 @@ export const RegisterConnector: React.FC = () => {
       )}
       breadcrumbs={[
         {
-          name: 'ch',
+          name: 'create service connector',
           clickable: true,
           to: routePaths.connectors.registerConnectors(
             locationPath.split('/')[4],
           ),
         },
       ]}
-      title="Register a Connector"
+      title="Service Connectors"
       headerWithButtons
       renderHeaderRight={() => <></>}
     />
