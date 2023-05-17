@@ -323,8 +323,8 @@
               "secrets": {
                 "text": "Secrets"
               },
-              "repositories": {
-                "text": "Repositories"
+              "connectors": {
+                "text": "Connectors"
               },
               "setting": {
                 "text": "Settings"
@@ -807,6 +807,58 @@
               "text": "Created At"
             }
           },
+          "Connectors": {
+            "header": {
+              "breadcrumbs": {
+                "connectors": {
+                  "text": "Connectors"
+                }
+              }
+            },
+            "tabs": {
+              "connectors": {
+                "text": "Connectors"
+              },
+              "allRuns": {
+                "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            },
+            "runsEmptyState": {
+              "text": "No runs."
+            }
+          },
+          "ConnectorDetail": {
+            "header": {
+              "breadcrumbs": {
+                "connectors": {
+                  "text": "Connectors"
+                }
+              }
+            },
+            "tabs": {
+              "configuration": {
+                "text": "Configuration"
+              },
+              "metaData": {
+                "text": "Metadata"
+              }
+            },
+            "emptyState": {
+              "text": "No runs."
+            },
+            "configuration": {
+              "title": {
+                "text": "YAML Configuration"
+              },
+              "button": {
+                "text": "Download"
+              }
+            }
+          },
+
           "AllWorkspaces": {
             "emptyState": {
               "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."

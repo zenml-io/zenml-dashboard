@@ -67,6 +67,9 @@ import secretPagesReducer, {
   initialState as secretsPagesInitialState,
 } from './reducers/secretPagesReducer';
 
+import connectorsReducer, {
+  initialState as connectorsInitialState,
+} from './reducers/connectorsReducer';
 import repositoriesPagesReducer, {
   initialState as repositoriesPagesInitialState,
 } from './reducers/repositoriesPagesReducer';
@@ -92,6 +95,7 @@ const initialState = {
   pipelinePages: pipelinePagesInitialState,
   stacksPages: stackPagesInitialState,
   secretsPages: secretsPagesInitialState,
+  connectorsPages: connectorsInitialState,
   repositories: repositoryState,
   repositoriesPages: repositoriesPagesInitialState,
   serverInfo: serverInfoInitialState,
@@ -115,6 +119,8 @@ export const persisted = combineReducers({
   flavors: flavorsReducer,
   flavorPages: flavorPagesReducer,
   hubPrompt: hubPromptReducer,
+
+  connectors: connectorsReducer,
   repositories: repositoryReducer,
   repositoriesPages: repositoriesPagesReducer,
   serverInfo: serverInfoReducer,

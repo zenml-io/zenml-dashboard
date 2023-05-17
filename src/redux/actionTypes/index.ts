@@ -18,6 +18,7 @@ export * from './secrets';
 export * from './stackComponentPages';
 export * from './flavors';
 export * from './flavorsPages';
+export * from './connectors';
 export * from './repositories';
 export * from './repositoriesPages';
 export * from './serverInfo';
