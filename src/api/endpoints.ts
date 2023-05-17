@@ -87,7 +87,8 @@ export const endpoints = {
     all: `/roles`,
   },
   Connectors: {
-    my: `/connectors`,
-    get: (connectorId: TId): string => `/conectors/${connectorId}`,
+    my: (workspace: string): string =>
+      `/workspaces/${workspace}/service_connectors`,
+    get: (connectorId: TId): string => `/service_connectors/${connectorId}`,
   },
 };

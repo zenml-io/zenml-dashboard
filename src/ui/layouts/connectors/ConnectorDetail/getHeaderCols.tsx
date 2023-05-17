@@ -175,7 +175,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          Resource ID
+          Resource Name
         </Paragraph>
       ),
       width: '10%',
@@ -228,13 +228,13 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.user.name}>
+          <div data-tip data-for={connector?.user?.name}>
             <Paragraph size="small" color="black">
-              {connector.user.name}
+              {connector?.user?.name}
             </Paragraph>
           </div>
-          <ReactTooltip id={connector.user.name} place="top" effect="solid">
-            <Paragraph color="white">{connector.user.name}</Paragraph>
+          <ReactTooltip id={connector?.user?.name} place="top" effect="solid">
+            <Paragraph color="white">{connector?.user?.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
