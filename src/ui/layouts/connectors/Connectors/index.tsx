@@ -7,7 +7,7 @@ import { routePaths } from '../../../../routes/routePaths';
 import { useService } from './useService';
 
 import FilterComponent, {
-  getInitialFilterStateForSecrets,
+  getInitialFilterState,
 } from '../../../components/Filters';
 import { Box } from '../../../components';
 import { workspaceSelectors } from '../../../../redux/selectors';
@@ -17,7 +17,7 @@ import { useLocationPath, useSelector } from '../../../hooks';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
-  const [filters, setFilter] = useState([getInitialFilterStateForSecrets()]);
+  const [filters, setFilter] = useState([getInitialFilterState()]);
   function getFilter(values: any) {
     const filterValuesMap = values.map((v: any) => {
       return {
@@ -31,7 +31,7 @@ const FilterWrapper = () => {
   return (
     <Box style={{ marginTop: '-20px', width: '100%' }}>
       <FilterComponent
-        getInitials={getInitialFilterStateForSecrets}
+        getInitials={getInitialFilterState}
         filters={filters}
         setFilter={setFilter}
       >
@@ -52,7 +52,7 @@ export const Stacks: React.FC = () => {
         {
           text: translate('tabs.connectors.text'),
           Component: FilterWrapper,
-          // path: routePaths.stacks.base,
+          // path: routePaths.connectors.base,
           path: routePaths.connectors.list(
             selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
           ),

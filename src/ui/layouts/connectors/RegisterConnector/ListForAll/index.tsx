@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 // import { CollapseTable } from '../../../common/CollapseTable';
 import { useSelector } from '../../../../hooks';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
 // import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
@@ -10,7 +10,7 @@ import { useService } from './useService';
 // import { camelCaseToParagraph } from '../../../../../utils';
 // import { DEFAULT_WORKSPACE_NAME } from '../../../../../constants';
 import {
-  workspaceSelectors,
+  // workspaceSelectors,
   // stackComponentSelectors,
   flavorSelectors,
 } from '../../../../../redux/selectors';
@@ -42,9 +42,9 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);
   const [text, setText] = useState('');
-  const [selectedFlavor, setSelectedFlavor] = useState() as any;
+  // const [selectedFlavor, setSelectedFlavor] = useState() as any;
   // const [selectedComponentId, setSelectedComponentId] = useState('');
-  const [showModal, setShowModal] = useState(false);
+  // const [showModal, setShowModal] = useState(false);
   // const history = useHistory();
   const { fetching, allFlavors } = useService();
 
@@ -52,8 +52,8 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
     dispatchFlavorsData(1, flavorsPaginated.size, type, value);
   }
   const onSelectFlavor = (flavor: any) => {
-    setSelectedFlavor(flavor);
-    setShowModal(true);
+    // setSelectedFlavor(flavor);
+    // setShowModal(true);
   };
   // const handleSelectedFlavor = (selectedFlavor: any) => {
   //   setShowModal(false);
