@@ -183,25 +183,30 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          {connector?.connector_type?.map((e: any) => (
-            <Box marginLeft="sm">
-              <div data-tip data-for={e?.name}>
-                <FlexBox alignItems="center">
-                  <img
-                    alt={e?.logoUrl}
-                    src={e?.logoUrl}
-                    style={{
-                      height: '28px',
-                      width: '28px',
-                    }}
-                  />
-                </FlexBox>
-              </div>
-              <ReactTooltip id={e?.name} place="top" effect="solid">
-                <Paragraph color="white">{e?.name}</Paragraph>
-              </ReactTooltip>
-            </Box>
-          ))}
+          {/* {connector?.connectorType?.map((e: any) => ( */}
+          <Box marginLeft="sm">
+            <div data-tip data-for={connector?.connectorType?.name}>
+              <FlexBox alignItems="center">
+                <img
+                  alt={connector?.connectorType?.logo_url}
+                  src={connector?.connectorType?.logo_url}
+                  style={{
+                    height: '28px',
+                    width: '28px',
+                  }}
+                />
+              </FlexBox>
+            </div>
+            <ReactTooltip
+              id={connector?.connectorType?.name}
+              place="top"
+              effect="solid"
+            >
+              <Paragraph color="white">
+                {connector?.connectorType?.name}
+              </Paragraph>
+            </ReactTooltip>
+          </Box>
         </FlexBox>
       ),
     },
@@ -231,13 +236,13 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => {
         return (
           <FlexBox alignItems="center">
-            {connector?.resource_types?.map((e: any) => (
+            {connector?.connectorType.resource_types?.map((e: any) => (
               <Box marginLeft="sm">
                 <div data-tip data-for={e?.name}>
                   <FlexBox alignItems="center">
                     <img
-                      alt={e?.logoUrl}
-                      src={e?.logoUrl}
+                      alt={e?.logo_url}
+                      src={e?.logo_url}
                       style={{
                         height: '28px',
                         width: '28px',
@@ -314,17 +319,13 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.authentication}>
+          <div data-tip data-for={connector.authMethod}>
             <Paragraph size="small" color="black">
-              {connector.authentication}
+              {connector.authMethod}
             </Paragraph>
           </div>
-          <ReactTooltip
-            id={connector.authentication}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">{connector.authentication}</Paragraph>
+          <ReactTooltip id={connector.authMethod} place="top" effect="solid">
+            <Paragraph color="white">{connector.authMethod}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

@@ -170,12 +170,14 @@ export const routePaths = {
     base: '/connectors',
     list: (workspace: string): string =>
       `/workspaces/${workspace}/connectors/list`,
-    registerConnectors: (workspace: string): string =>
-      `/workspaces/${workspace}/register-connector`,
+    connectorTypes: (workspace: string): string =>
+      `/workspaces/${workspace}/connector_types`,
+    // registerConnectors: (workspace: string): string =>
+    //   `/workspaces/${workspace}/connector_types`,
     // registerConnectors: `/register-connector`,
     configuration: (id: TId, workspace: string): string =>
       `/workspaces/${workspace}/connectors/${id}/configuration`,
-    updateSecret: (id: TId, workspace: string): string =>
+    updateConnector: (id: TId, workspace: string): string =>
       `/workspaces/${workspace}/connectors/${id}/update-connector`,
     metaData: (id: TId, workspace: string): string =>
       `/workspaces/${workspace}/connectors/${id}/metadata`,
