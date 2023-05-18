@@ -8,4 +8,7 @@ export const connectorActionTypes = {
   getConnectorForId: generateApiActionsTypes(
     actionTypes.CONNECTORS_GET_CONNECTOR_FOR_ID,
   ),
+  ConnectorsList: generateApiActionsTypes(
+    actionTypes.CONNECTORS_GET_CONNECTORS_LIST,
+  ),
 };

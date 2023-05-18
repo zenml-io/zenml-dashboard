@@ -1,9 +1,9 @@
 import { getMyConnectorsAction } from './getMyConnectorsAction';
 import { getConnectorByIdAction } from './getConnectorByIdAction';
-// import { getAllRunsByStackId } from './getAllRunsBySecretId';
+import { getConnectorsListAction } from './getConnectorsListAction';
 
 export const connectorsActions = {
   getMy: getMyConnectorsAction,
   connectorForId: getConnectorByIdAction,
-  // allRunsByStackId: getAllRunsByStackId,
+  getConnectorsList: getConnectorsListAction,
 };

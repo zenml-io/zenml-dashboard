@@ -89,5 +89,6 @@ export const endpoints = {
   Connectors: {
     my: `/connectors`,
     get: (connectorId: TId): string => `/conectors/${connectorId}`,
+    connectorsList: `/service_connector_types`,
   },
 };

@@ -15,30 +15,31 @@ import {
   stackSelectors,
   flavorSelectors,
   flavorPagesSelectors,
+  connectorSelectors,
 } from '../../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 import { useLocationPath } from '../../../../hooks';
 
 interface ServiceInterface {
   fetching: boolean;
-  setAllFlavors: (flavors: any[]) => void;
-  allFlavors: any[];
+  setAllConnectorsList: (flavors: any[]) => void;
+  allConnectorsList: any[];
 }
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const locationPath = useLocationPath();
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
-  const [allFlavors, setAllFlavors] = useState<any[]>([]);
+  const [allConnectorsList, setAllConnectorsList] = useState<any[]>([]);
 
   const fetching = useSelector(flavorPagesSelectors.fetching);
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const flavors = useSelector(flavorSelectors.myFlavorsAll);
+  const connectors = useSelector(connectorSelectors.myConnectorsList);
 
   useEffect(() => {
-    setAllFlavors(flavors as any[]);
-  }, [flavors]);
+    setAllConnectorsList(connectors as any[]);
+  }, [connectors]);
 
   // useEffect(() => {
   //   if (!isValidFilter && !isExpended) {
@@ -68,8 +69,8 @@ export const useService = (): ServiceInterface => {
   };
 
   return {
-    allFlavors,
-    setAllFlavors,
+    allConnectorsList,
+    setAllConnectorsList,
     fetching,
   };
 };
