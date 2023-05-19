@@ -27,7 +27,7 @@ const getMyConnectorsApi = ({
   authenticationToken: string;
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.Connectors.my),
+    url: apiUrl(endpoints.Connectors.my(workspace)),
     params: {
       component_id,
       sort_by,

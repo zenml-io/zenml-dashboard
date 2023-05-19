@@ -1,7 +1,7 @@
 import { connectorActionTypes } from '../../actionTypes';
-import getConnectorsListApi from '../../../api/connectors/getConnectorsListApi';
+import getConnectorsTypesApi from '../../../api/connectors/getConnectorsTypesApi';
 
-export const getConnectorsListAction = ({
+export const getConnectorsTypesAction = ({
   page,
   size,
   type,
@@ -18,12 +18,12 @@ export const getConnectorsListAction = ({
   onSuccess?: (res: any) => void;
   onFailure?: () => void;
 }): TRequestAction => ({
-  type: connectorActionTypes.ConnectorsList.request,
+  type: connectorActionTypes.ConnectorsTypes.request,
   payload: {
-    apiMethod: getConnectorsListApi,
+    apiMethod: getConnectorsTypesApi,
     isAuthenticated: true,
-    failureActionType: connectorActionTypes.ConnectorsList.failure,
-    successActionType: connectorActionTypes.ConnectorsList.success,
+    failureActionType: connectorActionTypes.ConnectorsTypes.failure,
+    successActionType: connectorActionTypes.ConnectorsTypes.success,
     params: {
       type,
       page,

@@ -22,23 +22,23 @@ import { useLocationPath } from '../../../../hooks';
 
 interface ServiceInterface {
   fetching: boolean;
-  setAllConnectorsList: (flavors: any[]) => void;
-  allConnectorsList: any[];
+  setAllConnectorsTypes: (flavors: any[]) => void;
+  allConnectorsTypes: any[];
 }
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const locationPath = useLocationPath();
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
-  const [allConnectorsList, setAllConnectorsList] = useState<any[]>([]);
+  const [allConnectorsTypes, setAllConnectorsTypes] = useState<any[]>([]);
 
   const fetching = useSelector(flavorPagesSelectors.fetching);
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const connectors = useSelector(connectorSelectors.myConnectorsList);
+  const connectors = useSelector(connectorSelectors.myConnectorsTypes);
 
   useEffect(() => {
-    setAllConnectorsList(connectors as any[]);
+    setAllConnectorsTypes(connectors as any[]);
   }, [connectors]);
 
   // useEffect(() => {
@@ -69,8 +69,8 @@ export const useService = (): ServiceInterface => {
   };
 
   return {
-    allConnectorsList,
-    setAllConnectorsList,
+    allConnectorsTypes,
+    setAllConnectorsTypes,
     fetching,
   };
 };

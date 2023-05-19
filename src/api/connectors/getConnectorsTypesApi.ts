@@ -3,7 +3,7 @@ import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 
-const getConnectorsListApi = ({
+const getConnectorsTypesApi = ({
   component_id,
   workspace,
   sort_by,
@@ -27,7 +27,7 @@ const getConnectorsListApi = ({
   authenticationToken: string;
 }): Promise<any> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.Connectors.connectorsList),
+    url: apiUrl(endpoints.Connectors.connectorsTypes),
     params: {
       component_id,
       sort_by,
@@ -42,4 +42,4 @@ const getConnectorsListApi = ({
     authenticationToken,
   });
 
-export default getConnectorsListApi;
+export default getConnectorsTypesApi;

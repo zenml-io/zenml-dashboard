@@ -271,7 +271,7 @@ Props) => {
           <PrimaryButton
             onClick={() =>
               history.push(
-                routePaths.connectors.registerConnectors(selectedWorkspace),
+                routePaths.connectors.connectorTypes(selectedWorkspace),
               )
             }
             // onClick={() =>

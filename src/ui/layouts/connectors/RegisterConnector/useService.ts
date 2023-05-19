@@ -30,7 +30,7 @@ export const useService = (): ServiceInterface => {
   useEffect(() => {
     setFetching(true);
     dispatch(
-      connectorsActions.getConnectorsList({
+      connectorsActions.getConnectorsTypes({
         page: 1,
         size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         type: locationPath.split('/')[4],
@@ -69,11 +69,11 @@ export const useService = (): ServiceInterface => {
   };
 };
 
-export const callActionForConnectorsListForPagination = () => {
+export const callActionForConnectorsTypesForPagination = () => {
   const locationPath = useLocationPath();
   const dispatch = useDispatch();
 
-  function dispatchConnectorsListData(
+  function dispatchConnectorsTypesData(
     page: number,
     size: number,
     type: string,
@@ -81,7 +81,7 @@ export const callActionForConnectorsListForPagination = () => {
   ) {
     setFetching(true);
     dispatch(
-      connectorsActions.getConnectorsList({
+      connectorsActions.getConnectorsTypes({
         type,
         page: page,
         size: size,
@@ -99,6 +99,6 @@ export const callActionForConnectorsListForPagination = () => {
 
   return {
     setFetching,
-    dispatchConnectorsListData,
+    dispatchConnectorsTypesData,
   };
 };
