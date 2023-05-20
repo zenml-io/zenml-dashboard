@@ -18,12 +18,12 @@ export const getConnectorsTypesAction = ({
   onSuccess?: (res: any) => void;
   onFailure?: () => void;
 }): TRequestAction => ({
-  type: connectorActionTypes.ConnectorsTypes.request,
+  type: connectorActionTypes.connectorsTypes.request,
   payload: {
     apiMethod: getConnectorsTypesApi,
     isAuthenticated: true,
-    failureActionType: connectorActionTypes.ConnectorsTypes.failure,
-    successActionType: connectorActionTypes.ConnectorsTypes.success,
+    failureActionType: connectorActionTypes.connectorsTypes.failure,
+    successActionType: connectorActionTypes.connectorsTypes.success,
     params: {
       type,
       page,

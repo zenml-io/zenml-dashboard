@@ -34,7 +34,7 @@ import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
 import connectorDetail from '../ui/layouts/connectors/ConnectorDetail/index';
-import RegisterConnectors from '../ui/layouts/connectors/RegisterConnector';
+import RegisterConnectors from '../ui/layouts/connectors/ConnectorTypes';
 
 import ListPlugins from '../ui/layouts/plugins/ListPlugins';
 import CreatePlugin from '../ui/layouts/plugins/CreatePlugin';

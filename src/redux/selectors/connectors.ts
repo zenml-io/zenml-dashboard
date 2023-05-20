@@ -17,8 +17,8 @@ const getMyConnectorIds = (state: State): TId[] =>
 const getMyConnectorPaginated = (state: State): any =>
   _.get(stateKey(state), 'paginated');
 
-const getConnectorsTypes = (state: State): any =>
-  _.get(stateKey(state), 'connectorsTypes');
+const getConnectorTypes = (state: State): any =>
+  _.get(stateKey(state), 'connectorTypes');
 
 export const myConnectors = (state?: State | null): any[] => {
   if (!state) return [];
@@ -48,7 +48,7 @@ export const connectorForId = (connectorId: TId): Selector<any, any> =>
 
 export const myConnectorsTypes = (state?: State | null): any => {
   if (!state) return {};
-  const connectorsTypes = getConnectorsTypes(state);
+  const connectorsTypes = getConnectorTypes(state);
   return connectorsTypes;
 };
 

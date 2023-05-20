@@ -15,8 +15,11 @@ import {
   flavorSelectors,
 } from '../../../../../redux/selectors';
 import {
+  Box,
   // Box,
   FlexBox,
+  FullWidthSpinner,
+  Row,
   // FullWidthSpinner,
   // Paragraph,
   SearchInputField,
@@ -27,6 +30,8 @@ import {
 // import { CustomConnectorBox } from '../../../common/CustomConnectorBox';
 import { callActionForConnectorsTypesForPagination } from '../useService';
 import { SidePopup } from '../../../common/SidePopup';
+import { useService } from './useService';
+import { CustomConnectorBox } from '../../../common/CustomConnectorBox';
 // import { routePaths } from '../../../../../routes/routePaths';
 
 interface Props {
@@ -49,15 +54,15 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   // const [selectedComponentId, setSelectedComponentId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
-  // const { fetching, allConnectorsTypes } = useService();
+  const { fetching, allConnectorsTypes } = useService();
 
   function handleValueFieldChangeOnSearch(value: string) {
     dispatchConnectorsTypesData(1, flavorsPaginated.size, type, value);
   }
-  // const onSelectFlavor = (flavor: any) => {
-  //   setSelectedFlavor(flavor);
-  //   setShowModal(true);
-  // };
+  const onSelectConnectorType = (flavor: any) => {
+    setSelectedFlavor(flavor);
+    setShowModal(true);
+  };
   const handleSelectedFlavor = (selectedFlavor: any) => {
     setShowModal(false);
     history.push(
@@ -80,6 +85,10 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
       state: selectedFlavor.name,
     });
   };
+  console.log(allConnectorsTypes, 'fetchingfetchingfetching');
+  if (fetching) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
 
   return (
     <>
@@ -97,37 +106,39 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
         {/* {fetching ? (
           <FullWidthSpinner color="black" size="md" />
         ) : (
-          data?.length && (
-            <>
-              <FlexBox>
-                <Row>
-                  {data?.map((item: any, index: number) => {
-                    return (
-                      <Row key={index} style={{ marginLeft: '15px' }}>
-                        <Box marginVertical={'sm'} marginHorizontal={'md'}>
-                          <CustomConnectorBox
-                            connectorDesc={item.description}
-                            connectorName={item.name}
-                            logoUrl={item.logo_url}
-                            onSelectFlavor={() => onSelectFlavor(item)}
-                            resourceTypes={item?.resource_types}
-                          />
-                        </Box>
-                      </Row>
-                    );
-                  })}
-                </Row>
-              </FlexBox>
-              <div style={{ marginTop: '-10px' }}>
+          data?.length && ( */}
+        <>
+          <FlexBox>
+            <Row>
+              {allConnectorsTypes?.map((item: any, index: number) => {
+                return (
+                  <Row key={index} style={{ marginLeft: '15px' }}>
+                    <Box marginVertical={'sm'} marginHorizontal={'md'}>
+                      <CustomConnectorBox
+                        connectorDesc={item.description}
+                        connectorName={item.name}
+                        logoUrl={item.logoUrl}
+                        onSelectConnectorType={() =>
+                          onSelectConnectorType(item)
+                        }
+                        resourceTypes={item?.resourceTypes}
+                      />
+                    </Box>
+                  </Row>
+                );
+              })}
+            </Row>
+          </FlexBox>
+          {/* <div style={{ marginTop: '-10px' }}>
                 <PaginationWithPageSize
                   flavors={allConnectorsTypes}
                   type={type}
                   paginated={flavorsPaginated}
                   pagination={allConnectorsTypes?.length ? true : false}
                 ></PaginationWithPageSize>
-              </div>
-            </>
-          )
+              </div> */}
+        </>
+        {/* )
         )} */}
       </FlexBox.Column>
       {showModal && (
