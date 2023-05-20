@@ -323,6 +323,9 @@
               "secrets": {
                 "text": "Secrets"
               },
+              "repositories": {
+                "text": "Repositories"
+              },
               "connectors": {
                 "text": "Connectors"
               },
@@ -858,7 +861,6 @@
               }
             }
           },
-
           "AllWorkspaces": {
             "emptyState": {
               "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
