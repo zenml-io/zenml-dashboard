@@ -13,6 +13,8 @@ type ConnectorsPayload = any[];
 
 type ConnectorPayload = any;
 
+type ConnectorsTypesPayload = any[];
+
 export type Action = {
   type: string;
   payload: any;
@@ -58,6 +60,19 @@ const connectorsReducer = (
       const connector = camelCaseObject(payload);
 
       return { ...state, ...newState(state, [connector]) };
+    }
+
+    case connectorActionTypes.ConnectorsTypes.success: {
+      const connectorsTypes: any[] = camelCaseArray(
+        action.payload.items as ConnectorsTypesPayload,
+      );
+
+      // const connectorIds: TId[] = connectorsTypes.map(
+      //   (connector: any) => connector.id,
+      // );
+      return { ...newState(state, connectorsTypes, action.payload) };
+
+      // return { ...state, ...newState(state, connectorsTypes) };
     }
 
     default:

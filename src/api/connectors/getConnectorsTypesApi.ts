@@ -3,7 +3,7 @@ import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
 
-const getMyConnectorsApi = ({
+const getConnectorsTypesApi = ({
   component_id,
   workspace,
   sort_by,
@@ -25,9 +25,9 @@ const getMyConnectorsApi = ({
   filtersParam?: object;
   // id?: any;
   authenticationToken: string;
-}): Promise<TStack> =>
+}): Promise<any> =>
   fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.Connectors.my(workspace)),
+    url: apiUrl(endpoints.Connectors.connectorsTypes),
     params: {
       component_id,
       sort_by,
@@ -42,4 +42,4 @@ const getMyConnectorsApi = ({
     authenticationToken,
   });
 
-export default getMyConnectorsApi;
+export default getConnectorsTypesApi;

@@ -687,7 +687,7 @@ const routes = [
   //   exact: true,
   // },
   {
-    path: routePaths.connectors.registerConnectors(':string'),
+    path: routePaths.connectors.connectorTypes(':string'),
     Component: RegisterConnectors,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,

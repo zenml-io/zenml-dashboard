@@ -5,7 +5,8 @@ import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 
 import { useService } from './useService';
-import { useLocationPath } from '../../../hooks';
+import { useLocationPath, useSelector } from '../../../hooks';
+import { workspaceSelectors } from '../../../../redux/selectors';
 
 // import { camelCaseToParagraph } from '../../../../utils';
 // import { workspaceSelectors } from '../../../../redux/selectors';
@@ -14,6 +15,8 @@ import { useLocationPath } from '../../../hooks';
 
 export const RegisterConnector: React.FC = () => {
   const locationPath = useLocationPath();
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+
   const { setFetching } = useService();
   console.log(setFetching);
   // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -37,8 +40,10 @@ export const RegisterConnector: React.FC = () => {
           Component: () => (
             <ListForAll type={locationPath.split('/')[4]}></ListForAll>
           ),
-          path: routePaths.connectors.registerConnectors(
-            locationPath.split('/')[4],
+          path: routePaths.connectors.connectorTypes(
+            selectedWorkspace
+              ? selectedWorkspace
+              : (locationPath.split('/')[2] as string),
           ),
           // path: routePaths.connectors.registerConnectors(
           //   locationPath.split('/')[4],
@@ -48,16 +53,14 @@ export const RegisterConnector: React.FC = () => {
           // ),
         },
       ]}
-      tabBasePath={routePaths.connectors.registerConnectors(
+      tabBasePath={routePaths.connectors.connectorTypes(
         locationPath.split('/')[4],
       )}
       breadcrumbs={[
         {
           name: 'create service connector',
           clickable: true,
-          to: routePaths.connectors.registerConnectors(
-            locationPath.split('/')[4],
-          ),
+          to: routePaths.connectors.connectorTypes(locationPath.split('/')[4]),
         },
       ]}
       title="Service Connectors"
