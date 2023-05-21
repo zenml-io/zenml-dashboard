@@ -34,8 +34,8 @@ import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
 import connectorDetail from '../ui/layouts/connectors/ConnectorDetail/index';
-import RegisterConnectors from '../ui/layouts/connectors/ConnectorTypes';
-
+import RegisterConnectors from '../ui/layouts/connectors/RegisterConnector';
+import ConnectorTypes from '../ui/layouts/connectors/ConnectorTypes';
 import ListPlugins from '../ui/layouts/plugins/ListPlugins';
 import CreatePlugin from '../ui/layouts/plugins/CreatePlugin';
 import UpdatePlugin from '../ui/layouts/plugins/UpdatePlugin';
@@ -678,17 +678,17 @@ const routes = [
     },
     exact: true,
   },
-  // {
-  //   path: routePaths.connectors.registerConnectors,
-  //   Component: RegisterConnectors,
-  //   visibility: {
-  //     authentication: RouteVisibilityAuthentication.authenticatedOnly,
-  //   },
-  //   exact: true,
-  // },
+  {
+    path: routePaths.connectors.registerConnectors(':type', ':workspace'),
+    Component: RegisterConnectors,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
   {
     path: routePaths.connectors.connectorTypes(':string'),
-    Component: RegisterConnectors,
+    Component: ConnectorTypes,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
