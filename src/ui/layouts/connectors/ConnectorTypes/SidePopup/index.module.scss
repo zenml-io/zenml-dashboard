@@ -1,0 +1,106 @@
+@import '../../../../globalStyles.scss';
+
+.dimmer {
+  position: fixed;
+  background: rgba(217, 217, 217, 0.2);
+  backdrop-filter: blur(1px);
+  height: 100vh;
+  width: 100vw;
+
+  top: 16.7rem;
+  left: 0;
+  z-index: 9999;
+}
+
+.popupContainer {
+  z-index: 99999;
+  position: relative;
+}
+
+.popupClose {
+  background-color: #fff;
+  border-radius: 100px;
+  position: absolute;
+  top: -2rem;
+  right: 60.5vw;
+  z-index: 999;
+}
+
+.sidePopup {
+  background: #ffffff;
+  border-radius: 4px;
+  position: fixed;
+  // right: 2rem;
+  right: 0;
+  bottom: 0;
+  top: 16.7rem;
+  height: 100vh;
+  min-width: 60vw;
+  overflow-y: auto;
+}
+
+.mainImage {
+  height: 122px;
+  width: 122px;
+  border: 1px solid rgba(168, 168, 168, 0.5);
+  border-radius: 4px;
+  padding: 8px !important;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.title {
+  font-size: 25px;
+  font-weight: 400;
+  line-height: 30px;
+  color: #443e99;
+}
+
+.resourceTypesImages {
+  height: 20px;
+
+  img {
+    height: 100%;
+    width: 100%;
+  }
+}
+
+.tabName {
+  font-size: 20px;
+  font-weight: 500;
+  line-height: 24px;
+}
+
+.bean {
+  padding: 8px 14px !important;
+  border-radius: 5px !important;
+  cursor: pointer;
+}
+
+.descriptionWrapper {
+  max-width: 50vw;
+
+  .description {
+    font-size: 16px;
+    font-weight: 400;
+    line-height: 35px;
+    text-align: left;
+  }
+}
+
+@media (max-width: $md-breakpoint) {
+  .sidePopup {
+    max-width: 80vw;
+    min-width: 0;
+  }
+}
+
+.actionSection {
+  width: 60vw;
+  background-color: #ffffff;
+  position: fixed;
+  bottom: 0;
+}

@@ -25,11 +25,11 @@ import {
   SearchInputField,
   // Row,
 } from '../../../../components';
-// import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
+import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
 // import { FlavourBox } from '../../../common/FlavourBox';
 // import { CustomConnectorBox } from '../../../common/CustomConnectorBox';
 import { callActionForConnectorsTypesForPagination } from '../useService';
-import { SidePopup } from '../../../common/SidePopup';
+import { SidePopup } from '../SidePopup';
 import { useService } from './useService';
 import { CustomConnectorBox } from '../../../common/CustomConnectorBox';
 // import { routePaths } from '../../../../../routes/routePaths';
@@ -50,7 +50,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);
   const [text, setText] = useState('');
   // eslint-disable-next-line
-  const [selectedFlavor, setSelectedFlavor] = useState() as any;
+  const [selectedType, setSelectedType] = useState() as any;
   // const [selectedComponentId, setSelectedComponentId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
@@ -59,17 +59,17 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   function handleValueFieldChangeOnSearch(value: string) {
     dispatchConnectorsTypesData(1, flavorsPaginated.size, type, value);
   }
-  const onSelectConnectorType = (flavor: any) => {
-    setSelectedFlavor(flavor);
+  const onSelectConnectorType = (connectorType: any) => {
+    setSelectedType(connectorType);
     setShowModal(true);
   };
-  const handleSelectedFlavor = (selectedFlavor: any) => {
+  const handleSelectedFlavor = (selectedType: any) => {
     setShowModal(false);
     history.push(
       routePaths.stackComponents.configureComponent(
         type,
         selectedWorkspace,
-        selectedFlavor?.id,
+        selectedType?.id,
       ),
     );
   };
@@ -82,7 +82,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   const routeExsiting = () => {
     setShowModal(false);
     history.push(routePaths.stackComponents.base(type, selectedWorkspace), {
-      state: selectedFlavor.name,
+      state: selectedType.name,
     });
   };
   console.log(allConnectorsTypes, 'fetchingfetchingfetching');
@@ -103,109 +103,52 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
             handleValueFieldChangeOnSearch(`${'contains:' + value}`);
           }}
         />
-        {/* {fetching ? (
+        {fetching ? (
           <FullWidthSpinner color="black" size="md" />
         ) : (
-          data?.length && ( */}
-        <>
-          <FlexBox>
-            <Row>
-              {allConnectorsTypes?.map((item: any, index: number) => {
-                return (
-                  <Row key={index} style={{ marginLeft: '15px' }}>
-                    <Box marginVertical={'sm'} marginHorizontal={'md'}>
-                      <CustomConnectorBox
-                        connectorDesc={item.description}
-                        connectorName={item.name}
-                        logoUrl={item.logoUrl}
-                        onSelectConnectorType={() =>
-                          onSelectConnectorType(item)
-                        }
-                        resourceTypes={item?.resourceTypes}
-                      />
-                    </Box>
-                  </Row>
-                );
-              })}
-            </Row>
-          </FlexBox>
-          {/* <div style={{ marginTop: '-10px' }}>
+          allConnectorsTypes?.length && (
+            <>
+              <FlexBox>
+                <Row>
+                  {allConnectorsTypes?.map((item: any, index: number) => {
+                    return (
+                      <Row key={index} style={{ marginLeft: '15px' }}>
+                        <Box marginVertical={'sm'} marginHorizontal={'md'}>
+                          <CustomConnectorBox
+                            connectorDesc={item.description}
+                            connectorName={item.name}
+                            logoUrl={item.logoUrl}
+                            onSelectConnectorType={() =>
+                              onSelectConnectorType(item)
+                            }
+                            resourceTypes={item?.resourceTypes}
+                          />
+                        </Box>
+                      </Row>
+                    );
+                  })}
+                </Row>
+              </FlexBox>
+              <div style={{ marginTop: '-10px' }}>
                 <PaginationWithPageSize
                   flavors={allConnectorsTypes}
                   type={type}
                   paginated={flavorsPaginated}
                   pagination={allConnectorsTypes?.length ? true : false}
                 ></PaginationWithPageSize>
-              </div> */}
-        </>
-        {/* )
-        )} */}
+              </div>
+            </>
+          )
+        )}
       </FlexBox.Column>
       {showModal && (
         <SidePopup
           onSeeExisting={() => routeExsiting()}
-          onSelectFlavor={() => handleSelectedFlavor(selectedFlavor)}
-          flavor={selectedFlavor}
+          onSelectFlavor={() => handleSelectedFlavor(selectedType)}
+          connectorType={selectedType}
           onClose={() => setShowModal(false)}
         ></SidePopup>
       )}
     </>
   );
 };
-
-// const data = [
-//   {
-//     name: 'Kubernetes Service Connector',
-//     connector_type: 'kubernetes',
-//     description:
-//       '\nThis ZenML Kubernetes service connector facilitates authenticating and\nconnecting to a Kubernetes cluster.\n\nThe connector can be used to access to any generic Kubernetes cluster by\nproviding pre-authenticated Kubernetes python clients and also\nallows configuration of local Kubernetes clients.\n',
-//     resource_types: [
-//       {
-//         name: 'Kubernetes cluster',
-//         resource_type: 'kubernetes-cluster',
-//         description:
-//           '\nKubernetes cluster resource. When used by connector consumers, they are provided\na Kubernetes client pre-configured with credentials required to access a\nKubernetes cluster.\n',
-//         auth_methods: ['password', 'token'],
-//         supports_instances: false,
-//         logo_url:
-//           'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/kubernetes.png',
-//         emoji: ':cyclone:',
-//       },
-//     ],
-//     supports_auto_configuration: true,
-//     logo_url:
-//       'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/kubernetes.png',
-//     emoji: ':cyclone:',
-//     docs_url: null,
-//     sdk_docs_url: null,
-//     local: true,
-//     remote: false,
-//   },
-//   {
-//     name: 'Docker Service Connector',
-//     connector_type: 'docker',
-//     description:
-//       '\nThe ZenML Docker Service Connector allows authenticating with a Docker or OCI\ncontainer registry and managing Docker clients for the registry. \n\nThe connector provides pre-authenticated python-docker clients.\n',
-//     resource_types: [
-//       {
-//         name: 'Docker/OCI container registry',
-//         resource_type: 'docker-registry',
-//         description:
-//           '\nAllows users to access a Docker or OCI compatible container registry as a\nresource. When used by connector consumers, they are provided a\npre-authenticated python-docker client instance.\n\nThe resource name identifies a Docker/OCI registry using one of the following\nformats (the repository name is optional).\n            \n- DockerHub: docker.io or [https://]index.docker.io/v1/[/<repository-name>]\n- generic OCI registry URI: http[s]://host[:port][/<repository-name>]\n',
-//         auth_methods: ['password'],
-//         supports_instances: false,
-//         logo_url:
-//           'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/container_registry/docker.png',
-//         emoji: ':whale:',
-//       },
-//     ],
-//     supports_auto_configuration: false,
-//     logo_url:
-//       'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/container_registry/docker.png',
-//     emoji: ':whale:',
-//     docs_url: null,
-//     sdk_docs_url: null,
-//     local: true,
-//     remote: false,
-//   },
-// ];
