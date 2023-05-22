@@ -21,8 +21,8 @@ export const SidePopup: React.FC<{
   onSeeExisting: () => void;
   onClose: () => void;
   connectorType?: any;
-  onSelectFlavor: any;
-}> = ({ children, connectorType, onClose, onSelectFlavor, onSeeExisting }) => {
+  onSelectType?: any;
+}> = ({ children, connectorType, onClose, onSelectType, onSeeExisting }) => {
   window.onkeydown = function (event: any) {
     if (event.key === 'Esc' || event.key === 'Escape') {
       return onClose();
@@ -118,7 +118,7 @@ export const SidePopup: React.FC<{
                 </Box>
               ) : tab === 'Service Types' ? (
                 <Box marginTop="lg">
-                  <FlexBox>
+                  <FlexBox className={styles.beansWrapper}>
                     {connectorType?.resourceTypes?.map((e: any) => (
                       <Box
                         marginLeft="sm"
@@ -162,7 +162,7 @@ export const SidePopup: React.FC<{
                 </Box>
               ) : tab === 'Authentication Methods' ? (
                 <Box marginTop="lg">
-                  <FlexBox>
+                  <FlexBox className={styles.beansWrapper}>
                     {connectorType?.authMethods?.map((e: any) => (
                       <Box
                         marginLeft="sm"
@@ -227,7 +227,7 @@ export const SidePopup: React.FC<{
                   </LinkBox>
                 </Box>
                 <Box>
-                  <PrimaryButton onClick={onSelectFlavor}>Select</PrimaryButton>
+                  <PrimaryButton onClick={onSelectType}>Next</PrimaryButton>
                 </Box>
               </FlexBox.Row>
             </Box> */}

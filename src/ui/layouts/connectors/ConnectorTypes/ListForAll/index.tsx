@@ -63,7 +63,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
     setSelectedType(connectorType);
     setShowModal(true);
   };
-  const handleSelectedFlavor = (selectedType: any) => {
+  const handleSelectedType = (selectedType: any) => {
     setShowModal(false);
     history.push(
       routePaths.stackComponents.configureComponent(
@@ -144,7 +144,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
       {showModal && (
         <SidePopup
           onSeeExisting={() => routeExsiting()}
-          onSelectFlavor={() => handleSelectedFlavor(selectedType)}
+          onSelectType={() => handleSelectedType(selectedType)}
           connectorType={selectedType}
           onClose={() => setShowModal(false)}
         ></SidePopup>

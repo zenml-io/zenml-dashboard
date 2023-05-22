@@ -35,8 +35,8 @@
   bottom: 0;
   top: 16.7rem;
   height: 100vh;
-  min-width: 60vw;
-  overflow-y: auto;
+  width: 60vw;
+  overflow: auto;
 }
 
 .mainImage {
@@ -74,10 +74,14 @@
   line-height: 24px;
 }
 
-.bean {
-  padding: 8px 14px !important;
-  border-radius: 5px !important;
-  cursor: pointer;
+.beansWrapper {
+  overflow-x: auto;
+  .bean {
+    width: auto !important;
+    padding: 8px 14px !important;
+    border-radius: 5px !important;
+    cursor: pointer;
+  }
 }
 
 .descriptionWrapper {
