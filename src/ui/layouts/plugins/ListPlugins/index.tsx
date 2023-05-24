@@ -142,7 +142,7 @@ const ListPlugins: React.FC = () => {
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://docs.zenml.io/starter-guide/collaborate/zenml-hub"
+              href="https://docs.zenml.io/user-guide/advanced-guide/leverage-community-contributed-plugins"
             >
               here
             </a>

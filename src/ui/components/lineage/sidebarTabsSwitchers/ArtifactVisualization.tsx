@@ -236,7 +236,7 @@ const ArtifactVisualization = ({
           <a
             rel="noopener noreferrer"
             target="_blank"
-            href="https://docs.zenml.io/component-gallery/artifact-stores/custom#enabling-artifact-visualizations-with-custom-artifact-stores"
+            href="https://docs.zenml.io/user-guide/component-guide/artifact-stores/custom"
           >
             docs
           </a>
