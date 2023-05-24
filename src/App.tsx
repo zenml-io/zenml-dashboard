@@ -4,6 +4,7 @@ import { Provider } from 'react-redux';
 import { RouteConfig } from './routes';
 
 import configureStore from './redux/setup/storeSetup';
+import './utils/axios';
 import Toaster from './ui/layouts/common/Toaster';
 
 import 'bootstrap/dist/css/bootstrap-grid.min.css';
