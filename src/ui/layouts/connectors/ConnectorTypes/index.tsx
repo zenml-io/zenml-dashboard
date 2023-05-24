@@ -13,7 +13,7 @@ import { workspaceSelectors } from '../../../../redux/selectors';
 // import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 // import { workspaceSelectors } from '../../../../redux/selectors';
 
-export const RegisterConnector: React.FC = () => {
+export const ConnectorTypes: React.FC = () => {
   const locationPath = useLocationPath();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
@@ -58,9 +58,9 @@ export const RegisterConnector: React.FC = () => {
       )}
       breadcrumbs={[
         {
-          name: 'create service connector',
+          name: 'Service Connectors',
           clickable: true,
-          to: routePaths.connectors.connectorTypes(locationPath.split('/')[4]),
+          to: routePaths.connectors.base,
         },
       ]}
       title="Service Connectors"
@@ -70,4 +70,4 @@ export const RegisterConnector: React.FC = () => {
   );
 };
 
-export default RegisterConnector;
+export default ConnectorTypes;
