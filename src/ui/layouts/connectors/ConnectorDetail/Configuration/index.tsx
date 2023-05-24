@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 // import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -12,15 +12,15 @@ import {
   PrimaryButton,
   // H4,
   // GhostButton,
-  // icons,
+  icons,
   // Row,
   // FullWidthSpinner,
   // Container,
   // EditField,
-  // Paragraph,
+  Paragraph,
 } from '../../../../components';
 // import SelectorDisabled from '../../Selector/SelectorDisabled';
-// import { iconColors, iconSizes } from '../../../../../constants';
+import { iconColors, iconSizes } from '../../../../../constants';
 
 // import { useDispatch } from '../../../../hooks';
 // import { showToasterAction } from '../../../../../redux/actions';
@@ -69,15 +69,153 @@ export const Configuration: React.FC<{
 
   // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
+  const [name, setName] = useState('');
+  const [showServices, setShowServices] = useState(false);
+  const [showMethods, setShowMethods] = useState(false);
+
+  const handleShow = (service_name: string) => {
+    setName(service_name);
+    setShowMethods(!showMethods);
+  };
+
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
+
+  const data = [
+    {
+      name: 'Generic AWS resource',
+      resource_type: 'aws-generic',
+      description:
+        '\nMulti-purpose AWS resource type. It allows consumers to use the connector to\nconnect to any AWS service. When used by connector consumers, they are provided\na generic boto3 session instance pre-configured with AWS credentials. This\nsession can then be used to create boto3 clients for any particular AWS service.\n\nThe resource name represents the AWS region that the connector is authorized to\naccess.\n',
+      auth_methods: [
+        'implicit',
+        'secret-key',
+        'sts-token',
+        'session-token',
+        'federation-token',
+      ],
+      supports_instances: false,
+      logo_url:
+        'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/container_registry/aws.png',
+      emoji: ':large_orange_diamond:',
+    },
+    {
+      name: 'AWS S3 bucket',
+      resource_type: 's3-bucket',
+      description:
+        '\nAllows users to connect to S3 buckets. When used by connector consumers, they\nare provided a pre-configured boto3 S3 client instance.\n\nThe configured credentials must have at least the following S3 permissions:\n\n- s3:ListBucket\n- s3:GetObject\n- s3:PutObject\n- s3:DeleteObject\n- s3:ListAllMyBuckets\n\nIf set, the resource name must identify an S3 bucket using one of the following\nformats:\n\n- S3 bucket URI: s3://<bucket-name>\n- S3 bucket ARN: arn:aws:s3:::<bucket-name>\n- S3 bucket name: <bucket-name>\n',
+      auth_methods: [
+        'implicit',
+        'secret-key',
+        'iam-role',
+        'session-token',
+        'federation-token',
+      ],
+      supports_instances: true,
+      logo_url:
+        'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/container_registry/aws.png',
+      emoji: ':package:',
+    },
+    {
+      name: 'AWS EKS Kubernetes cluster',
+      resource_type: 'kubernetes-cluster',
+      description:
+        "\nAllows users to access an EKS registry as a standard Kubernetes cluster\nresource. When used by connector consumers, they are provided a\npre-authenticated python-kubernetes client instance.\n\nThe configured credentials must have at least the following EKS permissions:\n\n- eks:ListClusters\n- eks:DescribeCluster\n\nIn addition to the above permissions, if the credentials are not associated\nwith the same IAM user or role that created the EKS cluster, the IAM principal\nmust be manually added to the EKS cluster's `aws-auth` ConfigMap, otherwise the\nKubernetes client will not be allowed to access the cluster's resources. This\nmakes it more challenging to use the AWS Implicit and AWS Federation Token\nauthentication method for this resource. For more information, see:\nhttps://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html\n\nIf set, the resource name must identify an EKS cluster using one of the\nfollowing formats:\n\n- EKS cluster name: <cluster-name>\n- EKS cluster ARN: arn:aws:eks:<region>:<account-id>:cluster/<cluster-name>\n\nEKS cluster names are region scoped. The connector can only be used to access\nEKS clusters in the AWS region that it is configured to use.\n",
+      auth_methods: [
+        'implicit',
+        'secret-key',
+        'sts-token',
+        'iam-role',
+        'session-token',
+      ],
+      supports_instances: true,
+      logo_url:
+        'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/kubernetes.png',
+      emoji: ':cyclone:',
+    },
+    {
+      name: 'AWS ECR container registry',
+      resource_type: 'docker-registry',
+      description:
+        '\nAllows users to access one or more ECR repositories as a standard Docker\nregistry resource. When used by connector consumers, they are provided a\npre-authenticated python-docker client instance.\n\nThe configured credentials must have at least the following ECR permissions for\none or more ECR repositories:\n\n- ecr:DescribeRegistry\n- ecr:DescribeRepositories\n- ecr:ListRepositories\n- ecr:BatchGetImage\n- ecr:DescribeImages\n- ecr:BatchCheckLayerAvailability\n- ecr:GetDownloadUrlForLayer\n- ecr:InitiateLayerUpload\n- ecr:UploadLayerPart\n- ecr:CompleteLayerUpload\n- ecr:PutImage\n- ecr:GetAuthorizationToken\n\nThis resource type is not scoped to a single ECR repository. Instead,\na connector configured with this resource type will grant access to all the\nECR repositories that the credentials are allowed to access under the configured\nAWS region (i.e. all repositories under the Docker registry URL\n`<account-id>.dkr.ecr.<region>.amazonaws.com`).\n\nThe resource name associated with this resource type uniquely identifies an ECR\nregistry using one of the following formats (the repository name is ignored,\nonly the registry URL/ARN is used):\n            \n- ECR repository URI: https://<account-id>.dkr.ecr.<region>.amazonaws.com[/<repository-name>]\n- ECR repository ARN: arn:aws:ecr:<region>:<account-id>:repository[/<repository-name>]\n\nECR repository names are region scoped. The connector can only be used to access\nECR repositories in the AWS region that it is configured to use.\n',
+      auth_methods: [
+        'secret-key',
+        'sts-token',
+        'iam-role',
+        'session-token',
+        'federation-token',
+      ],
+      supports_instances: false,
+      logo_url:
+        'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/container_registry/docker.png',
+      emoji: ':whale:',
+    },
+  ];
 
   return (
     <>
       {/* <Box marginTop="md">
         <SelectorDisabled inputFields={secret.values} width="30vw" />
       </Box> */}
+
+      <Box>
+        <Box
+          className={styles.service_selector}
+          onClick={() => setShowServices(!showServices)}
+        >
+          <Box>
+            <Paragraph>Select Resource</Paragraph>
+          </Box>
+          <Box>
+            <icons.chevronDown color={iconColors.black} size={iconSizes.xs} />
+          </Box>
+        </Box>
+
+        {showServices && (
+          <Box className={styles.services_container}>
+            {data?.map((e: any) => (
+              <>
+                <FlexBox className={styles.services}>
+                  <Box>
+                    <img src={e.logo_url} alt={e.name} />
+                  </Box>
+                  <Box
+                    marginLeft="sm"
+                    marginRight="xl"
+                    className={styles.servicesName}
+                    onClick={() => handleShow(e?.name)}
+                  >
+                    <Paragraph>{e.name}</Paragraph>
+                  </Box>
+                  <Box>
+                    <input
+                      type="checkbox"
+                      className={styles.selectedBoxCheckbox}
+                    />
+                  </Box>
+                </FlexBox>
+
+                {showMethods &&
+                  e?.name === name &&
+                  e?.auth_methods?.map((method: any) => (
+                    <FlexBox marginLeft="xxl" marginVertical="md">
+                      <Box marginRight="xl">
+                        <Paragraph>{method}</Paragraph>
+                      </Box>
+                      <Box>
+                        <input
+                          type="checkbox"
+                          className={styles.selectedBoxCheckbox}
+                        />
+                      </Box>
+                    </FlexBox>
+                  ))}
+              </>
+            ))}
+          </Box>
+        )}
+      </Box>
 
       <FlexBox
         style={{
