@@ -1,13 +1,9 @@
 import axios from 'axios';
 import { httpMethods } from '../constants';
-import configureStore from '../../redux/setup/storeSetup';
 export let source: any = { cancel: [] };
-
-const { store } = configureStore();
 
 export const DEFAULT_HEADERS = {
   Accept: 'application/json',
-  'Source-Context': 'dashboard',
   'Content-Type': 'application/json',
 };
 
@@ -24,16 +20,11 @@ export const fetchApi = ({
   headers?: any;
   params?: any;
 }): Promise<any> => {
-  const serverInfo = (store.getState() || {}).persisted.serverInfo;
   return axios({
     method: method || httpMethods.get,
     url,
     data,
-    headers: {
-      ...DEFAULT_HEADERS,
-      ...{ 'Debug-Context': serverInfo.id },
-      ...headers,
-    },
+    headers: { ...DEFAULT_HEADERS, ...headers },
     params: params,
   });
 };
@@ -54,7 +45,6 @@ export const fetchApiWithAuthRequest = ({
   headers?: any;
 }): Promise<any> => {
   const CancelToken = axios.CancelToken;
-  const serverInfo = (store.getState() || {}).persisted.serverInfo;
   return axios({
     method: method || httpMethods.get,
     url,
@@ -66,7 +56,6 @@ export const fetchApiWithAuthRequest = ({
     }),
     headers: {
       ...DEFAULT_HEADERS,
-      ...{ 'Debug-Context': serverInfo.id || 'false' },
       ...headers,
       Authorization: `Bearer ${authenticationToken}`,
     },
