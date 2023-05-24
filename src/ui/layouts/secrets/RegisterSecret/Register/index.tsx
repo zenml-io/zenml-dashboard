@@ -252,7 +252,7 @@ export const Register: React.FC<Props> = (state: any) => {
             required={true}
             label={'Secret name'}
             labelColor="rgba(66, 66, 64, 0.5)"
-            placeholder={'Ex.John Doe'}
+            placeholder={'unique_secret_name'}
             value={secretName}
             onChange={(val: string) => setSecretName(val)}
           />
