@@ -25,6 +25,7 @@ import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import secretDetail from '../ui/layouts/secrets/SecretDetail/index';
 import UpdateSecret from '../ui/layouts/secrets/UpdateSecret/index';
 import UpdateComponent from '../ui/layouts/stackComponents/UpdateComponent/index';
+import UpdateConnector from '../ui/layouts/connectors/UpdateConnector/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
 import ConfigureComponent from '../ui/layouts/stackComponents/ConfigureComponent/index';
 import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
@@ -689,6 +690,14 @@ const routes = [
   {
     path: routePaths.connectors.connectorTypes(':string'),
     Component: ConnectorTypes,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.connectors.updateConnector(':id', ':string'),
+    Component: UpdateConnector,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

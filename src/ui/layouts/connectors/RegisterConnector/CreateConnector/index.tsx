@@ -5,9 +5,9 @@ import React, {
 // import styles from './index.module.scss';
 import {
   Box,
-  FlexBox,
+  // FlexBox,
   // FormDropdownField,
-  FormTextField,
+  // FormTextField,
   FullWidthSpinner,
   // MakeSecretField,
   // H2,
@@ -15,32 +15,31 @@ import {
   // icons,
 } from '../../../../components';
 // import Select from 'react-select';
-import {
-  // Form, TextField,
-  ToggleField,
-} from '../../../common/FormElement';
-import {
-  useDispatch,
-  // useHistory,
-  // useLocation,
-  useSelector,
-} from '../../../../hooks';
-import {
-  secretSelectors,
-  // sessionSelectors,
-  // userSelectors,
-  workspaceSelectors,
-} from '../../../../../redux/selectors';
-import {
-  secretsActions,
-  // showToasterAction,
-} from '../../../../../redux/actions';
+// import {
+//   Form, TextField,
+//   ToggleField,
+// } from '../../../common/FormElement';
+import // useDispatch,
+// useHistory,
+// useLocation,
+// useSelector,
+'../../../../hooks';
+// import {
+//   secretSelectors,
+//   sessionSelectors,
+//   userSelectors,
+//   workspaceSelectors,
+// } from '../../../../../redux/selectors';
+// import {
+//   // secretsActions,
+//   // showToasterAction,
+// } from '../../../../../redux/actions';
 // import { iconColors, toasterTypes } from '../../../../../constants';
 // import axios from 'axios';
 // import { routePaths } from '../../../../../routes/routePaths';
 // import { SidePopup } from '../SidePopup';
 // import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
-import { titleCase } from '../../../../../utils';
+// import { titleCase } from '../../../../../utils';
 // import { values } from 'lodash';
 // import { keys } from 'lodash';
 
@@ -54,23 +53,38 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   // } = callActionForStackComponentsForPagination();
   // const location = useLocation();
   // const authToken = useSelector(sessionSelectors.authenticationToken);
-  const dispatch = useDispatch();
-  const [formData, setFormData] = useState({});
-  const [loading, setLoading] = useState(false);
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const secrets = useSelector(secretSelectors.mySecrets);
+  // const dispatch = useDispatch();
+  // const [
+  //   formData,
+  //    setFormData
+  // ] = useState({});
+  const [
+    loading,
+    // setLoading
+  ] = useState(false);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const secrets = useSelector(secretSelectors.mySecrets);
   // const [validationSchema, setValidationSchema] = useState({});
   // const user = useSelector(userSelectors.myUser);
   // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
-  const [componentName, setComponentName] = useState('');
-  const [isShared, setIsShared] = useState(true);
-  const [inputData, setInputData] = useState({}) as any;
-  const [inputFields, setInputFields] = useState() as any;
+  // const [componentName, setComponentName] = useState('');
+  // const [isShared, setIsShared] = useState(true);
+  // const [inputData, setInputData] = useState({}) as any;
+  // const [inputFields, setInputFields] = useState() as any;
   // const [inputArrayFields, setInputArrayFields] = useState() as any;
-  const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
-  const [selectedSecret, setSelectedSecret] = useState({}) as any;
-  const [secretId, setSecretId] = useState('');
-  const [secretIdArray, setSecretIdArray] = useState([]);
+  const [
+    secretOptionsWithKeys,
+    // setSecretOptionsWithKeys
+  ] = useState([]);
+  const [
+    selectedSecret,
+    // setSelectedSecret
+  ] = useState({}) as any;
+  const [
+    secretId,
+    // setSecretId
+  ] = useState('');
+  // const [secretIdArray, setSecretIdArray] = useState([]);
   // const history = useHistory();
 
   // useEffect(() => {
@@ -141,129 +155,129 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   //   }
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
-  const handleAddFields = (name: any, index: any) => {
-    const values = [...inputFields];
-    // const check = values.find(({ name }) => name);
-    // const targetObject = values.find((x) => x[name] !== undefined);
+  // const handleAddFields = (name: any, index: any) => {
+  //   const values = [...inputFields];
+  //   // const check = values.find(({ name }) => name);
+  //   // const targetObject = values.find((x) => x[name] !== undefined);
 
-    // if (targetObject) {
-    // }
-    // debugger;
-    values[index][name].push({ key: '', value: '' });
+  //   // if (targetObject) {
+  //   // }
+  //   // debugger;
+  //   values[index][name].push({ key: '', value: '' });
 
-    setInputFields(values);
-  };
+  //   setInputFields(values);
+  // };
 
-  const handleRemoveFields = (parentIndex: any, childIndex: any, name: any) => {
-    const values = [...inputFields];
-    // debugger;
-    values[parentIndex][name].splice(childIndex, 1);
-    setInputFields(values);
-  };
-  const toSnakeCase = (str: any) =>
-    str &&
-    str
-      .match(
-        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
-      )
-      .map((x: any) => x.toLowerCase())
-      .join('_');
+  // const handleRemoveFields = (parentIndex: any, childIndex: any, name: any) => {
+  //   const values = [...inputFields];
+  //   // debugger;
+  //   values[parentIndex][name].splice(childIndex, 1);
+  //   setInputFields(values);
+  // };
+  // const toSnakeCase = (str: any) =>
+  //   str &&
+  //   str
+  //     .match(
+  //       /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
+  //     )
+  //     .map((x: any) => x.toLowerCase())
+  //     .join('_');
 
-  const secretOptions = secrets.map((item: any) => {
-    return {
-      label: `{{ ${item.name}.` as string,
-      value: `{{ ${item.name}.` as string,
-      id: item.id as string,
-    };
-  }) as any;
+  // const secretOptions = secrets.map((item: any) => {
+  //   return {
+  //     label: `{{ ${item.name}.` as string,
+  //     value: `{{ ${item.name}.` as string,
+  //     id: item.id as string,
+  //   };
+  // }) as any;
 
-  function callActionForSecret(name: any, value: any, newEvent?: any) {
-    setInputData({
-      ...inputData,
-      [name]: {
-        value: value.value ? value.value : value,
-        id: value?.id ? value?.id : '',
-      },
-    });
+  // function callActionForSecret(name: any, value: any, newEvent?: any) {
+  //   setInputData({
+  //     ...inputData,
+  //     [name]: {
+  //       value: value.value ? value.value : value,
+  //       id: value?.id ? value?.id : '',
+  //     },
+  //   });
 
-    // if (value === undefined) {
-    //   return false;
-    // }
-    if (value?.id) {
-      setSecretId(value?.id);
-      const listOfIds: any = [...secretIdArray];
-      listOfIds.push(value.id);
-      setSecretIdArray(listOfIds);
-    }
+  //   // if (value === undefined) {
+  //   //   return false;
+  //   // }
+  //   if (value?.id) {
+  //     setSecretId(value?.id);
+  //     const listOfIds: any = [...secretIdArray];
+  //     listOfIds.push(value.id);
+  //     setSecretIdArray(listOfIds);
+  //   }
 
-    if (value?.value?.includes('.') || value?.value?.id) {
-      dispatch(
-        secretsActions.secretForId({
-          secretId: value?.id,
-          onSuccess: (res) => {
-            setSelectedSecret(res);
-            const secretOptionsWithKeys = Object.keys(res.values)?.map(
-              (item: any) => {
-                return {
-                  label: `{{ ${res?.name}.${item} }}` as string,
-                  value: `{{ ${res?.name}.${item} }}` as string,
-                };
-              },
-            ) as any;
-            setSecretOptionsWithKeys(secretOptionsWithKeys);
-          },
-          // onFailure: () => setFetching(false),
-        }),
-      );
-    } else if (value?.includes('{{')) {
-      dispatch(
-        secretsActions.getMy({
-          size: 10,
-          workspace: selectedWorkspace,
-          name: 'contains:' + value.replace(/[{ }]/g, ''),
-        }),
-      );
-    }
-  }
+  //   if (value?.value?.includes('.') || value?.value?.id) {
+  //     dispatch(
+  //       secretsActions.secretForId({
+  //         secretId: value?.id,
+  //         onSuccess: (res) => {
+  //           setSelectedSecret(res);
+  //           const secretOptionsWithKeys = Object.keys(res.values)?.map(
+  //             (item: any) => {
+  //               return {
+  //                 label: `{{ ${res?.name}.${item} }}` as string,
+  //                 value: `{{ ${res?.name}.${item} }}` as string,
+  //               };
+  //             },
+  //           ) as any;
+  //           setSecretOptionsWithKeys(secretOptionsWithKeys);
+  //         },
+  //         // onFailure: () => setFetching(false),
+  //       }),
+  //     );
+  //   } else if (value?.includes('{{')) {
+  //     dispatch(
+  //       secretsActions.getMy({
+  //         size: 10,
+  //         workspace: selectedWorkspace,
+  //         name: 'contains:' + value.replace(/[{ }]/g, ''),
+  //       }),
+  //     );
+  //   }
+  // }
 
-  const handleInputChange = (
-    parentIndex: any,
-    childIndex: any,
-    event: any,
-    name: any,
-    type: any,
-  ) => {
-    const values = [...inputFields];
-    if (type === 'key') {
-      values[parentIndex][name][childIndex].key = event;
-    } else {
-      values[parentIndex][name][childIndex].value = event;
-    }
-    setInputFields(values);
-    // const keys = values.map((object) => object.key);
-    // const value = values.map((object) => object.value);
+  // const handleInputChange = (
+  //   parentIndex: any,
+  //   childIndex: any,
+  //   event: any,
+  //   name: any,
+  //   type: any,
+  // ) => {
+  //   const values = [...inputFields];
+  //   if (type === 'key') {
+  //     values[parentIndex][name][childIndex].key = event;
+  //   } else {
+  //     values[parentIndex][name][childIndex].value = event;
+  //   }
+  //   setInputFields(values);
+  //   // const keys = values.map((object) => object.key);
+  //   // const value = values.map((object) => object.value);
 
-    // keys.forEach((key: any, i: any) => (result[key] = value[i]));
+  //   // keys.forEach((key: any, i: any) => (result[key] = value[i]));
 
-    // if (event) {
-    //   setInputData({
-    //     ...inputData,
-    //     [name]: {
-    //       ...values[parentIndex][name],
-    //     },
-    //   });
-    // }
-  };
+  //   // if (event) {
+  //   //   setInputData({
+  //   //     ...inputData,
+  //   //     [name]: {
+  //   //       ...values[parentIndex][name],
+  //   //     },
+  //   //   });
+  //   // }
+  // };
 
-  const initForm = (properties: any) => {
-    let _formData: any = {};
+  // const initForm = (properties: any) => {
+  //   let _formData: any = {};
 
-    for (var key of Object.keys(properties)) {
-      _formData[key] = '' as any;
-    }
+  //   for (var key of Object.keys(properties)) {
+  //     _formData[key] = '' as any;
+  //   }
 
-    setFormData(_formData);
-  };
+  //   setFormData(_formData);
+  // };
   console.log(secretOptionsWithKeys, selectedSecret, 'inputDatainputData');
   // const getFormElement = (elementName: any, elementSchema: any) => {
   //   const props = {
