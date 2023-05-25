@@ -13,7 +13,7 @@ export const PluginsLayout: React.FC<{
         <Paragraph color="grey" style={{ fontSize: '14px' }}>
           Check out our easy to read{' '}
           <a
-            href="https://docs.zenml.io/starter-guide/collaborate/zenml-hub"
+            href="https://docs.zenml.io/user-guide/advanced-guide/leverage-community-contributed-plugins"
             target="__blank"
             rel="noopener noreferrer"
           >

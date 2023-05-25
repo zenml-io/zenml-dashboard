@@ -10,7 +10,7 @@ function DeploymentBanner() {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://docs.zenml.io/getting-started/deploying-zenml"
+          href="https://docs.zenml.io/platform-guide/set-up-your-mlops-platform/deploy-zenml"
         >
           {' '}
           docs
