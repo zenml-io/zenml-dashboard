@@ -65,11 +65,12 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   };
   const handleSelectedType = (selectedType: any) => {
     setShowModal(false);
+    debugger;
     history.push(
-      routePaths.stackComponents.configureComponent(
-        type,
+      routePaths.connectors.registerConnectors(
+        // selectedFlavor?.connectorType,
+        selectedType.connectorType,
         selectedWorkspace,
-        selectedType?.id,
       ),
     );
   };

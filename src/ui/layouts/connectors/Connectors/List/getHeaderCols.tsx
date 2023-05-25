@@ -236,7 +236,7 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => {
         return (
           <FlexBox alignItems="center">
-            {connector?.connectorType.resource_types?.map((e: any) => (
+            {connector?.connectorType?.resource_types?.map((e: any) => (
               <Box marginLeft="sm">
                 <div data-tip data-for={e?.name}>
                   <FlexBox alignItems="center">

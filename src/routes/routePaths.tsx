@@ -172,9 +172,9 @@ export const routePaths = {
       `/workspaces/${workspace}/connectors/list`,
     connectorTypes: (workspace: string): string =>
       `/workspaces/${workspace}/connector_types`,
-    // registerConnectors: (workspace: string): string =>
-    //   `/workspaces/${workspace}/connector_types`,
-    // registerConnectors: `/register-connector`,
+    registerConnectors: (type: string, workspace: string): string =>
+      `/workspaces/${workspace}/${type}/register_connector`,
+
     configuration: (id: TId, workspace: string): string =>
       `/workspaces/${workspace}/connectors/${id}/configuration`,
     updateConnector: (id: TId, workspace: string): string =>

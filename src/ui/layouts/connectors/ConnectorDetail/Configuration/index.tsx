@@ -1,165 +1,942 @@
-import React, { useState } from 'react';
-
-// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-// import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import React, { Fragment, useState } from 'react';
 import {
   FlexBox,
   Box,
-  // FormTextField,
-  // FormDropdownField,
-  // PrimaryButton,
+  EditField,
+  Paragraph,
+  Container,
   FullWidthSpinner,
   PrimaryButton,
-  // H4,
-  // GhostButton,
+  // MakeSecretField,
+  // FormTextField,
   // icons,
-  // Row,
-  // FullWidthSpinner,
-  // Container,
-  // EditField,
-  // Paragraph,
 } from '../../../../components';
-// import SelectorDisabled from '../../Selector/SelectorDisabled';
-// import { iconColors, iconSizes } from '../../../../../constants';
-
-// import { useDispatch } from '../../../../hooks';
-// import { showToasterAction } from '../../../../../redux/actions';
-// import { toasterTypes } from '../../../../../constants';
-
-// import { translate } from '../translate';
-
 import styles from './index.module.scss';
-// import { useService } from './useService';
-// import { routePaths } from '../../../../../routes/routePaths';
-// import { useHistory, useSelector } from '../../../../hooks';
-// import { workspaceSelectors } from '../../../../../redux/selectors';
-// import { StackBox } from '../../../common/StackBox';
-// import { SidePopup } from '../../RegisterSecret/ListForAll/SidePopup';
-// import { NonEditableConfig } from '../../../NonEditableConfig';
-// import {
-// useDispatch,
-// useHistory,
-// useLocation,
-//   useSelector,
-// } from '../../../../hooks';
-// import {
-// sessionSelectors,
-// userSelectors,
-//   workspaceSelectors,
-// } from '../../../../../redux/selectors';
-// import {
-//   showToasterAction,
-//   stackComponentsActions,
-//   secretsActions,
-// } from '../../../../../redux/actions';
-// import { toasterTypes } from '../../../../../constants';
+import { useService } from './useService';
 // import axios from 'axios';
+import {
+  useDispatch,
+  useHistory,
+  // useLocationPath,
+  useSelector,
+} from '../../../../hooks';
+import {
+  // secretSelectors,
+  // sessionSelectors,
+  // userSelectors,
+  workspaceSelectors,
+} from '../../../../../redux/selectors';
+import {
+  showToasterAction,
+  // stackComponentsActions,
+} from '../../../../../redux/actions';
+import { toasterTypes } from '../../../../../constants';
+import { ToggleField } from '../../../common/FormElement';
+import { routePaths } from '../../../../../routes/routePaths';
 // import { routePaths } from '../../../../../routes/routePaths';
 // import { ToggleField } from '../../../common/FormElement';
 // import { SidePopup } from '../../../common/SidePopup';
-import ServicesSelector from '../../ServicesSelectorComponent';
 
 export const Configuration: React.FC<{
   connectorId: TId;
-  tiles?: any;
   fetching?: boolean;
 }> = ({ connectorId, fetching }) => {
-  // const dispatch = useDispatch();
-  // const { connector } = useService({ connectorId });
-  // const history = useHistory();
+  // const locationPath = useLocationPath();
+  const history = useHistory();
 
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const { connector } = useService({ connectorId });
+  // const user = useSelector(userSelectors.myUser);
+  // const [fetching, setFetching] = useState(false);
+  // const secrets = useSelector(secretSelectors.mySecrets);
 
-  const [name, setName] = useState('');
-  const [selectMethods, setSelectMethods] = useState<any>([]);
+  // const authToken = useSelector(sessionSelectors.authenticationToken);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const dispatch = useDispatch();
+  // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
+  const [
+    inputFields,
+    // setInputFields
+  ] = useState([]) as any;
+  const titleCase = (s: any) =>
+    s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
+      c ? c.toUpperCase() : ' ' + d.toUpperCase(),
+    );
+  // console.log(connector, '123123123123sdsdwdwdwd');
+  const matchedAuthMethod = connector.connectorType.auth_methods.find(
+    (item: any) => item?.auth_method === connector?.authMethod,
+  );
 
+  console.log(connector, '123123123123sdsdwdwdwd');
+
+  // const handleAddFields = () => {
+  //   const values = [...inputFields];
+  //   values.push({ key: '', value: '' });
+  //   setInputFields(values);
+  // };
+
+  // const handleRemoveFields = (index: any) => {
+  //   const values = [...inputFields];
+  //   values.splice(index, 1);
+  //   setInputFields(values);
+  // };
+
+  const getFormElement: any = (elementName: any, elementSchema: any) => {
+    if (elementSchema?.type === 'string') {
+      // console.log(filteredSecret, 'asd123ffwwvweer');
+      return (
+        <>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
+            <EditField
+              disabled
+              // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
+              // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
+              label={titleCase(elementName)}
+              optional={false}
+              defaultValue={elementSchema.default}
+              placeholder=""
+              hasError={false}
+              // className={styles.field}
+            />
+          </Box>
+        </>
+      );
+    }
+    if (elementSchema.type === 'object') {
+      return (
+        <>
+          {' '}
+          <Box marginTop="lg">
+            <Paragraph size="body" style={{ color: '#000' }}>
+              <label htmlFor="key">{titleCase(elementName)}</label>
+            </Paragraph>
+          </Box>
+          <FlexBox marginTop="sm" fullWidth>
+            <textarea
+              disabled
+              className={styles.textArea}
+              defaultValue={JSON.stringify(elementSchema.default)}
+              style={{ width: '30vw' }}
+              onBlur={(e) => {
+                const jsonStr = e.target.value;
+                try {
+                  JSON.parse(jsonStr);
+                } catch (e) {
+                  dispatch(
+                    showToasterAction({
+                      description: 'Invalid JSON.',
+                      type: toasterTypes.failure,
+                    }),
+                  );
+                }
+              }}
+              onChange={(e) => {}}
+            />
+          </FlexBox>
+        </>
+      );
+    }
+
+    if (elementSchema.type === 'object') {
+      return (
+        <Box marginTop="lg" style={{ width: '30vw' }}>
+          <Paragraph size="body" style={{ color: 'black' }}>
+            <label htmlFor={elementName}>{titleCase(elementName)}</label>
+          </Paragraph>
+
+          <Box style={{ position: 'relative' }}>
+            {Object.keys(elementSchema || {}).length < 1 && (
+              <>
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '-5px',
+                    width: '5px',
+                    height: '5px',
+                    borderRadius: '100%',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                  }}
+                ></div>
+
+                <div
+                  className="form-row"
+                  style={{
+                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                    marginLeft: '2px',
+                  }}
+                >
+                  <FlexBox.Row
+                    alignItems="center"
+                    marginTop="sm"
+                    style={{ width: '30vw' }}
+                  >
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '35px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
+
+                    <EditField
+                      disabled
+                      onChangeText={
+                        (event: any) => {}
+                        // handleInputChange(0, event, elementName, 'key')
+                      }
+                      label="Key"
+                      optional={false}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                    <div style={{ width: '10%' }}></div>
+                    <EditField
+                      disabled
+                      onChangeText={(event: any) => {}}
+                      label="Value"
+                      // optional={true}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                  </FlexBox.Row>
+                </div>
+              </>
+            )}
+          </Box>
+
+          {/* <Box style={{ position: 'relative' }}>
+            {Object.entries(elementSchema).map(([key, value], index) => (
+              <>
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '-5px',
+                    width: '5px',
+                    height: '5px',
+                    borderRadius: '100%',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                  }}
+                ></div>
+
+                <div
+                  className="form-row"
+                  style={{
+                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                    marginLeft: '2px',
+                  }}
+                >
+                  <FlexBox.Row alignItems="center" marginTop="sm">
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
+
+                    <EditField
+                      disabled
+                      onKeyDown={(e: any) =>
+                        onPressEnterForEmpty(
+                          e,
+                          'key',
+                          elementName,
+                          // index,
+                        )
+                      }
+                      onChangeText={
+                        (event: any) => {}
+                        // handleInputChange(0, event, elementName, 'key')
+                      }
+                      label="Key"
+                      optional={false}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                    <div style={{ width: '10%' }}></div>
+                    <EditField
+                      disabled
+                      onKeyDown={(e: any) =>
+                        onPressEnterForEmpty(e, 'value', elementName)
+                      }
+                      onChangeText={(event: any) => {}}
+                      label="Value"
+                      // optional={true}
+                      // value={''}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                  </FlexBox.Row>
+                </div>
+              </>
+            ))}
+          </Box> */}
+
+          <Box style={{ position: 'relative' }}>
+            {Object.entries(elementSchema || {}).map(([key, value], index) => (
+              <>
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '-5px',
+                    width: '5px',
+                    height: '5px',
+                    borderRadius: '100%',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                  }}
+                ></div>
+
+                <div
+                  className="form-row"
+                  style={{
+                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                    marginLeft: '2px',
+                  }}
+                >
+                  <FlexBox.Row
+                    marginTop="lg"
+                    alignItems="center"
+                    style={{ width: '30vw' }}
+                  >
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
+
+                    <EditField
+                      disabled
+                      label="Key"
+                      optional={false}
+                      defaultValue={key}
+                      // value={key}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                    <div style={{ width: '10%' }}></div>
+                    <EditField
+                      disabled
+                      // marginRight={'md'}
+
+                      label="Value"
+                      // optional={true}
+                      defaultValue={value}
+                      // value={value}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                  </FlexBox.Row>
+                </div>
+              </>
+            ))}
+          </Box>
+
+          <Box style={{ position: 'relative' }}>
+            {inputFields.map((inputField: any, index: any) => (
+              <>
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '-5px',
+                    width: '5px',
+                    height: '5px',
+                    borderRadius: '100%',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                  }}
+                ></div>
+
+                <div
+                  className="form-row"
+                  style={{
+                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                    marginLeft: '2px',
+                  }}
+                >
+                  <FlexBox.Row
+                    marginTop="lg"
+                    alignItems="center"
+                    style={{ width: '30vw' }}
+                  >
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
+
+                    <Box marginTop="lg">
+                      <EditField
+                        disabled
+                        label={'Key'}
+                        className={styles.field}
+                        value={inputField?.key}
+                        placeholder={''}
+                      />
+                    </Box>
+
+                    <div style={{ width: '10%' }}></div>
+                    <Box marginTop="lg">
+                      <EditField
+                        disabled
+                        className={styles.field}
+                        label={'Value'}
+                        value={inputField?.value}
+                        placeholder={''}
+                      />
+                    </Box>
+                  </FlexBox.Row>
+                </div>
+              </>
+            ))}
+          </Box>
+        </Box>
+      );
+    }
+
+    if (elementSchema.type === 'array') {
+      return (
+        <Box marginTop="md">
+          <Paragraph size="body" style={{ color: '#000' }}>
+            <label htmlFor="key">{titleCase(elementName)}</label>
+          </Paragraph>
+
+          <Box style={{ position: 'relative' }}>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '10px',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
+              }}
+            ></div>
+
+            <div
+              className="form-row"
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
+              {elementSchema &&
+                elementSchema.default?.map((item: any, index: any) => (
+                  <Fragment key={index}>
+                    <Box
+                      style={{ display: 'flex', alignItems: 'center' }}
+                      marginTop="sm"
+                    >
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          width: '15px',
+                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          marginRight: '5px',
+                          marginLeft: '-2px',
+                          color: 'rgba(68, 62, 153, 0.3)',
+                        }}
+                      >
+                        &#x27A4;
+                      </div>
+
+                      <div className="form-group" style={{ width: '28.5vw' }}>
+                        <EditField
+                          disabled
+                          className={styles.field}
+                          label={'Value'}
+                          value={item}
+                          placeholder={''}
+                        />
+                      </div>
+                      {/* <Box className="form-group">
+                      <EditField
+                          disabled
+                          className={styles.field}
+                          label={'Value'}
+                          value={item}
+                          placeholder={''}
+                        />
+                    </Box> */}
+                      <div
+                        // className="col-sx-2 "
+                        style={{
+                          justifyContent: 'space-between',
+                          display: 'flex',
+                          marginTop: '10px',
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}
+                        ></div>
+                      </div>
+                    </Box>
+                  </Fragment>
+                ))}
+              {/* {inputFields
+              ?.filter((x: any) => x.hasOwnProperty(props.name))
+              .map((inputField: any, index: any) => (
+
+              ))} */}
+            </div>
+            <div className="submit-button"></div>
+            <br />
+          </Box>
+        </Box>
+      );
+    }
+    if (elementSchema.type === 'boolean') {
+      return (
+        <Box marginTop={'lg'} style={{ width: '30vw' }}>
+          <Box>
+            <ToggleField
+              value={elementSchema.default}
+              // onHandleChange={() =>
+              //   onChangeToggle(!elementSchema, 'other', elementName)
+              // }
+              label={titleCase(elementName)}
+              disabled={true}
+            />
+          </Box>
+        </Box>
+      );
+    }
+  };
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
 
-  const data = [
-    {
-      name: 'Generic AWS resource',
-      resource_type: 'aws-generic',
-      description:
-        '\nMulti-purpose AWS resource type. It allows consumers to use the connector to\nconnect to any AWS service. When used by connector consumers, they are provided\na generic boto3 session instance pre-configured with AWS credentials. This\nsession can then be used to create boto3 clients for any particular AWS service.\n\nThe resource name represents the AWS region that the connector is authorized to\naccess.\n',
-      auth_methods: [
-        'implicit',
-        'secret-key',
-        'sts-token',
-        'session-token',
-        'federation-token',
-      ],
-      supports_instances: false,
-      logo_url:
-        'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/container_registry/aws.png',
-      emoji: ':large_orange_diamond:',
-    },
-    {
-      name: 'AWS S3 bucket',
-      resource_type: 's3-bucket',
-      description:
-        '\nAllows users to connect to S3 buckets. When used by connector consumers, they\nare provided a pre-configured boto3 S3 client instance.\n\nThe configured credentials must have at least the following S3 permissions:\n\n- s3:ListBucket\n- s3:GetObject\n- s3:PutObject\n- s3:DeleteObject\n- s3:ListAllMyBuckets\n\nIf set, the resource name must identify an S3 bucket using one of the following\nformats:\n\n- S3 bucket URI: s3://<bucket-name>\n- S3 bucket ARN: arn:aws:s3:::<bucket-name>\n- S3 bucket name: <bucket-name>\n',
-      auth_methods: [
-        'implicit',
-        'secret-key',
-        'iam-role',
-        'session-token',
-        'federation-token',
-      ],
-      supports_instances: true,
-      logo_url:
-        'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/container_registry/aws.png',
-      emoji: ':package:',
-    },
-    {
-      name: 'AWS EKS Kubernetes cluster',
-      resource_type: 'kubernetes-cluster',
-      description:
-        "\nAllows users to access an EKS registry as a standard Kubernetes cluster\nresource. When used by connector consumers, they are provided a\npre-authenticated python-kubernetes client instance.\n\nThe configured credentials must have at least the following EKS permissions:\n\n- eks:ListClusters\n- eks:DescribeCluster\n\nIn addition to the above permissions, if the credentials are not associated\nwith the same IAM user or role that created the EKS cluster, the IAM principal\nmust be manually added to the EKS cluster's `aws-auth` ConfigMap, otherwise the\nKubernetes client will not be allowed to access the cluster's resources. This\nmakes it more challenging to use the AWS Implicit and AWS Federation Token\nauthentication method for this resource. For more information, see:\nhttps://docs.aws.amazon.com/eks/latest/userguide/add-user-role.html\n\nIf set, the resource name must identify an EKS cluster using one of the\nfollowing formats:\n\n- EKS cluster name: <cluster-name>\n- EKS cluster ARN: arn:aws:eks:<region>:<account-id>:cluster/<cluster-name>\n\nEKS cluster names are region scoped. The connector can only be used to access\nEKS clusters in the AWS region that it is configured to use.\n",
-      auth_methods: [
-        'implicit',
-        'secret-key',
-        'sts-token',
-        'iam-role',
-        'session-token',
-      ],
-      supports_instances: true,
-      logo_url:
-        'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/kubernetes.png',
-      emoji: ':cyclone:',
-    },
-    {
-      name: 'AWS ECR container registry',
-      resource_type: 'docker-registry',
-      description:
-        '\nAllows users to access one or more ECR repositories as a standard Docker\nregistry resource. When used by connector consumers, they are provided a\npre-authenticated python-docker client instance.\n\nThe configured credentials must have at least the following ECR permissions for\none or more ECR repositories:\n\n- ecr:DescribeRegistry\n- ecr:DescribeRepositories\n- ecr:ListRepositories\n- ecr:BatchGetImage\n- ecr:DescribeImages\n- ecr:BatchCheckLayerAvailability\n- ecr:GetDownloadUrlForLayer\n- ecr:InitiateLayerUpload\n- ecr:UploadLayerPart\n- ecr:CompleteLayerUpload\n- ecr:PutImage\n- ecr:GetAuthorizationToken\n\nThis resource type is not scoped to a single ECR repository. Instead,\na connector configured with this resource type will grant access to all the\nECR repositories that the credentials are allowed to access under the configured\nAWS region (i.e. all repositories under the Docker registry URL\n`<account-id>.dkr.ecr.<region>.amazonaws.com`).\n\nThe resource name associated with this resource type uniquely identifies an ECR\nregistry using one of the following formats (the repository name is ignored,\nonly the registry URL/ARN is used):\n            \n- ECR repository URI: https://<account-id>.dkr.ecr.<region>.amazonaws.com[/<repository-name>]\n- ECR repository ARN: arn:aws:ecr:<region>:<account-id>:repository[/<repository-name>]\n\nECR repository names are region scoped. The connector can only be used to access\nECR repositories in the AWS region that it is configured to use.\n',
-      auth_methods: [
-        'secret-key',
-        'sts-token',
-        'iam-role',
-        'session-token',
-        'federation-token',
-      ],
-      supports_instances: false,
-      logo_url:
-        'https://public-flavor-logos.s3.eu-central-1.amazonaws.com/container_registry/docker.png',
-      emoji: ':whale:',
-    },
-  ];
+  // const values = [...flavor?.configSchema?.properties];
 
+  const configurationModifiedObj: any = {};
+
+  // Iterate over the properties of obj1
+  for (let prop in matchedAuthMethod.config_schema.properties) {
+    // Check if the property exists in obj2
+    if (connector.configuration.hasOwnProperty(prop)) {
+      // Add the property to obj1 with the value from obj2
+      configurationModifiedObj[prop] = {
+        ...matchedAuthMethod.config_schema.properties[prop],
+        default: connector.configuration[prop],
+      };
+    } else {
+      // If the property does not exist in obj2, copy it as is
+      configurationModifiedObj[prop] = {
+        ...matchedAuthMethod.config_schema.properties[prop],
+        default:
+          matchedAuthMethod.config_schema.properties[prop].type === 'array'
+            ? ['']
+            : matchedAuthMethod.config_schema.properties[prop].type === 'object'
+            ? { key: '', value: '' }
+            : matchedAuthMethod.config_schema.properties[prop].type ===
+              'boolean'
+            ? false
+            : '',
+      };
+    }
+  }
+
+  if (fetching) {
+    return <FullWidthSpinner color="black" size="md" />;
+  }
+  console.log(configurationModifiedObj, '231wfgfwf23d');
   return (
-    <>
-      {/* <Box marginTop="md">
-        <SelectorDisabled inputFields={secret.values} width="30vw" />
-      </Box> */}
-      <ServicesSelector
-        name={name}
-        setName={setName}
-        selectMethods={selectMethods}
-        setSelectMethods={setSelectMethods}
-        data={data}
-      />
+    <FlexBox.Column marginTop="xl">
+      <FlexBox.Row flexDirection="column">
+        <Container>
+          <Box style={{ width: '30vw' }}>
+            <EditField
+              disabled
+              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
+              // onChangeText={(e: any) => onPressEnter(e, 'name')}
+              label={'Component Name'}
+              optional={false}
+              defaultValue={connector.name}
+              placeholder=""
+              hasError={false}
+              className={styles.field}
+            />
+          </Box>
+        </Container>
+        <Container>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
+            <EditField
+              disabled
+              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
+              // onChangeText={(e: any) => onPressEnter(e, 'name')}
+              label={'Description'}
+              optional={false}
+              defaultValue={connector.connectorType.description}
+              placeholder=""
+              hasError={false}
+              className={styles.field}
+            />
+          </Box>
+        </Container>
+        <Container>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
+            <ToggleField
+              value={connector.is_shared}
+              // onHandleChange={() =>
+              //   onChangeToggle(!stackComponent.isShared, 'share')
+              // }
+              label="Share Component with public"
+              disabled={true}
+            />
+          </Box>
+        </Container>
+      </FlexBox.Row>
+      <FlexBox.Row style={{ width: '40%' }}>
+        <Container>
+          {Object.keys(configurationModifiedObj).map((key, ind) => (
+            <>{getFormElement(key, configurationModifiedObj[key])}</>
+          ))}
+        </Container>
+      </FlexBox.Row>
+      {connector.expirationSeconds !== null && (
+        <Container>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
+            <EditField
+              disabled
+              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
+              // onChangeText={(e: any) => onPressEnter(e, 'name')}
+              label={'Expiration Seconds'}
+              optional={false}
+              defaultValue={connector.expirationSeconds}
+              placeholder=""
+              hasError={false}
+              className={styles.field}
+            />
+          </Box>
+        </Container>
+      )}
+
+      <Box marginTop="lg" marginLeft={'md'} style={{ width: '30vw' }}>
+        <Paragraph size="body" style={{ color: 'black' }}>
+          <label htmlFor={connector.labels}>{'Labels'}</label>
+        </Paragraph>
+
+        <Box style={{ position: 'relative' }}>
+          {Object.keys(connector.labels || {}).length < 1 && (
+            <>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '-5px',
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '100%',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                }}
+              ></div>
+
+              <div
+                className="form-row"
+                style={{
+                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                  marginLeft: '2px',
+                }}
+              >
+                <FlexBox.Row
+                  alignItems="center"
+                  marginTop="sm"
+                  style={{ width: '30vw' }}
+                >
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      width: '35px',
+                      borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      marginRight: '5px',
+                      marginLeft: '-2px',
+                      color: 'rgba(68, 62, 153, 0.3)',
+                    }}
+                  >
+                    &#x27A4;
+                  </div>
+
+                  <EditField
+                    disabled
+                    // onKeyDown={(e: any) =>
+                    //   onPressEnterForEmpty(
+                    //     e,
+                    //     'key',
+                    //     elementName,
+                    //     // index,
+                    //   )
+                    // }
+                    onChangeText={
+                      (event: any) => {}
+                      // handleInputChange(0, event, elementName, 'key')
+                    }
+                    label="Key"
+                    optional={false}
+                    // value={''}
+                    placeholder=""
+                    hasError={false}
+                    className={styles.field}
+                  />
+                  <div style={{ width: '10%' }}></div>
+                  <EditField
+                    disabled
+                    // onKeyDown={(e: any) =>
+                    //   onPressEnterForEmpty(e, 'value', elementName)
+                    // }
+                    onChangeText={(event: any) => {}}
+                    label="Value"
+                    // optional={true}
+                    // value={''}
+                    placeholder=""
+                    hasError={false}
+                    className={styles.field}
+                  />
+                </FlexBox.Row>
+              </div>
+            </>
+          )}
+        </Box>
+
+        <Box style={{ position: 'relative' }}>
+          {Object.entries(connector.labels || {}).map(([key, value], index) => (
+            <>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '-5px',
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '100%',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                }}
+              ></div>
+
+              <div
+                className="form-row"
+                style={{
+                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                  marginLeft: '2px',
+                }}
+              >
+                <FlexBox.Row
+                  marginTop="lg"
+                  alignItems="center"
+                  style={{ width: '30vw' }}
+                >
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      width: '15px',
+                      borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      marginRight: '5px',
+                      marginLeft: '-2px',
+                      color: 'rgba(68, 62, 153, 0.3)',
+                    }}
+                  >
+                    &#x27A4;
+                  </div>
+
+                  <EditField
+                    disabled
+                    // onKeyDown={(e: any) =>
+                    //   onPressEnter(e, 'key', elementName, key)
+                    // }
+                    // onChangeText={(e: any) =>
+                    //   onPressEnter(e, 'key', elementName, key, index)
+                    // }
+                    label="Key"
+                    optional={false}
+                    defaultValue={key}
+                    // value={key}
+                    placeholder=""
+                    hasError={false}
+                    className={styles.field}
+                  />
+                  <div style={{ width: '10%' }}></div>
+                  <EditField
+                    disabled
+                    // marginRight={'md'}
+                    // onKeyDown={(e: any) =>
+                    //   onPressEnter(e, 'value', elementName, key, index)
+                    // }
+                    // onChangeText={(e: any) =>
+                    //   onPressEnter(e, 'value', elementName, key, index)
+                    // }
+                    label="Value"
+                    // optional={true}
+                    defaultValue={value}
+                    // value={value}
+                    placeholder=""
+                    hasError={false}
+                    className={styles.field}
+                  />
+                </FlexBox.Row>
+              </div>
+            </>
+          ))}
+        </Box>
+
+        <Box style={{ position: 'relative' }}>
+          {inputFields.map((inputField: any, index: any) => (
+            <>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '-5px',
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '100%',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                }}
+              ></div>
+
+              <div
+                className="form-row"
+                style={{
+                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                  marginLeft: '2px',
+                }}
+              >
+                <FlexBox.Row
+                  marginTop="lg"
+                  alignItems="center"
+                  style={{ width: '30vw' }}
+                >
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      width: '15px',
+                      borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      marginRight: '5px',
+                      marginLeft: '-2px',
+                      color: 'rgba(68, 62, 153, 0.3)',
+                    }}
+                  >
+                    &#x27A4;
+                  </div>
+
+                  <Box marginTop="lg">
+                    <EditField
+                      // onKeyDown={(e: any) =>
+                      //   onPressEnterForAddMore(
+                      //     e,
+                      //     'addMore',
+                      //     elementName,
+                      //     // index,
+                      //   )
+                      // }
+                      // onChangeText={(event: any) =>
+                      //   handleInputChange(index, event, elementName, 'key')
+                      // }
+                      disabled
+                      label={'Key'}
+                      className={styles.field}
+                      value={inputField?.key}
+                      placeholder={''}
+                    />
+                  </Box>
+
+                  <div style={{ width: '10%' }}></div>
+                  <Box marginTop="lg">
+                    <EditField
+                      // onKeyDown={(e: any) =>
+                      //   onPressEnterForAddMore(
+                      //     e,
+                      //     'addMore',
+                      //     elementName,
+                      //     // index,
+                      //   )
+                      // }
+                      disabled
+                      className={styles.field}
+                      // onChangeText={(event: any) =>
+                      //   handleInputChange(index, event, elementName, 'value')
+                      // }
+                      label={'Value'}
+                      value={inputField?.value}
+                      placeholder={''}
+                    />
+                  </Box>
+                </FlexBox.Row>
+              </div>
+            </>
+          ))}
+        </Box>
+      </Box>
 
       <FlexBox
         style={{
@@ -171,81 +948,21 @@ export const Configuration: React.FC<{
       >
         <Box marginBottom="lg">
           <PrimaryButton
-            // onClick={() =>
-            //   history.push(
-            //     routePaths.connectors.updateConnector(
-            //       connector.id,
-            //       selectedWorkspace,
-            //     ),
-            //   )
-            // }
+            onClick={() =>
+              history.push(
+                routePaths.connectors.updateConnector(
+                  // locationPath.split('/')[4],
+                  connector.id,
+                  selectedWorkspace,
+                ),
+              )
+            }
             className={styles.updateButton}
           >
-            Update Secret
+            Update Connector
           </PrimaryButton>
         </Box>
       </FlexBox>
-    </>
-    // <FlexBox.Column marginLeft="xl">
-    //   <Box marginTop="lg" style={{ width: '30vw' }}>
-    //     <FormTextField
-    //       label={'Secret name'}
-    //       labelColor="rgba(66, 66, 64, 0.5)"
-    //       placeholder={'Ex.John Doe'}
-    //       value={connector?.name}
-    //       disabled
-    //       onChange={() => {}}
-    //       style={{
-    //         background: 'rgb(233, 234, 236)',
-    //         border: 'none',
-    //         borderRadius: '4px',
-    //       }}
-    //     />
-    //   </Box>
-    //   <Box marginTop="lg" style={{ width: '30vw' }}>
-    //     <FormDropdownField
-    //       label={'Scope'}
-    //       labelColor="rgba(66, 66, 64, 0.5)"
-    //       placeholder={'Choose a scope'}
-    //       value={connector?.scope}
-    //       onChange={() => {}}
-    //       disabled
-    //       options={[] as any}
-    //       style={{
-    //         paddingLeft: '10px',
-    //         background: 'rgba(233, 234, 236, 0.5)',
-    //         color: '#a1a4ab',
-    //         border: 'none',
-    //         borderRadius: '4px',
-    //       }}
-    //     />
-    //   </Box>
-
-    //   {/* <Box marginTop="md">
-    //     <SelectorDisabled inputFields={connector.values} width="30vw" />
-    //   </Box> */}
-
-    //   <FlexBox
-    //     style={{
-    //       position: 'fixed',
-    //       right: '0',
-    //       bottom: '0',
-    //       marginRight: '45px',
-    //     }}
-    //   >
-    //     <Box marginBottom="lg">
-    //       {/* <PrimaryButton
-    //         onClick={() =>
-    //           history.push(
-    //             routePaths.connector.updateSecret(connector.id, selectedWorkspace),
-    //           )
-    //         }
-    //         className={styles.updateButton}
-    //       >
-    //         Update Secret
-    //       </PrimaryButton> */}
-    //     </Box>
-    //   </FlexBox>
-    // </FlexBox.Column>
+    </FlexBox.Column>
   );
 };

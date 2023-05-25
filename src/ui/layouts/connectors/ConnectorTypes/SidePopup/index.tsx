@@ -7,6 +7,7 @@ import {
   icons,
   LinkBox,
   Paragraph,
+  PrimaryButton,
 } from '../../../../components';
 
 import styles from './index.module.scss';
@@ -207,13 +208,13 @@ export const SidePopup: React.FC<{
               ) : null}
             </Box>
 
-            {/* <Box
+            <Box
               paddingVertical="lg"
               paddingHorizontal="md"
               className={styles.actionSection}
             >
-              <FlexBox.Row justifyContent="space-between" alignItems="center">
-                <Box>
+              <FlexBox.Row justifyContent="space-between" alignItems="flex-end">
+                {/* <Box>
                   <LinkBox onClick={onSeeExisting}>
                     <Paragraph
                       style={{
@@ -225,12 +226,12 @@ export const SidePopup: React.FC<{
                       See Existing
                     </Paragraph>
                   </LinkBox>
-                </Box>
+                </Box> */}
                 <Box>
                   <PrimaryButton onClick={onSelectType}>Next</PrimaryButton>
                 </Box>
               </FlexBox.Row>
-            </Box> */}
+            </Box>
           </OutsideClickHandler>
         </Box>
       </FlexBox>
