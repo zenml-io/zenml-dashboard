@@ -1,43 +1,5 @@
 @import '../../../../globalStyles.scss';
 
-.service_selector {
-  margin-top: 30px;
-  padding: 0 20px !important;
-  width: 615px;
-  height: 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border: 1px solid #c9cbd0;
-  border-radius: 4px;
-  cursor: pointer;
-}
-
-.services_container {
-  padding: 20px !important;
-  border-left: 1px solid #c9cbd0;
-  border-right: 1px solid #c9cbd0;
-  border-bottom: 1px solid #c9cbd0;
-
-  .services {
-    margin-bottom: 10px !important;
-    img {
-      height: 20px;
-    }
-    .servicesName {
-      cursor: pointer;
-    }
-
-    .selectedBoxCheckbox {
-      height: 15px;
-      width: 15px;
-      accent-color: green;
-      // position: absolute;
-      // top: 5px;
-    }
-  }
-}
-
 .code {
   font-size: $fontSizeBody;
   max-height: 75vh;

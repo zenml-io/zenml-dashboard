@@ -12,15 +12,15 @@ import {
   PrimaryButton,
   // H4,
   // GhostButton,
-  icons,
+  // icons,
   // Row,
   // FullWidthSpinner,
   // Container,
   // EditField,
-  Paragraph,
+  // Paragraph,
 } from '../../../../components';
 // import SelectorDisabled from '../../Selector/SelectorDisabled';
-import { iconColors, iconSizes } from '../../../../../constants';
+// import { iconColors, iconSizes } from '../../../../../constants';
 
 // import { useDispatch } from '../../../../hooks';
 // import { showToasterAction } from '../../../../../redux/actions';
@@ -57,6 +57,7 @@ import styles from './index.module.scss';
 // import { routePaths } from '../../../../../routes/routePaths';
 // import { ToggleField } from '../../../common/FormElement';
 // import { SidePopup } from '../../../common/SidePopup';
+import ServicesSelector from '../../ServicesSelectorComponent';
 
 export const Configuration: React.FC<{
   connectorId: TId;
@@ -70,13 +71,7 @@ export const Configuration: React.FC<{
   // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const [name, setName] = useState('');
-  const [showServices, setShowServices] = useState(false);
-  const [showMethods, setShowMethods] = useState(false);
-
-  const handleShow = (service_name: string) => {
-    setName(service_name);
-    setShowMethods(!showMethods);
-  };
+  const [selectMethods, setSelectMethods] = useState<any>([]);
 
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
@@ -158,64 +153,13 @@ export const Configuration: React.FC<{
       {/* <Box marginTop="md">
         <SelectorDisabled inputFields={secret.values} width="30vw" />
       </Box> */}
-
-      <Box>
-        <Box
-          className={styles.service_selector}
-          onClick={() => setShowServices(!showServices)}
-        >
-          <Box>
-            <Paragraph>Select Resource</Paragraph>
-          </Box>
-          <Box>
-            <icons.chevronDown color={iconColors.black} size={iconSizes.xs} />
-          </Box>
-        </Box>
-
-        {showServices && (
-          <Box className={styles.services_container}>
-            {data?.map((e: any) => (
-              <>
-                <FlexBox className={styles.services}>
-                  <Box>
-                    <img src={e.logo_url} alt={e.name} />
-                  </Box>
-                  <Box
-                    marginLeft="sm"
-                    marginRight="xl"
-                    className={styles.servicesName}
-                    onClick={() => handleShow(e?.name)}
-                  >
-                    <Paragraph>{e.name}</Paragraph>
-                  </Box>
-                  <Box>
-                    <input
-                      type="checkbox"
-                      className={styles.selectedBoxCheckbox}
-                    />
-                  </Box>
-                </FlexBox>
-
-                {showMethods &&
-                  e?.name === name &&
-                  e?.auth_methods?.map((method: any) => (
-                    <FlexBox marginLeft="xxl" marginVertical="md">
-                      <Box marginRight="xl">
-                        <Paragraph>{method}</Paragraph>
-                      </Box>
-                      <Box>
-                        <input
-                          type="checkbox"
-                          className={styles.selectedBoxCheckbox}
-                        />
-                      </Box>
-                    </FlexBox>
-                  ))}
-              </>
-            ))}
-          </Box>
-        )}
-      </Box>
+      <ServicesSelector
+        name={name}
+        setName={setName}
+        selectMethods={selectMethods}
+        setSelectMethods={setSelectMethods}
+        data={data}
+      />
 
       <FlexBox
         style={{
