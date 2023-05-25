@@ -6,6 +6,10 @@ const sessionActionTypes = {
   UPDATE_EMAIL: 'UPDATE_EMAIL',
 };
 
+const serverInfoActionTypes = {
+  SERVER_INFO: 'SERVER_INFO',
+};
+
 const hubAuthActionTypes = {
   AUTHORISE_HUB: 'AUTHORISE_HUB',
   DISCONNECT_HUB: 'DISCONNECT_HUB',
@@ -76,9 +80,23 @@ const flavorActionTypes = {
 };
 
 const runActionTypes = {
+  GET_ARTIFACT_VISUALIZATION: 'GET_ARTIFACT_VISUALIZATION',
+  SET_RUNS_DETAILS: 'SET_RUNS_DETAILS',
+  GET_ARTIFACT_DATA: 'GET_ARTIFACT_DATA',
+  GET_STEP_DATA: 'GET_STEP_DATA',
   RUNS_GET_ALL_RUNS: 'RUNS_GET_ALL_RUNS',
   RUNS_GET_RUN_FOR_ID: 'RUNS_GET_RUN_FOR_ID',
   GRAPH_FOR_RUN_ID: 'GRAPH_FOR_RUN_ID',
+};
+
+const repositoryActionTypes = {
+  REPOSITORY_GET_ALL: 'REPOSITORY_GET_ALL',
+  REPOSITORY_BY_ID: 'REPOSITORY_BY_ID',
+  RUNS_GET_BY_REPOSITORY_ID: 'RUNS_GET_BY_REPOSITORY_ID',
+};
+
+const repositoryPagesActionTypes = {
+  REPOSITORY_PAGES_SET_FETCHING: 'REPOSITORY_PAGES_SET_FETCHING',
 };
 
 const pipelinePagesActionTypes = {
@@ -123,12 +141,15 @@ export const actionTypes = {
   ...runActionTypes,
   ...runPagesActionTypes,
   ...rolesActionTypes,
+  ...repositoryActionTypes,
   ...pipelinePagesActionTypes,
   ...stackPagesActionTypes,
   ...stackComponentPagesActionTypes,
   ...stackComponentActionTypes,
   ...flavorActionTypes,
   ...flavorPagesActionTypes,
+  ...repositoryPagesActionTypes,
+  ...serverInfoActionTypes,
 };
 
 export const REQUESTED = 'REQUESTED';

@@ -38,7 +38,7 @@ const FilterWrapperForRun = () => {
     return filterValuesMap;
   }
   return (
-    <Box marginTop='lg' style={{ width: '100%' }}>
+    <Box marginTop="lg" style={{ width: '100%' }}>
       <FilterComponent
         getInitials={getInitialFilterStateForRuns}
         filters={filters}
@@ -52,17 +52,31 @@ const FilterWrapperForRun = () => {
     </Box>
   );
 };
+const FilterWrapperForConfiguration = () => {
+  // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
+  const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
+  return (
+    <Box style={{ width: '100%' }}>
+      <FilterComponent
+        getInitials={getInitialFilterStateForRuns}
+        filters={filters}
+        setFilter={setFilter}
+      ></FilterComponent>
+    </Box>
+  );
+};
 const getTabPages = (pipelineId: TId, selectedWorkspace: string): TabPage[] => {
   return [
-    {
-      text: translate('tabs.configuration.text'),
-      Component: () => <Configuration pipelineId={pipelineId} />,
-      path: routePaths.pipeline.configuration(pipelineId, selectedWorkspace),
-    },
     {
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
       path: routePaths.pipeline.runs(selectedWorkspace, pipelineId),
+    },
+    {
+      // text: "Visualization",
+      text: translate('tabs.configuration.text'),
+      Component: () => <Configuration pipelineId={pipelineId} />,
+      path: routePaths.pipeline.configuration(pipelineId, selectedWorkspace),
     },
   ];
 };
@@ -104,6 +118,7 @@ export const PipelineDetail: React.FC = () => {
   const tabPages = getTabPages(pipeline.id, selectedWorkspace);
   const breadcrumbs = getBreadcrumbs(pipeline.id, selectedWorkspace);
   const history = useHistory();
+  const locationPath = useLocationPath();
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
   //   padding: '10px 0',
@@ -128,6 +143,9 @@ export const PipelineDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
     >
       <Box marginTop="lg">
+        {locationPath.includes('configuration') && (
+          <FilterWrapperForConfiguration />
+        )}
         <CollapseTable
           pagination={false}
           renderAfterRow={(stack: TStack) => <></>}

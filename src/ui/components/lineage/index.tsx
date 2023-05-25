@@ -1,10 +1,11 @@
-import React, { useCallback, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import ReactFlow, {
   addEdge,
   ConnectionLineType,
   useNodesState,
   useEdgesState,
   Controls,
+  MarkerType,
 } from 'react-flow-renderer';
 import dagre from 'dagre';
 
@@ -12,10 +13,11 @@ import ArtifactNode from './ArtifactNode';
 import StepNode from './StepNode';
 
 import './index.css';
-import { Analysis, Data, Model, Schema, Service, Statistic } from './icons';
-import { useDispatch } from '../../hooks';
-import { runsActions } from '../../../redux/actions';
+import { Analysis, Database, Model, Schema, Service, Statistic } from './icons';
 import { FullWidthSpinner } from '../spinners';
+import arrowClose from '../icons/assets/arrowClose.svg';
+import arrowOpen from '../icons/assets/arrowOpen.svg';
+import Sidebar from './Sidebar';
 
 interface Edge {
   id: string;
@@ -23,13 +25,21 @@ interface Edge {
   target: string;
   type?: string;
   animated?: boolean;
+  label?: string;
+  arrowHeadColor: any;
+  markerEnd?: {
+    type: MarkerType.ArrowClosed;
+    width: number;
+    height: number;
+    color: string;
+  };
 }
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
-const nodeWidth = 172;
-const nodeHeight = 36;
+const nodeWidth = 100;
+const nodeHeight = 56;
 
 const getLayoutedElements = (
   initialNodes: any[],
@@ -38,7 +48,6 @@ const getLayoutedElements = (
 ) => {
   const isHorizontal = direction === 'LR';
   dagreGraph.setGraph({ rankdir: direction });
-  console.log(initialEdges, initialNodes);
   if (initialEdges === undefined && initialNodes === undefined) {
     return { initialNodes, initialEdges };
   }
@@ -62,12 +71,17 @@ const getLayoutedElements = (
       x: nodeWithPosition.x - nodeWidth / 2,
       y: nodeWithPosition.y - nodeHeight / 2,
     };
-
     return node;
   });
 
   initialEdges.forEach((edge) => {
-    edge.type = isHorizontal ? 'straight' : 'smoothstep';
+    edge.type = isHorizontal ? 'straight' : 'step';
+    edge['markerEnd'] = {
+      type: MarkerType.ArrowClosed,
+      width: 20,
+      height: 30,
+      color: '#443E99',
+    };
 
     initialNodes.find((node) => {
       if (
@@ -92,9 +106,7 @@ const getLayoutedElements = (
 
         const e = initialEdges.find((e) => e.source === artifact.id);
         if (e) {
-          console.log(e.target);
           const status = initialNodes.find((step) => step.id === e.target);
-          console.log(status);
           if (status.data.status === 'running') {
             edge.animated = true;
           }
@@ -112,17 +124,17 @@ const getLayoutedElements = (
 const nodeTypes = { step: StepNode, artifact: ArtifactNode };
 
 export const LayoutFlow: React.FC<any> = (graph: any) => {
-  const dispatch = useDispatch();
   const {
     initialNodes: layoutedNodes,
     initialEdges: layoutedEdges,
   } = getLayoutedElements(graph.graph.nodes, graph.graph.edges);
-  const [fetching, setFetching] = useState(false);
-  // eslint-disable-next-line
-  const [nodes, _, onNodesChange] = useNodesState(layoutedNodes);
+  const [fetching, setFetching] = useState(false); //eslint-disable-line
+  const [nodes, _, onNodesChange] = useNodesState(layoutedNodes); //eslint-disable-line
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
   const [legend, setLegend] = useState(false);
+
+  useEffect(() => {}, [selectedNode]);
 
   const onConnect = useCallback(
     (params) =>
@@ -132,6 +144,9 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
             ...params,
             type: ConnectionLineType.SmoothStep,
             animated: true,
+            markerEnd: {
+              type: MarkerType.ArrowClosed,
+            },
           },
           eds,
         ),
@@ -144,216 +159,79 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
   }
   return (
     <>
-      <div className="controls">
-        <button
-          onClick={() => {
-            setFetching(true);
-            dispatch(
-              runsActions.graphForRun({
-                runId: graph.runId,
-                onSuccess: () => setFetching(false),
-                onFailure: () => setFetching(false),
-              }),
-            );
-          }}
-        >
-          Refresh
-        </button>
-        <button onClick={() => setLegend(!legend)}>Legend</button>
-        <button
-          disabled={graph?.metadata[0]?.value ? false : true}
-          onClick={() => {
-            window.open(
-              graph?.metadata[0]?.value
-                ? graph?.metadata[0]?.value
-                : 'https://zenml.io/home',
-            );
-          }}
-        >
-          Orchestrator Logs
-        </button>
-        <div style={{ position: 'relative' }}>
-          <div className="legend" style={{ display: legend ? '' : 'none' }}>
-            <span>
-              <Analysis /> <span>Data Analysis Artifact</span>
-            </span>
-            <span>
-              <Data /> <span>Data Artifact</span>
-            </span>
-            <span>
-              <Model /> <span>Model Artifact</span>
-            </span>
-            <span>
-              <Schema /> <span>Schema Artifact</span>
-            </span>
-            <span>
-              <Service /> <span>Service Artifact</span>
-            </span>
-            <span>
-              <Statistic /> <span>Statistic Artifact</span>
-            </span>
+      {selectedNode === null ? (
+        ''
+      ) : (
+        <div>
+          <Sidebar selectedNode={selectedNode} />
+        </div>
+      )}
+
+      <div style={{ overflow: 'hidden' }}>
+        <div className="controls">
+          <button onClick={() => setLegend(!legend)}>
+            {legend ? (
+              <img
+                className="legend_arrow"
+                src={arrowOpen}
+                alt={'arrow_image'}
+              />
+            ) : (
+              <img
+                className="legend_arrow"
+                src={arrowClose}
+                alt={'arrow_image'}
+              />
+            )}
+            Artifact Legends
+          </button>
+
+          <div style={{}}>
+            <div className="legend" style={{ display: legend ? '' : 'none' }}>
+              <span>
+                <Analysis /> <span>Data Analysis</span>
+              </span>
+              <span>
+                <Database /> <span>Data</span>
+              </span>
+              <span>
+                <Model />
+                <span>Model</span>
+              </span>
+              <span>
+                <Schema /> <span>Schema</span>
+              </span>
+              <span>
+                <Service /> <span>Service</span>
+              </span>
+              <span>
+                <Statistic /> <span>Statistic</span>
+              </span>
+            </div>
           </div>
         </div>
-      </div>
-      <div className="layout">
-        <div className="layoutflow">
-          <ReactFlow
-            nodes={nodes}
-            edges={edges}
-            onNodesChange={onNodesChange}
-            onEdgesChange={onEdgesChange}
-            onConnect={onConnect}
-            connectionLineType={ConnectionLineType.SmoothStep}
-            nodeTypes={nodeTypes}
-            onNodeClick={(event, node) => setSelectedNode(node.data)}
-            fitView
-          >
-            <Controls />
-          </ReactFlow>
-        </div>
-        <div className="detailsPositioning">
-          <div className="detailsBox">
-            <h3 className="detailsTitle">
-              {selectedNode?.artifact_type ||
-              selectedNode?.execution_id === '' ? (
-                'Details'
-              ) : (
-                <span>
-                  Status:{' '}
-                  <span
-                    style={
-                      selectedNode?.status === 'completed'
-                        ? { color: '#4ade80' }
-                        : selectedNode?.status === 'failed'
-                        ? { color: '#FF5C93' }
-                        : selectedNode?.status === 'running'
-                        ? { color: '#22BBDD' }
-                        : selectedNode?.status === 'cached'
-                        ? { color: '#4ade80' }
-                        : { color: '#000' }
-                    }
-                  >
-                    {selectedNode?.status}
-                  </span>
-                </span>
-              )}
-            </h3>
-            {selectedNode ? (
-              <div className="details">
-                <div className="detailsInfo">
-                  <p className="detailsLabel">
-                    {selectedNode?.artifact_type ? 'Artifact ID' : 'Step ID'}
-                  </p>
-                  <p className="detailsP">{selectedNode?.execution_id}</p>
-                  <p className="detailsLabel">
-                    {selectedNode?.artifact_type
-                      ? 'Artifact Name'
-                      : 'Step Name'}
-                  </p>
-                  <p className="detailsP">
-                    {selectedNode?.artifact_type
-                      ? selectedNode?.name
-                      : selectedNode?.entrypoint_name}
-                  </p>
-                  <p className="detailsLabel">
-                    {selectedNode?.artifact_type ? 'Type' : ''}
-                  </p>
-                  <p className="detailsP">
-                    {selectedNode?.artifact_type
-                      ? selectedNode?.artifact_type
-                      : ''}
-                  </p>
-                  <p className="detailsLabel">
-                    {selectedNode?.artifact_type ? 'Data Types' : 'Inputs'}
-                  </p>
-                  <p className="detailsP URI">
-                    {selectedNode?.artifact_type
-                      ? selectedNode?.artifact_data_type
-                      : Object.entries(selectedNode?.inputs || {}).map(
-                          (value) => {
-                            return (
-                              <div>
-                                <p className="detailsKey">
-                                  {String(value[0]) + ':'}
-                                </p>
-                                <p className="detailsValue">
-                                  {String(value[1])}
-                                </p>
-                              </div>
-                            );
-                          },
-                        )}
-                  </p>
-                  <p className="detailsLabel">
-                    {selectedNode?.artifact_type ? 'URI' : 'Outputs'}
-                  </p>
-                  <p className="detailsP URI">
-                    {selectedNode?.artifact_type ? (
-                      <p className="detailsValue">{selectedNode?.uri}</p>
-                    ) : (
-                      Object.entries(selectedNode?.outputs || {}).map(
-                        (value) => {
-                          return (
-                            <div>
-                              <p className="detailsKey">
-                                {String(value[0]) + ':'}
-                              </p>
-                              <p className="detailsValue">{String(value[1])}</p>
-                            </div>
-                          );
-                        },
-                      )
-                    )}
-                  </p>
-                  <p className="detailsLabel">Metadata</p>
-                  <p className="detailsP URI">
-                    {Object.entries(selectedNode?.metadata || {}).map(
-                      (fullValue: [string, any]) => {
-                        let value = fullValue[1];
-                        return (
-                          <div>
-                            <p className="detailsKey">
-                              {String(value[0]).trim() + ' ('}{' '}
-                              {String(value[2]).trim() + ' ):'}
-                            </p>
-                            <p className="detailsValue">
-                              {String(value[1]).trim()}
-                            </p>
-                          </div>
-                        );
-                      },
-                    )}
-                  </p>
-                  <p className="detailsLabel">
-                    {selectedNode?.artifact_type ? 'Is Cached?' : 'Params'}
-                  </p>
-                  <p className="detailsP URI">
-                    {selectedNode?.artifact_type
-                      ? selectedNode?.is_cached
-                        ? 'Yes'
-                        : 'No'
-                      : Object.entries(selectedNode?.parameters || {}).map(
-                          (value) => {
-                            return (
-                              <div>
-                                <p className="detailsKey">
-                                  {String(value[0]) + ':'}
-                                </p>
-                                <p className="detailsValue">
-                                  {String(value[1])}
-                                </p>
-                              </div>
-                            );
-                          },
-                        )}
-                  </p>
-                </div>
-              </div>
-            ) : (
-              <div className="detailsNoNode">
-                <p>Click on a node to see details</p>
-              </div>
-            )}
+        <div className="layout" style={{ overflow: 'hidden' }}>
+          <div className="layoutflow">
+            <ReactFlow
+              nodes={nodes} // node itself
+              edges={edges} //connection lines
+              onNodesChange={onNodesChange}
+              onEdgesChange={onEdgesChange}
+              onConnect={onConnect}
+              connectionLineType={ConnectionLineType.SimpleBezier}
+              nodeTypes={nodeTypes}
+              onNodeClick={async (event, node) => {
+                if (selectedNode?.selected) {
+                  selectedNode.selected = false;
+                  setSelectedNode(selectedNode);
+                }
+                node.data['selected'] = true;
+                setSelectedNode(node.data);
+              }}
+              fitView
+            >
+              <Controls />
+            </ReactFlow>
           </div>
         </div>
       </div>

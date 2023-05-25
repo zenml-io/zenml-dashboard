@@ -288,14 +288,14 @@
               "title": "Change the settings",
               "button": {
                 "text": "Manage",
-                "href": "https://docs.zenml.io/infrastructure/google-cloud-platform"
+                "href": "https://docs.zenml.io/"
               }
             },
             "cardThree": {
               "title": "Invite new members to your organization",
               "button": {
                 "text": "Invite",
-                "href": "https://docs.zenml.io/getting-started/quickstart"
+                "href": "https://github.com/zenml-io/zenml/blob/main/examples/quickstart/README.md"
               }
             }
           },
@@ -322,6 +322,9 @@
               },
               "secrets": {
                 "text": "Secrets"
+              },
+              "repositories": {
+                "text": "Repositories"
               },
               "setting": {
                 "text": "Settings"
@@ -488,7 +491,7 @@
               "text": "Compare runs"
             },
             "externalLink": {
-              "href": "https://docs.zenml.io/v/wip-docs/run-a-pipeline",
+              "href": "https://docs.zenml.io/user-guide/starter-guide",
               "text": "Documentation"
             },
             "copyWorkspaceCommand": {
@@ -508,6 +511,29 @@
             "tabs": {
               "pipelines": {
                 "text": "Pipelines"
+              },
+              "allRuns": {
+                "text": "Runs"
+              }
+            },
+            "emptyState": {
+              "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            },
+            "runsEmptyState": {
+              "text": "No runs."
+            }
+          },
+          "Secrets": {
+            "header": {
+              "breadcrumbs": {
+                "secrets": {
+                  "text": "Secrets"
+                }
+              }
+            },
+            "tabs": {
+              "secrets": {
+                "text": "Secrets"
               },
               "allRuns": {
                 "text": "Runs"
@@ -740,7 +766,7 @@
               "text": "Create workspace"
             },
             "externalLink": {
-              "href": "https://docs.zenml.io/v/wip-docs/collaborate/workspaces",
+              "href": "https://docs.zenml.io/",
               "text": "Documentation"
             },
             "copyWorkspaceCommand": {
@@ -784,6 +810,60 @@
           "AllWorkspaces": {
             "emptyState": {
               "text": "We are sorry! We could not find anything for your filter set. Please change your filters and try again."
+            }
+          },
+          "RepositoryList": {
+            "emptyState": {
+              "text": "No Repositories found"
+            },
+            "createRepository": {
+              "text": "Create Repository"
+            }
+          },
+          "RepositoryDetail": {
+            "overview": {
+              "text": "Overview"
+            },
+            "runs": {
+              "text": "Runs"
+            },
+            "noDescription": {
+              "text": "No Description provided"
+            }
+          },
+          "RepositoryCreate": {
+            "addRepository": {
+              "text": "Add your Repository"
+            },
+            "uniqueName": {
+              "text": "Unique Name"
+            },
+            "repositoryURL": {
+              "text": "Repository URL"
+            },
+            "owner": {
+              "text": "Owner"
+            },
+            "repo": {
+              "text": "Repo"
+            },
+            "logoURL": {
+              "text": "Logo URL"
+            },
+            "description": {
+              "text": "Description"
+            },
+            "token": {
+              "text": "Token"
+            },
+            "create": {
+              "text": "Create"
+            },
+            "validURL": {
+              "text": "Please insert a valid URL"
+            },
+            "githubURL": {
+              "text": "Please insert a Github or Gitlab URL"
             }
           }
         }

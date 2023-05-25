@@ -5,5 +5,5 @@ import { emailUpdateAction } from './emailUpdate';
 export const sessionActions = {
   logout: logoutAction,
   forgotPassword: forgotAction,
-  emailUpdate: emailUpdateAction
+  emailUpdate: emailUpdateAction,
 };

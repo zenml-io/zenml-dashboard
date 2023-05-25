@@ -89,7 +89,10 @@ export const ConnectHub: React.FC = () => {
       <FlexBox justifyContent="end" marginBottom="lg">
         <GhostButton
           onClick={() => {
-            window.open('https://docs.zenml.io/starter-guide/collaborate/zenml-hub', '_blank');
+            window.open(
+              'https://docs.zenml.io/user-guide/advanced-guide/leverage-community-contributed-plugins',
+              '_blank',
+            );
           }}
           style={{ marginLeft: 'auto', marginRight: '12px' }}
         >

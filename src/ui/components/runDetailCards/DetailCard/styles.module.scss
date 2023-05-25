@@ -1,0 +1,21 @@
+@import '../../../globalStyles';
+
+.card {
+  width: 100%;
+  box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.05);
+  border-radius: 4px;
+  padding: 16px;
+
+  &__heading {
+    font-size: 20px;
+    font-weight: 700;
+    margin: 0;
+  }
+
+  &__contentContainer {
+    margin-top: 16px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+}

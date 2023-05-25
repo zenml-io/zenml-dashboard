@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 // import { Box, Paragraph, icons } from '../../../components';
 // import { iconColors, iconSizes } from '../../../../constants';
@@ -10,7 +10,7 @@ import { UpdateConfig } from './UpdateConfig';
 // import { MetaData } from './Metadata';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-import { useHistory, useSelector } from '../../../hooks';
+import { useHistory, useLocation, useSelector } from '../../../hooks';
 // import FilterComponent, {
 //   getInitialFilterStateForRuns,
 // } from '../../../components/Filters';
@@ -32,12 +32,13 @@ import { GetHeaderCols } from './getHeaderCols';
 const getTabPages = (
   secretId: TId,
   selectedWorkspace: string,
+  routeState?: any,
   // history?: any,
 ): TabPage[] => {
   return [
     {
       text: translate('tabs.update.text'),
-      Component: () => <UpdateConfig secretId={secretId} />,
+      Component: () => <UpdateConfig secretId={secretId} state={routeState} />,
       path: routePaths.secret.updateSecret(secretId, selectedWorkspace),
     },
     // {
@@ -78,9 +79,16 @@ export interface SecretDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const { secret } = useService();
+  const location = useLocation();
   const filteredSecret: any = [];
   filteredSecret.push(secret);
   const history = useHistory();
+  const [routeState, setRouteState] = useState({}) as any;
+
+  useEffect(() => {
+    setRouteState(location);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [setRouteState]);
 
   // const { flavourList, fetching } = GetFlavorsListForLogo();
   // const stackComponentsMap = stackComponents.map((item) => {
@@ -120,7 +128,7 @@ export const StackDetail: React.FC = () => {
   //   }
   // }
   console.log(secret, 'secretsecret');
-  const tabPages = getTabPages(secret.id, selectedWorkspace);
+  const tabPages = getTabPages(secret.id, selectedWorkspace, routeState);
   const breadcrumbs = getBreadcrumbs(secret.id, selectedWorkspace);
   const headerCols = GetHeaderCols({
     filteredSecret,

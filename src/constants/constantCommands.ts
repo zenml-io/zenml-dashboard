@@ -1,6 +1,7 @@
 export const constantCommandsToCreateStack = {
   title: 'Stack Cheatsheet',
-  documentation: 'https://docs.zenml.io/starter-guide/stacks',
+  documentation:
+    'https://docs.zenml.io/user-guide/starter-guide/understand-stacks',
   body: [
     {
       text: 'Register a stack',
@@ -31,12 +32,17 @@ export const constantCommandsToCreateStack = {
 export const constantCommandsToCreateSecret = {
   title: 'Stack Cheatsheet',
   documentation:
-    'https://docs.zenml.io/starter-guide/production-fundamentals/secrets-management',
+    'https://docs.zenml.io/platform-guide/set-up-your-mlops-platform/use-the-secret-store',
+};
+
+export const constantCommandsToCreateRepository = {
+  documentation:
+    'https://docs.zenml.io/user-guide/advanced-guide/connect-your-git-repository',
 };
 
 export const constantCommandsToCreatePipeline = {
   title: 'Pipeline Cheatsheet',
-  documentation: 'https://docs.zenml.io/starter-guide/pipelines',
+  documentation: 'https://docs.zenml.io/user-guide/starter-guide',
   body: [
     {
       text: 'Create a pipeline',
@@ -67,7 +73,8 @@ export const constantCommandsToCreatePipeline = {
 
 export const constantCommandsToCreateRuns = {
   title: 'Runs Cheatsheet',
-  documentation: 'https://docs.zenml.io/starter-guide/runs',
+  documentation:
+    'https://docs.zenml.io/user-guide/starter-guide/fetch-runs-after-execution',
   body: [
     {
       text: 'Create a runs',
@@ -97,7 +104,8 @@ export const constantCommandsToCreateRuns = {
 };
 
 export const constantCommandsToCreateComponent = {
-  documentation: 'https://docs.zenml.io/starter-guide/stacks',
+  documentation:
+    'https://docs.zenml.io/user-guide/starter-guide/understand-stacks',
   componentCommand: {
     type: 'alerter',
     body: [

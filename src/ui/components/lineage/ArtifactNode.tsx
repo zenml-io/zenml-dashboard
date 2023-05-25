@@ -1,9 +1,9 @@
-import React, { memo } from 'react';
+import React from 'react';
 import { Handle, Position } from 'react-flow-renderer';
 import { Data, Model, Schema, Service, Statistic, Analysis } from './icons';
 
 import styles from './index.module.scss';
-import { NodeProps } from './types';
+import { NodeProps } from 'react-flow-renderer';
 
 const ArtifactNode = ({
   data,
@@ -11,13 +11,17 @@ const ArtifactNode = ({
   sourcePosition = Position.Bottom,
 }: NodeProps) => {
   return (
-    <>
+    <div className={`${styles.nodeContainer}`}>
       <Handle
         type="target"
         position={targetPosition}
         className={styles.handle}
       />
-      <div className={styles.artifactBody}>
+      <div
+        className={`${
+          data.selected ? styles.artifactBodySelected : styles.artifactBody
+        }`}
+      >
         {data.artifact_type === 'DataArtifact' ? (
           <Data />
         ) : data.artifact_type === 'DataAnalysisArtifact' ? (
@@ -32,13 +36,14 @@ const ArtifactNode = ({
           <Statistic />
         )}
       </div>
+      <div className={styles.artifactBottomText}>{data.name}</div>
       <Handle
         type="source"
         position={sourcePosition}
         className={styles.handle}
       />
-    </>
+    </div>
   );
 };
 
-export default memo(ArtifactNode);
+export default ArtifactNode;

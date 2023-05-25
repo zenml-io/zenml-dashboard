@@ -2,11 +2,6 @@ import React from 'react';
 import cn from 'classnames';
 
 import { FlexBox, Box, Paragraph } from '../../../components';
-// import { Breadcrumbs } from '../../common/Breadcrumbs';
-
-// import { CreateStackButton } from './CreateStackButton';
-// import { DocumentationLink } from './DocumentationLink';
-
 import styles from './index.module.scss';
 import { constantCommandsToCreateRuns } from '../../../../constants/constantCommands';
 
@@ -69,7 +64,12 @@ const HeaderWithButtons: React.FC<{
     >
       <Box className={styles.dynamicHeaderRight}>
         <Paragraph
-          style={{ fontSize: '16px', lineHeight: '17px', color: '#828282', marginTop: '20px' }}
+          style={{
+            fontSize: '16px',
+            lineHeight: '17px',
+            color: '#828282',
+            marginTop: '20px',
+          }}
         >
           Check out our easy to read{' '}
           <a
@@ -77,15 +77,10 @@ const HeaderWithButtons: React.FC<{
             href={constantCommandsToCreateRuns.documentation}
             target="__blank"
           >
-            document
+            docs
           </a>
         </Paragraph>
       </Box>
-      {/* <CreatePipelineButton /> */}
-
-      {/* <DocumentationLink
-      text={constantCommandsToCreatePipeline.documentation}
-    /> */}
     </FlexBox>
   </FlexBox>
 );

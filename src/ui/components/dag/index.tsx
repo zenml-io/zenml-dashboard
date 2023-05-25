@@ -1,10 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useService } from './useService';
 import { LayoutFlow } from '../lineage';
 import { FullWidthSpinner } from '../spinners';
-// import { useSelector } from '../../hooks';
-// import { sessionSelectors } from '../../../redux/selectors';
-// import axios from 'axios';
 
 const styles = {
   container: { width: '100%', height: '100%' },
@@ -17,6 +14,8 @@ export const DAG: React.FC<{
   metadata?: any;
 }> = ({ runId, fetching, metadata }) => {
   const { graph } = useService({ runId });
+
+  useEffect(() => {}, [runId]); //eslint-disable-line
 
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
