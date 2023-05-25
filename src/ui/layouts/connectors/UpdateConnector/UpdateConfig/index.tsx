@@ -58,6 +58,13 @@ export const UpdateConfig: React.FC<{
   console.log(connector, 'connectorconnector');
   const history = useHistory();
   const [connectorName, setConnectorName] = useState('');
+  const [connectorDescription, setConnectorDescription] = useState(
+    connector.connectorType.description,
+  );
+  const [connectorExpirationSeconds, setConnectorExpirationSeconds] = useState(
+    connector.expirationSeconds,
+  );
+  const [labelsInputFields, setLabelsInputFields] = useState([]) as any;
   const [isShared, setIsShared] = useState() as any;
   const [mappedConfiguration, setMappedConfiguration] = useState() as any;
   const user = useSelector(userSelectors.myUser);
@@ -71,7 +78,7 @@ export const UpdateConfig: React.FC<{
   // const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
   // const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
-  const [inputFields, setInputFields] = useState() as any;
+  const [inputFields, setInputFields] = useState([]) as any;
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -83,6 +90,24 @@ export const UpdateConfig: React.FC<{
     // const matchedAuthMethod = connector.connectorType.auth_methods.find(
     //   (item: any) => item?.auth_method === connector?.authMethod,
     // );
+    function convertJSON(json: any) {
+      const updatedObj = [];
+
+      // Handle empty object case
+      if (Object.keys(json).length === 0) {
+        updatedObj.push({ key: '', value: '' });
+        return updatedObj;
+      }
+
+      // Iterate over the object properties
+      for (const key in json) {
+        updatedObj.push({ key: key.trim(), value: json[key] });
+      }
+
+      return updatedObj;
+    }
+    const convertedJson = convertJSON(connector.labels);
+
     const configurationModifiedObj: any = {};
 
     // Iterate over the properties of obj1
@@ -112,6 +137,7 @@ export const UpdateConfig: React.FC<{
       }
     }
     setConnectorName(connector.name);
+    setLabelsInputFields(convertedJson as any);
 
     setIsShared(connector.isShared);
 
@@ -119,6 +145,7 @@ export const UpdateConfig: React.FC<{
     // debugger;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connector]);
+  console.log('convertedJson', labelsInputFields);
 
   // const secretOptions = secrets.map((item: any) => {
   //   return {
@@ -161,7 +188,33 @@ export const UpdateConfig: React.FC<{
         return false;
       }
     }
-    console.log(connector, '123121212');
+    const labels: any = {};
+
+    labelsInputFields.forEach((item: any) => {
+      if (item.key !== '' || item.value !== '') {
+        labels[item.key] = item.value;
+      }
+    });
+
+    for (var key in labels) {
+      if (key === '') {
+        dispatch(
+          showToasterAction({
+            description: 'Key cannot be Empty.',
+            type: toasterTypes.failure,
+          }),
+        );
+        return false;
+      } else if (labels[key] === '') {
+        dispatch(
+          showToasterAction({
+            description: 'Value cannot be Empty.',
+            type: toasterTypes.failure,
+          }),
+        );
+        return false;
+      }
+    }
     const body = {
       user: user?.id,
       workspace: id,
@@ -172,6 +225,8 @@ export const UpdateConfig: React.FC<{
       auth_method: connector.authMethod,
       resource_types: connector.resourceTypes,
       configuration: { ...payload },
+      labels: labels,
+      resource_id: connector.resourceId,
       // type: stackComponent.type,
       // flavor: stackComponent.flavor,
       // configuration: { ...mappedConfiguration, ...final },
@@ -918,6 +973,24 @@ export const UpdateConfig: React.FC<{
           </Box>
         </Container>
         <Container>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
+            <FormTextField
+              onChange={(e: any) => {
+                setConnectorDescription(e);
+              }}
+              // disabled
+              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
+              // onChangeText={(e: any) => onPressEnter(e, 'name')}
+              label={'Description'}
+              optional={false}
+              value={connectorDescription}
+              placeholder=""
+              // hasError={false}
+              // className={styles.field}
+            />
+          </Box>
+        </Container>
+        <Container>
           <Box marginTop="lg">
             <ToggleField
               label={'Share Component with public'}
@@ -939,6 +1012,180 @@ export const UpdateConfig: React.FC<{
             ))}
         </Container>
       </FlexBox.Row>
+      {connectorExpirationSeconds !== null && (
+        <Container>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
+            <FormTextField
+              onChange={(e: any) => {
+                setConnectorExpirationSeconds(e);
+              }}
+              type="number"
+              // disabled
+              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
+              // onChangeText={(e: any) => onPressEnter(e, 'name')}
+              label={'Expiration Seconds'}
+              optional={false}
+              value={connectorExpirationSeconds}
+              placeholder=""
+              // hasError={false}
+              // className={styles.field}
+            />
+          </Box>
+        </Container>
+      )}
+      <Box marginTop="md" marginLeft={'md'} style={{ width: '30vw' }}>
+        <Paragraph size="body" style={{ color: '#000' }}>
+          <label htmlFor="key">Labels</label>
+        </Paragraph>
+
+        <FlexBox.Row style={{ position: 'relative' }}>
+          <div
+            style={{
+              position: 'absolute',
+              bottom: '-5px',
+              width: '5px',
+              height: '5px',
+              borderRadius: '100%',
+              backgroundColor: 'rgba(68, 62, 153, 0.3)',
+            }}
+          ></div>
+
+          <div
+            className="form-row"
+            style={{
+              borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+              marginLeft: '2px',
+            }}
+          >
+            {labelsInputFields?.map((item: any, index: any) => (
+              <Fragment>
+                <Box
+                  style={{ display: 'flex', alignItems: 'center' }}
+                  marginTop="sm"
+                >
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      width: '15px',
+                      borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      marginRight: '5px',
+                      marginLeft: '-2px',
+                      color: 'rgba(68, 62, 153, 0.3)',
+                    }}
+                  >
+                    &#x27A4;
+                  </div>
+
+                  <Box
+                    className="form-group"
+                    marginRight="md"
+                    style={{ width: '13.7vw' }}
+                  >
+                    <FormTextField
+                      onChange={(event: any) => {
+                        const values = [...labelsInputFields];
+                        values[index].key = event;
+                        // values[name][childIndex].key = event;
+                        // debugger;
+                        setLabelsInputFields(values);
+                      }}
+                      label={'Key'}
+                      value={item.key}
+                      placeholder={''}
+                    />
+                  </Box>
+
+                  <Box className="form-group" style={{ width: '13.7vw' }}>
+                    <FormTextField
+                      onChange={(event: any) => {
+                        const values = [...labelsInputFields];
+                        values[index].value = event;
+                        // values[name][childIndex].key = event;
+                        // debugger;
+                        setLabelsInputFields(values);
+                      }}
+                      label={'Value'}
+                      value={item?.value}
+                      placeholder={''}
+                    />
+                  </Box>
+
+                  <div
+                    style={{
+                      justifyContent: 'space-between',
+                      display: 'flex',
+                      marginTop: '20px',
+                      marginLeft: '5px',
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: 'flex',
+                        flexDirection: 'row',
+                        justifyContent: 'space-between',
+                        alignItems: 'center',
+                      }}
+                    >
+                      {labelsInputFields.length > 1 && (
+                        <button
+                          className={styles.fieldButton}
+                          style={{}}
+                          type="button"
+                          // disabled={item[props.name].length === 1}
+                          onClick={
+                            () => {
+                              // setLabelsInputFields((prevState: any) => {
+                              //   // Replace with the index of the object to remove
+
+                              //   labelsInputFields.splice(index, 1);
+                              // });
+                              const values = [...labelsInputFields];
+                              values.splice(index, 1);
+                              // values[name][childIndex].key = event;
+                              // debugger;
+                              setLabelsInputFields(values);
+                            }
+                            //   // handleRemoveFields(
+                            //   //   parentIndex,
+                            //   //   childIndex,
+                            //   //   props.name,
+                            //   // )
+                          }
+                        >
+                          <icons.delete color={iconColors.grey} />
+                        </button>
+                      )}
+
+                      {index === labelsInputFields.length - 1 && (
+                        <button
+                          className={styles.fieldButton}
+                          type="button"
+                          onClick={() => {
+                            const values = [...labelsInputFields];
+                            values.push({ key: '', value: '' });
+                            // values[name][childIndex].key = event;
+                            // debugger;
+                            setLabelsInputFields(values);
+                          }}
+                        >
+                          <icons.addNew color={iconColors.primary} />
+                        </button>
+                      )}
+                    </div>
+                  </div>
+                </Box>
+              </Fragment>
+            ))}
+          </div>
+          <div className="submit-button"></div>
+          <br />
+        </FlexBox.Row>
+      </Box>
       <FlexBox
         style={{
           position: 'fixed',

@@ -618,6 +618,21 @@ export const Configuration: React.FC<{
         </Container>
         <Container>
           <Box marginTop="lg" style={{ width: '30vw' }}>
+            <EditField
+              disabled
+              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
+              // onChangeText={(e: any) => onPressEnter(e, 'name')}
+              label={'Description'}
+              optional={false}
+              defaultValue={connector.connectorType.description}
+              placeholder=""
+              hasError={false}
+              className={styles.field}
+            />
+          </Box>
+        </Container>
+        <Container>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
             <ToggleField
               value={connector.is_shared}
               // onHandleChange={() =>
@@ -636,6 +651,291 @@ export const Configuration: React.FC<{
           ))}
         </Container>
       </FlexBox.Row>
+      {connector.expirationSeconds !== null && (
+        <Container>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
+            <EditField
+              disabled
+              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
+              // onChangeText={(e: any) => onPressEnter(e, 'name')}
+              label={'Expiration Seconds'}
+              optional={false}
+              defaultValue={connector.expirationSeconds}
+              placeholder=""
+              hasError={false}
+              className={styles.field}
+            />
+          </Box>
+        </Container>
+      )}
+
+      <Box marginTop="lg" marginLeft={'md'} style={{ width: '30vw' }}>
+        <Paragraph size="body" style={{ color: 'black' }}>
+          <label htmlFor={connector.labels}>{'Labels'}</label>
+        </Paragraph>
+
+        <Box style={{ position: 'relative' }}>
+          {Object.keys(connector.labels || {}).length < 1 && (
+            <>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '-5px',
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '100%',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                }}
+              ></div>
+
+              <div
+                className="form-row"
+                style={{
+                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                  marginLeft: '2px',
+                }}
+              >
+                <FlexBox.Row
+                  alignItems="center"
+                  marginTop="sm"
+                  style={{ width: '30vw' }}
+                >
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      width: '35px',
+                      borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      marginRight: '5px',
+                      marginLeft: '-2px',
+                      color: 'rgba(68, 62, 153, 0.3)',
+                    }}
+                  >
+                    &#x27A4;
+                  </div>
+
+                  <EditField
+                    disabled
+                    // onKeyDown={(e: any) =>
+                    //   onPressEnterForEmpty(
+                    //     e,
+                    //     'key',
+                    //     elementName,
+                    //     // index,
+                    //   )
+                    // }
+                    onChangeText={
+                      (event: any) => {}
+                      // handleInputChange(0, event, elementName, 'key')
+                    }
+                    label="Key"
+                    optional={false}
+                    // value={''}
+                    placeholder=""
+                    hasError={false}
+                    className={styles.field}
+                  />
+                  <div style={{ width: '10%' }}></div>
+                  <EditField
+                    disabled
+                    // onKeyDown={(e: any) =>
+                    //   onPressEnterForEmpty(e, 'value', elementName)
+                    // }
+                    onChangeText={(event: any) => {}}
+                    label="Value"
+                    // optional={true}
+                    // value={''}
+                    placeholder=""
+                    hasError={false}
+                    className={styles.field}
+                  />
+                </FlexBox.Row>
+              </div>
+            </>
+          )}
+        </Box>
+
+        <Box style={{ position: 'relative' }}>
+          {Object.entries(connector.labels || {}).map(([key, value], index) => (
+            <>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '-5px',
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '100%',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                }}
+              ></div>
+
+              <div
+                className="form-row"
+                style={{
+                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                  marginLeft: '2px',
+                }}
+              >
+                <FlexBox.Row
+                  marginTop="lg"
+                  alignItems="center"
+                  style={{ width: '30vw' }}
+                >
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      width: '15px',
+                      borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      marginRight: '5px',
+                      marginLeft: '-2px',
+                      color: 'rgba(68, 62, 153, 0.3)',
+                    }}
+                  >
+                    &#x27A4;
+                  </div>
+
+                  <EditField
+                    disabled
+                    // onKeyDown={(e: any) =>
+                    //   onPressEnter(e, 'key', elementName, key)
+                    // }
+                    // onChangeText={(e: any) =>
+                    //   onPressEnter(e, 'key', elementName, key, index)
+                    // }
+                    label="Key"
+                    optional={false}
+                    defaultValue={key}
+                    // value={key}
+                    placeholder=""
+                    hasError={false}
+                    className={styles.field}
+                  />
+                  <div style={{ width: '10%' }}></div>
+                  <EditField
+                    disabled
+                    // marginRight={'md'}
+                    // onKeyDown={(e: any) =>
+                    //   onPressEnter(e, 'value', elementName, key, index)
+                    // }
+                    // onChangeText={(e: any) =>
+                    //   onPressEnter(e, 'value', elementName, key, index)
+                    // }
+                    label="Value"
+                    // optional={true}
+                    defaultValue={value}
+                    // value={value}
+                    placeholder=""
+                    hasError={false}
+                    className={styles.field}
+                  />
+                </FlexBox.Row>
+              </div>
+            </>
+          ))}
+        </Box>
+
+        <Box style={{ position: 'relative' }}>
+          {inputFields.map((inputField: any, index: any) => (
+            <>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '-5px',
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '100%',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                }}
+              ></div>
+
+              <div
+                className="form-row"
+                style={{
+                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                  marginLeft: '2px',
+                }}
+              >
+                <FlexBox.Row
+                  marginTop="lg"
+                  alignItems="center"
+                  style={{ width: '30vw' }}
+                >
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      width: '15px',
+                      borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                    }}
+                  ></div>
+                  <div
+                    style={{
+                      marginTop: '30px',
+                      marginRight: '5px',
+                      marginLeft: '-2px',
+                      color: 'rgba(68, 62, 153, 0.3)',
+                    }}
+                  >
+                    &#x27A4;
+                  </div>
+
+                  <Box marginTop="lg">
+                    <EditField
+                      // onKeyDown={(e: any) =>
+                      //   onPressEnterForAddMore(
+                      //     e,
+                      //     'addMore',
+                      //     elementName,
+                      //     // index,
+                      //   )
+                      // }
+                      // onChangeText={(event: any) =>
+                      //   handleInputChange(index, event, elementName, 'key')
+                      // }
+                      disabled
+                      label={'Key'}
+                      className={styles.field}
+                      value={inputField?.key}
+                      placeholder={''}
+                    />
+                  </Box>
+
+                  <div style={{ width: '10%' }}></div>
+                  <Box marginTop="lg">
+                    <EditField
+                      // onKeyDown={(e: any) =>
+                      //   onPressEnterForAddMore(
+                      //     e,
+                      //     'addMore',
+                      //     elementName,
+                      //     // index,
+                      //   )
+                      // }
+                      disabled
+                      className={styles.field}
+                      // onChangeText={(event: any) =>
+                      //   handleInputChange(index, event, elementName, 'value')
+                      // }
+                      label={'Value'}
+                      value={inputField?.value}
+                      placeholder={''}
+                    />
+                  </Box>
+                </FlexBox.Row>
+              </div>
+            </>
+          ))}
+        </Box>
+      </Box>
+
       <FlexBox
         style={{
           position: 'fixed',
