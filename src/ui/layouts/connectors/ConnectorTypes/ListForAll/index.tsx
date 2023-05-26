@@ -65,7 +65,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   };
   const handleSelectedType = (selectedType: any) => {
     setShowModal(false);
-    debugger;
+    // debugger;
     history.push(
       routePaths.connectors.registerConnectors(
         // selectedFlavor?.connectorType,

@@ -2,28 +2,32 @@ import React, {
   // Fragment, useEffect,
   useState,
 } from 'react';
-// import styles from './index.module.scss';
+import styles from './index.module.scss';
 import {
   Box,
+  FlexBox,
+  FormTextField,
   // FlexBox,
   // FormDropdownField,
   // FormTextField,
   FullWidthSpinner,
+  Paragraph,
   // MakeSecretField,
   // H2,
   // Paragraph,
   // icons,
 } from '../../../../components';
 // import Select from 'react-select';
-// import {
-//   Form, TextField,
-//   ToggleField,
-// } from '../../../common/FormElement';
+import {
+  // Form,
+  ToggleField,
+} from '../../../common/FormElement';
 import // useDispatch,
 // useHistory,
 // useLocation,
 // useSelector,
 '../../../../hooks';
+// import { SidePopup } from '../SidePopup';
 // import {
 //   secretSelectors,
 //   sessionSelectors,
@@ -67,8 +71,9 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   // const [validationSchema, setValidationSchema] = useState({});
   // const user = useSelector(userSelectors.myUser);
   // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
-  // const [componentName, setComponentName] = useState('');
-  // const [isShared, setIsShared] = useState(true);
+  const [connectorName, setConnectorName] = useState('');
+  const [isShared, setIsShared] = useState(true);
+  const [description, setDescription] = useState('');
   // const [inputData, setInputData] = useState({}) as any;
   // const [inputFields, setInputFields] = useState() as any;
   // const [inputArrayFields, setInputArrayFields] = useState() as any;
@@ -80,10 +85,10 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
     selectedSecret,
     // setSelectedSecret
   ] = useState({}) as any;
-  const [
-    secretId,
-    // setSecretId
-  ] = useState('');
+  // const [
+  //   // secretId,
+  //   // setSecretId
+  // ] = useState('');
   // const [secretIdArray, setSecretIdArray] = useState([]);
   // const history = useHistory();
 
@@ -956,23 +961,38 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  console.log(secretId, 'asdasdasdasd');
+
   return (
-    <Box>
+    <Box marginLeft={'lg'}>
+      <FlexBox>
+        <Box className={styles.mainImage}>
+          <img src={connectorType?.logoUrl} alt={connectorType?.name} />
+        </Box>
+        <Box marginLeft="xl">
+          <Paragraph className={styles.title}>{connectorType?.name}</Paragraph>
+          <FlexBox marginTop="lg">
+            {connectorType?.resourceTypes?.map((e: any) => (
+              <Box className={styles.resourceTypesImages} marginLeft="sm">
+                <img src={e?.logo_url} alt={e?.name} />
+              </Box>
+            ))}
+          </FlexBox>
+        </Box>
+      </FlexBox>
       {/* <Box style={{ width: '100%', marginTop: '-30px' }} marginBottom="lg">
         <H2>Configuring your component</H2>
       </Box> */}
 
-      {/* <FlexBox.Row style={{ width: '100%' }}>
-        <Box style={{ width: '30vw' }}>
+      <FlexBox.Row style={{ width: '100%' }}>
+        <Box marginTop="md" style={{ width: '30vw' }}>
           <FormTextField
             onChange={(e: any) => {
-              setComponentName(e);
+              setConnectorName(e);
             }}
             required={true}
             placeholder="Component Name"
             label={'Component Name'}
-            value={componentName}
+            value={connectorName}
           />
           <Box marginTop="md">
             <ToggleField
@@ -985,23 +1005,48 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               }
             />
           </Box>
+          <Box>
+            <Box marginTop="sm">
+              <Paragraph size="body" style={{ color: '#000' }}>
+                <label htmlFor="key">Description</label>
+              </Paragraph>
+            </Box>
+            <FlexBox marginTop="sm" fullWidth>
+              <textarea
+                className={styles.textArea}
+                value={description}
+                // defaultValue={JSON.stringify(inputData[props.name])}
+                // onBlur={(e) => {
+                //   const jsonStr = e.target.value;
+                //   try {
+                //     JSON.parse(jsonStr);
+                //   } catch (e) {
+                //     dispatch(
+                //       showToasterAction({
+                //         description: 'Invalid JSON.',
+                //         type: toasterTypes.failure,
+                //       }),
+                //     );
+                //   }
+                // }}
+                onChange={(e) => {
+                  setDescription(e.target.value);
+                }}
+              />
+            </FlexBox>
+          </Box>
 
-          <Form
-            enableReinitialize
-            initialValues={formData}
-            onSubmit={onSubmit}
-          >
+          {/* <Form enableReinitialize initialValues={formData} onSubmit={onSubmit}>
             {Object.keys(flavor.configSchema.properties).map((key, ind) => (
               <div key={key}>
                 {getFormElement(key, flavor.configSchema.properties[key])}
               </div>
             ))}
-
-          </Form>
+          </Form> */}
         </Box>
 
-        <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} />
-      </FlexBox.Row> */}
+        {/* <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} /> */}
+      </FlexBox.Row>
     </Box>
     // <FlexBox.Column fullWidth marginTop="xl">
     //   <Box style={{ width: '40%' }}>
