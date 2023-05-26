@@ -34,6 +34,8 @@ import { toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
 // import { routePaths } from '../../../../../routes/routePaths';
+// import { ToggleField } from '../../../common/FormElement';
+// import { SidePopup } from '../../../common/SidePopup';
 
 export const Configuration: React.FC<{
   connectorId: TId;
