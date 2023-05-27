@@ -24,7 +24,7 @@ export const SidePopup: React.FC<{
       <Box className={styles.sidePopup}>
         <OutsideClickHandler onOutsideClick={onClose}>
           <Box paddingTop="sm">
-            <iframe
+            {/* <iframe
               title="ZenML - Organization Embed"
               style={{
                 border: '0px',
@@ -34,7 +34,7 @@ export const SidePopup: React.FC<{
               }}
               // src="https://apidocs.zenml.io/0.35.0/"
               src={flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl}
-            ></iframe>
+            ></iframe> */}
           </Box>
 
           <Box paddingVertical="lg" paddingHorizontal="xxxl">
@@ -52,7 +52,7 @@ export const SidePopup: React.FC<{
                   onClick={action}
                   style={{ position: 'fixed', right: '50px' }}
                 >
-                  Register Component
+                  Verify
                 </PrimaryButton>
               </div>
             </Box>

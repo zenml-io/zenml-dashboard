@@ -1,32 +1,43 @@
 import React, {
+  Fragment,
+  useEffect,
   // Fragment, useEffect,
   useState,
 } from 'react';
 import styles from './index.module.scss';
 import {
   Box,
+  Container,
   FlexBox,
+  FormDropdownField,
   FormTextField,
   // FlexBox,
   // FormDropdownField,
   // FormTextField,
   FullWidthSpinner,
   Paragraph,
+  icons,
   // MakeSecretField,
   // H2,
   // Paragraph,
   // icons,
 } from '../../../../components';
 // import Select from 'react-select';
+import { ToggleField } from '../../../common/FormElement';
+
+// import { iconColors } from '../../../../../constants';
+import { SidePopup } from '../SidePopup';
 import {
-  // Form,
-  ToggleField,
-} from '../../../common/FormElement';
-import // useDispatch,
-// useHistory,
-// useLocation,
-// useSelector,
-'../../../../hooks';
+  useSelector,
+  useDispatch,
+  // useHistory,
+  // useLocation,
+} from '../../../../hooks';
+import {
+  sessionSelectors,
+  userSelectors,
+  workspaceSelectors,
+} from '../../../../../redux/selectors';
 // import { SidePopup } from '../SidePopup';
 // import {
 //   secretSelectors,
@@ -34,12 +45,12 @@ import // useDispatch,
 //   userSelectors,
 //   workspaceSelectors,
 // } from '../../../../../redux/selectors';
-// import {
-//   // secretsActions,
-//   // showToasterAction,
-// } from '../../../../../redux/actions';
-// import { iconColors, toasterTypes } from '../../../../../constants';
-// import axios from 'axios';
+import {
+  // secretsActions,
+  showToasterAction,
+} from '../../../../../redux/actions';
+import { iconColors, toasterTypes } from '../../../../../constants';
+import axios from 'axios';
 // import { routePaths } from '../../../../../routes/routePaths';
 // import { SidePopup } from '../SidePopup';
 // import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
@@ -56,24 +67,32 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   //   dispatchStackComponentsData,
   // } = callActionForStackComponentsForPagination();
   // const location = useLocation();
-  // const authToken = useSelector(sessionSelectors.authenticationToken);
-  // const dispatch = useDispatch();
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+  const dispatch = useDispatch();
   // const [
   //   formData,
   //    setFormData
   // ] = useState({});
-  const [
-    loading,
-    // setLoading
-  ] = useState(false);
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const [loading, setLoading] = useState(false);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   // const secrets = useSelector(secretSelectors.mySecrets);
   // const [validationSchema, setValidationSchema] = useState({});
-  // const user = useSelector(userSelectors.myUser);
-  // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
+  const user = useSelector(userSelectors.myUser);
+  const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [connectorName, setConnectorName] = useState('');
   const [isShared, setIsShared] = useState(true);
   const [description, setDescription] = useState('');
+  const [selectedAuthMethod, setSelectedAuthMethod] = useState<any>(
+    connectorType.authMethods[0].auth_method,
+  );
+  const [authMethoddropdownOptions, setAuthMethoddropdownOptions] = useState(
+    [],
+  );
+  const [mappedConfiguration, setMappedConfiguration] = useState() as any;
+  const [inputFields, setInputFields] = useState([]) as any;
+  const [connectorExpirationSeconds, setConnectorExpirationSeconds] = useState(
+    0,
+  ) as any;
   // const [inputData, setInputData] = useState({}) as any;
   // const [inputFields, setInputFields] = useState() as any;
   // const [inputArrayFields, setInputArrayFields] = useState() as any;
@@ -91,6 +110,46 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   // ] = useState('');
   // const [secretIdArray, setSecretIdArray] = useState([]);
   // const history = useHistory();
+
+  const matchedAuthMethod = connectorType.authMethods.find(
+    (item: any) => item?.auth_method === selectedAuthMethod,
+  ) as any;
+  console.log(mappedConfiguration, 'mappedConfigurationmappedConfiguration');
+  useEffect(() => {
+    const dropdownOptions = connectorType.authMethods.map((item: any) => {
+      return {
+        value: item.auth_method,
+        label: item.name,
+      };
+    });
+
+    setAuthMethoddropdownOptions(dropdownOptions);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+  useEffect(() => {
+    const configurationModifiedObj: any = {};
+
+    // Iterate over the properties of obj1
+    for (let prop in matchedAuthMethod.config_schema.properties) {
+      // Check if the property exists in obj2
+
+      // If the property does not exist in obj2, copy it as is
+      configurationModifiedObj[prop] = {
+        ...matchedAuthMethod.config_schema.properties[prop],
+        default:
+          matchedAuthMethod.config_schema.properties[prop].type === 'array'
+            ? ['']
+            : matchedAuthMethod.config_schema.properties[prop].type === 'object'
+            ? { key: '', value: '' }
+            : matchedAuthMethod.config_schema.properties[prop].type ===
+              'boolean'
+            ? false
+            : '',
+      };
+    }
+    setMappedConfiguration(configurationModifiedObj);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectedAuthMethod]);
 
   // useEffect(() => {
   //   if (state?.state?.routeFromComponent) {
@@ -195,6 +254,11 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   //     id: item.id as string,
   //   };
   // }) as any;
+
+  // const dropdownOptions = [
+  //   { value: 'user', label: 'user' },
+  //   { value: 'workspace', label: 'workspace' },
+  // ];
 
   // function callActionForSecret(name: any, value: any, newEvent?: any) {
   //   setInputData({
@@ -774,193 +838,525 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   //   }
   // };
 
-  // const onSubmit = async (values: any) => {
-  //   const requiredField = flavor?.configSchema?.required?.filter(
-  //     (item: any) => inputData[item],
-  //   );
-  //   if (requiredField?.length !== flavor?.configSchema?.required?.length) {
-  //     dispatch(
-  //       showToasterAction({
-  //         description: 'Required Field is Empty',
-  //         type: toasterTypes.failure,
-  //       }),
-  //     );
-  //     return false;
-  //   }
-  //   if (!componentName) {
-  //     dispatch(
-  //       showToasterAction({
-  //         description: 'Required Field is Empty',
-  //         type: toasterTypes.failure,
-  //       }),
-  //     );
-  //     return false;
-  //   }
-  //   const { id }: any = workspaces.find(
-  //     (item) => item.name === selectedWorkspace,
-  //   );
-  //   const tempFinal: any = {};
-  //   inputFields.forEach((ar: any) => {
-  //     const keys = Object.keys(ar);
-  //     keys.forEach((key) => {
-  //       tempFinal[key] = {};
+  const onSubmit = async (values: any) => {
+    const { id }: any = workspaces.find(
+      (item) => item.name === selectedWorkspace,
+    );
+    const resourceTypes = connectorType.resourceTypes.map(
+      (item: any) => item.resource_type,
+    );
 
-  //       ar[key].forEach((nestedArr: any) => {
-  //         if (nestedArr.key || nestedArr.value) {
-  //           tempFinal[key] = {
-  //             ...tempFinal[key],
-  //             [nestedArr.key]: nestedArr.value,
-  //           };
-  //         } else {
-  //           if (
-  //             tempFinal[key] !== undefined &&
-  //             Object.keys(tempFinal[key]).length === 0
-  //           ) {
-  //             delete tempFinal[key];
-  //           }
-  //         }
-  //       });
-  //     });
-  //   });
+    const configuration: any = {};
 
-  //   let final: any = {};
-  //   inputFields.forEach((ar: any) => {
-  //     const keys = Object.keys(ar);
-  //     keys.forEach((key) => {
-  //       final[key] = {};
+    for (const key in mappedConfiguration) {
+      if (mappedConfiguration.hasOwnProperty(key)) {
+        configuration[key] = mappedConfiguration[key].default;
+      }
+    }
 
-  //       ar[key].forEach((nestedArr: any) => {
-  //         if (final[key]?.hasOwnProperty(nestedArr.key)) {
-  //           dispatch(
-  //             showToasterAction({
-  //               description: 'Key already exists.',
-  //               type: toasterTypes.failure,
-  //             }),
-  //           );
-  //           return (final = {});
-  //         } else {
-  //           if (nestedArr.key || nestedArr.value) {
-  //             final[key] = {
-  //               ...final[key],
-  //               [nestedArr.key]: nestedArr.value,
-  //             };
-  //           } else {
-  //             if (
-  //               final[key] !== undefined &&
-  //               Object.keys(final[key]).length === 0
-  //             ) {
-  //               delete final[key];
-  //             }
-  //           }
-  //         }
-  //       });
-  //     });
-  //   });
-  //   if (Object.keys(tempFinal).length !== Object.keys(final).length) {
-  //     return false;
-  //   }
-  //   for (const [key] of Object.entries(final)) {
-  //     // console.log(`${key}: ${value}`);
-  //     for (const [innerKey, innerValue] of Object.entries(final[key])) {
-  //       if (!innerKey && innerValue) {
-  //         return dispatch(
-  //           showToasterAction({
-  //             description: 'Key cannot be Empty.',
-  //             type: toasterTypes.failure,
-  //           }),
-  //         );
-  //       }
-  //       if (!innerValue && innerKey) {
-  //         return dispatch(
-  //           showToasterAction({
-  //             description: 'Value cannot be Empty.',
-  //             type: toasterTypes.failure,
-  //           }),
-  //         );
-  //       }
-  //     }
-  //   }
+    for (const field of matchedAuthMethod.config_schema.required) {
+      if (!configuration[field]) {
+        dispatch(
+          showToasterAction({
+            description: 'Required Field is Empty',
+            type: toasterTypes.failure,
+          }),
+        );
+        return false;
+      }
+    }
 
-  //   for (const [, value] of Object.entries(inputData) as any) {
-  //     if (value.id) {
-  //       return dispatch(
-  //         showToasterAction({
-  //           description: 'Invalid secret',
-  //           type: toasterTypes.failure,
-  //         }),
-  //       );
-  //     }
-  //   }
+    const body = {
+      user: user?.id,
+      workspace: id,
+      is_shared: isShared,
+      name: connectorName,
+      description: description,
+      connector_type: connectorType.connectorType,
+      auth_method: selectedAuthMethod,
+      resource_types: resourceTypes,
+      resource_id: null,
+      configuration: {
+        ...configuration,
+        region: 'us-east-1',
+        aws_access_key_id: 'AKIA2NKJVO5HNSVHKSMJ',
+        aws_secret_access_key: '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',
+      },
 
-  //   const body = {
-  //     user: user?.id,
-  //     workspace: id,
-  //     is_shared: isShared,
-  //     name: componentName,
-  //     type: flavor.type,
-  //     flavor: flavor.name,
-  //     configuration: { ...inputData, ...final, ...inputArrayFields },
-  //   };
-  //   setLoading(true);
-  //   await axios
-  //     .post(
-  //       `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/components`,
-  //       // @ts-ignore
-  //       { ...body },
-  //       { headers: { Authorization: `Bearer ${authToken}` } },
-  //     )
-  //     .then((response) => {
-  //       const id = response.data.id;
-  //       setLoading(false);
-  //       dispatch(
-  //         showToasterAction({
-  //           description: 'Component has been created successfully',
-  //           type: toasterTypes.success,
-  //         }),
-  //       );
-  //       // dispatchStackComponentsData(1, 1);
-
-  //       history.push(
-  //         routePaths.stackComponents.configuration(
-  //           flavor.type,
-  //           id,
-  //           selectedWorkspace,
-  //         ),
-  //       );
-  //     })
-  //     .catch((err) => {
-  //       setLoading(false);
-  //       if (err?.response?.status === 403) {
-  //         dispatch(
-  //           showToasterAction({
-  //             description: err?.response?.data?.detail,
-  //             type: toasterTypes.failure,
-  //           }),
-  //         );
-  //       } else if (err?.response?.status === 409) {
-  //         dispatch(
-  //           showToasterAction({
-  //             description: err?.response?.data?.detail[0].includes('Exists')
-  //               ? `Component name already exists.`
-  //               : err?.response?.data?.detail[0],
-  //             type: toasterTypes.failure,
-  //           }),
-  //         );
-  //       } else {
-  //         dispatch(
-  //           showToasterAction({
-  //             description: err?.response?.data?.detail[0].includes('Exists')
-  //               ? `Component name already exists.`
-  //               : err?.response?.data?.detail[0],
-  //             type: toasterTypes.failure,
-  //           }),
-  //         );
-  //       }
-  //     });
-  // };
+      // expiration_seconds: connectorExpirationSeconds,
+      // name: componentName,
+      // type: flavor.type,
+      // flavor: flavor.name,
+      // configuration: { ...inputData, ...final, ...inputArrayFields },
+    };
+    setLoading(true);
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_API_URL}/service_connectors/verify`,
+        // @ts-ignore
+        { ...body },
+        { headers: { Authorization: `Bearer ${authToken}` } },
+      )
+      .then((response) => {
+        // const id = response.data.id;
+        setLoading(false);
+        dispatch(
+          showToasterAction({
+            description: 'Component has been created successfully',
+            type: toasterTypes.success,
+          }),
+        );
+        // dispatchStackComponentsData(1, 1);
+      })
+      .catch((err) => {
+        setLoading(false);
+        console.log(err);
+        // if (err?.response?.status === 403) {
+        //   dispatch(
+        //     showToasterAction({
+        //       description: err?.response?.data?.detail,
+        //       type: toasterTypes.failure,
+        //     }),
+        //   );
+        // } else if (err?.response?.status === 409) {
+        //   dispatch(
+        //     showToasterAction({
+        //       description: err?.response?.data?.detail[0].includes('Exists')
+        //         ? `Component name already exists.`
+        //         : err?.response?.data?.detail[0],
+        //       type: toasterTypes.failure,
+        //     }),
+        //   );
+        // } else {
+        //   dispatch(
+        //     showToasterAction({
+        //       description: err?.response?.data?.detail[0].includes('Exists')
+        //         ? `Component name already exists.`
+        //         : err?.response?.data?.detail[0],
+        //       type: toasterTypes.failure,
+        //     }),
+        //   );
+        // }
+      });
+  };
+  const titleCase = (s: any) =>
+    s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
+      c ? c.toUpperCase() : ' ' + d.toUpperCase(),
+    );
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
+
+  const getFormElement: any = (elementName: any, elementSchema: any) => {
+    if (elementSchema.type === 'string') {
+      console.log(
+        mappedConfiguration,
+        'mappedConfigurationmappedConfiguration',
+      );
+      return (
+        <>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
+            <FormTextField
+              required={matchedAuthMethod?.config_schema?.required?.includes(
+                elementName,
+              )}
+              onChange={(e: any) => {
+                setMappedConfiguration((prevConfig: any) => ({
+                  ...prevConfig, // Spread the previous user object
+                  [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
+                }));
+                // setMappedConfiguration(...mappedConfiguration,
+                //   mappedConfiguration[elementName]: e,
+                // );
+              }}
+              placeholder=""
+              label={titleCase(elementName)}
+              value={mappedConfiguration[elementName].default}
+            />
+
+            {console.log(mappedConfiguration, 'asdasd12312321')}
+          </Box>
+        </>
+      );
+    }
+
+    // if (
+    //   elementSchema.type === 'object'
+    // ) {
+    //   return (
+    //     <>
+    //       {' '}
+    //       <Box marginTop="lg">
+    //         <Paragraph size="body" style={{ color: '#000' }}>
+    //           <label htmlFor="key">{titleCase(elementName)}</label>
+    //         </Paragraph>
+    //       </Box>
+    //       <FlexBox marginTop="sm" fullWidth style={{ width: '30vw' }}>
+    //         <textarea
+    //           className={styles.textArea}
+    //           defaultValue={JSON.stringify(mappedConfiguration[elementName])}
+    //           onBlur={(e) => {
+    //             const jsonStr = e.target.value;
+    //             try {
+    //               JSON.parse(jsonStr);
+    //             } catch (e) {
+    //               dispatch(
+    //                 showToasterAction({
+    //                   description: 'Invalid JSON.',
+    //                   type: toasterTypes.failure,
+    //                 }),
+    //               );
+    //             }
+    //           }}
+    //           onChange={(e) => {
+    //             const jsonStr = e.target.value;
+    //             try {
+    //               const jsonObj = JSON.parse(jsonStr);
+
+    //               setMappedConfiguration({
+    //                 ...mappedConfiguration,
+    //                 [elementName]: jsonObj,
+    //               });
+    //             } catch (e) {}
+    //           }}
+    //         />
+    //       </FlexBox>
+    //     </>
+    //   );
+    // }
+    if (elementSchema.type === 'object') {
+      return (
+        <Box marginTop="md">
+          <Paragraph size="body" style={{ color: '#000' }}>
+            <label htmlFor="key">{titleCase(elementName)}</label>
+          </Paragraph>
+
+          <FlexBox.Row style={{ position: 'relative' }}>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '-5px',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
+              }}
+            ></div>
+
+            <div
+              className="form-row"
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
+              {inputFields[elementName]?.map((item: any, index: any) => (
+                <Fragment>
+                  <Box
+                    style={{ display: 'flex', alignItems: 'center' }}
+                    marginTop="sm"
+                  >
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
+
+                    <Box
+                      className="form-group"
+                      marginRight="md"
+                      style={{ width: '13.7vw' }}
+                    >
+                      <FormTextField
+                        onChange={(event: any) => {
+                          const values = { ...inputFields };
+                          values[elementName][index].key = event;
+                          // values[name][childIndex].key = event;
+                          // debugger;
+                          setInputFields(values);
+                        }}
+                        label={'Key'}
+                        value={item.key}
+                        placeholder={''}
+                      />
+                    </Box>
+
+                    <Box className="form-group" style={{ width: '13.7vw' }}>
+                      <FormTextField
+                        onChange={(event: any) => {
+                          const values = { ...inputFields };
+                          values[elementName][index].value = event;
+                          // values[name][childIndex].key = event;
+                          // debugger;
+                          setInputFields(values);
+                        }}
+                        label={'Value'}
+                        value={item?.value}
+                        placeholder={''}
+                      />
+                    </Box>
+
+                    <div
+                      style={{
+                        justifyContent: 'space-between',
+                        display: 'flex',
+                        marginTop: '20px',
+                        marginLeft: '5px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}
+                      >
+                        {inputFields[elementName].length > 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            style={{}}
+                            type="button"
+                            // disabled={item[props.name].length === 1}
+                            onClick={
+                              () => {
+                                setInputFields((prevState: any) => {
+                                  // Replace with the index of the object to remove
+                                  const newInputFields = [
+                                    ...prevState[elementName],
+                                  ];
+                                  newInputFields.splice(index, 1);
+                                  return {
+                                    ...prevState,
+                                    [elementName]: newInputFields,
+                                  };
+                                });
+                              }
+                              // handleRemoveFields(
+                              //   parentIndex,
+                              //   childIndex,
+                              //   props.name,
+                              // )
+                            }
+                          >
+                            <icons.delete color={iconColors.grey} />
+                          </button>
+                        )}
+
+                        {index === inputFields[elementName].length - 1 && (
+                          <button
+                            className={styles.fieldButton}
+                            type="button"
+                            onClick={() => {
+                              setInputFields((prevState: any) => ({
+                                ...prevState,
+                                [elementName]: [
+                                  ...prevState[elementName],
+                                  { key: '', value: '' },
+                                ],
+                              }));
+                            }}
+                          >
+                            <icons.addNew color={iconColors.primary} />
+                          </button>
+                        )}
+                      </div>
+                    </div>
+                  </Box>
+                </Fragment>
+              ))}
+            </div>
+            <div className="submit-button"></div>
+            <br />
+          </FlexBox.Row>
+        </Box>
+      );
+    }
+    if (elementSchema.type === 'array') {
+      return (
+        <Box marginTop="md">
+          <Paragraph size="body" style={{ color: '#000' }}>
+            <label htmlFor="key">{titleCase(elementName)}</label>
+          </Paragraph>
+
+          <FlexBox.Row style={{ position: 'relative' }}>
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '-5px',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
+              }}
+            ></div>
+
+            <div
+              className="form-row"
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
+              {mappedConfiguration &&
+                mappedConfiguration[elementName].default?.map(
+                  (item: any, index: any) => (
+                    <Fragment>
+                      <Box
+                        style={{ display: 'flex', alignItems: 'center' }}
+                        marginTop="sm"
+                      >
+                        <div
+                          style={{
+                            marginTop: '30px',
+                            width: '15px',
+                            borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                          }}
+                        ></div>
+                        <div
+                          style={{
+                            marginTop: '30px',
+                            marginRight: '5px',
+                            marginLeft: '-2px',
+                            color: 'rgba(68, 62, 153, 0.3)',
+                          }}
+                        >
+                          &#x27A4;
+                        </div>
+
+                        <Box className="form-group" style={{ width: '28.3vw' }}>
+                          <FormTextField
+                            onChange={(event: any) => {
+                              const values = [
+                                ...mappedConfiguration[elementName].default,
+                              ];
+                              values[index] = event;
+                              setMappedConfiguration((prevConfig: any) => ({
+                                ...prevConfig, // Spread the previous user object
+                                [elementName]: {
+                                  ...prevConfig[elementName],
+                                  default: values,
+                                }, // Update the age property
+                              }));
+                            }}
+                            label={'Value'}
+                            value={item}
+                            placeholder={''}
+                          />
+                        </Box>
+                        <div
+                          style={{
+                            justifyContent: 'space-between',
+                            display: 'flex',
+                            marginTop: '20px',
+                            marginLeft: '5px',
+                          }}
+                        >
+                          <div
+                            style={{
+                              display: 'flex',
+                              flexDirection: 'row',
+                              justifyContent: 'space-between',
+                              alignItems: 'center',
+                            }}
+                          >
+                            {mappedConfiguration[elementName].default.length >
+                              1 && (
+                              <button
+                                className={styles.fieldButton}
+                                style={{}}
+                                type="button"
+                                // disabled={item[props.name].length === 1}
+                                onClick={() => {
+                                  const values = [
+                                    ...mappedConfiguration[elementName].default,
+                                  ];
+                                  values.splice(index, 1);
+                                  setMappedConfiguration((prevConfig: any) => ({
+                                    ...prevConfig, // Spread the previous user object
+                                    [elementName]: {
+                                      ...prevConfig[elementName],
+                                      default: values,
+                                    }, // Update the age property
+                                  }));
+                                }}
+                              >
+                                <icons.delete color={iconColors.grey} />
+                              </button>
+                            )}
+                            {index ===
+                              mappedConfiguration[elementName].default.length -
+                                1 && (
+                              <button
+                                className={styles.fieldButton}
+                                type="button"
+                                onClick={() => {
+                                  const values = [
+                                    ...mappedConfiguration[elementName].default,
+                                  ];
+                                  values.push('');
+                                  setMappedConfiguration((prevConfig: any) => ({
+                                    ...prevConfig, // Spread the previous user object
+                                    [elementName]: {
+                                      ...prevConfig[elementName],
+                                      default: values,
+                                    }, // Update the age property
+                                  }));
+                                }}
+                              >
+                                <icons.addNew color={iconColors.primary} />
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                      </Box>
+                    </Fragment>
+                  ),
+                )}
+            </div>
+            <div className="submit-button"></div>
+            <br />
+          </FlexBox.Row>
+        </Box>
+      );
+    }
+    if (elementSchema.type === 'boolean') {
+      return (
+        <Box marginTop={'lg'} style={{ width: '30vw' }}>
+          <Box>
+            <ToggleField
+              value={elementSchema.default}
+              onHandleChange={
+                () =>
+                  setMappedConfiguration((prevConfig: any) => ({
+                    ...prevConfig, // Spread the previous user object
+                    [elementName]: {
+                      ...prevConfig[elementName],
+                      default: !prevConfig[elementName].default,
+                    }, // Update the age property
+                  }))
+                // onChangeToggle(!elementSchema, 'other', elementName)
+              }
+              label={titleCase(elementName)}
+              // disabled={true}
+            />
+          </Box>
+        </Box>
+      );
+    }
+  };
 
   return (
     <Box marginLeft={'lg'}>
@@ -1034,18 +1430,49 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                 }}
               />
             </FlexBox>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
+              <FormDropdownField
+                label={'Authentication Method'}
+                // labelColor="rgba(66, 66, 64, 0.5)"
+                placeholder={''}
+                value={selectedAuthMethod}
+                onChange={(val: string) => setSelectedAuthMethod(val)}
+                options={authMethoddropdownOptions as any}
+                style={{ paddingLeft: '10px' }}
+              />
+            </Box>
           </Box>
 
-          {/* <Form enableReinitialize initialValues={formData} onSubmit={onSubmit}>
-            {Object.keys(flavor.configSchema.properties).map((key, ind) => (
-              <div key={key}>
-                {getFormElement(key, flavor.configSchema.properties[key])}
-              </div>
-            ))}
-          </Form> */}
+          <FlexBox.Row style={{ width: '40%' }}>
+            <Container>
+              {mappedConfiguration &&
+                Object.keys(mappedConfiguration)?.map((key, ind) => (
+                  <>{getFormElement(key, mappedConfiguration[key])}</>
+                ))}
+            </Container>
+          </FlexBox.Row>
+          <Container>
+            <Box marginTop="lg" style={{ width: '30vw' }}>
+              <FormTextField
+                onChange={(e: any) => {
+                  setConnectorExpirationSeconds(e);
+                }}
+                type="number"
+                // disabled
+                // onKeyDown={(e: any) => onPressEnter(e, 'name')}
+                // onChangeText={(e: any) => onPressEnter(e, 'name')}
+                label={'Expiration Seconds'}
+                optional={false}
+                value={connectorExpirationSeconds}
+                placeholder=""
+                // hasError={false}
+                // className={styles.field}
+              />
+            </Box>
+          </Container>
         </Box>
 
-        {/* <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} /> */}
+        <SidePopup onClose={() => {}} action={onSubmit} />
       </FlexBox.Row>
     </Box>
     // <FlexBox.Column fullWidth marginTop="xl">
