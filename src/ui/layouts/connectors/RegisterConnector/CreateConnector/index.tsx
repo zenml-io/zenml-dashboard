@@ -22,6 +22,8 @@ import {
   // Paragraph,
   // icons,
 } from '../../../../components';
+import ServicesSelector from '../../ServicesSelectorComponent';
+
 // import Select from 'react-select';
 import { ToggleField } from '../../../common/FormElement';
 
@@ -93,6 +95,9 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const [connectorExpirationSeconds, setConnectorExpirationSeconds] = useState(
     0,
   ) as any;
+  const [resources, setResources] = useState<any>();
+  const [name, setName] = useState('');
+  const [selectMethods, setSelectMethods] = useState<any>([]);
   // const [inputData, setInputData] = useState({}) as any;
   // const [inputFields, setInputFields] = useState() as any;
   // const [inputArrayFields, setInputArrayFields] = useState() as any;
@@ -854,17 +859,17 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       }
     }
 
-    for (const field of matchedAuthMethod.config_schema.required) {
-      if (!configuration[field]) {
-        dispatch(
-          showToasterAction({
-            description: 'Required Field is Empty',
-            type: toasterTypes.failure,
-          }),
-        );
-        return false;
-      }
-    }
+    // for (const field of matchedAuthMethod.config_schema.required) {
+    //   if (!configuration[field]) {
+    //     dispatch(
+    //       showToasterAction({
+    //         description: 'Required Field is Empty',
+    //         type: toasterTypes.failure,
+    //       }),
+    //     );
+    //     return false;
+    //   }
+    // }
 
     const body = {
       user: user?.id,
@@ -880,7 +885,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
         ...configuration,
       },
 
-      // expiration_seconds: connectorExpirationSeconds,
+      expiration_seconds: connectorExpirationSeconds,
       // name: componentName,
       // type: flavor.type,
       // flavor: flavor.name,
@@ -895,14 +900,24 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
       .then((response) => {
-        // const id = response.data.id;
+        console.log('respons23232323e', response);
         setLoading(false);
-        dispatch(
-          showToasterAction({
-            description: 'Component has been created successfully',
-            type: toasterTypes.success,
-          }),
-        );
+        if (response.data.error !== null) {
+          dispatch(
+            showToasterAction({
+              description: response.data.error,
+              type: toasterTypes.failure,
+            }),
+          );
+        }
+        setResources(response.data);
+        // setLoading(false);
+        // dispatch(
+        //   showToasterAction({
+        //     description: 'Component has been created successfully',
+        //     type: toasterTypes.success,
+        //   }),
+        // );
         // dispatchStackComponentsData(1, 1);
       })
       .catch((err) => {
@@ -1467,6 +1482,15 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               />
             </Box>
           </Container>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
+            <ServicesSelector
+              name={name}
+              setName={setName}
+              selectMethods={selectMethods}
+              setSelectMethods={setSelectMethods}
+              data={resources?.connector_type?.resource_types}
+            />
+          </Box>
         </Box>
 
         <SidePopup onClose={() => {}} action={onSubmit} />
