@@ -21,7 +21,7 @@ const Index: React.FC<ServicesSelector> = ({
   const [showServices, setShowServices] = useState(false);
   const [showMethods, setShowMethods] = useState(false);
   const [selectService, setSelectService] = useState('');
-
+  console.log(name, data, selectMethods, 'datadatadatadata');
   const handleShow = (service_name: string) => {
     setName(service_name);
     setShowMethods(!showMethods);
@@ -78,7 +78,7 @@ const Index: React.FC<ServicesSelector> = ({
             <>
               <FlexBox className={styles.services}>
                 <Box>
-                  <img src={e.logo_url} alt={e.name} />
+                  <img src={e.logo_url} alt={e.resource_type} />
                 </Box>
                 <Box
                   marginLeft="sm"
@@ -140,7 +140,7 @@ const Index: React.FC<ServicesSelector> = ({
                         </div>
 
                         <Box marginLeft="sm" marginRight="xl">
-                          <Paragraph>{method}</Paragraph>
+                          <Paragraph>{method} qasd</Paragraph>
                         </Box>
                         <Box>
                           <input
