@@ -22,7 +22,7 @@ import {
   // Paragraph,
   // icons,
 } from '../../../../components';
-import ServicesSelector from '../../ServicesSelectorComponent';
+import ServicesSelectorComponent from '../../ServicesSelectorComponent';
 
 // import Select from 'react-select';
 import { ToggleField } from '../../../common/FormElement';
@@ -96,8 +96,13 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
     0,
   ) as any;
   const [resources, setResources] = useState<any>();
-  const [name, setName] = useState('');
-  const [selectMethods, setSelectMethods] = useState<any>([]);
+  // const [name, setName] = useState('');
+  // const [selectMethods, setSelectMethods] = useState<any>([]);
+
+  const [parent, setParent] = useState(false);
+  const [resourceType, setResourceType] = useState('');
+  const [ids, setIds] = useState([]);
+
   // const [inputData, setInputData] = useState({}) as any;
   // const [inputFields, setInputFields] = useState() as any;
   // const [inputArrayFields, setInputArrayFields] = useState() as any;
@@ -1483,12 +1488,14 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
             </Box>
           </Container>
           <Box marginTop="lg" style={{ width: '30vw' }}>
-            <ServicesSelector
-              name={name}
-              setName={setName}
-              selectMethods={selectMethods}
-              setSelectMethods={setSelectMethods}
-              data={resources?.connector_type?.resource_types}
+            <ServicesSelectorComponent
+              parent={parent}
+              setParent={setParent}
+              resourceType={resourceType}
+              setResourceType={setResourceType}
+              ids={ids}
+              setIds={setIds}
+              data={connectorType}
             />
           </Box>
         </Box>
