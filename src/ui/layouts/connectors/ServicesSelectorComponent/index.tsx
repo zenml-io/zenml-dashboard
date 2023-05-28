@@ -4,42 +4,46 @@ import { FlexBox, Box, icons, Paragraph } from '../../../components';
 import { iconColors, iconSizes } from '../../../../constants';
 
 type ServicesSelector = {
-  name: string;
-  setName: any;
-  selectMethods: Array<any>;
-  setSelectMethods: any;
-  data: Array<any>;
+  parent: boolean;
+  setParent: any;
+  resourceType: string;
+  setResourceType: any;
+  ids: any;
+  setIds: any;
+  data: any;
 };
 
 const Index: React.FC<ServicesSelector> = ({
-  name,
-  setName,
-  selectMethods,
-  setSelectMethods,
+  parent,
+  setParent,
+  resourceType,
+  setResourceType,
+  ids,
+  setIds,
   data,
 }) => {
   const [showServices, setShowServices] = useState(false);
-  const [showMethods, setShowMethods] = useState(false);
-  const [selectService, setSelectService] = useState('');
-  console.log(name, data, selectMethods, 'datadatadatadata');
-  const handleShow = (service_name: string) => {
-    setName(service_name);
-    setShowMethods(!showMethods);
+  const [showTypes, setShowTypes] = useState(false);
+  const [showIds, setShowIds] = useState(false);
+
+  const [typesToShow, setTypesToShow] = useState('');
+
+  const handleShowTypes = (service_name: string) => {
+    setParent(service_name);
+    setShowTypes(!showTypes);
+    setParent(!parent);
   };
 
-  const handleSelectMethods = (method: string) => {
-    if (selectMethods?.includes(method)) {
-      setSelectMethods(selectMethods?.filter((e) => e !== method));
-    } else {
-      setSelectMethods([...selectMethods, method]);
-    }
+  const handleShowIds = (service_type: string) => {
+    setTypesToShow(service_type);
+    setShowIds(!showIds);
   };
 
-  const handleSelectService = (name: string) => {
-    if (selectService === '') {
-      setSelectService(name);
+  const handleSelectIds = (id: string) => {
+    if (ids?.includes(id)) {
+      setIds(ids?.filter((e: string) => e !== id));
     } else {
-      setSelectService('');
+      setIds([...ids, id]);
     }
   };
 
@@ -50,14 +54,14 @@ const Index: React.FC<ServicesSelector> = ({
         onClick={() => setShowServices(!showServices)}
       >
         <Box>
-          {selectService ? (
+          {resourceType ? (
             <Box className={styles.service_selector_selected}>
               <Paragraph>
-                {selectService} -{' '}
-                {selectMethods.length === 0 ? (
+                {resourceType} -{' '}
+                {resourceType.length === 0 ? (
                   <>&#91;all&#93;</>
                 ) : (
-                  selectMethods?.map((e) => <>&#91;{e}&#93; </>)
+                  ids?.map((e: string) => <>&#91;{e}&#93; </>)
                 )}
               </Paragraph>
             </Box>
@@ -73,92 +77,199 @@ const Index: React.FC<ServicesSelector> = ({
       </Box>
 
       {showServices && (
-        <Box className={styles.services_container}>
-          {data?.map((e: any) => (
-            <>
-              <FlexBox className={styles.services}>
-                <Box>
-                  <img src={e.logo_url} alt={e.resource_type} />
-                </Box>
-                <Box
-                  marginLeft="sm"
-                  marginRight="xl"
-                  className={styles.servicesName}
-                  onClick={() => handleShow(e?.name)}
-                >
-                  <Paragraph>{e.name}</Paragraph>
-                </Box>
-                <Box>
-                  <input
-                    type="checkbox"
-                    className={styles.selectedBoxCheckbox}
-                    onClick={() => handleSelectService(e?.name)}
-                    disabled={selectService !== '' && selectService !== e?.name}
-                  />
-                </Box>
-              </FlexBox>
-
-              <Box style={{ position: 'relative' }}>
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '-5px',
-                    width: '5px',
-                    height: '5px',
-                    borderRadius: '100%',
-                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
-                    marginLeft: '5px',
-                  }}
-                ></div>
-
-                <div
-                  style={{
-                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                    marginLeft: '7px',
-                  }}
-                >
-                  {showMethods &&
-                    e?.name === name &&
-                    e?.auth_methods?.map((method: any) => (
-                      <FlexBox marginVertical="md">
-                        <div
-                          style={{
-                            marginTop: '10px',
-                            width: '50px',
-                            borderTop: '1px solid rgba(68, 62, 153, 0.3)',
-                          }}
-                        ></div>
-                        <div
-                          style={{
-                            marginTop: '3px',
-                            marginRight: '5px',
-                            marginLeft: '-2px',
-                            color: 'rgba(68, 62, 153, 0.3)',
-                          }}
-                        >
-                          &#x27A4;
-                        </div>
-
-                        <Box marginLeft="sm" marginRight="xl">
-                          <Paragraph>{method} qasd</Paragraph>
-                        </Box>
-                        <Box>
-                          <input
-                            type="checkbox"
-                            className={styles.selectedBoxCheckbox}
-                            onClick={() => handleSelectMethods(method)}
-                            disabled={
-                              selectService !== '' && selectService !== e?.name
-                            }
-                          />
-                        </Box>
-                      </FlexBox>
-                    ))}
-                </div>
+        <>
+          <Box className={styles.services_container}>
+            {/* Main Parent Start  */}
+            <FlexBox className={styles.services}>
+              <Box>
+                <img
+                  src={data.connector_type?.logo_url}
+                  alt={data.connector_type?.parent}
+                />
               </Box>
-            </>
-          ))}
-        </Box>
+              <Box
+                marginLeft="sm"
+                marginRight="xl"
+                className={styles.servicesName}
+                onClick={() => handleShowTypes(data?.connector_type?.name)}
+              >
+                <Paragraph>{data.connector_type?.name}</Paragraph>
+              </Box>
+              <Box>
+                <input
+                  type="checkbox"
+                  className={styles.selectedBoxCheckbox}
+                  // onClick={() => handleSelectService(data?.parent)}
+                  // disabled={
+                  //   resourceType !== '' && resourceType !== data?.parent
+                  // }
+                />
+              </Box>
+            </FlexBox>
+            {/* Main Parent End  */}
+
+            <div
+              style={{
+                position: 'absolute',
+                bottom: '-5px',
+                width: '5px',
+                height: '5px',
+                borderRadius: '100%',
+                backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                marginLeft: '5px',
+              }}
+            ></div>
+
+            <div
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '7px',
+              }}
+            >
+              <div style={{ position: 'relative' }}>
+                {showTypes &&
+                  data?.connector_type?.resource_types?.map(
+                    (resource_type: any) => (
+                      <Box>
+                        {/* First Child Start */}
+                        <FlexBox className={styles.services}>
+                          <div
+                            style={{
+                              marginTop: '10px',
+                              width: '50px',
+                              borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                            }}
+                          ></div>
+                          <div
+                            style={{
+                              marginTop: '3px',
+                              marginRight: '5px',
+                              marginLeft: '-2px',
+                              color: 'rgba(68, 62, 153, 0.3)',
+                            }}
+                          >
+                            &#x27A4;
+                          </div>
+
+                          <Box>
+                            <img
+                              src={resource_type.logo_url}
+                              alt={resource_type.resource_type}
+                            />
+                          </Box>
+                          <Box
+                            marginLeft="sm"
+                            marginRight="xl"
+                            className={styles.servicesName}
+                            onClick={() =>
+                              handleShowIds(resource_type?.resource_type)
+                            }
+                          >
+                            <Paragraph>{resource_type.name}</Paragraph>
+                          </Box>
+                          <Box>
+                            <input
+                              type="checkbox"
+                              className={styles.selectedBoxCheckbox}
+                              // checked={parent === true}
+                              onClick={() =>
+                                resourceType === ''
+                                  ? setResourceType(resource_type?.name)
+                                  : setResourceType('')
+                              }
+                              disabled={
+                                resourceType !== '' &&
+                                resourceType !== resource_type?.name
+                              }
+                            />
+                          </Box>
+                        </FlexBox>
+                        {/* First Child End */}
+
+                        <Box
+                          style={{ position: 'relative', marginLeft: '63px' }}
+                        >
+                          <div
+                            style={{
+                              position: 'absolute',
+                              bottom: '-5px',
+                              width: '5px',
+                              height: '5px',
+                              borderRadius: '100%',
+                              backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                              marginLeft: '5px',
+                            }}
+                          ></div>
+
+                          <div
+                            style={{
+                              borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                              marginLeft: '7px',
+                            }}
+                          >
+                            {showIds &&
+                              data?.resources.map((item: any) => (
+                                <>
+                                  {/* Second Child Start */}
+                                  {item.resource_type ===
+                                    resource_type.resource_type &&
+                                    typesToShow === item.resource_type &&
+                                    item.resource_ids.map((id: any) => (
+                                      <FlexBox marginVertical="md">
+                                        <div
+                                          style={{
+                                            marginTop: '10px',
+                                            width: '50px',
+                                            borderTop:
+                                              '1px solid rgba(68, 62, 153, 0.3)',
+                                          }}
+                                        ></div>
+                                        <div
+                                          style={{
+                                            marginTop: '3px',
+                                            marginRight: '5px',
+                                            marginLeft: '-2px',
+                                            color: 'rgba(68, 62, 153, 0.3)',
+                                          }}
+                                        >
+                                          &#x27A4;
+                                        </div>
+                                        <Box
+                                          marginLeft="sm"
+                                          marginRight="xl"
+                                          style={{ width: '200px' }}
+                                        >
+                                          <Paragraph>{id} </Paragraph>
+                                        </Box>
+                                        <Box>
+                                          <input
+                                            type="checkbox"
+                                            className={
+                                              styles.selectedBoxCheckbox
+                                            }
+                                            // checked={parent === true}
+                                            onClick={() => handleSelectIds(id)}
+                                            disabled={
+                                              resourceType !== '' &&
+                                              resourceType !==
+                                                resource_type?.name
+                                            }
+                                          />
+                                        </Box>
+                                      </FlexBox>
+                                    ))}
+                                  {/* Second Child End */}
+                                </>
+                              ))}
+                          </div>
+                        </Box>
+                      </Box>
+                    ),
+                  )}
+              </div>
+            </div>
+          </Box>
+        </>
       )}
     </Box>
   );

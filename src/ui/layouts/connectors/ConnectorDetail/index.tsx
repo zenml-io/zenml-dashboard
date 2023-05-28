@@ -139,6 +139,7 @@ export const StackDetail: React.FC = () => {
   const openDetailPage = (connector: any) => {
     history.push(routePaths.connectors.list(selectedWorkspace));
   };
+
   return (
     <BasePage
       headerWithButtons

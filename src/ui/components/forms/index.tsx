@@ -617,6 +617,67 @@ export const SearchInputField = (
   );
 };
 
+export const FormPasswordFieldVerify = (
+  props: {
+    label: string;
+    labelColor: any;
+    placeholder: string;
+    value: string;
+    onChange: any;
+    error: FieldError;
+    showPasswordOption?: boolean;
+  } & any,
+): JSX.Element => {
+  const [showPassword, setShowPassword] = useState(false);
+  return (
+    <FlexBox.Column fullWidth>
+      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+        <InputWithLabel
+          name={props.name}
+          label={props.label}
+          labelColor={props.labelColor}
+          InputComponent={
+            !showPassword ? (
+              <PasswordInput
+                {...props}
+                onChangeText={props.onChange}
+                value={props.value}
+                placeholder={props.placeholder}
+                hasError={props.error.hasError}
+              />
+            ) : (
+              <TextInput
+                {...props}
+                onChangeText={props.onChange}
+                value={props.value}
+                placeholder={props.placeholder}
+                hasError={props.error.hasError}
+              />
+            )
+          }
+        />
+        {props.showPasswordOption && (
+          <LinkBox
+            style={{ position: 'absolute', right: '10px', top: '36px' }}
+            onClick={(event: any) => {
+              if (!event) return null;
+              setShowPassword(!showPassword);
+            }}
+          >
+            <icons.eye
+              color={showPassword ? iconColors.black : iconColors.grey}
+            />
+          </LinkBox>
+        )}
+      </FlexBox>
+      <FormValidationError
+        text={props.error.text}
+        hasError={props.error.hasError}
+      />
+    </FlexBox.Column>
+  );
+};
+
 export const FormPasswordField = (
   props: {
     label: string;
