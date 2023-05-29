@@ -1,7 +1,7 @@
 import React from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 
-import { Box, FlexBox, PrimaryButton } from '../../../../components';
+import { Box, FlexBox, PrimaryButton, Spinner } from '../../../../components';
 
 import styles from './index.module.scss';
 
@@ -9,7 +9,8 @@ export const SidePopup: React.FC<{
   onClose: () => void;
   action: any;
   flavor?: any;
-}> = ({ children, action, flavor, onClose }) => {
+  verifying?: boolean;
+}> = ({ children, action, verifying, flavor, onClose }) => {
   window.onkeydown = function (event: any) {
     if (event.key === 'Esc' || event.key === 'Escape') {
       return onClose();
@@ -48,11 +49,20 @@ export const SidePopup: React.FC<{
           >
             <Box style={{}}>
               <div style={{ position: 'relative', height: '30px' }}>
+                {console.log(verifying, 'verifyingverifying')}
                 <PrimaryButton
+                  disabled={verifying}
                   onClick={action}
                   style={{ position: 'fixed', right: '50px' }}
                 >
-                  Verify
+                  {verifying ? (
+                    <>
+                      {' '}
+                      Verifying <Spinner color={'white'} size={'xs'} />
+                    </>
+                  ) : (
+                    'Create'
+                  )}
                 </PrimaryButton>
               </div>
             </Box>

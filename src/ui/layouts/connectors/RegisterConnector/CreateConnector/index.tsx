@@ -32,7 +32,7 @@ import { SidePopup } from '../SidePopup';
 import {
   useSelector,
   useDispatch,
-  // useHistory,
+  useHistory,
   // useLocation,
 } from '../../../../hooks';
 import {
@@ -53,7 +53,7 @@ import {
 } from '../../../../../redux/actions';
 import { iconColors, toasterTypes } from '../../../../../constants';
 import axios from 'axios';
-// import { routePaths } from '../../../../../routes/routePaths';
+import { routePaths } from '../../../../../routes/routePaths';
 // import { SidePopup } from '../SidePopup';
 // import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
 // import { titleCase } from '../../../../../utils';
@@ -76,6 +76,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   //    setFormData
   // ] = useState({});
   const [loading, setLoading] = useState(false);
+  const [verifying, setVerifying] = useState(false);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   // const secrets = useSelector(secretSelectors.mySecrets);
   // const [validationSchema, setValidationSchema] = useState({});
@@ -102,6 +103,9 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const [parent, setParent] = useState(false);
   const [resourceType, setResourceType] = useState('');
   const [ids, setIds] = useState([]);
+  const [labelsInputFields, setLabelsInputFields] = useState([
+    { key: '', value: '' },
+  ]) as any;
 
   // const [inputData, setInputData] = useState({}) as any;
   // const [inputFields, setInputFields] = useState() as any;
@@ -119,7 +123,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   //   // setSecretId
   // ] = useState('');
   // const [secretIdArray, setSecretIdArray] = useState([]);
-  // const history = useHistory();
+  const history = useHistory();
 
   const matchedAuthMethod = connectorType.authMethods.find(
     (item: any) => item?.auth_method === selectedAuthMethod,
@@ -157,6 +161,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
             : '',
       };
     }
+    setConnectorExpirationSeconds(matchedAuthMethod.default_expiration_seconds);
     setMappedConfiguration(configurationModifiedObj);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [selectedAuthMethod]);
@@ -847,14 +852,160 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   //     );
   //   }
   // };
-
-  const onSubmit = async (values: any) => {
+  const onVerify = async () => {
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
-    const resourceTypes = connectorType.resourceTypes.map(
-      (item: any) => item.resource_type,
+    const configuration: any = {};
+
+    for (const key in mappedConfiguration) {
+      if (mappedConfiguration.hasOwnProperty(key)) {
+        if (mappedConfiguration[key].default) {
+          configuration[key] = mappedConfiguration[key].default;
+        }
+      }
+    }
+
+    for (const field of matchedAuthMethod.config_schema.required) {
+      if (!configuration[field]) {
+        dispatch(
+          showToasterAction({
+            description: 'Required Field is Empty',
+            type: toasterTypes.failure,
+          }),
+        );
+        return false;
+      }
+    }
+
+    const labels: any = {};
+
+    labelsInputFields.forEach((item: any) => {
+      if (item.key !== '' || item.value !== '') {
+        labels[item.key] = item.value;
+      }
+    });
+
+    for (var key in labels) {
+      if (key === '') {
+        dispatch(
+          showToasterAction({
+            description: 'Key cannot be Empty.',
+            type: toasterTypes.failure,
+          }),
+        );
+        return false;
+      } else if (labels[key] === '') {
+        dispatch(
+          showToasterAction({
+            description: 'Value cannot be Empty.',
+            type: toasterTypes.failure,
+          }),
+        );
+        return false;
+      }
+    }
+    const body: any = {
+      user: user?.id,
+      workspace: id,
+      is_shared: isShared,
+      name: connectorName,
+      description: description,
+      connector_type: connectorType.connectorType,
+      auth_method: selectedAuthMethod,
+      // resource_types: resourceTypes,
+      // resource_id: ids.length ? ids : null,
+      // resource_types: [resourceType],
+
+      configuration: {
+        ...configuration,
+      },
+
+      // expiration_seconds: 43200,
+      labels: labels,
+      // name: componentName,
+      // type: flavor.type,
+      // flavor: flavor.name,
+      // configuration: { ...inputData, ...final, ...inputArrayFields },
+    };
+    if (connectorExpirationSeconds !== null) {
+      body.expiration_seconds = connectorExpirationSeconds;
+    }
+    setVerifying(true);
+    await axios
+      .post(
+        `${process.env.REACT_APP_BASE_API_URL}/service_connectors/verify`,
+        // @ts-ignore
+        { ...body },
+        { headers: { Authorization: `Bearer ${authToken}` } },
+      )
+      .then((response) => {
+        setVerifying(false);
+        if (response.data.error !== null) {
+          dispatch(
+            showToasterAction({
+              description: response.data.error,
+              type: toasterTypes.failure,
+            }),
+          );
+        }
+        setResources(response.data);
+        // setLoading(false);
+        // dispatch(
+        //   showToasterAction({
+        //     description: 'Component has been created successfully',
+        //     type: toasterTypes.success,
+        //   }),
+        // );
+        // dispatchStackComponentsData(1, 1);
+      })
+      .catch((err) => {
+        setVerifying(false);
+        console.log(err);
+        // if (err?.response?.status === 403) {
+        //   dispatch(
+        //     showToasterAction({
+        //       description: err?.response?.data?.detail,
+        //       type: toasterTypes.failure,
+        //     }),
+        //   );
+        // } else if (err?.response?.status === 409) {
+        //   dispatch(
+        //     showToasterAction({
+        //       description: err?.response?.data?.detail[0].includes('Exists')
+        //         ? `Component name already exists.`
+        //         : err?.response?.data?.detail[0],
+        //       type: toasterTypes.failure,
+        //     }),
+        //   );
+        // } else {
+        //   dispatch(
+        //     showToasterAction({
+        //       description: err?.response?.data?.detail[0].includes('Exists')
+        //         ? `Component name already exists.`
+        //         : err?.response?.data?.detail[0],
+        //       type: toasterTypes.failure,
+        //     }),
+        //   );
+        // }
+      });
+  };
+  const onSubmit = async (values: any) => {
+    if (!connectorName) {
+      dispatch(
+        showToasterAction({
+          description: 'Required Field is Empty',
+          type: toasterTypes.failure,
+        }),
+      );
+      return false;
+    }
+    const { id }: any = workspaces.find(
+      (item) => item.name === selectedWorkspace,
     );
+    // const resourceTypes = connectorType.resourceTypes.map(
+    //   (item: any) => item.resource_type,
+    // );
 
     const configuration: any = {};
 
@@ -876,7 +1027,35 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
     //   }
     // }
 
-    const body = {
+    const labels: any = {};
+
+    labelsInputFields.forEach((item: any) => {
+      if (item.key !== '' || item.value !== '') {
+        labels[item.key] = item.value;
+      }
+    });
+
+    for (var key in labels) {
+      if (key === '') {
+        dispatch(
+          showToasterAction({
+            description: 'Key cannot be Empty.',
+            type: toasterTypes.failure,
+          }),
+        );
+        return false;
+      } else if (labels[key] === '') {
+        dispatch(
+          showToasterAction({
+            description: 'Value cannot be Empty.',
+            type: toasterTypes.failure,
+          }),
+        );
+        return false;
+      }
+    }
+
+    const body: any = {
       user: user?.id,
       workspace: id,
       is_shared: isShared,
@@ -884,39 +1063,50 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       description: description,
       connector_type: connectorType.connectorType,
       auth_method: selectedAuthMethod,
-      resource_types: resourceTypes,
-      resource_id: null,
+      // resource_types: resourceTypes,
+      resource_id: ids.length ? ids : null,
+      resource_types: [resourceType],
+
       configuration: {
         ...configuration,
       },
 
-      expiration_seconds: connectorExpirationSeconds,
+      // expiration_seconds: ,
+      labels: labels,
       // name: componentName,
       // type: flavor.type,
       // flavor: flavor.name,
       // configuration: { ...inputData, ...final, ...inputArrayFields },
     };
+    if (connectorExpirationSeconds !== null) {
+      body.expiration_seconds = connectorExpirationSeconds;
+    }
     setLoading(true);
     await axios
       .post(
-        `${process.env.REACT_APP_BASE_API_URL}/service_connectors/verify`,
+        `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors`,
         // @ts-ignore
         { ...body },
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
       .then((response) => {
-        console.log('respons23232323e', response);
         setLoading(false);
-        if (response.data.error !== null) {
-          dispatch(
-            showToasterAction({
-              description: response.data.error,
-              type: toasterTypes.failure,
-            }),
-          );
-        }
-        setResources(response.data);
+        // if (response.data.error !== null) {
+        //   dispatch(
+        //     showToasterAction({
+        //       description: response.data.error,
+        //       type: toasterTypes.failure,
+        //     }),
+        //   );
+        // }
+        // setResources(response.data);
         // setLoading(false);
+        history.push(
+          routePaths.connectors.configuration(
+            response.data.id,
+            selectedWorkspace,
+          ),
+        );
         // dispatch(
         //   showToasterAction({
         //     description: 'Component has been created successfully',
@@ -977,6 +1167,11 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               required={matchedAuthMethod?.config_schema?.required?.includes(
                 elementName,
               )}
+              onRemoveFocus={(e: any) => {
+                matchedAuthMethod?.config_schema?.required?.includes(
+                  elementName,
+                ) && onVerify();
+              }}
               onChange={(e: any) => {
                 setMappedConfiguration((prevConfig: any) => ({
                   ...prevConfig, // Spread the previous user object
@@ -1469,25 +1664,28 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
             </Container>
           </FlexBox.Row>
           <Container>
-            <Box marginTop="lg" style={{ width: '30vw' }}>
-              <FormTextField
-                onChange={(e: any) => {
-                  setConnectorExpirationSeconds(e);
-                }}
-                type="number"
-                // disabled
-                // onKeyDown={(e: any) => onPressEnter(e, 'name')}
-                // onChangeText={(e: any) => onPressEnter(e, 'name')}
-                label={'Expiration Seconds'}
-                optional={false}
-                value={connectorExpirationSeconds}
-                placeholder=""
-                // hasError={false}
-                // className={styles.field}
-              />
-            </Box>
+            {matchedAuthMethod.default_expiration_seconds !== null && (
+              <Box marginTop="lg" style={{ width: '30vw' }}>
+                <FormTextField
+                  onChange={(e: any) => {
+                    setConnectorExpirationSeconds(e);
+                  }}
+                  type="number"
+                  // disabled
+                  // onKeyDown={(e: any) => onPressEnter(e, 'name')}
+                  // onChangeText={(e: any) => onPressEnter(e, 'name')}
+                  label={'Expiration Seconds'}
+                  optional={false}
+                  value={connectorExpirationSeconds}
+                  placeholder=""
+                  // hasError={false}
+                  // className={styles.field}
+                />
+              </Box>
+            )}
           </Container>
           <Box marginTop="lg" style={{ width: '30vw' }}>
+            {console.log(resourceType, ids, 'idsidsids')}
             <ServicesSelectorComponent
               parent={parent}
               setParent={setParent}
@@ -1496,11 +1694,166 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               ids={ids}
               setIds={setIds}
               data={connectorType}
+              resources={resources}
+              verifying={verifying}
             />
+          </Box>
+          <Box marginTop="md" marginLeft={'md'} style={{ width: '30vw' }}>
+            <Paragraph size="body" style={{ color: '#000' }}>
+              <label htmlFor="key">Labels</label>
+            </Paragraph>
+
+            <FlexBox.Row style={{ position: 'relative' }}>
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '-5px',
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '100%',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                }}
+              ></div>
+
+              <div
+                className="form-row"
+                style={{
+                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                  marginLeft: '2px',
+                }}
+              >
+                {labelsInputFields?.map((item: any, index: any) => (
+                  <Fragment>
+                    <Box
+                      style={{ display: 'flex', alignItems: 'center' }}
+                      marginTop="sm"
+                    >
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          width: '15px',
+                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          marginRight: '5px',
+                          marginLeft: '-2px',
+                          color: 'rgba(68, 62, 153, 0.3)',
+                        }}
+                      >
+                        &#x27A4;
+                      </div>
+
+                      <Box
+                        className="form-group"
+                        marginRight="md"
+                        style={{ width: '13.7vw' }}
+                      >
+                        <FormTextField
+                          onChange={(event: any) => {
+                            const values = [...labelsInputFields];
+                            values[index].key = event;
+                            // values[name][childIndex].key = event;
+                            // debugger;
+                            setLabelsInputFields(values);
+                          }}
+                          label={'Key'}
+                          value={item.key}
+                          placeholder={''}
+                        />
+                      </Box>
+
+                      <Box className="form-group" style={{ width: '13.7vw' }}>
+                        <FormTextField
+                          onChange={(event: any) => {
+                            const values = [...labelsInputFields];
+                            values[index].value = event;
+                            // values[name][childIndex].key = event;
+                            // debugger;
+                            setLabelsInputFields(values);
+                          }}
+                          label={'Value'}
+                          value={item?.value}
+                          placeholder={''}
+                        />
+                      </Box>
+
+                      <div
+                        style={{
+                          justifyContent: 'space-between',
+                          display: 'flex',
+                          marginTop: '20px',
+                          marginLeft: '5px',
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}
+                        >
+                          {labelsInputFields.length > 1 && (
+                            <button
+                              className={styles.fieldButton}
+                              style={{}}
+                              type="button"
+                              // disabled={item[props.name].length === 1}
+                              onClick={
+                                () => {
+                                  // setLabelsInputFields((prevState: any) => {
+                                  //   // Replace with the index of the object to remove
+
+                                  //   labelsInputFields.splice(index, 1);
+                                  // });
+                                  const values = [...labelsInputFields];
+                                  values.splice(index, 1);
+                                  // values[name][childIndex].key = event;
+                                  // debugger;
+                                  setLabelsInputFields(values);
+                                }
+                                //   // handleRemoveFields(
+                                //   //   parentIndex,
+                                //   //   childIndex,
+                                //   //   props.name,
+                                //   // )
+                              }
+                            >
+                              <icons.delete color={iconColors.grey} />
+                            </button>
+                          )}
+
+                          {index === labelsInputFields.length - 1 && (
+                            <button
+                              className={styles.fieldButton}
+                              type="button"
+                              onClick={() => {
+                                const values = [...labelsInputFields];
+                                values.push({ key: '', value: '' });
+                                // values[name][childIndex].key = event;
+                                // debugger;
+                                setLabelsInputFields(values);
+                              }}
+                            >
+                              <icons.addNew color={iconColors.primary} />
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    </Box>
+                  </Fragment>
+                ))}
+              </div>
+              <div className="submit-button"></div>
+              <br />
+            </FlexBox.Row>
           </Box>
         </Box>
 
-        <SidePopup onClose={() => {}} action={onSubmit} />
+        <SidePopup verifying={verifying} onClose={() => {}} action={onSubmit} />
       </FlexBox.Row>
     </Box>
     // <FlexBox.Column fullWidth marginTop="xl">
