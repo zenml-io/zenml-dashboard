@@ -52,6 +52,7 @@ export const FormTextField = (props: {
   required?: boolean;
   name?: string;
   style?: any;
+  onRemoveFocus?: any;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <FlexBox alignItems="center" fullWidth>

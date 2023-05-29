@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
-import { FlexBox, Box, icons, Paragraph } from '../../../components';
+import { FlexBox, Box, icons, Paragraph, Spinner } from '../../../components';
 import { iconColors, iconSizes } from '../../../../constants';
+// import { verify } from 'crypto';
 
 type ServicesSelector = {
   parent: boolean;
@@ -11,6 +12,8 @@ type ServicesSelector = {
   ids: any;
   setIds: any;
   data: any;
+  resources?: any;
+  verifying?: boolean;
 };
 
 const Index: React.FC<ServicesSelector> = ({
@@ -21,23 +24,25 @@ const Index: React.FC<ServicesSelector> = ({
   ids,
   setIds,
   data,
+  resources,
+  verifying,
 }) => {
   const [showServices, setShowServices] = useState(false);
-  const [showTypes, setShowTypes] = useState(false);
-  const [showIds, setShowIds] = useState(false);
+  // const [showTypes, setShowTypes] = useState(false);
+  // const [showIds, setShowIds] = useState(false);
+  console.log(resources, data, 'datadata');
+  // const [typesToShow, setTypesToShow] = useState('');
 
-  const [typesToShow, setTypesToShow] = useState('');
+  // const handleShowTypes = (service_name: string) => {
+  //   setParent(service_name);
+  //   setShowTypes(!showTypes);
+  //   setParent(!parent);
+  // };
 
-  const handleShowTypes = (service_name: string) => {
-    setParent(service_name);
-    setShowTypes(!showTypes);
-    setParent(!parent);
-  };
-
-  const handleShowIds = (service_type: string) => {
-    setTypesToShow(service_type);
-    setShowIds(!showIds);
-  };
+  // const handleShowIds = (service_type: string) => {
+  //   // setTypesToShow(service_type);
+  //   setShowIds(!showIds);
+  // };
 
   const handleSelectIds = (id: string) => {
     if (ids?.includes(id)) {
@@ -58,7 +63,7 @@ const Index: React.FC<ServicesSelector> = ({
             <Box className={styles.service_selector_selected}>
               <Paragraph>
                 {resourceType} -{' '}
-                {resourceType.length === 0 ? (
+                {ids.length === 0 ? (
                   <>&#91;all&#93;</>
                 ) : (
                   ids?.map((e: string) => <>&#91;{e}&#93; </>)
@@ -72,7 +77,11 @@ const Index: React.FC<ServicesSelector> = ({
           )}
         </Box>
         <Box>
-          <icons.chevronDown color={iconColors.black} size={iconSizes.xs} />
+          {verifying ? (
+            <Spinner color={'black'} size={'xs'} />
+          ) : (
+            <icons.chevronDown color={iconColors.black} size={iconSizes.xs} />
+          )}
         </Box>
       </Box>
 
@@ -82,18 +91,15 @@ const Index: React.FC<ServicesSelector> = ({
             {/* Main Parent Start  */}
             <FlexBox className={styles.services}>
               <Box>
-                <img
-                  src={data.connector_type?.logo_url}
-                  alt={data.connector_type?.parent}
-                />
+                <img src={data.logoUrl} alt={data.name} />
               </Box>
               <Box
                 marginLeft="sm"
                 marginRight="xl"
                 className={styles.servicesName}
-                onClick={() => handleShowTypes(data?.connector_type?.name)}
+                // onClick={() => handleShowTypes(data?.name)}
               >
-                <Paragraph>{data.connector_type?.name}</Paragraph>
+                <Paragraph>{data.name}</Paragraph>
               </Box>
               <Box>
                 <input
@@ -127,145 +133,137 @@ const Index: React.FC<ServicesSelector> = ({
               }}
             >
               <div style={{ position: 'relative' }}>
-                {showTypes &&
-                  data?.connector_type?.resource_types?.map(
-                    (resource_type: any) => (
+                {data?.resourceTypes?.map((resource_type: any) => (
+                  <Box>
+                    {/* First Child Start */}
+                    <FlexBox className={styles.services}>
+                      <div
+                        style={{
+                          marginTop: '10px',
+                          width: '50px',
+                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          marginTop: '3px',
+                          marginRight: '5px',
+                          marginLeft: '-2px',
+                          color: 'rgba(68, 62, 153, 0.3)',
+                        }}
+                      >
+                        &#x27A4;
+                      </div>
+
                       <Box>
-                        {/* First Child Start */}
-                        <FlexBox className={styles.services}>
-                          <div
-                            style={{
-                              marginTop: '10px',
-                              width: '50px',
-                              borderTop: '1px solid rgba(68, 62, 153, 0.3)',
-                            }}
-                          ></div>
-                          <div
-                            style={{
-                              marginTop: '3px',
-                              marginRight: '5px',
-                              marginLeft: '-2px',
-                              color: 'rgba(68, 62, 153, 0.3)',
-                            }}
-                          >
-                            &#x27A4;
-                          </div>
-
-                          <Box>
-                            <img
-                              src={resource_type.logo_url}
-                              alt={resource_type.resource_type}
-                            />
-                          </Box>
-                          <Box
-                            marginLeft="sm"
-                            marginRight="xl"
-                            className={styles.servicesName}
-                            onClick={() =>
-                              handleShowIds(resource_type?.resource_type)
-                            }
-                          >
-                            <Paragraph>{resource_type.name}</Paragraph>
-                          </Box>
-                          <Box>
-                            <input
-                              type="checkbox"
-                              className={styles.selectedBoxCheckbox}
-                              // checked={parent === true}
-                              onClick={() =>
-                                resourceType === ''
-                                  ? setResourceType(resource_type?.name)
-                                  : setResourceType('')
-                              }
-                              disabled={
-                                resourceType !== '' &&
-                                resourceType !== resource_type?.name
-                              }
-                            />
-                          </Box>
-                        </FlexBox>
-                        {/* First Child End */}
-
-                        <Box
-                          style={{ position: 'relative', marginLeft: '63px' }}
-                        >
-                          <div
-                            style={{
-                              position: 'absolute',
-                              bottom: '-5px',
-                              width: '5px',
-                              height: '5px',
-                              borderRadius: '100%',
-                              backgroundColor: 'rgba(68, 62, 153, 0.3)',
-                              marginLeft: '5px',
-                            }}
-                          ></div>
-
-                          <div
-                            style={{
-                              borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                              marginLeft: '7px',
-                            }}
-                          >
-                            {showIds &&
-                              data?.resources.map((item: any) => (
-                                <>
-                                  {/* Second Child Start */}
-                                  {item.resource_type ===
-                                    resource_type.resource_type &&
-                                    typesToShow === item.resource_type &&
-                                    item.resource_ids.map((id: any) => (
-                                      <FlexBox marginVertical="md">
-                                        <div
-                                          style={{
-                                            marginTop: '10px',
-                                            width: '50px',
-                                            borderTop:
-                                              '1px solid rgba(68, 62, 153, 0.3)',
-                                          }}
-                                        ></div>
-                                        <div
-                                          style={{
-                                            marginTop: '3px',
-                                            marginRight: '5px',
-                                            marginLeft: '-2px',
-                                            color: 'rgba(68, 62, 153, 0.3)',
-                                          }}
-                                        >
-                                          &#x27A4;
-                                        </div>
-                                        <Box
-                                          marginLeft="sm"
-                                          marginRight="xl"
-                                          style={{ width: '200px' }}
-                                        >
-                                          <Paragraph>{id} </Paragraph>
-                                        </Box>
-                                        <Box>
-                                          <input
-                                            type="checkbox"
-                                            className={
-                                              styles.selectedBoxCheckbox
-                                            }
-                                            // checked={parent === true}
-                                            onClick={() => handleSelectIds(id)}
-                                            disabled={
-                                              resourceType !== '' &&
-                                              resourceType !==
-                                                resource_type?.name
-                                            }
-                                          />
-                                        </Box>
-                                      </FlexBox>
-                                    ))}
-                                  {/* Second Child End */}
-                                </>
-                              ))}
-                          </div>
-                        </Box>
+                        <img
+                          src={resource_type.logo_url}
+                          alt={resource_type.resource_type}
+                        />
                       </Box>
-                    ),
-                  )}
+                      <Box
+                        marginLeft="sm"
+                        marginRight="xl"
+                        className={styles.servicesName}
+                        // onClick={() =>
+                        //   handleShowIds(resource_type?.resource_type)
+                        // }
+                      >
+                        <Paragraph>{resource_type.name}</Paragraph>
+                      </Box>
+                      <Box>
+                        <input
+                          type="checkbox"
+                          className={styles.selectedBoxCheckbox}
+                          // checked={parent === true}
+                          onClick={() =>
+                            resourceType === ''
+                              ? setResourceType(resource_type?.resource_type)
+                              : setResourceType('')
+                          }
+                          disabled={
+                            resourceType !== '' &&
+                            resourceType !== resource_type?.name
+                          }
+                        />
+                      </Box>
+                    </FlexBox>
+                    {/* First Child End */}
+
+                    <Box style={{ position: 'relative', marginLeft: '63px' }}>
+                      <div
+                        style={{
+                          position: 'absolute',
+                          bottom: '-5px',
+                          width: '5px',
+                          height: '5px',
+                          borderRadius: '100%',
+                          backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                          marginLeft: '5px',
+                        }}
+                      ></div>
+
+                      <div
+                        style={{
+                          borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                          marginLeft: '7px',
+                        }}
+                      >
+                        {resources &&
+                          resources?.resources?.map((item: any) => (
+                            <>
+                              {/* Second Child Start */}
+                              {item.resource_type ===
+                                resource_type.resource_type &&
+                                item.resource_ids !== null &&
+                                item.resource_ids.map((id: any) => (
+                                  <FlexBox marginVertical="md">
+                                    <div
+                                      style={{
+                                        marginTop: '10px',
+                                        width: '50px',
+                                        borderTop:
+                                          '1px solid rgba(68, 62, 153, 0.3)',
+                                      }}
+                                    ></div>
+                                    <div
+                                      style={{
+                                        marginTop: '3px',
+                                        marginRight: '5px',
+                                        marginLeft: '-2px',
+                                        color: 'rgba(68, 62, 153, 0.3)',
+                                      }}
+                                    >
+                                      &#x27A4;
+                                    </div>
+                                    <Box
+                                      marginLeft="sm"
+                                      marginRight="xl"
+                                      style={{ width: '200px' }}
+                                    >
+                                      <Paragraph>{id} </Paragraph>
+                                    </Box>
+                                    <Box>
+                                      <input
+                                        type="checkbox"
+                                        className={styles.selectedBoxCheckbox}
+                                        // checked={parent === true}
+                                        onClick={() => handleSelectIds(id)}
+                                        disabled={
+                                          resourceType !== '' &&
+                                          resourceType !== resource_type?.name
+                                        }
+                                      />
+                                    </Box>
+                                  </FlexBox>
+                                ))}
+                              {/* Second Child End */}
+                            </>
+                          ))}
+                      </div>
+                    </Box>
+                  </Box>
+                ))}
               </div>
             </div>
           </Box>
