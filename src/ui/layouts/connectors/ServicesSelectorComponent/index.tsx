@@ -30,7 +30,7 @@ const Index: React.FC<ServicesSelector> = ({
   const [showServices, setShowServices] = useState(false);
   // const [showTypes, setShowTypes] = useState(false);
   // const [showIds, setShowIds] = useState(false);
-  console.log(resources, data, 'datadata');
+
   // const [typesToShow, setTypesToShow] = useState('');
 
   // const handleShowTypes = (service_name: string) => {
@@ -52,22 +52,31 @@ const Index: React.FC<ServicesSelector> = ({
     }
   };
 
+  // const handleSelectParent = () => {
+  //   setParent(!parent);
+  //   if (parent) {
+  //     setResourceType([]);
+  //   } else {
+  //     const types = data?.resourceTypes?.map((e: any) => e.name);
+  //     setResourceType(types);
+  //   }
+  // };
   const handleSelectParent = () => {
     setParent(!parent);
     if (parent) {
       setResourceType([]);
     } else {
-      const types = data?.resourceTypes?.map((e: any) => e.name);
+      const types = data?.resourceTypes?.map((e: any) => e.resource_type);
       setResourceType(types);
     }
-    // if (ids?.includes(id)) {
-    //   setIds(ids?.filter((e: string) => e !== id));
-    // } else {
-    //   setIds([...ids, id]);
-    // }
   };
 
-  console.log(resourceType, 'resourceTypeAhs');
+  // const resourceTypeImage = data?.resourceTypes?.filter(
+  //   (e: any) => e.name === resourceType[0],
+  // );
+  const resourceTypeImage = data?.resourceTypes?.filter(
+    (e: any) => e.resource_type === resourceType[0],
+  );
 
   return (
     <Box>
@@ -86,14 +95,32 @@ const Index: React.FC<ServicesSelector> = ({
           <Box>
             {resourceType?.length > 0 ? (
               <Box className={styles.service_selector_selected}>
-                <Paragraph>
-                  {resourceType} -{' '}
-                  {ids.length === 0 ? (
-                    <>&#91;all&#93;</>
-                  ) : (
-                    ids?.map((e: string) => <>&#91;{e}&#93; </>)
-                  )}
-                </Paragraph>
+                <FlexBox>
+                  <Box marginRight="sm">
+                    <img
+                      src={resourceTypeImage[0]?.logo_url}
+                      alt={resourceTypeImage[0]?.name}
+                    />
+                  </Box>
+                  <Box>
+                    <Paragraph>
+                      {resourceTypeImage[0]?.name} -{' '}
+                      {ids.length === 0 ? (
+                        <>&#91;all&#93;</>
+                      ) : (
+                        ids?.map((e: string) => <>&#91;{e}&#93; </>)
+                      )}
+                    </Paragraph>
+                    {/* <Paragraph>
+                      {resourceType} -{' '}
+                      {ids.length === 0 ? (
+                        <>&#91;all&#93;</>
+                      ) : (
+                        ids?.map((e: string) => <>&#91;{e}&#93; </>)
+                      )}
+                    </Paragraph> */}
+                  </Box>
+                </FlexBox>
               </Box>
             ) : (
               <Box>
@@ -195,21 +222,38 @@ const Index: React.FC<ServicesSelector> = ({
                         <Paragraph>{resource_type.name}</Paragraph>
                       </Box>
                       <Box>
-                        <input
+                        {/* <input
                           type="checkbox"
                           className={styles.selectedBoxCheckbox}
                           checked={resourceType?.includes(resource_type?.name)}
                           onClick={() =>
                             !resourceType?.includes(resource_type?.name)
-                              ? setResourceType([
-                                  resourceType,
-                                  resource_type?.name,
-                                ])
+                              ? setResourceType([resource_type?.name])
                               : setResourceType([])
                           }
                           disabled={
                             resourceType?.length > 0 &&
                             !resourceType?.includes(resource_type?.name)
+                          }
+                        /> */}
+                        <input
+                          type="checkbox"
+                          className={styles.selectedBoxCheckbox}
+                          checked={resourceType?.includes(
+                            resource_type?.resource_type,
+                          )}
+                          onClick={() =>
+                            !resourceType?.includes(
+                              resource_type?.resource_type,
+                            )
+                              ? setResourceType([resource_type?.resource_type])
+                              : setResourceType([])
+                          }
+                          disabled={
+                            resourceType?.length > 0 &&
+                            !resourceType?.includes(
+                              resource_type?.resource_type,
+                            )
                           }
                         />
                       </Box>
@@ -276,6 +320,24 @@ const Index: React.FC<ServicesSelector> = ({
                                         checked={
                                           parent === true ||
                                           resourceType?.includes(
+                                            resource_type?.resource_type,
+                                          )
+                                        }
+                                        onClick={() => handleSelectIds(id)}
+                                        disabled={
+                                          (ids?.length > 0 &&
+                                            !ids?.includes(id)) ||
+                                          !resourceType?.includes(
+                                            resource_type?.resource_type,
+                                          )
+                                        }
+                                      />
+                                      {/* <input
+                                        type="checkbox"
+                                        className={styles.selectedBoxCheckbox}
+                                        checked={
+                                          parent === true ||
+                                          resourceType?.includes(
                                             resource_type?.name,
                                           )
                                         }
@@ -287,7 +349,7 @@ const Index: React.FC<ServicesSelector> = ({
                                             resource_type?.name,
                                           )
                                         }
-                                      />
+                                      /> */}
                                     </Box>
                                   </FlexBox>
                                 ))}
