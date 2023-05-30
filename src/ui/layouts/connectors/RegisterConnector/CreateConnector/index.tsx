@@ -1064,8 +1064,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       connector_type: connectorType.connectorType,
       auth_method: selectedAuthMethod,
       // resource_types: resourceTypes,
-      resource_id: ids.length ? ids : null,
-      resource_types: [resourceType],
+      resource_id: ids.length ? ids[0] : null,
+      resource_types: resourceType,
 
       configuration: {
         ...configuration,
