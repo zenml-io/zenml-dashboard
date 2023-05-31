@@ -11,7 +11,6 @@ import { Box, FlexBox, icons, Paragraph } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 
 export const GetHeaderCols = ({
-  // expendedRow,
   filteredConnector,
 }: {
   filteredConnector: any[];

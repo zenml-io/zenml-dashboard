@@ -19,6 +19,8 @@ const getMyConnectorPaginated = (state: State): any =>
 
 const getConnectorTypes = (state: State): any =>
   _.get(stateKey(state), 'connectorTypes');
+const getConnectorComponents = (state: State): any =>
+  _.get(stateKey(state), 'connectorComponentsIds');
 
 export const myConnectors = (state?: State | null): any[] => {
   if (!state) return [];
@@ -26,6 +28,22 @@ export const myConnectors = (state?: State | null): any[] => {
   const byId = getById(state);
 
   return (myConnectorIds || []).reduce((current: any[], id: TId) => {
+    const connector = byId[id];
+
+    if (connector) {
+      current = [...current, connector];
+    }
+
+    return current;
+  }, [] as any[]);
+};
+
+export const connectorComponents = (state?: State | null): any[] => {
+  if (!state) return [];
+  const connectorComponentsIds = getConnectorComponents(state);
+  const byId = getById(state);
+
+  return (connectorComponentsIds || []).reduce((current: any[], id: TId) => {
     const connector = byId[id];
 
     if (connector) {
@@ -57,6 +75,7 @@ const connectorSelectors = {
   myConnectors: myConnectors,
   connectorForId,
   myConnectorsTypes,
+  connectorComponents,
 };
 
 export { connectorSelectors };

@@ -672,7 +672,7 @@ const routes = [
   //   exact: true,
   // },
   {
-    path: routePaths.connectors.metaData(':id', ':string'),
+    path: routePaths.connectors.connectorComponents(':id', ':string'),
     Component: connectorDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,

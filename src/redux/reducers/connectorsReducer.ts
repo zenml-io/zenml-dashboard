@@ -6,6 +6,7 @@ export interface State {
   ids: TId[];
   byId: Record<TId, any>;
   myConnectorIds: TId[];
+  connectorComponentsIds: TId[];
   connectorTypes: any[];
   // connectorTypeIds: TId[];
   paginated: any;
@@ -26,6 +27,7 @@ export const initialState: State = {
   ids: [],
   byId: {},
   myConnectorIds: [],
+  connectorComponentsIds: [],
   connectorTypes: [],
   // connectorTypeIds: [],
   paginated: {},
@@ -56,6 +58,20 @@ const connectorsReducer = (
       const myConnectorIds: TId[] = connectors.map((stack: any) => stack.id);
 
       return { ...newState(state, connectors, action.payload), myConnectorIds };
+    }
+    case connectorActionTypes.getConnectorComponents.success: {
+      const connectorComponents: any[] = camelCaseArray(
+        action.payload.items as ConnectorsPayload,
+      );
+      // debugger;
+      const connectorComponentsIds: TId[] = connectorComponents.map(
+        (stack: any) => stack.id,
+      );
+
+      return {
+        ...newState(state, connectorComponents, action.payload),
+        connectorComponentsIds,
+      };
     }
 
     case connectorActionTypes.getConnectorForId.success: {

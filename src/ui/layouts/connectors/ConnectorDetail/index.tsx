@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 // import { Box, Paragraph, icons } from '../../../components';
 // import { iconColors, iconSizes } from '../../../../constants';
@@ -10,7 +10,7 @@ import { Configuration } from './Configuration';
 // import { MetaData } from './Metadata';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-import { useHistory, useSelector } from '../../../hooks';
+import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 // import FilterComponent, {
 //   getInitialFilterStateForRuns,
 // } from '../../../components/Filters';
@@ -28,7 +28,43 @@ import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 // import { FullWidthSpinner } from '../../../components';
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
+import { ConnectorComponents } from './ConnectorComponents';
+import FilterComponent, {
+  getInitialFilterState,
+} from '../../../components/Filters';
 
+const FilterWrapper = () => {
+  // const { connector, fetching } = useService();
+  const locationPath = useLocationPath();
+  // const history = useHistory();
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);p
+  // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
+  const [filters, setFilter] = useState([getInitialFilterState()]);
+  function getFilter(values: any) {
+    const filterValuesMap = values.map((v: any) => {
+      return {
+        column: v.column.selectedValue,
+        type: v.contains.selectedValue,
+        value: v.filterValue,
+      };
+    });
+    return filterValuesMap;
+  }
+  return (
+    <Box style={{ marginTop: '10px', width: '100%' }}>
+      <FilterComponent
+        getInitials={getInitialFilterState}
+        filters={filters}
+        setFilter={setFilter}
+      >
+        <ConnectorComponents
+          id={locationPath.split('/')[4]}
+          filter={getFilter(filters)}
+        />
+      </FilterComponent>
+    </Box>
+  );
+};
 const getTabPages = (
   connectorId: TId,
   selectedWorkspace: string,
@@ -42,11 +78,14 @@ const getTabPages = (
       ),
       path: routePaths.connectors.configuration(connectorId, selectedWorkspace),
     },
-    // {
-    //   text: translate('tabs.metaData.text'),
-    //   Component: () => <MetaData connectorId={connectorId}></MetaData>,
-    //   path: routePaths.connector.metaData(connectorId, selectedWorkspace),
-    // },
+    {
+      text: 'Components',
+      Component: FilterWrapper,
+      path: routePaths.connectors.connectorComponents(
+        connectorId,
+        selectedWorkspace,
+      ),
+    },
   ];
 };
 

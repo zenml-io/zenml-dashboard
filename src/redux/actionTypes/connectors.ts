@@ -11,4 +11,7 @@ export const connectorActionTypes = {
   connectorsTypes: generateApiActionsTypes(
     actionTypes.CONNECTORS_GET_CONNECTORS_TYPES,
   ),
+  getConnectorComponents: generateApiActionsTypes(
+    actionTypes.CONNECTORS_GET_CONNECTORCOMPONENTS_TYPES,
+  ),
 };
