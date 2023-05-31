@@ -56,6 +56,7 @@ export const actionTypesHandledByRequestSaga: string[] = [
   connectorActionTypes.getMyConnectors.request,
   connectorActionTypes.getConnectorForId.request,
   connectorActionTypes.connectorsTypes.request,
+  connectorActionTypes.getConnectorComponents.request,
 
   runActionTypes.getArtifact.request,
   runActionTypes.getStep.request,

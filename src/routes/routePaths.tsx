@@ -179,8 +179,8 @@ export const routePaths = {
       `/workspaces/${workspace}/connectors/${id}/configuration`,
     updateConnector: (id: TId, workspace: string): string =>
       `/workspaces/${workspace}/connectors/${id}/update-connector`,
-    metaData: (id: TId, workspace: string): string =>
-      `/workspaces/${workspace}/connectors/${id}/metadata`,
+    connectorComponents: (id: TId, workspace: string): string =>
+      `/workspaces/${workspace}/connectors/${id}/components`,
   },
 
   settings: {
