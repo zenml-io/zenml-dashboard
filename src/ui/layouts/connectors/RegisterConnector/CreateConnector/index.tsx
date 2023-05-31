@@ -10,6 +10,7 @@ import {
   Container,
   FlexBox,
   FormDropdownField,
+  FormPasswordFieldVerify,
   FormTextField,
   // FlexBox,
   // FormDropdownField,
@@ -1162,8 +1163,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       );
       return (
         <>
-          <Box marginTop="lg" style={{ width: '30vw' }}>
-            <FormTextField
+          <Box marginTop="lg" style={{ width: '30vw', marginLeft: '-15px' }}>
+            <FormPasswordFieldVerify
               required={matchedAuthMethod?.config_schema?.required?.includes(
                 elementName,
               )}
@@ -1184,8 +1185,10 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               placeholder=""
               label={titleCase(elementName)}
               value={mappedConfiguration[elementName].default}
+              success={false}
+              loading={false}
+              error={{}}
             />
-
             {console.log(mappedConfiguration, 'asdasd12312321')}
           </Box>
         </>
@@ -1665,7 +1668,10 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
           </FlexBox.Row>
           <Container>
             {matchedAuthMethod.default_expiration_seconds !== null && (
-              <Box marginTop="lg" style={{ width: '30vw' }}>
+              <Box
+                marginTop="lg"
+                style={{ width: '30vw', marginLeft: '-15px' }}
+              >
                 <FormTextField
                   onChange={(e: any) => {
                     setConnectorExpirationSeconds(e);
@@ -1698,7 +1704,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               verifying={verifying}
             />
           </Box>
-          <Box marginTop="md" marginLeft={'md'} style={{ width: '30vw' }}>
+          <Box marginTop="md" style={{ width: '30vw' }}>
             <Paragraph size="body" style={{ color: '#000' }}>
               <label htmlFor="key">Labels</label>
             </Paragraph>

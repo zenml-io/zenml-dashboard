@@ -166,23 +166,23 @@ const Index: React.FC<ServicesSelector> = ({
 
             <div
               style={{
-                position: 'absolute',
-                bottom: '-5px',
-                width: '5px',
-                height: '5px',
-                borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.3)',
-                marginLeft: '5px',
-              }}
-            ></div>
-
-            <div
-              style={{
                 borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
                 marginLeft: '7px',
               }}
             >
               <div style={{ position: 'relative' }}>
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '-5px',
+                    width: '5px',
+                    height: '5px',
+                    borderRadius: '100%',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                    marginLeft: '-3px',
+                  }}
+                ></div>
+
                 {data?.resourceTypes?.map((resource_type: any) => (
                   <Box>
                     {/* First Child Start */}
@@ -263,18 +263,6 @@ const Index: React.FC<ServicesSelector> = ({
                     <Box style={{ position: 'relative', marginLeft: '63px' }}>
                       <div
                         style={{
-                          position: 'absolute',
-                          bottom: '-5px',
-                          width: '5px',
-                          height: '5px',
-                          borderRadius: '100%',
-                          backgroundColor: 'rgba(68, 62, 153, 0.3)',
-                          marginLeft: '5px',
-                        }}
-                      ></div>
-
-                      <div
-                        style={{
                           borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
                           marginLeft: '7px',
                         }}
@@ -288,6 +276,19 @@ const Index: React.FC<ServicesSelector> = ({
                                 item.resource_ids !== null &&
                                 item.resource_ids.map((id: any) => (
                                   <FlexBox marginVertical="md">
+                                    <div
+                                      style={{
+                                        position: 'absolute',
+                                        bottom: '-5px',
+                                        width: '5px',
+                                        height: '5px',
+                                        borderRadius: '100%',
+                                        backgroundColor:
+                                          'rgba(68, 62, 153, 0.3)',
+                                        marginLeft: '-3px',
+                                      }}
+                                    ></div>
+
                                     <div
                                       style={{
                                         marginTop: '10px',
