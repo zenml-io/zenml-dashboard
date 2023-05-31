@@ -13,6 +13,7 @@ import {
   icons,
   DropdownInput,
   InputWithLabelIcon,
+  Spinner,
 } from '..';
 import { handleUpdateNumericInput } from '../../../utils/input';
 import { iconColors } from '../../../constants/icons';
@@ -626,7 +627,8 @@ export const FormPasswordFieldVerify = (
     value: string;
     onChange: any;
     error: FieldError;
-    showPasswordOption?: boolean;
+    success?: boolean;
+    loading?: boolean;
   } & any,
 ): JSX.Element => {
   const [showPassword, setShowPassword] = useState(false);
@@ -657,19 +659,27 @@ export const FormPasswordFieldVerify = (
             )
           }
         />
-        {props.showPasswordOption && (
-          <LinkBox
-            style={{ position: 'absolute', right: '10px', top: '36px' }}
-            onClick={(event: any) => {
-              if (!event) return null;
-              setShowPassword(!showPassword);
-            }}
-          >
-            <icons.eye
-              color={showPassword ? iconColors.black : iconColors.grey}
-            />
-          </LinkBox>
-        )}
+        <LinkBox
+          style={{ position: 'absolute', right: '50px', top: '36px' }}
+          onClick={() => {}}
+        >
+          {props.loading && <Spinner color={'black'} size={'xs'} />}
+          {props.success && (
+            <icons.checkCircleFilled color={iconColors.green} />
+          )}
+        </LinkBox>
+
+        <LinkBox
+          style={{ position: 'absolute', right: '10px', top: '36px' }}
+          onClick={(event: any) => {
+            if (!event) return null;
+            setShowPassword(!showPassword);
+          }}
+        >
+          <icons.eye
+            color={showPassword ? iconColors.black : iconColors.grey}
+          />
+        </LinkBox>
       </FlexBox>
       <FormValidationError
         text={props.error.text}
