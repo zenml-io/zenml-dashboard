@@ -35,6 +35,8 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
 import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
 import { titleCase } from '../../../../../utils';
+import { getServiceConnectorResources } from './useService';
+import ServicesSelectorComponent from '../../ServicesSelectorComponent';
 // import { values } from 'lodash';
 // import { keys } from 'lodash';
 
@@ -64,7 +66,12 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const [secretId, setSecretId] = useState('');
   const [secretIdArray, setSecretIdArray] = useState([]);
+  const [connector, setConnector] = useState();
+  const [connectorResourceId, setConnectorResourceId] = useState();
   const history = useHistory();
+  const { serviceConnectorResources } = getServiceConnectorResources(
+    flavor.connectorResourceType,
+  );
 
   useEffect(() => {
     if (state?.state?.routeFromComponent) {
@@ -979,6 +986,27 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
 
             {/* <PrimaryButton marginTop="md">Upload File</PrimaryButton> */}
           </Form>
+          {flavor.connectorResourceType && (
+            <Box marginTop="lg" style={{ width: '30vw' }}>
+              <Paragraph size="body" style={{ color: '#000' }}>
+                <label htmlFor="key">{'Connect to resource'}</label>
+              </Paragraph>
+              {/* {console.log(resourceType, ids, 'idsidsids')} */}
+              <Box marginTop="sm" style={{ width: '30vw' }}>
+                <ServicesSelectorComponent
+                  // parent={parent}
+                  // setParent={setParent}
+                  connector={connector}
+                  setConnector={setConnector}
+                  connectorResourceId={connectorResourceId}
+                  setConnectorResourceId={setConnectorResourceId}
+                  serviceConnectorResources={serviceConnectorResources}
+                  // resources={resources}
+                  // verifying={verifying}
+                />
+              </Box>
+            </Box>
+          )}
         </Box>
 
         <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} />
