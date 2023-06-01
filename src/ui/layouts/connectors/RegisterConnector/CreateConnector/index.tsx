@@ -1163,34 +1163,60 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       );
       return (
         <>
-          <Box marginTop="lg" style={{ width: '30vw', marginLeft: '-15px' }}>
-            <FormPasswordFieldVerify
-              required={matchedAuthMethod?.config_schema?.required?.includes(
-                elementName,
-              )}
-              onRemoveFocus={(e: any) => {
-                matchedAuthMethod?.config_schema?.required?.includes(
+          {elementSchema?.format === 'password' ? (
+            <Box marginTop="lg" style={{ width: '30vw', marginLeft: '-15px' }}>
+              <FormPasswordFieldVerify
+                required={matchedAuthMethod?.config_schema?.required?.includes(
                   elementName,
-                ) && onVerify();
-              }}
-              onChange={(e: any) => {
-                setMappedConfiguration((prevConfig: any) => ({
-                  ...prevConfig, // Spread the previous user object
-                  [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
-                }));
-                // setMappedConfiguration(...mappedConfiguration,
-                //   mappedConfiguration[elementName]: e,
-                // );
-              }}
-              placeholder=""
-              label={titleCase(elementName)}
-              value={mappedConfiguration[elementName].default}
-              success={resourceType ? true : false}
-              loading={verifying}
-              error={{}}
-            />
-            {console.log(mappedConfiguration, 'asdasd12312321')}
-          </Box>
+                )}
+                onRemoveFocus={(e: any) => {
+                  matchedAuthMethod?.config_schema?.required?.includes(
+                    elementName,
+                  ) && onVerify();
+                }}
+                onChange={(e: any) => {
+                  setMappedConfiguration((prevConfig: any) => ({
+                    ...prevConfig, // Spread the previous user object
+                    [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
+                  }));
+                  // setMappedConfiguration(...mappedConfiguration,
+                  //   mappedConfiguration[elementName]: e,
+                  // );
+                }}
+                placeholder=""
+                label={titleCase(elementName)}
+                value={mappedConfiguration[elementName].default}
+                success={resourceType ? true : false}
+                loading={verifying}
+                error={{}}
+              />
+            </Box>
+          ) : (
+            <Box marginTop="lg" style={{ width: '30vw', marginLeft: '-15px' }}>
+              <FormTextField
+                required={matchedAuthMethod?.config_schema?.required?.includes(
+                  elementName,
+                )}
+                onRemoveFocus={(e: any) => {
+                  matchedAuthMethod?.config_schema?.required?.includes(
+                    elementName,
+                  ) && onVerify();
+                }}
+                onChange={(e: any) => {
+                  setMappedConfiguration((prevConfig: any) => ({
+                    ...prevConfig, // Spread the previous user object
+                    [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
+                  }));
+                  // setMappedConfiguration(...mappedConfiguration,
+                  //   mappedConfiguration[elementName]: e,
+                  // );
+                }}
+                placeholder=""
+                label={titleCase(elementName)}
+                value={mappedConfiguration[elementName].default}
+              />
+            </Box>
+          )}
         </>
       );
     }
