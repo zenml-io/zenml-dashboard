@@ -43,6 +43,8 @@ import { routePaths } from '../../../../../routes/routePaths';
 // import { values } from 'lodash';
 // import { routePaths } from '../../../../../routes/routePaths';
 
+import ServicesSelectorComponent from '../../ServicesSelectorComponent/Update';
+
 export const UpdateConfig: React.FC<{
   connectorId: TId;
   loading?: boolean;
@@ -1033,6 +1035,21 @@ export const UpdateConfig: React.FC<{
           </Box>
         </Container>
       )}
+
+      <Box marginTop="lg" marginLeft="md" style={{ width: '30vw' }}>
+        <ServicesSelectorComponent
+          parent={false}
+          setParent={() => {}}
+          resourceType={connector?.resourceTypes}
+          setResourceType={() => {}}
+          ids={[]}
+          setIds={() => {}}
+          data={connector}
+          resources={connector?.resourceTypes}
+          verifying={false}
+        />
+      </Box>
+
       <Box marginTop="md" marginLeft={'md'} style={{ width: '30vw' }}>
         <Paragraph size="body" style={{ color: '#000' }}>
           <label htmlFor="key">Labels</label>
