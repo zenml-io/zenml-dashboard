@@ -9,6 +9,7 @@ import {
   PrimaryButton,
   FormTextField,
   icons,
+  FormPasswordFieldVerify,
   // MakeSecretField,
   // EditField,
   // icons,
@@ -473,27 +474,50 @@ export const UpdateConfig: React.FC<{
       );
       return (
         <>
-          <Box marginTop="lg" style={{ width: '30vw' }}>
-            <FormTextField
-              required={matchedAuthMethod?.config_schema?.required?.includes(
-                elementName,
-              )}
-              onChange={(e: any) => {
-                setMappedConfiguration((prevConfig: any) => ({
-                  ...prevConfig, // Spread the previous user object
-                  [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
-                }));
-                // setMappedConfiguration(...mappedConfiguration,
-                //   mappedConfiguration[elementName]: e,
-                // );
-              }}
-              placeholder=""
-              label={titleCase(elementName)}
-              value={mappedConfiguration[elementName].default}
-            />
-
-            {console.log(mappedConfiguration, 'asdasd12312321')}
-          </Box>
+          {elementSchema?.format === 'password' ? (
+            <Box marginTop="lg" style={{ width: '30vw' }}>
+              <FormPasswordFieldVerify
+                required={matchedAuthMethod?.config_schema?.required?.includes(
+                  elementName,
+                )}
+                onChange={(e: any) => {
+                  setMappedConfiguration((prevConfig: any) => ({
+                    ...prevConfig, // Spread the previous user object
+                    [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
+                  }));
+                  // setMappedConfiguration(...mappedConfiguration,
+                  //   mappedConfiguration[elementName]: e,
+                  // );
+                }}
+                placeholder=""
+                label={titleCase(elementName)}
+                value={mappedConfiguration[elementName].default}
+                optional={false}
+                defaultValue={elementSchema.default}
+                error={{}}
+              />
+            </Box>
+          ) : (
+            <Box marginTop="lg" style={{ width: '30vw' }}>
+              <FormTextField
+                required={matchedAuthMethod?.config_schema?.required?.includes(
+                  elementName,
+                )}
+                onChange={(e: any) => {
+                  setMappedConfiguration((prevConfig: any) => ({
+                    ...prevConfig, // Spread the previous user object
+                    [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
+                  }));
+                  // setMappedConfiguration(...mappedConfiguration,
+                  //   mappedConfiguration[elementName]: e,
+                  // );
+                }}
+                placeholder=""
+                label={titleCase(elementName)}
+                value={mappedConfiguration[elementName].default}
+              />
+            </Box>
+          )}
         </>
       );
     }
