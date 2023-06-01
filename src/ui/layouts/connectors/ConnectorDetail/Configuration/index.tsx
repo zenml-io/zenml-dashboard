@@ -8,6 +8,8 @@ import {
   FullWidthSpinner,
   PrimaryButton,
   FormPasswordFieldVerify,
+  FormTextField,
+  FormDropdownField,
   // MakeSecretField,
   // FormTextField,
   // icons,
@@ -69,6 +71,10 @@ export const Configuration: React.FC<{
     (item: any) => item?.auth_method === connector?.authMethod,
   );
 
+  const dropdownValue = connector?.connectorType?.auth_methods?.filter(
+    (e: any) => e?.auth_method === connector?.authMethod,
+  );
+
   console.log(connector, '123123123123sdsdwdwdwd');
 
   // const handleAddFields = () => {
@@ -88,20 +94,36 @@ export const Configuration: React.FC<{
       // console.log(filteredSecret, 'asd123ffwwvweer');
       return (
         <>
-          <Box marginTop="lg" style={{ width: '30vw' }}>
-            <FormPasswordFieldVerify
-              disabled
-              // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
-              // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
-              label={titleCase(elementName)}
-              optional={false}
-              defaultValue={elementSchema.default}
-              placeholder=""
-              error={{}}
-              //  hasError={false}
-              // className={styles.field}
-            />
-          </Box>
+          {elementSchema?.format === 'password' ? (
+            <Box marginTop="lg" style={{ width: '30vw' }}>
+              <FormPasswordFieldVerify
+                disabled
+                // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
+                // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
+                label={titleCase(elementName)}
+                optional={false}
+                defaultValue={elementSchema.default}
+                placeholder=""
+                error={{}}
+                //  hasError={false}
+                // className={styles.field}
+              />
+            </Box>
+          ) : (
+            <Box marginTop="lg" style={{ width: '30vw' }}>
+              <FormTextField
+                disabled
+                // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
+                // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
+                label={titleCase(elementName)}
+                optional={false}
+                value={elementSchema.default}
+                placeholder=""
+                //  hasError={false}
+                // className={styles.field}
+              />
+            </Box>
+          )}
         </>
       );
     }
@@ -650,6 +672,19 @@ export const Configuration: React.FC<{
           </Box>
         </Container>
       </FlexBox.Row>
+
+      <Box style={{ width: '30vw' }} marginLeft="md" marginTop="lg">
+        <FormDropdownField
+          label={'Authentication Method'}
+          placeholder={''}
+          value={dropdownValue[0]?.name}
+          onChange={() => {}}
+          options={[] as any}
+          style={{ paddingLeft: '10px' }}
+          disabled
+        />
+      </Box>
+
       <FlexBox.Row style={{ width: '40%' }}>
         <Container>
           {Object.keys(configurationModifiedObj).map((key, ind) => (
