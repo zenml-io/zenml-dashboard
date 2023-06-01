@@ -12,7 +12,7 @@ export const PluginsLayout: React.FC<{
         <FlexBox flexDirection="column">
           <H2 style={{ fontWeight: 500 }}>{title}</H2>
 
-          <Paragraph>
+          <Paragraph style={{ marginTop: '8px' }}>
             The ZenML Hub is a{' '}
             <a
               target="_blank"
