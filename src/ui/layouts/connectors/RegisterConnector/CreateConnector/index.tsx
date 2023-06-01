@@ -1185,8 +1185,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               placeholder=""
               label={titleCase(elementName)}
               value={mappedConfiguration[elementName].default}
-              success={false}
-              loading={false}
+              success={resourceType ? true : false}
+              loading={verifying}
               error={{}}
             />
             {console.log(mappedConfiguration, 'asdasd12312321')}

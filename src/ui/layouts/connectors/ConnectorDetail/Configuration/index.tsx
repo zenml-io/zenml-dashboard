@@ -7,6 +7,7 @@ import {
   Container,
   FullWidthSpinner,
   PrimaryButton,
+  FormPasswordFieldVerify,
   // MakeSecretField,
   // FormTextField,
   // icons,
@@ -36,6 +37,8 @@ import { routePaths } from '../../../../../routes/routePaths';
 // import { routePaths } from '../../../../../routes/routePaths';
 // import { ToggleField } from '../../../common/FormElement';
 // import { SidePopup } from '../../../common/SidePopup';
+
+import ServicesSelectorComponent from '../../ServicesSelectorComponent/Disabled';
 
 export const Configuration: React.FC<{
   connectorId: TId;
@@ -86,7 +89,7 @@ export const Configuration: React.FC<{
       return (
         <>
           <Box marginTop="lg" style={{ width: '30vw' }}>
-            <EditField
+            <FormPasswordFieldVerify
               disabled
               // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
               // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
@@ -94,7 +97,8 @@ export const Configuration: React.FC<{
               optional={false}
               defaultValue={elementSchema.default}
               placeholder=""
-              hasError={false}
+              error={{}}
+              //  hasError={false}
               // className={styles.field}
             />
           </Box>
@@ -670,6 +674,10 @@ export const Configuration: React.FC<{
           </Box>
         </Container>
       )}
+
+      <Box marginTop="lg" marginLeft={'md'} style={{ width: '30vw' }}>
+        <ServicesSelectorComponent data={connector} />
+      </Box>
 
       <Box marginTop="lg" marginLeft={'md'} style={{ width: '30vw' }}>
         <Paragraph size="body" style={{ color: 'black' }}>
