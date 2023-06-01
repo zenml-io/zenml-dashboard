@@ -122,33 +122,6 @@ const ListPlugins: React.FC = () => {
 
           <Filters currentFilters={filters} updateFilters={setFilters} />
         </FlexBox>
-        <FlexBox style={{ flexDirection: 'column', gap: '12px' }}>
-          <Paragraph style={{ fontSize: '20px', fontWeight: 600 }}>
-            ZenML Hub: Streamlining MLOps Collaboration with Reusable Components
-          </Paragraph>
-          <Paragraph>
-            The ZenML Hub is a{' '}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://blog.zenml.io/zenml-hub-launch/"
-            >
-              plugin system
-            </a>{' '}
-            that allows users to contribute and consume stack component flavors,
-            pipelines, steps, materializers, and other pieces of code seamlessly
-            in their ML pipelines. Below are a list of community contributed
-            plugins. If you would like to create your own plugin, click{' '}
-            <a
-              target="_blank"
-              rel="noopener noreferrer"
-              href="https://docs.zenml.io/user-guide/advanced-guide/leverage-community-contributed-plugins"
-            >
-              here
-            </a>
-            .
-          </Paragraph>
-        </FlexBox>
 
         {/* list plugins */}
         <FlexBox flexWrap={true} padding="lg">
