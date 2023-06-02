@@ -45,7 +45,7 @@ import { routePaths } from '../../../../../routes/routePaths';
 // import { values } from 'lodash';
 // import { routePaths } from '../../../../../routes/routePaths';
 
-import ServicesSelectorComponent from '../../ServicesSelectorComponent/Update';
+import ServicesSelectorComponent from '../../ServicesSelectorComponent/Disabled';
 
 export const UpdateConfig: React.FC<{
   connectorId: TId;
@@ -90,16 +90,6 @@ export const UpdateConfig: React.FC<{
   const matchedAuthMethod = connector.connectorType.auth_methods.find(
     (item: any) => item?.auth_method === connector?.authMethod,
   );
-
-  const preDropdown = connector?.connectorType?.auth_methods?.filter(
-    (e: any) => {
-      if (e.auth_method === connector?.authMethod) {
-        return e?.name;
-      }
-    },
-  );
-
-  const [dropdownValue, setDropdownValue] = useState(preDropdown[0]?.name);
 
   useEffect(() => {
     // const matchedAuthMethod = connector.connectorType.auth_methods.find(
@@ -1045,16 +1035,16 @@ export const UpdateConfig: React.FC<{
 
       <Box marginTop="lg" marginLeft="md" style={{ width: '30vw' }}>
         <FormDropdownField
+          disabled
           label={'Authentication Method'}
           placeholder={''}
-          value={dropdownValue}
-          onChange={(val: string) => setDropdownValue(val)}
-          options={connector?.connectorType?.auth_methods?.map((item: any) => {
-            return {
-              value: item.auth_method,
-              label: item.name,
-            };
-          })}
+          value={
+            connector?.connectorType?.auth_methods?.filter(
+              (e: any) => e?.auth_method === connector?.authMethod,
+            )[0]?.name
+          }
+          onChange={() => {}}
+          options={[] as any}
           style={{ paddingLeft: '10px' }}
         />
       </Box>
@@ -1089,18 +1079,8 @@ export const UpdateConfig: React.FC<{
         </Container>
       )}
 
-      <Box marginTop="lg" marginLeft="md" style={{ width: '30vw' }}>
-        <ServicesSelectorComponent
-          parent={false}
-          setParent={() => {}}
-          resourceType={connector?.resourceTypes}
-          setResourceType={() => {}}
-          ids={[]}
-          setIds={() => {}}
-          data={connector}
-          resources={connector?.resourceTypes}
-          verifying={false}
-        />
+      <Box marginTop="lg" marginLeft={'md'} style={{ width: '30vw' }}>
+        <ServicesSelectorComponent data={connector} />
       </Box>
 
       <Box marginTop="md" marginLeft={'md'} style={{ width: '30vw' }}>
