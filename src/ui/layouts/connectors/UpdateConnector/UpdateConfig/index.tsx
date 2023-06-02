@@ -10,6 +10,7 @@ import {
   FormTextField,
   icons,
   FormPasswordFieldVerify,
+  FormDropdownField,
   // MakeSecretField,
   // EditField,
   // icons,
@@ -89,6 +90,17 @@ export const UpdateConfig: React.FC<{
   const matchedAuthMethod = connector.connectorType.auth_methods.find(
     (item: any) => item?.auth_method === connector?.authMethod,
   );
+
+  const preDropdown = connector?.connectorType?.auth_methods?.filter(
+    (e: any) => {
+      if (e.auth_method === connector?.authMethod) {
+        return e?.name;
+      }
+    },
+  );
+
+  const [dropdownValue, setDropdownValue] = useState(preDropdown[0]?.name);
+
   useEffect(() => {
     // const matchedAuthMethod = connector.connectorType.auth_methods.find(
     //   (item: any) => item?.auth_method === connector?.authMethod,
@@ -1030,6 +1042,23 @@ export const UpdateConfig: React.FC<{
           </Box>
         </Container>
       </FlexBox.Row>
+
+      <Box marginTop="lg" marginLeft="md" style={{ width: '30vw' }}>
+        <FormDropdownField
+          label={'Authentication Method'}
+          placeholder={''}
+          value={dropdownValue}
+          onChange={(val: string) => setDropdownValue(val)}
+          options={connector?.connectorType?.auth_methods?.map((item: any) => {
+            return {
+              value: item.auth_method,
+              label: item.name,
+            };
+          })}
+          style={{ paddingLeft: '10px' }}
+        />
+      </Box>
+
       <FlexBox.Row style={{ width: '40%' }}>
         <Container>
           {mappedConfiguration &&
