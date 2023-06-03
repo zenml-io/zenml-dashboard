@@ -66,7 +66,11 @@ export const FormTextField = (props: {
         InputComponent={
           <TextInput
             {...props}
-            style={props.style}
+            style={{
+              backgroundColor: props.disabled && 'rgba(168, 168, 168, 0.1)',
+              borderWidth: props.disabled && '0px',
+              ...props.style,
+            }}
             placeholder={props.placeholder}
             hasError={props.error?.hasError}
             value={props.value}
@@ -103,7 +107,11 @@ export const FormDropdownField = (props: {
         InputComponent={
           <DropdownInput
             {...props}
-            style={props.style}
+            style={{
+              backgroundColor: props.disabled && 'rgba(168, 168, 168, 0.07)',
+              borderWidth: props.disabled && '0px',
+              ...props.style,
+            }}
             placeholder={props.placeholder}
             hasError={props.error?.hasError}
             value={props.value}
@@ -149,8 +157,8 @@ export const CopyField = (
               <TextInput
                 {...props}
                 style={{
-                  background: 'rgba(168, 168, 168, 0.2)',
-                  border: '1px solid #C9CBD0',
+                  background: 'rgba(168, 168, 168, 0.1)',
+                  border: '1px solid #A8A8A8',
                 }}
                 value={`${props.value.slice(0, 33)}`}
                 placeholder={props.placeholder}
@@ -159,8 +167,8 @@ export const CopyField = (
               <TextInput
                 {...props}
                 style={{
-                  background: 'rgba(168, 168, 168, 0.2)',
-                  border: '1px solid #C9CBD0',
+                  background: 'rgba(168, 168, 168, 0.1)',
+                  border: '1px solid #A8A8A8',
                 }}
                 value="Token"
                 placeholder={props.placeholder}
@@ -239,7 +247,7 @@ export const MakeSecretField = (
           InputComponent={
             <TextInput
               {...props}
-              style={{ border: '1px solid #C9CBD0' }}
+              style={{ border: '1px solid #A8A8A8' }}
               value={props.value}
               placeholder={props.placeholder}
               onChangeText={props.onChange}
@@ -328,7 +336,7 @@ export const MakeSecretField = (
               name={props.name}
               label={props.secretLabel}
               labelColor={props.secretLabelColor}
-              InputComponent={ <TextInput {...props} style={{ border: '1px solid #C9CBD0' }} value={props.secretValue} placeholder={props.secretPlaceholder} onChangeText={props.secretOnChange} />}
+              InputComponent={ <TextInput {...props} style={{ border: '1px solid #A8A8A8' }} value={props.secretValue} placeholder={props.secretPlaceholder} onChangeText={props.secretOnChange} />}
             />
             <Box
               style={{ 
@@ -376,7 +384,8 @@ export const EditField = (
                   style={{
                     height: '40px',
                     width: '30vw',
-                    backgroundColor: props.disabled && '#F6F7F7',
+                    backgroundColor:
+                      props.disabled && 'rgba(168, 168, 168, 0.1)',
                     borderWidth: props.disabled && '0px',
                     borderRadius: '4px',
                     justifyContent: 'flex-start',
@@ -401,7 +410,8 @@ export const EditField = (
                 <TextInput
                   {...props}
                   style={{
-                    backgroundColor: props.disabled && '#E9EAEC',
+                    backgroundColor:
+                      props.disabled && 'rgba(168, 168, 168, 0.1)',
                     borderWidth: props.disabled && '0px',
                   }}
                   filteredSecretId={props.filteredSecretId}
@@ -581,7 +591,7 @@ export const SearchInputField = (
           style={{
             paddingLeft: '40px',
             paddingRight: '35px',
-            backgroundColor: props.disabled && '#E9EAEC',
+            backgroundColor: props.disabled && 'rgba(168, 168, 168, 0.1)',
             borderWidth: props.disabled && '0px',
           }}
           value={props.value}
@@ -647,6 +657,10 @@ export const FormPasswordFieldVerify = (
                 value={props.value}
                 placeholder={props.placeholder}
                 hasError={props.error.hasError}
+                style={{
+                  backgroundColor: props.disabled && 'rgba(168, 168, 168, 0.1)',
+                  borderWidth: props.disabled && '0px',
+                }}
               />
             ) : (
               <TextInput
@@ -655,6 +669,10 @@ export const FormPasswordFieldVerify = (
                 value={props.value}
                 placeholder={props.placeholder}
                 hasError={props.error.hasError}
+                style={{
+                  backgroundColor: props.disabled && 'rgba(168, 168, 168, 0.1)',
+                  borderWidth: props.disabled && '0px',
+                }}
               />
             )
           }

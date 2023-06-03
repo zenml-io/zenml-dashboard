@@ -80,6 +80,20 @@ const Index: React.FC<ServicesSelector> = ({
 
   return (
     <Box>
+      <Box paddingBottom="sm">
+        <Paragraph size="body" style={{ color: 'black' }}>
+          <label style={{ display: 'flex', flexDirection: 'row' }}>
+            Connect to resource
+            <span style={{ color: '#C8C8C8', marginLeft: '4px' }}>
+              (Optional)
+            </span>
+            <span style={{ marginLeft: '8px' }}>
+              <icons.info color={iconColors.darkGrey} size="xs" />
+            </span>
+          </label>
+        </Paragraph>
+      </Box>
+
       <Box
         className={styles.service_selector}
         onClick={() => setShowServices(!showServices)}

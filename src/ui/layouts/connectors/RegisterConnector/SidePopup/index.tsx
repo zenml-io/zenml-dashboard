@@ -1,16 +1,26 @@
 import React from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 
-import { Box, FlexBox, PrimaryButton, Spinner } from '../../../../components';
+import {
+  Box,
+  FlexBox,
+  H2,
+  H3,
+  H4,
+  Paragraph,
+  // PrimaryButton,
+  // Spinner,
+} from '../../../../components';
 
 import styles from './index.module.scss';
 
 export const SidePopup: React.FC<{
+  data: any;
   onClose: () => void;
   action: any;
   flavor?: any;
   verifying?: boolean;
-}> = ({ children, action, verifying, flavor, onClose }) => {
+}> = ({ data, children, action, verifying, flavor, onClose }) => {
   window.onkeydown = function (event: any) {
     if (event.key === 'Esc' || event.key === 'Escape') {
       return onClose();
@@ -24,30 +34,46 @@ export const SidePopup: React.FC<{
     >
       <Box className={styles.sidePopup}>
         <OutsideClickHandler onOutsideClick={onClose}>
-          <Box paddingTop="sm">
-            {/* <iframe
-              title="ZenML - Organization Embed"
-              style={{
-                border: '0px',
-                height: '100vh',
-                width: '100%',
-                paddingBottom: '255px',
-              }}
-              // src="https://apidocs.zenml.io/0.35.0/"
-              src={flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl}
-            ></iframe> */}
-          </Box>
-
           <Box paddingVertical="lg" paddingHorizontal="xxxl">
             {children}
+
+            <Box>
+              <H2 color="primary" className={styles.title}>
+                {data?.name}
+              </H2>
+
+              <Box marginTop="md">
+                <Paragraph>{data?.description}</Paragraph>
+              </Box>
+            </Box>
+
+            <Box marginTop="lg">
+              <H3>Resource Types</H3>
+              {data?.resourceTypes?.map((resourceType: any) => (
+                <Box marginTop="md">
+                  <H4 style={{ fontWeight: 'bold' }}>{resourceType?.name}</H4>
+                  <Paragraph>{resourceType?.description}</Paragraph>
+                </Box>
+              ))}
+            </Box>
+
+            <Box marginTop="lg">
+              <H3>Authentication Methods</H3>
+              {data?.authMethods?.map((authMethod: any) => (
+                <Box marginTop="md">
+                  <H4 style={{ fontWeight: 'bold' }}>{authMethod?.name}</H4>
+                  <Paragraph>{authMethod?.description}</Paragraph>
+                </Box>
+              ))}
+            </Box>
           </Box>
 
-          <Box
+          {/* <Box
             paddingVertical="lg"
             paddingHorizontal="md"
             className={styles.actionSection}
-          >
-            <Box style={{}}>
+          > */}
+          {/* <Box style={{}}>
               <div style={{ position: 'relative', height: '30px' }}>
                 {console.log(verifying, 'verifyingverifying')}
                 <PrimaryButton
@@ -65,8 +91,8 @@ export const SidePopup: React.FC<{
                   )}
                 </PrimaryButton>
               </div>
-            </Box>
-          </Box>
+            </Box> */}
+          {/* </Box> */}
         </OutsideClickHandler>
       </Box>
     </FlexBox>
