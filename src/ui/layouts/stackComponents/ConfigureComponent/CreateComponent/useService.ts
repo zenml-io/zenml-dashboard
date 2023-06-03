@@ -36,7 +36,7 @@ export const getServiceConnectorResources = (connectorResourceType: any) => {
       fetchResourcesList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [connectorResourceType]);
 
   const fetchResourcesList = async () => {
     setFetching(true);

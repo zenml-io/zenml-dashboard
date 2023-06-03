@@ -3,7 +3,6 @@ import styles from './index.module.scss';
 import { FlexBox, Box, Paragraph, Spinner, icons } from '../../../components';
 import { ID_MAX_LENGTH, iconColors, iconSizes } from '../../../../constants';
 import { truncate } from '../../../../utils';
-import { AnyIfEmpty } from 'react-redux';
 // import { truncate } from 'lodash';
 // import { iconColors, iconSizes } from '../../../../constants';
 // import { verify } from 'crypto';
@@ -99,17 +98,19 @@ const Index: React.FC<ServicesSelector> = ({
             <Box marginRight="sm">
               {/* <img src={data?.logoUrl} alt={data?.name} /> */}
             </Box>
-            <Paragraph>
-              <img
-                src={resourceTypeImage[0].connector_type?.logo_url}
-                alt={resourceTypeImage[0]?.connector_type.name}
-              />{' '}
-              &#91;{' '}
-              {truncate(connector, ID_MAX_LENGTH) +
-                '-' +
-                resourceTypeImage[0]?.name}
-              &#93; {connectorResourceId}
-            </Paragraph>
+            {!fetching && (
+              <Paragraph>
+                <img
+                  src={resourceTypeImage[0]?.connector_type?.logo_url}
+                  alt={resourceTypeImage[0]?.connector_type.name}
+                />{' '}
+                &#91;{' '}
+                {truncate(connector, ID_MAX_LENGTH) +
+                  '-' +
+                  resourceTypeImage[0]?.name}
+                &#93; {connectorResourceId}
+              </Paragraph>
+            )}
           </FlexBox>
         ) : (
           <Box>
