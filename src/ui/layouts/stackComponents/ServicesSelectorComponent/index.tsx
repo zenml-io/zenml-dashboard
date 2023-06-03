@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
-import { FlexBox, Box, Paragraph } from '../../../components';
+import { FlexBox, Box, Paragraph, Spinner, icons } from '../../../components';
+import { ID_MAX_LENGTH, iconColors, iconSizes } from '../../../../constants';
+import { truncate } from '../../../../utils';
+// import { truncate } from 'lodash';
 // import { iconColors, iconSizes } from '../../../../constants';
 // import { verify } from 'crypto';
 
 type ServicesSelector = {
+  fetching?: boolean;
   connector?: any;
   setConnector?: any;
   connectorResourceId?: any;
@@ -17,6 +21,7 @@ type ServicesSelector = {
 // setConnectorResourceId={setConnectorResourceId}
 // serviceConnectorResources={serviceConnectorResources}
 const Index: React.FC<ServicesSelector> = ({
+  fetching,
   connector,
   setConnector,
   connectorResourceId,
@@ -68,16 +73,53 @@ const Index: React.FC<ServicesSelector> = ({
   // const resourceTypeImage = data?.resourceTypes?.filter(
   //   (e: any) => e.name === resourceType[0],
   // );
-  // const resourceTypeImage = data?.resourceTypes?.filter(
-  //   (e: any) => e.resource_type === resourceType[0],
-  // );
+  const resourceTypeImage = serviceConnectorResources?.filter(
+    (e: any) => e.id === connector,
+  );
+  console.log(
+    resourceTypeImage,
+    serviceConnectorResources,
+    connector,
+    'connectorconnector',
+  );
 
   return (
     <Box>
       <Box
         className={styles.service_selector}
         onClick={() => setShowServices(!showServices)}
-      ></Box>
+      >
+        {connector ? (
+          <FlexBox className={styles.service_selector_selected}>
+            <Box marginRight="sm">
+              {/* <img src={data?.logoUrl} alt={data?.name} /> */}
+            </Box>
+            <Paragraph>
+              <img
+                src={resourceTypeImage[0].connector_type?.logo_url}
+                alt={resourceTypeImage[0]?.connector_type.name}
+              />{' '}
+              &#91;{' '}
+              {truncate(connector, ID_MAX_LENGTH) +
+                '-' +
+                resourceTypeImage[0]?.name}
+              &#93; {connectorResourceId}
+            </Paragraph>
+          </FlexBox>
+        ) : (
+          <Box>
+            <Paragraph>{'<not connected>'}</Paragraph>
+          </Box>
+        )}
+
+        <Box>
+          {fetching ? (
+            <Spinner color={'black'} size={'xs'} />
+          ) : (
+            <icons.chevronDown color={iconColors.black} size={iconSizes.xs} />
+          )}
+        </Box>
+      </Box>
       {showServices && (
         <>
           <Box className={styles.services_container}>
@@ -112,6 +154,7 @@ const Index: React.FC<ServicesSelector> = ({
                     />
                   </Box>
                   <Box
+                    aria-disabled
                     marginLeft="sm"
                     marginRight="xl"
                     className={styles.servicesName}
@@ -121,7 +164,7 @@ const Index: React.FC<ServicesSelector> = ({
                   >
                     {' '}
                     <Paragraph>
-                      [{connectorItem.id} - {connectorItem.name}]
+                      [{connectorItem.id} - {connectorItem.name}]ss
                     </Paragraph>
                   </Box>
                   <Box>
@@ -206,6 +249,11 @@ const Index: React.FC<ServicesSelector> = ({
                                 &#x27A4;
                               </div>
                               <Box
+                                onClick={() => {
+                                  setConnector(connectorItem.id);
+                                  setConnectorResourceId(id);
+                                  setShowServices(!showServices);
+                                }}
                                 marginLeft="sm"
                                 marginRight="xl"
                                 style={{ width: '200px' }}

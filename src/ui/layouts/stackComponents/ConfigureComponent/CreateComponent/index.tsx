@@ -69,7 +69,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   const [connector, setConnector] = useState();
   const [connectorResourceId, setConnectorResourceId] = useState();
   const history = useHistory();
-  const { serviceConnectorResources } = getServiceConnectorResources(
+  const { serviceConnectorResources, fetching } = getServiceConnectorResources(
     flavor.connectorResourceType,
   );
 
@@ -873,7 +873,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       }
     }
 
-    const body = {
+    const body: any = {
       user: user?.id,
       workspace: id,
       is_shared: isShared,
@@ -882,6 +882,10 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       flavor: flavor.name,
       configuration: { ...inputData, ...final, ...inputArrayFields },
     };
+    if (connector) {
+      body.connector = connector;
+      body.connector_resource_id = connectorResourceId;
+    }
     setLoading(true);
     await axios
       .post(
@@ -994,6 +998,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               {/* {console.log(resourceType, ids, 'idsidsids')} */}
               <Box marginTop="sm" style={{ width: '30vw' }}>
                 <ServicesSelectorComponent
+                  fetching={fetching}
                   // parent={parent}
                   // setParent={setParent}
                   connector={connector}

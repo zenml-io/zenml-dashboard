@@ -55,7 +55,7 @@ export const getServiceConnectorResources = (connectorResourceType: any) => {
   };
 
   return {
-    setFetching,
+    fetching,
     serviceConnectorResources,
     // dispatchStackComponentsData,
   };
