@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   FlexBox,
   Box,
@@ -33,6 +33,8 @@ import {
 import { toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
+import ServicesSelectorComponent from '../../ServicesSelectorComponent';
+import { getServiceConnectorResources } from '../../ConfigureComponent/CreateComponent/useService';
 // import { routePaths } from '../../../../../routes/routePaths';
 
 export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
@@ -46,14 +48,24 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     stackId,
   });
   const user = useSelector(userSelectors.myUser);
-  const [fetching, setFetching] = useState(false);
+  const [componentfetching, setComponentFetching] = useState(false);
   const secrets = useSelector(secretSelectors.mySecrets);
 
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
+  const [connector, setConnector] = useState();
+  const [connectorResourceId, setConnectorResourceId] = useState();
   const [inputFields, setInputFields] = useState([]) as any;
+
+  const { serviceConnectorResources, fetching } = getServiceConnectorResources(
+    flavor?.connectorResourceType,
+  );
+  useEffect(() => {
+    setConnector(stackComponent.connector.id);
+    setConnectorResourceId(stackComponent.connectorResourceId);
+  }, [stackComponent]);
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -73,7 +85,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
       flavor: updateConfig.flavor,
       configuration: updateConfig.configuration,
     };
-    setFetching(true);
+    setComponentFetching(true);
     axios
       .put(
         `${process.env.REACT_APP_BASE_API_URL}/components/${updateConfig.id}`,
@@ -95,8 +107,8 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
         dispatch(
           stackComponentsActions.stackComponentForId({
             stackComponentId: stackComponent?.id,
-            onSuccess: () => setFetching(false),
-            onFailure: () => setFetching(false),
+            onSuccess: () => setComponentFetching(false),
+            onFailure: () => setComponentFetching(false),
           }),
         );
         // dispatchStackData(1, 10);
@@ -112,7 +124,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
         // );
       })
       .catch((err) => {
-        setFetching(false);
+        setComponentFetching(false);
         // ;
         // setLoading(false);
         dispatch(
@@ -897,7 +909,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   };
   console.log(mappedObject, 'mappedObjectmappedObjectmappedObject');
   // debugger;
-  if (fetching) {
+  if (componentfetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
   return (
@@ -938,6 +950,30 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
           ))}
         </Container>
       </FlexBox.Row>
+      {flavor.connectorResourceType && (
+        <Box marginTop="lg" style={{ width: '30vw' }}>
+          <Paragraph size="body" style={{ color: '#000' }}>
+            <label htmlFor="key">{'Connect to resource'}</label>
+          </Paragraph>
+          {/* {console.log(resourceType, ids, 'idsidsids')} */}
+          <Box marginTop="sm" style={{ width: '30vw' }}>
+            <ServicesSelectorComponent
+              fetching={fetching}
+              // inputData={mappedConfiguration}
+              // setInputData={setMappedConfiguration}
+              // parent={parent}
+              // setParent={setParent}
+              connector={connector}
+              setConnector={setConnector}
+              connectorResourceId={connectorResourceId}
+              setConnectorResourceId={setConnectorResourceId}
+              serviceConnectorResources={serviceConnectorResources}
+              // resources={resources}
+              // verifying={verifying}
+            />
+          </Box>
+        </Box>
+      )}
       <FlexBox
         style={{
           position: 'fixed',
