@@ -594,7 +594,11 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               //   (elementSchema.type === 'string' ||
               //     elementSchema.type === 'integer')
               // }
+              inputData={inputData}
               default={
+                // flavor.connectorResourceIdAttr === elementName
+                //   ? connectorResourceId
+                //   :
                 inputData[props.name] ? inputData[props.name] : props.default
               }
               onHandleChange={(key: any, value: any) =>
@@ -999,6 +1003,8 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               <Box marginTop="sm" style={{ width: '30vw' }}>
                 <ServicesSelectorComponent
                   fetching={fetching}
+                  inputData={inputData}
+                  setInputData={setInputData}
                   // parent={parent}
                   // setParent={setParent}
                   connector={connector}

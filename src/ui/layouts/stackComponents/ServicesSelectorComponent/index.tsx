@@ -3,12 +3,15 @@ import styles from './index.module.scss';
 import { FlexBox, Box, Paragraph, Spinner, icons } from '../../../components';
 import { ID_MAX_LENGTH, iconColors, iconSizes } from '../../../../constants';
 import { truncate } from '../../../../utils';
+import { AnyIfEmpty } from 'react-redux';
 // import { truncate } from 'lodash';
 // import { iconColors, iconSizes } from '../../../../constants';
 // import { verify } from 'crypto';
 
 type ServicesSelector = {
   fetching?: boolean;
+  setInputData?: any;
+  inputData?: any;
   connector?: any;
   setConnector?: any;
   connectorResourceId?: any;
@@ -21,6 +24,8 @@ type ServicesSelector = {
 // setConnectorResourceId={setConnectorResourceId}
 // serviceConnectorResources={serviceConnectorResources}
 const Index: React.FC<ServicesSelector> = ({
+  setInputData,
+  inputData,
   fetching,
   connector,
   setConnector,
@@ -253,6 +258,7 @@ const Index: React.FC<ServicesSelector> = ({
                                   setConnector(connectorItem.id);
                                   setConnectorResourceId(id);
                                   setShowServices(!showServices);
+                                  setInputData({ ...inputData, path: id });
                                 }}
                                 marginLeft="sm"
                                 marginRight="xl"
