@@ -7,9 +7,9 @@ export function Form(props: any) {
 }
 
 export function TextField(props: any) {
-  const { name, label, onHandleChange, required } = props;
+  const { name, label, onHandleChange, required, inputData } = props;
   const [text, setText] = useState(props?.default);
-  console.log(required, name, 'requiredrequiredrequired');
+  console.log(text, props?.default, inputData, 'requiredrequiredrequired');
   return (
     <Box marginTop="md">
       <FormTextField
@@ -20,7 +20,7 @@ export function TextField(props: any) {
         required={!!required}
         // disabled={props.disable}
         label={label}
-        value={text}
+        value={props?.default}
         placeholder={''}
       />
     </Box>

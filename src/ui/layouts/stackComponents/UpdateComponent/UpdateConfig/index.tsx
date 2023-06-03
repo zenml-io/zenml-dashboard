@@ -39,6 +39,8 @@ import {
 import { iconColors, toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
+import ServicesSelectorComponent from '../../ServicesSelectorComponent';
+import { getServiceConnectorResources } from '../../ConfigureComponent/CreateComponent/useService';
 // import { values } from 'lodash';
 // import { routePaths } from '../../../../../routes/routePaths';
 
@@ -54,12 +56,13 @@ export const UpdateConfig: React.FC<{
   const { stackComponent, flavor } = useService({
     stackId,
   });
+  console.log(stackComponent, 'stackComponentstackComponent');
   const history = useHistory();
   const [componentName, setComponentName] = useState('');
   const [isShared, setIsShared] = useState() as any;
   const [mappedConfiguration, setMappedConfiguration] = useState() as any;
   const user = useSelector(userSelectors.myUser);
-  const [fetching, setFetching] = useState(false);
+  const [componentLoading, setComponentLoading] = useState(false);
   const secrets = useSelector(secretSelectors.mySecrets);
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -70,6 +73,12 @@ export const UpdateConfig: React.FC<{
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [inputFields, setInputFields] = useState() as any;
+  const [connector, setConnector] = useState();
+  const [connectorResourceId, setConnectorResourceId] = useState();
+  const { serviceConnectorResources, fetching } = getServiceConnectorResources(
+    flavor?.connectorResourceType,
+  );
+  // console.log(serviceConnectorResources, '123123123123123');
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -91,6 +100,8 @@ export const UpdateConfig: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
   useEffect(() => {
+    setConnector(stackComponent.connector.id);
+    setConnectorResourceId(stackComponent.connectorResourceId);
     function replaceNullWithEmptyString(obj: any) {
       for (let prop in obj) {
         if (obj[prop] === null) {
@@ -259,7 +270,7 @@ export const UpdateConfig: React.FC<{
       }
     });
 
-    const body = {
+    const body: any = {
       user: user?.id,
       workspace: id,
       is_shared: isShared,
@@ -268,7 +279,10 @@ export const UpdateConfig: React.FC<{
       flavor: stackComponent.flavor,
       configuration: { ...mappedConfiguration, ...final },
     };
-    console.log(tempFinal, final);
+    if (connector) {
+      body.connector = connector;
+      body.connector_resource_id = connectorResourceId;
+    }
 
     if (JSON.stringify(tempFinal) !== JSON.stringify(final)) {
       return false;
@@ -295,7 +309,7 @@ export const UpdateConfig: React.FC<{
         }
       }
     }
-    setFetching(true);
+    setComponentLoading(true);
     axios
       .put(
         `${process.env.REACT_APP_BASE_API_URL}/components/${stackComponent.id}`,
@@ -319,7 +333,7 @@ export const UpdateConfig: React.FC<{
           stackComponentsActions.stackComponentForId({
             stackComponentId: stackComponent?.id,
             onSuccess: () => {
-              setFetching(false);
+              setComponentLoading(false);
               history.push(
                 routePaths.stackComponents.configuration(
                   locationPath.split('/')[4],
@@ -328,7 +342,7 @@ export const UpdateConfig: React.FC<{
                 ),
               );
             },
-            onFailure: () => setFetching(false),
+            onFailure: () => setComponentLoading(false),
           }),
         );
         // dispatchStackData(1, 10);
@@ -344,7 +358,7 @@ export const UpdateConfig: React.FC<{
         // );
       })
       .catch((err) => {
-        setFetching(false);
+        setComponentLoading(false);
         // ;
         // setLoading(false);
         dispatch(
@@ -1032,6 +1046,7 @@ export const UpdateConfig: React.FC<{
   if (flavor === undefined) {
     return <FullWidthSpinner color="black" size="md" />;
   }
+
   // const values = [...flavor?.configSchema?.properties];
   // let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
   //   r: any,
@@ -1101,7 +1116,7 @@ export const UpdateConfig: React.FC<{
     'mappedObjectmappedObjectmappedObject',
   );
   // debugger;
-  if (fetching) {
+  if (componentLoading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
   return (
@@ -1153,6 +1168,30 @@ export const UpdateConfig: React.FC<{
             ))}
         </Container>
       </FlexBox.Row>
+      {flavor.connectorResourceType && (
+        <Box marginTop="lg" style={{ width: '30vw' }}>
+          <Paragraph size="body" style={{ color: '#000' }}>
+            <label htmlFor="key">{'Connect to resource'}</label>
+          </Paragraph>
+          {/* {console.log(resourceType, ids, 'idsidsids')} */}
+          <Box marginTop="sm" style={{ width: '30vw' }}>
+            <ServicesSelectorComponent
+              fetching={fetching}
+              inputData={mappedConfiguration}
+              setInputData={setMappedConfiguration}
+              // parent={parent}
+              // setParent={setParent}
+              connector={connector}
+              setConnector={setConnector}
+              connectorResourceId={connectorResourceId}
+              setConnectorResourceId={setConnectorResourceId}
+              serviceConnectorResources={serviceConnectorResources}
+              // resources={resources}
+              // verifying={verifying}
+            />
+          </Box>
+        </Box>
+      )}
       <FlexBox
         style={{
           position: 'fixed',
