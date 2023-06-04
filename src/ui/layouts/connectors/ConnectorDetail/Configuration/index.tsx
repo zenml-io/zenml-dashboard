@@ -98,29 +98,21 @@ export const Configuration: React.FC<{
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <FormPasswordFieldVerify
                 disabled
-                // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
-                // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
                 label={titleCase(elementName)}
                 optional={false}
                 defaultValue={elementSchema.default}
                 placeholder=""
                 error={{}}
-                //  hasError={false}
-                // className={styles.field}
               />
             </Box>
           ) : (
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <FormTextField
                 disabled
-                // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
-                // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
                 label={titleCase(elementName)}
                 optional={false}
                 value={elementSchema.default}
                 placeholder=""
-                //  hasError={false}
-                // className={styles.field}
               />
             </Box>
           )}

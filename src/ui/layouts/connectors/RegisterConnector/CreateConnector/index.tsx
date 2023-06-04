@@ -1885,7 +1885,12 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
           </Box>
         </Box>
 
-        <SidePopup verifying={verifying} onClose={() => {}} action={onSubmit} />
+        <SidePopup
+          data={connectorType}
+          verifying={verifying}
+          onClose={() => {}}
+          action={onSubmit}
+        />
       </FlexBox.Row>
     </Box>
     // <FlexBox.Column fullWidth marginTop="xl">

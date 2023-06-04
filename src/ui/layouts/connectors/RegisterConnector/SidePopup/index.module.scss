@@ -1,6 +1,5 @@
 @import '../../../../globalStyles.scss';
 
-
 .popupContainer {
   // height: 100vh;
   // width: 100vw;
@@ -18,9 +17,9 @@
   bottom: 0;
   top: 16.7rem;
   height: 88rem;
-  min-width: 60vw;
+  width: 60vw;
   overflow: auto;
-} 
+}
 
 @media (max-width: $md-breakpoint) {
   .sidePopup {
@@ -34,4 +33,10 @@
   background-color: #ffffff;
   position: fixed;
   bottom: 0;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  line-height: 28px;
 }
