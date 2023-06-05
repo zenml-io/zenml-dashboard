@@ -148,13 +148,13 @@ const Index: React.FC<ServicesSelector> = ({
                     // }
                   >
                     {' '}
-                    <Paragraph>
+                    <Paragraph color="grey">
                       [{connectorItem.id} - {connectorItem.name}]
                     </Paragraph>
                   </Box>
                 </FlexBox>
 
-                <Box style={{ position: 'relative', marginLeft: '63px' }}>
+                <Box style={{ position: 'relative' }}>
                   <div
                     style={{
                       borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
