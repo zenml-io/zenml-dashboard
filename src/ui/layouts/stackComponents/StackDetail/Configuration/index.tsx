@@ -63,8 +63,8 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     flavor?.connectorResourceType,
   );
   useEffect(() => {
-    setConnector(stackComponent.connector.id);
-    setConnectorResourceId(stackComponent.connectorResourceId);
+    setConnector(stackComponent?.connector?.id);
+    setConnectorResourceId(stackComponent?.connectorResourceId);
   }, [stackComponent]);
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>

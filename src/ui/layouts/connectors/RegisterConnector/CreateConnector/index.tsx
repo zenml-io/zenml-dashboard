@@ -1065,8 +1065,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       connector_type: connectorType.connectorType,
       auth_method: selectedAuthMethod,
       // resource_types: resourceTypes,
-      resource_id: ids.length ? ids[0] : null,
-      resource_types: resourceType,
+      // resource_id: ids.length ? ids[0] : null,
+      // resource_types: resourceType,
 
       configuration: {
         ...configuration,
@@ -1081,6 +1081,10 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
     };
     if (connectorExpirationSeconds !== null) {
       body.expiration_seconds = connectorExpirationSeconds;
+    }
+    if (resourceType) {
+      body.resource_id = ids.length ? ids[0] : null;
+      body.resource_types = resourceType;
     }
     setLoading(true);
     await axios
@@ -1627,8 +1631,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               setConnectorName(e);
             }}
             required={true}
-            placeholder="Component Name"
-            label={'Component Name'}
+            placeholder="Name"
+            label={'Name'}
             value={connectorName}
           />
           <Box marginTop="md">

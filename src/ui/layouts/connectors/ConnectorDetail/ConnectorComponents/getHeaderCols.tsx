@@ -44,7 +44,6 @@ export const GetHeaderCols = ({
     activeSortingDirection,
     filteredConnectors,
   });
-  console.log(connectorDetail, 'connectorDetail');
 
   return [
     // {
@@ -227,16 +226,16 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '10%',
-      renderRow: (stackComponent: TStack) => (
+      renderRow: (connector: any) => (
         <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
           <div
             data-tip
-            data-for={stackComponent?.flavor?.name || stackComponent?.flavor}
+            data-for={connector?.flavor?.name || connector?.flavor}
             style={{ margin: ' 0 auto 0 auto' }}
           >
             <img
-              alt={stackComponent?.flavor?.logoUrl}
-              src={stackComponent?.flavor?.logoUrl}
+              alt={connector?.flavor?.logoUrl}
+              src={connector?.flavor?.logoUrl}
               style={{
                 height: '28px',
                 width: '28px',
@@ -248,12 +247,12 @@ export const GetHeaderCols = ({
             id={
               // stackComponent?.flavor
               //   ? stackComponent?.flavor
-              stackComponent?.flavor?.name || stackComponent?.flavor
+              connector?.flavor?.name || connector?.flavor
             }
             place="top"
             effect="solid"
           >
-            <Paragraph color="white">{stackComponent?.flavor?.name}</Paragraph>
+            <Paragraph color="white">{connector?.flavor?.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

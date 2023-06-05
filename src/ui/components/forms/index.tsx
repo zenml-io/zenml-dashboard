@@ -636,6 +636,7 @@ export const FormPasswordFieldVerify = (
     placeholder: string;
     value: string;
     onChange: any;
+    required?: boolean;
     error: FieldError;
     success?: boolean;
     loading?: boolean;
@@ -648,6 +649,7 @@ export const FormPasswordFieldVerify = (
         <InputWithLabel
           name={props.name}
           label={props.label}
+          required={props.required}
           labelColor={props.labelColor}
           InputComponent={
             !showPassword ? (
