@@ -70,6 +70,7 @@ const HeaderWithButtons: React.FC<{
           fontWeight: 'bold',
           lineHeight: '48px',
           color: '#424240',
+          marginBottom: '8px',
         }}
       >
         {title}
@@ -84,7 +85,7 @@ const HeaderWithButtons: React.FC<{
         >
           MLOps Platform Sandbox
         </a>{' '}
-        to get a production-ready stack.
+        to get a production-ready stack in seconds.
       </Paragraph>
     </FlexBox>
 
