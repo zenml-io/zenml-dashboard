@@ -1627,8 +1627,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               setConnectorName(e);
             }}
             required={true}
-            placeholder="Component Name"
-            label={'Component Name'}
+            placeholder="Name"
+            label={'Name'}
             value={connectorName}
           />
           <Box marginTop="md">
