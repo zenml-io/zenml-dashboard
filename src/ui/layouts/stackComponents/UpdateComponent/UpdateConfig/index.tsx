@@ -100,8 +100,8 @@ export const UpdateConfig: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
   useEffect(() => {
-    setConnector(stackComponent.connector.id);
-    setConnectorResourceId(stackComponent.connectorResourceId);
+    setConnector(stackComponent?.connector?.id);
+    setConnectorResourceId(stackComponent?.connectorResourceId);
     function replaceNullWithEmptyString(obj: any) {
       for (let prop in obj) {
         if (obj[prop] === null) {
