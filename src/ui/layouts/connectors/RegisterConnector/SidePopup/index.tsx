@@ -8,6 +8,8 @@ import {
   H3,
   H4,
   Paragraph,
+  PrimaryButton,
+  Spinner,
   // PrimaryButton,
   // Spinner,
 } from '../../../../components';
@@ -34,7 +36,11 @@ export const SidePopup: React.FC<{
     >
       <Box className={styles.sidePopup}>
         <OutsideClickHandler onOutsideClick={onClose}>
-          <Box paddingVertical="lg" paddingHorizontal="xxxl">
+          <Box
+            paddingVertical="lg"
+            marginBottom={'10xl'}
+            paddingHorizontal="xxxl"
+          >
             {children}
 
             <Box>
@@ -68,12 +74,12 @@ export const SidePopup: React.FC<{
             </Box>
           </Box>
 
-          {/* <Box
+          <Box
             paddingVertical="lg"
             paddingHorizontal="md"
             className={styles.actionSection}
-          > */}
-          {/* <Box style={{}}>
+          >
+            <Box style={{}}>
               <div style={{ position: 'relative', height: '30px' }}>
                 {console.log(verifying, 'verifyingverifying')}
                 <PrimaryButton
@@ -91,8 +97,8 @@ export const SidePopup: React.FC<{
                   )}
                 </PrimaryButton>
               </div>
-            </Box> */}
-          {/* </Box> */}
+            </Box>
+          </Box>
         </OutsideClickHandler>
       </Box>
     </FlexBox>

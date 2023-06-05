@@ -72,30 +72,33 @@ export const useService = ({
   // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const isValidFilter = filter.map((f) => f.value).join('');
 
-  const connectors: any = useSelector(connectorSelectors.connectorComponents);
-  console.log(connectors, 'connectorsconnectors');
+  const connectorComponent: any = useSelector(
+    connectorSelectors.connectorComponents,
+  );
+  console.log(connectorComponent, 'connectorsconnectors');
 
   // useEffect(() => {
   //   setFilteredConnectors(connectors as any[]);
   // }, [connectors, filter]);
   useEffect(() => {
-    // const mappedConnectorComponent = connectors.map((item: any) => {
-    //   const temp: any = flavourList.find(
-    //     (fl: any) => fl.connector_resource_type === item.map(ccon),
-    //   );
-    //   if (temp) {
-    //     return {
-    //       ...item,
-    //       flavor: {
-    //         logoUrl: temp.logo_url,
-    //         name: item.flavor,
-    //       },
-    //     };
-    //   }
-    //   return item;
-    // });
-    setFilteredConnectors(connectors as TStack[]);
-  }, [connectors, filter, flavourList]);
+    const mappedConnectorComponent = connectorComponent.map((item: any) => {
+      const temp: any = flavourList.find((fl: any) => fl.name === item.flavor);
+      if (temp) {
+        return {
+          ...item,
+          flavor: {
+            logoUrl: temp.logo_url,
+            name: item.flavor,
+          },
+        };
+      }
+
+      return item;
+    });
+
+    setFilteredConnectors(mappedConnectorComponent as TStack[]);
+    // debugger;
+  }, [connectorComponent, filter, flavourList]);
 
   useEffect(() => {
     if (!isValidFilter && !isExpended) {
