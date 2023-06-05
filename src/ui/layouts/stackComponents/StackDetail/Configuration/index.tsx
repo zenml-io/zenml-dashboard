@@ -33,7 +33,7 @@ import {
 import { toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
-import ServicesSelectorComponent from '../../ServicesSelectorComponent';
+import ServicesSelectorComponent from '../../ServicesSelectorComponent/Disabled';
 import { getServiceConnectorResources } from '../../ConfigureComponent/CreateComponent/useService';
 // import { routePaths } from '../../../../../routes/routePaths';
 
@@ -951,27 +951,13 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
         </Container>
       </FlexBox.Row>
       {flavor.connectorResourceType && (
-        <Box marginTop="lg" style={{ width: '30vw' }}>
-          <Paragraph size="body" style={{ color: '#000' }}>
-            <label htmlFor="key">{'Connect to resource'}</label>
-          </Paragraph>
-          {/* {console.log(resourceType, ids, 'idsidsids')} */}
-          <Box marginTop="sm" style={{ width: '30vw' }}>
-            <ServicesSelectorComponent
-              fetching={fetching}
-              // inputData={mappedConfiguration}
-              // setInputData={setMappedConfiguration}
-              // parent={parent}
-              // setParent={setParent}
-              connector={connector}
-              setConnector={setConnector}
-              connectorResourceId={connectorResourceId}
-              setConnectorResourceId={setConnectorResourceId}
-              serviceConnectorResources={serviceConnectorResources}
-              // resources={resources}
-              // verifying={verifying}
-            />
-          </Box>
+        <Box marginTop="lg" marginLeft="md" style={{ width: '30vw' }}>
+          <ServicesSelectorComponent
+            fetching={fetching}
+            connector={connector}
+            connectorResourceId={connectorResourceId}
+            serviceConnectorResources={serviceConnectorResources}
+          />
         </Box>
       )}
       <FlexBox
