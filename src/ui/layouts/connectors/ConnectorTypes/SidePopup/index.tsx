@@ -9,7 +9,7 @@ import {
   Paragraph,
   PrimaryButton,
 } from '../../../../components';
-
+import ReactMarkdown from 'react-markdown';
 import styles from './index.module.scss';
 // import { routePaths } from '../../../../routes/routePaths';
 // import { useHistory } from 'react-router-dom';
@@ -114,7 +114,7 @@ export const SidePopup: React.FC<{
               {tab === 'Overview' ? (
                 <Box marginTop="lg" className={styles.descriptionWrapper}>
                   <Paragraph className={styles.description}>
-                    {connectorType?.description}
+                    <ReactMarkdown>{connectorType?.description}</ReactMarkdown>
                   </Paragraph>
                 </Box>
               ) : tab === 'Service Types' ? (
@@ -154,7 +154,7 @@ export const SidePopup: React.FC<{
                       <>
                         {e?.name === serviceTypes && (
                           <Paragraph className={styles.description}>
-                            {e?.description}
+                            <ReactMarkdown>{e?.description}</ReactMarkdown>
                           </Paragraph>
                         )}
                       </>
@@ -198,7 +198,7 @@ export const SidePopup: React.FC<{
                       <>
                         {e?.name === authMethod && (
                           <Paragraph className={styles.description}>
-                            {e?.description}
+                            <ReactMarkdown>{e?.description}</ReactMarkdown>
                           </Paragraph>
                         )}
                       </>
