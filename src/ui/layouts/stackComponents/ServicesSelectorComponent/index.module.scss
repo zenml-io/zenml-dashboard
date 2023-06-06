@@ -4,7 +4,7 @@ img {
 
 .service_selector {
   margin-top: 30px;
-  padding: 0 20px !important;
+  padding: 3px 20px !important;
   width: 100%;
   min-height: 40px;
   display: flex;
@@ -34,7 +34,7 @@ img {
       height: 20px;
     }
     .servicesName {
-      cursor: pointer;
+      cursor: no-drop;
     }
 
     .selectedBoxCheckbox {
