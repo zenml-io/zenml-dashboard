@@ -169,7 +169,7 @@ const Index: React.FC<ServicesSelector> = ({
                               <div
                                 style={{
                                   position: 'absolute',
-                                  bottom: '-5px',
+                                  bottom: '-10px',
                                   width: '5px',
                                   height: '5px',
                                   borderRadius: '100%',
@@ -180,14 +180,14 @@ const Index: React.FC<ServicesSelector> = ({
 
                               <div
                                 style={{
-                                  marginTop: '10px',
+                                  marginTop: '15px',
                                   width: '50px',
                                   borderTop: '1px solid rgba(68, 62, 153, 0.3)',
                                 }}
                               ></div>
                               <div
                                 style={{
-                                  marginTop: '3px',
+                                  marginTop: '8px',
                                   marginRight: '5px',
                                   marginLeft: '-2px',
                                   color: 'rgba(68, 62, 153, 0.3)',
@@ -202,9 +202,19 @@ const Index: React.FC<ServicesSelector> = ({
                                   setShowServices(!showServices);
                                   setInputData({ ...inputData, path: id });
                                 }}
-                                marginLeft="sm"
-                                marginRight="xl"
-                                style={{ width: '200px' }}
+                                padding="xs"
+                                style={{
+                                  backgroundColor:
+                                    connectorResourceId === id
+                                      ? 'rgba(234, 234, 234, 0.5)'
+                                      : '',
+                                  border:
+                                    connectorResourceId === id
+                                      ? '1px dashed #000000'
+                                      : '0px',
+                                  borderRadius: '4px',
+                                  cursor: 'pointer',
+                                }}
                               >
                                 <Paragraph>{id} </Paragraph>
                               </Box>
