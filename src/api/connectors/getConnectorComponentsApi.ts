@@ -15,7 +15,7 @@ const getConnectorComponentsApi = ({
   // id,
   authenticationToken,
 }: {
-  connector_id?: any;
+  connector_id?: string;
   workspace: string;
   sort_by: string;
   logical_operator: string;

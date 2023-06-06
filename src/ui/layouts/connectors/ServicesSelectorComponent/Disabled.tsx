@@ -36,6 +36,7 @@ const Index: React.FC<any> = ({ data }) => {
           justifyContent: 'start',
           backgroundColor: 'rgba(168, 168, 168, 0.05)',
           borderWidth: '0px',
+          cursor: 'auto',
         }}
       >
         {resourceType?.map((e: any) => (

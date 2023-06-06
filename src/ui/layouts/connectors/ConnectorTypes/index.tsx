@@ -4,7 +4,6 @@ import { ListForAll } from './ListForAll';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 
-import { useService } from './useService';
 import { useLocationPath, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 
@@ -17,8 +16,8 @@ export const ConnectorTypes: React.FC = () => {
   const locationPath = useLocationPath();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
-  const { setFetching } = useService();
-  console.log(setFetching);
+  // const { setFetching } = useService();
+
   // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   // const url_string = window.location.href;

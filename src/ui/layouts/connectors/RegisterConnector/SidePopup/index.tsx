@@ -13,7 +13,7 @@ import {
   // PrimaryButton,
   // Spinner,
 } from '../../../../components';
-import ReactMarkdown from 'react-markdown'
+import ReactMarkdown from 'react-markdown';
 import styles from './index.module.scss';
 
 export const SidePopup: React.FC<{
@@ -49,7 +49,9 @@ export const SidePopup: React.FC<{
               </H2>
 
               <Box marginTop="md">
-                <Paragraph><ReactMarkdown>{data?.description}</ReactMarkdown></Paragraph>
+                <Paragraph>
+                  <ReactMarkdown>{data?.description}</ReactMarkdown>
+                </Paragraph>
               </Box>
             </Box>
 
@@ -58,7 +60,9 @@ export const SidePopup: React.FC<{
               {data?.resourceTypes?.map((resourceType: any) => (
                 <Box marginTop="md">
                   <H4 style={{ fontWeight: 'bold' }}>{resourceType?.name}</H4>
-                  <Paragraph><ReactMarkdown>{resourceType?.description}</ReactMarkdown></Paragraph>
+                  <Paragraph>
+                    <ReactMarkdown>{resourceType?.description}</ReactMarkdown>
+                  </Paragraph>
                 </Box>
               ))}
             </Box>
@@ -68,7 +72,9 @@ export const SidePopup: React.FC<{
               {data?.authMethods?.map((authMethod: any) => (
                 <Box marginTop="md">
                   <H4 style={{ fontWeight: 'bold' }}>{authMethod?.name}</H4>
-                  <Paragraph><ReactMarkdown>{authMethod?.description}</ReactMarkdown></Paragraph>
+                  <Paragraph>
+                    <ReactMarkdown>{authMethod?.description}</ReactMarkdown>
+                  </Paragraph>
                 </Box>
               ))}
             </Box>
@@ -81,7 +87,6 @@ export const SidePopup: React.FC<{
           >
             <Box style={{}}>
               <div style={{ position: 'relative', height: '30px' }}>
-                {console.log(verifying, 'verifyingverifying')}
                 <PrimaryButton
                   disabled={verifying}
                   onClick={action}

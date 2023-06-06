@@ -56,7 +56,7 @@ export const UpdateConfig: React.FC<{
   const { stackComponent, flavor } = useService({
     stackId,
   });
-  console.log(stackComponent, 'stackComponentstackComponent');
+
   const history = useHistory();
   const [componentName, setComponentName] = useState('');
   const [isShared, setIsShared] = useState() as any;
