@@ -8,7 +8,7 @@ const axiosInterceptor = axios.interceptors.request.use(function (config) {
   ) {
     const serverInfo = getServerInfoFromRedux();
     const debugFlag = serverInfo.debug;
-    config.headers['Source-Context'] = ' dashboard';
+    config.headers['Source-Context'] = 'dashboard';
     config.headers['Debug-Context'] = debugFlag || false;
   }
 
