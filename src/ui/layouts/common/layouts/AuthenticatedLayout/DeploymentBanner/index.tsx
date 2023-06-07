@@ -6,16 +6,32 @@ function DeploymentBanner() {
     <aside className={styles.deploymentBanner}>
       <p className={styles.deploymentBanner__paragraph}>
         ZenML is running locally. In order to run your pipelines in the cloud,
-        you need to deploy ZenML. See the{' '}
+        you need to{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://docs.zenml.io/getting-started/deploying-zenml"
+          href="https://docs.zenml.io/platform-guide/set-up-your-mlops-platform/deploy-zenml"
+        >
+          deploy ZenML yourself
+        </a>
+        , or spin up ZenML with one-click using the{' '}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://sandbox.zenml.io/"
+        >
+          deploy ZenML yourself
+        </a>
+        , or spin up ZenML with one-click using the{' '}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://sandbox.zenml.io/"
         >
           {' '}
-          docs
-        </a>{' '}
-        to learn how.
+          MLOps Platform Sandbox
+        </a>
+        .
       </p>
     </aside>
   );

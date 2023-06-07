@@ -63,22 +63,36 @@ const HeaderWithButtons: React.FC<{
     // className={cn(styles.header, 'd-none d-md-block')}
     className={styles.header2}
   >
-    <FlexBox className="d-none d-md-flex">
+    <FlexBox flexDirection="column" className="d-none d-md-flex">
       <Paragraph
         style={{
           fontSize: '42px',
           fontWeight: 'bold',
           lineHeight: '48px',
           color: '#424240',
+          marginBottom: '8px',
         }}
       >
         {title}
       </Paragraph>
+      <Paragraph>
+        Don't have any MLOps infrastructure deployed? Check out the{' '}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://sandbox.zenml.io"
+          style={{ color: '#443E99' }}
+        >
+          MLOps Platform Sandbox
+        </a>{' '}
+        to get a production-ready stack in seconds.
+      </Paragraph>
     </FlexBox>
 
     <FlexBox
-      alignItems="center"
+      alignItems="end"
       flexWrap
+      style={{ height: '100%' }}
       justifyContent="flex-end"
       className={styles.rightWrapper}
     >

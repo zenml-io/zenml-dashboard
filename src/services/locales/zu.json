@@ -288,14 +288,14 @@
               "title": "Change the settings",
               "button": {
                 "text": "Manage",
-                "href": "https://docs.zenml.io/infrastructure/google-cloud-platform"
+                "href": "https://docs.zenml.io/"
               }
             },
             "cardThree": {
               "title": "Invite new members to your organization",
               "button": {
                 "text": "Invite",
-                "href": "https://docs.zenml.io/getting-started/quickstart"
+                "href": "https://github.com/zenml-io/zenml/blob/main/examples/quickstart/README.md"
               }
             }
           },
@@ -494,7 +494,7 @@
               "text": "Compare runs"
             },
             "externalLink": {
-              "href": "https://docs.zenml.io/v/wip-docs/run-a-pipeline",
+              "href": "https://docs.zenml.io/user-guide/starter-guide",
               "text": "Documentation"
             },
             "copyWorkspaceCommand": {
@@ -769,7 +769,7 @@
               "text": "Create workspace"
             },
             "externalLink": {
-              "href": "https://docs.zenml.io/v/wip-docs/collaborate/workspaces",
+              "href": "https://docs.zenml.io/",
               "text": "Documentation"
             },
             "copyWorkspaceCommand": {

@@ -269,7 +269,7 @@ export const UpdateConfig: React.FC<{
         <FormTextField
           label={'Secret name'}
           labelColor="rgba(66, 66, 64, 0.5)"
-          placeholder={'Ex.John Doe'}
+          placeholder={'unique_secret_name'}
           value={secretName}
           // disabled
           onChange={(value: any) => {
