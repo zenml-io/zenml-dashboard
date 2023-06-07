@@ -90,7 +90,7 @@ export const ConnectHub: React.FC = () => {
         <GhostButton
           onClick={() => {
             window.open(
-              'https://docs.zenml.io/starter-guide/collaborate/zenml-hub',
+              'https://docs.zenml.io/user-guide/advanced-guide/leverage-community-contributed-plugins',
               '_blank',
             );
           }}

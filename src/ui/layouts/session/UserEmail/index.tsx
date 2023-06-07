@@ -90,7 +90,9 @@ const UserEmail: React.FC = () => {
                   {translate('subtitle2-1')}&nbsp;
                   <InnerTextLink
                     text={'Click Here'}
-                    href={'https://docs.zenml.io/misc/usage-analytics'}
+                    href={
+                      'https://docs.zenml.io/user-guide/advanced-guide/global-settings-of-zenml#usage-analytics'
+                    }
                   />
                   &nbsp;{translate('subtitle2-2')}
                 </Paragraph>

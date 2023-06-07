@@ -57,7 +57,7 @@ const EnvironmentCard = ({ run }: EnvironmentCardProps) => {
               style={{ display: 'inline' }}
               className={styles.card__key}
             >
-              Orchestrator Environment
+              Execution Environment
             </Paragraph>
           </summary>
           <div className={styles.card__detailsContainer}>
