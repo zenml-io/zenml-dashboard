@@ -6,6 +6,7 @@ import { routePaths } from '../../../../routes/routePaths';
 
 import { useLocationPath, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
+import { useService } from './useService';
 
 // import { camelCaseToParagraph } from '../../../../utils';
 // import { workspaceSelectors } from '../../../../redux/selectors';
@@ -15,8 +16,8 @@ import { workspaceSelectors } from '../../../../redux/selectors';
 export const ConnectorTypes: React.FC = () => {
   const locationPath = useLocationPath();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-
-  // const { setFetching } = useService();
+  // eslint-disable-next-line no-empty-pattern
+  const {} = useService();
 
   // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 

@@ -90,7 +90,6 @@ export const Configuration: React.FC<{
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (elementSchema?.type === 'string') {
-      // console.log(filteredSecret, 'asd123ffwwvweer');
       return (
         <>
           {elementSchema?.format === 'password' ? (
@@ -616,7 +615,7 @@ export const Configuration: React.FC<{
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  console.log(configurationModifiedObj, '231wfgfwf23d');
+
   return (
     <FlexBox.Column marginTop="xl">
       <FlexBox.Row flexDirection="column">

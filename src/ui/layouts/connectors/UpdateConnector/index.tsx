@@ -126,7 +126,7 @@ export const StackDetail: React.FC = () => {
   //         fl.name === secret?.components[key][0]?.flavor &&
   //         fl.type === secret?.components[key][0]?.type,
   //     );
-  //     console.log(logo, 'flavourListflavourList');
+  //
 
   //     nestedRowtiles.push({
   //       ...secret?.components[key][0],
