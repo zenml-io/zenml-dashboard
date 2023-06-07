@@ -20,14 +20,6 @@ function DeploymentBanner() {
           rel="noopener noreferrer"
           href="https://sandbox.zenml.io/"
         >
-          deploy ZenML yourself
-        </a>
-        , or spin up ZenML with one-click using the{' '}
-        <a
-          target="_blank"
-          rel="noopener noreferrer"
-          href="https://sandbox.zenml.io/"
-        >
           {' '}
           MLOps Platform Sandbox
         </a>
