@@ -86,7 +86,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
       state: selectedType.name,
     });
   };
-  console.log(allConnectorsTypes, 'fetchingfetchingfetching');
+
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }

@@ -3,9 +3,6 @@ import styles from './index.module.scss';
 import { FlexBox, Box, Paragraph, Spinner, icons } from '../../../components';
 import { ID_MAX_LENGTH, iconColors, iconSizes } from '../../../../constants';
 import { truncate } from '../../../../utils';
-// import { truncate } from 'lodash';
-// import { iconColors, iconSizes } from '../../../../constants';
-// import { verify } from 'crypto';
 
 type ServicesSelector = {
   fetching?: boolean;
@@ -17,11 +14,7 @@ type ServicesSelector = {
   setConnectorResourceId?: any;
   serviceConnectorResources?: any;
 };
-// connector={connector}
-// setConnector={setConnector}
-// connectorResourceId={connectorResourceId}
-// setConnectorResourceId={setConnectorResourceId}
-// serviceConnectorResources={serviceConnectorResources}
+
 const Index: React.FC<ServicesSelector> = ({
   setInputData,
   inputData,
@@ -33,58 +26,9 @@ const Index: React.FC<ServicesSelector> = ({
   serviceConnectorResources,
 }) => {
   const [showServices, setShowServices] = useState(false);
-  console.log(serviceConnectorResources, 'serviceConnectorResources');
-  // const [showTypes, setShowTypes] = useState(false);
-  // const [showIds, setShowIds] = useState(false);
 
-  // const [typesToShow, setTypesToShow] = useState('');
-
-  // const handleShowTypes = (service_name: string) => {
-  //   setParent(service_name);
-  //   setShowTypes(!showTypes);
-  //   setParent(!parent);
-  // };
-
-  // const handleShowIds = (service_type: string) => {
-  //   // setTypesToShow(service_type);
-  //   setShowIds(!showIds);
-  // };
-
-  // const handleSelectIds = (id: string) => {
-  //   setConnectorResourceId(id);
-
-  // };
-
-  // const handleSelectParent = () => {
-  //   setParent(!parent);
-  //   if (parent) {
-  //     setResourceType([]);
-  //   } else {
-  //     const types = data?.resourceTypes?.map((e: any) => e.name);
-  //     setResourceType(types);
-  //   }
-  // };
-  // const handleSelectParent = () => {
-  //   setParent(!parent);
-  //   if (parent) {
-  //     setResourceType([]);
-  //   } else {
-  //     const types = data?.resourceTypes?.map((e: any) => e.resource_type);
-  //     setResourceType(types);
-  //   }
-  // };
-
-  // const resourceTypeImage = data?.resourceTypes?.filter(
-  //   (e: any) => e.name === resourceType[0],
-  // );
   const resourceTypeImage = serviceConnectorResources?.filter(
     (e: any) => e.id === connector,
-  );
-  console.log(
-    resourceTypeImage,
-    serviceConnectorResources,
-    connector,
-    'connectorconnector',
   );
 
   return (

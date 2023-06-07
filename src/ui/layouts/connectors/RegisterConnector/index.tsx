@@ -19,7 +19,7 @@ export interface ConnectorDetailRouteParams {
 export const RegisterComponents: React.FC = () => {
   const locationPath = useLocationPath();
   const { type, connectorType } = useService();
-  console.log(type, '2232123s');
+
   // console.log(setFetching);
   const location = useLocation();
   const [routeState, setRouteState] = useState({}) as any;

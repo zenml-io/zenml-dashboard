@@ -27,7 +27,7 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
   // const [flavor, setFlavor] = useState();
   const flavors = useSelector(flavorSelectors.myFlavorsAll);
   const flavor = flavors[0];
-  console.log(flavors, 'flavors`1223123');
+
   // const dispatch = useDispatch();
   useEffect(() => {
     // setFlavor(flavors[0] as any);

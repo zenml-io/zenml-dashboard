@@ -907,7 +907,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     ...stackComponent?.configuration,
     // ...normalizeConfiguration,
   };
-  console.log(mappedObject, 'mappedObjectmappedObjectmappedObject');
+
   // debugger;
   if (componentfetching) {
     return <FullWidthSpinner color="black" size="md" />;

@@ -75,7 +75,6 @@ export const useService = ({
   const connectorComponent: any = useSelector(
     connectorSelectors.connectorComponents,
   );
-  console.log(connectorComponent, 'connectorsconnectors');
 
   // useEffect(() => {
   //   setFilteredConnectors(connectors as any[]);
