@@ -42,8 +42,9 @@ const FilterWrapper = () => {
 };
 
 export const Stacks: React.FC = () => {
-  const { setFetching } = useService();
-  console.log(setFetching);
+  // eslint-disable-next-line no-empty-pattern
+  const {} = useService();
+
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const locationPath = useLocationPath();
   return (

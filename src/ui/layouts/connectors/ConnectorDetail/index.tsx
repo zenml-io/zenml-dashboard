@@ -142,25 +142,6 @@ export const StackDetail: React.FC = () => {
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
-  // if (flavourList?.length > 1) {
-  //   for (const [key] of Object.entries(connector?.components)) {
-  //     const { logo_url }: any = flavourList.find(
-  //       (fl: any) =>
-  //         fl.name === connector?.components[key][0]?.flavor &&
-  //         fl.type === connector?.components[key][0]?.type,
-  //     );
-  //     console.log(logo, 'flavourListflavourList');
-
-  //     nestedRowtiles.push({
-  //       ...connector?.components[key][0],
-  //       type: key,
-  //       name: connector?.components[key][0]?.name,
-  //       id: connector?.components[key][0]?.id,
-  //       logo: logo_url,
-  //     });
-  //   }
-  // }
-
   const tabPages = getTabPages(connector.id, selectedWorkspace, fetching);
   const breadcrumbs = getBreadcrumbs(connector.id, selectedWorkspace);
   const headerCols = GetHeaderCols({

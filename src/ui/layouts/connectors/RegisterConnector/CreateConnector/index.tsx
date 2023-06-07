@@ -65,7 +65,6 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   connectorType,
   state,
 }) => {
-  console.log(connectorType, 'connectorTypeconnectorType');
   // const {
   //   dispatchStackComponentsData,
   // } = callActionForStackComponentsForPagination();
@@ -111,14 +110,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   // const [inputData, setInputData] = useState({}) as any;
   // const [inputFields, setInputFields] = useState() as any;
   // const [inputArrayFields, setInputArrayFields] = useState() as any;
-  const [
-    secretOptionsWithKeys,
-    // setSecretOptionsWithKeys
-  ] = useState([]);
-  const [
-    selectedSecret,
-    // setSelectedSecret
-  ] = useState({}) as any;
+
   // const [
   //   // secretId,
   //   // setSecretId
@@ -129,7 +121,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const matchedAuthMethod = connectorType.authMethods.find(
     (item: any) => item?.auth_method === selectedAuthMethod,
   ) as any;
-  console.log(mappedConfiguration, 'mappedConfigurationmappedConfiguration');
+
   useEffect(() => {
     const dropdownOptions = connectorType.authMethods.map((item: any) => {
       return {
@@ -363,7 +355,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
 
   //   setFormData(_formData);
   // };
-  console.log(secretOptionsWithKeys, selectedSecret, 'inputDatainputData');
+
   // const getFormElement = (elementName: any, elementSchema: any) => {
   //   const props = {
   //     name: elementName,
@@ -544,7 +536,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   //             <label htmlFor="key">{props.label}</label>
   //           </Paragraph>
   //         </Box>
-  //         {console.log(inputData, '23232323123')}
+  //
   //         <FlexBox marginTop="sm" fullWidth>
   //           <textarea
   //             className={styles.textArea}
@@ -962,7 +954,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       })
       .catch((err) => {
         setVerifying(false);
-        console.log(err);
+
         // if (err?.response?.status === 403) {
         //   dispatch(
         //     showToasterAction({
@@ -1122,7 +1114,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       })
       .catch((err) => {
         setLoading(false);
-        console.log(err);
+
         // if (err?.response?.status === 403) {
         //   dispatch(
         //     showToasterAction({
@@ -1161,10 +1153,6 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (elementSchema.type === 'string') {
-      console.log(
-        mappedConfiguration,
-        'mappedConfigurationmappedConfiguration',
-      );
       return (
         <>
           {elementSchema?.format === 'password' ? (
@@ -1721,7 +1709,6 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
             )}
           </Container>
           <Box marginTop="lg" style={{ width: '30vw' }}>
-            {console.log(resourceType, ids, 'idsidsids')}
             <ServicesSelectorComponent
               parent={parent}
               setParent={setParent}

@@ -59,7 +59,7 @@ export const UpdateConfig: React.FC<{
   const { connector } = useService({
     connectorId,
   });
-  console.log(connector, 'connectorconnector');
+
   const history = useHistory();
   const [connectorName, setConnectorName] = useState('');
   const [connectorDescription, setConnectorDescription] = useState(
@@ -150,7 +150,6 @@ export const UpdateConfig: React.FC<{
     // debugger;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connector]);
-  console.log('convertedJson', labelsInputFields);
 
   // const secretOptions = secrets.map((item: any) => {
   //   return {
@@ -173,7 +172,6 @@ export const UpdateConfig: React.FC<{
       );
       return false;
     }
-    console.log(mappedConfiguration, 'asdasdasd');
     const payload: any = {};
 
     for (const key in mappedConfiguration) {
@@ -307,7 +305,7 @@ export const UpdateConfig: React.FC<{
   //     },
   //   });
   //   if (value?.id) {
-  //     console.log('Asdasasd123123', secretIdArray);
+  //
   //     // debugger;
   //     setSecretId(value?.id);
   //     const listOfIds: any = [...secretIdArray];
@@ -396,7 +394,7 @@ export const UpdateConfig: React.FC<{
   //       updateConfig.configuration[elementName][unkownKey] = event.target.value;
   //       // delete updateConfig.configuration[elementName][defaultValue];
   //     }
-  //     console.log(updateConfig, 'asdasd');
+  //
   //     onCallApi(updateConfig);
   //   }
   // };
@@ -425,11 +423,7 @@ export const UpdateConfig: React.FC<{
   //       ...updateConfig.configuration[elementName],
   //       ...result,
   //     };
-  //     console.log(
-  //       updateConfig.configuration[elementName],
-  //       inputFields,
-  //       'configur222ation',
-  //     );
+  //
   //     onCallApi(updateConfig);
   //   }
   // };
@@ -470,10 +464,6 @@ export const UpdateConfig: React.FC<{
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (elementSchema.type === 'string') {
-      console.log(
-        mappedConfiguration,
-        'mappedConfigurationmappedConfiguration',
-      );
       return (
         <>
           {elementSchema?.format === 'password' ? (

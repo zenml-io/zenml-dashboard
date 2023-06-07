@@ -20,7 +20,6 @@ export const RegisterComponents: React.FC = () => {
   const locationPath = useLocationPath();
   const { type, connectorType } = useService();
 
-  // console.log(setFetching);
   const location = useLocation();
   const [routeState, setRouteState] = useState({}) as any;
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);

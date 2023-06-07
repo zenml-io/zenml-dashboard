@@ -12,7 +12,7 @@ import { workspaceSelectors } from '../../../../redux/selectors';
 import { filterObjectForParam } from '../../../../utils';
 
 interface ServiceInterface {
-  setFetching: (arg: boolean) => void;
+  // setFetching: (arg: boolean) => void;
 }
 
 export const useService = (): ServiceInterface => {
@@ -34,7 +34,7 @@ export const useService = (): ServiceInterface => {
         page: 1,
         size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
         type: locationPath.split('/')[4],
-        sort_by: 'name',
+
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),
@@ -65,7 +65,7 @@ export const useService = (): ServiceInterface => {
   };
 
   return {
-    setFetching,
+    // setFetching,
   };
 };
 
@@ -85,8 +85,8 @@ export const callActionForConnectorsTypesForPagination = () => {
         type,
         page: page,
         size: size,
-        name: search,
-        sort_by: 'name',
+        connector_type: search,
+
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

@@ -19,6 +19,7 @@ import {
   // Box,
   FlexBox,
   FullWidthSpinner,
+  H3,
   Row,
   // FullWidthSpinner,
   // Paragraph,
@@ -98,48 +99,58 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
           fromRegisterComponent={true}
           placeholder={'Search'}
           value={text}
+          autoFocus
           // disabled={applyFilter || showInBar}
           onChange={(value: string) => {
             setText(value);
-            handleValueFieldChangeOnSearch(`${'contains:' + value}`);
+            if (value) {
+              handleValueFieldChangeOnSearch(value);
+            } else {
+              dispatchConnectorsTypesData(1, flavorsPaginated.size, type);
+            }
           }}
         />
         {fetching ? (
           <FullWidthSpinner color="black" size="md" />
+        ) : allConnectorsTypes?.length ? (
+          <>
+            <FlexBox>
+              <Row>
+                {allConnectorsTypes?.map((item: any, index: number) => {
+                  return (
+                    <Row key={index} style={{ marginLeft: '15px' }}>
+                      <Box marginVertical={'sm'} marginHorizontal={'md'}>
+                        <CustomConnectorBox
+                          connectorDesc={item.description}
+                          connectorName={item.name}
+                          logoUrl={item.logoUrl}
+                          onSelectConnectorType={() =>
+                            onSelectConnectorType(item)
+                          }
+                          resourceTypes={item?.resourceTypes}
+                        />
+                      </Box>
+                    </Row>
+                  );
+                })}
+              </Row>
+            </FlexBox>
+            <div style={{ marginTop: '-10px' }}>
+              <PaginationWithPageSize
+                flavors={allConnectorsTypes}
+                type={type}
+                paginated={flavorsPaginated}
+                pagination={allConnectorsTypes?.length ? true : false}
+              ></PaginationWithPageSize>
+            </div>
+          </>
         ) : (
-          allConnectorsTypes?.length && (
-            <>
-              <FlexBox>
-                <Row>
-                  {allConnectorsTypes?.map((item: any, index: number) => {
-                    return (
-                      <Row key={index} style={{ marginLeft: '15px' }}>
-                        <Box marginVertical={'sm'} marginHorizontal={'md'}>
-                          <CustomConnectorBox
-                            connectorDesc={item.description}
-                            connectorName={item.name}
-                            logoUrl={item.logoUrl}
-                            onSelectConnectorType={() =>
-                              onSelectConnectorType(item)
-                            }
-                            resourceTypes={item?.resourceTypes}
-                          />
-                        </Box>
-                      </Row>
-                    );
-                  })}
-                </Row>
-              </FlexBox>
-              <div style={{ marginTop: '-10px' }}>
-                <PaginationWithPageSize
-                  flavors={allConnectorsTypes}
-                  type={type}
-                  paginated={flavorsPaginated}
-                  pagination={allConnectorsTypes?.length ? true : false}
-                ></PaginationWithPageSize>
-              </div>
-            </>
-          )
+          <Box
+            style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto' }}
+            paddingVertical="xxl"
+          >
+            <H3>{'No connectors'}</H3>
+          </Box>
         )}
       </FlexBox.Column>
       {showModal && (
