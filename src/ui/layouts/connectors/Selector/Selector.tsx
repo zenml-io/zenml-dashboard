@@ -92,7 +92,7 @@ const Selector: React.FC<Props> = ({
     // debugger;
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeState, setInputFields]);
-  console.log(inputFields, routeState, 'inputFisdsdeldsinputFields');
+
   // useEffect(() => {
   //   handleInputChange();
   // }, [inputFields]);
@@ -150,7 +150,6 @@ const Selector: React.FC<Props> = ({
       )}
       <FlexBox.Row>
         <Box>
-          {console.log()}
           {inputFields?.map((item: any, index: any) => (
             <Box key={index} marginTop="md" style={{ display: 'flex' }}>
               <Box style={{ width: '30vw' }}>

@@ -24,7 +24,7 @@ export const useService = (): ServiceInterface => {
   const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
     setFetching(true);
-    console.log('locationPath111', locationPath);
+
     // dispatch(
     //   stacksActions.getMy({
     //     sort_by: 'desc:created',

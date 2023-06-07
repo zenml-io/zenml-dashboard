@@ -66,7 +66,7 @@ export const Configuration: React.FC<{
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
-  // console.log(connector, '123123123123sdsdwdwdwd');
+
   const matchedAuthMethod = connector.connectorType.auth_methods.find(
     (item: any) => item?.auth_method === connector?.authMethod,
   );
@@ -74,8 +74,6 @@ export const Configuration: React.FC<{
   const dropdownValue = connector?.connectorType?.auth_methods?.filter(
     (e: any) => e?.auth_method === connector?.authMethod,
   );
-
-  console.log(connector, '123123123123sdsdwdwdwd');
 
   // const handleAddFields = () => {
   //   const values = [...inputFields];
@@ -91,7 +89,6 @@ export const Configuration: React.FC<{
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (elementSchema?.type === 'string') {
-      // console.log(filteredSecret, 'asd123ffwwvweer');
       return (
         <>
           {elementSchema?.format === 'password' ? (
@@ -617,7 +614,7 @@ export const Configuration: React.FC<{
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  console.log(configurationModifiedObj, '231wfgfwf23d');
+
   return (
     <FlexBox.Column marginTop="xl">
       <FlexBox.Row flexDirection="column">
