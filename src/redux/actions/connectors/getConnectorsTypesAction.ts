@@ -5,7 +5,7 @@ export const getConnectorsTypesAction = ({
   page,
   size,
   type,
-  name,
+  connector_type,
   sort_by,
   onSuccess,
   onFailure,
@@ -13,7 +13,7 @@ export const getConnectorsTypesAction = ({
   page?: number;
   size?: number;
   type?: string;
-  name?: string;
+  connector_type?: string;
   sort_by?: string;
   onSuccess?: (res: any) => void;
   onFailure?: () => void;
@@ -28,7 +28,7 @@ export const getConnectorsTypesAction = ({
       type,
       page,
       size,
-      name,
+      connector_type,
       sort_by,
     },
     onSuccess,
