@@ -102,7 +102,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
 
   const [parent, setParent] = useState(false);
   const [resourceType, setResourceType] = useState('');
-  const [ids, setIds] = useState([]);
+  const [ids, setIds] = useState('');
   const [labelsInputFields, setLabelsInputFields] = useState([
     { key: '', value: '' },
   ]) as any;
@@ -1075,7 +1075,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       body.expiration_seconds = connectorExpirationSeconds;
     }
     if (resourceType) {
-      body.resource_id = ids.length ? ids[0] : null;
+      body.resource_id = ids ? ids : null;
       body.resource_types = resourceType;
     }
     setLoading(true);
@@ -1669,7 +1669,12 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                 // labelColor="rgba(66, 66, 64, 0.5)"
                 placeholder={''}
                 value={selectedAuthMethod}
-                onChange={(val: string) => setSelectedAuthMethod(val)}
+                onChange={(val: string) => {
+                  setSelectedAuthMethod(val);
+                  setParent(false);
+                  setResourceType('');
+                  setIds('');
+                }}
                 options={authMethoddropdownOptions as any}
                 style={{ paddingLeft: '10px' }}
               />
