@@ -39,16 +39,19 @@ const useShowToaster = (): {
 
   React.useEffect(() => {
     const removeDataFromToasterAfterHideAnimation = (): void => {
+      const displayTime = Math.max(description.length * 100, 2500);
+
       setTimeout(() => {
         dispatch(showToasterAction({ description: null }));
-      }, TIMEOUT_TO_HIDE_TOASTER_IN_SECONDS);
+      }, displayTime);
     };
 
     const showToasterThenHideItAfterAwhile = (): void => {
+      const displayTime = Math.max(description.length * 100, 2500);
       setTimeout(() => {
         setIsVisible(false);
         removeDataFromToasterAfterHideAnimation();
-      }, TOASTER_DISPLAY_TIME_IN_SECONDS);
+      }, displayTime);
     };
 
     if (description) {
