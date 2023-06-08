@@ -37,9 +37,10 @@ export const SidePopup: React.FC<{
       <Box className={styles.sidePopup}>
         <OutsideClickHandler onOutsideClick={onClose}>
           <Box
-            paddingVertical="lg"
+            paddingBottom="lg"
             marginBottom={'10xl'}
             paddingHorizontal="xxxl"
+            style={{ paddingTop: '20px' }}
           >
             {children}
 

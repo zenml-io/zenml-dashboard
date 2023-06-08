@@ -347,13 +347,18 @@ const Index: React.FC<ServicesSelector> = ({
                                               ids !== '' &&
                                               ids === id)
                                           }
-                                          onClick={() => setIds(id)}
-                                          disabled={
-                                            // (ids !== '' && ids !== id) ||
-                                            !resourceType?.includes(
+                                          onClick={() => {
+                                            setIds(ids === id ? '' : id);
+                                            setResourceType([
                                               resource_type?.resource_type,
-                                            )
-                                          }
+                                            ]);
+                                          }}
+                                          // disabled={
+                                          //   ids !== '' && ids !== id
+                                          // !resourceType?.includes(
+                                          //   resource_type?.resource_type,
+                                          // )
+                                          // }
                                         />
                                         {/* <input
                                         type="checkbox"
