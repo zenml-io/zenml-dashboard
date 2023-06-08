@@ -57,9 +57,12 @@ const Index: React.FC<ServicesSelector> = ({
             )}
           </FlexBox>
         ) : (
-          <Box>
+          <FlexBox alignItems="center">
+            <Box marginRight="sm">
+              <icons.notConnected />
+            </Box>
             <Paragraph>{'<not connected>'}</Paragraph>
-          </Box>
+          </FlexBox>
         )}
 
         <Box>
