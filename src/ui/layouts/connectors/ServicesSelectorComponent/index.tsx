@@ -10,7 +10,7 @@ type ServicesSelector = {
   setParent: any;
   resourceType: string;
   setResourceType: any;
-  ids: any;
+  ids: string;
   setIds: any;
   data: any;
   resources?: any;
@@ -45,13 +45,13 @@ const Index: React.FC<ServicesSelector> = ({
   //   setShowIds(!showIds);
   // };
 
-  const handleSelectIds = (id: string) => {
-    if (ids?.includes(id)) {
-      setIds(ids?.filter((e: string) => e !== id));
-    } else {
-      setIds([...ids, id]);
-    }
-  };
+  // const handleSelectIds = (id: string) => {
+  //   if (ids?.includes(id)) {
+  //     setIds(ids?.filter((e: string) => e !== id));
+  //   } else {
+  //     setIds([...ids, id]);
+  //   }
+  // };
 
   // const handleSelectParent = () => {
   //   setParent(!parent);
@@ -120,11 +120,7 @@ const Index: React.FC<ServicesSelector> = ({
                   <Box>
                     <Paragraph>
                       {resourceTypeImage[0]?.name} -{' '}
-                      {ids.length === 0 ? (
-                        <>&#91;all&#93;</>
-                      ) : (
-                        ids?.map((e: string) => <>&#91;{e}&#93; </>)
-                      )}
+                      {ids === '' ? <>&#91;all&#93;</> : <>&#91;{ids}&#93;</>}
                     </Paragraph>
                     {/* <Paragraph>
                       {resourceType} -{' '}
@@ -173,6 +169,7 @@ const Index: React.FC<ServicesSelector> = ({
                 <input
                   type="checkbox"
                   className={styles.selectedBoxCheckbox}
+                  checked={parent}
                   onClick={handleSelectParent}
                 />
               </Box>
@@ -344,14 +341,15 @@ const Index: React.FC<ServicesSelector> = ({
                                           className={styles.selectedBoxCheckbox}
                                           checked={
                                             parent === true ||
-                                            resourceType?.includes(
+                                            (resourceType?.includes(
                                               resource_type?.resource_type,
-                                            )
+                                            ) &&
+                                              ids !== '' &&
+                                              ids === id)
                                           }
-                                          onClick={() => handleSelectIds(id)}
+                                          onClick={() => setIds(id)}
                                           disabled={
-                                            (ids?.length > 0 &&
-                                              !ids?.includes(id)) ||
+                                            // (ids !== '' && ids !== id) ||
                                             !resourceType?.includes(
                                               resource_type?.resource_type,
                                             )

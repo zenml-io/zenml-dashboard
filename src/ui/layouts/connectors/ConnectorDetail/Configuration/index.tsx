@@ -10,6 +10,7 @@ import {
   FormPasswordFieldVerify,
   FormTextField,
   FormDropdownField,
+  EditFieldSettings,
   // MakeSecretField,
   // FormTextField,
   // icons,
@@ -635,16 +636,15 @@ export const Configuration: React.FC<{
         </Container>
         <Container>
           <Box marginTop="lg" style={{ width: '30vw' }}>
-            <EditField
+            <EditFieldSettings
               disabled
-              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
-              // onChangeText={(e: any) => onPressEnter(e, 'name')}
+              type="textarea"
               label={'Description'}
               optional={false}
               defaultValue={connector.connectorType.description}
               placeholder=""
-              hasError={false}
               className={styles.field}
+              style={{ height: '200px' }}
             />
           </Box>
         </Container>
