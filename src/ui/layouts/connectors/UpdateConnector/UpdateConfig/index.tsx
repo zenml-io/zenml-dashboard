@@ -992,21 +992,19 @@ export const UpdateConfig: React.FC<{
         </Container>
         <Container>
           <Box marginTop="lg" style={{ width: '30vw' }}>
-            <FormTextField
+            <Paragraph size="body" style={{ color: '#000' }}>
+              <label htmlFor="key">Description</label>
+            </Paragraph>
+          </Box>
+          <FlexBox marginTop="sm" fullWidth>
+            <textarea
+              className={styles.textArea}
+              value={connectorDescription}
               onChange={(e: any) => {
                 setConnectorDescription(e);
               }}
-              // disabled
-              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
-              // onChangeText={(e: any) => onPressEnter(e, 'name')}
-              label={'Description'}
-              optional={false}
-              value={connectorDescription}
-              placeholder=""
-              // hasError={false}
-              // className={styles.field}
             />
-          </Box>
+          </FlexBox>
         </Container>
         <Container>
           <Box marginTop="lg">
