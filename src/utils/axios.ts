@@ -11,10 +11,6 @@ const axiosInterceptor = axios.interceptors.request.use(function (config) {
     const debugFlag = serverInfo.debug;
     config.headers['Source-Context'] = 'dashboard';
     config.headers['Debug-Context'] = debugFlag || false;
-
-    // Log debugFlag value to help debug the issue
-    console.debug('Debug-Context flag value:', debugFlag);
-    console.debug('serverInfo value:', serverInfo);
   }
 
   return config;
