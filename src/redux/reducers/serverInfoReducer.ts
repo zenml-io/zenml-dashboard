@@ -6,6 +6,7 @@ export interface State {
   deploymentType: string;
   databaseType: string;
   secretsStoreType: string;
+  debug: boolean;
 }
 
 interface Payload {
@@ -14,6 +15,7 @@ interface Payload {
   deployment_type: string;
   database_type: string;
   secrets_store_type: string;
+  debug: boolean;
 }
 
 export type Action = {
@@ -27,6 +29,7 @@ export const initialState: State = {
   id: '',
   secretsStoreType: '',
   version: '',
+  debug: false,
 };
 
 const newState = (info: Payload): State => ({
@@ -35,6 +38,7 @@ const newState = (info: Payload): State => ({
   id: info.id,
   secretsStoreType: info.secrets_store_type,
   version: info.version,
+  debug: info.debug,
 });
 
 export default function serverInfoReducer(
