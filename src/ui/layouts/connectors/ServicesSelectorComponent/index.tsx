@@ -344,8 +344,8 @@ const Index: React.FC<ServicesSelector> = ({
                                             (resourceType?.includes(
                                               resource_type?.resource_type,
                                             ) &&
-                                              ids !== '' &&
-                                              ids === id)
+                                              ids === '') ||
+                                            ids === id
                                           }
                                           onClick={() => {
                                             setIds(ids === id ? '' : id);

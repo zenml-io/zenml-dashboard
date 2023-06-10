@@ -83,8 +83,10 @@ export const SidePopup: React.FC<{
 
               <Box marginTop="lg">
                 <FlexBox>
-                  {tabs?.map((e: any) => (
+                  {tabs?.map((e: any, index: number) => (
                     <Box
+                      key={index}
+                      tabIndex={index}
                       style={{
                         padding: '15px 20px',
                         cursor: 'pointer',
@@ -120,33 +122,37 @@ export const SidePopup: React.FC<{
               ) : tab === 'Service Types' ? (
                 <Box marginTop="lg">
                   <FlexBox className={styles.beansWrapper}>
-                    {connectorType?.resourceTypes?.map((e: any) => (
-                      <Box
-                        marginLeft="sm"
-                        className={styles.bean}
-                        style={{
-                          background:
-                            serviceTypes === e?.name
-                              ? 'rgba(68, 62, 153, 0.1)'
-                              : '#fff',
-                          border: `1px solid ${
-                            serviceTypes === e?.name ? '#443E99' : '#A8A8A8'
-                          }`,
-                        }}
-                        onClick={() => setServiceTypes(e?.name)}
-                      >
-                        <Paragraph
+                    {connectorType?.resourceTypes?.map(
+                      (e: any, index: number) => (
+                        <Box
+                          key={index}
+                          tabIndex={index}
+                          marginLeft="sm"
+                          className={styles.bean}
                           style={{
-                            color:
+                            background:
                               serviceTypes === e?.name
-                                ? '#443E99'
-                                : 'rgba(152, 149, 149, 0.8)',
+                                ? 'rgba(68, 62, 153, 0.1)'
+                                : '#fff',
+                            border: `1px solid ${
+                              serviceTypes === e?.name ? '#443E99' : '#A8A8A8'
+                            }`,
                           }}
+                          onClick={() => setServiceTypes(e?.name)}
                         >
-                          {e?.name}
-                        </Paragraph>
-                      </Box>
-                    ))}
+                          <Paragraph
+                            style={{
+                              color:
+                                serviceTypes === e?.name
+                                  ? '#443E99'
+                                  : 'rgba(152, 149, 149, 0.8)',
+                            }}
+                          >
+                            {e?.name}
+                          </Paragraph>
+                        </Box>
+                      ),
+                    )}
                   </FlexBox>
 
                   <Box className={styles.descriptionWrapper} marginTop="lg">
@@ -164,33 +170,37 @@ export const SidePopup: React.FC<{
               ) : tab === 'Authentication Methods' ? (
                 <Box marginTop="lg">
                   <FlexBox className={styles.beansWrapper}>
-                    {connectorType?.authMethods?.map((e: any) => (
-                      <Box
-                        marginLeft="sm"
-                        className={styles.bean}
-                        style={{
-                          background:
-                            authMethod === e?.name
-                              ? 'rgba(68, 62, 153, 0.1)'
-                              : '#fff',
-                          border: `1px solid ${
-                            authMethod === e?.name ? '#443E99' : '#A8A8A8'
-                          }`,
-                        }}
-                        onClick={() => setAuthMethod(e?.name)}
-                      >
-                        <Paragraph
+                    {connectorType?.authMethods?.map(
+                      (e: any, index: number) => (
+                        <Box
+                          key={index}
+                          tabIndex={index}
+                          marginLeft="sm"
+                          className={styles.bean}
                           style={{
-                            color:
+                            background:
                               authMethod === e?.name
-                                ? '#443E99'
-                                : 'rgba(152, 149, 149, 0.8)',
+                                ? 'rgba(68, 62, 153, 0.1)'
+                                : '#fff',
+                            border: `1px solid ${
+                              authMethod === e?.name ? '#443E99' : '#A8A8A8'
+                            }`,
                           }}
+                          onClick={() => setAuthMethod(e?.name)}
                         >
-                          {e?.name}
-                        </Paragraph>
-                      </Box>
-                    ))}
+                          <Paragraph
+                            style={{
+                              color:
+                                authMethod === e?.name
+                                  ? '#443E99'
+                                  : 'rgba(152, 149, 149, 0.8)',
+                            }}
+                          >
+                            {e?.name}
+                          </Paragraph>
+                        </Box>
+                      ),
+                    )}
                   </FlexBox>
 
                   <Box className={styles.descriptionWrapper} marginTop="lg">
@@ -214,22 +224,7 @@ export const SidePopup: React.FC<{
               className={styles.actionSection}
             >
               <FlexBox.Row justifyContent="space-between" alignItems="flex-end">
-                {/* <Box>
-                  <LinkBox onClick={onSeeExisting}>
-                    <Paragraph
-                      style={{
-                        fontSize: '16px',
-                        textDecoration: 'underline',
-                        color: '#443E99',
-                      }}
-                    >
-                      See Existing
-                    </Paragraph>
-                  </LinkBox>
-                </Box> */}
-                <Box>
-                  <PrimaryButton onClick={onSelectType}>Next</PrimaryButton>
-                </Box>
+                <PrimaryButton onClick={onSelectType}>Next</PrimaryButton>
               </FlexBox.Row>
             </Box>
           </OutsideClickHandler>

@@ -1676,7 +1676,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                   setIds('');
                 }}
                 options={authMethoddropdownOptions as any}
-                style={{ paddingLeft: '10px' }}
+                style={{ paddingLeft: '10px', backgroundColor: '#fff' }}
               />
             </Box>
           </Box>
