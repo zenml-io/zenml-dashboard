@@ -149,7 +149,11 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
             style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto' }}
             paddingVertical="xxl"
           >
-            <H3>{'No connectors'}</H3>
+            <H3>
+              {
+                'We are sorry! We could not find anything for your filter set. Please change your filters and try again.'
+              }
+            </H3>
           </Box>
         )}
       </FlexBox.Column>

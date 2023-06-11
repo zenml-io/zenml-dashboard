@@ -87,6 +87,7 @@ export const SidePopup: React.FC<{
                     <Box
                       key={index}
                       tabIndex={index}
+                      onKeyPress={(k) => k.key === 'Enter' && setTab(e?.name)}
                       style={{
                         padding: '15px 20px',
                         cursor: 'pointer',
@@ -127,6 +128,9 @@ export const SidePopup: React.FC<{
                         <Box
                           key={index}
                           tabIndex={index}
+                          onKeyPress={(k) =>
+                            k.key === 'Enter' && setServiceTypes(e?.name)
+                          }
                           marginLeft="sm"
                           className={styles.bean}
                           style={{
@@ -175,6 +179,9 @@ export const SidePopup: React.FC<{
                         <Box
                           key={index}
                           tabIndex={index}
+                          onKeyPress={(k) =>
+                            k.key === 'Enter' && setAuthMethod(e?.name)
+                          }
                           marginLeft="sm"
                           className={styles.bean}
                           style={{
