@@ -20,16 +20,13 @@ export const fetchStepData = async (selectedNode: any, authToken: any) => {
   return data;
 };
 
-export const fetchStepLogs = async (selectedNode: any, authToken: any) => {
+export const fetchStepLogs = async (id: string, authToken: any) => {
   const logs = axios
-    .get(
-      `${process.env.REACT_APP_BASE_API_URL}/steps/${selectedNode.execution_id}/logs`,
-      {
-        headers: {
-          Authorization: `bearer ${authToken}`,
-        },
+    .get(`${process.env.REACT_APP_BASE_API_URL}/steps/${id}/logs`, {
+      headers: {
+        Authorization: `bearer ${authToken}`,
       },
-    )
+    })
     .then((response) => {
       return response?.data;
     })
