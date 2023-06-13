@@ -238,7 +238,11 @@ const Index: React.FC<ServicesSelector> = ({
                           {resources?.resources[index]?.error ? (
                             <div>
                               <div data-tip data-for={resources[index]}>
-                                <icons.alertTriangle size={iconSizes.sm} />
+                                <icons.alertTriangle
+                                  size={iconSizes.sm}
+                                  color={iconColors.mustard}
+                                  style={{ cursor: 'pointer' }}
+                                />
                               </div>
                               <ReactTooltip
                                 id={resources[index]}

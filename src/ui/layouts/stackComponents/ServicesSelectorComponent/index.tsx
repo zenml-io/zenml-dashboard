@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 import { FlexBox, Box, Paragraph, Spinner, icons } from '../../../components';
 import { ID_MAX_LENGTH, iconColors, iconSizes } from '../../../../constants';
 import { truncate } from '../../../../utils';
+import ReactTooltip from 'react-tooltip';
 
 type ServicesSelector = {
   fetching?: boolean;
@@ -99,6 +100,32 @@ const Index: React.FC<ServicesSelector> = ({
                       [{connectorItem.id} - {connectorItem.name}]
                     </Paragraph>
                   </Box>
+
+                  {connectorItem?.error && (
+                    <Box>
+                      <div>
+                        <div data-tip data-for={connectorItem?.id}>
+                          <icons.alertTriangle
+                            size={iconSizes.sm}
+                            color={iconColors.mustard}
+                            style={{ cursor: 'pointer' }}
+                          />
+                        </div>
+                        <ReactTooltip
+                          id={connectorItem?.id}
+                          place="top"
+                          effect="solid"
+                        >
+                          <Paragraph
+                            color="white"
+                            style={{ maxWidth: '400px' }}
+                          >
+                            {connectorItem?.error}
+                          </Paragraph>
+                        </ReactTooltip>
+                      </div>
+                    </Box>
+                  )}
                 </FlexBox>
 
                 <Box style={{ position: 'relative' }}>
@@ -165,7 +192,6 @@ const Index: React.FC<ServicesSelector> = ({
                               >
                                 <Paragraph>{id} </Paragraph>
                               </Box>
-                              <Box></Box>
                             </FlexBox>
                           ))}
                       </>

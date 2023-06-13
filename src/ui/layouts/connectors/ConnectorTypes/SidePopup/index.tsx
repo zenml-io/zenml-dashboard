@@ -85,9 +85,6 @@ export const SidePopup: React.FC<{
                 <FlexBox>
                   {tabs?.map((e: any, index: number) => (
                     <Box
-                      key={index}
-                      tabIndex={index}
-                      onKeyPress={(k) => k.key === 'Enter' && setTab(e?.name)}
                       style={{
                         padding: '15px 20px',
                         cursor: 'pointer',
@@ -127,9 +124,15 @@ export const SidePopup: React.FC<{
                       (e: any, index: number) => (
                         <Box
                           key={index}
-                          tabIndex={index}
+                          tabIndex={index + 1 * 100}
+                          // onKeyPress={(k) =>
+                          //   k.key === 'Enter' && setServiceTypes(e?.name)
+                          // }
                           onKeyPress={(k) =>
-                            k.key === 'Enter' && setServiceTypes(e?.name)
+                            k.key === 'Enter' &&
+                            setServiceTypes(
+                              connectorType?.resourceTypes[index + 1]?.name,
+                            )
                           }
                           marginLeft="sm"
                           className={styles.bean}
