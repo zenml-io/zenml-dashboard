@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import styles from '../index.module.scss';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
@@ -10,12 +10,12 @@ import { FullWidthSpinner } from '../../spinners';
 type DisplayLogsProps = { selectedNode: any };
 
 const DisplayLogs = ({ selectedNode }: DisplayLogsProps) => {
+  const divRef = useRef<HTMLDivElement>(null);
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const [logs, setLogs] = useState('');
   const [fetching, setFetching] = useState(true);
 
   async function fetchLogs(node: any) {
-    console.log(node);
     const logs = await fetchStepLogs(node, authToken);
     setLogs(logs);
     setFetching(false);
@@ -28,6 +28,15 @@ const DisplayLogs = ({ selectedNode }: DisplayLogsProps) => {
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    if (divRef.current) {
+      const preElement = divRef.current.querySelector('pre');
+      if (preElement) {
+        preElement.scrollTop = preElement.scrollHeight;
+      }
+    }
+  }, [fetching, logs]);
 
   useEffect(() => {
     let pollingInterval: NodeJS.Timeout;
@@ -52,7 +61,7 @@ const DisplayLogs = ({ selectedNode }: DisplayLogsProps) => {
           </p>
         </div>
       ) : (
-        <div className={styles.codeContainer}>
+        <div ref={divRef} className={styles.codeContainer}>
           <SyntaxHighlighter
             customStyle={{ width: '100%', height: '80%', fontSize: 16 }}
             wrapLines={true}
