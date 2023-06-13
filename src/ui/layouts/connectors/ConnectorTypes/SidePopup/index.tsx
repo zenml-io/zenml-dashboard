@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import {
@@ -42,6 +42,42 @@ export const SidePopup: React.FC<{
     { name: 'Service Types' },
     { name: 'Authentication Methods' },
   ];
+  console.log(connectorType.resourceTypes, 'w2ewe2e2e');
+  const handleKeyDown = (event: any) => {
+    if (event.key === 'Tab') {
+      if (tab === 'Service Types') {
+        event.preventDefault();
+        const selectedTileIndex = connectorType?.resourceTypes.findIndex(
+          (item: any) => item.name === serviceTypes,
+        );
+        const nextTileIndex =
+          selectedTileIndex === -1
+            ? 0
+            : (selectedTileIndex + 1) % connectorType?.resourceTypes.length;
+
+        setServiceTypes(connectorType?.resourceTypes[nextTileIndex].name);
+      } else if (tab === 'Authentication Methods') {
+        event.preventDefault();
+        const selectedTileIndex = connectorType?.authMethods.findIndex(
+          (item: any) => item.name === authMethod,
+        );
+        const nextTileIndex =
+          selectedTileIndex === -1
+            ? 0
+            : (selectedTileIndex + 1) % connectorType?.authMethods.length;
+
+        setAuthMethod(connectorType?.authMethods[nextTileIndex].name);
+      }
+    }
+  };
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [authMethod, serviceTypes, tab]);
 
   return (
     <>
@@ -124,16 +160,16 @@ export const SidePopup: React.FC<{
                       (e: any, index: number) => (
                         <Box
                           key={index}
-                          tabIndex={index + 1 * 100}
+                          // tabIndex={index + 1 * 100}
                           // onKeyPress={(k) =>
                           //   k.key === 'Enter' && setServiceTypes(e?.name)
                           // }
-                          onKeyPress={(k) =>
-                            k.key === 'Enter' &&
-                            setServiceTypes(
-                              connectorType?.resourceTypes[index + 1]?.name,
-                            )
-                          }
+                          // onKeyPress={(k) =>
+                          //   k.key === 'Enter' &&
+                          //   setServiceTypes(
+                          //     connectorType?.resourceTypes[index + 1]?.name,
+                          //   )
+                          // }
                           marginLeft="sm"
                           className={styles.bean}
                           style={{
@@ -181,10 +217,10 @@ export const SidePopup: React.FC<{
                       (e: any, index: number) => (
                         <Box
                           key={index}
-                          tabIndex={index}
-                          onKeyPress={(k) =>
-                            k.key === 'Enter' && setAuthMethod(e?.name)
-                          }
+                          // tabIndex={index}
+                          // onKeyPress={(k) =>
+                          //   k.key === 'Enter' && setAuthMethod(e?.name)
+                          // }
                           marginLeft="sm"
                           className={styles.bean}
                           style={{
