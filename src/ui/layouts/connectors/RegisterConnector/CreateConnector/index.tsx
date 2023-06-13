@@ -1162,9 +1162,11 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                   elementName,
                 )}
                 onRemoveFocus={(e: any) => {
-                  matchedAuthMethod?.config_schema?.required?.includes(
-                    elementName,
-                  ) && onVerify();
+                  if (e.target.value) {
+                    matchedAuthMethod?.config_schema?.required?.includes(
+                      elementName,
+                    ) && onVerify();
+                  }
                 }}
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
@@ -1190,9 +1192,11 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                   elementName,
                 )}
                 onRemoveFocus={(e: any) => {
-                  matchedAuthMethod?.config_schema?.required?.includes(
-                    elementName,
-                  ) && onVerify();
+                  if (e.target.value) {
+                    matchedAuthMethod?.config_schema?.required?.includes(
+                      elementName,
+                    ) && onVerify();
+                  }
                 }}
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
