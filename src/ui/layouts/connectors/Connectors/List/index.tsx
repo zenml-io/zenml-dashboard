@@ -171,6 +171,7 @@ Props) => {
   return (
     <>
       <CollapseTable
+        route={routePaths.connectors.connectorTypes(selectedWorkspace)}
         renderAfterRow={(connector: any) => (
           <>
             {/* <RunsForSecretTable
@@ -191,7 +192,15 @@ Props) => {
         filters={filter}
         headerCols={headerCols}
         tableRows={filteredConnectors}
-        emptyState={{ text: translate('emptyState.text') }}
+        emptyState={
+          filter[0]?.value
+            ? {
+                text: translate('emptyState.text'),
+              }
+            : {
+                text: `Nothing to see here, it seems like no service connecter has been configured yet.`,
+              }
+        }
         trOnClick={openDetailPage}
       />
       <If condition={connectorsPaginated.totalitem > 5}>

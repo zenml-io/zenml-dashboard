@@ -138,7 +138,15 @@ export const List: React.FC<Props> = ({
         filters={filter}
         headerCols={headerCols}
         tableRows={filteredPipelines}
-        emptyState={{ text: translate('emptyState.text') }}
+        emptyState={
+          filter[0]?.value
+            ? {
+                text: translate('emptyState.text'),
+              }
+            : {
+                text: `Nothing to see here, it seems like no pipeline has been configured yet.`,
+              }
+        }
         trOnClick={openDetailPage}
       />
 
