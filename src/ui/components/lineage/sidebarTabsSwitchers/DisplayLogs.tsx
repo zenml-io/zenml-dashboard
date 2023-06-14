@@ -44,7 +44,7 @@ const DisplayLogs = ({ selectedNode }: DisplayLogsProps) => {
     if (!fetching) {
       pollingInterval = setInterval(() => {
         fetchLogs(selectedNode.id);
-      }, 5000);
+      }, 2000);
     }
     return () => clearInterval(pollingInterval);
 
@@ -54,7 +54,7 @@ const DisplayLogs = ({ selectedNode }: DisplayLogsProps) => {
   return (
     <>
       {fetching ? (
-        <div className={`${styles.FullWidthSpinnerContainer}`}>
+        <div className={styles.FullWidthSpinnerContainer}>
           <FullWidthSpinner color="black" size="md" />
           <p style={{ fontFamily: 'Rubik', fontSize: '14px' }}>
             Loading Logs, please wait...
