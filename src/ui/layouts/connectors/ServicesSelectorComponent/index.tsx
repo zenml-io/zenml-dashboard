@@ -209,7 +209,7 @@ const Index: React.FC<ServicesSelector> = ({
                         ></div>
                         <div
                           style={{
-                            marginTop: '3px',
+                            marginTop: '6px',
                             marginRight: '5px',
                             marginLeft: '-2px',
                             color: 'rgba(68, 62, 153, 0.3)',
@@ -324,7 +324,7 @@ const Index: React.FC<ServicesSelector> = ({
                                       ></div>
                                       <div
                                         style={{
-                                          marginTop: '3px',
+                                          marginTop: '6px',
                                           marginRight: '5px',
                                           marginLeft: '-2px',
                                           color: 'rgba(68, 62, 153, 0.3)',
