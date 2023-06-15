@@ -171,8 +171,10 @@ const Index: React.FC<ServicesSelector> = ({
                               </div>
                               <Box
                                 onClick={() => {
-                                  setConnector(connectorItem.id);
-                                  setConnectorResourceId(id);
+                                  setConnector(
+                                    connector ? '' : connectorItem.id,
+                                  );
+                                  setConnectorResourceId(id ? '' : id);
                                   setShowServices(!showServices);
                                   setInputData({ ...inputData, path: id });
                                 }}
