@@ -1008,17 +1008,17 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       }
     }
 
-    // for (const field of matchedAuthMethod.config_schema.required) {
-    //   if (!configuration[field]) {
-    //     dispatch(
-    //       showToasterAction({
-    //         description: 'Required Field is Empty',
-    //         type: toasterTypes.failure,
-    //       }),
-    //     );
-    //     return false;
-    //   }
-    // }
+    for (const field of matchedAuthMethod.config_schema.required) {
+      if (!configuration[field]) {
+        dispatch(
+          showToasterAction({
+            description: 'Required Field is Empty',
+            type: toasterTypes.failure,
+          }),
+        );
+        return false;
+      }
+    }
 
     const labels: any = {};
 
@@ -1115,32 +1115,32 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       .catch((err) => {
         setLoading(false);
 
-        // if (err?.response?.status === 403) {
-        //   dispatch(
-        //     showToasterAction({
-        //       description: err?.response?.data?.detail,
-        //       type: toasterTypes.failure,
-        //     }),
-        //   );
-        // } else if (err?.response?.status === 409) {
-        //   dispatch(
-        //     showToasterAction({
-        //       description: err?.response?.data?.detail[0].includes('Exists')
-        //         ? `Component name already exists.`
-        //         : err?.response?.data?.detail[0],
-        //       type: toasterTypes.failure,
-        //     }),
-        //   );
-        // } else {
-        //   dispatch(
-        //     showToasterAction({
-        //       description: err?.response?.data?.detail[0].includes('Exists')
-        //         ? `Component name already exists.`
-        //         : err?.response?.data?.detail[0],
-        //       type: toasterTypes.failure,
-        //     }),
-        //   );
-        // }
+        if (err?.response?.status === 403) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail,
+              type: toasterTypes.failure,
+            }),
+          );
+        } else if (err?.response?.status === 409) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Connector name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        } else {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[0].includes('Exists')
+                ? `Component name already exists.`
+                : err?.response?.data?.detail[0],
+              type: toasterTypes.failure,
+            }),
+          );
+        }
       });
   };
   const titleCase = (s: any) =>
