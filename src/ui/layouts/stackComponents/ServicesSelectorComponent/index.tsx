@@ -77,6 +77,24 @@ const Index: React.FC<ServicesSelector> = ({
       {showServices && (
         <>
           <Box className={styles.services_container}>
+            <FlexBox className={styles.services}>
+              <Box>
+                <icons.notConnected />
+              </Box>
+              <Box
+                marginLeft="sm"
+                marginRight="xl"
+                className={styles.servicesName}
+                style={{ cursor: 'pointer' }}
+                onClick={() => {
+                  setConnector(null);
+                  setConnectorResourceId(null);
+                }}
+              >
+                <Paragraph>{'<not connected>'}</Paragraph>
+              </Box>
+            </FlexBox>
+
             {serviceConnectorResources?.map((connectorItem: any) => (
               <Box>
                 <FlexBox className={styles.services}>
@@ -91,6 +109,9 @@ const Index: React.FC<ServicesSelector> = ({
                     marginLeft="sm"
                     marginRight="xl"
                     className={styles.servicesName}
+                    style={{
+                      cursor: connectorItem?.error ? 'no-drop' : 'pointer',
+                    }}
                     // onClick={() =>
                     //   handleShowIds(resource_type?.resource_type)
                     // }
