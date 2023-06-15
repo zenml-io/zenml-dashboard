@@ -63,7 +63,7 @@ export const UpdateConfig: React.FC<{
   const history = useHistory();
   const [connectorName, setConnectorName] = useState('');
   const [connectorDescription, setConnectorDescription] = useState(
-    connector.connectorType.description,
+    connector.description,
   );
   const [connectorExpirationSeconds, setConnectorExpirationSeconds] = useState(
     connector.expirationSeconds,

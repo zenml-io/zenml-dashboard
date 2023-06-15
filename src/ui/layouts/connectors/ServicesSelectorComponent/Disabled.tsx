@@ -49,7 +49,7 @@ const Index: React.FC<any> = ({ data }) => {
               {data?.resourceId === null ? (
                 <>&#91;all&#93;</>
               ) : (
-                <>&#91;{e}&#93;</>
+                <>&#91;{data?.resourceId}&#93;</>
               )}
             </Paragraph>
           </FlexBox>
