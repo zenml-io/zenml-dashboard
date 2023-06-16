@@ -78,7 +78,7 @@ export const UpdateConfig: React.FC<{
   const { serviceConnectorResources, fetching } = getServiceConnectorResources(
     flavor?.connectorResourceType,
   );
-  // console.log(serviceConnectorResources, '123123123123123');
+
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -279,7 +279,7 @@ export const UpdateConfig: React.FC<{
       flavor: stackComponent.flavor,
       configuration: { ...mappedConfiguration, ...final },
     };
-    if (connector) {
+    if (connector && connector !== null) {
       body.connector = connector;
       body.connector_resource_id = connectorResourceId;
     }
