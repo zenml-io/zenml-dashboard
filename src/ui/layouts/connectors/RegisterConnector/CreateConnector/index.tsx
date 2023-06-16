@@ -1004,7 +1004,9 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
 
     for (const key in mappedConfiguration) {
       if (mappedConfiguration.hasOwnProperty(key)) {
-        configuration[key] = mappedConfiguration[key].default;
+        if (mappedConfiguration[key].default) {
+          configuration[key] = mappedConfiguration[key].default;
+        }
       }
     }
 
