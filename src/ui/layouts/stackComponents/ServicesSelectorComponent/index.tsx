@@ -87,8 +87,10 @@ const Index: React.FC<ServicesSelector> = ({
                 className={styles.servicesName}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
+                  setInputData({ ...inputData, path: '' });
                   setConnector(null);
                   setConnectorResourceId(null);
+                  setShowServices(!showServices);
                 }}
               >
                 <Paragraph>{'<not connected>'}</Paragraph>
@@ -192,10 +194,8 @@ const Index: React.FC<ServicesSelector> = ({
                               </div>
                               <Box
                                 onClick={() => {
-                                  setConnector(
-                                    connector ? '' : connectorItem.id,
-                                  );
-                                  setConnectorResourceId(id ? '' : id);
+                                  setConnector(connectorItem.id);
+                                  setConnectorResourceId(id);
                                   setShowServices(!showServices);
                                   setInputData({ ...inputData, path: id });
                                 }}

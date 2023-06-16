@@ -264,7 +264,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
 
     setFormData(_formData);
   };
-  console.log(secretOptionsWithKeys, selectedSecret, 'inputDatainputData');
+
   const getFormElement = (elementName: any, elementSchema: any) => {
     const props = {
       name: elementName,
@@ -599,7 +599,11 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                 // flavor.connectorResourceIdAttr === elementName
                 //   ? connectorResourceId
                 //   :
-                inputData[props.name] ? inputData[props.name] : props.default
+                inputData[props.name]
+                  ? inputData[props.name]
+                  : props.default !== undefined
+                  ? props.default
+                  : ''
               }
               onHandleChange={(key: any, value: any) =>
                 setInputData({ ...inputData, [key]: value })
@@ -886,10 +890,11 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       flavor: flavor.name,
       configuration: { ...inputData, ...final, ...inputArrayFields },
     };
-    if (connector) {
+    if (connector && connector !== null) {
       body.connector = connector;
       body.connector_resource_id = connectorResourceId;
     }
+
     setLoading(true);
     await axios
       .post(
