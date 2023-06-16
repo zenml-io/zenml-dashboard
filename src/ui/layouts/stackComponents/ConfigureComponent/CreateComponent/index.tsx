@@ -1013,6 +1013,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                   // parent={parent}
                   // setParent={setParent}
                   connector={connector}
+                  connectorResourceIdAttr={flavor.connectorResourceIdAttr}
                   setConnector={setConnector}
                   connectorResourceId={connectorResourceId}
                   setConnectorResourceId={setConnectorResourceId}

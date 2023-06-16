@@ -1181,6 +1181,7 @@ export const UpdateConfig: React.FC<{
               setInputData={setMappedConfiguration}
               // parent={parent}
               // setParent={setParent}
+              connectorResourceIdAttr={flavor.connectorResourceIdAttr}
               connector={connector}
               setConnector={setConnector}
               connectorResourceId={connectorResourceId}

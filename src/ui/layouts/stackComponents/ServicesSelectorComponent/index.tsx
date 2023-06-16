@@ -14,6 +14,7 @@ type ServicesSelector = {
   connectorResourceId?: any;
   setConnectorResourceId?: any;
   serviceConnectorResources?: any;
+  connectorResourceIdAttr?: string;
 };
 
 const Index: React.FC<ServicesSelector> = ({
@@ -25,6 +26,7 @@ const Index: React.FC<ServicesSelector> = ({
   connectorResourceId,
   setConnectorResourceId,
   serviceConnectorResources,
+  connectorResourceIdAttr,
 }) => {
   const [showServices, setShowServices] = useState(false);
 
@@ -87,7 +89,10 @@ const Index: React.FC<ServicesSelector> = ({
                 className={styles.servicesName}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
-                  setInputData({ ...inputData, path: '' });
+                  setInputData({
+                    ...inputData,
+                    [connectorResourceIdAttr as string]: '',
+                  });
                   setConnector(null);
                   setConnectorResourceId(null);
                   setShowServices(!showServices);
@@ -197,7 +202,10 @@ const Index: React.FC<ServicesSelector> = ({
                                   setConnector(connectorItem.id);
                                   setConnectorResourceId(id);
                                   setShowServices(!showServices);
-                                  setInputData({ ...inputData, path: id });
+                                  setInputData({
+                                    ...inputData,
+                                    [connectorResourceIdAttr as string]: id,
+                                  });
                                 }}
                                 padding="xs"
                                 style={{
