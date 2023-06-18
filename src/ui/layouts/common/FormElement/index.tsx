@@ -9,7 +9,7 @@ export function Form(props: any) {
 export function TextField(props: any) {
   // const { name, label, onHandleChange, required, inputData } = props;
   // const [text, setText] = useState(props?.default);
-  const { name, label, onHandleChange, required } = props;
+  const { name, label, onHandleChange, required, disabled } = props;
 
   return (
     <Box marginTop="md">
@@ -19,7 +19,7 @@ export function TextField(props: any) {
           onHandleChange(name, e);
         }}
         required={!!required}
-        // disabled={props.disable}
+        disabled={disabled}
         label={label}
         value={props?.default}
         placeholder={''}

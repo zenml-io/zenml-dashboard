@@ -267,33 +267,36 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
         (item) => item.name === secretName,
       );
 
-      // console.log(filteredSecret, 'asd123ffwwvweer');
       return (
         <>
           {flavor?.configSchema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '30vw' }}>
-              <EditField
-                disabled
-                viewSecretDetail={() => {
-                  history.push(
-                    routePaths.secret.configuration(
-                      filteredSecret[0]?.id,
-                      selectedWorkspace,
-                    ),
-                  );
-                }}
-                filteredSecretId={filteredSecret[0]?.id}
-                // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
-                // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
-                label={titleCase(elementName) + ' (Secret)'}
-                optional={false}
-                defaultValue={elementSchema}
-                placeholder=""
-                hasError={false}
-                // className={styles.field}
-              />
-            </Box>
-          ) : (
+            !stackComponent.connectorResourceId && (
+              <Box marginTop="lg" style={{ width: '30vw' }}>
+                <EditField
+                  disabled
+                  viewSecretDetail={() => {
+                    history.push(
+                      routePaths.secret.configuration(
+                        filteredSecret[0]?.id,
+                        selectedWorkspace,
+                      ),
+                    );
+                  }}
+                  filteredSecretId={filteredSecret[0]?.id}
+                  // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
+                  // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
+                  label={titleCase(elementName) + ' (Secret)'}
+                  optional={false}
+                  defaultValue={elementSchema}
+                  placeholder=""
+                  hasError={false}
+                  // className={styles.field}
+                />
+              </Box>
+            )
+          ) : flavor?.configSchema?.properties[elementName].title ===
+              'Authentication Secret' &&
+            stackComponent.connectorResourceId ? null : (
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
@@ -950,7 +953,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
           ))}
         </Container>
       </FlexBox.Row>
-      {flavor.connectorResourceType && (
+      {flavor.connectorResourceType && flavor.connectorResourceIdAttr !== null && (
         <Box marginTop="lg" marginLeft="md" style={{ width: '30vw' }}>
           <ServicesSelectorComponent
             fetching={fetching}

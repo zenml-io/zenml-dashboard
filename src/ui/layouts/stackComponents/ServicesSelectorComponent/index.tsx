@@ -15,6 +15,8 @@ type ServicesSelector = {
   setConnectorResourceId?: any;
   serviceConnectorResources?: any;
   connectorResourceIdAttr?: string;
+  sensitiveFields?: any;
+  defaultMappedConfig?: any;
 };
 
 const Index: React.FC<ServicesSelector> = ({
@@ -27,12 +29,15 @@ const Index: React.FC<ServicesSelector> = ({
   setConnectorResourceId,
   serviceConnectorResources,
   connectorResourceIdAttr,
+  sensitiveFields,
+  defaultMappedConfig,
 }) => {
   const [showServices, setShowServices] = useState(false);
 
   const resourceTypeImage = serviceConnectorResources?.filter(
     (e: any) => e.id === connector,
   );
+  console.log(defaultMappedConfig, inputData, 'fefefw');
 
   return (
     <Box>
@@ -90,7 +95,7 @@ const Index: React.FC<ServicesSelector> = ({
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
                   setInputData({
-                    ...inputData,
+                    ...defaultMappedConfig,
                     [connectorResourceIdAttr as string]: '',
                   });
                   setConnector(null);
@@ -199,13 +204,22 @@ const Index: React.FC<ServicesSelector> = ({
                               </div>
                               <Box
                                 onClick={() => {
+                                  if (sensitiveFields?.length) {
+                                    sensitiveFields.map(
+                                      (item: string) => delete inputData[item],
+                                    );
+                                    setInputData({
+                                      ...inputData,
+                                      [connectorResourceIdAttr as string]: id,
+                                    });
+                                  } else {
+                                    setInputData({
+                                      [connectorResourceIdAttr as string]: id,
+                                    });
+                                  }
                                   setConnector(connectorItem.id);
                                   setConnectorResourceId(id);
                                   setShowServices(!showServices);
-                                  setInputData({
-                                    ...inputData,
-                                    [connectorResourceIdAttr as string]: id,
-                                  });
                                 }}
                                 padding="xs"
                                 style={{
