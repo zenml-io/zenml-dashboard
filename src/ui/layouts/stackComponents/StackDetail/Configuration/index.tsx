@@ -953,7 +953,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
           ))}
         </Container>
       </FlexBox.Row>
-      {flavor.connectorResourceType && flavor.connectorResourceIdAttr !== null && (
+      {flavor.connectorResourceType && (
         <Box marginTop="lg" marginLeft="md" style={{ width: '30vw' }}>
           <ServicesSelectorComponent
             fetching={fetching}

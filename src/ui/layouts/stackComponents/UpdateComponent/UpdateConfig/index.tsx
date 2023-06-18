@@ -1206,7 +1206,7 @@ export const UpdateConfig: React.FC<{
             ))}
         </Container>
       </FlexBox.Row>
-      {flavor.connectorResourceType && flavor.connectorResourceIdAttr !== null && (
+      {flavor.connectorResourceType && (
         <Box marginTop="lg" marginLeft="md" style={{ width: '30vw' }}>
           <Paragraph size="body" style={{ color: '#000' }}>
             <label htmlFor="key">{'Connect to resource'}</label>

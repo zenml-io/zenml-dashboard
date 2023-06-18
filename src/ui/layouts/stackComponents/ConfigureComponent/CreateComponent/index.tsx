@@ -1014,32 +1014,31 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
 
             {/* <PrimaryButton marginTop="md">Upload File</PrimaryButton> */}
           </Form>
-          {flavor.connectorResourceType &&
-            flavor.connectorResourceIdAttr !== null && (
-              <Box marginTop="lg" style={{ width: '30vw' }}>
-                <Paragraph size="body" style={{ color: '#000' }}>
-                  <label htmlFor="key">{'Connect to resource'}</label>
-                </Paragraph>
-                {/* {console.log(resourceType, ids, 'idsidsids')} */}
-                <Box marginTop="sm" style={{ width: '30vw' }}>
-                  <ServicesSelectorComponent
-                    fetching={fetching}
-                    inputData={inputData}
-                    setInputData={setInputData}
-                    // parent={parent}
-                    // setParent={setParent}
-                    connector={connector}
-                    connectorResourceIdAttr={flavor.connectorResourceIdAttr}
-                    setConnector={setConnector}
-                    connectorResourceId={connectorResourceId}
-                    setConnectorResourceId={setConnectorResourceId}
-                    serviceConnectorResources={serviceConnectorResources}
-                    // resources={resources}
-                    // verifying={verifying}
-                  />
-                </Box>
+          {flavor.connectorResourceType && (
+            <Box marginTop="lg" style={{ width: '30vw' }}>
+              <Paragraph size="body" style={{ color: '#000' }}>
+                <label htmlFor="key">{'Connect to resource'}</label>
+              </Paragraph>
+              {/* {console.log(resourceType, ids, 'idsidsids')} */}
+              <Box marginTop="sm" style={{ width: '30vw' }}>
+                <ServicesSelectorComponent
+                  fetching={fetching}
+                  inputData={inputData}
+                  setInputData={setInputData}
+                  // parent={parent}
+                  // setParent={setParent}
+                  connector={connector}
+                  connectorResourceIdAttr={flavor.connectorResourceIdAttr}
+                  setConnector={setConnector}
+                  connectorResourceId={connectorResourceId}
+                  setConnectorResourceId={setConnectorResourceId}
+                  serviceConnectorResources={serviceConnectorResources}
+                  // resources={resources}
+                  // verifying={verifying}
+                />
               </Box>
-            )}
+            </Box>
+          )}
         </Box>
 
         <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} />
