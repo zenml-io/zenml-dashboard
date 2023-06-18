@@ -61,6 +61,9 @@ export const UpdateConfig: React.FC<{
   const [componentName, setComponentName] = useState('');
   const [isShared, setIsShared] = useState() as any;
   const [mappedConfiguration, setMappedConfiguration] = useState() as any;
+  const [defaultMappedConfig, setDefaultMappedConfig] = useState() as any;
+  const [sensitiveFields, setSensitiveFields] = useState() as any;
+
   const user = useSelector(userSelectors.myUser);
   const [componentLoading, setComponentLoading] = useState(false);
   const secrets = useSelector(secretSelectors.mySecrets);
@@ -150,10 +153,7 @@ export const UpdateConfig: React.FC<{
               }
             }
             convertedJSON[key] = array;
-          } else if (
-            typeof json[key] === 'object' &&
-            (json[key] === {} || json[key].length === 0)
-          ) {
+          } else if (typeof json[key] === 'object' || json[key] === undefined) {
             const emptyObject = [{ key: '', value: '' }];
             convertedJSON[key] = emptyObject;
           }
@@ -180,7 +180,7 @@ export const UpdateConfig: React.FC<{
           },
           {},
         );
-        console.log(result, 'asdasdasd23232');
+
         const mappedObject = {
           ...result,
           ...stackComponent?.configuration,
@@ -188,10 +188,39 @@ export const UpdateConfig: React.FC<{
         };
         const convertedJson = convertJSON(mappedObject);
         setInputFields(convertedJson);
-
+        setDefaultMappedConfig(mappedObject);
         setMappedConfiguration(mappedObject);
       }
     }
+
+    // const key = Object.keys(flavor?.configSchema?.properties).find(
+    //   (property) =>
+    //     flavor?.configSchema?.properties[property].sensitive &&
+    //     flavor?.configSchema?.properties[property].title ===
+    //       'Authentication Secret',
+    // );
+
+    function extractSensitiveKeys(obj: any) {
+      const keys: any = [];
+
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          const property = obj[key];
+          if (
+            property.sensitive === true ||
+            property.title === 'Authentication Secret'
+          ) {
+            keys.push(key);
+          }
+        }
+      }
+
+      return keys;
+    }
+    const sensitiveFields = extractSensitiveKeys(
+      flavor?.configSchema?.properties,
+    );
+    setSensitiveFields(sensitiveFields);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flavor]);
 
@@ -545,120 +574,129 @@ export const UpdateConfig: React.FC<{
       return (
         <>
           {flavor?.configSchema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '30vw' }}>
-              <MakeSecretField
-                required={flavor?.configSchema?.required?.includes(elementName)}
-                label={titleCase(elementName) + ' (Secret)'}
-                placeholder={''}
-                handleClick={() => {
-                  if (secretId) {
-                    const state = {
-                      secretIdArray: secretIdArray,
-                      secretId: secretId,
-                      flavor: flavor.name,
-                      routeFromEditComponent: true,
-                      componentName: componentName,
-                      isShared: isShared,
-                      mappedConfiguration: mappedConfiguration,
-                      inputFields: inputFields,
-                      // inputFields: inputFields,
+            connectorResourceId === null && (
+              <Box marginTop="lg" style={{ width: '30vw' }}>
+                <MakeSecretField
+                  required={flavor?.configSchema?.required?.includes(
+                    elementName,
+                  )}
+                  label={titleCase(elementName) + ' (Secret)'}
+                  placeholder={''}
+                  handleClick={() => {
+                    if (secretId) {
+                      const state = {
+                        secretIdArray: secretIdArray,
+                        secretId: secretId,
+                        flavor: flavor.name,
+                        routeFromEditComponent: true,
+                        componentName: componentName,
+                        isShared: isShared,
+                        mappedConfiguration: mappedConfiguration,
+                        inputFields: inputFields,
+                        // inputFields: inputFields,
 
-                      secretKey: elementName,
-                      pathName: location.pathname,
-                    };
-                    history.push(
-                      routePaths.secret.updateSecret(
-                        secretId,
-                        selectedWorkspace,
-                      ),
-                      state,
-                    );
-                  } else {
-                    const state = {
-                      flavor: flavor.name,
-                      routeFromEditComponent: true,
-                      componentName: componentName,
-                      isShared: isShared,
-                      mappedConfiguration: mappedConfiguration,
-                      inputFields: inputFields,
-                      // inputFields: inputFields,
-
-                      secretKey: elementName,
-                      pathName: location.pathname,
-                    };
-                    history.push(
-                      routePaths.secrets.registerSecrets(selectedWorkspace),
-                      state,
-                    );
-                  }
-                }}
-                // inputData={inputData}
-                value={
-                  mappedConfiguration[elementName]?.value
-                    ? mappedConfiguration[elementName]?.value
-                    : // : inputData[props.name]
-                    mappedConfiguration[elementName]?.length
-                    ? mappedConfiguration[elementName]
-                    : ''
-                }
-                onChange={(val: string, newEvent: any) => {
-                  if (!val) {
-                    if (secretIdArray?.length === 1) {
+                        secretKey: elementName,
+                        pathName: location.pathname,
+                      };
+                      history.push(
+                        routePaths.secret.updateSecret(
+                          secretId,
+                          selectedWorkspace,
+                        ),
+                        state,
+                      );
                     } else {
-                      setSecretId('');
-                    }
-                  }
-                  if (val.includes('{{')) {
-                    callActionForSecret(elementName, val, newEvent);
-                  } else {
-                    setMappedConfiguration({
-                      ...mappedConfiguration,
-                      [elementName]: val,
-                    });
-                  }
-                }}
-                secretOnChange={(val: any, newEvent: any) => {
-                  // debugger;
-                  // setInputData({
-                  //   ...inputData,
-                  //   [props.name]: val.value.includes('.') ? val.value : val,
-                  // });
+                      const state = {
+                        flavor: flavor.name,
+                        routeFromEditComponent: true,
+                        componentName: componentName,
+                        isShared: isShared,
+                        mappedConfiguration: mappedConfiguration,
+                        inputFields: inputFields,
+                        // inputFields: inputFields,
 
-                  if (val?.value?.includes('}}')) {
-                    setMappedConfiguration({
-                      ...mappedConfiguration,
-                      [elementName]: val?.value?.includes('.')
-                        ? val.value
-                        : val,
-                    });
-                  } else if (val.value.includes('{{')) {
-                    callActionForSecret(elementName, val, newEvent);
+                        secretKey: elementName,
+                        pathName: location.pathname,
+                      };
+                      history.push(
+                        routePaths.secrets.registerSecrets(selectedWorkspace),
+                        state,
+                      );
+                    }
+                  }}
+                  // inputData={inputData}
+                  value={
+                    mappedConfiguration[elementName]?.value
+                      ? mappedConfiguration[elementName]?.value
+                      : // : inputData[props.name]
+                      mappedConfiguration[elementName]?.length
+                      ? mappedConfiguration[elementName]
+                      : ''
                   }
-                }}
-                dropdownOptions={
-                  mappedConfiguration[elementName]?.value &&
-                  mappedConfiguration[elementName]?.value.includes(
-                    `${selectedSecret.name}.`,
-                  )
-                    ? secretOptionsWithKeys
-                    : secretOptions
-                }
-                tooltipText='Start typing with "{{" to reference a secret for this field.'
-              />
-            </Box>
-          ) : (
+                  onChange={(val: string, newEvent: any) => {
+                    if (!val) {
+                      if (secretIdArray?.length === 1) {
+                      } else {
+                        setSecretId('');
+                      }
+                    }
+                    if (val.includes('{{')) {
+                      callActionForSecret(elementName, val, newEvent);
+                    } else {
+                      setMappedConfiguration({
+                        ...mappedConfiguration,
+                        [elementName]: val,
+                      });
+                    }
+                  }}
+                  secretOnChange={(val: any, newEvent: any) => {
+                    // debugger;
+                    // setInputData({
+                    //   ...inputData,
+                    //   [props.name]: val.value.includes('.') ? val.value : val,
+                    // });
+
+                    if (val?.value?.includes('}}')) {
+                      setMappedConfiguration({
+                        ...mappedConfiguration,
+                        [elementName]: val?.value?.includes('.')
+                          ? val.value
+                          : val,
+                      });
+                    } else if (val.value.includes('{{')) {
+                      callActionForSecret(elementName, val, newEvent);
+                    }
+                  }}
+                  dropdownOptions={
+                    mappedConfiguration[elementName]?.value &&
+                    mappedConfiguration[elementName]?.value.includes(
+                      `${selectedSecret.name}.`,
+                    )
+                      ? secretOptionsWithKeys
+                      : secretOptions
+                  }
+                  tooltipText='Start typing with "{{" to reference a secret for this field.'
+                />
+              </Box>
+            )
+          ) : flavor?.configSchema?.properties[elementName].title ===
+              'Authentication Secret' && connectorResourceId !== null ? null : (
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <FormTextField
+                disabled={
+                  connectorResourceId &&
+                  elementName === flavor.connectorResourceIdAttr
+                }
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
-                    ...prevConfig, // Spread the previous user object
-                    [elementName]: e, // Update the age property
+                    ...prevConfig, // Spread the previous
+                    [elementName]: e, // Update the
                   }));
                   // setMappedConfiguration(...mappedConfiguration,
                   //   mappedConfiguration[elementName]: e,
                   // );
                 }}
-                placeholder="Component Name"
+                placeholder=""
                 label={titleCase(elementName)}
                 value={mappedConfiguration[elementName]}
               />
@@ -1179,8 +1217,11 @@ export const UpdateConfig: React.FC<{
               fetching={fetching}
               inputData={mappedConfiguration}
               setInputData={setMappedConfiguration}
+              sensitiveFields={sensitiveFields}
+              defaultMappedConfig={defaultMappedConfig}
               // parent={parent}
               // setParent={setParent}
+              connectorResourceIdAttr={flavor.connectorResourceIdAttr}
               connector={connector}
               setConnector={setConnector}
               connectorResourceId={connectorResourceId}

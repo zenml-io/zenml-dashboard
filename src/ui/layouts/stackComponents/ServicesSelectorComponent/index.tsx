@@ -14,6 +14,9 @@ type ServicesSelector = {
   connectorResourceId?: any;
   setConnectorResourceId?: any;
   serviceConnectorResources?: any;
+  connectorResourceIdAttr?: string;
+  sensitiveFields?: any;
+  defaultMappedConfig?: any;
 };
 
 const Index: React.FC<ServicesSelector> = ({
@@ -25,12 +28,16 @@ const Index: React.FC<ServicesSelector> = ({
   connectorResourceId,
   setConnectorResourceId,
   serviceConnectorResources,
+  connectorResourceIdAttr,
+  sensitiveFields,
+  defaultMappedConfig,
 }) => {
   const [showServices, setShowServices] = useState(false);
 
   const resourceTypeImage = serviceConnectorResources?.filter(
     (e: any) => e.id === connector,
   );
+  console.log(defaultMappedConfig, inputData, 'fefefw');
 
   return (
     <Box>
@@ -87,7 +94,20 @@ const Index: React.FC<ServicesSelector> = ({
                 className={styles.servicesName}
                 style={{ cursor: 'pointer' }}
                 onClick={() => {
-                  setInputData({ ...inputData, path: '' });
+                  if (
+                    connectorResourceIdAttr &&
+                    connectorResourceIdAttr !== null
+                  ) {
+                    setInputData({
+                      ...defaultMappedConfig,
+                      [connectorResourceIdAttr as string]: '',
+                    });
+                  } else {
+                    setInputData({
+                      ...defaultMappedConfig,
+                    });
+                  }
+
                   setConnector(null);
                   setConnectorResourceId(null);
                   setShowServices(!showServices);
@@ -194,10 +214,36 @@ const Index: React.FC<ServicesSelector> = ({
                               </div>
                               <Box
                                 onClick={() => {
+                                  if (sensitiveFields?.length) {
+                                    sensitiveFields.map(
+                                      (item: string) => delete inputData[item],
+                                    );
+                                    if (
+                                      connectorResourceIdAttr &&
+                                      connectorResourceIdAttr !== null
+                                    ) {
+                                      setInputData({
+                                        ...inputData,
+                                        [connectorResourceIdAttr as string]: id,
+                                      });
+                                    } else {
+                                      setInputData({
+                                        ...inputData,
+                                      });
+                                    }
+                                  } else {
+                                    if (
+                                      connectorResourceIdAttr &&
+                                      connectorResourceIdAttr !== null
+                                    ) {
+                                      setInputData({
+                                        [connectorResourceIdAttr as string]: id,
+                                      });
+                                    }
+                                  }
                                   setConnector(connectorItem.id);
                                   setConnectorResourceId(id);
                                   setShowServices(!showServices);
-                                  setInputData({ ...inputData, path: id });
                                 }}
                                 padding="xs"
                                 style={{

@@ -176,7 +176,9 @@ export const UpdateConfig: React.FC<{
 
     for (const key in mappedConfiguration) {
       if (mappedConfiguration.hasOwnProperty(key)) {
-        payload[key] = mappedConfiguration[key].default;
+        if (mappedConfiguration[key].default) {
+          payload[key] = mappedConfiguration[key].default;
+        }
       }
     }
 

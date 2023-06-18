@@ -163,12 +163,12 @@ export const GetHeaderCols = ({
           onlyOneRow={
             filteredConnectors.length === 1 || expendedRow?.length === 1
           }
-          sorting="scope"
-          sortMethod={sortMethod('scope', {
+          sorting="connector_type"
+          sortMethod={sortMethod('connector_type', {
             asc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['scope'], ['asc']),
+              _.orderBy(filteredConnectors, ['connector_type'], ['asc']),
             desc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['scope'], ['desc']),
+              _.orderBy(filteredConnectors, ['connector_type'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -217,12 +217,12 @@ export const GetHeaderCols = ({
           onlyOneRow={
             filteredConnectors.length === 1 || expendedRow?.length === 1
           }
-          sorting="user_id"
-          sortMethod={sortMethod('user_id', {
+          sorting="resource_type"
+          sortMethod={sortMethod('resource_type', {
             asc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['user_id'], ['asc']),
+              _.orderBy(filteredConnectors, ['resource_type'], ['asc']),
             desc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['user_id'], ['desc']),
+              _.orderBy(filteredConnectors, ['resource_type'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -266,12 +266,12 @@ export const GetHeaderCols = ({
           onlyOneRow={
             filteredConnectors.length === 1 || expendedRow?.length === 1
           }
-          sorting="name"
-          sortMethod={sortMethod('name', {
+          sorting="resource_id"
+          sortMethod={sortMethod('resource_id', {
             asc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['name'], ['asc']),
+              _.orderBy(filteredConnectors, ['resource_id'], ['asc']),
             desc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['name'], ['desc']),
+              _.orderBy(filteredConnectors, ['resource_id'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -301,12 +301,12 @@ export const GetHeaderCols = ({
           onlyOneRow={
             filteredConnectors.length === 1 || expendedRow?.length === 1
           }
-          sorting="name"
-          sortMethod={sortMethod('name', {
+          sorting="auth_method"
+          sortMethod={sortMethod('auth_method', {
             asc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['name'], ['asc']),
+              _.orderBy(filteredConnectors, ['auth_method'], ['asc']),
             desc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['name'], ['desc']),
+              _.orderBy(filteredConnectors, ['auth_method'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -336,12 +336,12 @@ export const GetHeaderCols = ({
           onlyOneRow={
             filteredConnectors.length === 1 || expendedRow?.length === 1
           }
-          sorting="name"
-          sortMethod={sortMethod('name', {
+          sorting="user_id"
+          sortMethod={sortMethod('user_id', {
             asc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['name'], ['asc']),
+              _.orderBy(filteredConnectors, ['user_id'], ['asc']),
             desc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['name'], ['desc']),
+              _.orderBy(filteredConnectors, ['user_id'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -427,20 +427,12 @@ export const GetHeaderCols = ({
           onlyOneRow={
             filteredConnectors.length === 1 || expendedRow?.length === 1
           }
-          sorting="created"
-          sortMethod={sortMethod('created', {
+          sorting="is_shared"
+          sortMethod={sortMethod('is_shared', {
             asc: (filteredConnectors: any[]) =>
-              _.orderBy(
-                filteredConnectors,
-                (connector: any) => new Date(connector.created).getTime(),
-                ['asc'],
-              ),
+              _.orderBy(filteredConnectors, ['is_shared'], ['asc']),
             desc: (filteredConnectors: any[]) =>
-              _.orderBy(
-                filteredConnectors,
-                (connector: any) => new Date(connector.created).getTime(),
-                ['desc'],
-              ),
+              _.orderBy(filteredConnectors, ['is_shared'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
