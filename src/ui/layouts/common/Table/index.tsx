@@ -13,6 +13,7 @@ import {
   // Paragraph,
   // icons,
 } from '../../../components';
+import { Link } from 'react-router-dom';
 // import { getPaginationData } from '../../../../utils/pagination';
 // import { Pagination } from '../Pagination';
 // import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
@@ -29,6 +30,7 @@ export interface HeaderCol {
 }
 
 export interface TableProps {
+  route?: any;
   isExpended?: boolean;
   headerCols: HeaderCol[];
   tableRows: any[];
@@ -54,6 +56,7 @@ const createHeaders = (headers: any[]) => {
 };
 
 export const Table: React.FC<TableProps> = ({
+  route,
   isExpended,
   headerCols,
   tableRows,
@@ -453,7 +456,10 @@ export const Table: React.FC<TableProps> = ({
             style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto' }}
             paddingVertical="xxl"
           >
-            <H3>{emptyState && emptyState.text}</H3>
+            <H3>
+              {emptyState && emptyState.text}{' '}
+              {route && <Link to={route}>Click here to register new one.</Link>}
+            </H3>
           </Box>
         )}
       />

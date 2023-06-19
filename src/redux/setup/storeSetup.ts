@@ -25,8 +25,8 @@ export const enhancers = getComposeWithEnhancers()(
   applyMiddleware(sagaMiddleware, logger),
 );
 
+export const store = createStore(persistedReducer, enhancers);
 export default function configureStore(): any {
-  const store = createStore(persistedReducer, enhancers);
   sagaMiddleware.run(rootSaga);
 
   window.addEventListener(

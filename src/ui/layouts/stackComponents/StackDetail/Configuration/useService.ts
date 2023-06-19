@@ -6,9 +6,10 @@ import {
 } from '../../../../../redux/selectors';
 
 import YAML from 'json2yaml';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useLocationPath } from '../../../../hooks';
 import { secretsActions } from '../../../../../redux/actions';
+
 // import {
 //   flavorPagesActions,
 //   // flavorsActions,
@@ -28,12 +29,13 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const locationPath = useLocationPath();
-  const [flavor, setFlavor] = useState();
+  // const [flavor, setFlavor] = useState();
   const flavors = useSelector(flavorSelectors.myFlavorsAll);
+  const flavor: any = flavors[0];
   const dispatch = useDispatch();
   // const dispatch = useDispatch();
   useEffect(() => {
-    setFlavor(flavors[0] as any);
+    // setFlavor(flavors[0] as any);
     dispatch(
       secretsActions.getMy({
         size: 1000,

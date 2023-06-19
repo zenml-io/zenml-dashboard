@@ -86,6 +86,9 @@ import { ReactComponent as Verified } from './assets/Verified.svg';
 import { ReactComponent as EmptyRightArrow } from './assets/EmptyRightArrow.svg';
 import { ReactComponent as AddNew } from './assets/addNew.svg';
 import { ReactComponent as SupportAgent } from './assets/SupportAgent.svg';
+import { ReactComponent as Connector } from './assets/Connector.svg';
+import { ReactComponent as NotConnected } from './assets/notConnected.svg';
+
 // import { ReactComponent as Inprogress } from './assets/InProgress.svg';
 // import { ReactComponent as Cached } from './assets/Cached.svg';
 // import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
@@ -229,6 +232,8 @@ const icons = {
   circleCheck: createIcon({ Component: CircleCheck }),
   addNew: createIcon({ Component: AddNew }),
   supportAgent: createIcon({ Component: SupportAgent }),
+  connector: createIcon({ Component: Connector, useStroke: true }),
+  notConnected: createIcon({ Component: NotConnected, useStroke: true }),
   //icons for stackComponents
   artifact_store: createIcon({ Component: Folders, useStroke: true }),
   alerter: createIcon({ Component: ChatDots, useStroke: true }),
