@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Box, FlexBox, FormTextField, Paragraph } from '../../../components';
 import styles from './index.module.scss';
 
@@ -7,20 +7,21 @@ export function Form(props: any) {
 }
 
 export function TextField(props: any) {
-  const { name, label, onHandleChange, required } = props;
-  const [text, setText] = useState(props?.default);
-  console.log(required, name, 'requiredrequiredrequired');
+  // const { name, label, onHandleChange, required, inputData } = props;
+  // const [text, setText] = useState(props?.default);
+  const { name, label, onHandleChange, required, disabled } = props;
+
   return (
     <Box marginTop="md">
       <FormTextField
         onChange={(e: any) => {
-          setText(e);
+          // setText(e);
           onHandleChange(name, e);
         }}
         required={!!required}
-        // disabled={props.disable}
+        disabled={disabled}
         label={label}
-        value={text}
+        value={props?.default}
         placeholder={''}
       />
     </Box>

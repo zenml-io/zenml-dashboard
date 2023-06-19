@@ -80,7 +80,10 @@ export const Menu: React.FC = () => {
         //   });
         // }}
 
-        isActive={() => window.location.href?.includes('components')}
+        isActive={() =>
+          window.location.href?.includes('components') &&
+          !window.location.href?.includes('connectors')
+        }
         Icon={() => (
           <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
         )}
@@ -124,6 +127,19 @@ export const Menu: React.FC = () => {
         innerItem={window.location.href?.includes('plugins')}
         to={routePaths.plugins.list(selectedWorkspace)}
         text={translate('menu.plugins.text')}
+      />
+
+      <MenuItem
+        id="connector"
+        isActive={() => window.location.href?.includes('connectors')}
+        Icon={() => (
+          <icons.connector color={iconColors.white} size={iconSizes.md} />
+        )}
+        innerItem={window.location.href?.includes('connectors')}
+        // to={routePaths.connectors.base(selectedWorkspace)}
+        // to={routePaths.connectors.list(selectedWorkspace)}
+        to={routePaths.connectors.base}
+        text={translate('menu.connectors.text')}
       />
     </>
   );

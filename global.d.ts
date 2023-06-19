@@ -35,6 +35,7 @@ interface TAction {
 interface TServerInfo {
   id: string;
   version: string;
+  debug: boolean;
   deploymentType: string;
   databaseType: string;
   secretsStoreType: string;

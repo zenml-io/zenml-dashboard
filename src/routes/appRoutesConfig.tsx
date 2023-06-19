@@ -13,6 +13,7 @@ import DashBoard from '../ui/layouts/DashBoard';
 import Pipelines from '../ui/layouts/pipelines/Pipelines';
 import stacks from '../ui/layouts/stacks/Stacks';
 import secrets from '../ui/layouts/secrets/Secrets';
+import Connectors from '../ui/layouts/connectors/Connectors';
 
 import stackComponents from '../ui/layouts/stackComponents/Stacks';
 import registerComponents from '../ui/layouts/stackComponents/RegisterComponents';
@@ -24,6 +25,7 @@ import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import secretDetail from '../ui/layouts/secrets/SecretDetail/index';
 import UpdateSecret from '../ui/layouts/secrets/UpdateSecret/index';
 import UpdateComponent from '../ui/layouts/stackComponents/UpdateComponent/index';
+import UpdateConnector from '../ui/layouts/connectors/UpdateConnector/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
 import ConfigureComponent from '../ui/layouts/stackComponents/ConfigureComponent/index';
 import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
@@ -32,6 +34,9 @@ import RunsRunDetail from '../ui/layouts/runs/RunDetail';
 import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
 import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
+import connectorDetail from '../ui/layouts/connectors/ConnectorDetail/index';
+import RegisterConnectors from '../ui/layouts/connectors/RegisterConnector';
+import ConnectorTypes from '../ui/layouts/connectors/ConnectorTypes';
 import ListPlugins from '../ui/layouts/plugins/ListPlugins';
 import CreatePlugin from '../ui/layouts/plugins/CreatePlugin';
 import UpdatePlugin from '../ui/layouts/plugins/UpdatePlugin';
@@ -630,6 +635,71 @@ const routes = [
     Component: UpdatePlugin,
     visibility: {
       authentication: RouteVisibilityAuthentication.always,
+    },
+    exact: true,
+  },
+
+  {
+    path: routePaths.connectors.base,
+    Component: Connectors,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.connectors.list(':string'),
+    Component: Connectors,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.connectors.configuration(':id', ':string'),
+    Component: connectorDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  // {
+  //   path: routePaths.connectors.updateSecret(':id', ':string'),
+  //   Component: UpdateSecret,
+  //   visibility: {
+  //     authentication: RouteVisibilityAuthentication.authenticatedOnly,
+  //   },
+  //   exact: true,
+  // },
+  {
+    path: routePaths.connectors.connectorComponents(':id', ':string'),
+    Component: connectorDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.connectors.registerConnectors(':type', ':workspace'),
+    Component: RegisterConnectors,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.connectors.connectorTypes(':string'),
+    Component: ConnectorTypes,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.connectors.updateConnector(':id', ':string'),
+    Component: UpdateConnector,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
     exact: true,
   },

@@ -167,6 +167,7 @@ Props) => {
   return (
     <>
       <CollapseTable
+        route={routePaths.secrets.registerSecrets(selectedWorkspace)}
         renderAfterRow={(secret: any) => (
           <>
             {/* <RunsForSecretTable
@@ -187,7 +188,15 @@ Props) => {
         filters={filter}
         headerCols={headerCols}
         tableRows={filteredSecrets}
-        emptyState={{ text: translate('emptyState.text') }}
+        emptyState={
+          filter[0]?.value
+            ? {
+                text: translate('emptyState.text'),
+              }
+            : {
+                text: `Nothing to see here, it seems like no secret has been configured yet.`,
+              }
+        }
         trOnClick={openDetailPage}
       />
       <If condition={secretsPaginated.totalitem > 5}>

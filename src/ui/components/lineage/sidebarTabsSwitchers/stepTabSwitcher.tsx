@@ -6,6 +6,7 @@ import styles from '../index.module.scss';
 import stepStyles from './artifact.module.scss';
 import { FullWidthSpinner } from '../../spinners';
 import { formatDateToDisplayOnTable } from '../../../../utils';
+import DisplayLogs from './DisplayLogs';
 
 const stylesActive = {
   opacity: 1,
@@ -19,10 +20,6 @@ const stylesInActive = {
 };
 
 const tabs = [
-  //   {
-  //     title: 'Logs',
-  //     case: '__LOG',
-  //   },
   {
     title: 'Attributes',
     case: '__ATTRIBUTE',
@@ -30,6 +27,10 @@ const tabs = [
   {
     title: 'Code',
     case: '__CODE',
+  },
+  {
+    title: 'Logs',
+    case: '__LOG',
   },
 ];
 
@@ -74,7 +75,7 @@ const tabs = [
 //   );
 // };
 
-const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
+const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
   const [show, setShow] = useState('__ATTRIBUTE');
   const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(79);
   const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
@@ -138,7 +139,10 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
       ></div>
 
       {fetching ? (
-        <div className={`${styles.FullWidthSpinnerContainer}`}>
+        <div
+          style={{ minHeight: '100%' }}
+          className={`${styles.FullWidthSpinnerContainer}`}
+        >
           <FullWidthSpinner color="black" size="md" />
           <p style={{ fontFamily: 'Rubik', fontSize: '14px' }}>
             Loading Step. Please wait
@@ -399,20 +403,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, logs, fetching }) => {
           ) : (
             ''
           )}
-          {/* {show === '__LOG' ? (
-            <div className={styles.codeContainer}>
-              <SyntaxHighlighter
-                customStyle={{ width: '100%', height: '80%', fontSize: 16 }}
-                wrapLines={true}
-                language="python"
-                style={okaidia}
-              >
-                {logs ? logs : 'No Logs Avaialable'}
-              </SyntaxHighlighter>
-            </div>
-          ) : (
-            ''
-          )} */}
+          {show === '__LOG' ? <DisplayLogs selectedNode={node} /> : ''}
         </>
       )}
     </>

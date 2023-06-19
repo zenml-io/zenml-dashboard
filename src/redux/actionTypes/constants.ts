@@ -57,6 +57,14 @@ const secretActionTypes = {
   // RUNS_GET_STACK_FOR_ID: 'RUNS_GET_STACK_FOR_ID',
 };
 
+const connectorActionTypes = {
+  CONNECTORS_GET_MY_CONNECTORS: 'CONNECTORS_GET_MY_CONNECTORS',
+  CONNECTORS_GET_CONNECTOR_FOR_ID: 'CONNECTORS_GET_CONNECTOR_FOR_ID',
+  CONNECTORS_GET_CONNECTORS_TYPES: 'CONNECTORS_GET_CONNECTORS_TYPES',
+  CONNECTORS_GET_CONNECTORCOMPONENTS_TYPES:
+    'CONNECTORS_GET_CONNECTORCOMPONENTS_TYPES',
+};
+
 const rolesActionTypes = {
   ROLES_GET_ALL_ROLES: 'ROLES_GET_ALL_ROLES',
 };
@@ -137,6 +145,7 @@ export const actionTypes = {
   ...pipelineActionTypes,
   ...stackActionTypes,
   ...secretActionTypes,
+  ...connectorActionTypes,
   ...secretPagesActionTypes,
   ...runActionTypes,
   ...runPagesActionTypes,
