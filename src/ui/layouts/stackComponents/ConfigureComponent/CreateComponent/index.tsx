@@ -999,23 +999,8 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               }
             />
           </Box>
-
-          <Form
-            enableReinitialize
-            initialValues={formData}
-            // validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
-            {Object.keys(flavor.configSchema.properties).map((key, ind) => (
-              <div key={key}>
-                {getFormElement(key, flavor.configSchema.properties[key])}
-              </div>
-            ))}
-
-            {/* <PrimaryButton marginTop="md">Upload File</PrimaryButton> */}
-          </Form>
           {flavor.connectorResourceType && (
-            <Box marginTop="lg" style={{ width: '30vw' }}>
+            <Box marginTop="md" style={{ width: '30vw' }}>
               <Paragraph size="body" style={{ color: '#000' }}>
                 <label htmlFor="key">{'Connect to resource'}</label>
               </Paragraph>
@@ -1039,6 +1024,21 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               </Box>
             </Box>
           )}
+
+          <Form
+            enableReinitialize
+            initialValues={formData}
+            // validationSchema={validationSchema}
+            onSubmit={onSubmit}
+          >
+            {Object.keys(flavor.configSchema.properties).map((key, ind) => (
+              <div key={key}>
+                {getFormElement(key, flavor.configSchema.properties[key])}
+              </div>
+            ))}
+
+            {/* <PrimaryButton marginTop="md">Upload File</PrimaryButton> */}
+          </Form>
         </Box>
 
         <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} />
