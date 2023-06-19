@@ -35,6 +35,8 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
 import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
 import { titleCase } from '../../../../../utils';
+import { getServiceConnectorResources } from './useService';
+import ServicesSelectorComponent from '../../ServicesSelectorComponent';
 // import { values } from 'lodash';
 // import { keys } from 'lodash';
 
@@ -64,7 +66,12 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const [secretId, setSecretId] = useState('');
   const [secretIdArray, setSecretIdArray] = useState([]);
+  const [connector, setConnector] = useState();
+  const [connectorResourceId, setConnectorResourceId] = useState();
   const history = useHistory();
+  const { serviceConnectorResources, fetching } = getServiceConnectorResources(
+    flavor.connectorResourceType,
+  );
 
   useEffect(() => {
     if (state?.state?.routeFromComponent) {
@@ -257,7 +264,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
 
     setFormData(_formData);
   };
-  console.log(secretOptionsWithKeys, selectedSecret, 'inputDatainputData');
+
   const getFormElement = (elementName: any, elementSchema: any) => {
     const props = {
       name: elementName,
@@ -479,121 +486,144 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       return (
         <>
           {props.sensitive ? (
-            <Box marginTop="lg">
-              <MakeSecretField
-                required={flavor?.configSchema?.required?.includes(elementName)}
-                label={titleCase(props.name) + ' (Secret)'}
-                placeholder={''}
-                handleClick={() => {
-                  if (secretId) {
-                    const state = {
-                      secretIdArray: secretIdArray,
-                      secretId: secretId,
-                      flavor: flavor.name,
-                      routeFromComponent: true,
-                      componentName: componentName,
-                      isShared: isShared,
-                      inputFields: inputFields,
-                      inputData: inputData,
-                      secretKey: props.name,
-                      pathName: location.pathname,
-                    };
-                    history.push(
-                      routePaths.secret.updateSecret(
-                        secretId,
-                        selectedWorkspace,
-                      ),
-                      state,
-                    );
-                  } else {
-                    const state = {
-                      secretId: secretId,
-                      secretIdArray: secretIdArray,
-                      flavor: flavor.name,
-                      routeFromComponent: true,
-                      componentName: componentName,
-                      isShared: isShared,
-                      inputFields: inputFields,
-                      inputData: inputData,
-                      secretKey: props.name,
-                      pathName: location.pathname,
-                    };
-                    history.push(
-                      routePaths.secrets.registerSecrets(selectedWorkspace),
-                      state,
-                    );
-                  }
-                }}
-                inputData={inputData}
-                value={
-                  inputData[props.name]?.value
-                    ? inputData[props.name]?.value
-                    : // : inputData[props.name]
-                    inputData[props.name]?.length
-                    ? inputData[props.name]
-                    : ''
-                }
-                onChange={(val: string, newEvent: any) => {
-                  if (!val) {
-                    if (secretIdArray.length === 1) {
+            !connectorResourceId && (
+              <Box marginTop="lg">
+                <MakeSecretField
+                  required={flavor?.configSchema?.required?.includes(
+                    elementName,
+                  )}
+                  label={titleCase(props.name) + ' (Secret)'}
+                  placeholder={''}
+                  handleClick={() => {
+                    if (secretId) {
+                      const state = {
+                        secretIdArray: secretIdArray,
+                        secretId: secretId,
+                        flavor: flavor.name,
+                        routeFromComponent: true,
+                        componentName: componentName,
+                        isShared: isShared,
+                        inputFields: inputFields,
+                        inputData: inputData,
+                        secretKey: props.name,
+                        pathName: location.pathname,
+                      };
+                      history.push(
+                        routePaths.secret.updateSecret(
+                          secretId,
+                          selectedWorkspace,
+                        ),
+                        state,
+                      );
                     } else {
-                      setSecretId('');
+                      const state = {
+                        secretId: secretId,
+                        secretIdArray: secretIdArray,
+                        flavor: flavor.name,
+                        routeFromComponent: true,
+                        componentName: componentName,
+                        isShared: isShared,
+                        inputFields: inputFields,
+                        inputData: inputData,
+                        secretKey: props.name,
+                        pathName: location.pathname,
+                      };
+                      history.push(
+                        routePaths.secrets.registerSecrets(selectedWorkspace),
+                        state,
+                      );
                     }
+                  }}
+                  inputData={inputData}
+                  value={
+                    inputData[props.name]?.value
+                      ? inputData[props.name]?.value
+                      : // : inputData[props.name]
+                      inputData[props.name]?.length
+                      ? inputData[props.name]
+                      : ''
                   }
-                  if (val.includes('{{')) {
-                    callActionForSecret(props.name, val, newEvent);
-                  } else {
-                    setInputData({
-                      ...inputData,
-                      [props.name]: val,
-                    });
-                  }
-                }}
-                secretOnChange={(val: any, newEvent: any) => {
-                  // debugger;
-                  // setInputData({
-                  //   ...inputData,
-                  //   [props.name]: val.value.includes('.') ? val.value : val,
-                  // });
+                  onChange={(val: string, newEvent: any) => {
+                    if (!val) {
+                      if (secretIdArray.length === 1) {
+                      } else {
+                        setSecretId('');
+                      }
+                    }
+                    if (val.includes('{{')) {
+                      callActionForSecret(props.name, val, newEvent);
+                    } else {
+                      setInputData({
+                        ...inputData,
+                        [props.name]: val,
+                      });
+                    }
+                  }}
+                  secretOnChange={(val: any, newEvent: any) => {
+                    // debugger;
+                    // setInputData({
+                    //   ...inputData,
+                    //   [props.name]: val.value.includes('.') ? val.value : val,
+                    // });
 
-                  if (val?.value?.includes('}}')) {
-                    setInputData({
-                      ...inputData,
-                      [props?.name]: val?.value?.includes('.')
-                        ? val.value
-                        : val,
-                    });
-                  } else if (val.value.includes('{{')) {
-                    callActionForSecret(props.name, val, newEvent);
+                    if (val?.value?.includes('}}')) {
+                      setInputData({
+                        ...inputData,
+                        [props?.name]: val?.value?.includes('.')
+                          ? val.value
+                          : val,
+                      });
+                    } else if (val.value.includes('{{')) {
+                      callActionForSecret(props.name, val, newEvent);
+                    }
+                  }}
+                  dropdownOptions={
+                    inputData[props?.name]?.value &&
+                    inputData[props?.name]?.value.includes(
+                      `${selectedSecret.name}.`,
+                    )
+                      ? secretOptionsWithKeys
+                      : secretOptions
                   }
-                }}
-                dropdownOptions={
-                  inputData[props?.name]?.value &&
-                  inputData[props?.name]?.value.includes(
-                    `${selectedSecret.name}.`,
-                  )
-                    ? secretOptionsWithKeys
-                    : secretOptions
-                }
-                tooltipText='Start typing with "{{" to reference a secret for this field.'
-              />
-            </Box>
-          ) : (
+                  tooltipText='Start typing with "{{" to reference a secret for this field.'
+                />
+              </Box>
+            )
+          ) : props.name === 'authentication_secret' &&
+            connectorResourceId ? null : (
             <TextField
               {...props}
+              disabled={
+                connectorResourceId &&
+                elementName === flavor.connectorResourceIdAttr
+              }
               required={flavor?.configSchema?.required?.includes(elementName)}
               // disable={
               //   elementSchema.default &&
               //   (elementSchema.type === 'string' ||
               //     elementSchema.type === 'integer')
               // }
+              inputData={inputData}
               default={
-                inputData[props.name] ? inputData[props.name] : props.default
+                // flavor.connectorResourceIdAttr === elementName
+                //   ? connectorResourceId
+                //   :
+                inputData[props.name]
+                  ? inputData[props.name]
+                  : props.default !== undefined
+                  ? props.default
+                  : ''
               }
               onHandleChange={(key: any, value: any) =>
                 setInputData({ ...inputData, [key]: value })
               }
             />
+          )}
+          {console.log(
+            connectorResourceId,
+            elementName,
+            flavor.connectorResourceIdAttr,
+            'asd123asd123',
           )}
         </>
       );
@@ -866,7 +896,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       }
     }
 
-    const body = {
+    const body: any = {
       user: user?.id,
       workspace: id,
       is_shared: isShared,
@@ -875,6 +905,11 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       flavor: flavor.name,
       configuration: { ...inputData, ...final, ...inputArrayFields },
     };
+    if (connector && connector !== null) {
+      body.connector = connector;
+      body.connector_resource_id = connectorResourceId;
+    }
+
     setLoading(true);
     await axios
       .post(
@@ -964,6 +999,31 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               }
             />
           </Box>
+          {flavor.connectorResourceType && (
+            <Box marginTop="md" style={{ width: '30vw' }}>
+              <Paragraph size="body" style={{ color: '#000' }}>
+                <label htmlFor="key">{'Connect to resource'}</label>
+              </Paragraph>
+              {/* {console.log(resourceType, ids, 'idsidsids')} */}
+              <Box marginTop="sm" style={{ width: '30vw' }}>
+                <ServicesSelectorComponent
+                  fetching={fetching}
+                  inputData={inputData}
+                  setInputData={setInputData}
+                  // parent={parent}
+                  // setParent={setParent}
+                  connector={connector}
+                  connectorResourceIdAttr={flavor.connectorResourceIdAttr}
+                  setConnector={setConnector}
+                  connectorResourceId={connectorResourceId}
+                  setConnectorResourceId={setConnectorResourceId}
+                  serviceConnectorResources={serviceConnectorResources}
+                  // resources={resources}
+                  // verifying={verifying}
+                />
+              </Box>
+            </Box>
+          )}
 
           <Form
             enableReinitialize

@@ -7,13 +7,13 @@ export const CustomConnectorBox: React.FC<{
   connectorName: string;
   connectorDesc: string;
   logoUrl: string;
-  onSelectFlavor: any;
+  onSelectConnectorType: any;
   resourceTypes?: any;
 }> = ({
   connectorName,
   connectorDesc,
   logoUrl,
-  onSelectFlavor,
+  onSelectConnectorType,
   resourceTypes,
 }) => {
   const [select, setSelect] = useState(false);
@@ -29,7 +29,7 @@ export const CustomConnectorBox: React.FC<{
       onMouseEnter={() => setSelect(true)}
       onMouseLeave={() => setSelect(false)}
       style={{ background: select ? '#443E99' : '#fff' }}
-      onClick={onSelectFlavor}
+      onClick={onSelectConnectorType}
     >
       <Box className={styles.imageContainer}>
         <img src={logoUrl} alt="imageAddIcon" />

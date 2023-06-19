@@ -88,7 +88,6 @@ Props) => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const openDetailPage = (connector: any) => {
-    console.log('click', connector);
     setSelectedRunIds([]);
     if (id) {
       history.push(routePaths.connectors.list(selectedWorkspace));

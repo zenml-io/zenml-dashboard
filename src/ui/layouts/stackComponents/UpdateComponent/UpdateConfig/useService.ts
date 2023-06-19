@@ -5,7 +5,7 @@ import {
 } from '../../../../../redux/selectors';
 
 import YAML from 'json2yaml';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useLocationPath } from '../../../../hooks';
 // import {
 //   flavorPagesActions,
@@ -24,13 +24,13 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
     stackComponentSelectors.stackComponentForId(stackId),
   );
   const locationPath = useLocationPath();
-  const [flavor, setFlavor] = useState();
+  // const [flavor, setFlavor] = useState();
   const flavors = useSelector(flavorSelectors.myFlavorsAll);
+  const flavor = flavors[0];
 
   // const dispatch = useDispatch();
   useEffect(() => {
-    setFlavor(flavors[0] as any);
-
+    // setFlavor(flavors[0] as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [locationPath]);
 

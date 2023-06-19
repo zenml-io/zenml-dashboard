@@ -30,7 +30,7 @@ import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
 
 const getTabPages = (
-  secretId: TId,
+  connectorId: TId,
   selectedWorkspace: string,
   routeState?: any,
   // history?: any,
@@ -38,8 +38,14 @@ const getTabPages = (
   return [
     {
       text: translate('tabs.update.text'),
-      Component: () => <UpdateConfig secretId={secretId} state={routeState} />,
-      path: routePaths.secret.updateSecret(secretId, selectedWorkspace),
+      Component: () => (
+        // <>Udpate Connector</>
+        <UpdateConfig connectorId={connectorId} state={routeState} />
+      ),
+      path: routePaths.connectors.updateConnector(
+        connectorId,
+        selectedWorkspace,
+      ),
     },
     // {
     //   text: translate('tabs.metaData.text'),
@@ -55,20 +61,20 @@ const workspaceName = url.searchParams.get('workspace');
 const workspace = workspaceName ? workspaceName : DEFAULT_WORKSPACE_NAME;
 
 const getBreadcrumbs = (
-  secretId: TId,
+  connectorId: TId,
   selectedWorkspace: string,
 ): TBreadcrumb[] => {
   return [
     {
       name: translate('header.breadcrumbs.secrets.text'),
       clickable: true,
-      to: routePaths.secrets.base + `?workspace=${workspace}`,
+      to: routePaths.connectors.base + `?workspace=${workspace}`,
       // to: routePaths.stacks.list(selectedWorkspace),
     },
     {
-      name: secretId,
+      name: connectorId,
       clickable: true,
-      to: routePaths.secret.configuration(secretId, selectedWorkspace),
+      to: routePaths.connectors.configuration(connectorId, selectedWorkspace),
     },
   ];
 };
@@ -78,11 +84,15 @@ export interface SecretDetailRouteParams {
 }
 
 export const StackDetail: React.FC = () => {
-  const { secret } = useService();
-  const location = useLocation();
-  const filteredSecret: any = [];
-  filteredSecret.push(secret);
+  const {
+    connector,
+    // fetching
+  } = useService();
+  const filteredConnector: any = [];
+  filteredConnector.push(connector);
   const history = useHistory();
+  const location = useLocation();
+
   const [routeState, setRouteState] = useState({}) as any;
 
   useEffect(() => {
@@ -116,7 +126,7 @@ export const StackDetail: React.FC = () => {
   //         fl.name === secret?.components[key][0]?.flavor &&
   //         fl.type === secret?.components[key][0]?.type,
   //     );
-  //     console.log(logo, 'flavourListflavourList');
+  //
 
   //     nestedRowtiles.push({
   //       ...secret?.components[key][0],
@@ -127,11 +137,11 @@ export const StackDetail: React.FC = () => {
   //     });
   //   }
   // }
-  console.log(secret, 'secretsecret');
-  const tabPages = getTabPages(secret.id, selectedWorkspace, routeState);
-  const breadcrumbs = getBreadcrumbs(secret.id, selectedWorkspace);
+
+  const tabPages = getTabPages(connector.id, selectedWorkspace, routeState);
+  const breadcrumbs = getBreadcrumbs(connector.id, selectedWorkspace);
   const headerCols = GetHeaderCols({
-    filteredSecret,
+    filteredConnector,
   });
   // const boxStyle = {
   //   backgroundColor: '#E9EAEC',
@@ -152,14 +162,14 @@ export const StackDetail: React.FC = () => {
       tabPages={tabPages}
       tabBasePath={routePaths.connectors.base}
       breadcrumbs={breadcrumbs}
-      title="Secrets"
+      title="Connector"
     >
       <Box marginTop="lg">
         <CollapseTable
           pagination={false}
           renderAfterRow={(secret: any) => <></>}
           headerCols={headerCols}
-          tableRows={filteredSecret}
+          tableRows={filteredConnector}
           emptyState={{ text: translate('emptyState.text') }}
           trOnClick={openDetailPage}
         />

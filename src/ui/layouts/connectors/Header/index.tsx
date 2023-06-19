@@ -1,11 +1,10 @@
 import React from 'react';
-import cn from 'classnames';
+// import cn from 'classnames';
 
 import { FlexBox, Box, Paragraph } from '../../../components';
 
 import styles from './index.module.scss';
 import { constantCommandsToCreateSecret } from '../../../../constants/constantCommands';
-import { title } from 'process';
 
 const DefaultHeader: React.FC<{
   breadcrumbs: TBreadcrumb[];
@@ -16,7 +15,7 @@ const DefaultHeader: React.FC<{
     // marginBottom="lg"
     alignItems="center"
     justifyContent="space-between"
-    className={cn(styles.header, 'd-none d-md-block')}
+    // className={cn(styles.header, 'd-none d-md-block')}
   >
     <FlexBox fullHeight alignItems="center">
       <Paragraph
@@ -57,6 +56,7 @@ const HeaderWithButtons: React.FC<{
   renderRight?: () => JSX.Element;
 }> = ({ breadcrumbs, renderRight, title }) => (
   <FlexBox
+    marginTop="xl"
     alignItems="center"
     justifyContent="space-between"
     className={styles.header}
@@ -71,7 +71,6 @@ const HeaderWithButtons: React.FC<{
         }}
       >
         {title}
-        {/* {breadcrumbs[0]?.name} */}
       </Paragraph>
     </FlexBox>
     <FlexBox
@@ -99,9 +98,6 @@ const HeaderWithButtons: React.FC<{
           </a>
         </Paragraph>
       </Box>
-      {/* <CreateStackButton />
-
-      <DocumentationLink text={constantCommandsToCreateStack.documentation} /> */}
     </FlexBox>
   </FlexBox>
 );

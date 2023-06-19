@@ -39,6 +39,8 @@ import {
 import { iconColors, toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
+import ServicesSelectorComponent from '../../ServicesSelectorComponent';
+import { getServiceConnectorResources } from '../../ConfigureComponent/CreateComponent/useService';
 // import { values } from 'lodash';
 // import { routePaths } from '../../../../../routes/routePaths';
 
@@ -54,12 +56,16 @@ export const UpdateConfig: React.FC<{
   const { stackComponent, flavor } = useService({
     stackId,
   });
+
   const history = useHistory();
   const [componentName, setComponentName] = useState('');
   const [isShared, setIsShared] = useState() as any;
   const [mappedConfiguration, setMappedConfiguration] = useState() as any;
+  const [defaultMappedConfig, setDefaultMappedConfig] = useState() as any;
+  const [sensitiveFields, setSensitiveFields] = useState() as any;
+
   const user = useSelector(userSelectors.myUser);
-  const [fetching, setFetching] = useState(false);
+  const [componentLoading, setComponentLoading] = useState(false);
   const secrets = useSelector(secretSelectors.mySecrets);
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -70,6 +76,12 @@ export const UpdateConfig: React.FC<{
   const [selectedSecret, setSelectedSecret] = useState({}) as any;
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [inputFields, setInputFields] = useState() as any;
+  const [connector, setConnector] = useState();
+  const [connectorResourceId, setConnectorResourceId] = useState();
+  const { serviceConnectorResources, fetching } = getServiceConnectorResources(
+    flavor?.connectorResourceType,
+  );
+
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -91,6 +103,8 @@ export const UpdateConfig: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
   useEffect(() => {
+    setConnector(stackComponent?.connector?.id);
+    setConnectorResourceId(stackComponent?.connectorResourceId);
     function replaceNullWithEmptyString(obj: any) {
       for (let prop in obj) {
         if (obj[prop] === null) {
@@ -139,10 +153,7 @@ export const UpdateConfig: React.FC<{
               }
             }
             convertedJSON[key] = array;
-          } else if (
-            typeof json[key] === 'object' &&
-            (json[key] === {} || json[key].length === 0)
-          ) {
+          } else if (typeof json[key] === 'object' || json[key] === undefined) {
             const emptyObject = [{ key: '', value: '' }];
             convertedJSON[key] = emptyObject;
           }
@@ -169,7 +180,7 @@ export const UpdateConfig: React.FC<{
           },
           {},
         );
-        console.log(result, 'asdasdasd23232');
+
         const mappedObject = {
           ...result,
           ...stackComponent?.configuration,
@@ -177,10 +188,39 @@ export const UpdateConfig: React.FC<{
         };
         const convertedJson = convertJSON(mappedObject);
         setInputFields(convertedJson);
-
+        setDefaultMappedConfig(mappedObject);
         setMappedConfiguration(mappedObject);
       }
     }
+
+    // const key = Object.keys(flavor?.configSchema?.properties).find(
+    //   (property) =>
+    //     flavor?.configSchema?.properties[property].sensitive &&
+    //     flavor?.configSchema?.properties[property].title ===
+    //       'Authentication Secret',
+    // );
+
+    function extractSensitiveKeys(obj: any) {
+      const keys: any = [];
+
+      for (const key in obj) {
+        if (obj.hasOwnProperty(key)) {
+          const property = obj[key];
+          if (
+            property.sensitive === true ||
+            property.title === 'Authentication Secret'
+          ) {
+            keys.push(key);
+          }
+        }
+      }
+
+      return keys;
+    }
+    const sensitiveFields = extractSensitiveKeys(
+      flavor?.configSchema?.properties,
+    );
+    setSensitiveFields(sensitiveFields);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [flavor]);
 
@@ -259,7 +299,7 @@ export const UpdateConfig: React.FC<{
       }
     });
 
-    const body = {
+    const body: any = {
       user: user?.id,
       workspace: id,
       is_shared: isShared,
@@ -268,7 +308,10 @@ export const UpdateConfig: React.FC<{
       flavor: stackComponent.flavor,
       configuration: { ...mappedConfiguration, ...final },
     };
-    console.log(tempFinal, final);
+    if (connector && connector !== null) {
+      body.connector = connector;
+      body.connector_resource_id = connectorResourceId;
+    }
 
     if (JSON.stringify(tempFinal) !== JSON.stringify(final)) {
       return false;
@@ -295,7 +338,7 @@ export const UpdateConfig: React.FC<{
         }
       }
     }
-    setFetching(true);
+    setComponentLoading(true);
     axios
       .put(
         `${process.env.REACT_APP_BASE_API_URL}/components/${stackComponent.id}`,
@@ -319,7 +362,7 @@ export const UpdateConfig: React.FC<{
           stackComponentsActions.stackComponentForId({
             stackComponentId: stackComponent?.id,
             onSuccess: () => {
-              setFetching(false);
+              setComponentLoading(false);
               history.push(
                 routePaths.stackComponents.configuration(
                   locationPath.split('/')[4],
@@ -328,7 +371,7 @@ export const UpdateConfig: React.FC<{
                 ),
               );
             },
-            onFailure: () => setFetching(false),
+            onFailure: () => setComponentLoading(false),
           }),
         );
         // dispatchStackData(1, 10);
@@ -344,7 +387,7 @@ export const UpdateConfig: React.FC<{
         // );
       })
       .catch((err) => {
-        setFetching(false);
+        setComponentLoading(false);
         // ;
         // setLoading(false);
         dispatch(
@@ -531,120 +574,129 @@ export const UpdateConfig: React.FC<{
       return (
         <>
           {flavor?.configSchema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '30vw' }}>
-              <MakeSecretField
-                required={flavor?.configSchema?.required?.includes(elementName)}
-                label={titleCase(elementName) + ' (Secret)'}
-                placeholder={''}
-                handleClick={() => {
-                  if (secretId) {
-                    const state = {
-                      secretIdArray: secretIdArray,
-                      secretId: secretId,
-                      flavor: flavor.name,
-                      routeFromEditComponent: true,
-                      componentName: componentName,
-                      isShared: isShared,
-                      mappedConfiguration: mappedConfiguration,
-                      inputFields: inputFields,
-                      // inputFields: inputFields,
+            connectorResourceId === null && (
+              <Box marginTop="lg" style={{ width: '30vw' }}>
+                <MakeSecretField
+                  required={flavor?.configSchema?.required?.includes(
+                    elementName,
+                  )}
+                  label={titleCase(elementName) + ' (Secret)'}
+                  placeholder={''}
+                  handleClick={() => {
+                    if (secretId) {
+                      const state = {
+                        secretIdArray: secretIdArray,
+                        secretId: secretId,
+                        flavor: flavor.name,
+                        routeFromEditComponent: true,
+                        componentName: componentName,
+                        isShared: isShared,
+                        mappedConfiguration: mappedConfiguration,
+                        inputFields: inputFields,
+                        // inputFields: inputFields,
 
-                      secretKey: elementName,
-                      pathName: location.pathname,
-                    };
-                    history.push(
-                      routePaths.secret.updateSecret(
-                        secretId,
-                        selectedWorkspace,
-                      ),
-                      state,
-                    );
-                  } else {
-                    const state = {
-                      flavor: flavor.name,
-                      routeFromEditComponent: true,
-                      componentName: componentName,
-                      isShared: isShared,
-                      mappedConfiguration: mappedConfiguration,
-                      inputFields: inputFields,
-                      // inputFields: inputFields,
-
-                      secretKey: elementName,
-                      pathName: location.pathname,
-                    };
-                    history.push(
-                      routePaths.secrets.registerSecrets(selectedWorkspace),
-                      state,
-                    );
-                  }
-                }}
-                // inputData={inputData}
-                value={
-                  mappedConfiguration[elementName]?.value
-                    ? mappedConfiguration[elementName]?.value
-                    : // : inputData[props.name]
-                    mappedConfiguration[elementName]?.length
-                    ? mappedConfiguration[elementName]
-                    : ''
-                }
-                onChange={(val: string, newEvent: any) => {
-                  if (!val) {
-                    if (secretIdArray?.length === 1) {
+                        secretKey: elementName,
+                        pathName: location.pathname,
+                      };
+                      history.push(
+                        routePaths.secret.updateSecret(
+                          secretId,
+                          selectedWorkspace,
+                        ),
+                        state,
+                      );
                     } else {
-                      setSecretId('');
-                    }
-                  }
-                  if (val.includes('{{')) {
-                    callActionForSecret(elementName, val, newEvent);
-                  } else {
-                    setMappedConfiguration({
-                      ...mappedConfiguration,
-                      [elementName]: val,
-                    });
-                  }
-                }}
-                secretOnChange={(val: any, newEvent: any) => {
-                  // debugger;
-                  // setInputData({
-                  //   ...inputData,
-                  //   [props.name]: val.value.includes('.') ? val.value : val,
-                  // });
+                      const state = {
+                        flavor: flavor.name,
+                        routeFromEditComponent: true,
+                        componentName: componentName,
+                        isShared: isShared,
+                        mappedConfiguration: mappedConfiguration,
+                        inputFields: inputFields,
+                        // inputFields: inputFields,
 
-                  if (val?.value?.includes('}}')) {
-                    setMappedConfiguration({
-                      ...mappedConfiguration,
-                      [elementName]: val?.value?.includes('.')
-                        ? val.value
-                        : val,
-                    });
-                  } else if (val.value.includes('{{')) {
-                    callActionForSecret(elementName, val, newEvent);
+                        secretKey: elementName,
+                        pathName: location.pathname,
+                      };
+                      history.push(
+                        routePaths.secrets.registerSecrets(selectedWorkspace),
+                        state,
+                      );
+                    }
+                  }}
+                  // inputData={inputData}
+                  value={
+                    mappedConfiguration[elementName]?.value
+                      ? mappedConfiguration[elementName]?.value
+                      : // : inputData[props.name]
+                      mappedConfiguration[elementName]?.length
+                      ? mappedConfiguration[elementName]
+                      : ''
                   }
-                }}
-                dropdownOptions={
-                  mappedConfiguration[elementName]?.value &&
-                  mappedConfiguration[elementName]?.value.includes(
-                    `${selectedSecret.name}.`,
-                  )
-                    ? secretOptionsWithKeys
-                    : secretOptions
-                }
-                tooltipText='Start typing with "{{" to reference a secret for this field.'
-              />
-            </Box>
-          ) : (
+                  onChange={(val: string, newEvent: any) => {
+                    if (!val) {
+                      if (secretIdArray?.length === 1) {
+                      } else {
+                        setSecretId('');
+                      }
+                    }
+                    if (val.includes('{{')) {
+                      callActionForSecret(elementName, val, newEvent);
+                    } else {
+                      setMappedConfiguration({
+                        ...mappedConfiguration,
+                        [elementName]: val,
+                      });
+                    }
+                  }}
+                  secretOnChange={(val: any, newEvent: any) => {
+                    // debugger;
+                    // setInputData({
+                    //   ...inputData,
+                    //   [props.name]: val.value.includes('.') ? val.value : val,
+                    // });
+
+                    if (val?.value?.includes('}}')) {
+                      setMappedConfiguration({
+                        ...mappedConfiguration,
+                        [elementName]: val?.value?.includes('.')
+                          ? val.value
+                          : val,
+                      });
+                    } else if (val.value.includes('{{')) {
+                      callActionForSecret(elementName, val, newEvent);
+                    }
+                  }}
+                  dropdownOptions={
+                    mappedConfiguration[elementName]?.value &&
+                    mappedConfiguration[elementName]?.value.includes(
+                      `${selectedSecret.name}.`,
+                    )
+                      ? secretOptionsWithKeys
+                      : secretOptions
+                  }
+                  tooltipText='Start typing with "{{" to reference a secret for this field.'
+                />
+              </Box>
+            )
+          ) : flavor?.configSchema?.properties[elementName].title ===
+              'Authentication Secret' && connectorResourceId !== null ? null : (
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <FormTextField
+                disabled={
+                  connectorResourceId &&
+                  elementName === flavor.connectorResourceIdAttr
+                }
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
-                    ...prevConfig, // Spread the previous user object
-                    [elementName]: e, // Update the age property
+                    ...prevConfig, // Spread the previous
+                    [elementName]: e, // Update the
                   }));
                   // setMappedConfiguration(...mappedConfiguration,
                   //   mappedConfiguration[elementName]: e,
                   // );
                 }}
-                placeholder="Component Name"
+                placeholder=""
                 label={titleCase(elementName)}
                 value={mappedConfiguration[elementName]}
               />
@@ -1032,6 +1084,7 @@ export const UpdateConfig: React.FC<{
   if (flavor === undefined) {
     return <FullWidthSpinner color="black" size="md" />;
   }
+
   // const values = [...flavor?.configSchema?.properties];
   // let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
   //   r: any,
@@ -1101,7 +1154,7 @@ export const UpdateConfig: React.FC<{
     'mappedObjectmappedObjectmappedObject',
   );
   // debugger;
-  if (fetching) {
+  if (componentLoading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
   return (
@@ -1144,6 +1197,33 @@ export const UpdateConfig: React.FC<{
             />
           </Box>
         </Container>
+        {flavor.connectorResourceType && (
+          <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
+            <Paragraph size="body" style={{ color: '#000' }}>
+              <label htmlFor="key">{'Connect to resource'}</label>
+            </Paragraph>
+            {/* {console.log(resourceType, ids, 'idsidsids')} */}
+            <Box marginTop="sm" style={{ width: '30vw' }}>
+              <ServicesSelectorComponent
+                fetching={fetching}
+                inputData={mappedConfiguration}
+                setInputData={setMappedConfiguration}
+                sensitiveFields={sensitiveFields}
+                defaultMappedConfig={defaultMappedConfig}
+                // parent={parent}
+                // setParent={setParent}
+                connectorResourceIdAttr={flavor.connectorResourceIdAttr}
+                connector={connector}
+                setConnector={setConnector}
+                connectorResourceId={connectorResourceId}
+                setConnectorResourceId={setConnectorResourceId}
+                serviceConnectorResources={serviceConnectorResources}
+                // resources={resources}
+                // verifying={verifying}
+              />
+            </Box>
+          </Box>
+        )}
       </FlexBox.Row>
       <FlexBox.Row style={{ width: '40%' }}>
         <Container>
@@ -1153,6 +1233,7 @@ export const UpdateConfig: React.FC<{
             ))}
         </Container>
       </FlexBox.Row>
+
       <FlexBox
         style={{
           position: 'fixed',

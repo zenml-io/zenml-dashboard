@@ -91,5 +91,6 @@ export const endpoints = {
       `/workspaces/${workspace}/service_connectors`,
     get: (connectorId: TId): string => `/service_connectors/${connectorId}`,
     connectorsTypes: `/service_connector_types`,
+    connectorComponents: `/components`,
   },
 };

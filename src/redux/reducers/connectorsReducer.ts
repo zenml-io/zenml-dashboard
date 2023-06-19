@@ -6,6 +6,9 @@ export interface State {
   ids: TId[];
   byId: Record<TId, any>;
   myConnectorIds: TId[];
+  connectorComponentsIds: TId[];
+  connectorTypes: any[];
+  // connectorTypeIds: TId[];
   paginated: any;
 }
 
@@ -24,6 +27,9 @@ export const initialState: State = {
   ids: [],
   byId: {},
   myConnectorIds: [],
+  connectorComponentsIds: [],
+  connectorTypes: [],
+  // connectorTypeIds: [],
   paginated: {},
 };
 
@@ -53,6 +59,20 @@ const connectorsReducer = (
 
       return { ...newState(state, connectors, action.payload), myConnectorIds };
     }
+    case connectorActionTypes.getConnectorComponents.success: {
+      const connectorComponents: any[] = camelCaseArray(
+        action.payload.items as ConnectorsPayload,
+      );
+      // debugger;
+      const connectorComponentsIds: TId[] = connectorComponents.map(
+        (stack: any) => stack.id,
+      );
+
+      return {
+        ...newState(state, connectorComponents, action.payload),
+        connectorComponentsIds,
+      };
+    }
 
     case connectorActionTypes.getConnectorForId.success: {
       const payload: ConnectorPayload = action.payload;
@@ -62,15 +82,18 @@ const connectorsReducer = (
       return { ...state, ...newState(state, [connector]) };
     }
 
-    case connectorActionTypes.ConnectorsTypes.success: {
-      const connectorsTypes: any[] = camelCaseArray(
-        action.payload.items as ConnectorsTypesPayload,
+    case connectorActionTypes.connectorsTypes.success: {
+      const connectorTypes: any[] = camelCaseArray(
+        action.payload as ConnectorsTypesPayload,
       );
 
-      // const connectorIds: TId[] = connectorsTypes.map(
+      // const connectorTypeIds: TId[] = connectorsTypes.map(
       //   (connector: any) => connector.id,
       // );
-      return { ...newState(state, connectorsTypes, action.payload) };
+      return {
+        ...state,
+        connectorTypes,
+      };
 
       // return { ...state, ...newState(state, connectorsTypes) };
     }

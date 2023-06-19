@@ -10,7 +10,7 @@ const getConnectorsTypesApi = ({
   logical_operator,
   page,
   size,
-  name,
+  connector_type,
   filtersParam,
   // id,
   authenticationToken,
@@ -21,7 +21,7 @@ const getConnectorsTypesApi = ({
   logical_operator: string;
   page: number;
   size: number;
-  name?: string;
+  connector_type?: string;
   filtersParam?: object;
   // id?: any;
   authenticationToken: string;
@@ -34,7 +34,7 @@ const getConnectorsTypesApi = ({
       logical_operator,
       page,
       size,
-      name,
+      connector_type,
       ...filtersParam,
       // id,
     },
