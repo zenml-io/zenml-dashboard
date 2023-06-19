@@ -259,7 +259,6 @@ Props) => {
               );
             }}
           >
-            {selectedWorkspace}
             Register New Component
           </PrimaryButton>
         </Box>
