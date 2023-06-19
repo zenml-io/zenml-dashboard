@@ -1,11 +1,12 @@
 export type Sorting =
   | 'id'
   | 'name'
-  | 'status'
-  | 'scope'
+  | 'connector_type'
+  | 'resource_type'
+  | 'resource_id'
+  | 'auth_method'
   | 'user_id'
-  | 'datasourceCommit'
-  | 'createdAt'
+  | 'is_shared'
   | 'created';
 
 export type SortingDirection = 'ASC' | 'DESC';

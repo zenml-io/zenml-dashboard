@@ -11,7 +11,6 @@ import { Box, FlexBox, icons, Paragraph } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 
 export const GetHeaderCols = ({
-  // expendedRow,
   filteredConnector,
 }: {
   filteredConnector: any[];
@@ -154,7 +153,7 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          {connector?.connectorType.resource_types?.map((e: any) => (
+          {connector?.connectorType?.resource_types?.map((e: any) => (
             <Box marginLeft="sm">
               <div data-tip data-for={e?.name}>
                 <FlexBox alignItems="center">

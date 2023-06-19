@@ -13,6 +13,7 @@ import {
   icons,
   DropdownInput,
   InputWithLabelIcon,
+  Spinner,
 } from '..';
 import { handleUpdateNumericInput } from '../../../utils/input';
 import { iconColors } from '../../../constants/icons';
@@ -52,6 +53,7 @@ export const FormTextField = (props: {
   required?: boolean;
   name?: string;
   style?: any;
+  onRemoveFocus?: any;
 }): JSX.Element => (
   <FlexBox.Column fullWidth>
     <FlexBox alignItems="center" fullWidth>
@@ -64,7 +66,11 @@ export const FormTextField = (props: {
         InputComponent={
           <TextInput
             {...props}
-            style={props.style}
+            style={{
+              backgroundColor: props.disabled && 'rgba(168, 168, 168, 0.1)',
+              borderWidth: props.disabled && '0px',
+              ...props.style,
+            }}
             placeholder={props.placeholder}
             hasError={props.error?.hasError}
             value={props.value}
@@ -101,7 +107,11 @@ export const FormDropdownField = (props: {
         InputComponent={
           <DropdownInput
             {...props}
-            style={props.style}
+            style={{
+              backgroundColor: props.disabled && 'rgba(168, 168, 168, 0.07)',
+              borderWidth: props.disabled && '0px',
+              ...props.style,
+            }}
             placeholder={props.placeholder}
             hasError={props.error?.hasError}
             value={props.value}
@@ -147,8 +157,8 @@ export const CopyField = (
               <TextInput
                 {...props}
                 style={{
-                  background: 'rgba(168, 168, 168, 0.2)',
-                  border: '1px solid #C9CBD0',
+                  background: 'rgba(168, 168, 168, 0.1)',
+                  border: '1px solid #A8A8A8',
                 }}
                 value={`${props.value.slice(0, 33)}`}
                 placeholder={props.placeholder}
@@ -157,8 +167,8 @@ export const CopyField = (
               <TextInput
                 {...props}
                 style={{
-                  background: 'rgba(168, 168, 168, 0.2)',
-                  border: '1px solid #C9CBD0',
+                  background: 'rgba(168, 168, 168, 0.1)',
+                  border: '1px solid #A8A8A8',
                 }}
                 value="Token"
                 placeholder={props.placeholder}
@@ -237,7 +247,7 @@ export const MakeSecretField = (
           InputComponent={
             <TextInput
               {...props}
-              style={{ border: '1px solid #C9CBD0' }}
+              style={{ border: '1px solid #A8A8A8' }}
               value={props.value}
               placeholder={props.placeholder}
               onChangeText={props.onChange}
@@ -326,7 +336,7 @@ export const MakeSecretField = (
               name={props.name}
               label={props.secretLabel}
               labelColor={props.secretLabelColor}
-              InputComponent={ <TextInput {...props} style={{ border: '1px solid #C9CBD0' }} value={props.secretValue} placeholder={props.secretPlaceholder} onChangeText={props.secretOnChange} />}
+              InputComponent={ <TextInput {...props} style={{ border: '1px solid #A8A8A8' }} value={props.secretValue} placeholder={props.secretPlaceholder} onChangeText={props.secretOnChange} />}
             />
             <Box
               style={{ 
@@ -374,7 +384,8 @@ export const EditField = (
                   style={{
                     height: '40px',
                     width: '30vw',
-                    backgroundColor: props.disabled && '#F6F7F7',
+                    backgroundColor:
+                      props.disabled && 'rgba(168, 168, 168, 0.1)',
                     borderWidth: props.disabled && '0px',
                     borderRadius: '4px',
                     justifyContent: 'flex-start',
@@ -399,7 +410,8 @@ export const EditField = (
                 <TextInput
                   {...props}
                   style={{
-                    backgroundColor: props.disabled && '#E9EAEC',
+                    backgroundColor:
+                      props.disabled && 'rgba(168, 168, 168, 0.1)',
                     borderWidth: props.disabled && '0px',
                   }}
                   filteredSecretId={props.filteredSecretId}
@@ -579,7 +591,7 @@ export const SearchInputField = (
           style={{
             paddingLeft: '40px',
             paddingRight: '35px',
-            backgroundColor: props.disabled && '#E9EAEC',
+            backgroundColor: props.disabled && 'rgba(168, 168, 168, 0.1)',
             borderWidth: props.disabled && '0px',
           }}
           value={props.value}
@@ -613,6 +625,86 @@ export const SearchInputField = (
           }
         /> */}
       </FlexBox>
+    </FlexBox.Column>
+  );
+};
+
+export const FormPasswordFieldVerify = (
+  props: {
+    label: string;
+    labelColor: any;
+    placeholder: string;
+    value: string;
+    onChange: any;
+    required?: boolean;
+    error: FieldError;
+    success?: boolean;
+    loading?: boolean;
+  } & any,
+): JSX.Element => {
+  const [showPassword, setShowPassword] = useState(false);
+  return (
+    <FlexBox.Column fullWidth>
+      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+        <InputWithLabel
+          name={props.name}
+          label={props.label}
+          required={props.required}
+          labelColor={props.labelColor}
+          InputComponent={
+            !showPassword ? (
+              <PasswordInput
+                {...props}
+                onChangeText={props.onChange}
+                value={props.value}
+                placeholder={props.placeholder}
+                hasError={props.error.hasError}
+                style={{
+                  backgroundColor: props.disabled && 'rgba(168, 168, 168, 0.1)',
+                  borderWidth: props.disabled && '0px',
+                }}
+              />
+            ) : (
+              <TextInput
+                {...props}
+                onChangeText={props.onChange}
+                value={props.value}
+                placeholder={props.placeholder}
+                hasError={props.error.hasError}
+                style={{
+                  backgroundColor: props.disabled && 'rgba(168, 168, 168, 0.1)',
+                  borderWidth: props.disabled && '0px',
+                }}
+              />
+            )
+          }
+        />
+        <LinkBox
+          style={{ position: 'absolute', right: '50px', top: '36px' }}
+          onClick={() => {}}
+        >
+          {props.loading && <Spinner color={'black'} size={'xs'} />}
+          {props.success && (
+            <icons.checkCircleFilled color={iconColors.green} />
+          )}
+        </LinkBox>
+
+        <LinkBox
+          style={{ position: 'absolute', right: '10px', top: '36px' }}
+          onClick={(event: any) => {
+            if (!event) return null;
+            setShowPassword(!showPassword);
+          }}
+        >
+          <icons.eye
+            color={showPassword ? iconColors.black : iconColors.grey}
+          />
+        </LinkBox>
+      </FlexBox>
+      <FormValidationError
+        text={props.error.text}
+        hasError={props.error.hasError}
+      />
     </FlexBox.Column>
   );
 };

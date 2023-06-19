@@ -80,7 +80,10 @@ export const Menu: React.FC = () => {
         //   });
         // }}
 
-        isActive={() => window.location.href?.includes('components')}
+        isActive={() =>
+          window.location.href?.includes('components') &&
+          !window.location.href?.includes('connectors')
+        }
         Icon={() => (
           <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
         )}

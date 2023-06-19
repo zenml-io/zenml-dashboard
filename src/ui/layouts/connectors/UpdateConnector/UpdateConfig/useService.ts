@@ -1,7 +1,8 @@
 import { useSelector } from 'react-redux';
 import {
+  connectorSelectors,
   // stackSelectors,
-  secretSelectors,
+  // secretSelectors,
 } from '../../../../../redux/selectors';
 
 // import YAML from 'json2yaml';
@@ -9,15 +10,17 @@ import {
 interface ServiceInterface {
   // downloadYamlFile: () => void;
   // stackConfig: string;
-  secret: any;
+  connector: any;
 }
 
 export const useService = ({
-  secretId,
+  connectorId,
 }: {
-  secretId: TId;
+  connectorId: TId;
 }): ServiceInterface => {
-  const secret: TStack = useSelector(secretSelectors.secretForId(secretId));
+  const connector: TStack = useSelector(
+    connectorSelectors.connectorForId(connectorId),
+  );
 
   // const yamlConfigObj: any = {
   //   stack_name: stack.name,
@@ -47,5 +50,5 @@ export const useService = ({
   //   element.click();
   // };
 
-  return { secret };
+  return { connector };
 };

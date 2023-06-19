@@ -25,6 +25,7 @@ import StackDetail from '../ui/layouts/stacks/StackDetail/index';
 import secretDetail from '../ui/layouts/secrets/SecretDetail/index';
 import UpdateSecret from '../ui/layouts/secrets/UpdateSecret/index';
 import UpdateComponent from '../ui/layouts/stackComponents/UpdateComponent/index';
+import UpdateConnector from '../ui/layouts/connectors/UpdateConnector/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
 import ConfigureComponent from '../ui/layouts/stackComponents/ConfigureComponent/index';
 import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
@@ -35,7 +36,7 @@ import SettingsPage from '../ui/layouts/settings/SettingsPage';
 
 import connectorDetail from '../ui/layouts/connectors/ConnectorDetail/index';
 import RegisterConnectors from '../ui/layouts/connectors/RegisterConnector';
-
+import ConnectorTypes from '../ui/layouts/connectors/ConnectorTypes';
 import ListPlugins from '../ui/layouts/plugins/ListPlugins';
 import CreatePlugin from '../ui/layouts/plugins/CreatePlugin';
 import UpdatePlugin from '../ui/layouts/plugins/UpdatePlugin';
@@ -671,24 +672,32 @@ const routes = [
   //   exact: true,
   // },
   {
-    path: routePaths.connectors.metaData(':id', ':string'),
+    path: routePaths.connectors.connectorComponents(':id', ':string'),
     Component: connectorDetail,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
     exact: true,
   },
-  // {
-  //   path: routePaths.connectors.registerConnectors,
-  //   Component: RegisterConnectors,
-  //   visibility: {
-  //     authentication: RouteVisibilityAuthentication.authenticatedOnly,
-  //   },
-  //   exact: true,
-  // },
+  {
+    path: routePaths.connectors.registerConnectors(':type', ':workspace'),
+    Component: RegisterConnectors,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
   {
     path: routePaths.connectors.connectorTypes(':string'),
-    Component: RegisterConnectors,
+    Component: ConnectorTypes,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.connectors.updateConnector(':id', ':string'),
+    Component: UpdateConnector,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },

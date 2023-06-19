@@ -1,4 +1,4 @@
-import React, { Fragment, useState } from 'react';
+import React, { Fragment, useEffect, useState } from 'react';
 import {
   FlexBox,
   Box,
@@ -33,6 +33,8 @@ import {
 import { toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
+import ServicesSelectorComponent from '../../ServicesSelectorComponent/Disabled';
+import { getServiceConnectorResources } from '../../ConfigureComponent/CreateComponent/useService';
 // import { routePaths } from '../../../../../routes/routePaths';
 
 export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
@@ -46,14 +48,24 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     stackId,
   });
   const user = useSelector(userSelectors.myUser);
-  const [fetching, setFetching] = useState(false);
+  const [componentfetching, setComponentFetching] = useState(false);
   const secrets = useSelector(secretSelectors.mySecrets);
 
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
+  const [connector, setConnector] = useState();
+  const [connectorResourceId, setConnectorResourceId] = useState();
   const [inputFields, setInputFields] = useState([]) as any;
+
+  const { serviceConnectorResources, fetching } = getServiceConnectorResources(
+    flavor?.connectorResourceType,
+  );
+  useEffect(() => {
+    setConnector(stackComponent?.connector?.id);
+    setConnectorResourceId(stackComponent?.connectorResourceId);
+  }, [stackComponent]);
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -73,7 +85,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
       flavor: updateConfig.flavor,
       configuration: updateConfig.configuration,
     };
-    setFetching(true);
+    setComponentFetching(true);
     axios
       .put(
         `${process.env.REACT_APP_BASE_API_URL}/components/${updateConfig.id}`,
@@ -95,8 +107,8 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
         dispatch(
           stackComponentsActions.stackComponentForId({
             stackComponentId: stackComponent?.id,
-            onSuccess: () => setFetching(false),
-            onFailure: () => setFetching(false),
+            onSuccess: () => setComponentFetching(false),
+            onFailure: () => setComponentFetching(false),
           }),
         );
         // dispatchStackData(1, 10);
@@ -112,7 +124,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
         // );
       })
       .catch((err) => {
-        setFetching(false);
+        setComponentFetching(false);
         // ;
         // setLoading(false);
         dispatch(
@@ -255,33 +267,36 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
         (item) => item.name === secretName,
       );
 
-      // console.log(filteredSecret, 'asd123ffwwvweer');
       return (
         <>
           {flavor?.configSchema?.properties[elementName].sensitive ? (
-            <Box marginTop="lg" style={{ width: '30vw' }}>
-              <EditField
-                disabled
-                viewSecretDetail={() => {
-                  history.push(
-                    routePaths.secret.configuration(
-                      filteredSecret[0]?.id,
-                      selectedWorkspace,
-                    ),
-                  );
-                }}
-                filteredSecretId={filteredSecret[0]?.id}
-                // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
-                // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
-                label={titleCase(elementName) + ' (Secret)'}
-                optional={false}
-                defaultValue={elementSchema}
-                placeholder=""
-                hasError={false}
-                // className={styles.field}
-              />
-            </Box>
-          ) : (
+            !stackComponent.connectorResourceId && (
+              <Box marginTop="lg" style={{ width: '30vw' }}>
+                <EditField
+                  disabled
+                  viewSecretDetail={() => {
+                    history.push(
+                      routePaths.secret.configuration(
+                        filteredSecret[0]?.id,
+                        selectedWorkspace,
+                      ),
+                    );
+                  }}
+                  filteredSecretId={filteredSecret[0]?.id}
+                  // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
+                  // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
+                  label={titleCase(elementName) + ' (Secret)'}
+                  optional={false}
+                  defaultValue={elementSchema}
+                  placeholder=""
+                  hasError={false}
+                  // className={styles.field}
+                />
+              </Box>
+            )
+          ) : flavor?.configSchema?.properties[elementName].title ===
+              'Authentication Secret' &&
+            stackComponent.connectorResourceId ? null : (
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
@@ -895,9 +910,9 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
     ...stackComponent?.configuration,
     // ...normalizeConfiguration,
   };
-  console.log(mappedObject, 'mappedObjectmappedObjectmappedObject');
+
   // debugger;
-  if (fetching) {
+  if (componentfetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
   return (
@@ -930,6 +945,16 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
             />
           </Box>
         </Container>
+        {flavor.connectorResourceType && (
+          <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
+            <ServicesSelectorComponent
+              fetching={fetching}
+              connector={connector}
+              connectorResourceId={connectorResourceId}
+              serviceConnectorResources={serviceConnectorResources}
+            />
+          </Box>
+        )}
       </FlexBox.Row>
       <FlexBox.Row style={{ width: '40%' }}>
         <Container>
@@ -938,6 +963,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
           ))}
         </Container>
       </FlexBox.Row>
+
       <FlexBox
         style={{
           position: 'fixed',
