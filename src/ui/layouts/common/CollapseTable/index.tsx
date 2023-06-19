@@ -18,10 +18,12 @@ export const CollapseTable: React.FC<TableProps & CollapseTableProps> = ({
   paginated,
   renderAfterRow,
   trOnClick,
+  route,
 }) => {
   // console.log('activeSorting', activeSorting);
   return (
     <Table
+      route={route}
       isExpended={isExpended}
       activeSorting={activeSorting}
       headerCols={headerCols}

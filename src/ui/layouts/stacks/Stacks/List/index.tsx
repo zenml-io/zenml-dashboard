@@ -178,6 +178,7 @@ export const List: React.FC<Props> = ({
             />
           </>
         )}
+        route={routePaths.stacks.createStack(selectedWorkspace)}
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
@@ -188,7 +189,15 @@ export const List: React.FC<Props> = ({
         filters={filter}
         headerCols={headerCols}
         tableRows={filteredStacks}
-        emptyState={{ text: translate('emptyState.text') }}
+        emptyState={
+          filter[0]?.value
+            ? {
+                text: translate('emptyState.text'),
+              }
+            : {
+                text: `Nothing to see here, it seems like no stack has been configured yet.`,
+              }
+        }
         trOnClick={openDetailPage}
       />
       <If condition={stacksPaginated.totalitem > 5}>

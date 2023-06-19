@@ -36,7 +36,11 @@ export const AllRuns: React.FC<Props> = ({
         getSorted={getSorted}
         paginated={runsPaginated}
         fetching={fetching}
-        emptyStateText={translate('emptyState.text')}
+        emptyStateText={
+          filter[0]?.value
+            ? translate('emptyState.text')
+            : `Nothing to see here, it seems like no run has been configured yet.`
+        }
         runIds={runIds}
         fromAllruns={true}
         filter={filter}
