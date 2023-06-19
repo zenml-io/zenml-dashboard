@@ -1197,6 +1197,33 @@ export const UpdateConfig: React.FC<{
             />
           </Box>
         </Container>
+        {flavor.connectorResourceType && (
+          <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
+            <Paragraph size="body" style={{ color: '#000' }}>
+              <label htmlFor="key">{'Connect to resource'}</label>
+            </Paragraph>
+            {/* {console.log(resourceType, ids, 'idsidsids')} */}
+            <Box marginTop="sm" style={{ width: '30vw' }}>
+              <ServicesSelectorComponent
+                fetching={fetching}
+                inputData={mappedConfiguration}
+                setInputData={setMappedConfiguration}
+                sensitiveFields={sensitiveFields}
+                defaultMappedConfig={defaultMappedConfig}
+                // parent={parent}
+                // setParent={setParent}
+                connectorResourceIdAttr={flavor.connectorResourceIdAttr}
+                connector={connector}
+                setConnector={setConnector}
+                connectorResourceId={connectorResourceId}
+                setConnectorResourceId={setConnectorResourceId}
+                serviceConnectorResources={serviceConnectorResources}
+                // resources={resources}
+                // verifying={verifying}
+              />
+            </Box>
+          </Box>
+        )}
       </FlexBox.Row>
       <FlexBox.Row style={{ width: '40%' }}>
         <Container>
@@ -1206,33 +1233,7 @@ export const UpdateConfig: React.FC<{
             ))}
         </Container>
       </FlexBox.Row>
-      {flavor.connectorResourceType && (
-        <Box marginTop="lg" marginLeft="md" style={{ width: '30vw' }}>
-          <Paragraph size="body" style={{ color: '#000' }}>
-            <label htmlFor="key">{'Connect to resource'}</label>
-          </Paragraph>
-          {/* {console.log(resourceType, ids, 'idsidsids')} */}
-          <Box marginTop="sm" style={{ width: '30vw' }}>
-            <ServicesSelectorComponent
-              fetching={fetching}
-              inputData={mappedConfiguration}
-              setInputData={setMappedConfiguration}
-              sensitiveFields={sensitiveFields}
-              defaultMappedConfig={defaultMappedConfig}
-              // parent={parent}
-              // setParent={setParent}
-              connectorResourceIdAttr={flavor.connectorResourceIdAttr}
-              connector={connector}
-              setConnector={setConnector}
-              connectorResourceId={connectorResourceId}
-              setConnectorResourceId={setConnectorResourceId}
-              serviceConnectorResources={serviceConnectorResources}
-              // resources={resources}
-              // verifying={verifying}
-            />
-          </Box>
-        </Box>
-      )}
+
       <FlexBox
         style={{
           position: 'fixed',

@@ -945,6 +945,16 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
             />
           </Box>
         </Container>
+        {flavor.connectorResourceType && (
+          <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
+            <ServicesSelectorComponent
+              fetching={fetching}
+              connector={connector}
+              connectorResourceId={connectorResourceId}
+              serviceConnectorResources={serviceConnectorResources}
+            />
+          </Box>
+        )}
       </FlexBox.Row>
       <FlexBox.Row style={{ width: '40%' }}>
         <Container>
@@ -953,16 +963,7 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
           ))}
         </Container>
       </FlexBox.Row>
-      {flavor.connectorResourceType && (
-        <Box marginTop="lg" marginLeft="md" style={{ width: '30vw' }}>
-          <ServicesSelectorComponent
-            fetching={fetching}
-            connector={connector}
-            connectorResourceId={connectorResourceId}
-            serviceConnectorResources={serviceConnectorResources}
-          />
-        </Box>
-      )}
+
       <FlexBox
         style={{
           position: 'fixed',
