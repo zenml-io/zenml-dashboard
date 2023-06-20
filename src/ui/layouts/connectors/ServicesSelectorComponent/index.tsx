@@ -80,7 +80,7 @@ const Index: React.FC<ServicesSelector> = ({
   );
 
   return (
-    <Box className={styles.service_selectro_wrapper}>
+    <Box className={styles.service_selector_wrapper}>
       <Box paddingBottom="sm">
         <Paragraph size="body" style={{ color: 'black' }}>
           <label style={{ display: 'flex', flexDirection: 'row' }}>
