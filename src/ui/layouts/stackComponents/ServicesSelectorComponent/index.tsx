@@ -40,7 +40,7 @@ const Index: React.FC<ServicesSelector> = ({
   console.log(defaultMappedConfig, inputData, 'fefefw');
 
   return (
-    <Box>
+    <Box className={styles.service_selector_wrapper}>
       <Box
         className={styles.service_selector}
         onClick={() => setShowServices(!showServices)}
