@@ -1,3 +1,4 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-yarn prettier:fix && git add .
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npx lint-staged
