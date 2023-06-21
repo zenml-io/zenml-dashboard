@@ -149,7 +149,11 @@ export const Table: React.FC<TableProps> = ({
   return (
     <FlexBox.Column
       fullWidth
-      style={{ marginBottom: pagination ? '90px' : '0px' }}
+      style={{
+        // marginBottom: pagination ? '90px' : '0px',
+        minWidth: '1250px',
+        overflowX: 'auto',
+      }}
     >
       <IfElse
         condition={tableRows.length > 0 && !loading}
