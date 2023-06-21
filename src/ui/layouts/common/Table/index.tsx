@@ -93,9 +93,13 @@ export const Table: React.FC<TableProps> = ({
       // debugger;
       const gridColumns = columns.map((col, i) => {
         // debugger;
-        if (i === activeIndex) {
-          const width = e.clientX - col.ref.current.offsetLeft;
-
+        if (i !== activeIndex && i === columns.length - 1) {
+          const width = e.view.innerWidth - col.ref.current.offsetLeft;
+          if (width >= minCellWidth) {
+            return `${width}px`;
+          }
+        } else if (i === activeIndex && i < columns.length - 1) {
+          const width = e.clientX - col.ref.current.offsetLeft - 70;
           if (width >= minCellWidth) {
             return `${width}px`;
           }
@@ -161,6 +165,7 @@ export const Table: React.FC<TableProps> = ({
                   ref={tableElement as any}
                   style={{
                     gridTemplateColumns: gridTemplateColumns,
+                    overflow: 'auto',
                   }}
                 >
                   <thead>
@@ -189,7 +194,9 @@ export const Table: React.FC<TableProps> = ({
 
                           <div
                             style={{ height: tableHeight }}
-                            onMouseDown={() => mouseDown(i)}
+                            onMouseDown={(e) => {
+                              if (i < columns.length - 1) mouseDown(i);
+                            }}
                             className={`resize-handle ${
                               activeIndex === i ? 'active' : 'idle'
                             }`}
