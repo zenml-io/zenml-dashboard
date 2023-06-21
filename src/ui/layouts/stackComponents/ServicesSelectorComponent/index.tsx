@@ -53,6 +53,7 @@ const Index: React.FC<ServicesSelector> = ({
             {!fetching && (
               <Paragraph>
                 <img
+                  className={styles.service_selector_image}
                   src={resourceTypeImage[0]?.connector_type?.logo_url}
                   alt={resourceTypeImage[0]?.connector_type.name}
                 />{' '}
@@ -122,6 +123,7 @@ const Index: React.FC<ServicesSelector> = ({
                 <FlexBox className={styles.services}>
                   <Box>
                     <img
+                      className={styles.service_selector_image}
                       src={connectorItem.connector_type.logo_url}
                       alt={connectorItem.connector_type.logo_url}
                     />

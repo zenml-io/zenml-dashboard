@@ -43,6 +43,7 @@ const Index: React.FC<ServicesSelector> = ({
             {!fetching && (
               <Paragraph>
                 <img
+                  className={styles.service_selector_image}
                   src={resourceTypeImage[0]?.connector_type?.logo_url}
                   alt={resourceTypeImage[0]?.connector_type.name}
                 />{' '}
