@@ -102,7 +102,11 @@ const Index: React.FC<ServicesSelector> = ({
         {parent ? (
           <FlexBox className={styles.service_selector_selected}>
             <Box marginRight="sm">
-              <img src={data?.logoUrl} alt={data?.name} />
+              <img
+                className={styles.service_selector_image}
+                src={data?.logoUrl}
+                alt={data?.name}
+              />
             </Box>
             <Paragraph>{data?.name}-&#91;all&#93;</Paragraph>
           </FlexBox>
@@ -113,6 +117,7 @@ const Index: React.FC<ServicesSelector> = ({
                 <FlexBox>
                   <Box marginRight="sm">
                     <img
+                      className={styles.service_selector_image}
                       src={resourceTypeImage[0]?.logo_url}
                       alt={resourceTypeImage[0]?.name}
                     />
@@ -155,7 +160,11 @@ const Index: React.FC<ServicesSelector> = ({
             {/* Main Parent Start  */}
             <FlexBox className={styles.services}>
               <Box>
-                <img src={data.logoUrl} alt={data.name} />
+                <img
+                  className={styles.service_selector_image}
+                  src={data.logoUrl}
+                  alt={data.name}
+                />
               </Box>
               <Box
                 marginLeft="sm"
@@ -220,6 +229,7 @@ const Index: React.FC<ServicesSelector> = ({
 
                         <Box>
                           <img
+                            className={styles.service_selector_image}
                             src={resource_type.logo_url}
                             alt={resource_type.resource_type}
                           />
