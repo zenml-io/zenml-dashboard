@@ -132,7 +132,12 @@ Props) => {
   };
 
   return (
-    <Box style={{ overflowX: 'auto' }}>
+    <Box
+      style={{
+        overflowX: 'auto',
+        marginBottom: stackComponentsPaginated.totalitem > 5 ? '90px' : '0px',
+      }}
+    >
       <CollapseTable
         route={routePaths.stackComponents.registerComponents(
           locationPath.split('/')[4],

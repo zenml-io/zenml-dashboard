@@ -150,7 +150,7 @@ export const Table: React.FC<TableProps> = ({
     <FlexBox.Column
       fullWidth
       style={{
-        marginBottom: pagination ? '90px' : '0px',
+        // marginBottom: pagination ? '90px' : '0px',
         minWidth: '1250px',
         overflowX: 'auto',
       }}

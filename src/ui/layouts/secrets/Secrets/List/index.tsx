@@ -165,7 +165,12 @@ Props) => {
   };
 
   return (
-    <Box style={{ overflowX: 'auto' }}>
+    <Box
+      style={{
+        overflowX: 'auto',
+        marginBottom: secretsPaginated.totalitem > 5 ? '90px' : '0px',
+      }}
+    >
       <CollapseTable
         route={routePaths.secrets.registerSecrets(selectedWorkspace)}
         renderAfterRow={(secret: any) => (

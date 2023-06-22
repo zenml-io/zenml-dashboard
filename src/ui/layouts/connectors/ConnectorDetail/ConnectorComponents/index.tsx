@@ -181,7 +181,12 @@ Props) => {
   };
 
   return (
-    <Box style={{ overflowX: 'auto' }}>
+    <Box
+      style={{
+        overflowX: 'auto',
+        marginBottom: connectorsPaginated.totalitem > 5 ? '90px' : '0px',
+      }}
+    >
       <CollapseTable
         renderAfterRow={(connector: any) => (
           <>
