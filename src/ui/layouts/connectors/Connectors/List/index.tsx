@@ -168,7 +168,7 @@ Props) => {
   };
 
   return (
-    <>
+    <Box style={{ overflowX: 'auto' }}>
       <CollapseTable
         route={routePaths.connectors.connectorTypes(selectedWorkspace)}
         renderAfterRow={(connector: any) => (
@@ -290,6 +290,6 @@ Props) => {
           </PrimaryButton>
         </Box>
       </FlexBox>
-    </>
+    </Box>
   );
 };

@@ -181,7 +181,7 @@ Props) => {
   };
 
   return (
-    <>
+    <Box style={{ overflowX: 'auto' }}>
       <CollapseTable
         renderAfterRow={(connector: any) => (
           <>
@@ -294,6 +294,6 @@ Props) => {
           </PrimaryButton>
         </Box>
       </FlexBox>
-    </>
+    </Box>
   );
 };

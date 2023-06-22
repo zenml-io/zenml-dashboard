@@ -165,7 +165,7 @@ Props) => {
   };
 
   return (
-    <>
+    <Box style={{ overflowX: 'auto' }}>
       <CollapseTable
         route={routePaths.secrets.registerSecrets(selectedWorkspace)}
         renderAfterRow={(secret: any) => (
@@ -284,6 +284,6 @@ Props) => {
           </PrimaryButton>
         </Box>
       </FlexBox>
-    </>
+    </Box>
   );
 };

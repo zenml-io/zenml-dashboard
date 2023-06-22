@@ -1,5 +1,5 @@
 import React from 'react';
-
+import { Box } from '../../../../components';
 import { translate } from '../translate';
 import { CollapseTable } from '../../../common/CollapseTable';
 import { useHistory, useSelector } from '../../../../hooks';
@@ -29,7 +29,7 @@ export const List: React.FC = () => {
   };
 
   return (
-    <>
+    <Box style={{ overflowX: 'auto' }}>
       <CollapseTable
         renderAfterRow={(stack: TStack) => (
           <RunsForStackTable
@@ -46,6 +46,6 @@ export const List: React.FC = () => {
         emptyState={{ text: translate('emptyState.text') }}
         trOnClick={openDetailPage}
       />
-    </>
+    </Box>
   );
 };

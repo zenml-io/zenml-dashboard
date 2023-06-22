@@ -166,7 +166,7 @@ export const List: React.FC<Props> = ({
   };
 
   return (
-    <>
+    <Box style={{ overflowX: 'auto' }}>
       <CollapseTable
         renderAfterRow={(stack: TStack) => (
           <>
@@ -265,6 +265,6 @@ export const List: React.FC<Props> = ({
           </FlexBox>
         )}
       </If>
-    </>
+    </Box>
   );
 };

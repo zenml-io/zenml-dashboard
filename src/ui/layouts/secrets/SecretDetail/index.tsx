@@ -148,7 +148,7 @@ export const StackDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
       title="Secrets"
     >
-      <Box marginTop="lg">
+      <Box marginTop="lg" style={{ overflowX: 'auto' }}>
         <CollapseTable
           pagination={false}
           renderAfterRow={(secret: any) => <></>}

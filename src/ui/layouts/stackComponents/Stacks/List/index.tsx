@@ -132,7 +132,7 @@ Props) => {
   };
 
   return (
-    <>
+    <Box style={{ overflowX: 'auto' }}>
       <CollapseTable
         route={routePaths.stackComponents.registerComponents(
           locationPath.split('/')[4],
@@ -263,6 +263,6 @@ Props) => {
           </PrimaryButton>
         </Box>
       </FlexBox>
-    </>
+    </Box>
   );
 };
