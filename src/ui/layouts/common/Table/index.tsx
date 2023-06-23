@@ -132,7 +132,6 @@ export const Table: React.FC<TableProps> = ({
 
         return `${col.ref.current.offsetWidth}px`;
       });
-      console.log(gridColumns, 'gridColumnsgridColumns');
       tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
         ' ',
       )}`;
