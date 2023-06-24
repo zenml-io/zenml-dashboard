@@ -153,25 +153,28 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          {connector?.connectorType?.resource_types?.map((e: any) => (
-            <Box marginLeft="sm">
-              <div data-tip data-for={e?.name}>
-                <FlexBox alignItems="center">
-                  <img
-                    alt={e?.logo_url}
-                    src={e?.logo_url}
-                    style={{
-                      height: '28px',
-                      width: '28px',
-                    }}
-                  />
-                </FlexBox>
-              </div>
-              <ReactTooltip id={e?.name} place="top" effect="solid">
-                <Paragraph color="white">{e?.name}</Paragraph>
-              </ReactTooltip>
-            </Box>
-          ))}
+          {connector?.connectorType?.resource_types?.map(
+            (e: any) =>
+              connector.resourceTypes.includes(e.resource_type) && (
+                <Box marginLeft="sm">
+                  <div data-tip data-for={e?.name}>
+                    <FlexBox alignItems="center">
+                      <img
+                        alt={e?.logo_url}
+                        src={e?.logo_url}
+                        style={{
+                          height: '28px',
+                          width: '28px',
+                        }}
+                      />
+                    </FlexBox>
+                  </div>
+                  <ReactTooltip id={e?.name} place="top" effect="solid">
+                    <Paragraph color="white">{e?.name}</Paragraph>
+                  </ReactTooltip>
+                </Box>
+              ),
+          )}
         </FlexBox>
       ),
     },

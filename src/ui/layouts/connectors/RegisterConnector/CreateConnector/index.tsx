@@ -85,6 +85,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const [connectorName, setConnectorName] = useState('');
   const [isShared, setIsShared] = useState(true);
   const [description, setDescription] = useState('');
+  const [disableToCreate, setDisableToCreate] = useState(false);
+
   const [selectedAuthMethod, setSelectedAuthMethod] = useState<any>(
     connectorType.authMethods[0].auth_method,
   );
@@ -942,6 +944,9 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
             }),
           );
         }
+        if (response.data.error) {
+          setDisableToCreate(true);
+        }
         setResources(response.data);
         // setLoading(false);
         // dispatch(
@@ -1171,6 +1176,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                   }
                 }}
                 onChange={(e: any) => {
+                  setDisableToCreate(false);
                   setMappedConfiguration((prevConfig: any) => ({
                     ...prevConfig, // Spread the previous user object
                     [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
@@ -1201,6 +1207,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                   }
                 }}
                 onChange={(e: any) => {
+                  setDisableToCreate(false);
                   setMappedConfiguration((prevConfig: any) => ({
                     ...prevConfig, // Spread the previous user object
                     [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
@@ -1888,6 +1895,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
         </Box>
 
         <SidePopup
+          disabled={disableToCreate}
           data={connectorType}
           verifying={verifying}
           onClose={() => {}}

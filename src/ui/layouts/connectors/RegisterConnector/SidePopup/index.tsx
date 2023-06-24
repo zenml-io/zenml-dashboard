@@ -21,8 +21,9 @@ export const SidePopup: React.FC<{
   onClose: () => void;
   action: any;
   flavor?: any;
+  disabled?: boolean;
   verifying?: boolean;
-}> = ({ data, children, action, verifying, flavor, onClose }) => {
+}> = ({ data, children, action, verifying, flavor, onClose, disabled }) => {
   window.onkeydown = function (event: any) {
     if (event.key === 'Esc' || event.key === 'Escape') {
       return onClose();
@@ -89,7 +90,7 @@ export const SidePopup: React.FC<{
             <Box style={{}}>
               <div style={{ position: 'relative', height: '30px' }}>
                 <PrimaryButton
-                  disabled={verifying}
+                  disabled={verifying || disabled}
                   onClick={action}
                   style={{ position: 'fixed', right: '50px' }}
                 >
