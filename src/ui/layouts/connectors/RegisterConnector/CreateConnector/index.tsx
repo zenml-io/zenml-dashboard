@@ -1,6 +1,7 @@
 import React, {
   Fragment,
   useEffect,
+  useRef,
   // Fragment, useEffect,
   useState,
 } from 'react';
@@ -108,6 +109,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const [labelsInputFields, setLabelsInputFields] = useState([
     { key: '', value: '' },
   ]) as any;
+  const previousValuesRef = useRef<string>('');
+  const inputRef = useRef<HTMLInputElement>(null) as any;
 
   // const [inputData, setInputData] = useState({}) as any;
   // const [inputFields, setInputFields] = useState() as any;
@@ -1165,15 +1168,27 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
           {elementSchema?.format === 'password' ? (
             <Box marginTop="lg" style={{ width: '30vw', marginLeft: '-15px' }}>
               <FormPasswordFieldVerify
+                inputRef={inputRef}
                 required={matchedAuthMethod?.config_schema?.required?.includes(
                   elementName,
                 )}
                 onRemoveFocus={(e: any) => {
                   if (e.target.value) {
-                    matchedAuthMethod?.config_schema?.required?.includes(
-                      elementName,
-                    ) && onVerify();
+                    const currentValue = e.target.value;
+                    const previousValues = previousValuesRef.current;
+                    if (currentValue !== previousValues) {
+                      matchedAuthMethod?.config_schema?.required?.includes(
+                        elementName,
+                      ) && onVerify();
+                    }
+                    previousValuesRef.current = currentValue;
+                    // inputRef.current.value = currentValue;
                   }
+                }}
+                onHandleFocus={(e: any) => {
+                  const currentValue = e.target.value;
+                  previousValuesRef.current = currentValue;
+                  // debugger;
                 }}
                 onChange={(e: any) => {
                   setDisableToCreate(false);
@@ -1199,11 +1214,22 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                 required={matchedAuthMethod?.config_schema?.required?.includes(
                   elementName,
                 )}
+                onHandleFocus={(e: any) => {
+                  const currentValue = e.target.value;
+                  previousValuesRef.current = currentValue;
+                  // debugger;
+                }}
                 onRemoveFocus={(e: any) => {
                   if (e.target.value) {
-                    matchedAuthMethod?.config_schema?.required?.includes(
-                      elementName,
-                    ) && onVerify();
+                    const currentValue = e.target.value;
+                    const previousValues = previousValuesRef.current;
+                    if (currentValue !== previousValues) {
+                      matchedAuthMethod?.config_schema?.required?.includes(
+                        elementName,
+                      ) && onVerify();
+                    }
+                    previousValuesRef.current = currentValue;
+                    // inputRef.current.value = currentValue;
                   }
                 }}
                 onChange={(e: any) => {
@@ -1687,6 +1713,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                   setParent(false);
                   setResourceType('');
                   setIds('');
+                  setDisableToCreate(false);
                 }}
                 options={authMethoddropdownOptions as any}
                 style={{ paddingLeft: '10px', backgroundColor: '#fff' }}
