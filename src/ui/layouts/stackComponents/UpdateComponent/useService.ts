@@ -3,28 +3,30 @@
 import { StackDetailRouteParams } from '.';
 import {
   flavorsActions,
-  pipelinesActions,
   runPagesActions,
-  stackComponentPagesActions,
   stackComponentsActions,
-  stacksActions,
 } from '../../../../redux/actions';
 import {
+  flavorSelectors,
+  sessionSelectors,
   stackComponentSelectors,
-  stackSelectors,
+  workspaceSelectors,
 } from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
-import { stackPagesActions } from '../../../../redux/actions';
+
 import { useEffect, useState } from 'react';
 import { filterObjectForParam } from '../../../../utils';
-import { GetFlavorsListForLogo } from '../Stacks/List/GetFlavorsListForLogo';
+
+import axios from 'axios';
 
 interface ServiceInterface {
   stackComponent: TStack;
   id: TId;
   flavor?: any;
   loading: any;
+  serviceConnectorResources: any;
+  fetching?: boolean;
 }
 
 export const useService = (): ServiceInterface => {
@@ -32,8 +34,12 @@ export const useService = (): ServiceInterface => {
 
   const [mapStackComponent, setMapppedStackComponent] = useState([]);
   const [fetching, setFetching] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [flavor, setFlavor] = useState([]);
   const { id } = useParams<StackDetailRouteParams>();
+  const authToken = useSelector(sessionSelectors.authenticationToken);
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const currentFlavor = useSelector(flavorSelectors.myFlavorsAll) as any;
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
@@ -42,14 +48,32 @@ export const useService = (): ServiceInterface => {
     stackComponentSelectors.stackComponentForId(id),
   );
 
+  const [serviceConnectorResources, setServiceConnectorResources] = useState(
+    [],
+  );
+  const fetchResourcesList = async () => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${currentFlavor[0].connectorResourceType}`,
+      {
+        headers: {
+          Authorization: `bearer ${authToken}`,
+        },
+      },
+    );
+    // debugger;
+    setServiceConnectorResources(response?.data);
+    setLoading(false);
+    //Setting the response into state
+  };
   useEffect(() => {
     setFetching(true);
+    setLoading(true);
     // Legacy: previously runs was in pipeline
     dispatch(
       stackComponentsActions.stackComponentForId({
         stackComponentId: id,
         onSuccess: (res) => {
-          // setFetching(false);
+          fetchResourcesList();
 
           dispatch(
             flavorsActions.getType({
@@ -83,7 +107,14 @@ export const useService = (): ServiceInterface => {
   //   dispatch(stackComponentPagesActions.setFetching({ fetching }));
   // };
 
-  return { stackComponent, id, flavor, loading: fetching };
+  return {
+    stackComponent,
+    id,
+    flavor,
+    loading: fetching,
+    serviceConnectorResources,
+    fetching: loading,
+  };
 };
 
 export const callActionForStackComponentRunsForPagination = () => {

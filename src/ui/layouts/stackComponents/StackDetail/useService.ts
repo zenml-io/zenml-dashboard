@@ -46,7 +46,7 @@ export const useService = (): ServiceInterface => {
   );
   const fetchServiceConnectorType = async (res: any) => {
     const response = await axios.get(
-      `${process.env.REACT_APP_BASE_API_URL}/service_connector_types/${res.connector.connector_type}`,
+      `${process.env.REACT_APP_BASE_API_URL}/service_connector_types/${res?.connector?.connector_type}`,
       {
         headers: {
           Authorization: `bearer ${authToken}`,
