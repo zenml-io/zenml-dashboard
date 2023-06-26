@@ -52,14 +52,15 @@ export const useService = (): ServiceInterface => {
     [],
   );
   const fetchResourcesList = async () => {
-    const response = await axios.get(
-      `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${currentFlavor[0].connectorResourceType}`,
-      {
-        headers: {
-          Authorization: `bearer ${authToken}`,
-        },
+    let url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${currentFlavor[0].connectorResourceType}`;
+    if (currentFlavor[0].connectorType !== null) {
+      url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${currentFlavor[0].connectorResourceType}&connector_type=${currentFlavor[0].connectorType}`;
+    }
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `bearer ${authToken}`,
       },
-    );
+    });
     // debugger;
     setServiceConnectorResources(response?.data);
     setLoading(false);

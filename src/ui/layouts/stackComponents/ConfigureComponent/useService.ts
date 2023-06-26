@@ -35,6 +35,7 @@ export const useService = (): ServiceInterface => {
   const [serviceConnectorResources, setServiceConnectorResources] = useState(
     [],
   );
+
   useEffect(() => {
     if (flavor.connectorResourceType) {
       fetchResourcesList();
@@ -44,14 +45,15 @@ export const useService = (): ServiceInterface => {
 
   const fetchResourcesList = async () => {
     setFetching(true);
-    const response = await axios.get(
-      `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${flavor.connectorResourceType}`,
-      {
-        headers: {
-          Authorization: `bearer ${authToken}`,
-        },
+    let url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${flavor.connectorResourceType}`;
+    if (flavor.connectorType !== null) {
+      url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${flavor.connectorResourceType}&connector_type=${flavor.connectorType}`;
+    }
+    const response = await axios.get(url, {
+      headers: {
+        Authorization: `bearer ${authToken}`,
       },
-    );
+    });
 
     setServiceConnectorResources(response?.data);
     setFetching(false);
