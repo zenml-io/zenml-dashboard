@@ -95,6 +95,10 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
     [],
   );
   const [mappedConfiguration, setMappedConfiguration] = useState() as any;
+  const [
+    tempMappedConfiguration,
+    setTempMappedConfiguration,
+  ] = useState() as any;
   const [inputFields, setInputFields] = useState([]) as any;
   const [connectorExpirationSeconds, setConnectorExpirationSeconds] = useState(
     0,
@@ -864,15 +868,17 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       }
     }
 
-    for (const field of matchedAuthMethod.config_schema.required) {
-      if (!configuration[field]) {
-        dispatch(
-          showToasterAction({
-            description: 'Required Field is Empty',
-            type: toasterTypes.failure,
-          }),
-        );
-        return false;
+    if (matchedAuthMethod.config_schema.required) {
+      for (const field of matchedAuthMethod.config_schema.required) {
+        if (!configuration[field]) {
+          dispatch(
+            showToasterAction({
+              description: 'Required Field is Empty',
+              type: toasterTypes.failure,
+            }),
+          );
+          return false;
+        }
       }
     }
 
@@ -929,7 +935,9 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
     if (connectorExpirationSeconds !== null) {
       body.expiration_seconds = connectorExpirationSeconds;
     }
+    setTempMappedConfiguration(mappedConfiguration);
     setVerifying(true);
+    setDisableToCreate(false);
     await axios
       .post(
         `${process.env.REACT_APP_BASE_API_URL}/service_connectors/verify`,
@@ -961,8 +969,17 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
         // dispatchStackComponentsData(1, 1);
       })
       .catch((err) => {
+        // debugger;
+        if (err?.response?.data?.detail[1]) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[1],
+              type: toasterTypes.failure,
+            }),
+          );
+        }
         setVerifying(false);
-
+        setDisableToCreate(true);
         // if (err?.response?.status === 403) {
         //   dispatch(
         //     showToasterAction({
@@ -1920,13 +1937,26 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
             </FlexBox.Row>
           </Box>
         </Box>
-
+        {console.log(
+          mappedConfiguration,
+          tempMappedConfiguration,
+          'tempMappedConfiguration',
+        )}
         <SidePopup
-          disabled={disableToCreate}
+          disabled={
+            mappedConfiguration !== tempMappedConfiguration
+              ? false
+              : disableToCreate
+          }
           data={connectorType}
           verifying={verifying}
           onClose={() => {}}
-          action={onSubmit}
+          action={
+            resources === undefined ||
+            mappedConfiguration !== tempMappedConfiguration
+              ? onVerify
+              : onSubmit
+          }
         />
       </FlexBox.Row>
     </Box>
