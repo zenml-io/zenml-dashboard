@@ -88,6 +88,7 @@ export const useService = ({
           flavor: {
             logoUrl: temp.logo_url,
             name: item.flavor,
+            connectorResourceType: temp.connector_resource_type,
           },
         };
       }
@@ -96,7 +97,6 @@ export const useService = ({
     });
 
     setFilteredConnectors(mappedConnectorComponent as TStack[]);
-    // debugger;
   }, [connectorComponent, filter, flavourList]);
 
   useEffect(() => {
