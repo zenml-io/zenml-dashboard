@@ -308,7 +308,7 @@ export const PersonalDetails: React.FC = () => {
             </Box>
             <Box>
               <Paragraph className={styles.uiVersionText}>
-                UI Version v{version}
+                UI Version {process.env.REACT_APP_VERSION}
               </Paragraph>
             </Box>
             <Box>
