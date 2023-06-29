@@ -191,7 +191,7 @@ export const StackDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
       title="Stack Components"
     >
-      <Box style={{ marginTop: '40px' }}>
+      <Box style={{ marginTop: '40px', overflowX: 'auto' }}>
         {/* {mapStackComponent.length ? ( */}
         <CollapseTable
           pagination={false}

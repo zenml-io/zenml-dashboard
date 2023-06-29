@@ -178,7 +178,11 @@ export const Table: React.FC<TableProps> = ({
   return (
     <FlexBox.Column
       fullWidth
-      style={{ marginBottom: pagination ? '90px' : '0px' }}
+      style={{
+        // marginBottom: pagination ? '90px' : '0px',
+        minWidth: '1250px',
+        overflowX: 'auto',
+      }}
     >
       <IfElse
         condition={tableRows.length > 0 && !loading}
@@ -517,7 +521,11 @@ export const Table: React.FC<TableProps> = ({
         )}
         renderWhenFalse={() => (
           <Box
-            style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto' }}
+            style={{
+              textAlign: 'center',
+              maxWidth: '700px',
+              margin: '0 auto',
+            }}
             paddingVertical="xxl"
           >
             <H3>

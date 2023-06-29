@@ -146,14 +146,16 @@ export const PipelineDetail: React.FC = () => {
         {locationPath.includes('configuration') && (
           <FilterWrapperForConfiguration />
         )}
-        <CollapseTable
-          pagination={false}
-          renderAfterRow={(stack: TStack) => <></>}
-          headerCols={headerCols}
-          tableRows={filteredPipeline}
-          emptyState={{ text: translate('emptyState.text') }}
-          trOnClick={openDetailPage}
-        />
+        <Box style={{ overflowX: 'auto' }}>
+          <CollapseTable
+            pagination={false}
+            renderAfterRow={(stack: TStack) => <></>}
+            headerCols={headerCols}
+            tableRows={filteredPipeline}
+            emptyState={{ text: translate('emptyState.text') }}
+            trOnClick={openDetailPage}
+          />
+        </Box>
       </Box>
       {/* <List filter={[]} pagination={false} isExpended id={pipeline.id}></List> */}
       {/* <Box style={boxStyle}>
