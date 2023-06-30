@@ -81,7 +81,10 @@ export const useService = ({
   // }, [connectors, filter]);
   useEffect(() => {
     const mappedConnectorComponent = connectorComponent.map((item: any) => {
-      const temp: any = flavourList.find((fl: any) => fl.name === item.flavor);
+      const temp: any = flavourList.find(
+        (fl: any) => fl.name === item.flavor && fl.type === item.type,
+      );
+
       if (temp) {
         return {
           ...item,
@@ -97,6 +100,7 @@ export const useService = ({
     });
 
     setFilteredConnectors(mappedConnectorComponent as TStack[]);
+    // console.log(mappedConnectorComponent, 'mappedConnectorComponent');
   }, [connectorComponent, filter, flavourList]);
 
   useEffect(() => {

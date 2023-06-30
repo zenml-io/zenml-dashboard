@@ -275,7 +275,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            Resource Types
+            Resource Type
           </Paragraph>
         </SortingHeader>
       ),
