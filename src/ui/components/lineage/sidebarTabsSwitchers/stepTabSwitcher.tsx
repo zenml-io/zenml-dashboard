@@ -225,18 +225,18 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   <tr>
                     <td className="td_key">Cache enabled</td>
                     <td className="td_value">
-                      {node?.step?.config?.enable_cache !== null
-                        ? node?.step?.config?.enable_cache.toString()
+                      {node?.config?.enable_cache !== null
+                        ? node?.config?.enable_cache.toString()
                         : 'true'}
                     </td>
                   </tr>
                   <tr>
-                    {node.enable_artifact_metadata &&
-                    node.enable_artifact_metadata ? (
+                    {node.config.enable_artifact_metadata &&
+                    node.config.enable_artifact_metadata ? (
                       <>
                         <td className="td_key">enable_artifact_metadata</td>
                         <td className="td_value">
-                          {node?.enable_artifact_metadata}
+                          {node?.config.enable_artifact_metadata}
                         </td>
                       </>
                     ) : (
@@ -247,7 +247,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                                     <td className='td_key'>source</td>
                                     <td className='td_value'>{node?.step?.spec?.source}</td>
                                 </tr> */}
-                  {Object.entries(node?.input_artifacts).length >= 1 && (
+                  {Object.entries(node?.inputs).length >= 1 && (
                     <tr>
                       <td
                         style={{ textDecoration: 'underline' }}
@@ -258,7 +258,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                       <td></td>
                     </tr>
                   )}
-                  {Object.entries(node?.input_artifacts || {}).map(
+                  {Object.entries(node?.inputs || {}).map(
                     ([key, value]: any, i) => {
                       return (
                         <tr key={i}>
@@ -311,7 +311,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                       );
                     },
                   )}
-                  {Object.entries(node?.output_artifacts).length >= 1 && (
+                  {Object.entries(node?.outputs).length >= 1 && (
                     <tr>
                       <td
                         style={{ textDecoration: 'underline' }}
@@ -322,7 +322,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                       <td></td>
                     </tr>
                   )}
-                  {Object.entries(node?.output_artifacts || {}).map(
+                  {Object.entries(node?.outputs || {}).map(
                     ([key, value]: any, i) => {
                       return (
                         <tr key={i}>
