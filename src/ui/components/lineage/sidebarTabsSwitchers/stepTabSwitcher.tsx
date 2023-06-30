@@ -225,8 +225,8 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   <tr>
                     <td className="td_key">Cache enabled</td>
                     <td className="td_value">
-                      {node?.step?.config?.enable_cache !== null
-                        ? node?.step?.config?.enable_cache.toString()
+                      {node?.config?.enable_cache !== null
+                        ? node?.config?.enable_cache.toString()
                         : 'true'}
                     </td>
                   </tr>
