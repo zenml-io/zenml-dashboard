@@ -1241,9 +1241,10 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                     const currentValue = e.target.value;
                     const previousValues = previousValuesRef.current;
                     if (currentValue !== previousValues) {
-                      matchedAuthMethod?.config_schema?.required?.includes(
-                        elementName,
-                      ) && onVerify();
+                      // matchedAuthMethod?.config_schema?.required?.includes(
+                      //   elementName,
+                      // ) &&
+                      onVerify();
                     }
                     previousValuesRef.current = currentValue;
                     // inputRef.current.value = currentValue;
