@@ -169,7 +169,7 @@ export const StackDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
       title="Connectors"
     >
-      <Box marginTop="lg">
+      <Box marginTop="lg" style={{ overflowX: 'auto' }}>
         <CollapseTable
           pagination={false}
           renderAfterRow={(connector: any) => <></>}

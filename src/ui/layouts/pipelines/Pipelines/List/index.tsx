@@ -113,7 +113,12 @@ export const List: React.FC<Props> = ({
   };
 
   return (
-    <>
+    <Box
+      style={{
+        overflowX: 'auto',
+        marginBottom: pipelinesPaginated.totalitem > 5 ? '90px' : '0px',
+      }}
+    >
       <CollapseTable
         renderAfterRow={(pipeline: TPipeline) => (
           <RunsForPipelineTable
@@ -215,6 +220,6 @@ export const List: React.FC<Props> = ({
           </FlexBox>
         )}
       </If>
-    </>
+    </Box>
   );
 };

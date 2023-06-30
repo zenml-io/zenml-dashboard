@@ -310,7 +310,7 @@ export const StackDetail: React.FC = () => {
           </Paragraph>
         </Box>
       </Box> */}
-      <Box style={{ marginTop: '40px' }}>
+      <Box style={{ marginTop: '40px', overflowX: 'auto' }}>
         {/* {mapStackComponent.length ? ( */}
         <CollapseTable
           pagination={false}
