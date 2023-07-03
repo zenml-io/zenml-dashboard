@@ -41,6 +41,7 @@ export type FieldError = {
 
 export const FormTextField = (props: {
   autoFocus?: any;
+  onHandleFocus?: (s: string) => void;
   label: string;
   labelColor?: any;
   placeholder: string;
@@ -631,6 +632,7 @@ export const SearchInputField = (
 
 export const FormPasswordFieldVerify = (
   props: {
+    onHandleFocus?: any;
     label: string;
     labelColor: any;
     placeholder: string;

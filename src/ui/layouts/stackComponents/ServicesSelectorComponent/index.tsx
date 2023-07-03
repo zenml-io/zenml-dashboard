@@ -40,7 +40,7 @@ const Index: React.FC<ServicesSelector> = ({
   console.log(defaultMappedConfig, inputData, 'fefefw');
 
   return (
-    <Box>
+    <Box className={styles.service_selector_wrapper}>
       <Box
         className={styles.service_selector}
         onClick={() => setShowServices(!showServices)}
@@ -53,8 +53,9 @@ const Index: React.FC<ServicesSelector> = ({
             {!fetching && (
               <Paragraph>
                 <img
+                  className={styles.service_selector_image}
                   src={resourceTypeImage[0]?.connector_type?.logo_url}
-                  alt={resourceTypeImage[0]?.connector_type.name}
+                  alt={resourceTypeImage[0]?.connector_type?.name}
                 />{' '}
                 &#91;{' '}
                 {truncate(connector, ID_MAX_LENGTH) +
@@ -122,8 +123,9 @@ const Index: React.FC<ServicesSelector> = ({
                 <FlexBox className={styles.services}>
                   <Box>
                     <img
-                      src={connectorItem.connector_type.logo_url}
-                      alt={connectorItem.connector_type.logo_url}
+                      className={styles.service_selector_image}
+                      src={connectorItem.connector_type?.logo_url}
+                      alt={connectorItem.connector_type?.logo_url}
                     />
                   </Box>
                   <Box

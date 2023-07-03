@@ -35,15 +35,17 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
 import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
 import { titleCase } from '../../../../../utils';
-import { getServiceConnectorResources } from './useService';
+
 import ServicesSelectorComponent from '../../ServicesSelectorComponent';
 // import { values } from 'lodash';
 // import { keys } from 'lodash';
 
-export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
-  flavor,
-  state,
-}) => {
+export const CreateComponent: React.FC<{
+  flavor: any;
+  state: any;
+  fetching?: boolean;
+  serviceConnectorResources?: any;
+}> = ({ flavor, fetching, serviceConnectorResources, state }) => {
   const {
     dispatchStackComponentsData,
   } = callActionForStackComponentsForPagination();
@@ -69,9 +71,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   const [connector, setConnector] = useState();
   const [connectorResourceId, setConnectorResourceId] = useState();
   const history = useHistory();
-  const { serviceConnectorResources, fetching } = getServiceConnectorResources(
-    flavor.connectorResourceType,
-  );
 
   useEffect(() => {
     if (state?.state?.routeFromComponent) {

@@ -166,7 +166,12 @@ export const List: React.FC<Props> = ({
   };
 
   return (
-    <>
+    <Box
+      style={{
+        overflowX: 'auto',
+        marginBottom: stacksPaginated.totalitem > 5 ? '90px' : '0px',
+      }}
+    >
       <CollapseTable
         renderAfterRow={(stack: TStack) => (
           <>
@@ -265,6 +270,6 @@ export const List: React.FC<Props> = ({
           </FlexBox>
         )}
       </If>
-    </>
+    </Box>
   );
 };
