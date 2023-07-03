@@ -95,7 +95,11 @@ export const SidePopup: React.FC<{
 
         <Box className={styles.sidePopup}>
           <OutsideClickHandler onOutsideClick={onClose}>
-            <Box marginVertical="lg" marginHorizontal="xxxl">
+            <Box
+              marginVertical="lg"
+              marginHorizontal="xxxl"
+              style={{ paddingBottom: '300px' }}
+            >
               <FlexBox>
                 <Box className={styles.mainImage}>
                   <img src={connectorType?.logoUrl} alt={connectorType?.name} />

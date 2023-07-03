@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React from 'react';
+import React, { useState } from 'react';
 import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
@@ -42,6 +42,9 @@ export const GetHeaderCols = ({
     activeSortingDirection,
     filteredConnectors,
   });
+
+  const [showResourceTypes, setShowResourceTypes] = useState(false);
+  const [connectorId, setConnectorId] = useState('');
 
   return [
     // {
@@ -234,27 +237,97 @@ export const GetHeaderCols = ({
       ),
       width: '10%',
       renderRow: (connector: any) => {
+        const filteredResourceTypes = connector?.connectorType?.resource_types?.filter(
+          (e: any) => {
+            if (connector.resourceTypes.includes(e.resource_type)) return e;
+          },
+        );
+
         return (
           <FlexBox alignItems="center">
-            {connector?.connectorType?.resource_types?.map((e: any) => (
-              <Box marginLeft="sm">
-                <div data-tip data-for={e?.name}>
-                  <FlexBox alignItems="center">
-                    <img
-                      alt={e?.logo_url}
-                      src={e?.logo_url}
-                      style={{
-                        height: '28px',
-                        width: '28px',
-                      }}
-                    />
+            {filteredResourceTypes.slice(0, 2)?.map(
+              (e: any, index: number) =>
+                connector.resourceTypes.includes(e.resource_type) && (
+                  <Box marginLeft={index !== 0 ? 'sm' : null}>
+                    <div data-tip data-for={e?.name}>
+                      <FlexBox alignItems="center">
+                        <img
+                          alt={e?.logo_url}
+                          src={e?.logo_url}
+                          style={{
+                            height: '28px',
+                            width: '28px',
+                          }}
+                        />
+                      </FlexBox>
+                    </div>
+                    <ReactTooltip id={e?.name} place="top" effect="solid">
+                      <Paragraph color="white">{e?.name}</Paragraph>
+                    </ReactTooltip>
+                  </Box>
+                ),
+            )}
+
+            {filteredResourceTypes?.length > 2 && (
+              <Box marginLeft="sm" onClick={(e) => e.stopPropagation()}>
+                <FlexBox
+                  alignItems="center"
+                  justifyContent="center"
+                  onClick={() => {
+                    setShowResourceTypes(!showResourceTypes);
+                    setConnectorId(connector?.id);
+                  }}
+                  style={{
+                    height: '28px',
+                    width: '28px',
+                    border: '1.5px solid #424240',
+                    borderRadius: '100%',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Paragraph>+{filteredResourceTypes?.length - 2}</Paragraph>
+                </FlexBox>
+
+                {showResourceTypes && connectorId === connector?.id && (
+                  <FlexBox
+                    padding="sm"
+                    alignItems="center"
+                    justifyContent="center"
+                    style={{
+                      marginTop: '5px',
+                      backgroundColor: '#fff',
+                      position: 'absolute',
+                      border: '1px solid #e9eaec',
+                      borderRadius: '4px',
+                      boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
+                      zIndex: 100,
+                    }}
+                  >
+                    {filteredResourceTypes
+                      ?.slice(2)
+                      ?.map((e: any, index: number) => (
+                        <Box marginLeft={index !== 0 ? 'sm' : null}>
+                          <div data-tip data-for={e?.name}>
+                            <FlexBox alignItems="center">
+                              <img
+                                alt={e?.logo_url}
+                                src={e?.logo_url}
+                                style={{
+                                  height: '28px',
+                                  width: '28px',
+                                }}
+                              />
+                            </FlexBox>
+                          </div>
+                          <ReactTooltip id={e?.name} place="top" effect="solid">
+                            <Paragraph color="white">{e?.name}</Paragraph>
+                          </ReactTooltip>
+                        </Box>
+                      ))}
                   </FlexBox>
-                </div>
-                <ReactTooltip id={e?.name} place="top" effect="solid">
-                  <Paragraph color="white">{e?.name}</Paragraph>
-                </ReactTooltip>
+                )}
               </Box>
-            ))}
+            )}
           </FlexBox>
         );
       },

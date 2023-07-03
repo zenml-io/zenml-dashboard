@@ -275,7 +275,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            Resource Types
+            Resource Type
           </Paragraph>
         </SortingHeader>
       ),
@@ -283,26 +283,30 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => {
         return (
           <FlexBox alignItems="center">
-            {connectorDetail?.connectorType?.resource_types?.map((e: any) => (
-              <Box marginLeft="sm">
-                <div data-tip data-for={e?.name}>
-                  <FlexBox alignItems="center">
-                    <img
-                      alt={e?.logo_url}
-                      src={e?.logo_url}
-                      style={{
-                        height: '28px',
-                        width: '28px',
-                      }}
-                    />
-                  </FlexBox>
-                </div>
+            {connectorDetail?.connectorType?.resource_types?.map(
+              (e: any) =>
+                e.resource_type === connector.flavor.connectorResourceType && (
+                  // <>aasdasd</>
+                  <Box marginLeft="sm">
+                    <div data-tip data-for={e?.name}>
+                      <FlexBox alignItems="center">
+                        <img
+                          alt={e?.logo_url}
+                          src={e?.logo_url}
+                          style={{
+                            height: '28px',
+                            width: '28px',
+                          }}
+                        />
+                      </FlexBox>
+                    </div>
 
-                <ReactTooltip id={e?.name} place="top" effect="solid">
-                  <Paragraph color="white">{e?.name}</Paragraph>
-                </ReactTooltip>
-              </Box>
-            ))}
+                    <ReactTooltip id={e?.name} place="top" effect="solid">
+                      <Paragraph color="white">{e?.name}</Paragraph>
+                    </ReactTooltip>
+                  </Box>
+                ),
+            )}
           </FlexBox>
         );
       },
@@ -332,13 +336,17 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.resource_id}>
+          <div data-tip data-for={connector.connectorResourceId}>
             <Paragraph size="small" color="black">
-              {connector.resource_id}
+              {connector.connectorResourceId}
             </Paragraph>
           </div>
-          <ReactTooltip id={connector.resource_id} place="top" effect="solid">
-            <Paragraph color="white">{connector.resource_id}</Paragraph>
+          <ReactTooltip
+            id={connector.connectorResourceId}
+            place="top"
+            effect="solid"
+          >
+            <Paragraph color="white">{connector.connectorResourceId}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),

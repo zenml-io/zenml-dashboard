@@ -36,7 +36,7 @@ export const Organization: React.FC = () => {
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
-  const DEFAULT_ITEMS_PER_PAGE = 10;
+  const DEFAULT_ITEMS_PER_PAGE = 100;
   const { filteredMembers } = useService();
 
   useEffect(() => {
