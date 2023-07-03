@@ -3,45 +3,61 @@
 import { StackDetailRouteParams } from '.';
 import {
   flavorsActions,
-  pipelinesActions,
   runPagesActions,
-  stackComponentPagesActions,
   stackComponentsActions,
-  stacksActions,
 } from '../../../../redux/actions';
 import {
+  sessionSelectors,
   stackComponentSelectors,
-  stackSelectors,
 } from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
-import { stackPagesActions } from '../../../../redux/actions';
+
 import { useEffect, useState } from 'react';
 import { filterObjectForParam } from '../../../../utils';
-import { GetFlavorsListForLogo } from '../Stacks/List/GetFlavorsListForLogo';
+
+import axios from 'axios';
 
 interface ServiceInterface {
   stackComponent: TStack;
   id: TId;
   flavor?: any;
   loading: any;
+  serviceConnectorResources?: any;
 }
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
-
+  const authToken = useSelector(sessionSelectors.authenticationToken);
   const [mapStackComponent, setMapppedStackComponent] = useState([]);
   const [fetching, setFetching] = useState(false);
   const [flavor, setFlavor] = useState([]);
+  const [
+    serviceConnectorResources,
+    setServiceConnectorResources,
+  ] = useState() as any;
   const { id } = useParams<StackDetailRouteParams>();
-  const ITEMS_PER_PAGE = parseInt(
-    process.env.REACT_APP_ITEMS_PER_PAGE as string,
-  );
-  const DEFAULT_ITEMS_PER_PAGE = 10;
+  // const ITEMS_PER_PAGE = parseInt(
+  //   process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  // );
+
   const stackComponent = useSelector(
     stackComponentSelectors.stackComponentForId(id),
   );
+  const fetchServiceConnectorType = async (res: any) => {
+    const response = await axios.get(
+      `${process.env.REACT_APP_BASE_API_URL}/service_connector_types/${res?.connector?.connector_type}`,
+      {
+        headers: {
+          Authorization: `bearer ${authToken}`,
+        },
+      },
+    );
 
+    setServiceConnectorResources(response.data);
+
+    //Setting the response into state
+  };
   useEffect(() => {
     setFetching(true);
     // Legacy: previously runs was in pipeline
@@ -49,7 +65,7 @@ export const useService = (): ServiceInterface => {
       stackComponentsActions.stackComponentForId({
         stackComponentId: id,
         onSuccess: (res) => {
-          // setFetching(false);
+          fetchServiceConnectorType(res);
 
           dispatch(
             flavorsActions.getType({
@@ -83,7 +99,13 @@ export const useService = (): ServiceInterface => {
   //   dispatch(stackComponentPagesActions.setFetching({ fetching }));
   // };
 
-  return { stackComponent, id, flavor, loading: fetching };
+  return {
+    stackComponent,
+    id,
+    flavor,
+    loading: fetching,
+    serviceConnectorResources,
+  };
 };
 
 export const callActionForStackComponentRunsForPagination = () => {

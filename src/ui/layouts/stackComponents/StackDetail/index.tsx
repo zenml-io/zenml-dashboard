@@ -111,11 +111,18 @@ const getTabPages = (
   locationPath: any,
   selectedWorkspace: string,
   loading?: boolean,
+  serviceConnectorResources?: any,
 ): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
-      Component: () => <Configuration stackId={stackId} loading={loading} />,
+      Component: () => (
+        <Configuration
+          stackId={stackId}
+          loading={loading}
+          serviceConnectorResources={serviceConnectorResources}
+        />
+      ),
       path: routePaths.stackComponents.configuration(
         locationPath.split('/')[4],
         stackId,
@@ -178,10 +185,22 @@ export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
   // const { flavourList } = GetFlavorsListForLogo();
 
-  const { stackComponent, id, flavor, loading } = useService();
+  const {
+    stackComponent,
+    id,
+    flavor,
+    loading,
+    serviceConnectorResources,
+  } = useService();
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const tabPages = getTabPages(id, locationPath, selectedWorkspace, loading);
+  const tabPages = getTabPages(
+    id,
+    locationPath,
+    selectedWorkspace,
+    loading,
+    serviceConnectorResources,
+  );
   const breadcrumbs = getBreadcrumbs(id, locationPath, selectedWorkspace);
   const mappedStackComponent: any = [];
   mappedStackComponent.push(stackComponent);

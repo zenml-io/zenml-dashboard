@@ -1,4 +1,4 @@
-import React, { Fragment, useEffect, useState } from 'react';
+import React, { Fragment, useState } from 'react';
 import {
   FlexBox,
   Box,
@@ -30,23 +30,25 @@ import {
   showToasterAction,
   stackComponentsActions,
 } from '../../../../../redux/actions';
-import { toasterTypes } from '../../../../../constants';
+import { ID_MAX_LENGTH, toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
-import ServicesSelectorComponent from '../../ServicesSelectorComponent/Disabled';
-import { getServiceConnectorResources } from '../../ConfigureComponent/CreateComponent/useService';
+
+import { truncate } from '../../../../../utils';
 // import { routePaths } from '../../../../../routes/routePaths';
 
-export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
-  stackId,
-  loading,
-}) => {
+export const Configuration: React.FC<{
+  stackId: TId;
+  loading?: boolean;
+  serviceConnectorResources?: any;
+}> = ({ stackId, loading, serviceConnectorResources }) => {
   const locationPath = useLocationPath();
   const history = useHistory();
 
   const { stackComponent, flavor } = useService({
     stackId,
   });
+  // console.log(flavor, stackComponent, '23232323');
   const user = useSelector(userSelectors.myUser);
   const [componentfetching, setComponentFetching] = useState(false);
   const secrets = useSelector(secretSelectors.mySecrets);
@@ -55,17 +57,8 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
-  const [connector, setConnector] = useState();
-  const [connectorResourceId, setConnectorResourceId] = useState();
-  const [inputFields, setInputFields] = useState([]) as any;
 
-  const { serviceConnectorResources, fetching } = getServiceConnectorResources(
-    flavor?.connectorResourceType,
-  );
-  useEffect(() => {
-    setConnector(stackComponent?.connector?.id);
-    setConnectorResourceId(stackComponent?.connectorResourceId);
-  }, [stackComponent]);
+  const [inputFields, setInputFields] = useState([]) as any;
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -947,12 +940,45 @@ export const Configuration: React.FC<{ stackId: TId; loading?: boolean }> = ({
         </Container>
         {flavor.connectorResourceType && (
           <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
-            <ServicesSelectorComponent
-              fetching={fetching}
-              connector={connector}
-              connectorResourceId={connectorResourceId}
-              serviceConnectorResources={serviceConnectorResources}
-            />
+            <Box>
+              <Paragraph size="body" style={{ color: '#000' }}>
+                <label htmlFor="key">{'Connect to resource'}</label>
+              </Paragraph>
+              <Box
+                marginTop="sm"
+                className={styles.service_selector}
+                style={{
+                  justifyContent: 'start',
+                  backgroundColor: 'rgba(168, 168, 168, 0.05)',
+                  borderWidth: '0px',
+                }}
+              >
+                {stackComponent.connector ? (
+                  <FlexBox className={styles.service_selector_selected}>
+                    <Box marginRight="sm">
+                      {/* <img src={data?.logoUrl} alt={data?.name} /> */}
+                    </Box>
+
+                    <Paragraph>
+                      <img
+                        className={styles.service_selector_image}
+                        src={serviceConnectorResources?.logo_url}
+                        alt={serviceConnectorResources?.name}
+                      />{' '}
+                      &#91;{' '}
+                      {truncate(stackComponent?.connector.id, ID_MAX_LENGTH) +
+                        '-' +
+                        stackComponent.connector.name}
+                      &#93; {stackComponent.connectorResourceId}
+                    </Paragraph>
+                  </FlexBox>
+                ) : (
+                  <Box>
+                    <Paragraph>{'<not connected>'}</Paragraph>
+                  </Box>
+                )}
+              </Box>
+            </Box>
           </Box>
         )}
       </FlexBox.Row>

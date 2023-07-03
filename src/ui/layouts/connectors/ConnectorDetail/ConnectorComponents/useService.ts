@@ -81,13 +81,17 @@ export const useService = ({
   // }, [connectors, filter]);
   useEffect(() => {
     const mappedConnectorComponent = connectorComponent.map((item: any) => {
-      const temp: any = flavourList.find((fl: any) => fl.name === item.flavor);
+      const temp: any = flavourList.find(
+        (fl: any) => fl.name === item.flavor && fl.type === item.type,
+      );
+
       if (temp) {
         return {
           ...item,
           flavor: {
             logoUrl: temp.logo_url,
             name: item.flavor,
+            connectorResourceType: temp.connector_resource_type,
           },
         };
       }
@@ -96,7 +100,7 @@ export const useService = ({
     });
 
     setFilteredConnectors(mappedConnectorComponent as TStack[]);
-    // debugger;
+    // console.log(mappedConnectorComponent, 'mappedConnectorComponent');
   }, [connectorComponent, filter, flavourList]);
 
   useEffect(() => {

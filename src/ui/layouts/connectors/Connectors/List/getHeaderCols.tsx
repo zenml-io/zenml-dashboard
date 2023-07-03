@@ -237,31 +237,38 @@ export const GetHeaderCols = ({
       ),
       width: '10%',
       renderRow: (connector: any) => {
+        const filteredResourceTypes = connector?.connectorType?.resource_types?.filter(
+          (e: any) => {
+            if (connector.resourceTypes.includes(e.resource_type)) return e;
+          },
+        );
+
         return (
           <FlexBox alignItems="center">
-            {connector?.connectorType?.resource_types
-              ?.slice(0, 2)
-              ?.map((e: any, index: number) => (
-                <Box marginLeft={index !== 0 ? 'sm' : null}>
-                  <div data-tip data-for={e?.name}>
-                    <FlexBox alignItems="center">
-                      <img
-                        alt={e?.logo_url}
-                        src={e?.logo_url}
-                        style={{
-                          height: '28px',
-                          width: '28px',
-                        }}
-                      />
-                    </FlexBox>
-                  </div>
-                  <ReactTooltip id={e?.name} place="top" effect="solid">
-                    <Paragraph color="white">{e?.name}</Paragraph>
-                  </ReactTooltip>
-                </Box>
-              ))}
+            {filteredResourceTypes.slice(0, 2)?.map(
+              (e: any, index: number) =>
+                connector.resourceTypes.includes(e.resource_type) && (
+                  <Box marginLeft={index !== 0 ? 'sm' : null}>
+                    <div data-tip data-for={e?.name}>
+                      <FlexBox alignItems="center">
+                        <img
+                          alt={e?.logo_url}
+                          src={e?.logo_url}
+                          style={{
+                            height: '28px',
+                            width: '28px',
+                          }}
+                        />
+                      </FlexBox>
+                    </div>
+                    <ReactTooltip id={e?.name} place="top" effect="solid">
+                      <Paragraph color="white">{e?.name}</Paragraph>
+                    </ReactTooltip>
+                  </Box>
+                ),
+            )}
 
-            {connector?.connectorType?.resource_types?.length > 2 && (
+            {filteredResourceTypes?.length > 2 && (
               <Box marginLeft="sm" onClick={(e) => e.stopPropagation()}>
                 <FlexBox
                   alignItems="center"
@@ -278,9 +285,7 @@ export const GetHeaderCols = ({
                     cursor: 'pointer',
                   }}
                 >
-                  <Paragraph>
-                    +{connector?.connectorType?.resource_types?.length - 2}
-                  </Paragraph>
+                  <Paragraph>+{filteredResourceTypes?.length - 2}</Paragraph>
                 </FlexBox>
 
                 {showResourceTypes && connectorId === connector?.id && (
@@ -298,7 +303,7 @@ export const GetHeaderCols = ({
                       zIndex: 100,
                     }}
                   >
-                    {connector?.connectorType?.resource_types
+                    {filteredResourceTypes
                       ?.slice(2)
                       ?.map((e: any, index: number) => (
                         <Box marginLeft={index !== 0 ? 'sm' : null}>
