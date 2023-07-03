@@ -1,5 +1,6 @@
 import React from 'react';
-import { Box, IfElse } from '../../components';
+import { Box, FlexBox, IfElse, Paragraph, icons } from '../../components';
+import { iconColors, iconSizes } from '../../../constants';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { TabsRuns } from '../common/Tabs';
@@ -40,7 +41,32 @@ export const BasePage: React.FC<{
         />
         <Box>
           {children}
-          <TabsRuns pages={tabPages} basePath={tabBasePath} />
+
+          <Box style={{ position: 'relative' }}>
+            <Box>
+              <TabsRuns pages={tabPages} basePath={tabBasePath} />
+            </Box>
+
+            <Box style={{ position: 'absolute', top: '-1rem', right: 0 }}>
+              <FlexBox
+                style={{
+                  borderRadius: '4px',
+                  border: '1px solid #DADADA',
+                  background: '#ECECEC',
+                  padding: '8px 20px',
+                  cursor: 'pointer',
+                }}
+              >
+                <Paragraph>Copy</Paragraph>
+                <icons.copy
+                  // onClick={handleCopy}
+                  style={{ marginLeft: '10px' }}
+                  color={iconColors.black}
+                  size={iconSizes.sm}
+                />
+              </FlexBox>
+            </Box>
+          </Box>
         </Box>
       </SidebarContainer>
     </AuthenticatedLayout>
