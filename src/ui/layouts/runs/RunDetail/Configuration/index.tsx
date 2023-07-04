@@ -31,8 +31,19 @@ config = run.config
     );
   };
 
+  const handleCopyAll = () => {
+    navigator.clipboard.writeText(JSON.stringify(run.config));
+
+    dispatch(
+      showToasterAction({
+        description: 'Config copied to clipboard',
+        type: toasterTypes.success,
+      }),
+    );
+  };
+
   return (
-    <FlexBox fullWidth>
+    <FlexBox fullWidth style={{ position: 'relative' }}>
       <Box style={{ width: '100%' }}>
         <NonEditableRunConfig
           runConfiguration={run.config}
@@ -60,6 +71,26 @@ config = run.config
             ></JSONPretty>
           </Box>
         </Box>
+      </Box>
+
+      <Box style={{ position: 'absolute', top: '-4rem', right: 0 }}>
+        <FlexBox
+          onClick={handleCopyAll}
+          style={{
+            borderRadius: '4px',
+            border: '1px solid #DADADA',
+            background: '#ECECEC',
+            padding: '8px 20px',
+            cursor: 'pointer',
+          }}
+        >
+          <Paragraph>Copy</Paragraph>
+          <icons.copy
+            style={{ marginLeft: '10px' }}
+            color={iconColors.black}
+            size={iconSizes.sm}
+          />
+        </FlexBox>
       </Box>
     </FlexBox>
   );
