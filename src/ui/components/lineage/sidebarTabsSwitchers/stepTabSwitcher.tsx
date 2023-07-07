@@ -26,8 +26,8 @@ const stylesInActive = {
 
 const tabs = [
   {
-    title: 'Attributes',
-    case: '__ATTRIBUTE',
+    title: 'Details',
+    case: '__DETAILS',
   },
   {
     title: 'Code',
@@ -89,7 +89,7 @@ const tabs = [
 // };
 
 const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
-  const [show, setShow] = useState('__ATTRIBUTE');
+  const [show, setShow] = useState('__DETAILS');
   const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(79);
   const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
   const divRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -115,8 +115,8 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
     switch (tab) {
       case '__LOG':
         return setShow('__LOG');
-      case '__ATTRIBUTE':
-        return setShow('__ATTRIBUTE');
+      case '__DETAILS':
+        return setShow('__DETAILS');
       case '__CODE':
         return setShow('__CODE');
       case '__CONFIGURATION':
@@ -203,7 +203,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
         </div>
       ) : (
         <>
-          {show === '__ATTRIBUTE' ? (
+          {show === '__DETAILS' ? (
             <>
               <table cellSpacing="0" className="sidebar_table">
                 <tbody>

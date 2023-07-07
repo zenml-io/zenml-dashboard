@@ -38,3 +38,21 @@
   white-space: normal;
   overflow: visible;
 }
+
+.JSONPretty {
+  position: relative;
+  margin-top: -10px !important;
+  margin-left: 20px !important;
+  margin-right: 20px !important;
+  min-height: 40px;
+  padding: 10px !important;
+
+  background: rgba(246, 247, 247, 1);
+  border-radius: 4px;
+}
+
+.copy {
+  right: 15px;
+  position: absolute;
+  cursor: pointer;
+}

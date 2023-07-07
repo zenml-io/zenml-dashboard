@@ -2,11 +2,15 @@ import React, { useEffect, useRef, useState, memo } from 'react';
 import styles from './artifact.module.scss';
 import { FullWidthSpinner } from '../../spinners';
 import ArtifactVisualization from './ArtifactVisualization';
-import { Link } from 'react-router-dom';
-import { routePaths } from '../../../../routes/routePaths';
-import { useSelector } from 'react-redux';
-import { workspaceSelectors } from '../../../../redux/selectors';
+// import { Link } from 'react-router-dom';
+// import { routePaths } from '../../../../routes/routePaths';
+import { useDispatch } from 'react-redux';
+// import { workspaceSelectors } from '../../../../redux/selectors';
 import MetadataTab from './metadata';
+import { Box, Paragraph, icons } from '../../index';
+import { iconColors, iconSizes, toasterTypes } from '../../../../constants';
+import { showToasterAction } from '../../../../redux/actions';
+import JSONPretty from 'react-json-pretty';
 
 const stylesActive = {
   opacity: 1,
@@ -17,13 +21,15 @@ const stylesInActive = {
 
 const artifactTabs = [
   {
-    title: 'Meta',
-    case: '__META',
+    title: 'Details',
+    case: '__DETAILS',
   },
+
   {
-    title: 'Attributes',
-    case: '__ATTRIBUTE',
+    title: 'Metadata',
+    case: '__METADATA',
   },
+
   {
     title: 'Visualization',
     case: '__VISUALIZATION',
@@ -37,18 +43,20 @@ const ArtifactTabHeader = ({
   node: any;
   fetching: boolean;
 }) => {
-  const [show, setShow] = useState('__META');
+  const [show, setShow] = useState('__DETAILS');
   const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(35);
   const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
   const parent = useRef<HTMLDivElement>(null);
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const divRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const dispatch = useDispatch();
+
   const TabClickHandler = (tab: string) => {
     switch (tab) {
-      case '__META':
-        return setShow('__META');
-      case '__ATTRIBUTE':
-        return setShow('__ATTRIBUTE');
+      case '__METADATA':
+        return setShow('__METADATA');
+      case '__DETAILS':
+        return setShow('__DETAILS');
       case '__VISUALIZATION':
         return setShow('__VISUALIZATION');
       default:
@@ -70,6 +78,49 @@ const ArtifactTabHeader = ({
     setDynamicLeft(divRefs.current[divId]?.offsetLeft);
     setDynamicWidth(divRefs.current[divId]?.offsetWidth);
   };
+
+  const handleCopy = (text: any) => {
+    navigator.clipboard.writeText(JSON.stringify(text));
+
+    dispatch(
+      showToasterAction({
+        description: 'Config copied to clipboard',
+        type: toasterTypes.success,
+      }),
+    );
+  };
+
+  const ConfigBox = ({ name, config }: { name: string; config: any }) => (
+    <Box style={{ width: '100%' }}>
+      <div className="td_key">
+        <label htmlFor={name}>{name}</label>
+      </div>
+      <Box marginTop={'sm'} className={styles.JSONPretty}>
+        <icons.copy
+          className={styles.copy}
+          onClick={() => handleCopy(config)}
+          color={iconColors.black}
+          size={iconSizes.sm}
+        />
+        <JSONPretty
+          style={{
+            fontSize: '16px',
+            fontFamily: 'Rubik',
+          }}
+          data={config}
+        ></JSONPretty>
+      </Box>
+    </Box>
+  );
+
+  const configSchema = `
+from zenml import Client
+
+artifact = Client().get_artifact(${node?.artifact_store_id})
+loaded_artifact = artifact.load()
+
+`;
+
   return (
     <>
       <div className="siderbar_header11" ref={parent}>
@@ -108,57 +159,64 @@ const ArtifactTabHeader = ({
         </div>
       ) : (
         <>
-          {/* SHOW META */}
-          {show === '__META' ? (
-            <MetadataTab metadata={node.metadata || {}} />
-          ) : (
-            ''
-          )}
-
-          {/* SHOW ATTRIBUTE */}
-
-          {show === '__ATTRIBUTE' ? (
+          {/* SHOW DETAILS */}
+          {show === '__DETAILS' ? (
             <>
               <table className="sidebar_table">
                 <tbody>
                   <tr>
                     <td className="td_key">Name</td>
-                    <td className="td_value">{node?.name}</td>
+                    <td className="td_value">
+                      <Paragraph>{node?.name}</Paragraph>
+                    </td>
                   </tr>
                   <tr>
                     <td className="td_key">Type</td>
-                    <td className="td_value">{node?.type}</td>
+                    <td className="td_value">
+                      <Paragraph>{node?.type}</Paragraph>
+                    </td>
                   </tr>
                   <tr>
                     <td className="td_key">Producer step</td>
-                    <td className="td_value">{node?.producer_step_run_id}</td>
+                    <td className="td_value">
+                      <Paragraph>{node?.producer_step_run_id}</Paragraph>
+                    </td>
                   </tr>
                   <tr>
                     <td className="td_key" style={{ wordWrap: 'break-word' }}>
                       Artifact store
                     </td>
                     <td className="td_value">
-                      <Link
+                      {/* <Link
                         to={routePaths.stackComponents.configuration(
                           'artifact_store',
                           node?.artifact_store_id,
                           selectedWorkspace,
                         )}
-                      >
-                        {node?.artifact_store_id}
-                      </Link>
+                      > */}
+                      <Paragraph>{node?.artifact_store_id}</Paragraph>
+                      {/* </Link> */}
                     </td>
                   </tr>
                   <tr>
-                    <td className="td_key">URI</td>
-                    <td style={{ lineHeight: 'unset' }} className="td_value">
-                      <p className={styles.truncate}>{node?.uri}</p>
-                    </td>
+                    <ConfigBox name="URI" config={node?.uri} />
                   </tr>
                   <tr>
-                    <td className="td_key">Materializer</td>
-                    {/* <td className='td_value'>{typeof (node?.materializer) === 'object' ? <JsonDisplay data={node?.materializer} style={{ display: 'flex' }} /> : node?.materializer}</td> */}
-                    <td className="td_value">
+                    <ConfigBox
+                      name="Materializer"
+                      config="zenml.materializers.built_in_materializer.BuilntinContainerMaterializer"
+                    />
+                  </tr>
+
+                  <tr>
+                    <ConfigBox
+                      name="Load Artifact in Code"
+                      config={configSchema}
+                    />
+                  </tr>
+
+                  {/* <td className="td_key">Materializer</td> */}
+                  {/* <td className="td_value">
                       <tr>
                         <td className="td_key">Module:</td>
                         <td className="td_value">
@@ -174,17 +232,24 @@ const ArtifactTabHeader = ({
                       <tr>
                         <td className="td_key">Type</td>
                         <td className="td_value">{node?.materializer?.type}</td>
-                      </tr>
-                      {/* <tr>attribute: {node?.materializer?.attribute}</tr>
+                      </tr> */}
+                  {/* <tr>attribute: {node?.materializer?.attribute}</tr>
                                     <tr>type: {node?.materializer?.type}</tr> */}
-                    </td>
-                  </tr>
+                  {/* </td> */}
                 </tbody>
               </table>
             </>
           ) : (
             ''
           )}
+
+          {/* SHOW META */}
+          {show === '__METADATA' ? (
+            <MetadataTab metadata={node.metadata || {}} />
+          ) : (
+            ''
+          )}
+
           {/* SHOW VISUALIZATION */}
           {show === '__VISUALIZATION' ? (
             <ArtifactVisualization node={node} fetching={fetching} />

@@ -460,7 +460,7 @@
   word-wrap: break-word;
 
   text-align: left !important;
-  /* background-color: #443E99; */
+  margin-left: 120px !important;
 }
 
 /* siderbar tab hover */
