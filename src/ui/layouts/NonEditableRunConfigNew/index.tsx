@@ -41,7 +41,7 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
         );
       };
       return (
-        <Box marginTop="lg" style={{ width: '90%' }}>
+        <Box marginTop="lg" style={{ width: '90%', overflowY: 'hidden' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>

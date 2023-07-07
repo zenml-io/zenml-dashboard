@@ -15,7 +15,8 @@ export const Configuration: React.FC<{ runId: TId }> = ({ runId }) => {
   const configSchema = `
 from zenml import Client
 
-run = Client().get_pipeline_run(${runId})
+run = Client().get_pipeline_run('${runId}')
+
 config = run.config
 
 `;

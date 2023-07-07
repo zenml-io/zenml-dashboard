@@ -7,7 +7,7 @@ import ArtifactVisualization from './ArtifactVisualization';
 import { useDispatch } from 'react-redux';
 // import { workspaceSelectors } from '../../../../redux/selectors';
 import MetadataTab from './metadata';
-import { Box, Paragraph, icons } from '../../index';
+import { Box, icons } from '../../index';
 import { iconColors, iconSizes, toasterTypes } from '../../../../constants';
 import { showToasterAction } from '../../../../redux/actions';
 import JSONPretty from 'react-json-pretty';
@@ -91,7 +91,7 @@ const ArtifactTabHeader = ({
   };
 
   const ConfigBox = ({ name, config }: { name: string; config: any }) => (
-    <Box style={{ width: '100%' }}>
+    <Box style={{ width: '100%', overflowY: 'hidden' }}>
       <div className="td_key">
         <label htmlFor={name}>{name}</label>
       </div>
@@ -166,21 +166,15 @@ loaded_artifact = artifact.load()
                 <tbody>
                   <tr>
                     <td className="td_key">Name</td>
-                    <td className="td_value">
-                      <Paragraph>{node?.name}</Paragraph>
-                    </td>
+                    <td className="td_value">{node?.name}</td>
                   </tr>
                   <tr>
                     <td className="td_key">Type</td>
-                    <td className="td_value">
-                      <Paragraph>{node?.type}</Paragraph>
-                    </td>
+                    <td className="td_value">{node?.type}</td>
                   </tr>
                   <tr>
                     <td className="td_key">Producer step</td>
-                    <td className="td_value">
-                      <Paragraph>{node?.producer_step_run_id}</Paragraph>
-                    </td>
+                    <td className="td_value">{node?.producer_step_run_id}</td>
                   </tr>
                   <tr>
                     <td className="td_key" style={{ wordWrap: 'break-word' }}>
@@ -194,7 +188,7 @@ loaded_artifact = artifact.load()
                           selectedWorkspace,
                         )}
                       > */}
-                      <Paragraph>{node?.artifact_store_id}</Paragraph>
+                      {node?.artifact_store_id}
                       {/* </Link> */}
                     </td>
                   </tr>

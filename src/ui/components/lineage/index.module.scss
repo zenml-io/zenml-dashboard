@@ -282,14 +282,14 @@
 
 .JSONPretty {
   position: relative;
-  margin-top: -10px !important;
-  width: 57%;
-  margin-left: 20px !important;
+  width: auto;
+  margin: -10px 20px 0 20px !important;
   min-height: 40px;
   padding: 10px !important;
 
   background: rgba(246, 247, 247, 1);
   border-radius: 4px;
+  overflow-y: hidden !important;
 }
 
 .copy {

@@ -140,7 +140,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
   };
 
   const ConfigBox = ({ name, config }: { name: string; config: any }) => (
-    <Box style={{ width: '100%' }}>
+    <Box style={{ width: '100%', overflowY: 'hidden' }}>
       <div className="td_key">
         <label htmlFor={name}>{name}</label>
       </div>
@@ -209,23 +209,19 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                 <tbody>
                   <tr>
                     <td className="td_key">Name</td>
-                    <td className="td_value">
-                      <Paragraph>{node?.name}</Paragraph>
-                    </td>
+                    <td className="td_value">{node?.name}</td>
                   </tr>
                   {node?.docstring && (
                     <tr>
                       <td className="td_key">Docstring</td>
-                      <td className="td_value">
-                        <Paragraph>{node?.docstring || 'n/a'}</Paragraph>
-                      </td>
+                      <td className="td_value">{node?.docstring || 'n/a'}</td>
                     </tr>
                   )}
                   {node?.pipeline_run_id && (
                     <tr>
                       <td className="td_key">Pipeline run ID</td>
                       <td className="td_value">
-                        <Paragraph>{node?.pipeline_run_id || 'n/a'}</Paragraph>
+                        {node?.pipeline_run_id || 'n/a'}
                       </td>
                     </tr>
                   )}
@@ -233,27 +229,21 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                     <tr>
                       <td className="td_key">Original step run ID</td>
                       <td className="td_value">
-                        <Paragraph>
-                          {node?.original_step_run_id || 'n/a'}
-                        </Paragraph>
+                        {node?.original_step_run_id || 'n/a'}
                       </td>
                     </tr>
                   )}
                   <tr>
                     <td className="td_key">Start time</td>
                     <td className="td_value">
-                      <Paragraph>
-                        {' '}
-                        {formatDateToDisplayOnTable(node?.created)}
-                      </Paragraph>
+                      {' '}
+                      {formatDateToDisplayOnTable(node?.created)}
                     </td>
                   </tr>
                   <tr>
                     <td className="td_key">End time</td>
                     <td className="td_value">
-                      <Paragraph>
-                        {formatDateToDisplayOnTable(node?.end_time)}
-                      </Paragraph>
+                      {formatDateToDisplayOnTable(node?.end_time)}
                     </td>
                   </tr>
                   <tr>
@@ -270,7 +260,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                             <Paragraph
                               style={{
                                 color: '#2ECC71',
-                                fontSize: '18px',
+                                fontSize: '12px',
                                 fontWeight: 'bold',
                               }}
                             >
@@ -283,36 +273,28 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                         &nbsp;&nbsp;&nbsp;
                       </>
                     ) : (
-                      <td className="td_value">
-                        <Paragraph>{node.status}</Paragraph>
-                      </td>
+                      <td className="td_value">{node.status}</td>
                     )}
                   </tr>
                   {node?.parent_step_ids.join(',') && (
                     <tr>
                       <td className="td_key">Parent Step IDs</td>
                       <td className="td_value">
-                        <Paragraph>
-                          {node?.parent_step_ids.join(',') || 'n/a'}
-                        </Paragraph>
+                        {node?.parent_step_ids.join(',') || 'n/a'}
                       </td>
                     </tr>
                   )}
                   <tr>
                     <td className="td_key">Cache key</td>
-                    <td className="td_value">
-                      <Paragraph>{node?.cache_key}</Paragraph>
-                    </td>
+                    <td className="td_value">{node?.cache_key}</td>
                   </tr>
 
                   <tr>
                     <td className="td_key">Cache enabled</td>
                     <td className="td_value">
-                      <Paragraph>
-                        {node?.config?.enable_cache !== null
-                          ? node?.config?.enable_cache.toString()
-                          : 'true'}
-                      </Paragraph>
+                      {node?.config?.enable_cache !== null
+                        ? node?.config?.enable_cache.toString()
+                        : 'true'}
                     </td>
                   </tr>
                   <tr>
@@ -321,9 +303,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                       <>
                         <td className="td_key">enable_artifact_metadata</td>
                         <td className="td_value">
-                          <Paragraph>
-                            {node?.config.enable_artifact_metadata}
-                          </Paragraph>
+                          {node?.config.enable_artifact_metadata}
                         </td>
                       </>
                     ) : (
@@ -499,37 +479,31 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   <tr>
                     <td className="td_key">Caching</td>
                     <td className="td_value">
-                      <Paragraph>
-                        {node?.config?.enable_cache ? (
-                          <>Enabled</>
-                        ) : (
-                          <>Disabled</>
-                        )}
-                      </Paragraph>
+                      {node?.config?.enable_cache ? (
+                        <>Enabled</>
+                      ) : (
+                        <>Disabled</>
+                      )}
                     </td>
                   </tr>
                   <tr>
                     <td className="td_key">Artifact Metadata</td>
                     <td className="td_value">
-                      <Paragraph>
-                        {node?.config?.enable_artifact_metadata ? (
-                          <>Enabled</>
-                        ) : (
-                          <>Disabled</>
-                        )}
-                      </Paragraph>
+                      {node?.config?.enable_artifact_metadata ? (
+                        <>Enabled</>
+                      ) : (
+                        <>Disabled</>
+                      )}
                     </td>
                   </tr>
                   <tr>
                     <td className="td_key">Artifact Visualization</td>
                     <td className="td_value">
-                      <Paragraph>
-                        {node?.config?.enable_artifact_visualization ? (
-                          <>Enabled</>
-                        ) : (
-                          <>Disabled</>
-                        )}
-                      </Paragraph>
+                      {node?.config?.enable_artifact_visualization ? (
+                        <>Enabled</>
+                      ) : (
+                        <>Disabled</>
+                      )}
                     </td>
                   </tr>
                   <tr>
@@ -579,9 +553,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   {Object.entries(node?.metadata).length >= 1 && (
                     <tr>
                       <td className="td_key">Key</td>
-                      <td className="td_value">
-                        <Paragraph>Value</Paragraph>
-                      </td>
+                      <td className="td_value">Value</td>
                     </tr>
                   )}
                 </tbody>
