@@ -7,6 +7,11 @@ import stepStyles from './artifact.module.scss';
 import { FullWidthSpinner } from '../../spinners';
 import { formatDateToDisplayOnTable } from '../../../../utils';
 import DisplayLogs from './DisplayLogs';
+import { Box, FlexBox, Paragraph, icons } from '../../index';
+import { iconColors, iconSizes, toasterTypes } from '../../../../constants';
+import { showToasterAction } from '../../../../redux/actions';
+import { useDispatch } from '../../../hooks';
+import JSONPretty from 'react-json-pretty';
 
 const stylesActive = {
   opacity: 1,
@@ -31,6 +36,14 @@ const tabs = [
   {
     title: 'Logs',
     case: '__LOG',
+  },
+  {
+    title: 'Configuration',
+    case: '__CONFIGURATION',
+  },
+  {
+    title: 'Metadata',
+    case: '__METADATA',
   },
 ];
 
@@ -80,6 +93,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
   const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(79);
   const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
   const divRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setDynamicLeft(divRefs.current[1]?.offsetLeft);
@@ -105,10 +119,49 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
         return setShow('__ATTRIBUTE');
       case '__CODE':
         return setShow('__CODE');
+      case '__CONFIGURATION':
+        return setShow('__CONFIGURATION');
+      case '__METADATA':
+        return setShow('__METADATA');
       default:
         return '';
     }
   };
+
+  const handleCopy = (text: any) => {
+    navigator.clipboard.writeText(JSON.stringify(text));
+
+    dispatch(
+      showToasterAction({
+        description: 'Config copied to clipboard',
+        type: toasterTypes.success,
+      }),
+    );
+  };
+
+  const ConfigBox = ({ name, config }: { name: string; config: any }) => (
+    <Box style={{ width: '100%' }}>
+      <div className="td_key">
+        <label htmlFor={name}>{name}</label>
+      </div>
+      <Box marginTop={'sm'} className={styles.JSONPretty}>
+        <icons.copy
+          className={styles.copy}
+          onClick={() => handleCopy(config)}
+          color={iconColors.black}
+          size={iconSizes.sm}
+        />
+        <JSONPretty
+          style={{
+            fontSize: '16px',
+            fontFamily: 'Rubik',
+          }}
+          data={config}
+        ></JSONPretty>
+      </Box>
+    </Box>
+  );
+
   return (
     <>
       <div className="siderbar_header11">
@@ -156,36 +209,51 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                 <tbody>
                   <tr>
                     <td className="td_key">Name</td>
-                    <td className="td_value ">{node?.name}</td>
-                  </tr>
-                  <tr>
-                    <td className="td_key">Docstring</td>
-                    <td className="td_value">{node?.docstring || 'n/a'}</td>
-                  </tr>
-                  <tr>
-                    <td className="td_key">Pipeline run ID</td>
                     <td className="td_value">
-                      {node?.pipeline_run_id || 'n/a'}
+                      <Paragraph>{node?.name}</Paragraph>
                     </td>
                   </tr>
-                  <tr>
-                    <td className="td_key">Original step run ID</td>
-                    <td className="td_value">
-                      {node?.original_step_run_id || 'n/a'}
-                    </td>
-                  </tr>
+                  {node?.docstring && (
+                    <tr>
+                      <td className="td_key">Docstring</td>
+                      <td className="td_value">
+                        <Paragraph>{node?.docstring || 'n/a'}</Paragraph>
+                      </td>
+                    </tr>
+                  )}
+                  {node?.pipeline_run_id && (
+                    <tr>
+                      <td className="td_key">Pipeline run ID</td>
+                      <td className="td_value">
+                        <Paragraph>{node?.pipeline_run_id || 'n/a'}</Paragraph>
+                      </td>
+                    </tr>
+                  )}
+                  {node?.original_step_run_id && (
+                    <tr>
+                      <td className="td_key">Original step run ID</td>
+                      <td className="td_value">
+                        <Paragraph>
+                          {node?.original_step_run_id || 'n/a'}
+                        </Paragraph>
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <td className="td_key">Start time</td>
                     <td className="td_value">
-                      {' '}
-                      {formatDateToDisplayOnTable(node?.created)}
+                      <Paragraph>
+                        {' '}
+                        {formatDateToDisplayOnTable(node?.created)}
+                      </Paragraph>
                     </td>
                   </tr>
                   <tr>
                     <td className="td_key">End time</td>
                     <td className="td_value">
-                      {' '}
-                      {formatDateToDisplayOnTable(node?.end_time)}
+                      <Paragraph>
+                        {formatDateToDisplayOnTable(node?.end_time)}
+                      </Paragraph>
                     </td>
                   </tr>
                   <tr>
@@ -195,39 +263,56 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                         <td
                           className="td_value"
                           style={{
-                            color: '#2ECC71',
-                            fontSize: 14,
-                            fontWeight: 600,
+                            marginLeft: '10px',
                           }}
                         >
-                          {node.status}
-                        </td>
-                        <td>
-                          <Status_Completed /> {/*eslint-disable-line*/}
+                          <FlexBox justifyContent="end" style={{ gap: '10px' }}>
+                            <Paragraph
+                              style={{
+                                color: '#2ECC71',
+                                fontSize: '18px',
+                                fontWeight: 'bold',
+                              }}
+                            >
+                              {node.status}
+                            </Paragraph>
+                            {/* eslint-disable-next-line */}
+                            <Status_Completed />
+                          </FlexBox>
                         </td>
                         &nbsp;&nbsp;&nbsp;
                       </>
                     ) : (
-                      <td className="td_value">{node.status}</td>
+                      <td className="td_value">
+                        <Paragraph>{node.status}</Paragraph>
+                      </td>
                     )}
                   </tr>
-                  <tr>
-                    <td className="td_key">Parent Step IDs</td>
-                    <td className="td_value">
-                      {node?.parent_step_ids.join(',') || 'n/a'}
-                    </td>
-                  </tr>
+                  {node?.parent_step_ids.join(',') && (
+                    <tr>
+                      <td className="td_key">Parent Step IDs</td>
+                      <td className="td_value">
+                        <Paragraph>
+                          {node?.parent_step_ids.join(',') || 'n/a'}
+                        </Paragraph>
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <td className="td_key">Cache key</td>
-                    <td className="td_value">{node?.cache_key}</td>
+                    <td className="td_value">
+                      <Paragraph>{node?.cache_key}</Paragraph>
+                    </td>
                   </tr>
 
                   <tr>
                     <td className="td_key">Cache enabled</td>
                     <td className="td_value">
-                      {node?.config?.enable_cache !== null
-                        ? node?.config?.enable_cache.toString()
-                        : 'true'}
+                      <Paragraph>
+                        {node?.config?.enable_cache !== null
+                          ? node?.config?.enable_cache.toString()
+                          : 'true'}
+                      </Paragraph>
                     </td>
                   </tr>
                   <tr>
@@ -236,7 +321,9 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                       <>
                         <td className="td_key">enable_artifact_metadata</td>
                         <td className="td_value">
-                          {node?.config.enable_artifact_metadata}
+                          <Paragraph>
+                            {node?.config.enable_artifact_metadata}
+                          </Paragraph>
                         </td>
                       </>
                     ) : (
@@ -404,6 +491,105 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
             ''
           )}
           {show === '__LOG' ? <DisplayLogs selectedNode={node} /> : ''}
+
+          {show === '__CONFIGURATION' ? (
+            <>
+              <table cellSpacing="0" className="sidebar_table">
+                <tbody>
+                  <tr>
+                    <td className="td_key">Caching</td>
+                    <td className="td_value">
+                      <Paragraph>
+                        {node?.config?.enable_cache ? (
+                          <>Enabled</>
+                        ) : (
+                          <>Disabled</>
+                        )}
+                      </Paragraph>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">Artifact Metadata</td>
+                    <td className="td_value">
+                      <Paragraph>
+                        {node?.config?.enable_artifact_metadata ? (
+                          <>Enabled</>
+                        ) : (
+                          <>Disabled</>
+                        )}
+                      </Paragraph>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">Artifact Visualization</td>
+                    <td className="td_value">
+                      <Paragraph>
+                        {node?.config?.enable_artifact_visualization ? (
+                          <>Enabled</>
+                        ) : (
+                          <>Disabled</>
+                        )}
+                      </Paragraph>
+                    </td>
+                  </tr>
+                  <tr>
+                    <ConfigBox
+                      name="Failure Hook Source"
+                      config={node?.config?.failure_hook_source}
+                    />
+                  </tr>
+                  <tr>
+                    <ConfigBox
+                      name="Success Hook Source"
+                      config={node?.config?.success_hook_source}
+                    />
+                  </tr>
+                  <tr>
+                    <ConfigBox
+                      name="Settings"
+                      config={node?.config?.settings}
+                    />
+                  </tr>
+                  <tr>
+                    <ConfigBox name="Extra" config={node?.config?.extra} />
+                  </tr>
+                  <tr>
+                    <ConfigBox
+                      name="Parameters"
+                      config={node?.config?.parameters}
+                    />
+                  </tr>
+                  <tr>
+                    <ConfigBox
+                      name="Caching Parameters"
+                      config={node?.config?.caching_parameters}
+                    />
+                  </tr>
+                </tbody>
+              </table>
+            </>
+          ) : (
+            ''
+          )}
+
+          {show === '__METADATA' ? (
+            <>
+              <table cellSpacing="0" className="sidebar_table">
+                <tbody>
+                  {Object.entries(node?.metadata).length >= 1 && (
+                    <tr>
+                      <td className="td_key">Key</td>
+                      <td className="td_value">
+                        <Paragraph>Value</Paragraph>
+                      </td>
+                    </tr>
+                  )}
+                </tbody>
+              </table>
+            </>
+          ) : (
+            ''
+          )}
         </>
       )}
     </>

@@ -7,7 +7,7 @@
   flex-direction: column;
 }
 
-.askModalMessage{
+.askModalMessage {
   /* background-color: #00aaff; */
   width: 500px;
   height: 100px;
@@ -16,19 +16,17 @@
   font-family: 'Rubik';
   display: flex;
 }
-.askModalMessage p{
-
+.askModalMessage p {
   font-size: 26px;
   font-family: 'Rubik';
   margin-left: 10px;
-
 }
-.askModalBtn{
+.askModalBtn {
   /* background-color: #00aaff; */
   width: 500px;
 }
 .askModalBtn button {
-  background-color: #443E99;
+  background-color: #443e99;
   outline: none;
   border: none;
   height: 50px;
@@ -53,8 +51,7 @@
   background-color: rgb(255, 255, 255);
 }
 
-
-.react-flow__node[data-type="parentNode"] {
+.react-flow__node[data-type='parentNode'] {
   margin: 0px;
 }
 
@@ -70,10 +67,10 @@
   margin-top: 1rem;
 }
 
-.controls>button,
-.controls>div>button {
-  color: #443E99;
-  font-family: "Rubik";
+.controls > button,
+.controls > div > button {
+  color: #443e99;
+  font-family: 'Rubik';
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
@@ -86,11 +83,11 @@
   cursor: pointer;
 }
 
-.controls>div>button :focus {
+.controls > div > button :focus {
   outline: none;
 }
 
-.controls>div>button>img {
+.controls > div > button > img {
   margin-right: 70.08px;
 }
 
@@ -155,7 +152,6 @@
   max-width: 35ch;
 }
 
-
 .detailsKey {
   display: block;
   white-space: nowrap;
@@ -174,7 +170,7 @@
   text-overflow: ellipsis;
   overflow: hidden;
   text-indent: 20px;
-  color: #A1A4AB;
+  color: #a1a4ab;
 }
 
 .detailsValue:hover {
@@ -209,14 +205,13 @@
   margin-right: 10px;
 }
 
-.legend>span {
+.legend > span {
   margin-top: 0.5rem;
 }
 
-.legend>span>span {
+.legend > span > span {
   margin-left: 17px;
 }
-
 
 /* siderbar */
 .siderbar11 {
@@ -259,8 +254,8 @@
   right: -50;
   top: 100%;
   padding: '10px';
-  height: "500px";
-  display: "flex";
+  height: '500px';
+  display: 'flex';
   align-items: center;
 }
 
@@ -293,10 +288,9 @@
 
 .sidebar11_arrow_hidden img {
   cursor: pointer;
-
 }
 
-.sidebar11_arrow>img {
+.sidebar11_arrow > img {
   z-index: -1;
   cursor: pointer;
 }
@@ -333,16 +327,16 @@
   align-items: center;
 }
 
-.siderbar_header11>span {
+.siderbar_header11 > span {
   font-family: 'Rubik';
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
-  color: #443E99;
+  color: #443e99;
   margin-left: 21px;
 }
 
-.siderbar_subheader11>span {
+.siderbar_subheader11 > span {
   font-family: 'Rubik';
   font-style: normal;
   font-weight: 400;
@@ -366,7 +360,7 @@
   font-size: 18px;
   line-height: 21px;
   display: flex;
-  justify-content: "start";
+  justify-content: 'start';
   align-items: center;
   margin-left: 21px;
 }
@@ -381,7 +375,7 @@
   margin-left: 21px;
 }
 
-.sidebar_body_url>p {
+.sidebar_body_url > p {
   font-family: 'Rubik';
   font-style: normal;
   font-weight: 600;
@@ -389,7 +383,7 @@
   line-height: 17px;
 }
 
-.sidebar_body_url>a {
+.sidebar_body_url > a {
   font-family: 'Rubik';
   font-style: normal;
   font-weight: 400;
@@ -432,7 +426,6 @@
   height: auto;
   word-wrap: break-word;
   /* background-color: #5b50f1; */
-
 }
 
 .td_value tr {
@@ -465,6 +458,8 @@
   line-height: 14px;
   color: #000000;
   word-wrap: break-word;
+
+  text-align: left !important;
   /* background-color: #443E99; */
 }
 
@@ -513,18 +508,17 @@
   margin: 0;
   padding: 0;
   margin-bottom: 10px;
-
 }
 
 .config_container input {
   width: 315px;
   height: 32px;
-  border: 1px solid #C9CBD0;
+  border: 1px solid #c9cbd0;
   border-radius: 4px 0px 0px 4px;
   background: rgba(168, 168, 168, 0.1);
   outline: none;
 
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -539,9 +533,6 @@
 }
 
 /* siderbar tab hover */
-
-
-
 
 /* BUTTON TOGGLER */
 .toggle-button {
@@ -589,7 +580,6 @@
   outline: none;
 }
 
-
 .csv_table_row {
   margin-top: 5px;
 }
@@ -612,7 +602,7 @@
   text-align: left;
   padding: 8px;
   /* border-bottom: 1px solid #ddd; */
-  font-family: "Rubik";
+  font-family: 'Rubik';
   font-size: 15px;
   overflow: hidden;
   flex-wrap: wrap;
@@ -620,7 +610,7 @@
 }
 
 .csv_table thead tr {
-  background-color: #443E99;
+  background-color: #443e99;
   width: 100%;
   height: 50px;
   display: flex;
@@ -662,7 +652,6 @@
   width: 180px;
   /* background-color: #00aaff; */
 }
-
 
 /* Ali edit id#123456789 */
 @media (max-width: 1850px) {
