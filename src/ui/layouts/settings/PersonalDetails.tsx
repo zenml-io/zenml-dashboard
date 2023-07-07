@@ -52,6 +52,7 @@ export const PersonalDetails: React.FC = () => {
   const [hubUserName, setHubUserName] = useState(hubUser?.username ?? '');
   const [version, setVersion] = useState('');
   const [popupType, setPopupType] = useState('');
+  const [releaseVersion, setReleaseVersion] = useState('');
   // const [selectedImage, setSelectedImage] = useState<any>(userImage);
 
   const authToken = useSelector(sessionSelectors.authenticationToken);
@@ -65,9 +66,21 @@ export const PersonalDetails: React.FC = () => {
     );
     setVersion(data);
   };
+  const fetchLatestReleaseVersion = async () => {
+    try {
+      const response = await axios.get(
+        'https://api.github.com/repos/zenml-io/zenml-dashboard/releases/latest',
+      );
+      const latestRelease = response.data.tag_name;
+      setReleaseVersion(latestRelease);
+    } catch (error) {
+      console.error('Error fetching latest release version:', error);
+    }
+  };
 
   useEffect(() => {
     getVersion();
+    fetchLatestReleaseVersion();
   }, []);
 
   useEffect(() => {
@@ -308,7 +321,7 @@ export const PersonalDetails: React.FC = () => {
             </Box>
             <Box>
               <Paragraph className={styles.uiVersionText}>
-                UI Version {process.env.REACT_APP_VERSION}
+                UI Version {releaseVersion}
               </Paragraph>
             </Box>
             <Box>

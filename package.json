@@ -76,8 +76,8 @@
     "typescript": "^3.9.7"
   },
   "scripts": {
-    "start": "export REACT_APP_VERSION=$(git describe --tags --abbrev=0) && react-scripts start",
-    "build": "export REACT_APP_VERSION=$(git describe --tags --abbrev=0) && react-scripts build",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
     "test": "react-scripts test --maxWorkers=4",
     "eject": "react-scripts eject",
     "lint": "eslint './src/**/*.ts*'",
