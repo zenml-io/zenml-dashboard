@@ -114,9 +114,9 @@ const ArtifactTabHeader = ({
   );
 
   const configSchema = `
-from zenml import Client
+from zenml.client import client
 
-artifact = Client().get_artifact(${node?.artifact_store_id})
+artifact = Client().get_artifact('${node?.artifact_store_id}')
 loaded_artifact = artifact.load()
 
 `;
@@ -164,6 +164,10 @@ loaded_artifact = artifact.load()
             <>
               <table className="sidebar_table">
                 <tbody>
+                  <tr>
+                    <td className="td_key">ID</td>
+                    <td className="td_value">{node?.id}</td>
+                  </tr>
                   <tr>
                     <td className="td_key">Name</td>
                     <td className="td_value">{node?.name}</td>

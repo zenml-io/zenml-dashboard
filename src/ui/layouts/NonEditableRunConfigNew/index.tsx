@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, EditField, FlexBox, Paragraph, icons } from '../../components';
+import { Box, FlexBox, Paragraph, icons } from '../../components';
 import styles from './index.module.scss';
 import { titleCase } from '../../../utils';
 import { ToggleField } from '../common/FormElement';
@@ -13,21 +13,21 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
 }) => {
   const dispatch = useDispatch();
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    if (typeof elementSchema === 'string') {
-      return (
-        <Box marginTop={'lg'} style={{ width: '90%' }}>
-          <EditField
-            disabled
-            label={titleCase(elementName)}
-            optional={false}
-            defaultValue={elementSchema}
-            placeholder=""
-            hasError={false}
-            className={styles.field}
-          />
-        </Box>
-      );
-    }
+    // if (typeof elementSchema === 'string') {
+    //   return (
+    //     <Box marginTop={'lg'} style={{ width: '90%' }}>
+    //       <EditField
+    //         disabled
+    //         label={titleCase(elementName)}
+    //         optional={false}
+    //         defaultValue={elementSchema}
+    //         placeholder=""
+    //         hasError={false}
+    //         className={styles.field}
+    //       />
+    //     </Box>
+    //   );
+    // }
 
     if (typeof elementSchema === 'object' && elementSchema !== null) {
       const handleCopy = () => {

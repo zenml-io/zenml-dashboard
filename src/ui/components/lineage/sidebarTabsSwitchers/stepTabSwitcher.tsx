@@ -12,6 +12,7 @@ import { iconColors, iconSizes, toasterTypes } from '../../../../constants';
 import { showToasterAction } from '../../../../redux/actions';
 import { useDispatch } from '../../../hooks';
 import JSONPretty from 'react-json-pretty';
+import _ from 'lodash';
 
 const stylesActive = {
   opacity: 1,
@@ -203,48 +204,17 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
         </div>
       ) : (
         <>
-          {show === '__DETAILS' ? (
+          {show === '__DETAILS' && (
             <>
               <table cellSpacing="0" className="sidebar_table">
                 <tbody>
                   <tr>
+                    <td className="td_key">ID</td>
+                    <td className="td_value">{node?.id}</td>
+                  </tr>
+                  <tr>
                     <td className="td_key">Name</td>
                     <td className="td_value">{node?.name}</td>
-                  </tr>
-                  {node?.docstring && (
-                    <tr>
-                      <td className="td_key">Docstring</td>
-                      <td className="td_value">{node?.docstring || 'n/a'}</td>
-                    </tr>
-                  )}
-                  {node?.pipeline_run_id && (
-                    <tr>
-                      <td className="td_key">Pipeline run ID</td>
-                      <td className="td_value">
-                        {node?.pipeline_run_id || 'n/a'}
-                      </td>
-                    </tr>
-                  )}
-                  {node?.original_step_run_id && (
-                    <tr>
-                      <td className="td_key">Original step run ID</td>
-                      <td className="td_value">
-                        {node?.original_step_run_id || 'n/a'}
-                      </td>
-                    </tr>
-                  )}
-                  <tr>
-                    <td className="td_key">Start time</td>
-                    <td className="td_value">
-                      {' '}
-                      {formatDateToDisplayOnTable(node?.created)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="td_key">End time</td>
-                    <td className="td_value">
-                      {formatDateToDisplayOnTable(node?.end_time)}
-                    </td>
                   </tr>
                   <tr>
                     <td className="td_key">Status</td>
@@ -276,25 +246,31 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                       <td className="td_value">{node.status}</td>
                     )}
                   </tr>
-                  {node?.parent_step_ids.join(',') && (
-                    <tr>
-                      <td className="td_key">Parent Step IDs</td>
-                      <td className="td_value">
-                        {node?.parent_step_ids.join(',') || 'n/a'}
-                      </td>
-                    </tr>
-                  )}
                   <tr>
                     <td className="td_key">Cache key</td>
                     <td className="td_value">{node?.cache_key}</td>
                   </tr>
-
+                  {node?.original_step_run_id && (
+                    <tr>
+                      <td className="td_key">
+                        (If cached) ID of original step
+                      </td>
+                      <td className="td_value">
+                        {node?.original_step_run_id || 'n/a'}
+                      </td>
+                    </tr>
+                  )}
                   <tr>
-                    <td className="td_key">Cache enabled</td>
+                    <td className="td_key">Start time</td>
                     <td className="td_value">
-                      {node?.config?.enable_cache !== null
-                        ? node?.config?.enable_cache.toString()
-                        : 'true'}
+                      {' '}
+                      {formatDateToDisplayOnTable(node?.created)}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">End time</td>
+                    <td className="td_value">
+                      {formatDateToDisplayOnTable(node?.end_time)}
                     </td>
                   </tr>
                   <tr>
@@ -314,7 +290,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                                     <td className='td_key'>source</td>
                                     <td className='td_value'>{node?.step?.spec?.source}</td>
                                 </tr> */}
-                  {Object.entries(node?.inputs).length >= 1 && (
+                  {/* {Object.entries(node?.inputs).length >= 1 && (
                     <tr>
                       <td
                         style={{ textDecoration: 'underline' }}
@@ -377,8 +353,8 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                         </tr>
                       );
                     },
-                  )}
-                  {Object.entries(node?.outputs).length >= 1 && (
+                  )} */}
+                  {/* {Object.entries(node?.outputs).length >= 1 && (
                     <tr>
                       <td
                         style={{ textDecoration: 'underline' }}
@@ -449,14 +425,12 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                         </tr>
                       );
                     },
-                  )}
+                  )} */}
                 </tbody>
               </table>
             </>
-          ) : (
-            ''
           )}
-          {show === '__CODE' ? (
+          {show === '__CODE' && (
             <div className={styles.codeContainer}>
               <SyntaxHighlighter
                 customStyle={{ width: '100%', height: '80%', fontSize: 20 }}
@@ -467,12 +441,10 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                 {node.source_code ? node.source_code : ''}
               </SyntaxHighlighter>
             </div>
-          ) : (
-            ''
           )}
-          {show === '__LOG' ? <DisplayLogs selectedNode={node} /> : ''}
+          {show === '__LOG' && <DisplayLogs selectedNode={node} />}
 
-          {show === '__CONFIGURATION' ? (
+          {show === '__CONFIGURATION' && (
             <>
               <table cellSpacing="0" className="sidebar_table">
                 <tbody>
@@ -542,25 +514,28 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                 </tbody>
               </table>
             </>
-          ) : (
-            ''
           )}
 
-          {show === '__METADATA' ? (
+          {show === '__METADATA' && (
             <>
               <table cellSpacing="0" className="sidebar_table">
                 <tbody>
-                  {Object.entries(node?.metadata).length >= 1 && (
-                    <tr>
-                      <td className="td_key">Key</td>
-                      <td className="td_value">Value</td>
-                    </tr>
+                  {_.isEmpty(node?.metadata) && (
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <Paragraph>No Metadata available</Paragraph>
+                    </div>
                   )}
+
+                  {Object.entries(node?.metadata).length >= 0 &&
+                    Object.entries(node?.metadata)?.map((e: any) => (
+                      <tr>
+                        <td className="td_key">{e[1]?.key}</td>
+                        <td className="td_value">{e[1]?.value}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </>
-          ) : (
-            ''
           )}
         </>
       )}

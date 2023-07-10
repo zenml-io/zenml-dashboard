@@ -13,7 +13,7 @@ export const Configuration: React.FC<{ runId: TId }> = ({ runId }) => {
   const dispatch = useDispatch();
 
   const configSchema = `
-from zenml import Client
+from zenml.client import Client
 
 run = Client().get_pipeline_run('${runId}')
 
@@ -22,7 +22,7 @@ config = run.config
 `;
 
   const handleCopy = () => {
-    navigator.clipboard.writeText(JSON.stringify(configSchema));
+    navigator.clipboard.writeText(configSchema);
 
     dispatch(
       showToasterAction({
