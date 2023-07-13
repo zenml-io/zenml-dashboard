@@ -8,7 +8,7 @@ import ReactFlow, {
   MarkerType,
 } from 'react-flow-renderer';
 import dagre from 'dagre';
-import styles from './index.module.scss';
+
 import ArtifactNode from './ArtifactNode';
 import StepNode from './StepNode';
 
