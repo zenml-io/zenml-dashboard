@@ -8,7 +8,7 @@ import ReactFlow, {
   MarkerType,
 } from 'react-flow-renderer';
 import dagre from 'dagre';
-
+import styles from './index.module.scss';
 import ArtifactNode from './ArtifactNode';
 import StepNode from './StepNode';
 
@@ -230,13 +230,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
               }}
               fitView
             >
-              <Controls
-                style={{
-                  top: '0px',
-                  bottom: '50%',
-                  boxShadow: '0px',
-                }}
-              />
+              <Controls className={styles.customContols} />
             </ReactFlow>
           </div>
         </div>
