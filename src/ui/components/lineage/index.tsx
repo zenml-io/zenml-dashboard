@@ -230,7 +230,13 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
               }}
               fitView
             >
-              <Controls className={styles.customContols} />
+              <Controls
+                style={{
+                  top: '0px',
+                  bottom: '50%',
+                  boxShadow: 'none',
+                }}
+              />
             </ReactFlow>
           </div>
         </div>
