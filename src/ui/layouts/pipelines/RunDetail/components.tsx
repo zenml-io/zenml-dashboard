@@ -1,13 +1,12 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 import { runStatus, iconColors, iconSizes } from '../../../../constants';
 import {
   Paragraph,
   Box,
-  ColoredCircle,
   icons,
   If,
   FlexBox,
+  Tooltip,
 } from '../../../components';
 
 import styles from './components.module.scss';
@@ -47,12 +46,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip id={run.status} place="top" effect="solid">
-          <Paragraph color="white">
-            {run.status}
-            {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-          </Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run.status} text={run.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
@@ -65,12 +59,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip id={run.status} place="top" effect="solid">
-          <Paragraph color="white">
-            {run.status}
-            {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-          </Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run.status} text={run.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
@@ -83,12 +72,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip id={run.status} place="top" effect="solid">
-          <Paragraph color="white">
-            {run.status}
-            {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-          </Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run.status} text={run.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
@@ -101,12 +85,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip id={run.status} place="top" effect="solid">
-          <Paragraph color="white">
-            {run.status}
-            {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-          </Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run.status} text={run.status} />
       </FlexBox>
     </>
   );

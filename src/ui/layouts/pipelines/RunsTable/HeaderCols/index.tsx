@@ -14,6 +14,7 @@ import {
   Box,
   icons,
   ColoredCircle,
+  Tooltip,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
@@ -23,7 +24,6 @@ import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
 import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
-import ReactTooltip from 'react-tooltip';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
@@ -112,11 +112,7 @@ export const useHeaderCols = ({
                   </Paragraph>
                 </FlexBox.Row>
               </div>
-              <ReactTooltip id={run?.id} place="top" effect="solid">
-                <Paragraph color="white">
-                  {truncate(run?.id, ID_MAX_LENGTH)}
-                </Paragraph>
-              </ReactTooltip>
+              <Tooltip id={run.id} text={truncate(run?.id, ID_MAX_LENGTH)} />
             </FlexBox>
           ),
         },
@@ -147,12 +143,7 @@ export const useHeaderCols = ({
               <div data-tip data-for={run?.name}>
                 <Paragraph size="small">{run?.name}</Paragraph>
               </div>
-              <ReactTooltip id={run?.name} place="top" effect="solid">
-                <Paragraph color="white">
-                  {run?.name}
-                  {/* {translate(`tooltips.${invoice.status}`)} */}
-                </Paragraph>
-              </ReactTooltip>
+              <Tooltip id={run.name} text={run?.name} />
             </div>
           ),
         },
@@ -232,16 +223,10 @@ export const useHeaderCols = ({
                   </Paragraph>
                 </FlexBox>
               </div>
-              <ReactTooltip
+              <Tooltip
                 id={formatDateToDisplayOnTable(run?.created)}
-                place="top"
-                effect="solid"
-              >
-                <Paragraph color="white">
-                  {formatDateToDisplayOnTable(run?.created)}
-                  {/* {translate(`tooltips.${invoice.status}`)} */}
-                </Paragraph>
-              </ReactTooltip>
+                text={formatDateToDisplayOnTable(run?.created)}
+              />
             </FlexBox>
           ),
         },
@@ -302,11 +287,7 @@ export const useHeaderCols = ({
                   </Paragraph>
                 </FlexBox.Row>
               </div>
-              <ReactTooltip id={run?.id} place="top" effect="solid">
-                <Paragraph color="white">
-                  {truncate(run?.id, ID_MAX_LENGTH)}
-                </Paragraph>
-              </ReactTooltip>
+              <Tooltip id={run?.id} text={truncate(run?.id, ID_MAX_LENGTH)} />
             </FlexBox>
           ),
         },
@@ -337,12 +318,7 @@ export const useHeaderCols = ({
               <div data-tip data-for={run?.name}>
                 <Paragraph size="small">{run?.name}</Paragraph>
               </div>
-              <ReactTooltip id={run?.name} place="top" effect="solid">
-                <Paragraph color="white">
-                  {run?.name}
-                  {/* {translate(`tooltips.${invoice.status}`)} */}
-                </Paragraph>
-              </ReactTooltip>
+              <Tooltip id={run?.name} text={run?.name} />
             </div>
           ),
         },
@@ -395,16 +371,10 @@ export const useHeaderCols = ({
                   {run?.pipeline?.name} ( v{run?.pipeline?.version} )
                 </Paragraph>
               </div>
-              <ReactTooltip
+              <Tooltip
                 id={run?.pipeline?.name && run?.pipeline?.version}
-                place="top"
-                effect="solid"
-              >
-                <Paragraph color="white">
-                  {run?.pipeline?.name} ( v{run?.pipeline?.version} )
-                  {/* {translate(`tooltips.${invoice.status}`)} */}
-                </Paragraph>
-              </ReactTooltip>
+                text={`${run?.pipeline?.name} (v${run?.pipeline?.version})`}
+              />
             </FlexBox>
           ),
         },
@@ -481,12 +451,7 @@ export const useHeaderCols = ({
                   {run?.stack?.name}
                 </Paragraph>
               </div>
-              <ReactTooltip id={run?.stack?.name} place="top" effect="solid">
-                <Paragraph color="white">
-                  {run?.stack?.name}
-                  {/* {translate(`tooltips.${invoice.status}`)} */}
-                </Paragraph>
-              </ReactTooltip>
+              <Tooltip id={run?.stack?.name} text={run?.stack?.name} />
             </FlexBox>
           ),
         },
@@ -538,18 +503,14 @@ export const useHeaderCols = ({
                     </Paragraph>
                   </FlexBox>
                 </div>
-                <ReactTooltip
+                <Tooltip
                   id={
                     run?.user.full_name ? run?.user.full_name : run?.user.name
                   }
-                  place="top"
-                  effect="solid"
-                >
-                  <Paragraph color="white">
-                    {run?.user.full_name ? run?.user.full_name : run?.user.name}
-                    {/* {translate(`tooltips.${invoice.status}`)} */}
-                  </Paragraph>
-                </ReactTooltip>
+                  text={
+                    run?.user.full_name ? run?.user.full_name : run?.user.name
+                  }
+                />
               </FlexBox>
             );
           },
@@ -601,15 +562,10 @@ export const useHeaderCols = ({
                   </Paragraph>
                 </FlexBox>
               </div>
-              <ReactTooltip
+              <Tooltip
                 id={formatDateToDisplayOnTable(run?.created)}
-                place="top"
-                effect="solid"
-              >
-                <Paragraph color="white">
-                  {formatDateToDisplayOnTable(run?.created)}
-                </Paragraph>
-              </ReactTooltip>
+                text={formatDateToDisplayOnTable(run?.created)}
+              />
             </FlexBox>
           ),
         },

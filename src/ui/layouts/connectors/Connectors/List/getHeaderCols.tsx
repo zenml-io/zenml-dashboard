@@ -1,13 +1,18 @@
 import _ from 'lodash';
 import React, { useState } from 'react';
-import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
-import { Box, FlexBox, icons, Paragraph } from '../../../../components';
+import {
+  Box,
+  FlexBox,
+  icons,
+  Paragraph,
+  Tooltip,
+} from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -119,9 +124,7 @@ export const GetHeaderCols = ({
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <ReactTooltip id={connector.id} place="top" effect="solid">
-            <Paragraph color="white">{connector.id}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={connector.id} text={connector.id} />
         </FlexBox>
       ),
     },
@@ -154,9 +157,7 @@ export const GetHeaderCols = ({
               {connector.name}
             </Paragraph>
           </div>
-          <ReactTooltip id={connector.name} place="top" effect="solid">
-            <Paragraph color="white">{connector.name}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={connector.name} text={connector.name} />
         </FlexBox>
       ),
     },
@@ -200,15 +201,10 @@ export const GetHeaderCols = ({
                 />
               </FlexBox>
             </div>
-            <ReactTooltip
-              id={connector?.connectorType?.name}
-              place="top"
-              effect="solid"
-            >
-              <Paragraph color="white">
-                {connector?.connectorType?.name}
-              </Paragraph>
-            </ReactTooltip>
+            <Tooltip
+              id={connector.connectorType?.name}
+              text={connector.connectorType?.name}
+            />
           </Box>
         </FlexBox>
       ),
@@ -261,9 +257,7 @@ export const GetHeaderCols = ({
                         />
                       </FlexBox>
                     </div>
-                    <ReactTooltip id={e?.name} place="top" effect="solid">
-                      <Paragraph color="white">{e?.name}</Paragraph>
-                    </ReactTooltip>
+                    <Tooltip id={e?.name} text={e?.name} />
                   </Box>
                 ),
             )}
@@ -319,9 +313,7 @@ export const GetHeaderCols = ({
                               />
                             </FlexBox>
                           </div>
-                          <ReactTooltip id={e?.name} place="top" effect="solid">
-                            <Paragraph color="white">{e?.name}</Paragraph>
-                          </ReactTooltip>
+                          <Tooltip id={e?.name} text={e?.name} />
                         </Box>
                       ))}
                   </FlexBox>
@@ -362,9 +354,7 @@ export const GetHeaderCols = ({
               {connector.resourceId}
             </Paragraph>
           </div>
-          <ReactTooltip id={connector.resourceId} place="top" effect="solid">
-            <Paragraph color="white">{connector.resourceId}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={connector.resourceId} text={connector.resourceId} />
         </FlexBox>
       ),
     },
@@ -397,9 +387,7 @@ export const GetHeaderCols = ({
               {connector.authMethod}
             </Paragraph>
           </div>
-          <ReactTooltip id={connector.authMethod} place="top" effect="solid">
-            <Paragraph color="white">{connector.authMethod}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={connector.authMethod} text={connector.authMethod} />
         </FlexBox>
       ),
     },
@@ -432,9 +420,7 @@ export const GetHeaderCols = ({
               {connector.user.name}
             </Paragraph>
           </div>
-          <ReactTooltip id={connector.user.name} place="top" effect="solid">
-            <Paragraph color="white">{connector.user.name}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={connector.user?.name} text={connector.user?.name} />
         </FlexBox>
       ),
     },
@@ -480,15 +466,10 @@ export const GetHeaderCols = ({
                   </Paragraph>
                 </FlexBox>
               </div>
-              <ReactTooltip
+              <Tooltip
                 id={formatDateToSort(connector.created)}
-                place="top"
-                effect="solid"
-              >
-                <Paragraph color="white">
-                  {formatDateToDisplayOnTable(connector.created)}
-                </Paragraph>
-              </ReactTooltip>
+                text={formatDateToDisplayOnTable(connector.created)}
+              />
             </FlexBox>
           )}
         </>

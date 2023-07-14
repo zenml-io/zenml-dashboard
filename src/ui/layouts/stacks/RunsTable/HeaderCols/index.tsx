@@ -6,14 +6,13 @@ import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
-import { FlexBox, Paragraph, icons } from '../../../../components';
+import { FlexBox, Paragraph, Tooltip, icons } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
 
 import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
-import ReactTooltip from 'react-tooltip';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
@@ -90,9 +89,7 @@ export const useHeaderCols = ({
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <ReactTooltip id={run.id} place="top" effect="solid">
-            <Paragraph color="white">{run.id}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={run.id} text={run.id} />
         </FlexBox>
       ),
     },
@@ -119,9 +116,7 @@ export const useHeaderCols = ({
           <div data-tip data-for={run.name}>
             <Paragraph size="small">{run.name}</Paragraph>
           </div>
-          <ReactTooltip id={run.name} place="top" effect="solid">
-            <Paragraph color="white">{run.name}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={run.name} text={run.name} />
         </div>
       ),
     },
@@ -166,15 +161,10 @@ export const useHeaderCols = ({
               {run.pipeline?.name} ( v{run?.pipeline?.version} )
             </Paragraph>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={run.pipeline?.name && run.pipeline?.version}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {run.pipeline?.name} ( v{run?.pipeline?.version} )
-            </Paragraph>
-          </ReactTooltip>
+            text={`${run.pipeline?.name} (v${run?.pipeline?.version})`}
+          />
         </FlexBox>
       ),
     },
@@ -240,9 +230,7 @@ export const useHeaderCols = ({
               {run.stack?.name}
             </Paragraph>
           </div>
-          <ReactTooltip id={run.stack?.name} place="top" effect="solid">
-            <Paragraph color="white">{run.stack?.name}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={run.stack?.name} text={run.stack?.name} />
         </FlexBox>
       ),
     },
@@ -282,15 +270,12 @@ export const useHeaderCols = ({
                 </Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip
+            <Tooltip
               id={run?.user?.full_name ? run?.user?.full_name : run?.user?.name}
-              place="top"
-              effect="solid"
-            >
-              <Paragraph color="white">
-                {run?.user?.full_name ? run?.user?.full_name : run?.user?.name}
-              </Paragraph>
-            </ReactTooltip>
+              text={
+                run?.user?.full_name ? run?.user?.full_name : run?.user?.name
+              }
+            />
           </FlexBox>
         );
       },
@@ -331,15 +316,10 @@ export const useHeaderCols = ({
               </Paragraph>
             </FlexBox>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={formatDateToDisplayOnTable(run.created)}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {formatDateToDisplayOnTable(run.created)}
-            </Paragraph>
-          </ReactTooltip>
+            text={formatDateToDisplayOnTable(run.created)}
+          />
         </FlexBox>
       ),
     },

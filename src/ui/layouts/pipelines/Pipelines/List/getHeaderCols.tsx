@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 import {
@@ -8,6 +7,7 @@ import {
   icons,
   // LinkBox,
   Paragraph,
+  Tooltip,
 } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
@@ -137,12 +137,7 @@ export const GetHeaderCols = ({
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <ReactTooltip id={pipeline.id} place="top" effect="solid">
-            <Paragraph color="white">
-              {pipeline.id}
-              {/* {truncate(pipeline.id, ID_MAX_LENGTH)} */}
-            </Paragraph>
-          </ReactTooltip>
+          <Tooltip id={pipeline.id} text={pipeline.id} />
         </FlexBox>
       ),
     },
@@ -173,12 +168,7 @@ export const GetHeaderCols = ({
           <div data-tip data-for={pipeline.name}>
             <Paragraph size="small">{pipeline.name}</Paragraph>
           </div>
-          <ReactTooltip id={pipeline.name} place="top" effect="solid">
-            <Paragraph color="white">
-              {pipeline.name}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
-          </ReactTooltip>
+          <Tooltip id={pipeline.name} text={pipeline.name} />
         </FlexBox>
       ),
     },
@@ -265,22 +255,18 @@ export const GetHeaderCols = ({
                 </Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip
+            <Tooltip
               id={
                 pipeline?.user?.full_name
                   ? pipeline?.user?.full_name
                   : pipeline?.user?.name
               }
-              place="top"
-              effect="solid"
-            >
-              <Paragraph color="white">
-                {pipeline?.user?.full_name
+              text={
+                pipeline?.user?.full_name
                   ? pipeline?.user?.full_name
-                  : pipeline?.user?.name}
-                {/* {translate(`tooltips.${invoice.status}`)} */}
-              </Paragraph>
-            </ReactTooltip>
+                  : pipeline?.user?.name
+              }
+            />
           </FlexBox>
         );
       },
@@ -327,16 +313,10 @@ export const GetHeaderCols = ({
               </Paragraph>
             </FlexBox>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={formatDateToDisplayOnTable(pipeline.created)}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {formatDateToDisplayOnTable(pipeline.created)}
-              {/* {translate(`tooltips.${invoice.status}`)} */}
-            </Paragraph>
-          </ReactTooltip>
+            text={formatDateToDisplayOnTable(pipeline.created)}
+          />
         </FlexBox>
       ),
     },

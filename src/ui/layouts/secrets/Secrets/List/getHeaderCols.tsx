@@ -1,13 +1,18 @@
 import _ from 'lodash';
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
-import { Box, FlexBox, icons, Paragraph } from '../../../../components';
+import {
+  Box,
+  FlexBox,
+  icons,
+  Paragraph,
+  Tooltip,
+} from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -114,9 +119,7 @@ export const GetHeaderCols = ({
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <ReactTooltip id={secret.id} place="top" effect="solid">
-            <Paragraph color="white">{secret.id}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={secret.id} text={secret.id} />
         </FlexBox>
       ),
     },
@@ -147,9 +150,7 @@ export const GetHeaderCols = ({
               {secret.name}
             </Paragraph>
           </div>
-          <ReactTooltip id={secret.name} place="top" effect="solid">
-            <Paragraph color="white">{secret.name}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={secret.name} text={secret.name} />
         </FlexBox>
       ),
     },
@@ -182,9 +183,7 @@ export const GetHeaderCols = ({
               {secret.scope}
             </Paragraph>
           </div>
-          <ReactTooltip id={secret.scope} place="top" effect="solid">
-            <Paragraph color="white">{secret.scope}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={secret.scope} text={secret.scope} />
         </FlexBox>
       ),
     },
@@ -228,21 +227,18 @@ export const GetHeaderCols = ({
                 </Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip
+            <Tooltip
               id={
                 secret?.user?.full_name
                   ? secret?.user?.full_name
                   : secret?.user?.name
               }
-              place="top"
-              effect="solid"
-            >
-              <Paragraph color="white">
-                {secret?.user?.full_name
+              text={
+                secret?.user?.full_name
                   ? secret?.user?.full_name
-                  : secret?.user?.name}
-              </Paragraph>
-            </ReactTooltip>
+                  : secret?.user?.name
+              }
+            />
           </FlexBox>
         );
       },
@@ -287,15 +283,10 @@ export const GetHeaderCols = ({
               </Paragraph>
             </FlexBox>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={formatDateToSort(secret.created)}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {formatDateToDisplayOnTable(secret.created)}
-            </Paragraph>
-          </ReactTooltip>
+            text={formatDateToDisplayOnTable(secret.created)}
+          />
         </FlexBox>
       ),
     },
