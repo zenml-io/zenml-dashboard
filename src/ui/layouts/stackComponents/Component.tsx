@@ -22,15 +22,17 @@ const Component = (props: any) => {
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
-
-  const [selectedComp, setSelectedComp] = useState(
-    window.location.href.split('/')[6],
-  );
+  const [selectedComp, setSelectedComp] = useState('');
+  const typeName = window.location.href.split('/')[6].split('?')[0];
   // const [search, setSearch] = useState('');
 
   useEffect(() => {
     dispatch(stackComponentsActions.getTypes());
   }, [dispatch]);
+
+  useEffect(() => {
+    setSelectedComp(typeName);
+  }, [typeName]);
 
   const sectionStyle = {
     // width: '207px',
