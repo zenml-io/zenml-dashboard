@@ -35,6 +35,7 @@ export interface TableProps {
   headerCols: HeaderCol[];
   tableRows: any[];
   minCellWidth?: any;
+  maxCellWidth?: any;
   activeSorting?: any;
   paginated?: any;
   filters?: any[];
@@ -61,7 +62,8 @@ export const Table: React.FC<TableProps> = ({
   headerCols,
   tableRows,
   paginated,
-  minCellWidth = 120,
+  minCellWidth = 150,
+  maxCellWidth = 240,
   activeSorting,
   filters,
   showHeader = true,
@@ -73,8 +75,10 @@ export const Table: React.FC<TableProps> = ({
 }) => {
   const [tableHeight, setTableHeight] = useState('auto');
   const [activeIndex, setActiveIndex] = useState(null);
+  const [hoverIndex, setHoverIndex] = useState(null);
   const tableElement = useRef(document.createElement('table'));
   const columns = createHeaders(headerCols);
+  const [hover, setHover] = useState(false);
 
   useEffect(() => {
     // console.log(tableElement.current.style.gridTemplateColumns, 'offsetHeight');
@@ -86,23 +90,48 @@ export const Table: React.FC<TableProps> = ({
   const mouseDown = (index: any) => {
     setActiveIndex(index);
   };
-  console.log('paginatomnanas', paginated, pagination);
 
   const mouseMove = useCallback(
     (e) => {
-      // debugger;
       const gridColumns = columns.map((col, i) => {
-        // debugger;
-        if (i === activeIndex) {
-          const width = e.clientX - col.ref.current.offsetLeft;
+        // we must need to optimize this logic later
+        if (i === (activeIndex as any) + 1 && i <= columns.length - 1) {
+          const newWidth =
+            e.clientX -
+              columns[activeIndex as any].ref.current.offsetLeft -
+              70 <=
+            minCellWidth
+              ? minCellWidth
+              : e.clientX -
+                columns[activeIndex as any].ref.current.offsetLeft -
+                70;
+          const widthDifference =
+            newWidth <= minCellWidth
+              ? 0
+              : columns[activeIndex as any].ref.current.offsetWidth - newWidth;
+          const width = col.ref.current.offsetWidth + widthDifference;
 
-          if (width >= minCellWidth) {
+          if (width >= minCellWidth && newWidth >= minCellWidth) {
+            return `${width}px`;
+          }
+        } else if (i === activeIndex && i < columns.length - 1) {
+          const width =
+            e.clientX - col.ref.current.offsetLeft - 70 <= minCellWidth
+              ? minCellWidth
+              : e.clientX - col.ref.current.offsetLeft - 70;
+          const widthDifference =
+            width <= minCellWidth ? 0 : col.ref.current.offsetWidth - width;
+          const newWidth =
+            columns[(activeIndex as any) + 1].ref.current.offsetWidth +
+            widthDifference;
+
+          if (width >= minCellWidth && newWidth > minCellWidth) {
             return `${width}px`;
           }
         }
+
         return `${col.ref.current.offsetWidth}px`;
       });
-
       tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
         ' ',
       )}`;
@@ -149,7 +178,11 @@ export const Table: React.FC<TableProps> = ({
   return (
     <FlexBox.Column
       fullWidth
-      style={{ marginBottom: pagination ? '90px' : '0px' }}
+      style={{
+        // marginBottom: pagination ? '90px' : '0px',
+        minWidth: '1250px',
+        overflowX: 'auto',
+      }}
     >
       <IfElse
         condition={tableRows.length > 0 && !loading}
@@ -161,6 +194,7 @@ export const Table: React.FC<TableProps> = ({
                   ref={tableElement as any}
                   style={{
                     gridTemplateColumns: gridTemplateColumns,
+                    overflow: 'auto',
                   }}
                 >
                   <thead>
@@ -176,6 +210,10 @@ export const Table: React.FC<TableProps> = ({
                             backgroundColor: '#F5F3F9',
                             fontSize: '14px',
                             fontWeight: 700,
+                            borderRight:
+                              i === columns.length - 1
+                                ? '0'
+                                : '1px solid #cacaca',
                           }}
                           key={i}
                         >
@@ -188,11 +226,41 @@ export const Table: React.FC<TableProps> = ({
                           </Box>
 
                           <div
-                            style={{ height: tableHeight }}
-                            onMouseDown={() => mouseDown(i)}
-                            className={`resize-handle ${
-                              activeIndex === i ? 'active' : 'idle'
-                            }`}
+                            className="resize-handle"
+                            style={{
+                              height: tableHeight,
+                              display: 'block',
+                              position: 'absolute',
+                              cursor:
+                                i < columns.length - 1
+                                  ? 'col-resize'
+                                  : 'pointer',
+                              width: '7px',
+                              right: '0',
+                              top: '0',
+                              zIndex: 1,
+                              borderRight:
+                                hover &&
+                                hoverIndex === i &&
+                                i < columns.length - 1
+                                  ? '2px solid  #431d93'
+                                  : '0',
+                            }}
+                            onMouseEnter={() => {
+                              setHover(true);
+                              setHoverIndex(i as any);
+                            }}
+                            onMouseLeave={() => {
+                              setHover(false);
+                              setHoverIndex(null);
+                            }}
+                            // style={{ height: tableHeight }}
+                            onMouseDown={(e) => {
+                              if (i < columns.length - 1) mouseDown(i);
+                            }}
+                            // className={`resize-handle ${
+                            //   activeIndex === i ? 'active' : 'idle'
+                            // }`}
                           />
                         </th>
                       ))}
@@ -453,7 +521,11 @@ export const Table: React.FC<TableProps> = ({
         )}
         renderWhenFalse={() => (
           <Box
-            style={{ textAlign: 'center', maxWidth: '700px', margin: '0 auto' }}
+            style={{
+              textAlign: 'center',
+              maxWidth: '700px',
+              margin: '0 auto',
+            }}
             paddingVertical="xxl"
           >
             <H3>

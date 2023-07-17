@@ -1,7 +1,3 @@
-img {
-  height: 20px;
-}
-
 .service_selector {
   margin-top: 30px;
   padding: 3px 20px !important;
@@ -14,12 +10,18 @@ img {
   border-radius: 4px;
   cursor: pointer;
 
+
+
   .service_selector_selected {
     padding: 3px !important;
     background: rgba(201, 203, 208, 0.05);
     border: 1px solid #c9cbd0;
     border-radius: 4px;
   }
+
+  &_image {
+    height: 20px;
+}
 }
 
 .services_container {

@@ -40,7 +40,7 @@ import { iconColors, toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
 import ServicesSelectorComponent from '../../ServicesSelectorComponent';
-import { getServiceConnectorResources } from '../../ConfigureComponent/CreateComponent/useService';
+
 // import { values } from 'lodash';
 // import { routePaths } from '../../../../../routes/routePaths';
 
@@ -48,7 +48,9 @@ export const UpdateConfig: React.FC<{
   stackId: TId;
   loading?: boolean;
   state: any;
-}> = ({ stackId, loading, state }) => {
+  serviceConnectorResources?: any;
+  fetching?: boolean;
+}> = ({ stackId, loading, state, serviceConnectorResources, fetching }) => {
   const location = useLocation();
   const locationPath = useLocationPath();
   // const history = useHistory();
@@ -78,9 +80,6 @@ export const UpdateConfig: React.FC<{
   const [inputFields, setInputFields] = useState() as any;
   const [connector, setConnector] = useState();
   const [connectorResourceId, setConnectorResourceId] = useState();
-  const { serviceConnectorResources, fetching } = getServiceConnectorResources(
-    flavor?.connectorResourceType,
-  );
 
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>

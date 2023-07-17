@@ -1,6 +1,7 @@
 import React, {
   Fragment,
   useEffect,
+  useRef,
   // Fragment, useEffect,
   useState,
 } from 'react';
@@ -85,6 +86,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const [connectorName, setConnectorName] = useState('');
   const [isShared, setIsShared] = useState(true);
   const [description, setDescription] = useState('');
+  const [disableToCreate, setDisableToCreate] = useState(false);
+
   const [selectedAuthMethod, setSelectedAuthMethod] = useState<any>(
     connectorType.authMethods[0].auth_method,
   );
@@ -92,6 +95,10 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
     [],
   );
   const [mappedConfiguration, setMappedConfiguration] = useState() as any;
+  const [
+    tempMappedConfiguration,
+    setTempMappedConfiguration,
+  ] = useState() as any;
   const [inputFields, setInputFields] = useState([]) as any;
   const [connectorExpirationSeconds, setConnectorExpirationSeconds] = useState(
     0,
@@ -106,6 +113,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const [labelsInputFields, setLabelsInputFields] = useState([
     { key: '', value: '' },
   ]) as any;
+  const previousValuesRef = useRef<string>('');
+  const inputRef = useRef<HTMLInputElement>(null) as any;
 
   // const [inputData, setInputData] = useState({}) as any;
   // const [inputFields, setInputFields] = useState() as any;
@@ -859,15 +868,17 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       }
     }
 
-    for (const field of matchedAuthMethod.config_schema.required) {
-      if (!configuration[field]) {
-        dispatch(
-          showToasterAction({
-            description: 'Required Field is Empty',
-            type: toasterTypes.failure,
-          }),
-        );
-        return false;
+    if (matchedAuthMethod.config_schema.required) {
+      for (const field of matchedAuthMethod.config_schema.required) {
+        if (!configuration[field]) {
+          dispatch(
+            showToasterAction({
+              description: 'Required Field is Empty',
+              type: toasterTypes.failure,
+            }),
+          );
+          return false;
+        }
       }
     }
 
@@ -924,7 +935,9 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
     if (connectorExpirationSeconds !== null) {
       body.expiration_seconds = connectorExpirationSeconds;
     }
+    setTempMappedConfiguration(mappedConfiguration);
     setVerifying(true);
+    setDisableToCreate(false);
     await axios
       .post(
         `${process.env.REACT_APP_BASE_API_URL}/service_connectors/verify`,
@@ -942,6 +955,9 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
             }),
           );
         }
+        if (response.data.error) {
+          setDisableToCreate(true);
+        }
         setResources(response.data);
         // setLoading(false);
         // dispatch(
@@ -953,8 +969,17 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
         // dispatchStackComponentsData(1, 1);
       })
       .catch((err) => {
+        // debugger;
+        if (err?.response?.data?.detail[1]) {
+          dispatch(
+            showToasterAction({
+              description: err?.response?.data?.detail[1],
+              type: toasterTypes.failure,
+            }),
+          );
+        }
         setVerifying(false);
-
+        setDisableToCreate(true);
         // if (err?.response?.status === 403) {
         //   dispatch(
         //     showToasterAction({
@@ -1160,17 +1185,30 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
           {elementSchema?.format === 'password' ? (
             <Box marginTop="lg" style={{ width: '30vw', marginLeft: '-15px' }}>
               <FormPasswordFieldVerify
+                inputRef={inputRef}
                 required={matchedAuthMethod?.config_schema?.required?.includes(
                   elementName,
                 )}
                 onRemoveFocus={(e: any) => {
                   if (e.target.value) {
-                    matchedAuthMethod?.config_schema?.required?.includes(
-                      elementName,
-                    ) && onVerify();
+                    const currentValue = e.target.value;
+                    const previousValues = previousValuesRef.current;
+                    if (currentValue !== previousValues) {
+                      matchedAuthMethod?.config_schema?.required?.includes(
+                        elementName,
+                      ) && onVerify();
+                    }
+                    previousValuesRef.current = currentValue;
+                    // inputRef.current.value = currentValue;
                   }
                 }}
+                onHandleFocus={(e: any) => {
+                  const currentValue = e.target.value;
+                  previousValuesRef.current = currentValue;
+                  // debugger;
+                }}
                 onChange={(e: any) => {
+                  setDisableToCreate(false);
                   setMappedConfiguration((prevConfig: any) => ({
                     ...prevConfig, // Spread the previous user object
                     [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
@@ -1193,14 +1231,31 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                 required={matchedAuthMethod?.config_schema?.required?.includes(
                   elementName,
                 )}
+                onHandleFocus={(e: any) => {
+                  const currentValue = e.target.value;
+                  previousValuesRef.current = currentValue;
+                  // debugger;
+                }}
                 onRemoveFocus={(e: any) => {
                   if (e.target.value) {
-                    matchedAuthMethod?.config_schema?.required?.includes(
-                      elementName,
-                    ) && onVerify();
+                    const currentValue = e.target.value;
+                    const previousValues = previousValuesRef.current;
+                    if (currentValue !== previousValues) {
+                      onVerify();
+                    }
+                    previousValuesRef.current = currentValue;
+                  }
+                  if (!e.target.value && previousValuesRef.current) {
+                    const currentValue = e.target.value;
+                    const previousValues = previousValuesRef.current;
+                    if (currentValue !== previousValues) {
+                      onVerify();
+                    }
+                    previousValuesRef.current = currentValue;
                   }
                 }}
                 onChange={(e: any) => {
+                  setDisableToCreate(false);
                   setMappedConfiguration((prevConfig: any) => ({
                     ...prevConfig, // Spread the previous user object
                     [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
@@ -1680,6 +1735,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                   setParent(false);
                   setResourceType('');
                   setIds('');
+                  setDisableToCreate(false);
                 }}
                 options={authMethoddropdownOptions as any}
                 style={{ paddingLeft: '10px', backgroundColor: '#fff' }}
@@ -1886,12 +1942,26 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
             </FlexBox.Row>
           </Box>
         </Box>
-
+        {console.log(
+          mappedConfiguration,
+          tempMappedConfiguration,
+          'tempMappedConfiguration',
+        )}
         <SidePopup
+          disabled={
+            mappedConfiguration !== tempMappedConfiguration
+              ? false
+              : disableToCreate
+          }
           data={connectorType}
           verifying={verifying}
           onClose={() => {}}
-          action={onSubmit}
+          action={
+            resources === undefined ||
+            mappedConfiguration !== tempMappedConfiguration
+              ? onVerify
+              : onSubmit
+          }
         />
       </FlexBox.Row>
     </Box>

@@ -18,7 +18,8 @@ export interface FlavorDetailRouteParams {
 }
 export const RegisterComponents: React.FC = () => {
   const locationPath = useLocationPath();
-  const { id, flavor } = useService();
+  const { id, flavor, serviceConnectorResources, fetching } = useService();
+
   // console.log(setFetching);
   const location = useLocation();
   const [routeState, setRouteState] = useState({}) as any;
@@ -30,7 +31,7 @@ export const RegisterComponents: React.FC = () => {
   // const url_string = window.location.href;
   // const url = new URL(url_string);
   // const workspaceName = url.pathname.split('/')[2];
-  console.log(id, 'asdasdasdsadasddas111');
+
   const workspace = selectedWorkspace
     ? selectedWorkspace
     : DEFAULT_WORKSPACE_NAME;
@@ -45,7 +46,12 @@ export const RegisterComponents: React.FC = () => {
         {
           text: camelCaseToParagraph(locationPath.split('/')[4]),
           Component: () => (
-            <CreateComponent state={routeState} flavor={flavor} />
+            <CreateComponent
+              state={routeState}
+              flavor={flavor}
+              serviceConnectorResources={serviceConnectorResources}
+              fetching={fetching}
+            />
           ),
           path: routePaths.stackComponents.configureComponent(
             locationPath.split('/')[4],

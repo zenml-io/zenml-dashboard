@@ -234,7 +234,7 @@ export const StackDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
       title="Stacks"
     >
-      <Box marginTop="lg">
+      <Box marginTop="lg" style={{ overflowX: 'auto' }}>
         <CollapseTable
           pagination={false}
           renderAfterRow={(stack: TStack) => <></>}

@@ -37,7 +37,7 @@ export const Configuration: React.FC<{ runId: TId }> = ({ runId }) => {
   return (
     <FlexBox.Column fullWidth>
       <NonEditableRunConfig
-        runConfiguration={run.pipelineConfiguration}
+        runConfiguration={run.config}
       ></NonEditableRunConfig>
       {/* <FlexBox
         marginBottom="md"

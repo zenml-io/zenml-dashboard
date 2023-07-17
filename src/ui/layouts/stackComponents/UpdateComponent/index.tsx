@@ -60,11 +60,20 @@ const getTabPages = (
   selectedWorkspace: string,
   loading?: boolean,
   routeState?: any,
+  serviceConnectorResources?: any,
+  fetching?: boolean,
 ): TabPage[] => {
   return [
     {
       text: translate('tabs.update.text'),
-      Component: () => <UpdateConfig state={routeState} stackId={stackId} />,
+      Component: () => (
+        <UpdateConfig
+          state={routeState}
+          stackId={stackId}
+          serviceConnectorResources={serviceConnectorResources}
+          fetching={fetching}
+        />
+      ),
       path: routePaths.stackComponents.updateComponent(
         locationPath.split('/')[4],
         stackId,
@@ -115,7 +124,14 @@ export const StackDetail: React.FC = () => {
     setRouteState(location.state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setRouteState]);
-  const { stackComponent, id, flavor, loading } = useService();
+  const {
+    stackComponent,
+    id,
+    flavor,
+    loading,
+    fetching,
+    serviceConnectorResources,
+  } = useService();
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages(
@@ -124,6 +140,8 @@ export const StackDetail: React.FC = () => {
     selectedWorkspace,
     loading,
     routeState,
+    serviceConnectorResources,
+    fetching,
   );
   const breadcrumbs = getBreadcrumbs(id, locationPath, selectedWorkspace);
   const mappedStackComponent: any = [];
@@ -191,7 +209,7 @@ export const StackDetail: React.FC = () => {
       breadcrumbs={breadcrumbs}
       title="Stack Components"
     >
-      <Box style={{ marginTop: '40px' }}>
+      <Box style={{ marginTop: '40px', overflowX: 'auto' }}>
         {/* {mapStackComponent.length ? ( */}
         <CollapseTable
           pagination={false}

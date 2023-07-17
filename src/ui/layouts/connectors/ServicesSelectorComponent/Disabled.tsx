@@ -42,7 +42,11 @@ const Index: React.FC<any> = ({ data }) => {
         {resourceType?.map((e: any) => (
           <FlexBox className={styles.service_selector_selected}>
             <Box marginRight="sm">
-              <img src={e?.logo_url} alt={e?.name} />
+              <img
+                className={styles.service_selector_image}
+                src={e?.logo_url}
+                alt={e?.name}
+              />
             </Box>
             <Paragraph>
               {e?.name}-
