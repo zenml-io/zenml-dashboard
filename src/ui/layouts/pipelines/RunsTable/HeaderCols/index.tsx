@@ -364,7 +364,7 @@ export const useHeaderCols = ({
                 color="black"
                 style={{ fontSize: '14px' }}
               >
-                PIPELINE
+                PIPELINEasdasd
               </Paragraph>
             </SortingHeader>
           ),
@@ -392,7 +392,8 @@ export const useHeaderCols = ({
                     );
                   }}
                 >
-                  {run?.pipeline?.name} ( v{run?.pipeline?.version} )
+                  {run?.pipeline?.name &&
+                    `${run?.pipeline?.name} ( v${run?.pipeline?.version} )`}
                 </Paragraph>
               </div>
               <ReactTooltip
