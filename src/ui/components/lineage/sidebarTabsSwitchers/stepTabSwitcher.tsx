@@ -21,16 +21,16 @@ const stylesInActive = {
 
 const tabs = [
   {
-    title: 'Attributes',
-    case: '__ATTRIBUTE',
+    title: 'Logs',
+    case: '__LOG',
   },
   {
     title: 'Code',
     case: '__CODE',
   },
   {
-    title: 'Logs',
-    case: '__LOG',
+    title: 'Attributes',
+    case: '__ATTRIBUTE',
   },
 ];
 
@@ -76,7 +76,7 @@ const tabs = [
 // };
 
 const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
-  const [show, setShow] = useState('__ATTRIBUTE');
+  const [show, setShow] = useState('__LOG');
   const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(79);
   const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
   const divRefs = useRef<(HTMLSpanElement | null)[]>([]);
@@ -101,10 +101,11 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
     switch (tab) {
       case '__LOG':
         return setShow('__LOG');
-      case '__ATTRIBUTE':
-        return setShow('__ATTRIBUTE');
       case '__CODE':
         return setShow('__CODE');
+      case '__ATTRIBUTE':
+        return setShow('__ATTRIBUTE');
+
       default:
         return '';
     }
@@ -150,7 +151,20 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
         </div>
       ) : (
         <>
-          {show === '__ATTRIBUTE' ? (
+          {show === '__LOG' && <DisplayLogs selectedNode={node} />}
+          {show === '__CODE' && (
+            <div className={styles.codeContainer}>
+              <SyntaxHighlighter
+                customStyle={{ width: '100%', height: '80%', fontSize: 20 }}
+                wrapLines={true}
+                language="python"
+                style={okaidia}
+              >
+                {node.source_code ? node.source_code : ''}
+              </SyntaxHighlighter>
+            </div>
+          )}
+          {show === '__ATTRIBUTE' && (
             <>
               <table cellSpacing="0" className="sidebar_table">
                 <tbody>
@@ -386,24 +400,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                 </tbody>
               </table>
             </>
-          ) : (
-            ''
           )}
-          {show === '__CODE' ? (
-            <div className={styles.codeContainer}>
-              <SyntaxHighlighter
-                customStyle={{ width: '100%', height: '80%', fontSize: 20 }}
-                wrapLines={true}
-                language="python"
-                style={okaidia}
-              >
-                {node.source_code ? node.source_code : ''}
-              </SyntaxHighlighter>
-            </div>
-          ) : (
-            ''
-          )}
-          {show === '__LOG' ? <DisplayLogs selectedNode={node} /> : ''}
         </>
       )}
     </>
