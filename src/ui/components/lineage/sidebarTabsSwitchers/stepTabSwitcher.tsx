@@ -131,7 +131,24 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
 
   const handleCopy = (text: any) => {
     navigator.clipboard.writeText(JSON.stringify(text));
+    dispatch(
+      showToasterAction({
+        description: 'Config copied to clipboard',
+        type: toasterTypes.success,
+      }),
+    );
+  };
 
+  const handleCopyAll = () => {
+    navigator.clipboard.writeText(`${JSON.stringify(node?.config)}, 
+    
+    from zenml.client import Client
+    
+    run = Client().get_pipeline_run('${node?.id}')
+    
+    config = run.config
+    
+    `);
     dispatch(
       showToasterAction({
         description: 'Config copied to clipboard',
@@ -223,7 +240,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                         <td
                           className="td_value"
                           style={{
-                            marginLeft: '10px',
+                            marginRight: '4vw',
                           }}
                         >
                           <FlexBox justifyContent="end" style={{ gap: '10px' }}>
@@ -446,6 +463,26 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
 
           {show === '__CONFIGURATION' && (
             <>
+              <Box style={{ position: 'absolute', top: '3rem', right: '3rem' }}>
+                <FlexBox
+                  onClick={handleCopyAll}
+                  style={{
+                    borderRadius: '4px',
+                    border: '1px solid #DADADA',
+                    background: '#ECECEC',
+                    padding: '8px 20px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Paragraph>Copy</Paragraph>
+                  <icons.copy
+                    style={{ marginLeft: '10px' }}
+                    color={iconColors.black}
+                    size={iconSizes.sm}
+                  />
+                </FlexBox>
+              </Box>
+
               <table cellSpacing="0" className="sidebar_table">
                 <tbody>
                   <tr>
@@ -479,16 +516,32 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                     </td>
                   </tr>
                   <tr>
-                    <ConfigBox
-                      name="Failure Hook Source"
-                      config={node?.config?.failure_hook_source}
-                    />
+                    <td className="td_key">Failure Hook Source</td>
+                    <td className="td_value">
+                      {node?.config?.failure_hook_source ? (
+                        <div style={{ marginLeft: '1px' }}>Enabled</div>
+                      ) : node?.config?.failure_hook_source === null ? (
+                        <div style={{ marginLeft: '1px' }}>Not Set</div>
+                      ) : (
+                        <div style={{ marginLeft: '1px' }}>Disabled</div>
+                      )}
+                    </td>
                   </tr>
                   <tr>
-                    <ConfigBox
+                    {/* <ConfigBox
                       name="Success Hook Source"
                       config={node?.config?.success_hook_source}
-                    />
+                    /> */}
+                    <td className="td_key">Success Hook Source</td>
+                    <td className="td_value">
+                      {node?.config?.success_hook_source ? (
+                        <div style={{ marginLeft: '1px' }}>Enabled</div>
+                      ) : node?.config?.success_hook_source === null ? (
+                        <div style={{ marginLeft: '1px' }}>Not Set</div>
+                      ) : (
+                        <div style={{ marginLeft: '1px' }}>Disabled</div>
+                      )}
+                    </td>
                   </tr>
                   <tr>
                     <ConfigBox

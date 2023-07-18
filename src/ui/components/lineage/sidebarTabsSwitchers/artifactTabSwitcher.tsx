@@ -80,7 +80,7 @@ const ArtifactTabHeader = ({
   };
 
   const handleCopy = (text: any) => {
-    navigator.clipboard.writeText(JSON.stringify(text));
+    navigator.clipboard.writeText(text);
 
     dispatch(
       showToasterAction({
@@ -114,7 +114,7 @@ const ArtifactTabHeader = ({
   );
 
   const configSchema = `
-from zenml.client import client
+from zenml.client import Client
 
 artifact = Client().get_artifact('${node?.artifact_store_id}')
 loaded_artifact = artifact.load()

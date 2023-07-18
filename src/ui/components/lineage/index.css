@@ -423,10 +423,9 @@
   font-size: 14px !important;
   line-height: 17px;
   color: #424240 !important;
-  width: 50%;
+  width: 100% !important;
   height: auto;
   word-wrap: break-word;
-
   /* background-color: #5b50f1; */
 }
 
@@ -462,7 +461,7 @@
   word-wrap: break-word;
 
   text-align: left !important;
-  margin-left: 20vw !important;
+  margin-left: 8vw !important;
 }
 
 /* siderbar tab hover */
