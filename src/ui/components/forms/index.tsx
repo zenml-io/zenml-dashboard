@@ -274,7 +274,7 @@ export const MakeSecretField = (
     await props.secretOnChange(selectedOption);
     setTimeout(() => {
       containerRef.current?.focus();
-    }, 500);
+    }, 800);
   };
 
   return (
