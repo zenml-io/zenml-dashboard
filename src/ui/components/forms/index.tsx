@@ -226,21 +226,15 @@ export const MakeSecretField = (
   const [selectedOptionIndex, setSelectedOptionIndex] = useState(-1);
   const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => {
-  //   if (props?.value?.slice(0, 2) === '{{' && props?.value?.length < 3) {
-  //     setPopup(true);
-  //   }
-  //   // eslint-disable-next-line
-  // }, [props?.value]);
   useEffect(() => {
     const handleKeyDown = (event: any) => {
-      if (event.key === 'ArrowUp' && selectedOptionIndex >= 0) {
+      if (event.key === 'ArrowUp' && selectedOptionIndex > 0) {
         setSelectedOptionIndex((prevIndex) => prevIndex - 1);
         event.preventDefault();
         event.stopPropagation();
       } else if (
         event.key === 'ArrowDown' &&
-        selectedOptionIndex <= options.length - 1
+        selectedOptionIndex < options.length - 1
       ) {
         setSelectedOptionIndex((prevIndex) => prevIndex + 1);
         event.preventDefault();
@@ -253,6 +247,16 @@ export const MakeSecretField = (
     const container = containerRef.current;
     if (container) {
       container.addEventListener('keydown', handleKeyDown);
+      container.style.overflowY = 'hidden';
+
+      // Scroll the selected option into view
+      const selectedOption = container.querySelector(
+        `[data-index="${selectedOptionIndex}"]`,
+      );
+      if (selectedOption) {
+        selectedOption.scrollIntoView({ block: 'nearest' });
+      }
+
       return () => {
         container.removeEventListener('keydown', handleKeyDown);
       };
@@ -268,6 +272,9 @@ export const MakeSecretField = (
     const selectedOption = options[selectedOptionIndex];
     // Do something with the selectedOption
     await props.secretOnChange(selectedOption);
+    setTimeout(() => {
+      containerRef.current?.focus();
+    }, 500);
   };
 
   return (
@@ -349,8 +356,8 @@ export const MakeSecretField = (
               ref={containerRef}
             >
               <Box
-                marginVertical="sm"
-                marginHorizontal="md"
+                marginVertical="md"
+                // marginHorizontal="xs"
                 style={{ width: '100%', height: '100%' }}
               >
                 {options?.map((option: any, index: any) => (
@@ -358,6 +365,7 @@ export const MakeSecretField = (
                     padding={'sm'}
                     onClick={() => handleClick(option)}
                     key={index}
+                    data-index={index}
                     style={{
                       backgroundColor:
                         index === selectedOptionIndex
