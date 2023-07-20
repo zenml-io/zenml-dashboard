@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DEFAULT_WORKSPACE_NAME, toasterTypes } from '../../../../constants';
 import {
   workspacesActions,
@@ -32,6 +32,15 @@ export const useService = (): ServiceInterface => {
   // const locationPath = useLocationPath();
   const { push } = usePushRoute();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Get the query parameters from the URL
+    const searchParams = new URLSearchParams(window.location.search);
+
+    // Access individual query parameters
+    setUsername(searchParams.get('username') as string);
+    setPassword(searchParams.get('password') as string);
+  }, []);
 
   return {
     login: async () => {
