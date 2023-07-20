@@ -11,6 +11,7 @@ import {
 } from '../../../components';
 
 import styles from './index.module.scss';
+import { replaceVersion } from '../../../../utils/string';
 // import { routePaths } from '../../../../routes/routePaths';
 // import { useHistory } from 'react-router-dom';
 // import { useSelector } from '../../../hooks';
@@ -22,13 +23,24 @@ export const SidePopup: React.FC<{
   onSeeExisting: () => void;
   onClose: () => void;
   flavor?: any;
+  version: string;
   onSelectFlavor: any;
-}> = ({ children, flavor, onClose, onSelectFlavor, onSeeExisting }) => {
+}> = ({
+  children,
+  flavor,
+  onClose,
+  onSelectFlavor,
+  onSeeExisting,
+  version,
+}) => {
   window.onkeydown = function (event: any) {
     if (event.key === 'Esc' || event.key === 'Escape') {
       return onClose();
     }
   };
+
+  const sdkDocsUrl = flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl;
+  const updatedSdkDocsUrl = replaceVersion(sdkDocsUrl, version);
 
   return (
     <>
@@ -56,7 +68,7 @@ export const SidePopup: React.FC<{
                   paddingBottom: '270px',
                 }}
                 // src="https://apidocs.zenml.io/0.35.0/"
-                src={flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl}
+                src={updatedSdkDocsUrl}
               ></iframe>
             </Box>
 

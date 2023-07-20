@@ -37,6 +37,7 @@ import { callActionForStackComponentsForPagination } from '../../Stacks/useServi
 import { titleCase } from '../../../../../utils';
 
 import ServicesSelectorComponent from '../../ServicesSelectorComponent';
+import { useService } from '../../RegisterComponents/ListForAll/useService';
 // import { values } from 'lodash';
 // import { keys } from 'lodash';
 
@@ -71,6 +72,7 @@ export const CreateComponent: React.FC<{
   const [connector, setConnector] = useState();
   const [connectorResourceId, setConnectorResourceId] = useState();
   const history = useHistory();
+  const { version } = useService();
 
   useEffect(() => {
     if (state?.state?.routeFromComponent) {
@@ -1040,7 +1042,12 @@ export const CreateComponent: React.FC<{
           </Form>
         </Box>
 
-        <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} />
+        <SidePopup
+          onClose={() => {}}
+          flavor={flavor}
+          action={onSubmit}
+          version={version}
+        />
       </FlexBox.Row>
     </Box>
     // <FlexBox.Column fullWidth marginTop="xl">
