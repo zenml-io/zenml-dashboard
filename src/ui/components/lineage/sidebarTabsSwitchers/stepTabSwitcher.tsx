@@ -129,8 +129,8 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
     }
   };
 
-  const handleCopy = (text: any) => {
-    navigator.clipboard.writeText(JSON.stringify(text));
+  const handleCopy = (text: any, stringify?: boolean) => {
+    navigator.clipboard.writeText(stringify ? text : JSON.stringify(text));
     dispatch(
       showToasterAction({
         description: 'Config copied to clipboard',
@@ -140,15 +140,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
   };
 
   const handleCopyAll = () => {
-    navigator.clipboard.writeText(`${JSON.stringify(node?.config)}, 
-    
-    from zenml.client import Client
-    
-    run = Client().get_pipeline_run('${node?.id}')
-    
-    config = run.config
-    
-    `);
+    navigator.clipboard.writeText(JSON.stringify(node?.config));
     dispatch(
       showToasterAction({
         description: 'Config copied to clipboard',
@@ -157,7 +149,24 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
     );
   };
 
-  const ConfigBox = ({ name, config }: { name: string; config: any }) => (
+  const configProgrammatically = `
+
+  from zenml.client import Client
+    
+  run = Client().get_pipeline_run('${node?.id}')
+  
+  config = run.config
+  `;
+
+  const ConfigBox = ({
+    name,
+    config,
+    stringify = false,
+  }: {
+    name: string;
+    config: any;
+    stringify?: boolean;
+  }) => (
     <Box style={{ width: '100%', overflowY: 'hidden' }}>
       <div className="td_key">
         <label htmlFor={name}>{name}</label>
@@ -165,7 +174,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
       <Box marginTop={'sm'} className={styles.JSONPretty}>
         <icons.copy
           className={styles.copy}
-          onClick={() => handleCopy(config)}
+          onClick={() => handleCopy(config, stringify)}
           color={iconColors.black}
           size={iconSizes.sm}
         />
@@ -237,13 +246,8 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                     <td className="td_key">Status</td>
                     {node.status && node.status === 'completed' ? (
                       <>
-                        <td
-                          className="td_value"
-                          style={{
-                            marginRight: '4vw',
-                          }}
-                        >
-                          <FlexBox justifyContent="end" style={{ gap: '10px' }}>
+                        <td className="td_value">
+                          <FlexBox style={{ marginLeft: '5px', gap: '10px' }}>
                             <Paragraph
                               style={{
                                 color: '#2ECC71',
@@ -251,7 +255,8 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                                 fontWeight: 'bold',
                               }}
                             >
-                              {node.status}
+                              {node.status.charAt(0).toUpperCase() +
+                                node.status.slice(1)}
                             </Paragraph>
                             {/* eslint-disable-next-line */}
                             <Status_Completed />
@@ -562,6 +567,13 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                     <ConfigBox
                       name="Caching Parameters"
                       config={node?.config?.caching_parameters}
+                    />
+                  </tr>
+                  <tr>
+                    <ConfigBox
+                      name="Get config programmatically"
+                      config={configProgrammatically}
+                      stringify
                     />
                   </tr>
                 </tbody>
