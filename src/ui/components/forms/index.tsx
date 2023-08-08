@@ -283,6 +283,7 @@ export const MakeSecretField = (
       <FlexBox
         onKeyDown={(event) => {
           if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+            setSelectedOptionIndex(0);
             containerRef.current?.focus();
           }
         }}
