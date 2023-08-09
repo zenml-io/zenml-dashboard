@@ -78,7 +78,10 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
       width: '7.5%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run.pipeline?.name && run.pipeline?.version}>
+          <div
+            data-tip
+            data-for={run?.pipeline?.name && run?.pipeline?.version}
+          >
             <Paragraph
               size="small"
               style={{
