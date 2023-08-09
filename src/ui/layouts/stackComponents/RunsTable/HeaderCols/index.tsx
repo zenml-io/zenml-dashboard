@@ -73,7 +73,7 @@ export const useHeaderCols = ({
       width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run.id}>
+          <div data-tip data-for={run?.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
               {isExpended ? (
                 <icons.chevronDown
@@ -84,12 +84,12 @@ export const useHeaderCols = ({
                 <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
               )}
               <Paragraph size="small" style={{ marginLeft: '20px' }}>
-                {truncate(run.id, ID_MAX_LENGTH)}
+                {truncate(run?.id, ID_MAX_LENGTH)}
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <ReactTooltip id={run.id} place="top" effect="solid">
-            <Paragraph color="white">{run.id}</Paragraph>
+          <ReactTooltip id={run?.id} place="top" effect="solid">
+            <Paragraph color="white">{run?.id}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -114,11 +114,11 @@ export const useHeaderCols = ({
       width: '30%',
       renderRow: (run: TRun) => (
         <div style={{ alignItems: 'center' }}>
-          <div data-tip data-for={run.name}>
-            <Paragraph size="small">{run.name}</Paragraph>
+          <div data-tip data-for={run?.name}>
+            <Paragraph size="small">{run?.name}</Paragraph>
           </div>
-          <ReactTooltip id={run.name} place="top" effect="solid">
-            <Paragraph color="white">{run.name}</Paragraph>
+          <ReactTooltip id={run?.name} place="top" effect="solid">
+            <Paragraph color="white">{run?.name}</Paragraph>
           </ReactTooltip>
         </div>
       ),
@@ -158,7 +158,7 @@ export const useHeaderCols = ({
                 event.stopPropagation();
                 history.push(
                   routePaths.pipeline.configuration(
-                    run.pipeline?.id,
+                    run?.pipeline?.id,
                     selectedWorkspace,
                   ),
                 );
@@ -169,12 +169,12 @@ export const useHeaderCols = ({
             </Paragraph>
           </div>
           <ReactTooltip
-            id={run.pipeline?.name && run.pipeline?.version}
+            id={run?.pipeline?.name && run?.pipeline?.version}
             place="top"
             effect="solid"
           >
             <Paragraph color="white">
-              {run.pipeline?.name} ( v{run?.pipeline?.version} )
+              {run?.pipeline?.name} ( v{run?.pipeline?.version} )
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
@@ -228,7 +228,7 @@ export const useHeaderCols = ({
       width: '7.5%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run.stack?.name}>
+          <div data-tip data-for={run?.stack?.name}>
             <Paragraph
               size="small"
               style={{
@@ -240,17 +240,17 @@ export const useHeaderCols = ({
                 event.stopPropagation();
                 history.push(
                   routePaths.stack.configuration(
-                    run.stack?.id,
+                    run?.stack?.id,
                     selectedWorkspace,
                   ),
                 );
               }}
             >
-              {run.stack?.name}
+              {run?.stack?.name}
             </Paragraph>
           </div>
-          <ReactTooltip id={run.stack?.name} place="top" effect="solid">
-            <Paragraph color="white">{run.stack?.name}</Paragraph>
+          <ReactTooltip id={run?.stack?.name} place="top" effect="solid">
+            <Paragraph color="white">{run?.stack?.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -310,11 +310,11 @@ export const useHeaderCols = ({
           sorting="created"
           sortMethod={sortMethod('created', {
             asc: (runs: TRun[]) =>
-              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+              _.orderBy(runs, (run: TRun) => new Date(run?.created).getTime(), [
                 'asc',
               ]),
             desc: (runs: TRun[]) =>
-              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+              _.orderBy(runs, (run: TRun) => new Date(run?.created).getTime(), [
                 'desc',
               ]),
           })}
@@ -329,23 +329,23 @@ export const useHeaderCols = ({
       width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToDisplayOnTable(run.created)}>
+          <div data-tip data-for={formatDateToDisplayOnTable(run?.created)}>
             <FlexBox alignItems="center">
               {/* <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
               </Box> */}
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(run.created)}
+                {formatDateToDisplayOnTable(run?.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <ReactTooltip
-            id={formatDateToDisplayOnTable(run.created)}
+            id={formatDateToDisplayOnTable(run?.created)}
             place="top"
             effect="solid"
           >
             <Paragraph color="white">
-              {formatDateToDisplayOnTable(run.created)}
+              {formatDateToDisplayOnTable(run?.created)}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
