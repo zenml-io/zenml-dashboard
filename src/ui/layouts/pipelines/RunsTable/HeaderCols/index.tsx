@@ -364,7 +364,7 @@ export const useHeaderCols = ({
                 color="black"
                 style={{ fontSize: '14px' }}
               >
-                PIPELINEasdasd
+                PIPELINE
               </Paragraph>
             </SortingHeader>
           ),
