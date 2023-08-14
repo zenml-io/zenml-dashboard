@@ -223,22 +223,74 @@ export const MakeSecretField = (
   const options = props?.dropdownOptions?.filter((e: any) =>
     e?.label?.toLowerCase().includes(props?.value?.toLowerCase()),
   );
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(-1);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => {
-  //   if (props?.value?.slice(0, 2) === '{{' && props?.value?.length < 3) {
-  //     setPopup(true);
-  //   }
-  //   // eslint-disable-next-line
-  // }, [props?.value]);
+  useEffect(() => {
+    const handleKeyDown = (event: any) => {
+      if (event.key === 'ArrowUp' && selectedOptionIndex > 0) {
+        setSelectedOptionIndex((prevIndex) => prevIndex - 1);
+        event.preventDefault();
+        event.stopPropagation();
+      } else if (
+        event.key === 'ArrowDown' &&
+        selectedOptionIndex < options.length - 1
+      ) {
+        setSelectedOptionIndex((prevIndex) => prevIndex + 1);
+        event.preventDefault();
+        event.stopPropagation();
+      } else if (event.key === 'Enter') {
+        handleEnterKey();
+      }
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('keydown', handleKeyDown);
+      container.style.overflowY = 'hidden';
+
+      // Scroll the selected option into view
+      const selectedOption = container.querySelector(
+        `[data-index="${selectedOptionIndex}"]`,
+      );
+      if (selectedOption) {
+        selectedOption.scrollIntoView({ block: 'nearest' });
+      }
+
+      return () => {
+        container.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+    // eslint-disable-next-line
+  }, [selectedOptionIndex, options]);
 
   const handleClick = async (option: any) => {
     await props.secretOnChange(option);
     //  await setPopup(false);
   };
+  const handleEnterKey = async () => {
+    const selectedOption = options[selectedOptionIndex];
+    // Do something with the selectedOption
+    await props.secretOnChange(selectedOption);
+    setTimeout(() => {
+      containerRef.current?.focus();
+    }, 800);
+    setSelectedOptionIndex(0);
+  };
 
   return (
     <FlexBox.Column fullWidth>
-      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+      <FlexBox
+        onKeyDown={(event) => {
+          if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+            setSelectedOptionIndex(0);
+            containerRef.current?.focus();
+          }
+        }}
+        alignItems="center"
+        fullWidth
+        style={{ position: 'relative' }}
+      >
         <InputWithLabelIcon
           required={props.required}
           name={props.name}
@@ -287,45 +339,53 @@ export const MakeSecretField = (
           }
         >
           {() => (
-            <Box
+            <div
               style={{
+                border: '0px solid black',
                 backgroundColor: '#fff',
                 borderRadius: '4px',
-                boxShadow: 'var(--cardShadow)',
+                // boxShadow: 'var(--cardShadow)',
                 width: '100%',
-
                 height: '185px',
                 overflowY: 'auto',
                 overflowX: 'hidden',
-
                 position: 'absolute',
                 zIndex: 2,
                 top: '7rem',
               }}
+              onClick={(event) => event.stopPropagation()}
+              tabIndex={0}
+              ref={containerRef}
             >
               <Box
-                marginVertical="sm"
-                marginHorizontal="md"
+                marginVertical="md"
+                // marginHorizontal="xs"
                 style={{ width: '100%', height: '100%' }}
               >
-                {options?.map((option: any, index: number) => (
-                  <Box marginTop="md" onClick={() => {}} key={index}>
-                    <div
-                      data-tip
-                      data-for={option.name}
-                      onClick={() => handleClick(option)}
-                      style={{ cursor: 'pointer' }}
-                    >
+                {options?.map((option: any, index: any) => (
+                  <Box
+                    padding={'sm'}
+                    onClick={() => handleClick(option)}
+                    key={index}
+                    data-index={index}
+                    style={{
+                      backgroundColor:
+                        index === selectedOptionIndex
+                          ? 'lightgray'
+                          : 'transparent',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div data-tip data-for={option.name}>
                       <Paragraph>{option.label}</Paragraph>
                     </div>
-
                     <ReactTooltip id={option.label} place="top" effect="solid">
                       <Paragraph color="white">{option.label}</Paragraph>
                     </ReactTooltip>
                   </Box>
                 ))}
               </Box>
-            </Box>
+            </div>
           )}
         </If>
       </FlexBox>
