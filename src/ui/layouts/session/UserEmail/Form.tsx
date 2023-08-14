@@ -96,7 +96,7 @@ export const Form: React.FC = () => {
       await axios
         .put(
           `${process.env.REACT_APP_BASE_API_URL}/users/${userId}/email-opt-in`,
-          { email: '', email_opted_in: false },
+          { email: null, email_opted_in: false },
           {
             headers: {
               Authorization: `bearer ${authToken}`,
