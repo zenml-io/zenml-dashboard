@@ -75,6 +75,17 @@ const HeaderWithButtons: React.FC<{
       >
         {title}
       </Paragraph>
+      <Paragraph>
+        Don't have any MLOps infrastructure deployed? Learn how to{' '}
+        <a
+          target="_blank"
+          rel="noopener noreferrer"
+          href="https://docs.zenml.io/stacks-and-components/stack-deployment"
+        >
+          deploy a MLOps stack
+        </a>{' '}
+        from scratch.
+      </Paragraph>
     </FlexBox>
 
     <FlexBox
