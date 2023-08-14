@@ -4,3 +4,17 @@
   font-size: $fontSizeBody;
   max-height: 75vh;
 }
+
+.JSONPretty {
+  background: rgba(246, 247, 247, 1);
+  border-radius: 4px;
+  position: relative;
+}
+pre {
+  margin-bottom: 0 !important;
+}
+.copy {
+  right: 15px;
+  position: absolute;
+  cursor: pointer;
+}

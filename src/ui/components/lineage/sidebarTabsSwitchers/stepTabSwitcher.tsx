@@ -7,6 +7,12 @@ import stepStyles from './artifact.module.scss';
 import { FullWidthSpinner } from '../../spinners';
 import { formatDateToDisplayOnTable } from '../../../../utils';
 import DisplayLogs from './DisplayLogs';
+import { Box, FlexBox, Paragraph, icons } from '../../index';
+import { iconColors, iconSizes, toasterTypes } from '../../../../constants';
+import { showToasterAction } from '../../../../redux/actions';
+import { useDispatch } from '../../../hooks';
+import JSONPretty from 'react-json-pretty';
+import _ from 'lodash';
 
 const stylesActive = {
   opacity: 1,
@@ -21,16 +27,24 @@ const stylesInActive = {
 
 const tabs = [
   {
-    title: 'Logs',
-    case: '__LOG',
+    title: 'Details',
+    case: '__DETAILS',
   },
   {
     title: 'Code',
     case: '__CODE',
   },
   {
-    title: 'Attributes',
-    case: '__ATTRIBUTE',
+    title: 'Logs',
+    case: '__LOG',
+  },
+  {
+    title: 'Configuration',
+    case: '__CONFIGURATION',
+  },
+  {
+    title: 'Metadata',
+    case: '__METADATA',
   },
 ];
 
@@ -76,10 +90,11 @@ const tabs = [
 // };
 
 const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
-  const [show, setShow] = useState('__LOG');
+  const [show, setShow] = useState('__DETAILS');
   const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(79);
   const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
   const divRefs = useRef<(HTMLSpanElement | null)[]>([]);
+  const dispatch = useDispatch();
 
   useEffect(() => {
     setDynamicLeft(divRefs.current[1]?.offsetLeft);
@@ -101,15 +116,79 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
     switch (tab) {
       case '__LOG':
         return setShow('__LOG');
+      case '__DETAILS':
+        return setShow('__DETAILS');
       case '__CODE':
         return setShow('__CODE');
-      case '__ATTRIBUTE':
-        return setShow('__ATTRIBUTE');
-
+      case '__CONFIGURATION':
+        return setShow('__CONFIGURATION');
+      case '__METADATA':
+        return setShow('__METADATA');
       default:
         return '';
     }
   };
+
+  const handleCopy = (text: any, stringify?: boolean) => {
+    navigator.clipboard.writeText(stringify ? text : JSON.stringify(text));
+    dispatch(
+      showToasterAction({
+        description: 'Config copied to clipboard',
+        type: toasterTypes.success,
+      }),
+    );
+  };
+
+  const handleCopyAll = () => {
+    navigator.clipboard.writeText(JSON.stringify(node?.config));
+    dispatch(
+      showToasterAction({
+        description: 'Config copied to clipboard',
+        type: toasterTypes.success,
+      }),
+    );
+  };
+
+  const configProgrammatically = `
+
+  from zenml.client import Client
+    
+  run = Client().get_pipeline_run('${node?.id}')
+  
+  config = run.config
+  `;
+
+  const ConfigBox = ({
+    name,
+    config,
+    stringify = false,
+  }: {
+    name: string;
+    config: any;
+    stringify?: boolean;
+  }) => (
+    <Box style={{ width: '100%', overflowY: 'hidden' }}>
+      <div className="td_key">
+        <label htmlFor={name}>{name}</label>
+      </div>
+      <Box marginTop={'sm'} className={styles.JSONPretty}>
+        <icons.copy
+          className={styles.copy}
+          onClick={() => handleCopy(config, stringify)}
+          color={iconColors.black}
+          size={iconSizes.sm}
+        />
+        <JSONPretty
+          style={{
+            fontSize: '16px',
+            fontFamily: 'Rubik',
+          }}
+          data={config}
+        ></JSONPretty>
+      </Box>
+    </Box>
+  );
+
   return (
     <>
       <div className="siderbar_header11">
@@ -151,43 +230,58 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
         </div>
       ) : (
         <>
-          {show === '__LOG' && <DisplayLogs selectedNode={node} />}
-          {show === '__CODE' && (
-            <div className={styles.codeContainer}>
-              <SyntaxHighlighter
-                customStyle={{ width: '100%', height: '80%', fontSize: 20 }}
-                wrapLines={true}
-                language="python"
-                style={okaidia}
-              >
-                {node.source_code ? node.source_code : ''}
-              </SyntaxHighlighter>
-            </div>
-          )}
-          {show === '__ATTRIBUTE' && (
+          {show === '__DETAILS' && (
             <>
               <table cellSpacing="0" className="sidebar_table">
                 <tbody>
                   <tr>
+                    <td className="td_key">ID</td>
+                    <td className="td_value">{node?.id}</td>
+                  </tr>
+                  <tr>
                     <td className="td_key">Name</td>
-                    <td className="td_value ">{node?.name}</td>
+                    <td className="td_value">{node?.name}</td>
                   </tr>
                   <tr>
-                    <td className="td_key">Docstring</td>
-                    <td className="td_value">{node?.docstring || 'n/a'}</td>
+                    <td className="td_key">Status</td>
+                    {node.status && node.status === 'completed' ? (
+                      <>
+                        <td className="td_value">
+                          <FlexBox style={{ marginLeft: '5px', gap: '10px' }}>
+                            <Paragraph
+                              style={{
+                                color: '#2ECC71',
+                                fontSize: '12px',
+                                fontWeight: 'bold',
+                              }}
+                            >
+                              {node.status.charAt(0).toUpperCase() +
+                                node.status.slice(1)}
+                            </Paragraph>
+                            {/* eslint-disable-next-line */}
+                            <Status_Completed />
+                          </FlexBox>
+                        </td>
+                        &nbsp;&nbsp;&nbsp;
+                      </>
+                    ) : (
+                      <td className="td_value">{node.status}</td>
+                    )}
                   </tr>
                   <tr>
-                    <td className="td_key">Pipeline run ID</td>
-                    <td className="td_value">
-                      {node?.pipeline_run_id || 'n/a'}
-                    </td>
+                    <td className="td_key">Cache key</td>
+                    <td className="td_value">{node?.cache_key}</td>
                   </tr>
-                  <tr>
-                    <td className="td_key">Original step run ID</td>
-                    <td className="td_value">
-                      {node?.original_step_run_id || 'n/a'}
-                    </td>
-                  </tr>
+                  {node?.original_step_run_id && (
+                    <tr>
+                      <td className="td_key">
+                        (If cached) ID of original step
+                      </td>
+                      <td className="td_value">
+                        {node?.original_step_run_id || 'n/a'}
+                      </td>
+                    </tr>
+                  )}
                   <tr>
                     <td className="td_key">Start time</td>
                     <td className="td_value">
@@ -198,50 +292,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   <tr>
                     <td className="td_key">End time</td>
                     <td className="td_value">
-                      {' '}
                       {formatDateToDisplayOnTable(node?.end_time)}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="td_key">Status</td>
-                    {node.status && node.status === 'completed' ? (
-                      <>
-                        <td
-                          className="td_value"
-                          style={{
-                            color: '#2ECC71',
-                            fontSize: 14,
-                            fontWeight: 600,
-                          }}
-                        >
-                          {node.status}
-                        </td>
-                        <td>
-                          <Status_Completed /> {/*eslint-disable-line*/}
-                        </td>
-                        &nbsp;&nbsp;&nbsp;
-                      </>
-                    ) : (
-                      <td className="td_value">{node.status}</td>
-                    )}
-                  </tr>
-                  <tr>
-                    <td className="td_key">Parent Step IDs</td>
-                    <td className="td_value">
-                      {node?.parent_step_ids.join(',') || 'n/a'}
-                    </td>
-                  </tr>
-                  <tr>
-                    <td className="td_key">Cache key</td>
-                    <td className="td_value">{node?.cache_key}</td>
-                  </tr>
-
-                  <tr>
-                    <td className="td_key">Cache enabled</td>
-                    <td className="td_value">
-                      {node?.config?.enable_cache !== null
-                        ? node?.config?.enable_cache.toString()
-                        : 'true'}
                     </td>
                   </tr>
                   <tr>
@@ -261,7 +312,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                                     <td className='td_key'>source</td>
                                     <td className='td_value'>{node?.step?.spec?.source}</td>
                                 </tr> */}
-                  {Object.entries(node?.inputs).length >= 1 && (
+                  {/* {Object.entries(node?.inputs).length >= 1 && (
                     <tr>
                       <td
                         style={{ textDecoration: 'underline' }}
@@ -324,8 +375,8 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                         </tr>
                       );
                     },
-                  )}
-                  {Object.entries(node?.outputs).length >= 1 && (
+                  )} */}
+                  {/* {Object.entries(node?.outputs).length >= 1 && (
                     <tr>
                       <td
                         style={{ textDecoration: 'underline' }}
@@ -396,7 +447,157 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                         </tr>
                       );
                     },
+                  )} */}
+                </tbody>
+              </table>
+            </>
+          )}
+          {show === '__CODE' && (
+            <div className={styles.codeContainer}>
+              <SyntaxHighlighter
+                customStyle={{ width: '100%', height: '80%', fontSize: 20 }}
+                wrapLines={true}
+                language="python"
+                style={okaidia}
+              >
+                {node.source_code ? node.source_code : ''}
+              </SyntaxHighlighter>
+            </div>
+          )}
+          {show === '__LOG' && <DisplayLogs selectedNode={node} />}
+
+          {show === '__CONFIGURATION' && (
+            <>
+              <Box style={{ position: 'absolute', top: '3rem', right: '3rem' }}>
+                <FlexBox
+                  onClick={handleCopyAll}
+                  style={{
+                    borderRadius: '4px',
+                    border: '1px solid #DADADA',
+                    background: '#ECECEC',
+                    padding: '8px 20px',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Paragraph>Copy</Paragraph>
+                  <icons.copy
+                    style={{ marginLeft: '10px' }}
+                    color={iconColors.black}
+                    size={iconSizes.sm}
+                  />
+                </FlexBox>
+              </Box>
+
+              <table cellSpacing="0" className="sidebar_table">
+                <tbody>
+                  <tr>
+                    <td className="td_key">Caching</td>
+                    <td className="td_value">
+                      {node?.config?.enable_cache ? (
+                        <>Enabled</>
+                      ) : (
+                        <>Disabled</>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">Artifact Metadata</td>
+                    <td className="td_value">
+                      {node?.config?.enable_artifact_metadata ? (
+                        <>Enabled</>
+                      ) : (
+                        <>Disabled</>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">Artifact Visualization</td>
+                    <td className="td_value">
+                      {node?.config?.enable_artifact_visualization ? (
+                        <>Enabled</>
+                      ) : (
+                        <>Disabled</>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="td_key">Failure Hook Source</td>
+                    <td className="td_value">
+                      {node?.config?.failure_hook_source ? (
+                        <div style={{ marginLeft: '1px' }}>Enabled</div>
+                      ) : node?.config?.failure_hook_source === null ? (
+                        <div style={{ marginLeft: '1px' }}>Not Set</div>
+                      ) : (
+                        <div style={{ marginLeft: '1px' }}>Disabled</div>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    {/* <ConfigBox
+                      name="Success Hook Source"
+                      config={node?.config?.success_hook_source}
+                    /> */}
+                    <td className="td_key">Success Hook Source</td>
+                    <td className="td_value">
+                      {node?.config?.success_hook_source ? (
+                        <div style={{ marginLeft: '1px' }}>Enabled</div>
+                      ) : node?.config?.success_hook_source === null ? (
+                        <div style={{ marginLeft: '1px' }}>Not Set</div>
+                      ) : (
+                        <div style={{ marginLeft: '1px' }}>Disabled</div>
+                      )}
+                    </td>
+                  </tr>
+                  <tr>
+                    <ConfigBox
+                      name="Settings"
+                      config={node?.config?.settings}
+                    />
+                  </tr>
+                  <tr>
+                    <ConfigBox name="Extra" config={node?.config?.extra} />
+                  </tr>
+                  <tr>
+                    <ConfigBox
+                      name="Parameters"
+                      config={node?.config?.parameters}
+                    />
+                  </tr>
+                  <tr>
+                    <ConfigBox
+                      name="Caching Parameters"
+                      config={node?.config?.caching_parameters}
+                    />
+                  </tr>
+                  <tr>
+                    <ConfigBox
+                      name="Get config programmatically"
+                      config={configProgrammatically}
+                      stringify
+                    />
+                  </tr>
+                </tbody>
+              </table>
+            </>
+          )}
+
+          {show === '__METADATA' && (
+            <>
+              <table cellSpacing="0" className="sidebar_table">
+                <tbody>
+                  {_.isEmpty(node?.metadata) && (
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                      <Paragraph>No Metadata available</Paragraph>
+                    </div>
                   )}
+
+                  {Object.entries(node?.metadata).length >= 0 &&
+                    Object.entries(node?.metadata)?.map((e: any) => (
+                      <tr>
+                        <td className="td_key">{e[1]?.key}</td>
+                        <td className="td_value">{e[1]?.value}</td>
+                      </tr>
+                    ))}
                 </tbody>
               </table>
             </>
