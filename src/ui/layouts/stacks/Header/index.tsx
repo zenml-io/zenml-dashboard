@@ -76,16 +76,15 @@ const HeaderWithButtons: React.FC<{
         {title}
       </Paragraph>
       <Paragraph>
-        Don't have any MLOps infrastructure deployed? Check out the{' '}
+        Don't have any MLOps infrastructure deployed? Learn how to{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://sandbox.zenml.io"
-          style={{ color: '#443E99' }}
+          href="https://docs.zenml.io/stacks-and-components/stack-deployment"
         >
-          MLOps Platform Sandbox
+          deploy a MLOps stack
         </a>{' '}
-        to get a production-ready stack in seconds.
+        from scratch.
       </Paragraph>
     </FlexBox>
 

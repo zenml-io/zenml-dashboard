@@ -37,7 +37,7 @@ export const constantCommandsToCreateSecret = {
 
 export const constantCommandsToCreateRepository = {
   documentation:
-    'https://docs.zenml.io/user-guide/advanced-guide/connect-your-git-repository',
+    'https://docs.zenml.io/user-guide/advanced-guide/environment-management/connect-your-git-repository',
 };
 
 export const constantCommandsToCreatePipeline = {

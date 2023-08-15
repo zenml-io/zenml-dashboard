@@ -101,7 +101,7 @@ export const routePaths = {
       `/workspaces/${workspace}/secrets/list`,
     // allRuns: '/secrets/all-runs',
     registerSecrets: (workspace: string): string =>
-      `/workspaces/${workspace}/register-secret`,
+      `/workspaces/${workspace}/secrets/register-secret`,
   },
   secret: {
     base: (id: TId): string => `/secrets/${id}`,

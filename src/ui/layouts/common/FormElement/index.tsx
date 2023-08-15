@@ -56,32 +56,50 @@ export function ToggleField(props: any) {
   const { value, onHandleChange, label, disabled } = props;
 
   return (
-    <Box style={{ height: '68px' }}>
-      <FlexBox.Row justifyContent="space-between" flexDirection="column">
+    <Box style={{ height: !disabled ? '68px' : 'auto' }}>
+      <FlexBox.Row
+        justifyContent="space-between"
+        flexDirection={disabled ? 'row' : 'column'}
+      >
         <Box>
           <Paragraph size="body" style={{ color: '#000' }}>
             {label}
           </Paragraph>
         </Box>
-        <FlexBox.Row className={styles.switchContainer}>
-          <div className={styles.switchLabel}>
-            <span>{value ? <>Yes</> : <>No</>}</span>
-          </div>
-          <label className={styles.switch}>
-            <input
-              type="checkbox"
-              defaultChecked={value}
-              // checked={value}
-              onChange={onHandleChange}
-              disabled={disabled}
-            />
-            {disabled ? (
-              <span className={`${styles.slider} ${styles.round}`}></span>
-            ) : (
-              <span className={`${styles.sliderBlue} ${styles.round}`}></span>
-            )}
-          </label>
-        </FlexBox.Row>
+
+        {disabled ? (
+          <Box>
+            <Paragraph size="body" style={{ color: '#000' }}>
+              {value ? (
+                <>Enabled</>
+              ) : value === null ? (
+                <>Not Set</>
+              ) : (
+                <>Disabled</>
+              )}
+            </Paragraph>
+          </Box>
+        ) : (
+          <FlexBox.Row className={styles.switchContainer}>
+            <div className={styles.switchLabel}>
+              <span>{value ? <>Yes</> : <>No</>}</span>
+            </div>
+            <label className={styles.switch}>
+              <input
+                type="checkbox"
+                defaultChecked={value}
+                // checked={value}
+                onChange={onHandleChange}
+                disabled={disabled}
+              />
+              {disabled ? (
+                <span className={`${styles.slider} ${styles.round}`}></span>
+              ) : (
+                <span className={`${styles.sliderBlue} ${styles.round}`}></span>
+              )}
+            </label>
+          </FlexBox.Row>
+        )}
       </FlexBox.Row>
     </Box>
   );
