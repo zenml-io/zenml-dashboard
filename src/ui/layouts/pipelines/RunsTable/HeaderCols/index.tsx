@@ -94,7 +94,7 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: TRun) => (
             <FlexBox alignItems="center">
-              <div data-tip data-for={run?.id}>
+              <div data-tip data-for={run.id}>
                 <FlexBox.Row style={{ alignItems: 'center' }}>
                   {isExpended ? (
                     <icons.chevronDown
@@ -108,11 +108,11 @@ export const useHeaderCols = ({
                     />
                   )}
                   <Paragraph size="small">
-                    {truncate(run?.id, ID_MAX_LENGTH)}
+                    {truncate(run.id, ID_MAX_LENGTH)}
                   </Paragraph>
                 </FlexBox.Row>
               </div>
-              <Tooltip id={run.id} text={truncate(run?.id, ID_MAX_LENGTH)} />
+              <Tooltip id={run.id} text={truncate(run.id, ID_MAX_LENGTH)} />
             </FlexBox>
           ),
         },
@@ -140,10 +140,10 @@ export const useHeaderCols = ({
           width: '15%',
           renderRow: (run: any) => (
             <div style={{ alignItems: 'center' }}>
-              <div data-tip data-for={run?.name}>
-                <Paragraph size="small">{run?.name}</Paragraph>
+              <div data-tip data-for={run.name}>
+                <Paragraph size="small">{run.name}</Paragraph>
               </div>
-              <Tooltip id={run.name} text={run?.name} />
+              <Tooltip id={run.name} text={run.name} />
             </div>
           ),
         },

@@ -118,14 +118,12 @@ export const GetHeaderCols = ({
             <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
               <div
                 data-tip
-                data-for={
-                  stackComponent?.flavor?.name || stackComponent?.flavor
-                }
+                data-for={stackComponent.flavor.name || stackComponent.flavor}
                 style={{ margin: ' 0 auto 0 auto' }}
               >
                 <img
-                  alt={stackComponent?.flavor?.logoUrl}
-                  src={stackComponent?.flavor?.logoUrl}
+                  alt={stackComponent.flavor.logoUrl}
+                  src={stackComponent.flavor.logoUrl}
                   style={{
                     height: '28px',
                     width: '28px',
@@ -133,8 +131,8 @@ export const GetHeaderCols = ({
                 />
               </div>
               <Tooltip
-                id={stackComponent?.flavor?.name || stackComponent?.flavor}
-                text={stackComponent?.flavor?.name}
+                id={stackComponent.flavor.name || stackComponent.flavor}
+                text={stackComponent.flavor.name}
               />
             </FlexBox>
           )}
@@ -209,29 +207,29 @@ export const GetHeaderCols = ({
                 <div
                   data-tip
                   data-for={
-                    stack?.user?.full_name
-                      ? stack?.user?.full_name
-                      : stack?.user?.name
+                    stack.user.full_name
+                      ? stack.user.full_name
+                      : stack.user.name
                   }
                 >
                   <FlexBox alignItems="center">
                     <Paragraph size="small">
-                      {stack?.user?.full_name
-                        ? stack?.user?.full_name
-                        : stack?.user?.name}
+                      {stack.user.full_name
+                        ? stack.user.full_name
+                        : stack.user.name}
                     </Paragraph>
                   </FlexBox>
                 </div>
                 <Tooltip
                   id={
-                    stack?.user?.full_name
-                      ? stack?.user?.full_name
-                      : stack?.user?.name
+                    stack.user.full_name
+                      ? stack.user.full_name
+                      : stack.user.name
                   }
                   text={
-                    stack?.user?.full_name
-                      ? stack?.user?.full_name
-                      : stack?.user?.name
+                    stack.user.full_name
+                      ? stack.user.full_name
+                      : stack.user.name
                   }
                 />
               </FlexBox>

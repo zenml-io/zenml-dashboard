@@ -67,7 +67,7 @@ export const useHeaderCols = ({
       width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run?.id}>
+          <div data-tip data-for={run.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
               {expendedRow?.length === 1 ? (
                 <icons.chevronDown
@@ -78,7 +78,7 @@ export const useHeaderCols = ({
                 <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
               )}
               <Paragraph size="small" style={{ marginLeft: '20px' }}>
-                {truncate(run?.id, ID_MAX_LENGTH)}
+                {truncate(run.id, ID_MAX_LENGTH)}
               </Paragraph>
             </FlexBox.Row>
           </div>

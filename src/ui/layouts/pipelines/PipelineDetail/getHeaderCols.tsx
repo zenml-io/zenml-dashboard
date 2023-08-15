@@ -86,7 +86,7 @@ export const GetHeaderCols = ({
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <Tooltip id={pipeline?.id} text={pipeline?.id} />
+          <Tooltip id={pipeline.id} text={pipeline.id} />
         </FlexBox>
       ),
     },
