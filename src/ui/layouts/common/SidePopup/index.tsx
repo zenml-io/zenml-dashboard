@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import {
@@ -12,6 +12,7 @@ import {
 
 import styles from './index.module.scss';
 import { replaceVersion } from '../../../../utils/string';
+import { checkUrlStatus } from '../../../../utils/checkUrlStatus';
 // import { routePaths } from '../../../../routes/routePaths';
 // import { useHistory } from 'react-router-dom';
 // import { useSelector } from '../../../hooks';
@@ -38,9 +39,22 @@ export const SidePopup: React.FC<{
       return onClose();
     }
   };
+  const [defaultSdkDocsUrl] = useState(
+    flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl,
+  );
+  const [is404, setIs404] = useState(false);
 
-  const sdkDocsUrl = flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl;
-  const updatedSdkDocsUrl = replaceVersion(sdkDocsUrl, version);
+  useEffect(() => {
+    const checkIfUrlExist = async () => {
+      const check = await checkUrlStatus(defaultSdkDocsUrl);
+      debugger;
+      setIs404(check);
+    };
+
+    checkIfUrlExist();
+  }, [flavor?.sdkDocsUrl]);
+
+  const updatedSdkDocsUrl = replaceVersion(defaultSdkDocsUrl, version);
 
   return (
     <>
@@ -62,13 +76,9 @@ export const SidePopup: React.FC<{
               <iframe
                 title="ZenML - Organization Embed"
                 style={{
-                  // border: '0px',
-                  // height: '100%',
-                  // width: '100%',
                   paddingBottom: '270px',
                 }}
-                // src="https://apidocs.zenml.io/0.35.0/"
-                src={updatedSdkDocsUrl}
+                src={is404 ? updatedSdkDocsUrl : defaultSdkDocsUrl}
               ></iframe>
             </Box>
 

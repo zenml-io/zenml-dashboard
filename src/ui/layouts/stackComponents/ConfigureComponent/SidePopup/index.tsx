@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import { Box, FlexBox, PrimaryButton } from '../../../../components';
 
 import styles from './index.module.scss';
 import { replaceVersion } from '../../../../../utils/string';
+import { checkUrlStatus } from '../../../../../utils/checkUrlStatus';
 
 export const SidePopup: React.FC<{
   onClose: () => void;
@@ -18,8 +19,22 @@ export const SidePopup: React.FC<{
     }
   };
 
-  const sdkDocsUrl = flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl;
-  const updatedSdkDocsUrl = replaceVersion(sdkDocsUrl, version);
+  const [defaultSdkDocsUrl] = useState(
+    flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl,
+  );
+  const [is404, setIs404] = useState(false);
+
+  useEffect(() => {
+    const checkIfUrlExist = async () => {
+      const check = await checkUrlStatus(defaultSdkDocsUrl);
+
+      setIs404(check);
+    };
+
+    checkIfUrlExist();
+  }, [flavor?.sdkDocsUrl]);
+  const updatedSdkDocsUrl = replaceVersion(defaultSdkDocsUrl, version);
+
   return (
     <FlexBox
       alignItems="center"
@@ -38,8 +53,7 @@ export const SidePopup: React.FC<{
                   width: '100%',
                   paddingBottom: '255px',
                 }}
-                // src="https://apidocs.zenml.io/0.35.0/"
-                src={updatedSdkDocsUrl}
+                src={is404 ? updatedSdkDocsUrl : defaultSdkDocsUrl}
               ></iframe>
             </Box>
           )}
