@@ -47,12 +47,12 @@ export const SidePopup: React.FC<{
   useEffect(() => {
     const checkIfUrlExist = async () => {
       const check = await checkUrlStatus(defaultSdkDocsUrl);
-      debugger;
+
       setIs404(check);
     };
 
     checkIfUrlExist();
-  }, [flavor?.sdkDocsUrl]);
+  }, [defaultSdkDocsUrl]);
 
   const updatedSdkDocsUrl = replaceVersion(defaultSdkDocsUrl, version);
 

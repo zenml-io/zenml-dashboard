@@ -32,7 +32,7 @@ export const SidePopup: React.FC<{
     };
 
     checkIfUrlExist();
-  }, [flavor?.sdkDocsUrl]);
+  }, [defaultSdkDocsUrl]);
   const updatedSdkDocsUrl = replaceVersion(defaultSdkDocsUrl, version);
 
   return (
