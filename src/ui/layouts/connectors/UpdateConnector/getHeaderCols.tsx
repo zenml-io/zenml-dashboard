@@ -57,25 +57,18 @@ export const GetHeaderCols = ({
       ),
       width: '10%',
       renderRow: (connector: any) => (
-        <>
-          {connector.id && (
-            <FlexBox alignItems="center">
-              <div data-tip data-for={connector?.id}>
-                <FlexBox.Row style={{ alignItems: 'center' }}>
-                  <icons.chevronDown
-                    color={iconColors.grey}
-                    size={iconSizes.xs}
-                  />
+        <FlexBox alignItems="center">
+          <div data-tip data-for={connector.id}>
+            <FlexBox.Row style={{ alignItems: 'center' }}>
+              <icons.chevronDown color={iconColors.grey} size={iconSizes.xs} />
 
-                  <Paragraph size="small" style={{ marginLeft: '20px' }}>
-                    {truncate(connector.id, ID_MAX_LENGTH)}
-                  </Paragraph>
-                </FlexBox.Row>
-              </div>
-              <Tooltip id={connector.id} text={connector.id} />
-            </FlexBox>
-          )}
-        </>
+              <Paragraph size="small" style={{ marginLeft: '20px' }}>
+                {truncate(connector.id, ID_MAX_LENGTH)}
+              </Paragraph>
+            </FlexBox.Row>
+          </div>
+          <Tooltip id={connector.id} text={connector.id} />
+        </FlexBox>
       ),
     },
     {
@@ -111,13 +104,12 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          {/* {connector?.connectorType?.map((e: any) => ( */}
           <Box marginLeft="sm">
-            <div data-tip data-for={connector?.connectorType?.name}>
+            <div data-tip data-for={connector.connectorType.name}>
               <FlexBox alignItems="center">
                 <img
-                  alt={connector?.connectorType?.logo_url}
-                  src={connector?.connectorType?.logo_url}
+                  alt={connector.connectorType.logo_url}
+                  src={connector.connectorType.logo_url}
                   style={{
                     height: '28px',
                     width: '28px',
@@ -126,8 +118,8 @@ export const GetHeaderCols = ({
               </FlexBox>
             </div>
             <Tooltip
-              id={connector.connectorType?.name}
-              text={connector.connectorType?.name}
+              id={connector.connectorType.name}
+              text={connector.connectorType.name}
             />
           </Box>
         </FlexBox>
@@ -145,12 +137,12 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           {connector?.connectorType?.resource_types?.map((e: any) => (
-            <Box marginLeft="sm">
-              <div data-tip data-for={e?.name}>
+            <Box key={e.name} marginLeft="sm">
+              <div data-tip data-for={e.name}>
                 <FlexBox alignItems="center">
                   <img
-                    alt={e?.logo_url}
-                    src={e?.logo_url}
+                    alt={e.logo_url}
+                    src={e.logo_url}
                     style={{
                       height: '28px',
                       width: '28px',
@@ -213,9 +205,9 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector?.user?.name}>
+          <div data-tip data-for={connector.user.name}>
             <Paragraph size="small" color="black">
-              {connector?.user?.name}
+              {connector.user.name}
             </Paragraph>
           </div>
           <Tooltip id={connector.user.name} text={connector.user.name} />
@@ -259,9 +251,7 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <Box paddingRight="sm">
-            {connector.isShared ? (
-              <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
-            ) : (
+            {connector.isShared && (
               <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
             )}
           </Box>

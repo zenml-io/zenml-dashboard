@@ -74,7 +74,7 @@ export const useHeaderCols = ({
       width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run?.id}>
+          <div data-tip data-for={run.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
               {isExpended ? (
                 <icons.chevronDown
@@ -85,7 +85,7 @@ export const useHeaderCols = ({
                 <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
               )}
               <Paragraph size="small" style={{ marginLeft: '20px' }}>
-                {truncate(run?.id, ID_MAX_LENGTH)}
+                {truncate(run.id, ID_MAX_LENGTH)}
               </Paragraph>
             </FlexBox.Row>
           </div>
@@ -113,8 +113,8 @@ export const useHeaderCols = ({
       width: '30%',
       renderRow: (run: TRun) => (
         <div style={{ alignItems: 'center' }}>
-          <div data-tip data-for={run?.name}>
-            <Paragraph size="small">{run?.name}</Paragraph>
+          <div data-tip data-for={run.name}>
+            <Paragraph size="small">{run.name}</Paragraph>
           </div>
           <Tooltip id={run.name} text={run.name} />
         </div>
@@ -142,7 +142,7 @@ export const useHeaderCols = ({
         <FlexBox alignItems="center">
           <div
             data-tip
-            data-for={run?.pipeline?.name && run?.pipeline?.version}
+            data-for={`${run.pipeline.name} ${run.pipeline.version}`}
           >
             <Paragraph
               size="small"
@@ -161,13 +161,12 @@ export const useHeaderCols = ({
                 );
               }}
             >
-              {run?.pipeline?.name &&
-                `${run?.pipeline?.name} ( v${run?.pipeline?.version} )`}
+              {`${run.pipeline.name} ( v${run.pipeline.version} )`}
             </Paragraph>
           </div>
           <Tooltip
-            id={run.pipeline?.name && run.pipeline?.version}
-            text={`${run.pipeline?.name} (v${run?.pipeline?.version})`}
+            id={`${run.pipeline.name} ${run.pipeline.version}`}
+            text={`${run.pipeline.name} (v${run.pipeline.version})`}
           />
         </FlexBox>
       ),
@@ -213,7 +212,7 @@ export const useHeaderCols = ({
       width: '7.5%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run?.stack?.name}>
+          <div data-tip data-for={run.stack.name}>
             <Paragraph
               size="small"
               style={{
@@ -231,10 +230,10 @@ export const useHeaderCols = ({
                 );
               }}
             >
-              {run?.stack?.name}
+              {run.stack.name}
             </Paragraph>
           </div>
-          <Tooltip id={run.stack?.name} text={run.stack?.name} />
+          <Tooltip id={run.stack.name} text={run.stack.name} />
         </FlexBox>
       ),
     },
@@ -310,13 +309,13 @@ export const useHeaderCols = ({
       width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToDisplayOnTable(run?.created)}>
+          <div data-tip data-for={formatDateToDisplayOnTable(run.created)}>
             <FlexBox alignItems="center">
               {/* <Box paddingRight="sm">
                 <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
               </Box> */}
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(run?.created)}
+                {formatDateToDisplayOnTable(run.created)}
               </Paragraph>
             </FlexBox>
           </div>
