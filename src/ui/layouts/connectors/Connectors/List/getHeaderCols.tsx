@@ -189,11 +189,11 @@ export const GetHeaderCols = ({
         <FlexBox alignItems="center">
           {/* {connector?.connectorType?.map((e: any) => ( */}
           <Box marginLeft="sm">
-            <div data-tip data-for={connector?.connectorType?.name}>
+            <div data-tip data-for={connector.connectorType.name}>
               <FlexBox alignItems="center">
                 <img
-                  alt={connector?.connectorType?.logo_url}
-                  src={connector?.connectorType?.logo_url}
+                  alt={connector.connectorType.logo_url}
+                  src={connector.connectorType.logo_url}
                   style={{
                     height: '28px',
                     width: '28px',
@@ -202,8 +202,8 @@ export const GetHeaderCols = ({
               </FlexBox>
             </div>
             <Tooltip
-              id={connector.connectorType?.name}
-              text={connector.connectorType?.name}
+              id={connector.connectorType.name}
+              text={connector.connectorType.name}
             />
           </Box>
         </FlexBox>
@@ -233,7 +233,7 @@ export const GetHeaderCols = ({
       ),
       width: '10%',
       renderRow: (connector: any) => {
-        const filteredResourceTypes = connector?.connectorType?.resource_types?.filter(
+        const filteredResourceTypes: Array<any> = connector?.connectorType?.resource_types?.filter(
           (e: any) => {
             if (connector.resourceTypes.includes(e.resource_type)) return e;
           },
@@ -241,15 +241,15 @@ export const GetHeaderCols = ({
 
         return (
           <FlexBox alignItems="center">
-            {filteredResourceTypes.slice(0, 2)?.map(
+            {filteredResourceTypes?.slice(0, 2)?.map(
               (e: any, index: number) =>
                 connector.resourceTypes.includes(e.resource_type) && (
-                  <Box marginLeft={index !== 0 ? 'sm' : null}>
-                    <div data-tip data-for={e?.name}>
+                  <Box key={index} marginLeft={index !== 0 ? 'sm' : null}>
+                    <div data-tip data-for={e.name}>
                       <FlexBox alignItems="center">
                         <img
-                          alt={e?.logo_url}
-                          src={e?.logo_url}
+                          alt={e.logo_url}
+                          src={e.logo_url}
                           style={{
                             height: '28px',
                             width: '28px',
@@ -257,7 +257,7 @@ export const GetHeaderCols = ({
                         />
                       </FlexBox>
                     </div>
-                    <Tooltip id={e?.name} text={e?.name} />
+                    <Tooltip id={e.name} text={e.name} />
                   </Box>
                 ),
             )}
@@ -300,7 +300,7 @@ export const GetHeaderCols = ({
                     {filteredResourceTypes
                       ?.slice(2)
                       ?.map((e: any, index: number) => (
-                        <Box marginLeft={index !== 0 ? 'sm' : null}>
+                        <Box key={index} marginLeft={index !== 0 ? 'sm' : null}>
                           <div data-tip data-for={e?.name}>
                             <FlexBox alignItems="center">
                               <img
@@ -420,7 +420,7 @@ export const GetHeaderCols = ({
               {connector.user.name}
             </Paragraph>
           </div>
-          <Tooltip id={connector.user?.name} text={connector.user?.name} />
+          <Tooltip id={connector.user.name} text={connector.user.name} />
         </FlexBox>
       ),
     },
@@ -500,9 +500,7 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <Box paddingRight="sm">
-            {connector.isShared ? (
-              <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
-            ) : (
+            {connector.isShared && (
               <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
             )}
           </Box>
