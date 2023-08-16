@@ -1091,7 +1091,7 @@ const FilterComponent = ({
   }
 
   function getSecondColumnOptions(options: any, type: any) {
-    return options.filter((o: any) => o.type === type);
+    return options?.filter((o: any) => o?.type === type);
   }
   const validFilters = filters?.filter((item: any) => item.filterValue);
 
