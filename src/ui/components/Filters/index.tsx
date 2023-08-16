@@ -159,11 +159,7 @@ export const getInitialFilterStateForRepositories = () => {
           label: 'Name',
           type: 'string',
         },
-        // {
-        //   value: 'scope_workspace',
-        //   label: 'Scope',
-        //   type: 'string',
-        // },
+
         {
           value: 'user_id',
           label: 'Author',
@@ -387,11 +383,7 @@ export const getInitialFilterStateForPipeline = () => {
           label: 'Author',
           type: 'string',
         },
-        // {
-        //   value: 'isShared',
-        //   label: 'Shared',
-        //   type: 'boolean',
-        // },
+
         {
           value: 'created',
           label: 'Created at',
@@ -422,11 +414,7 @@ export const getInitialFilterStateForPipeline = () => {
           label: 'Equal',
           type: 'string',
         },
-        // {
-        //   value: 'not_equal',
-        //   label: 'Not Equal',
-        //   type: 'string',
-        // },
+
         {
           value: 'gt',
           label: 'Greater than',
@@ -529,11 +517,7 @@ export const getInitialFilterStateForRuns = () => {
           label: 'Author',
           type: 'string',
         },
-        // {
-        //   value: 'isShared',
-        //   label: 'Shared',
-        //   type: 'boolean',
-        // },
+
         {
           value: 'created',
           label: 'Created at',
@@ -821,8 +805,6 @@ const FilterComponent = ({
   }
 
   function handleChangeForStatus(filter: any, value: string) {
-    //  handleValueFieldChange(filter, value)
-
     filter['contains'].selectedValue = filter['contains'].statusOption.filter(
       (option: any) => option.value === value,
     )[0];
@@ -833,8 +815,6 @@ const FilterComponent = ({
     localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
   function handleChangeForShared(filter: any, key: string, value: string) {
-    //  handleValueFieldChange(filter, value)
-
     filter[key].selectedValue = filter[key].options.filter(
       (option: any) => option.value === value,
     )[0];
@@ -849,13 +829,11 @@ const FilterComponent = ({
     localStorage.setItem('logical_operator', JSON.stringify('and'));
   }
   function handleChangeForSearchable(field: any, value: string) {
-    // filter[key].selectedValue =
     field.filterValue = value;
 
     setFilter([...filters]);
   }
   function callActionForUsers(name: string, newEvent: any) {
-    // debugger;
     if (name) {
       dispatch(organizationActions.getMembers({ name: 'contains:' + name }));
     } else if (newEvent.action === 'menu-close') {
@@ -945,32 +923,6 @@ const FilterComponent = ({
     } else {
       return value;
     }
-    // switch (typeName) {
-    //   case 'Author':
-    //     members.filter((item) => {
-    //       if (item.id === value) {
-    //         return item.name;
-    //       }
-    //     });
-    //     break;
-    //   case 'Pipeline Name':
-    //     pipelines.filter((item) => {
-    //       if (item.id === value) {
-    //         return item.name;
-    //       }
-    //     });
-    //     break;
-    //   case 'Stack Name':
-    //     stacks.filter((item) => {
-    //       if (item.id === value) {
-    //         return item.name;
-    //       }
-    //     });
-    //     break;
-
-    //   default:
-    //     break;
-    // }
   }
   const authorOptions = members.map((item: any) => {
     return {
@@ -1034,7 +986,7 @@ const FilterComponent = ({
             </div>
           ),
         );
-        // date-picker
+
         return (
           <Box style={{ width: '146px' }}>
             <DatePicker
@@ -1173,7 +1125,7 @@ const FilterComponent = ({
             style={{
               width: '33px',
               height: '28px',
-              // background: '#fff',
+
               borderRadius: '4px',
             }}
           >
@@ -1191,7 +1143,6 @@ const FilterComponent = ({
             {!applyFilter && !filters[0]?.filterValue ? (
               <Paragraph className={styles.filterplaceholder}>
                 Filter list
-                {console.log(filters, 'filters1')}
               </Paragraph>
             ) : filters[0]?.filterValue && !applyFilter && !searchText ? (
               validFilters.map((filter: any, index: number) => {
@@ -1329,7 +1280,6 @@ const FilterComponent = ({
                           fontFamily: 'Rubik',
                         }}
                         onChange={(value: string) =>
-                          // handleChange(filter, 'contains', value)
                           handleChangeForStatus(filter, value)
                         }
                         value={filter.contains.selectedValue.value}
@@ -1371,10 +1321,8 @@ const FilterComponent = ({
                             color: '#424240',
                             fontFamily: 'Rubik',
                           }}
-                          onChange={
-                            (value: string) =>
-                              handleChangeForShared(filter, 'contains', value)
-                            // handleChangeForStatus(filter, value)
+                          onChange={(value: string) =>
+                            handleChangeForShared(filter, 'contains', value)
                           }
                           value={filter?.contains?.selectedValue?.value}
                           options={getSecondColumnOptions(
@@ -1382,11 +1330,9 @@ const FilterComponent = ({
                             filter.column.selectedValue.type,
                           )}
                         />
-                      ) : // <></>
-                      filter?.column?.selectedValue?.value === 'pipeline_id' ? (
+                      ) : filter?.column?.selectedValue?.value ===
+                        'pipeline_id' ? (
                         <Select
-                          // getOptionLabel={(option: any) => option.name}
-                          // getOptionValue={(option: any) => option.id}
                           options={pipelinesOptions}
                           defaultValue={pipelinesOptions.filter((el: any) => {
                             return filters.some((f: any) => {
@@ -1405,15 +1351,11 @@ const FilterComponent = ({
                             }
                           }}
                           isClearable={true}
-                          // value={'role'}
                           className={styles.searchableInput}
-                          // classNamePrefix="select"
                         />
                       ) : filter?.column?.selectedValue?.value ===
                         'stack_id' ? (
                         <Select
-                          // getOptionLabel={(option: any) => option.name}
-                          // getOptionValue={(option: any) => option.id}
                           options={stacksOptions}
                           defaultValue={stacksOptions.filter((el: any) => {
                             return filters.some((f: any) => {
@@ -1432,14 +1374,10 @@ const FilterComponent = ({
                             }
                           }}
                           isClearable={true}
-                          // value={'role'}
                           className={styles.searchableInput}
-                          // classNamePrefix="select"
                         />
                       ) : (
                         <Select
-                          // getOptionLabel={(option: any) => option.name}
-                          // getOptionValue={(option: any) => option.id}
                           options={authorOptions}
                           defaultValue={authorOptions.filter((el: any) => {
                             return filters.some((f: any) => {
@@ -1451,7 +1389,6 @@ const FilterComponent = ({
                             callActionForUsers(e, newEvent);
                           }}
                           onChange={(value: any) => {
-                            console.log(value, 'valuevalue');
                             if (value) {
                               handleChangeForSearchable(filter, value.value);
                             } else {
@@ -1459,10 +1396,7 @@ const FilterComponent = ({
                             }
                           }}
                           isClearable
-                          // value={'role'}
                           className={styles.searchableInput}
-                          // classNamePrefix="select"
-                          // isClearable={false}
                         />
                       )}
                     </FlexBox.Row>

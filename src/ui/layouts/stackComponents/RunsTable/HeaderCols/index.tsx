@@ -45,10 +45,6 @@ export const useHeaderCols = ({
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   return [
-    // {
-    //   width: '2%',
-    //   renderRow: (stack: TStack) => <></>,
-    // },
     {
       render: () => (
         <SortingHeader
@@ -331,9 +327,6 @@ export const useHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(run?.created)}>
             <FlexBox alignItems="center">
-              {/* <Box paddingRight="sm">
-                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(run?.created)}
               </Paragraph>

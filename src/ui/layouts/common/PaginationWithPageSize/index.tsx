@@ -8,7 +8,6 @@ import {
   If,
   H3,
   FullWidthSpinner,
-  // Paragraph,
   icons,
 } from '../../../components';
 
@@ -45,7 +44,6 @@ export const PaginationWithPageSize: React.FC<Props> = ({
 
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
 
-  // const childRef = React.useRef(null);
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
   const ITEMS_PER_PAGE = parseInt(
@@ -54,11 +52,11 @@ export const PaginationWithPageSize: React.FC<Props> = ({
 
   const DEFAULT_ITEMS_PER_PAGE = 10;
   const itemPerPageOptions = [5, 10, 15, 20];
-  // const itemPerPage = ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE;
+
   const [itemPerPage, setItemPerPage] = useState(
     ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
   );
-  const [text, setText] = useState('');
+
   useEffect(() => {
     setItemPerPage(paginated.size);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -67,17 +65,10 @@ export const PaginationWithPageSize: React.FC<Props> = ({
     return <FullWidthSpinner color="black" size="md" />;
   }
 
-  // console.log(fetchingMembers, activeSorting, 'fetchingMembers');
-
-  // console.log('pages11', itemPerPage, ITEMS_PER_PAGE);
-
-  // i !== 0 &&
   const onChangePagePerItem = (p: number, size: number) => {
-    // onChange(p + 1, size);
-    setText('asdasdasd');
     setItemPerPage(size);
   };
-  console.log(text, 'texttext');
+
   return (
     <FlexBox.Column fullWidth>
       <IfElse
@@ -207,7 +198,6 @@ export const PaginationWithPageSize: React.FC<Props> = ({
                 </FlexBox>
               )}
             </If>
-            {/* {console.log(paginated, 'paginated')} */}
           </>
         )}
         renderWhenFalse={() => (

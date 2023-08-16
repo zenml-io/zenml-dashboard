@@ -7,12 +7,9 @@ import ArtifactTabHeader from './sidebarTabsSwitchers/artifactTabSwitcher';
 import StepnodeTabHeader from './sidebarTabsSwitchers/stepTabSwitcher';
 import {
   fetchArtifactData,
-  // fetchArtifactVisualizationSize,
   fetchStepData,
 } from '../../layouts/runs/RunDetail/sidebarServices';
 import styles from './index.module.scss';
-// import { runsActions } from '../../../redux/actions';
-// import { FullWidthSpinner } from '../spinners';
 
 const colCenter = {
   display: 'flex',
@@ -36,7 +33,7 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
       setFetching(false);
     } else {
       const data = await fetchArtifactData(selectedNode, authToken);
-      // await fetchArtifactVisualizationSize(selectedNode.execution_id, authToken);
+
       setArtifact(data);
       setFetching(false);
     }
@@ -112,5 +109,4 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
   );
 };
 
-// export default memo(Sidebar)
 export default Sidebar;

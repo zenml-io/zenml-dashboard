@@ -41,14 +41,12 @@ import {
 import {
   showToasterAction,
   workspacesActions,
-  // pipelinesActions,
   pipelinePagesActions,
   runPagesActions,
   organizationActions,
 } from '../../redux/actions';
 import { NotFound } from './NotFound';
 
-// import Tour from './Tour';
 import { rolesActions } from '../../redux/actions/roles';
 
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
@@ -112,8 +110,6 @@ export const DashBoard: React.FC = () => {
   };
 
   const url = window.location.pathname;
-  // const url = new URL(url_string);
-  // const workspaceName = url.searchParams.get('workspace');
 
   useEffect(() => {
     if (url === '/') {
@@ -151,32 +147,6 @@ export const DashBoard: React.FC = () => {
             { headers: { Authorization: `bearer ${authToken}` } },
           );
 
-          // await dispatch(
-          //   workspacesActions.getMy({
-          //     selectDefault: false,
-          //     selectedWorkspace: selectedWorkspace,
-          //     onSuccess: () => stopLoad(),
-          //     onFailure: () => stopLoad(),
-          //   }),
-          // );
-
-          // await dispatch(
-          //   workspacesActions.getSelectedWorkspace({
-          //     allWorkspaces: workspaces,
-          //     seletecdWorkspace: selectedWorkspace
-          //       ? selectedWorkspace
-          //       : DEFAULT_WORKSPACE_NAME,
-          //   }),
-          // );
-
-          // await dispatch(
-          //   pipelinesActions.getMy({
-          //     workspace: selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
-          //     onSuccess: () => stopLoad(),
-          //     onFailure: () => stopLoad(),
-          //   }),
-          // );
-
           setDashboardData(data);
           setFetching(false);
         } catch (e) {
@@ -195,8 +165,6 @@ export const DashBoard: React.FC = () => {
               onFailure: () => stopLoad(),
             }),
           );
-
-          // push(routePaths.home(DEFAULT_WORKSPACE_NAME));
         }
       };
       getDashboardData();
@@ -218,13 +186,12 @@ export const DashBoard: React.FC = () => {
     setBox('');
     setIsHover(false);
   };
-  console.log(notFound, 'notFound');
+
   if (notFound) return <NotFound />;
 
   return (
     <AuthenticatedLayout>
       <SidebarContainer>
-        {/* <Tour /> */}
         <EaseInBox>
           <Box marginTop="5xl" marginLeft="xl">
             <Row style={{ alignItems: 'center' }}>

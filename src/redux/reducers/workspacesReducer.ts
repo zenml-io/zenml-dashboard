@@ -86,7 +86,6 @@ const workspacesReducer = (
     }
 
     case workspaceActionTypes.getMyWorkspaceStats.success: {
-      // const { workspaceStats } = action.payload as any;
       const workspaceStats = action.payload.items;
 
       return { ...newState(state, workspaceStats) };

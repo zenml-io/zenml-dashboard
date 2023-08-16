@@ -2,10 +2,9 @@ import React, { useEffect, useRef, useState, memo } from 'react';
 import styles from './artifact.module.scss';
 import { FullWidthSpinner } from '../../spinners';
 import ArtifactVisualization from './ArtifactVisualization';
-// import { Link } from 'react-router-dom';
-// import { routePaths } from '../../../../routes/routePaths';
+
 import { useDispatch } from 'react-redux';
-// import { workspaceSelectors } from '../../../../redux/selectors';
+
 import MetadataTab from './metadata';
 import { Box, icons } from '../../index';
 import { iconColors, iconSizes, toasterTypes } from '../../../../constants';
@@ -47,7 +46,7 @@ const ArtifactTabHeader = ({
   const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(35);
   const [dynamicLeft, setDynamicLeft] = useState<number | undefined>(21);
   const parent = useRef<HTMLDivElement>(null);
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+
   const divRefs = useRef<(HTMLSpanElement | null)[]>([]);
   const dispatch = useDispatch();
 
@@ -184,17 +183,7 @@ loaded_artifact = artifact.load()
                     <td className="td_key" style={{ wordWrap: 'break-word' }}>
                       Artifact store
                     </td>
-                    <td className="td_value">
-                      {/* <Link
-                        to={routePaths.stackComponents.configuration(
-                          'artifact_store',
-                          node?.artifact_store_id,
-                          selectedWorkspace,
-                        )}
-                      > */}
-                      {node?.artifact_store_id}
-                      {/* </Link> */}
-                    </td>
+                    <td className="td_value">{node?.artifact_store_id}</td>
                   </tr>
                   <tr>
                     <ConfigBox name="URI" config={node?.uri} />
@@ -212,28 +201,6 @@ loaded_artifact = artifact.load()
                       config={configSchema}
                     />
                   </tr>
-
-                  {/* <td className="td_key">Materializer</td> */}
-                  {/* <td className="td_value">
-                      <tr>
-                        <td className="td_key">Module:</td>
-                        <td className="td_value">
-                          {node?.materializer?.module}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="td_key">Attribute</td>
-                        <td className="td_value">
-                          {node?.materializer?.attribute}
-                        </td>
-                      </tr>
-                      <tr>
-                        <td className="td_key">Type</td>
-                        <td className="td_value">{node?.materializer?.type}</td>
-                      </tr> */}
-                  {/* <tr>attribute: {node?.materializer?.attribute}</tr>
-                                    <tr>type: {node?.materializer?.type}</tr> */}
-                  {/* </td> */}
                 </tbody>
               </table>
             </>

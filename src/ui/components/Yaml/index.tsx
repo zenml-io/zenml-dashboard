@@ -17,8 +17,6 @@ import { useSelector } from 'react-redux';
 import { sessionSelectors } from '../../../redux/selectors';
 import { fetchSchedule } from '../../layouts/pipelines/PipelineDetail/Configuration/useService';
 
-// import { initialEdges, initialNodes } from './initial-elements';
-
 interface Edge {
   id: string;
   source: string;
@@ -34,13 +32,6 @@ interface Edge {
     color: string;
   };
 }
-
-// function extractTime(isoString: string) {
-//   const timeString = isoString.split('T')[1].split(':');
-//   const hours = timeString[0];
-//   const minutes = timeString[1];
-//   return `${hours}:${minutes}`;
-// }
 
 const dagreGraph = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
@@ -134,7 +125,6 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
   const {
     initialNodes: layoutedNodes,
     initialEdges: layoutedEdges,
-    // } = getLayoutedElements(initialNodes, initialEdges);
   } = getLayoutedElements(graph.graph.node, graph.graph.edge);
   const [fetching, setFetching] = useState(false); //eslint-disable-line
   const [fetchingSchedule, setFetchingSchedule] = useState(false); //eslint-disable-line

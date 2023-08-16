@@ -43,7 +43,6 @@ export const replaceRouteIfNeeded = ({
   clearTimeout(timeout);
 
   const routeToReplace = () => {
-    // const url = window.location.search;
     const logRoute =
       user?.emailOptedIn === null
         ? `/user-email`
@@ -71,12 +70,9 @@ export const replaceRouteIfNeeded = ({
       let route = routeToReplace();
 
       if (replaceToLoggedOutRoute && currentLocation) {
-        console.log(locationPath);
         route = `${route}?route=${locationPath}`;
-        // debugger;
       } else if (replaceToLoggedInRoute && routeFromSearchParam) {
         route = routeFromSearchParam;
-        // debugger;
       }
 
       replaceRoute(route);

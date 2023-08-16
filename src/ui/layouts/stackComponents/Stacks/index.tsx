@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { translate } from './translate';
+
 import { List } from './List';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
@@ -11,7 +11,7 @@ import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';
 import { camelCaseToParagraph } from '../../../../utils';
-// import { workspaceSelectors } from '../../../../redux/selectors';
+
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { workspaceSelectors } from '../../../../redux/selectors';
 
@@ -48,7 +48,6 @@ const FilterWrapper = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  console.log('getfilter', filters);
   return (
     <FilterComponent
       getInitials={getInitialFilterState}
@@ -62,18 +61,14 @@ const FilterWrapper = () => {
 
 export const Stacks: React.FC = () => {
   const locationPath = useLocationPath();
-  const { setFetching } = useService();
-  console.log(setFetching);
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  useService();
 
-  // const url_string = window.location.href;
-  // const url = new URL(url_string);
-  // const workspaceName = url.pathname.split('/')[2];
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const workspace = selectedWorkspace
     ? selectedWorkspace
     : DEFAULT_WORKSPACE_NAME;
-  // debugger;
+
   return (
     <BasePage
       tabPages={[
@@ -88,9 +83,6 @@ export const Stacks: React.FC = () => {
           ),
         },
       ]}
-      // tabBasePath={
-      //   routePaths.stackComponents.base('', workspace) + `?workspace=${workspace}`
-      // }
       tabBasePath={
         routePaths.stackComponents.base(
           locationPath.split('/')[4],
@@ -99,19 +91,7 @@ export const Stacks: React.FC = () => {
             : (locationPath.split('/')[2] as string),
         ) + `?workspace=${workspace}`
       }
-      breadcrumbs={
-        [
-          // {
-          //   name: camelCaseToParagraph(locationPath.split('/')[4]),
-          //   clickable: true,
-          //   to:
-          //     routePaths.stackComponents.base(
-          //       locationPath.split('/')[4],
-          //       workspace as string,
-          //     ) + `?workspace=${workspace}`,
-          // },
-        ]
-      }
+      breadcrumbs={[]}
       title="Stack Components"
       headerWithButtons
       renderHeaderRight={() => <></>}

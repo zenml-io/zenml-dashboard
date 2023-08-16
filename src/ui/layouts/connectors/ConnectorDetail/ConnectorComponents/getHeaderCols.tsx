@@ -46,35 +46,6 @@ export const GetHeaderCols = ({
   });
 
   return [
-    // {
-    //   width: '3%',
-    //   renderRow: (connector: any) => (
-    //     <LinkBox
-    //       onClick={(e: Event) => {
-    //         setToggle(!toggle);
-    //         e.stopPropagation();
-    //         if (openConnectorIds.indexOf(connector.id) === -1) {
-    //           setOpensecretIds([...openConnectorIds, connector.id]);
-    //         } else {
-    //           setOpensecretIds(
-    //             openConnectorIds.filter((id: TId) => id !== connector.id),
-    //           );
-    //         }
-    //       }}
-    //     >
-    //       <FlexBox
-    //         justifyContent="center"
-    //         style={{ paddingTop: '5px', paddingBottom: '5px' }}
-    //       >
-    //         {openConnectorIds.indexOf(connector.id) === -1 ? (
-    //           <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-    //         ) : (
-    //           <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-    //         )}
-    //       </FlexBox>
-    //     </LinkBox>
-    //   ),
-    // },
     {
       render: () => (
         <SortingHeader
@@ -185,7 +156,6 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          {/* {connector?.connectorType?.map((e: any) => ( */}
           <Box marginLeft="sm">
             <div data-tip data-for={connector?.type}>
               <Paragraph size="small" color="black">
@@ -203,7 +173,6 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
-          // onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="scope"
           sortMethod={sortMethod('scope', {
             asc: (filteredStacks: TStack[]) =>
@@ -244,11 +213,7 @@ export const GetHeaderCols = ({
           </div>
 
           <ReactTooltip
-            id={
-              // stackComponent?.flavor
-              //   ? stackComponent?.flavor
-              connector?.flavor?.name || connector?.flavor
-            }
+            id={connector?.flavor?.name || connector?.flavor}
             place="top"
             effect="solid"
           >
@@ -286,7 +251,6 @@ export const GetHeaderCols = ({
             {connectorDetail?.connectorType?.resource_types?.map(
               (e: any) =>
                 e.resource_type === connector.flavor.connectorResourceType && (
-                  // <>aasdasd</>
                   <Box marginLeft="sm">
                     <div data-tip data-for={e?.name}>
                       <FlexBox alignItems="center">
@@ -351,41 +315,7 @@ export const GetHeaderCols = ({
         </FlexBox>
       ),
     },
-    // {
-    //   render: () => (
-    //     <SortingHeader
-    //       onlyOneRow={
-    //         filteredConnectors.length === 1 || expendedRow?.length === 1
-    //       }
-    //       sorting="name"
-    //       sortMethod={sortMethod('name', {
-    //         asc: (filteredConnectors: any[]) =>
-    //           _.orderBy(filteredConnectors, ['name'], ['asc']),
-    //         desc: (filteredConnectors: any[]) =>
-    //           _.orderBy(filteredConnectors, ['name'], ['desc']),
-    //       })}
-    //       activeSorting={activeSorting}
-    //       activeSortingDirection={activeSortingDirection}
-    //     >
-    //       <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-    //         Authentication
-    //       </Paragraph>
-    //     </SortingHeader>
-    //   ),
-    //   width: '10%',
-    //   renderRow: (connector: any) => (
-    //     <FlexBox alignItems="center">
-    //       <div data-tip data-for={connector.authMethod}>
-    //         <Paragraph size="small" color="black">
-    //           {connector.authMethod}
-    //         </Paragraph>
-    //       </div>
-    //       <ReactTooltip id={connector.authMethod} place="top" effect="solid">
-    //         <Paragraph color="white">{connector.authMethod}</Paragraph>
-    //       </ReactTooltip>
-    //     </FlexBox>
-    //   ),
-    // },
+
     {
       render: () => (
         <SortingHeader

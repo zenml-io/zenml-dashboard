@@ -21,9 +21,6 @@ function Modal({
   size: any;
 }) {
   const [isProceed, setIsProceed] = useState(false);
-  // const tempSize = Number(localStorage.getItem("VISUALIZATION_SIZE"));
-  console.log('node.metadata.storage_size.value (size)', typeof size);
-  console.log('node.metadata.storage_size.value (size)', Number(size));
 
   const handleAgree = () => {
     proceed(true);
@@ -31,11 +28,7 @@ function Modal({
   };
 
   useEffect(() => {
-    // if (size !==0) {
-    if (Number(size) < resposneSizeConstant)
-      // if (tempSize < 1)
-      return proceed(true);
-    // }
+    if (Number(size) < resposneSizeConstant) return proceed(true);
   }, [isProceed]); //eslint-disable-line
 
   return (
@@ -88,12 +81,10 @@ const ArtifactVisualization = ({
     const source = axios.CancelToken.source();
 
     setCancelToken(source);
-    // setCancelToken(controller);
 
     setLoader(true);
-    // artifactVisulizationService(node?.id, authToken, signal)
+
     artifactVisulizationService(node?.id, authToken, source)
-      // artifactVisulizationService(node?.id, authToken, null, null)
       .then((res) => {
         setLoader(false);
         setResponse(res);
@@ -131,13 +122,9 @@ const ArtifactVisualization = ({
 
   const handleCancelRequest = async () => {
     if (cancelToken) {
-      // if (source) {
-      // artifactVisulizationService(null, null, source)
-      console.log('cancelToken', cancelToken);
       setCancelToken(null);
       cancelToken.cancel('Request canceled by user');
       setResponse(null);
-      // source.cancel('Request canceled by user');
     }
   };
   useEffect(() => {
@@ -172,10 +159,6 @@ const ArtifactVisualization = ({
 
   // ASK TO PROCEED IF SIZE IN LARGER THAN 5MB
   if (!proceed) {
-    console.log(
-      'node.metadata.storage_size.value',
-      typeof node.metadata.storage_size.value,
-    );
     let size = node?.metadata?.storage_size?.value;
     return (
       <Modal
@@ -200,7 +183,7 @@ const ArtifactVisualization = ({
         >
           Cancel Visalization
         </button>
-        {/* <div className={`${style.btnContainer}`}> */}
+
         <button
           onClick={handleDownload}
           className={`${style.downloadBtn} downloadBtn`}
@@ -213,7 +196,6 @@ const ArtifactVisualization = ({
         >
           Download
         </button>
-        {/* </div> */}
       </div>
     );
   }
