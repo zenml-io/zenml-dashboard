@@ -30,9 +30,7 @@ export const CustomStackBox: React.FC<{
       <icons.config
         onClick={onViewConfig}
         className={styles.viewConfig}
-        // color={iconColors.black}
         size={iconSizes.sm}
-        // style={{ height: '18px', width: '18px' }}
         color={iconColors.black}
       />
 

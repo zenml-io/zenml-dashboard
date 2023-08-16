@@ -20,12 +20,9 @@ interface ServiceInterface {
 
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+
   const { id } = useParams<PipelineDetailRouteParams>();
-  const ITEMS_PER_PAGE = parseInt(
-    process.env.REACT_APP_ITEMS_PER_PAGE as string,
-  );
-  const DEFAULT_ITEMS_PER_PAGE = 10;
+
   useEffect(() => {
     setFetching(true);
     // Legacy: previously runs was in pipeline
@@ -36,17 +33,6 @@ export const useService = (): ServiceInterface => {
         onFailure: () => setFetching(false),
       }),
     );
-    // dispatch(
-    //   pipelinesActions.allRunsByPipelineId({
-    //     sort_by: 'desc:created',
-    //     logical_operator: 'and',
-    //     pipelineId: id,
-    //     page: 1,
-    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-    //     onSuccess: () => setFetching(false),
-    //     onFailure: () => setFetching(false),
-    //   }),
-    // );
   }, [id]);
 
   const setFetching = (fetching: boolean) => {
@@ -60,8 +46,7 @@ export const useService = (): ServiceInterface => {
 
 export const callActionForPipelineRunsForPagination = () => {
   const dispatch = useDispatch();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  // const { id } = useParams<PipelineDetailRouteParams>();
+
   function dispatchPipelineRunsData(
     id: any,
     page: number,
@@ -71,7 +56,7 @@ export const callActionForPipelineRunsForPagination = () => {
   ) {
     const logicalOperator = localStorage.getItem('logical_operator');
     let filtersParam = filterObjectForParam(filters);
-    // console.log('aaaa', filters);
+
     setFetching(true);
     dispatch(
       pipelinesActions.allRunsByPipelineId({

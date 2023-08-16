@@ -37,7 +37,7 @@ export const useService = ({
   const runs: TRun[] = useSelector(runSelectors.runsForPipelineId(pipelineId));
   const runsPaginated = useSelector(runSelectors.myRunsPaginated);
   const isValidFilter = filter.map((f) => f.value).join('');
-  console.log(runsPaginated, 'runsPaginated');
+
   useEffect(() => {}, [runs]);
   useEffect(() => {
     if (!isValidFilter && !isExpended) {

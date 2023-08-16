@@ -28,7 +28,7 @@
   display: flex;
   flex-direction: row-reverse;
   font-family: Arial, Helvetica, sans-serif !important;
-  border: 1px solid #443E99 !important;
+  border: 1px solid #443e99 !important;
   border-radius: 4px;
   font-size: 8px;
   background: #ffffff;
@@ -39,7 +39,7 @@
   display: flex;
   flex-direction: row-reverse;
   font-family: Arial, Helvetica, sans-serif !important;
-  border: 3px solid #443E99 !important;
+  border: 3px solid #443e99 !important;
   border-radius: 4px;
   font-size: 8px;
   background: #ffffff;
@@ -90,7 +90,6 @@
   background: #fff;
   padding: 0.5rem;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-
 }
 
 .artifactBodySelected {
@@ -102,7 +101,6 @@
   background: #fff;
   padding: 0.5rem;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
-
 }
 
 .artifactTitle {
@@ -133,21 +131,16 @@
   width: 100%;
   padding-left: 20px;
   padding-right: 20px;
-  background-color: "pink";
+  background-color: 'pink';
   justify-content: center;
   align-items: center;
 }
-
 
 .closeArrow {
   height: 500px;
   width: 500px;
   background-color: aqua;
 }
-
-
-
-
 
 // SIDE BAR
 
@@ -176,7 +169,7 @@
   z-index: -1000;
 }
 
-.btnContainer>img {
+.btnContainer > img {
   z-index: -1000;
 }
 
@@ -201,17 +194,15 @@
   position: absolute;
   height: auto;
   width: auto;
-  background-color:#E8E8E840;
+  background-color: #e8e8e840;
   border-radius: 8px;
   right: 54px;
-  // top: 30%;
   z-index: 101;
-  // box-shadow: 0px 1px 20px rgba(0, 0, 0, 0.05);
   padding: 10px;
   padding-top: 10px;
   padding-bottom: 30px;
 }
-.Scheduled>table {
+.Scheduled > table {
   position: relative;
   height: 222px;
   width: 185px;
@@ -221,19 +212,17 @@
   top: 30%;
 }
 
-.Scheduled>thead>th{
-  // margin-top: 16px;
+.Scheduled > thead > th {
   height: 30px;
   font-family: 'Rubik';
   font-weight: 600;
   color: #050505;
   text-align: center;
-  // background-color: #431d93;
 }
-.Scheduled>tbody{
+.Scheduled > tbody {
   margin-top: 100px;
 }
-.Scheduled>tbody>tr {
+.Scheduled > tbody > tr {
   display: flex;
   height: 20px;
   width: 186px;

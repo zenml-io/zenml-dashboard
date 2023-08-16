@@ -62,8 +62,7 @@ import { ReactComponent as PlusCircle } from './assets/PlusCircle.svg';
 import { ReactComponent as MinusCircle } from './assets/MinusCircle.svg';
 import { ReactComponent as Config } from './assets/Config.svg';
 import { ReactComponent as Failed } from './assets/Failed.svg';
-//icons for stackComponents
-// import { ReactComponent as PuzzlePiece } from './assets/PuzzlePiece.svg';
+
 import { ReactComponent as Folders } from './assets/Folders.svg';
 import { ReactComponent as BoundingBox } from './assets/BoundingBox.svg';
 import { ReactComponent as CloudArrowUp } from './assets/CloudArrowUp.svg';
@@ -88,11 +87,6 @@ import { ReactComponent as AddNew } from './assets/addNew.svg';
 import { ReactComponent as SupportAgent } from './assets/SupportAgent.svg';
 import { ReactComponent as Connector } from './assets/Connector.svg';
 import { ReactComponent as NotConnected } from './assets/notConnected.svg';
-
-// import { ReactComponent as Inprogress } from './assets/InProgress.svg';
-// import { ReactComponent as Cached } from './assets/Cached.svg';
-// import { ReactComponent as RightArrow } from './assets/RightArrow.svg';
-// import { ReactComponent as Edit } from './assets/Edit.svg';
 
 import { ReactComponent as PaginationFirst } from './assets/PaginationFirst.svg';
 import { ReactComponent as PaginationLast } from './assets/PaginationLast.svg';

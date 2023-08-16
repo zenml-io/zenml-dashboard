@@ -10,8 +10,6 @@ const onSuccess = jest.fn();
 const onFailure = jest.fn();
 
 export const onAction = (): any =>
-  // getConnectorByIdAction({ connectorId, onSuccess, onFailure });
-
   testApiAction({
     onAction,
     type: stackActionTypes.getStackForId.request,

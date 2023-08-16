@@ -27,7 +27,6 @@ export const BasePage: React.FC<{
   return (
     <AuthenticatedLayout breadcrumb={[...breadcrumbs]}>
       <SidebarContainer>
-        {console.log(breadcrumbs, '')}
         <IfElse
           condition={!!headerWithButtons}
           renderWhenTrue={() => (
@@ -48,14 +47,11 @@ export const BasePage: React.FC<{
         <Box>
           {children}
           {tabPages.length > 1 ? (
-            // <Tabs pages={tabPages} basePath={tabBasePath} />
             <TabsRuns pages={tabPages} basePath={tabBasePath} />
           ) : (
             <>
               <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
               <FlexBox marginBottom="xxl">
-                {/* <Switch> */}
-                {console.log(tabPages, 'tabPages')}
                 <Redirect exact from={tabBasePath} to={tabPages[0].path} />
 
                 {tabPages.map((page, index) => (
@@ -66,7 +62,6 @@ export const BasePage: React.FC<{
                     component={page.Component}
                   />
                 ))}
-                {/* </Switch> */}
               </FlexBox>
             </>
           )}

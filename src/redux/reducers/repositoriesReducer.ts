@@ -8,14 +8,6 @@ export interface Pagination {
   total?: number;
 }
 
-// interface ActionPayload {
-//   items: TRepository[];
-//   index: number;
-//   max_size: number;
-//   total_pages: number;
-//   total: number;
-// }
-
 export interface State {
   ids: string[];
   repositoriesByID: Record<string, TRepository>;

@@ -1,7 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react';
 
-// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-// import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {
   FlexBox,
   Box,
@@ -9,26 +7,10 @@ import {
   FormDropdownField,
   PrimaryButton,
   FullWidthSpinner,
-  // H4,
-  // GhostButton,
-  // icons,
-  // Row,
-  // FullWidthSpinner,
-  // Container,
-  // EditField,
-  // Paragraph,
 } from '../../../../components';
 import axios from 'axios';
 import Selector from '../../Selector/Selector';
-// import { iconColors, iconSizes } from '../../../../../constants';
 
-// import { useDispatch } from '../../../../hooks';
-// import { showToasterAction } from '../../../../../redux/actions';
-// import { toasterTypes } from '../../../../../constants';
-
-// import { translate } from '../translate';
-
-// import styles from './index.module.scss';
 import { useService } from './useService';
 import { useDispatch, useHistory, useSelector } from '../../../../hooks';
 import {
@@ -39,30 +21,6 @@ import {
 import { showToasterAction } from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
 import { routePaths } from '../../../../../routes/routePaths';
-// import { StackBox } from '../../../common/StackBox';
-// import { SidePopup } from '../../RegisterSecret/ListForAll/SidePopup';
-// import { NonEditableConfig } from '../../../NonEditableConfig';
-// import {
-//   useDispatch,
-//   // useHistory,
-//   // useLocation,
-//   useSelector,
-// } from '../../../../hooks';
-// import {
-//   sessionSelectors,
-//   userSelectors,
-//   workspaceSelectors,
-// } from '../../../../../redux/selectors';
-// import {
-//   showToasterAction,
-//   stackComponentsActions,
-//   secretsActions,
-// } from '../../../../../redux/actions';
-// import { toasterTypes } from '../../../../../constants';
-// import axios from 'axios';
-// import { routePaths } from '../../../../../routes/routePaths';
-// import { ToggleField } from '../../../common/FormElement';
-// import { SidePopup } from '../../../common/SidePopup';
 
 export const UpdateConfig: React.FC<{
   secretId: TId;
@@ -100,12 +58,10 @@ export const UpdateConfig: React.FC<{
         : state?.state?.mappedConfiguration[state?.state?.secretKey],
     });
   }
-  console.log(state, '123123123cwdwfwf', valuesIntoArray);
 
   const handleInputFieldChange = (inputFields: any) => {
     setInputFields(inputFields);
   };
-  console.log(valuesIntoArray, 'asdasdasd');
 
   const onSubmit = async () => {
     if (!secretName) {
@@ -145,8 +101,6 @@ export const UpdateConfig: React.FC<{
     }
 
     for (const [key, value] of Object.entries(finalValues)) {
-      // console.log(`${key}: ${value}`);
-
       if (!key && value) {
         return dispatch(
           showToasterAction({
@@ -163,16 +117,7 @@ export const UpdateConfig: React.FC<{
           }),
         );
       }
-      // if (!value && key) {
-      //   return dispatch(
-      //     showToasterAction({
-      //       description: 'Value cannot be Empty.',
-      //       type: toasterTypes.failure,
-      //     }),
-      //   );
-      // }
     }
-    // }
 
     const body = {
       user: user?.id,
@@ -180,11 +125,6 @@ export const UpdateConfig: React.FC<{
       name: secretName,
       scope: scope,
       values: finalValues,
-      // is_shared: isShared,
-      // name: componentName,
-      // type: flavor.type,
-      // flavor: flavor.name,
-      // configuration: { ...inputData, ...final },
     };
 
     await axios
@@ -271,7 +211,6 @@ export const UpdateConfig: React.FC<{
           labelColor="rgba(66, 66, 64, 0.5)"
           placeholder={'unique_secret_name'}
           value={secretName}
-          // disabled
           onChange={(value: any) => {
             setSecretName(value);
           }}
@@ -282,13 +221,10 @@ export const UpdateConfig: React.FC<{
           label={'Scope'}
           labelColor="rgba(66, 66, 64, 0.5)"
           placeholder={'Choose a scope'}
-          // defaultValue={secret?.scope}
           value={scope}
-          // value={secret?.scope}
           onChange={(value: any) => {
             setScope(value);
           }}
-          // disabled
           options={[{ label: 'user' }, { label: 'workspace' }]}
           style={{ paddingLeft: '10px' }}
         />

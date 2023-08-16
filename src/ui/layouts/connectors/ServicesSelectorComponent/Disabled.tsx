@@ -4,12 +4,6 @@ import { FlexBox, Box, Paragraph, icons } from '../../../components';
 import { iconColors } from '../../../../constants';
 
 const Index: React.FC<any> = ({ data }) => {
-  // const dat = data?.connectorType?.resource_types?.filter(
-  //   (e: any, index: number) => {
-  //     if (e.resource_type === data?.resourceTypes[index]) {
-  //       return e;
-  //     }
-
   const resourceType = data?.connectorType?.resource_types?.filter(
     (e: any) => e.resource_type === data?.resourceTypes[0],
   );

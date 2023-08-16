@@ -4,18 +4,13 @@ import _ from 'lodash';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import {
-  secretPagesActions,
-  secretsActions,
-} from '../../../../../redux/actions';
+import { secretsActions } from '../../../../../redux/actions';
 import {
   workspaceSelectors,
-  // secretPagesSelectors,
   secretPagesSelectors,
-  // secretSelectors,
   secretSelectors,
 } from '../../../../../redux/selectors';
-import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
+
 import { Sorting, SortingDirection } from './ForSorting/types';
 
 interface ServiceInterface {
@@ -37,11 +32,9 @@ interface filterValue {
   value: string;
 }
 export const useService = ({
-  // secretComponentId,
   filter,
   isExpended,
 }: {
-  // secretComponentId?: any;
   isExpended?: any;
   filter: {
     column: filterValue;
@@ -79,7 +72,6 @@ export const useService = ({
       const intervalId = setInterval(() => {
         dispatch(
           secretsActions.getMy({
-            // component_id: secretComponentId,
             sort_by: applySorting ? applySorting : 'created',
             logical_operator: 'and',
             workspace: selectedWorkspace,
@@ -93,9 +85,7 @@ export const useService = ({
     }
   });
 
-  const setSelectedRunIds = (runIds: TId[]) => {
-    // dispatch(secretPagesActions.setSelectedRunIds({ runIds }));
-  };
+  const setSelectedRunIds = (runIds: TId[]) => {};
 
   return {
     filteredSecrets,

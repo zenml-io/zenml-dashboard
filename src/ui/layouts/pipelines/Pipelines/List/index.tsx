@@ -103,7 +103,6 @@ export const List: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkValidFilter, activeSortingDirection, activeSorting]);
   const onChange = (pageNumber: any, size: any) => {
-    // debugger;
     dispatchPipelineData(
       pageNumber,
       size,
@@ -131,11 +130,6 @@ export const List: React.FC<Props> = ({
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
-        // activeSorting={
-        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-        //     ? activeSorting
-        //     : 'created'
-        // }
         pagination={pagination}
         paginated={pipelinesPaginated}
         loading={fetching}
@@ -166,7 +160,6 @@ export const List: React.FC<Props> = ({
               width: '100%',
               justifyContent: 'center',
               backgroundColor: 'white',
-              // marginRight: '45px',
             }}
           >
             <Box style={{ alignSelf: 'center' }}>
@@ -179,12 +172,10 @@ export const List: React.FC<Props> = ({
                     justifyContent="center"
                   >
                     <Pagination
-                      // isExpended={isExpended}
                       ref={childRef}
                       onChange={(pageNumber: any) =>
                         onChange(pageNumber, itemPerPage)
                       }
-                      // getFetchedState={getFetchedState}
                       activeSorting={activeSorting}
                       filters={filter}
                       itemPerPage={itemPerPage}

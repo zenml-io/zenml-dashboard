@@ -15,7 +15,7 @@ import { useService } from './ForSorting/useServiceForSorting';
 
 export const GetHeaderCols = ({
   expendedRow,
-  // openStackIds,
+
   setOpenStackIds,
   filteredStacks,
   setFilteredStacks,
@@ -44,35 +44,6 @@ export const GetHeaderCols = ({
   });
 
   return [
-    // {
-    //   width: '3%',
-    //   renderRow: (stack: TStack) => (
-    //     <LinkBox
-    //       onClick={(e: Event) => {
-    //         setToggle(!toggle);
-    //         e.stopPropagation();
-    //         if (openStackIds.indexOf(stack.id) === -1) {
-    //           setOpenStackIds([...openStackIds, stack.id]);
-    //         } else {
-    //           setOpenStackIds(
-    //             openStackIds.filter((id: TId) => id !== stack.id),
-    //           );
-    //         }
-    //       }}
-    //     >
-    //       <FlexBox
-    //         justifyContent="center"
-    //         style={{ paddingTop: '5px', paddingBottom: '5px' }}
-    //       >
-    //         {openStackIds.indexOf(stack.id) === -1 ? (
-    //           <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-    //         ) : (
-    //           <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-    //         )}
-    //       </FlexBox>
-    //     </LinkBox>
-    //   ),
-    // },
     {
       render: () => (
         <SortingHeader
@@ -305,9 +276,6 @@ export const GetHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToSort(stack.created)}>
             <FlexBox alignItems="center">
-              {/* <Box paddingRight="sm">
-                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(stack.created)}
               </Paragraph>

@@ -74,35 +74,10 @@ export const RunsTable: React.FC<{
       history.push(
         routePaths.repositories.runs(selectedWorkspace, repositoryId),
       );
-      // debugger;
     } else {
       history.push(routePaths.run.run.statistics(selectedWorkspace, run.id));
     }
   };
-
-  // const openDetailPage = (run: TRun) => {
-  //   setSelectedRunIds([]);
-
-  //   if (id) {
-  //     history.push(
-  //       routePaths.stackComponents.runs(
-  //         locationPath.split('/')[4],
-  //         stackComponentId,
-  //         selectedProject,
-  //       ),
-  //     );
-  //     // debugger;
-  //   } else {
-  //     history.push(
-  //       routePaths.run.component.statistics(
-  //         locationPath.split('/')[4],
-  //         run.stackComponentId,
-  //         run.id,
-  //         selectedProject,
-  //       ),
-  //     );
-  //   }
-  // };
 
   const headerCols = useHeaderCols({
     isExpended,
@@ -113,10 +88,7 @@ export const RunsTable: React.FC<{
     activeSortingDirection,
     setActiveSortingDirection,
   });
-  // useEffect(() => {
-  //   getSorted(activeSorting, activeSortingDirection);
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [getSorted]);
+
   const validFilters = filter?.filter((item: any) => item.value);
   const isValidFilterFroValue: any = filter?.map((f: any) => f.value).join('');
   const isValidFilterForCategory: any = filter
@@ -137,7 +109,6 @@ export const RunsTable: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkValidFilter, activeSortingDirection, activeSorting]);
   const onChange = (pageNumber: any, size: any) => {
-    // debugger;
     dispatchRepositoryRunsData(
       repositoryId,
       pageNumber,
@@ -158,11 +129,7 @@ export const RunsTable: React.FC<{
       <Table
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
-        } // activeSorting={
-        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-        //     ? activeSorting
-        //     : 'created'
-        // }
+        }
         pagination={pagination}
         loading={fetching}
         filters={filter}
@@ -196,12 +163,10 @@ export const RunsTable: React.FC<{
                     justifyContent="center"
                   >
                     <Pagination
-                      // isExpended={isExpended}
                       ref={childRef}
                       onChange={(pageNumber: any) =>
                         onChange(pageNumber, itemPerPage)
                       }
-                      // getFetchedState={getFetchedState}
                       activeSorting={activeSorting}
                       filters={filter}
                       itemPerPage={itemPerPage}

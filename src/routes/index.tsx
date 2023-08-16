@@ -65,20 +65,10 @@ const useReplaceRouteIfNeeded = ({
 };
 
 export const AppRoute = ({ path, component, exact }: any): JSX.Element => {
-  console.log(path, 'tabPages', '111');
-
   const [notFound, setNotFound] = React.useState();
   const locationPath = useLocationPath();
 
   const currentLocation = findRouteByLocationPath(locationPath);
-
-  // if (currentLocation.path.includes(':id', ':string')) {
-  //   currentLocation.path = locationPath;
-  // }
-
-  // if (currentLocation.path.includes(':type')) {
-  //   currentLocation.path = locationPath + locationPath.split('/')[4];
-  // }
 
   useReplaceRouteIfNeeded({
     locationPath,

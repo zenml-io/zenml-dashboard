@@ -12,7 +12,6 @@ import {
   TagsInputField,
   CheckboxInput,
   ValidatedTextField,
-  // FormDropdownField,
   InputWithLabel,
   TextInput,
 } from '../../../components';
@@ -227,16 +226,6 @@ const CreatePlugin: React.FC = () => {
                     />
                   }
                 />
-                {/* <FormDropdownField
-                  label="Branch of repository"
-                  value={repositoryBranch}
-                  options={['staging', 'dev', 'deploy'].map((b) => ({
-                    label: b,
-                    value: b,
-                  }))}
-                  onChange={setRepositoryBranch}
-                  placeholder="Select branch"
-                /> */}
               </Box>
 
               {/* commit hash */}

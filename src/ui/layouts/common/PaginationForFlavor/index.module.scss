@@ -1,12 +1,12 @@
 @import '../../../globalStyles.scss';
 
 $paginationSize: 32px;
-$paginationBorderColor: #F1F1F1;
+$paginationBorderColor: #f1f1f1;
 
 .paginationNavigationItem,
 .paginationNumbers {
   user-select: none;
-  background:$whiteColor;
+  background: $whiteColor;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -26,7 +26,7 @@ $paginationBorderColor: #F1F1F1;
 }
 .paginationDots {
   user-select: none;
-  // background:$whiteColor;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -35,7 +35,7 @@ $paginationBorderColor: #F1F1F1;
   outline: 0;
   width: $paginationSize;
   height: $paginationSize;
-  // border: 1px solid $paginationBorderColor;
+
   border-radius: 8px;
   margin-right: 5px;
 
@@ -45,9 +45,8 @@ $paginationBorderColor: #F1F1F1;
   }
 }
 
-
 .paginationNumbers.active {
-  background: #443E99;
+  background: #443e99;
   cursor: initial;
 }
 
