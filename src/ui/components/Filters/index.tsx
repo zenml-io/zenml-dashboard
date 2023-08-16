@@ -1326,8 +1326,8 @@ const FilterComponent = ({
                           }
                           value={filter?.contains?.selectedValue?.value}
                           options={getSecondColumnOptions(
-                            filter?.contains.options,
-                            filter?.column.selectedValue.type,
+                            filter?.contains?.options,
+                            filter?.column?.selectedValue?.type,
                           )}
                         />
                       ) : filter?.column?.selectedValue?.value ===
@@ -1413,8 +1413,8 @@ const FilterComponent = ({
                         }
                         value={filter?.contains.selectedValue.value}
                         options={getSecondColumnOptions(
-                          filter?.contains.options,
-                          filter?.column.selectedValue.type,
+                          filter?.contains?.options,
+                          filter?.column?.selectedValue?.type,
                         )}
                         style={{
                           borderRadius: 0,
