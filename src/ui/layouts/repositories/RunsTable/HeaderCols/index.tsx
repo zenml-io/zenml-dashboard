@@ -138,7 +138,7 @@ export const useHeaderCols = ({
         <FlexBox alignItems="center">
           <div
             data-tip
-            data-for={`${run.pipeline.name} ${run.pipeline.version}`}
+            data-for={`${run?.pipeline?.name} ${run?.pipeline?.version}`}
           >
             <Paragraph
               size="small"
@@ -157,12 +157,12 @@ export const useHeaderCols = ({
                 );
               }}
             >
-              {`${run.pipeline.name} ( v${run.pipeline.version} )`}
+              {`${run?.pipeline?.name} ( v${run?.pipeline?.version} )`}
             </Paragraph>
           </div>
           <Tooltip
-            id={`${run.pipeline.name} ${run.pipeline.version}`}
-            text={`${run.pipeline.name} (v${run.pipeline.version})`}
+            id={`${run?.pipeline?.name} ${run?.pipeline?.version}`}
+            text={`${run?.pipeline?.name} (v${run?.pipeline?.version})`}
           />
         </FlexBox>
       ),

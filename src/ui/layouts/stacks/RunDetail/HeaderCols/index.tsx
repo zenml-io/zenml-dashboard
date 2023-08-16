@@ -70,7 +70,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
         <FlexBox alignItems="center">
           <div
             data-tip
-            data-for={`${run.pipeline.name} ${run.pipeline.version}`}
+            data-for={`${run?.pipeline?.name} ${run?.pipeline?.version}`}
           >
             <Paragraph
               size="small"
@@ -89,12 +89,12 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
                 );
               }}
             >
-              {`${run.pipeline.name} ( v${run.pipeline.version} )`}
+              {`${run?.pipeline?.name} ( v${run?.pipeline?.version} )`}
             </Paragraph>
           </div>
           <Tooltip
-            id={`${run.pipeline.name} ${run.pipeline.version}`}
-            text={run.pipeline.name(run.pipeline.version)}
+            id={`${run?.pipeline?.name} ${run?.pipeline?.version}`}
+            text={`${run?.pipeline?.name} (${run?.pipeline?.version})`}
           />
         </FlexBox>
       ),
@@ -118,7 +118,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
       width: '7.5%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run.stack.name}>
+          <div data-tip data-for={run?.stack?.name}>
             <Paragraph
               size="small"
               style={{
@@ -136,10 +136,10 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
                 );
               }}
             >
-              {run.stack.name}
+              {run?.stack?.name}
             </Paragraph>
           </div>
-          <Tooltip id={run.stack.name} text={run.stack.name} />
+          <Tooltip id={run?.stack?.name} text={run?.stack?.name} />
         </FlexBox>
       ),
     },
