@@ -3,7 +3,6 @@ import { runStatus, iconColors, iconSizes } from '../../../../constants';
 import {
   Paragraph,
   Box,
-  ColoredCircle,
   icons,
   If,
   FlexBox,
