@@ -46,12 +46,10 @@ export const PaginationForFlavor: React.FC<Props> = forwardRef((props, ref) => {
     callOnChange(page: number, size: number) {
       props.setPageIndex(page - 1);
       onChange(page, size, type);
-      // debugger;
     },
   }));
 
   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [fetchingMembers]);
 
   const paginationRange = usePagination({
     currentPage: props.pageIndex + 1,
@@ -86,7 +84,6 @@ export const PaginationForFlavor: React.FC<Props> = forwardRef((props, ref) => {
         />
 
         <FlexBox>
-          {console.log(paginationRange, 'paginationRange')}
           {paginationRange &&
             paginationRange.map((pageNumber: any) => {
               if (pageNumber === DOTS) {
@@ -109,7 +106,6 @@ export const PaginationForFlavor: React.FC<Props> = forwardRef((props, ref) => {
                     props.setPageIndex(pageNumber - 1);
                   }}
                 >
-                  {/* {pageNumber} */}
                   <span
                     className={styles.paginationText}
                     style={{
@@ -122,20 +118,6 @@ export const PaginationForFlavor: React.FC<Props> = forwardRef((props, ref) => {
                 </li>
               );
             })}
-
-          {/* {pageNumbers.map((p: any) => (
-            <Box key={p}>
-              <PaginationItem
-                onClick={() => {
-                  onChange(p, props.itemPerPage, componentName, props.filters);
-
-                  props.setPageIndex(p - 1);
-                }}
-                index={p}
-                isActive={props.pageIndex === p - 1}
-              />
-            </Box>
-          ))} */}
         </FlexBox>
 
         <PaginationNavigationItem

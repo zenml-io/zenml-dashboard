@@ -57,19 +57,6 @@ export const useHeaderCols = ({
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return nestedRuns
     ? [
-        // {
-        //   render: () => (
-        //     <FlexBox justifyContent="center">
-        //       <Paragraph
-        //         size="small"
-        //         color="grey"
-        //         style={{ fontSize: '14px' }}
-        //       ></Paragraph>
-        //     </FlexBox>
-        //   ),
-        //   width: '3%',
-        //   renderRow: (run: TRun) => <></>,
-        // },
         {
           render: () => (
             <SortingHeader
@@ -232,19 +219,6 @@ export const useHeaderCols = ({
         },
       ]
     : [
-        // {
-        //   render: () => (
-        //     <FlexBox justifyContent="center">
-        //       <Paragraph
-        //         size="small"
-        //         color="grey"
-        //         style={{ fontSize: '14px' }}
-        //       ></Paragraph>
-        //     </FlexBox>
-        //   ),
-        //   width: '3%',
-        //   renderRow: (run: TRun) => <></>,
-        // },
         {
           render: () => (
             <SortingHeader
@@ -552,12 +526,6 @@ export const useHeaderCols = ({
             <FlexBox alignItems="center">
               <div data-tip data-for={formatDateToDisplayOnTable(run?.created)}>
                 <FlexBox alignItems="center">
-                  {/* <Box paddingRight="sm">
-                    <icons.calendar
-                      color={iconColors.grey}
-                      size={iconSizes.sm}
-                    />
-                  </Box> */}
                   <Paragraph color="grey" size="tiny">
                     {formatDateToDisplayOnTable(run?.created)}
                   </Paragraph>

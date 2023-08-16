@@ -11,7 +11,6 @@ import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
 import { translate } from './translate';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { routePaths } from '../../../../routes/routePaths';
-// import { routePaths } from '../../../../routes/routePaths';
 
 interface ServiceInterface {
   login: () => void;
@@ -29,7 +28,7 @@ export const useService = (): ServiceInterface => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
-  // const locationPath = useLocationPath();
+
   const { push } = usePushRoute();
   const dispatch = useDispatch();
 
@@ -94,7 +93,6 @@ export const useService = (): ServiceInterface => {
               if (window.location.pathname === '/') {
                 push(routePaths.dashboard(DEFAULT_WORKSPACE_NAME));
               }
-              // await push(routePaths.userEmail);
             },
           }),
         );

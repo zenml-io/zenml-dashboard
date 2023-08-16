@@ -2,13 +2,12 @@ import React, { useEffect, useState } from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
 import { Box } from '../../../components';
-// import { iconColors, iconSizes } from '../../../../constants';
+
 import { camelCaseToParagraph } from '../../../../utils';
-// import styles from './index.module.scss';
-// import cn from 'classnames';
+
 import { translate } from './translate';
 import { UpdateConfig } from './UpdateConfig';
-// import { Runs } from './Runs';
+
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 import {
@@ -19,40 +18,9 @@ import {
 } from '../../../hooks';
 
 import { workspaceSelectors } from '../../../../redux/selectors';
-// import { List as StackComponenList } from '../Stacks/List';
 
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
-// import { GetFlavorsListForLogo } from '../Stacks/List/GetFlavorsListForLogo';
-
-// const FilterWrapperForRun = () => {
-//   const locationPath = useLocationPath();
-
-//   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
-//   const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
-//   function getFilter(values: any) {
-//     const filterValuesMap = values.map((v: any) => {
-//       return {
-//         column: v.column.selectedValue,
-//         type: v.contains.selectedValue,
-//         value: v.filterValue,
-//       };
-//     });
-//     return filterValuesMap;
-//   }
-//   return (
-//     <FilterComponent
-//       getInitials={getInitialFilterStateForRuns}
-//       filters={filters}
-//       setFilter={setFilter}
-//     >
-//       <Runs
-//         filter={getFilter(filters)}
-//         stackComponentId={locationPath.split('/')[5]}
-//       />
-//     </FilterComponent>
-//   );
-// };
 
 const getTabPages = (
   stackId: TId,
@@ -80,7 +48,6 @@ const getTabPages = (
         selectedWorkspace,
       ),
     },
-    // {
   ];
 };
 
@@ -119,7 +86,7 @@ export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
   const location = useLocation();
   const [routeState, setRouteState] = useState({}) as any;
-  // const { flavourList } = GetFlavorsListForLogo();
+
   useEffect(() => {
     setRouteState(location.state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -148,8 +115,6 @@ export const StackDetail: React.FC = () => {
   mappedStackComponent.push(stackComponent);
   const history = useHistory();
 
-  // useEffect(() => {
-  //   if (flavourList.length) {
   const mappedStackComponentWithLogo: any = mappedStackComponent.map(
     (item: any) => {
       const temp: any = flavor.find(
@@ -171,24 +136,6 @@ export const StackDetail: React.FC = () => {
     mappedStackComponentWithLogo,
   });
 
-  // }, [flavourList]);
-  // debugger;
-  // const boxStyle = {
-  //   backgroundColor: '#E9EAEC',
-  //   padding: '10px 0',
-  //   borderRadius: '8px',
-  //   marginTop: '20px',
-  //   display: 'flex',
-  //   justifyContent: 'space-around',
-  // };
-  // const headStyle = { color: '#828282' };
-  // const paraStyle = { color: '#515151', marginTop: '10px' };
-  // const data = [
-  //   { name: 'Anom', age: 19, gender: 'Male' },
-  //   { name: 'Megha', age: 19, gender: 'Female' },
-  //   { name: 'Subham', age: 25, gender: 'Male' },
-  // ];
-  // const history = useHistory();
   const openDetailPage = (stack: TStack) => {
     history.push(
       routePaths.stackComponents.base(
@@ -210,13 +157,11 @@ export const StackDetail: React.FC = () => {
       title="Stack Components"
     >
       <Box style={{ marginTop: '40px', overflowX: 'auto' }}>
-        {/* {mapStackComponent.length ? ( */}
         <CollapseTable
           pagination={false}
           renderAfterRow={(stack: TStack) => <></>}
           headerCols={headerCols}
           tableRows={mappedStackComponentWithLogo}
-          // emptyState={{ text: translate('emptyState.text') }}
           trOnClick={openDetailPage}
         />
       </Box>

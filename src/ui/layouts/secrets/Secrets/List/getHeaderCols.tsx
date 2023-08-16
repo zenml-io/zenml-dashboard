@@ -20,7 +20,7 @@ import { useService } from './ForSorting/useServiceForSorting';
 
 export const GetHeaderCols = ({
   expendedRow,
-  // opensecretIds,
+
   setOpenSecretIds,
   filteredSecrets,
   setFilteredSecrets,
@@ -49,35 +49,6 @@ export const GetHeaderCols = ({
   });
 
   return [
-    // {
-    //   width: '3%',
-    //   renderRow: (secret: any) => (
-    //     <LinkBox
-    //       onClick={(e: Event) => {
-    //         setToggle(!toggle);
-    //         e.stopPropagation();
-    //         if (opensecretIds.indexOf(secret.id) === -1) {
-    //           setOpensecretIds([...opensecretIds, secret.id]);
-    //         } else {
-    //           setOpensecretIds(
-    //             opensecretIds.filter((id: TId) => id !== secret.id),
-    //           );
-    //         }
-    //       }}
-    //     >
-    //       <FlexBox
-    //         justifyContent="center"
-    //         style={{ paddingTop: '5px', paddingBottom: '5px' }}
-    //       >
-    //         {opensecretIds.indexOf(secret.id) === -1 ? (
-    //           <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-    //         ) : (
-    //           <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-    //         )}
-    //       </FlexBox>
-    //     </LinkBox>
-    //   ),
-    // },
     {
       render: () => (
         <SortingHeader
@@ -275,9 +246,6 @@ export const GetHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToSort(secret.created)}>
             <FlexBox alignItems="center">
-              {/* <Box paddingRight="sm">
-                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(secret.created)}
               </Paragraph>

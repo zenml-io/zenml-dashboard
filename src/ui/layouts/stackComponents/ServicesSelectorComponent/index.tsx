@@ -37,7 +37,6 @@ const Index: React.FC<ServicesSelector> = ({
   const resourceTypeImage = serviceConnectorResources?.filter(
     (e: any) => e.id === connector,
   );
-  console.log(defaultMappedConfig, inputData, 'fefefw');
 
   return (
     <Box className={styles.service_selector_wrapper}>
@@ -47,9 +46,7 @@ const Index: React.FC<ServicesSelector> = ({
       >
         {connector ? (
           <FlexBox className={styles.service_selector_selected}>
-            <Box marginRight="sm">
-              {/* <img src={data?.logoUrl} alt={data?.name} /> */}
-            </Box>
+            <Box marginRight="sm"></Box>
             {!fetching && (
               <Paragraph>
                 <img
@@ -136,9 +133,6 @@ const Index: React.FC<ServicesSelector> = ({
                     style={{
                       cursor: connectorItem?.error ? 'no-drop' : 'pointer',
                     }}
-                    // onClick={() =>
-                    //   handleShowIds(resource_type?.resource_type)
-                    // }
                   >
                     {' '}
                     <Paragraph color="grey">

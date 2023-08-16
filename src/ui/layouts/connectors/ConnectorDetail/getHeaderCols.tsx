@@ -1,4 +1,3 @@
-// import _ from 'lodash';
 import React, { useState } from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
 import {
@@ -18,35 +17,6 @@ export const GetHeaderCols = ({
   const [connectorId, setConnectorId] = useState('');
 
   return [
-    // {
-    //   width: '3%',
-    //   renderRow: (connector: any) => (
-    //     <LinkBox
-    //       onClick={(e: Event) => {
-    //         setToggle(!toggle);
-    //         e.stopPropagation();
-    //         if (opensecretIds.indexOf(connector.id) === -1) {
-    //           setOpensecretIds([...opensecretIds, connector.id]);
-    //         } else {
-    //           setOpensecretIds(
-    //             opensecretIds.filter((id: TId) => id !== connector.id),
-    //           );
-    //         }
-    //       }}
-    //     >
-    //       <FlexBox
-    //         justifyContent="center"
-    //         style={{ paddingTop: '5px', paddingBottom: '5px' }}
-    //       >
-    //         {opensecretIds.indexOf(connector.id) === -1 ? (
-    //           <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-    //         ) : (
-    //           <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-    //         )}
-    //       </FlexBox>
-    //     </LinkBox>
-    //   ),
-    // },
     {
       render: () => (
         <Paragraph
@@ -102,7 +72,6 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          {/* {connector?.connectorType?.map((e: any) => ( */}
           <Box marginLeft="sm">
             <div data-tip data-for={connector.connectorType?.name}>
               <FlexBox alignItems="center">

@@ -1,7 +1,3 @@
-// const url_string = window.location.href;
-// const url = new URL(url_string);
-// const workspaceName = url.searchParams.get('workspace');
-
 export const routePaths = {
   login: '/login',
   signup: '/signup',
@@ -99,7 +95,7 @@ export const routePaths = {
     base: '/secrets',
     list: (workspace: string): string =>
       `/workspaces/${workspace}/secrets/list`,
-    // allRuns: '/secrets/all-runs',
+
     registerSecrets: (workspace: string): string =>
       `/workspaces/${workspace}/secrets/register-secret`,
   },

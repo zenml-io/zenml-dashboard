@@ -49,13 +49,7 @@ export const GetHeaderCols = ({
     filteredStacks,
   });
 
-  console.log(expendedRow, 'expendedRow');
   return [
-    // {
-    //   width: '2%',
-    //   renderRow: (stackComponent: TStack) => <></>,
-    // },
-
     {
       render: () => (
         <SortingHeader
@@ -324,9 +318,6 @@ export const GetHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToSort(stackComponent.created)}>
             <FlexBox alignItems="center">
-              {/* <Box paddingRight="sm">
-                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(stackComponent.created)}
               </Paragraph>

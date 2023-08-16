@@ -59,8 +59,7 @@ export const useService = (): ServiceInterface => {
 
 export const callActionForStackRunsForPagination = () => {
   const dispatch = useDispatch();
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  // const { id } = useParams<PipelineDetailRouteParams>();
+
   function dispatchStackRunsData(
     id: any,
     page: number,
@@ -71,7 +70,6 @@ export const callActionForStackRunsForPagination = () => {
     const logicalOperator = localStorage.getItem('logical_operator');
     let filtersParam = filterObjectForParam(filters);
 
-    console.log('aaaa', filters);
     setFetching(true);
     dispatch(
       stacksActions.allRunsByStackId({

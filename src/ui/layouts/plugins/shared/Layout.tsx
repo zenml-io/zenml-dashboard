@@ -28,7 +28,7 @@ export const PluginsLayout: React.FC<{
             <a
               target="_blank"
               rel="noopener noreferrer"
-              href="https://docs.zenml.io/starter-guide/collaborate/zenml-hub"
+              href="https://docs.zenml.io/user-guide/advanced-guide/environment-management/use-the-hub"
             >
               here
             </a>
@@ -44,7 +44,7 @@ export const PluginsLayout: React.FC<{
           <Paragraph color="grey" style={{ fontSize: '14px', flexShrink: 0 }}>
             Check out our easy to read{' '}
             <a
-              href="https://docs.zenml.io/starter-guide/collaborate/zenml-hub"
+              href="https://docs.zenml.io/user-guide/advanced-guide/environment-management/use-the-hub"
               target="__blank"
               rel="noopener noreferrer"
             >

@@ -11,10 +11,6 @@ import {
 } from '../../../components';
 
 import styles from './index.module.scss';
-// import { routePaths } from '../../../../routes/routePaths';
-// import { useHistory } from 'react-router-dom';
-// import { useSelector } from '../../../hooks';
-// import { workspaceSelectors } from '../../../../redux/selectors';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
@@ -50,12 +46,8 @@ export const SidePopup: React.FC<{
               <iframe
                 title="ZenML - Organization Embed"
                 style={{
-                  // border: '0px',
-                  // height: '100%',
-                  // width: '100%',
                   paddingBottom: '270px',
                 }}
-                // src="https://apidocs.zenml.io/0.35.0/"
                 src={flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl}
               ></iframe>
             </Box>

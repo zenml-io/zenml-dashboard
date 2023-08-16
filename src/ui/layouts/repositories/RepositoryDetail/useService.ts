@@ -6,8 +6,7 @@ import { filterObjectForParam } from '../../../../utils';
 
 export const callActionForRepositoryRunsForPagination = () => {
   const dispatch = useDispatch();
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  // const { id } = useParams<PipelineDetailRouteParams>();
+
   function dispatchRepositoryRunsData(
     id: any,
     page: number,
@@ -18,7 +17,6 @@ export const callActionForRepositoryRunsForPagination = () => {
     const logicalOperator = localStorage.getItem('logical_operator');
     let filtersParam = filterObjectForParam(filters);
 
-    console.log('aaaa', filters);
     setFetching(true);
     dispatch(
       repositoryActions.getRunsForRepositoryID({

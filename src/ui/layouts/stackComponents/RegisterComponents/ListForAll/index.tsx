@@ -1,17 +1,12 @@
 import React, { useState } from 'react';
 
-// import { CollapseTable } from '../../../common/CollapseTable';
 import { useSelector } from '../../../../hooks';
 import { useHistory } from 'react-router-dom';
-// import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
 
-// import { camelCaseToParagraph } from '../../../../../utils';
-// import { DEFAULT_WORKSPACE_NAME } from '../../../../../constants';
 import {
   workspaceSelectors,
-  // stackComponentSelectors,
   flavorSelectors,
 } from '../../../../../redux/selectors';
 import {
@@ -23,7 +18,7 @@ import {
   Row,
 } from '../../../../components';
 import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
-// import { FlavourBox } from '../../../common/FlavourBox';
+
 import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
 import { callActionForFlavorsForPagination } from '../useService';
 import { SidePopup } from '../../../common/SidePopup';
@@ -31,10 +26,6 @@ import { routePaths } from '../../../../../routes/routePaths';
 
 interface Props {
   type: string;
-  // filter: any;
-  // pagination?: boolean;
-  // id?: string;
-  // isExpended?: boolean;
 }
 
 export const ListForAll: React.FC<Props> = ({ type }: Props) => {
@@ -43,7 +34,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);
   const [text, setText] = useState('');
   const [selectedFlavor, setSelectedFlavor] = useState() as any;
-  // const [selectedComponentId, setSelectedComponentId] = useState('');
+
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
   const { fetching, allFlavors } = useService();
@@ -85,7 +76,6 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
           fromRegisterComponent={true}
           placeholder={'Search'}
           value={text}
-          // disabled={applyFilter || showInBar}
           onChange={(value: string) => {
             setText(value);
             handleValueFieldChangeOnSearch(`${'contains:' + value}`);
@@ -97,17 +87,9 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
           <>
             <FlexBox>
               <Row>
-                {/* <Box marginVertical={'sm'} style={{ marginLeft:"30px" }} >
-                  <FlavourBox
-                    flavourDesc={'Configure and create a custom flavor'}
-                    flavourName={'Create Custom Flavour'}
-                  />
-                </Box> */}
-
                 {allFlavors.map((item, index) => {
                   return (
                     <Row key={index} style={{ marginLeft: '15px' }}>
-                      {console.log(item, 'item.nameitem.name')}
                       <Box marginVertical={'sm'} marginHorizontal={'md'}>
                         <CustomFlavourBox
                           flavourDesc={item.configSchema.description}

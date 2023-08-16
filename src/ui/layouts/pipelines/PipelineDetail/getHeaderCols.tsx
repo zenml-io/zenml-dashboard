@@ -11,7 +11,6 @@ import {
 } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 
-// import _ from 'lodash';
 import { Status } from '../Pipelines/List/Status';
 
 export const GetHeaderCols = ({
@@ -20,51 +19,6 @@ export const GetHeaderCols = ({
   filteredPipelines: TPipeline[];
 }): HeaderCol[] => {
   return [
-    // {
-    //   width: '3%',
-    //   renderRow: (pipeline: TPipeline) => (
-    //     <FlexBox
-    //       justifyContent="center"
-    //       style={{ paddingTop: '5px', paddingBottom: '5px' }}
-    //     >
-    //       {expendedRow?.length === 1 ? (
-    //         <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-    //       ) : (
-    //         <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-    //       )}
-    //     </FlexBox>
-    //     // <LinkBox
-    //     //   style={{ padding: 0 }}
-    //     //   onClick={(e: Event) => {
-    //     //     e.stopPropagation();
-    //     //     if (openPipelineIds.indexOf(pipeline.id) === -1) {
-    //     //       setOpenPipelineIds([...openPipelineIds, pipeline.id]);
-    //     //     } else {
-    //     //       setOpenPipelineIds(
-    //     //         openPipelineIds.filter((id: TId) => id !== pipeline.id),
-    //     //       );
-    //     //     }
-    //     //   }}
-    //     // >
-    //     //   <FlexBox
-    //     //     justifyContent="center"
-    //     //     style={{ paddingTop: '5px', paddingBottom: '5px' }}
-    //     //   >
-    //     //     {openPipelineIds.indexOf(pipeline.id) === -1 ? (
-    //     //       <icons.chevronDownLight
-    //     //         color={iconColors.grey}
-    //     //         size={iconSizes.sm}
-    //     //       />
-    //     //     ) : (
-    //     //       <icons.chevronUpLight
-    //     //         color={iconColors.grey}
-    //     //         size={iconSizes.sm}
-    //     //       />
-    //     //     )}
-    //     //   </FlexBox>
-    //     // </LinkBox>
-    //   ),
-    // },
     {
       render: () => (
         <Paragraph
@@ -186,9 +140,6 @@ export const GetHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(pipeline.created)}>
             <FlexBox alignItems="center">
-              {/* <Box paddingRight="sm">
-                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(pipeline.created)}
               </Paragraph>

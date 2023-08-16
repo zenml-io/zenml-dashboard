@@ -28,7 +28,6 @@ import { toasterTypes } from '../../../../../constants';
 import { useHistory, useLocation } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import { NonEditableConfig } from '../../../NonEditableConfig';
-// import { callActionForStacksForPagination } from '../../Stacks/useService';
 
 interface Props {}
 
@@ -39,7 +38,7 @@ export const ListForAll: React.FC<Props> = () => {
     stackComponentSelectors.stackComponentTypes,
   );
   const locationPath = useLocation() as any;
-  // const { dispatchStackData } = callActionForStacksForPagination();
+
   const history = useHistory();
   const dispatch = useDispatch();
   const authToken = useSelector(sessionSelectors.authenticationToken);
@@ -56,7 +55,6 @@ export const ListForAll: React.FC<Props> = () => {
   );
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
-  // const [stackPersist, setStackPersist] = useState({});
 
   useEffect(() => {
     let stackPersist: any = {};
@@ -65,7 +63,7 @@ export const ListForAll: React.FC<Props> = () => {
       stackName,
       selectedStack,
     };
-    // debugger;
+
     return () => {
       localStorage.setItem(
         'persistSelectedStack',
@@ -143,10 +141,9 @@ export const ListForAll: React.FC<Props> = () => {
       )
       .then((response: any) => {
         setStackName('');
-        // const id = response.data.id;
+
         setSelectedStack([]);
 
-        // setLoading(false);
         dispatch(
           showToasterAction({
             description: 'Stack has been created successfully',
@@ -170,20 +167,10 @@ export const ListForAll: React.FC<Props> = () => {
             onFailure: () => {},
           }),
         );
-        // dispatchStackData(1, 10);
-        // history.push(routePaths.stacks.base);
+
         history.push(
           routePaths.stack.configuration(response.data.id, selectedWorkspace),
         );
-        // dispatchStackComponentsData(1, 10);
-
-        // history.push(
-        //   routePaths.stackComponents.configuration(
-        //     flavor.type,
-        //     id,
-        //     selectedWorkspace,
-        //   ),
-        // );
       })
       .catch((err) => {
         if (err?.response?.status === 403) {
@@ -350,7 +337,6 @@ export const ListForAll: React.FC<Props> = () => {
                 size: 1,
                 id: selectedStackBox.id,
                 onSuccess: () => {
-                  // setFetching(false);
                   history.push(
                     routePaths.stackComponents.configuration(
                       selectedStackBox.type,

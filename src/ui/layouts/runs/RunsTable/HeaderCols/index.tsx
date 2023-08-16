@@ -40,10 +40,6 @@ export const useHeaderCols = ({
     runs,
   });
   return [
-    // {
-    //   width: '2%',
-    //   renderRow: (stack: TStack) => <></>,
-    // },
     {
       render: () => (
         <SortingHeader
@@ -192,9 +188,6 @@ export const useHeaderCols = ({
       width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          {/* <Box paddingRight="sm">
-            <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box> */}
           <Paragraph color="grey" size="tiny">
             {formatDateToDisplayOnTable(run?.created)}
           </Paragraph>

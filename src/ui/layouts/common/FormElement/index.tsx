@@ -7,15 +7,12 @@ export function Form(props: any) {
 }
 
 export function TextField(props: any) {
-  // const { name, label, onHandleChange, required, inputData } = props;
-  // const [text, setText] = useState(props?.default);
   const { name, label, onHandleChange, required, disabled } = props;
 
   return (
     <Box marginTop="md">
       <FormTextField
         onChange={(e: any) => {
-          // setText(e);
           onHandleChange(name, e);
         }}
         required={!!required}
@@ -27,30 +24,6 @@ export function TextField(props: any) {
     </Box>
   );
 }
-
-// export function ToggleField(props: any) {
-//   const { name, onHandleChange, label } = props;
-//   return (
-//     <Box marginVertical="md">
-//       <FlexBox.Row justifyContent="space-between" alignItems="center">
-//         <Box>
-//           <Paragraph size="body" style={{ color: '#000' }}>
-//             {label}
-//           </Paragraph>
-//         </Box>
-//         <Box>
-//           <label className={styles.switch}>
-//             <input
-//               type="checkbox"
-//               onChange={(event) => onHandleChange(name, event.target.checked)}
-//             />
-//             <span className={`${styles.slider} ${styles.round}`}></span>
-//           </label>
-//         </Box>
-//       </FlexBox.Row>
-//     </Box>
-//   );
-// }
 
 export function ToggleField(props: any) {
   const { value, onHandleChange, label, disabled } = props;
@@ -88,7 +61,6 @@ export function ToggleField(props: any) {
               <input
                 type="checkbox"
                 defaultChecked={value}
-                // checked={value}
                 onChange={onHandleChange}
                 disabled={disabled}
               />
@@ -104,15 +76,3 @@ export function ToggleField(props: any) {
     </Box>
   );
 }
-
-// export function SubmitButton(props: any) {
-//   const { title, ...rest } = props;
-//   console.log(props, 'asdasdasdasd222221111');
-//   // const { isSubmitting } = useFormikContext();
-
-//   return (
-//     <PrimaryButton type="submit" {...rest}>
-//       {title}
-//     </PrimaryButton>
-//   );
-// }

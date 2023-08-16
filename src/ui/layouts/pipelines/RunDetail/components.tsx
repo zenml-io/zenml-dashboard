@@ -39,11 +39,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
       <FlexBox alignItems="center">
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.COMPLETED}>
-            {() => (
-              // <ColoredCircle color="green" size="xs">
-              <icons.check color={iconColors.white} size={iconSizes.md} />
-              // </ColoredCircle>
-            )}
+            {() => <icons.check color={iconColors.white} size={iconSizes.md} />}
           </If>
         </div>
         <Tooltip id={run.status} text={run.status} />
@@ -53,9 +49,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.RUNNING}>
             {() => (
-              // <ColoredCircle color="secondary" size="xs">
               <icons.inProgress color={iconColors.orange} size={iconSizes.md} />
-              // </ColoredCircle>
             )}
           </If>
         </div>
@@ -65,11 +59,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
       <FlexBox alignItems="center">
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.FAILED}>
-            {() => (
-              // <ColoredCircle color="red" size="xs">
-              <icons.close color={iconColors.white} size={iconSizes.md} />
-              // </ColoredCircle>
-            )}
+            {() => <icons.close color={iconColors.white} size={iconSizes.md} />}
           </If>
         </div>
         <Tooltip id={run.status} text={run.status} />
@@ -79,9 +69,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.CACHED}>
             {() => (
-              // <ColoredCircle color="mustard" size="xs">
               <icons.cached color={iconColors.white} size={iconSizes.md} />
-              // </ColoredCircle>
             )}
           </If>
         </div>

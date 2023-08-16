@@ -12,7 +12,6 @@ const DefaultHeader: React.FC<{
 }> = ({ breadcrumbs, renderRight }) => (
   <FlexBox
     marginTop="xl"
-    // marginBottom="lg"
     alignItems="center"
     justifyContent="space-between"
     className={cn(styles.header, 'd-none d-md-block')}
@@ -60,7 +59,6 @@ const HeaderWithButtons: React.FC<{
     marginTop="xl"
     alignItems="center"
     justifyContent="space-between"
-    // className={cn(styles.header, 'd-none d-md-block')}
     className={styles.header2}
   >
     <FlexBox flexDirection="column" className="d-none d-md-flex">

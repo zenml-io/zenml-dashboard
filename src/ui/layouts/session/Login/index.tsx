@@ -18,12 +18,7 @@ import image from '../imageNew.png';
 import { translate } from './translate';
 import { routePaths } from '../../../../routes/routePaths';
 import { Link } from 'react-router-dom';
-import {
-  useDispatch,
-  useLocationPath,
-  usePushRoute,
-  useSelector,
-} from '../../../hooks';
+import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
 
 import { loginAction } from '../../../../redux/actions/session/loginAction';
 import {
@@ -41,10 +36,9 @@ const Login: React.FC = () => {
   const username = process.env.REACT_APP_USERNAME;
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const { push } = usePushRoute();
-  const locationPath = useLocationPath();
+
   const login = async () => {
     setLoading(true);
-    console.log(locationPath);
 
     await dispatch(
       loginAction({
@@ -86,13 +80,12 @@ const Login: React.FC = () => {
               }),
             );
           }
-          // debugger;
+
           await dispatch(userActions.getMy({}));
           await dispatch(stackComponentsActions.getTypes());
           if (window.location.pathname === '/') {
             push(routePaths.dashboard(DEFAULT_WORKSPACE_NAME));
           }
-          // await push(routePaths.userEmail);
         },
       }),
     );
