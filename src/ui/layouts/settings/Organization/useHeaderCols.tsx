@@ -80,7 +80,7 @@ export const useMemberHeaderCols = ({
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
   setActiveSorting: (sorting: Sorting | null) => void;
 }): HeaderCol[] => {
-  const { sortMethod } = useService({
+  useService({
     setActiveSortingDirection,
     setActiveSorting,
     setFilteredMembers,

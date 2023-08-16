@@ -89,7 +89,7 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (stackComponent: TStack) => (
         <>
-          {stackComponent.flavor && (
+          {stackComponent?.flavor && (
             <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
               <div
                 data-tip

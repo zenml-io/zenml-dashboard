@@ -950,7 +950,7 @@ const FilterComponent = ({
             <FormTextField
               label={''}
               placeholder={''}
-              value={filter.filterValue}
+              value={filter?.filterValue}
               onChange={(value: string) =>
                 handleValueFieldChange(filter, value)
               }
@@ -990,7 +990,7 @@ const FilterComponent = ({
         return (
           <Box style={{ width: '146px' }}>
             <DatePicker
-              selected={filter.filterValue}
+              selected={filter?.filterValue}
               onChange={(value: any) => {
                 handleValueFieldChange(filter, value);
               }}
@@ -1005,7 +1005,7 @@ const FilterComponent = ({
               label={''}
               placeholder={''}
               disabled
-              value={filter.filterValue}
+              value={filter?.filterValue}
               style={{
                 borderRadius: 0,
                 width: '146px',
@@ -1156,23 +1156,23 @@ const FilterComponent = ({
                         hanldeDelete(index);
                       }}
                     >
-                      {`${filter.column.selectedValue.label} ${
-                        filter.column.selectedValue.label === 'Shared' ||
-                        filter.column.selectedValue.label === 'Status'
+                      {`${filter?.column.selectedValue.label} ${
+                        filter?.column.selectedValue.label === 'Shared' ||
+                        filter?.column.selectedValue.label === 'Status'
                           ? 'is'
-                          : filter.column.selectedValue.label === 'Pipeline' ||
-                            filter.column.selectedValue.label ===
+                          : filter?.column.selectedValue.label === 'Pipeline' ||
+                            filter?.column.selectedValue.label ===
                               'Stack Name' ||
-                            filter.column.selectedValue.label === 'Author'
+                            filter?.column.selectedValue.label === 'Author'
                           ? 'Equals'
-                          : filter.contains.selectedValue.label
+                          : filter?.contains.selectedValue.label
                       } ${
-                        typeof filter.filterValue === 'string'
+                        typeof filter?.filterValue === 'string'
                           ? checkForName(
-                              filter.column.selectedValue.label,
-                              filter.filterValue,
+                              filter?.column.selectedValue.label,
+                              filter?.filterValue,
                             )
-                          : formatDateToDisplayWithoutTime(filter.filterValue)
+                          : formatDateToDisplayWithoutTime(filter?.filterValue)
                       }`}
                     </Box>
 
@@ -1252,8 +1252,8 @@ const FilterComponent = ({
                       handleChange(filter, 'column', value);
                     }}
                     placeholder={'Column Name'}
-                    value={filter.column.selectedValue.value}
-                    options={filter.column.options}
+                    value={filter?.column.selectedValue.value}
+                    options={filter?.column.options}
                     style={{
                       borderTopRightRadius: 0,
                       borderBottomRightRadius: 0,
@@ -1270,7 +1270,7 @@ const FilterComponent = ({
                     <FlexBox.Row key={index} className="mb-1">
                       <FormDropdownField
                         label={''}
-                        disabled={!filter.column.selectedValue.type}
+                        disabled={!filter?.column.selectedValue.type}
                         placeholder={'category'}
                         style={{
                           borderRadius: 0,
@@ -1282,8 +1282,8 @@ const FilterComponent = ({
                         onChange={(value: string) =>
                           handleChangeForStatus(filter, value)
                         }
-                        value={filter.contains.selectedValue.value}
-                        options={filter.column.statusOption}
+                        value={filter?.contains.selectedValue.value}
+                        options={filter?.column.statusOption}
                       />
                     </FlexBox.Row>
                   </>
@@ -1326,8 +1326,8 @@ const FilterComponent = ({
                           }
                           value={filter?.contains?.selectedValue?.value}
                           options={getSecondColumnOptions(
-                            filter.contains.options,
-                            filter.column.selectedValue.type,
+                            filter?.contains.options,
+                            filter?.column.selectedValue.type,
                           )}
                         />
                       ) : filter?.column?.selectedValue?.value ===
@@ -1406,15 +1406,15 @@ const FilterComponent = ({
                     <FlexBox.Row className="mb-1">
                       <FormDropdownField
                         label={''}
-                        disabled={!filter.column.selectedValue.type}
+                        disabled={!filter?.column.selectedValue.type}
                         placeholder={'category'}
                         onChange={(value: string) =>
                           handleChange(filter, 'contains', value)
                         }
-                        value={filter.contains.selectedValue.value}
+                        value={filter?.contains.selectedValue.value}
                         options={getSecondColumnOptions(
-                          filter.contains.options,
-                          filter.column.selectedValue.type,
+                          filter?.contains.options,
+                          filter?.column.selectedValue.type,
                         )}
                         style={{
                           borderRadius: 0,

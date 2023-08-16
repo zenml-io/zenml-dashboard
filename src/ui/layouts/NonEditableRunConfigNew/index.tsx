@@ -65,7 +65,9 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
   return (
     <FlexBox.Column marginLeft="md">
       {Object.keys(runConfiguration).map((key, ind) => (
-        <>{getFormElement(key, runConfiguration[key])}</>
+        <React.Fragment key={key}>
+          {getFormElement(key, runConfiguration[key])}
+        </React.Fragment>
       ))}
     </FlexBox.Column>
   );

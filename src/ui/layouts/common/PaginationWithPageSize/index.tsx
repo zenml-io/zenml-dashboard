@@ -65,7 +65,7 @@ export const PaginationWithPageSize: React.FC<Props> = ({
     return <FullWidthSpinner color="black" size="md" />;
   }
 
-  const onChangePagePerItem = (p: number, size: number) => {
+  const onChangePagePerItem = (size: number) => {
     setItemPerPage(size);
   };
 
@@ -158,7 +158,6 @@ export const PaginationWithPageSize: React.FC<Props> = ({
                                                     key={index}
                                                     onClick={() => {
                                                       onChangePagePerItem(
-                                                        pageIndex,
                                                         parseInt(`${option}`),
                                                       );
                                                       childRef?.current?.callOnChange(
