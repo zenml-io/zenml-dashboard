@@ -113,3 +113,4 @@ build/
 !.env
 
 build
+public/tailwind.css
