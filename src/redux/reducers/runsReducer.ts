@@ -139,21 +139,27 @@ const runsReducer = (state: State = initialState, action: Action): State => {
       if (Object.keys(state?.graphForRunId).length) {
         const removePropertiesFromNodes = (nodes: any) => {
           return nodes.map((node: any) => {
-            const newNode = { ...node };
-            delete newNode.position;
-            delete newNode.sourcePosition;
-            delete newNode.targetPosition;
-            return newNode;
+            if (node) {
+              const newNode = { ...node };
+              delete newNode.position;
+              delete newNode.sourcePosition;
+              delete newNode.targetPosition;
+              return newNode;
+            }
+            return node;
           });
         };
 
         // Function to remove properties from edges
         const removePropertiesFromEdges = (edges: any) => {
           return edges.map((edge: any) => {
-            const newEdge = { ...edge };
-            delete newEdge.markerEnd;
-            delete newEdge.type;
-            return newEdge;
+            if (edge) {
+              const newEdge = { ...edge };
+              delete newEdge.markerEnd;
+              delete newEdge.type;
+              return newEdge;
+            }
+            return edge;
           });
         };
 

@@ -1,4 +1,7 @@
 export const compareObjects = (obj1: any, obj2: any) => {
+  if (typeof obj1 !== 'object' || typeof obj2 !== 'object') {
+    return false;
+  }
   const sortedKeys1 = Object.keys(obj1).sort();
   const sortedKeys2 = Object.keys(obj2).sort();
 
