@@ -30,7 +30,7 @@
   background: #ffffff;
   border-radius: 4px;
   position: fixed;
-  // right: 2rem;
+
   right: 0;
   bottom: 0;
   top: 16.7rem;
@@ -108,4 +108,9 @@
   position: fixed;
   bottom: 0;
   margin-left: 30px !important;
+}
+
+ul {
+  list-style-type: disc !important;
+  margin-left: 20px;
 }

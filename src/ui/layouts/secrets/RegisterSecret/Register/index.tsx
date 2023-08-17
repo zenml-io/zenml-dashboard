@@ -5,18 +5,11 @@ import {
   FormTextField,
   FormDropdownField,
   FullWidthSpinner,
-  // MakeSecretField,
-  // MakeSecretField,
 } from '../../../../components';
 import Selector from '../../Selector/Selector';
-// import { callActionForStacksForPagination } from '../../Stacks/useService';
+
 import axios from 'axios';
-import {
-  useDispatch,
-  useHistory,
-  // useLocation,
-  useSelector,
-} from '../../../../hooks';
+import { useDispatch, useHistory, useSelector } from '../../../../hooks';
 import { showToasterAction } from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
 import { routePaths } from '../../../../../routes/routePaths';
@@ -41,7 +34,7 @@ export const Register: React.FC<Props> = (state: any) => {
   const [scope, setScope] = useState<any>('workspace');
 
   const [loading, setLoading] = useState(false);
-  // const [routeState, setRouteState] = useState(location);
+
   useEffect(() => {
     function generateRandomString(length: number) {
       let result = '';
@@ -64,15 +57,12 @@ export const Register: React.FC<Props> = (state: any) => {
     }
   }, [state]);
 
-  // debugger;
   const dropdownOptions = [
     { value: 'user', label: 'user' },
     { value: 'workspace', label: 'workspace' },
   ];
 
-  const handleInputFieldChange = (inputFields: any) => {
-    // setInputFields(inputFields);
-  };
+  const handleInputFieldChange = (inputFields: any) => {};
   const onSubmit = async (inputFields: any) => {
     if (!secretName) {
       return dispatch(
@@ -85,11 +75,6 @@ export const Register: React.FC<Props> = (state: any) => {
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
-
-    // const finalValues: any = inputFields.reduce((acc, { key, value }) => {
-    //   acc[key] = value;
-    //   return acc;
-    // }, {});
 
     const finalValues = inputFields.reduce((acc: any, { key, value }: any) => {
       if (acc.hasOwnProperty(key)) {
@@ -105,23 +90,6 @@ export const Register: React.FC<Props> = (state: any) => {
       return acc;
     }, {});
 
-    // const finalValues: any = {};
-
-    // for (let i = 0; i < inputFields.length; i++) {
-    //   const key = Object.keys(inputFields[i])[0];
-    //   if (finalValues.hasOwnProperty(key)) {
-    //     debugger;
-    //     dispatch(
-    //       showToasterAction({
-    //         description: 'Key already exists.',
-    //         type: toasterTypes.failure,
-    //       }),
-    //     );
-    //     return {}; // or break; if you want to stop the loop
-    //   }
-    //   finalValues[key] = inputFields[i][key];
-    // }
-
     if (Object.keys(finalValues).length !== inputFields.length) {
       return false;
     }
@@ -135,36 +103,14 @@ export const Register: React.FC<Props> = (state: any) => {
           }),
         );
       }
-      // if (!key && !value) {
-      //   return dispatch(
-      //     showToasterAction({
-      //       description: 'Key and value cannot be Empty.',
-      //       type: toasterTypes.failure,
-      //     }),
-      //   );
-      // }
-      // if (!value && key) {
-      //   return dispatch(
-      //     showToasterAction({
-      //       description: 'Value cannot be Empty.',
-      //       type: toasterTypes.failure,
-      //     }),
-      //   );
-      // }
     }
-    // }
-    // debugger;
+
     const body = {
       user: user?.id,
       workspace: id,
       name: secretName,
       scope: scope,
       values: finalValues,
-      // is_shared: isShared,
-      // name: componentName,
-      // type: flavor.type,
-      // flavor: flavor.name,
-      // configuration: { ...inputData, ...final },
     };
 
     await axios
@@ -243,23 +189,6 @@ export const Register: React.FC<Props> = (state: any) => {
   return (
     <>
       <FlexBox.Row flexDirection="column" marginLeft="xl">
-        {/* <Box>
-          <MakeSecretField
-            label={'Item 3 (Secret)'}
-            labelColor="rgba(66, 66, 64, 0.5)"
-            placeholder={'Random Text'}
-            value={secretName}
-            onChange={(val: string) => setSecretName(val)}
-            secretOnChange={(val: string) => setSecretName(val)}
-            tooltipText='Start typing with "{{" to reference a secret for this field.'
-            dropdownOptions={[
-              { label: '{{ mlZen.https.azxsggej }}' },
-              { label: '{{ mlChen.https.azxsggej }}' },
-              { label: 'Example' },
-            ]}
-          />
-        </Box> */}
-
         <Box style={{ width: '30vw' }}>
           <FormTextField
             required={true}
@@ -289,28 +218,6 @@ export const Register: React.FC<Props> = (state: any) => {
           />
         </Box>
       </FlexBox.Row>
-
-      {/* <FlexBox
-        style={{
-          position: 'fixed',
-          right: '0',
-          bottom: '0',
-          marginRight: '45px',
-        }}
-      >
-        <Box marginBottom="lg">
-          <PrimaryButton
-            onClick={
-              () => onSubmit()
-              // history.push(
-              //   routePaths.secrets.registerSecrets(selectedWorkspace),
-              // )
-            }
-          >
-            Register Secret
-          </PrimaryButton>
-        </Box>
-      </FlexBox> */}
     </>
   );
 };

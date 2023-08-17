@@ -6,7 +6,6 @@ import {
   EditFieldSettings,
   Paragraph,
   icons,
-  // ColoredCircle
 } from '../../components';
 import { iconColors, iconSizes } from '../../../constants';
 import { useRequestOnMount, useSelector } from '../../hooks';
@@ -52,7 +51,6 @@ export const PersonalDetails: React.FC = () => {
   const [hubUserName, setHubUserName] = useState(hubUser?.username ?? '');
   const [version, setVersion] = useState('');
   const [popupType, setPopupType] = useState('');
-  // const [selectedImage, setSelectedImage] = useState<any>(userImage);
 
   const authToken = useSelector(sessionSelectors.authenticationToken);
   // not sure what the actual data structure is here; need to fill this out in future
@@ -79,11 +77,6 @@ export const PersonalDetails: React.FC = () => {
   }, [hubUser]);
 
   if (!user) return null;
-
-  // const previewImage = (e: any) => {
-  //   const objectUrl = URL.createObjectURL(e.files[0]);
-  //   setSelectedImage(objectUrl);
-  // };
 
   const handlePopup = (e: { key: string }, text: any) => {
     setHubPopupState({ open: false });
@@ -121,7 +114,7 @@ export const PersonalDetails: React.FC = () => {
           closeHubPopup={() => setHubPopupState({ open: false })}
         />
       ) : null}
-      {/* <Tour /> */}
+
       <FlexBox.Row
         style={{ marginLeft: '40px', width: '100%' }}
         justifyContent="space-between"
@@ -129,9 +122,7 @@ export const PersonalDetails: React.FC = () => {
         {/* user details in left column */}
         <Box marginVertical="lg" className={styles.imageContainer}>
           {/* commented out because its not working consistently across the entire app => different components at different places */}
-          {/* {hubUser?.avatar_url ? (
-            <img src={hubUser.avatar_url} alt="Profile" />
-          ) : ( */}
+
           <FlexBox
             justifyContent="center"
             alignItems="center"
@@ -139,21 +130,6 @@ export const PersonalDetails: React.FC = () => {
           >
             {userInitials}
           </FlexBox>
-          {/* )} */}
-
-          {/* <img src={selectedImage} alt='userImage' /> */}
-          {/* <div className={styles.imageUploader}>
-                  <label className={styles.custom_file_upload}>
-                    <input
-                      type="file"
-                      name="img"
-                      alt="by Zenml"
-                      accept="image/*"
-                      onChange={(e) => previewImage(e.target)}
-                    />
-                    <icons.share size={iconSizes.lg} color={iconColors.grey} style={{ cursor: 'pointer' }}  />
-                  </label>
-                </div> */}
 
           <Box marginTop="lg">
             <Paragraph
@@ -308,7 +284,7 @@ export const PersonalDetails: React.FC = () => {
             </Box>
             <Box>
               <Paragraph className={styles.uiVersionText}>
-                UI Version v{version}
+                UI Version v{process.env.REACT_APP_VERSION}
               </Paragraph>
             </Box>
             <Box>

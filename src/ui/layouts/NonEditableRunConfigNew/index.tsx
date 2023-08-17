@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, EditField, FlexBox, Paragraph, icons } from '../../components';
+import { Box, FlexBox, Paragraph, icons } from '../../components';
 import styles from './index.module.scss';
 import { titleCase } from '../../../utils';
 import { ToggleField } from '../common/FormElement';
@@ -13,22 +13,6 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
 }) => {
   const dispatch = useDispatch();
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    if (typeof elementSchema === 'string') {
-      return (
-        <Box marginTop={'lg'} style={{ width: '40%' }}>
-          <EditField
-            disabled
-            label={titleCase(elementName)}
-            optional={false}
-            defaultValue={elementSchema}
-            placeholder=""
-            hasError={false}
-            className={styles.field}
-          />
-        </Box>
-      );
-    }
-
     if (typeof elementSchema === 'object' && elementSchema !== null) {
       const handleCopy = () => {
         navigator.clipboard.writeText(JSON.stringify(elementSchema));
@@ -41,7 +25,7 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
         );
       };
       return (
-        <Box marginTop="lg" style={{ width: '40%' }}>
+        <Box marginTop="lg" style={{ width: '90%', overflowY: 'hidden' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
@@ -66,15 +50,13 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
 
     if (typeof elementSchema === 'boolean' || elementSchema === null) {
       return (
-        <Box marginTop={'lg'} style={{ width: '40%' }}>
-          <Box>
-            <ToggleField
-              value={elementSchema}
-              onHandleChange={() => {}}
-              label={titleCase(elementName)}
-              disabled={true}
-            />
-          </Box>
+        <Box marginTop={'lg'} style={{ width: '90%' }}>
+          <ToggleField
+            value={elementSchema}
+            onHandleChange={() => {}}
+            label={titleCase(elementName)}
+            disabled={true}
+          />
         </Box>
       );
     }
@@ -84,7 +66,7 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
     <FlexBox.Column marginLeft="md">
       {Object.keys(runConfiguration).map((key, ind) => (
         <React.Fragment key={key}>
-          {getFormElement(key, runConfiguration[key])}{' '}
+          {getFormElement(key, runConfiguration[key])}
         </React.Fragment>
       ))}
     </FlexBox.Column>

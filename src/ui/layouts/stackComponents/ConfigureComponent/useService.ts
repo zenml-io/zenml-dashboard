@@ -1,22 +1,16 @@
 /* eslint-disable */
 
 import { useEffect, useState } from 'react';
-import { flavorsActions, flavorPagesActions } from '../../../../redux/actions';
-// import { workspaceSelectors } from '../../../../redux/selectors';
-import {
-  useDispatch,
-  useLocationPath,
-  useParams,
-  useSelector,
-} from '../../../hooks';
+
+import { useParams, useSelector } from '../../../hooks';
 import axios from 'axios';
-import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
+
 import {
   flavorSelectors,
   sessionSelectors,
   workspaceSelectors,
 } from '../../../../redux/selectors';
-import { filterObjectForParam } from '../../../../utils';
+
 import { FlavorDetailRouteParams } from '.';
 
 interface ServiceInterface {

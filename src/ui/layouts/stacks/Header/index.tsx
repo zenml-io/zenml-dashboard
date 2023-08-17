@@ -12,7 +12,6 @@ const DefaultHeader: React.FC<{
 }> = ({ breadcrumbs, renderRight }) => (
   <FlexBox
     marginTop="xl"
-    // marginBottom="lg"
     alignItems="center"
     justifyContent="space-between"
     className={cn(styles.header, 'd-none d-md-block')}
@@ -60,7 +59,6 @@ const HeaderWithButtons: React.FC<{
     marginTop="xl"
     alignItems="center"
     justifyContent="space-between"
-    // className={cn(styles.header, 'd-none d-md-block')}
     className={styles.header2}
   >
     <FlexBox flexDirection="column" className="d-none d-md-flex">
@@ -76,16 +74,15 @@ const HeaderWithButtons: React.FC<{
         {title}
       </Paragraph>
       <Paragraph>
-        Don't have any MLOps infrastructure deployed? Check out the{' '}
+        Don't have any MLOps infrastructure deployed? Learn how to{' '}
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://sandbox.zenml.io"
-          style={{ color: '#443E99' }}
+          href="https://docs.zenml.io/stacks-and-components/stack-deployment"
         >
-          MLOps Platform Sandbox
+          deploy a MLOps stack
         </a>{' '}
-        to get a production-ready stack in seconds.
+        from scratch.
       </Paragraph>
     </FlexBox>
 

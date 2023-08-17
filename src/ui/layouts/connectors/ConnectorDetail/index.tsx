@@ -1,31 +1,17 @@
 import React, { useState } from 'react';
 
-// import { Box, Paragraph, icons } from '../../../components';
-// import { iconColors, iconSizes } from '../../../../constants';
-// import { formatDateToDisplayOnTable } from '../../../../utils';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
-// import styles from './NestedRow.module.scss';
-// import { MetaData } from './Metadata';
+
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
-// import FilterComponent, {
-//   getInitialFilterStateForRuns,
-// } from '../../../components/Filters';
-import { Box } from '../../../components';
-import {
-  // stackPagesSelectors,
-  workspaceSelectors,
-} from '../../../../redux/selectors';
-import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-// import { List } from '../Stacks/List';
-// import { Box, Row } from '../../../components';
-// import { StackBox } from '../../common/StackBox';
 
-// import { GetFlavorsListForLogo } from '../../stackComponents/Stacks/List/GetFlavorsListForLogo';
-// import { FullWidthSpinner } from '../../../components';
+import { Box } from '../../../components';
+import { workspaceSelectors } from '../../../../redux/selectors';
+import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
+
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
 import { ConnectorComponents } from './ConnectorComponents';
@@ -34,10 +20,8 @@ import FilterComponent, {
 } from '../../../components/Filters';
 
 const FilterWrapper = () => {
-  // const { connector, fetching } = useService();
   const locationPath = useLocationPath();
-  // const history = useHistory();
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);p
+
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
   const [filters, setFilter] = useState([getInitialFilterState()]);
   function getFilter(values: any) {
@@ -103,7 +87,6 @@ const getBreadcrumbs = (
       name: translate('header.breadcrumbs.connectors.text'),
       clickable: true,
       to: routePaths.connectors.base + `?workspace=${workspace}`,
-      // to: routePaths.stacks.list(selectedWorkspace),
     },
     {
       name: connectorId,
@@ -123,23 +106,6 @@ export const StackDetail: React.FC = () => {
   filteredConnector.push(connector);
   const history = useHistory();
 
-  // const { flavourList, fetching } = GetFlavorsListForLogo();
-  // const stackComponentsMap = stackComponents.map((item) => {
-  //   const temp: any = flavourList.find(
-  //     (fl: any) => fl.name === item.flavor && fl.type === item.type,
-  //   );
-  //   if (temp) {
-  //     return {
-  //       ...item,
-  //       flavor: {
-  //         logoUrl: temp.logo_url,
-  //         name: item.flavor,
-  //       },
-  //     };
-  //   }
-  //   return item;
-  // });
-
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   const tabPages = getTabPages(connector.id, selectedWorkspace, fetching);
@@ -147,15 +113,7 @@ export const StackDetail: React.FC = () => {
   const headerCols = GetHeaderCols({
     filteredConnector,
   });
-  // const boxStyle = {
-  //   backgroundColor: '#E9EAEC',
-  //   padding: '10px 0',
-  //   borderRadius: '8px',
-  //   marginTop: '20px',
-  //   display: 'flex',
-  //   justifyContent: 'space-around',
-  // };
-  // const headStyle = { color: '#828282' };
+
   const openDetailPage = (connector: any) => {
     history.push(routePaths.connectors.list(selectedWorkspace));
   };

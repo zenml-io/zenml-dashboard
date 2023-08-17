@@ -65,9 +65,9 @@ const FilterWrapperForRun = () => {
 };
 
 export const Pipelines: React.FC = () => {
-  const { setFetchingForAllRuns } = useService();
+  useService();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  console.log('a', setFetchingForAllRuns);
+
   const locationPath = useLocationPath();
 
   return (
@@ -87,7 +87,7 @@ export const Pipelines: React.FC = () => {
             : {
                 text: translate('tabs.pipelines.text'),
                 Component: FilterWrapper,
-                // path: routePaths.pipelines.base,
+
                 path: routePaths.pipelines.list(
                   selectedWorkspace
                     ? selectedWorkspace
@@ -96,30 +96,7 @@ export const Pipelines: React.FC = () => {
               },
         ]}
         tabBasePath={routePaths.pipelines.base}
-        breadcrumbs={
-          [
-            // {
-            //   name: locationPath.includes('all-runs')
-            //     ? 'Runs'
-            //     : translate('header.breadcrumbs.pipelines.text'),
-            //   clickable: true,
-            //   // to: locationPath.includes('pipelines')
-            //   // ? routePaths.pipelines.base
-            //   // : routePaths.pipelines.allRuns(selectedWorkspace),
-            //   to: locationPath.includes('pipelines/list')
-            //     ? routePaths.pipelines.list(
-            //         selectedWorkspace
-            //           ? selectedWorkspace
-            //           : locationPath.split('/')[2],
-            //       )
-            //     : routePaths.pipelines.allRuns(
-            //         selectedWorkspace
-            //           ? selectedWorkspace
-            //           : locationPath.split('/')[2],
-            //       ),
-            // },
-          ]
-        }
+        breadcrumbs={[]}
         title={locationPath.includes('all-runs') ? 'Runs' : 'Pipelines'}
         headerWithButtons
         renderHeaderRight={() => <></>}

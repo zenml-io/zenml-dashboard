@@ -2,7 +2,6 @@ import React, { useState } from 'react';
 import { translate } from '../translate';
 import { RunsTable } from '../../RunsTable';
 import { useService } from './useService';
-// import { Pagination } from '../../../common/Pagination';
 
 export const Runs: React.FC<{
   isExpended?: any;
@@ -14,7 +13,6 @@ export const Runs: React.FC<{
   const [sortBy, setSortBy] = useState('created');
   function getSorted(activeSorting: any, activeSortingDirection: any) {
     setSortBy(activeSortingDirection?.toLowerCase() + ':' + activeSorting);
-    // console.log(activeSorting, activeSortingDirection, 'aaaaaaa');
   }
   const { fetching, runIds, runsPaginated } = useService({
     isExpended,
@@ -22,8 +20,7 @@ export const Runs: React.FC<{
     filter,
     sortBy,
   });
-  // debugger;
-  console.log(fetching, 'fetching');
+
   return (
     <RunsTable
       isExpended={isExpended}

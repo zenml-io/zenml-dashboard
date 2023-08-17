@@ -78,7 +78,6 @@ export const RunsTable: React.FC<{
           selectedWorkspace,
         ),
       );
-      // debugger;
     } else {
       history.push(
         routePaths.run.component.statistics(
@@ -90,27 +89,6 @@ export const RunsTable: React.FC<{
       );
     }
   };
-
-  // const openDetailPage = (stackComponent: TStack) => {
-  //   setSelectedRunIds([]);
-
-  //   if (id) {
-  //     history.push(
-  //       routePaths.stackComponents.base(
-  //         locationPath.split('/')[4],
-  //         selectedProject,
-  //       ),
-  //     );
-  //   } else {
-  //     history.push(
-  //       routePaths.stackComponents.configuration(
-  //         locationPath.split('/')[4],
-  //         stackComponent.id,
-  //         selectedProject,
-  //       ),
-  //     );
-  //   }
-  // };
 
   const headerCols = useHeaderCols({
     isExpended,
@@ -135,7 +113,6 @@ export const RunsTable: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkValidFilter, activeSortingDirection, activeSorting]);
   const onChange = (pageNumber: any, size: any) => {
-    // debugger;
     dispatchStackComponentRunsData(
       stackComponentId,
 
@@ -158,11 +135,6 @@ export const RunsTable: React.FC<{
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
-        // activeSorting={
-        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-        //     ? activeSorting
-        //     : 'created'
-        // }
         pagination={pagination}
         loading={fetching}
         showHeader={true}
@@ -196,12 +168,10 @@ export const RunsTable: React.FC<{
                     justifyContent="center"
                   >
                     <Pagination
-                      // isExpended={isExpended}
                       ref={childRef}
                       onChange={(pageNumber: any) =>
                         onChange(pageNumber, itemPerPage)
                       }
-                      // getFetchedState={getFetchedState}
                       activeSorting={activeSorting}
                       filters={filter}
                       itemPerPage={itemPerPage}

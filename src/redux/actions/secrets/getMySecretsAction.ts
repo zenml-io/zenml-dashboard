@@ -10,7 +10,7 @@ export const getMySecretsAction = ({
   name,
   size,
   filtersParam,
-  // id,
+
   onSuccess,
   onFailure,
 }: {
@@ -22,7 +22,7 @@ export const getMySecretsAction = ({
   page?: number;
   size?: number;
   filtersParam?: object;
-  // id?: any;
+
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -41,7 +41,6 @@ export const getMySecretsAction = ({
       page,
       size,
       filtersParam,
-      // id,
     },
     onSuccess,
     onFailure,

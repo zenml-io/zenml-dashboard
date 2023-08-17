@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import styles from './index.module.scss';
 
 import { FlexBox, Box, Row, Paragraph } from '../../../../components';
-// import userImage from '../../../../assets/userImage.png'
+
 import { UpdateMember } from '../UpdateMember';
 import { TokenPopup } from '../tokenPopup';
 import { getInitials } from '../../../../../utils/name';
@@ -48,7 +48,6 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
       >
         <Box>
           <Box className={styles.imageContainer}>
-            {/* <img src={userImage} alt='userImage' /> */}
             <FlexBox
               justifyContent="center"
               alignItems="center"

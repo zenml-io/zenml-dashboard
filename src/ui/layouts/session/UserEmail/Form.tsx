@@ -13,21 +13,15 @@ import {
   Paragraph,
   PrimaryButton,
 } from '../../../components';
-import {
-  useDispatch,
-  useLocationPath,
-  usePushRoute,
-  useSelector,
-} from '../../../hooks';
+import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
 import { getTranslateByScope } from '../../../../services';
 import { sessionSelectors } from '../../../../redux/selectors/session';
 import { userSelectors } from '../../../../redux/selectors';
 import axios from 'axios';
-// import { routePaths } from '../../../../routes/routePaths';
 
 export const Form: React.FC = () => {
   const { push } = usePushRoute();
-  const locationPath = useLocationPath();
+
   const dispatch = useDispatch();
   const translate = getTranslateByScope('ui.layouts.UserEmail');
 
@@ -41,7 +35,6 @@ export const Form: React.FC = () => {
 
   const submit = async () => {
     setSubmitting(true);
-    console.log(locationPath);
 
     try {
       await axios
@@ -90,13 +83,12 @@ export const Form: React.FC = () => {
 
   const skip = async () => {
     setSkipSubmitting(true);
-    console.log(locationPath);
 
     try {
       await axios
         .put(
           `${process.env.REACT_APP_BASE_API_URL}/users/${userId}/email-opt-in`,
-          { email: '', email_opted_in: false },
+          { email: null, email_opted_in: false },
           {
             headers: {
               Authorization: `bearer ${authToken}`,

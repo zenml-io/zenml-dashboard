@@ -265,8 +265,6 @@ export const PasswordPopup: React.FC<{
               id="pwReset"
               onClick={forgotPassword}
               loading={submitting}
-              // eslint-disable-next-line
-              // disabled={newPassword.trim() === '' || confirmPassword.trim() === ''}
               disabled={
                 !minLengthRegExp ||
                 !digitsRegExp ||

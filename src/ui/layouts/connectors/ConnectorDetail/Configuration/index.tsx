@@ -11,35 +11,16 @@ import {
   FormTextField,
   FormDropdownField,
   EditFieldSettings,
-  // MakeSecretField,
-  // FormTextField,
-  // icons,
 } from '../../../../components';
 import styles from './index.module.scss';
 import { useService } from './useService';
-// import axios from 'axios';
-import {
-  useDispatch,
-  useHistory,
-  // useLocationPath,
-  useSelector,
-} from '../../../../hooks';
-import {
-  // secretSelectors,
-  // sessionSelectors,
-  // userSelectors,
-  workspaceSelectors,
-} from '../../../../../redux/selectors';
-import {
-  showToasterAction,
-  // stackComponentsActions,
-} from '../../../../../redux/actions';
+
+import { useDispatch, useHistory, useSelector } from '../../../../hooks';
+import { workspaceSelectors } from '../../../../../redux/selectors';
+import { showToasterAction } from '../../../../../redux/actions';
 import { toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
-// import { routePaths } from '../../../../../routes/routePaths';
-// import { ToggleField } from '../../../common/FormElement';
-// import { SidePopup } from '../../../common/SidePopup';
 
 import ServicesSelectorComponent from '../../ServicesSelectorComponent/Disabled';
 
@@ -47,22 +28,14 @@ export const Configuration: React.FC<{
   connectorId: TId;
   fetching?: boolean;
 }> = ({ connectorId, fetching }) => {
-  // const locationPath = useLocationPath();
   const history = useHistory();
 
   const { connector } = useService({ connectorId });
-  // const user = useSelector(userSelectors.myUser);
-  // const [fetching, setFetching] = useState(false);
-  // const secrets = useSelector(secretSelectors.mySecrets);
 
-  // const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
-  // const workspaces = useSelector(workspaceSelectors.myWorkspaces);
-  const [
-    inputFields,
-    // setInputFields
-  ] = useState([]) as any;
+
+  const [inputFields] = useState([]) as any;
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -75,18 +48,6 @@ export const Configuration: React.FC<{
   const dropdownValue = connector?.connectorType?.auth_methods?.filter(
     (e: any) => e?.auth_method === connector?.authMethod,
   );
-
-  // const handleAddFields = () => {
-  //   const values = [...inputFields];
-  //   values.push({ key: '', value: '' });
-  //   setInputFields(values);
-  // };
-
-  // const handleRemoveFields = (index: any) => {
-  //   const values = [...inputFields];
-  //   values.splice(index, 1);
-  //   setInputFields(values);
-  // };
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (elementSchema?.type === 'string') {
@@ -205,13 +166,9 @@ export const Configuration: React.FC<{
 
                     <EditField
                       disabled
-                      onChangeText={
-                        (event: any) => {}
-                        // handleInputChange(0, event, elementName, 'key')
-                      }
+                      onChangeText={(event: any) => {}}
                       label="Key"
                       optional={false}
-                      // value={''}
                       placeholder=""
                       hasError={false}
                       className={styles.field}
@@ -221,8 +178,6 @@ export const Configuration: React.FC<{
                       disabled
                       onChangeText={(event: any) => {}}
                       label="Value"
-                      // optional={true}
-                      // value={''}
                       placeholder=""
                       hasError={false}
                       className={styles.field}
@@ -232,87 +187,6 @@ export const Configuration: React.FC<{
               </>
             )}
           </Box>
-
-          {/* <Box style={{ position: 'relative' }}>
-            {Object.entries(elementSchema).map(([key, value], index) => (
-              <>
-                <div
-                  style={{
-                    position: 'absolute',
-                    bottom: '-5px',
-                    width: '5px',
-                    height: '5px',
-                    borderRadius: '100%',
-                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
-                  }}
-                ></div>
-
-                <div
-                  className="form-row"
-                  style={{
-                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                    marginLeft: '2px',
-                  }}
-                >
-                  <FlexBox.Row alignItems="center" marginTop="sm">
-                    <div
-                      style={{
-                        marginTop: '30px',
-                        width: '15px',
-                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
-                      }}
-                    ></div>
-                    <div
-                      style={{
-                        marginTop: '30px',
-                        marginRight: '5px',
-                        marginLeft: '-2px',
-                        color: 'rgba(68, 62, 153, 0.3)',
-                      }}
-                    >
-                      &#x27A4;
-                    </div>
-
-                    <EditField
-                      disabled
-                      onKeyDown={(e: any) =>
-                        onPressEnterForEmpty(
-                          e,
-                          'key',
-                          elementName,
-                          // index,
-                        )
-                      }
-                      onChangeText={
-                        (event: any) => {}
-                        // handleInputChange(0, event, elementName, 'key')
-                      }
-                      label="Key"
-                      optional={false}
-                      // value={''}
-                      placeholder=""
-                      hasError={false}
-                      className={styles.field}
-                    />
-                    <div style={{ width: '10%' }}></div>
-                    <EditField
-                      disabled
-                      onKeyDown={(e: any) =>
-                        onPressEnterForEmpty(e, 'value', elementName)
-                      }
-                      onChangeText={(event: any) => {}}
-                      label="Value"
-                      // optional={true}
-                      // value={''}
-                      placeholder=""
-                      hasError={false}
-                      className={styles.field}
-                    />
-                  </FlexBox.Row>
-                </div>
-              </>
-            ))}
-          </Box> */}
 
           <Box style={{ position: 'relative' }}>
             {Object.entries(elementSchema || {}).map(([key, value], index) => (
@@ -363,7 +237,6 @@ export const Configuration: React.FC<{
                       label="Key"
                       optional={false}
                       defaultValue={key}
-                      // value={key}
                       placeholder=""
                       hasError={false}
                       className={styles.field}
@@ -371,12 +244,8 @@ export const Configuration: React.FC<{
                     <div style={{ width: '10%' }}></div>
                     <EditField
                       disabled
-                      // marginRight={'md'}
-
                       label="Value"
-                      // optional={true}
                       defaultValue={value}
-                      // value={value}
                       placeholder=""
                       hasError={false}
                       className={styles.field}
@@ -520,17 +389,8 @@ export const Configuration: React.FC<{
                           placeholder={''}
                         />
                       </div>
-                      {/* <Box className="form-group">
-                      <EditField
-                          disabled
-                          className={styles.field}
-                          label={'Value'}
-                          value={item}
-                          placeholder={''}
-                        />
-                    </Box> */}
+
                       <div
-                        // className="col-sx-2 "
                         style={{
                           justifyContent: 'space-between',
                           display: 'flex',
@@ -549,11 +409,6 @@ export const Configuration: React.FC<{
                     </Box>
                   </Fragment>
                 ))}
-              {/* {inputFields
-              ?.filter((x: any) => x.hasOwnProperty(props.name))
-              .map((inputField: any, index: any) => (
-
-              ))} */}
             </div>
             <div className="submit-button"></div>
             <br />
@@ -567,9 +422,6 @@ export const Configuration: React.FC<{
           <Box>
             <ToggleField
               value={elementSchema.default}
-              // onHandleChange={() =>
-              //   onChangeToggle(!elementSchema, 'other', elementName)
-              // }
               label={titleCase(elementName)}
               disabled={true}
             />
@@ -581,8 +433,6 @@ export const Configuration: React.FC<{
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-
-  // const values = [...flavor?.configSchema?.properties];
 
   const configurationModifiedObj: any = {};
 
@@ -623,8 +473,6 @@ export const Configuration: React.FC<{
           <Box style={{ width: '30vw' }}>
             <EditField
               disabled
-              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
-              // onChangeText={(e: any) => onPressEnter(e, 'name')}
               label={'Component Name'}
               optional={false}
               defaultValue={connector.name}
@@ -652,9 +500,6 @@ export const Configuration: React.FC<{
           <Box marginTop="lg" style={{ width: '30vw' }}>
             <ToggleField
               value={connector.is_shared}
-              // onHandleChange={() =>
-              //   onChangeToggle(!stackComponent.isShared, 'share')
-              // }
               label="Share Component with public"
               disabled={true}
             />
@@ -686,8 +531,6 @@ export const Configuration: React.FC<{
           <Box marginTop="lg" style={{ width: '30vw' }}>
             <EditField
               disabled
-              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
-              // onChangeText={(e: any) => onPressEnter(e, 'name')}
               label={'Expiration Seconds'}
               optional={false}
               defaultValue={connector.expirationSeconds}
@@ -754,21 +597,9 @@ export const Configuration: React.FC<{
 
                   <EditField
                     disabled
-                    // onKeyDown={(e: any) =>
-                    //   onPressEnterForEmpty(
-                    //     e,
-                    //     'key',
-                    //     elementName,
-                    //     // index,
-                    //   )
-                    // }
-                    onChangeText={
-                      (event: any) => {}
-                      // handleInputChange(0, event, elementName, 'key')
-                    }
+                    onChangeText={(event: any) => {}}
                     label="Key"
                     optional={false}
-                    // value={''}
                     placeholder=""
                     hasError={false}
                     className={styles.field}
@@ -776,13 +607,8 @@ export const Configuration: React.FC<{
                   <div style={{ width: '10%' }}></div>
                   <EditField
                     disabled
-                    // onKeyDown={(e: any) =>
-                    //   onPressEnterForEmpty(e, 'value', elementName)
-                    // }
                     onChangeText={(event: any) => {}}
                     label="Value"
-                    // optional={true}
-                    // value={''}
                     placeholder=""
                     hasError={false}
                     className={styles.field}
@@ -839,16 +665,9 @@ export const Configuration: React.FC<{
 
                   <EditField
                     disabled
-                    // onKeyDown={(e: any) =>
-                    //   onPressEnter(e, 'key', elementName, key)
-                    // }
-                    // onChangeText={(e: any) =>
-                    //   onPressEnter(e, 'key', elementName, key, index)
-                    // }
                     label="Key"
                     optional={false}
                     defaultValue={key}
-                    // value={key}
                     placeholder=""
                     hasError={false}
                     className={styles.field}
@@ -856,17 +675,8 @@ export const Configuration: React.FC<{
                   <div style={{ width: '10%' }}></div>
                   <EditField
                     disabled
-                    // marginRight={'md'}
-                    // onKeyDown={(e: any) =>
-                    //   onPressEnter(e, 'value', elementName, key, index)
-                    // }
-                    // onChangeText={(e: any) =>
-                    //   onPressEnter(e, 'value', elementName, key, index)
-                    // }
                     label="Value"
-                    // optional={true}
                     defaultValue={value}
-                    // value={value}
                     placeholder=""
                     hasError={false}
                     className={styles.field}
@@ -923,17 +733,6 @@ export const Configuration: React.FC<{
 
                   <Box marginTop="lg">
                     <EditField
-                      // onKeyDown={(e: any) =>
-                      //   onPressEnterForAddMore(
-                      //     e,
-                      //     'addMore',
-                      //     elementName,
-                      //     // index,
-                      //   )
-                      // }
-                      // onChangeText={(event: any) =>
-                      //   handleInputChange(index, event, elementName, 'key')
-                      // }
                       disabled
                       label={'Key'}
                       className={styles.field}
@@ -945,19 +744,8 @@ export const Configuration: React.FC<{
                   <div style={{ width: '10%' }}></div>
                   <Box marginTop="lg">
                     <EditField
-                      // onKeyDown={(e: any) =>
-                      //   onPressEnterForAddMore(
-                      //     e,
-                      //     'addMore',
-                      //     elementName,
-                      //     // index,
-                      //   )
-                      // }
                       disabled
                       className={styles.field}
-                      // onChangeText={(event: any) =>
-                      //   handleInputChange(index, event, elementName, 'value')
-                      // }
                       label={'Value'}
                       value={inputField?.value}
                       placeholder={''}
@@ -983,7 +771,6 @@ export const Configuration: React.FC<{
             onClick={() =>
               history.push(
                 routePaths.connectors.updateConnector(
-                  // locationPath.split('/')[4],
                   connector.id,
                   selectedWorkspace,
                 ),

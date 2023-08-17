@@ -3,7 +3,6 @@ import { FlexBox } from '../../../../components';
 import { useSelector } from '../../../../hooks';
 import { pipelineSelectors } from '../../../../../redux/selectors';
 import { LayoutFlow } from '../../../../components/Yaml/index';
-// import {useService} from './useService'
 
 export const Configuration: React.FC<{ pipelineId: TId }> = ({
   pipelineId,
@@ -61,12 +60,6 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
 
   return (
     <FlexBox.Column fullWidth>
-      {/* <FlexBox
-        marginBottom="md"
-        alignItems="center"
-        justifyContent="space-between"
-        >
-      </FlexBox> */}
       <LayoutFlow graph={graph} />
     </FlexBox.Column>
   );

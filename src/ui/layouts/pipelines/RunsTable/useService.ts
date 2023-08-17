@@ -54,10 +54,6 @@ export const useService = ({
     : useSelector(runSelectors.forRunIds(runIds));
   const isValidFilter = filter?.map((f) => f.value).join('');
   useEffect(() => {
-    // if (isValidFilter) {
-    //   orderedRuns = getFilteredDataForTable(orderedRuns, filter);
-    // }
-
     setSortedRuns(runs);
   }, [filter, runIds]);
 

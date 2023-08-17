@@ -41,10 +41,6 @@ export const useHeaderCols = ({
     runs,
   });
   return [
-    // {
-    //   width: '2%',
-    //   renderRow: (stack: TStack) => <></>,
-    // },
     {
       render: () => (
         <SortingHeader
@@ -68,7 +64,7 @@ export const useHeaderCols = ({
       width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run.id}>
+          <div data-tip data-for={run?.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
               {expendedRow?.length === 1 ? (
                 <icons.chevronDown
@@ -79,13 +75,13 @@ export const useHeaderCols = ({
                 <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
               )}
               <Paragraph size="small" style={{ marginLeft: '20px' }}>
-                {truncate(run.id, ID_MAX_LENGTH)}
+                {truncate(run?.id, ID_MAX_LENGTH)}
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <ReactTooltip id={run.id} place="top" effect="solid">
+          <ReactTooltip id={run?.id} place="top" effect="solid">
             <Paragraph size="small">
-              {truncate(run.id, ID_MAX_LENGTH)}
+              {truncate(run?.id, ID_MAX_LENGTH)}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
@@ -103,7 +99,7 @@ export const useHeaderCols = ({
           size="small"
           style={{ color: '#22BBDD', textDecoration: 'underline' }}
         >
-          {run.name}
+          {run?.name}
         </Paragraph>
       ),
     },
@@ -119,7 +115,7 @@ export const useHeaderCols = ({
           size="small"
           style={{ color: '#22BBDD', textDecoration: 'underline' }}
         >
-          {run.pipeline.name} ( v{run?.pipeline?.version} )
+          {run?.pipeline.name} ( v{run?.pipeline?.version} )
         </Paragraph>
       ),
     },
@@ -152,7 +148,7 @@ export const useHeaderCols = ({
       ),
       width: '7.5%',
       renderRow: (run: TRun) => (
-        <Paragraph size="small">{run.stack.name}</Paragraph>
+        <Paragraph size="small">{run?.stack.name}</Paragraph>
       ),
     },
     {
@@ -166,7 +162,7 @@ export const useHeaderCols = ({
         return (
           <FlexBox alignItems="center">
             <Paragraph size="small">
-              {run.user.full_name ? run.user.full_name : run.user.name}
+              {run?.user.full_name ? run?.user.full_name : run?.user.name}
             </Paragraph>
           </FlexBox>
         );
@@ -178,11 +174,11 @@ export const useHeaderCols = ({
           sorting="created"
           sortMethod={sortMethod('created', {
             asc: (runs: TRun[]) =>
-              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+              _.orderBy(runs, (run: TRun) => new Date(run?.created).getTime(), [
                 'asc',
               ]),
             desc: (runs: TRun[]) =>
-              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+              _.orderBy(runs, (run: TRun) => new Date(run?.created).getTime(), [
                 'desc',
               ]),
           })}
@@ -197,11 +193,8 @@ export const useHeaderCols = ({
       width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          {/* <Box paddingRight="sm">
-            <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box> */}
           <Paragraph color="grey" size="tiny">
-            {formatDateToDisplayOnTable(run.created)}
+            {formatDateToDisplayOnTable(run?.created)}
           </Paragraph>
         </FlexBox>
       ),

@@ -64,10 +64,6 @@ export const GetList: React.FC<Props> = ({
                 return {
                   ...item,
                   logoUrl: temp.logo_url,
-                  // flavor: {
-                  //   logoUrl: temp.logo_url,
-                  //   name: item.flavor,
-                  // },
                 };
               }
               return item;
@@ -126,7 +122,6 @@ export const GetList: React.FC<Props> = ({
               marginLeft="md"
               style={{ cursor: 'pointer' }}
               onClick={() => {
-                // setShowPopup(true);
                 setSelectedStackBox(item);
                 var index = selectedStack.findIndex(function (s: any) {
                   return s.id === item.id;
@@ -146,7 +141,6 @@ export const GetList: React.FC<Props> = ({
                 }
               }}
             >
-              {console.log(selectedStack, 'selectedStackselectedStack')}
               <CustomStackBox
                 image={item?.logoUrl}
                 stackName={item.name}
@@ -210,7 +204,6 @@ export const GetList: React.FC<Props> = ({
           selectedStackBox={selectedStackBox}
           selectedStack={selectedStack}
           onSeeExisting={() => {
-            // debugger;
             dispatch(
               stackComponentsActions.getMy({
                 workspace: selectedWorkspace
@@ -239,7 +232,6 @@ export const GetList: React.FC<Props> = ({
         >
           <Box marginTop="md" paddingBottom={'xxxl'}>
             <NonEditableConfig details={selectedStackBox}></NonEditableConfig>
-            {console.log(selectedStackBox, 'selectedStackBox')}
           </Box>
         </SidePopup>
       )}

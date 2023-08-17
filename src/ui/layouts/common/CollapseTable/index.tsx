@@ -20,7 +20,6 @@ export const CollapseTable: React.FC<TableProps & CollapseTableProps> = ({
   trOnClick,
   route,
 }) => {
-  // console.log('activeSorting', activeSorting);
   return (
     <Table
       route={route}

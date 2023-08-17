@@ -141,21 +141,6 @@ export const InvitePopup: React.FC<{
             onChange={(val: string) => setName(val)}
             disabled={showTokField}
           />
-
-          {/* <GenerateTokenField
-            label={translate('popup.username.label')}
-            labelColor="rgba(66, 66, 64, 0.5)"
-            placeholder={translate('popup.username.placeholder')}
-            value={name}
-            onChange={(val: string) => setName(val)}
-            handleClick={inviteNewMembers}
-            loading={submitting}
-            hideButton={showTokField}
-            error={{
-              hasError: false,
-              text: '',
-            }}
-          /> */}
         </Box>
 
         {!showTokField ? (
