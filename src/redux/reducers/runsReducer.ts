@@ -136,7 +136,7 @@ const runsReducer = (state: State = initialState, action: Action): State => {
 
       const previousGraph = state?.graphForRunId;
       // debugger;
-      if (state?.graphForRunId && Object.keys(state?.graphForRunId).length) {
+      if (previousGraph && Object.keys(previousGraph).length) {
         const removePropertiesFromNodes = (nodes: any) => {
           return nodes.map((node: any) => {
             if (node) {
