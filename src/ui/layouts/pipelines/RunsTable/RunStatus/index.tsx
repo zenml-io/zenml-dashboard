@@ -1,7 +1,6 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 import { runStatus, iconColors, iconSizes } from '../../../../../constants';
-import { FlexBox, icons, If, Paragraph } from '../../../../components';
+import { FlexBox, icons, If, Tooltip } from '../../../../components';
 
 export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
   return (
@@ -23,9 +22,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip id={run?.status} place="top" effect="solid">
-          <Paragraph color="white">{run?.status}</Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run?.status} text={run?.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
@@ -45,9 +42,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip id={run?.status} place="top" effect="solid">
-          <Paragraph color="white">{run?.status}</Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run?.status} text={run?.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
@@ -64,9 +59,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip id={run?.status} place="top" effect="solid">
-          <Paragraph color="white">{run?.status}</Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run?.status} text={run?.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
@@ -86,9 +79,7 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
             )}
           </If>
         </div>
-        <ReactTooltip id={run?.status} place="top" effect="solid">
-          <Paragraph color="white">{run?.status}</Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run?.status} text={run?.status} />
       </FlexBox>
     </>
   );

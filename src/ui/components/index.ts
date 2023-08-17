@@ -16,3 +16,4 @@ export * from './separators';
 export * from './icons';
 export * from './spinners';
 export * from './square';
+export * from './tooltip';

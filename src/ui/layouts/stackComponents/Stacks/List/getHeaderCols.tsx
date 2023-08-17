@@ -1,13 +1,18 @@
 import _ from 'lodash';
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
-import { Box, FlexBox, icons, Paragraph } from '../../../../components';
+import {
+  Box,
+  FlexBox,
+  icons,
+  Paragraph,
+  Tooltip,
+} from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -86,9 +91,7 @@ export const GetHeaderCols = ({
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <ReactTooltip id={stackComponent.id} place="top" effect="solid">
-            <Paragraph color="white">{stackComponent.id}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={stackComponent.id} text={stackComponent.id} />
         </FlexBox>
       ),
     },
@@ -119,9 +122,7 @@ export const GetHeaderCols = ({
               {stackComponent.name}
             </Paragraph>
           </div>
-          <ReactTooltip id={stackComponent.name} place="top" effect="solid">
-            <Paragraph color="white">{stackComponent.name}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={stackComponent.name} text={stackComponent.name} />
         </FlexBox>
       ),
     },
@@ -167,14 +168,10 @@ export const GetHeaderCols = ({
               }}
             />
           </div>
-
-          <ReactTooltip
+          <Tooltip
             id={stackComponent?.flavor?.name || stackComponent?.flavor}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">{stackComponent?.flavor?.name}</Paragraph>
-          </ReactTooltip>
+            text={stackComponent?.flavor?.name}
+          />
         </FlexBox>
       ),
     },
@@ -227,15 +224,10 @@ export const GetHeaderCols = ({
               </FlexBox>
             </Box>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={stackComponent.isShared ? 'true' : 'false'}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {stackComponent.isShared ? 'True' : 'False'}
-            </Paragraph>
-          </ReactTooltip>
+            text={stackComponent.isShared ? 'true' : 'false'}
+          />
         </FlexBox>
       ),
     },
@@ -278,21 +270,18 @@ export const GetHeaderCols = ({
                 </Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip
+            <Tooltip
               id={
                 stackComponent.user.full_name
                   ? stackComponent.user.full_name
                   : stackComponent.user.name
               }
-              place="top"
-              effect="solid"
-            >
-              <Paragraph color="white">
-                {stackComponent.user.full_name
+              text={
+                stackComponent.user.full_name
                   ? stackComponent.user.full_name
-                  : stackComponent.user.name}
-              </Paragraph>
-            </ReactTooltip>
+                  : stackComponent.user.name
+              }
+            />
           </FlexBox>
         );
       },
@@ -334,15 +323,10 @@ export const GetHeaderCols = ({
               </Paragraph>
             </FlexBox>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={formatDateToSort(stackComponent.created)}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {formatDateToDisplayOnTable(stackComponent.created)}
-            </Paragraph>
-          </ReactTooltip>
+            text={formatDateToDisplayOnTable(stackComponent.created)}
+          />
         </FlexBox>
       ),
     },
