@@ -14,7 +14,7 @@ export const DAG: React.FC<{
   metadata?: any;
   graph?: any;
   runStatus?: string;
-}> = ({ runId, fetching, metadata, graph, runStatus }) => {
+}> = React.memo(({ runId, fetching, metadata, graph, runStatus }) => {
   const [togglePolling, setTogglePolling] = useState(false);
   const { counter } = useService({ runId, togglePolling, runStatus });
 
@@ -56,4 +56,4 @@ export const DAG: React.FC<{
       </div>
     </div>
   );
-};
+});

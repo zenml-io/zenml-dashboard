@@ -68,7 +68,7 @@ export const useService = (): ServiceInterface => {
             },
           }),
         );
-      }, 5000);
+      }, 12000);
 
       return () => {
         clearInterval(intervalId);
