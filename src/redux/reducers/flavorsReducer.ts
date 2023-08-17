@@ -66,14 +66,6 @@ const flavorsReducer = (state: State = initialState, action: Action): State => {
       };
     }
 
-    // case flavorActionTypes.getStackComponentForId.success: {
-    //   const payload: StackPayload = action.payload;
-
-    //   const stackComponent = camelCaseObject(payload);
-
-    //   return { ...state, ...newState(state, [stackComponent]) };
-    // }
-
     default:
       return state;
   }

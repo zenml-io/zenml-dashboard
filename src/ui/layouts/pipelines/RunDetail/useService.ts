@@ -61,10 +61,5 @@ export const useService = (): ServiceInterface => {
 
   const run = useSelector(runSelectors.runForId(id));
 
-  // const setFetching = (fetching: boolean) => {
-  //   dispatch(runPagesActions.setFetching({ fetching }));
-  // };
-  // const fetching = useSelector(runPagesSelectors.fetching);
-
   return { runId: id, pipelineId, run, fetching, metadata };
 };

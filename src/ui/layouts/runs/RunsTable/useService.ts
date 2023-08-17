@@ -33,12 +33,6 @@ export const useService = ({ runIds }: { runIds: TId[] }): ServiceInterface => {
   const runs = useSelector(runSelectors.forRunIds(runIds));
 
   useEffect(() => {
-    // const orderedRuns = _.orderBy(
-    //   runs,
-    //   [activeSorting],
-    //   [activeSortingDirection === 'DESC' ? 'desc' : 'asc'],
-    // );
-
     setSortedRuns(runs as TRun[]);
   }, []);
   useEffect(() => {

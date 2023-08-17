@@ -33,26 +33,9 @@ export const useService = (): ServiceInterface => {
       }),
     );
     // Legacy: previously runs was in pipeline
-    // dispatch(
-    //   connectorsActions.allRunsBysecretId({
-    //     sort_by: 'desc:created',
-    //     logical_operator: 'and',
-    //     page: 1,
-    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-    //     secretId: id,
-    //     onSuccess: () => setFetching(false),
-    //     onFailure: () => setFetching(false),
-    //   }),
-    // );
   }, [id]);
 
-  // const setFetching = (fetching: boolean) => {
-  //   dispatch(secretPagesActions.setFetching({ fetching }));
-  // };
-
   const connector = useSelector(connectorSelectors.connectorForId(id));
-
-  // const connector = useSelector(connectorSelectors.connectorForId(id));
 
   return { connector, fetching };
 };

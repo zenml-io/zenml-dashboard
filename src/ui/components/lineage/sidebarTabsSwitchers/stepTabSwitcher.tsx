@@ -1,4 +1,4 @@
-import React, { useEffect, useLayoutEffect, useRef, useState } from 'react'; //eslint-disable-line
+import React, { useEffect, useRef, useState } from 'react'; //eslint-disable-line
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
 import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import { Status_Completed } from '../icons';
@@ -48,47 +48,6 @@ const tabs = [
   },
 ];
 
-// const TextInput: React.FC<any> = ({ label, value }) => {
-//   const [input, setInput] = useState('');
-
-//   const handleChange = (event: any) => {
-//     setInput(event.target.value);
-//   };
-
-//   useEffect(() => {
-//     value(input);
-//   }, [input]); //eslint-disable-line
-
-//   return (
-//     <div>
-//       <p>{label}</p>
-//       <input placeholder={label} onChange={(e) => handleChange(e)} />
-//     </div>
-//   );
-// };
-// USE GUIDE: JUST CREATE A STATE WHERE YOU USE THIS COMPONENT AND PASS THE "SET" METHOD IN VALUE
-// const ToggleButton: React.FC<any> = ({ label, value }) => {
-//   //eslint-disable-line
-//   const [isActive, setIsActive] = useState(false);
-
-//   const handleClick = () => {
-//     setIsActive(!isActive);
-//   };
-
-//   useEffect(() => {
-//     value(isActive);
-//   }, [isActive]); //eslint-disable-line
-
-//   return (
-//     <button
-//       className={`toggle-button ${isActive ? 'active' : ''}`}
-//       onClick={handleClick}
-//     >
-//       <div className="toggle-button__thumb"></div>
-//     </button>
-//   );
-// };
-
 const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
   const [show, setShow] = useState('__DETAILS');
   const [dynamicWidth, setDynamicWidth] = useState<number | undefined>(79);
@@ -105,7 +64,6 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
     setDynamicLeft(dynamicLeft);
     setDynamicWidth(dynamicWidth);
   }, [show, dynamicLeft, dynamicWidth]); //eslint-disable-line
-  // }, [show, dynamicLeft, dynamicWidth, node])//eslint-disable-line
 
   const handleClick = (divId: number) => {
     setDynamicLeft(divRefs.current[divId]?.offsetLeft);
@@ -308,146 +266,6 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                       <></>
                     )}
                   </tr>
-                  {/* <tr>
-                                    <td className='td_key'>source</td>
-                                    <td className='td_value'>{node?.step?.spec?.source}</td>
-                                </tr> */}
-                  {/* {Object.entries(node?.inputs).length >= 1 && (
-                    <tr>
-                      <td
-                        style={{ textDecoration: 'underline' }}
-                        className="td_key"
-                      >
-                        Inputs
-                      </td>
-                      <td></td>
-                    </tr>
-                  )}
-                  {Object.entries(node?.inputs || {}).map(
-                    ([key, value]: any, i) => {
-                      return (
-                        <tr key={i}>
-                          <div style={{ width: '100%' }}>
-                            <details style={{ width: '100%' }}>
-                              <summary className="td_key">{key}</summary>
-                              <table>
-                                <tbody>
-                                  <tr>
-                                    <td className="td_key">Name</td>
-                                    <td
-                                      style={{ lineHeight: 'unset' }}
-                                      className="td_value"
-                                    >
-                                      <p className={stepStyles.truncate}>
-                                        {value.name || 'n/a'}
-                                      </p>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="td_key">Type</td>
-                                    <td
-                                      style={{ lineHeight: 'unset' }}
-                                      className="td_value"
-                                    >
-                                      <p className={stepStyles.truncate}>
-                                        {value.type || 'n/a'}
-                                      </p>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="td_key">URI</td>
-                                    <td
-                                      style={{ lineHeight: 'unset' }}
-                                      className="td_value"
-                                    >
-                                      <p
-                                        style={{ lineHeight: 'unset' }}
-                                        className={stepStyles.truncate}
-                                      >
-                                        {value.uri || 'n/a'}
-                                      </p>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </details>
-                          </div>
-                        </tr>
-                      );
-                    },
-                  )} */}
-                  {/* {Object.entries(node?.outputs).length >= 1 && (
-                    <tr>
-                      <td
-                        style={{ textDecoration: 'underline' }}
-                        className="td_key"
-                      >
-                        Outputs
-                      </td>
-                      <td></td>
-                    </tr>
-                  )}
-                  {Object.entries(node?.outputs || {}).map(
-                    ([key, value]: any, i) => {
-                      return (
-                        <tr key={i}>
-                          <div style={{ width: '100%' }}>
-                            <details>
-                              <summary
-                                style={{ width: '100%' }}
-                                className="td_key"
-                              >
-                                {key}
-                              </summary>
-                              <table>
-                                <tbody>
-                                  <tr>
-                                    <td className="td_key">Name</td>
-                                    <td
-                                      style={{ lineHeight: 'unset' }}
-                                      className="td_value"
-                                    >
-                                      <p className={stepStyles.truncate}>
-                                        {value.name || 'n/a'}
-                                      </p>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="td_key">Type</td>
-                                    <td
-                                      style={{ lineHeight: 'unset' }}
-                                      className="td_value"
-                                    >
-                                      <p
-                                        style={{ lineHeight: 'unset' }}
-                                        className={stepStyles.truncate}
-                                      >
-                                        {value.type || 'n/a'}
-                                      </p>
-                                    </td>
-                                  </tr>
-                                  <tr>
-                                    <td className="td_key">URI</td>
-                                    <td
-                                      style={{ lineHeight: 'unset' }}
-                                      className="td_value"
-                                    >
-                                      <p
-                                        style={{ lineHeight: 'unset' }}
-                                        className={stepStyles.truncate}
-                                      >
-                                        {value.uri || 'n/a'}
-                                      </p>
-                                    </td>
-                                  </tr>
-                                </tbody>
-                              </table>
-                            </details>
-                          </div>
-                        </tr>
-                      );
-                    },
-                  )} */}
                 </tbody>
               </table>
             </>
@@ -533,10 +351,6 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                     </td>
                   </tr>
                   <tr>
-                    {/* <ConfigBox
-                      name="Success Hook Source"
-                      config={node?.config?.success_hook_source}
-                    /> */}
                     <td className="td_key">Success Hook Source</td>
                     <td className="td_value">
                       {node?.config?.success_hook_source ? (

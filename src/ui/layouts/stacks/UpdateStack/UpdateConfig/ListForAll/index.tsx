@@ -29,20 +29,17 @@ import { toasterTypes } from '../../../../../../constants';
 import { useHistory, useLocation } from '../../../../../hooks';
 import { routePaths } from '../../../../../../routes/routePaths';
 import { NonEditableConfig } from '../../../../NonEditableConfig';
-// import { callActionForStacksForPagination } from '../../Stacks/useService';
 
 interface Props {}
 
 export const ListForAll: React.FC<{
   stackDetails: any;
 }> = ({ stackDetails }) => {
-  // const getSelectedStack: any = localStorage.getItem('persistSelectedStack');
-  // const paseSelectedStack = JSON.parse(getSelectedStack);
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
   const locationPath = useLocation() as any;
-  // const { dispatchStackData } = callActionForStacksForPagination();
+
   const history = useHistory();
   const dispatch = useDispatch();
   const authToken = useSelector(sessionSelectors.authenticationToken);
@@ -56,7 +53,6 @@ export const ListForAll: React.FC<{
   const [selectedStack, setSelectedStack] = useState<any>([]);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
-  // const [stackPersist, setStackPersist] = useState({});
 
   useEffect(() => {
     if (flavourList.length) {
@@ -71,10 +67,6 @@ export const ListForAll: React.FC<{
           return {
             ...item,
             logoUrl: temp.logo_url,
-            // flavor: {
-            //   logoUrl: temp.logo_url,
-            //   name: item.flavor,
-            // },
           };
         }
         return item;
@@ -149,16 +141,15 @@ export const ListForAll: React.FC<{
     axios
       .put(
         `${process.env.REACT_APP_BASE_API_URL}/stacks/${stackDetails.id}`,
-        // @ts-ignore
+
         { ...body },
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
       .then((response: any) => {
         setStackName('');
-        // const id = response.data.id;
+
         setSelectedStack([]);
 
-        // setLoading(false);
         dispatch(
           showToasterAction({
             description: 'Stack has been updated successfully',
@@ -184,20 +175,10 @@ export const ListForAll: React.FC<{
           }),
         );
         setIsLoading(false);
-        // dispatchStackData(1, 10);
-        // history.push(routePaths.stacks.base);
+
         history.push(
           routePaths.stack.configuration(response.data.id, selectedWorkspace),
         );
-        // dispatchStackComponentsData(1, 10);
-
-        // history.push(
-        //   routePaths.stackComponents.configuration(
-        //     flavor.type,
-        //     id,
-        //     selectedWorkspace,
-        //   ),
-        // );
       })
       .catch((err) => {
         setIsLoading(false);
@@ -367,7 +348,6 @@ export const ListForAll: React.FC<{
                 size: 1,
                 id: selectedStackBox.id,
                 onSuccess: () => {
-                  // setFetching(false);
                   history.push(
                     routePaths.stackComponents.configuration(
                       selectedStackBox.type,

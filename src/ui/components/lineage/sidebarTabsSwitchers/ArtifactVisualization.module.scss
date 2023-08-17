@@ -6,7 +6,7 @@
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
-  // padding: 0px 10px 0px 10px;
+
   margin-top: 10px;
 }
 
@@ -25,23 +25,18 @@
   background-color: #f7f7f7;
   flex-wrap: wrap;
   overflow: scroll;
-
 }
 
 .markdownText {
   font-size: 20px;
-  font-family: "Rubik";
+  font-family: 'Rubik';
   flex-wrap: wrap;
   padding: 20px;
-  // height: 90%;
-
-  // background: rebeccapurple;
-  // margin-top: ;
 }
 
 .csv {
   font-size: 20px;
-  font-family: "Rubik";
+  font-family: 'Rubik';
   flex-wrap: wrap;
   max-height: 90%;
   max-width: 100%;
@@ -52,15 +47,13 @@
 
 .image {
   font-size: 16px;
-  font-family: "Rubik";
+  font-family: 'Rubik';
   padding: 20px;
   height: 100vh;
   width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
-  // background: rebeccapurple;
-  // margin-top: ;
 }
 
 .image img {
@@ -78,27 +71,15 @@
   flex-direction: column;
 }
 
-// .FullWidthSpinnerContainer button{
-//     height: 100%;
-//     width: 100%;
-//     display: flex;
-//     justify-content: center;
-//     align-items: center;
-//     flex-direction: column;
-//   }
-
 .btnContainer {
-  // position: absolute;
   top: 0%;
   height: 50px;
   width: 100%;
   display: flex;
-  // background-color: #443E99; 
   justify-content: flex-end;
   align-items: center;
   margin: 0px 30px;
   padding: 10px 0px;
-
 }
 
 .downloadBtn {
@@ -107,7 +88,7 @@
   height: 50px;
   min-width: 150px;
   border-radius: 5px;
-  background-color: #443E99;
+  background-color: #443e99;
   color: #fbfbfc;
   font-family: 'Rubik';
   font-size: 16px;

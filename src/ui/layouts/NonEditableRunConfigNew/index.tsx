@@ -13,22 +13,6 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
 }) => {
   const dispatch = useDispatch();
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    // if (typeof elementSchema === 'string') {
-    //   return (
-    //     <Box marginTop={'lg'} style={{ width: '90%' }}>
-    //       <EditField
-    //         disabled
-    //         label={titleCase(elementName)}
-    //         optional={false}
-    //         defaultValue={elementSchema}
-    //         placeholder=""
-    //         hasError={false}
-    //         className={styles.field}
-    //       />
-    //     </Box>
-    //   );
-    // }
-
     if (typeof elementSchema === 'object' && elementSchema !== null) {
       const handleCopy = () => {
         navigator.clipboard.writeText(JSON.stringify(elementSchema));
@@ -81,9 +65,9 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
   return (
     <FlexBox.Column marginLeft="md">
       {Object.keys(runConfiguration).map((key, ind) => (
-        // <Col xs={6} key={ind}>
-        <>{getFormElement(key, runConfiguration[key])}</>
-        // </Col>
+        <React.Fragment key={key}>
+          {getFormElement(key, runConfiguration[key])}
+        </React.Fragment>
       ))}
     </FlexBox.Column>
   );

@@ -266,7 +266,6 @@ export const MakeSecretField = (
 
   const handleClick = async (option: any) => {
     await props.secretOnChange(option);
-    //  await setPopup(false);
   };
   const handleEnterKey = async () => {
     const selectedOption = options[selectedOptionIndex];
@@ -344,7 +343,7 @@ export const MakeSecretField = (
                 border: '0px solid black',
                 backgroundColor: '#fff',
                 borderRadius: '4px',
-                // boxShadow: 'var(--cardShadow)',
+
                 width: '100%',
                 height: '185px',
                 overflowY: 'auto',
@@ -359,7 +358,6 @@ export const MakeSecretField = (
             >
               <Box
                 marginVertical="md"
-                // marginHorizontal="xs"
                 style={{ width: '100%', height: '100%' }}
               >
                 {options?.map((option: any, index: any) => (
@@ -389,30 +387,6 @@ export const MakeSecretField = (
           )}
         </If>
       </FlexBox>
-
-      {/* {props?.value?.length > 0 && 
-        props?.value?.slice(0, 2) !== '{{' && (
-          <FlexBox marginTop='lg' alignItems="center" fullWidth style={{ position: 'relative' }}>
-            <InputWithLabel
-              name={props.name}
-              label={props.secretLabel}
-              labelColor={props.secretLabelColor}
-              InputComponent={ <TextInput {...props} style={{ border: '1px solid #A8A8A8' }} value={props.secretValue} placeholder={props.secretPlaceholder} onChangeText={props.secretOnChange} />}
-            />
-            <Box
-              style={{ 
-                position: 'absolute', right: '10px', top: '40px', 
-                display: 'flex', alignItems: 'center', 
-                background: '#fff', borderLeft: '1px solid grey', 
-                paddingLeft: '10px', cursor: 'pointer'
-              }}
-              onClick={handleClick}
-            >
-              <icons.lock color={iconColors.primary} style={{ marginRight: '5px' }} /> 
-              <Paragraph color='primary'>Make it Secret</Paragraph>
-            </Box>
-          </FlexBox>
-        )} */}
     </FlexBox.Column>
   );
 };
@@ -519,7 +493,6 @@ export const EditFieldSettings = (
   return (
     <FlexBox.Column fullWidth>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
-        {console.log(disabled, 'disableddisabled')}
         <InputWithLabel
           name={props.name}
           label={props.label}
@@ -542,14 +515,11 @@ export const EditFieldSettings = (
             />
           }
         />
-        {/* {console.log(props?.defaultValue , props.value , 'disableddisabled')} */}
+
         {!props.disabled && (
           <Box
             onClick={() => {
               setDisabled(!disabled);
-              // setTimeout(() => {
-              // props.inputRef?.current?.focus();
-              // }, 1000);
             }}
             style={{
               position: 'absolute',
@@ -647,7 +617,6 @@ export const SearchInputField = (
           />
         </LinkBox>
         <TextInput
-          // type="search"
           {...props}
           style={{
             paddingLeft: '40px',

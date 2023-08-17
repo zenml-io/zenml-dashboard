@@ -71,9 +71,8 @@ export const RunsTable: React.FC<{
 
   const openDetailPage = (run: TRun) => {
     setSelectedRunIds([]);
-    // debugger;
+
     if (fromAllruns) {
-      // debugger;
       if (id) {
         history.push(routePaths.pipelines.allRuns(selectedWorkspace));
       } else {
@@ -141,7 +140,6 @@ export const RunsTable: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkValidFilter, activeSortingDirection, activeSorting]);
   const onChange = (pageNumber: any, size: any) => {
-    // debugger;
     if (fromAllruns) {
       dispatchAllrunsData(
         pageNumber,
@@ -166,11 +164,6 @@ export const RunsTable: React.FC<{
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
-        // activeSorting={
-        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-        //     ? activeSorting
-        //     : 'created'
-        // }
         pagination={pagination}
         loading={fetching}
         paginated={paginated}
@@ -181,7 +174,7 @@ export const RunsTable: React.FC<{
         emptyState={{ text: emptyStateText }}
         trOnClick={openDetailPage}
       />
-      {console.log(paginated, fetching, 'paginatedpaginatedpaginated')}
+
       <If condition={paginated.totalitem > 5}>
         {() => (
           <FlexBox
@@ -205,12 +198,10 @@ export const RunsTable: React.FC<{
                     justifyContent="center"
                   >
                     <Pagination
-                      // isExpended={isExpended}
                       ref={childRef}
                       onChange={(pageNumber: any) =>
                         onChange(pageNumber, itemPerPage)
                       }
-                      // getFetchedState={getFetchedState}
                       activeSorting={activeSorting}
                       filters={filter}
                       itemPerPage={itemPerPage}

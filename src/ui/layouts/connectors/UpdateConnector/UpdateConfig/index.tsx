@@ -2,7 +2,6 @@ import React, { Fragment, useEffect, useState } from 'react';
 import {
   FlexBox,
   Box,
-  // EditField,
   Paragraph,
   Container,
   FullWidthSpinner,
@@ -11,39 +10,20 @@ import {
   icons,
   FormPasswordFieldVerify,
   FormDropdownField,
-  // MakeSecretField,
-  // EditField,
-  // icons,
 } from '../../../../components';
 import styles from './index.module.scss';
 import { useService } from './useService';
 import axios from 'axios';
+import { useDispatch, useHistory, useSelector } from '../../../../hooks';
 import {
-  useDispatch,
-  useHistory,
-  // useLocation,
-  // useLocationPath,
-  // useHistory,
-  // useLocationPath,
-  useSelector,
-} from '../../../../hooks';
-import {
-  // secretSelectors,
   sessionSelectors,
   userSelectors,
   workspaceSelectors,
 } from '../../../../../redux/selectors';
-import {
-  // secretsActions,
-  showToasterAction,
-  // stackComponentsActions,
-} from '../../../../../redux/actions';
+import { showToasterAction } from '../../../../../redux/actions';
 import { iconColors, toasterTypes } from '../../../../../constants';
 import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
-// import { es } from 'date-fns/locale';
-// import { values } from 'lodash';
-// import { routePaths } from '../../../../../routes/routePaths';
 
 import ServicesSelectorComponent from '../../ServicesSelectorComponent/Disabled';
 
@@ -52,10 +32,6 @@ export const UpdateConfig: React.FC<{
   loading?: boolean;
   state: any;
 }> = ({ connectorId, loading, state }) => {
-  // const location = useLocation();
-  // const locationPath = useLocationPath();
-  // const history = useHistory();
-
   const { connector } = useService({
     connectorId,
   });
@@ -73,14 +49,11 @@ export const UpdateConfig: React.FC<{
   const [mappedConfiguration, setMappedConfiguration] = useState() as any;
   const user = useSelector(userSelectors.myUser);
   const [fetching, setFetching] = useState(false);
-  // const secrets = useSelector(secretSelectors.mySecrets);
+
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const dispatch = useDispatch();
-  // const [secretId, setSecretId] = useState('');
-  // const [secretIdArray, setSecretIdArray] = useState([]);
-  // const [secretOptionsWithKeys, setSecretOptionsWithKeys] = useState([]);
-  // const [selectedSecret, setSelectedSecret] = useState({}) as any;
+
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [inputFields, setInputFields] = useState([]) as any;
   const titleCase = (s: any) =>
@@ -92,9 +65,6 @@ export const UpdateConfig: React.FC<{
   );
 
   useEffect(() => {
-    // const matchedAuthMethod = connector.connectorType.auth_methods.find(
-    //   (item: any) => item?.auth_method === connector?.authMethod,
-    // );
     function convertJSON(json: any) {
       const updatedObj = [];
 
@@ -147,19 +117,11 @@ export const UpdateConfig: React.FC<{
     setIsShared(connector.isShared);
 
     setMappedConfiguration(configurationModifiedObj);
-    // debugger;
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connector]);
 
-  // const secretOptions = secrets.map((item: any) => {
-  //   return {
-  //     label: `{{ ${item.name}.` as string,
-  //     value: `{{ ${item.name}.` as string,
-  //     id: item.id as string,
-  //   };
-  // }) as any;
   const onSubmit = () => {
-    // ;
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
@@ -232,9 +194,6 @@ export const UpdateConfig: React.FC<{
       configuration: { ...payload },
       labels: labels,
       resource_id: connector.resourceId,
-      // type: stackComponent.type,
-      // flavor: stackComponent.flavor,
-      // configuration: { ...mappedConfiguration, ...final },
     };
 
     setFetching(true);
@@ -246,8 +205,6 @@ export const UpdateConfig: React.FC<{
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
       .then((response: any) => {
-        // const id = response.data.id;
-
         setFetching(false);
         dispatch(
           showToasterAction({
@@ -256,39 +213,13 @@ export const UpdateConfig: React.FC<{
           }),
         );
 
-        // setInputFields([]);
-        // dispatch(
-        //   stackComponentsActions.stackComponentForId({
-        //     stackComponentId: stackComponent?.id,
-        //     onSuccess: () => {
-        //       setFetching(false);
-        //       history.push(
-        //         routePaths.stackComponents.configuration(
-        //           locationPath.split('/')[4],
-        //           stackComponent.id,
-        //           selectedWorkspace,
-        //         ),
-        //       );
-        //     },
-        //     onFailure: () => setFetching(false),
-        //   }),
-        // );
-        // dispatchStackData(1, 10);
-        // history.push(routePaths.stacks.base);
-        // dispatchStackComponentsData(1, 10);
-
         history.push(
-          routePaths.connectors.configuration(
-            // flavor.type,
-            connector.id,
-            selectedWorkspace,
-          ),
+          routePaths.connectors.configuration(connector.id, selectedWorkspace),
         );
       })
       .catch((err) => {
         setFetching(false);
-        // ;
-        // setLoading(false);
+
         dispatch(
           showToasterAction({
             description: err?.response?.data?.detail[0],
@@ -297,172 +228,6 @@ export const UpdateConfig: React.FC<{
         );
       });
   };
-
-  // function callActionForSecret(name: any, value: any, newEvent?: any) {
-  //   setMappedConfiguration({
-  //     ...mappedConfiguration,
-  //     [name]: {
-  //       value: value.value ? value.value : value,
-  //       id: value?.id ? value?.id : '',
-  //     },
-  //   });
-  //   if (value?.id) {
-  //
-  //     // debugger;
-  //     setSecretId(value?.id);
-  //     const listOfIds: any = [...secretIdArray];
-  //     listOfIds.push(value.id);
-  //     setSecretIdArray(listOfIds);
-  //   }
-
-  //   if (value?.value?.includes('.') || value?.value?.id) {
-  //     dispatch(
-  //       secretsActions.secretForId({
-  //         secretId: value?.id,
-  //         onSuccess: (res) => {
-  //           setSelectedSecret(res);
-  //           const secretOptionsWithKeys = Object.keys(res.values)?.map(
-  //             (item: any) => {
-  //               return {
-  //                 label: `{{ ${res?.name}.${item} }}` as string,
-  //                 value: `{{ ${res?.name}.${item} }}` as string,
-  //               };
-  //             },
-  //           ) as any;
-  //           setSecretOptionsWithKeys(secretOptionsWithKeys);
-  //         },
-  //         // onFailure: () => setFetching(false),
-  //       }),
-  //     );
-  //   } else if (value?.includes('{{')) {
-  //     dispatch(
-  //       secretsActions.getMy({
-  //         size: 10,
-  //         workspace: selectedWorkspace,
-  //         name: 'contains:' + value.replace(/[{ }]/g, ''),
-  //       }),
-  //     );
-  //   }
-  // }
-  // const onPressEnter = (
-  //   event?: any,
-  //   type?: string,
-  //   elementName?: any,
-  //   defaultValue?: any,
-  //   index?: any,
-  // ) => {
-  //   if (event.key === 'Enter') {
-  //     // ;
-  //     const updateConfig = {
-  //       ...stackComponent,
-  //     };
-  //     if (type === 'string') {
-  //       updateConfig.configuration[elementName] = event.target.value;
-  //     }
-  //     if (type === 'name') {
-  //       updateConfig.name = event.target.value;
-  //     }
-  //     if (type === 'key') {
-  //       updateConfig.configuration[elementName][event.target.value] =
-  //         updateConfig.configuration[elementName][defaultValue];
-  //       delete updateConfig.configuration[elementName][defaultValue];
-  //     }
-  //     if (type === 'value') {
-  //       var unkownKey = Object.keys(updateConfig.configuration[elementName])[
-  //         index
-  //       ];
-  //       // ;
-  //       updateConfig.configuration[elementName][unkownKey] = event.target.value;
-  //       // delete updateConfig.configuration[elementName][defaultValue];
-  //     }
-  //     onCallApi(updateConfig);
-  //   }
-  // };
-
-  // const onPressEnterForEmpty = (event: any, type: any, elementName?: any) => {
-  //   if (event.key === 'Enter') {
-  //     const updateConfig = {
-  //       ...stackComponent,
-  //     };
-  //     updateConfig.configuration[elementName] = { '': '' };
-  //     if (type === 'key') {
-  //       updateConfig.configuration[elementName][event.target.value] =
-  //         updateConfig.configuration[elementName][''];
-  //       delete updateConfig.configuration[elementName][''];
-  //     }
-  //     if (type === 'value') {
-  //       var unkownKey = Object.keys(updateConfig.configuration[elementName])[0];
-  //       // ;
-  //       updateConfig.configuration[elementName][unkownKey] = event.target.value;
-  //       // delete updateConfig.configuration[elementName][defaultValue];
-  //     }
-  //
-  //     onCallApi(updateConfig);
-  //   }
-  // };
-  // const onPressEnterForAddMore = (
-  //   event: any,
-  //   type?: any,
-  //   elementName?: any,
-  // ) => {
-  //   if (event.key === 'Enter') {
-  //     const updateConfig = {
-  //       ...stackComponent,
-  //     };
-  //     //    if (event) {
-  //     //   setInputData({
-  //     //     ...inputData,
-  //     //     [toSnakeCase(label)]: {
-  //     //       ...result,
-  //     //     },
-  //     //   });
-  //     // }
-  //     const keys = inputFields.map((object: any) => object.key);
-  //     const value = inputFields.map((object: any) => object.value);
-  //     var result: any = {};
-  //     keys.forEach((key: any, i: any) => (result[key] = value[i]));
-  //     updateConfig.configuration[elementName] = {
-  //       ...updateConfig.configuration[elementName],
-  //       ...result,
-  //     };
-  //
-  //     onCallApi(updateConfig);
-  //   }
-  // };
-
-  // const onChangeToggle = (value: any, type?: any, key?: any) => {
-  //   const updateConfig = {
-  //     ...stackComponent,
-  //   };
-  //   // ;
-  //   if (type === 'share') {
-  //     updateConfig.isShared = value;
-  //   }
-  //   if (type === 'other') {
-  //     updateConfig.configuration[key] = value;
-  //   }
-  //   onCallApi(updateConfig);
-  // };
-
-  // const handleAddFields = () => {
-  //   const values = [...inputFields];
-  //   values.push({ key: '', value: '' });
-  //   setInputFields(values);
-  // };
-  // const handleInputChange = (index: any, event: any, label: any, type: any) => {
-  //   const values = [...inputFields];
-  //   if (type === 'key') {
-  //     values[index].key = event;
-  //   } else {
-  //     values[index].value = event;
-  //   }
-  //   setInputFields(values);
-  // };
-  // const handleRemoveFields = (index: any) => {
-  //   const values = [...inputFields];
-  //   values.splice(index, 1);
-  //   setInputFields(values);
-  // };
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
     if (elementSchema.type === 'string') {
@@ -476,12 +241,9 @@ export const UpdateConfig: React.FC<{
                 )}
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
-                    ...prevConfig, // Spread the previous user object
-                    [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
+                    ...prevConfig, // Spread the previous object
+                    [elementName]: { ...prevConfig[elementName], default: e },
                   }));
-                  // setMappedConfiguration(...mappedConfiguration,
-                  //   mappedConfiguration[elementName]: e,
-                  // );
                 }}
                 placeholder=""
                 label={titleCase(elementName)}
@@ -499,12 +261,9 @@ export const UpdateConfig: React.FC<{
                 )}
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
-                    ...prevConfig, // Spread the previous user object
-                    [elementName]: { ...prevConfig[elementName], default: e }, // Update the age property
+                    ...prevConfig, // Spread the previous object
+                    [elementName]: { ...prevConfig[elementName], default: e },
                   }));
-                  // setMappedConfiguration(...mappedConfiguration,
-                  //   mappedConfiguration[elementName]: e,
-                  // );
                 }}
                 placeholder=""
                 label={titleCase(elementName)}
@@ -516,50 +275,6 @@ export const UpdateConfig: React.FC<{
       );
     }
 
-    // if (
-    //   elementSchema.type === 'object'
-    // ) {
-    //   return (
-    //     <>
-    //       {' '}
-    //       <Box marginTop="lg">
-    //         <Paragraph size="body" style={{ color: '#000' }}>
-    //           <label htmlFor="key">{titleCase(elementName)}</label>
-    //         </Paragraph>
-    //       </Box>
-    //       <FlexBox marginTop="sm" fullWidth style={{ width: '30vw' }}>
-    //         <textarea
-    //           className={styles.textArea}
-    //           defaultValue={JSON.stringify(mappedConfiguration[elementName])}
-    //           onBlur={(e) => {
-    //             const jsonStr = e.target.value;
-    //             try {
-    //               JSON.parse(jsonStr);
-    //             } catch (e) {
-    //               dispatch(
-    //                 showToasterAction({
-    //                   description: 'Invalid JSON.',
-    //                   type: toasterTypes.failure,
-    //                 }),
-    //               );
-    //             }
-    //           }}
-    //           onChange={(e) => {
-    //             const jsonStr = e.target.value;
-    //             try {
-    //               const jsonObj = JSON.parse(jsonStr);
-
-    //               setMappedConfiguration({
-    //                 ...mappedConfiguration,
-    //                 [elementName]: jsonObj,
-    //               });
-    //             } catch (e) {}
-    //           }}
-    //         />
-    //       </FlexBox>
-    //     </>
-    //   );
-    // }
     if (elementSchema.type === 'object') {
       return (
         <Box marginTop="md">
@@ -619,8 +334,6 @@ export const UpdateConfig: React.FC<{
                         onChange={(event: any) => {
                           const values = { ...inputFields };
                           values[elementName][index].key = event;
-                          // values[name][childIndex].key = event;
-                          // debugger;
                           setInputFields(values);
                         }}
                         label={'Key'}
@@ -634,8 +347,7 @@ export const UpdateConfig: React.FC<{
                         onChange={(event: any) => {
                           const values = { ...inputFields };
                           values[elementName][index].value = event;
-                          // values[name][childIndex].key = event;
-                          // debugger;
+
                           setInputFields(values);
                         }}
                         label={'Value'}
@@ -665,27 +377,19 @@ export const UpdateConfig: React.FC<{
                             className={styles.fieldButton}
                             style={{}}
                             type="button"
-                            // disabled={item[props.name].length === 1}
-                            onClick={
-                              () => {
-                                setInputFields((prevState: any) => {
-                                  // Replace with the index of the object to remove
-                                  const newInputFields = [
-                                    ...prevState[elementName],
-                                  ];
-                                  newInputFields.splice(index, 1);
-                                  return {
-                                    ...prevState,
-                                    [elementName]: newInputFields,
-                                  };
-                                });
-                              }
-                              // handleRemoveFields(
-                              //   parentIndex,
-                              //   childIndex,
-                              //   props.name,
-                              // )
-                            }
+                            onClick={() => {
+                              setInputFields((prevState: any) => {
+                                // Replace with the index of the object to remove
+                                const newInputFields = [
+                                  ...prevState[elementName],
+                                ];
+                                newInputFields.splice(index, 1);
+                                return {
+                                  ...prevState,
+                                  [elementName]: newInputFields,
+                                };
+                              });
+                            }}
                           >
                             <icons.delete color={iconColors.grey} />
                           </button>
@@ -780,11 +484,11 @@ export const UpdateConfig: React.FC<{
                               ];
                               values[index] = event;
                               setMappedConfiguration((prevConfig: any) => ({
-                                ...prevConfig, // Spread the previous user object
+                                ...prevConfig, // Spread the previous object
                                 [elementName]: {
                                   ...prevConfig[elementName],
                                   default: values,
-                                }, // Update the age property
+                                },
                               }));
                             }}
                             label={'Value'}
@@ -814,18 +518,17 @@ export const UpdateConfig: React.FC<{
                                 className={styles.fieldButton}
                                 style={{}}
                                 type="button"
-                                // disabled={item[props.name].length === 1}
                                 onClick={() => {
                                   const values = [
                                     ...mappedConfiguration[elementName].default,
                                   ];
                                   values.splice(index, 1);
                                   setMappedConfiguration((prevConfig: any) => ({
-                                    ...prevConfig, // Spread the previous user object
+                                    ...prevConfig, // Spread the previous  object
                                     [elementName]: {
                                       ...prevConfig[elementName],
                                       default: values,
-                                    }, // Update the age property
+                                    },
                                   }));
                                 }}
                               >
@@ -844,11 +547,11 @@ export const UpdateConfig: React.FC<{
                                   ];
                                   values.push('');
                                   setMappedConfiguration((prevConfig: any) => ({
-                                    ...prevConfig, // Spread the previous user object
+                                    ...prevConfig, // Spread the previous  object
                                     [elementName]: {
                                       ...prevConfig[elementName],
                                       default: values,
-                                    }, // Update the age property
+                                    },
                                   }));
                                 }}
                               >
@@ -874,19 +577,16 @@ export const UpdateConfig: React.FC<{
           <Box>
             <ToggleField
               value={elementSchema.default}
-              onHandleChange={
-                () =>
-                  setMappedConfiguration((prevConfig: any) => ({
-                    ...prevConfig, // Spread the previous user object
-                    [elementName]: {
-                      ...prevConfig[elementName],
-                      default: !prevConfig[elementName].default,
-                    }, // Update the age property
-                  }))
-                // onChangeToggle(!elementSchema, 'other', elementName)
+              onHandleChange={() =>
+                setMappedConfiguration((prevConfig: any) => ({
+                  ...prevConfig, // Spread the previous  object
+                  [elementName]: {
+                    ...prevConfig[elementName],
+                    default: !prevConfig[elementName].default,
+                  },
+                }))
               }
               label={titleCase(elementName)}
-              // disabled={true}
             />
           </Box>
         </Box>
@@ -897,71 +597,6 @@ export const UpdateConfig: React.FC<{
     return <FullWidthSpinner color="black" size="md" />;
   }
 
-  // const values = [...flavor?.configSchema?.properties];
-  // let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
-  //   r: any,
-  //   name: any,
-  // ) {
-  //   return (
-  //     (r[name] =
-  //       flavor?.configSchema?.properties[name].type === 'string' &&
-  //       flavor?.configSchema?.properties[name].default === undefined
-  //         ? ''
-  //         : flavor?.configSchema?.properties[name].default),
-  //     r
-  //   );
-  // },
-  // {});
-  // function replaceNullWithEmptyString(obj: any) {
-  //   for (let prop in obj) {
-  //     if (obj[prop] === null) {
-  //       obj[prop] = '';
-  //     } else if (typeof obj[prop] === 'object') {
-  //       replaceNullWithEmptyString(obj[prop]);
-  //     }
-  //   }
-  //   return obj;
-  // }
-
-  // replaceNullWithEmptyString(stackComponent?.configuration);
-  // for (const key in stackComponent?.configuration) {
-  //   if (stackComponent?.configuration.hasOwnProperty(key)) {
-  //     if (
-  //       stackComponent?.configuration[key] === null &&
-  //       flavor?.configSchema?.properties[key].default === undefined
-  //     ) {
-  //       stackComponent.configuration[key] = '';
-  //     } else {
-  //       stackComponent.configuration[key] =
-  //         flavor?.configSchema?.properties[key].default;
-  //     }
-  //   }
-  // }
-
-  // let normalizeConfiguration = Object.keys(
-  //   stackComponent?.configuration,
-  // ).reduce(function (r: any, name: any) {
-  //   if (stackComponent?.configuration[name] === null) {
-  //     return (
-  //       (r[name] =
-  //         stackComponent?.configuration[name] === null &&
-  //         flavor?.configSchema?.properties[name].default === undefined
-  //           ? ''
-  //           : flavor?.configSchema?.properties[name].default),
-  //       r
-  //     );
-  //   } else {
-  //     return {};
-  //   }
-  // }, {});
-
-  // const mappedObject = {
-  //   ...result,
-  //   ...stackComponent?.configuration,
-  //   // ...normalizeConfiguration,
-  // };
-
-  // debugger;
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
@@ -979,17 +614,6 @@ export const UpdateConfig: React.FC<{
               label={'Component Name'}
               value={connectorName}
             />
-            {/* <EditField
-              // disabled
-              onKeyDown={(e: any) => onPressEnter(e, 'name')}
-              onChangeText={(e: any) => onPressEnter(e, 'name')}
-              label={'Component Name'}
-              optional={false}
-              defaultValue={stackComponent.name}
-              placeholder=""
-              hasError={false}
-              className={styles.field}
-            /> */}
           </Box>
         </Container>
         <Container>
@@ -1014,10 +638,7 @@ export const UpdateConfig: React.FC<{
               label={'Share Component with public'}
               default={isShared}
               value={isShared}
-              onHandleChange={
-                (key: any, value: any) => setIsShared(!isShared)
-                // setInputData({ ...inputData, ['is_shared']: value })
-              }
+              onHandleChange={(key: any, value: any) => setIsShared(!isShared)}
             />
           </Box>
         </Container>
@@ -1055,15 +676,10 @@ export const UpdateConfig: React.FC<{
                 setConnectorExpirationSeconds(e);
               }}
               type="number"
-              // disabled
-              // onKeyDown={(e: any) => onPressEnter(e, 'name')}
-              // onChangeText={(e: any) => onPressEnter(e, 'name')}
               label={'Expiration Seconds'}
               optional={false}
               value={connectorExpirationSeconds}
               placeholder=""
-              // hasError={false}
-              // className={styles.field}
             />
           </Box>
         </Container>
@@ -1130,8 +746,7 @@ export const UpdateConfig: React.FC<{
                       onChange={(event: any) => {
                         const values = [...labelsInputFields];
                         values[index].key = event;
-                        // values[name][childIndex].key = event;
-                        // debugger;
+
                         setLabelsInputFields(values);
                       }}
                       label={'Key'}
@@ -1145,8 +760,7 @@ export const UpdateConfig: React.FC<{
                       onChange={(event: any) => {
                         const values = [...labelsInputFields];
                         values[index].value = event;
-                        // values[name][childIndex].key = event;
-                        // debugger;
+
                         setLabelsInputFields(values);
                       }}
                       label={'Value'}
@@ -1176,26 +790,12 @@ export const UpdateConfig: React.FC<{
                           className={styles.fieldButton}
                           style={{}}
                           type="button"
-                          // disabled={item[props.name].length === 1}
-                          onClick={
-                            () => {
-                              // setLabelsInputFields((prevState: any) => {
-                              //   // Replace with the index of the object to remove
+                          onClick={() => {
+                            const values = [...labelsInputFields];
+                            values.splice(index, 1);
 
-                              //   labelsInputFields.splice(index, 1);
-                              // });
-                              const values = [...labelsInputFields];
-                              values.splice(index, 1);
-                              // values[name][childIndex].key = event;
-                              // debugger;
-                              setLabelsInputFields(values);
-                            }
-                            //   // handleRemoveFields(
-                            //   //   parentIndex,
-                            //   //   childIndex,
-                            //   //   props.name,
-                            //   // )
-                          }
+                            setLabelsInputFields(values);
+                          }}
                         >
                           <icons.delete color={iconColors.grey} />
                         </button>
@@ -1208,8 +808,7 @@ export const UpdateConfig: React.FC<{
                           onClick={() => {
                             const values = [...labelsInputFields];
                             values.push({ key: '', value: '' });
-                            // values[name][childIndex].key = event;
-                            // debugger;
+
                             setLabelsInputFields(values);
                           }}
                         >
@@ -1236,20 +835,9 @@ export const UpdateConfig: React.FC<{
       >
         <Box marginBottom="lg">
           <PrimaryButton
-            onClick={
-              () => {
-                onSubmit();
-              }
-              // history.push(
-              //   routePaths.secret.updateSecret(secret.id, selectedWorkspace),
-              // )
-            }
-            // style={{
-            //   background: '#FFFFFF',
-            //   boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
-            //   borderRadius: '4px',
-            //   color: '#443E99',
-            // }}
+            onClick={() => {
+              onSubmit();
+            }}
           >
             Save Changes
           </PrimaryButton>

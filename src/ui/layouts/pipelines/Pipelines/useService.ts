@@ -28,29 +28,6 @@ export const useService = (): ServiceInterface => {
   useEffect(() => {
     setFetchingForPipeline(true);
     setFetchingForAllRuns(true);
-    // dispatch(
-    //   runsActions.allRuns({
-    //     sort_by: 'desc:created',
-    //     logical_operator: 'and',
-    //     workspace: selectedWorkspace,
-    //     page: 1,
-    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-    //     onSuccess: () => setFetchingForAllRuns(false),
-    //     onFailure: () => setFetchingForAllRuns(false),
-    //   }),
-    // );
-    // dispatch(
-    //   pipelinesActions.getMy({
-    //     sort_by: 'desc:created',
-    //     logical_operator: 'and',
-    //     page: 1,
-    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-    //     name: '',
-    //     workspace: selectedWorkspace,
-    //     onSuccess: () => setFetchingForPipeline(false),
-    //     onFailure: () => setFetchingForPipeline(false),
-    //   }),
-    // );
   }, [selectedWorkspace]);
 
   const setFetchingForPipeline = (fetching: boolean) => {
@@ -86,7 +63,7 @@ export const callActionForPipelinesForPagination = () => {
         page: page,
         size: size,
         filtersParam,
-        // name: name ? name : '',
+
         workspace: selectedWorkspace,
         onSuccess: () => setFetchingForPipeline(false),
         onFailure: () => setFetchingForPipeline(false),

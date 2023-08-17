@@ -71,7 +71,6 @@ export async function artifactService(artifactId: any, authToken: any) {
   return response;
 }
 
-// let currentId = '';
 // eslint-disable-next-line
 let currentResponse = {};
 
@@ -93,15 +92,8 @@ export const fetchArtifactVisualizationSize = async (
           const contentLength = progressEvent.total;
           const loadedBytes = progressEvent.loaded;
           localStorage.setItem('VISUALIZATION_SIZE', contentLength);
-          console.log(
-            'VISUALIZATION_SIZE',
-            localStorage.getItem('VISUALIZATION_SIZE'),
-          );
           source.cancel(
             `API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes (cancel)`,
-          );
-          console.log(
-            `API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`,
           );
         },
         cancelToken: source?.token,
@@ -126,26 +118,13 @@ export async function artifactVisulizationService(
   authToken: any,
   source: any,
 ) {
-  // console.log("cancelToken before", cancelToken)
-  console.log('currentResponse before', source);
-
-  // if(source){
-  //     source.cancel(`API response size: ${"contentLength"} bytes, loaded: ${"loadedBytes"} bytes (cancel)`)
-  // }
-
   const response = await axios.get(
     `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
     {
       headers: {
         Authorization: `bearer ${authToken}`,
       },
-      onDownloadProgress: (progressEvent) => {
-        const contentLength = progressEvent.total;
-        const loadedBytes = progressEvent.loaded;
-        console.log(
-          `API response size: ${contentLength} bytes, loaded: ${loadedBytes} bytes`,
-        );
-      },
+      onDownloadProgress: (progressEvent) => {},
       cancelToken: source?.token,
     },
   );

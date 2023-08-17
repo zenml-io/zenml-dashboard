@@ -10,7 +10,6 @@ export const getArtifactVisualization = ({
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => {
-  console.log('api action', id);
   return {
     type: runActionTypes.getArtifactVisualization.request,
     payload: {

@@ -12,8 +12,6 @@ import FilterComponent, {
 import { Box, FlexBox, PrimaryButton } from '../../../components';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
-// import { useSelector } from '../../../hooks';
-// import { workspaceSelectors } from '../../../../redux/selectors';
 
 const FilterWrapper = () => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -62,8 +60,8 @@ const FilterWrapper = () => {
 };
 
 export const Stacks: React.FC = () => {
-  const { setFetching } = useService();
-  console.log(setFetching);
+  useService();
+
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const locationPath = useLocationPath();
   return (
@@ -72,25 +70,14 @@ export const Stacks: React.FC = () => {
         {
           text: translate('tabs.stacks.text'),
           Component: FilterWrapper,
-          // path: routePaths.stacks.base,
+
           path: routePaths.stacks.list(
             selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
           ),
         },
       ]}
       tabBasePath={routePaths.stacks.base}
-      breadcrumbs={
-        [
-          // {
-          //   name: translate('header.breadcrumbs.stacks.text'),
-          //   clickable: true,
-          //   // to: routePaths.stacks.base,
-          //   to: routePaths.stacks.list(
-          //     selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
-          //   ),
-          // },
-        ]
-      }
+      breadcrumbs={[]}
       title="Stacks"
       headerWithButtons
       renderHeaderRight={() => <></>}

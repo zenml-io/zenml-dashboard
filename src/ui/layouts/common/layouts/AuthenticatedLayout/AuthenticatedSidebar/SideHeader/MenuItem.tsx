@@ -3,11 +3,7 @@ import { NavLink, useLocation } from 'react-router-dom';
 import { Box, FlexBox } from '../../../../../../components';
 import cn from 'classnames';
 import styles from './MenuItem.module.scss';
-// import { DEFAULT_WORKSPACE_NAME } from '../../../../../../../constants';
-// import { useSelector } from '../../../../../../hooks';
-// import { workspaceSelectors } from '../../../../../../../redux/selectors';
 
-// debugger;
 export const MenuItem: React.FC<{
   subItem?: boolean;
   text: string;
@@ -16,7 +12,6 @@ export const MenuItem: React.FC<{
   Icon: React.ComponentType;
   isActive?: ({ match, location }: { match: any; location: any }) => boolean;
 }> = ({ text, to, exact = false, Icon, isActive, subItem }) => {
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   let location = useLocation();
   return (
     <NavLink

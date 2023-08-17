@@ -37,9 +37,6 @@ export const useService = (): ServiceInterface => {
     setServiceConnectorResources,
   ] = useState() as any;
   const { id } = useParams<StackDetailRouteParams>();
-  // const ITEMS_PER_PAGE = parseInt(
-  //   process.env.REACT_APP_ITEMS_PER_PAGE as string,
-  // );
 
   const stackComponent = useSelector(
     stackComponentSelectors.stackComponentForId(id),
@@ -82,22 +79,7 @@ export const useService = (): ServiceInterface => {
         onFailure: () => setFetching(false),
       }),
     );
-    // dispatch(
-    //   stackComponentsActions.allRunsByStackComponentId({
-    //     sort_by: 'desc:created',
-    //     logical_operator: 'and',
-    //     stackComponentId: id,
-    //     page: 1,
-    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-    //     onSuccess: () => setFetching(false),
-    //     onFailure: () => setFetching(false),
-    //   }),
-    // );
   }, [id]);
-
-  // const setFetching = (fetching: boolean) => {
-  //   dispatch(stackComponentPagesActions.setFetching({ fetching }));
-  // };
 
   return {
     stackComponent,
@@ -110,8 +92,7 @@ export const useService = (): ServiceInterface => {
 
 export const callActionForStackComponentRunsForPagination = () => {
   const dispatch = useDispatch();
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  // const { id } = useParams<PipelineDetailRouteParams>();
+
   function dispatchStackComponentRunsData(
     id: any,
     page: number,
@@ -121,8 +102,7 @@ export const callActionForStackComponentRunsForPagination = () => {
   ) {
     const logicalOperator = localStorage.getItem('logical_operator');
     let filtersParam = filterObjectForParam(filters);
-    console.log(page, size, 'page,size');
-    // debugger;
+
     setFetching(true);
     dispatch(
       stackComponentsActions.allRunsByStackComponentId({

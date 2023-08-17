@@ -41,7 +41,7 @@ const SelectorDisabled: React.FC<Props> = ({ label, inputFields, width }) => {
                   }}
                 />
               </Box>
-              {console.log(item, 'itemitem')}
+
               <Box style={{ width }} marginLeft="md">
                 <FormPasswordField
                   onChange={() => {}}
