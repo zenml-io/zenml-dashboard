@@ -1,13 +1,18 @@
 import _ from 'lodash';
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
-import { Box, FlexBox, icons, Paragraph } from '../../../../components';
+import {
+  Box,
+  FlexBox,
+  icons,
+  Paragraph,
+  Tooltip,
+} from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -15,7 +20,7 @@ import { useService } from './ForSorting/useServiceForSorting';
 
 export const GetHeaderCols = ({
   expendedRow,
-  // opensecretIds,
+
   setOpenSecretIds,
   filteredSecrets,
   setFilteredSecrets,
@@ -44,35 +49,6 @@ export const GetHeaderCols = ({
   });
 
   return [
-    // {
-    //   width: '3%',
-    //   renderRow: (secret: any) => (
-    //     <LinkBox
-    //       onClick={(e: Event) => {
-    //         setToggle(!toggle);
-    //         e.stopPropagation();
-    //         if (opensecretIds.indexOf(secret.id) === -1) {
-    //           setOpensecretIds([...opensecretIds, secret.id]);
-    //         } else {
-    //           setOpensecretIds(
-    //             opensecretIds.filter((id: TId) => id !== secret.id),
-    //           );
-    //         }
-    //       }}
-    //     >
-    //       <FlexBox
-    //         justifyContent="center"
-    //         style={{ paddingTop: '5px', paddingBottom: '5px' }}
-    //       >
-    //         {opensecretIds.indexOf(secret.id) === -1 ? (
-    //           <icons.rightArrow color={iconColors.grey} size={iconSizes.sm} />
-    //         ) : (
-    //           <icons.chevronDown color={iconColors.grey} size={iconSizes.sm} />
-    //         )}
-    //       </FlexBox>
-    //     </LinkBox>
-    //   ),
-    // },
     {
       render: () => (
         <SortingHeader
@@ -114,9 +90,7 @@ export const GetHeaderCols = ({
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <ReactTooltip id={secret.id} place="top" effect="solid">
-            <Paragraph color="white">{secret.id}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={secret.id} text={secret.id} />
         </FlexBox>
       ),
     },
@@ -147,9 +121,7 @@ export const GetHeaderCols = ({
               {secret.name}
             </Paragraph>
           </div>
-          <ReactTooltip id={secret.name} place="top" effect="solid">
-            <Paragraph color="white">{secret.name}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={secret.name} text={secret.name} />
         </FlexBox>
       ),
     },
@@ -182,9 +154,7 @@ export const GetHeaderCols = ({
               {secret.scope}
             </Paragraph>
           </div>
-          <ReactTooltip id={secret.scope} place="top" effect="solid">
-            <Paragraph color="white">{secret.scope}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={secret.scope} text={secret.scope} />
         </FlexBox>
       ),
     },
@@ -228,21 +198,18 @@ export const GetHeaderCols = ({
                 </Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip
+            <Tooltip
               id={
                 secret?.user?.full_name
                   ? secret?.user?.full_name
                   : secret?.user?.name
               }
-              place="top"
-              effect="solid"
-            >
-              <Paragraph color="white">
-                {secret?.user?.full_name
+              text={
+                secret?.user?.full_name
                   ? secret?.user?.full_name
-                  : secret?.user?.name}
-              </Paragraph>
-            </ReactTooltip>
+                  : secret?.user?.name
+              }
+            />
           </FlexBox>
         );
       },
@@ -279,23 +246,15 @@ export const GetHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToSort(secret.created)}>
             <FlexBox alignItems="center">
-              {/* <Box paddingRight="sm">
-                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(secret.created)}
               </Paragraph>
             </FlexBox>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={formatDateToSort(secret.created)}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {formatDateToDisplayOnTable(secret.created)}
-            </Paragraph>
-          </ReactTooltip>
+            text={formatDateToDisplayOnTable(secret.created)}
+          />
         </FlexBox>
       ),
     },

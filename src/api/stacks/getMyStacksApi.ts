@@ -12,7 +12,7 @@ const getMyStacksApi = ({
   size,
   name,
   filtersParam,
-  // id,
+
   authenticationToken,
 }: {
   component_id?: any;
@@ -23,7 +23,7 @@ const getMyStacksApi = ({
   size: number;
   name?: string;
   filtersParam?: object;
-  // id?: any;
+
   authenticationToken: string;
 }): Promise<TStack> =>
   fetchApiWithAuthRequest({
@@ -36,7 +36,6 @@ const getMyStacksApi = ({
       size,
       name,
       ...filtersParam,
-      // id,
     },
     method: httpMethods.get,
     authenticationToken,

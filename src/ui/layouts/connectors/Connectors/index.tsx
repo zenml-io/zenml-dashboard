@@ -12,8 +12,6 @@ import FilterComponent, {
 import { Box } from '../../../components';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { useLocationPath, useSelector } from '../../../hooks';
-// import { useSelector } from '../../../hooks';
-// import { workspaceSelectors } from '../../../../redux/selectors';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -53,25 +51,14 @@ export const Stacks: React.FC = () => {
         {
           text: translate('tabs.connectors.text'),
           Component: FilterWrapper,
-          // path: routePaths.connectors.base,
+
           path: routePaths.connectors.list(
             selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
           ),
         },
       ]}
       tabBasePath={routePaths.connectors.base}
-      breadcrumbs={
-        [
-          // {
-          //   name: translate('header.breadcrumbs.stacks.text'),
-          //   clickable: true,
-          //   // to: routePaths.stacks.base,
-          //   to: routePaths.stacks.list(
-          //     selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
-          //   ),
-          // },
-        ]
-      }
+      breadcrumbs={[]}
       title="Connectors"
       headerWithButtons
       renderHeaderRight={() => <></>}

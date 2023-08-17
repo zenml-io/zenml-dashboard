@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { flavorsActions, flavorPagesActions } from '../../../../redux/actions';
-// import { workspaceSelectors } from '../../../../redux/selectors';
+
 import { useDispatch, useLocationPath, useSelector } from '../../../hooks';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { workspaceSelectors } from '../../../../redux/selectors';

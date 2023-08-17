@@ -10,17 +10,16 @@ import {
   FlexBox,
   // icons,
   Paragraph,
+  Tooltip,
 } from '../../../components';
 import { HeaderCol } from '../../common/Table';
-// import { iconColors, iconSizes } from '../../../../constants';
+
 import { DeleteMember } from './DeleteMember';
 import { UpdateMember } from './UpdateMember';
 import { TokenPopup } from './tokenPopup';
-import ReactTooltip from 'react-tooltip';
 import { Sorting, SortingDirection } from './ForSorting/types';
-// import { SortingHeader } from './ForSorting/SortingHeader';
+
 import { useService } from './ForSorting/useServiceForSorting';
-// import _ from 'lodash';
 
 export const useInviteHeaderCols = (): HeaderCol[] => {
   return [
@@ -54,9 +53,6 @@ export const useInviteHeaderCols = (): HeaderCol[] => {
       width: '25%',
       renderRow: (invite: TInvite) => (
         <FlexBox alignItems="center">
-          {/* <Box paddingRight="sm">
-            <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box> */}
           <Paragraph color="grey" size="tiny">
             {formatDateToDisplayOnTable(invite.createdAt)}
           </Paragraph>
@@ -90,7 +86,7 @@ export const useMemberHeaderCols = ({
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
   setActiveSorting: (sorting: Sorting | null) => void;
 }): HeaderCol[] => {
-  const { sortMethod } = useService({
+  useService({
     setActiveSortingDirection,
     setActiveSorting,
     setFilteredMembers,
@@ -98,26 +94,13 @@ export const useMemberHeaderCols = ({
     activeSortingDirection,
     filteredMembers,
   });
-  console.log(sortMethod);
 
   return [
     {
       render: () => (
-        // <SortingHeader
-        //   sorting="name"
-        //   sortMethod={sortMethod('name', {
-        //     asc: (filteredMembers: TMember[]) =>
-        //       _.orderBy(filteredMembers, ['name'], ['asc']),
-        //     desc: (filteredMembers: TMember[]) =>
-        //       _.orderBy(filteredMembers, ['name'], ['desc']),
-        //   })}
-        //   activeSorting={activeSorting}
-        //   activeSortingDirection={activeSortingDirection}
-        // >
         <Paragraph size="small" style={headColStyle}>
           {translate('table.member.text')}
         </Paragraph>
-        // </SortingHeader>
       ),
       width: '12%',
       renderRow: (member: TMember) => {
@@ -134,9 +117,7 @@ export const useMemberHeaderCols = ({
                 <Paragraph size="small">{member.name}</Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip id={member.name} place="top" effect="solid">
-              <Paragraph color="white">{member.name}</Paragraph>
-            </ReactTooltip>
+            <Tooltip id={member.name} text={member.name} />
           </FlexBox>
         );
       },
@@ -166,15 +147,10 @@ export const useMemberHeaderCols = ({
               )}
             </Paragraph>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={member?.active ? 'Accepted' : 'Pending'}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {member?.active ? 'Accepted' : 'Pending'}
-            </Paragraph>
-          </ReactTooltip>
+            text={member?.active ? 'Accepted' : 'Pending'}
+          />
         </FlexBox>
       ),
     },
@@ -201,52 +177,24 @@ export const useMemberHeaderCols = ({
     },
     {
       render: () => (
-        // <SortingHeader
-        //   sorting="created"
-        //   sortMethod={sortMethod('created', {
-        //     asc: (filteredMembers: any[]) =>
-        //       _.orderBy(
-        //         filteredMembers,
-        //         (member: any) => new Date(member?.created).getTime(),
-        //         ['asc'],
-        //       ),
-        //     desc: (filteredMembers: any[]) =>
-        //       _.orderBy(
-        //         filteredMembers,
-        //         (member: any) => new Date(member?.created).getTime(),
-        //         ['desc'],
-        //       ),
-        //   })}
-        //   activeSorting={activeSorting}
-        //   activeSortingDirection={activeSortingDirection}
-        // >
         <Paragraph size="small" style={headColStyle}>
           {translate('table.createdAt.text')}
         </Paragraph>
-        // </SortingHeader>
       ),
       width: '13%',
       renderRow: (member: TMember) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(member?.created)}>
             <FlexBox alignItems="center">
-              {/* <Box paddingRight="sm">
-                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(member?.created)}
               </Paragraph>
             </FlexBox>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={formatDateToDisplayOnTable(member?.created)}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {formatDateToDisplayOnTable(member?.created)}
-            </Paragraph>
-          </ReactTooltip>
+            text={formatDateToDisplayOnTable(member?.created)}
+          />
         </FlexBox>
       ),
     },
@@ -272,9 +220,7 @@ export const useMemberHeaderCols = ({
                 <div data-tip data-for={member?.id}>
                   <DeleteMember member={member} />
                 </div>
-                {/* <ReactTooltip id={member.id} place="top" effect="solid">
-              <Paragraph color="white">Delete Member</Paragraph>
-            </ReactTooltip> */}
+                {/* <Tooltip id={member.id} text='Delete Member' /> */}
               </FlexBox>
             </>
           )}

@@ -1,5 +1,5 @@
 import React from 'react';
-// import { translate } from './translate';
+
 import { ListForAll } from './ListForAll';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
@@ -8,29 +8,12 @@ import { useLocationPath, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { useService } from './useService';
 
-// import { camelCaseToParagraph } from '../../../../utils';
-// import { workspaceSelectors } from '../../../../redux/selectors';
-// import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-// import { workspaceSelectors } from '../../../../redux/selectors';
-
 export const ConnectorTypes: React.FC = () => {
   const locationPath = useLocationPath();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   // eslint-disable-next-line no-empty-pattern
   const {} = useService();
 
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-
-  // const url_string = window.location.href;
-  // const url = new URL(url_string);
-  // const workspaceName = url.pathname.split('/')[2];
-
-  //   camelCaseToParagraph(locationPath.split('/')[4])
-
-  // const workspace = selectedWorkspace
-  //   ? selectedWorkspace
-  //   : DEFAULT_WORKSPACE_NAME;
-  // debugger;
   return (
     <BasePage
       fromRegisterComponent={true}
@@ -45,12 +28,6 @@ export const ConnectorTypes: React.FC = () => {
               ? selectedWorkspace
               : (locationPath.split('/')[2] as string),
           ),
-          // path: routePaths.connectors.registerConnectors(
-          //   locationPath.split('/')[4],
-          //   selectedWorkspace
-          //     ? selectedWorkspace
-          //     : (locationPath.split('/')[2] as string),
-          // ),
         },
       ]}
       tabBasePath={routePaths.connectors.connectorTypes(

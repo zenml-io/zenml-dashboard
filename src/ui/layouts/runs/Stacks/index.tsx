@@ -9,8 +9,8 @@ import { useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 
 export const Stacks: React.FC = () => {
-  const { setFetching } = useService();
-  console.log(setFetching);
+  useService();
+
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return (
     <BasePage

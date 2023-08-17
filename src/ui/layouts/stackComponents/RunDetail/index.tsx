@@ -1,10 +1,7 @@
 import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import {
-  camelCaseToParagraph,
-  // formatDateToDisplayOnTable,
-} from '../../../../utils';
+import { camelCaseToParagraph } from '../../../../utils';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 
 import { BasePage } from '../BasePage';
@@ -12,11 +9,8 @@ import { Configuration } from './Configuration';
 import { DAG } from '../../../components/dag';
 import { useService } from './useService';
 
-// import { Box, Paragraph } from '../../../components';
-
-// import { RunStatus } from './components';
 import { workspaceSelectors } from '../../../../redux/selectors';
-// import { Runs } from '../StackDetail/Runs';
+
 import { Table } from '../../common/Table';
 import { useHeaderCols } from './HeaderCols';
 
@@ -100,15 +94,6 @@ export const RunDetail: React.FC = () => {
       ),
     );
   };
-  // const boxStyle = {
-  //   backgroundColor: '#E9EAEC',
-  //   padding: '10px 0',
-  //   borderRadius: '8px',
-  //   marginTop: '20px',
-  //   display: 'flex',
-  //   justifyContent: 'space-around',
-  // };
-  // const headStyle = { color: '#828282' };
 
   return (
     <BasePage
@@ -118,108 +103,10 @@ export const RunDetail: React.FC = () => {
     >
       <Table
         pagination={false}
-        // activeSorting={
-        //   activeSortingDirection?.toLowerCase() + ':' + activeSorting
-        // } // activeSorting={
-        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-        //     ? activeSorting
-        //     : 'created'
-        // }
-        // pagination={pagination}
-        // loading={fetching}
-        // filters={filter}
-        // showHeader={true}
-        // paginated={paginated}
         headerCols={headerCols}
         tableRows={runRow}
-        // emptyState={{ text: emptyStateText }}
         trOnClick={openDetailPage}
       />
-      {/* <Box style={boxStyle}>
-        <Box>
-          <Paragraph style={headStyle}>RUN ID</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {run.id}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>RUN NAME</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {run.name}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>PIPELINE NAME</Paragraph>
-          <Paragraph
-            size="small"
-            style={{
-              color: '#22BBDD',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-              marginTop: '10px',
-            }}
-            onClick={(event) => {
-              event.stopPropagation();
-              history.push(
-                routePaths.pipeline.configuration(
-                  run.pipeline?.id,
-                  selectedWorkspace,
-                ),
-              );
-            }}
-          >
-            {run.pipeline?.name}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>STATUS</Paragraph>
-          <Paragraph
-            style={{
-              marginTop: '10px',
-              justifyContent: 'center',
-              borderRadius: '50%',
-              height: '25px',
-              width: '25px',
-              paddingTop: '3px',
-              textAlign: 'center',
-            }}
-          >
-            <RunStatus run={run} />
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>STACK NAME</Paragraph>
-          <Paragraph
-            size="small"
-            style={{
-              color: '#22BBDD',
-              textDecoration: 'underline',
-              cursor: 'pointer',
-              marginTop: '10px',
-            }}
-            onClick={(event) => {
-              event.stopPropagation();
-              history.push(
-                routePaths.stack.configuration(run.stack?.id, selectedWorkspace),
-              );
-            }}
-          >
-            {run.stack?.name}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>AUTHOR</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {run?.user?.name}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>CREATED</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateToDisplayOnTable(run.created)}
-          </Paragraph>
-        </Box>
-      </Box> */}
     </BasePage>
   );
 };

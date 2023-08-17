@@ -1,4 +1,3 @@
-// import deLocale from 'date-fns/locale/de';
 import {
   differenceInSeconds,
   format,
@@ -13,7 +12,6 @@ const dateformat = (date: any) =>
 
 const formatDateToFormat = (dateString: any, dateFormat: string): string =>
   format(new Date(dateString), dateFormat);
-// , { locale: deLocale }
 
 export const formatDateToDisplay = (dateString: Date): string => {
   if (typeof dateString === 'undefined' || !dateString) return '';
@@ -28,14 +26,7 @@ export const formatDateToDisplayWithoutTime = (dateString: Date): string => {
   if (typeof dateString === 'undefined' || !dateString) return '';
   return formatDateToFormat(dateformat(dateString), `MM/dd/yyyy`);
 };
-// export const formatDateToDisplay = (dateString: Date): string => {
-//   if (typeof dateString === 'undefined' || !dateString) return '';
-//   return formatDateToFormat(dateString, `dd.MM.yyyy`);
-// };
-// export const formatDateToDisplayOnTable = (dateString: Date): string => {
-//   if (typeof dateString === 'undefined' || !dateString) return '';
-//   return formatDateToFormat(dateString, `dd.MM.yyyy HH:mm:ss`);
-// };
+
 export const formatDateToSort = (dateString: Date): string => {
   if (typeof dateString === 'undefined' || !dateString) return '';
   return formatDateToFormat(dateString, `dd.MM.yyyy'T'HH:mm:ss.SSS'Z'`);

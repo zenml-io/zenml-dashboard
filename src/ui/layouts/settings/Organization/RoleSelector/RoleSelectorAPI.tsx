@@ -110,7 +110,6 @@ export const RoleSelectorAPI = ({
                           key={index}
                         >
                           <Paragraph className={styles.roleColor}>
-                            {/* {option.label} */}
                             {option?.label?.charAt(0).toUpperCase() +
                               option?.label?.slice(1)}
                           </Paragraph>
@@ -129,7 +128,6 @@ export const RoleSelectorAPI = ({
                   e?.role?.name?.slice(1)}{' '}
                 <span onClick={() => removeRoleBean(e)}>x</span>
               </p>
-              {/* <p>{e?.role?.name} <span onClick={() => removeRoleBean(e)}>x</span></p> */}
             </div>
           ))}
         </Row>

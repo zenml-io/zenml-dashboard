@@ -18,8 +18,6 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
         <Box marginTop={'lg'} style={{ width: '40%' }}>
           <EditField
             disabled
-            // onKeyDown={(e: any) => onPressEnter(e, 'string', elementName)}
-            // onChangeText={(e: any) => onPressEnter(e, 'string', elementName)}
             label={titleCase(elementName)}
             optional={false}
             defaultValue={elementSchema}
@@ -47,12 +45,7 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
           <Paragraph size="body" style={{ color: 'black' }}>
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
-          <Box
-            marginTop={'sm'}
-            padding={'md'}
-            // marginVertical={'md'}
-            className={styles.JSONPretty}
-          >
+          <Box marginTop={'sm'} padding={'md'} className={styles.JSONPretty}>
             <icons.copy
               className={styles.copy}
               onClick={handleCopy}
@@ -60,15 +53,10 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
               size={iconSizes.sm}
             />
             <JSONPretty
-              // aria-disabled
-              // valueStyle="red"
-              // color="rgba(246, 247, 247, 1)"
               style={{
                 fontSize: '16px',
                 fontFamily: 'Rubik',
-                // color: 'rgba(246, 247, 247, 1)',
               }}
-              // id="json-pretty"
               data={elementSchema}
             ></JSONPretty>
           </Box>
@@ -80,18 +68,6 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
       return (
         <Box marginTop={'lg'} style={{ width: '40%' }}>
           <Box>
-            {/* {console.log(elementSchema, elementName, 'asdasdasda2222sdasd')}
-            <FlexBox.Row justifyContent="space-between">
-              <Paragraph>{titleCase(elementName)}</Paragraph>
-              <label className={styles.switch}>
-                <input
-                  disabled
-                  type="checkbox"
-                  defaultChecked={elementSchema}
-                />
-                <span className={`${styles.slider} ${styles.round}`}></span>
-              </label>
-            </FlexBox.Row> */}
             <ToggleField
               value={elementSchema}
               onHandleChange={() => {}}
@@ -107,9 +83,9 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
   return (
     <FlexBox.Column marginLeft="md">
       {Object.keys(runConfiguration).map((key, ind) => (
-        // <Col xs={6} key={ind}>
-        <>{getFormElement(key, runConfiguration[key])}</>
-        // </Col>
+        <React.Fragment key={key}>
+          {getFormElement(key, runConfiguration[key])}{' '}
+        </React.Fragment>
       ))}
     </FlexBox.Column>
   );

@@ -79,8 +79,7 @@ export const getHeaderCols = ({
             justifyContent="center"
             style={{
               borderRadius: '50%',
-              // height: '19px',
-              // width: '19px',
+
               textAlign: 'center',
             }}
           >
@@ -122,9 +121,6 @@ export const getHeaderCols = ({
       width: '8%',
       renderRow: (stack: TStack) => (
         <FlexBox alignItems="center">
-          {/* <Box paddingRight="sm">
-            <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-          </Box> */}
           <Paragraph size="tiny">
             {formatDateToDisplayOnTable(stack.created)}
           </Paragraph>

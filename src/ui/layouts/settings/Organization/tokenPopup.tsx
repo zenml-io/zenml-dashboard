@@ -79,7 +79,6 @@ export const TokenPopup: React.FC<{
 
       <FlexBox.Row marginTop="lg" justifyContent="center">
         <Box className={styles.userImage}>
-          {/* <img src={userImage} alt='userImage' /> */}
           <FlexBox
             justifyContent="center"
             alignItems="center"

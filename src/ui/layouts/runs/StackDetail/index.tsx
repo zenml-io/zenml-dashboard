@@ -86,8 +86,7 @@ export const StackDetail: React.FC = () => {
               marginTop: '10px',
               justifyContent: 'center',
               borderRadius: '50%',
-              // height: '25px',
-              // width: '25px',
+
               paddingTop: '3px',
               textAlign: 'center',
             }}

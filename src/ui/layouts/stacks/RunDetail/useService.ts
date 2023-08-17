@@ -88,10 +88,6 @@ export const useService = (): ServiceInterface => {
 
     setMetaData(response?.data?.items); //Setting the response into state
   };
-  // const fetching = useSelector(runPagesSelectors.fetching);
-  // const setFetching = (fetching: boolean) => {
-  //   dispatch(runPagesActions.setFetching({ fetching }));
-  // };
 
   return { runId: id, stackId, run, fetching, metadata, graph };
 };

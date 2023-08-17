@@ -90,10 +90,5 @@ export const useService = (): ServiceInterface => {
     setMetaData(response?.data?.items); //Setting the response into state
   };
 
-  // const setFetching = (fetching: boolean) => {
-  //   dispatch(runPagesActions.setFetching({ fetching }));
-  // };
-  // const fetching = useSelector(runPagesSelectors.fetching);
-
   return { runId: id, pipelineId, run, fetching, metadata, graph };
 };
