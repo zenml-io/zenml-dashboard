@@ -4,13 +4,19 @@ import {
   formatDateToDisplayOnTable,
   getInitialsFromEmail,
 } from '../../../../utils';
-import { Box, ColoredCircle, FlexBox, Paragraph } from '../../../components';
+import {
+  Box,
+  ColoredCircle,
+  FlexBox,
+  // icons,
+  Paragraph,
+  Tooltip,
+} from '../../../components';
 import { HeaderCol } from '../../common/Table';
 
 import { DeleteMember } from './DeleteMember';
 import { UpdateMember } from './UpdateMember';
 import { TokenPopup } from './tokenPopup';
-import ReactTooltip from 'react-tooltip';
 import { Sorting, SortingDirection } from './ForSorting/types';
 
 import { useService } from './ForSorting/useServiceForSorting';
@@ -111,9 +117,7 @@ export const useMemberHeaderCols = ({
                 <Paragraph size="small">{member.name}</Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip id={member.name} place="top" effect="solid">
-              <Paragraph color="white">{member.name}</Paragraph>
-            </ReactTooltip>
+            <Tooltip id={member.name} text={member.name} />
           </FlexBox>
         );
       },
@@ -143,15 +147,10 @@ export const useMemberHeaderCols = ({
               )}
             </Paragraph>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={member?.active ? 'Accepted' : 'Pending'}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {member?.active ? 'Accepted' : 'Pending'}
-            </Paragraph>
-          </ReactTooltip>
+            text={member?.active ? 'Accepted' : 'Pending'}
+          />
         </FlexBox>
       ),
     },
@@ -192,15 +191,10 @@ export const useMemberHeaderCols = ({
               </Paragraph>
             </FlexBox>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={formatDateToDisplayOnTable(member?.created)}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {formatDateToDisplayOnTable(member?.created)}
-            </Paragraph>
-          </ReactTooltip>
+            text={formatDateToDisplayOnTable(member?.created)}
+          />
         </FlexBox>
       ),
     },
@@ -226,6 +220,7 @@ export const useMemberHeaderCols = ({
                 <div data-tip data-for={member?.id}>
                   <DeleteMember member={member} />
                 </div>
+                {/* <Tooltip id={member.id} text='Delete Member' /> */}
               </FlexBox>
             </>
           )}

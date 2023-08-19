@@ -1,8 +1,7 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 import { runStatus, iconColors, iconSizes } from '../../../../../../constants';
 
-import { Box, FlexBox, icons, If, Paragraph } from '../../../../../components';
+import { Box, FlexBox, icons, If, Tooltip } from '../../../../../components';
 
 function getID(pipelineID: string, index: number) {
   return `${pipelineID}-${index}`;
@@ -31,13 +30,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                   )}
                 </If>
               </div>
-              <ReactTooltip
-                id={getID(pipeline.id, index)}
-                place="top"
-                effect="solid"
-              >
-                <Paragraph color="white">{item}</Paragraph>
-              </ReactTooltip>
+              <Tooltip id={getID(pipeline.id, index)} text={item} />
             </FlexBox>
 
             <FlexBox alignItems="center">
@@ -53,13 +46,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                   )}
                 </If>
               </div>
-              <ReactTooltip
-                id={getID(pipeline.id, index)}
-                place="top"
-                effect="solid"
-              >
-                <Paragraph color="white">{item}</Paragraph>
-              </ReactTooltip>
+              <Tooltip id={getID(pipeline.id, index)} text={item} />
             </FlexBox>
 
             <FlexBox alignItems="center">
@@ -75,13 +62,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                   )}
                 </If>
               </div>
-              <ReactTooltip
-                id={getID(pipeline.id, index)}
-                place="top"
-                effect="solid"
-              >
-                <Paragraph color="white">{item}</Paragraph>
-              </ReactTooltip>
+              <Tooltip id={getID(pipeline.id, index)} text={item} />
             </FlexBox>
 
             <FlexBox alignItems="center">
@@ -97,13 +78,7 @@ export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
                   )}
                 </If>
               </div>
-              <ReactTooltip
-                id={getID(pipeline.id, index)}
-                place="top"
-                effect="solid"
-              >
-                <Paragraph color="white">{item}</Paragraph>
-              </ReactTooltip>
+              <Tooltip id={getID(pipeline.id, index)} text={item} />
             </FlexBox>
           </>
         </Box>

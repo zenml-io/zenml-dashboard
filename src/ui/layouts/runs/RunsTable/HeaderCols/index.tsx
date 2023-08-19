@@ -5,7 +5,7 @@ import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 
 import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 
-import { FlexBox, Paragraph, icons } from '../../../../components';
+import { FlexBox, Paragraph, icons, Tooltip } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
 
@@ -13,7 +13,6 @@ import { SortingHeader } from '../SortingHeader';
 
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
-import ReactTooltip from 'react-tooltip';
 
 export const useHeaderCols = ({
   expendedRow,
@@ -64,7 +63,7 @@ export const useHeaderCols = ({
       width: '20%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run?.id}>
+          <div data-tip data-for={run.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
               {expendedRow?.length === 1 ? (
                 <icons.chevronDown
@@ -75,15 +74,11 @@ export const useHeaderCols = ({
                 <icons.rightArrow color={iconColors.grey} size={iconSizes.xs} />
               )}
               <Paragraph size="small" style={{ marginLeft: '20px' }}>
-                {truncate(run?.id, ID_MAX_LENGTH)}
+                {truncate(run.id, ID_MAX_LENGTH)}
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <ReactTooltip id={run?.id} place="top" effect="solid">
-            <Paragraph size="small">
-              {truncate(run?.id, ID_MAX_LENGTH)}
-            </Paragraph>
-          </ReactTooltip>
+          <Tooltip id={run.id} text={run.id} />
         </FlexBox>
       ),
     },
