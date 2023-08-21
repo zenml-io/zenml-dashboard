@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import OutsideClickHandler from 'react-outside-click-handler';
 
 import {
@@ -11,6 +11,8 @@ import {
 } from '../../../components';
 
 import styles from './index.module.scss';
+import { replaceVersion } from '../../../../utils/string';
+import { checkUrlStatus } from '../../../../utils/checkUrlStatus';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
@@ -18,13 +20,37 @@ export const SidePopup: React.FC<{
   onSeeExisting: () => void;
   onClose: () => void;
   flavor?: any;
+  version: string;
   onSelectFlavor: any;
-}> = ({ children, flavor, onClose, onSelectFlavor, onSeeExisting }) => {
+}> = ({
+  children,
+  flavor,
+  onClose,
+  onSelectFlavor,
+  onSeeExisting,
+  version,
+}) => {
   window.onkeydown = function (event: any) {
     if (event.key === 'Esc' || event.key === 'Escape') {
       return onClose();
     }
   };
+  const [defaultSdkDocsUrl] = useState(
+    flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl,
+  );
+  const [is404, setIs404] = useState(false);
+
+  useEffect(() => {
+    const checkIfUrlExist = async () => {
+      const check = await checkUrlStatus(defaultSdkDocsUrl);
+
+      setIs404(check);
+    };
+
+    checkIfUrlExist();
+  }, [defaultSdkDocsUrl]);
+
+  const updatedSdkDocsUrl = replaceVersion(defaultSdkDocsUrl, version);
 
   return (
     <>
@@ -48,7 +74,7 @@ export const SidePopup: React.FC<{
                 style={{
                   paddingBottom: '270px',
                 }}
-                src={flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl}
+                src={is404 ? updatedSdkDocsUrl : defaultSdkDocsUrl}
               ></iframe>
             </Box>
 

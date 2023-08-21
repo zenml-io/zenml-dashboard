@@ -37,7 +37,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
 
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
-  const { fetching, allFlavors } = useService();
+  const { fetching, allFlavors, version } = useService();
 
   function handleValueFieldChangeOnSearch(value: string) {
     dispatchFlavorsData(1, flavorsPaginated.size, type, value);
@@ -144,6 +144,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
       </FlexBox.Column>
       {showModal && (
         <SidePopup
+          version={version}
           onSeeExisting={() => routeExsiting()}
           onSelectFlavor={() => handleSelectedFlavor(selectedFlavor)}
           flavor={selectedFlavor}
