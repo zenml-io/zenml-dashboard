@@ -11,6 +11,7 @@ interface ServiceInterface {
   run: TRun;
   fetching: boolean;
   metadata?: any;
+  graph?: any;
 }
 
 export const useService = (): ServiceInterface => {
@@ -20,6 +21,8 @@ export const useService = (): ServiceInterface => {
   const [fetching, setFetching] = useState(false);
   const [metadata, setMetaData] = useState([] as any);
   const authToken = useSelector(sessionSelectors.authenticationToken);
+  const graph = useSelector(runSelectors.graphByRunId(id));
+  const run = useSelector(runSelectors.runForId(id));
   useEffect(() => {
     if (!isMounted) {
       setFetching(true);
@@ -46,6 +49,33 @@ export const useService = (): ServiceInterface => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted, setIsMounted]);
+
+  useEffect(() => {
+    if (run.status === 'running') {
+      const intervalId = setInterval(() => {
+        dispatch(
+          runsActions.runForId({
+            stackId: stackId,
+            runId: id,
+            onSuccess: (res) => {
+              if (res.status !== 'running') {
+                dispatch(
+                  runsActions.graphForRun({
+                    runId: id,
+                  }),
+                );
+              }
+            },
+          }),
+        );
+      }, 5000);
+
+      return () => {
+        clearInterval(intervalId);
+      };
+    }
+    // This is important
+  }, [stackId, id, run, dispatch]);
   const fetchMetaData = async () => {
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_API_URL}/run-metadata?pipeline_run_id=${id}&key=orchestrator_url`,
@@ -59,7 +89,5 @@ export const useService = (): ServiceInterface => {
     setMetaData(response?.data?.items); //Setting the response into state
   };
 
-  const run = useSelector(runSelectors.runForId(id));
-
-  return { runId: id, stackId, run, fetching, metadata };
+  return { runId: id, stackId, run, fetching, metadata, graph };
 };
