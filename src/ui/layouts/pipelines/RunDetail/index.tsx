@@ -23,19 +23,29 @@ const getTabPages = ({
   runId,
   fetching,
   metadata,
+  graph,
+  run,
 }: {
   selectedWorkspace: string;
   pipelineId: TId;
   runId: TId;
   fetching: boolean;
   metadata?: any;
+  graph?: any;
+  run?: any;
 }): TabPage[] => {
   return [
     {
       text: 'DAG Visualizer',
 
       Component: () => (
-        <DAG runId={runId} fetching={fetching} metadata={metadata} />
+        <DAG
+          runId={runId}
+          fetching={fetching}
+          metadata={metadata}
+          graph={graph}
+          runStatus={run?.status}
+        />
       ),
       path: routePaths.run.pipeline.statistics(
         selectedWorkspace,
@@ -104,7 +114,7 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, pipelineId, fetching, run, metadata } = useService();
+  const { runId, pipelineId, fetching, run, metadata, graph } = useService();
   const history = useHistory();
   const runRow: any = [];
   runRow.push(run);
@@ -115,6 +125,8 @@ export const RunDetail: React.FC = () => {
     pipelineId,
     fetching,
     metadata,
+    graph,
+    run,
   });
   const breadcrumbs = getBreadcrumbs({
     runId,
