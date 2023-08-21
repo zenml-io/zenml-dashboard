@@ -17,7 +17,6 @@ interface ServiceInterface {
   setActiveSorting: (arg: Sorting | null) => void;
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (arg: SortingDirection | null) => void;
-  // setSelectedRunIds: (ids: TId[]) => void;
 }
 interface filterValue {
   label: string;
@@ -48,10 +47,6 @@ export const useService = (): ServiceInterface => {
     setFilteredMembers(filteredMembers as any);
   }, [members]);
 
-  // const setSelectedRunIds = (runIds: TId[]) => {
-  //   dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
-  // };
-
   return {
     filteredMembers,
     setFilteredMembers,
@@ -59,6 +54,5 @@ export const useService = (): ServiceInterface => {
     setActiveSorting,
     activeSortingDirection,
     setActiveSortingDirection,
-    // setSelectedRunIds,
   };
 };

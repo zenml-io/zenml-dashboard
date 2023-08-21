@@ -9,7 +9,7 @@ import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
 import { RunsForStackTable } from './RunsForStackTable';
 import { camelCaseToParagraph } from '../../../../../utils';
-// import { DEFAULT_WORKSPACE_NAME } from '../../../../../constants';
+
 import {
   workspaceSelectors,
   stackComponentSelectors,
@@ -17,7 +17,7 @@ import {
 import { Box, FlexBox, If, PrimaryButton } from '../../../../components';
 import { Pagination } from '../../../common/Pagination';
 import { ItemPerPage } from '../../../common/ItemPerPage';
-// import { callActionForStackComponentRunsForPagination } from '../../StackDetail/useService';
+
 import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQueryParam';
 import { callActionForStackComponentsForPagination } from '../useService';
 
@@ -33,8 +33,7 @@ export const List: React.FC<Props> = ({
   pagination,
   isExpended = false,
   id,
-}: // isExpended = false,
-Props) => {
+}: Props) => {
   const locationPath = useLocationPath();
   const componentId = locationPath.split('/')[4];
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -46,7 +45,6 @@ Props) => {
     dispatchStackComponentsData,
   } = callActionForStackComponentsForPagination();
 
-  // const [selectedComponentId, setSelectedComponentId] = useState('');
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
@@ -84,7 +82,7 @@ Props) => {
 
   const openDetailPage = (stackComponent: TStack) => {
     setSelectedRunIds([]);
-    // debugger;
+
     if (id) {
       history.push(
         routePaths.stackComponents.base(
@@ -122,7 +120,6 @@ Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkValidFilter, activeSortingDirection, activeSorting, componentId]);
   const onChange = (pageNumber: any, size: any) => {
-    // debugger;
     dispatchStackComponentsData(
       pageNumber,
       size,
@@ -132,7 +129,12 @@ Props) => {
   };
 
   return (
-    <>
+    <Box
+      style={{
+        overflowX: 'auto',
+        marginBottom: stackComponentsPaginated.totalitem > 5 ? '90px' : '0px',
+      }}
+    >
       <CollapseTable
         route={routePaths.stackComponents.registerComponents(
           locationPath.split('/')[4],
@@ -149,11 +151,6 @@ Props) => {
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
-        // activeSorting={
-        //   activeSorting !== 'created' && activeSortingDirection !== 'ASC'
-        //     ? activeSorting
-        //     : 'created'
-        // }
         isExpended={isExpended}
         pagination={pagination}
         paginated={stackComponentsPaginated}
@@ -186,7 +183,6 @@ Props) => {
               width: '100%',
               justifyContent: 'center',
               backgroundColor: 'white ',
-              // marginRight: '45px',
             }}
           >
             <Box style={{ alignSelf: 'center' }}>
@@ -199,12 +195,10 @@ Props) => {
                     justifyContent="center"
                   >
                     <Pagination
-                      // isExpended={isExpended}
                       ref={childRef}
                       onChange={(pageNumber: any) =>
                         onChange(pageNumber, itemPerPage)
                       }
-                      // getFetchedState={getFetchedState}
                       activeSorting={activeSorting}
                       filters={filter}
                       itemPerPage={itemPerPage}
@@ -263,6 +257,6 @@ Props) => {
           </PrimaryButton>
         </Box>
       </FlexBox>
-    </>
+    </Box>
   );
 };

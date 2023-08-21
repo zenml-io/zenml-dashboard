@@ -13,20 +13,6 @@ export const SideFooter: React.FC = () => {
       </Box>
 
       <div style={{ marginBottom: '-11px', marginLeft: '-3.5px' }}>
-        {/* <MenuItemExternal
-        id="documentation"
-        Icon={() => <icons.docs color={iconColors.white} size={iconSizes.md} />}
-        to="https://docs.zenml.io"
-        text="Documentation"
-      />
-      <MenuItemExternal
-        id="example"
-        Icon={() => (
-          <icons.example color={iconColors.white} size={iconSizes.md} />
-        )}
-        to="https://docs.zenml.io/getting-started/examples"
-        text="Example & Tutorials"
-      /> */}
         <MenuItemExternal
           id="report"
           Icon={() => (

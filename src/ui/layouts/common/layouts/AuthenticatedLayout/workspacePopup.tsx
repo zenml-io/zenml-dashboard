@@ -82,13 +82,6 @@ export const WorkspacePopup: React.FC<{
             onSuccess: () => push(routePaths.dashboard(name)),
           }),
         );
-        // await dispatch(
-        //   pipelinesActions.getMy({
-        //     workspace: name,
-        //     onSuccess: () => stopLoad(),
-        //     onFailure: () => stopLoad(),
-        //   }),
-        // );
 
         setSubmitting(false);
         setPopupOpen(false);

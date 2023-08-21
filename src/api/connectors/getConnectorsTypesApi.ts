@@ -12,7 +12,7 @@ const getConnectorsTypesApi = ({
   size,
   connector_type,
   filtersParam,
-  // id,
+
   authenticationToken,
 }: {
   component_id?: any;
@@ -23,7 +23,7 @@ const getConnectorsTypesApi = ({
   size: number;
   connector_type?: string;
   filtersParam?: object;
-  // id?: any;
+
   authenticationToken: string;
 }): Promise<any> =>
   fetchApiWithAuthRequest({
@@ -36,7 +36,6 @@ const getConnectorsTypesApi = ({
       size,
       connector_type,
       ...filtersParam,
-      // id,
     },
     method: httpMethods.get,
     authenticationToken,

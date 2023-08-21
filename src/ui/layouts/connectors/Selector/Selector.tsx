@@ -28,8 +28,6 @@ const Selector: React.FC<Props> = ({
   onSubmit,
   childStateRef,
 }) => {
-  // const [key, setKey] = useState('');
-  // const [value, setValue] = useState('');
   const [inputFields, setInputFields] = useState([]) as any;
   useEffect(() => {
     if (values?.length) {
@@ -38,8 +36,6 @@ const Selector: React.FC<Props> = ({
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [inputFields, childStateRef]);
   useEffect(() => {
-    // ...values,
-    // { key: '', value: '' },
     if (
       (routeState?.state?.routeFromComponent ||
         routeState?.state?.routeFromEditComponent) &&
@@ -61,9 +57,6 @@ const Selector: React.FC<Props> = ({
 
         setInputFields([...inputFields, secretKeyValuefromRoute]);
       }
-      // else if (values?.length && !routeState?.state?.routeFromComponent) {
-      //   setInputFields([...values]);
-      // }
 
       if (routeState?.state?.routeFromEditComponent) {
         const secretKeyValuefromRoute: any = {
@@ -89,18 +82,14 @@ const Selector: React.FC<Props> = ({
     } else {
       setInputFields([{ key: '', value: '' }]);
     }
-    // debugger;
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [routeState, setInputFields]);
 
-  // useEffect(() => {
-  //   handleInputChange();
-  // }, [inputFields]);
   const handleAdd = () => {
     inputFields.push({ key: '', value: '' });
     setInputFields([...inputFields]);
-    // setKey('')
-    // setValue('')
+
     handleInputChange();
   };
   const handleDelete = (index: any) => {
@@ -108,9 +97,6 @@ const Selector: React.FC<Props> = ({
     values.splice(index, 1);
     setInputFields(values);
     onSetInputFields(values);
-    // debugger;
-    // setKey('')
-    // setValue('')
   };
 
   const handleInputChange = (index?: any, event?: any, type?: any) => {
@@ -125,20 +111,6 @@ const Selector: React.FC<Props> = ({
 
     setInputFields(values);
     onSetInputFields(values);
-
-    // const keys = values.map((object) => object.key);
-    // const value = values.map((object) => object.value);
-
-    // keys.forEach((key: any, i: any) => (result[key] = value[i]));
-
-    // if (event) {
-    //   setInputData({
-    //     ...inputData,
-    //     [name]: {
-    //       ...values[parentIndex][name],
-    //     },
-    //   });
-    // }
   };
 
   return (
@@ -198,10 +170,6 @@ const Selector: React.FC<Props> = ({
                       type="button"
                       onClick={() => {
                         handleDelete(index);
-                        // setInputFields(
-                        //   inputFields?.filter((e: any) => e !== item),
-                        //   () => handleInputChange(),
-                        // );
                       }}
                     >
                       <icons.delete color={iconColors.grey} />
@@ -234,14 +202,7 @@ const Selector: React.FC<Props> = ({
         }}
       >
         <Box marginBottom="lg">
-          <PrimaryButton
-            onClick={
-              () => onSubmit(inputFields)
-              // history.push(
-              //   routePaths.secrets.registerSecrets(selectedWorkspace),
-              // )
-            }
-          >
+          <PrimaryButton onClick={() => onSubmit(inputFields)}>
             Register Secret
           </PrimaryButton>
         </Box>

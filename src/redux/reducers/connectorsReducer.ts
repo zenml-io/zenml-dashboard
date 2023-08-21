@@ -8,7 +8,7 @@ export interface State {
   myConnectorIds: TId[];
   connectorComponentsIds: TId[];
   connectorTypes: any[];
-  // connectorTypeIds: TId[];
+
   paginated: any;
 }
 
@@ -29,7 +29,7 @@ export const initialState: State = {
   myConnectorIds: [],
   connectorComponentsIds: [],
   connectorTypes: [],
-  // connectorTypeIds: [],
+
   paginated: {},
 };
 
@@ -63,7 +63,7 @@ const connectorsReducer = (
       const connectorComponents: any[] = camelCaseArray(
         action.payload.items as ConnectorsPayload,
       );
-      // debugger;
+
       const connectorComponentsIds: TId[] = connectorComponents.map(
         (stack: any) => stack.id,
       );
@@ -87,15 +87,10 @@ const connectorsReducer = (
         action.payload as ConnectorsTypesPayload,
       );
 
-      // const connectorTypeIds: TId[] = connectorsTypes.map(
-      //   (connector: any) => connector.id,
-      // );
       return {
         ...state,
         connectorTypes,
       };
-
-      // return { ...state, ...newState(state, connectorsTypes) };
     }
 
     default:

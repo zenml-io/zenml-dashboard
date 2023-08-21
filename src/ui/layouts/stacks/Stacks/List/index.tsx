@@ -12,7 +12,7 @@ import {
   workspaceSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
-// import { callActionForStacksForPagination } from '../useService';
+
 import { stacksActions } from '../../../../../redux/actions';
 import { Pagination } from '../../../common/Pagination';
 import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQueryParam';
@@ -65,9 +65,7 @@ export const List: React.FC<Props> = ({
   );
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
-  // useEffect(() => {
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [stackComponentId]);
+
   const { dispatchStackData } = callActionForStacksForPagination();
   const expendedRow = filteredStacks.filter((item) => item.id === id);
   const headerCols = GetHeaderCols({
@@ -166,7 +164,12 @@ export const List: React.FC<Props> = ({
   };
 
   return (
-    <>
+    <Box
+      style={{
+        overflowX: 'auto',
+        marginBottom: stacksPaginated.totalitem > 5 ? '90px' : '0px',
+      }}
+    >
       <CollapseTable
         renderAfterRow={(stack: TStack) => (
           <>
@@ -211,7 +214,6 @@ export const List: React.FC<Props> = ({
               width: '100%',
               justifyContent: 'center',
               backgroundColor: 'white',
-              // marginRight: '45px',
             }}
           >
             <Box style={{ alignSelf: 'center' }}>
@@ -224,12 +226,10 @@ export const List: React.FC<Props> = ({
                     justifyContent="center"
                   >
                     <Pagination
-                      // isExpended={isExpended}
                       ref={childRef}
                       onChange={(pageNumber: any) =>
                         onChange(pageNumber, itemPerPage)
                       }
-                      // getFetchedState={getFetchedState}
                       activeSorting={activeSorting}
                       filters={filter}
                       itemPerPage={itemPerPage}
@@ -265,6 +265,6 @@ export const List: React.FC<Props> = ({
           </FlexBox>
         )}
       </If>
-    </>
+    </Box>
   );
 };

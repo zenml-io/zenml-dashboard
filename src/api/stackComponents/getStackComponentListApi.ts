@@ -32,7 +32,6 @@ const getMyStackComponentsApi = ({
       page,
       size,
       ...filtersParam,
-      // ,id
     },
     method: httpMethods.get,
     authenticationToken,

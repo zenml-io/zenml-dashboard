@@ -1,12 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { routePaths } from '../../../routes/routePaths';
-import {
-  Box,
-  FlexBox,
-  icons,
-  Paragraph,
-  //   SearchInputField,
-} from '../../components';
+import { Box, FlexBox, icons, Paragraph } from '../../components';
 import { iconSizes, iconColors } from '../../../constants';
 import { useSelector, useDispatch, useHistory } from '../../hooks';
 import {
@@ -22,18 +16,18 @@ const Component = (props: any) => {
   const stackComponentsTypes: any[] = useSelector(
     stackComponentSelectors.stackComponentTypes,
   );
-
-  const [selectedComp, setSelectedComp] = useState(
-    window.location.href.split('/')[6],
-  );
-  // const [search, setSearch] = useState('');
+  const [selectedComp, setSelectedComp] = useState('');
+  const typeName = window.location.href.split('/')[6].split('?')[0];
 
   useEffect(() => {
     dispatch(stackComponentsActions.getTypes());
   }, [dispatch]);
 
+  useEffect(() => {
+    setSelectedComp(typeName);
+  }, [typeName]);
+
   const sectionStyle = {
-    // width: '207px',
     width: '100%',
     padding: '15px 29px 11px 23px',
     alignItems: 'center',
@@ -52,18 +46,6 @@ const Component = (props: any) => {
       history.push(routePaths.stackComponents.base(item, selectedWorkspace));
     }
   };
-
-  //   const stacks = stackComponentsTypes?.filter((e) => {
-  //     const searchFil = () => {
-  //       if (search) {
-  //         return e?.includes(search);
-  //       }
-  //       if (!search) {
-  //         return e;
-  //       }
-  //     };
-  //     return searchFil();
-  //   });
 
   const formatText = (text: string) => {
     const removeUnderscore = text.replace('_', ' ');
@@ -89,54 +71,13 @@ const Component = (props: any) => {
         scrollBehavior: 'smooth',
         overflowY: 'scroll',
         borderRight: '1px solid rgba(168, 168, 168, 0.2)',
-        // padding: '0 50px 0 33px',
         padding: '0 50px 0 5px',
         marginTop: '4.2rem',
 
         zIndex: 2,
       }}
     >
-      {/* <Box style={{ marginTop: '-22px' }}>
-        <SearchInputField
-          placeholder="Search"
-          value={search ? search : ''}
-          onChange={(e: string) => setSearch(e)}
-        />
-      </Box> */}
-
       <Box style={{}}>
-        {/* {props?.fromRegisterComponent && (
-          <FlexBox
-            onClick={() => selectSection('all_components')}
-            style={{
-              ...sectionStyle,
-              backgroundColor: formatSectionColor('all_components'),
-            }}
-            marginTop="sm"
-          >
-            <Box>
-              <icons.stackComponent
-                color={
-                  selectedComp === 'all_components'
-                    ? iconColors.white
-                    : iconColors.primary
-                }
-                size={iconSizes.md}
-              />
-            </Box>
-            <Box>
-              <Paragraph
-                style={{
-                  color: formatTextColor('all_components'),
-                  ...textStyle,
-                }}
-              >
-                {formatText('all_components')}
-              </Paragraph>
-            </Box>
-          </FlexBox>
-        )} */}
-
         {stackComponentsTypes?.map((item: any, index: number) => (
           <Box key={index}>
             {item === 'artifact_store' && (
@@ -371,7 +312,6 @@ const Component = (props: any) => {
                   ...sectionStyle,
                   background: formatSectionColor(item),
                 }}
-                // marginTop="sm"
               >
                 <Box>
                   <icons.orchestrator
@@ -504,7 +444,7 @@ const Component = (props: any) => {
                 </Box>
               </FlexBox>
             )}
-            {console.log(item, 'item')}
+
             {item !== 'data_validator' &&
               item !== 'step_operator' &&
               item !== 'orchestrator' &&

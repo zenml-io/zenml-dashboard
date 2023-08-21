@@ -37,14 +37,13 @@ const Index: React.FC<ServicesSelector> = ({
       >
         {connector ? (
           <FlexBox className={styles.service_selector_selected}>
-            <Box marginRight="sm">
-              {/* <img src={data?.logoUrl} alt={data?.name} /> */}
-            </Box>
+            <Box marginRight="sm"></Box>
             {!fetching && (
               <Paragraph>
                 <img
+                  className={styles.service_selector_image}
                   src={resourceTypeImage[0]?.connector_type?.logo_url}
-                  alt={resourceTypeImage[0]?.connector_type.name}
+                  alt={resourceTypeImage[0]?.connector_type?.name}
                 />{' '}
                 &#91;{' '}
                 {truncate(connector, ID_MAX_LENGTH) +

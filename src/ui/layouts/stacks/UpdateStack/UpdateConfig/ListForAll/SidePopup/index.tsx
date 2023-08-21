@@ -43,7 +43,7 @@ export const SidePopup: React.FC<{
       return onClose();
     }
   };
-  console.log(find, selectedStackBox, selectedStack, 'findddd');
+
   return (
     <>
       <Dimmer />

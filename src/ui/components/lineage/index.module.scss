@@ -28,17 +28,17 @@
   display: flex;
   flex-direction: row-reverse;
   font-family: Arial, Helvetica, sans-serif !important;
-  border: 1px solid #443E99 !important;
+  border: 1px solid #443e99 !important;
   border-radius: 4px;
   font-size: 8px;
   background: #ffffff;
   min-width: 6rem;
 }
-.stepBody:hover{
+.stepBody:hover {
   display: flex;
   flex-direction: row-reverse;
   font-family: Arial, Helvetica, sans-serif !important;
-  border: 1px solid #443E9980 !important;
+  border: 1px solid #443e9980 !important;
   border-radius: 4px;
   font-size: 8px;
   background-color: #f5f4ff;
@@ -50,7 +50,7 @@
   display: flex;
   flex-direction: row-reverse;
   font-family: Arial, Helvetica, sans-serif !important;
-  border: 3px solid #443E99 !important;
+  border: 3px solid #443e99 !important;
   border-radius: 4px;
   font-size: 8px;
   background: #ffffff;
@@ -60,7 +60,7 @@
   display: flex;
   flex-direction: row-reverse;
   font-family: Arial, Helvetica, sans-serif !important;
-  border: 3px solid #443E99 !important;
+  border: 3px solid #443e99 !important;
   border-radius: 4px;
   font-size: 8px;
   background: #f5f4ff;
@@ -103,20 +103,11 @@
   clip-path: polygon(0 0, 100% 0%, 75% 100%, 0% 100%);
 }
 
-.nodeContainer
-{
+.nodeContainer {
   display: flex;
   flex-direction: column;
   align-items: center;
 }
-// .nodeContainer:hover
-// {
-//   display: flex;
-//   flex-direction: column;
-//   align-items: center;
-//   opacity: .7;
-//   cursor: pointer;
-// }
 
 .artifactBody {
   position: relative;
@@ -189,19 +180,16 @@
   width: 100%;
   padding-left: 20px;
   padding-right: 20px;
-  background-color: "pink";
+  background-color: 'pink';
   justify-content: center;
   align-items: center;
 }
-
 
 .closeArrow {
   height: 500px;
   width: 500px;
   background-color: aqua;
 }
-
-
 
 // SIDE BAR
 
@@ -230,7 +218,7 @@
   z-index: -1000;
 }
 
-.btnContainer>img {
+.btnContainer > img {
   z-index: -1000;
 }
 
@@ -282,4 +270,22 @@
   .sidebarMainContainer {
     width: 89vw;
   }
+}
+
+.JSONPretty {
+  position: relative;
+  width: auto;
+  margin: -10px 20px 0 20px !important;
+  min-height: 40px;
+  padding: 10px !important;
+
+  background: rgba(246, 247, 247, 1);
+  border-radius: 4px;
+  overflow-y: hidden !important;
+}
+
+.copy {
+  right: 15px;
+  position: absolute;
+  cursor: pointer;
 }

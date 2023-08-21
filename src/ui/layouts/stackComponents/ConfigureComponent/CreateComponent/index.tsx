@@ -3,15 +3,13 @@ import styles from './index.module.scss';
 import {
   Box,
   FlexBox,
-  // FormDropdownField,
   FormTextField,
   FullWidthSpinner,
   MakeSecretField,
-  // H2,
   Paragraph,
   icons,
 } from '../../../../components';
-// import Select from 'react-select';
+
 import { Form, TextField, ToggleField } from '../../../common/FormElement';
 import {
   useDispatch,
@@ -35,15 +33,16 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
 import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
 import { titleCase } from '../../../../../utils';
-import { getServiceConnectorResources } from './useService';
-import ServicesSelectorComponent from '../../ServicesSelectorComponent';
-// import { values } from 'lodash';
-// import { keys } from 'lodash';
 
-export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
-  flavor,
-  state,
-}) => {
+import ServicesSelectorComponent from '../../ServicesSelectorComponent';
+import { useService } from '../../RegisterComponents/ListForAll/useService';
+
+export const CreateComponent: React.FC<{
+  flavor: any;
+  state: any;
+  fetching?: boolean;
+  serviceConnectorResources?: any;
+}> = ({ flavor, fetching, serviceConnectorResources, state }) => {
   const {
     dispatchStackComponentsData,
   } = callActionForStackComponentsForPagination();
@@ -54,7 +53,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   const [loading, setLoading] = useState(false);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const secrets = useSelector(secretSelectors.mySecrets);
-  // const [validationSchema, setValidationSchema] = useState({});
+
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [componentName, setComponentName] = useState('');
@@ -69,9 +68,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   const [connector, setConnector] = useState();
   const [connectorResourceId, setConnectorResourceId] = useState();
   const history = useHistory();
-  const { serviceConnectorResources, fetching } = getServiceConnectorResources(
-    flavor.connectorResourceType,
-  );
+  const { version } = useService();
 
   useEffect(() => {
     if (state?.state?.routeFromComponent) {
@@ -143,12 +140,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   }, []);
   const handleAddFields = (name: any, index: any) => {
     const values = [...inputFields];
-    // const check = values.find(({ name }) => name);
-    // const targetObject = values.find((x) => x[name] !== undefined);
 
-    // if (targetObject) {
-    // }
-    // debugger;
     values[index][name].push({ key: '', value: '' });
 
     setInputFields(values);
@@ -156,7 +148,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
 
   const handleRemoveFields = (parentIndex: any, childIndex: any, name: any) => {
     const values = [...inputFields];
-    // debugger;
+
     values[parentIndex][name].splice(childIndex, 1);
     setInputFields(values);
   };
@@ -186,9 +178,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       },
     });
 
-    // if (value === undefined) {
-    //   return false;
-    // }
     if (value?.id) {
       setSecretId(value?.id);
       const listOfIds: any = [...secretIdArray];
@@ -212,7 +201,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
             ) as any;
             setSecretOptionsWithKeys(secretOptionsWithKeys);
           },
-          // onFailure: () => setFetching(false),
         }),
       );
     } else if (value?.includes('{{')) {
@@ -240,19 +228,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       values[parentIndex][name][childIndex].value = event;
     }
     setInputFields(values);
-    // const keys = values.map((object) => object.key);
-    // const value = values.map((object) => object.value);
-
-    // keys.forEach((key: any, i: any) => (result[key] = value[i]));
-
-    // if (event) {
-    //   setInputData({
-    //     ...inputData,
-    //     [name]: {
-    //       ...values[parentIndex][name],
-    //     },
-    //   });
-    // }
   };
 
   const initForm = (properties: any) => {
@@ -368,7 +343,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                         />
                       </Box>
                       <div
-                        // className="col-sx-2 "
                         style={{
                           justifyContent: 'space-between',
                           display: 'flex',
@@ -389,7 +363,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                               className={styles.fieldButton}
                               style={{}}
                               type="button"
-                              // disabled={item[props.name].length === 1}
                               onClick={() =>
                                 handleRemoveFields(
                                   parentIndex,
@@ -419,11 +392,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                   </Fragment>
                 )),
               )}
-              {/* {inputFields
-                ?.filter((x: any) => x.hasOwnProperty(props.name))
-                .map((inputField: any, index: any) => (
-            
-                ))} */}
             </div>
             <div className="submit-button"></div>
             <br />
@@ -445,7 +413,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               <label htmlFor="key">{props.label}</label>
             </Paragraph>
           </Box>
-          {console.log(inputData, '23232323123')}
           <FlexBox marginTop="sm" fullWidth>
             <textarea
               className={styles.textArea}
@@ -538,8 +505,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                   value={
                     inputData[props.name]?.value
                       ? inputData[props.name]?.value
-                      : // : inputData[props.name]
-                      inputData[props.name]?.length
+                      : inputData[props.name]?.length
                       ? inputData[props.name]
                       : ''
                   }
@@ -560,12 +526,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     }
                   }}
                   secretOnChange={(val: any, newEvent: any) => {
-                    // debugger;
-                    // setInputData({
-                    //   ...inputData,
-                    //   [props.name]: val.value.includes('.') ? val.value : val,
-                    // });
-
                     if (val?.value?.includes('}}')) {
                       setInputData({
                         ...inputData,
@@ -598,16 +558,8 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                 elementName === flavor.connectorResourceIdAttr
               }
               required={flavor?.configSchema?.required?.includes(elementName)}
-              // disable={
-              //   elementSchema.default &&
-              //   (elementSchema.type === 'string' ||
-              //     elementSchema.type === 'integer')
-              // }
               inputData={inputData}
               default={
-                // flavor.connectorResourceIdAttr === elementName
-                //   ? connectorResourceId
-                //   :
                 inputData[props.name]
                   ? inputData[props.name]
                   : props.default !== undefined
@@ -618,12 +570,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                 setInputData({ ...inputData, [key]: value })
               }
             />
-          )}
-          {console.log(
-            connectorResourceId,
-            elementName,
-            flavor.connectorResourceIdAttr,
-            'asd123asd123',
           )}
         </>
       );
@@ -637,7 +583,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               inputData[props.name] ? inputData[props.name] : props.default
             }
             onHandleChange={(event: any, value: any) => {
-              // debugger;
               setInputData({
                 ...inputData,
                 [props.name]: !inputData[props.name],
@@ -704,27 +649,17 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                         style={{ width: '385px' }}
                       >
                         <FormTextField
-                          onChange={
-                            (event: any) => {
-                              const values = { ...inputArrayFields };
-                              values[props.name][index] = event;
-                              setInputArrayFields(values);
-                            }
-                            // handleInputChange(
-                            //   parentIndex,
-                            //   childIndex,
-                            //   event,
-                            //   props.name,
-                            //   'value',
-                            // )
-                          }
+                          onChange={(event: any) => {
+                            const values = { ...inputArrayFields };
+                            values[props.name][index] = event;
+                            setInputArrayFields(values);
+                          }}
                           label={'Value'}
                           value={item}
                           placeholder={''}
                         />
                       </Box>
                       <div
-                        // className="col-sx-2 "
                         style={{
                           justifyContent: 'space-between',
                           display: 'flex',
@@ -737,7 +672,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                             className={styles.fieldButton}
                             style={{}}
                             type="button"
-                            // disabled={item[props.name].length === 1}
                             onClick={() => {
                               const values = { ...inputArrayFields };
                               values[props.name].splice(index, 1);
@@ -764,11 +698,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
                     </Box>
                   </Fragment>
                 ))}
-              {/* {inputFields
-              ?.filter((x: any) => x.hasOwnProperty(props.name))
-              .map((inputField: any, index: any) => (
-          
-              ))} */}
             </div>
             <div className="submit-button"></div>
             <br />
@@ -864,7 +793,6 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
       return false;
     }
     for (const [key] of Object.entries(final)) {
-      // console.log(`${key}: ${value}`);
       for (const [innerKey, innerValue] of Object.entries(final[key])) {
         if (!innerKey && innerValue) {
           return dispatch(
@@ -970,13 +898,9 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  console.log(secretId, 'asdasdasdasd');
+
   return (
     <Box>
-      {/* <Box style={{ width: '100%', marginTop: '-30px' }} marginBottom="lg">
-        <H2>Configuring your component</H2>
-      </Box> */}
-
       <FlexBox.Row style={{ width: '100%' }}>
         <Box style={{ width: '30vw' }}>
           <FormTextField
@@ -993,10 +917,7 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               label={'Share Component with public'}
               default={isShared}
               value={isShared}
-              onHandleChange={
-                (key: any, value: any) => setIsShared(!isShared)
-                // setInputData({ ...inputData, ['is_shared']: value })
-              }
+              onHandleChange={() => setIsShared(!isShared)}
             />
           </Box>
           {flavor.connectorResourceType && (
@@ -1004,61 +925,39 @@ export const CreateComponent: React.FC<{ flavor: any; state: any }> = ({
               <Paragraph size="body" style={{ color: '#000' }}>
                 <label htmlFor="key">{'Connect to resource'}</label>
               </Paragraph>
-              {/* {console.log(resourceType, ids, 'idsidsids')} */}
+
               <Box marginTop="sm" style={{ width: '30vw' }}>
                 <ServicesSelectorComponent
                   fetching={fetching}
                   inputData={inputData}
                   setInputData={setInputData}
-                  // parent={parent}
-                  // setParent={setParent}
                   connector={connector}
                   connectorResourceIdAttr={flavor.connectorResourceIdAttr}
                   setConnector={setConnector}
                   connectorResourceId={connectorResourceId}
                   setConnectorResourceId={setConnectorResourceId}
                   serviceConnectorResources={serviceConnectorResources}
-                  // resources={resources}
-                  // verifying={verifying}
                 />
               </Box>
             </Box>
           )}
 
-          <Form
-            enableReinitialize
-            initialValues={formData}
-            // validationSchema={validationSchema}
-            onSubmit={onSubmit}
-          >
+          <Form enableReinitialize initialValues={formData} onSubmit={onSubmit}>
             {Object.keys(flavor.configSchema.properties).map((key, ind) => (
               <div key={key}>
                 {getFormElement(key, flavor.configSchema.properties[key])}
               </div>
             ))}
-
-            {/* <PrimaryButton marginTop="md">Upload File</PrimaryButton> */}
           </Form>
         </Box>
 
-        <SidePopup onClose={() => {}} flavor={flavor} action={onSubmit} />
+        <SidePopup
+          onClose={() => {}}
+          flavor={flavor}
+          action={onSubmit}
+          version={version}
+        />
       </FlexBox.Row>
     </Box>
-    // <FlexBox.Column fullWidth marginTop="xl">
-    //   <Box style={{ width: '40%' }}>
-    //     <Box>
-    //       <EditField
-    //         onChangeText={() => {}}
-    //         label="Component Name"
-    //         optional={false}
-    //         value=""
-    //         placeholder=""
-    //         hasError={false}
-    //         className={styles.field}
-    //       />
-    //     </Box>
-    //   </Box>
-    //   {/* <Box style={{ marginLeft: 'auto' }} marginRight='lg' ><PrimaryButton>Register Component</PrimaryButton></Box> */}
-    // </FlexBox.Column>
   );
 };

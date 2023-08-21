@@ -41,6 +41,7 @@ export type FieldError = {
 
 export const FormTextField = (props: {
   autoFocus?: any;
+  onHandleFocus?: (s: string) => void;
   label: string;
   labelColor?: any;
   placeholder: string;
@@ -222,22 +223,73 @@ export const MakeSecretField = (
   const options = props?.dropdownOptions?.filter((e: any) =>
     e?.label?.toLowerCase().includes(props?.value?.toLowerCase()),
   );
+  const [selectedOptionIndex, setSelectedOptionIndex] = useState(-1);
+  const containerRef = useRef<HTMLDivElement | null>(null);
 
-  // useEffect(() => {
-  //   if (props?.value?.slice(0, 2) === '{{' && props?.value?.length < 3) {
-  //     setPopup(true);
-  //   }
-  //   // eslint-disable-next-line
-  // }, [props?.value]);
+  useEffect(() => {
+    const handleKeyDown = (event: any) => {
+      if (event.key === 'ArrowUp' && selectedOptionIndex > 0) {
+        setSelectedOptionIndex((prevIndex) => prevIndex - 1);
+        event.preventDefault();
+        event.stopPropagation();
+      } else if (
+        event.key === 'ArrowDown' &&
+        selectedOptionIndex < options.length - 1
+      ) {
+        setSelectedOptionIndex((prevIndex) => prevIndex + 1);
+        event.preventDefault();
+        event.stopPropagation();
+      } else if (event.key === 'Enter') {
+        handleEnterKey();
+      }
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('keydown', handleKeyDown);
+      container.style.overflowY = 'hidden';
+
+      // Scroll the selected option into view
+      const selectedOption = container.querySelector(
+        `[data-index="${selectedOptionIndex}"]`,
+      );
+      if (selectedOption) {
+        selectedOption.scrollIntoView({ block: 'nearest' });
+      }
+
+      return () => {
+        container.removeEventListener('keydown', handleKeyDown);
+      };
+    }
+    // eslint-disable-next-line
+  }, [selectedOptionIndex, options]);
 
   const handleClick = async (option: any) => {
     await props.secretOnChange(option);
-    //  await setPopup(false);
+  };
+  const handleEnterKey = async () => {
+    const selectedOption = options[selectedOptionIndex];
+    // Do something with the selectedOption
+    await props.secretOnChange(selectedOption);
+    setTimeout(() => {
+      containerRef.current?.focus();
+    }, 800);
+    setSelectedOptionIndex(0);
   };
 
   return (
     <FlexBox.Column fullWidth>
-      <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
+      <FlexBox
+        onKeyDown={(event) => {
+          if (event.key === 'ArrowUp' || event.key === 'ArrowDown') {
+            setSelectedOptionIndex(0);
+            containerRef.current?.focus();
+          }
+        }}
+        alignItems="center"
+        fullWidth
+        style={{ position: 'relative' }}
+      >
         <InputWithLabelIcon
           required={props.required}
           name={props.name}
@@ -286,72 +338,55 @@ export const MakeSecretField = (
           }
         >
           {() => (
-            <Box
+            <div
               style={{
+                border: '0px solid black',
                 backgroundColor: '#fff',
                 borderRadius: '4px',
-                boxShadow: 'var(--cardShadow)',
-                width: '100%',
 
+                width: '100%',
                 height: '185px',
                 overflowY: 'auto',
                 overflowX: 'hidden',
-
                 position: 'absolute',
                 zIndex: 2,
                 top: '7rem',
               }}
+              onClick={(event) => event.stopPropagation()}
+              tabIndex={0}
+              ref={containerRef}
             >
               <Box
-                marginVertical="sm"
-                marginHorizontal="md"
+                marginVertical="md"
                 style={{ width: '100%', height: '100%' }}
               >
-                {options?.map((option: any, index: number) => (
-                  <Box marginTop="md" onClick={() => {}} key={index}>
-                    <div
-                      data-tip
-                      data-for={option.name}
-                      onClick={() => handleClick(option)}
-                      style={{ cursor: 'pointer' }}
-                    >
+                {options?.map((option: any, index: any) => (
+                  <Box
+                    padding={'sm'}
+                    onClick={() => handleClick(option)}
+                    key={index}
+                    data-index={index}
+                    style={{
+                      backgroundColor:
+                        index === selectedOptionIndex
+                          ? 'lightgray'
+                          : 'transparent',
+                      cursor: 'pointer',
+                    }}
+                  >
+                    <div data-tip data-for={option.name}>
                       <Paragraph>{option.label}</Paragraph>
                     </div>
-
                     <ReactTooltip id={option.label} place="top" effect="solid">
                       <Paragraph color="white">{option.label}</Paragraph>
                     </ReactTooltip>
                   </Box>
                 ))}
               </Box>
-            </Box>
+            </div>
           )}
         </If>
       </FlexBox>
-
-      {/* {props?.value?.length > 0 && 
-        props?.value?.slice(0, 2) !== '{{' && (
-          <FlexBox marginTop='lg' alignItems="center" fullWidth style={{ position: 'relative' }}>
-            <InputWithLabel
-              name={props.name}
-              label={props.secretLabel}
-              labelColor={props.secretLabelColor}
-              InputComponent={ <TextInput {...props} style={{ border: '1px solid #A8A8A8' }} value={props.secretValue} placeholder={props.secretPlaceholder} onChangeText={props.secretOnChange} />}
-            />
-            <Box
-              style={{ 
-                position: 'absolute', right: '10px', top: '40px', 
-                display: 'flex', alignItems: 'center', 
-                background: '#fff', borderLeft: '1px solid grey', 
-                paddingLeft: '10px', cursor: 'pointer'
-              }}
-              onClick={handleClick}
-            >
-              <icons.lock color={iconColors.primary} style={{ marginRight: '5px' }} /> 
-              <Paragraph color='primary'>Make it Secret</Paragraph>
-            </Box>
-          </FlexBox>
-        )} */}
     </FlexBox.Column>
   );
 };
@@ -458,7 +493,6 @@ export const EditFieldSettings = (
   return (
     <FlexBox.Column fullWidth>
       <FlexBox alignItems="center" fullWidth style={{ position: 'relative' }}>
-        {console.log(disabled, 'disableddisabled')}
         <InputWithLabel
           name={props.name}
           label={props.label}
@@ -481,14 +515,11 @@ export const EditFieldSettings = (
             />
           }
         />
-        {/* {console.log(props?.defaultValue , props.value , 'disableddisabled')} */}
+
         {!props.disabled && (
           <Box
             onClick={() => {
               setDisabled(!disabled);
-              // setTimeout(() => {
-              // props.inputRef?.current?.focus();
-              // }, 1000);
             }}
             style={{
               position: 'absolute',
@@ -586,7 +617,6 @@ export const SearchInputField = (
           />
         </LinkBox>
         <TextInput
-          // type="search"
           {...props}
           style={{
             paddingLeft: '40px',
@@ -631,6 +661,7 @@ export const SearchInputField = (
 
 export const FormPasswordFieldVerify = (
   props: {
+    onHandleFocus?: any;
     label: string;
     labelColor: any;
     placeholder: string;

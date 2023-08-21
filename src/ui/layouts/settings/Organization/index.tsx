@@ -36,7 +36,7 @@ export const Organization: React.FC = () => {
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
-  const DEFAULT_ITEMS_PER_PAGE = 10;
+  const DEFAULT_ITEMS_PER_PAGE = 100;
   const { filteredMembers } = useService();
 
   useEffect(() => {
@@ -98,37 +98,3 @@ export const Organization: React.FC = () => {
     </>
   );
 };
-
-// export const callActionForMembersForPagination = () => {
-//   const dispatch = useDispatch();
-//   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-
-//   function dispatchPipelineData(
-//     page: number,
-//     size: number,
-//     filters?: any[],
-//     sortby?: string,
-//   ) {
-//     // let filtersParam: any = filterObjectForParam(filters);
-//     setFetchingForPipeline(true);
-//     // debugger;
-//     dispatch(
-//       organizationActions.getMembers({
-//         sort_by: sortby ? sortby : 'created',
-//         page: page,
-//         size: size,
-//         onSuccess: () => setFetchingMembers(false),
-//         onFailure: () => setFetchingMembers(false),
-//       }),
-//     );
-//   }
-
-//   const setFetchingForPipeline = (fetching: boolean) => {
-//     dispatch(pipelinePagesActions.setFetching({ fetching }));
-//   };
-
-//   return {
-//     setFetchingForPipeline,
-//     dispatchPipelineData,
-//   };
-// };

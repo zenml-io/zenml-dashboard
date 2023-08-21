@@ -94,17 +94,14 @@ export const useService = ({
   ) => () => {
     if (sorting === activeSorting) {
       if (!!activeSortingDirection && activeSortingDirection === 'ASC') {
-        // sort && setFilteredPipelines(sort.desc(filteredPipelines));
         setActiveSortingDirection('DESC');
       } else if (
         !!activeSortingDirection &&
         activeSortingDirection === 'DESC'
       ) {
-        // sort && setFilteredPipelines(sort.asc(filteredPipelines));
         setActiveSortingDirection('ASC');
       }
     } else {
-      // sort && setFilteredPipelines(sort.desc(filteredPipelines));
       setActiveSortingDirection('DESC');
     }
     setActiveSorting(sorting);

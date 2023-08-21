@@ -4,12 +4,6 @@ import { FlexBox, Box, Paragraph, icons } from '../../../components';
 import { iconColors } from '../../../../constants';
 
 const Index: React.FC<any> = ({ data }) => {
-  // const dat = data?.connectorType?.resource_types?.filter(
-  //   (e: any, index: number) => {
-  //     if (e.resource_type === data?.resourceTypes[index]) {
-  //       return e;
-  //     }
-
   const resourceType = data?.connectorType?.resource_types?.filter(
     (e: any) => e.resource_type === data?.resourceTypes[0],
   );
@@ -42,7 +36,11 @@ const Index: React.FC<any> = ({ data }) => {
         {resourceType?.map((e: any) => (
           <FlexBox className={styles.service_selector_selected}>
             <Box marginRight="sm">
-              <img src={e?.logo_url} alt={e?.name} />
+              <img
+                className={styles.service_selector_image}
+                src={e?.logo_url}
+                alt={e?.name}
+              />
             </Box>
             <Paragraph>
               {e?.name}-

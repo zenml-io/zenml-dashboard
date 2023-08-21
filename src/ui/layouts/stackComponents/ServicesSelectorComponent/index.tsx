@@ -37,7 +37,6 @@ const Index: React.FC<ServicesSelector> = ({
   const resourceTypeImage = serviceConnectorResources?.filter(
     (e: any) => e.id === connector,
   );
-  console.log(defaultMappedConfig, inputData, 'fefefw');
 
   return (
     <Box className={styles.service_selector_wrapper}>
@@ -47,14 +46,13 @@ const Index: React.FC<ServicesSelector> = ({
       >
         {connector ? (
           <FlexBox className={styles.service_selector_selected}>
-            <Box marginRight="sm">
-              {/* <img src={data?.logoUrl} alt={data?.name} /> */}
-            </Box>
+            <Box marginRight="sm"></Box>
             {!fetching && (
               <Paragraph>
                 <img
+                  className={styles.service_selector_image}
                   src={resourceTypeImage[0]?.connector_type?.logo_url}
-                  alt={resourceTypeImage[0]?.connector_type.name}
+                  alt={resourceTypeImage[0]?.connector_type?.name}
                 />{' '}
                 &#91;{' '}
                 {truncate(connector, ID_MAX_LENGTH) +
@@ -122,8 +120,9 @@ const Index: React.FC<ServicesSelector> = ({
                 <FlexBox className={styles.services}>
                   <Box>
                     <img
-                      src={connectorItem.connector_type.logo_url}
-                      alt={connectorItem.connector_type.logo_url}
+                      className={styles.service_selector_image}
+                      src={connectorItem.connector_type?.logo_url}
+                      alt={connectorItem.connector_type?.logo_url}
                     />
                   </Box>
                   <Box
@@ -134,9 +133,6 @@ const Index: React.FC<ServicesSelector> = ({
                     style={{
                       cursor: connectorItem?.error ? 'no-drop' : 'pointer',
                     }}
-                    // onClick={() =>
-                    //   handleShowIds(resource_type?.resource_type)
-                    // }
                   >
                     {' '}
                     <Paragraph color="grey">

@@ -51,7 +51,6 @@ export const EmailPopup: React.FC<{
 
   const changeEmail = async () => {
     setSubmitting(true);
-    console.log(locationPath);
 
     try {
       await fetchApiWithAuthRequest({

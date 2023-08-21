@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { DEFAULT_WORKSPACE_NAME, toasterTypes } from '../../../../constants';
 import {
   workspacesActions,
@@ -11,7 +11,6 @@ import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
 import { translate } from './translate';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { routePaths } from '../../../../routes/routePaths';
-// import { routePaths } from '../../../../routes/routePaths';
 
 interface ServiceInterface {
   login: () => void;
@@ -29,9 +28,18 @@ export const useService = (): ServiceInterface => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [hasSubmittedWithErrors, setHasSubmittedWithErrors] = useState(false);
-  // const locationPath = useLocationPath();
+
   const { push } = usePushRoute();
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Get the query parameters from the URL
+    const searchParams = new URLSearchParams(window.location.search);
+
+    // Access individual query parameters
+    setUsername(searchParams.get('username') as string);
+    setPassword(searchParams.get('password') as string);
+  }, []);
 
   return {
     login: async () => {
@@ -85,7 +93,6 @@ export const useService = (): ServiceInterface => {
               if (window.location.pathname === '/') {
                 push(routePaths.dashboard(DEFAULT_WORKSPACE_NAME));
               }
-              // await push(routePaths.userEmail);
             },
           }),
         );

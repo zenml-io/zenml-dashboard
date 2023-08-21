@@ -1,4 +1,5 @@
 import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
+import { compareObjects } from '../../utils/compareObjects';
 import {
   pipelineActionTypes,
   runActionTypes,
@@ -133,11 +134,54 @@ const runsReducer = (state: State = initialState, action: Action): State => {
         runId: action?.requestParams?.runId,
       };
 
-      const graph: any = camelCaseObject(graphFromRun);
+      const previousGraph = state?.graphForRunId;
+      // debugger;
+      if (previousGraph && Object.keys(previousGraph).length) {
+        const removePropertiesFromNodes = (nodes: any) => {
+          return nodes.map((node: any) => {
+            if (node) {
+              const newNode = { ...node };
+              delete newNode.position;
+              delete newNode.sourcePosition;
+              delete newNode.targetPosition;
+              return newNode;
+            }
+            return node;
+          });
+        };
 
-      return {
-        ...newStateForGraph(state, graph),
-      };
+        // Function to remove properties from edges
+        const removePropertiesFromEdges = (edges: any) => {
+          return edges.map((edge: any) => {
+            if (edge) {
+              const newEdge = { ...edge };
+              delete newEdge.markerEnd;
+              delete newEdge.type;
+              return newEdge;
+            }
+            return edge;
+          });
+        };
+
+        // Update nodes and edges with removed properties
+        previousGraph.nodes = removePropertiesFromNodes(
+          state.graphForRunId.nodes,
+        );
+        previousGraph.edges = removePropertiesFromEdges(
+          state.graphForRunId.edges,
+        );
+      }
+
+      const graph: any = camelCaseObject(graphFromRun);
+      const isEqual = compareObjects(previousGraph, graph);
+
+      if (isEqual) {
+        return state;
+      } else {
+        return {
+          ...newStateForGraph(state, graph),
+        };
+      }
     }
     case runActionTypes.getRunForId.success: {
       const payload: RunPayload = action.payload;

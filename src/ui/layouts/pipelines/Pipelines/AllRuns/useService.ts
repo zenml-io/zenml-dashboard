@@ -18,20 +18,6 @@ interface filterValue {
   value: string;
 }
 
-// export const useService = ({
-//   sortBy,
-//   filter,
-//   pipelineId,
-// }: {
-//   filter: {
-//     column: filterValue;
-//     type: filterValue;
-//     value: string;
-//   }[];
-//   sortBy: string;
-//   pipelineId: TId;
-// }): ServiceInterface => {
-
 export const useService = ({
   filter,
   sortBy,

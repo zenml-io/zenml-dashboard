@@ -9,10 +9,7 @@ import {
   icons,
   SeparatorLight,
   Tag,
-  // LineChart,
   LinkBox,
-  // PrimaryButton,
-  // H3,
   FullWidthSpinner,
 } from '../../../components';
 import { AuthenticatedLayout } from '../../common/layouts/AuthenticatedLayout';
@@ -21,19 +18,13 @@ import { useDispatch, useSelector, useToaster } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
 import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
-// import ZenMLFavourite from './ZenML favourite.svg';
+
 import { Tabs } from '../../common/Tabs';
 import { DisplayCode } from './DisplayCode';
-// import { Popup } from '../../common/Popup';
+
 import { useHubToken, useHubUser } from '../../../hooks/auth';
 import { PluginsLayout } from '../shared/Layout';
-import {
-  getPlugin,
-  getIsStarred,
-  getVersions,
-  starPlugin,
-  // deletePlugin,
-} from '../api';
+import { getPlugin, getIsStarred, getVersions, starPlugin } from '../api';
 import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
 import PluginFallbackImage from '../../../assets/plugin-fallback.svg';
 import { OverviewTab } from './OverviewTab';
@@ -49,7 +40,6 @@ const PluginDetail: React.FC = () => {
   const hubToken = useHubToken();
   const hubUser = useHubUser();
 
-  // const [deletePopupOpen, setDeletePopupOpen] = useState(false);
   const [fetching, setFetching] = useState(true);
   const [plugin, setPlugin] = useState(null as null | TPluginDetail);
   const [loadingVersions, setLoadingVersions] = useState(true);
@@ -245,12 +235,6 @@ const PluginDetail: React.FC = () => {
                                     ),
                                 },
                                 // Plugin deletion isn't set up in the backend yet
-                                // {
-                                //   label: 'Delete Package',
-                                //   icon: icons.delete,
-                                //   color: iconColors.red,
-                                //   onClick: () => setDeletePopupOpen(true),
-                                // },
                               ]
                             : [
                                 {
@@ -512,27 +496,7 @@ const PluginDetail: React.FC = () => {
           {/* right column */}
           <Box>
             {/* usage # & chart, ZenML favourite badge */}
-            <FlexBox>
-              {/* <Box>
-                    <img src={ZenMLFavourite} alt="ZenML favourite" />
-                  </Box> */}
-              {/* <Box padding="md"> */}
-              {/* <Paragraph size="small">
-                      Pulls:{' '}
-                      {data.pullsLastWeek.toLocaleString('en-US', {
-                        maximumFractionDigits: 0,
-                      })}
-                    </Paragraph>
-                    <Paragraph style={{ color: '#677285' }} size="tiny">
-                      Last week
-                    </Paragraph> */}
-
-              {/* line chart */}
-              {/* <Box marginVertical="md">
-                      <LineChart data={data.pullsHistory} />
-                    </Box> */}
-              {/* </Box> */}
-            </FlexBox>
+            <FlexBox></FlexBox>
 
             {/* install command */}
             {/* note need to hard-code the width to match the SVG for the header */}
@@ -611,34 +575,6 @@ const PluginDetail: React.FC = () => {
             </Box>
 
             {/* metrics */}
-            {/* <FlexBox justifyContent="space-between" marginVertical="md">
-                <Box marginRight="sm2">
-                  <Paragraph className={styles.pluginMetric}>
-                    {data.upvotes}
-                  </Paragraph>
-                  <Paragraph className={styles.pluginMetricText}>
-                    Upvotes
-                  </Paragraph>
-                </Box>
-                <Box marginRight="sm2">
-                  <Paragraph className={styles.pluginMetric}>
-                    {data.downloads}
-                  </Paragraph>
-                  <Paragraph className={styles.pluginMetricText}>
-                    Downloads
-                  </Paragraph>
-                </Box>
-                <Box>
-                  <Paragraph className={styles.pluginMetric}>
-                    {data.popularity}
-                  </Paragraph>
-                  <Paragraph className={styles.pluginMetricText}>
-                    Popularity
-                  </Paragraph>
-                </Box>
-              </FlexBox>
-
-              <SeparatorLight /> */}
 
             {plugin && (
               <>

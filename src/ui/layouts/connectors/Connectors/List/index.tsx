@@ -7,14 +7,12 @@ import { routePaths } from '../../../../../routes/routePaths';
 
 import { useService } from './useService';
 import { GetHeaderCols } from './getHeaderCols';
-// import { RunsForSecretTable } from './RunsForSecretTable';
+
 import {
   workspaceSelectors,
-  // stackSelectors,
   connectorSelectors,
 } from '../../../../../redux/selectors';
-// import { callActionForSecretsForPagination } from '../useService';
-// import { stacksActions } from '../../../../../redux/actions';
+
 import { Pagination } from '../../../common/Pagination';
 import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQueryParam';
 import { Box, FlexBox, If, PrimaryButton } from '../../../../components';
@@ -26,21 +24,14 @@ interface Props {
   pagination?: boolean;
   id?: string;
   isExpended?: boolean;
-  // stackComponentId?: TId;
 }
 export const List: React.FC<Props> = ({
   filter,
   pagination = true,
   isExpended,
   id,
-}: // stackComponentId,
-Props) => {
+}: Props) => {
   const history = useHistory();
-  // const dispatch = useDispatch();
-  // const [
-  //   fetchingForSecretsFroComponents,
-  //   setFetchingForSecretsFroComponents,
-  // ] = useState(false);
 
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
@@ -68,9 +59,7 @@ Props) => {
   );
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
-  // useEffect(() => {
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [stackComponentId]);
+
   const { dispatchConnectorData } = callActionForConnectorsForPagination();
   const expendedRow = filteredConnectors.filter((item: any) => item.id === id);
 
@@ -106,81 +95,38 @@ Props) => {
   const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
 
   useEffect(() => {
-    // if (stackComponentId && !filter) {
-    //   setFetchingForSecretsFroComponents(true);
-    //   dispatch(
-    //     stacksActions.getMy({
-    //       component_id: stackComponentId,
-    //       sort_by: 'desc:created',
-    //       logical_operator: 'and',
-    //       page: 1,
-    //       size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-    //       workspace: selectedWorkspace,
-    //       onSuccess: () => setFetchingForSecretsFroComponents(false),
-    //       onFailure: () => setFetchingForSecretsFroComponents(false),
-    //     }),
-    //   );
-    // } else {
     if (filter) {
       setPageIndex(0);
-      // if (stackComponentId) {
+
       dispatchConnectorData(
         1,
         itemPerPage,
         checkValidFilter.length ? (validFilters as any) : [],
         (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
-        // stackComponentId,
       );
-      // } else {
-      //   dispatchConnectorData(
-      //     1,
-      //     itemPerPage,
-      //     checkValidFilter.length ? (validFilters as any) : [],
-      //     (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
-      //   );
-      // }
     }
-    // }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [
-    checkValidFilter,
-    activeSortingDirection,
-    activeSorting,
-    // stackComponentId,
-  ]);
+  }, [checkValidFilter, activeSortingDirection, activeSorting]);
   const onChange = (pageNumber: any, size: any) => {
-    // if (stackComponentId) {
-    //   dispatchConnectorData(
-    //     pageNumber,
-    //     size,
-    //     checkValidFilter.length ? (validFilters as any) : [],
-    //     (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
-    //     // stackComponentId,
-    //   );
-    // } else {
     dispatchConnectorData(
       pageNumber,
       size,
       checkValidFilter.length ? (validFilters as any) : [],
       (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
     );
-    // }
   };
 
   return (
-    <>
+    <Box
+      style={{
+        overflowX: 'auto',
+        marginBottom: connectorsPaginated.totalitem > 5 ? '90px' : '0px',
+      }}
+    >
       <CollapseTable
         route={routePaths.connectors.connectorTypes(selectedWorkspace)}
-        renderAfterRow={(connector: any) => (
-          <>
-            {/* <RunsForSecretTable
-              nestedRow={true}
-              connector={connector}
-              openConnectorIds={openConnectorIds}
-              fetching={fetching}
-            /> */}
-          </>
-        )}
+        renderAfterRow={(connector: any) => <></>}
         activeSorting={
           activeSortingDirection?.toLowerCase() + ':' + activeSorting
         }
@@ -213,7 +159,6 @@ Props) => {
               width: '100%',
               justifyContent: 'center',
               backgroundColor: 'white',
-              // marginRight: '45px',
             }}
           >
             <Box style={{ alignSelf: 'center' }}>
@@ -226,12 +171,10 @@ Props) => {
                     justifyContent="center"
                   >
                     <Pagination
-                      // isExpended={isExpended}
                       ref={childRef}
                       onChange={(pageNumber: any) =>
                         onChange(pageNumber, itemPerPage)
                       }
-                      // getFetchedState={getFetchedState}
                       activeSorting={activeSorting}
                       filters={filter}
                       itemPerPage={itemPerPage}
@@ -282,14 +225,11 @@ Props) => {
                 routePaths.connectors.connectorTypes(selectedWorkspace),
               )
             }
-            // onClick={() =>
-            //   history.push(routePaths.connectors.registerConnectors)
-            // }
           >
             Register Connector
           </PrimaryButton>
         </Box>
       </FlexBox>
-    </>
+    </Box>
   );
 };

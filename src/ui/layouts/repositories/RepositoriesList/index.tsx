@@ -128,12 +128,10 @@ const RepositoriyListBody = () => {
                   <div style={{ alignSelf: 'center' }}>
                     <div style={{ display: 'flex' }}>
                       <Pagination
-                        // isExpended={isExpended}
                         ref={childRef}
                         onChange={(pageNumber: any) =>
                           updateData(pageNumber, itemPerPage)
                         }
-                        // getFetchedState={getFetchedState}
                         itemPerPage={itemPerPage}
                         pageIndex={pageIndex}
                         setPageIndex={setPageIndex}

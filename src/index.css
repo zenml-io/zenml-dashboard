@@ -132,3 +132,7 @@ html {
   top: 50%;
   transform: translateY(-50%);
 }
+
+.react-flow__controls-button svg {
+  background-color: transparent !important;
+}

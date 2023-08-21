@@ -6,14 +6,13 @@ import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
-import { FlexBox, Paragraph, icons } from '../../../../components';
+import { FlexBox, Paragraph, Tooltip, icons } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
 
 import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
-import ReactTooltip from 'react-tooltip';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const useHeaderCols = ({
@@ -47,10 +46,6 @@ export const useHeaderCols = ({
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   return [
-    // {
-    //   width: '2%',
-    //   renderRow: (stack: TStack) => <></>,
-    // },
     {
       render: () => (
         <SortingHeader
@@ -90,9 +85,7 @@ export const useHeaderCols = ({
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <ReactTooltip id={run.id} place="top" effect="solid">
-            <Paragraph color="white">{run.id}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={run.id} text={run.id} />
         </FlexBox>
       ),
     },
@@ -119,9 +112,7 @@ export const useHeaderCols = ({
           <div data-tip data-for={run.name}>
             <Paragraph size="small">{run.name}</Paragraph>
           </div>
-          <ReactTooltip id={run.name} place="top" effect="solid">
-            <Paragraph color="white">{run.name}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={run.name} text={run.name} />
         </div>
       ),
     },
@@ -145,7 +136,10 @@ export const useHeaderCols = ({
       width: '7.5%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run.pipeline?.name && run.pipeline?.version}>
+          <div
+            data-tip
+            data-for={`${run?.pipeline?.name} ${run?.pipeline?.version}`}
+          >
             <Paragraph
               size="small"
               style={{
@@ -157,24 +151,19 @@ export const useHeaderCols = ({
                 event.stopPropagation();
                 history.push(
                   routePaths.pipeline.configuration(
-                    run.pipeline?.id,
+                    run?.pipeline?.id,
                     selectedWorkspace,
                   ),
                 );
               }}
             >
-              {run.pipeline?.name} ( v{run?.pipeline?.version} )
+              {`${run?.pipeline?.name} ( v${run?.pipeline?.version} )`}
             </Paragraph>
           </div>
-          <ReactTooltip
-            id={run.pipeline?.name && run.pipeline?.version}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {run.pipeline?.name} ( v{run?.pipeline?.version} )
-            </Paragraph>
-          </ReactTooltip>
+          <Tooltip
+            id={`${run?.pipeline?.name} ${run?.pipeline?.version}`}
+            text={`${run?.pipeline?.name} (v${run?.pipeline?.version})`}
+          />
         </FlexBox>
       ),
     },
@@ -219,7 +208,7 @@ export const useHeaderCols = ({
       width: '7.5%',
       renderRow: (run: TRun) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run.stack?.name}>
+          <div data-tip data-for={run.stack.name}>
             <Paragraph
               size="small"
               style={{
@@ -231,18 +220,16 @@ export const useHeaderCols = ({
                 event.stopPropagation();
                 history.push(
                   routePaths.stack.configuration(
-                    run.stack?.id,
+                    run?.stack?.id,
                     selectedWorkspace,
                   ),
                 );
               }}
             >
-              {run.stack?.name}
+              {run.stack.name}
             </Paragraph>
           </div>
-          <ReactTooltip id={run.stack?.name} place="top" effect="solid">
-            <Paragraph color="white">{run.stack?.name}</Paragraph>
-          </ReactTooltip>
+          <Tooltip id={run.stack.name} text={run.stack.name} />
         </FlexBox>
       ),
     },
@@ -282,15 +269,12 @@ export const useHeaderCols = ({
                 </Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip
+            <Tooltip
               id={run?.user?.full_name ? run?.user?.full_name : run?.user?.name}
-              place="top"
-              effect="solid"
-            >
-              <Paragraph color="white">
-                {run?.user?.full_name ? run?.user?.full_name : run?.user?.name}
-              </Paragraph>
-            </ReactTooltip>
+              text={
+                run?.user?.full_name ? run?.user?.full_name : run?.user?.name
+              }
+            />
           </FlexBox>
         );
       },
@@ -302,11 +286,11 @@ export const useHeaderCols = ({
           sorting="created"
           sortMethod={sortMethod('created', {
             asc: (runs: TRun[]) =>
-              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+              _.orderBy(runs, (run: TRun) => new Date(run?.created).getTime(), [
                 'asc',
               ]),
             desc: (runs: TRun[]) =>
-              _.orderBy(runs, (run: TRun) => new Date(run.created).getTime(), [
+              _.orderBy(runs, (run: TRun) => new Date(run?.created).getTime(), [
                 'desc',
               ]),
           })}
@@ -323,23 +307,15 @@ export const useHeaderCols = ({
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(run.created)}>
             <FlexBox alignItems="center">
-              {/* <Box paddingRight="sm">
-                <icons.calendar color={iconColors.grey} size={iconSizes.sm} />
-              </Box> */}
               <Paragraph color="grey" size="tiny">
                 {formatDateToDisplayOnTable(run.created)}
               </Paragraph>
             </FlexBox>
           </div>
-          <ReactTooltip
+          <Tooltip
             id={formatDateToDisplayOnTable(run.created)}
-            place="top"
-            effect="solid"
-          >
-            <Paragraph color="white">
-              {formatDateToDisplayOnTable(run.created)}
-            </Paragraph>
-          </ReactTooltip>
+            text={formatDateToDisplayOnTable(run.created)}
+          />
         </FlexBox>
       ),
     },

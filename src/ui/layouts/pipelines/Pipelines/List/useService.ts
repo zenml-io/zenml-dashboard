@@ -80,7 +80,7 @@ export const useService = ({
           pipelinesActions.getMy({
             sort_by: applySorting ? applySorting : 'created',
             logical_operator: 'and',
-            // name: '',
+
             workspace: selectedWorkspace,
             page: pipelinesPaginated.page,
             size: pipelinesPaginated.size,

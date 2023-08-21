@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
-// import { translate } from './translate';
-// import { ListForAll } from './ListForAll';
+
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 
@@ -8,7 +7,7 @@ import { useService } from './useService';
 import { useLocation, useLocationPath, useSelector } from '../../../hooks';
 
 import { camelCaseToParagraph } from '../../../../utils';
-// import { workspaceSelectors } from '../../../../redux/selectors';
+
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { CreateComponent } from './CreateComponent';
@@ -18,8 +17,8 @@ export interface FlavorDetailRouteParams {
 }
 export const RegisterComponents: React.FC = () => {
   const locationPath = useLocationPath();
-  const { id, flavor } = useService();
-  // console.log(setFetching);
+  const { id, flavor, serviceConnectorResources, fetching } = useService();
+
   const location = useLocation();
   const [routeState, setRouteState] = useState({}) as any;
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -27,10 +26,7 @@ export const RegisterComponents: React.FC = () => {
     setRouteState(location.state);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [setRouteState]);
-  // const url_string = window.location.href;
-  // const url = new URL(url_string);
-  // const workspaceName = url.pathname.split('/')[2];
-  console.log(id, 'asdasdasdsadasddas111');
+
   const workspace = selectedWorkspace
     ? selectedWorkspace
     : DEFAULT_WORKSPACE_NAME;
@@ -45,7 +41,12 @@ export const RegisterComponents: React.FC = () => {
         {
           text: camelCaseToParagraph(locationPath.split('/')[4]),
           Component: () => (
-            <CreateComponent state={routeState} flavor={flavor} />
+            <CreateComponent
+              state={routeState}
+              flavor={flavor}
+              serviceConnectorResources={serviceConnectorResources}
+              fetching={fetching}
+            />
           ),
           path: routePaths.stackComponents.configureComponent(
             locationPath.split('/')[4],
@@ -57,9 +58,6 @@ export const RegisterComponents: React.FC = () => {
           ),
         },
       ]}
-      // tabBasePath={
-      //   routePaths.stackComponents.base('', workspace) + `?workspace=${workspace}`
-      // }
       tabBasePath={routePaths.stackComponents.configureComponent(
         locationPath.split('/')[4],
 

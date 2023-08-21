@@ -8,9 +8,6 @@ import { Tabs } from '../common/Tabs';
 import Header from './Header';
 import Stacks from './Stacks';
 import Component from './Component';
-// import { routePaths } from '../../../routes/routePaths';
-// import { useLocationPath, useSelector } from '../../hooks';
-// import { workspaceSelectors } from '../../../redux/selectors';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
@@ -34,9 +31,6 @@ export const BasePage: React.FC<{
   children,
   title,
 }) => {
-  // const history = useHistory();
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  // const locationPath = useLocationPath();
   return (
     <>
       <AuthenticatedLayout breadcrumb={[...breadcrumbs]}>
@@ -65,9 +59,6 @@ export const BasePage: React.FC<{
               <Component fromRegisterComponent={fromRegisterComponent} />
             )}
 
-            {/* {fromConfigureComponent && (
-              <Component fromRegisterComponent={fromRegisterComponent} />
-            )} */}
             <Box
               marginLeft="lg"
               style={{ width: !fromConfigureComponent ? '80%' : '100%' }}
@@ -79,7 +70,6 @@ export const BasePage: React.FC<{
                 <>
                   <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
                   <FlexBox marginBottom="xxl">
-                    {/* <Switch> */}
                     <Redirect exact from={tabBasePath} to={tabPages[0].path} />
 
                     {tabPages.map((page, index) => (
@@ -90,38 +80,12 @@ export const BasePage: React.FC<{
                         component={page.Component}
                       />
                     ))}
-                    {/* </Switch> */}
                   </FlexBox>
                 </>
               )}
             </Box>
           </FlexBox.Row>
         </SidebarContainer>
-        {/* {!fromRegisterComponent && !fromConfigureComponent && (
-          <FlexBox
-            style={{
-              position: 'fixed',
-              right: '0',
-              bottom: '0',
-              marginRight: '45px',
-            }}
-          >
-            <Box marginBottom="lg">
-              <PrimaryButton
-                onClick={() => {
-                  history.push(
-                    routePaths.stackComponents.registerComponents(
-                      locationPath.split('/')[4],
-                      selectedWorkspace,
-                    ),
-                  );
-                }}
-              >
-                Register New Component
-              </PrimaryButton>
-            </Box>
-          </FlexBox>
-        )} */}
       </AuthenticatedLayout>
     </>
   );

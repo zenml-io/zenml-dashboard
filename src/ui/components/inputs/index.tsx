@@ -106,6 +106,7 @@ export const BaseInput = ({
   onChange,
   defaultValue,
   inputRef,
+  onHandleFocus,
   placeholder,
   type,
   hasError,
@@ -118,9 +119,11 @@ export const BaseInput = ({
   onChange: (e: any) => void;
   defaultValue?: string;
   inputRef?: any;
+  onHandleFocus?: (e: any) => void;
   placeholder?: string;
   type: string;
   onRemoveFocus?: any;
+
   hasError?: boolean;
   className?: string;
   style?: any;
@@ -129,6 +132,7 @@ export const BaseInput = ({
     {...props}
     ref={inputRef}
     onChange={onChange}
+    onFocus={onHandleFocus}
     onBlur={onRemoveFocus}
     value={value}
     defaultValue={defaultValue}
@@ -198,6 +202,7 @@ export const TextInput = ({
   onChangeText,
   defaultValue,
   inputRef,
+  onHandleFocus,
   placeholder,
   hasError,
   style,
@@ -213,6 +218,7 @@ export const TextInput = ({
   type?: string;
   inputRef?: any;
   onRemoveFocus?: any;
+  onHandleFocus?: (s: string) => void;
   style?: any;
   onKeyDown?: (e: { key: string }) => void;
 }): JSX.Element => (
@@ -226,6 +232,7 @@ export const TextInput = ({
     value={value}
     defaultValue={defaultValue}
     onRemoveFocus={onRemoveFocus}
+    onHandleFocus={onHandleFocus}
     placeholder={placeholder}
     type={type}
     style={style}

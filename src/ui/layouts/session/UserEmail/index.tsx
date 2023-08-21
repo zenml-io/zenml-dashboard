@@ -19,7 +19,7 @@ import { getTranslateByScope } from '../../../../services';
 import { routePaths } from '../../../../routes/routePaths';
 import { sessionSelectors } from '../../../../redux/selectors';
 import { useDispatch, usePushRoute, useSelector } from '../../../hooks';
-// import { loggedInRoute } from '../../../../constants';
+
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { stackComponentsActions } from '../../../../redux/actions';
@@ -91,7 +91,7 @@ const UserEmail: React.FC = () => {
                   <InnerTextLink
                     text={'Click Here'}
                     href={
-                      'https://docs.zenml.io/user-guide/advanced-guide/global-settings-of-zenml#usage-analytics'
+                      'https://docs.zenml.io/user-guide/advanced-guide/environment-management/global-settings-of-zenml#usage-analytics'
                     }
                   />
                   &nbsp;{translate('subtitle2-2')}

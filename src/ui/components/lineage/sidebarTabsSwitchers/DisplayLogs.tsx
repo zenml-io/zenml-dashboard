@@ -68,7 +68,7 @@ const DisplayLogs = ({ selectedNode }: DisplayLogsProps) => {
             language="text"
             style={okaidia}
           >
-            {logs ? logs : 'No Logs Avaialable'}
+            {logs ? logs : 'No Logs Available'}
           </SyntaxHighlighter>
         </div>
       )}
