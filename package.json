@@ -33,7 +33,6 @@
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "moment": "^2.29.4",
-    "node-sass": "^4.14.1",
     "papaparse": "^5.4.1",
     "query-string": "^6.13.1",
     "react": "^16.13.1",
@@ -62,7 +61,7 @@
   },
   "scripts": {
     "all": "eslint './src/**/*.ts*' & react-scripts test --all & tsc",
-    "build:react": "react-scripts build",
+    "build:react": "react-scripts --openssl-legacy-provider build",
     "build:tailwind": "NODE_ENV=production postcss src/index.css -o public/tailwind.css",
     "build": "run-s build:tailwind build:react",
     "eject": "react-scripts eject",
@@ -72,9 +71,9 @@
     "prettier:check": "prettier --check './src/**/*.{ts,tsx}'",
     "prettier:fix": "prettier --write './src/**/*.{ts,tsx}'",
     "start": "run-p watch:*",
-    "test": "react-scripts test --maxWorkers=4",
+    "test": "react-scripts --openssl-legacy-provider test --maxWorkers=4",
     "tslint": "tsc",
-    "watch:react": "react-scripts start",
+    "watch:react": "react-scripts --openssl-legacy-provider start",
     "watch:tailwind": "postcss src/index.css -o public/tailwind.css -w"
   },
   "browserslist": {
@@ -103,6 +102,7 @@
     "postcss": "^8.4.28",
     "postcss-cli": "^10.1.0",
     "prettier": "^2.0.5",
+    "sass": "^1.66.1",
     "tailwindcss": "^3.3.3"
   },
   "engines": {

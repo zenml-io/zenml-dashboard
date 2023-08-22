@@ -110,6 +110,9 @@ build/
 # TernJS port file
 .tern-port
 
+# IntelliJ IDE directories
+.idea/
+
 !.env
 
 build
