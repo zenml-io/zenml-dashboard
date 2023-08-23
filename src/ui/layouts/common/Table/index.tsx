@@ -70,7 +70,7 @@ export const Table: React.FC<TableProps> = ({
   const [hover, setHover] = useState(false);
 
   useEffect(() => {
-    setTableHeight(tableElement?.current?.offsetHeight as any);
+    setTableHeight((tableElement?.current?.offsetHeight - 2) as any);
 
     // eslint-disable-next-line
   }, [tableElement.current]);
@@ -182,15 +182,15 @@ export const Table: React.FC<TableProps> = ({
                     gridTemplateColumns: gridTemplateColumns,
                     overflow: 'auto',
                   }}
+                  className="border-x border-t border-theme-border-moderate rounded-md"
                 >
                   <thead>
-                    <tr style={{ backgroundColor: '#F5F3F9' }}>
+                    <tr>
                       {columns.map(({ ref, text }, i) => (
                         <th
                           ref={ref}
-                          className={styles.tableHeadingTh}
+                          className={`${styles.tableHeadingTh} bg-theme-surface-tertiary border-b border-theme-border-moderate`}
                           style={{
-                            backgroundColor: '#F5F3F9',
                             fontSize: '14px',
                             fontWeight: 700,
                             borderRight:
@@ -201,7 +201,6 @@ export const Table: React.FC<TableProps> = ({
                           key={i}
                         >
                           <Box
-                            style={{ backgroundColor: '#F5F3F9' }}
                             paddingVertical={showHeader ? 'sm' : null}
                             paddingLeft="lg"
                           >
@@ -255,26 +254,16 @@ export const Table: React.FC<TableProps> = ({
                             styles.tableRow,
                             trOnClick && styles.clickableTableRow,
                           )}
-                          style={{
-                            backgroundColor:
-                              index % 2 !== 0 ? '#F5F3F9' : 'white',
-                          }}
                           key={index}
                         >
                           {columns.map(({ ref, text }, i) => (
                             <td
-                              className={styles.tableTd}
-                              style={{
-                                backgroundColor:
-                                  index % 2 !== 0 ? '#F5F3F9' : 'white',
-                              }}
+                              className={`${styles.tableTd} !p-4 bg-theme-surface-primary border-b border-theme-border-moderate`}
                               key={i}
                             >
-                              <Box paddingVertical="md" paddingLeft="lg">
-                                <Truncate maxLines={1}>
-                                  {text.renderRow(headerRow)}
-                                </Truncate>
-                              </Box>
+                              <Truncate maxLines={1}>
+                                {text.renderRow(headerRow)}
+                              </Truncate>
                             </td>
                           ))}
                         </tr>
