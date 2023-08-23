@@ -146,12 +146,8 @@ export const AuthenticatedHeader: React.FC<{
     <>
       {deploymentType === 'local' && <DeploymentBanner />}
       {createPopupOpen && <WorkspacePopup setPopupOpen={setCreatePopupOpen} />}
-      <FlexBox
-        paddingHorizontal="lg"
-        alignItems="center"
-        style={{ gap: '8px' }}
-        justifyContent="space-between"
-        className={styles.header}
+      <div
+        className="flex space-between h-[65px] items-center !px-4 border-b border-theme-border-moderate"
         id="header"
       >
         <FlexBox alignItems="center">
@@ -166,21 +162,25 @@ export const AuthenticatedHeader: React.FC<{
 
         <If condition={!!userFullName}>
           {() => (
-            <Box style={{ position: 'relative' }}>
-              <LinkBox onClick={() => setPopupOpen(!popupOpen)}>
-                <FlexBox alignItems="center">
-                  <FlexBox alignItems="center" className="d-none d-md-flex">
-                    <Box paddingRight="sm" style={{ textAlign: 'end' }}>
-                      <Paragraph>{userFullName}</Paragraph>
-                      <span className={styles.selectedWorkspace}>
+            <Box className="relative">
+              <button onClick={() => setPopupOpen(!popupOpen)}>
+                <div className="flex items-center">
+                  <div className="flex items-center">
+                    <div className="flex items-end flex-col py-1 !mr-2">
+                      <p className="text-text-sm font-semibold">
+                        {userFullName}
+                      </p>
+                      <p className="font-semibold text-text-xs text-theme-text-secondary">
                         {selected}
-                      </span>
-                    </Box>
-                  </FlexBox>
+                      </p>
+                    </div>
+                  </div>
                   <Box marginRight="sm">
-                    <ColoredCircle size="md" color="secondary">
-                      {userInitials}
-                    </ColoredCircle>
+                    <div className="flex items-center justify-center w-7 h-7 rounded-rounded bg-primary-50">
+                      <span className="text-theme-text-brand">
+                        {userInitials}
+                      </span>
+                    </div>
                   </Box>
                   <Box>
                     <icons.chevronDown
@@ -188,8 +188,8 @@ export const AuthenticatedHeader: React.FC<{
                       size={iconSizes.xs}
                     />
                   </Box>
-                </FlexBox>
-              </LinkBox>
+                </div>
+              </button>
               <If condition={popupOpen}>
                 {() => (
                   <OutsideClickHandler
@@ -315,7 +315,7 @@ export const AuthenticatedHeader: React.FC<{
             </Box>
           )}
         </If>
-      </FlexBox>
+      </div>
     </>
   );
 };
