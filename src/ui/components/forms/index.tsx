@@ -781,7 +781,7 @@ export const FormPasswordField = (
         />
         {props.showPasswordOption && (
           <LinkBox
-            style={{ position: 'absolute', right: '10px', top: '36px' }}
+            className="absolute right-1 top-[2.4rem]"
             onClick={(event: any) => {
               if (!event) return null;
               setShowPassword(!showPassword);

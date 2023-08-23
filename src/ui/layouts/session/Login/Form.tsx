@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Box,
-  FormPasswordField,
-  FormTextField,
-  PrimaryButton,
-} from '../../../components';
+import { Box, FormPasswordField, FormTextField } from '../../../components';
 import { translate } from './translate';
 import { useService } from './useService';
 import { useEnterKeyPress } from '../../../hooks';
@@ -56,14 +51,13 @@ export const Form: React.FC = () => {
           showPasswordOption
         />
       </Box>
-      <PrimaryButton
-        style={{ width: '100%', backgroundColor: '#E8A562' }}
-        loading={loading}
+      <button
+        className="bg-primary-500 py-3 font-bold w-full text-theme-text-negative rounded-md"
         disabled={BUTTON_DISABLED || loading}
-        onClick={submit}
+        onClick={() => submit}
       >
         {translate('form.button.text')}
-      </PrimaryButton>
+      </button>
     </Box>
   );
 };

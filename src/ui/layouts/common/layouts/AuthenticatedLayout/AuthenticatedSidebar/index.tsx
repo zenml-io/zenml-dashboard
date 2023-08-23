@@ -1,25 +1,19 @@
 import React from 'react';
 import cn from 'classnames';
-import {
-  FlexBox,
-  Box,
-  LinkBox,
-  If,
-  ZenMLLogoSmall,
-} from '../../../../../components';
-import { usePushRoute, useSelector } from '../../../../../hooks';
+import { FlexBox, Box, LinkBox, If } from '../../../../../components';
+import logo from '../../../../../assets/logo_small_color.svg';
+import { useSelector } from '../../../../../hooks';
 import { Menu } from './Menu';
 import styles from './index.module.scss';
-import { SideHeader } from './SideHeader';
 import { SideFooter } from './SideFooter';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../../../constants';
 import { workspaceSelectors } from '../../../../../../redux/selectors';
+import { Link } from 'react-router-dom';
 
 export const AuthenticatedSidebar: React.FC<{
   mobileMenuOpen: boolean;
   setMobileMenuOpen: (val: boolean) => void;
 }> = ({ mobileMenuOpen, setMobileMenuOpen }) => {
-  const { push } = usePushRoute();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
   return (
@@ -32,45 +26,39 @@ export const AuthenticatedSidebar: React.FC<{
           />
         )}
       </If>
-      <Box
-        paddingTop="lg"
-        className={cn(
-          styles.sidebar,
-          mobileMenuOpen && styles.mobileSidebarOpen,
-        )}
+      <div
+        className={`flex border-r border-theme-border-moderate flex-col ${styles.sidebar}`}
       >
-        <FlexBox
-          marginBottom="xxl"
-          alignItems="center"
-          style={{ cursor: 'pointer', width: '100%', alignItems: 'center' }}
-          flexDirection="column"
-          onClick={() =>
-            push(
-              `/?workspace=${
-                selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME
-              }`,
-            )
-          }
+        <div className="flex border-b border-theme-border-moderate justify-center !py-2 !px-4 !bg-theme-surface-primary">
+          <Link
+            to={`/?workspace=${
+              selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME
+            }`}
+          >
+            <img alt="ZenML Logo" width={40} height={40} src={logo} />
+          </Link>
+        </div>
+        <Box
+          paddingTop="lg"
+          className={cn(
+            'bg-theme-surface-tertiary h-full z-10 w-[104px] p-2',
+            mobileMenuOpen && styles.mobileSidebarOpen,
+          )}
         >
-          <ZenMLLogoSmall />
-        </FlexBox>
-
-        <FlexBox
-          flexDirection="column"
-          justifyContent="space-between"
-          style={{ height: '90%' }}
-        >
-          <Box>
-            <SideHeader />
-          </Box>
-          <Box style={{ height: '100%', overflowY: 'auto' }}>
-            <Menu />
-          </Box>
-          <Box>
-            <SideFooter />
-          </Box>
-        </FlexBox>
-      </Box>
+          <FlexBox
+            flexDirection="column"
+            justifyContent="space-between"
+            style={{ height: '90%' }}
+          >
+            <Box className="space-y-4 h-full py-2 overflow-y-auto">
+              <Menu />
+            </Box>
+            <Box>
+              <SideFooter />
+            </Box>
+          </FlexBox>
+        </Box>{' '}
+      </div>
     </>
   );
 };

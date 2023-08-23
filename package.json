@@ -19,6 +19,7 @@
     "@types/react-syntax-highlighter": "^11.0.4",
     "@types/react-vis": "^1.11.11",
     "@types/redux-logger": "^3.0.8",
+    "@zenml-io/react-component-library": "^0.2.1",
     "axios": "^0.19.2",
     "axios-mock-adapter": "^1.18.2",
     "bootstrap": "^4.5.0",

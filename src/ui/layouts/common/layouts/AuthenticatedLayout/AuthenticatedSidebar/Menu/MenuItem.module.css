@@ -1,0 +1,3 @@
+.activeItem svg path {
+  stroke: hsl(var(--color-primary-400) / 1) !important;
+}

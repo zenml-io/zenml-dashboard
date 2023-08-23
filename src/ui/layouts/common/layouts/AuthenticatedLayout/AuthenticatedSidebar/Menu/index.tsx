@@ -4,7 +4,6 @@ import { routePaths } from '../../../../../../../routes/routePaths';
 import { icons } from '../../../../../../components';
 import {
   iconSizes,
-  iconColors,
   DEFAULT_WORKSPACE_NAME,
 } from '../../../../../../../constants';
 import { translate } from '../translate';
@@ -23,10 +22,18 @@ export const Menu: React.FC = () => {
   return (
     <>
       <MenuItem
+        id="Home"
+        Icon={() => <icons.pipeline size={iconSizes.md} />}
+        innerItem={window.location.href?.includes('pipelines')}
+        text="Home"
+        isActive={() =>
+          /^\/workspaces\/default$/.test(window.location.pathname)
+        }
+        to={routePaths.home}
+      />
+      <MenuItem
         id="pipelines"
-        Icon={() => (
-          <icons.pipeline color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.pipeline size={iconSizes.md} />}
         innerItem={window.location.href?.includes('pipelines')}
         text={translate('menu.pipelines.text')}
         isActive={() => window.location.href?.includes('pipelines')}
@@ -36,7 +43,7 @@ export const Menu: React.FC = () => {
       />
       <MenuItem
         id="runs"
-        Icon={() => <icons.run color={iconColors.white} size={iconSizes.md} />}
+        Icon={() => <icons.run size={iconSizes.md} />}
         to={routePaths.pipelines.allRuns(selectedWorkspace)}
         isActive={() => window.location.href?.includes('all-runs')}
         text={'Runs'}
@@ -44,9 +51,7 @@ export const Menu: React.FC = () => {
       />
       <MenuItem
         id="stack"
-        Icon={() => (
-          <icons.stack color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.stack size={iconSizes.md} />}
         innerItem={window.location.href?.includes('stacks')}
         text={translate('menu.stacks.text')}
         isActive={() =>
@@ -62,9 +67,7 @@ export const Menu: React.FC = () => {
           window.location.href?.includes('components') &&
           !window.location.href?.includes('connectors')
         }
-        Icon={() => (
-          <icons.stackComponent color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.stackComponent size={iconSizes.md} />}
         innerItem={window.location.href?.includes('components')}
         to={routePaths.stackComponents.base(
           stackComponentsTypes ? stackComponentsTypes[0] : '',
@@ -79,14 +82,12 @@ export const Menu: React.FC = () => {
         innerItem={window.location.href?.includes('repositories')}
         to={routePaths.repositories.list(selectedWorkspace)}
         text={translate('menu.repositories.text')}
-        Icon={() => (
-          <icons.repository color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.repository size={iconSizes.md} />}
       />
 
       <MenuItem
         id="secrets"
-        Icon={() => <icons.lock color={iconColors.white} size={iconSizes.md} />}
+        Icon={() => <icons.lock size={iconSizes.md} />}
         innerItem={window.location.href?.includes('secrets')}
         text={translate('menu.secrets.text')}
         isActive={() => window.location.href?.includes('secrets')}
@@ -98,9 +99,7 @@ export const Menu: React.FC = () => {
           window.location.href?.includes('plugins') &&
           !window.location.href?.includes('my-plugins')
         }
-        Icon={() => (
-          <icons.storefront color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.storefront size={iconSizes.md} />}
         innerItem={window.location.href?.includes('plugins')}
         to={routePaths.plugins.list(selectedWorkspace)}
         text={translate('menu.plugins.text')}
@@ -109,9 +108,7 @@ export const Menu: React.FC = () => {
       <MenuItem
         id="connector"
         isActive={() => window.location.href?.includes('connectors')}
-        Icon={() => (
-          <icons.connector color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.connector size={iconSizes.md} />}
         innerItem={window.location.href?.includes('connectors')}
         to={routePaths.connectors.base}
         text={translate('menu.connectors.text')}

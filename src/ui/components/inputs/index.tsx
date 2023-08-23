@@ -75,7 +75,10 @@ export const InputWithLabel = ({
         size="body"
         style={{ color: labelColor ? labelColor : 'black' }}
       >
-        <label htmlFor={name} style={{ display: 'flex', flexDirection: 'row' }}>
+        <label
+          htmlFor={name}
+          className="text-text-md mb-0 flex flex-row items-center"
+        >
           {label}
           {optional && (
             <span style={{ color: '#C8C8C8', marginLeft: '4px' }}>
@@ -86,7 +89,7 @@ export const InputWithLabel = ({
             <span style={{ color: 'red', marginLeft: '4px' }}>*</span>
           )}
           {helperText && (
-            <span style={{ marginLeft: '8px' }}>
+            <span className="ml-1">
               <icons.info
                 color={iconColors.darkGrey}
                 title={helperText}
@@ -137,7 +140,9 @@ export const BaseInput = ({
     value={value}
     defaultValue={defaultValue}
     placeholder={placeholder}
-    className={cn(styles.input, hasError ? styles.error : null, className)}
+    className={cn(
+      'px-3 py-2 rounded-md border placeholder:text-theme-text-secondary text-theme-text-primary border-[#D0D5DD] bg-white focus:!border-neutral-500 outline-none',
+    )}
     type={type}
     style={style}
   />

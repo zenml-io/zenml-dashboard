@@ -3,10 +3,8 @@
 $bgColor: rgba(201, 203, 208, 0.2);
 
 .sidebar {
-  width: 7.2rem !important;
   height: 100vh;
   z-index: 1;
-  background: linear-gradient(180deg, #433e99 0%, #8f599d 100%);
   z-index: 99999;
 }
 
@@ -25,7 +23,6 @@ $bgColor: rgba(201, 203, 208, 0.2);
     position: fixed;
     z-index: 9999;
     top: 0;
-    background-color: $whiteColor;
     transform: translateX(-100%);
     transition: 0.3s ease-in all;
   }

@@ -1,8 +1,7 @@
 import React from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
-import { Paragraph, Box, FlexBox } from '../../../../../../components';
-import cn from 'classnames';
-import styles from './MenuItem.module.scss';
+import { NavLink } from 'react-router-dom';
+
+import styles from './MenuItem.module.css';
 import { camelCaseToParagraph } from '../../../../../../../utils';
 
 export const MenuItem: React.FC<{
@@ -15,8 +14,6 @@ export const MenuItem: React.FC<{
   id?: any;
   isActive?: ({ match, location }: { match: any; location: any }) => boolean;
 }> = ({ id, text, to, exact = false, Icon, isActive, subItem, innerItem }) => {
-  let location = useLocation();
-
   return (
     <NavLink
       id={id}
@@ -24,47 +21,17 @@ export const MenuItem: React.FC<{
         if (!isActive) return !!match;
         return isActive({ match, location });
       }}
-      activeClassName={styles.activeMenuItem}
-      className={styles.menuItem}
+      activeClassName={`bg-theme-surface-primary stroke-primary-400 hover:bg-theme-surface-primary ${styles.activeItem}`}
+      className="block py-1 px-2 rounded-md text-theme-text-primary hover:bg-neutral-200"
       to={to}
       exact={exact}
     >
-      <FlexBox
-        alignItems="center"
-        marginVertical="sm"
-        style={{ minHeight: '50px' }}
-      >
-        <Box
-          className={cn(
-            (to === location.pathname && !subItem) || innerItem
-              ? styles.menuItemSideBox
-              : styles.menuItemSideBoxUn,
-          )}
-        ></Box>
-
-        <FlexBox
-          style={{ width: '100%', alignItems: 'center' }}
-          marginTop="md"
-          flexDirection="column"
-        >
-          <Box>
-            <Icon />
-          </Box>
-          <Box marginTop="sm" style={{ maxWidth: '80px' }}>
-            <Paragraph
-              color="darkGrey"
-              size="small"
-              style={{
-                fontSize: '10px',
-                lineHeight: '13px',
-                textAlign: 'center',
-              }}
-            >
-              {camelCaseToParagraph(text)}
-            </Paragraph>
-          </Box>
-        </FlexBox>
-      </FlexBox>
+      <div className="flex justify-center items-center py-1 px-2 flex-col">
+        <Icon />
+        <p className="text-theme-text-primary mt-[4px] text-text-xs mb-0">
+          {camelCaseToParagraph(text)}
+        </p>
+      </div>
     </NavLink>
   );
 };

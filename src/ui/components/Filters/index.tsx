@@ -12,7 +12,6 @@ import { iconColors, iconSizes } from '../../../constants';
 import { formatDateToDisplayWithoutTime } from '../../../utils';
 import DatePicker from 'react-datepicker';
 
-import 'bootstrap/dist/css/bootstrap.min.css';
 import styles from './filter.module.scss';
 import 'react-datepicker/dist/react-datepicker.css';
 import Select from 'react-select';

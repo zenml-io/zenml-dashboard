@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 
 import {
-  H2,
   Container,
   FlexBox,
   Box,
@@ -113,11 +112,11 @@ const Login: React.FC = () => {
         fluid
       >
         <Box style={{ overflowY: 'auto', maxHeight: '100vh' }}>
-          <Box margin="xxl" style={{ textAlign: 'center' }}>
+          <div className="flex justify-center my-7">
             <Link to={routePaths.login}>
               <Image src={image} />
             </Link>
-          </Box>
+          </div>
           <FlexBox.Column
             paddingHorizontal="sm"
             justifyContent="center"
@@ -125,9 +124,9 @@ const Login: React.FC = () => {
           >
             <Box marginTop="xl" style={{ textAlign: 'center' }}>
               <Box paddingBottom="md">
-                <H2 bold color="white">
+                <h1 className="font-semibold text-theme-text-negative">
                   {translate('title')}
-                </H2>
+                </h1>
               </Box>
             </Box>
             <Form />
