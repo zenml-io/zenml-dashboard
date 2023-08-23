@@ -2,20 +2,16 @@
 
 import { PipelineDetailRouteParams } from '.';
 import { pipelinesActions, runPagesActions } from '../../../../redux/actions';
-import {
-  pipelineSelectors,
-  workspaceSelectors,
-} from '../../../../redux/selectors';
+import { pipelineSelectors } from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { pipelinePagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
-import { sign } from 'crypto';
-import { filterObjectForParam } from '../../../../utils';
-import { Sort } from '@table-library/react-table-library/types/sort';
 
+import { filterObjectForParam } from '../../../../utils';
+import { Pipeline } from '../../../../api/types';
 interface ServiceInterface {
-  pipeline: TPipeline;
+  pipeline: Pipeline;
 }
 
 export const useService = (): ServiceInterface => {

@@ -2,19 +2,20 @@ import React from 'react';
 import { runStatus, iconColors, iconSizes } from '../../../../../../constants';
 
 import { Box, FlexBox, icons, If, Tooltip } from '../../../../../components';
+import { Pipeline } from '../../../../../../api/types';
 
 function getID(pipelineID: string, index: number) {
   return `${pipelineID}-${index}`;
 }
 
-export const Status: React.FC<{ pipeline: TPipeline }> = ({ pipeline }) => {
+export const Status: React.FC<{ pipeline: Pipeline }> = ({ pipeline }) => {
   return (
     <FlexBox
       alignItems="center"
       justifyContent="center"
       style={{ marginLeft: '-16px' }}
     >
-      {pipeline.status.map((item: any, index: number) => (
+      {pipeline?.status?.map((item: any, index: number) => (
         <Box key={index}>
           <>
             <FlexBox alignItems="center">

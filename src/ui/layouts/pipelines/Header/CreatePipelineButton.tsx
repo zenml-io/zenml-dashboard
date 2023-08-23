@@ -56,9 +56,9 @@ export const CreatePipelineButton: React.FC = () => {
           </FlexBox.Row>
 
           {window.location.href?.includes('runs')
-            ? constantCommandsToCreateRuns.body.map((item): any =>
+            ? constantCommandsToCreateRuns.body.map((item, index) =>
                 item.isCode ? (
-                  <FlexBox alignItems="center" marginTop="md">
+                  <FlexBox alignItems="center" marginTop="md" key={index}>
                     <CommandBoxWScroll command={item.text} />
                     <Box
                       className={styles.iconStyle}
@@ -79,9 +79,9 @@ export const CreatePipelineButton: React.FC = () => {
                   </FlexBox.Row>
                 ),
               )
-            : constantCommandsToCreatePipeline.body.map((item): any =>
+            : constantCommandsToCreatePipeline.body.map((item, index) =>
                 item.isCode ? (
-                  <FlexBox alignItems="center" marginTop="md">
+                  <FlexBox alignItems="center" marginTop="md" key={index}>
                     <CommandBoxWScroll command={item.text} />
                     <Box
                       className={styles.iconStyle}
