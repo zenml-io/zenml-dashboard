@@ -151,17 +151,7 @@ export const List: React.FC<Props> = ({
 
       <If condition={pipelinesPaginated.totalitem > 5}>
         {() => (
-          <FlexBox
-            style={{
-              position: 'fixed',
-              right: '0',
-              bottom: '0',
-              height: '92px',
-              width: '100%',
-              justifyContent: 'center',
-              backgroundColor: 'white',
-            }}
-          >
+          <div className="flex w-full justify-center bg-theme-surface-secondary fixed right-0 bottom-0">
             <Box style={{ alignSelf: 'center' }}>
               <If condition={!fetching}>
                 {() => (
@@ -208,7 +198,7 @@ export const List: React.FC<Props> = ({
                 )}
               </If>
             </Box>
-          </FlexBox>
+          </div>
         )}
       </If>
     </Box>
