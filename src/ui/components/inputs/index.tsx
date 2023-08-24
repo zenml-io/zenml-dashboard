@@ -141,7 +141,7 @@ export const BaseInput = ({
     defaultValue={defaultValue}
     placeholder={placeholder}
     className={cn(
-      'px-3 py-2 rounded-md border placeholder:text-theme-text-secondary text-theme-text-primary border-[#D0D5DD] bg-white focus:!border-neutral-500 outline-none',
+      `${styles.padding} rounded-md border placeholder:text-theme-text-secondary text-theme-text-primary border-[#D0D5DD] bg-white focus:!border-neutral-500 outline-none`,
     )}
     type={type}
     style={style}

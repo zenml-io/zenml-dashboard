@@ -1111,33 +1111,17 @@ const FilterComponent = ({
 
         <FlexBox
           fullWidth
-          className="rounded rounded-4 p-2 align-item-center"
-          style={{
-            border: searchText ? '' : '1px solid #C9CBD0',
-            backgroundColor: searchText ? '#E9EAEC' : '',
-          }}
+          className="rounded-md h-[42px] bg-theme-surface-primary px-3 py-2 gap-1 align-item-center border border-[#D0D5DD] flex items-center"
+          style={{}}
         >
           <Box
             onClick={() => {
               !searchText && setApplyFilter(!applyFilter);
             }}
-            style={{
-              width: '33px',
-              height: '28px',
-
-              borderRadius: '4px',
-            }}
           >
-            <icons.funnelFill
-              style={{ padding: '5px 0px 0px 7px' }}
-              size={iconSizes.sm}
-              color={iconColors.primary}
-            />
+            <icons.funnelFill size={iconSizes.sm} color={iconColors.primary} />
           </Box>
-          <Box
-            style={{ padding: '5px 0px 0px 7px', display: 'flex' }}
-            className="text-muted h5"
-          >
+          <Box className="text-muted h5 flex">
             {/* Filter your stack */}
             {!applyFilter && !filters[0]?.filterValue ? (
               <Paragraph className={styles.filterplaceholder}>

@@ -2,8 +2,8 @@ import React from 'react';
 import { MenuItem } from '../Menu/MenuItem';
 import { MenuItemExternal } from './MenuItemExternal';
 import { routePaths } from '../../../../../../../routes/routePaths';
-import { Box, Separator, icons } from '../../../../../../components';
-import { iconSizes, iconColors } from '../../../../../../../constants';
+import { icons } from '../../../../../../components';
+import { iconSizes } from '../../../../../../../constants';
 
 export const SideFooter: React.FC = () => {
   return (
