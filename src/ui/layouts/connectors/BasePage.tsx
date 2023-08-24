@@ -48,7 +48,7 @@ export const BasePage: React.FC<{
           )}
         />
 
-        <Box>
+        <div className="!p-4 bg-theme-surface-secondary h-full">
           {children}
           {tabPages.length >= 1 && singleTab ? (
             <Tabs pages={tabPages} basePath={tabBasePath} />
@@ -68,7 +68,7 @@ export const BasePage: React.FC<{
               </FlexBox>
             </>
           )}
-        </Box>
+        </div>
       </SidebarContainer>
     </AuthenticatedLayout>
   );
