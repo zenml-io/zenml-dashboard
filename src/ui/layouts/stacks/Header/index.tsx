@@ -1,7 +1,4 @@
 import React from 'react';
-import cn from 'classnames';
-
-import { FlexBox, Box, Paragraph } from '../../../components';
 
 import styles from './index.module.scss';
 import { constantCommandsToCreateStack } from '../../../../constants/constantCommands';
@@ -10,44 +7,22 @@ const DefaultHeader: React.FC<{
   breadcrumbs: TBreadcrumb[];
   renderRight?: () => JSX.Element;
 }> = ({ breadcrumbs, renderRight }) => (
-  <FlexBox
-    marginTop="xl"
-    alignItems="center"
-    justifyContent="space-between"
-    className={cn(styles.header, 'd-none d-md-block')}
-  >
-    <FlexBox fullHeight alignItems="center">
-      <Paragraph
-        style={{
-          fontSize: '42px',
-          fontWeight: 'bold',
-          lineHeight: '48px',
-          color: '#424240',
-        }}
+  <div className="flex justify-between !px-4 border-b bg-theme-surface-primary border-theme-border-moderate items-center !py-5">
+    <h1 className="text-display-xs font-semibold hidden md:block">
+      {breadcrumbs[0]?.name}
+    </h1>
+
+    <div className={`${styles.dynamicHeaderRight} text-text-md`}>
+      Check out our easy to read{' '}
+      <a
+        style={{ color: '#443E99' }}
+        href={constantCommandsToCreateStack.documentation}
+        target="__blank"
       >
-        {breadcrumbs[0]?.name}
-      </Paragraph>
-    </FlexBox>
-    <FlexBox alignItems="center">
-      <Paragraph
-        style={{
-          fontSize: '16px',
-          lineHeight: '17px',
-          color: '#828282',
-          marginTop: '20px',
-        }}
-      >
-        Check out our easy to read{' '}
-        <a
-          style={{ color: '#443E99' }}
-          href={constantCommandsToCreateStack.documentation}
-          target="__blank"
-        >
-          docs
-        </a>
-      </Paragraph>
-    </FlexBox>
-  </FlexBox>
+        docs
+      </a>
+    </div>
+  </div>
 );
 
 const HeaderWithButtons: React.FC<{
@@ -55,27 +30,13 @@ const HeaderWithButtons: React.FC<{
   title?: string;
   renderRight?: () => JSX.Element;
 }> = ({ breadcrumbs, renderRight, title }) => (
-  <FlexBox
-    marginTop="xl"
-    alignItems="center"
-    justifyContent="space-between"
-    className={styles.header2}
-  >
-    <FlexBox flexDirection="column" className="d-none d-md-flex">
-      <Paragraph
-        style={{
-          fontSize: '42px',
-          fontWeight: 'bold',
-          lineHeight: '48px',
-          color: '#424240',
-          marginBottom: '8px',
-        }}
-      >
-        {title}
-      </Paragraph>
-      <Paragraph>
+  <div className="flex justify-between !px-4 border-b bg-theme-surface-primary border-theme-border-moderate items-center !py-5">
+    <div className="hidden md:block">
+      <h1 className="text-display-xs font-semibold ">{title}</h1>
+      <p>
         Don't have any MLOps infrastructure deployed? Learn how to{' '}
         <a
+          className="underline hover:!decoration-transparent duration-200 transition-all"
           target="_blank"
           rel="noopener noreferrer"
           href="https://docs.zenml.io/stacks-and-components/stack-deployment"
@@ -83,37 +44,19 @@ const HeaderWithButtons: React.FC<{
           deploy a MLOps stack
         </a>{' '}
         from scratch.
-      </Paragraph>
-    </FlexBox>
-
-    <FlexBox
-      alignItems="end"
-      flexWrap
-      style={{ height: '100%' }}
-      justifyContent="flex-end"
-      className={styles.rightWrapper}
-    >
-      <Box className={styles.dynamicHeaderRight}>
-        <Paragraph
-          style={{
-            fontSize: '16px',
-            lineHeight: '17px',
-            color: '#828282',
-            marginTop: '20px',
-          }}
-        >
-          Check out our easy to read{' '}
-          <a
-            style={{ color: '#443E99' }}
-            href={constantCommandsToCreateStack.documentation}
-            target="__blank"
-          >
-            docs
-          </a>
-        </Paragraph>
-      </Box>
-    </FlexBox>
-  </FlexBox>
+      </p>
+    </div>
+    <div className={`${styles.dynamicHeaderRight} text-text-md`}>
+      Check out our easy to read{' '}
+      <a
+        style={{ color: '#443E99' }}
+        href={constantCommandsToCreateStack.documentation}
+        target="__blank"
+      >
+        docs
+      </a>
+    </div>
+  </div>
 );
 
 export const Header = {

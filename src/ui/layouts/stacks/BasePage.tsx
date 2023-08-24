@@ -46,7 +46,7 @@ export const BasePage: React.FC<{
           )}
         />
 
-        <Box>
+        <Box className="!p-4 bg-theme-surface-secondary h-full">
           {children}
           {tabPages.length > 1 ? (
             <Tabs pages={tabPages} basePath={tabBasePath} />
