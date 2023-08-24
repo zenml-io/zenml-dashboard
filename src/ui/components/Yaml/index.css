@@ -36,7 +36,7 @@
   font-style: normal;
   font-weight: 600;
   font-size: 16px;
-  width: 185px;
+  width: 200px;
   height: 51px;
   background: rgb(241, 240, 255);
   border: none;
@@ -143,7 +143,7 @@
 
 .legend {
   /* Ali edit id#123456789 */
-  width: 185px;
+  width: 200px;
   height: 100x;
   border: none;
   display: flex;

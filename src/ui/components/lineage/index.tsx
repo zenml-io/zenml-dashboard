@@ -169,16 +169,21 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
 
       <div style={{ overflow: 'hidden' }}>
         <div className="controls">
-          <button onClick={() => setLegend(!legend)}>
+          <button
+            className="flex items-center justify-between"
+            onClick={() => setLegend(!legend)}
+          >
             {legend ? (
               <img
+                width={20}
+                height={6}
                 className="legend_arrow"
                 src={arrowOpen}
                 alt={'arrow_image'}
               />
             ) : (
               <img
-                className="legend_arrow"
+                className="legend_arrow !w-2"
                 src={arrowClose}
                 alt={'arrow_image'}
               />
@@ -187,26 +192,47 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
           </button>
 
           <div style={{}}>
-            <div className="legend" style={{ display: legend ? '' : 'none' }}>
-              <span>
-                <Analysis /> <span>Data Analysis</span>
-              </span>
-              <span>
-                <Database /> <span>Data</span>
-              </span>
-              <span>
-                <Model />
+            <div
+              className="legend space-y-1"
+              style={{ display: legend ? '' : 'none' }}
+            >
+              <div className="flex gap-2 items-center w-full ">
+                <span className="!w-5">
+                  <Analysis />
+                </span>{' '}
+                <span>Data Analysis</span>
+              </div>
+              <div className="flex gap-2 items-center w-full">
+                <span className="!w-5">
+                  {' '}
+                  <Database />
+                </span>{' '}
+                <span>Data</span>
+              </div>
+              <div className="flex gap-2 items-center w-full">
+                <span className="!w-5">
+                  <Model />
+                </span>
                 <span>Model</span>
-              </span>
-              <span>
-                <Schema /> <span>Schema</span>
-              </span>
-              <span>
-                <Service /> <span>Service</span>
-              </span>
-              <span>
-                <Statistic /> <span>Statistic</span>
-              </span>
+              </div>
+              <div className="flex gap-2 items-center w-full">
+                <span className="!w-5">
+                  <Schema />
+                </span>{' '}
+                <span>Schema</span>
+              </div>
+              <div className="flex gap-2 items-center w-full">
+                <span className="!w-5">
+                  <Service />{' '}
+                </span>{' '}
+                <span>Service</span>
+              </div>
+              <div className="flex gap-2 items-center w-full">
+                <span className="!w-5">
+                  <Statistic />{' '}
+                </span>{' '}
+                <span>Statistic</span>
+              </div>
             </div>
           </div>
         </div>

@@ -86,12 +86,14 @@ const Sidebar: React.FC<any> = ({ selectedNode }) => {
       <div className={`${styles.btnContainer}`} style={colCenter}>
         {sidebar ? (
           <img
+            className="absolute"
             src={circleArrowSideOpen}
             alt={'close'}
             onClick={() => setSidebar(!sidebar)}
           />
         ) : (
           <img
+            className="absolute"
             src={circleArrowSideClose}
             alt={'close'}
             onClick={() => setSidebar(!sidebar)}
