@@ -51,16 +51,13 @@ export const BasePage: React.FC<{
               />
             )}
           />
-          <FlexBox.Row
-            justifyContent="space-between"
-            style={{ marginTop: '-20px' }}
-          >
+          <div className="!p-4 bg-theme-surface-secondary h-full flex justify-between">
             {!fromConfigureComponent && (
               <Component fromRegisterComponent={fromRegisterComponent} />
             )}
 
-            <Box
-              marginLeft="lg"
+            <div
+              className="!pl-4"
               style={{ width: !fromConfigureComponent ? '80%' : '100%' }}
             >
               {children}
@@ -83,8 +80,8 @@ export const BasePage: React.FC<{
                   </FlexBox>
                 </>
               )}
-            </Box>
-          </FlexBox.Row>
+            </div>
+          </div>
         </SidebarContainer>
       </AuthenticatedLayout>
     </>

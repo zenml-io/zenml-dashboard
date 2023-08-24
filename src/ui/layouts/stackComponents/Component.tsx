@@ -69,7 +69,7 @@ const Component = (props: any) => {
         width: '20%',
         overflow: 'hidden',
         scrollBehavior: 'smooth',
-        overflowY: 'scroll',
+        overflowY: 'auto',
         borderRight: '1px solid rgba(168, 168, 168, 0.2)',
         padding: '0 50px 0 5px',
         marginTop: '4.2rem',
