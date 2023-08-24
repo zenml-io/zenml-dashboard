@@ -27,7 +27,9 @@ export const AuthenticatedSidebar: React.FC<{
         )}
       </If>
       <div
-        className={`flex border-r border-theme-border-moderate flex-col ${styles.sidebar}`}
+        className={`flex border-r border-theme-border-moderate flex-col ${
+          styles.sidebar
+        } ${mobileMenuOpen && styles.mobileSidebarOpen}`}
       >
         <div className="flex border-b border-theme-border-moderate justify-center !py-2 !px-4 !bg-theme-surface-primary">
           <Link
@@ -47,13 +49,13 @@ export const AuthenticatedSidebar: React.FC<{
         >
           <FlexBox
             flexDirection="column"
+            className="h-full"
             justifyContent="space-between"
-            style={{ height: '90%' }}
           >
             <Box className="space-y-4 h-full py-2 overflow-y-auto">
               <Menu />
             </Box>
-            <Box>
+            <Box className="space-y-4">
               <SideFooter />
             </Box>
           </FlexBox>

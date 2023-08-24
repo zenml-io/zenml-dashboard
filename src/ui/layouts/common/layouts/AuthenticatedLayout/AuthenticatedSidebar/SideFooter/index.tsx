@@ -8,25 +8,15 @@ import { iconSizes, iconColors } from '../../../../../../../constants';
 export const SideFooter: React.FC = () => {
   return (
     <>
-      <Box marginHorizontal="md" paddingBottom="md">
-        <Separator.LightNew />
-      </Box>
-
-      <div style={{ marginBottom: '-11px', marginLeft: '-3.5px' }}>
-        <MenuItemExternal
-          id="report"
-          Icon={() => (
-            <icons.supportAgent color={iconColors.white} size={iconSizes.md} />
-          )}
-          to="https://github.com/zenml-io/zenml-dashboard/issues/new/choose"
-          text="Report Issue"
-        />
-      </div>
+      <MenuItemExternal
+        id="report"
+        Icon={() => <icons.supportAgent size={iconSizes.md} />}
+        to="https://github.com/zenml-io/zenml-dashboard/issues/new/choose"
+        text="Report Issue"
+      />
       <MenuItem
         id="settings"
-        Icon={() => (
-          <icons.settings color={iconColors.white} size={iconSizes.md} />
-        )}
+        Icon={() => <icons.settings size={iconSizes.md} />}
         innerItem={window.location.href?.includes('settings')}
         isActive={() => window.location.href?.includes('settings')}
         to={routePaths.settings.personalDetails}
