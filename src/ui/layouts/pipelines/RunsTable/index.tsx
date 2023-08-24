@@ -177,12 +177,7 @@ export const RunsTable: React.FC<{
 
       <If condition={paginated.totalitem > 5}>
         {() => (
-          <div
-            className="flex w-full justify-center bg-theme-surface-secondary fixed right-0 bottom-0"
-            style={{
-              height: '92px',
-            }}
-          >
+          <div className="flex w-full justify-center">
             <Box style={{ alignSelf: 'center' }}>
               <If condition={!fetching}>
                 {() => (

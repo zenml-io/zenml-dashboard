@@ -33,7 +33,9 @@ export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
             setMobileMenuOpen={setMobileMenuOpen}
           />
         </Box>
-        <div className="flex overflow-auto relative h-full">{children}</div>
+        <div className="flex overflow-auto relative h-full bg-theme-surface-secondary">
+          {children}
+        </div>
       </FlexBox>
     </FlexBox>
   );

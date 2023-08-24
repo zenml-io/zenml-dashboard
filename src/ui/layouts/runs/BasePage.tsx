@@ -38,10 +38,10 @@ export const BasePage: React.FC<{
             />
           )}
         />
-        <Box>
+        <div className="!p-4 bg-theme-surface-secondary h-full">
           {children}
           <TabsRuns pages={tabPages} basePath={tabBasePath} />
-        </Box>
+        </div>
       </SidebarContainer>
     </AuthenticatedLayout>
   );
