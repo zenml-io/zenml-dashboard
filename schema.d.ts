@@ -4,7 +4,7 @@
  */
 
 
-export interface paths {
+export type paths = {
   "/health": {
     /**
      * Health
@@ -1810,11 +1810,11 @@ export interface paths {
      */
     delete: operations["delete_code_repository_api_v1_code_repositories__code_repository_id__delete"];
   };
-}
+};
 
 export type webhooks = Record<string, never>;
 
-export interface components {
+export type components = {
   schemas: {
     /**
      * ArtifactConfiguration
@@ -1947,7 +1947,7 @@ export interface components {
        * @default {}
        */
       metadata?: {
-        [key: string]: components["schemas"]["RunMetadataResponseModel"];
+        [key: string]: unknown;
       };
     };
     /**
@@ -1974,7 +1974,9 @@ export interface components {
        */
       description?: string;
       /** The JSON schema of the configuration for this authentication method. */
-      config_schema?: Record<string, never>;
+      config_schema?: {
+        [key: string]: unknown;
+      };
       /** The minimum number of seconds that the authentication session can be configured to be valid for. Set to None for authentication sessions and long-lived credentials that don't expire. */
       min_expiration_seconds?: number;
       /** The maximum number of seconds that the authentication session can be configured to be valid for. Set to None for authentication sessions and long-lived credentials that don't expire. */
@@ -2124,7 +2126,9 @@ export interface components {
        * Config
        * @description Configuration for the code repository.
        */
-      config: Record<string, never>;
+      config: {
+        [key: string]: unknown;
+      };
       /**
        * Source
        * @description The code repository source.
@@ -2171,7 +2175,9 @@ export interface components {
        * Config
        * @description Configuration for the code repository.
        */
-      config: Record<string, never>;
+      config: {
+        [key: string]: unknown;
+      };
       /**
        * Source
        * @description The code repository source.
@@ -2209,7 +2215,9 @@ export interface components {
        * Config
        * @description Configuration for the code repository.
        */
-      config?: Record<string, never>;
+      config?: {
+        [key: string]: unknown;
+      };
       /**
        * Source
        * @description The code repository source.
@@ -2253,14 +2261,18 @@ export interface components {
       /** The flavor of the stack component. */
       flavor: string;
       /** The stack component configuration. */
-      configuration: Record<string, never>;
+      configuration: {
+        [key: string]: unknown;
+      };
       /**
        * Connector Resource Id
        * @description The ID of a specific resource instance to gain access to through the connector
        */
       connector_resource_id?: string;
       /** The stack component labels. */
-      labels?: Record<string, never>;
+      labels?: {
+        [key: string]: unknown;
+      };
       /**
        * The service connector linked to this stack component.
        * Format: uuid
@@ -2300,14 +2312,18 @@ export interface components {
       /** The flavor of the stack component. */
       flavor: string;
       /** The stack component configuration. */
-      configuration: Record<string, never>;
+      configuration: {
+        [key: string]: unknown;
+      };
       /**
        * Connector Resource Id
        * @description The ID of a specific resource instance to gain access to through the connector
        */
       connector_resource_id?: string;
       /** The stack component labels. */
-      labels?: Record<string, never>;
+      labels?: {
+        [key: string]: unknown;
+      };
       /** The service connector linked to this stack component. */
       connector?: components["schemas"]["ServiceConnectorResponseModel"];
     };
@@ -2338,14 +2354,18 @@ export interface components {
       /** The flavor of the stack component. */
       flavor?: string;
       /** The stack component configuration. */
-      configuration?: Record<string, never>;
+      configuration?: {
+        [key: string]: unknown;
+      };
       /**
        * Connector Resource Id
        * @description The ID of a specific resource instance to gain access to through the connector
        */
       connector_resource_id?: string;
       /** The stack component labels. */
-      labels?: Record<string, never>;
+      labels?: {
+        [key: string]: unknown;
+      };
       /**
        * The service connector linked to this stack component.
        * Format: uuid
@@ -2388,7 +2408,9 @@ export interface components {
       /** The type of the Flavor. */
       type: components["schemas"]["StackComponentType"];
       /** The JSON schema of this flavor's corresponding configuration. */
-      config_schema: Record<string, never>;
+      config_schema: {
+        [key: string]: unknown;
+      };
       /** The type of the connector that this flavor uses. */
       connector_type?: string;
       /** The resource type of the connector that this flavor uses. */
@@ -2446,7 +2468,9 @@ export interface components {
       /** The type of the Flavor. */
       type: components["schemas"]["StackComponentType"];
       /** The JSON schema of this flavor's corresponding configuration. */
-      config_schema: Record<string, never>;
+      config_schema: {
+        [key: string]: unknown;
+      };
       /** The type of the connector that this flavor uses. */
       connector_type?: string;
       /** The resource type of the connector that this flavor uses. */
@@ -2483,7 +2507,9 @@ export interface components {
       /** The type of the Flavor. */
       type?: components["schemas"]["StackComponentType"];
       /** The JSON schema of this flavor's corresponding configuration. */
-      config_schema?: Record<string, never>;
+      config_schema?: {
+        [key: string]: unknown;
+      };
       /** The type of the connector that this flavor uses. */
       connector_type?: string;
       /** The resource type of the connector that this flavor uses. */
@@ -2966,7 +2992,7 @@ export interface components {
        * @default {}
        */
       images?: {
-        [key: string]: components["schemas"]["BuildItem"];
+        [key: string]: unknown;
       };
       /** Whether the build images are stored in a container registry or locally. */
       is_local: boolean;
@@ -3018,7 +3044,7 @@ export interface components {
        * @default {}
        */
       images?: {
-        [key: string]: components["schemas"]["BuildItem"];
+        [key: string]: unknown;
       };
       /** Whether the build images are stored in a container registry or locally. */
       is_local: boolean;
@@ -3053,13 +3079,15 @@ export interface components {
        * @default {}
        */
       settings?: {
-        [key: string]: components["schemas"]["BaseSettings"];
+        [key: string]: unknown;
       };
       /**
        * Extra
        * @default {}
        */
-      extra?: Record<string, never>;
+      extra?: {
+        [key: string]: unknown;
+      };
       failure_hook_source?: components["schemas"]["Source"];
       success_hook_source?: components["schemas"]["Source"];
       /** Name */
@@ -3089,14 +3117,14 @@ export interface components {
        * @default {}
        */
       step_configurations?: {
-        [key: string]: components["schemas"]["Step"];
+        [key: string]: unknown;
       };
       /**
        * The client environment for this deployment.
        * @default {}
        */
       client_environment?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /**
        * The stack associated with the deployment.
@@ -3154,14 +3182,14 @@ export interface components {
        * @default {}
        */
       step_configurations?: {
-        [key: string]: components["schemas"]["Step"];
+        [key: string]: unknown;
       };
       /**
        * The client environment for this deployment.
        * @default {}
        */
       client_environment?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /** The pipeline associated with the deployment. */
       pipeline?: components["schemas"]["PipelineResponseModel"];
@@ -3291,14 +3319,14 @@ export interface components {
        * @default {}
        */
       client_environment?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /**
        * Environment of the orchestrator that executed this pipeline run (OS, Python version, etc.).
        * @default {}
        */
       orchestrator_environment?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /**
        * Id
@@ -3389,14 +3417,14 @@ export interface components {
        * @default {}
        */
       client_environment?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /**
        * Environment of the orchestrator that executed this pipeline run (OS, Python version, etc.).
        * @default {}
        */
       orchestrator_environment?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /** The pipeline this run belongs to. */
       pipeline?: components["schemas"]["PipelineResponseModel"];
@@ -3407,7 +3435,7 @@ export interface components {
        * @default {}
        */
       metadata?: {
-        [key: string]: components["schemas"]["RunMetadataResponseModel"];
+        [key: string]: unknown;
       };
       /** The pipeline build that was used for this run. */
       build?: components["schemas"]["PipelineBuildResponseModel"];
@@ -3418,7 +3446,7 @@ export interface components {
        * @default {}
        */
       steps?: {
-        [key: string]: components["schemas"]["StepRunResponseModel"];
+        [key: string]: unknown;
       };
     };
     /**
@@ -3448,7 +3476,9 @@ export interface components {
        * Parameters
        * @default {}
        */
-      parameters?: Record<string, never>;
+      parameters?: {
+        [key: string]: unknown;
+      };
       /** Steps */
       steps: components["schemas"]["StepSpec"][];
     };
@@ -3587,7 +3617,9 @@ export interface components {
       /** The key of the metadata. */
       key: string;
       /** The value of the metadata. */
-      value: string | number | boolean | Record<string, never> | unknown[];
+      value: string | number | boolean | {
+        [key: string]: unknown;
+      } | unknown[];
       /** The type of the metadata. */
       type: string;
     };
@@ -3638,7 +3670,9 @@ export interface components {
       /** The key of the metadata. */
       key: string;
       /** The value of the metadata. */
-      value: string | number | boolean | Record<string, never> | unknown[];
+      value: string | number | boolean | {
+        [key: string]: unknown;
+      } | unknown[];
       /** The type of the metadata. */
       type: string;
     };
@@ -3808,7 +3842,7 @@ export interface components {
       scope?: components["schemas"]["SecretScope"];
       /** The values stored in this secret. */
       values?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
     };
     /**
@@ -3844,7 +3878,7 @@ export interface components {
       scope?: components["schemas"]["SecretScope"];
       /** The values stored in this secret. */
       values?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
     };
     /**
@@ -3874,7 +3908,7 @@ export interface components {
       scope?: components["schemas"]["SecretScope"];
       /** The values stored in this secret. */
       values?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
     };
     /**
@@ -3979,14 +4013,16 @@ export interface components {
       /** The duration, in seconds, that the temporary credentials generated by this connector should remain valid. Only applicable for connectors and authentication methods that involve generating temporary credentials from the ones configured in the connector. */
       expiration_seconds?: number;
       /** The service connector configuration, not including secrets. */
-      configuration?: Record<string, never>;
+      configuration?: {
+        [key: string]: unknown;
+      };
       /** The service connector secrets. */
       secrets?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /** Service connector labels. */
       labels?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
     };
     /**
@@ -4065,14 +4101,16 @@ export interface components {
       /** The duration, in seconds, that the temporary credentials generated by this connector should remain valid. Only applicable for connectors and authentication methods that involve generating temporary credentials from the ones configured in the connector. */
       expiration_seconds?: number;
       /** The service connector configuration, not including secrets. */
-      configuration?: Record<string, never>;
+      configuration?: {
+        [key: string]: unknown;
+      };
       /** The service connector secrets. */
       secrets?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /** Service connector labels. */
       labels?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /**
        * The ID of the secret that contains the service connector secret configuration values.
@@ -4214,14 +4252,16 @@ export interface components {
       /** The duration, in seconds, that the temporary credentials generated by this connector should remain valid. Only applicable for connectors and authentication methods that involve generating temporary credentials from the ones configured in the connector. */
       expiration_seconds?: number;
       /** The service connector configuration, not including secrets. */
-      configuration?: Record<string, never>;
+      configuration?: {
+        [key: string]: unknown;
+      };
       /** The service connector secrets. */
       secrets?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /** Service connector labels. */
       labels?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
     };
     /**
@@ -4291,7 +4331,7 @@ export interface components {
       description?: string;
       /** A mapping of stack component types to the actualinstances of components of this type. */
       components?: {
-        [key: string]: string[];
+        [key: string]: unknown;
       };
     };
     /**
@@ -4329,7 +4369,7 @@ export interface components {
       description?: string;
       /** A mapping of stack component types to the actualinstances of components of this type. */
       components: {
-        [key: string]: components["schemas"]["ComponentResponseModel"][];
+        [key: string]: unknown;
       };
     };
     /**
@@ -4361,7 +4401,7 @@ export interface components {
       description?: string;
       /** A mapping of stack component types to the actualinstances of components of this type. */
       components?: {
-        [key: string]: string[];
+        [key: string]: unknown;
       };
     };
     /**
@@ -4395,19 +4435,23 @@ export interface components {
        * Parameters
        * @default {}
        */
-      parameters?: Record<string, never>;
+      parameters?: {
+        [key: string]: unknown;
+      };
       /**
        * Settings
        * @default {}
        */
       settings?: {
-        [key: string]: components["schemas"]["BaseSettings"];
+        [key: string]: unknown;
       };
       /**
        * Extra
        * @default {}
        */
-      extra?: Record<string, never>;
+      extra?: {
+        [key: string]: unknown;
+      };
       failure_hook_source?: components["schemas"]["Source"];
       success_hook_source?: components["schemas"]["Source"];
       /**
@@ -4415,19 +4459,21 @@ export interface components {
        * @default {}
        */
       outputs?: {
-        [key: string]: components["schemas"]["ArtifactConfiguration"];
+        [key: string]: unknown;
       };
       /**
        * Caching Parameters
        * @default {}
        */
-      caching_parameters?: Record<string, never>;
+      caching_parameters?: {
+        [key: string]: unknown;
+      };
       /**
        * External Input Artifacts
        * @default {}
        */
       external_input_artifacts?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
     };
     /**
@@ -4457,13 +4503,21 @@ export interface components {
       /** Entrypoint Name */
       entrypoint_name: string;
       /** Parameters */
-      parameters: Record<string, never>;
+      parameters: {
+        [key: string]: unknown;
+      };
       /** Configuration */
-      configuration: Record<string, never>;
+      configuration: {
+        [key: string]: unknown;
+      };
       /** Inputs */
-      inputs: Record<string, never>;
+      inputs: {
+        [key: string]: unknown;
+      };
       /** Outputs */
-      outputs: Record<string, never>;
+      outputs: {
+        [key: string]: unknown;
+      };
       /** Metadata */
       metadata: [string, string, string][];
     };
@@ -4523,14 +4577,14 @@ export interface components {
        * @default {}
        */
       inputs?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /**
        * The IDs of the output artifacts of the step run.
        * @default {}
        */
       outputs?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /** Logs associated with this step run. */
       logs?: components["schemas"]["LogsRequestModel"];
@@ -4600,21 +4654,21 @@ export interface components {
        * @default {}
        */
       inputs?: {
-        [key: string]: components["schemas"]["ArtifactResponseModel"];
+        [key: string]: unknown;
       };
       /**
        * The output artifacts of the step run.
        * @default {}
        */
       outputs?: {
-        [key: string]: components["schemas"]["ArtifactResponseModel"];
+        [key: string]: unknown;
       };
       /**
        * Metadata associated with this step run.
        * @default {}
        */
       metadata?: {
-        [key: string]: components["schemas"]["RunMetadataResponseModel"];
+        [key: string]: unknown;
       };
       /** Logs associated with this step run. */
       logs?: components["schemas"]["LogsResponseModel"];
@@ -4629,7 +4683,7 @@ export interface components {
        * @default {}
        */
       outputs?: {
-        [key: string]: string;
+        [key: string]: unknown;
       };
       /** The status of the step. */
       status?: components["schemas"]["ExecutionStatus"];
@@ -4652,7 +4706,7 @@ export interface components {
        * @default {}
        */
       inputs?: {
-        [key: string]: components["schemas"]["InputSpec"];
+        [key: string]: unknown;
       };
       /**
        * Pipeline Parameter Name
@@ -5007,13 +5061,13 @@ export interface components {
   requestBodies: never;
   headers: never;
   pathItems: never;
-}
+};
 
 export type $defs = Record<string, never>;
 
 export type external = Record<string, never>;
 
-export interface operations {
+export type operations = {
 
   /**
    * Health
@@ -6800,7 +6854,7 @@ export interface operations {
       200: {
         content: {
           "application/json": {
-            [key: string]: string;
+            [key: string]: unknown;
           };
         };
       };
@@ -6870,7 +6924,7 @@ export interface operations {
     requestBody?: {
       content: {
         "application/json": {
-          [key: string]: string;
+          [key: string]: unknown;
         };
       };
     };
@@ -8163,7 +8217,9 @@ export interface operations {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": Record<string, never>;
+          "application/json": {
+            [key: string]: unknown;
+          };
         };
       };
       /** @description Unauthorized */
@@ -8774,7 +8830,7 @@ export interface operations {
     requestBody?: {
       content: {
         "application/json": {
-          [key: string]: string;
+          [key: string]: unknown;
         };
       };
     };
@@ -9854,7 +9910,9 @@ export interface operations {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": Record<string, never>;
+          "application/json": {
+            [key: string]: unknown;
+          };
         };
       };
       /** @description Unauthorized */
@@ -11468,4 +11526,4 @@ export interface operations {
       };
     };
   };
-}
+};
