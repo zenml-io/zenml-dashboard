@@ -7,12 +7,12 @@ export const PluginsLayout: React.FC<{
   children: React.ReactNode;
 }> = ({ title, children }) => {
   return (
-    <FlexBox fullWidth padding="lg2" flexDirection="column">
-      <FlexBox flexDirection="row" style={{ gap: '8px' }}>
-        <FlexBox flexDirection="column">
-          <H2 style={{ fontWeight: 500 }}>{title}</H2>
+    <div className="flex flex-col">
+      <div className="flex flex-row flex justify-between !px-4 border-b bg-theme-surface-primary border-theme-border-moderate items-center !py-5">
+        <div className="flex flex-col hidden md:block">
+          <h1 className="text-display-xs font-semibold">{title}</h1>
 
-          <Paragraph style={{ marginTop: '8px' }}>
+          <p>
             The ZenML Hub is a{' '}
             <a
               target="_blank"
@@ -33,28 +33,22 @@ export const PluginsLayout: React.FC<{
               here
             </a>
             .
-          </Paragraph>
-        </FlexBox>
-        <FlexBox
-          fullWidth
-          flexDirection="column"
-          alignItems="end"
-          justifyContent="flex-end"
-        >
-          <Paragraph color="grey" style={{ fontSize: '14px', flexShrink: 0 }}>
+          </p>
+        </div>
+        <div className="w-full flex justify-end">
+          <p className="">
             Check out our easy to read{' '}
             <a
+              style={{ color: '#443E99' }}
               href="https://docs.zenml.io/user-guide/advanced-guide/environment-management/use-the-hub"
               target="__blank"
-              rel="noopener noreferrer"
             >
               docs
             </a>
-          </Paragraph>
-        </FlexBox>
-      </FlexBox>
-
-      {children}
-    </FlexBox>
+          </p>
+        </div>
+      </div>
+      <div className="!p-4 bg-theme-surface-secondary h-full">{children}</div>
+    </div>
   );
 };

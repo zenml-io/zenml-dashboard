@@ -99,17 +99,7 @@ const ListPlugins: React.FC = () => {
   }, [hubUser, hubToken]);
 
   return (
-    <AuthenticatedLayout
-      breadcrumb={[
-        {
-          name: 'List plugins',
-          clickable: true,
-          to: routePaths.plugins.list(
-            selectedWorkspace ?? DEFAULT_WORKSPACE_NAME,
-          ),
-        },
-      ]}
-    >
+    <AuthenticatedLayout>
       <PluginsLayout title="Plugins">
         <FlexBox paddingVertical={'lg3'}>
           <FlexBox fullWidth marginRight="md" style={{ maxWidth: '300px' }}>
@@ -124,7 +114,7 @@ const ListPlugins: React.FC = () => {
         </FlexBox>
 
         {/* list plugins */}
-        <FlexBox flexWrap={true} padding="lg">
+        <FlexBox flexWrap={true}>
           {fetching ? (
             <FullWidthSpinner color="black" size="md" />
           ) : (
