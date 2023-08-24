@@ -27,7 +27,7 @@ export const Menu: React.FC = () => {
         innerItem={window.location.href?.includes('pipelines')}
         text="Home"
         isActive={() =>
-          /^\/workspaces\/default$/.test(window.location.pathname)
+          /^\/workspaces\/(?!.*\/)([^/]+)$/.test(window.location.pathname)
         }
         to={routePaths.home}
       />

@@ -4,7 +4,6 @@ import {
   FlexBox,
   Box,
   Paragraph,
-  ColoredCircle,
   LinkBox,
   icons,
   If,

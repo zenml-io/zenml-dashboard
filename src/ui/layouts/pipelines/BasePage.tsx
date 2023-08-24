@@ -1,7 +1,7 @@
 import React from 'react';
 import { Redirect } from 'react-router-dom';
 import { AppRoute } from '../../../routes';
-import { Box, FlexBox, IfElse } from '../../components';
+import { FlexBox, IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { TabsRuns } from '../common/Tabs';

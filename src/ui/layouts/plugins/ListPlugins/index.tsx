@@ -17,7 +17,7 @@ import { routePaths } from '../../../../routes/routePaths';
 import { useDispatch, useSelector, useToaster } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { getTranslateByScope } from '../../../../services';
-import { DEFAULT_WORKSPACE_NAME, iconColors } from '../../../../constants';
+import { iconColors } from '../../../../constants';
 import { debounce } from '../../../../utils/memo';
 import { PluginsLayout } from '../shared/Layout';
 import { useHubToken, useHubUser } from '../../../hooks/auth';

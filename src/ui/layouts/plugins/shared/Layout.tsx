@@ -1,7 +1,5 @@
 import React from 'react';
 
-import { FlexBox, H2, Paragraph } from '../../../components';
-
 export const PluginsLayout: React.FC<{
   title: string;
   children: React.ReactNode;

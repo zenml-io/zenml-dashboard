@@ -1,5 +1,5 @@
 import React from 'react';
-import { Box, IfElse } from '../../components';
+import { IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { TabsRuns } from '../common/Tabs';

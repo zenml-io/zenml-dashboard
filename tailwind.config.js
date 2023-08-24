@@ -1,4 +1,5 @@
 import { zenmlPreset } from '@zenml-io/react-component-library';
+import defaultTheme from 'tailwindcss/defaultTheme';
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -7,7 +8,12 @@ module.exports = {
     './node_modules/@zenml-io/react-component-library/**/*.{js,jsx,ts,tsx}',
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        sans: ['Rubik', ...defaultTheme.fontFamily.sans],
+        mono: ['SourceCodePro', ...defaultTheme.fontFamily.mono],
+      },
+    },
   },
   plugins: [],
   presets: [zenmlPreset],
