@@ -150,7 +150,6 @@ export const RunsTable: React.FC<{
               height: '92px',
               width: '100%',
               justifyContent: 'center',
-              backgroundColor: 'white',
             }}
           >
             <Box style={{ alignSelf: 'center' }}>

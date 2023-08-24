@@ -147,7 +147,6 @@ export const ConnectorComponents: React.FC<Props> = ({
               height: '92px',
               width: '100%',
               justifyContent: 'center',
-              backgroundColor: 'white',
             }}
           >
             <Box style={{ alignSelf: 'center' }}>

@@ -23,7 +23,7 @@ export const Menu: React.FC = () => {
     <>
       <MenuItem
         id="Home"
-        Icon={() => <icons.pipeline size={iconSizes.md} />}
+        Icon={() => <icons.home size={iconSizes.md} />}
         innerItem={window.location.href?.includes('pipelines')}
         text="Home"
         isActive={() =>

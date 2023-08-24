@@ -122,7 +122,6 @@ const RepositoriyListBody = () => {
                     width: '100%',
                     display: 'flex',
                     justifyContent: 'center',
-                    backgroundColor: 'white',
                   }}
                 >
                   <div style={{ alignSelf: 'center' }}>
