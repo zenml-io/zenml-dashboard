@@ -301,7 +301,12 @@ export const DropdownInput = ({
     onChange={(e: any) => onChange(e.target.value)}
     value={value}
     placeholder={placeholder}
-    className={cn(styles.select, hasError ? styles.error : null)}
+    className={cn(
+      styles.select,
+      hasError ? styles.error : null,
+      styles.padding,
+      'rounded-md',
+    )}
     style={style}
     disabled={disabled}
   >

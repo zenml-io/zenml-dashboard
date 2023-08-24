@@ -9,7 +9,7 @@ type Tooltip = {
 
 export const Tooltip = ({ id, text }: Tooltip) => {
   return (
-    <ReactTooltip id={id} place="top" effect="solid">
+    <ReactTooltip className="!z-[999999999]" id={id} place="top" effect="solid">
       <Paragraph color="white">{text}</Paragraph>
     </ReactTooltip>
   );
