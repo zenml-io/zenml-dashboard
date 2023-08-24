@@ -8,17 +8,14 @@ import {
   Box,
   ColoredCircle,
   FlexBox,
-  // icons,
   Paragraph,
   Tooltip,
 } from '../../../components';
 import { HeaderCol } from '../../common/Table';
-
 import { DeleteMember } from './DeleteMember';
 import { UpdateMember } from './UpdateMember';
 import { TokenPopup } from './tokenPopup';
 import { Sorting, SortingDirection } from './ForSorting/types';
-
 import { useService } from './ForSorting/useServiceForSorting';
 
 export const useInviteHeaderCols = (): HeaderCol[] => {
@@ -220,7 +217,6 @@ export const useMemberHeaderCols = ({
                 <div data-tip data-for={member?.id}>
                   <DeleteMember member={member} />
                 </div>
-                {/* <Tooltip id={member.id} text='Delete Member' /> */}
               </FlexBox>
             </>
           )}

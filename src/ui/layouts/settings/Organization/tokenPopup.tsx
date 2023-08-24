@@ -24,7 +24,7 @@ import { getInitials } from '../../../../utils/name';
 
 export const TokenPopup: React.FC<{
   id: string;
-  fullName: any;
+  fullName: string | null;
   username: string;
   active: boolean;
   roles: Array<any>;

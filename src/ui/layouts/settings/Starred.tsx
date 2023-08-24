@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import axios from 'axios';
-
 import { selectedWorkspace } from '../../../redux/selectors';
 import { routePaths } from '../../../routes/routePaths';
 import { Box, FlexBox, FullWidthSpinner, Paragraph } from '../../components';
