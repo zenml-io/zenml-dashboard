@@ -1107,7 +1107,10 @@ export const ValidatedTextField = ({
       InputComponent={
         <Box style={{ position: 'relative' }}>
           <TextInput
-            style={{ paddingRight: status.status === 'success' ? '35px' : 0 }}
+            style={{
+              paddingRight: status.status === 'success' ? '35px' : 0,
+              width: '100%',
+            }}
             placeholder={placeholder}
             hasError={status.status === 'error'}
             value={value}

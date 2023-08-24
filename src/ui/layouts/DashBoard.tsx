@@ -74,9 +74,7 @@ const GreyBoxWithIcon: React.FC<{
         <H4 bold>{title}</H4>
       </FlexBox.Row>
       <Box>
-        <GhostButton style={{ width: '124px' }} onClick={onClick}>
-          {buttonText}
-        </GhostButton>
+        <GhostButton onClick={onClick}>{buttonText}</GhostButton>
       </Box>
     </FlexBox.Row>
   );
