@@ -29,7 +29,7 @@ export const TokenPopup: React.FC<{
   active: boolean;
   roles: Array<any>;
   setTokenPopup: any;
-}> = ({ id, fullName, username, active, roles, setTokenPopup }) => {
+}> = ({ id, fullName, username, roles, setTokenPopup }) => {
   const [submitting, setSubmitting] = useState(false);
   const [showTokField, setShowTokField] = useState(false);
 

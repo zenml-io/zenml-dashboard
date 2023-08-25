@@ -82,8 +82,9 @@ export const Organization: React.FC = () => {
                 <AddUserBox />
               </div>
             )}
-            {filteredMembers?.map((e) => (
+            {filteredMembers.map((e, index) => (
               <UserBox
+                key={index}
                 data={e}
                 permission={decoded.permissions.includes('write')}
                 setShowPasswordUpdate={setShowPasswordPopup}
