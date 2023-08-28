@@ -1,5 +1,6 @@
 import { runSelectors } from '../../../../../../redux/selectors';
 import { useSelector } from '../../../../../hooks';
+import { StackComponent } from '../../../../../../api/types';
 
 interface ServiceInterface {
   runIds: TId[];
@@ -10,7 +11,7 @@ export const useService = ({
   stack,
   openStackIds,
 }: {
-  stack: TStack;
+  stack: StackComponent;
   openStackIds: TId[];
 }): ServiceInterface => {
   const runs = useSelector(runSelectors.runsForPipelineId(stack.id));

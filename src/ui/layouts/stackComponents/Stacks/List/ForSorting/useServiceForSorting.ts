@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { stackPagesActions } from '../../../../../../redux/actions';
 import { stackPagesSelectors } from '../../../../../../redux/selectors';
 import { Sorting, SortingDirection } from './types';
+import { StackComponent } from '../../../../../../api/types';
 
 export type SortMethod = (
   sorting: Sorting,
@@ -9,17 +10,17 @@ export type SortMethod = (
     asc,
     desc,
   }: {
-    asc: (stacks: TStack[]) => TStack[];
-    desc: (stacks: TStack[]) => TStack[];
+    asc: (stacks: StackComponent[]) => StackComponent[];
+    desc: (stacks: StackComponent[]) => StackComponent[];
   },
 ) => void;
 
 interface ServiceInterface {
-  toggleSelectRun: (stack: TStack) => void;
-  isRunSelected: (stack: TStack) => boolean;
-  allRunsSelected: (stacks: TStack[]) => boolean;
-  selectRuns: (stacks: TStack[]) => void;
-  unselectRuns: (stacks: TStack[]) => void;
+  toggleSelectRun: (stack: StackComponent) => void;
+  isRunSelected: (stack: StackComponent) => boolean;
+  allRunsSelected: (stacks: StackComponent[]) => boolean;
+  selectRuns: (stacks: StackComponent[]) => void;
+  unselectRuns: (stacks: StackComponent[]) => void;
   sortMethod: SortMethod;
 }
 
@@ -35,8 +36,8 @@ export const useService = ({
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (arg: SortingDirection | null) => void;
   setActiveSorting: (arg: Sorting | null) => void;
-  setFilteredStacks: (stacks: TStack[]) => void;
-  filteredStacks: TStack[];
+  setFilteredStacks: (stacks: StackComponent[]) => void;
+  filteredStacks: StackComponent[];
 }): ServiceInterface => {
   const dispatch = useDispatch();
 
@@ -46,7 +47,7 @@ export const useService = ({
 
   const selectedRunIds = useSelector(stackPagesSelectors.selectedRunIds);
 
-  const toggleSelectRun = (stack: TStack): void => {
+  const toggleSelectRun = (stack: StackComponent): void => {
     if (selectedRunIds.indexOf(stack.id) === -1) {
       setSelectedRunIds([...selectedRunIds, stack.id]);
     } else {
@@ -54,19 +55,19 @@ export const useService = ({
     }
   };
 
-  const isRunSelected = (stack: TStack): boolean => {
+  const isRunSelected = (stack: StackComponent): boolean => {
     return selectedRunIds.indexOf(stack.id) !== -1;
   };
 
-  const selectRuns = (stacks: TStack[]): void => {
+  const selectRuns = (stacks: StackComponent[]): void => {
     setSelectedRunIds([
       ...selectedRunIds,
-      ...stacks.map((stack: TStack) => stack.id),
+      ...stacks.map((stack: StackComponent) => stack.id),
     ]);
   };
 
-  const unselectRuns = (stacks: TStack[]): void => {
-    const runIdsToUnselect = stacks.map((stack: TStack) => stack.id);
+  const unselectRuns = (stacks: StackComponent[]): void => {
+    const runIdsToUnselect = stacks.map((stack: StackComponent) => stack.id);
 
     const newRunIds = selectedRunIds.filter(
       (id: TId) => !runIdsToUnselect.includes(id),
@@ -75,15 +76,15 @@ export const useService = ({
     setSelectedRunIds(newRunIds);
   };
 
-  const allRunsSelected = (stacks: TStack[]): boolean => {
-    return stacks.every((stack: TStack) => isRunSelected(stack));
+  const allRunsSelected = (stacks: StackComponent[]): boolean => {
+    return stacks.every((stack: StackComponent) => isRunSelected(stack));
   };
 
   const sortMethod = (
     sorting: Sorting,
     sort?: {
-      asc: (stacks: TStack[]) => TStack[];
-      desc: (stacks: TStack[]) => TStack[];
+      asc: (stacks: StackComponent[]) => StackComponent[];
+      desc: (stacks: StackComponent[]) => StackComponent[];
     },
   ) => () => {
     if (sorting === activeSorting) {

@@ -15,11 +15,12 @@ import { useDispatch } from 'react-redux';
 
 import { useEffect, useState } from 'react';
 import { filterObjectForParam } from '../../../../utils';
+import { StackComponent } from '../../../../api/types';
 
 import axios from 'axios';
 
 interface ServiceInterface {
-  stackComponent: TStack;
+  stackComponent: StackComponent;
   id: TId;
   flavor?: any;
   loading: any;

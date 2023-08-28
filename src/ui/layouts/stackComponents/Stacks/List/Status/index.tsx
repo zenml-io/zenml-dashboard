@@ -9,8 +9,9 @@ import {
   If,
 } from '../../../../../components';
 import { useService } from './useService';
+import { StackComponent } from '../../../../../../api/types';
 
-export const Status: React.FC<{ stack: TStack }> = ({ stack }) => {
+export const Status: React.FC<{ stack: StackComponent }> = ({ stack }) => {
   const { lastThreeRuns } = useService({ stack });
 
   return (

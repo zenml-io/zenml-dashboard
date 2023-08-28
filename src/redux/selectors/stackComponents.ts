@@ -4,40 +4,44 @@ import { Selector } from 'reselect';
 import { State } from '../reducers/stackComponentsReducer';
 import { createSelector } from './createSelector';
 import { extractItemFromById } from './utils';
+import { StackComponent } from '../../api/types';
 
 const stateKey = (state: State): State =>
   _.get(state, 'persisted.stackComponents') || {};
 
-const getById = (state: State): Record<TId, TStack> =>
+const getById = (state: State): Record<TId, StackComponent> =>
   _.get(stateKey(state), 'byId');
 
 const getMyStackComponentIds = (state: State): TId[] =>
   _.get(stateKey(state), 'myStackComponentIds');
 
-const getStackComponentTypes = (state: State): TId[] =>
+const geStackComponentTypes = (state: State): TId[] =>
   _.get(stateKey(state), 'stackComponentTypes');
 
 const getMyStackComponentsPaginated = (state: State): any =>
   _.get(stateKey(state), 'paginated');
 
-export const mystackComponents = (state?: State | null): TStack[] => {
+export const mystackComponents = (state?: State | null): StackComponent[] => {
   if (!state) return [];
   const myStackComponentIds = getMyStackComponentIds(state);
   const byId = getById(state);
 
-  return (myStackComponentIds || []).reduce((current: TStack[], id: TId) => {
-    const stackComponent = byId[id];
+  return (myStackComponentIds || []).reduce(
+    (current: StackComponent[], id: TId) => {
+      const stackComponent = byId[id];
 
-    if (stackComponent) {
-      current = [...current, stackComponent];
-    }
+      if (stackComponent) {
+        current = [...current, stackComponent];
+      }
 
-    return current;
-  }, [] as TStack[]);
+      return current;
+    },
+    [] as StackComponent[],
+  );
 };
 export const stackComponentTypes = (state?: State | null) => {
   if (!state) return [];
-  const stackComponentTypes = getStackComponentTypes(state);
+  const stackComponentTypes = geStackComponentTypes(state);
   return stackComponentTypes;
 };
 export const mystackComponentsPaginated = (state?: State | null): any => {
@@ -49,7 +53,7 @@ export const mystackComponentsPaginated = (state?: State | null): any => {
 
 export const stackComponentForId = (
   stackComponentId: TId,
-): Selector<any, TStack> =>
+): Selector<any, StackComponent> =>
   createSelector(getById, extractItemFromById(stackComponentId));
 
 const stackComponentSelectors = {

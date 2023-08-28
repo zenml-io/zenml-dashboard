@@ -1,18 +1,15 @@
 import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
 import { stackComponentActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
+import { StackComponent } from '../../api/types';
 
 export interface State {
   ids: TId[];
-  byId: Record<TId, TStack>;
+  byId: Record<TId, StackComponent>;
   myStackComponentIds: TId[];
   stackComponentTypes: any[];
   paginated: any;
 }
-
-type StacksPayload = TStack[];
-
-type StackPayload = TStack;
 
 export type Action = {
   type: string;
@@ -27,7 +24,11 @@ export const initialState: State = {
   paginated: {},
 };
 
-const newState = (state: State, stacks: TStack[], pagination?: any): State => ({
+const newState = (
+  state: State,
+  stacks: StackComponent[],
+  pagination?: any,
+): State => ({
   ...state,
   ids: idsInsert(state.ids, stacks),
   byId: byKeyInsert(state.byId, stacks),
@@ -45,12 +46,12 @@ const stackComponentsReducer = (
 ): State => {
   switch (action.type) {
     case stackComponentActionTypes.getStackComponentList.success: {
-      const stackComponents: TStack[] = camelCaseArray(
-        action.payload.items as StacksPayload,
+      const stackComponents: StackComponent[] = camelCaseArray(
+        action.payload.items,
       );
 
       const myStackComponentIds: TId[] = stackComponents.map(
-        (stack: TStack) => stack.id,
+        (stack: StackComponent) => stack.id,
       );
 
       return {
@@ -59,7 +60,7 @@ const stackComponentsReducer = (
       };
     }
     case stackComponentActionTypes.getStackComponentTypes.success: {
-      let stackComponentTypes: any[] = action.payload as StacksPayload;
+      let stackComponentTypes: string[] = action.payload;
       stackComponentTypes = stackComponentTypes.filter(
         (item) => item !== 'artifact_store' && item !== 'orchestrator',
       );
@@ -73,7 +74,7 @@ const stackComponentsReducer = (
     }
 
     case stackComponentActionTypes.getStackComponentForId.success: {
-      const payload: StackPayload = action.payload;
+      const payload = action.payload;
 
       const stackComponent = camelCaseObject(payload);
 
