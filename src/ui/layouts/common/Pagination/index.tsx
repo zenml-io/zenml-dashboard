@@ -5,29 +5,6 @@ import { joinClassNames, addStyle } from '../../../../utils';
 import { useLocation } from 'react-router-dom';
 
 import { usePagination, DOTS } from '../../../hooks';
-// import { organizationActions } from '../../../../redux/actions';
-// const PaginationItem = (props: {
-//   isActive: boolean;
-//   index: string;
-//   onClick: any;
-// }) => (
-//   <div
-//     tabIndex={props.isActive ? -1 : 0}
-//     role="button"
-//     onClick={props.onClick}
-//     className={joinClassNames(
-//       styles.paginationNumbers,
-//       addStyle(props.isActive, styles.active),
-//     )}
-//   >
-//     <span
-//       className={styles.paginationText}
-//       style={{ color: props.isActive ? '#fff' : '#333' }}
-//     >
-//       {props.index}
-//     </span>
-//   </div>
-// );
 
 const PaginationNavigationItem = (props: {
   onClick: any;
@@ -115,7 +92,6 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
         />
 
         <FlexBox>
-          {console.log(paginationRange, 'paginationRange')}
           {paginationRange &&
             paginationRange.map((pageNumber: any) => {
               if (pageNumber === DOTS) {

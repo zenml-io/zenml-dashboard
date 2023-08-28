@@ -11,10 +11,6 @@ import {
 } from '../../../../components';
 import ReactMarkdown from 'react-markdown';
 import styles from './index.module.scss';
-// import { routePaths } from '../../../../routes/routePaths';
-// import { useHistory } from 'react-router-dom';
-// import { useSelector } from '../../../hooks';
-// import { workspaceSelectors } from '../../../../redux/selectors';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
@@ -42,7 +38,7 @@ export const SidePopup: React.FC<{
     { name: 'Service Types' },
     { name: 'Authentication Methods' },
   ];
-  console.log(connectorType.resourceTypes, 'w2ewe2e2e');
+
   const handleKeyDown = (event: any) => {
     if (event.key === 'Tab') {
       if (tab === 'Service Types') {
@@ -164,16 +160,6 @@ export const SidePopup: React.FC<{
                       (e: any, index: number) => (
                         <Box
                           key={index}
-                          // tabIndex={index + 1 * 100}
-                          // onKeyPress={(k) =>
-                          //   k.key === 'Enter' && setServiceTypes(e?.name)
-                          // }
-                          // onKeyPress={(k) =>
-                          //   k.key === 'Enter' &&
-                          //   setServiceTypes(
-                          //     connectorType?.resourceTypes[index + 1]?.name,
-                          //   )
-                          // }
                           marginLeft="sm"
                           className={styles.bean}
                           style={{
@@ -221,10 +207,6 @@ export const SidePopup: React.FC<{
                       (e: any, index: number) => (
                         <Box
                           key={index}
-                          // tabIndex={index}
-                          // onKeyPress={(k) =>
-                          //   k.key === 'Enter' && setAuthMethod(e?.name)
-                          // }
                           marginLeft="sm"
                           className={styles.bean}
                           style={{

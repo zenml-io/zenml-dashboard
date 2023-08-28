@@ -1,46 +1,30 @@
 import React, { useState } from 'react';
 
-// import { CollapseTable } from '../../../common/CollapseTable';
 import { useSelector } from '../../../../hooks';
 import { useHistory } from 'react-router-dom';
 import { routePaths } from '../../../../../routes/routePaths';
 
-// import { useService } from './useService';
-
-// import { camelCaseToParagraph } from '../../../../../utils';
-// import { DEFAULT_WORKSPACE_NAME } from '../../../../../constants';
 import {
   workspaceSelectors,
-  // stackComponentSelectors,
   flavorSelectors,
 } from '../../../../../redux/selectors';
 import {
   Box,
-  // Box,
   FlexBox,
   FullWidthSpinner,
   H3,
   Row,
-  // FullWidthSpinner,
-  // Paragraph,
   SearchInputField,
-  // Row,
 } from '../../../../components';
 import { PaginationWithPageSize } from '../../../common/PaginationWithPageSize';
-// import { FlavourBox } from '../../../common/FlavourBox';
-// import { CustomConnectorBox } from '../../../common/CustomConnectorBox';
+
 import { callActionForConnectorsTypesForPagination } from '../useService';
 import { SidePopup } from '../SidePopup';
 import { useService } from './useService';
 import { CustomConnectorBox } from '../../../common/CustomConnectorBox';
-// import { routePaths } from '../../../../../routes/routePaths';
 
 interface Props {
   type: string;
-  // filter: any;
-  // pagination?: boolean;
-  // id?: string;
-  // isExpended?: boolean;
 }
 
 export const ListForAll: React.FC<Props> = ({ type }: Props) => {
@@ -52,7 +36,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   const [text, setText] = useState('');
   // eslint-disable-next-line
   const [selectedType, setSelectedType] = useState() as any;
-  // const [selectedComponentId, setSelectedComponentId] = useState('');
+
   const [showModal, setShowModal] = useState(false);
   const history = useHistory();
   const { fetching, allConnectorsTypes } = useService();
@@ -66,21 +50,15 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   };
   const handleSelectedType = (selectedType: any) => {
     setShowModal(false);
-    // debugger;
+
     history.push(
       routePaths.connectors.registerConnectors(
-        // selectedFlavor?.connectorType,
         selectedType.connectorType,
         selectedWorkspace,
       ),
     );
   };
 
-  // const textStyle = {
-  //   color: 'rgba(66, 66, 64, 0.5)',
-  //   fontSize: '18px',
-  //   lineHeight: '22px',
-  // };
   const routeExsiting = () => {
     setShowModal(false);
     history.push(routePaths.stackComponents.base(type, selectedWorkspace), {
@@ -100,7 +78,6 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
           placeholder={'Search'}
           value={text}
           autoFocus
-          // disabled={applyFilter || showInBar}
           onChange={(value: string) => {
             setText(value);
             if (value) {

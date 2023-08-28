@@ -10,7 +10,6 @@ import {
   Paragraph,
   icons,
   ValidatedTextField,
-  // FormDropdownField,
   TextInput,
   InputWithLabel,
   TextAreaInput,
@@ -174,16 +173,6 @@ const UpdatePlugin: React.FC = () => {
                   />
                 }
               />
-              {/* <FormDropdownField
-                label="Branch of repository"
-                value={repositoryBranch}
-                options={['staging', 'dev', 'deploy'].map((b) => ({
-                  label: b,
-                  value: b,
-                }))}
-                onChange={setRepositoryBranch}
-                placeholder="Select branch"
-              /> */}
             </Box>
 
             {/* commit hash */}

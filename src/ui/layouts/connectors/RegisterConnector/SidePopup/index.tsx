@@ -10,8 +10,6 @@ import {
   Paragraph,
   PrimaryButton,
   Spinner,
-  // PrimaryButton,
-  // Spinner,
 } from '../../../../components';
 import ReactMarkdown from 'react-markdown';
 import styles from './index.module.scss';

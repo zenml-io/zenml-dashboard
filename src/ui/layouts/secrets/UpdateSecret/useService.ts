@@ -20,14 +20,12 @@ interface ServiceInterface {
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const { id } = useParams<SecretDetailRouteParams>();
-  // debugger;
+
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
-    // setFetching(true);
-
     dispatch(
       secretsActions.secretForId({
         secretId: id,
@@ -36,22 +34,9 @@ export const useService = (): ServiceInterface => {
       }),
     );
     // Legacy: previously runs was in pipeline
-    // dispatch(
-    //   secretsActions.allRunsBysecretId({
-    //     sort_by: 'desc:created',
-    //     logical_operator: 'and',
-    //     page: 1,
-    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-    //     secretId: id,
-    //     onSuccess: () => setFetching(false),
-    //     onFailure: () => setFetching(false),
-    //   }),
-    // );
   }, [id]);
 
-  const setFetching = (fetching: boolean) => {
-    // dispatch(runPagesActions.setFetching({ fetching }));
-  };
+  const setFetching = (fetching: boolean) => {};
 
   const secret = useSelector(secretSelectors.secretForId(id));
 

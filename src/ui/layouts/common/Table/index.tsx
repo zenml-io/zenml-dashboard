@@ -6,22 +6,11 @@ import {
   Box,
   FlexBox,
   IfElse,
-  // If,
   H3,
   Truncate,
   FullWidthSpinner,
-  // Paragraph,
-  // icons,
 } from '../../../components';
 import { Link } from 'react-router-dom';
-// import { getPaginationData } from '../../../../utils/pagination';
-// import { Pagination } from '../Pagination';
-// import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
-
-// import { iconColors, iconSizes } from '../../../../constants/icons';
-// import OutsideClickHandler from 'react-outside-click-handler';
-
-// import { organizationActions } from '../../../../redux/actions';
 
 export interface HeaderCol {
   render?: () => JSX.Element;
@@ -81,7 +70,6 @@ export const Table: React.FC<TableProps> = ({
   const [hover, setHover] = useState(false);
 
   useEffect(() => {
-    // console.log(tableElement.current.style.gridTemplateColumns, 'offsetHeight');
     setTableHeight(tableElement?.current?.offsetHeight as any);
 
     // eslint-disable-next-line
@@ -135,7 +123,6 @@ export const Table: React.FC<TableProps> = ({
       tableElement.current.style.gridTemplateColumns = `${gridColumns.join(
         ' ',
       )}`;
-      // console.log(tableElement.current.style.gridTemplateColumns, 'aasaaa');
     },
     [activeIndex, columns, minCellWidth],
   );
@@ -179,7 +166,6 @@ export const Table: React.FC<TableProps> = ({
     <FlexBox.Column
       fullWidth
       style={{
-        // marginBottom: pagination ? '90px' : '0px',
         minWidth: '1250px',
         overflowX: 'auto',
       }}
@@ -199,14 +185,11 @@ export const Table: React.FC<TableProps> = ({
                 >
                   <thead>
                     <tr style={{ backgroundColor: '#F5F3F9' }}>
-                      {console.log(gridTemplateColumns, 'columns')}
-
                       {columns.map(({ ref, text }, i) => (
                         <th
                           ref={ref}
                           className={styles.tableHeadingTh}
                           style={{
-                            // width: text.width,
                             backgroundColor: '#F5F3F9',
                             fontSize: '14px',
                             fontWeight: 700,
@@ -254,13 +237,9 @@ export const Table: React.FC<TableProps> = ({
                               setHover(false);
                               setHoverIndex(null);
                             }}
-                            // style={{ height: tableHeight }}
                             onMouseDown={(e) => {
                               if (i < columns.length - 1) mouseDown(i);
                             }}
-                            // className={`resize-handle ${
-                            //   activeIndex === i ? 'active' : 'idle'
-                            // }`}
                           />
                         </th>
                       ))}
@@ -299,224 +278,16 @@ export const Table: React.FC<TableProps> = ({
                             </td>
                           ))}
                         </tr>
-                        {/* <table className={styles.collapseTable}> */}
+
                         <tbody>
                           {renderAfterRow && renderAfterRow(headerRow)}
                         </tbody>
-                        {/* </table> */}
                       </tbody>
                     </>
                   ))}
                 </table>
               </div>
-              {/* <button onClick={resetTableCells}>Reset</button> */}
             </div>
-
-            {/* <table className={styles.table} ref={tableElement}>
-                <thead>
-                  <tr className={showHeader ? styles.tableHeaderRow : ''}>
-                    {headerCols.map((headerCol: HeaderCol, index: number) => (
-                      <th
-                        className={styles.tableHeadingTh}
-                        style={{
-                          width: headerCol.width,
-                          color: '#424240',
-                          fontSize: '14px',
-                          fontWeight: 700,
-                        }}
-                        key={index}
-                      >
-                        <Box
-                          style={{ backgroundColor: '#f6f67' }}
-                          paddingVertical={showHeader ? 'sm' : null}
-                          paddingLeft="lg"
-                        >
-                          {headerCol.render && headerColheaderCol.render && headerCol.render()}
-                        </Box>
-                        {console.log(tableHeight, 'tableHeight')}
-                        <div
-                          style={{ height: tableHeight }}
-                          onMouseDown={() => mouseDown(index)}
-                          className={`resize-handle ${
-                            activeIndex === index ? 'active' : 'idle'
-                          }`}
-                        />
-                      </th>
-                    ))}
-                  </tr>
-                </thead>
-                {rowsToDisplay.map((headerRow: any, index: number) => (
-                  <>
-                    <tbody key={index}>
-                      <tr
-                        onClick={() => trOnClick && trOnClick(headerRow)}
-                        className={cn(
-                          styles.tableRow,
-                          trOnClick && styles.clickableTableRow,
-                        )}
-                        style={{
-                          backgroundColor:
-                            index % 2 !== 0 ? '#F5F3F9' : 'white',
-                        }}
-                        key={index}
-                      >
-                        {headerCols.map(
-                          (headerCol: HeaderCol, index: number) => (
-                            <td
-                              className={styles.tableTd}
-                              style={{ width: headerCol.width }}
-                              key={index}
-                            >
-                              <Box paddingVertical="sm" paddingLeft="lg">
-                                <Truncate maxLines={1}>
-                                  {headerCol.renderRow(headerRow)}
-                                </Truncate>
-                              </Box>
-                            </td>
-                          ),
-                        )}
-                      </tr>
-                    </tbody>
-
-                    <table className={styles.collapseTable}>
-                      <tbody>
-                        {renderAfterRow && renderAfterRow(headerRow)}
-                      </tbody>
-                    </table>
-                  </>
-                ))}
-              </table> */}
-
-            {/* <If condition={pagination}>
-              {() => (
-                <FlexBox
-                  marginTop="xxxl"
-                  marginBottom="xxxl"
-                  justifyContent="center"
-                >
-                  <Pagination
-                    isExpended={isExpended}
-                    ref={childRef}
-                    // getFetchedState={getFetchedState}
-                    activeSorting={activeSorting}
-                    filters={validFilters}
-                    itemPerPage={itemPerPage}
-                    pageIndex={pageIndex}
-                    setPageIndex={setPageIndex}
-                    pages={paginated?.totalPages}
-                    totalOfPages={paginated?.totalPages}
-                    totalLength={tableRows?.length}
-                    totalCount={paginated?.totalitem}
-                  />
-
-                  <If
-                    condition={tableRows.length > 0 && paginated?.totalitem > 5}
-                  >
-                    {() => (
-                      <>
-                        <Box marginLeft="xxxl" className="d-none d-md-block">
-                          <Box>
-                            <FlexBox>
-                              <Box
-                                style={{
-                                  marginTop: '4px',
-                                  marginRight: '10px',
-                                }}
-                              >
-                                <span className={styles.itemText1}>
-                                  Items Showing
-                                </span>
-                              </Box>
-
-                              <FlexBox flexDirection="column">
-                                <Box>
-                                  <FlexBox
-                                    alignItems="center"
-                                    justifyContent="space-between"
-                                    paddingHorizontal="sm"
-                                    className={styles.dropdown}
-                                    onClick={() => setShowItems(!showItems)}
-                                  >
-                                    <Box paddingRight="sm">
-                                      <span className={styles.itemText}>
-                                        {itemPerPage}
-                                      </span>
-                                    </Box>
-                                    <Box>
-                                      <icons.chevronDownLight
-                                        size={iconSizes.xs}
-                                        color={iconColors.black}
-                                      />
-                                    </Box>
-                                  </FlexBox>
-                                </Box>
-
-                                <Box>
-                                  <If condition={showItems}>
-                                    {() => (
-                                      <OutsideClickHandler
-                                        onOutsideClick={() => {}}
-                                      >
-                                        <Box
-                                          className={styles.popup}
-                                          marginTop="sm"
-                                        >
-                                          <Box
-                                            marginVertical="sm"
-                                            marginLeft="md"
-                                            className="d-none d-md-block"
-                                          >
-                                            <Box marginTop="sm">
-                                              {itemPerPageOptions.map(
-                                                (option, index) => (
-                                                  <Box
-                                                    marginTop="sm"
-                                                    key={index}
-                                                    onClick={() => {
-                                                      onChangePagePerItem(
-                                                        pageIndex,
-                                                        parseInt(`${option}`),
-                                                      );
-                                                      childRef?.current?.callOnChange(
-                                                        1,
-                                                        parseInt(`${option}`),
-                                                        validFilters,
-                                                        activeSorting,
-                                                      );
-                                                      setShowItems(false);
-                                                    }}
-                                                  >
-                                                    <span
-                                                      className={
-                                                        styles.itemText
-                                                      }
-                                                      style={{
-                                                        cursor: 'pointer',
-                                                      }}
-                                                    >
-                                                      {option}
-                                                    </span>
-                                                  </Box>
-                                                ),
-                                              )}
-                                            </Box>
-                                          </Box>
-                                        </Box>
-                                      </OutsideClickHandler>
-                                    )}
-                                  </If>
-                                </Box>
-                              </FlexBox>
-                            </FlexBox>
-                          </Box>
-                        </Box>
-                      </>
-                    )}
-                  </If>
-                </FlexBox>
-              )}
-            </If> */}
-            {/* {console.log(paginated, 'paginated')} */}
           </>
         )}
         renderWhenFalse={() => (

@@ -1,11 +1,9 @@
 import moment from 'moment';
 export const filterObjectForParam = (filters: any): object => {
-  console.log(filters, 'filterObjectForParam');
   const UTCformatter = (preDate: any) => moment.utc(preDate).toDate();
   return filters?.reduce(
     (obj: any, item: any) =>
       Object.assign(obj, {
-        // [item.column.value]: item.column.value === 'created'  ? item.type.value + ':' + item.value,
         [item?.column?.value]:
           item?.column?.value === 'created'
             ? item?.type?.value === 'equal_date'

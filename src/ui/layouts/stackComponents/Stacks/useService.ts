@@ -5,7 +5,7 @@ import {
   stackComponentsActions,
   stackPagesActions,
 } from '../../../../redux/actions';
-// import { workspaceSelectors } from '../../../../redux/selectors';
+
 import {
   useDispatch,
   useLocation,
@@ -34,25 +34,9 @@ export const useService = (): ServiceInterface => {
   );
   const location: any = useLocation();
 
-  console.log(location.state?.state, 'flavorName');
   const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
     setFetching(true);
-
-    // dispatch(
-    //   stackComponentsActions.getMy({
-    //     workspace: selectedWorkspace
-    //       ? selectedWorkspace
-    //       : locationPath.split('/')[2],
-    //     type: locationPath.split('/')[4],
-    //     sort_by: 'desc:created',
-    //     logical_operator: 'and',
-    //     index: 1,
-    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-    //     onSuccess: () => setFetching(false),
-    //     onFailure: () => setFetching(false),
-    //   }),
-    // );
   }, [locationPath, selectedWorkspace]);
 
   const setFetching = (fetching: boolean) => {

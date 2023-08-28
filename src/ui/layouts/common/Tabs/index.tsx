@@ -192,14 +192,11 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                   <FlexBox.Row>
                     <Box
                       key={index}
-                      // paddingBottom="sm"
-                      // paddingHorizontal="md"
                       marginHorizontal="lg"
                       className={joinClassNames(
                         styles.item,
                         isActive ? styles.activeItem : '',
                       )}
-                      // style={{transition: '0.25s ease-out'}}
                     >
                       <Link className={styles.linkRuns} to={page.path}>
                         <IfElse

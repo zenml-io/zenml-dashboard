@@ -1,7 +1,5 @@
 import React, { useState } from 'react';
 
-// import { Box, Paragraph } from '../../../components';
-// import { formatDateToDisplayOnTable } from '../../../../utils';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 import { Configuration } from './Configuration';
@@ -15,7 +13,7 @@ import { Box } from '../../../components';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-// import { List } from '../Pipelines/List';
+
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
 
@@ -73,7 +71,6 @@ const getTabPages = (pipelineId: TId, selectedWorkspace: string): TabPage[] => {
       path: routePaths.pipeline.runs(selectedWorkspace, pipelineId),
     },
     {
-      // text: "Visualization",
       text: translate('tabs.configuration.text'),
       Component: () => <Configuration pipelineId={pipelineId} />,
       path: routePaths.pipeline.configuration(pipelineId, selectedWorkspace),
@@ -93,7 +90,7 @@ const getBreadcrumbs = (
     {
       name: translate('header.breadcrumbs.pipelines.text'),
       clickable: true,
-      // to: routePaths.pipelines.list(selectedWorkspace),
+
       to:
         routePaths.pipelines.base +
         `?workspace=${workspaceName ? workspaceName : DEFAULT_WORKSPACE_NAME}`,
@@ -119,15 +116,7 @@ export const PipelineDetail: React.FC = () => {
   const breadcrumbs = getBreadcrumbs(pipeline.id, selectedWorkspace);
   const history = useHistory();
   const locationPath = useLocationPath();
-  // const boxStyle = {
-  //   backgroundColor: '#E9EAEC',
-  //   padding: '10px 0',
-  //   borderRadius: '8px',
-  //   marginTop: '20px',
-  //   display: 'flex',
-  //   justifyContent: 'space-around',
-  // };
-  // const headStyle = { color: '#828282' };
+
   const headerCols = GetHeaderCols({
     filteredPipeline,
   } as any);
@@ -157,34 +146,6 @@ export const PipelineDetail: React.FC = () => {
           />
         </Box>
       </Box>
-      {/* <List filter={[]} pagination={false} isExpended id={pipeline.id}></List> */}
-      {/* <Box style={boxStyle}>
-        <Box>
-          <Paragraph style={headStyle}>ID</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {pipeline.id}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>NAME</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {pipeline.name}
-          </Paragraph>
-        </Box>
-
-        <Box>
-          <Paragraph style={headStyle}>AUTHOR</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {pipeline?.user?.name}
-          </Paragraph>
-        </Box>
-        <Box>
-          <Paragraph style={headStyle}>CREATED</Paragraph>
-          <Paragraph style={{ color: '#515151', marginTop: '10px' }}>
-            {formatDateToDisplayOnTable(pipeline.created)}
-          </Paragraph>
-        </Box>
-      </Box> */}
     </BasePage>
   );
 };

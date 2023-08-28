@@ -13,7 +13,7 @@ export const getRunByIdAction = ({
   stackId?: TId;
   pipelineId?: TId;
   stackComponentId?: TId;
-  onSuccess?: () => void;
+  onSuccess?: (res: any) => void;
   onFailure?: () => void;
 }): TRequestAction => ({
   type: runActionTypes.getRunForId.request,

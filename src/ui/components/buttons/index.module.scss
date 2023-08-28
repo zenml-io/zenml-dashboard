@@ -10,7 +10,7 @@
   transition: 200ms ease opacity;
   cursor: pointer;
   border: 0;
-  // height: $buttonHeight;
+
   height: 50px;
   width: max-content;
   transition: 0.2s ease-in all;
@@ -26,7 +26,7 @@
   }
 
   &:hover {
-    background: #A8A8A8;
+    background: #a8a8a8;
   }
 }
 
@@ -69,7 +69,7 @@
   border: 1px solid $blackColor;
   transition: 200ms ease opacity;
   cursor: pointer;
-  // height: $buttonHeight;
+
   height: 50px;
   width: max-content;
   transition: 0.2s ease-in all;
@@ -90,7 +90,6 @@
   }
 }
 
-
 .textButton {
   position: relative;
   font-family: $fontFamilyNormal;
@@ -108,8 +107,3 @@
     opacity: 0.9;
   }
 }
-
-// .spinner {
-//   position: absolute;
-//   left: 0.7rem;
-// }

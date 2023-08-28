@@ -1,13 +1,12 @@
 import React from 'react';
-import ReactTooltip from 'react-tooltip';
 import { runStatus, iconColors, iconSizes } from '../../../../constants';
 import {
   Paragraph,
   Box,
-  ColoredCircle,
   icons,
   If,
   FlexBox,
+  Tooltip,
 } from '../../../components';
 
 import styles from './components.module.scss';
@@ -41,66 +40,48 @@ export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.COMPLETED}>
             {() => (
-              // <ColoredCircle color="green" size="xs">
               <icons.circleCheck
                 color={iconColors.lightGreen}
                 size={iconSizes.md}
               />
-              // </ColoredCircle>
             )}
           </If>
         </div>
-        <ReactTooltip id={run.status} place="top" effect="solid">
-          <Paragraph color="white">{run.status}</Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run.status} text={run.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.RUNNING}>
             {() => (
-              // <ColoredCircle color="secondary" size="xs">
               <icons.inProgress color={iconColors.orange} size={iconSizes.md} />
-              // </ColoredCircle>
             )}
           </If>
         </div>
-        <ReactTooltip id={run.status} place="top" effect="solid">
-          <Paragraph color="white">{run.status}</Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run.status} text={run.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.FAILED}>
-            {() => (
-              // <ColoredCircle color="red" size="xs">
-              <icons.failed color={iconColors.red} size={iconSizes.md} />
-              // </ColoredCircle>
-            )}
+            {() => <icons.failed color={iconColors.red} size={iconSizes.md} />}
           </If>
         </div>
-        <ReactTooltip id={run.status} place="top" effect="solid">
-          <Paragraph color="white">{run.status}</Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run.status} text={run.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.CACHED}>
             {() => (
-              // <ColoredCircle color="mustard" size="xs">
               <icons.cached
                 color={iconColors.butterflyBlue}
                 size={iconSizes.md}
               />
-              // </ColoredCircle>
             )}
           </If>
         </div>
-        <ReactTooltip id={run.status} place="top" effect="solid">
-          <Paragraph color="white">{run.status}</Paragraph>
-        </ReactTooltip>
+        <Tooltip id={run.status} text={run.status} />
       </FlexBox>
     </>
   );

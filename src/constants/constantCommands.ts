@@ -32,12 +32,12 @@ export const constantCommandsToCreateStack = {
 export const constantCommandsToCreateSecret = {
   title: 'Stack Cheatsheet',
   documentation:
-    'https://docs.zenml.io/platform-guide/set-up-your-mlops-platform/use-the-secret-store',
+    'https://docs.zenml.io/user-guide/advanced-guide/secret-management',
 };
 
 export const constantCommandsToCreateRepository = {
   documentation:
-    'https://docs.zenml.io/user-guide/advanced-guide/connect-your-git-repository',
+    'https://docs.zenml.io/user-guide/advanced-guide/environment-management/connect-your-git-repository',
 };
 
 export const constantCommandsToCreatePipeline = {

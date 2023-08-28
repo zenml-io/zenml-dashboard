@@ -1,14 +1,6 @@
 import React from 'react';
 import { Handle, Position } from 'react-flow-renderer';
-import {
-  Cached,
-  Completed,
-  // Export,
-  Failed,
-  // Folder,
-  // Lock,
-  Running,
-} from './icons';
+import { Cached, Completed, Failed, Running } from './icons';
 
 import styles from './index.module.scss';
 import { NodeProps } from 'react-flow-renderer';
@@ -70,17 +62,7 @@ const StepNode = ({
             <p className={styles.stepTitle}>{data.name}</p>
           </div>
         </div>
-        {/* <div className={styles.stepFooter}>
-          <span style={{ padding: '2px', cursor: 'pointer' }}>
-            <Export />
-          </span>
-          <span style={{ padding: '2px', cursor: 'pointer' }}>
-            <Folder />
-          </span>
-          <span style={{ padding: '0px', cursor: 'pointer' }}>
-            <Lock />
-          </span>
-        </div> */}
+
         <Handle
           type="source"
           position={sourcePosition}
