@@ -15,10 +15,9 @@ const authenticationToken = 'token';
 
 describe('getMyconnectorsApi', () => {
   it('calls fetch api with correct params', () => {
-    // getMyconnectorsApi({ authenticationToken });
     expect(mockFetchApiWithAuthRequest).toHaveBeenCalledWith({
       method: httpMethods.get,
-      url: apiUrl(endpoints.connectors.my),
+      url: apiUrl(endpoints.Connectors.my),
       authenticationToken,
     });
   });

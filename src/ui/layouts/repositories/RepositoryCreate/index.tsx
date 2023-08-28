@@ -112,7 +112,6 @@ function CreateRepositoryBody() {
         history.push(routePaths.repositories.list(selectedWorkspace));
       })
       .catch((e) => {
-        console.log(e.response.data.detail[1]);
         dispatch(
           showToasterAction({
             description: e.response.data.detail[1],

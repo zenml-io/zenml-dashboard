@@ -7,9 +7,6 @@ import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { Tabs } from '../common/Tabs';
 import Header from './Header';
 import Stacks from './Stacks';
-// import { routePaths } from '../../../routes/routePaths';
-// import { useSelector } from '../../hooks';
-// import { workspaceSelectors } from '../../../redux/selectors';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
@@ -21,8 +18,6 @@ export const BasePage: React.FC<{
   renderHeaderRight?: () => JSX.Element;
   headerWithButtons?: boolean;
 }> = ({
-  // fromRegisterComponent = false,
-  // fromConfigureComponent = false,
   tabPages,
   title,
   breadcrumbs,
@@ -31,9 +26,6 @@ export const BasePage: React.FC<{
   headerWithButtons,
   children,
 }) => {
-  // const history = useHistory();
-  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-
   return (
     <AuthenticatedLayout breadcrumb={[...breadcrumbs]}>
       <SidebarContainer>
@@ -62,7 +54,6 @@ export const BasePage: React.FC<{
             <>
               <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
               <FlexBox marginBottom="xxl">
-                {/* <Switch> */}
                 <Redirect exact from={tabBasePath} to={tabPages[0].path} />
                 {tabPages.map((page, index) => (
                   <AppRoute
@@ -72,33 +63,11 @@ export const BasePage: React.FC<{
                     component={page.Component}
                   />
                 ))}
-                {/* </Switch> */}
               </FlexBox>
             </>
           )}
         </Box>
       </SidebarContainer>
-
-      {/* {!fromRegisterComponent && !fromConfigureComponent && (
-        <FlexBox
-          style={{
-            position: 'fixed',
-            right: '0',
-            bottom: '0',
-            marginRight: '45px',
-          }}
-        >
-          <Box marginBottom="lg">
-            <PrimaryButton
-              onClick={() =>
-                history.push(routePaths.stacks.createStack(selectedWorkspace))
-              }
-            >
-              Register New Stack
-            </PrimaryButton>
-          </Box>
-        </FlexBox>
-      )} */}
     </AuthenticatedLayout>
   );
 };

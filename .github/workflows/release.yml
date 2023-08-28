@@ -18,7 +18,7 @@ jobs:
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
       - uses: actions/setup-node@v3
         with:
-          node-version: 14.20.0
+          node-version: 18.16.0
       - name: Install yarn
         run: npm install --global yarn
       - name: Build

@@ -1,11 +1,6 @@
 @import '../../../../globalStyles.scss';
 
-
 .popupContainer {
-  // height: 100vh;
-  // width: 100vw;
-  // top: 0;
-  // left: 0;
   z-index: 1;
   position: relative;
 }
@@ -20,7 +15,7 @@
   height: 88rem;
   min-width: 60vw;
   overflow: auto;
-} 
+}
 
 @media (max-width: $md-breakpoint) {
   .sidePopup {

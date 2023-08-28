@@ -22,14 +22,10 @@ export const CustomFlavourBox: React.FC<{
       onMouseEnter={() => setSelect(true)}
       onMouseLeave={() => setSelect(false)}
       style={{ background: select ? '#443E99' : '#fff' }}
-      // style={{ background: '#fff' }}
       onClick={onSelectFlavor}
     >
       <Box className={styles.imageContainer}>
-        {/* <label className={styles.custom_file_upload}> */}
-        {/* <input type="file" name="img" accept="image/*" /> */}
         <img src={logoUrl} alt="imageAddIcon" />
-        {/* </label> */}
       </Box>
 
       <Box style={{ marginTop: '12px' }}>

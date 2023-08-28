@@ -19,14 +19,6 @@ export interface State {
 export type Action = {
   type: string;
   payload: any;
-
-  // | TOrganization
-  // | TInvite
-  // | TInvite[]
-  // | TMember
-  // | any[]
-  // | string[]
-  // | TInvoice[];
 };
 
 export const initialState: State = {
@@ -97,18 +89,6 @@ const organizationsReducer = (
 
       return { ...newState(state, [], action.payload), members: members || [] };
     }
-
-    // case pipelineActionTypes.getMyPipelines.success: {
-    //   const pipelines: TPipeline[] = camelCaseArray(
-    //     action.payload.items as PipelinesPayload,
-    //   );
-
-    //   const myPipelineIds: TId[] = pipelines.map(
-    //     (pipeline: TPipeline) => pipeline.id,
-    //   );
-
-    //   return { ...newState(state, pipelines, action.payload), myPipelineIds };
-    // }
 
     case organizationActionTypes.invite.success: {
       const inviteUser = camelCaseObject(action.payload);

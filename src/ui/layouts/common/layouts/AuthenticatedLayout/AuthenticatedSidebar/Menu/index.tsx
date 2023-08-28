@@ -13,7 +13,6 @@ import {
   workspaceSelectors,
   stackComponentSelectors,
 } from '../../../../../../../redux/selectors';
-// import { matchPath } from 'react-router-dom';
 
 export const Menu: React.FC = () => {
   const stackComponentsTypes: any[] = useSelector(
@@ -29,7 +28,6 @@ export const Menu: React.FC = () => {
           <icons.pipeline color={iconColors.white} size={iconSizes.md} />
         )}
         innerItem={window.location.href?.includes('pipelines')}
-        // to={routePaths.pipelines.base}
         text={translate('menu.pipelines.text')}
         isActive={() => window.location.href?.includes('pipelines')}
         to={routePaths.pipelines.list(
@@ -43,18 +41,6 @@ export const Menu: React.FC = () => {
         isActive={() => window.location.href?.includes('all-runs')}
         text={'Runs'}
         innerItem={window.location.href?.includes('all-runs')}
-        // isActive={() => {
-        //   return (
-        //     !!matchPath(locationPath, {
-        //       path: routePaths.pipelines.allRuns(selectedWorkspace),
-        //       exact: false,
-        //     }) ||
-        //     !!matchPath(locationPath, {
-        //       path: routePaths.run.run.base(':id'),
-        //       exact: false,
-        //     })
-        //   );
-        // }}
       />
       <MenuItem
         id="stack"
@@ -62,7 +48,6 @@ export const Menu: React.FC = () => {
           <icons.stack color={iconColors.white} size={iconSizes.md} />
         )}
         innerItem={window.location.href?.includes('stacks')}
-        // to={routePaths.stacks.base}
         text={translate('menu.stacks.text')}
         isActive={() =>
           window.location.href?.includes('stacks') &&
@@ -73,13 +58,6 @@ export const Menu: React.FC = () => {
 
       <MenuItem
         id="stack-component"
-        // isActive={() => {
-        //   return !!matchPath(locationPath, {
-        //     path: routePaths.stackComponents.base('', workspace) + `?workspace=${workspace}`,
-        //     exact: false,
-        //   });
-        // }}
-
         isActive={() =>
           window.location.href?.includes('components') &&
           !window.location.href?.includes('connectors')
@@ -110,7 +88,6 @@ export const Menu: React.FC = () => {
         id="secrets"
         Icon={() => <icons.lock color={iconColors.white} size={iconSizes.md} />}
         innerItem={window.location.href?.includes('secrets')}
-        // to={routePaths.stacks.base}
         text={translate('menu.secrets.text')}
         isActive={() => window.location.href?.includes('secrets')}
         to={routePaths.secrets.list(selectedWorkspace)}
@@ -136,96 +113,9 @@ export const Menu: React.FC = () => {
           <icons.connector color={iconColors.white} size={iconSizes.md} />
         )}
         innerItem={window.location.href?.includes('connectors')}
-        // to={routePaths.connectors.base(selectedWorkspace)}
-        // to={routePaths.connectors.list(selectedWorkspace)}
         to={routePaths.connectors.base}
         text={translate('menu.connectors.text')}
       />
     </>
   );
 };
-
-// {locationPath.includes('components') &&
-// stackComponentsTypes?.map((item: any) => (
-//   <MenuItem
-//     // isActive={() => {
-//     //   return !!matchPath(locationPath, {
-//     //     path: routePaths.stackComponents.base(item, selectedWorkspace),
-//     //     exact: false,
-//     //   });
-//     // }}
-
-//     isActive={() => window.location.href?.includes(item)}
-//     subItem={true}
-//     Icon={() => (
-//       <>
-//         {item === 'artifact_store' && (
-//           <icons.artifact_store
-//             color={iconColors.white}
-//             size={iconSizes.md}
-//           />
-//         )}
-//         {item === 'alerter' && (
-//           <icons.alerter color={iconColors.white} size={iconSizes.md} />
-//         )}
-//         {item === 'annotator' && (
-//           <icons.annotator
-//             color={iconColors.white}
-//             size={iconSizes.md}
-//           />
-//         )}
-//         {item === 'container_registry' && (
-//           <icons.container_registry
-//             color={iconColors.white}
-//             size={iconSizes.md}
-//           />
-//         )}
-//         {item === 'experiment_tracker' && (
-//           <icons.experiment_tracker
-//             color={iconColors.white}
-//             size={iconSizes.md}
-//           />
-//         )}
-
-//         {item === 'feature_store' && (
-//           <icons.feature_store
-//             color={iconColors.white}
-//             size={iconSizes.md}
-//           />
-//         )}
-//         {item === 'model_deployer' && (
-//           <icons.model_deployer
-//             color={iconColors.white}
-//             size={iconSizes.md}
-//           />
-//         )}
-//         {item === 'secrets_manager' && (
-//           <icons.secrets_manager
-//             color={iconColors.white}
-//             size={iconSizes.md}
-//           />
-//         )}
-//         {item === 'orchestrator' && (
-//           <icons.orchestrator
-//             color={iconColors.white}
-//             size={iconSizes.md}
-//           />
-//         )}
-//         {item === 'step_operator' && (
-//           <icons.step_operator
-//             color={iconColors.white}
-//             size={iconSizes.md}
-//           />
-//         )}
-//         {item === 'data_validator' && (
-//           <icons.data_validator
-//             color={iconColors.white}
-//             size={iconSizes.md}
-//           />
-//         )}
-//       </>
-//     )}
-//     to={routePaths.stackComponents.base(item, selectedWorkspace)}
-//     text={item}
-//   />
-// ))}

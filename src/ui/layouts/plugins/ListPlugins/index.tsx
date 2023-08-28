@@ -208,33 +208,6 @@ const ListPlugins: React.FC = () => {
                     </Paragraph>
                   </div>
 
-                  {/* <FlexBox justifyContent="space-between">
-                <Box>
-                  <Paragraph className={styles.pluginMetric}>
-                    {p.upvotes}
-                  </Paragraph>
-                  <Paragraph className={styles.pluginMetricText}>
-                    Upvotes
-                  </Paragraph>
-                </Box>
-                <Box>
-                  <Paragraph className={styles.pluginMetric}>
-                    {p.downloads}
-                  </Paragraph>
-                  <Paragraph className={styles.pluginMetricText}>
-                    Downloads
-                  </Paragraph>
-                </Box>
-                <Box>
-                  <Paragraph className={styles.pluginMetric}>
-                    {p.popularity}
-                  </Paragraph>
-                  <Paragraph className={styles.pluginMetricText}>
-                    Popularity
-                  </Paragraph>
-                </Box>
-              </FlexBox> */}
-
                   <FlexBox style={{ position: 'absolute', top: 8, right: 12 }}>
                     <Box
                       onClick={(e) => {

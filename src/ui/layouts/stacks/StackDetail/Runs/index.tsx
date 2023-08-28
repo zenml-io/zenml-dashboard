@@ -13,7 +13,6 @@ export const Runs: React.FC<{
   const [sortBy, setSortBy] = useState('created');
   function getSorted(activeSorting: any, activeSortingDirection: any) {
     setSortBy(activeSortingDirection?.toLowerCase() + ':' + activeSorting);
-    // console.log(activeSorting, activeSortingDirection, 'aaaaaaa');
   }
   const { fetching, runIds, runsPaginated } = useService({
     isExpended,
@@ -21,7 +20,7 @@ export const Runs: React.FC<{
     filter,
     sortBy,
   });
-  // console.log(filter, 'filter11');
+
   return (
     <RunsTable
       isExpended={isExpended}

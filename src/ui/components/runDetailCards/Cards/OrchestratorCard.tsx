@@ -8,7 +8,6 @@ interface OrchestratorCardProps {
 }
 
 const OrchestratorCard = ({ run }: OrchestratorCardProps) => {
-  console.log(run);
   return (
     <DetailCard isInitiallyOpen={true} heading="Orchestrator">
       <div>

@@ -5,15 +5,12 @@ import {
   connectorsActions,
   flavorPagesActions,
 } from '../../../../redux/actions';
-// import { workspaceSelectors } from '../../../../redux/selectors';
-import { useDispatch, useLocationPath, useSelector } from '../../../hooks';
-import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-import { workspaceSelectors } from '../../../../redux/selectors';
-import { filterObjectForParam } from '../../../../utils';
 
-interface ServiceInterface {
-  // setFetching: (arg: boolean) => void;
-}
+import { useDispatch, useLocationPath, useSelector } from '../../../hooks';
+
+import { workspaceSelectors } from '../../../../redux/selectors';
+
+interface ServiceInterface {}
 
 export const useService = (): ServiceInterface => {
   const locationPath = useLocationPath();
@@ -39,34 +36,13 @@ export const useService = (): ServiceInterface => {
         onFailure: () => setFetching(false),
       }),
     );
-    // if (locationPath.split('/')[4] === 'all_components') {
-    //   dispatch(
-    //     flavorsActions.getAll({
-    //       onSuccess: () => setFetching(false),
-    //       onFailure: () => setFetching(false),
-    //     }),
-    //   );
-    // } else {
-    //   dispatch(
-    //     flavorsActions.getType({
-    //       page: 1,
-    //       size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-    //       type: locationPath.split('/')[4],
-    //       sort_by: 'name',
-    //       onSuccess: () => setFetching(false),
-    //       onFailure: () => setFetching(false),
-    //     }),
-    //   );
-    // }
   }, [locationPath, selectedWorkspace]);
 
   const setFetching = (fetching: boolean) => {
     dispatch(flavorPagesActions.setFetching({ fetching }));
   };
 
-  return {
-    // setFetching,
-  };
+  return {};
 };
 
 export const callActionForConnectorsTypesForPagination = () => {

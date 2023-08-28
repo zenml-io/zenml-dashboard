@@ -7,7 +7,6 @@ import { AuthenticatedSidebar } from './AuthenticatedSidebar';
 import styles from './index.module.scss';
 import { serverInfoActions } from '../../../../../redux/actions';
 
-// export const AuthenticatedLayout: React.FC = ({ breadcrumb, children }) => {
 // @ts-ignore
 export const AuthenticatedLayout = ({ breadcrumb, children }: any) => {
   const dispatch = useDispatch();

@@ -1,27 +1,13 @@
 import React, { useState } from 'react';
 
-// import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-// import { okaidia } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import {
   FlexBox,
   Box,
-  // H4,
-  // GhostButton,
-  // icons,
   Row,
   FullWidthSpinner,
-  // Container,
   EditField,
   PrimaryButton,
-  // Paragraph,
 } from '../../../../components';
-// import { iconColors, iconSizes } from '../../../../../constants';
-
-// import { useDispatch } from '../../../../hooks';
-// import { showToasterAction } from '../../../../../redux/actions';
-// import { toasterTypes } from '../../../../../constants';
-
-// import { translate } from '../translate';
 
 import styles from './index.module.scss';
 import { useService } from './useService';
@@ -48,14 +34,12 @@ import { toasterTypes } from '../../../../../constants';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
 import { ToggleField } from '../../../common/FormElement';
-// import { SidePopup } from '../../../common/SidePopup';
 
 export const Configuration: React.FC<{
   stackId: TId;
   tiles?: any;
   fetching?: boolean;
 }> = ({ stackId, tiles, fetching = false }) => {
-  // const dispatch = useDispatch();
   const { stack } = useService({ stackId });
   const user = useSelector(userSelectors.myUser);
   const authToken = useSelector(sessionSelectors.authenticationToken);
@@ -64,20 +48,12 @@ export const Configuration: React.FC<{
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const locationPath = useLocation() as any;
-  // const { dispatchStackData } = callActionForStacksForPagination();
+
   const history = useHistory();
-  // const [hover, setHover] = useState(false);
+
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
-  // const handleCopy = () => {
-  //   navigator.clipboard.writeText(stackConfig);
-  //   dispatch(
-  //     showToasterAction({
-  //       description: 'Config copied to clipboard',
-  //       type: toasterTypes.success,
-  //     }),
-  //   );
-  // };
+
   if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
@@ -85,7 +61,6 @@ export const Configuration: React.FC<{
     return <FullWidthSpinner color="black" size="md" />;
   }
   const onCallApi = (name?: string, toggle?: boolean) => {
-    // ;
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
     );
@@ -105,9 +80,6 @@ export const Configuration: React.FC<{
         { headers: { Authorization: `Bearer ${authToken}` } },
       )
       .then((response: any) => {
-        // const id = response.data.id;
-
-        // setLoading(false);
         dispatch(
           showToasterAction({
             description: 'Stack has been updated successfully.',
@@ -125,7 +97,6 @@ export const Configuration: React.FC<{
       })
       .catch((err) => {
         setLoading(false);
-        // ;
 
         dispatch(
           showToasterAction({
@@ -144,37 +115,7 @@ export const Configuration: React.FC<{
 
   return (
     <FlexBox.Column fullWidth>
-      {/* <FlexBox
-        marginBottom="md"
-        alignItems="center"
-        justifyContent="space-between"
-      >
-        <H4 bold>{translate('configuration.title.text')}</H4>
-        <Box>
-          <GhostButton
-            style={{ marginRight: '10px' }}
-            onClick={downloadYamlFile}
-          >
-            {translate('configuration.button.text')}
-          </GhostButton>
-          <GhostButton
-            onMouseEnter={() => {
-              setHover(true);
-            }}
-            onMouseLeave={() => {
-              setHover(false);
-            }}
-            onClick={handleCopy}
-          >
-            <icons.copy
-              color={hover ? iconColors.white : iconColors.black}
-              size={iconSizes.sm}
-            />
-          </GhostButton>
-        </Box>
-      </FlexBox> */}
       <FlexBox.Row flexDirection="column" marginLeft="md" marginTop="lg">
-        {/* <Container> */}
         <Box style={{ width: '30%' }}>
           <EditField
             disabled
@@ -183,7 +124,6 @@ export const Configuration: React.FC<{
             label={'Stack Name'}
             optional={false}
             defaultValue={stack.name}
-            // value={stack.name}
             placeholder=""
             hasError={false}
             className={styles.field}
@@ -198,24 +138,6 @@ export const Configuration: React.FC<{
             disabled={true}
           />
         </Box>
-        {/* <FlexBox
-          marginLeft="xxl2"
-          justifyContent="space-between"
-          style={{ width: '20%' }}
-        >
-          <Paragraph>Share Component with public</Paragraph>
-
-          <label className={styles.switch}>
-            <input
-              type="checkbox"
-              defaultChecked={stack.isShared}
-              // checked={stack.isShared}
-              onChange={() => onCallApi(stack.name, !stack.isShared)}
-            />
-            <span className={`${styles.slider} ${styles.round}`}></span>
-          </label>
-        </FlexBox> */}
-        {/* </Container> */}
       </FlexBox.Row>
       <Box margin="md">
         <Row>
@@ -241,22 +163,9 @@ export const Configuration: React.FC<{
             ))}
         </Row>
       </Box>
-      {/* <FlexBox className={styles.code}>
-        <SyntaxHighlighter
-          customStyle={{ width: '100%' }}
-          wrapLines={true}
-          language="yaml"
-          style={okaidia}
-        >
-          {stackConfig}
-        </SyntaxHighlighter>
-      </FlexBox> */}
 
       {showPopup && (
         <SidePopup
-          // registerStack={() => {
-          //   onCreateStack();
-          // }}
           isCreate={false}
           onSeeExisting={() => {
             dispatch(
@@ -270,7 +179,6 @@ export const Configuration: React.FC<{
                 size: 1,
                 id: selectedStackBox.id,
                 onSuccess: () => {
-                  // setFetching(false);
                   history.push(
                     routePaths.stackComponents.configuration(
                       selectedStackBox.type,

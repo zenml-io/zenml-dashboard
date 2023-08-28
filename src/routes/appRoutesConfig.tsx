@@ -663,14 +663,7 @@ const routes = [
     },
     exact: true,
   },
-  // {
-  //   path: routePaths.connectors.updateSecret(':id', ':string'),
-  //   Component: UpdateSecret,
-  //   visibility: {
-  //     authentication: RouteVisibilityAuthentication.authenticatedOnly,
-  //   },
-  //   exact: true,
-  // },
+
   {
     path: routePaths.connectors.connectorComponents(':id', ':string'),
     Component: connectorDetail,

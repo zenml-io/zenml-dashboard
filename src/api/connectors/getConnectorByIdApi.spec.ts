@@ -16,10 +16,9 @@ const pipelineId = 'runId';
 
 describe('getconnectorByIdApi', () => {
   it('calls fetch api with correct params', () => {
-    // getconnectorByIdApi({ authenticationToken, pipelineId });
     expect(mockFetchApiWithAuthRequest).toHaveBeenCalledWith({
       method: httpMethods.get,
-      url: apiUrl(endpoints.connectors.get(pipelineId)),
+      url: apiUrl(endpoints.Connectors.get(pipelineId)),
       authenticationToken,
     });
   });
