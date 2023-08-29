@@ -3,6 +3,7 @@ import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import { camelCaseToParagraph } from '../../../../utils';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
+import { StackComponent } from '../../../../api/types';
 
 import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
@@ -85,7 +86,7 @@ export const RunDetail: React.FC = () => {
   const headerCols = useHeaderCols({
     runs: runRow,
   });
-  const openDetailPage = (stack: TStack) => {
+  const openDetailPage = (stack: StackComponent) => {
     history.push(
       routePaths.stackComponents.runs(
         locationPath.split('/')[4],

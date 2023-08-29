@@ -7,6 +7,7 @@ import {
 import YAML from 'json2yaml';
 import { useEffect } from 'react';
 import { useLocationPath } from '../../../../hooks';
+import { StackComponent } from '../../../../../api/types';
 
 interface ServiceInterface {
   downloadYamlFile: () => void;
@@ -16,7 +17,7 @@ interface ServiceInterface {
 }
 
 export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
-  const stackComponent: TStack = useSelector(
+  const stackComponent: StackComponent = useSelector(
     stackComponentSelectors.stackComponentForId(stackId),
   );
   const locationPath = useLocationPath();
@@ -26,8 +27,8 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
 
   useEffect(() => {}, [locationPath]);
 
-  const yamlConfigObj: any = {
-    [stackComponent.type as string]: {
+  const yamlConfigObj = {
+    [stackComponent.type]: {
       flavor: stackComponent.flavor,
       name: stackComponent.name,
       ...stackComponent.configuration,
@@ -48,5 +49,5 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
     element.click();
   };
 
-  return { downloadYamlFile, stackConfig, stackComponent, flavor };
+  return { stackComponent, flavor, downloadYamlFile, stackConfig };
 };

@@ -7,6 +7,7 @@ import {
 } from '../../../../utils';
 import { Box, FlexBox, icons, Paragraph, Tooltip } from '../../../components';
 import { HeaderCol } from '../../common/Table';
+import { StackComponent } from '../../../../api/types';
 
 export const GetHeaderCols = ({
   mappedStackComponentWithLogo,
@@ -25,7 +26,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '20%',
-      renderRow: (stack: TStack) => (
+      renderRow: (stack: StackComponent) => (
         <>
           {stack.id && (
             <FlexBox alignItems="center">
@@ -54,7 +55,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '30%',
-      renderRow: (stack: TStack) => (
+      renderRow: (stack: StackComponent) => (
         <>
           {stack.name && (
             <FlexBox alignItems="center">
@@ -82,18 +83,20 @@ export const GetHeaderCols = ({
         </div>
       ),
       width: '10%',
-      renderRow: (stackComponent: TStack) => (
+      renderRow: (stackComponent: any) => (
         <>
           {stackComponent?.flavor && (
             <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
               <div
                 data-tip
-                data-for={stackComponent.flavor.name || stackComponent.flavor}
+                data-for={
+                  stackComponent?.flavor?.name || stackComponent?.flavor
+                }
                 style={{ margin: ' 0 auto 0 auto' }}
               >
                 <img
-                  alt={stackComponent.flavor.logoUrl}
-                  src={stackComponent.flavor.logoUrl}
+                  alt={stackComponent?.flavor.logoUrl as any}
+                  src={stackComponent?.flavor?.logoUrl}
                   style={{
                     height: '28px',
                     width: '28px',
@@ -101,8 +104,8 @@ export const GetHeaderCols = ({
                 />
               </div>
               <Tooltip
-                id={stackComponent.flavor.name || stackComponent.flavor}
-                text={stackComponent.flavor.name}
+                id={stackComponent?.flavor?.name || stackComponent?.flavor}
+                text={stackComponent?.flavor?.name}
               />
             </FlexBox>
           )}
@@ -118,14 +121,14 @@ export const GetHeaderCols = ({
         </Box>
       ),
       width: '10%',
-      renderRow: (stack: TStack) => (
+      renderRow: (stack: StackComponent) => (
         <>
           {stack && (
             <FlexBox alignItems="center">
               <div
                 style={{ margin: '0 auto 0 auto' }}
                 data-tip
-                data-for={stack.isShared}
+                data-for={stack.is_shared}
               >
                 <Box>
                   <FlexBox
@@ -136,7 +139,7 @@ export const GetHeaderCols = ({
                       textAlign: 'center',
                     }}
                   >
-                    {stack.isShared ? (
+                    {stack.is_shared ? (
                       <icons.multiUser
                         color={iconColors.white}
                         size={iconSizes.md}
@@ -151,8 +154,8 @@ export const GetHeaderCols = ({
                 </Box>
               </div>
               <Tooltip
-                id={stack.isShared ? 'true' : 'false'}
-                text={stack.isShared ? 'true' : 'false'}
+                id={stack.is_shared ? 'true' : 'false'}
+                text={stack.is_shared ? 'true' : 'false'}
               />
             </FlexBox>
           )}
@@ -167,7 +170,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (stack: TStack) => {
+      renderRow: (stack: StackComponent) => {
         return (
           <>
             {stack.user && (
@@ -213,7 +216,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '30%',
-      renderRow: (stack: TStack) => (
+      renderRow: (stack: StackComponent) => (
         <>
           {stack.created && (
             <FlexBox alignItems="center">

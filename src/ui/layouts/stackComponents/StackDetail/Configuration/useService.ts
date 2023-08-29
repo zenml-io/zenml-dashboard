@@ -3,6 +3,7 @@ import {
   flavorSelectors,
   stackComponentSelectors,
 } from '../../../../../redux/selectors';
+import { StackComponent } from '../../../../../api/types';
 
 interface ServiceInterface {
   stackComponent: any;
@@ -10,7 +11,7 @@ interface ServiceInterface {
 }
 
 export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
-  const stackComponent: TStack = useSelector(
+  const stackComponent: StackComponent = useSelector(
     stackComponentSelectors.stackComponentForId(stackId),
   );
 
