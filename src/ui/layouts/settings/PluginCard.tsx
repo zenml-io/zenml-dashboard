@@ -1,6 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-
 import { Box, LinkBox, Paragraph } from '../../components';
 import PluginFallbackImage from '../../assets/plugin-fallback.svg';
 

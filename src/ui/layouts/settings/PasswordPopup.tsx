@@ -23,7 +23,7 @@ import axios from 'axios';
 
 export const PasswordPopup: React.FC<{
   user: any;
-  username: any;
+  username: string | any;
   isUpdate: boolean;
   setPopupOpen: (attr: boolean) => void;
 }> = ({ user, username, isUpdate, setPopupOpen }) => {

@@ -10,7 +10,6 @@ import {
 import { iconColors, iconSizes } from '../../../constants';
 import { useRequestOnMount, useSelector } from '../../hooks';
 import { userActions } from '../../../redux/actions';
-
 import { sessionSelectors, userSelectors } from '../../../redux/selectors';
 import { getTranslateByScope } from '../../../services';
 import { GhostButton } from '../../components/buttons/index';
@@ -237,13 +236,13 @@ export const PersonalDetails: React.FC = () => {
 
           <Box marginTop="lg">
             <Paragraph style={{ color: '#828282' }}>Roles</Paragraph>
-            <FlexBox.Row>
+            <Box style={{ display: 'inline-grid', gap: '10px' }}>
               {user?.roles?.map((e: any) => (
-                <div className={styles.roleBean}>
+                <div key={e?.name} className={styles.roleBean}>
                   <p>{e?.name.charAt(0).toUpperCase() + e?.name?.slice(1)}</p>
                 </div>
               ))}
-            </FlexBox.Row>
+            </Box>
           </Box>
 
           <Box marginTop="lg">

@@ -24,12 +24,12 @@ import { getInitials } from '../../../../utils/name';
 
 export const TokenPopup: React.FC<{
   id: string;
-  fullName: any;
+  fullName: string | null;
   username: string;
   active: boolean;
   roles: Array<any>;
   setTokenPopup: any;
-}> = ({ id, fullName, username, active, roles, setTokenPopup }) => {
+}> = ({ id, fullName, username, roles, setTokenPopup }) => {
   const [submitting, setSubmitting] = useState(false);
   const [showTokField, setShowTokField] = useState(false);
 
