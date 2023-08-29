@@ -28,15 +28,11 @@ export const useService = ({
   activeSortingDirection,
   setActiveSortingDirection,
   setActiveSorting,
-  setFilteredMembers,
-  filteredMembers,
 }: {
   activeSorting: Sorting | null;
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (arg: SortingDirection | null) => void;
   setActiveSorting: (arg: Sorting | null) => void;
-  setFilteredMembers: (members: TMember[]) => void;
-  filteredMembers: TMember[];
 }): ServiceInterface => {
   const dispatch = useDispatch();
 
