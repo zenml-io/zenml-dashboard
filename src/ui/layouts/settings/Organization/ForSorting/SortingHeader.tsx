@@ -2,7 +2,6 @@ import React from 'react';
 import { iconColors, iconSizes } from '../../../../../constants';
 import { Box, FlexBox, icons, If, LinkBox } from '../../../../components';
 import { Sorting, SortingDirection } from './types';
-
 import styles from './index.module.scss';
 
 export const SortingHeader: React.FC<{
