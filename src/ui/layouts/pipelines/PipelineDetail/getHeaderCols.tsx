@@ -12,11 +12,12 @@ import {
 import { HeaderCol } from '../../common/Table';
 
 import { Status } from '../Pipelines/List/Status';
+import { Pipeline } from '../../../../api/types';
 
 export const GetHeaderCols = ({
   filteredPipelines,
 }: {
-  filteredPipelines: TPipeline[];
+  filteredPipelines: Pipeline[];
 }): HeaderCol[] => {
   return [
     {
@@ -30,7 +31,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '20%',
-      renderRow: (pipeline: TPipeline) => (
+      renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={pipeline.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
@@ -51,7 +52,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '30%',
-      renderRow: (pipeline: TPipeline) => (
+      renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={pipeline.name}>
             <Paragraph size="small">{pipeline.name}</Paragraph>
@@ -73,7 +74,7 @@ export const GetHeaderCols = ({
         </div>
       ),
       width: '10%',
-      renderRow: (pipeline: TPipeline) => <Status pipeline={pipeline} />,
+      renderRow: (pipeline: Pipeline) => <Status pipeline={pipeline} />,
     },
     {
       render: () => (
@@ -82,7 +83,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (pipeline: TPipeline) => (
+      renderRow: (pipeline: Pipeline) => (
         <Paragraph size="small">{pipeline?.version}</Paragraph>
       ),
     },
@@ -94,7 +95,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (pipeline: TPipeline) => {
+      renderRow: (pipeline: Pipeline) => {
         return (
           <FlexBox alignItems="center">
             <div
@@ -136,7 +137,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '20%',
-      renderRow: (pipeline: TPipeline) => (
+      renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(pipeline.created)}>
             <FlexBox alignItems="center">

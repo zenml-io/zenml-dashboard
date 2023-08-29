@@ -2,24 +2,24 @@ import { useDispatch, useSelector } from 'react-redux';
 import { stackPagesActions } from '../../../../../../redux/actions';
 import { stackPagesSelectors } from '../../../../../../redux/selectors';
 import { Sorting, SortingDirection } from './types';
-
+import { Pipeline } from '../../../../../../api/types';
 export type SortMethod = (
   sorting: Sorting,
   {
     asc,
     desc,
   }: {
-    asc: (pipelines: TPipeline[]) => TPipeline[];
-    desc: (pipelines: TPipeline[]) => TPipeline[];
+    asc: (pipelines: Pipeline[]) => Pipeline[];
+    desc: (pipelines: Pipeline[]) => Pipeline[];
   },
 ) => void;
 
 interface ServiceInterface {
-  toggleSelectRun: (pipelines: TPipeline) => void;
-  isRunSelected: (pipelines: TPipeline) => boolean;
-  allRunsSelected: (pipelines: TPipeline[]) => boolean;
-  selectRuns: (pipelines: TPipeline[]) => void;
-  unselectRuns: (pipelines: TPipeline[]) => void;
+  toggleSelectRun: (pipelines: Pipeline) => void;
+  isRunSelected: (pipelines: Pipeline) => boolean;
+  allRunsSelected: (pipelines: Pipeline[]) => boolean;
+  selectRuns: (pipelines: Pipeline[]) => void;
+  unselectRuns: (pipelines: Pipeline[]) => void;
   sortMethod: SortMethod;
 }
 
@@ -39,8 +39,8 @@ export const useService = ({
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (arg: SortingDirection | null) => void;
   setActiveSorting: (arg: Sorting | null) => void;
-  setFilteredPipelines: (pipelines: TPipeline[]) => void;
-  filteredPipelines: TPipeline[];
+  setFilteredPipelines: (pipelines: Pipeline[]) => void;
+  filteredPipelines: Pipeline[];
 }): ServiceInterface => {
   const dispatch = useDispatch();
 
@@ -50,7 +50,7 @@ export const useService = ({
 
   const selectedRunIds = useSelector(stackPagesSelectors.selectedRunIds);
 
-  const toggleSelectRun = (pipeline: TPipeline): void => {
+  const toggleSelectRun = (pipeline: Pipeline): void => {
     if (selectedRunIds.indexOf(pipeline.id) === -1) {
       setSelectedRunIds([...selectedRunIds, pipeline.id]);
     } else {
@@ -58,21 +58,19 @@ export const useService = ({
     }
   };
 
-  const isRunSelected = (pipeline: TPipeline): boolean => {
+  const isRunSelected = (pipeline: Pipeline): boolean => {
     return selectedRunIds.indexOf(pipeline.id) !== -1;
   };
 
-  const selectRuns = (pipelines: TPipeline[]): void => {
+  const selectRuns = (pipelines: Pipeline[]): void => {
     setSelectedRunIds([
       ...selectedRunIds,
-      ...pipelines.map((pipeline: TPipeline) => pipeline.id),
+      ...pipelines.map((pipeline: Pipeline) => pipeline.id),
     ]);
   };
 
-  const unselectRuns = (pipelines: TPipeline[]): void => {
-    const runIdsToUnselect = pipelines.map(
-      (pipeline: TPipeline) => pipeline.id,
-    );
+  const unselectRuns = (pipelines: Pipeline[]): void => {
+    const runIdsToUnselect = pipelines.map((pipeline: Pipeline) => pipeline.id);
 
     const newRunIds = selectedRunIds.filter(
       (id: TId) => !runIdsToUnselect.includes(id),
@@ -81,15 +79,15 @@ export const useService = ({
     setSelectedRunIds(newRunIds);
   };
 
-  const allRunsSelected = (pipelines: TPipeline[]): boolean => {
-    return pipelines.every((pipeline: TPipeline) => isRunSelected(pipeline));
+  const allRunsSelected = (pipelines: Pipeline[]): boolean => {
+    return pipelines.every((pipeline: Pipeline) => isRunSelected(pipeline));
   };
 
   const sortMethod = (
     sorting: Sorting,
     sort?: {
-      asc: (pipelines: TPipeline[]) => TPipeline[];
-      desc: (pipelines: TPipeline[]) => TPipeline[];
+      asc: (pipelines: Pipeline[]) => Pipeline[];
+      desc: (pipelines: Pipeline[]) => Pipeline[];
     },
   ) => () => {
     if (sorting === activeSorting) {

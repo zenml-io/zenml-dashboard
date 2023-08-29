@@ -64,6 +64,7 @@
     "build": "react-scripts --openssl-legacy-provider build",
     "test": "react-scripts --openssl-legacy-provider test --maxWorkers=4",
     "eject": "react-scripts eject",
+    "generate-types": "node generateOpenAPITypes.js",
     "lint": "eslint './src/**/*.ts*'",
     "fix-lint": "eslint './src/**/*.ts*' --fix",
     "tslint": "tsc",

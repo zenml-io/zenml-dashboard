@@ -1,6 +1,6 @@
 import { runSelectors } from '../../../../../../redux/selectors';
 import { useSelector } from '../../../../../hooks';
-
+import { Pipeline } from '../../../../../../api/types';
 interface ServiceInterface {
   runIds: TId[];
   isPipelineOpen: () => boolean;
@@ -10,7 +10,7 @@ export const useService = ({
   pipeline,
   openPipelineIds,
 }: {
-  pipeline: TPipeline;
+  pipeline: Pipeline;
   openPipelineIds: TId[];
 }): ServiceInterface => {
   const runs = useSelector(runSelectors.runsForPipelineId(pipeline.id));
