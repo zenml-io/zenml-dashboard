@@ -27,7 +27,7 @@ export const formatDateToDisplayWithoutTime = (dateString: Date): string => {
   return formatDateToFormat(dateformat(dateString), `MM/dd/yyyy`);
 };
 
-export const formatDateToSort = (dateString: Date): string => {
+export const formatDateToSort = (dateString: Date | string): string => {
   if (typeof dateString === 'undefined' || !dateString) return '';
   return formatDateToFormat(dateString, `dd.MM.yyyy'T'HH:mm:ss.SSS'Z'`);
 };

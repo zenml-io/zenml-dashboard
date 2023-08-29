@@ -28,11 +28,12 @@ export const useService = (): ServiceInterface => {
   const Stacks = useSelector(stackSelectors.mystacks);
 
   useEffect(() => {
-    const orderedStacks = _.sortBy(Stacks, (stack: TStack) =>
+    //  refector it later
+    const orderedStacks = _.sortBy(Stacks, (stack: any) =>
       new Date(stack.created).getTime(),
     ).reverse();
 
-    setFilteredStacks(orderedStacks);
+    setFilteredStacks(orderedStacks as any);
   }, [Stacks]);
 
   const setSelectedRunIds = (runIds: TId[]) => {

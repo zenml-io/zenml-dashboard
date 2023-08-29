@@ -12,9 +12,10 @@ import { useDispatch } from 'react-redux';
 import { stackPagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
 import { filterObjectForParam } from '../../../../utils';
+import { Stack } from '../../../../api/types';
 
 interface ServiceInterface {
-  stack: TStack;
+  stack: Stack;
 }
 
 export const useService = (): ServiceInterface => {

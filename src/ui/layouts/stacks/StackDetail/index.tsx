@@ -19,6 +19,7 @@ import { GetFlavorsListForLogo } from '../../stackComponents/Stacks/List/GetFlav
 import { FullWidthSpinner } from '../../../components';
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
+import { Stack, StackComponent, Flavor } from '../../../../api/types';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -113,18 +114,27 @@ export const StackDetail: React.FC = () => {
     return <FullWidthSpinner color="black" size="md" />;
   }
   if (flavourList?.length > 1) {
-    for (const [key] of Object.entries(stack?.components)) {
+    for (const [key] of Object.entries(
+      stack.components as Record<string, StackComponent[]>,
+    )) {
       const { logo_url }: any = flavourList.find(
-        (fl: any) =>
-          fl.name === stack?.components[key][0]?.flavor &&
-          fl.type === stack?.components[key][0]?.type,
+        (fl: Flavor) =>
+          fl.name ===
+            (stack.components as Record<string, StackComponent[]>)[key][0]
+              ?.flavor &&
+          fl.type ===
+            (stack.components as Record<string, StackComponent[]>)[key][0]
+              ?.type,
       );
 
       nestedRowtiles.push({
-        ...stack?.components[key][0],
+        ...((stack.components as Record<string, StackComponent[]>)[
+          key
+        ][0] as StackComponent),
         type: key,
-        name: stack?.components[key][0]?.name,
-        id: stack?.components[key][0]?.id,
+        name: (stack.components as Record<string, StackComponent[]>)[key][0]
+          ?.name,
+        id: (stack.components as Record<string, StackComponent[]>)[key][0]?.id,
         logo: logo_url,
       });
     }
@@ -142,7 +152,7 @@ export const StackDetail: React.FC = () => {
     filteredStacks,
   });
 
-  const openDetailPage = (stack: TStack) => {
+  const openDetailPage = (stack: Stack) => {
     history.push(routePaths.stacks.list(selectedWorkspace));
   };
   return (
@@ -156,7 +166,7 @@ export const StackDetail: React.FC = () => {
       <Box marginTop="lg" style={{ overflowX: 'auto' }}>
         <CollapseTable
           pagination={false}
-          renderAfterRow={(stack: TStack) => <></>}
+          renderAfterRow={(stack: Stack) => <></>}
           headerCols={headerCols}
           tableRows={filteredStacks}
           emptyState={{ text: translate('emptyState.text') }}

@@ -115,7 +115,7 @@ export const PasswordPopup: React.FC<{
   const lowercaseRegExp = /(?=.*?[a-z])/.test(newPassword);
   const digitsRegExp = /(?=.*?[0-9])/.test(newPassword);
   const specialCharRegExp = /(?=.*?[#?!@$%^&*-_])/.test(newPassword);
-  const minLengthRegExp = /.{8,}/.test(newPassword);  
+  const minLengthRegExp = /.{8,}/.test(newPassword);
 
   return (
     <PopupSmall onClose={() => setPopupOpen(false)}>

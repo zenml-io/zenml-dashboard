@@ -1,17 +1,17 @@
 import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
 import { stackActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
-
+import { Stack } from '../../api/types';
 export interface State {
   ids: TId[];
-  byId: Record<TId, TStack>;
+  byId: Record<TId, Stack>;
   myStackIds: TId[];
   paginated: any;
 }
 
-type StacksPayload = TStack[];
+// type StacksPayload = Stack[];
 
-type StackPayload = TStack;
+// type StackPayload = Stack;
 
 export type Action = {
   type: string;
@@ -25,7 +25,7 @@ export const initialState: State = {
   paginated: {},
 };
 
-const newState = (state: State, stacks: TStack[], pagination?: any): State => ({
+const newState = (state: State, stacks: Stack[], pagination?: any): State => ({
   ...state,
   ids: idsInsert(state.ids, stacks),
   byId: byKeyInsert(state.byId, stacks),
@@ -40,17 +40,15 @@ const newState = (state: State, stacks: TStack[], pagination?: any): State => ({
 const stacksReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case stackActionTypes.getMyStacks.success: {
-      const stacks: TStack[] = camelCaseArray(
-        action.payload.items as StacksPayload,
-      );
+      const stacks: Stack[] = camelCaseArray(action.payload.items);
 
-      const myStackIds: TId[] = stacks.map((stack: TStack) => stack.id);
+      const myStackIds: TId[] = stacks.map((stack: Stack) => stack.id);
 
       return { ...newState(state, stacks, action.payload), myStackIds };
     }
 
     case stackActionTypes.getStackForId.success: {
-      const payload: StackPayload = action.payload;
+      const payload: Stack = action.payload;
 
       const stack = camelCaseObject(payload);
 

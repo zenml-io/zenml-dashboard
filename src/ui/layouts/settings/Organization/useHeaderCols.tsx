@@ -4,12 +4,7 @@ import {
   formatDateToDisplayOnTable,
   getInitialsFromEmail,
 } from '../../../../utils';
-import {
-  Box,
-  ColoredCircle,
-  FlexBox,
-  Paragraph,
-} from '../../../components';
+import { Box, ColoredCircle, FlexBox, Paragraph } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { DeleteMember } from './DeleteMember';
 
