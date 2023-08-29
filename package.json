@@ -33,6 +33,7 @@
     "lodash": "^4.17.21",
     "lottie-react": "^2.4.0",
     "moment": "^2.29.4",
+    "openapi-typescript": "^6.5.3",
     "papaparse": "^5.4.1",
     "query-string": "^6.13.1",
     "react": "^16.13.1",

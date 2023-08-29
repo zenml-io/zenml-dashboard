@@ -12,9 +12,10 @@ import {
 } from '../../../../redux/selectors';
 
 import { FlavorDetailRouteParams } from '.';
+import { Flavor } from '../../../../api/types';
 
 interface ServiceInterface {
-  flavor: any;
+  flavor: Flavor;
   id: any;
   fetching?: boolean;
   serviceConnectorResources?: any;
