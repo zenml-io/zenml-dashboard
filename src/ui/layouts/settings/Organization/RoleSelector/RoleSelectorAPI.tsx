@@ -122,7 +122,7 @@ export const RoleSelectorAPI = ({
             </If>
           </div>
           {role?.map((e: any) => (
-            <div className={styles.roleBean}>
+            <div key={e?.role?.name} className={styles.roleBean}>
               <p>
                 {e?.role?.name?.charAt(0)?.toUpperCase() +
                   e?.role?.name?.slice(1)}{' '}

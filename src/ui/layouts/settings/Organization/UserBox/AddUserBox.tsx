@@ -1,6 +1,5 @@
 import React from 'react';
 import styles from './index.module.scss';
-
 import { FlexBox, Box, Paragraph } from '../../../../components';
 import imageAddIcon from '../../../../assets/imageAddIcon.svg';
 

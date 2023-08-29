@@ -13,7 +13,7 @@ export const RoleSelectorReadOnly = ({ roles }: RoleSelector) => {
       <FlexBox>
         <Row>
           {roles?.map((e: any) => (
-            <div className={styles.roleBean}>
+            <div key={e?.name} className={styles.roleBean}>
               <p>{e?.name.charAt(0).toUpperCase() + e?.name?.slice(1)}</p>
             </div>
           ))}

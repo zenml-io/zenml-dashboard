@@ -10,7 +10,6 @@ import { translate } from './translate';
 import {
   Box,
   FlexBox,
-  // GenerateTokenField,
   CopyField,
   H4,
   Separator,
@@ -42,7 +41,7 @@ export const InvitePopup: React.FC<{
   const roles = useSelector(rolesSelectors.getRoles);
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
-  const [role, setRole] = useState<any>([]);
+  const [role, setRole] = useState<Array<any>>([]);
 
   const [allRoles, setAllRoles] = useState(
     roles?.map((e) => {
