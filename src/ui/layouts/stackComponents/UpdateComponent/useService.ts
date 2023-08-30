@@ -17,7 +17,7 @@ import { useDispatch } from 'react-redux';
 
 import { useEffect, useState } from 'react';
 import { filterObjectForParam } from '../../../../utils';
-import { StackComponent } from '../../../../api/types';
+import { Flavor, StackComponent } from '../../../../api/types';
 
 import axios from 'axios';
 
@@ -36,7 +36,7 @@ export const useService = (): ServiceInterface => {
   const [mapStackComponent, setMapppedStackComponent] = useState([]);
   const [fetching, setFetching] = useState(false);
   const [loading, setLoading] = useState(false);
-  const [flavor, setFlavor] = useState([]);
+  const [flavor, setFlavor] = useState(([] as unknown) as Flavor);
   const { id } = useParams<StackDetailRouteParams>();
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);

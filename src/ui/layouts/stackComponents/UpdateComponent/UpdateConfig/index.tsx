@@ -48,7 +48,7 @@ export const UpdateConfig: React.FC<{
 
   const { stackComponent, flavor } = useService({
     stackId,
-  });
+  }) as any;
 
   const history = useHistory();
   const [componentName, setComponentName] = useState('');
@@ -103,9 +103,9 @@ export const UpdateConfig: React.FC<{
     }
 
     replaceNullWithEmptyString(stackComponent?.configuration);
-    setComponentName(stackComponent.name);
+    setComponentName(stackComponent?.name);
 
-    setIsShared(stackComponent.isShared);
+    setIsShared(stackComponent?.isShared);
 
     function convertJSON(json: any) {
       const convertedJSON: any = {};
@@ -150,7 +150,7 @@ export const UpdateConfig: React.FC<{
     }
     if (!state?.state?.routeFromEditComponent) {
       if (flavor) {
-        let result = Object.keys(flavor?.configSchema?.properties).reduce(
+        let result = Object.keys(flavor?.configSchema?.properties || {}).reduce(
           function (r: any, name: any) {
             return (
               (r[name] =
@@ -358,11 +358,11 @@ export const UpdateConfig: React.FC<{
       });
   };
 
-  function callActionForSecret(name: any, value: any, newEvent?: any) {
+  function callActionForSecret(name: any, value: any) {
     setMappedConfiguration({
       ...mappedConfiguration,
       [name]: {
-        value: value.value ? value.value : value,
+        value: value?.value ? value?.value : value,
         id: value?.id ? value?.id : '',
       },
     });
@@ -468,7 +468,7 @@ export const UpdateConfig: React.FC<{
                       }
                     }
                     if (val.includes('{{')) {
-                      callActionForSecret(elementName, val, newEvent);
+                      callActionForSecret(elementName, val);
                     } else {
                       setMappedConfiguration({
                         ...mappedConfiguration,
@@ -485,7 +485,7 @@ export const UpdateConfig: React.FC<{
                           : val,
                       });
                     } else if (val.value.includes('{{')) {
-                      callActionForSecret(elementName, val, newEvent);
+                      callActionForSecret(elementName, val);
                     }
                   }}
                   dropdownOptions={
@@ -506,7 +506,7 @@ export const UpdateConfig: React.FC<{
               <FormTextField
                 disabled={
                   connectorResourceId &&
-                  elementName === flavor.connectorResourceIdAttr
+                  elementName === flavor.connector_resource_id_attr
                 }
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
@@ -604,7 +604,7 @@ export const UpdateConfig: React.FC<{
               }}
             >
               {inputFields[elementName]?.map((item: any, index: any) => (
-                <Fragment>
+                <Fragment key={index}>
                   <Box
                     style={{ display: 'flex', alignItems: 'center' }}
                     marginTop="sm"
@@ -640,7 +640,7 @@ export const UpdateConfig: React.FC<{
                           setInputFields(values);
                         }}
                         label={'Key'}
-                        value={item.key}
+                        value={item?.key}
                         placeholder={''}
                       />
                     </Box>
@@ -756,7 +756,7 @@ export const UpdateConfig: React.FC<{
               {mappedConfiguration &&
                 mappedConfiguration[elementName]?.map(
                   (item: any, index: any) => (
-                    <Fragment>
+                    <Fragment key={index}>
                       <Box
                         style={{ display: 'flex', alignItems: 'center' }}
                         marginTop="sm"
@@ -918,7 +918,7 @@ export const UpdateConfig: React.FC<{
             />
           </Box>
         </Container>
-        {flavor.connectorResourceType && (
+        {flavor.connector_resource_type && (
           <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
             <Paragraph size="body" style={{ color: '#000' }}>
               <label htmlFor="key">{'Connect to resource'}</label>
@@ -931,7 +931,7 @@ export const UpdateConfig: React.FC<{
                 setInputData={setMappedConfiguration}
                 sensitiveFields={sensitiveFields}
                 defaultMappedConfig={defaultMappedConfig}
-                connectorResourceIdAttr={flavor.connectorResourceIdAttr}
+                connectorResourceIdAttr={flavor.connector_resource_id_attr}
                 connector={connector}
                 setConnector={setConnector}
                 connectorResourceId={connectorResourceId}
@@ -946,7 +946,9 @@ export const UpdateConfig: React.FC<{
         <Container>
           {mappedConfiguration &&
             Object.keys(mappedConfiguration)?.map((key, ind) => (
-              <>{getFormElement(key, mappedConfiguration[key])}</>
+              <Fragment key={key}>
+                {getFormElement(key, mappedConfiguration[key])}
+              </Fragment>
             ))}
         </Container>
       </FlexBox.Row>

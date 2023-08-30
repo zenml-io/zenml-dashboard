@@ -7,13 +7,13 @@ import {
 import YAML from 'json2yaml';
 import { useEffect } from 'react';
 import { useLocationPath } from '../../../../hooks';
-import { StackComponent } from '../../../../../api/types';
+import { Flavor, StackComponent } from '../../../../../api/types';
 
 interface ServiceInterface {
   downloadYamlFile: () => void;
   stackConfig: string;
-  stackComponent: any;
-  flavor: any;
+  stackComponent: StackComponent;
+  flavor: Flavor;
 }
 
 export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
