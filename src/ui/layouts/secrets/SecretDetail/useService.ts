@@ -7,9 +7,10 @@ import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 
 import { useEffect, useState } from 'react';
+import { Secret } from '../../../../api/types';
 
 interface ServiceInterface {
-  secret: any;
+  secret: Secret;
   fetching?: boolean;
 }
 

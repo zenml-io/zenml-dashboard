@@ -10,9 +10,10 @@ import {
   If,
 } from '../../../../../components';
 import { useService } from './useService';
+import { Secret } from '../../../../../../api/types';
 
-export const UserName: React.FC<{ stack: TStack }> = ({ stack }) => {
-  const { fetching, user } = useService({ stack });
+export const UserName: React.FC<{ secret: Secret }> = ({ secret }) => {
+  const { fetching, user } = useService({ secret });
 
   if (fetching) {
     return <Spinner size="xs" color="black" />;
