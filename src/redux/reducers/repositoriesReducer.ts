@@ -1,3 +1,4 @@
+import { Repository } from '../../api/types';
 import { repositoryActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
@@ -10,7 +11,7 @@ export interface Pagination {
 
 export interface State {
   ids: string[];
-  repositoriesByID: Record<string, TRepository>;
+  repositoriesByID: Record<string, Repository>;
   pagination: Pagination;
   myRepositoryIds: string[];
 }
@@ -29,7 +30,7 @@ export type Action = {
 
 function newState(
   state: State,
-  repositories: TRepository[],
+  repositories: Repository[],
   pagination?: any,
 ): State {
   return {

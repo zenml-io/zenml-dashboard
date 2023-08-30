@@ -24,4 +24,4 @@ export type Secret = components['schemas']['SecretResponseModel'];
 export type Run = components['schemas']['PipelineRunResponseModel'];
 
 // //Repository
-// export type CodeRepository = components['schemas']['CodeRepositoryResponseModel'];
+export type Repository = components['schemas']['CodeRepositoryResponseModel'];
