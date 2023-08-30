@@ -2,6 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
+import { ServiceConnector } from '../types';
 
 const getMyConnectorsApi = ({
   component_id,
@@ -25,7 +26,7 @@ const getMyConnectorsApi = ({
   filtersParam?: object;
 
   authenticationToken: string;
-}): Promise<TStack> =>
+}): Promise<ServiceConnector> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.Connectors.my(workspace)),
     params: {

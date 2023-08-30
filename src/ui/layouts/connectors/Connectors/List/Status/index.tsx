@@ -9,9 +9,12 @@ import {
   If,
 } from '../../../../../components';
 import { useService } from './useService';
+import { ServiceConnector } from '../../../../../../api/types';
 
-export const Status: React.FC<{ stack: TStack }> = ({ stack }) => {
-  const { lastThreeRuns } = useService({ stack });
+export const Status: React.FC<{ connector: ServiceConnector }> = ({
+  connector,
+}) => {
+  const { lastThreeRuns } = useService({ connector });
 
   return (
     <FlexBox alignItems="center">
