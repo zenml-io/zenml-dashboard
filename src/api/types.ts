@@ -1,4 +1,3 @@
-import { type } from 'os';
 import { components } from '../../schema';
 
 //Pipelines
