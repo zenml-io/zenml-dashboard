@@ -2,6 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
+import { Run } from '../types';
 
 const getRunByIdApi = ({
   authenticationToken,
@@ -11,7 +12,7 @@ const getRunByIdApi = ({
   authenticationToken: string;
   pipelineId: TId;
   runId: TId;
-}): Promise<TOrganization> =>
+}): Promise<Run> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.runs.get(runId)),
     method: httpMethods.get,

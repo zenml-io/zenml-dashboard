@@ -53,7 +53,7 @@ export const UpdateConfig: React.FC<{
   );
 
   if (state?.state?.secretId) {
-    valuesIntoArray?.push({
+    valuesIntoArray.push({
       key: state?.state?.secretKey,
       value: state?.state?.inputData
         ? state?.state?.inputData[state?.state?.secretKey]
@@ -193,9 +193,7 @@ export const UpdateConfig: React.FC<{
         } else {
           dispatch(
             showToasterAction({
-              description: err?.response?.data?.detail[0].includes('Exists')
-                ? `Secret name already exists.`
-                : err?.response?.data?.detail[0],
+              description: err?.response?.data?.detail[0],
               type: toasterTypes.failure,
             }),
           );

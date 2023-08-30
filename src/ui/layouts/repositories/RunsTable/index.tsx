@@ -12,6 +12,7 @@ import { Pagination } from '../../common/Pagination';
 import { ItemPerPage } from '../../common/ItemPerPage';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
 import { callActionForRepositoryRunsForPagination } from '../RepositoryDetail/useService';
+import { Run } from '../../../../api/types';
 interface filterValue {
   label: string;
   type: string;
@@ -68,7 +69,7 @@ export const RunsTable: React.FC<{
   );
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
-  const openDetailPage = (run: TRun) => {
+  const openDetailPage = (run: Run) => {
     setSelectedRunIds([]);
     if (id) {
       history.push(

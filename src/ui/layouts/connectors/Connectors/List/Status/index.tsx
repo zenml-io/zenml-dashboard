@@ -9,7 +9,7 @@ import {
   If,
 } from '../../../../../components';
 import { useService } from './useService';
-import { ServiceConnector } from '../../../../../../api/types';
+import { Run, ServiceConnector } from '../../../../../../api/types';
 
 export const Status: React.FC<{ connector: ServiceConnector }> = ({
   connector,
@@ -18,7 +18,7 @@ export const Status: React.FC<{ connector: ServiceConnector }> = ({
 
   return (
     <FlexBox alignItems="center">
-      {lastThreeRuns.map((run: TRun, index: number) => (
+      {lastThreeRuns.map((run: Run, index: number) => (
         <Box key={index} paddingHorizontal="xs">
           <>
             <If condition={run.status === runStatus.Succeeded}>

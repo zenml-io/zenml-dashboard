@@ -1,5 +1,5 @@
+import { Run } from '../../../../../api/types';
 import {
-  stackPagesSelectors,
   runSelectors,
   runPagesSelectors,
 } from '../../../../../redux/selectors';
@@ -15,7 +15,7 @@ export const useService = (): ServiceInterface => {
 
   const runs = useSelector(runSelectors.myRuns);
 
-  const runIds = runs.map((run: TRun) => run.id);
+  const runIds = runs.map((run: Run) => run.id);
 
   return {
     fetching,

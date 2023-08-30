@@ -6,9 +6,10 @@ import { useSelector } from 'react-redux';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { Link } from 'react-router-dom';
 import { routePaths } from '../../../../routes/routePaths';
+import { Run } from '../../../../api/types';
 
 interface CodeCardProps {
-  run: TRun;
+  run: Run;
 }
 
 const CodeCard = ({ run }: CodeCardProps) => {

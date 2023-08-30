@@ -20,5 +20,8 @@ export type ServiceConnectorTypes = components['schemas']['ServiceConnectorTypeM
 //secrets
 export type Secret = components['schemas']['SecretResponseModel'];
 
+//runs
+export type Run = components['schemas']['PipelineRunResponseModel'];
+
 // //Repository
 // export type CodeRepository = components['schemas']['CodeRepositoryResponseModel'];

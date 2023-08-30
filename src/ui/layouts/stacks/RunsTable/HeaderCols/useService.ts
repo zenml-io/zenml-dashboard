@@ -2,21 +2,19 @@ import { useDispatch, useSelector } from 'react-redux';
 import { stackPagesActions } from '../../../../../redux/actions';
 import { stackPagesSelectors } from '../../../../../redux/selectors';
 import { Sorting, SortingDirection } from '../types';
+import { Run } from '../../../../../api/types';
 
 export type SortMethod = (
   sorting: Sorting,
-  {
-    asc,
-    desc,
-  }: { asc: (runs: TRun[]) => TRun[]; desc: (runs: TRun[]) => TRun[] },
+  { asc, desc }: { asc: (runs: Run[]) => Run[]; desc: (runs: Run[]) => Run[] },
 ) => void;
 
 interface ServiceInterface {
-  toggleSelectRun: (run: TRun) => void;
-  isRunSelected: (run: TRun) => boolean;
-  allRunsSelected: (runs: TRun[]) => boolean;
-  selectRuns: (runs: TRun[]) => void;
-  unselectRuns: (runs: TRun[]) => void;
+  toggleSelectRun: (run: Run) => void;
+  isRunSelected: (run: Run) => boolean;
+  allRunsSelected: (runs: Run[]) => boolean;
+  selectRuns: (runs: Run[]) => void;
+  unselectRuns: (runs: Run[]) => void;
   sortMethod: SortMethod;
 }
 
@@ -32,8 +30,8 @@ export const useService = ({
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (arg: SortingDirection | null) => void;
   setActiveSorting: (arg: Sorting | null) => void;
-  setRuns: (runs: TRun[]) => void;
-  runs: TRun[];
+  setRuns: (runs: Run[]) => void;
+  runs: Run[];
 }): ServiceInterface => {
   const dispatch = useDispatch();
 
@@ -43,7 +41,7 @@ export const useService = ({
 
   const selectedRunIds = useSelector(stackPagesSelectors.selectedRunIds);
 
-  const toggleSelectRun = (run: TRun): void => {
+  const toggleSelectRun = (run: Run): void => {
     if (selectedRunIds.indexOf(run.id) === -1) {
       setSelectedRunIds([...selectedRunIds, run.id]);
     } else {
@@ -51,16 +49,16 @@ export const useService = ({
     }
   };
 
-  const isRunSelected = (run: TRun): boolean => {
+  const isRunSelected = (run: Run): boolean => {
     return selectedRunIds.indexOf(run.id) !== -1;
   };
 
-  const selectRuns = (runs: TRun[]): void => {
-    setSelectedRunIds([...selectedRunIds, ...runs.map((run: TRun) => run.id)]);
+  const selectRuns = (runs: Run[]): void => {
+    setSelectedRunIds([...selectedRunIds, ...runs.map((run: Run) => run.id)]);
   };
 
-  const unselectRuns = (runs: TRun[]): void => {
-    const runIdsToUnselect = runs.map((run: TRun) => run.id);
+  const unselectRuns = (runs: Run[]): void => {
+    const runIdsToUnselect = runs.map((run: Run) => run.id);
 
     const newRunIds = selectedRunIds.filter(
       (id: TId) => !runIdsToUnselect.includes(id),
@@ -69,13 +67,13 @@ export const useService = ({
     setSelectedRunIds(newRunIds);
   };
 
-  const allRunsSelected = (runs: TRun[]): boolean => {
-    return runs.every((run: TRun) => isRunSelected(run));
+  const allRunsSelected = (runs: Run[]): boolean => {
+    return runs.every((run: Run) => isRunSelected(run));
   };
 
   const sortMethod = (
     sorting: Sorting,
-    sort?: { asc: (runs: TRun[]) => TRun[]; desc: (runs: TRun[]) => TRun[] },
+    sort?: { asc: (runs: Run[]) => Run[]; desc: (runs: Run[]) => Run[] },
   ) => () => {
     if (sorting === activeSorting) {
       if (!!activeSortingDirection && activeSortingDirection === 'ASC') {

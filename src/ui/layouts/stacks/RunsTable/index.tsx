@@ -12,6 +12,7 @@ import { Pagination } from '../../common/Pagination';
 import { ItemPerPage } from '../../common/ItemPerPage';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
 import { callActionForStackRunsForPagination } from '../StackDetail/useService';
+import { Run } from '../../../../api/types';
 interface filterValue {
   label: string;
   type: string;
@@ -66,7 +67,7 @@ export const RunsTable: React.FC<{
   );
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
-  const openDetailPage = (run: TRun) => {
+  const openDetailPage = (run: Run) => {
     setSelectedRunIds([]);
     if (id) {
       history.push(routePaths.stack.runs(selectedWorkspace, stackId));
@@ -75,7 +76,7 @@ export const RunsTable: React.FC<{
         routePaths.run.stack.statistics(
           selectedWorkspace,
           run.id,
-          run.stack.id,
+          run.stack?.id as string,
         ),
       );
     }

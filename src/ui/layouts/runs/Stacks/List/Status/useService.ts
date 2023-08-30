@@ -1,9 +1,10 @@
+import { Run } from '../../../../../../api/types';
 import { runSelectors } from '../../../../../../redux/selectors';
 import { getLastThreeRuns } from '../../../../../../utils';
 import { useSelector } from '../../../../../hooks';
 
 interface ServiceInterface {
-  lastThreeRuns: TRun[];
+  lastThreeRuns: Run[];
 }
 
 export const useService = ({ stack }: { stack: TStack }): ServiceInterface => {

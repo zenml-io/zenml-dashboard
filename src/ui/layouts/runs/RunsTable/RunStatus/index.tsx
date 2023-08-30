@@ -1,8 +1,9 @@
 import React from 'react';
 import { runStatus, iconColors, iconSizes } from '../../../../../constants';
 import { icons, If, FlexBox } from '../../../../components';
+import { Run } from '../../../../../api/types';
 
-export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
+export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
   return (
     <FlexBox justifyContent="center" style={{ marginLeft: '-24px' }}>
       <If condition={run.status === runStatus.COMPLETED}>
