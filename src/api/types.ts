@@ -1,3 +1,4 @@
+import { type } from 'os';
 import { components } from '../../schema';
 
 //Pipelines
@@ -16,5 +17,9 @@ export type StackComponent = components['schemas']['ComponentResponseModel'];
 export type ServiceConnector = components['schemas']['ServiceConnectorResponseModel'];
 
 export type ServiceConnectorTypes = components['schemas']['ServiceConnectorTypeModel'];
+
+//secrets
+export type Secret = components['schemas']['SecretResponseModel'];
+
 // //Repository
 // export type CodeRepository = components['schemas']['CodeRepositoryResponseModel'];

@@ -45,10 +45,12 @@ export const UpdateConfig: React.FC<{
     setInputFields(childStateRef.current as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [childStateRef]);
-  const valuesIntoArray = Object.entries(secret.values).map(([key, value]) => ({
-    key,
-    value,
-  }));
+  const valuesIntoArray = Object.entries(secret?.values || {}).map(
+    ([key, value]) => ({
+      key,
+      value,
+    }),
+  );
 
   if (state?.state?.secretId) {
     valuesIntoArray?.push({
@@ -221,7 +223,7 @@ export const UpdateConfig: React.FC<{
           label={'Scope'}
           labelColor="rgba(66, 66, 64, 0.5)"
           placeholder={'Choose a scope'}
-          value={scope}
+          value={scope as any}
           onChange={(value: any) => {
             setScope(value);
           }}
