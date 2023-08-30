@@ -2,6 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
+import { ServiceConnector } from '../types';
 
 const getconnectorByIdApi = ({
   authenticationToken,
@@ -9,7 +10,7 @@ const getconnectorByIdApi = ({
 }: {
   authenticationToken: string;
   connectorId: TId;
-}): Promise<TOrganization> =>
+}): Promise<ServiceConnector> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.Connectors.get(connectorId)),
     method: httpMethods.get,
