@@ -7,9 +7,10 @@ import { workspaceSelectors } from '../../../../redux/selectors';
 import { Paragraph } from '../../typographies';
 import { routePaths } from '../../../../routes/routePaths';
 import { formatDateToDisplay } from '../../../../utils';
+import { Run } from '../../../../api/types';
 
 interface GeneralInformationCardProps {
-  run: TRun;
+  run: Run;
 }
 
 const GeneralInformationCard = ({ run }: GeneralInformationCardProps) => {

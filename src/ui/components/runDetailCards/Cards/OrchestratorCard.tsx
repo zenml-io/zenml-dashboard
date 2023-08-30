@@ -2,9 +2,10 @@ import React from 'react';
 import DetailCard from '../DetailCard';
 import styles from '../index.module.scss';
 import { Paragraph } from '../../typographies';
+import { Run } from '../../../../api/types';
 
 interface OrchestratorCardProps {
-  run: TRun;
+  run: Run;
 }
 
 const OrchestratorCard = ({ run }: OrchestratorCardProps) => {

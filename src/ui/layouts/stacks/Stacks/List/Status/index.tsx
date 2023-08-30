@@ -9,14 +9,14 @@ import {
   If,
 } from '../../../../../components';
 import { useService } from './useService';
-import { Stack } from '../../../../../../api/types';
+import { Run, Stack } from '../../../../../../api/types';
 
 export const Status: React.FC<{ stack: Stack }> = ({ stack }) => {
   const { lastThreeRuns } = useService({ stack });
 
   return (
     <FlexBox alignItems="center">
-      {lastThreeRuns.map((run: TRun, index: number) => (
+      {lastThreeRuns.map((run: Run, index: number) => (
         <Box key={index} paddingHorizontal="xs">
           <>
             <If condition={run.status === runStatus.Succeeded}>

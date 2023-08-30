@@ -1,6 +1,7 @@
 /* eslint-disable */
 
 import { useState, useEffect } from 'react';
+import { Run } from '../../../../api/types';
 
 interface ServiceInterface {
   endDate: Date | null;

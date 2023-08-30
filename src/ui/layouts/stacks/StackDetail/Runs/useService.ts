@@ -5,6 +5,7 @@ import {
   runSelectors,
   runPagesSelectors,
 } from '../../../../../redux/selectors';
+import { Run } from '../../../../../api/types';
 
 interface ServiceInterface {
   fetching: boolean;
@@ -33,7 +34,7 @@ export const useService = ({
 }): ServiceInterface => {
   const dispatch = useDispatch();
   const fetching = useSelector(runPagesSelectors.fetching);
-  const runs: TRun[] = useSelector(runSelectors.runsForStackId(stackId));
+  const runs: Run[] = useSelector(runSelectors.runsForStackId(stackId));
   const runsPaginated = useSelector(runSelectors.myRunsPaginated);
   const isValidFilter = filter?.map((f) => f.value).join('');
   useEffect(() => {}, [runs]);
@@ -58,7 +59,7 @@ export const useService = ({
     //This is important
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stackId, runsPaginated]);
-  const runIds = runs.map((run: TRun) => run.id);
+  const runIds = runs.map((run: Run) => run.id);
 
   return { fetching, runIds, runsPaginated };
 };

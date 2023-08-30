@@ -7,8 +7,9 @@ import {
   If,
   Tooltip,
 } from '../../../../components';
+import { Run } from '../../../../../api/types';
 
-export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
+export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
   return (
     <>
       <FlexBox alignItems="center">
