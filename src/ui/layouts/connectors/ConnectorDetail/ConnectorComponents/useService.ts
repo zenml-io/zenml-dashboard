@@ -12,6 +12,7 @@ import {
 
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { GetFlavorsListForLogo } from './GetFlavorsListForLogo';
+import { ServiceConnector } from '../../../../../api/types';
 
 interface ServiceInterface {
   openConnectorIds: TId[];
@@ -84,7 +85,7 @@ export const useService = ({
       return item;
     });
 
-    setFilteredConnectors(mappedConnectorComponent as TStack[]);
+    setFilteredConnectors(mappedConnectorComponent as ServiceConnector[]);
   }, [connectorComponent, filter, flavourList]);
 
   useEffect(() => {

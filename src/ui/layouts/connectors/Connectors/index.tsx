@@ -39,7 +39,7 @@ const FilterWrapper = () => {
   );
 };
 
-export const Stacks: React.FC = () => {
+export const Connectors: React.FC = () => {
   // eslint-disable-next-line no-empty-pattern
   const {} = useService();
 
@@ -66,4 +66,4 @@ export const Stacks: React.FC = () => {
   );
 };
 
-export default Stacks;
+export default Connectors;

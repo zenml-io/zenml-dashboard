@@ -1,17 +1,14 @@
+import { Secret } from '../../api/types';
 import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
 import { secretActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 
 export interface State {
   ids: TId[];
-  byId: Record<TId, any>;
+  byId: Record<TId, Secret>;
   mySecretIds: TId[];
   paginated: any;
 }
-
-type SecretsPayload = any[];
-
-type SecretPayload = any;
 
 export type Action = {
   type: string;
@@ -25,10 +22,14 @@ export const initialState: State = {
   paginated: {},
 };
 
-const newState = (state: State, stacks: any[], pagination?: any): State => ({
+const newState = (
+  state: State,
+  secrets: Secret[],
+  pagination?: any,
+): State => ({
   ...state,
-  ids: idsInsert(state.ids, stacks),
-  byId: byKeyInsert(state.byId, stacks),
+  ids: idsInsert(state.ids, secrets),
+  byId: byKeyInsert(state.byId, secrets),
   paginated: {
     page: pagination?.index,
     size: pagination?.max_size,
@@ -40,17 +41,15 @@ const newState = (state: State, stacks: any[], pagination?: any): State => ({
 const secretsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case secretActionTypes.getMySecrets.success: {
-      const secrets: any[] = camelCaseArray(
-        action.payload.items as SecretsPayload,
-      );
+      const secrets: Secret[] = camelCaseArray(action.payload.items);
 
-      const mySecretIds: TId[] = secrets.map((stack: any) => stack.id);
+      const mySecretIds: TId[] = secrets.map((secret: Secret) => secret.id);
 
       return { ...newState(state, secrets, action.payload), mySecretIds };
     }
 
     case secretActionTypes.getSecretForId.success: {
-      const payload: SecretPayload = action.payload;
+      const payload: Secret = action.payload;
 
       const secret = camelCaseObject(payload);
 

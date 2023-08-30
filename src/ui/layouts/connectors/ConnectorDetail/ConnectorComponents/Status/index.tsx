@@ -1,6 +1,6 @@
 import React from 'react';
 import { runStatus, iconColors, iconSizes } from '../../../../../../constants';
-
+import { ServiceConnector } from '../../../../../../api/types';
 import {
   Box,
   ColoredCircle,
@@ -10,8 +10,10 @@ import {
 } from '../../../../../components';
 import { useService } from './useService';
 
-export const Status: React.FC<{ stack: TStack }> = ({ stack }) => {
-  const { lastThreeRuns } = useService({ stack });
+export const Status: React.FC<{ connector: ServiceConnector }> = ({
+  connector,
+}) => {
+  const { lastThreeRuns } = useService({ connector });
 
   return (
     <FlexBox alignItems="center">
