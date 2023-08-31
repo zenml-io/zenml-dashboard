@@ -1,16 +1,22 @@
 import React from 'react';
-
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-
 import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import { FlexBox, Paragraph, icons, Tooltip } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../../RunsTable/RunStatus';
-
-// import { useService } from './useService';
 import { workspaceSelectors } from '../../../../../redux/selectors';
+
+const HeaderText = ({ text, margin }: { text: string, margin?: string }) => (
+  <Paragraph
+  size="small"
+  color="black"
+  style={{ fontSize: '14px', marginLeft: margin }}
+>
+  {text}
+</Paragraph>
+)
 
 export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
   const history = useHistory();
@@ -19,13 +25,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
   return [
     {
       render: () => (
-        <Paragraph
-          size="small"
-          color="black"
-          style={{ fontSize: '14px', marginLeft: '33px' }}
-        >
-          RUN ID
-        </Paragraph>
+        <HeaderText text='RUN ID' margin='33px' />
       ),
       width: '20%',
       renderRow: (run: TRun) => (
@@ -45,9 +45,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          RUN NAME
-        </Paragraph>
+        <HeaderText text='RUN NAME' />
       ),
       width: '30%',
       renderRow: (run: TRun) => (
@@ -61,9 +59,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          PIPELINE
-        </Paragraph>
+              <HeaderText text='PIPELINE'/>
       ),
       width: '7.5%',
       renderRow: (run: TRun) => (
@@ -114,12 +110,9 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
       width: '7.5%',
       renderRow: (run: TRun) => <RunStatus run={run} />,
     },
-
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          STACK NAME
-        </Paragraph>
+        <HeaderText text='STACK NAME'/>
       ),
       width: '7.5%',
       renderRow: (run: TRun) => (
@@ -149,12 +142,9 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
         </FlexBox>
       ),
     },
-
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          AUTHOR
-        </Paragraph>
+        <HeaderText text='AUTHOR' />
       ),
       width: '7.5%',
       renderRow: (run: TRun) => {
@@ -186,9 +176,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     },
     {
       render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          CREATED AT
-        </Paragraph>
+        <HeaderText text='CREATED AT' />
       ),
       width: '20%',
       renderRow: (run: TRun) => (

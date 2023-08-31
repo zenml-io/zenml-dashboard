@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { Box } from '../../../../../components';
-
 import { useService } from './useService';
 import { Pipeline } from '../../../../../../api/types';
 

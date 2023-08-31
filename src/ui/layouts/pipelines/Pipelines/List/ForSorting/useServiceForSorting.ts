@@ -3,6 +3,7 @@ import { stackPagesActions } from '../../../../../../redux/actions';
 import { stackPagesSelectors } from '../../../../../../redux/selectors';
 import { Sorting, SortingDirection } from './types';
 import { Pipeline } from '../../../../../../api/types';
+
 export type SortMethod = (
   sorting: Sorting,
   {
@@ -24,23 +25,15 @@ interface ServiceInterface {
 }
 
 export const useService = ({
-  openPipelineIds,
-  setOpenPipelineIds,
   activeSorting,
   activeSortingDirection,
   setActiveSortingDirection,
   setActiveSorting,
-  setFilteredPipelines,
-  filteredPipelines,
 }: {
-  openPipelineIds: TId[];
-  setOpenPipelineIds: (ids: TId[]) => void;
   activeSorting: Sorting | null;
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (arg: SortingDirection | null) => void;
   setActiveSorting: (arg: Sorting | null) => void;
-  setFilteredPipelines: (pipelines: Pipeline[]) => void;
-  filteredPipelines: Pipeline[];
 }): ServiceInterface => {
   const dispatch = useDispatch();
 

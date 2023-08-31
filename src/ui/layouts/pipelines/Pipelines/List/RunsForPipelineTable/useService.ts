@@ -1,6 +1,7 @@
 import { runSelectors } from '../../../../../../redux/selectors';
 import { useSelector } from '../../../../../hooks';
 import { Pipeline } from '../../../../../../api/types';
+
 interface ServiceInterface {
   runIds: TId[];
   isPipelineOpen: () => boolean;

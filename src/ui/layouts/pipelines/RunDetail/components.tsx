@@ -8,7 +8,6 @@ import {
   FlexBox,
   Tooltip,
 } from '../../../components';
-
 import styles from './components.module.scss';
 
 export const KeyValue: React.FC<{ label: string; width: string }> = ({

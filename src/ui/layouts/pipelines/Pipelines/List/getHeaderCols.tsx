@@ -2,10 +2,8 @@ import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 import {
-  // Box,
   FlexBox,
   icons,
-  // LinkBox,
   Paragraph,
   Tooltip,
 } from '../../../../components';
@@ -16,6 +14,16 @@ import { Status } from './Status';
 import { useService } from './ForSorting/useServiceForSorting';
 import _ from 'lodash';
 import { Pipeline } from '../../../../../api/types';
+
+const HeaderText = ({ text, margin }: { text: string, margin?: string }) => (
+  <Paragraph
+  size="small"
+  color="black"
+  style={{ fontSize: '14px', marginLeft: margin }}
+>
+  {text}
+</Paragraph>
+)
 
 export const GetHeaderCols = ({
   expendedRow,
@@ -66,13 +74,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph
-            size="small"
-            color="black"
-            style={{ fontSize: '14px', marginLeft: '33px' }}
-          >
-            ID
-          </Paragraph>
+          <HeaderText text='ID' margin='33px' />
         </SortingHeader>
       ),
       width: '20%',
@@ -113,9 +115,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            NAME
-          </Paragraph>
+          <HeaderText text='NAME' />
         </SortingHeader>
       ),
       width: '30%',
@@ -131,13 +131,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-          <Paragraph
-            size="small"
-            color="black"
-            style={{ fontSize: '14px', marginLeft: '-24px' }}
-          >
-            STATUS
-          </Paragraph>
+          <HeaderText text='STATUS' margin='-24px' />
         </div>
       ),
       width: '10%',
@@ -159,9 +153,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            VERSION
-          </Paragraph>
+          <HeaderText text='VERSION' />
         </SortingHeader>
       ),
       width: '10%',
@@ -169,7 +161,6 @@ export const GetHeaderCols = ({
         <Paragraph size="small">{pipeline?.version}</Paragraph>
       ),
     },
-
     {
       render: () => (
         <SortingHeader
@@ -186,9 +177,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            AUTHOR
-          </Paragraph>
+          <HeaderText text='AUTHOR' />
         </SortingHeader>
       ),
       width: '10%',
@@ -251,9 +240,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            CREATED AT
-          </Paragraph>
+          <HeaderText text='CREATED AT' />
         </SortingHeader>
       ),
       width: '20%',

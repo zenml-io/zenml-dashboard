@@ -7,9 +7,9 @@ import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
 import { pipelinePagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
-
 import { filterObjectForParam } from '../../../../utils';
 import { Pipeline } from '../../../../api/types';
+
 interface ServiceInterface {
   pipeline: Pipeline;
 }
