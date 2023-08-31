@@ -6,9 +6,10 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { useSelector } from 'react-redux';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 import { Link } from 'react-router-dom';
+import { Repository } from '../../../../../api/types';
 
 interface RepositoryCardProps {
-  repository: TRepository;
+  repository: Repository;
 }
 
 function RepositoryCard({ repository }: RepositoryCardProps) {
@@ -27,7 +28,7 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
         <h2 className={styles.repositoryCard__heading}>{repository.name}</h2>
         <div className={styles.repositoryCard__secondLine}>
           <p className={styles.repositoryCard__secondLine__description}>
-            {repository.user.name}
+            {repository.user?.name}
           </p>
           <p className={styles.repositoryCard__secondLine__description}>
             {moment(repository.created).fromNow()}

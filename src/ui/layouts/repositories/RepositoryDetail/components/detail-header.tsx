@@ -3,9 +3,10 @@ import styles from './detail-header.module.scss';
 import moment from 'moment';
 import Fallback from '../../../../assets/plugin-fallback.svg';
 import { ReactComponent as ArrowSquareOut } from '../../../../components/icons/assets/ArrowSquareOut.svg';
+import { Repository } from '../../../../../api/types';
 
 interface RepositoryDetailHeaderProps {
-  repository: TRepository;
+  repository: Repository;
 }
 
 function RepositoryDetailHeader({ repository }: RepositoryDetailHeaderProps) {
