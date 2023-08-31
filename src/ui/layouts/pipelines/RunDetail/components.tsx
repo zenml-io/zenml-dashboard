@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from '../../../components';
 import styles from './components.module.scss';
+import { Run } from '../../../../api/types';
 
 export const KeyValue: React.FC<{ label: string; width: string }> = ({
   label,
@@ -30,7 +31,7 @@ export const KeyValue: React.FC<{ label: string; width: string }> = ({
   </Box>
 );
 
-export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
+export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
   if (run.status === runStatus.Running) return null;
 
   return (

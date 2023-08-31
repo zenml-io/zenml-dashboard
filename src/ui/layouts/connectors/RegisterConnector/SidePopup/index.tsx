@@ -13,12 +13,13 @@ import {
 } from '../../../../components';
 import ReactMarkdown from 'react-markdown';
 import styles from './index.module.scss';
+import { Flavor } from '../../../../../api/types';
 
 export const SidePopup: React.FC<{
   data: any;
   onClose: () => void;
   action: any;
-  flavor?: any;
+  flavor?: Flavor;
   disabled?: boolean;
   verifying?: boolean;
 }> = ({ data, children, action, verifying, flavor, onClose, disabled }) => {
@@ -57,8 +58,8 @@ export const SidePopup: React.FC<{
 
             <Box marginTop="lg">
               <H3>Resource Types</H3>
-              {data?.resourceTypes?.map((resourceType: any) => (
-                <Box marginTop="md">
+              {data?.resourceTypes?.map((resourceType: any, index: number) => (
+                <Box marginTop="md" key={index}>
                   <H4 style={{ fontWeight: 'bold' }}>{resourceType?.name}</H4>
                   <Paragraph>
                     <ReactMarkdown>{resourceType?.description}</ReactMarkdown>
@@ -69,8 +70,8 @@ export const SidePopup: React.FC<{
 
             <Box marginTop="lg">
               <H3>Authentication Methods</H3>
-              {data?.authMethods?.map((authMethod: any) => (
-                <Box marginTop="md">
+              {data?.authMethods?.map((authMethod: any, index: number) => (
+                <Box marginTop="md" key={index}>
                   <H4 style={{ fontWeight: 'bold' }}>{authMethod?.name}</H4>
                   <Paragraph>
                     <ReactMarkdown>{authMethod?.description}</ReactMarkdown>

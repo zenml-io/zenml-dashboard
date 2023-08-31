@@ -4,28 +4,29 @@ import { Selector } from 'reselect';
 import { State } from '../reducers/flavorsReducer';
 import { createSelector } from './createSelector';
 import { extractItemFromById } from './utils';
+import { Flavor } from '../../api/types';
 
 const stateKey = (state: State): State =>
   _.get(state, 'persisted.flavors') || {};
 
-const getById = (state: State): Record<TId, TStack> =>
+const getById = (state: State): Record<TId, Flavor> =>
   _.get(stateKey(state), 'byId');
 
 const getMyflavorIds = (state: State): TId[] =>
   _.get(stateKey(state), 'myflavorIds');
 
-const getStackComponentTypes = (state: State): TId[] =>
-  _.get(stateKey(state), 'stackComponentTypes');
+const getFlavorTypes = (state: State): TId[] =>
+  _.get(stateKey(state), 'getFlavorTypes');
 
 const getMyFlavorsPaginated = (state: State): any =>
   _.get(stateKey(state), 'paginated');
 
-export const myFlavorsAll = (state?: State | null): TStack[] => {
+export const myFlavorsAll = (state?: State | null): Flavor[] => {
   if (!state) return [];
   const myflavorIds = getMyflavorIds(state);
   const byId = getById(state);
 
-  return (myflavorIds || []).reduce((current: TStack[], id: TId) => {
+  return (myflavorIds || []).reduce((current: Flavor[], id: TId) => {
     const flavor = byId[id];
 
     if (flavor) {
@@ -33,12 +34,12 @@ export const myFlavorsAll = (state?: State | null): TStack[] => {
     }
 
     return current;
-  }, [] as TStack[]);
+  }, [] as Flavor[]);
 };
 export const myFlavorByType = (state?: State | null) => {
   if (!state) return [];
-  const stackComponentTypes = getStackComponentTypes(state);
-  return stackComponentTypes;
+  const flavorTyps = getFlavorTypes(state);
+  return flavorTyps;
 };
 export const myFlavorsPaginated = (state?: State | null): any => {
   if (!state) return {};
@@ -47,7 +48,7 @@ export const myFlavorsPaginated = (state?: State | null): any => {
   return paginated;
 };
 
-export const flavorForId = (id: TId): Selector<any, any> =>
+export const flavorForId = (id: TId): Selector<any, Flavor> =>
   createSelector(getById, extractItemFromById(id));
 
 const flavorSelectors = {

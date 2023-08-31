@@ -7,6 +7,7 @@ import { FlexBox, Paragraph, icons, Tooltip } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../../RunsTable/RunStatus';
 import { workspaceSelectors } from '../../../../../redux/selectors';
+import { Run } from '../../../../../api/types';
 
 const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
   <Paragraph
@@ -26,7 +27,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     {
       render: () => <HeaderText text="RUN ID" margin="33px" />,
       width: '20%',
-      renderRow: (run: TRun) => (
+      renderRow: (run: Run) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={run.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
@@ -44,7 +45,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     {
       render: () => <HeaderText text="RUN NAME" />,
       width: '30%',
-      renderRow: (run: TRun) => (
+      renderRow: (run: Run) => (
         <div style={{ alignItems: 'center' }}>
           <div data-tip data-for={run.name}>
             <Paragraph size="small">{run.name}</Paragraph>
@@ -56,7 +57,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     {
       render: () => <HeaderText text="PIPELINE" />,
       width: '7.5%',
-      renderRow: (run: TRun) => (
+      renderRow: (run: Run) => (
         <FlexBox alignItems="center">
           <div
             data-tip
@@ -73,7 +74,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
                 event.stopPropagation();
                 history.push(
                   routePaths.pipeline.configuration(
-                    run?.pipeline?.id,
+                    run?.pipeline?.id as string,
                     selectedWorkspace,
                   ),
                 );
@@ -102,14 +103,14 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
         </div>
       ),
       width: '7.5%',
-      renderRow: (run: TRun) => <RunStatus run={run} />,
+      renderRow: (run: Run) => <RunStatus run={run} />,
     },
     {
       render: () => <HeaderText text="STACK NAME" />,
       width: '7.5%',
-      renderRow: (run: TRun) => (
+      renderRow: (run: Run) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run.stack.name}>
+          <div data-tip data-for={run.stack?.name}>
             <Paragraph
               size="small"
               style={{
@@ -121,23 +122,23 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
                 event.stopPropagation();
                 history.push(
                   routePaths.stack.configuration(
-                    run?.stack?.id,
+                    run?.stack?.id as string,
                     selectedWorkspace,
                   ),
                 );
               }}
             >
-              {run.stack.name}
+              {run.stack?.name}
             </Paragraph>
           </div>
-          <Tooltip id={run.stack.name} text={run.stack.name} />
+          <Tooltip id={run.stack?.name} text={run.stack?.name} />
         </FlexBox>
       ),
     },
     {
       render: () => <HeaderText text="AUTHOR" />,
       width: '7.5%',
-      renderRow: (run: TRun) => {
+      renderRow: (run: Run) => {
         return (
           <FlexBox alignItems="center">
             <div
@@ -167,7 +168,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
     {
       render: () => <HeaderText text="CREATED AT" />,
       width: '20%',
-      renderRow: (run: TRun) => (
+      renderRow: (run: Run) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(run.created)}>
             <FlexBox alignItems="center">

@@ -1,9 +1,9 @@
 import { useSelector } from 'react-redux';
 import {
-  stackPagesSelectors,
   runSelectors,
   runPagesSelectors,
 } from '../../../../../redux/selectors';
+import { Run } from '../../../../../api/types';
 
 interface ServiceInterface {
   fetching: boolean;
@@ -12,9 +12,9 @@ interface ServiceInterface {
 
 export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
   const fetching = useSelector(runPagesSelectors.fetching);
-  const runs: TRun[] = useSelector(runSelectors.runsForStackId(stackId));
+  const runs: Run[] = useSelector(runSelectors.runsForStackId(stackId));
 
-  const runIds = runs.map((run: TRun) => run.id);
+  const runIds = runs.map((run: Run) => run.id);
 
   return { fetching, runIds };
 };

@@ -14,6 +14,7 @@ import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
+import { Secret } from '../../../../api/types';
 
 const getTabPages = (
   secretId: TId,
@@ -59,7 +60,7 @@ export interface SecretDetailRouteParams {
 export const StackDetail: React.FC = () => {
   const { secret } = useService();
   const location = useLocation();
-  const filteredSecret: any = [];
+  const filteredSecret: Secret[] = [];
   filteredSecret.push(secret);
   const history = useHistory();
   const [routeState, setRouteState] = useState({}) as any;
@@ -77,7 +78,7 @@ export const StackDetail: React.FC = () => {
     filteredSecret,
   });
 
-  const openDetailPage = (secret: any) => {
+  const openDetailPage = (secret: Secret) => {
     history.push(routePaths.secrets.list(selectedWorkspace));
   };
   return (
@@ -92,7 +93,7 @@ export const StackDetail: React.FC = () => {
       <Box marginTop="lg" style={{ overflowX: 'auto' }}>
         <CollapseTable
           pagination={false}
-          renderAfterRow={(secret: any) => <></>}
+          renderAfterRow={(secret: Secret) => <></>}
           headerCols={headerCols}
           tableRows={filteredSecret}
           emptyState={{ text: translate('emptyState.text') }}

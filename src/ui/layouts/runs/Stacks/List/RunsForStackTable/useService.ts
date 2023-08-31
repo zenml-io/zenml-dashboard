@@ -1,3 +1,4 @@
+import { Run } from '../../../../../../api/types';
 import { runSelectors } from '../../../../../../redux/selectors';
 import { useSelector } from '../../../../../hooks';
 
@@ -15,7 +16,7 @@ export const useService = ({
 }): ServiceInterface => {
   const runs = useSelector(runSelectors.runsForPipelineId(stack.id));
 
-  const runIds = runs.map((run: TRun) => run.id);
+  const runIds = runs.map((run: Run) => run.id);
 
   return {
     runIds,

@@ -2,7 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
-
+import { Flavor } from '../types';
 const getFlavorTypeApi = ({
   authenticationToken,
   type,
@@ -17,7 +17,7 @@ const getFlavorTypeApi = ({
   name?: string;
   sort_by?: string;
   authenticationToken: string;
-}): Promise<TStack> =>
+}): Promise<Flavor> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.flavors.type),
     params: { type, page, size, name, sort_by },

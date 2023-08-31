@@ -12,13 +12,14 @@ import {
 } from '../../../../../redux/selectors';
 
 import { Sorting, SortingDirection } from './ForSorting/types';
+import { Secret } from '../../../../../api/types';
 
 interface ServiceInterface {
   openSecretIds: TId[];
   setOpenSecretIds: (ids: TId[]) => void;
   fetching: boolean;
-  setFilteredSecrets: (secrets: any[]) => void;
-  filteredSecrets: any[];
+  setFilteredSecrets: (secrets: Secret[]) => void;
+  filteredSecrets: Secret[];
   activeSorting: Sorting | null;
   setActiveSorting: (arg: Sorting | null) => void;
   activeSortingDirection: SortingDirection | null;
@@ -52,7 +53,7 @@ export const useService = ({
   const dispatch = useDispatch();
 
   const [openSecretIds, setOpenSecretIds] = useState<TId[]>([]);
-  const [filteredSecrets, setFilteredSecrets] = useState<any[]>([]);
+  const [filteredSecrets, setFilteredSecrets] = useState<Secret[]>([]);
 
   const fetching = useSelector(secretPagesSelectors.fetching);
 
@@ -62,7 +63,7 @@ export const useService = ({
   const isValidFilter = filter.map((f) => f.value).join('');
 
   useEffect(() => {
-    setFilteredSecrets(secrets as any[]);
+    setFilteredSecrets(secrets as Secret[]);
   }, [secrets, filter]);
 
   useEffect(() => {
@@ -72,7 +73,7 @@ export const useService = ({
       const intervalId = setInterval(() => {
         dispatch(
           secretsActions.getMy({
-            sort_by: applySorting ? applySorting : 'created',
+            sort_by: applySorting !== 'created' ? applySorting : 'created',
             logical_operator: 'and',
             workspace: selectedWorkspace,
             page: secretsPaginated.page,

@@ -6,6 +6,7 @@ import {
   workspaceSelectors,
 } from '../../../../../redux/selectors';
 import { useDispatch, useSelector } from '../../../../hooks';
+import { Run } from '../../../../../api/types';
 
 interface ServiceInterface {
   fetching: boolean;
@@ -56,7 +57,7 @@ export const useService = ({
       return () => clearInterval(intervalId); //This is important
     }
   });
-  const runIds = runs.map((run: TRun) => run.id);
+  const runIds = runs.map((run: Run) => run.id);
 
   return {
     fetching,

@@ -6,7 +6,7 @@ import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { Tabs } from '../common/Tabs';
 import Header from './Header';
-import Stacks from './Connectors';
+import Connectors from './Connectors';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
@@ -74,4 +74,4 @@ export const BasePage: React.FC<{
   );
 };
 
-export default Stacks;
+export default Connectors;

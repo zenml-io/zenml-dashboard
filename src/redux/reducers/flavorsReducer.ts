@@ -1,18 +1,15 @@
 import { camelCaseArray } from '../../utils/camelCase';
 import { flavorActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
+import { Flavor } from '../../api/types';
 
 export interface State {
   ids: TId[];
-  byId: Record<TId, TStack>;
+  byId: Record<TId, Flavor>;
   myflavorIds: TId[];
   flavorByType: any[];
   paginated: any;
 }
-
-type FlavorsPayload = any[];
-
-type FlavorPayload = any;
 
 export type Action = {
   type: string;
@@ -27,7 +24,11 @@ export const initialState: State = {
   paginated: {},
 };
 
-const newState = (state: State, flavors: any[], pagination?: any): State => ({
+const newState = (
+  state: State,
+  flavors: Flavor[],
+  pagination?: any,
+): State => ({
   ...state,
   ids: idsInsert(state.ids, flavors),
   byId: byKeyInsert(state.byId, flavors),
@@ -42,11 +43,9 @@ const newState = (state: State, flavors: any[], pagination?: any): State => ({
 const flavorsReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
     case flavorActionTypes.getFlavorAll.success: {
-      const flavors: TStack[] = camelCaseArray(
-        action.payload.items as FlavorsPayload,
-      );
+      const flavors: Flavor[] = camelCaseArray(action.payload.items);
 
-      const myflavorIds: TId[] = flavors.map((stack: TStack) => stack.id);
+      const myflavorIds: TId[] = flavors.map((flavor: Flavor) => flavor.id);
 
       return {
         ...newState(state, flavors, action.payload),
@@ -54,11 +53,9 @@ const flavorsReducer = (state: State = initialState, action: Action): State => {
       };
     }
     case flavorActionTypes.getFlavorType.success: {
-      const flavors: TStack[] = camelCaseArray(
-        action.payload.items as FlavorsPayload,
-      );
+      const flavors: Flavor[] = camelCaseArray(action.payload.items);
 
-      const myflavorIds: TId[] = flavors.map((stack: TStack) => stack.id);
+      const myflavorIds: TId[] = flavors.map((flavor: Flavor) => flavor.id);
 
       return {
         ...newState(state, flavors, action.payload),

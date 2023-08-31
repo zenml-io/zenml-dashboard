@@ -6,6 +6,7 @@ import { Table } from '../../common/Table';
 
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
+import { Run } from '../../../../api/types';
 
 export const RunsTable: React.FC<{
   runIds: TId[];
@@ -25,9 +26,11 @@ export const RunsTable: React.FC<{
     setSelectedRunIds,
   } = useService({ runIds });
 
-  const openDetailPage = (run: TRun) => {
+  const openDetailPage = (run: Run) => {
     setSelectedRunIds([]);
-    history.push(routePaths.run.run.statistics(run.id, run.pipelineId));
+    history.push(
+      routePaths.run.run.statistics(run.id, run.pipeline?.id as string),
+    );
   };
 
   const headerCols = useHeaderCols({

@@ -3,10 +3,11 @@ import { createSelector, Selector } from 'reselect';
 
 import { State } from '../reducers/runsReducer';
 import { extractItemFromById } from './utils';
+import { Run } from '../../api/types';
 
 const stateKey = (state: State): State => _.get(state, 'persisted.runs') || {};
 
-const getById = (state: State): Record<TId, TRun> =>
+const getById = (state: State): Record<TId, Run> =>
   _.get(stateKey(state), 'byId');
 
 const getMyRunIds = (state: State): TId[] => _.get(stateKey(state), 'myRunIds');
@@ -37,12 +38,12 @@ const getMyArtifactVisualization = (state: State): any =>
 
 const getMyStepData = (state: State): any => _.get(stateKey(state), 'stepData');
 
-export const myRuns = (state?: State | null): TRun[] => {
+export const myRuns = (state?: State | null): Run[] => {
   if (!state) return [];
   const myRunIds = getMyRunIds(state);
   const byId = getById(state);
 
-  return (myRunIds || []).reduce((current: TRun[], id: TId) => {
+  return (myRunIds || []).reduce((current: Run[], id: TId) => {
     const run = byId[id];
 
     if (run) {
@@ -50,7 +51,7 @@ export const myRuns = (state?: State | null): TRun[] => {
     }
 
     return current;
-  }, [] as TRun[]);
+  }, [] as Run[]);
 };
 export const graphByRunId = (runId: TId | null | undefined) => (
   state?: State | null,
@@ -62,7 +63,7 @@ export const graphByRunId = (runId: TId | null | undefined) => (
 };
 export const runsForPipelineId = (pipelineId: TId | null | undefined) => (
   state?: State | null,
-): TRun[] => {
+): Run[] => {
   if (!state || !pipelineId) return [];
   const byPipelineId = getByPipelineId(state);
   const byId = getById(state);
@@ -72,7 +73,7 @@ export const runsForPipelineId = (pipelineId: TId | null | undefined) => (
 };
 export const runsForStackComponentId = (
   stackComponentId: TId | null | undefined,
-) => (state?: State | null): TRun[] => {
+) => (state?: State | null): Run[] => {
   if (!state || !stackComponentId) return [];
   const byStackComponentId = getByStackComponentId(state);
   const byId = getById(state);
@@ -83,7 +84,7 @@ export const runsForStackComponentId = (
 
 export const runsForRepositoryId = (repositoryId: TId | null | undefined) => (
   state?: State | null,
-): TRun[] => {
+): Run[] => {
   if (!state || !repositoryId) return [];
   const byRepositoryId = getByRepositoryId(state) || {};
   const byId = getById(state);
@@ -93,7 +94,7 @@ export const runsForRepositoryId = (repositoryId: TId | null | undefined) => (
 
 export const runsForStackId = (stackId: TId | null | undefined) => (
   state?: State | null,
-): TRun[] => {
+): Run[] => {
   if (!state || !stackId) return [];
   const byStackId = getByStackId(state);
   const byId = getById(state);
@@ -102,10 +103,10 @@ export const runsForStackId = (stackId: TId | null | undefined) => (
   return byStackId[stackId].map((id: TId) => byId[id]);
 };
 
-export const runForId = (runId: TId): Selector<any, TRun> =>
+export const runForId = (runId: TId): Selector<any, Run> =>
   createSelector(getById, extractItemFromById(runId));
 
-export const forRunIds = (runIds: TId[]) => (state?: State | null): TRun[] => {
+export const forRunIds = (runIds: TId[]) => (state?: State | null): Run[] => {
   if (!state || !runIds) return [];
   const byId = getById(state);
 

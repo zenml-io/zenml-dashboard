@@ -45,13 +45,15 @@ export const UpdateConfig: React.FC<{
     setInputFields(childStateRef.current as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [childStateRef]);
-  const valuesIntoArray = Object.entries(secret.values).map(([key, value]) => ({
-    key,
-    value,
-  }));
+  const valuesIntoArray = Object.entries(secret?.values || {}).map(
+    ([key, value]) => ({
+      key,
+      value,
+    }),
+  );
 
   if (state?.state?.secretId) {
-    valuesIntoArray?.push({
+    valuesIntoArray.push({
       key: state?.state?.secretKey,
       value: state?.state?.inputData
         ? state?.state?.inputData[state?.state?.secretKey]
@@ -191,9 +193,7 @@ export const UpdateConfig: React.FC<{
         } else {
           dispatch(
             showToasterAction({
-              description: err?.response?.data?.detail[0].includes('Exists')
-                ? `Secret name already exists.`
-                : err?.response?.data?.detail[0],
+              description: err?.response?.data?.detail[0],
               type: toasterTypes.failure,
             }),
           );
@@ -221,7 +221,7 @@ export const UpdateConfig: React.FC<{
           label={'Scope'}
           labelColor="rgba(66, 66, 64, 0.5)"
           placeholder={'Choose a scope'}
-          value={scope}
+          value={scope as any}
           onChange={(value: any) => {
             setScope(value);
           }}

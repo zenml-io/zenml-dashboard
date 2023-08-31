@@ -9,10 +9,11 @@ import { useDispatch, useSelector } from '../../../hooks';
 import { runSelectors } from '../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../utils/tableFilters';
 import { source } from '../../../../api/fetchApi';
+import { Run } from '../../../../api/types';
 
 interface ServiceInterface {
-  sortedRuns: TRun[];
-  setSortedRuns: (runs: TRun[]) => void;
+  sortedRuns: Run[];
+  setSortedRuns: (runs: Run[]) => void;
   activeSorting: Sorting | null;
   setActiveSorting: (arg: Sorting | null) => void;
   activeSortingDirection: SortingDirection | null;
@@ -44,12 +45,12 @@ export const useService = ({
     activeSortingDirection,
     setActiveSortingDirection,
   ] = React.useState<SortingDirection | null>('DESC');
-  const [sortedRuns, setSortedRuns] = React.useState<TRun[]>([]);
+  const [sortedRuns, setSortedRuns] = React.useState<Run[]>([]);
 
   const runs = useSelector(runSelectors.forRunIds(runIds));
 
   useEffect(() => {
-    setSortedRuns(runs as TRun[]);
+    setSortedRuns(runs as Run[]);
   }, [filter, runIds]);
   useEffect(() => {
     return () => {
