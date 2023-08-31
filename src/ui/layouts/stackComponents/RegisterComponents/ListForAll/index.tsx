@@ -87,14 +87,14 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
           <>
             <FlexBox>
               <Row>
-                {allFlavors.map((item, index) => {
+                {allFlavors.map((item: any, index) => {
                   return (
                     <Row key={index} style={{ marginLeft: '15px' }}>
                       <Box marginVertical={'sm'} marginHorizontal={'md'}>
                         <CustomFlavourBox
-                          flavourDesc={item.configSchema.description}
-                          flavourName={item.name}
-                          logoUrl={item.logoUrl}
+                          flavourDesc={item?.configSchema?.description}
+                          flavourName={item?.name}
+                          logoUrl={item?.logoUrl}
                           onSelectFlavor={() => onSelectFlavor(item)}
                         />
                       </Box>

@@ -15,6 +15,7 @@ import { Sorting, SortingDirection } from './ForSorting/types';
 import { Status } from './Status';
 import { useService } from './ForSorting/useServiceForSorting';
 import _ from 'lodash';
+import { Pipeline } from '../../../../../api/types';
 
 export const GetHeaderCols = ({
   expendedRow,
@@ -30,8 +31,8 @@ export const GetHeaderCols = ({
   expendedRow?: any;
   openPipelineIds: TId[];
   setOpenPipelineIds: (ids: TId[]) => void;
-  filteredPipelines: TPipeline[];
-  setFilteredPipelines: (pipelines: TPipeline[]) => void;
+  filteredPipelines: Pipeline[];
+  setFilteredPipelines: (pipelines: Pipeline[]) => void;
   activeSorting: Sorting | null;
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
@@ -57,9 +58,9 @@ export const GetHeaderCols = ({
           }
           sorting="id"
           sortMethod={sortMethod('id', {
-            asc: (filteredPipelines: TPipeline[]) =>
+            asc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(filteredPipelines, ['id'], ['asc']),
-            desc: (filteredPipelines: TPipeline[]) =>
+            desc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(filteredPipelines, ['id'], ['desc']),
           })}
           activeSorting={activeSorting}
@@ -75,7 +76,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '20%',
-      renderRow: (pipeline: TPipeline) => (
+      renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={pipeline.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
@@ -104,9 +105,9 @@ export const GetHeaderCols = ({
           }
           sorting="name"
           sortMethod={sortMethod('name', {
-            asc: (filteredPipelines: TPipeline[]) =>
+            asc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(filteredPipelines, ['name'], ['asc']),
-            desc: (filteredPipelines: TPipeline[]) =>
+            desc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(filteredPipelines, ['name'], ['desc']),
           })}
           activeSorting={activeSorting}
@@ -118,7 +119,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '30%',
-      renderRow: (pipeline: TPipeline) => (
+      renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={pipeline.name}>
             <Paragraph size="small">{pipeline.name}</Paragraph>
@@ -140,7 +141,7 @@ export const GetHeaderCols = ({
         </div>
       ),
       width: '10%',
-      renderRow: (pipeline: TPipeline) => <Status pipeline={pipeline} />,
+      renderRow: (pipeline: Pipeline) => <Status pipeline={pipeline} />,
     },
     {
       render: () => (
@@ -150,9 +151,9 @@ export const GetHeaderCols = ({
           }
           sorting="version"
           sortMethod={sortMethod('version', {
-            asc: (filteredPipelines: TPipeline[]) =>
+            asc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(filteredPipelines, ['version'], ['asc']),
-            desc: (filteredPipelines: TPipeline[]) =>
+            desc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(filteredPipelines, ['version'], ['desc']),
           })}
           activeSorting={activeSorting}
@@ -164,7 +165,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '10%',
-      renderRow: (pipeline: TPipeline) => (
+      renderRow: (pipeline: Pipeline) => (
         <Paragraph size="small">{pipeline?.version}</Paragraph>
       ),
     },
@@ -177,9 +178,9 @@ export const GetHeaderCols = ({
           }
           sorting="user_id"
           sortMethod={sortMethod('user_id', {
-            asc: (filteredPipelines: TPipeline[]) =>
+            asc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(filteredPipelines, ['user.name'], ['asc']),
-            desc: (filteredPipelines: TPipeline[]) =>
+            desc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(filteredPipelines, ['user.name'], ['desc']),
           })}
           activeSorting={activeSorting}
@@ -191,7 +192,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '10%',
-      renderRow: (pipeline: TPipeline) => {
+      renderRow: (pipeline: Pipeline) => {
         return (
           <FlexBox alignItems="center">
             <div
@@ -234,16 +235,16 @@ export const GetHeaderCols = ({
           }
           sorting="created"
           sortMethod={sortMethod('created', {
-            asc: (filteredPipelines: TPipeline[]) =>
+            asc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(
                 filteredPipelines,
-                (pipeline: TPipeline) => new Date(pipeline.created).getTime(),
+                (pipeline: Pipeline) => new Date(pipeline.created).getTime(),
                 ['asc'],
               ),
-            desc: (filteredPipelines: TPipeline[]) =>
+            desc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(
                 filteredPipelines,
-                (pipeline: TPipeline) => new Date(pipeline.created).getTime(),
+                (pipeline: Pipeline) => new Date(pipeline.created).getTime(),
                 ['desc'],
               ),
           })}
@@ -256,7 +257,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '20%',
-      renderRow: (pipeline: TPipeline) => (
+      renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToDisplayOnTable(pipeline.created)}>
             <FlexBox alignItems="center">

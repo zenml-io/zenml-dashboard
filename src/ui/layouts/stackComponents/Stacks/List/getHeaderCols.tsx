@@ -18,6 +18,7 @@ import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
 
 import { useService } from './ForSorting/useServiceForSorting';
+import { StackComponent } from '../../../../../api/types';
 
 export const GetHeaderCols = ({
   expendedRow,
@@ -33,8 +34,8 @@ export const GetHeaderCols = ({
   expendedRow?: any;
   openStackIds: TId[];
   setOpenStackIds: (ids: TId[]) => void;
-  filteredStacks: TStack[];
-  setFilteredStacks: (stacks: TStack[]) => void;
+  filteredStacks: StackComponent[];
+  setFilteredStacks: (stacks: StackComponent[]) => void;
   activeSorting: Sorting | null;
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
@@ -56,9 +57,9 @@ export const GetHeaderCols = ({
           onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="id"
           sortMethod={sortMethod('id', {
-            asc: (filteredStacks: TStack[]) =>
+            asc: (filteredStacks: StackComponent[]) =>
               _.orderBy(filteredStacks, ['id'], ['asc']),
-            desc: (filteredStacks: TStack[]) =>
+            desc: (filteredStacks: StackComponent[]) =>
               _.orderBy(filteredStacks, ['id'], ['desc']),
           })}
           activeSorting={activeSorting}
@@ -74,7 +75,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '20%',
-      renderRow: (stackComponent: TStack) => (
+      renderRow: (stackComponent: StackComponent) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={stackComponent.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
@@ -101,9 +102,9 @@ export const GetHeaderCols = ({
           onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="name"
           sortMethod={sortMethod('name', {
-            asc: (filteredStacks: TStack[]) =>
+            asc: (filteredStacks: StackComponent[]) =>
               _.orderBy(filteredStacks, ['name'], ['asc']),
-            desc: (filteredStacks: TStack[]) =>
+            desc: (filteredStacks: StackComponent[]) =>
               _.orderBy(filteredStacks, ['name'], ['desc']),
           })}
           activeSorting={activeSorting}
@@ -115,7 +116,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '30%',
-      renderRow: (stackComponent: TStack) => (
+      renderRow: (stackComponent: StackComponent) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={stackComponent.name}>
             <Paragraph size="small" color="black">
@@ -132,9 +133,9 @@ export const GetHeaderCols = ({
           onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="flavor"
           sortMethod={sortMethod('flavor', {
-            asc: (filteredStacks: TStack[]) =>
+            asc: (filteredStacks: StackComponent[]) =>
               _.orderBy(filteredStacks, ['flavor'], ['asc']),
-            desc: (filteredStacks: TStack[]) =>
+            desc: (filteredStacks: StackComponent[]) =>
               _.orderBy(filteredStacks, ['flavor'], ['desc']),
           })}
           activeSorting={activeSorting}
@@ -152,7 +153,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '10%',
-      renderRow: (stackComponent: TStack) => (
+      renderRow: (stackComponent: any) => (
         <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
           <div
             data-tip
@@ -181,9 +182,9 @@ export const GetHeaderCols = ({
           onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="is_shared"
           sortMethod={sortMethod('is_shared', {
-            asc: (filteredStacks: TStack[]) =>
+            asc: (filteredStacks: StackComponent[]) =>
               _.orderBy(filteredStacks, ['is_shared'], ['asc']),
-            desc: (filteredStacks: TStack[]) =>
+            desc: (filteredStacks: StackComponent[]) =>
               _.orderBy(filteredStacks, ['is_shared'], ['desc']),
           })}
           activeSorting={activeSorting}
@@ -201,16 +202,16 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '10%',
-      renderRow: (stackComponent: TStack) => (
+      renderRow: (stackComponent: StackComponent) => (
         <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
           <div
             data-tip
-            data-for={stackComponent.isShared}
+            data-for={stackComponent.is_shared}
             style={{ margin: '0 auto 0 auto' }}
           >
             <Box>
               <FlexBox justifyContent="center">
-                {stackComponent.isShared ? (
+                {stackComponent.is_shared ? (
                   <icons.multiUser
                     color={iconColors.white}
                     size={iconSizes.md}
@@ -225,8 +226,8 @@ export const GetHeaderCols = ({
             </Box>
           </div>
           <Tooltip
-            id={stackComponent.isShared ? 'true' : 'false'}
-            text={stackComponent.isShared ? 'true' : 'false'}
+            id={stackComponent.is_shared ? 'true' : 'false'}
+            text={stackComponent.is_shared ? 'true' : 'false'}
           />
         </FlexBox>
       ),
@@ -237,9 +238,9 @@ export const GetHeaderCols = ({
           onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="user_id"
           sortMethod={sortMethod('user_id', {
-            asc: (filteredStacks: TStack[]) =>
+            asc: (filteredStacks: StackComponent[]) =>
               _.orderBy(filteredStacks, ['user_id'], ['asc']),
-            desc: (filteredStacks: TStack[]) =>
+            desc: (filteredStacks: StackComponent[]) =>
               _.orderBy(filteredStacks, ['user_id'], ['desc']),
           })}
           activeSorting={activeSorting}
@@ -251,35 +252,35 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '10%',
-      renderRow: (stackComponent: TStack) => {
+      renderRow: (stackComponent: StackComponent) => {
         return (
           <FlexBox alignItems="center">
             <div
               data-tip
               data-for={
-                stackComponent.user.full_name
+                stackComponent?.user?.full_name
                   ? stackComponent.user.full_name
-                  : stackComponent.user.name
+                  : stackComponent?.user?.name
               }
             >
               <FlexBox alignItems="center">
                 <Paragraph size="small">
-                  {stackComponent.user.full_name
+                  {stackComponent?.user?.full_name
                     ? stackComponent.user.full_name
-                    : stackComponent.user.name}
+                    : stackComponent?.user?.name}
                 </Paragraph>
               </FlexBox>
             </div>
             <Tooltip
               id={
-                stackComponent.user.full_name
-                  ? stackComponent.user.full_name
-                  : stackComponent.user.name
+                stackComponent?.user?.full_name
+                  ? stackComponent?.user?.full_name
+                  : stackComponent?.user?.name
               }
               text={
-                stackComponent.user.full_name
-                  ? stackComponent.user.full_name
-                  : stackComponent.user.name
+                stackComponent?.user?.full_name
+                  ? stackComponent?.user?.full_name
+                  : stackComponent?.user?.name
               }
             />
           </FlexBox>
@@ -292,16 +293,16 @@ export const GetHeaderCols = ({
           onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
           sorting="created"
           sortMethod={sortMethod('created', {
-            asc: (filteredStacks: TStack[]) =>
+            asc: (filteredStacks: StackComponent[]) =>
               _.orderBy(
                 filteredStacks,
-                (stack: TStack) => new Date(stack.created).getTime(),
+                (stack: StackComponent) => new Date(stack.created).getTime(),
                 ['asc'],
               ),
-            desc: (filteredStacks: TStack[]) =>
+            desc: (filteredStacks: StackComponent[]) =>
               _.orderBy(
                 filteredStacks,
-                (stack: TStack) => new Date(stack.created).getTime(),
+                (stack: StackComponent) => new Date(stack.created).getTime(),
                 ['desc'],
               ),
           })}
@@ -314,7 +315,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       width: '20%',
-      renderRow: (stackComponent: TStack) => (
+      renderRow: (stackComponent: StackComponent) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToSort(stackComponent.created)}>
             <FlexBox alignItems="center">

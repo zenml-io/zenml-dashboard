@@ -76,7 +76,7 @@ export const RoleSelector = ({
             </If>
           </div>
           {role?.map((e: any) => (
-            <div className={styles.roleBean}>
+            <div key={e?.label} className={styles.roleBean}>
               <p>
                 {e?.label.charAt(0).toUpperCase() + e?.label?.slice(1)}{' '}
                 <span onClick={() => removeRoleBean(e)}>x</span>

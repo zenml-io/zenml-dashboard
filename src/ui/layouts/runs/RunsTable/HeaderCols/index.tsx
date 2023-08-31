@@ -13,6 +13,7 @@ import { SortingHeader } from '../SortingHeader';
 
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
+import { Run } from '../../../../../api/types';
 
 export const useHeaderCols = ({
   expendedRow,
@@ -24,8 +25,8 @@ export const useHeaderCols = ({
   setActiveSorting,
 }: {
   expendedRow?: any;
-  runs: TRun[];
-  setRuns: (runs: TRun[]) => void;
+  runs: Run[];
+  setRuns: (runs: Run[]) => void;
   activeSorting: Sorting | null;
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (direction: SortingDirection | null) => void;
@@ -45,8 +46,8 @@ export const useHeaderCols = ({
         <SortingHeader
           sorting="id"
           sortMethod={sortMethod('id', {
-            asc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['asc']),
-            desc: (runs: TRun[]) => _.orderBy(runs, ['id'], ['desc']),
+            asc: (runs: Run[]) => _.orderBy(runs, ['id'], ['asc']),
+            desc: (runs: Run[]) => _.orderBy(runs, ['id'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -61,7 +62,7 @@ export const useHeaderCols = ({
         </SortingHeader>
       ),
       width: '20%',
-      renderRow: (run: TRun) => (
+      renderRow: (run: Run) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={run.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
@@ -89,7 +90,7 @@ export const useHeaderCols = ({
         </Paragraph>
       ),
       width: '30%',
-      renderRow: (run: TRun) => (
+      renderRow: (run: Run) => (
         <Paragraph
           size="small"
           style={{ color: '#22BBDD', textDecoration: 'underline' }}
@@ -105,12 +106,12 @@ export const useHeaderCols = ({
         </Paragraph>
       ),
       width: '7.5%',
-      renderRow: (run: TRun) => (
+      renderRow: (run: Run) => (
         <Paragraph
           size="small"
           style={{ color: '#22BBDD', textDecoration: 'underline' }}
         >
-          {run?.pipeline.name} ( v{run?.pipeline?.version} )
+          {run?.pipeline?.name} ( v{run?.pipeline?.version} )
         </Paragraph>
       ),
     },
@@ -120,8 +121,8 @@ export const useHeaderCols = ({
         <SortingHeader
           sorting="status"
           sortMethod={sortMethod('status', {
-            asc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['asc']),
-            desc: (runs: TRun[]) => _.orderBy(runs, ['status'], ['desc']),
+            asc: (runs: Run[]) => _.orderBy(runs, ['status'], ['asc']),
+            desc: (runs: Run[]) => _.orderBy(runs, ['status'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -132,7 +133,7 @@ export const useHeaderCols = ({
         </SortingHeader>
       ),
       width: '7.5%',
-      renderRow: (run: TRun) => <RunStatus run={run} />,
+      renderRow: (run: Run) => <RunStatus run={run} />,
     },
 
     {
@@ -142,8 +143,8 @@ export const useHeaderCols = ({
         </Paragraph>
       ),
       width: '7.5%',
-      renderRow: (run: TRun) => (
-        <Paragraph size="small">{run?.stack.name}</Paragraph>
+      renderRow: (run: Run) => (
+        <Paragraph size="small">{run?.stack?.name}</Paragraph>
       ),
     },
     {
@@ -153,11 +154,11 @@ export const useHeaderCols = ({
         </Paragraph>
       ),
       width: '7.5%',
-      renderRow: (run: TRun) => {
+      renderRow: (run: Run) => {
         return (
           <FlexBox alignItems="center">
             <Paragraph size="small">
-              {run?.user.full_name ? run?.user.full_name : run?.user.name}
+              {run?.user?.full_name ? run?.user.full_name : run?.user?.name}
             </Paragraph>
           </FlexBox>
         );
@@ -168,12 +169,12 @@ export const useHeaderCols = ({
         <SortingHeader
           sorting="created"
           sortMethod={sortMethod('created', {
-            asc: (runs: TRun[]) =>
-              _.orderBy(runs, (run: TRun) => new Date(run?.created).getTime(), [
+            asc: (runs: Run[]) =>
+              _.orderBy(runs, (run: Run) => new Date(run?.created).getTime(), [
                 'asc',
               ]),
-            desc: (runs: TRun[]) =>
-              _.orderBy(runs, (run: TRun) => new Date(run?.created).getTime(), [
+            desc: (runs: Run[]) =>
+              _.orderBy(runs, (run: Run) => new Date(run?.created).getTime(), [
                 'desc',
               ]),
           })}
@@ -186,7 +187,7 @@ export const useHeaderCols = ({
         </SortingHeader>
       ),
       width: '20%',
-      renderRow: (run: TRun) => (
+      renderRow: (run: Run) => (
         <FlexBox alignItems="center">
           <Paragraph color="grey" size="tiny">
             {formatDateToDisplayOnTable(run?.created)}

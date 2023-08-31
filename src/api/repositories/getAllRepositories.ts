@@ -2,6 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
+import { Repository } from '../types';
 
 const getRepositories = ({
   component_id,
@@ -25,7 +26,7 @@ const getRepositories = ({
   filtersParam?: object;
 
   authenticationToken: string;
-}): Promise<TStack> =>
+}): Promise<Repository> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.repositories.getAll(workspace)),
     params: {

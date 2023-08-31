@@ -100,7 +100,7 @@ export interface SecretDetailRouteParams {
   id: TId;
 }
 
-export const StackDetail: React.FC = () => {
+export const ConnectorDetail: React.FC = () => {
   const { connector, fetching } = useService();
   const filteredConnector: any = [];
   filteredConnector.push(connector);
@@ -141,4 +141,4 @@ export const StackDetail: React.FC = () => {
   );
 };
 
-export default StackDetail;
+export default ConnectorDetail;

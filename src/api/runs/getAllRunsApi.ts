@@ -2,6 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
+import { Run } from '../types';
 
 const getAllRunsApi = ({
   workspace,
@@ -19,7 +20,7 @@ const getAllRunsApi = ({
   authenticationToken: string;
   workspace: string;
   filtersParam?: object;
-}): Promise<TOrganization> =>
+}): Promise<Run> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.runs.all(workspace)),
     params: { sort_by, logical_operator, page, size, ...filtersParam },

@@ -17,7 +17,6 @@ import {
   userActions,
 } from '../../../redux/actions';
 import { toasterTypes } from '../../../constants';
-
 import { fetchApiWithAuthRequest } from '../../../api/fetchApi';
 import { endpoints } from '../../../api/endpoints';
 import { httpMethods } from '../../../api/constants';
@@ -26,9 +25,9 @@ import { sessionSelectors } from '../../../redux/selectors/session';
 import { useLocationPath, useSelector } from '../../hooks';
 
 export const EmailPopup: React.FC<{
-  userId: any;
-  fullName: any;
-  username: any;
+  userId: string | null;
+  fullName: string | null;
+  username: string | null;
   popupType: string;
   setPopupType: (attr: string) => void;
   setPopupOpen: (attr: boolean) => void;

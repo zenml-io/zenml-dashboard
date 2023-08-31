@@ -2,6 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
+import { Run } from '../types';
 
 const getAllRunsByRepositoryIdApi = ({
   authenticationToken,
@@ -19,7 +20,7 @@ const getAllRunsByRepositoryIdApi = ({
   filtersParam?: any;
   authenticationToken: string;
   repositoryID: TId;
-}): Promise<TOrganization> =>
+}): Promise<Run> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.runs.repository.get(repositoryID)),
     params: { sort_by, logical_operator, page, size, ...filtersParam }, // todo: get runs by pipeline id please update endpoint

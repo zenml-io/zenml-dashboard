@@ -1,7 +1,7 @@
 /* eslint-disable */
 
 import { useState } from 'react';
-
+import { Pipeline } from '../../../../../../api/types';
 interface ServiceInterface {
   fetching: boolean;
   user: any;
@@ -10,7 +10,7 @@ interface ServiceInterface {
 export const useService = ({
   pipeline,
 }: {
-  pipeline: TPipeline;
+  pipeline: Pipeline;
 }): ServiceInterface => {
   const [fetching, setFetching] = useState<boolean>(false);
 

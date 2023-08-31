@@ -15,6 +15,7 @@ import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';
 import { workspaceSelectors } from '../../../../redux/selectors';
+import { StackComponent } from '../../../../api/types';
 
 import { List } from '../../stacks/Stacks/List';
 import { CollapseTable } from '../../common/CollapseTable';
@@ -186,7 +187,7 @@ export const StackDetail: React.FC = () => {
     mappedStackComponentWithLogo,
   });
 
-  const openDetailPage = (stack: TStack) => {
+  const openDetailPage = (stack: StackComponent) => {
     history.push(
       routePaths.stackComponents.base(
         locationPath.split('/')[4],
@@ -208,7 +209,7 @@ export const StackDetail: React.FC = () => {
       <Box style={{ marginTop: '40px', overflowX: 'auto' }}>
         <CollapseTable
           pagination={false}
-          renderAfterRow={(stack: TStack) => <></>}
+          renderAfterRow={(stack: StackComponent) => <></>}
           headerCols={headerCols}
           tableRows={mappedStackComponentWithLogo}
           trOnClick={openDetailPage}

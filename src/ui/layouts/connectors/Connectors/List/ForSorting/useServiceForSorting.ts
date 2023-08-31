@@ -2,6 +2,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { stackPagesActions } from '../../../../../../redux/actions';
 import { stackPagesSelectors } from '../../../../../../redux/selectors';
 import { Sorting, SortingDirection } from './types';
+import { ServiceConnector } from '../../../../../../api/types';
 
 export type SortMethod = (
   sorting: Sorting,
@@ -9,17 +10,17 @@ export type SortMethod = (
     asc,
     desc,
   }: {
-    asc: (stacks: TStack[]) => TStack[];
-    desc: (stacks: TStack[]) => TStack[];
+    asc: (connectors: ServiceConnector[]) => ServiceConnector[];
+    desc: (connectors: ServiceConnector[]) => ServiceConnector[];
   },
 ) => void;
 
 interface ServiceInterface {
-  toggleSelectRun: (stack: TStack) => void;
-  isRunSelected: (stack: TStack) => boolean;
-  allRunsSelected: (stacks: TStack[]) => boolean;
-  selectRuns: (stacks: TStack[]) => void;
-  unselectRuns: (stacks: TStack[]) => void;
+  toggleSelectRun: (connector: ServiceConnector) => void;
+  isRunSelected: (connector: ServiceConnector) => boolean;
+  allRunsSelected: (connectors: ServiceConnector[]) => boolean;
+  selectRuns: (connectors: ServiceConnector[]) => void;
+  unselectRuns: (connectors: ServiceConnector[]) => void;
   sortMethod: SortMethod;
 }
 
@@ -35,8 +36,8 @@ export const useService = ({
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (arg: SortingDirection | null) => void;
   setActiveSorting: (arg: Sorting | null) => void;
-  setFilteredConnectors: (stacks: TStack[]) => void;
-  filteredConnectors: TStack[];
+  setFilteredConnectors: (connectors: ServiceConnector[]) => void;
+  filteredConnectors: ServiceConnector[];
 }): ServiceInterface => {
   const dispatch = useDispatch();
 
@@ -46,27 +47,31 @@ export const useService = ({
 
   const selectedRunIds = useSelector(stackPagesSelectors.selectedRunIds);
 
-  const toggleSelectRun = (stack: TStack): void => {
-    if (selectedRunIds.indexOf(stack.id) === -1) {
-      setSelectedRunIds([...selectedRunIds, stack.id]);
+  const toggleSelectRun = (connector: ServiceConnector): void => {
+    if (selectedRunIds.indexOf(connector.id) === -1) {
+      setSelectedRunIds([...selectedRunIds, connector.id]);
     } else {
-      setSelectedRunIds(selectedRunIds.filter((id: TId) => id !== stack.id));
+      setSelectedRunIds(
+        selectedRunIds.filter((id: TId) => id !== connector.id),
+      );
     }
   };
 
-  const isRunSelected = (stack: TStack): boolean => {
-    return selectedRunIds.indexOf(stack.id) !== -1;
+  const isRunSelected = (connector: ServiceConnector): boolean => {
+    return selectedRunIds.indexOf(connector.id) !== -1;
   };
 
-  const selectRuns = (stacks: TStack[]): void => {
+  const selectRuns = (connectors: ServiceConnector[]): void => {
     setSelectedRunIds([
       ...selectedRunIds,
-      ...stacks.map((stack: TStack) => stack.id),
+      ...connectors.map((connector: ServiceConnector) => connector.id),
     ]);
   };
 
-  const unselectRuns = (stacks: TStack[]): void => {
-    const runIdsToUnselect = stacks.map((stack: TStack) => stack.id);
+  const unselectRuns = (connectors: ServiceConnector[]): void => {
+    const runIdsToUnselect = connectors.map(
+      (connector: ServiceConnector) => connector.id,
+    );
 
     const newRunIds = selectedRunIds.filter(
       (id: TId) => !runIdsToUnselect.includes(id),
@@ -75,15 +80,17 @@ export const useService = ({
     setSelectedRunIds(newRunIds);
   };
 
-  const allRunsSelected = (stacks: TStack[]): boolean => {
-    return stacks.every((stack: TStack) => isRunSelected(stack));
+  const allRunsSelected = (connectors: ServiceConnector[]): boolean => {
+    return connectors.every((connector: ServiceConnector) =>
+      isRunSelected(connector),
+    );
   };
 
   const sortMethod = (
     sorting: Sorting,
     sort?: {
-      asc: (stacks: TStack[]) => TStack[];
-      desc: (stacks: TStack[]) => TStack[];
+      asc: (connectors: ServiceConnector[]) => ServiceConnector[];
+      desc: (connectors: ServiceConnector[]) => ServiceConnector[];
     },
   ) => () => {
     if (sorting === activeSorting) {

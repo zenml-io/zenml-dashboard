@@ -10,9 +10,12 @@ import {
   If,
 } from '../../../../../components';
 import { useService } from './useService';
+import { ServiceConnector } from '../../../../../../api/types';
 
-export const UserName: React.FC<{ stack: TStack }> = ({ stack }) => {
-  const { fetching, user } = useService({ stack });
+export const UserName: React.FC<{ connector: ServiceConnector }> = ({
+  connector,
+}) => {
+  const { fetching, user } = useService({ connector });
 
   if (fetching) {
     return <Spinner size="xs" color="black" />;

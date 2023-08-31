@@ -10,7 +10,7 @@ interface ServiceInterface {
 }
 
 export const useService = ({ runId }: { runId: TId }): ServiceInterface => {
-  const run: TRun = useSelector(runSelectors.runForId(runId));
+  const run: any = useSelector(runSelectors.runForId(runId));
   const pipelineConfig = YAML.stringify(run.pipelineConfiguration);
 
   const downloadYamlFile = () => {

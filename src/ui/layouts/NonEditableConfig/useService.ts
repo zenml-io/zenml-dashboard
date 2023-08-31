@@ -8,9 +8,10 @@ import {
   secretsActions,
 } from '../../../redux/actions';
 import { workspaceSelectors } from '../../../redux/selectors';
+import { Flavor } from '../../../api/types';
 
 interface ServiceInterface {
-  flavor: any;
+  flavor?: Flavor;
 }
 
 export const useService = ({ details }: { details: any }): ServiceInterface => {

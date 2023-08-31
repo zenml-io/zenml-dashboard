@@ -10,8 +10,9 @@ import {
   Spinner,
 } from '../../../../components';
 import { useService } from './useService';
+import { Run } from '../../../../../api/types';
 
-export const RunUser: React.FC<{ run: TRun }> = ({ run }) => {
+export const RunUser: React.FC<{ run: Run }> = ({ run }) => {
   const { fetching, user } = useService({ run });
 
   if (fetching) {

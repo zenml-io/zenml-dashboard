@@ -2,6 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
+import { Secret } from '../types';
 
 const getMySecretsApi = ({
   component_id,
@@ -25,7 +26,7 @@ const getMySecretsApi = ({
   filtersParam?: object;
 
   authenticationToken: string;
-}): Promise<TStack> =>
+}): Promise<Secret> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.Secrets.my),
     params: {

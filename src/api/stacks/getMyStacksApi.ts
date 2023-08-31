@@ -2,6 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
+import { Stack } from '../types';
 
 const getMyStacksApi = ({
   component_id,
@@ -25,7 +26,7 @@ const getMyStacksApi = ({
   filtersParam?: object;
 
   authenticationToken: string;
-}): Promise<TStack> =>
+}): Promise<Stack> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.Stacks.my(workspace)),
     params: {

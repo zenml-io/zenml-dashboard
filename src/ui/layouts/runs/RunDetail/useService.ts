@@ -5,10 +5,11 @@ import { runsActions } from '../../../../redux/actions';
 import { runSelectors, sessionSelectors } from '../../../../redux/selectors';
 import { useDispatch, useParams, useSelector } from '../../../hooks';
 import axios from 'axios';
+import { Run } from '../../../../api/types';
 
 interface ServiceInterface {
   runId: TId;
-  run: TRun;
+  run: Run;
   fetching: boolean;
   metadata: any;
   graph?: any;
@@ -22,7 +23,7 @@ export const useService = (): ServiceInterface => {
   const [metadata, setMetaData] = useState([] as any);
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const graph = useSelector(runSelectors.graphByRunId(runId));
-  const run: TRun = useSelector(runSelectors.runForId(runId));
+  const run: Run = useSelector(runSelectors.runForId(runId));
   useEffect(() => {
     if (!isMounted) {
       setFetching(true);

@@ -20,7 +20,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
   const history = useHistory();
   const { flavor } = useService({
     details,
-  });
+  }) as any;
 
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
@@ -193,7 +193,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
               }}
             >
               {Object.entries(elementSchema).map(([key, value], index) => (
-                <FlexBox.Row>
+                <FlexBox.Row key={index}>
                   <Box
                     style={{
                       display: 'flex',
@@ -336,20 +336,19 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     return <FullWidthSpinner color="black" size="md" />;
   }
 
-  let result = Object.keys(flavor?.config_schema?.properties).reduce(function (
-    r: any,
-    name: any,
-  ) {
-    return (
-      (r[name] =
-        flavor?.config_schema?.properties[name].type === 'string' &&
-        flavor?.config_schema?.properties[name].default === undefined
-          ? ''
-          : flavor?.config_schema?.properties[name].default),
-      r
-    );
-  },
-  {});
+  let result = Object.keys(flavor?.config_schema?.properties || {}).reduce(
+    function (r: any, name: any) {
+      return (
+        (r[name] =
+          flavor?.config_schema?.properties[name].type === 'string' &&
+          flavor?.config_schema?.properties[name].default === undefined
+            ? ''
+            : flavor?.config_schema?.properties[name].default),
+        r
+      );
+    },
+    {},
+  );
 
   function replaceNullWithEmptyString(obj: any) {
     for (let prop in obj) {
@@ -377,7 +376,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
             disabled
             label={'Flavor Name'}
             optional={false}
-            value={details.flavor}
+            value={details?.flavor}
             placeholder=""
             hasError={false}
             className={styles.field}
@@ -386,7 +385,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
         <Box marginTop="lg">
           <ToggleField
             name="Share Component with public"
-            value={details.is_shared}
+            value={details?.is_shared}
             label="Share Component with public"
             disabled={true}
           />
@@ -394,8 +393,10 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       </FlexBox.Row>
       <FlexBox.Row flexDirection="column">
         <Box style={{ width: '80%' }}>
-          {Object.keys(mappedObject).map((key, ind) => (
-            <>{getFormElement(key, mappedObject[key])}</>
+          {Object.keys(mappedObject).map((key, index) => (
+            <Fragment key={index}>
+              {getFormElement(key, mappedObject[key])}
+            </Fragment>
           ))}
         </Box>
       </FlexBox.Row>

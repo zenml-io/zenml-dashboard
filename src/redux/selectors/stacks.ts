@@ -4,11 +4,12 @@ import { Selector } from 'reselect';
 import { State } from '../reducers/stacksReducer';
 import { createSelector } from './createSelector';
 import { extractItemFromById } from './utils';
+import { Stack } from '../../api/types';
 
 const stateKey = (state: State): State =>
   _.get(state, 'persisted.stacks') || {};
 
-const getById = (state: State): Record<TId, TStack> =>
+const getById = (state: State): Record<TId, Stack> =>
   _.get(stateKey(state), 'byId');
 
 const getMyStackIds = (state: State): TId[] =>
@@ -17,12 +18,12 @@ const getMyStackIds = (state: State): TId[] =>
 const getMyStackPaginated = (state: State): any =>
   _.get(stateKey(state), 'paginated');
 
-export const mystacks = (state?: State | null): TStack[] => {
+export const mystacks = (state?: State | null): Stack[] => {
   if (!state) return [];
   const myStackIds = getMyStackIds(state);
   const byId = getById(state);
 
-  return (myStackIds || []).reduce((current: TStack[], id: TId) => {
+  return (myStackIds || []).reduce((current: Stack[], id: TId) => {
     const stack = byId[id];
 
     if (stack) {
@@ -30,7 +31,7 @@ export const mystacks = (state?: State | null): TStack[] => {
     }
 
     return current;
-  }, [] as TStack[]);
+  }, [] as Stack[]);
 };
 
 export const mystacksPaginated = (state?: State | null): any => {
@@ -40,7 +41,7 @@ export const mystacksPaginated = (state?: State | null): any => {
   return paginated;
 };
 
-export const stackForId = (stackId: TId): Selector<any, TStack> =>
+export const stackForId = (stackId: TId): Selector<any, Stack> =>
   createSelector(getById, extractItemFromById(stackId));
 
 const stackSelectors = {

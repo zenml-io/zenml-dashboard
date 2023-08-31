@@ -143,26 +143,26 @@ interface Workspaces {
   name: string;
   description: string;
 }
-interface TPipeline {
-  id: TId;
-  name: string;
-  created: Date;
-  creationDate: Date;
-  workspaceName: string;
-  components: any;
-  owner: string;
-  pipelineConfig: any;
-  userId: TId;
-  creationDate: Date;
-  isShared: boolean;
-  userName: string;
-  user: any;
-  runs: Array;
-  status: Array;
-  configuration: object;
-  spec?: any;
-  version: string;
-}
+// interface TPipeline {
+//   id: TId;
+//   name: string;
+//   created: Date;
+//   creationDate: Date;
+//   workspaceName: string;
+//   components: any;
+//   owner: string;
+//   pipelineConfig: any;
+//   userId: TId;
+//   creationDate: Date;
+//   isShared: boolean;
+//   userName: string;
+//   user: any;
+//   runs: Array;
+//   status: Array;
+//   configuration: object;
+//   spec?: any;
+//   version: string;
+// }
 interface TStack {
   id: TId;
   name: string;

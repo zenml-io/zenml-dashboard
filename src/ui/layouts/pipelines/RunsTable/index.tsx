@@ -13,6 +13,7 @@ import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryPa
 import { ItemPerPage } from '../../common/ItemPerPage';
 import { callActionForPipelineRunsForPagination } from '../PipelineDetail/useService';
 import { callActionForAllrunsForPagination } from '../Pipelines/useService';
+import { Run } from '../../../../api/types';
 
 interface Props {
   filter: any;
@@ -69,7 +70,7 @@ export const RunsTable: React.FC<{
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
 
-  const openDetailPage = (run: TRun) => {
+  const openDetailPage = (run: Run) => {
     setSelectedRunIds([]);
 
     if (fromAllruns) {
@@ -86,7 +87,7 @@ export const RunsTable: React.FC<{
           routePaths.run.pipeline.statistics(
             selectedWorkspace,
             run.id,
-            run.pipeline_id ? run.pipeline_id : run.pipelineId,
+            run.pipeline?.id as string,
           ),
         );
       }

@@ -1,15 +1,16 @@
 import pipelinesReducer from './pipelinesReducer';
 import { pipelineActionTypes } from '../actionTypes';
+import { Pipeline } from '../../api/types';
 
 const pipeline = {
   id: '1245',
   name: 'pipeline',
-} as TPipeline;
+} as Pipeline;
 
 const getPipelinesSuccessful = (
   actionType: string,
   currentState: any,
-  payload: TPipeline[] = [pipeline],
+  payload: Pipeline[] = [pipeline],
 ): any => {
   const action = {
     type: actionType,
@@ -23,7 +24,7 @@ const getPipelinesSuccessful = (
 const testStateAfterSuccessfulPipelinesFetch = (
   state: {
     ids: TId[];
-    byId: Record<TId, TPipeline>;
+    byId: Record<TId, Pipeline>;
     myPipelineIds: TId[];
   },
   actionType: string,
@@ -75,7 +76,7 @@ const pipelineForIdSuccessful = (currentState: any): any => {
 
 const testStateAfterSuccessfulPipelineForId = (state: {
   ids: never[] | string[];
-  byId: { 'other-id': TPipeline };
+  byId: { 'other-id': Pipeline };
 }): void => {
   const { nextState } = pipelineForIdSuccessful(state);
   it('ids is added to the store', () => {

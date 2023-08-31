@@ -10,8 +10,9 @@ import {
   If,
 } from '../../../../../components';
 import { useService } from './useService';
+import { Stack } from '../../../../../../api/types';
 
-export const UserName: React.FC<{ stack: TStack }> = ({ stack }) => {
+export const UserName: React.FC<{ stack: Stack }> = ({ stack }) => {
   const { fetching, user } = useService({ stack });
 
   if (fetching) {

@@ -18,12 +18,14 @@ import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 import { useLocationPath } from '../../../../hooks';
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { GetFlavorsListForLogo } from './GetFlavorsListForLogo';
+import { StackComponent } from '../../../../../api/types';
+
 interface ServiceInterface {
   openStackIds: TId[];
   setOpenStackIds: (ids: TId[]) => void;
   fetching: boolean;
-  setFilteredStacks: (stacks: TStack[]) => void;
-  filteredStacks: TStack[];
+  setFilteredStacks: (stacks: StackComponent[]) => void;
+  filteredStacks: StackComponent[];
   activeSorting: Sorting | null;
   setActiveSorting: (arg: Sorting | null) => void;
   activeSortingDirection: SortingDirection | null;
@@ -58,7 +60,7 @@ export const useService = ({
   const dispatch = useDispatch();
   const locationPath = useLocationPath();
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
-  const [filteredStacks, setFilteredStacks] = useState<TStack[]>([]);
+  const [filteredStacks, setFilteredStacks] = useState<StackComponent[]>([]);
 
   const fetching = useSelector(stackPagesSelectors.fetching);
 
@@ -71,7 +73,7 @@ export const useService = ({
   );
   const isValidFilter = filter?.map((f) => f.value).join('');
   useEffect(() => {
-    const stackComponentsMap = stackComponents.map((item) => {
+    const stackComponentsMap = stackComponents.map((item: any) => {
       const temp: any = flavourList.find(
         (fl: any) => fl.name === item.flavor && fl.type === item.type,
       );
@@ -87,7 +89,7 @@ export const useService = ({
       return item;
     });
 
-    setFilteredStacks(stackComponentsMap as TStack[]);
+    setFilteredStacks((stackComponentsMap as unknown) as StackComponent[]);
   }, [stackComponents, filter, flavourList]);
 
   useEffect(() => {
