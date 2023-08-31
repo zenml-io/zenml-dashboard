@@ -243,12 +243,12 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.user.name}>
+          <div data-tip data-for={connector?.user?.name}>
             <Paragraph size="small" color="black">
-              {connector.user.name}
+              {connector?.user?.name}
             </Paragraph>
           </div>
-          <Tooltip id={connector.user.name} text={connector.user.name} />
+          <Tooltip id={connector?.user?.name} text={connector?.user?.name} />
         </FlexBox>
       ),
     },
