@@ -1,12 +1,7 @@
 import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
-import {
-  FlexBox,
-  icons,
-  Paragraph,
-  Tooltip,
-} from '../../../../components';
+import { FlexBox, icons, Paragraph, Tooltip } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
@@ -15,15 +10,15 @@ import { useService } from './ForSorting/useServiceForSorting';
 import _ from 'lodash';
 import { Pipeline } from '../../../../../api/types';
 
-const HeaderText = ({ text, margin }: { text: string, margin?: string }) => (
+const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
   <Paragraph
-  size="small"
-  color="black"
-  style={{ fontSize: '14px', marginLeft: margin }}
->
-  {text}
-</Paragraph>
-)
+    size="small"
+    color="black"
+    style={{ fontSize: '14px', marginLeft: margin }}
+  >
+    {text}
+  </Paragraph>
+);
 
 export const GetHeaderCols = ({
   expendedRow,
@@ -74,7 +69,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <HeaderText text='ID' margin='33px' />
+          <HeaderText text="ID" margin="33px" />
         </SortingHeader>
       ),
       width: '20%',
@@ -115,7 +110,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <HeaderText text='NAME' />
+          <HeaderText text="NAME" />
         </SortingHeader>
       ),
       width: '30%',
@@ -131,7 +126,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-          <HeaderText text='STATUS' margin='-24px' />
+          <HeaderText text="STATUS" margin="-24px" />
         </div>
       ),
       width: '10%',
@@ -153,7 +148,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <HeaderText text='VERSION' />
+          <HeaderText text="VERSION" />
         </SortingHeader>
       ),
       width: '10%',
@@ -177,7 +172,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <HeaderText text='AUTHOR' />
+          <HeaderText text="AUTHOR" />
         </SortingHeader>
       ),
       width: '10%',
@@ -240,7 +235,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <HeaderText text='CREATED AT' />
+          <HeaderText text="CREATED AT" />
         </SortingHeader>
       ),
       width: '20%',

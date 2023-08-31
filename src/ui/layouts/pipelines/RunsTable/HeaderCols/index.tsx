@@ -26,15 +26,15 @@ import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 
-const HeaderText = ({ text, margin }: { text: string, margin?: string }) => (
+const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
   <Paragraph
-  size="small"
-  color="black"
-  style={{ fontSize: '14px', marginLeft: margin }}
->
-  {text}
-</Paragraph>
-)
+    size="small"
+    color="black"
+    style={{ fontSize: '14px', marginLeft: margin }}
+  >
+    {text}
+  </Paragraph>
+);
 
 export const useHeaderCols = ({
   isExpended,
@@ -79,7 +79,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <HeaderText text='RUN ID' margin='30px' />
+              <HeaderText text="RUN ID" margin="30px" />
             </SortingHeader>
           ),
           width: '15%',
@@ -119,7 +119,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <HeaderText text='RUN NAME' />
+              <HeaderText text="RUN NAME" />
             </SortingHeader>
           ),
           width: '15%',
@@ -146,7 +146,7 @@ export const useHeaderCols = ({
               activeSortingDirection={activeSortingDirection}
             >
               <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-                <HeaderText text='STATUS' margin='-24px' />
+                <HeaderText text="STATUS" margin="-24px" />
               </div>
             </SortingHeader>
           ),
@@ -176,7 +176,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <HeaderText text='CREATED' />
+              <HeaderText text="CREATED" />
             </SortingHeader>
           ),
           width: '15%',
@@ -216,7 +216,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <HeaderText text='RUN ID' margin='30px' />
+              <HeaderText text="RUN ID" margin="30px" />
             </SortingHeader>
           ),
           width: '20%',
@@ -256,7 +256,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <HeaderText text='RUN NAME' /> 
+              <HeaderText text="RUN NAME" />
             </SortingHeader>
           ),
           width: '30%',
@@ -282,7 +282,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <HeaderText text='PIPELINE' />
+              <HeaderText text="PIPELINE" />
             </SortingHeader>
           ),
           width: '7.5%',
@@ -334,7 +334,7 @@ export const useHeaderCols = ({
               activeSortingDirection={activeSortingDirection}
             >
               <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-                <HeaderText text='STATUS' margin='-24px' />
+                <HeaderText text="STATUS" margin="-24px" />
               </div>
             </SortingHeader>
           ),
@@ -353,7 +353,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <HeaderText text='STACK NAME' />
+              <HeaderText text="STACK NAME" />
             </SortingHeader>
           ),
           width: '7.5%',

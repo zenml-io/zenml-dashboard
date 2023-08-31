@@ -1,25 +1,20 @@
 import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
 import { truncate, formatDateToDisplayOnTable } from '../../../../utils';
-import {
-  FlexBox,
-  icons,
-  Paragraph,
-  Tooltip,
-} from '../../../components';
+import { FlexBox, icons, Paragraph, Tooltip } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { Status } from '../Pipelines/List/Status';
 import { Pipeline } from '../../../../api/types';
 
-const HeaderText = ({ text, margin }: { text: string, margin?: string }) => (
+const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
   <Paragraph
-  size="small"
-  color="black"
-  style={{ fontSize: '14px', marginLeft: margin }}
->
-  {text}
-</Paragraph>
-)
+    size="small"
+    color="black"
+    style={{ fontSize: '14px', marginLeft: margin }}
+  >
+    {text}
+  </Paragraph>
+);
 
 export const GetHeaderCols = ({
   filteredPipelines,
@@ -28,9 +23,7 @@ export const GetHeaderCols = ({
 }): HeaderCol[] => {
   return [
     {
-      render: () => (
-        <HeaderText text='ID' margin='33px' /> 
-      ),
+      render: () => <HeaderText text="ID" margin="33px" />,
       width: '20%',
       renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
@@ -47,9 +40,7 @@ export const GetHeaderCols = ({
       ),
     },
     {
-      render: () => (
-        <HeaderText text='NAME' />
-),
+      render: () => <HeaderText text="NAME" />,
       width: '30%',
       renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
@@ -63,25 +54,21 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-          <HeaderText text='STATUS' margin='-24px' />
+          <HeaderText text="STATUS" margin="-24px" />
         </div>
       ),
       width: '10%',
       renderRow: (pipeline: Pipeline) => <Status pipeline={pipeline} />,
     },
     {
-      render: () => (
-        <HeaderText text='VERSION' />
-      ),
+      render: () => <HeaderText text="VERSION" />,
       width: '10%',
       renderRow: (pipeline: Pipeline) => (
         <Paragraph size="small">{pipeline?.version}</Paragraph>
       ),
     },
     {
-      render: () => (
-        <HeaderText text='AUTHOR' />
-      ),
+      render: () => <HeaderText text="AUTHOR" />,
       width: '10%',
       renderRow: (pipeline: Pipeline) => {
         return (
@@ -119,9 +106,7 @@ export const GetHeaderCols = ({
       },
     },
     {
-      render: () => (
-              <HeaderText text='CREATED AT' />
-      ),
+      render: () => <HeaderText text="CREATED AT" />,
       width: '20%',
       renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
