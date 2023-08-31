@@ -42,7 +42,7 @@ const Selector: React.FC<Props> = ({
       routeState?.state?.secretId
     ) {
       setInputFields([...values]);
-      if (values?.length) {
+      if (values.length) {
         childStateRef.current = values;
       }
     } else if (

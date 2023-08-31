@@ -10,6 +10,7 @@ import { Box } from '../../../components';
 
 import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
+import { Stack } from '../../../../api/types';
 
 import { Table } from '../../common/Table';
 import { useHeaderCols } from './HeaderCols';
@@ -112,7 +113,7 @@ export const RunDetail: React.FC = () => {
   const headerCols = useHeaderCols({
     runs: runRow,
   });
-  const openDetailPage = (stack: TStack) => {
+  const openDetailPage = (stack: Stack) => {
     history.push(routePaths.stack.runs(selectedWorkspace, stackId));
   };
 

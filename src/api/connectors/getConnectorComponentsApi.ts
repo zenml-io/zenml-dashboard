@@ -2,6 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
+import { ServiceConnector } from '../types';
 
 const getConnectorComponentsApi = ({
   connector_id,
@@ -25,7 +26,7 @@ const getConnectorComponentsApi = ({
   filtersParam?: object;
 
   authenticationToken: string;
-}): Promise<any> =>
+}): Promise<ServiceConnector> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.Connectors.connectorComponents),
     params: {

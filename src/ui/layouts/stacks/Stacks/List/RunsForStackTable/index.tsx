@@ -8,8 +8,10 @@ import styles from './NestedRow.module.scss';
 import { useHistory, useSelector } from '../../../../../hooks';
 import { routePaths } from '../../../../../../routes/routePaths';
 import { workspaceSelectors } from '../../../../../../redux/selectors';
+import { Stack } from '../../../../../../api/types';
+
 export const RunsForStackTable: React.FC<{
-  stack: TStack;
+  stack: Stack;
   openStackIds: TId[];
   fetching: boolean;
   nestedRow: boolean;
@@ -21,13 +23,15 @@ export const RunsForStackTable: React.FC<{
 
   if (!isStackOpen()) return null;
   if (nestedRow) {
-    const nestedRowtiles = [];
-    for (const [key] of Object.entries(stack.components)) {
-      nestedRowtiles.push({
-        type: key,
-        name: stack.components[key][0].name,
-        id: stack.components[key][0].id,
-      });
+    const nestedRowtiles: any[] = [];
+    for (const [key, value] of Object.entries(stack.components)) {
+      if (Array.isArray(value) && value.length > 0 && 'name' in value[0]) {
+        nestedRowtiles.push({
+          type: key,
+          name: value[0].name,
+          id: value[0].id,
+        });
+      }
     }
 
     return (
@@ -36,6 +40,23 @@ export const RunsForStackTable: React.FC<{
       </>
     );
   }
+
+  // if (nestedRow) {
+  //   const nestedRowtiles = [];
+  //   for (const [key] of Object.entries(stack.components)) {
+  //     nestedRowtiles.push({
+  //       type: key,
+  //       name: stack.components[key][0].name,
+  //       id: stack.components[key][0].id,
+  //     });
+  //   }
+
+  //   return (
+  //     <>
+  //       <NestedRow tiles={nestedRowtiles} />
+  //     </>
+  //   );
+  // }
 
   return (
     <Box marginBottom="md">

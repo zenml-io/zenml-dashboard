@@ -17,6 +17,7 @@ import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { useService } from './ForSorting/useServiceForSorting';
+import { ServiceConnector } from '../../../../../api/types';
 
 export const GetHeaderCols = ({
   connectorDetail,
@@ -174,10 +175,10 @@ export const GetHeaderCols = ({
         <SortingHeader
           sorting="scope"
           sortMethod={sortMethod('scope', {
-            asc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['flavor'], ['asc']),
-            desc: (filteredStacks: TStack[]) =>
-              _.orderBy(filteredStacks, ['flavor'], ['desc']),
+            asc: (filteredConnectors: ServiceConnector[]) =>
+              _.orderBy(filteredConnectors, ['flavor'], ['asc']),
+            desc: (filteredConnectors: ServiceConnector[]) =>
+              _.orderBy(filteredConnectors, ['flavor'], ['desc']),
           })}
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
@@ -421,9 +422,7 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <Box paddingRight="sm">
-            {connector.isShared ? (
-              <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
-            ) : (
+            {connector.isShared && (
               <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
             )}
           </Box>

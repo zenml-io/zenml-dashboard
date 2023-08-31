@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styles from './index.module.scss';
 import { organizationActions } from '../../../../redux/actions';
-
 import {
   FlexBox,
   Box,
@@ -16,7 +15,6 @@ import { useService } from './useService';
 import { rolesActions } from '../../../../redux/actions/roles';
 import { sessionSelectors } from '../../../../redux/selectors';
 import jwt_decode from 'jwt-decode';
-
 import AddUserBox from './UserBox/AddUserBox';
 import UserBox from './UserBox/UserBox';
 import { PasswordPopup } from '../PasswordPopup';
@@ -84,8 +82,9 @@ export const Organization: React.FC = () => {
                 <AddUserBox />
               </div>
             )}
-            {filteredMembers?.map((e) => (
+            {filteredMembers.map((e, index) => (
               <UserBox
+                key={index}
                 data={e}
                 permission={decoded.permissions.includes('write')}
                 setShowPasswordUpdate={setShowPasswordPopup}

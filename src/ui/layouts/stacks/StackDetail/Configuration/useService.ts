@@ -1,5 +1,6 @@
 import { useSelector } from 'react-redux';
 import { stackSelectors } from '../../../../../redux/selectors';
+import { Stack, StackComponent } from '../../../../../api/types';
 
 import YAML from 'json2yaml';
 
@@ -10,7 +11,7 @@ interface ServiceInterface {
 }
 
 export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
-  const stack: TStack = useSelector(stackSelectors.stackForId(stackId));
+  const stack: Stack = useSelector(stackSelectors.stackForId(stackId));
 
   const yamlConfigObj: any = {
     stack_name: stack.name,
@@ -18,11 +19,12 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
   };
 
   Object.keys(stack.components).forEach((element) => {
+    const componentArray = stack.components[element] as StackComponent[]; // Type assertion
     yamlConfigObj.components[element] = {
-      flavor: stack?.components[element][0]?.flavor,
-      name: stack?.components[element][0]?.name,
-      id: stack?.components[element][0]?.id,
-      ...stack?.components[element][0]?.configuration,
+      flavor: componentArray[0].flavor,
+      name: componentArray[0].name,
+      id: componentArray[0].id,
+      ...componentArray[0].configuration,
     };
   });
 

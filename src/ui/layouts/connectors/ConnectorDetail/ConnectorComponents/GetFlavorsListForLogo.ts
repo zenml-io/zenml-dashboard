@@ -34,7 +34,10 @@ export const GetFlavorsListForLogo = () => {
   };
 };
 
-export const GetFlavorsListForLogoByNameAndType = (type: any, name: any) => {
+export const GetFlavorsListForLogoByNameAndType = (
+  type: string,
+  name: string,
+) => {
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const [fetching, setFetching] = useState(false);
   const [flavourListBytype, setFlavourList] = useState([]);

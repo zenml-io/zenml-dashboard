@@ -1,8 +1,9 @@
 import { useSelector } from 'react-redux';
 import { secretSelectors } from '../../../../../redux/selectors';
+import { Secret } from '../../../../../api/types';
 
 interface ServiceInterface {
-  secret: any;
+  secret: Secret;
 }
 
 export const useService = ({
@@ -10,7 +11,7 @@ export const useService = ({
 }: {
   secretId: TId;
 }): ServiceInterface => {
-  const secret: TStack = useSelector(secretSelectors.secretForId(secretId));
+  const secret: Secret = useSelector(secretSelectors.secretForId(secretId));
 
   return { secret };
 };

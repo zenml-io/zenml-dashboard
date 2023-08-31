@@ -6,11 +6,12 @@ import { Box, FlexBox, PrimaryButton } from '../../../../components';
 import styles from './index.module.scss';
 import { replaceVersion } from '../../../../../utils/string';
 import { checkUrlStatus } from '../../../../../utils/checkUrlStatus';
+import { Flavor } from '../../../../../api/types';
 
 export const SidePopup: React.FC<{
   onClose: () => void;
   action: any;
-  flavor?: any;
+  flavor?: Flavor;
   version: string;
 }> = ({ children, action, flavor, onClose, version }) => {
   window.onkeydown = function (event: any) {
@@ -20,20 +21,23 @@ export const SidePopup: React.FC<{
   };
 
   const [defaultSdkDocsUrl] = useState(
-    flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl,
+    flavor?.sdk_docs_url ? flavor?.sdk_docs_url : flavor?.docs_url,
   );
   const [is404, setIs404] = useState(false);
 
   useEffect(() => {
     const checkIfUrlExist = async () => {
-      const check = await checkUrlStatus(defaultSdkDocsUrl);
+      const check = await checkUrlStatus(defaultSdkDocsUrl as string);
 
       setIs404(check);
     };
 
     checkIfUrlExist();
   }, [defaultSdkDocsUrl]);
-  const updatedSdkDocsUrl = replaceVersion(defaultSdkDocsUrl, version);
+  const updatedSdkDocsUrl = replaceVersion(
+    defaultSdkDocsUrl as string,
+    version,
+  );
 
   return (
     <FlexBox

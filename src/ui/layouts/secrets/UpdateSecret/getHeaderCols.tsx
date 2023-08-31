@@ -7,11 +7,12 @@ import {
 } from '../../../../utils';
 import { Box, FlexBox, icons, Paragraph, Tooltip } from '../../../components';
 import { HeaderCol } from '../../common/Table';
+import { Secret } from '../../../../api/types';
 
 export const GetHeaderCols = ({
   filteredSecret,
 }: {
-  filteredSecret: any[];
+  filteredSecret: Secret[];
 }): HeaderCol[] => {
   return [
     {
@@ -25,7 +26,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '20%',
-      renderRow: (secret: any) => (
+      renderRow: (secret: Secret) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={secret.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
@@ -47,7 +48,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '30%',
-      renderRow: (secret: any) => (
+      renderRow: (secret: Secret) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={secret.name}>
             <Paragraph size="small" color="black">
@@ -67,7 +68,7 @@ export const GetHeaderCols = ({
         </Box>
       ),
       width: '15%',
-      renderRow: (secret: any) => (
+      renderRow: (secret: Secret) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={secret.scope}>
             <Paragraph size="small" color="black">
@@ -86,7 +87,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '15%',
-      renderRow: (secret: any) => {
+      renderRow: (secret: Secret) => {
         return (
           <FlexBox alignItems="center">
             <div
@@ -128,7 +129,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '20%',
-      renderRow: (secret: any) => (
+      renderRow: (secret: Secret) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={formatDateToSort(secret.created)}>
             <FlexBox alignItems="center">

@@ -20,6 +20,7 @@ import { ItemPerPage } from '../../../common/ItemPerPage';
 
 import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQueryParam';
 import { callActionForStackComponentsForPagination } from '../useService';
+import { StackComponent } from '../../../../../api/types';
 
 interface Props {
   filter: any;
@@ -80,7 +81,7 @@ export const List: React.FC<Props> = ({
     setActiveSortingDirection,
   });
 
-  const openDetailPage = (stackComponent: TStack) => {
+  const openDetailPage = (stackComponent: StackComponent) => {
     setSelectedRunIds([]);
 
     if (id) {
@@ -140,7 +141,7 @@ export const List: React.FC<Props> = ({
           locationPath.split('/')[4],
           selectedWorkspace,
         )}
-        renderAfterRow={(stack: TStack) => (
+        renderAfterRow={(stack: StackComponent) => (
           <RunsForStackTable
             nestedRow={true}
             stack={stack}
@@ -160,7 +161,7 @@ export const List: React.FC<Props> = ({
         headerCols={headerCols}
         tableRows={filteredStacks}
         emptyState={
-          filter[0]?.value
+          filter && filter[0]?.value
             ? {
                 text: translate('emptyState.text'),
               }

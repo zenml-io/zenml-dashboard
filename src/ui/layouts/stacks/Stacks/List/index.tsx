@@ -12,6 +12,7 @@ import {
   workspaceSelectors,
   stackSelectors,
 } from '../../../../../redux/selectors';
+import { Stack } from '../../../../../api/types';
 
 import { stacksActions } from '../../../../../redux/actions';
 import { Pagination } from '../../../common/Pagination';
@@ -81,7 +82,7 @@ export const List: React.FC<Props> = ({
   });
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
-  const openDetailPage = (stack: TStack) => {
+  const openDetailPage = (stack: Stack) => {
     setSelectedRunIds([]);
     if (id) {
       history.push(routePaths.stacks.list(selectedWorkspace));
@@ -171,7 +172,7 @@ export const List: React.FC<Props> = ({
       }}
     >
       <CollapseTable
-        renderAfterRow={(stack: TStack) => (
+        renderAfterRow={(stack: Stack) => (
           <>
             <RunsForStackTable
               nestedRow={true}

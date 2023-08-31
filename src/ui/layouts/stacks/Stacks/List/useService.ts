@@ -12,13 +12,14 @@ import {
 } from '../../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 import { Sorting, SortingDirection } from './ForSorting/types';
+import { Stack } from '../../../../../api/types';
 
 interface ServiceInterface {
   openStackIds: TId[];
   setOpenStackIds: (ids: TId[]) => void;
   fetching: boolean;
-  setFilteredStacks: (stacks: TStack[]) => void;
-  filteredStacks: TStack[];
+  setFilteredStacks: (stacks: Stack[]) => void;
+  filteredStacks: Stack[];
   activeSorting: Sorting | null;
   setActiveSorting: (arg: Sorting | null) => void;
   activeSortingDirection: SortingDirection | null;
@@ -54,7 +55,7 @@ export const useService = ({
   const dispatch = useDispatch();
 
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
-  const [filteredStacks, setFilteredStacks] = useState<TStack[]>([]);
+  const [filteredStacks, setFilteredStacks] = useState<Stack[]>([]);
 
   const fetching = useSelector(stackPagesSelectors.fetching);
 
@@ -64,7 +65,7 @@ export const useService = ({
   const isValidFilter = filter.map((f) => f.value).join('');
 
   useEffect(() => {
-    setFilteredStacks(Stacks as TStack[]);
+    setFilteredStacks(Stacks as Stack[]);
   }, [Stacks, filter]);
 
   useEffect(() => {

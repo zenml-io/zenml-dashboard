@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
-
 import {
   Box,
   FlexBox,
@@ -11,7 +10,6 @@ import {
   PrimaryButton,
   TextButton,
 } from '../../components';
-
 import { BASE_API_URL, HUB_API_URL } from '../../../api/constants';
 import { Popup } from '../common/Popup';
 import {
@@ -53,7 +51,6 @@ export const ConnectHub: React.FC = () => {
   const [token, setToken] = useState('');
   const location = useLocation();
   const [popupOpen, setPopupOpen] = useState(getStartsOpen(location));
-  // const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
   const hubIsConnected = !!useHubToken();
   const authToken = useAuthToken();

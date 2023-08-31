@@ -6,7 +6,8 @@ import { stackSelectors } from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 
 interface ServiceInterface {
-  stack: TStack;
+  // refector it later
+  stack: any;
 }
 
 export const useService = (): ServiceInterface => {

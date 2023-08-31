@@ -12,9 +12,10 @@ import { useDispatch } from 'react-redux';
 import { stackPagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
 import { filterObjectForParam } from '../../../../utils';
+import { Secret } from '../../../../api/types';
 
 interface ServiceInterface {
-  secret: any;
+  secret: Secret;
 }
 
 export const useService = (): ServiceInterface => {

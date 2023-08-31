@@ -7,11 +7,12 @@ import {
 } from '../../../../utils';
 import { Box, FlexBox, icons, Paragraph, Tooltip } from '../../../components';
 import { HeaderCol } from '../../common/Table';
+import { Secret } from '../../../../api/types';
 
 export const GetHeaderCols = ({
   filteredSecret,
 }: {
-  filteredSecret: any[];
+  filteredSecret: Secret[];
 }): HeaderCol[] => {
   return [
     {
@@ -25,11 +26,11 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '20%',
-      renderRow: (secret: any) => (
+      renderRow: (secret: Secret) => (
         <>
           {secret.id && (
             <FlexBox alignItems="center">
-              <div data-tip data-for={secret?.id}>
+              <div data-tip data-for={secret.id}>
                 <FlexBox.Row style={{ alignItems: 'center' }}>
                   <icons.chevronDown
                     color={iconColors.grey}
@@ -54,7 +55,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '30%',
-      renderRow: (secret: any) => (
+      renderRow: (secret: Secret) => (
         <>
           {secret.name && (
             <FlexBox alignItems="center">
@@ -78,7 +79,7 @@ export const GetHeaderCols = ({
         </Box>
       ),
       width: '15%',
-      renderRow: (secret: any) => (
+      renderRow: (secret: Secret) => (
         <>
           {secret.scope && (
             <FlexBox alignItems="center">
@@ -101,7 +102,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '15%',
-      renderRow: (secret: any) => {
+      renderRow: (secret: Secret) => {
         return (
           <>
             {secret.user && (
@@ -109,29 +110,29 @@ export const GetHeaderCols = ({
                 <div
                   data-tip
                   data-for={
-                    secret?.user?.full_name
-                      ? secret?.user?.full_name
-                      : secret?.user?.name
+                    secret.user?.full_name
+                      ? secret.user?.full_name
+                      : secret.user?.name
                   }
                 >
                   <FlexBox alignItems="center">
                     <Paragraph size="small">
-                      {secret?.user?.full_name
-                        ? secret?.user?.full_name
-                        : secret?.user?.name}
+                      {secret.user?.full_name
+                        ? secret.user?.full_name
+                        : secret.user?.name}
                     </Paragraph>
                   </FlexBox>
                 </div>
                 <Tooltip
                   id={
-                    secret?.user?.full_name
+                    secret.user?.full_name
                       ? secret.user?.full_name
-                      : secret?.user?.name
+                      : secret.user?.name
                   }
                   text={
-                    secret?.user?.full_name
+                    secret.user?.full_name
                       ? secret.user?.full_name
-                      : secret?.user?.name
+                      : secret.user?.name
                   }
                 />
               </FlexBox>
@@ -147,7 +148,7 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '20%',
-      renderRow: (secret: any) => (
+      renderRow: (secret: Secret) => (
         <>
           {secret.created && (
             <FlexBox alignItems="center">

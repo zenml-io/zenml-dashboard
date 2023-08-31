@@ -43,7 +43,7 @@ export const Configuration: React.FC<{
 
   const { stackComponent, flavor } = useService({
     stackId,
-  });
+  }) as any;
 
   const user = useSelector(userSelectors.myUser);
   const [componentfetching, setComponentFetching] = useState(false);
@@ -379,7 +379,7 @@ export const Configuration: React.FC<{
 
           <Box style={{ position: 'relative' }}>
             {Object.entries(elementSchema || {}).map(([key, value], index) => (
-              <>
+              <React.Fragment key={index}>
                 <div
                   style={{
                     position: 'absolute',
@@ -453,13 +453,13 @@ export const Configuration: React.FC<{
                     />
                   </FlexBox.Row>
                 </div>
-              </>
+              </React.Fragment>
             ))}
           </Box>
 
           <Box style={{ position: 'relative' }}>
             {inputFields.map((inputField: any, index: any) => (
-              <>
+              <React.Fragment key={index}>
                 <div
                   style={{
                     position: 'absolute',
@@ -535,7 +535,7 @@ export const Configuration: React.FC<{
                     </Box>
                   </FlexBox.Row>
                 </div>
-              </>
+              </React.Fragment>
             ))}
           </Box>
         </Box>
@@ -652,7 +652,7 @@ export const Configuration: React.FC<{
     return <FullWidthSpinner color="black" size="md" />;
   }
 
-  let result = Object.keys(flavor?.configSchema?.properties).reduce(function (
+  let result = Object.keys(flavor.configSchema.properties).reduce(function (
     r: any,
     name: any,
   ) {
@@ -698,7 +698,7 @@ export const Configuration: React.FC<{
               onChangeText={(e: any) => onPressEnter(e, 'name')}
               label={'Component Name'}
               optional={false}
-              defaultValue={stackComponent.name}
+              defaultValue={stackComponent?.name}
               placeholder=""
               hasError={false}
               className={styles.field}
@@ -708,16 +708,16 @@ export const Configuration: React.FC<{
         <Container>
           <Box marginTop="lg" style={{ width: '30vw' }}>
             <ToggleField
-              value={stackComponent.isShared}
+              value={stackComponent?.isShared}
               onHandleChange={() =>
-                onChangeToggle(!stackComponent.isShared, 'share')
+                onChangeToggle(!stackComponent?.isShared, 'share')
               }
               label="Share Component with public"
               disabled={true}
             />
           </Box>
         </Container>
-        {flavor.connectorResourceType && (
+        {flavor.connector_resource_type && (
           <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
             <Box>
               <Paragraph size="body" style={{ color: '#000' }}>
@@ -732,7 +732,7 @@ export const Configuration: React.FC<{
                   borderWidth: '0px',
                 }}
               >
-                {stackComponent.connector ? (
+                {stackComponent?.connector ? (
                   <FlexBox className={styles.service_selector_selected}>
                     <Box marginRight="sm"></Box>
 
@@ -761,8 +761,10 @@ export const Configuration: React.FC<{
       </FlexBox.Row>
       <FlexBox.Row style={{ width: '40%' }}>
         <Container>
-          {Object.keys(mappedObject).map((key, ind) => (
-            <>{getFormElement(key, mappedObject[key])}</>
+          {Object.keys(mappedObject).map((key, index) => (
+            <React.Fragment key={index}>
+              {getFormElement(key, mappedObject[key])}
+            </React.Fragment>
           ))}
         </Container>
       </FlexBox.Row>

@@ -4,10 +4,7 @@ import _ from 'lodash';
 import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { stackPagesActions } from '../../../../redux/actions';
-
 import { organizationSelectors } from '../../../../redux/selectors';
-
 import { Sorting, SortingDirection } from './ForSorting/types';
 
 interface ServiceInterface {
@@ -17,11 +14,6 @@ interface ServiceInterface {
   setActiveSorting: (arg: Sorting | null) => void;
   activeSortingDirection: SortingDirection | null;
   setActiveSortingDirection: (arg: SortingDirection | null) => void;
-}
-interface filterValue {
-  label: string;
-  type: string;
-  value: string;
 }
 
 export const useService = (): ServiceInterface => {
@@ -33,7 +25,6 @@ export const useService = (): ServiceInterface => {
     activeSortingDirection,
     setActiveSortingDirection,
   ] = React.useState<SortingDirection | null>('DESC');
-  const dispatch = useDispatch();
 
   const members = useSelector(organizationSelectors.myMembers);
 

@@ -42,9 +42,9 @@ export const CustomFlavourBox: React.FC<{
           className={styles.flavourDesc}
           style={{ color: select ? '#D8C6FC' : '#A8A8A8' }}
         >
-          {flavourDesc.length < 35
+          {flavourDesc?.length < 35
             ? `${flavourDesc}`
-            : `${flavourDesc.substring(0, 30)}...`}
+            : `${flavourDesc?.substring(0, 30)}...`}
         </Paragraph>
       </Box>
     </Box>

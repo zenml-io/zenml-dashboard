@@ -6,7 +6,6 @@ import { PopupSmall } from '../../common/PopupSmall';
 import { translate } from './translate';
 import { organizationActions } from '../../../../redux/actions/organizations/index';
 import { showToasterAction } from '../../../../redux/actions/showToasterAction';
-
 import { rolesSelectors } from '../../../../redux/selectors';
 import { useSelector } from '../../../hooks';
 import { RoleSelectorAPI } from './RoleSelector/RoleSelectorAPI';
@@ -14,7 +13,7 @@ import { formatDateToDisplayWithoutTime } from '../../../../utils';
 import { getInitials } from '../../../../utils/name';
 
 export const UpdateMember: React.FC<{
-  member: any;
+  member: TMember;
   setEditPopup: any;
   setShowPasswordUpdate: any;
   setUser: any;

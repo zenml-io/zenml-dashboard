@@ -9,7 +9,8 @@ interface ServiceInterface {
 }
 
 export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
-  const stack: TStack = useSelector(stackSelectors.stackForId(stackId));
+  // refector it later.
+  const stack: any = useSelector(stackSelectors.stackForId(stackId));
 
   const yamlConfigObj: any = {
     stack_name: stack.name,
