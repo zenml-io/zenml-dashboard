@@ -13,7 +13,6 @@ import { Box } from '../../../components';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
 
@@ -50,6 +49,7 @@ const FilterWrapperForRun = () => {
     </Box>
   );
 };
+
 const FilterWrapperForConfiguration = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
   const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
@@ -63,6 +63,7 @@ const FilterWrapperForConfiguration = () => {
     </Box>
   );
 };
+
 const getTabPages = (pipelineId: TId, selectedWorkspace: string): TabPage[] => {
   return [
     {

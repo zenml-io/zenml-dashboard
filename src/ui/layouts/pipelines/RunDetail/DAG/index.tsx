@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { FlexBox } from '../../../../components';
-
 import { useService } from './useService';
 
 export const DAG: React.FC<{ runId: TId }> = ({ runId }) => {

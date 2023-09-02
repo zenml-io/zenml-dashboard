@@ -9,10 +9,9 @@ import {
   runPagesActions,
 } from '../../../../redux/actions';
 import { workspaceSelectors } from '../../../../redux/selectors';
-
 import { useDispatch, useSelector } from '../../../hooks';
-
 import { filterObjectForParam } from '../../../../utils';
+
 interface ServiceInterface {
   setFetchingForPipeline: (arg: boolean) => void;
   setFetchingForAllRuns: (arg: boolean) => void;

@@ -38,6 +38,7 @@ export const useService = ({
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const runsPaginated = useSelector(runSelectors.myRunsPaginated);
   const isValidFilter = filter?.map((f) => f.value).join('');
+
   useEffect(() => {
     if (!isValidFilter && !isExpended) {
       const intervalId = setInterval(() => {

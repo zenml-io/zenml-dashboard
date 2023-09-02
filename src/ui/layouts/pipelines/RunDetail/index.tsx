@@ -37,7 +37,6 @@ const getTabPages = ({
   return [
     {
       text: 'DAG Visualizer',
-
       Component: () => (
         <DAG
           runId={runId}
@@ -55,7 +54,6 @@ const getTabPages = ({
     },
     {
       text: 'Configuration',
-
       Component: () => <Configuration runId={runId} />,
       path: routePaths.run.pipeline.results(
         selectedWorkspace,
@@ -65,7 +63,6 @@ const getTabPages = ({
     },
     {
       text: 'Details',
-
       Component: () => <Details runId={runId} />,
       path: routePaths.run.pipeline.details(
         selectedWorkspace,
