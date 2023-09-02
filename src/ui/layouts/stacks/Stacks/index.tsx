@@ -3,9 +3,7 @@ import { translate } from './translate';
 import { List } from './List';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
-
 import { useService } from './useService';
-
 import FilterComponent, {
   getInitialFilterState,
 } from '../../../components/Filters';

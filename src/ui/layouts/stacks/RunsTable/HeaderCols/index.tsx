@@ -1,20 +1,27 @@
 import _ from 'lodash';
 import React from 'react';
-
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
-
 import { truncate, formatDateToDisplayOnTable } from '../../../../../utils';
 import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import { FlexBox, Paragraph, Tooltip, icons } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
-
 import { SortingHeader } from '../SortingHeader';
 import { Sorting, SortingDirection } from '../types';
 import { useService } from './useService';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 import { Run } from '../../../../../api/types';
+
+const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
+  <Paragraph
+    size="small"
+    color="black"
+    style={{ fontSize: '14px', marginLeft: margin }}
+  >
+    {text}
+  </Paragraph>
+);
 
 export const useHeaderCols = ({
   isExpended,
@@ -59,13 +66,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph
-            size="small"
-            color="black"
-            style={{ fontSize: '14px', marginLeft: '33px' }}
-          >
-            RUN ID
-          </Paragraph>
+          <HeaderText text="RUN ID" margin="33px" />
         </SortingHeader>
       ),
       width: '20%',
@@ -102,9 +103,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            RUN NAME
-          </Paragraph>
+          <HeaderText text="RUN NAME" />
         </SortingHeader>
       ),
       width: '30%',
@@ -129,9 +128,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            PIPELINE
-          </Paragraph>
+          <HeaderText text="PIPELINE" />
         </SortingHeader>
       ),
       width: '7.5%',
@@ -180,15 +177,12 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            STATUS
-          </Paragraph>
+          <HeaderText text="STATUS" />
         </SortingHeader>
       ),
       width: '7.5%',
       renderRow: (run: Run) => <RunStatus run={run} />,
     },
-
     {
       render: () => (
         <SortingHeader
@@ -201,9 +195,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            STACK NAME
-          </Paragraph>
+          <HeaderText text="STACK NAME" />
         </SortingHeader>
       ),
       width: '7.5%',
@@ -234,7 +226,6 @@ export const useHeaderCols = ({
         </FlexBox>
       ),
     },
-
     {
       render: () => (
         <SortingHeader
@@ -247,9 +238,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            AUTHOR
-          </Paragraph>
+          <HeaderText text="AUTHOR" />
         </SortingHeader>
       ),
       width: '7.5%',
@@ -298,9 +287,7 @@ export const useHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            CREATED AT
-          </Paragraph>
+          <HeaderText text="CREATED AT" />
         </SortingHeader>
       ),
       width: '20%',

@@ -1,15 +1,10 @@
 /* eslint-disable */
 
 import { StackDetailRouteParams } from '.';
-import {
-  pipelinesActions,
-  runPagesActions,
-  stacksActions,
-} from '../../../../redux/actions';
+import { runPagesActions, stacksActions } from '../../../../redux/actions';
 import { stackSelectors } from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
-import { stackPagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
 import { filterObjectForParam } from '../../../../utils';
 import { Stack } from '../../../../api/types';

@@ -5,13 +5,10 @@ import { BasePage } from '../BasePage';
 import { Configuration } from './Configuration';
 import { useService } from './useService';
 import { DAG } from '../../../components/dag';
-
 import { Box } from '../../../components';
-
 import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { Stack } from '../../../../api/types';
-
 import { Table } from '../../common/Table';
 import { useHeaderCols } from './HeaderCols';
 

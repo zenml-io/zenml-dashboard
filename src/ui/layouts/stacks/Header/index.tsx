@@ -1,15 +1,12 @@
 import React from 'react';
 import cn from 'classnames';
-
 import { FlexBox, Box, Paragraph } from '../../../components';
-
 import styles from './index.module.scss';
 import { constantCommandsToCreateStack } from '../../../../constants/constantCommands';
 
 const DefaultHeader: React.FC<{
   breadcrumbs: TBreadcrumb[];
-  renderRight?: () => JSX.Element;
-}> = ({ breadcrumbs, renderRight }) => (
+}> = ({ breadcrumbs }) => (
   <FlexBox
     marginTop="xl"
     alignItems="center"

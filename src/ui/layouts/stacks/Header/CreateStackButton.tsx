@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
-
 import {
   Box,
   PrimaryButton,
@@ -16,9 +15,8 @@ import { CommandBoxWScroll } from '../../common/CommandBox';
 import { constantCommandsToCreateStack } from '../../../../constants/constantCommands';
 
 export const CreateStackButton: React.FC = () => {
-  const [createStackPopupOpen, setCreateStackPopupOpen] = React.useState<
-    boolean
-  >(false);
+  const [createStackPopupOpen, setCreateStackPopupOpen] =
+    React.useState<boolean>(false);
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = (codeString: string) => {
@@ -49,7 +47,7 @@ export const CreateStackButton: React.FC = () => {
           </FlexBox.Row>
           {constantCommandsToCreateStack.body.map((item): any =>
             item.isCode ? (
-              <FlexBox alignItems="center" marginTop="md">
+              <FlexBox key={item.text} alignItems="center" marginTop="md">
                 <CommandBoxWScroll command={item.text} />
                 <Box
                   className={styles.iconStyle}
@@ -60,7 +58,7 @@ export const CreateStackButton: React.FC = () => {
                 </Box>
               </FlexBox>
             ) : (
-              <FlexBox.Row>
+              <FlexBox.Row key={item.text}>
                 <Box marginTop="md">
                   <Paragraph>{item.text}</Paragraph>
                 </Box>
