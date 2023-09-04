@@ -262,7 +262,8 @@ export const GetHeaderCols = ({
           <div data-tip data-for={formatDateToDisplayOnTable(pipeline.created)}>
             <FlexBox alignItems="center">
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(pipeline.created)}
+                {pipeline.spec}
+                {/* {formatDateToDisplayOnTable(pipeline.created)} */}
               </Paragraph>
             </FlexBox>
           </div>
