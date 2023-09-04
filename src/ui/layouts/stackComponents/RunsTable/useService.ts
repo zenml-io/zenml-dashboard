@@ -7,7 +7,6 @@ import { Sorting, SortingDirection } from './types';
 import { stackPagesActions } from '../../../../redux/actions';
 import { useDispatch, useSelector } from '../../../hooks';
 import { runSelectors } from '../../../../redux/selectors';
-import { getFilteredDataForTable } from '../../../../utils/tableFilters';
 import { source } from '../../../../api/fetchApi';
 import { Run } from '../../../../api/types';
 
@@ -41,10 +40,8 @@ export const useService = ({
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'created',
   );
-  const [
-    activeSortingDirection,
-    setActiveSortingDirection,
-  ] = React.useState<SortingDirection | null>('DESC');
+  const [activeSortingDirection, setActiveSortingDirection] =
+    React.useState<SortingDirection | null>('DESC');
   const [sortedRuns, setSortedRuns] = React.useState<Run[]>([]);
 
   const runs = useSelector(runSelectors.forRunIds(runIds));

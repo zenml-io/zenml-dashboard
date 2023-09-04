@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
-
 import { Table } from '../../common/Table';
-
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
 import { workspaceSelectors } from '../../../../redux/selectors';
@@ -40,9 +38,8 @@ export const RunsTable: React.FC<{
   const locationPath = useLocationPath();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
-  const {
-    dispatchStackComponentRunsData,
-  } = callActionForStackComponentRunsForPagination();
+  const { dispatchStackComponentRunsData } =
+    callActionForStackComponentRunsForPagination();
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );

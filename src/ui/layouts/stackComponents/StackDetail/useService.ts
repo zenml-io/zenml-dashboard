@@ -30,7 +30,6 @@ interface ServiceInterface {
 export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const authToken = useSelector(sessionSelectors.authenticationToken);
-  const [mapStackComponent, setMapppedStackComponent] = useState([]);
   const [fetching, setFetching] = useState(false);
   const [flavor, setFlavor] = useState(([] as unknown) as Flavor);
   const [
