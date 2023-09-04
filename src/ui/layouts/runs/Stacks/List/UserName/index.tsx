@@ -18,7 +18,7 @@ export const UserName: React.FC<{ stack: TStack }> = ({ stack }) => {
     return <Spinner size="xs" color="black" />;
   }
 
-  const userFullName = user.fullName || DEFAULT_FULL_NAME;
+  const userFullName = user.full_name || DEFAULT_FULL_NAME;
   const initials = getInitials(userFullName);
 
   return (
