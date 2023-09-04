@@ -25,3 +25,5 @@ export type Run = components['schemas']['PipelineRunResponseModel'];
 
 // //Repository
 export type Repository = components['schemas']['CodeRepositoryResponseModel'];
+
+export type Workspace = components['schemas']['WorkspaceResponseModel'];

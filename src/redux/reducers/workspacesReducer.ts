@@ -1,3 +1,4 @@
+import { Workspace } from '../../api/types';
 import { DEFAULT_WORKSPACE_NAME } from '../../constants';
 import { camelCaseArray } from '../../utils/camelCase';
 import { workspaceActionTypes } from '../actionTypes';
@@ -5,15 +6,11 @@ import { byKeyInsert, idsInsert } from './reducerHelpers';
 
 export interface State {
   ids: TId[];
-  byId: Record<TId, Workspaces>;
+  byId: Record<TId, Workspace>;
   myWorkspaceIds: TId[];
   selectedWorkspace: string;
   workspaceStats: any;
 }
-
-type WorkspacesPayload = Workspaces[];
-
-type WorkspacePayload = Workspaces;
 
 export type Action = {
   requestParams: any;
@@ -31,7 +28,7 @@ export const initialState: State = {
 
 const newState = (
   state: State,
-  workspaces: Workspaces[],
+  workspaces: Workspace[],
   defaultSelectedWorkspace?: string,
   workspaceStats?: object,
 ): State => ({
@@ -48,12 +45,10 @@ const workspacesReducer = (
 ): State => {
   switch (action.type) {
     case workspaceActionTypes.getMyWorkspaces.success: {
-      const workspaces: Workspaces[] = camelCaseArray(
-        action.payload.items as WorkspacesPayload,
-      );
+      const workspaces: Workspace[] = camelCaseArray(action.payload.items);
 
       const myWorkspaceIds: TId[] = workspaces.map(
-        (workspace: Workspaces) => workspace.id,
+        (workspace: Workspace) => workspace.id,
       );
       if (action.requestParams.selectDefault === undefined) {
         const defaultSelectedWorkspace = DEFAULT_WORKSPACE_NAME;
@@ -76,7 +71,7 @@ const workspacesReducer = (
       const { seletecdWorkspace, allWorkspaces } = action.payload as any;
 
       const myWorkspaceIds: TId[] = allWorkspaces.map(
-        (workspace: Workspaces) => workspace.id,
+        (workspace: Workspace) => workspace.id,
       );
 
       return {
