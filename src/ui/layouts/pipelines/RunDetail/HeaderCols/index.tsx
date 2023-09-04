@@ -103,7 +103,7 @@ export const useHeaderCols = ({ runs }: { runs: TRun[] }): HeaderCol[] => {
         </div>
       ),
       width: '7.5%',
-      renderRow: (run: Run) => <RunStatus run={run} />,
+      renderRow: (run: Run) => <RunStatus run={run as any} />,
     },
     {
       render: () => <HeaderText text="STACK NAME" />,
