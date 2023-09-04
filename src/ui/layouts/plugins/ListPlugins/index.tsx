@@ -25,6 +25,8 @@ import PluginFallbackImage from '../../../assets/plugin-fallback.svg';
 import { getPlugins, getStarredPlugins, starPlugin } from '../api';
 import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
 import { Filters } from './Filters';
+import { MyFallbackComponent } from '../../../components/FallbackComponent';
+import { ErrorBoundary } from 'react-error-boundary';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -99,182 +101,191 @@ const ListPlugins: React.FC = () => {
   }, [hubUser, hubToken]);
 
   return (
-    <AuthenticatedLayout
-      breadcrumb={[
-        {
-          name: 'List plugins',
-          clickable: true,
-          to: routePaths.plugins.list(
-            selectedWorkspace ?? DEFAULT_WORKSPACE_NAME,
-          ),
-        },
-      ]}
+    <ErrorBoundary
+      FallbackComponent={MyFallbackComponent}
+      onReset={() => {
+        history.push(routePaths.dashboard(selectedWorkspace));
+      }}
     >
-      <PluginsLayout title="Plugins">
-        <FlexBox paddingVertical={'lg3'}>
-          <FlexBox fullWidth marginRight="md" style={{ maxWidth: '300px' }}>
-            <IconInputField
-              placeholder="Search"
-              defaultValue={searchQuery}
-              onChange={debounce(setSearchQuery, 400)}
-            />
+      <AuthenticatedLayout
+        breadcrumb={[
+          {
+            name: 'List plugins',
+            clickable: true,
+            to: routePaths.plugins.list(
+              selectedWorkspace ?? DEFAULT_WORKSPACE_NAME,
+            ),
+          },
+        ]}
+      >
+        <PluginsLayout title="Plugins">
+          <FlexBox paddingVertical={'lg3'}>
+            <FlexBox fullWidth marginRight="md" style={{ maxWidth: '300px' }}>
+              <IconInputField
+                placeholder="Search"
+                defaultValue={searchQuery}
+                onChange={debounce(setSearchQuery, 400)}
+              />
+            </FlexBox>
+
+            <Filters currentFilters={filters} updateFilters={setFilters} />
           </FlexBox>
 
-          <Filters currentFilters={filters} updateFilters={setFilters} />
-        </FlexBox>
+          {/* list plugins */}
+          <FlexBox flexWrap={true} padding="lg">
+            {fetching ? (
+              <FullWidthSpinner color="black" size="md" />
+            ) : (
+              plugins.map((p) => {
+                const starred = starredPlugins.has(p.id);
+                const StarIcon = starred ? icons.star : icons.starOutline;
 
-        {/* list plugins */}
-        <FlexBox flexWrap={true} padding="lg">
-          {fetching ? (
-            <FullWidthSpinner color="black" size="md" />
-          ) : (
-            plugins.map((p) => {
-              const starred = starredPlugins.has(p.id);
-              const StarIcon = starred ? icons.star : icons.starOutline;
+                return (
+                  <LinkBox
+                    key={p.id}
+                    style={{
+                      position: 'relative',
+                      padding: '12px',
+                      width: '290px',
+                      boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
+                      borderRadius: '4px',
+                      display: 'flex',
+                      flexDirection: 'column',
+                      justifyContent: 'space-between',
+                      margin: '0 16px 16px 0',
+                    }}
+                    onClick={() =>
+                      history.push(
+                        routePaths.plugins.detail.overview(
+                          selectedWorkspace,
+                          p.id,
+                        ),
+                      )
+                    }
+                  >
+                    <div>
+                      {p.author === 'ZenML' && (
+                        <icons.verified color={iconColors.primary} size="sm" />
+                      )}
+                      {/* logo */}
+                      <img
+                        src={p.logo_url || PluginFallbackImage}
+                        alt={`${p.name} logo`}
+                        style={{
+                          height: '80px',
+                          maxWidth: '60%',
+                          objectFit: 'contain',
+                          display: 'block',
+                          margin: 'auto',
+                          marginTop: 24,
+                          marginBottom: 16,
+                        }}
+                      />
+                    </div>
+                    <div>
+                      <H4
+                        color="primary"
+                        style={{
+                          fontSize: '16px',
+                          marginTop: 12,
+                          marginBottom: 4,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        <span title={`${p.author}/${p.name}`}>
+                          {p.author === 'ZenML' ? '' : `${p.author}/`}
+                          {p.name}
+                        </span>
+                      </H4>
 
-              return (
-                <LinkBox
-                  key={p.id}
-                  style={{
-                    position: 'relative',
-                    padding: '12px',
-                    width: '290px',
-                    boxShadow: '0px 4px 20px rgba(0, 0, 0, 0.05)',
-                    borderRadius: '4px',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-between',
-                    margin: '0 16px 16px 0',
-                  }}
-                  onClick={() =>
-                    history.push(
-                      routePaths.plugins.detail.overview(
-                        selectedWorkspace,
-                        p.id,
-                      ),
-                    )
-                  }
-                >
-                  <div>
-                    {p.author === 'ZenML' && (
-                      <icons.verified color={iconColors.primary} size="sm" />
-                    )}
-                    {/* logo */}
-                    <img
-                      src={p.logo_url || PluginFallbackImage}
-                      alt={`${p.name} logo`}
-                      style={{
-                        height: '80px',
-                        maxWidth: '60%',
-                        objectFit: 'contain',
-                        display: 'block',
-                        margin: 'auto',
-                        marginTop: 24,
-                        marginBottom: 16,
-                      }}
-                    />
-                  </div>
-                  <div>
-                    <H4
-                      color="primary"
-                      style={{
-                        fontSize: '16px',
-                        marginTop: 12,
-                        marginBottom: 4,
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                      }}
+                      <Paragraph
+                        style={{
+                          color: '#A8A8A8',
+                          fontSize: '12px',
+                          lineHeight: '14px',
+                          marginBottom: 20,
+                          whiteSpace: 'nowrap',
+                          overflow: 'hidden',
+                          textOverflow: 'ellipsis',
+                        }}
+                      >
+                        {' '}
+                        <span title={p.description}>{p.description}</span>
+                      </Paragraph>
+                    </div>
+
+                    <FlexBox
+                      style={{ position: 'absolute', top: 8, right: 12 }}
                     >
-                      <span title={`${p.author}/${p.name}`}>
-                        {p.author === 'ZenML' ? '' : `${p.author}/`}
-                        {p.name}
-                      </span>
-                    </H4>
+                      <Box
+                        onClick={(e) => {
+                          // don't navigate to the plugin page
+                          e.stopPropagation();
 
-                    <Paragraph
-                      style={{
-                        color: '#A8A8A8',
-                        fontSize: '12px',
-                        lineHeight: '14px',
-                        marginBottom: 20,
-                        whiteSpace: 'nowrap',
-                        overflow: 'hidden',
-                        textOverflow: 'ellipsis',
-                      }}
-                    >
-                      {' '}
-                      <span title={p.description}>{p.description}</span>
-                    </Paragraph>
-                  </div>
-
-                  <FlexBox style={{ position: 'absolute', top: 8, right: 12 }}>
-                    <Box
-                      onClick={(e) => {
-                        // don't navigate to the plugin page
-                        e.stopPropagation();
-
-                        if (starred) {
-                          successToast({
-                            description: "You've already starred this plugin",
-                          });
-                        } else if (!hubUser || !hubToken) {
-                          dispatch({
-                            type: hubConnectionPromptActionTypes.show,
-                          });
-                        } else {
-                          // optimistic UI update
-                          setStarredPlugins(
-                            (s) => new Set([...Array.from(s), p.id]),
-                          );
-                          starPlugin(hubUser.id, p.id, hubToken).catch(() => {
-                            failureToast({
-                              description: 'Error starring plugin',
+                          if (starred) {
+                            successToast({
+                              description: "You've already starred this plugin",
                             });
+                          } else if (!hubUser || !hubToken) {
+                            dispatch({
+                              type: hubConnectionPromptActionTypes.show,
+                            });
+                          } else {
+                            // optimistic UI update
                             setStarredPlugins(
-                              (s) =>
-                                new Set(
-                                  Array.from(s).filter((id) => id !== p.id),
-                                ),
+                              (s) => new Set([...Array.from(s), p.id]),
                             );
-                          });
-                        }
-                      }}
-                      paddingRight="md"
-                    ></Box>
-                    <StarIcon size="sm" color={iconColors.primary} />
-                  </FlexBox>
-                </LinkBox>
-              );
-            })
-          )}
-        </FlexBox>
+                            starPlugin(hubUser.id, p.id, hubToken).catch(() => {
+                              failureToast({
+                                description: 'Error starring plugin',
+                              });
+                              setStarredPlugins(
+                                (s) =>
+                                  new Set(
+                                    Array.from(s).filter((id) => id !== p.id),
+                                  ),
+                              );
+                            });
+                          }
+                        }}
+                        paddingRight="md"
+                      ></Box>
+                      <StarIcon size="sm" color={iconColors.primary} />
+                    </FlexBox>
+                  </LinkBox>
+                );
+              })
+            )}
+          </FlexBox>
 
-        {/* create plugin */}
-        <FlexBox
-          style={{
-            position: 'fixed',
-            right: '0',
-            bottom: '0',
-            marginRight: '45px',
-          }}
-        >
-          <Box marginBottom="lg">
-            <PrimaryButton
-              onClick={() => {
-                if (hubIsConnected) {
-                  history.push(routePaths.plugins.create(selectedWorkspace));
-                } else {
-                  dispatch({ type: hubConnectionPromptActionTypes.show });
-                }
-              }}
-            >
-              Create Plugin
-            </PrimaryButton>
-          </Box>
-        </FlexBox>
-      </PluginsLayout>
-    </AuthenticatedLayout>
+          {/* create plugin */}
+          <FlexBox
+            style={{
+              position: 'fixed',
+              right: '0',
+              bottom: '0',
+              marginRight: '45px',
+            }}
+          >
+            <Box marginBottom="lg">
+              <PrimaryButton
+                onClick={() => {
+                  if (hubIsConnected) {
+                    history.push(routePaths.plugins.create(selectedWorkspace));
+                  } else {
+                    dispatch({ type: hubConnectionPromptActionTypes.show });
+                  }
+                }}
+              >
+                Create Plugin
+              </PrimaryButton>
+            </Box>
+          </FlexBox>
+        </PluginsLayout>
+      </AuthenticatedLayout>
+    </ErrorBoundary>
   );
 };
 
