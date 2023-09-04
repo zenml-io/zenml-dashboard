@@ -26,4 +26,9 @@ export type Run = components['schemas']['PipelineRunResponseModel'];
 // //Repository
 export type Repository = components['schemas']['CodeRepositoryResponseModel'];
 
+//workspace
 export type Workspace = components['schemas']['WorkspaceResponseModel'];
+
+//user
+export type User = components['schemas']['UserResponseModel'];
+export type UpdateUser = components['schemas']['UserUpdateModel'];

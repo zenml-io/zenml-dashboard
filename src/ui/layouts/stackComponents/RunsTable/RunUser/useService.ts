@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import { userActions } from '../../../../../redux/actions';
 import { userSelectors } from '../../../../../redux/selectors';
 import { useDispatch, useSelector } from '../../../../hooks';
-import { Run } from '../../../../../api/types';
+import { Run, User } from '../../../../../api/types';
 
 interface ServiceInterface {
   fetching: boolean;
-  user: TUser;
+  user: User;
 }
 
 export const useService = ({ run }: { run: Run }): ServiceInterface => {
