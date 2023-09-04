@@ -17,6 +17,7 @@ import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { callActionForPipelinesForPagination } from '../useService';
 import { Pipeline } from '../../../../../api/types';
+
 interface ServiceInterface {
   openPipelineIds: TId[];
   setOpenPipelineIds: (ids: TId[]) => void;
@@ -67,6 +68,7 @@ export const useService = ({
   );
   const isValidFilter = filter?.map((f) => f.value).join('');
   const { dispatchPipelineData } = callActionForPipelinesForPagination();
+
   useEffect(() => {
     setFilteredPipelines(pipelines as any[]);
   }, [filter, pipelines]);

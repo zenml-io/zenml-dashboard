@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { FlexBox, Box, Paragraph } from '../../../components';
-
 import styles from './index.module.scss';
 import { constantCommandsToCreatePipeline } from '../../../../constants/constantCommands';
 

@@ -27,6 +27,16 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 import { Run } from '../../../../../api/types';
 
+const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
+  <Paragraph
+    size="small"
+    color="black"
+    style={{ fontSize: '14px', marginLeft: margin }}
+  >
+    {text}
+  </Paragraph>
+);
+
 export const useHeaderCols = ({
   isExpended,
   runs,
@@ -70,13 +80,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph
-                size="small"
-                color="black"
-                style={{ fontSize: '14px', marginLeft: '30px' }}
-              >
-                RUN ID
-              </Paragraph>
+              <HeaderText text="RUN ID" margin="30px" />
             </SortingHeader>
           ),
           width: '15%',
@@ -116,13 +120,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph
-                size="small"
-                color="black"
-                style={{ fontSize: '14px' }}
-              >
-                RUN NAME
-              </Paragraph>
+              <HeaderText text="RUN NAME" />
             </SortingHeader>
           ),
           width: '15%',
@@ -149,21 +147,13 @@ export const useHeaderCols = ({
               activeSortingDirection={activeSortingDirection}
             >
               <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-                <Paragraph
-                  size="small"
-                  color="black"
-                  style={{ fontSize: '14px', marginLeft: '-24px' }}
-                >
-                  STATUS
-                </Paragraph>
+                <HeaderText text="STATUS" margin="-24px" />
               </div>
             </SortingHeader>
           ),
           width: '15%',
-
-          renderRow: (run: Run) => <RunStatus run={run} />,
+          renderRow: (run: TRun) => <RunStatus run={run} />,
         },
-
         {
           render: () => (
             <SortingHeader
@@ -186,13 +176,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph
-                size="small"
-                color="black"
-                style={{ fontSize: '14px' }}
-              >
-                CREATED
-              </Paragraph>
+              <HeaderText text="CREATED" />
             </SortingHeader>
           ),
           width: '15%',
@@ -232,13 +216,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph
-                size="small"
-                color="black"
-                style={{ fontSize: '14px', marginLeft: '30px' }}
-              >
-                RUN ID
-              </Paragraph>
+              <HeaderText text="RUN ID" margin="30px" />
             </SortingHeader>
           ),
           width: '20%',
@@ -278,13 +256,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph
-                size="small"
-                color="black"
-                style={{ fontSize: '14px' }}
-              >
-                RUN NAME
-              </Paragraph>
+              <HeaderText text="RUN NAME" />
             </SortingHeader>
           ),
           width: '30%',
@@ -309,13 +281,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph
-                size="small"
-                color="black"
-                style={{ fontSize: '14px' }}
-              >
-                PIPELINE
-              </Paragraph>
+              <HeaderText text="PIPELINE" />
             </SortingHeader>
           ),
           width: '7.5%',
@@ -367,19 +333,12 @@ export const useHeaderCols = ({
               activeSortingDirection={activeSortingDirection}
             >
               <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-                <Paragraph
-                  size="small"
-                  color="black"
-                  style={{ fontSize: '14px', marginLeft: '-24px' }}
-                >
-                  STATUS
-                </Paragraph>
+                <HeaderText text="STATUS" margin="-24px" />
               </div>
             </SortingHeader>
           ),
           width: '7.5%',
-
-          renderRow: (run: Run) => <RunStatus run={run} />,
+          renderRow: (run: TRun) => <RunStatus run={run} />,
         },
         {
           render: () => (
@@ -393,13 +352,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph
-                size="small"
-                color="black"
-                style={{ fontSize: '14px' }}
-              >
-                STACK NAME
-              </Paragraph>
+              <HeaderText text="STACK NAME" />
             </SortingHeader>
           ),
           width: '7.5%',
@@ -430,7 +383,6 @@ export const useHeaderCols = ({
             </FlexBox>
           ),
         },
-
         {
           render: () => (
             <SortingHeader
@@ -443,13 +395,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph
-                size="small"
-                color="black"
-                style={{ fontSize: '14px' }}
-              >
-                {translate('author.text')}
-              </Paragraph>
+              <HeaderText text={translate('author.text')} />
             </SortingHeader>
           ),
           width: '7.5%',
@@ -514,13 +460,7 @@ export const useHeaderCols = ({
               activeSorting={activeSorting}
               activeSortingDirection={activeSortingDirection}
             >
-              <Paragraph
-                size="small"
-                color="black"
-                style={{ fontSize: '14px' }}
-              >
-                {translate('createdAt.text')}
-              </Paragraph>
+              <HeaderText text={translate('createdAt.text')} />
             </SortingHeader>
           ),
           width: '20%',
