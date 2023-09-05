@@ -2,9 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { routePaths } from '../../../../routes/routePaths';
 import { useHistory, useSelector } from '../../../hooks';
-
 import { Table } from '../../common/Table';
-
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
 import { Box, FlexBox, If } from '../../../components';
@@ -13,14 +11,7 @@ import { ItemPerPage } from '../../common/ItemPerPage';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
 import { callActionForRepositoryRunsForPagination } from '../RepositoryDetail/useService';
 import { Run } from '../../../../api/types';
-interface filterValue {
-  label: string;
-  type: string;
-  value: string;
-}
-interface Props {
-  filter: any;
-}
+
 export const RunsTable: React.FC<{
   isExpended?: boolean;
   repositoryId?: any;
