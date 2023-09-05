@@ -1,12 +1,6 @@
 import React from 'react';
 import { runStatus, iconColors, iconSizes } from '../../../../../constants';
-import {
-  // ColoredCircle,
-  FlexBox,
-  icons,
-  If,
-  Tooltip,
-} from '../../../../components';
+import { FlexBox, icons, If, Tooltip } from '../../../../components';
 import { Run } from '../../../../../api/types';
 
 export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {

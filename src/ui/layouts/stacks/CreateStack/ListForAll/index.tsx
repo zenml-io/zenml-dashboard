@@ -245,6 +245,7 @@ export const ListForAll: React.FC<Props> = () => {
           <FlexBox.Row marginTop="md">
             {selectedStack?.map((stack: any) => (
               <Box
+                key={stack.id}
                 onClick={() => selectStack(stack)}
                 marginLeft="sm"
                 style={{
@@ -271,23 +272,22 @@ export const ListForAll: React.FC<Props> = () => {
       </div>
 
       <FlexBox.Column>
-        {stackComponentsTypes?.map((item) => {
-          return (
-            <Box
-              marginTop="lg"
-              paddingBottom="lg"
-              style={{ overflowX: 'auto' }}
-              className={styles.list}
-            >
-              <GetList
-                type={item}
-                flavourList={flavourList}
-                selectedStack={selectedStack}
-                setSelectedStack={setSelectedStack}
-              />
-            </Box>
-          );
-        })}
+        {stackComponentsTypes?.map((item, index) => (
+          <Box
+            key={index}
+            marginTop="lg"
+            paddingBottom="lg"
+            style={{ overflowX: 'auto' }}
+            className={styles.list}
+          >
+            <GetList
+              type={item}
+              flavourList={flavourList}
+              selectedStack={selectedStack}
+              setSelectedStack={setSelectedStack}
+            />
+          </Box>
+        ))}
       </FlexBox.Column>
 
       <Box className={styles.stackFooter}>

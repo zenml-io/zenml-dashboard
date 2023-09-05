@@ -166,7 +166,7 @@ export const StackDetail: React.FC = () => {
       <Box marginTop="lg" style={{ overflowX: 'auto' }}>
         <CollapseTable
           pagination={false}
-          renderAfterRow={(stack: Stack) => <></>}
+          renderAfterRow={() => <></>}
           headerCols={headerCols}
           tableRows={filteredStacks}
           emptyState={{ text: translate('emptyState.text') }}

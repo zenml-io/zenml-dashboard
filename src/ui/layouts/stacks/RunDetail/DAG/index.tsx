@@ -1,7 +1,6 @@
 import React from 'react';
 import { useService } from './useService';
 import { LayoutFlow } from '../../../../components';
-
 import styles from '../components.module.scss';
 
 export const DAG: React.FC<{ runId: TId }> = ({ runId }) => {
