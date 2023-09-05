@@ -20,6 +20,16 @@ import { Sorting, SortingDirection } from './ForSorting/types';
 import { useService } from './ForSorting/useServiceForSorting';
 import { StackComponent } from '../../../../../api/types';
 
+const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
+  <Paragraph
+    size="small"
+    color="black"
+    style={{ fontSize: '14px', marginLeft: margin }}
+  >
+    {text}
+  </Paragraph>
+);
+
 export const GetHeaderCols = ({
   expendedRow,
   openStackIds,
@@ -65,13 +75,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph
-            size="small"
-            color="black"
-            style={{ fontSize: '14px', marginLeft: '25px' }}
-          >
-            ID
-          </Paragraph>
+          <HeaderText text="ID" margin="25px" />
         </SortingHeader>
       ),
       width: '20%',
@@ -110,9 +114,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            NAME
-          </Paragraph>
+          <HeaderText text="NAME" />
         </SortingHeader>
       ),
       width: '30%',
@@ -142,13 +144,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-            <Paragraph
-              size="small"
-              color="black"
-              style={{ fontSize: '14px', marginLeft: '-24px' }}
-            >
-              FLAVOR
-            </Paragraph>
+            <HeaderText text="FLAVOR" margin="-24px" />
           </div>
         </SortingHeader>
       ),
@@ -191,13 +187,7 @@ export const GetHeaderCols = ({
           activeSortingDirection={activeSortingDirection}
         >
           <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-            <Paragraph
-              size="small"
-              color="black"
-              style={{ fontSize: '14px', marginLeft: '-24px' }}
-            >
-              SHARED
-            </Paragraph>
+            <HeaderText text="SHARED" margin="-24px" />
           </div>
         </SortingHeader>
       ),
@@ -246,9 +236,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            AUTHOR
-          </Paragraph>
+          <HeaderText text="AUTHOR" />
         </SortingHeader>
       ),
       width: '10%',
@@ -309,9 +297,7 @@ export const GetHeaderCols = ({
           activeSorting={activeSorting}
           activeSortingDirection={activeSortingDirection}
         >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            CREATED AT
-          </Paragraph>
+          <HeaderText text="CREATED AT" />
         </SortingHeader>
       ),
       width: '20%',

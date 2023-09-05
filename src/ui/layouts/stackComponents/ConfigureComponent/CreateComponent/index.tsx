@@ -28,7 +28,6 @@ import {
   showToasterAction,
 } from '../../../../../redux/actions';
 import { iconColors, toasterTypes } from '../../../../../constants';
-import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
 import { SidePopup } from '../SidePopup';
 import { callActionForStackComponentsForPagination } from '../../Stacks/useService';
@@ -36,6 +35,7 @@ import { titleCase } from '../../../../../utils';
 
 import ServicesSelectorComponent from '../../ServicesSelectorComponent';
 import { useService } from '../../RegisterComponents/ListForAll/useService';
+import axios from 'axios';
 
 export const CreateComponent: React.FC<{
   flavor: any;
@@ -43,9 +43,8 @@ export const CreateComponent: React.FC<{
   fetching?: boolean;
   serviceConnectorResources?: any;
 }> = ({ flavor, fetching, serviceConnectorResources, state }) => {
-  const {
-    dispatchStackComponentsData,
-  } = callActionForStackComponentsForPagination();
+  const { dispatchStackComponentsData } =
+    callActionForStackComponentsForPagination();
   const location = useLocation();
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const dispatch = useDispatch();
