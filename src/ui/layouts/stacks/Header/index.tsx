@@ -6,7 +6,8 @@ import { constantCommandsToCreateStack } from '../../../../constants/constantCom
 
 const DefaultHeader: React.FC<{
   breadcrumbs: TBreadcrumb[];
-}> = ({ breadcrumbs }) => (
+  renderRight?: () => JSX.Element;
+}> = ({ breadcrumbs, renderRight }) => (
   <FlexBox
     marginTop="xl"
     alignItems="center"

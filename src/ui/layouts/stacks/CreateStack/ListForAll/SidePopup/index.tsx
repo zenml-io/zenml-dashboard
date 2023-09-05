@@ -15,16 +15,20 @@ import styles from './index.module.scss';
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
 export const SidePopup: React.FC<{
+  isCreate?: boolean;
   onSelect?: any;
   canSelect?: boolean;
   onSeeExisting: () => void;
   onClose: () => void;
+  registerStack?: any;
   selectedStack?: any;
   selectedStackBox?: any;
 }> = ({
   children,
   onClose,
+  registerStack,
   onSeeExisting,
+  isCreate = true,
   canSelect = false,
   onSelect,
   selectedStack,

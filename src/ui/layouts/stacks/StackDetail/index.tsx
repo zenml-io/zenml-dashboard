@@ -56,6 +56,7 @@ const getTabPages = (
   fetching: boolean,
   selectedWorkspace: string,
   tiles?: any,
+  history?: any,
 ): TabPage[] => {
   return [
     {
@@ -144,6 +145,7 @@ export const StackDetail: React.FC = () => {
     fetching,
     selectedWorkspace,
     nestedRowtiles,
+    history,
   );
   const breadcrumbs = getBreadcrumbs(stack.id, selectedWorkspace);
   const headerCols = GetHeaderCols({
