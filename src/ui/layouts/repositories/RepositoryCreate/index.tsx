@@ -1,7 +1,6 @@
 import React, { MouseEvent, useEffect, useState } from 'react';
 import BasePage from '../repository-layout';
 import { routePaths } from '../../../../routes/routePaths';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   sessionSelectors,
@@ -25,6 +24,7 @@ import {
 import { toasterTypes } from '../../../../constants';
 import { showToasterAction } from '../../../../redux/actions';
 import { translate } from './translate';
+import axios from 'axios';
 
 function CreateRepositoryBody() {
   const dispatch = useDispatch();
