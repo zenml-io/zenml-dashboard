@@ -255,7 +255,7 @@ export const ListForAll: React.FC<{
           <FlexBox.Row marginTop="md">
             {selectedStack?.map((stack: any) => (
               <Box
-                key={stack.id}  
+                key={stack.id}
                 onClick={() => selectStack(stack)}
                 marginLeft="sm"
                 style={{

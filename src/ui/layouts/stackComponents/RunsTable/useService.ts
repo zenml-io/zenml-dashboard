@@ -40,8 +40,10 @@ export const useService = ({
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'created',
   );
-  const [activeSortingDirection, setActiveSortingDirection] =
-    React.useState<SortingDirection | null>('DESC');
+  const [
+    activeSortingDirection,
+    setActiveSortingDirection,
+  ] = React.useState<SortingDirection | null>('DESC');
   const [sortedRuns, setSortedRuns] = React.useState<Run[]>([]);
 
   const runs = useSelector(runSelectors.forRunIds(runIds));

@@ -38,8 +38,9 @@ export const RunsTable: React.FC<{
   const locationPath = useLocationPath();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
-  const { dispatchStackComponentRunsData } =
-    callActionForStackComponentRunsForPagination();
+  const {
+    dispatchStackComponentRunsData,
+  } = callActionForStackComponentRunsForPagination();
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
