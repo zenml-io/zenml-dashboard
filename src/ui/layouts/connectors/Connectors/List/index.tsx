@@ -65,8 +65,6 @@ export const List: React.FC<Props> = ({
 
   const headerCols = GetHeaderCols({
     expendedRow,
-    openConnectorIds,
-    setOpenConnectorIds,
     filteredConnectors,
     setFilteredConnectors: setFilteredConnectors,
     activeSorting,
