@@ -38,8 +38,6 @@ export const List: React.FC<Props> = ({
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
   const {
-    openConnectorIds,
-    setOpenConnectorIds,
     fetching,
     filteredConnectors,
     setFilteredConnectors,
