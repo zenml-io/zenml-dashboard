@@ -20,8 +20,6 @@ import { useService } from './ForSorting/useServiceForSorting';
 
 export const GetHeaderCols = ({
   expendedRow,
-  openConnectorIds,
-  setOpenConnectorIds,
   filteredConnectors,
   setFilteredConnectors,
   activeSorting,
@@ -30,8 +28,6 @@ export const GetHeaderCols = ({
   setActiveSorting,
 }: {
   expendedRow?: any;
-  openConnectorIds: TId[];
-  setOpenConnectorIds: (ids: TId[]) => void;
   filteredConnectors: any[];
   setFilteredConnectors: (secrets: any[]) => void;
   activeSorting: Sorting | null;
