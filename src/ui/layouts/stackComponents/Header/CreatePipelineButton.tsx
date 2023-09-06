@@ -20,8 +20,9 @@ import { camelCaseToParagraph } from '../../../../utils';
 
 export const CreatePipelineButton: React.FC = () => {
   const locationPath = useLocationPath();
-  const [createPipelinePopupOpen, setCreatePipelinePopupOpen] =
-    React.useState<boolean>(false);
+  const [createPipelinePopupOpen, setCreatePipelinePopupOpen] = React.useState<
+    boolean
+  >(false);
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = (codeString: string) => {

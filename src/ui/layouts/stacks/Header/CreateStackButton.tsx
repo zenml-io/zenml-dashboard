@@ -15,8 +15,9 @@ import { CommandBoxWScroll } from '../../common/CommandBox';
 import { constantCommandsToCreateStack } from '../../../../constants/constantCommands';
 
 export const CreateStackButton: React.FC = () => {
-  const [createStackPopupOpen, setCreateStackPopupOpen] =
-    React.useState<boolean>(false);
+  const [createStackPopupOpen, setCreateStackPopupOpen] = React.useState<
+    boolean
+  >(false);
   const [isCopied, setIsCopied] = useState(false);
 
   const handleCopy = (codeString: string) => {

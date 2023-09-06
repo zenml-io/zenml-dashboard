@@ -27,6 +27,7 @@ import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
 import { Filters } from './Filters';
 import { MyFallbackComponent } from '../../../components/FallbackComponent';
 import { ErrorBoundary } from 'react-error-boundary';
+import { Plugin } from '../pluginsTypes';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -57,7 +58,7 @@ const ListPlugins: React.FC = () => {
   const location = useLocation();
 
   const [fetching, setFetching] = useState(true);
-  const [plugins, setPlugins] = useState([] as TPlugin[]);
+  const [plugins, setPlugins] = useState([] as Plugin[]);
   const [starredPlugins, setStarredPlugins] = useState(new Set() as Set<TId>);
   const [searchQuery, setSearchQuery] = useState('');
   const [filters, setFilters] = useState(getInitialFilters(location));
