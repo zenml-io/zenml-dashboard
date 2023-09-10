@@ -11,8 +11,8 @@ import { Box, FlexBox, If } from '../../../components';
 import { Pagination } from '../../common/Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
 import { ItemPerPage } from '../../common/ItemPerPage';
-import { callActionForPipelineRunsForPagination } from '../PipelineDetail/useService';
-import { callActionForAllrunsForPagination } from '../Pipelines/useService';
+// import { callActionForPipelineRunsForPagination } from '../PipelineDetail/useService';
+// import { callActionForAllrunsForPagination } from '../Pipelines/useService';
 import { Run } from '../../../../api/types';
 
 interface Props {
@@ -31,6 +31,8 @@ export const RunsTable: React.FC<{
   fromAllruns?: boolean;
   filter?: any;
   id?: any;
+  callActionForPipelineRunsForPagination: any;
+  callActionForAllrunsForPagination: any;
 }> = ({
   isExpended,
   pipelineId,
@@ -44,6 +46,8 @@ export const RunsTable: React.FC<{
   fromAllruns,
   filter,
   id,
+  callActionForPipelineRunsForPagination,
+  callActionForAllrunsForPagination,
 }) => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);

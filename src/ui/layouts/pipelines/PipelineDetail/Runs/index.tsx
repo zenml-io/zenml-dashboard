@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { translate } from '../translate';
-import { RunsTable } from '../../RunsTable';
+import { RunsTable } from '../../../AllRuns/RunsTable';
 import { useService } from './useService';
+import { callActionForPipelineRunsForPagination } from '../useService';
+import { callActionForAllrunsForPagination } from '../../Pipelines/useService';
 
 export const Runs: React.FC<{
   isExpended?: any;
@@ -41,6 +43,10 @@ export const Runs: React.FC<{
       emptyStateText={translate('emptyState.text')}
       runIds={runId === undefined ? runIds : [runId]}
       filter={filter}
+      callActionForPipelineRunsForPagination={
+        callActionForPipelineRunsForPagination
+      }
+      callActionForAllrunsForPagination={callActionForAllrunsForPagination}
     />
   );
 };

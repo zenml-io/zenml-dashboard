@@ -1,7 +1,10 @@
 import React, { useState } from 'react';
-import { RunsTable } from '../../RunsTable';
+import { RunsTable } from '../../../AllRuns/RunsTable';
 import { useService } from './useService';
 import { getTranslateByScope } from '../../../../../services';
+
+import { callActionForPipelineRunsForPagination } from '../../PipelineDetail/useService';
+import { callActionForAllrunsForPagination } from '../useService';
 
 export const translate = getTranslateByScope('ui.layouts.AllRuns');
 
@@ -40,6 +43,10 @@ export const AllRuns: React.FC<Props> = ({
         runIds={runIds}
         fromAllruns={true}
         filter={filter}
+        callActionForPipelineRunsForPagination={
+          callActionForPipelineRunsForPagination
+        }
+        callActionForAllrunsForPagination={callActionForAllrunsForPagination}
       />
     </>
   );

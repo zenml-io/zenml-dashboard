@@ -2,7 +2,7 @@ import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
-import { BasePage } from '../BasePage';
+// import { BasePage } from '../BasePage';
 import { useService } from './useService';
 
 import { Configuration } from '../RunDetail/Configuration';
@@ -25,6 +25,7 @@ const getTabPages = ({
   metadata,
   graph,
   run,
+  BasePage,
 }: {
   selectedWorkspace: string;
   pipelineId: TId;
@@ -33,6 +34,7 @@ const getTabPages = ({
   metadata?: any;
   graph?: any;
   run?: any;
+  BasePage: any;
 }): TabPage[] => {
   return [
     {
@@ -110,50 +112,51 @@ export interface RunDetailRouteParams {
   pipelineId: TId;
 }
 
-export const RunDetail: React.FC = () => {
-  const { runId, pipelineId, fetching, run, metadata, graph } = useService();
-  const history = useHistory();
-  const runRow: any = [];
-  runRow.push(run);
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const tabPages = getTabPages({
-    selectedWorkspace,
-    runId,
-    pipelineId,
-    fetching,
-    metadata,
-    graph,
-    run,
-  });
-  const breadcrumbs = getBreadcrumbs({
-    runId,
-    pipelineId,
-    selectedWorkspace,
-  });
-  const headerCols = useHeaderCols({
-    runs: runRow,
-  });
-  const openDetailPage = (stack: TStack) => {
-    history.push(routePaths.pipeline.runs(selectedWorkspace, pipelineId));
-  };
+// export const RunDetail: React.FC = () => {
+//   const { runId, pipelineId, fetching, run, metadata, graph } = useService();
+//   const history = useHistory();
+//   const runRow: any = [];
+//   runRow.push(run);
+//   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+//   const tabPages = getTabPages({
+//     selectedWorkspace,
+//     runId,
+//     pipelineId,
+//     fetching,
+//     metadata,
+//     graph,
+//     run,
+//     BasePage
+//   });
+//   const breadcrumbs = getBreadcrumbs({
+//     runId,
+//     pipelineId,
+//     selectedWorkspace,
+//   });
+//   const headerCols = useHeaderCols({
+//     runs: runRow,
+//   });
+//   const openDetailPage = (stack: TStack) => {
+//     history.push(routePaths.pipeline.runs(selectedWorkspace, pipelineId));
+//   };
 
-  return (
-    <BasePage
-      headerWithButtons
-      tabPages={tabPages}
-      tabBasePath={routePaths.run.pipeline.base(runId, pipelineId)}
-      breadcrumbs={breadcrumbs}
-    >
-      <Box marginTop="lg">
-        <Table
-          pagination={false}
-          headerCols={headerCols}
-          tableRows={runRow}
-          trOnClick={openDetailPage}
-        />
-      </Box>
-    </BasePage>
-  );
-};
+//   return (
+//     <BasePage
+//       headerWithButtons
+//       tabPages={tabPages}
+//       tabBasePath={routePaths.run.pipeline.base(runId, pipelineId)}
+//       breadcrumbs={breadcrumbs}
+//     >
+//       <Box marginTop="lg">
+//         <Table
+//           pagination={false}
+//           headerCols={headerCols}
+//           tableRows={runRow}
+//           trOnClick={openDetailPage}
+//         />
+//       </Box>
+//     </BasePage>
+//   );
+// };
 
-export default RunDetail;
+// export default RunDetail;

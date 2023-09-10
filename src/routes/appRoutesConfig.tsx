@@ -28,7 +28,7 @@ import UpdateComponent from '../ui/layouts/stackComponents/UpdateComponent/index
 import UpdateConnector from '../ui/layouts/connectors/UpdateConnector/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
 import ConfigureComponent from '../ui/layouts/stackComponents/ConfigureComponent/index';
-import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
+// import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
 import StacksRunDetail from '../ui/layouts/stacks/RunDetail';
 import RunsRunDetail from '../ui/layouts/runs/RunDetail';
 import ComponentRunDetail from '../ui/layouts/stackComponents/RunDetail';
@@ -306,46 +306,46 @@ const routes = [
     },
     exact: true,
   },
-  {
-    path: routePaths.run.pipeline.base(':id', ':pipelineId'),
-    Component: PipelineRunDetail,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-    exact: true,
-  },
-  {
-    path: routePaths.run.pipeline.statistics(':string', ':id', ':pipelineId'),
-    Component: PipelineRunDetail,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-    exact: true,
-  },
-  {
-    path: routePaths.run.pipeline.results(':string', ':id', ':pipelineId'),
-    Component: PipelineRunDetail,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-    exact: true,
-  },
-  {
-    path: routePaths.run.pipeline.details(':string', ':id', ':pipelineId'),
-    Component: PipelineRunDetail,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-    exact: true,
-  },
-  {
-    path: routePaths.run.pipeline.tensorboard(':id', ':pipelineId'),
-    Component: PipelineRunDetail,
-    visibility: {
-      authentication: RouteVisibilityAuthentication.authenticatedOnly,
-    },
-    exact: true,
-  },
+  // {
+  //   path: routePaths.run.pipeline.base(':id', ':pipelineId'),
+  //   Component: PipelineRunDetail,
+  //   visibility: {
+  //     authentication: RouteVisibilityAuthentication.authenticatedOnly,
+  //   },
+  //   exact: true,
+  // },
+  // {
+  //   path: routePaths.run.pipeline.statistics(':string', ':id', ':pipelineId'),
+  //   Component: PipelineRunDetail,
+  //   visibility: {
+  //     authentication: RouteVisibilityAuthentication.authenticatedOnly,
+  //   },
+  //   exact: true,
+  // },
+  // {
+  //   path: routePaths.run.pipeline.results(':string', ':id', ':pipelineId'),
+  //   Component: PipelineRunDetail,
+  //   visibility: {
+  //     authentication: RouteVisibilityAuthentication.authenticatedOnly,
+  //   },
+  //   exact: true,
+  // },
+  // {
+  //   path: routePaths.run.pipeline.details(':string', ':id', ':pipelineId'),
+  //   Component: PipelineRunDetail,
+  //   visibility: {
+  //     authentication: RouteVisibilityAuthentication.authenticatedOnly,
+  //   },
+  //   exact: true,
+  // },
+  // {
+  //   path: routePaths.run.pipeline.tensorboard(':id', ':pipelineId'),
+  //   Component: PipelineRunDetail,
+  //   visibility: {
+  //     authentication: RouteVisibilityAuthentication.authenticatedOnly,
+  //   },
+  //   exact: true,
+  // },
   {
     path: routePaths.run.stack.base(':id', ':stackId'),
     Component: StacksRunDetail,

@@ -13,7 +13,6 @@ import {
   pipelineSelectors,
   workspaceSelectors,
 } from '../../../../../redux/selectors';
-import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { callActionForPipelinesForPagination } from '../useService';
 import { Pipeline } from '../../../../../api/types';
