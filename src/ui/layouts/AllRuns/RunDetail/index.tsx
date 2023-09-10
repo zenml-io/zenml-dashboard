@@ -3,19 +3,19 @@ import React from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
 // import { BasePage } from '../BasePage';
-import { useService } from './useService';
+// import { useService } from './useService';
 
 import { Configuration } from '../RunDetail/Configuration';
 import { DAG } from '../../../components/dag';
 import { Details } from './Detail';
 
-import { Box } from '../../../components';
+// import { Box } from '../../../components';
 
-import { useHistory, useSelector } from '../../../hooks';
+// import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 
-import { Table } from '../../common/Table';
-import { useHeaderCols } from './HeaderCols';
+// import { Table } from '../../common/Table';
+// import { useHeaderCols } from './HeaderCols';
 
 const getTabPages = ({
   selectedWorkspace,
@@ -117,10 +117,12 @@ export interface RunDetailRouteParams {
 //   const history = useHistory();
 //   const runRow: any = [];
 //   runRow.push(run);
-//   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+//   const selectedWorkspace =
+// useSelector(
+// workspaceSelectors.selectedWorkspace);
 //   const tabPages = getTabPages({
 //     selectedWorkspace,
-//     runId,
+// runId,
 //     pipelineId,
 //     fetching,
 //     metadata,
