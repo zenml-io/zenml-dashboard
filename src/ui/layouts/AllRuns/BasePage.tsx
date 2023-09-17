@@ -6,7 +6,7 @@ import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { TabsRuns } from '../common/Tabs';
 import Header from './Header';
-import Pipelines from './Runs';
+import Runs from './Runs';
 import { MyFallbackComponent } from '../../components/FallbackComponent';
 import { ErrorBoundary } from 'react-error-boundary';
 import { routePaths } from '../../../routes/routePaths';
@@ -86,4 +86,4 @@ export const BasePage: React.FC<{
   );
 };
 
-export default Pipelines;
+export default Runs;
