@@ -72,6 +72,7 @@ export const routePaths = {
         `/components/${pipelineId}/runs/${id}/tensorboard`,
     },
     run: {
+      list: (workspace: string): string => `/workspaces/${workspace}/all-runs`,
       base: (runId: TId): string => `/all-runs/${runId}`,
       statistics: (workspace: string, id: TId, type?: string): string =>
         `/workspaces/${workspace}/all-runs/${id}/dag`,

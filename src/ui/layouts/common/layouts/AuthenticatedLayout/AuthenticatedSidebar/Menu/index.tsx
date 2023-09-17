@@ -37,7 +37,7 @@ export const Menu: React.FC = () => {
       <MenuItem
         id="runs"
         Icon={() => <icons.run color={iconColors.white} size={iconSizes.md} />}
-        to={routePaths.pipelines.allRuns(selectedWorkspace)}
+        to={routePaths.run.run.list(selectedWorkspace)}
         isActive={() => window.location.href?.includes('all-runs')}
         text={'Runs'}
         innerItem={window.location.href?.includes('all-runs')}
