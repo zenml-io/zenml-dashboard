@@ -115,6 +115,7 @@ export const RunDetail: React.FC = () => {
       tabPages={tabPages}
       tabBasePath={routePaths.run.run.base(runId)}
       breadcrumbs={breadcrumbs}
+      title="Runs"
     >
       <Box marginTop="lg">
         <Table

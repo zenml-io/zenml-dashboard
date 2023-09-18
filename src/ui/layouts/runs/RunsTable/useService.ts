@@ -4,7 +4,7 @@ import _ from 'lodash';
 import React from 'react';
 import { useEffect } from 'react';
 import { Sorting, SortingDirection } from './types';
-import { stackPagesActions } from '../../../../redux/actions';
+import { pipelinePagesActions } from '../../../../redux/actions';
 import { useDispatch, useSelector } from '../../../hooks';
 import { runSelectors } from '../../../../redux/selectors';
 import { getFilteredDataForTable } from '../../../../utils/tableFilters';
@@ -27,9 +27,11 @@ interface filterValue {
 }
 
 export const useService = ({
+  // pipelineRuns,
   runIds,
   filter,
 }: {
+  // pipelineRuns: any;
   runIds: TId[];
   filter: {
     column: filterValue;
@@ -41,6 +43,7 @@ export const useService = ({
   const [activeSorting, setActiveSorting] = React.useState<Sorting | null>(
     'created',
   );
+
   const [
     activeSortingDirection,
     setActiveSortingDirection,
@@ -48,10 +51,11 @@ export const useService = ({
   const [sortedRuns, setSortedRuns] = React.useState<Run[]>([]);
 
   const runs = useSelector(runSelectors.forRunIds(runIds));
-
+  const isValidFilter = filter?.map((f) => f.value).join('');
   useEffect(() => {
-    setSortedRuns(runs as Run[]);
+    setSortedRuns(runs);
   }, [filter, runIds]);
+
   useEffect(() => {
     return () => {
       source.cancel.forEach((element: any) => {
@@ -59,8 +63,9 @@ export const useService = ({
       });
     };
   }, []);
+
   const setSelectedRunIds = (runIds: TId[]) => {
-    dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
+    dispatch(pipelinePagesActions.setSelectedRunIds({ runIds }));
   };
 
   return {

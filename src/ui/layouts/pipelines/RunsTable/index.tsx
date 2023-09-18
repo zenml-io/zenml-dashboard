@@ -4,8 +4,8 @@ import { useHistory, useSelector } from '../../../hooks';
 
 import { Table } from '../../common/Table';
 
-import { useHeaderCols } from './HeaderCols';
-import { useService } from './useService';
+import { useHeaderCols } from '../../runs/RunsTable/HeaderCols';
+import { useService } from '../../runs/RunsTable/useService';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { Box, FlexBox, If } from '../../../components';
 import { Pagination } from '../../common/Pagination';
@@ -55,7 +55,7 @@ export const RunsTable: React.FC<{
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService({ pipelineRuns, runIds, filter });
+  } = useService({ runIds, filter });
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
   const { dispatchPipelineRunsData } = callActionForPipelineRunsForPagination();
 

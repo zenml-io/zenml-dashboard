@@ -2,7 +2,7 @@ import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
 import { BasePage } from '../BasePage';
-import { Configuration } from './Configuration';
+import { Configuration } from '../../runs/RunDetail/Configuration';
 import { useService } from './useService';
 import { DAG } from '../../../components/dag';
 import { Box } from '../../../components';
@@ -10,7 +10,7 @@ import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { Stack } from '../../../../api/types';
 import { Table } from '../../common/Table';
-import { useHeaderCols } from './HeaderCols';
+import { useHeaderCols } from '../../runs/RunDetail/HeaderCols';
 
 const getTabPages = ({
   stackId,
@@ -120,6 +120,7 @@ export const RunDetail: React.FC = () => {
       tabPages={tabPages}
       tabBasePath={routePaths.run.stack.base(runId, stackId)}
       breadcrumbs={breadcrumbs}
+      title="Runs"
     >
       <Box marginTop="lg">
         <Table

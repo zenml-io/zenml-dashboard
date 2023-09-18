@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import { translate } from './translate';
+import { translate } from '../../runs/RunDetail/translate';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 
-import { Configuration } from '../RunDetail/Configuration';
+import { Configuration } from '../../runs/RunDetail/Configuration';
 import { DAG } from '../../../components/dag';
-import { Details } from './Detail';
+import { Details } from '../../runs/RunDetail/Detail';
 
 import { Box } from '../../../components';
 
@@ -15,7 +15,7 @@ import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 
 import { Table } from '../../common/Table';
-import { useHeaderCols } from './HeaderCols';
+import { useHeaderCols } from '../../runs/RunDetail/HeaderCols';
 
 const getTabPages = ({
   selectedWorkspace,
@@ -143,6 +143,7 @@ export const RunDetail: React.FC = () => {
       tabPages={tabPages}
       tabBasePath={routePaths.run.pipeline.base(runId, pipelineId)}
       breadcrumbs={breadcrumbs}
+      title="Runs"
     >
       <Box marginTop="lg">
         <Table

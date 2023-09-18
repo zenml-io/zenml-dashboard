@@ -17,6 +17,7 @@ export const BasePage: React.FC<{
   breadcrumbs: TBreadcrumb[];
   tabBasePath: string;
   renderHeaderRight?: () => JSX.Element;
+  title?: string;
   headerWithButtons?: boolean;
 }> = ({
   tabPages,
@@ -25,6 +26,7 @@ export const BasePage: React.FC<{
   renderHeaderRight,
   headerWithButtons,
   children,
+  title,
 }) => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -41,6 +43,7 @@ export const BasePage: React.FC<{
             condition={!!headerWithButtons}
             renderWhenTrue={() => (
               <Header.HeaderWithButtons
+                title={title}
                 breadcrumbs={[...breadcrumbs]}
                 renderRight={renderHeaderRight}
               />

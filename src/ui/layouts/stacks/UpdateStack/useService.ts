@@ -25,33 +25,33 @@ export const useService = (): ServiceInterface => {
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
-  useEffect(() => {
-    setFetching(true);
+  // useEffect(() => {
+  //   setFetching(true);
 
-    dispatch(
-      stacksActions.stackForId({
-        stackId: id,
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
-      }),
-    );
-    // Legacy: previously runs was in pipeline
-    dispatch(
-      stacksActions.allRunsByStackId({
-        sort_by: 'desc:created',
-        logical_operator: 'and',
-        page: 1,
-        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-        stackId: id,
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
-      }),
-    );
-  }, [id]);
+  //   dispatch(
+  //     stacksActions.stackForId({
+  //       stackId: id,
+  //       onSuccess: () => setFetching(false),
+  //       onFailure: () => setFetching(false),
+  //     }),
+  //   );
+  //   // Legacy: previously runs was in pipeline
+  //   dispatch(
+  //     stacksActions.allRunsByStackId({
+  //       sort_by: 'desc:created',
+  //       logical_operator: 'and',
+  //       page: 1,
+  //       size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+  //       stackId: id,
+  //       onSuccess: () => setFetching(false),
+  //       onFailure: () => setFetching(false),
+  //     }),
+  //   );
+  // }, [id]);
 
-  const setFetching = (fetching: boolean) => {
-    dispatch(runPagesActions.setFetching({ fetching }));
-  };
+  // const setFetching = (fetching: boolean) => {
+  //   dispatch(runPagesActions.setFetching({ fetching }));
+  // };
 
   const stack = useSelector(stackSelectors.stackForId(id));
 
