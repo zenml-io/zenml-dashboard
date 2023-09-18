@@ -1,20 +1,45 @@
 import React from 'react';
-import { runStatus, iconColors, iconSizes } from '../../../../../constants';
-import { FlexBox, icons, If, Tooltip } from '../../../../components';
-import { Run } from '../../../../../api/types';
+import { runStatus, iconColors, iconSizes } from '../../../../constants';
+import {
+  Paragraph,
+  Box,
+  icons,
+  If,
+  FlexBox,
+  Tooltip,
+} from '../../../components';
+import styles from './components.module.scss';
+import { Run } from '../../../../api/types';
+
+export const KeyValue: React.FC<{ label: string; width: string }> = ({
+  label,
+  children,
+  width,
+}) => (
+  <Box
+    className={styles.keyValue}
+    style={{ flexBasis: width }}
+    paddingRight="md"
+    paddingBottom="md"
+  >
+    <Box paddingBottom="sm">
+      <Paragraph size="small" color="grey">
+        {label}
+      </Paragraph>
+    </Box>
+    <Box>{children}</Box>
+  </Box>
+);
 
 export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
+  if (run.status === runStatus.Running) return null;
+
   return (
     <>
       <FlexBox alignItems="center">
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.COMPLETED}>
-            {() => (
-              <icons.circleCheck
-                color={iconColors.lightGreen}
-                size={iconSizes.md}
-              />
-            )}
+            {() => <icons.check color={iconColors.white} size={iconSizes.md} />}
           </If>
         </div>
         <Tooltip id={run.status} text={run.status} />
@@ -34,7 +59,7 @@ export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
       <FlexBox alignItems="center">
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.FAILED}>
-            {() => <icons.close color={iconColors.red} size={iconSizes.md} />}
+            {() => <icons.close color={iconColors.white} size={iconSizes.md} />}
           </If>
         </div>
         <Tooltip id={run.status} text={run.status} />
@@ -44,10 +69,7 @@ export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
         <div data-tip data-for={run.status}>
           <If condition={run.status === runStatus.CACHED}>
             {() => (
-              <icons.cached
-                color={iconColors.butterflyBlue}
-                size={iconSizes.md}
-              />
+              <icons.cached color={iconColors.white} size={iconSizes.md} />
             )}
           </If>
         </div>

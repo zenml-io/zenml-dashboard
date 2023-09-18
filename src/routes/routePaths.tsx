@@ -41,6 +41,18 @@ export const routePaths = {
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/pipelines/${pipelineId}/runs/${id}/tensorboard`,
     },
+    repository: {
+      base: (id: TId, repositoryID: TId): string =>
+        `/repositories/${repositoryID}/runs/${id}`,
+      statistics: (workspace: string, id: TId, repositoryID: TId): string =>
+        `/workspaces/${workspace}/repositories/${repositoryID}/runs/${id}/dag`,
+      results: (workspace: string, id: TId, repositoryID: TId): string =>
+        `/workspaces/${workspace}/repositories/${repositoryID}/runs/${id}/configuration`,
+      details: (workspace: string, id: TId, repositoryID: TId): string =>
+        `/workspaces/${workspace}/repositories/${repositoryID}/runs/${id}/details`,
+      tensorboard: (id: TId, repositoryID: TId): string =>
+        `/repositories/${repositoryID}/runs/${id}/tensorboard`,
+    },
     stack: {
       base: (id: TId, pipelineId: TId): string =>
         `/stacks/${pipelineId}/runs/${id}`,

@@ -29,7 +29,10 @@ import UpdateComponent from '../ui/layouts/stackComponents/UpdateComponent/index
 import UpdateConnector from '../ui/layouts/connectors/UpdateConnector/index';
 import stackComponentsDetail from '../ui/layouts/stackComponents/StackDetail/index';
 import ConfigureComponent from '../ui/layouts/stackComponents/ConfigureComponent/index';
+
 import PipelineRunDetail from '../ui/layouts/pipelines/RunDetail';
+import RepositoryRunDetail from '../ui/layouts/repositories/RunDetail';
+
 import StacksRunDetail from '../ui/layouts/stacks/RunDetail';
 import RunsRunDetail from '../ui/layouts/runs/RunDetail';
 
@@ -299,6 +302,44 @@ const routes = [
     },
     exact: true,
   },
+
+  {
+    path: routePaths.run.repository.statistics(
+      ':string',
+      ':id',
+      ':repositoryID',
+    ),
+    Component: RepositoryRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.repository.results(':string', ':id', ':repositoryID'),
+    Component: RepositoryRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.repository.details(':string', ':id', ':repositoryID'),
+    Component: RepositoryRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.run.repository.tensorboard(':id', ':repositoryID'),
+    Component: RepositoryRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+
   {
     path: routePaths.stack.runs(':string', ':id'),
     Component: StackDetail,
