@@ -849,10 +849,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
           <FlexBox.Row style={{ width: '40%' }}>
             <Container>
               {mappedConfiguration &&
-                Object.keys(mappedConfiguration)?.map((key, ind) => (
-                  <Fragment key={ind}>
-                    {getFormElement(key, mappedConfiguration[key])}
-                  </Fragment>
+                Object.entries(mappedConfiguration).map(([key, value], ind) => (
+                  <Fragment key={ind}>{getFormElement(key, value)}</Fragment>
                 ))}
             </Container>
           </FlexBox.Row>
