@@ -6,11 +6,13 @@ import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 import { useService } from './useService';
 import { useSelector, useLocationPath } from '../../../hooks';
-import FilterComponent, {
-  getInitialFilterStateForPipeline,
-} from '../../../components/Filters';
+import FilterComponent from '../../../components/Filters';
 import { Box } from '../../../components';
 import { workspaceSelectors } from '../../../../redux/selectors/workspaces';
+import {
+  getInitialFilterStateForPipeline,
+  searchParamConstants,
+} from './filterParamConstants';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -28,6 +30,7 @@ const FilterWrapper = () => {
   return (
     <Box marginTop="lg" style={{ marginTop: '-20px', width: '100%' }}>
       <FilterComponent
+        searchColumns={searchParamConstants}
         getInitials={getInitialFilterStateForPipeline}
         filters={filters}
         setFilter={setFilter}
