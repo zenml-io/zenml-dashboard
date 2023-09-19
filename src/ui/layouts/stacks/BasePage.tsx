@@ -4,14 +4,15 @@ import { AppRoute } from '../../../routes';
 import { Box, FlexBox, IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
-import { Tabs } from '../common/Tabs';
+import { TabsRuns } from '../common/Tabs';
 import Header from './Header';
 import Stacks from './Stacks';
-import { useSelector } from 'react-redux';
-import { workspaceSelectors } from '../../../redux/selectors';
+import { MyFallbackComponent } from '../../components/FallbackComponent';
 import { ErrorBoundary } from 'react-error-boundary';
 import { routePaths } from '../../../routes/routePaths';
-import { MyFallbackComponent } from '../../components/FallbackComponent';
+
+import { workspaceSelectors } from '../../../redux/selectors';
+import { useSelector } from 'react-redux';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
@@ -24,9 +25,9 @@ export const BasePage: React.FC<{
   headerWithButtons?: boolean;
 }> = ({
   tabPages,
-  title,
   breadcrumbs,
   tabBasePath,
+  title,
   renderHeaderRight,
   headerWithButtons,
   children,
@@ -62,12 +63,13 @@ export const BasePage: React.FC<{
           <Box>
             {children}
             {tabPages.length > 1 ? (
-              <Tabs pages={tabPages} basePath={tabBasePath} />
+              <TabsRuns pages={tabPages} basePath={tabBasePath} />
             ) : (
               <>
                 <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
                 <FlexBox marginBottom="xxl">
                   <Redirect exact from={tabBasePath} to={tabPages[0].path} />
+
                   {tabPages.map((page, index) => (
                     <AppRoute
                       key={index}

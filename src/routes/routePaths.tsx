@@ -58,10 +58,12 @@ export const routePaths = {
         `/stacks/${pipelineId}/runs/${id}`,
       statistics: (workspace: string, id: TId, stackId: TId): string =>
         `/workspaces/${workspace}/stacks/${stackId}/runs/${id}/dag`,
-      results: (workspace: string, id: TId, pipelineId: TId): string =>
-        `/workspaces/${workspace}/stacks/${pipelineId}/runs/${id}/configuration`,
-      tensorboard: (id: TId, pipelineId: TId): string =>
-        `/stacks/${pipelineId}/runs/${id}/tensorboard`,
+      results: (workspace: string, id: TId, stackId: TId): string =>
+        `/workspaces/${workspace}/stacks/${stackId}/runs/${id}/configuration`,
+      details: (workspace: string, id: TId, stackId: TId): string =>
+        `/workspaces/${workspace}/stacks/${stackId}/runs/${id}/details`,
+      tensorboard: (id: TId, stackId: TId): string =>
+        `/stacks/${stackId}/runs/${id}/tensorboard`,
     },
     component: {
       base: (id: TId, pipelineId: TId): string =>

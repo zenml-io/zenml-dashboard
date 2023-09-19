@@ -6,6 +6,7 @@ import { Configuration } from '../../runs/RunDetail/Configuration';
 import { useService } from './useService';
 import { DAG } from '../../../components/dag';
 import { Box } from '../../../components';
+import { Details } from '../../runs/RunDetail/Detail';
 import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { Stack } from '../../../../api/types';
@@ -31,8 +32,7 @@ const getTabPages = ({
 }): TabPage[] => {
   return [
     {
-      text: 'DAG',
-
+      text: 'DAG Visualizer',
       Component: () => (
         <DAG
           runId={runId}
@@ -46,11 +46,37 @@ const getTabPages = ({
     },
     {
       text: 'Configuration',
-
       Component: () => <Configuration runId={runId} />,
       path: routePaths.run.stack.results(selectedWorkspace, runId, stackId),
     },
+    {
+      text: 'Details',
+      Component: () => <Details runId={runId} />,
+      path: routePaths.run.stack.details(selectedWorkspace, runId, stackId),
+    },
   ];
+  // return [
+  //   {
+  //     text: 'DAG',
+
+  //     Component: () => (
+  //       <DAG
+  //         runId={runId}
+  //         fetching={fetching}
+  //         metadata={metadata}
+  //         graph={graph}
+  //         runStatus={run?.status}
+  //       />
+  //     ),
+  //     path: routePaths.run.stack.statistics(selectedWorkspace, runId, stackId),
+  //   },
+  //   {
+  //     text: 'Configuration',
+
+  //     Component: () => <Configuration runId={runId} />,
+  //     path: routePaths.run.stack.results(selectedWorkspace, runId, stackId),
+  //   },
+  // ];
 };
 
 const getBreadcrumbs = ({
