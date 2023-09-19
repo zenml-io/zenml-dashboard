@@ -107,7 +107,7 @@ function RepositoryDetailOverview() {
           ),
         },
       ]}
-      singleTab={true}
+      // singleTab={true}
       tabBasePath={routePaths.repositories.list(selectedWorkspace)}
       breadcrumbs={[
         {

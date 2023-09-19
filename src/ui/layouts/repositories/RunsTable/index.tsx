@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { workspaceSelectors } from '../../../../redux/selectors';
 import { routePaths } from '../../../../routes/routePaths';
 import { useHistory, useSelector } from '../../../hooks';
+
 import { Table } from '../../common/Table';
-import { useHeaderCols } from './HeaderCols';
-import { useService } from './useService';
+
+import { useHeaderCols } from '../../runs/RunsTable/HeaderCols';
+import { useService } from '../../runs/RunsTable/useService';
+import { workspaceSelectors } from '../../../../redux/selectors';
 import { Box, FlexBox, If } from '../../../components';
 import { Pagination } from '../../common/Pagination';
-import { ItemPerPage } from '../../common/ItemPerPage';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
+import { ItemPerPage } from '../../common/ItemPerPage';
 import { callActionForRepositoryRunsForPagination } from '../RepositoryDetail/useService';
+
 import { Run } from '../../../../api/types';
 
+interface Props {
+  filter: any;
+}
 export const RunsTable: React.FC<{
   isExpended?: boolean;
   repositoryId?: any;
@@ -36,7 +42,7 @@ export const RunsTable: React.FC<{
   id,
 }) => {
   const history = useHistory();
-
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const {
     sortedRuns,
     setSortedRuns,
@@ -46,11 +52,11 @@ export const RunsTable: React.FC<{
     setActiveSortingDirection,
     setSelectedRunIds,
   } = useService({ runIds, filter });
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
   const {
     dispatchRepositoryRunsData,
   } = callActionForRepositoryRunsForPagination();
-  const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
+
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
@@ -58,16 +64,25 @@ export const RunsTable: React.FC<{
   const [itemPerPage, setItemPerPage] = useState(
     ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
   );
+
   const initialRef: any = null;
   const childRef = React.useRef(initialRef);
+
   const openDetailPage = (run: Run) => {
     setSelectedRunIds([]);
+
     if (id) {
       history.push(
         routePaths.repositories.runs(selectedWorkspace, repositoryId),
       );
     } else {
-      history.push(routePaths.run.run.statistics(selectedWorkspace, run.id));
+      history.push(
+        routePaths.run.repository.statistics(
+          selectedWorkspace,
+          run.id,
+          repositoryId as string,
+        ),
+      );
     }
   };
 
@@ -79,6 +94,7 @@ export const RunsTable: React.FC<{
     setActiveSorting,
     activeSortingDirection,
     setActiveSortingDirection,
+    nestedRuns: false,
   });
 
   const validFilters = filter?.filter((item: any) => item.value);
@@ -116,6 +132,7 @@ export const RunsTable: React.FC<{
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [getSorted]);
+
   return (
     <>
       <Table
@@ -124,14 +141,15 @@ export const RunsTable: React.FC<{
         }
         pagination={pagination}
         loading={fetching}
-        filters={filter}
-        showHeader={true}
         paginated={paginated}
+        showHeader={true}
         headerCols={headerCols}
         tableRows={sortedRuns}
+        filters={filter}
         emptyState={{ text: emptyStateText }}
         trOnClick={openDetailPage}
       />
+
       <If condition={paginated.totalitem > 5}>
         {() => (
           <FlexBox

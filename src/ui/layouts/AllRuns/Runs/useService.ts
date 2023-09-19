@@ -4,14 +4,16 @@ import { useEffect } from 'react';
 
 import {
   pipelinePagesActions,
+  runsActions,
   pipelinesActions,
+  runPagesActions,
 } from '../../../../redux/actions';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { useDispatch, useSelector } from '../../../hooks';
 import { filterObjectForParam } from '../../../../utils';
 
 interface ServiceInterface {
-  setFetchingForPipeline: (arg: boolean) => void;
+  setFetchingForAllRuns: (arg: boolean) => void;
 }
 
 export const useService = (): ServiceInterface => {
@@ -22,52 +24,52 @@ export const useService = (): ServiceInterface => {
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
-    setFetchingForPipeline(true);
+    setFetchingForAllRuns(true);
   }, [selectedWorkspace]);
 
-  const setFetchingForPipeline = (fetching: boolean) => {
-    dispatch(pipelinePagesActions.setFetching({ fetching }));
+  const setFetchingForAllRuns = (fetching: boolean) => {
+    dispatch(runPagesActions.setFetching({ fetching }));
   };
 
   return {
-    setFetchingForPipeline,
+    setFetchingForAllRuns,
   };
 };
 
-export const callActionForPipelinesForPagination = () => {
+export const callActionForAllrunsForPagination = () => {
   const dispatch = useDispatch();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
-  function dispatchPipelineData(
+  function dispatchAllrunsData(
     page: number,
     size: number,
     filters?: any[],
     sortby?: string,
   ) {
-    let filtersParam: any = filterObjectForParam(filters);
-    setFetchingForPipeline(true);
     const logicalOperator = localStorage.getItem('logical_operator');
+    let filtersParam = filterObjectForParam(filters);
+
+    setFetchingForAllRuns(true);
     dispatch(
-      pipelinesActions.getMy({
+      runsActions.allRuns({
+        workspace: selectedWorkspace,
         sort_by: sortby ? sortby : 'created',
         logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
         page: page,
         size: size,
         filtersParam,
-
-        workspace: selectedWorkspace,
-        onSuccess: () => setFetchingForPipeline(false),
-        onFailure: () => setFetchingForPipeline(false),
+        onSuccess: () => setFetchingForAllRuns(false),
+        onFailure: () => setFetchingForAllRuns(false),
       }),
     );
   }
 
-  const setFetchingForPipeline = (fetching: boolean) => {
-    dispatch(pipelinePagesActions.setFetching({ fetching }));
+  const setFetchingForAllRuns = (fetching: boolean) => {
+    dispatch(runPagesActions.setFetching({ fetching }));
   };
 
   return {
-    setFetchingForPipeline,
-    dispatchPipelineData,
+    setFetchingForAllRuns,
+    dispatchAllrunsData,
   };
 };

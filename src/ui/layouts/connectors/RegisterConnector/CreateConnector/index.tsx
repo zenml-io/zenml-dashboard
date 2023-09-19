@@ -47,7 +47,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const [disableToCreate, setDisableToCreate] = useState(false);
 
   const [selectedAuthMethod, setSelectedAuthMethod] = useState<any>(
-    connectorType.authMethods[0].auth_method,
+    connectorType?.authMethods[0].auth_method,
   );
   const [authMethoddropdownOptions, setAuthMethoddropdownOptions] = useState(
     [],
@@ -72,12 +72,12 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const inputRef = useRef<HTMLInputElement>(null) as any;
   const history = useHistory();
 
-  const matchedAuthMethod = connectorType.authMethods.find(
+  const matchedAuthMethod = connectorType?.authMethods.find(
     (item: any) => item?.auth_method === selectedAuthMethod,
   ) as any;
 
   useEffect(() => {
-    const dropdownOptions = connectorType.authMethods.map((item: any) => {
+    const dropdownOptions = connectorType?.authMethods.map((item: any) => {
       return {
         value: item.auth_method,
         label: item.name,
@@ -406,7 +406,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   }
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    if (elementSchema.type === 'string') {
+    if (elementSchema?.type === 'string') {
       return (
         <>
           {elementSchema?.format === 'password' ? (
@@ -519,7 +519,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               }}
             >
               {inputFields[elementName]?.map((item: any, index: any) => (
-                <Fragment>
+                <Fragment key={index}>
                   <Box
                     style={{ display: 'flex', alignItems: 'center' }}
                     marginTop="sm"
@@ -555,7 +555,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                           setInputFields(values);
                         }}
                         label={'Key'}
-                        value={item.key}
+                        value={item?.key}
                         placeholder={''}
                       />
                     </Box>
@@ -671,7 +671,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               {mappedConfiguration &&
                 mappedConfiguration[elementName].default?.map(
                   (item: any, index: any) => (
-                    <Fragment>
+                    <Fragment key={index}>
                       <Box
                         style={{ display: 'flex', alignItems: 'center' }}
                         marginTop="sm"
@@ -821,8 +821,12 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
         <Box marginLeft="xl">
           <Paragraph className={styles.title}>{connectorType?.name}</Paragraph>
           <FlexBox marginTop="lg">
-            {connectorType?.resourceTypes?.map((e: any) => (
-              <Box className={styles.resourceTypesImages} marginLeft="sm">
+            {connectorType?.resourceTypes?.map((e: any, index: number) => (
+              <Box
+                key={index}
+                className={styles.resourceTypesImages}
+                marginLeft="sm"
+              >
                 <img src={e?.logo_url} alt={e?.name} />
               </Box>
             ))}
@@ -885,8 +889,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
           <FlexBox.Row style={{ width: '40%' }}>
             <Container>
               {mappedConfiguration &&
-                Object.keys(mappedConfiguration)?.map((key, ind) => (
-                  <>{getFormElement(key, mappedConfiguration[key])}</>
+                Object.entries(mappedConfiguration).map(([key, value], ind) => (
+                  <Fragment key={ind}>{getFormElement(key, value)}</Fragment>
                 ))}
             </Container>
           </FlexBox.Row>
@@ -947,7 +951,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                 }}
               >
                 {labelsInputFields?.map((item: any, index: any) => (
-                  <Fragment>
+                  <Fragment key={index}>
                     <Box
                       style={{ display: 'flex', alignItems: 'center' }}
                       marginTop="sm"
@@ -983,7 +987,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                             setLabelsInputFields(values);
                           }}
                           label={'Key'}
-                          value={item.key}
+                          value={item?.key}
                           placeholder={''}
                         />
                       </Box>

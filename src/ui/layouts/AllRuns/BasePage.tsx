@@ -1,32 +1,34 @@
 import React from 'react';
-import { Box, IfElse } from '../../components';
+import { Redirect, useHistory } from 'react-router-dom';
+import { AppRoute } from '../../../routes';
+import { Box, FlexBox, IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
 import { TabsRuns } from '../common/Tabs';
 import Header from './Header';
-
-import { useHistory } from 'react-router';
-import { useSelector } from '../../hooks';
-import { workspaceSelectors } from '../../../redux/selectors';
+import Runs from './Runs';
 import { MyFallbackComponent } from '../../components/FallbackComponent';
-import { routePaths } from '../../../routes/routePaths';
 import { ErrorBoundary } from 'react-error-boundary';
-// Muhammad REACT FLOW BOX HERE
+import { routePaths } from '../../../routes/routePaths';
+
+import { workspaceSelectors } from '../../../redux/selectors';
+import { useSelector } from 'react-redux';
+
 export const BasePage: React.FC<{
   tabPages: TabPage[];
+  title?: string;
   breadcrumbs: TBreadcrumb[];
   tabBasePath: string;
   renderHeaderRight?: () => JSX.Element;
-  title?: string;
   headerWithButtons?: boolean;
 }> = ({
   tabPages,
   breadcrumbs,
   tabBasePath,
+  title,
   renderHeaderRight,
   headerWithButtons,
   children,
-  title,
 }) => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -55,12 +57,33 @@ export const BasePage: React.FC<{
               />
             )}
           />
+
           <Box>
             {children}
-            <TabsRuns pages={tabPages} basePath={tabBasePath} />
+            {tabPages.length > 1 ? (
+              <TabsRuns pages={tabPages} basePath={tabBasePath} />
+            ) : (
+              <>
+                <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
+                <FlexBox marginBottom="xxl">
+                  <Redirect exact from={tabBasePath} to={tabPages[0].path} />
+
+                  {tabPages.map((page, index) => (
+                    <AppRoute
+                      key={index}
+                      path={page.path}
+                      exact={true}
+                      component={page.Component}
+                    />
+                  ))}
+                </FlexBox>
+              </>
+            )}
           </Box>
         </SidebarContainer>
       </AuthenticatedLayout>
     </ErrorBoundary>
   );
 };
+
+export default Runs;

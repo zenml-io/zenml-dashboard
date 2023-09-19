@@ -1,7 +1,7 @@
 import React from 'react';
 import { FlexBox, Box, Paragraph } from '../../../components';
 import styles from './index.module.scss';
-import { constantCommandsToCreateRuns } from '../../../../constants/constantCommands';
+import { constantCommandsToCreatePipeline } from '../../../../constants/constantCommands';
 
 const DefaultHeader: React.FC<{
   breadcrumbs: TBreadcrumb[];
@@ -32,7 +32,7 @@ const DefaultHeader: React.FC<{
         Check out our easy to read{' '}
         <a
           style={{ color: '#443E99' }}
-          href={constantCommandsToCreateRuns.documentation}
+          href={constantCommandsToCreatePipeline.documentation}
           target="__blank"
         >
           docs
@@ -83,7 +83,7 @@ const HeaderWithButtons: React.FC<{
           Check out our easy to read{' '}
           <a
             style={{ color: '#443E99' }}
-            href={constantCommandsToCreateRuns.documentation}
+            href={constantCommandsToCreatePipeline.documentation}
             target="__blank"
           >
             docs

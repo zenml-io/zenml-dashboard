@@ -1,20 +1,20 @@
 import React, { useState } from 'react';
 import { translate } from './translate';
-import { List } from './List';
 
+import { List } from './List';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
 import { useService } from './useService';
 import { useSelector, useLocationPath } from '../../../hooks';
 import FilterComponent, {
-  getInitialFilterStateForPipeline,
+  getInitialFilterStateForRuns,
 } from '../../../components/Filters';
 import { Box } from '../../../components';
 import { workspaceSelectors } from '../../../../redux/selectors/workspaces';
 
-const FilterWrapper = () => {
+const FilterWrapperForRun = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
-  const [filters, setFilter] = useState([getInitialFilterStateForPipeline()]);
+  const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
   function getFilter(values: any) {
     const filterValuesMap = values.map((v: any) => {
       return {
@@ -26,9 +26,9 @@ const FilterWrapper = () => {
     return filterValuesMap;
   }
   return (
-    <Box marginTop="lg" style={{ marginTop: '-20px', width: '100%' }}>
+    <Box style={{ marginTop: '-20px', width: '100%' }}>
       <FilterComponent
-        getInitials={getInitialFilterStateForPipeline}
+        getInitials={getInitialFilterStateForRuns}
         filters={filters}
         setFilter={setFilter}
       >
@@ -38,7 +38,7 @@ const FilterWrapper = () => {
   );
 };
 
-export const Pipelines: React.FC = () => {
+export const Runs: React.FC = () => {
   useService();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
@@ -49,19 +49,20 @@ export const Pipelines: React.FC = () => {
       <BasePage
         tabPages={[
           {
-            text: translate('tabs.pipelines.text'),
-            Component: FilterWrapper,
-
-            path: routePaths.pipelines.list(
+            text: translate('tabs.allRuns.text'),
+            Component: FilterWrapperForRun,
+            path: routePaths.run.run.list(
               selectedWorkspace
                 ? selectedWorkspace
                 : locationPath.split('/')[2],
             ),
           },
         ]}
-        tabBasePath={routePaths.pipelines.base}
+        tabBasePath={routePaths.run.run.list(
+          selectedWorkspace ? selectedWorkspace : locationPath.split('/')[2],
+        )}
         breadcrumbs={[]}
-        title={'Pipelines'}
+        title={'Runs'}
         headerWithButtons
         renderHeaderRight={() => <></>}
       />
@@ -69,4 +70,4 @@ export const Pipelines: React.FC = () => {
   );
 };
 
-export default Pipelines;
+export default Runs;

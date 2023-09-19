@@ -4,15 +4,15 @@ import { useHistory, useSelector } from '../../../hooks';
 
 import { Table } from '../../common/Table';
 
-import { useHeaderCols } from './HeaderCols';
-import { useService } from './useService';
+import { useHeaderCols } from '../../runs/RunsTable/HeaderCols';
+import { useService } from '../../runs/RunsTable/useService';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { Box, FlexBox, If } from '../../../components';
 import { Pagination } from '../../common/Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
 import { ItemPerPage } from '../../common/ItemPerPage';
 
-import { callActionForAllrunsForPagination } from '../../AllRuns/Runs/useService';
+import { callActionForAllrunsForPagination } from '../Runs/useService';
 import { Run } from '../../../../api/types';
 
 interface Props {
@@ -28,6 +28,7 @@ export const RunsTable: React.FC<{
   emptyStateText: string;
   fetching: boolean;
 
+  fromAllruns?: boolean;
   filter?: any;
   id?: any;
 }> = ({
@@ -39,6 +40,7 @@ export const RunsTable: React.FC<{
   emptyStateText,
   fetching,
   paginated,
+
   filter,
   id,
 }) => {

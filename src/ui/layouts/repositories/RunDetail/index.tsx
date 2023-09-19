@@ -1,19 +1,24 @@
 import React from 'react';
+
 import { routePaths } from '../../../../routes/routePaths';
-import { BasePage } from '../BasePage';
-import { Configuration } from './Configuration';
-import { DAG } from '../../../components/dag';
+import { BasePage } from '../repository-layout';
 import { useService } from './useService';
+
+import { Configuration } from '../../runs/RunDetail/Configuration';
+import { DAG } from '../../../components/dag';
+import { Details } from '../../runs/RunDetail/Detail';
+
+import { Box } from '../../../components';
 
 import { useHistory, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { useHeaderCols } from './HeaderCols';
-import { Details } from './Detail';
-import { Box } from '../../../components';
+
 import { Table } from '../../common/Table';
+import { useHeaderCols } from '../../runs/RunDetail/HeaderCols';
 
 const getTabPages = ({
   selectedWorkspace,
+  repositoryID,
   runId,
   fetching,
   metadata,
@@ -21,6 +26,7 @@ const getTabPages = ({
   run,
 }: {
   selectedWorkspace: string;
+  repositoryID: TId;
   runId: TId;
   fetching: boolean;
   metadata?: any;
@@ -30,7 +36,6 @@ const getTabPages = ({
   return [
     {
       text: 'DAG Visualizer',
-
       Component: () => (
         <DAG
           runId={runId}
@@ -40,80 +45,102 @@ const getTabPages = ({
           runStatus={run?.status}
         />
       ),
-      path: routePaths.run.run.statistics(selectedWorkspace, runId),
+      path: routePaths.run.repository.statistics(
+        selectedWorkspace,
+        runId,
+        repositoryID,
+      ),
     },
     {
       text: 'Configuration',
-
       Component: () => <Configuration runId={runId} />,
-      path: routePaths.run.run.results(selectedWorkspace, runId),
+      path: routePaths.run.repository.results(
+        selectedWorkspace,
+        runId,
+        repositoryID,
+      ),
     },
     {
       text: 'Details',
       Component: () => <Details runId={runId} />,
-      path: routePaths.run.run.details(selectedWorkspace, runId),
+      path: routePaths.run.repository.details(
+        selectedWorkspace,
+        runId,
+        repositoryID,
+      ),
     },
   ];
 };
 
 const getBreadcrumbs = ({
-  runId,
   selectedWorkspace,
+  repositoryID,
+  runId,
 }: {
-  runId: TId;
   selectedWorkspace: string;
+  repositoryID: TId;
+  runId: TId;
 }): TBreadcrumb[] => {
   return [
     {
-      name: 'Runs',
+      name: 'Repositories',
       clickable: true,
-      to: routePaths.run.run.list(selectedWorkspace),
+      to: routePaths.repositories.list(selectedWorkspace),
     },
-
+    {
+      name: repositoryID,
+      clickable: true,
+      to: routePaths.repositories.overview(repositoryID, selectedWorkspace),
+    },
     {
       name: `Run ${runId}`,
       clickable: true,
-      to: routePaths.run.run.statistics(selectedWorkspace, runId),
+      to: routePaths.run.repository.statistics(
+        selectedWorkspace,
+        runId,
+        repositoryID,
+      ),
     },
   ];
 };
 
 export interface RunDetailRouteParams {
   id: TId;
-  runId: TId;
+  repositoryID: TId;
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, fetching, run, metadata, graph } = useService();
+  const { runId, repositoryID, fetching, run, metadata, graph } = useService();
+  const history = useHistory();
+  const runRow: any = [];
+  runRow.push(run);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages({
     selectedWorkspace,
-    fetching,
     runId,
+    repositoryID,
+    fetching,
     metadata,
     graph,
     run,
   });
-  const history = useHistory();
-  const runRow: any = [];
-  runRow.push(run);
   const breadcrumbs = getBreadcrumbs({
     runId,
+    repositoryID,
     selectedWorkspace,
   });
-  const openDetailPage = () => {
-    // eslint-disable-line
-    history.push(routePaths.run.run.list(selectedWorkspace));
-  };
   const headerCols = useHeaderCols({
-    // eslint-disable-line
     runs: runRow,
   });
+  const openDetailPage = (stack: TStack) => {
+    history.push(routePaths.repositories.runs(selectedWorkspace, repositoryID));
+  };
+
   return (
     <BasePage
       headerWithButtons
       tabPages={tabPages}
-      tabBasePath={routePaths.run.run.base(runId)}
+      tabBasePath={routePaths.run.repository.base(runId, repositoryID)}
       breadcrumbs={breadcrumbs}
       title="Runs"
     >

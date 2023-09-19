@@ -5,7 +5,7 @@ import { useService } from './useService';
 
 export const Runs: React.FC<{
   isExpended?: any;
-  fromAllruns?: boolean;
+
   pipelineId: TId;
   filter: any;
   runId?: any;
@@ -15,7 +15,7 @@ export const Runs: React.FC<{
   filter,
   pagination,
   runId,
-  fromAllruns,
+
   isExpended = false,
 }) => {
   const [sortBy, setSortBy] = useState('created');

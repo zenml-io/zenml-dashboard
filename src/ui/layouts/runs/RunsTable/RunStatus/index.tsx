@@ -1,32 +1,61 @@
 import React from 'react';
 import { runStatus, iconColors, iconSizes } from '../../../../../constants';
-import { icons, If, FlexBox } from '../../../../components';
-import { Run } from '../../../../../api/types';
+import { FlexBox, icons, If, Tooltip } from '../../../../components';
 
-export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
+const Element = ({
+  run,
+  condition,
+  icon,
+}: {
+  run: TRun;
+  condition: boolean;
+  icon: React.ReactNode;
+}) => (
+  <FlexBox alignItems="center">
+    <div data-tip data-for={run?.status} style={{ margin: '0 auto 0 auto' }}>
+      <If condition={condition}>
+        {() => <div style={{ marginLeft: '-24px' }}>{icon}</div>}
+      </If>
+    </div>
+    <Tooltip id={run?.status} text={run?.status} />
+  </FlexBox>
+);
+
+export const RunStatus: React.FC<{ run: TRun }> = ({ run }) => {
   return (
-    <FlexBox justifyContent="center" style={{ marginLeft: '-24px' }}>
-      <If condition={run.status === runStatus.COMPLETED}>
-        {() => (
+    <>
+      <Element
+        run={run}
+        condition={run?.status === runStatus.COMPLETED}
+        icon={
           <icons.circleCheck
             color={iconColors.lightGreen}
             size={iconSizes.md}
           />
-        )}
-      </If>
-      <If condition={run.status === runStatus.RUNNING}>
-        {() => (
+        }
+      />
+
+      <Element
+        run={run}
+        condition={run?.status === runStatus.RUNNING}
+        icon={
           <icons.inProgress color={iconColors.orange} size={iconSizes.md} />
-        )}
-      </If>
-      <If condition={run.status === runStatus.FAILED}>
-        {() => <icons.failed color={iconColors.red} size={iconSizes.md} />}
-      </If>
-      <If condition={run.status === runStatus.CACHED}>
-        {() => (
+        }
+      />
+
+      <Element
+        run={run}
+        condition={run?.status === runStatus.FAILED}
+        icon={<icons.failed color={iconColors.red} size={iconSizes.md} />}
+      />
+
+      <Element
+        run={run}
+        condition={run?.status === runStatus.CACHED}
+        icon={
           <icons.cached color={iconColors.butterflyBlue} size={iconSizes.md} />
-        )}
-      </If>
-    </FlexBox>
+        }
+      />
+    </>
   );
 };
