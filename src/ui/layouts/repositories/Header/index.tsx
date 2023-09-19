@@ -1,8 +1,6 @@
 import React from 'react';
 import cn from 'classnames';
-
 import { FlexBox, Box, Paragraph } from '../../../components';
-
 import styles from './index.module.scss';
 import { constantCommandsToCreateRepository } from '../../../../constants/constantCommands';
 import { title } from 'process';

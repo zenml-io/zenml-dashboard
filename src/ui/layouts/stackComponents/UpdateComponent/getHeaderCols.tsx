@@ -9,15 +9,15 @@ import { Box, FlexBox, icons, Paragraph, Tooltip } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { StackComponent } from '../../../../api/types';
 
-const HeaderText = ({text, margin}: { text: string, margin?: string }) => (
+const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
   <Paragraph
-  size="small"
-  color="black"
-  style={{ fontSize: '14px', marginLeft: margin }}
->
-  {text}
-</Paragraph>
-)
+    size="small"
+    color="black"
+    style={{ fontSize: '14px', marginLeft: margin }}
+  >
+    {text}
+  </Paragraph>
+);
 
 export const GetHeaderCols = ({
   mappedStackComponentWithLogo,
@@ -26,9 +26,7 @@ export const GetHeaderCols = ({
 }): HeaderCol[] => {
   return [
     {
-      render: () => (
-        <HeaderText text='ID' margin='33px' />
-      ),
+      render: () => <HeaderText text="ID" margin="33px" />,
       width: '20%',
       renderRow: (stack: StackComponent) => (
         <>
@@ -53,9 +51,7 @@ export const GetHeaderCols = ({
       ),
     },
     {
-      render: () => (
-        <HeaderText text='NAME' />
-      ),
+      render: () => <HeaderText text="NAME" />,
       width: '30%',
       renderRow: (stack: StackComponent) => (
         <>
@@ -75,7 +71,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <div style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-          <HeaderText text='FLAVOR' margin='-24px' />
+          <HeaderText text="FLAVOR" margin="-24px" />
         </div>
       ),
       width: '10%',
@@ -111,7 +107,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-          <HeaderText text='SHARED' margin='-24px' />
+          <HeaderText text="SHARED" margin="-24px" />
         </Box>
       ),
       width: '10%',
@@ -157,9 +153,7 @@ export const GetHeaderCols = ({
       ),
     },
     {
-      render: () => (
-        <HeaderText text='AUTHOR' />
-      ),
+      render: () => <HeaderText text="AUTHOR" />,
       width: '10%',
       renderRow: (stack: StackComponent) => {
         return (
@@ -201,9 +195,7 @@ export const GetHeaderCols = ({
       },
     },
     {
-      render: () => (
-        <HeaderText text='CREATED AT' />
-      ),
+      render: () => <HeaderText text="CREATED AT" />,
       width: '30%',
       renderRow: (stack: StackComponent) => (
         <>

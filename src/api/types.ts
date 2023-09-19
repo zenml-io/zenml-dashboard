@@ -1,4 +1,4 @@
-import { components } from '../../schema';
+import { components } from '../../appserverSchema';
 
 //Pipelines
 export type Pipeline = components['schemas']['PipelineResponseModel'];

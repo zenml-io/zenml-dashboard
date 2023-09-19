@@ -9,15 +9,25 @@ function log(message, emoji) {
 (async () => {
   log('Script started.', '✨');
 
-  const output = await openapiTS('https://appserver.zenml.io/openapi.json', {
+  const appserverOutput = await openapiTS(
+    'https://appserver.zenml.io/openapi.json',
+    {
+      exportType: true,
+      transform: (schema) => {
+        customTransformer(schema);
+      },
+    },
+  );
+
+  const hubapiOutput = await openapiTS('https://hubapi.zenml.io/openapi.json', {
     exportType: true,
     transform: (schema) => {
       customTransformer(schema);
     },
   });
-
   log('Writing output to file...', '📝');
-  fs.writeFileSync('schema.d.ts', output);
+  fs.writeFileSync('appserverSchema.d.ts', appserverOutput);
+  fs.writeFileSync('hubapiSchema.d.ts', hubapiOutput);
 
   log('Script completed successfully.', '✅');
 })();
