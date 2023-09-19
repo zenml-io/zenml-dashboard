@@ -6,15 +6,17 @@ import { Configuration } from './Configuration';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-import FilterComponent, {
-  getInitialFilterStateForRuns,
-} from '../../../components/Filters';
+import FilterComponent from '../../../components/Filters';
 import { Box } from '../../../components';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
+import {
+  getInitialFilterStateForRuns,
+  searchParamConstants,
+} from '../../AllRuns/Runs/filterParamConstants';
 
 interface Props {
   pipelineId: TId;
@@ -37,6 +39,7 @@ const FilterWrapperForRun = () => {
   return (
     <Box marginTop="lg" style={{ width: '100%' }}>
       <FilterComponent
+        searchColumns={searchParamConstants}
         getInitials={getInitialFilterStateForRuns}
         filters={filters}
         setFilter={setFilter}
