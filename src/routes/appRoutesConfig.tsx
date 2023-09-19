@@ -413,6 +413,14 @@ const routes = [
     exact: true,
   },
   {
+    path: routePaths.run.stack.details(':string', ':id', ':stackId'),
+    Component: StacksRunDetail,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
     path: routePaths.run.stack.tensorboard(':id', ':stackId'),
     Component: StacksRunDetail,
     visibility: {
