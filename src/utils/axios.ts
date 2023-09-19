@@ -1,6 +1,10 @@
 import axios from 'axios';
 import { getServerInfoFromRedux } from './store';
 
+if (!process.env.REACT_APP_EXTERNAL_DASHBOARD) {
+  axios.defaults.withCredentials = true;
+}
+
 const axiosInterceptor = axios.interceptors.request.use(function (config) {
   if (config.url?.includes(process.env.REACT_APP_BASE_API_URL as string)) {
     config.headers['Source-Context'] = 'dashboard';
@@ -17,3 +21,7 @@ const axiosInterceptor = axios.interceptors.request.use(function (config) {
 });
 
 export default axiosInterceptor;
+
+export const hubAxios = axios.create({
+  withCredentials: false,
+});

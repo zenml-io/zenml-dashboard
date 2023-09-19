@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
-import axios from 'axios';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { sessionSelectors } from '../../redux/selectors';
 import { HUB_API_URL } from '../../api/constants';
 import { useToaster } from './useToaster';
 import { disconnectHubActionTypes } from '../../redux/actionTypes';
+import { hubAxios } from '../../utils/axios';
 
 export const useAuthToken = (): string | null =>
   useSelector(sessionSelectors.authenticationToken);
@@ -47,7 +47,7 @@ export const useHubUser = (): THubUser | undefined => {
 };
 
 function getUserDetails(hubToken: string) {
-  return axios.get(`${HUB_API_URL}/users/me`, {
+  return hubAxios.get(`${HUB_API_URL}/users/me`, {
     headers: { Authorization: `Bearer ${hubToken}` },
   });
 }
