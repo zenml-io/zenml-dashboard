@@ -22,9 +22,10 @@ export function OauthHandler() {
     if (context === 'cloud') {
       handleLogin();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [context]);
 
-  const handleLogin = async () => {
+  async function handleLogin() {
     try {
       const response = await axios.post<SSOResponse>(loginUrl, null, {
         withCredentials: true,
@@ -42,7 +43,7 @@ export function OauthHandler() {
     } catch (error) {
       console.error('Error during login:', error);
     }
-  };
+  }
 
   return (
     <PrimaryButton
