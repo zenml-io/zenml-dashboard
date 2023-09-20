@@ -6,6 +6,7 @@ import { SSOResponse } from '../../../../api/types';
 import { useHistory, useLocation } from 'react-router-dom';
 import { userActions } from '../../../../redux/actions';
 import { useDispatch } from 'react-redux';
+import { updateAccessTokenAction } from '../../../../redux/actions/session/loginAction';
 
 export function OauthHandler() {
   const dispatch = useDispatch();
@@ -37,6 +38,9 @@ export function OauthHandler() {
         return;
       }
       if (response.data.access_token) {
+        dispatch(
+          updateAccessTokenAction({ token: response.data.access_token }),
+        );
         dispatch(userActions.getMy({}));
         history.push('/workspaces/default');
       }

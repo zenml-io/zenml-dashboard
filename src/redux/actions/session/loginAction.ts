@@ -1,4 +1,7 @@
-import { loginActionTypes } from '../../actionTypes';
+import {
+  loginActionTypes,
+  updateAccessTokenActionType,
+} from '../../actionTypes';
 import loginApi from '../../../api/session/loginApi';
 
 export const loginAction = ({
@@ -26,5 +29,12 @@ export const loginAction = ({
         password,
       },
     },
+  },
+});
+
+export const updateAccessTokenAction = ({ token }: { token: string }) => ({
+  type: updateAccessTokenActionType,
+  payload: {
+    token,
   },
 });

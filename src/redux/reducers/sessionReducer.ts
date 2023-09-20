@@ -3,6 +3,7 @@ import {
   disconnectHubActionTypes,
   loginActionTypes,
   signupActionTypes,
+  updateAccessTokenActionType,
 } from '../actionTypes';
 
 type State = {
@@ -24,6 +25,13 @@ export const initialState: State = {
 
 const sessionReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
+    case updateAccessTokenActionType: {
+      const { token } = action.payload as any;
+      return {
+        ...state,
+        authenticationToken: token,
+      };
+    }
     case loginActionTypes.success: {
       const { access_token } = action.payload;
 

@@ -4,6 +4,7 @@ const sessionActionTypes = {
   ACCOUNT_SIGNUP: 'ACCOUNT_SIGNUP',
   FORGOT_PASSWORD: 'FORGOT_PASSWORD',
   UPDATE_EMAIL: 'UPDATE_EMAIL',
+  UPDATE_ACCESS_TOKEN: 'UPDATE_ACCESS_TOKEN',
 };
 
 const serverInfoActionTypes = {
