@@ -25,3 +25,9 @@ export type Run = components['schemas']['PipelineRunResponseModel'];
 
 // //Repository
 export type Repository = components['schemas']['CodeRepositoryResponseModel'];
+
+// ServerInfo
+
+export type ServerInfo = components['schemas']['ServerModel'];
+
+export type SSOResponse = components['schemas']['AuthenticationResponse'];

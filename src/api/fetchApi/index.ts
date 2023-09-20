@@ -21,6 +21,7 @@ export const fetchApi = ({
   params?: any;
 }): Promise<any> => {
   return axios({
+    withCredentials: false,
     method: method || httpMethods.get,
     url,
     data,
