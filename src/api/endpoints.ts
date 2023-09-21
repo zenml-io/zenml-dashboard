@@ -1,5 +1,6 @@
 export const endpoints = {
   login: '/login',
+  logout: '/logout',
   signup: (username: string): string => `/users/${username}/activate`,
   userEmail: (userId: string): string => `/users/${userId}/email-opt-in`,
   forgot: '/login/email/resetpassword',

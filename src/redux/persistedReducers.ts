@@ -76,6 +76,8 @@ import repositoriesPagesReducer, {
 import serverInfoReducer, {
   initialState as serverInfoInitialState,
 } from './reducers/serverInfoReducer';
+import axios from 'axios';
+import { endpoints } from '../api/endpoints';
 
 const initialState = {
   session: sessionInitialState,
@@ -128,6 +130,13 @@ export const persisted = combineReducers({
 
 export default (state: any, action: any) => {
   if (action.type === ACCOUNT_LOGOUT) {
+    if (state.serverInfo.authScheme === 'EXTERNAL') {
+      axios
+        .get(`${process.env.REACT_APP_BASE_API_URL}${endpoints.logout}`)
+        .then(() => {
+          return persisted(initialState as any, action);
+        });
+    }
     return persisted(initialState as any, action);
   }
 
