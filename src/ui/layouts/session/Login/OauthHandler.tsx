@@ -26,6 +26,7 @@ export function OauthHandler() {
 
   useEffect(() => {
     handleLogin(true);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   async function handleLogin(isInitial: boolean = false) {
