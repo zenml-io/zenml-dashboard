@@ -42,7 +42,10 @@ const useReplaceRouteIfNeeded = ({
   const user = useSelector(userSelectors.myUser);
   const routeFromSearchParam = useGetSearchParam('route');
 
-  const isAuthenticated = useSelector(sessionSelectors.authenticationToken);
+  const authenticationToken = useSelector(sessionSelectors.authenticationToken);
+  const isCookieAuthenticated = useSelector(
+    sessionSelectors.isCookieAuthenticated,
+  );
 
   React.useEffect(() => {
     setNotFound(
@@ -57,11 +60,17 @@ const useReplaceRouteIfNeeded = ({
       locationPath,
       user,
       currentLocation,
-      isAuthenticated,
+      isAuthenticated: authenticationToken || isCookieAuthenticated,
       replaceRoute,
       routeFromSearchParam,
     });
-  }, [user, currentLocation, isAuthenticated, replaceRoute]);
+  }, [
+    user,
+    currentLocation,
+    authenticationToken,
+    isCookieAuthenticated,
+    replaceRoute,
+  ]);
 };
 
 export const AppRoute = ({ path, component, exact }: any): JSX.Element => {

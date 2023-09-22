@@ -27,4 +27,4 @@ export const disconnectHubActionTypes = generateApiActionsTypes(
   actionTypes.DISCONNECT_HUB,
 );
 
-export const updateAccessTokenActionType = actionTypes.UPDATE_ACCESS_TOKEN;
+export const loginWithCookie = actionTypes.LOGIN_WITH_COOKIE;

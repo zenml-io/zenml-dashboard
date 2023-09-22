@@ -1,7 +1,4 @@
-import {
-  loginActionTypes,
-  updateAccessTokenActionType,
-} from '../../actionTypes';
+import { loginActionTypes, loginWithCookie } from '../../actionTypes';
 import loginApi from '../../../api/session/loginApi';
 
 export const loginAction = ({
@@ -32,9 +29,13 @@ export const loginAction = ({
   },
 });
 
-export const updateAccessTokenAction = ({ token }: { token: string }) => ({
-  type: updateAccessTokenActionType,
+export const setIsloggedinWithCookie = ({
+  isLoggedinWithCookie,
+}: {
+  isLoggedinWithCookie: boolean;
+}) => ({
+  type: loginWithCookie,
   payload: {
-    token,
+    isLoggedinWithCookie,
   },
 });

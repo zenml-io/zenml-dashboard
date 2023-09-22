@@ -3,12 +3,13 @@ import {
   disconnectHubActionTypes,
   loginActionTypes,
   signupActionTypes,
-  updateAccessTokenActionType,
+  loginWithCookie,
 } from '../actionTypes';
 
 type State = {
   authenticationToken?: string;
   hubToken?: string;
+  isCookieAuthenticated?: boolean;
 };
 
 type Action = {
@@ -21,15 +22,16 @@ type Action = {
 export const initialState: State = {
   authenticationToken: undefined,
   hubToken: undefined,
+  isCookieAuthenticated: false,
 };
 
 const sessionReducer = (state: State = initialState, action: Action): State => {
   switch (action.type) {
-    case updateAccessTokenActionType: {
-      const { token } = action.payload as any;
+    case loginWithCookie: {
+      const { isLoggedinWithCookie } = action.payload as any;
       return {
         ...state,
-        authenticationToken: token,
+        isCookieAuthenticated: isLoggedinWithCookie,
       };
     }
     case loginActionTypes.success: {

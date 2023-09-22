@@ -10,7 +10,7 @@ import {
   workspacesActions,
 } from '../../../../redux/actions';
 import { useDispatch } from 'react-redux';
-import { updateAccessTokenAction } from '../../../../redux/actions/session/loginAction';
+import { setIsloggedinWithCookie } from '../../../../redux/actions/session/loginAction';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { routePaths } from '../../../../routes/routePaths';
 
@@ -40,9 +40,7 @@ export function OauthHandler() {
         return;
       }
       if (response.data.access_token) {
-        dispatch(
-          updateAccessTokenAction({ token: response.data.access_token }),
-        );
+        dispatch(setIsloggedinWithCookie({ isLoggedinWithCookie: true }));
         dispatch(userActions.getMy({}));
         const workspaceFromUrl = window.location.search.split('/')[2];
         dispatch(
