@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { getServerInfoFromRedux } from './store';
 
-if (!process.env.REACT_APP_EXTERNAL_DASHBOARD) {
+if (process.env.REACT_APP_USE_COOKIE) {
   axios.defaults.withCredentials = true;
 }
 

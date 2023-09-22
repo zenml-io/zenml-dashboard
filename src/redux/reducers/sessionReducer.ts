@@ -37,6 +37,12 @@ const sessionReducer = (state: State = initialState, action: Action): State => {
     case loginActionTypes.success: {
       const { access_token } = action.payload;
 
+      if (process.env.REACT_APP_USE_COOKIE) {
+        return {
+          ...state,
+          isCookieAuthenticated: true,
+        };
+      }
       return {
         ...state,
         authenticationToken: access_token,

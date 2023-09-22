@@ -21,7 +21,6 @@ export const fetchApi = ({
   params?: any;
 }): Promise<any> => {
   return axios({
-    withCredentials: false,
     method: method || httpMethods.get,
     url,
     data,
@@ -58,7 +57,7 @@ export const fetchApiWithAuthRequest = ({
     headers: {
       ...DEFAULT_HEADERS,
       ...headers,
-      ...(process.env.REACT_APP_EXTERNAL_DASHBOARD && {
+      ...(!process.env.REACT_APP_USE_COOKIE && {
         Authorization: `Bearer ${authenticationToken}`,
       }),
     },

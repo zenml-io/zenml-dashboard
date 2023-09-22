@@ -60,7 +60,7 @@ const useReplaceRouteIfNeeded = ({
       locationPath,
       user,
       currentLocation,
-      isAuthenticated: authenticationToken || isCookieAuthenticated,
+      isAuthenticated: !!authenticationToken || isCookieAuthenticated,
       replaceRoute,
       routeFromSearchParam,
     });
