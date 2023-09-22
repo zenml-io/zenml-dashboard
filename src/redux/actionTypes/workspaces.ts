@@ -11,4 +11,5 @@ export const workspaceActionTypes = {
   selectWorkspace: generateApiActionsTypes(
     actionTypes.SELECT_WORKSPACE_FROM_MY_WORKSPACES,
   ),
+  updateSelectedWorkspace: actionTypes.UPDATE_SELECTED_WORKSPACE,
 };

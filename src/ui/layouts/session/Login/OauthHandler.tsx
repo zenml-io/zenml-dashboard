@@ -4,9 +4,15 @@ import { PrimaryButton } from '../../../components';
 import { endpoints } from '../../../../api/endpoints';
 import { SSOResponse } from '../../../../api/types';
 import { useHistory, useLocation } from 'react-router-dom';
-import { userActions } from '../../../../redux/actions';
+import {
+  stackComponentsActions,
+  userActions,
+  workspacesActions,
+} from '../../../../redux/actions';
 import { useDispatch } from 'react-redux';
 import { updateAccessTokenAction } from '../../../../redux/actions/session/loginAction';
+import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
+import { routePaths } from '../../../../routes/routePaths';
 
 export function OauthHandler() {
   const dispatch = useDispatch();
@@ -14,24 +20,20 @@ export function OauthHandler() {
   const { search } = useLocation();
 
   const params = new URLSearchParams(search);
-  const context = params.get('context');
-  params.set('context', 'cloud');
+  const route = params.get('route');
   const loginUrl = `${process.env.REACT_APP_BASE_API_URL}${endpoints.login}`;
   const callbackUrl = `${window.location.origin}/login?${params.toString()}`;
 
   useEffect(() => {
-    if (context === 'cloud') {
-      handleLogin();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [context]);
+    handleLogin(true);
+  }, []);
 
-  async function handleLogin() {
+  async function handleLogin(isInitial: boolean = false) {
     try {
       const response = await axios.post<SSOResponse>(loginUrl, null, {
         withCredentials: true,
       });
-      if (response.data.authorization_url) {
+      if (response.data.authorization_url && !isInitial) {
         window.location.href = `${
           response.data.authorization_url
         }?redirect=${encodeURIComponent(callbackUrl)}`;
@@ -42,7 +44,22 @@ export function OauthHandler() {
           updateAccessTokenAction({ token: response.data.access_token }),
         );
         dispatch(userActions.getMy({}));
-        history.push('/workspaces/default');
+        const workspaceFromUrl = window.location.search.split('/')[2];
+        dispatch(
+          workspacesActions.updateSelectedWorkspace({
+            workspace: workspaceFromUrl || DEFAULT_WORKSPACE_NAME,
+          }),
+        );
+        dispatch(stackComponentsActions.getTypes());
+        dispatch(
+          workspacesActions.getMy({
+            selectDefault: false,
+            selectedWorkspace: workspaceFromUrl
+              ? workspaceFromUrl
+              : DEFAULT_WORKSPACE_NAME,
+          }),
+        );
+        history.push(route || routePaths.dashboard(DEFAULT_WORKSPACE_NAME));
       }
     } catch (error) {
       console.error('Error during login:', error);
@@ -51,7 +68,7 @@ export function OauthHandler() {
 
   return (
     <PrimaryButton
-      onClick={handleLogin}
+      onClick={() => handleLogin(false)}
       style={{ width: '100%', backgroundColor: '#E8A562' }}
     >
       Login with SSO
