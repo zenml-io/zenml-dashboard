@@ -159,9 +159,9 @@ const Index: React.FC<ServicesSelector> = ({
                   }}
                 ></div>
 
-                {data?.resourceTypes?.map(
+                {data.resourceTypes?.map(
                   (resource_type: any, index: number) => (
-                    <Box>
+                    <Box key={index}>
                       {/* First Child Start */}
                       <FlexBox className={styles.services}>
                         <div
@@ -185,8 +185,8 @@ const Index: React.FC<ServicesSelector> = ({
                         <Box>
                           <img
                             className={styles.service_selector_image}
-                            src={resource_type.logo_url}
-                            alt={resource_type.resource_type}
+                            src={resource_type?.logo_url}
+                            alt={resource_type?.resource_type}
                           />
                         </Box>
                         <Box
@@ -194,12 +194,17 @@ const Index: React.FC<ServicesSelector> = ({
                           marginRight="xl"
                           className={styles.servicesName}
                         >
-                          <Paragraph>{resource_type.name}</Paragraph>
+                          <Paragraph>{resource_type?.name}</Paragraph>
                         </Box>
                         <Box>
                           {resources?.resources[index]?.error ? (
                             <div>
-                              <div data-tip data-for={resources[index]}>
+                              <div
+                                data-tip
+                                data-for={
+                                  resources?.resources[index]?.resource_type
+                                }
+                              >
                                 <icons.alertTriangle
                                   size={iconSizes.sm}
                                   color={iconColors.mustard}
@@ -207,7 +212,7 @@ const Index: React.FC<ServicesSelector> = ({
                                 />
                               </div>
                               <ReactTooltip
-                                id={resources[index]}
+                                id={resources?.resources[index].resource_type}
                                 place="top"
                                 effect="solid"
                               >
@@ -255,77 +260,86 @@ const Index: React.FC<ServicesSelector> = ({
                           }}
                         >
                           {resources &&
-                            resources?.resources?.map((item: any) => (
-                              <>
-                                {/* Second Child Start */}
-                                {item.resource_type ===
-                                  resource_type.resource_type &&
-                                  item.resource_ids !== null &&
-                                  item.resource_ids.map((id: any) => (
-                                    <FlexBox marginVertical="md">
-                                      <div
-                                        style={{
-                                          position: 'absolute',
-                                          bottom: '-5px',
-                                          width: '5px',
-                                          height: '5px',
-                                          borderRadius: '100%',
-                                          backgroundColor:
-                                            'rgba(68, 62, 153, 0.3)',
-                                          marginLeft: '-3px',
-                                        }}
-                                      ></div>
+                            resources?.resources?.map(
+                              (item: any, index: number) => (
+                                <React.Fragment key={index}>
+                                  {/* Second Child Start */}
+                                  {item.resource_type ===
+                                    resource_type.resource_type &&
+                                    item.resource_ids !== null &&
+                                    item.resource_ids.map(
+                                      (id: any, innerIndex: number) => (
+                                        <FlexBox
+                                          marginVertical="md"
+                                          key={innerIndex}
+                                        >
+                                          <div
+                                            style={{
+                                              position: 'absolute',
+                                              bottom: '-5px',
+                                              width: '5px',
+                                              height: '5px',
+                                              borderRadius: '100%',
+                                              backgroundColor:
+                                                'rgba(68, 62, 153, 0.3)',
+                                              marginLeft: '-3px',
+                                            }}
+                                          ></div>
 
-                                      <div
-                                        style={{
-                                          marginTop: '10px',
-                                          width: '50px',
-                                          borderTop:
-                                            '1px solid rgba(68, 62, 153, 0.3)',
-                                        }}
-                                      ></div>
-                                      <div
-                                        style={{
-                                          marginTop: '6px',
-                                          marginRight: '5px',
-                                          marginLeft: '-2px',
-                                          color: 'rgba(68, 62, 153, 0.3)',
-                                        }}
-                                      >
-                                        &#x27A4;
-                                      </div>
-                                      <Box
-                                        marginLeft="sm"
-                                        marginRight="xl"
-                                        style={{ width: '200px' }}
-                                      >
-                                        <Paragraph>{id} </Paragraph>
-                                      </Box>
-                                      <Box>
-                                        <input
-                                          type="checkbox"
-                                          className={styles.selectedBoxCheckbox}
-                                          checked={
-                                            parent === true ||
-                                            (resourceType?.includes(
-                                              resource_type?.resource_type,
-                                            ) &&
-                                              ids === '') ||
-                                            ids === id
-                                          }
-                                          onClick={() => {
-                                            setIds(ids === id ? '' : id);
-                                            setResourceType([
-                                              resource_type?.resource_type,
-                                            ]);
-                                          }}
-                                        />
-                                      </Box>
-                                    </FlexBox>
-                                  ))}
-                                {/* Second Child End */}
-                              </>
-                            ))}
+                                          <div
+                                            style={{
+                                              marginTop: '10px',
+                                              width: '50px',
+                                              borderTop:
+                                                '1px solid rgba(68, 62, 153, 0.3)',
+                                            }}
+                                          ></div>
+                                          <div
+                                            style={{
+                                              marginTop: '6px',
+                                              marginRight: '5px',
+                                              marginLeft: '-2px',
+                                              color: 'rgba(68, 62, 153, 0.3)',
+                                            }}
+                                          >
+                                            &#x27A4;
+                                          </div>
+                                          <Box
+                                            marginLeft="sm"
+                                            marginRight="xl"
+                                            style={{ width: '200px' }}
+                                          >
+                                            <Paragraph>{id} </Paragraph>
+                                          </Box>
+                                          <Box>
+                                            <input
+                                              type="checkbox"
+                                              className={
+                                                styles.selectedBoxCheckbox
+                                              }
+                                              checked={
+                                                parent === true ||
+                                                (resourceType?.includes(
+                                                  resource_type?.resource_type,
+                                                ) &&
+                                                  ids === '') ||
+                                                ids === id
+                                              }
+                                              onClick={() => {
+                                                setIds(ids === id ? '' : id);
+                                                setResourceType([
+                                                  resource_type?.resource_type,
+                                                ]);
+                                              }}
+                                            />
+                                          </Box>
+                                        </FlexBox>
+                                      ),
+                                    )}
+                                  {/* Second Child End */}
+                                </React.Fragment>
+                              ),
+                            )}
                         </div>
                       </Box>
                     </Box>
