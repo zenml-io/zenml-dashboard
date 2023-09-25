@@ -4,11 +4,11 @@ import { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { userActions } from '../../../../../../redux/actions';
 import { userSelectors } from '../../../../../../redux/selectors';
-import { Stack } from '../../../../../../api/types';
+import { Stack, User } from '../../../../../../api/types';
 
 interface ServiceInterface {
   fetching: boolean;
-  user: TUser;
+  user: User;
 }
 
 export const useService = ({ stack }: { stack: Stack }): ServiceInterface => {

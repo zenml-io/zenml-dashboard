@@ -8,9 +8,7 @@ import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
-import FilterComponent, {
-  getInitialFilterStateForRuns,
-} from '../../../components/Filters';
+import FilterComponent from '../../../components/Filters';
 import { Box } from '../../../components';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
@@ -20,6 +18,10 @@ import { FullWidthSpinner } from '../../../components';
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
 import { Stack, StackComponent, Flavor } from '../../../../api/types';
+import {
+  getInitialFilterStateForRuns,
+  searchParamConstants,
+} from '../../AllRuns/Runs/filterParamConstants';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -38,6 +40,7 @@ const FilterWrapperForRun = () => {
   return (
     <Box marginTop="lg" style={{ width: '100%' }}>
       <FilterComponent
+        searchColumns={searchParamConstants}
         getInitials={getInitialFilterStateForRuns}
         filters={filters}
         setFilter={setFilter}
@@ -166,7 +169,7 @@ export const StackDetail: React.FC = () => {
       <Box marginTop="lg" style={{ overflowX: 'auto' }}>
         <CollapseTable
           pagination={false}
-          renderAfterRow={(stack: Stack) => <></>}
+          renderAfterRow={() => <></>}
           headerCols={headerCols}
           tableRows={filteredStacks}
           emptyState={{ text: translate('emptyState.text') }}

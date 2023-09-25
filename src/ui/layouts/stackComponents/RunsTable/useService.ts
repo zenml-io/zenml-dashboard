@@ -7,7 +7,6 @@ import { Sorting, SortingDirection } from './types';
 import { stackPagesActions } from '../../../../redux/actions';
 import { useDispatch, useSelector } from '../../../hooks';
 import { runSelectors } from '../../../../redux/selectors';
-import { getFilteredDataForTable } from '../../../../utils/tableFilters';
 import { source } from '../../../../api/fetchApi';
 import { Run } from '../../../../api/types';
 

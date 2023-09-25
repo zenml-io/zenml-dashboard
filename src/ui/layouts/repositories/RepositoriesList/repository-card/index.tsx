@@ -5,8 +5,8 @@ import Fallback from '../../../../assets/plugin-fallback.svg';
 import { routePaths } from '../../../../../routes/routePaths';
 import { useSelector } from 'react-redux';
 import { workspaceSelectors } from '../../../../../redux/selectors';
-import { Link } from 'react-router-dom';
 import { Repository } from '../../../../../api/types';
+import { Link } from 'react-router-dom';
 
 interface RepositoryCardProps {
   repository: Repository;

@@ -30,7 +30,7 @@ export const PersonalDetails: React.FC = () => {
   useRequestOnMount(userActions.getMy, {});
   const user = useSelector(userSelectors.myUser);
   const hubUser = useHubUser();
-  const userFullName = user?.fullName || user?.name;
+  const userFullName = user?.full_name || user?.name;
   const userInitials = getInitials(userFullName as string);
 
   const [popupOpen, setPopupOpen] = useState(false);
@@ -137,7 +137,7 @@ export const PersonalDetails: React.FC = () => {
                 textAlign: 'center',
               }}
             >
-              {user?.fullName}
+              {user?.full_name}
             </Paragraph>
           </Box>
 

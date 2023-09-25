@@ -6,10 +6,11 @@ import { PluginsLayout } from '../shared/Layout';
 import { Box, FullWidthSpinner, Paragraph } from '../../../components';
 import { getVersion } from '../api';
 import styles from './styles.module.scss';
+import { Plugin } from '../pluginsTypes';
 
 const DisplayPluginLogs = () => {
   const [isFetching, setIsFetching] = useState(false);
-  const [plugin, setPlugin] = useState(null as null | TPluginDetail);
+  const [plugin, setPlugin] = useState(null as null | Plugin);
   const { pluginVersionID } = useParams<{ pluginVersionID: string }>();
   useEffect(() => {
     setIsFetching(true);

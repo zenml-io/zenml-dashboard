@@ -234,7 +234,7 @@ export const DashBoard: React.FC = () => {
                         } else if (e.text === 'pipelines') {
                           push(routePaths.pipelines.base);
                         } else if (e.text === 'runs') {
-                          push(routePaths.pipelines.allRuns(selectedWorkspace));
+                          push(routePaths.run.run.list(selectedWorkspace));
                         } else if (e.text === 'components') {
                           push(
                             routePaths.stackComponents.base(

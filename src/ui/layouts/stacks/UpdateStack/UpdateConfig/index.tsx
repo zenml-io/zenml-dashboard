@@ -3,9 +3,7 @@ import React from 'react';
 import { ListForAll } from './ListForAll';
 import { BasePage } from '../../BasePage';
 import { routePaths } from '../../../../../routes/routePaths';
-
 import { useLocationPath, useSelector } from '../../../../hooks';
-
 import { workspaceSelectors } from '../../../../../redux/selectors';
 
 export const UpdateConfig: React.FC<{

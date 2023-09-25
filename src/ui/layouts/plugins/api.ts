@@ -1,15 +1,20 @@
 import { HUB_API_URL } from '../../../api/constants';
 import { hubAxios } from '../../../utils/axios';
 import { memoisePromiseFn } from '../../../utils/memo';
+import { PluginVersion, Plugin } from './pluginsTypes';
 
 const auth = (token: string) => ({
   headers: { Authorization: `Bearer ${token}` },
 });
 
-const addCanonicalUrl = <X extends TPluginDetail | TPluginVersion>(
-  plugin: X,
+const addCanonicalUrl = <X extends Plugin | TPluginVersion | any>(
+  plugin: X | any,
 ): X => {
-  const { repository_url, repository_branch, repository_subdirectory } = plugin;
+  const {
+    repository_url,
+    repository_branch,
+    repository_subdirectory,
+  } = plugin as any;
   let canonical_url = repository_url;
   if (repository_branch) {
     canonical_url = `${canonical_url}/tree/${repository_branch}`;
@@ -26,14 +31,14 @@ const addCanonicalUrl = <X extends TPluginDetail | TPluginVersion>(
 export const getPlugin = async (
   pluginId: string,
   available = true,
-): Promise<TPluginDetail> => {
+): Promise<Plugin> => {
   const plugin = (
     await hubAxios.get(
       `${HUB_API_URL}/plugins/${pluginId}${
         available ? '?status=available' : ''
       }`,
     )
-  ).data as TPluginDetail;
+  ).data as Plugin;
   return addCanonicalUrl(plugin);
 };
 
@@ -41,7 +46,7 @@ export const getPlugins: (
   searchQuery: string,
   filterQueries: string[],
   token: string | null,
-) => Promise<TPlugin[]> = memoisePromiseFn(
+) => Promise<Plugin[]> = memoisePromiseFn(
   async (
     searchQuery: string,
     filterQueries: string[],
@@ -55,7 +60,7 @@ export const getPlugins: (
         `${HUB_API_URL}/plugins?status=available${search}${filter}`,
         token ? auth(token) : {},
       )
-    ).data as TPlugin[];
+    ).data as Plugin[];
   },
 );
 
@@ -64,12 +69,12 @@ export const getVersion = async (versionID: string) => {
     .data;
 };
 
-export const getVersions = async (pluginId: TId): Promise<TPluginVersion[]> => {
+export const getVersions = async (pluginId: TId): Promise<PluginVersion[]> => {
   return (
     await hubAxios.get(
       `${HUB_API_URL}/plugin_versions?status=available&plugin_id=${pluginId}`,
     )
-  ).data as TPluginVersion[];
+  ).data as PluginVersion[];
 };
 
 export const getStarredPlugins = async (

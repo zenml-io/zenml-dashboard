@@ -255,6 +255,7 @@ export const ListForAll: React.FC<{
           <FlexBox.Row marginTop="md">
             {selectedStack?.map((stack: any) => (
               <Box
+                key={stack.id}
                 onClick={() => selectStack(stack)}
                 marginLeft="sm"
                 style={{
@@ -281,9 +282,10 @@ export const ListForAll: React.FC<{
       </div>
 
       <FlexBox.Column>
-        {stackComponentsTypes?.map((item) => {
+        {stackComponentsTypes?.map((item, index) => {
           return (
             <Box
+              key={index}
               marginTop="lg"
               paddingBottom="lg"
               style={{ overflowX: 'auto' }}

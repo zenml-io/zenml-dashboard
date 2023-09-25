@@ -2,6 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
+import { UpdateUser } from '../types';
 
 const updateUserEmailApi = ({
   authenticationToken,
@@ -11,7 +12,7 @@ const updateUserEmailApi = ({
   authenticationToken: string;
   userId: string;
   email: string;
-}): Promise<TUser> =>
+}): Promise<UpdateUser> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.users.updateUser(userId)),
     method: httpMethods.put,

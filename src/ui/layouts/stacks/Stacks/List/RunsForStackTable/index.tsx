@@ -34,29 +34,8 @@ export const RunsForStackTable: React.FC<{
       }
     }
 
-    return (
-      <>
-        <NestedRow tiles={nestedRowtiles} />
-      </>
-    );
+    return <NestedRow tiles={nestedRowtiles} />;
   }
-
-  // if (nestedRow) {
-  //   const nestedRowtiles = [];
-  //   for (const [key] of Object.entries(stack.components)) {
-  //     nestedRowtiles.push({
-  //       type: key,
-  //       name: stack.components[key][0].name,
-  //       id: stack.components[key][0].id,
-  //     });
-  //   }
-
-  //   return (
-  //     <>
-  //       <NestedRow tiles={nestedRowtiles} />
-  //     </>
-  //   );
-  // }
 
   return (
     <Box marginBottom="md">

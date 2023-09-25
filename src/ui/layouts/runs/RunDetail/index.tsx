@@ -67,7 +67,7 @@ const getBreadcrumbs = ({
     {
       name: 'Runs',
       clickable: true,
-      to: routePaths.pipelines.allRuns(selectedWorkspace),
+      to: routePaths.run.run.list(selectedWorkspace),
     },
 
     {
@@ -101,9 +101,9 @@ export const RunDetail: React.FC = () => {
     runId,
     selectedWorkspace,
   });
-  const openDetailPage = (stack: TStack) => {
+  const openDetailPage = () => {
     // eslint-disable-line
-    history.push(routePaths.pipelines.allRuns(selectedWorkspace));
+    history.push(routePaths.run.run.list(selectedWorkspace));
   };
   const headerCols = useHeaderCols({
     // eslint-disable-line
@@ -115,6 +115,7 @@ export const RunDetail: React.FC = () => {
       tabPages={tabPages}
       tabBasePath={routePaths.run.run.base(runId)}
       breadcrumbs={breadcrumbs}
+      title="Runs"
     >
       <Box marginTop="lg">
         <Table

@@ -1,6 +1,5 @@
 import React from 'react';
 import { runStatus, iconColors, iconSizes } from '../../../../../../constants';
-
 import {
   Box,
   ColoredCircle,

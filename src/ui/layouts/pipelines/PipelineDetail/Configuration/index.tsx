@@ -4,6 +4,7 @@ import { useSelector } from '../../../../hooks';
 import { pipelineSelectors } from '../../../../../redux/selectors';
 import { LayoutFlow } from '../../../../components/Yaml/index';
 import { Pipeline } from '../../../../../api/types';
+
 export const Configuration: React.FC<{ pipelineId: TId }> = ({
   pipelineId,
 }) => {

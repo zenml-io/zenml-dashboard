@@ -9,24 +9,25 @@ import { Box, FlexBox, icons, Paragraph, Tooltip } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { Stack } from '../../../../api/types';
 
+const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
+  <Paragraph
+    size="small"
+    color="black"
+    style={{ fontSize: '14px', marginLeft: margin }}
+  >
+    {text}
+  </Paragraph>
+);
+
 export const GetHeaderCols = ({
   filteredStacks,
 }: {
   expendedRow?: any;
-
   filteredStacks: Stack[];
 }): HeaderCol[] => {
   return [
     {
-      render: () => (
-        <Paragraph
-          size="small"
-          color="black"
-          style={{ fontSize: '14px', marginLeft: '33px' }}
-        >
-          ID
-        </Paragraph>
-      ),
+      render: () => <HeaderText text="ID" margin="33px" />,
       width: '20%',
       renderRow: (stack: Stack) => (
         <FlexBox alignItems="center">
@@ -44,11 +45,7 @@ export const GetHeaderCols = ({
       ),
     },
     {
-      render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          NAME
-        </Paragraph>
-      ),
+      render: () => <HeaderText text="ID" />,
       width: '30%',
       renderRow: (stack: Stack) => (
         <FlexBox alignItems="center">
@@ -64,9 +61,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-          <Paragraph size="small" color="black" style={{ marginLeft: '-16px' }}>
-            SHARED
-          </Paragraph>
+          <HeaderText text="SHARED" margin="-16px" />
         </Box>
       ),
       width: '15%',
@@ -110,11 +105,7 @@ export const GetHeaderCols = ({
     },
 
     {
-      render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          AUTHOR
-        </Paragraph>
-      ),
+      render: () => <HeaderText text="AUTHOR" />,
       width: '15%',
       renderRow: (stack: Stack) => {
         return (
@@ -152,11 +143,7 @@ export const GetHeaderCols = ({
       },
     },
     {
-      render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          CREATED AT
-        </Paragraph>
-      ),
+      render: () => <HeaderText text="CREATED AT" />,
       width: '20%',
       renderRow: (stack: Stack) => (
         <FlexBox alignItems="center">
