@@ -1,14 +1,8 @@
 import React from 'react';
-
-import {
-  Box,
-  // FlexBox,
-  // Paragraph
-} from '../../../../../components';
+import { Box } from '../../../../../components';
 import { RunsTable } from '../../../RunsTable';
 import { translate } from '../../translate';
 import { useService } from './useService';
-// import styles from './NestedRow.module.scss';
 import { StackComponent } from '../../../../../../api/types';
 
 export const RunsForStackTable: React.FC<{

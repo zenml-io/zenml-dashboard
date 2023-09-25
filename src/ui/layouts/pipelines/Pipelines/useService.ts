@@ -4,18 +4,14 @@ import { useEffect } from 'react';
 
 import {
   pipelinePagesActions,
-  runsActions,
   pipelinesActions,
-  runPagesActions,
 } from '../../../../redux/actions';
 import { workspaceSelectors } from '../../../../redux/selectors';
-
 import { useDispatch, useSelector } from '../../../hooks';
-
 import { filterObjectForParam } from '../../../../utils';
+
 interface ServiceInterface {
   setFetchingForPipeline: (arg: boolean) => void;
-  setFetchingForAllRuns: (arg: boolean) => void;
 }
 
 export const useService = (): ServiceInterface => {
@@ -27,19 +23,14 @@ export const useService = (): ServiceInterface => {
   const DEFAULT_ITEMS_PER_PAGE = 10;
   useEffect(() => {
     setFetchingForPipeline(true);
-    setFetchingForAllRuns(true);
   }, [selectedWorkspace]);
 
   const setFetchingForPipeline = (fetching: boolean) => {
     dispatch(pipelinePagesActions.setFetching({ fetching }));
   };
-  const setFetchingForAllRuns = (fetching: boolean) => {
-    dispatch(runPagesActions.setFetching({ fetching }));
-  };
 
   return {
     setFetchingForPipeline,
-    setFetchingForAllRuns,
   };
 };
 
@@ -54,6 +45,7 @@ export const callActionForPipelinesForPagination = () => {
     sortby?: string,
   ) {
     let filtersParam: any = filterObjectForParam(filters);
+    console.log(filtersParam, 'filtersParam');
     setFetchingForPipeline(true);
     const logicalOperator = localStorage.getItem('logical_operator');
     dispatch(
@@ -78,43 +70,5 @@ export const callActionForPipelinesForPagination = () => {
   return {
     setFetchingForPipeline,
     dispatchPipelineData,
-  };
-};
-
-export const callActionForAllrunsForPagination = () => {
-  const dispatch = useDispatch();
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-
-  function dispatchAllrunsData(
-    page: number,
-    size: number,
-    filters?: any[],
-    sortby?: string,
-  ) {
-    const logicalOperator = localStorage.getItem('logical_operator');
-    let filtersParam = filterObjectForParam(filters);
-
-    setFetchingForAllRuns(true);
-    dispatch(
-      runsActions.allRuns({
-        workspace: selectedWorkspace,
-        sort_by: sortby ? sortby : 'created',
-        logical_operator: logicalOperator ? JSON.parse(logicalOperator) : 'and',
-        page: page,
-        size: size,
-        filtersParam,
-        onSuccess: () => setFetchingForAllRuns(false),
-        onFailure: () => setFetchingForAllRuns(false),
-      }),
-    );
-  }
-
-  const setFetchingForAllRuns = (fetching: boolean) => {
-    dispatch(runPagesActions.setFetching({ fetching }));
-  };
-
-  return {
-    setFetchingForAllRuns,
-    dispatchAllrunsData,
   };
 };

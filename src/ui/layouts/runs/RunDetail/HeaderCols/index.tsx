@@ -5,7 +5,7 @@ import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import { FlexBox, Paragraph, icons, Tooltip } from '../../../../components';
 import { HeaderCol } from '../../../common/Table';
-import { RunStatus } from '../../RunsTable/RunStatus';
+import { RunStatus } from '../RunStatus';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 import { Run } from '../../../../../api/types';
 
@@ -107,7 +107,7 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
         </Paragraph>
       ),
       width: '7.5%',
-      renderRow: (run: Run) => <RunStatus run={run} />,
+      renderRow: (run: Run) => <RunStatus run={run as any} />,
     },
 
     {

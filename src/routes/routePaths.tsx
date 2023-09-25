@@ -41,15 +41,29 @@ export const routePaths = {
       tensorboard: (id: TId, pipelineId: TId): string =>
         `/pipelines/${pipelineId}/runs/${id}/tensorboard`,
     },
+    repository: {
+      base: (id: TId, repositoryID: TId): string =>
+        `/repositories/${repositoryID}/runs/${id}`,
+      statistics: (workspace: string, id: TId, repositoryID: TId): string =>
+        `/workspaces/${workspace}/repositories/${repositoryID}/runs/${id}/dag`,
+      results: (workspace: string, id: TId, repositoryID: TId): string =>
+        `/workspaces/${workspace}/repositories/${repositoryID}/runs/${id}/configuration`,
+      details: (workspace: string, id: TId, repositoryID: TId): string =>
+        `/workspaces/${workspace}/repositories/${repositoryID}/runs/${id}/details`,
+      tensorboard: (id: TId, repositoryID: TId): string =>
+        `/repositories/${repositoryID}/runs/${id}/tensorboard`,
+    },
     stack: {
       base: (id: TId, pipelineId: TId): string =>
         `/stacks/${pipelineId}/runs/${id}`,
       statistics: (workspace: string, id: TId, stackId: TId): string =>
         `/workspaces/${workspace}/stacks/${stackId}/runs/${id}/dag`,
-      results: (workspace: string, id: TId, pipelineId: TId): string =>
-        `/workspaces/${workspace}/stacks/${pipelineId}/runs/${id}/configuration`,
-      tensorboard: (id: TId, pipelineId: TId): string =>
-        `/stacks/${pipelineId}/runs/${id}/tensorboard`,
+      results: (workspace: string, id: TId, stackId: TId): string =>
+        `/workspaces/${workspace}/stacks/${stackId}/runs/${id}/configuration`,
+      details: (workspace: string, id: TId, stackId: TId): string =>
+        `/workspaces/${workspace}/stacks/${stackId}/runs/${id}/details`,
+      tensorboard: (id: TId, stackId: TId): string =>
+        `/stacks/${stackId}/runs/${id}/tensorboard`,
     },
     component: {
       base: (id: TId, pipelineId: TId): string =>
@@ -72,6 +86,7 @@ export const routePaths = {
         `/components/${pipelineId}/runs/${id}/tensorboard`,
     },
     run: {
+      list: (workspace: string): string => `/workspaces/${workspace}/all-runs`,
       base: (runId: TId): string => `/all-runs/${runId}`,
       statistics: (workspace: string, id: TId, type?: string): string =>
         `/workspaces/${workspace}/all-runs/${id}/dag`,

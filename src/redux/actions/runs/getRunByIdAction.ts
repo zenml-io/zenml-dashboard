@@ -5,6 +5,7 @@ export const getRunByIdAction = ({
   runId,
   stackId,
   pipelineId,
+  repositoryID,
   stackComponentId,
   onSuccess,
   onFailure,
@@ -12,6 +13,7 @@ export const getRunByIdAction = ({
   runId: TId;
   stackId?: TId;
   pipelineId?: TId;
+  repositoryID?: TId;
   stackComponentId?: TId;
   onSuccess?: (res: any) => void;
   onFailure?: () => void;
@@ -22,7 +24,7 @@ export const getRunByIdAction = ({
     isAuthenticated: true,
     failureActionType: runActionTypes.getRunForId.failure,
     successActionType: runActionTypes.getRunForId.success,
-    params: { runId, stackId, pipelineId, stackComponentId },
+    params: { runId, stackId, pipelineId, repositoryID, stackComponentId },
     onSuccess,
     onFailure,
   },

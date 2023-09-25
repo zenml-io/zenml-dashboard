@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import {
   FlexBox,
   Box,
@@ -8,7 +7,6 @@ import {
   EditField,
   PrimaryButton,
 } from '../../../../components';
-
 import styles from './index.module.scss';
 import { useService } from './useService';
 import { StackBox } from '../../../common/StackBox';

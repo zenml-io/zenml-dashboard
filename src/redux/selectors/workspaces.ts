@@ -1,11 +1,12 @@
 import _ from 'lodash';
 
 import { State } from '../reducers/workspacesReducer';
+import { Workspace } from '../../api/types';
 
 const stateKey = (state: State): State =>
   _.get(state, 'persisted.workspaces') || {};
 
-const getById = (state: State): Record<TId, Workspaces> =>
+const getById = (state: State): Record<TId, Workspace> =>
   _.get(stateKey(state), 'byId');
 
 const getMyWorkspaceIds = (state: State): TId[] =>
@@ -17,12 +18,12 @@ const getSelectedWorkspaceIds = (state: State): string =>
 const getWorkspaceStats = (state: State): any =>
   _.get(stateKey(state), 'workspaceStats');
 
-export const myWorkspaces = (state?: State | null): Workspaces[] => {
+export const myWorkspaces = (state?: State | null): Workspace[] => {
   if (!state) return [];
   const myWorkspaceIds = getMyWorkspaceIds(state);
   const byId = getById(state);
 
-  return (myWorkspaceIds || []).reduce((current: Workspaces[], id: TId) => {
+  return (myWorkspaceIds || []).reduce((current: Workspace[], id: TId) => {
     const workspace = byId[id];
 
     if (workspace) {
@@ -30,7 +31,7 @@ export const myWorkspaces = (state?: State | null): Workspaces[] => {
     }
 
     return current;
-  }, [] as Workspaces[]);
+  }, [] as Workspace[]);
 };
 export const selectedWorkspace = (state?: State | null): string => {
   if (!state) return '';

@@ -2,12 +2,9 @@ import React, { useEffect, useState } from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
 import { Box } from '../../../components';
-
 import { camelCaseToParagraph } from '../../../../utils';
-
 import { translate } from './translate';
 import { UpdateConfig } from './UpdateConfig';
-
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
 import {
@@ -16,10 +13,8 @@ import {
   useLocationPath,
   useSelector,
 } from '../../../hooks';
-
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { StackComponent } from '../../../../api/types';
-
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
 

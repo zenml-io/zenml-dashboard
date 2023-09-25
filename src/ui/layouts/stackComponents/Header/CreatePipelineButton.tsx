@@ -56,7 +56,7 @@ export const CreatePipelineButton: React.FC = () => {
             ? constantCommandsToCreateComponent.componentCommand.body.map(
                 (item): any =>
                   item.isCode ? (
-                    <FlexBox alignItems="center" marginTop="md">
+                    <FlexBox key={item.text} alignItems="center" marginTop="md">
                       <CommandBoxWScroll command={item.text} />
                       <Box
                         className={styles.iconStyle}
@@ -79,7 +79,7 @@ export const CreatePipelineButton: React.FC = () => {
               )
             : constantCommandsToCreateComponent.defaultBody.map((item): any =>
                 item.isCode ? (
-                  <FlexBox alignItems="center" marginTop="md">
+                  <FlexBox key={item.text} alignItems="center" marginTop="md">
                     <CommandBoxWScroll command={item.text} />
                     <Box
                       className={styles.iconStyle}

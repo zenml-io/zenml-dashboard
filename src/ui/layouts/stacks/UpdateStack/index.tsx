@@ -1,7 +1,5 @@
 import React from 'react';
-
 import { useService } from './useService';
-
 import { UpdateConfig } from './UpdateConfig';
 
 export interface StackDetailRouteParams {
