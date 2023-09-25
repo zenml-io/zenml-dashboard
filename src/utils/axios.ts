@@ -6,6 +6,9 @@ if (process.env.REACT_APP_USE_COOKIE) {
 }
 
 const axiosInterceptor = axios.interceptors.request.use(function (config) {
+  if (axios.defaults.withCredentials) {
+    delete config.headers['Authorization'];
+  }
   if (config.url?.includes(process.env.REACT_APP_BASE_API_URL as string)) {
     config.headers['Source-Context'] = 'dashboard';
   }
