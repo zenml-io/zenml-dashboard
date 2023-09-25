@@ -26,6 +26,7 @@ import { useHubToken, useHubUser } from '../../../hooks/auth';
 import { PluginsLayout } from '../shared/Layout';
 import { getTagOptions } from '../api';
 import { debounce } from 'lodash';
+import { hubAxios } from '../../../../utils/axios';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
@@ -312,7 +313,7 @@ const CreatePlugin: React.FC = () => {
                 onClick={() => {
                   setCreatingPlugin(true);
 
-                  axios
+                  hubAxios
                     .post(
                       `${HUB_API_URL}/plugins`,
                       {

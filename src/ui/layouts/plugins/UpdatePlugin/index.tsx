@@ -25,6 +25,7 @@ import { useHubToken } from '../../../hooks/auth';
 import { pick } from '../../../../utils';
 import { PluginsLayout } from '../shared/Layout';
 import { getPlugin } from '../api';
+import { hubAxios } from '../../../../utils/axios';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
@@ -226,7 +227,7 @@ const UpdatePlugin: React.FC = () => {
                       description: 'Failed to fetch plugin details',
                     });
 
-                  axios
+                  hubAxios
                     .post(
                       `${HUB_API_URL}/plugins`,
                       {
