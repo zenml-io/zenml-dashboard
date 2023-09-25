@@ -6,12 +6,14 @@ import { routePaths } from '../../../../routes/routePaths';
 
 import { useService } from './useService';
 
-import FilterComponent, {
-  getInitialFilterStateForConnectors,
-} from '../../../components/Filters';
+import FilterComponent from '../../../components/Filters';
 import { Box } from '../../../components';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { useLocationPath, useSelector } from '../../../hooks';
+import {
+  getInitialFilterStateForConnectors,
+  searchParamConstants,
+} from './filterParamConstants';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
@@ -29,6 +31,7 @@ const FilterWrapper = () => {
   return (
     <Box style={{ marginTop: '-20px', width: '100%' }}>
       <FilterComponent
+        searchColumns={searchParamConstants}
         getInitials={getInitialFilterStateForConnectors}
         filters={filters}
         setFilter={setFilter}

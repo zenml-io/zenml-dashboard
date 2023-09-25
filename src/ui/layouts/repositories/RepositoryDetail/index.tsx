@@ -15,12 +15,14 @@ import {
 } from '../../../../redux/actions';
 import RepositoryDetailHeader from './components/detail-header';
 import DetailOverview from './Overview';
-import FilterComponent, {
-  getInitialFilterStateForRuns,
-} from '../../../components/Filters';
+import FilterComponent from '../../../components/Filters';
 import { Box } from '../../../components';
 import { Runs } from './Runs';
 import { translate } from './translate';
+import {
+  getInitialFilterStateForRuns,
+  searchParamConstants,
+} from '../../AllRuns/Runs/filterParamConstants';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -40,6 +42,7 @@ const FilterWrapperForRun = () => {
   return (
     <Box marginTop="lg" style={{ width: '100%' }}>
       <FilterComponent
+        searchColumns={searchParamConstants}
         getInitials={getInitialFilterStateForRuns}
         filters={filters}
         setFilter={setFilter}

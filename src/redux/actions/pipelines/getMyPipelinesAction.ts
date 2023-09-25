@@ -6,7 +6,6 @@ export const getMyPipelinesAction = ({
   logical_operator,
   page,
   size,
-  name,
   filtersParam,
   workspace,
   onSuccess,
@@ -16,7 +15,6 @@ export const getMyPipelinesAction = ({
   logical_operator?: string;
   page?: number;
   size?: number;
-  name?: string;
   workspace?: string;
   filtersParam?: object;
   onSuccess?: () => void;
@@ -34,7 +32,6 @@ export const getMyPipelinesAction = ({
       logical_operator,
       page,
       size,
-      name,
       filtersParam,
     },
     onSuccess,

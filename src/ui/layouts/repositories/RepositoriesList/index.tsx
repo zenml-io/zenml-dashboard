@@ -9,9 +9,7 @@ import {
 import BasePage from '../repository-layout';
 import { routePaths } from '../../../../routes/routePaths';
 import { translate } from './translate';
-import FilterComponent, {
-  getInitialFilterStateForRepositories,
-} from '../../../components/Filters';
+import FilterComponent from '../../../components/Filters';
 import { Box, FlexBox, PrimaryButton } from '../../../components';
 import { useHistory, useLocationPath } from '../../../hooks';
 import RepositoryGrid from './repository-grid/grid';
@@ -21,6 +19,10 @@ import { ItemPerPage } from '../../common/ItemPerPage';
 import { useUpdateRepositoryPagination } from './service';
 import { repositoryPagesActions } from '../../../../redux/actions';
 import { FullWidthSpinner } from '../../../components';
+import {
+  searchParamConstants,
+  getInitialFilterStateForRepositories,
+} from './filterParamConstants';
 
 const RepositoriyListBody = () => {
   const { dispatchRepositoryPagination } = useUpdateRepositoryPagination();
@@ -96,6 +98,7 @@ const RepositoriyListBody = () => {
   return (
     <Box style={{ marginTop: '-20px', width: '100%' }}>
       <FilterComponent
+        searchColumns={searchParamConstants}
         getInitials={getInitialFilterStateForRepositories}
         filters={filters}
         setFilter={setFilter}

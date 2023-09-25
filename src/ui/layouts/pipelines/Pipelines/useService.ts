@@ -45,6 +45,7 @@ export const callActionForPipelinesForPagination = () => {
     sortby?: string,
   ) {
     let filtersParam: any = filterObjectForParam(filters);
+    console.log(filtersParam, 'filtersParam');
     setFetchingForPipeline(true);
     const logicalOperator = localStorage.getItem('logical_operator');
     dispatch(
