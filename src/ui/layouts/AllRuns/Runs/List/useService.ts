@@ -1,11 +1,11 @@
-import { useEffect } from 'react';
-import { runsActions } from '../../../../../redux/actions';
+// import { useEffect } from 'react';
+// import { runsActions } from '../../../../../redux/actions';
 import {
   runSelectors,
   runPagesSelectors,
-  workspaceSelectors,
+  // workspaceSelectors,
 } from '../../../../../redux/selectors';
-import { useDispatch, useSelector } from '../../../../hooks';
+import { useSelector } from '../../../../hooks';
 import { Run } from '../../../../../api/types';
 
 interface ServiceInterface {
@@ -33,30 +33,30 @@ export const useService = ({
   }[];
 }): ServiceInterface => {
   const fetching = useSelector(runPagesSelectors.fetching);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const runs = useSelector(runSelectors.myRuns);
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const runsPaginated = useSelector(runSelectors.myRunsPaginated);
-  const isValidFilter = filter?.map((f) => f.value).join('');
+  // const isValidFilter = filter?.map((f) => f.value).join('');
 
-  useEffect(() => {
-    if (!isValidFilter && !isExpended) {
-      const intervalId = setInterval(() => {
-        //assign interval to a variable to clear it.
-        dispatch(
-          runsActions.allRuns({
-            sort_by: sortBy,
-            logical_operator: 'and',
-            workspace: selectedWorkspace,
-            page: runsPaginated.page,
-            size: runsPaginated.size,
-          }),
-        );
-      }, 5000);
+  // useEffect(() => {
+  //   if (!isValidFilter && !isExpended) {
+  //     const intervalId = setInterval(() => {
+  //       //assign interval to a variable to clear it.
+  //       dispatch(
+  //         runsActions.allRuns({
+  //           sort_by: sortBy,
+  //           logical_operator: 'and',
+  //           workspace: selectedWorkspace,
+  //           page: runsPaginated.page,
+  //           size: runsPaginated.size,
+  //         }),
+  //       );
+  //     }, 5000);
 
-      return () => clearInterval(intervalId); //This is important
-    }
-  });
+  //     return () => clearInterval(intervalId); //This is important
+  //   }
+  // });
   const runIds = runs.map((run: Run) => run.id);
 
   return {
