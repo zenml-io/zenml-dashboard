@@ -25,6 +25,9 @@ export function OauthHandler() {
   const callbackUrl = `${window.location.origin}/login?${params.toString()}`;
 
   useEffect(() => {
+    if (localStorage.getItem('logout') === 'true') {
+      return;
+    }
     handleLogin(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -58,6 +61,7 @@ export function OauthHandler() {
               : DEFAULT_WORKSPACE_NAME,
           }),
         );
+        localStorage.removeItem('logout');
         history.push(route || routePaths.dashboard(DEFAULT_WORKSPACE_NAME));
       }
     } catch (error) {
