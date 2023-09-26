@@ -28,6 +28,7 @@ import { getPlugin, getIsStarred, getVersions, starPlugin } from '../api';
 import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
 import PluginFallbackImage from '../../../assets/plugin-fallback.svg';
 import { OverviewTab } from './OverviewTab';
+import { Plugin, PluginVersion } from '../pluginsTypes';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -41,14 +42,14 @@ const PluginDetail: React.FC = () => {
   const hubUser = useHubUser();
 
   const [fetching, setFetching] = useState(true);
-  const [plugin, setPlugin] = useState(null as null | TPluginDetail);
+  const [plugin, setPlugin] = useState(null as null | Plugin | any);
   const [loadingVersions, setLoadingVersions] = useState(true);
-  const [version, setVersion] = useState(null as null | TPluginVersion);
-  const [versions, setVersions] = useState(null as null | TPluginVersion[]);
+  const [version, setVersion] = useState(null as null | PluginVersion);
+  const [versions, setVersions] = useState(null as null | PluginVersion[]);
   const [starred, setIsStarred] = useState(false);
   const [usageTab, setUsageTab] = useState('Usage' as 'Usage' | 'Pip Install');
 
-  const isOwner = hubUser?.id === plugin?.user.id;
+  const isOwner = hubUser?.id === plugin?.user?.id;
   const installationCommand = plugin
     ? `zenml hub install ${
         plugin.author === 'ZenML' ? '' : `${plugin.author}/`
@@ -108,7 +109,7 @@ const PluginDetail: React.FC = () => {
                 <>
                   {/* tags */}
                   <FlexBox fullWidth marginBottom="sm" flexWrap>
-                    {plugin.tags.map((t) => (
+                    {plugin.tags?.map((t: any) => (
                       <Box marginRight="sm" key={t}>
                         <Tag text={t} />
                       </Box>
@@ -401,7 +402,9 @@ const PluginDetail: React.FC = () => {
                     loadingVersions ? (
                       <FullWidthSpinner color="black" size="md" />
                     ) : version ? (
-                      <DisplayCode code={version.requirements.join('\n')} />
+                      <DisplayCode
+                        code={version.requirements?.join('\n') as string}
+                      />
                     ) : (
                       <Box paddingVertical="md">
                         <Paragraph>
@@ -445,7 +448,7 @@ const PluginDetail: React.FC = () => {
                               <DisplayCode
                                 code={
                                   `pip install ${version.requirements
-                                    .map((i) => `"${i}"`)
+                                    ?.map((i) => `"${i}"`)
                                     .join(' ')}` +
                                   '\n' +
                                   `pip install --index-url ${plugin.index_url} ${plugin.package_name} --no-deps`

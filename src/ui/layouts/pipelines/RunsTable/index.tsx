@@ -4,15 +4,15 @@ import { useHistory, useSelector } from '../../../hooks';
 
 import { Table } from '../../common/Table';
 
-import { useHeaderCols } from './HeaderCols';
-import { useService } from './useService';
+import { useHeaderCols } from '../../runs/RunsTable/HeaderCols';
+import { useService } from '../../runs/RunsTable/useService';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { Box, FlexBox, If } from '../../../components';
 import { Pagination } from '../../common/Pagination';
 import { usePaginationAsQueryParam } from '../../../hooks/usePaginationAsQueryParam';
 import { ItemPerPage } from '../../common/ItemPerPage';
 import { callActionForPipelineRunsForPagination } from '../PipelineDetail/useService';
-import { callActionForAllrunsForPagination } from '../Pipelines/useService';
+
 import { Run } from '../../../../api/types';
 
 interface Props {
@@ -28,7 +28,7 @@ export const RunsTable: React.FC<{
   emptyStateText: string;
   fetching: boolean;
   pipelineRuns?: any;
-  fromAllruns?: boolean;
+
   filter?: any;
   id?: any;
 }> = ({
@@ -41,7 +41,7 @@ export const RunsTable: React.FC<{
   fetching,
   paginated,
   pipelineRuns,
-  fromAllruns,
+
   filter,
   id,
 }) => {
@@ -55,10 +55,10 @@ export const RunsTable: React.FC<{
     activeSortingDirection,
     setActiveSortingDirection,
     setSelectedRunIds,
-  } = useService({ pipelineRuns, runIds, filter });
+  } = useService({ runIds, filter });
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
   const { dispatchPipelineRunsData } = callActionForPipelineRunsForPagination();
-  const { dispatchAllrunsData } = callActionForAllrunsForPagination();
+
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
@@ -73,24 +73,16 @@ export const RunsTable: React.FC<{
   const openDetailPage = (run: Run) => {
     setSelectedRunIds([]);
 
-    if (fromAllruns) {
-      if (id) {
-        history.push(routePaths.pipelines.allRuns(selectedWorkspace));
-      } else {
-        history.push(routePaths.run.run.statistics(selectedWorkspace, run.id));
-      }
+    if (id) {
+      history.push(routePaths.pipeline.runs(selectedWorkspace, pipelineId));
     } else {
-      if (id) {
-        history.push(routePaths.pipeline.runs(selectedWorkspace, pipelineId));
-      } else {
-        history.push(
-          routePaths.run.pipeline.statistics(
-            selectedWorkspace,
-            run.id,
-            run.pipeline?.id as string,
-          ),
-        );
-      }
+      history.push(
+        routePaths.run.pipeline.statistics(
+          selectedWorkspace,
+          run.id,
+          run.pipeline?.id as string,
+        ),
+      );
     }
   };
 
@@ -122,41 +114,25 @@ export const RunsTable: React.FC<{
     if (filter) {
       setPageIndex(0);
     }
-    if (fromAllruns) {
-      dispatchAllrunsData(
-        1,
-        itemPerPage,
-        checkValidFilter.length ? (validFilters as any) : [],
-        (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
-      );
-    } else {
-      dispatchPipelineRunsData(
-        pipelineId,
-        1,
-        itemPerPage,
-        checkValidFilter.length ? (validFilters as any) : [],
-        (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
-      );
-    }
+
+    dispatchPipelineRunsData(
+      pipelineId,
+      1,
+      itemPerPage,
+      checkValidFilter.length ? (validFilters as any) : [],
+      (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
+    );
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [checkValidFilter, activeSortingDirection, activeSorting]);
   const onChange = (pageNumber: any, size: any) => {
-    if (fromAllruns) {
-      dispatchAllrunsData(
-        pageNumber,
-        size,
-        checkValidFilter.length ? (validFilters as any) : [],
-        (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
-      );
-    } else {
-      dispatchPipelineRunsData(
-        pipelineId,
-        pageNumber,
-        size,
-        checkValidFilter.length ? (validFilters as any) : [],
-        (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
-      );
-    }
+    dispatchPipelineRunsData(
+      pipelineId,
+      pageNumber,
+      size,
+      checkValidFilter.length ? (validFilters as any) : [],
+      (activeSortingDirection?.toLowerCase() + ':' + activeSorting) as any,
+    );
   };
 
   return (

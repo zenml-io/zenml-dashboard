@@ -3,21 +3,21 @@ import { translate } from './translate';
 import { List } from './List';
 import { BasePage } from '../BasePage';
 import { routePaths } from '../../../../routes/routePaths';
-
 import { useService } from './useService';
-
-import FilterComponent, {
-  getInitialFilterState,
-} from '../../../components/Filters';
+import FilterComponent from '../../../components/Filters';
 import { Box, FlexBox, PrimaryButton } from '../../../components';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
+import {
+  searchParamConstants,
+  getInitialFilterStateStacks,
+} from './filterParamConstants';
 
 const FilterWrapper = () => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const history = useHistory();
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
-  const [filters, setFilter] = useState([getInitialFilterState()]);
+  const [filters, setFilter] = useState([getInitialFilterStateStacks()]);
   function getFilter(values: any) {
     const filterValuesMap = values.map((v: any) => {
       return {
@@ -31,7 +31,8 @@ const FilterWrapper = () => {
   return (
     <Box style={{ marginTop: '-20px', width: '100%' }}>
       <FilterComponent
-        getInitials={getInitialFilterState}
+        searchColumns={searchParamConstants}
+        getInitials={getInitialFilterStateStacks}
         filters={filters}
         setFilter={setFilter}
       >

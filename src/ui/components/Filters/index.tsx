@@ -29,746 +29,10 @@ import {
   stacksActions,
 } from '../../../redux/actions';
 
-// TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
-export const getInitialFilterState = () => {
-  const initialFilterState = {
-    column: {
-      selectedValue: {
-        value: '',
-        label: '',
-        type: '',
-      },
-      options: [
-        {
-          value: 'id',
-          label: 'ID',
-          type: 'string',
-        },
-        {
-          value: 'name',
-          label: 'Name',
-          type: 'string',
-        },
-        {
-          value: 'flavor',
-          label: 'Flavor',
-          type: 'string',
-        },
-        {
-          value: 'user_id',
-          label: 'Author',
-          type: 'string',
-        },
-        {
-          value: 'is_shared',
-          label: 'Shared',
-          type: 'boolean',
-        },
-        {
-          value: 'created',
-          label: 'Created at',
-          type: 'date',
-        },
-      ],
-    },
-    contains: {
-      selectedValue: {},
-      options: [
-        {
-          value: 'contains',
-          label: 'Contains',
-          type: 'string',
-        },
-        {
-          value: 'startswith',
-          label: 'Start With',
-          type: 'string',
-        },
-        {
-          value: 'endswith',
-          label: 'End With',
-          type: 'string',
-        },
-        {
-          value: 'equals',
-          label: 'Equal',
-          type: 'string',
-        },
-        {
-          value: 'not_equal',
-          label: 'Not Equal',
-          type: 'string',
-        },
-        {
-          value: 'gt',
-          label: 'Greater than',
-          type: 'date',
-        },
-        {
-          value: 'lt',
-          label: 'Less than',
-          type: 'date',
-        },
-        {
-          value: 'gte',
-          label: 'Greater than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'lte',
-          label: 'Less than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'equal_date',
-          label: 'Equals',
-          type: 'date',
-        },
-        {
-          value: 'true',
-          label: 'True',
-          type: 'boolean',
-        },
-        {
-          value: 'false',
-          label: 'False',
-          type: 'boolean',
-        },
-      ],
-    },
-    filterValue: '',
-  };
-  return JSON.parse(JSON.stringify(initialFilterState));
-};
-export const getInitialFilterStateForRepositories = () => {
-  const initialFilterState = {
-    column: {
-      selectedValue: {
-        value: '',
-        label: '',
-        type: '',
-      },
-      options: [
-        {
-          value: 'id',
-          label: 'ID',
-          type: 'string',
-        },
-        {
-          value: 'name',
-          label: 'Name',
-          type: 'string',
-        },
-
-        {
-          value: 'user_id',
-          label: 'Author',
-          type: 'string',
-        },
-
-        {
-          value: 'created',
-          label: 'Created at',
-          type: 'date',
-        },
-        {
-          value: 'updated',
-          label: 'Updated at',
-          type: 'date',
-        },
-      ],
-    },
-    contains: {
-      selectedValue: {},
-      options: [
-        {
-          value: 'contains',
-          label: 'Contains',
-          type: 'string',
-        },
-        {
-          value: 'startswith',
-          label: 'Start With',
-          type: 'string',
-        },
-        {
-          value: 'endswith',
-          label: 'End With',
-          type: 'string',
-        },
-        {
-          value: 'equals',
-          label: 'Equal',
-          type: 'string',
-        },
-        {
-          value: 'not_equal',
-          label: 'Not Equal',
-          type: 'string',
-        },
-        {
-          value: 'gt',
-          label: 'Greater than',
-          type: 'date',
-        },
-        {
-          value: 'lt',
-          label: 'Less than',
-          type: 'date',
-        },
-        {
-          value: 'gte',
-          label: 'Greater than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'lte',
-          label: 'Less than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'equal_date',
-          label: 'Equals',
-          type: 'date',
-        },
-        {
-          value: 'true',
-          label: 'True',
-          type: 'boolean',
-        },
-        {
-          value: 'false',
-          label: 'False',
-          type: 'boolean',
-        },
-      ],
-    },
-    filterValue: '',
-  };
-  return JSON.parse(JSON.stringify(initialFilterState));
-};
-
-export const getInitialFilterStateForSecrets = () => {
-  const initialFilterState = {
-    column: {
-      selectedValue: {
-        value: '',
-        label: '',
-        type: '',
-      },
-      options: [
-        {
-          value: 'id',
-          label: 'ID',
-          type: 'string',
-        },
-        {
-          value: 'name',
-          label: 'Name',
-          type: 'string',
-        },
-        {
-          value: 'scope',
-          label: 'Scope',
-          type: 'string',
-        },
-        {
-          value: 'user_id',
-          label: 'Author',
-          type: 'string',
-        },
-
-        {
-          value: 'created',
-          label: 'Created at',
-          type: 'date',
-        },
-      ],
-    },
-    contains: {
-      selectedValue: {},
-      options: [
-        {
-          value: 'contains',
-          label: 'Contains',
-          type: 'string',
-        },
-        {
-          value: 'startswith',
-          label: 'Start With',
-          type: 'string',
-        },
-        {
-          value: 'endswith',
-          label: 'End With',
-          type: 'string',
-        },
-        {
-          value: 'equals',
-          label: 'Equal',
-          type: 'string',
-        },
-        {
-          value: 'not_equal',
-          label: 'Not Equal',
-          type: 'string',
-        },
-        {
-          value: 'gt',
-          label: 'Greater than',
-          type: 'date',
-        },
-        {
-          value: 'lt',
-          label: 'Less than',
-          type: 'date',
-        },
-        {
-          value: 'gte',
-          label: 'Greater than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'lte',
-          label: 'Less than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'equal_date',
-          label: 'Equals',
-          type: 'date',
-        },
-        {
-          value: 'true',
-          label: 'True',
-          type: 'boolean',
-        },
-        {
-          value: 'false',
-          label: 'False',
-          type: 'boolean',
-        },
-      ],
-    },
-    filterValue: '',
-  };
-  return JSON.parse(JSON.stringify(initialFilterState));
-};
-export const getInitialFilterStateForPipeline = () => {
-  const initialFilterState = {
-    column: {
-      selectedValue: {
-        value: '',
-        label: '',
-        type: '',
-      },
-      options: [
-        {
-          value: 'id',
-          label: 'ID',
-          type: 'string',
-        },
-        {
-          value: 'name',
-          label: 'Name',
-          type: 'string',
-        },
-        {
-          value: 'version',
-          label: 'Version',
-          type: 'string',
-        },
-        {
-          value: 'user_id',
-          label: 'Author',
-          type: 'string',
-        },
-
-        {
-          value: 'created',
-          label: 'Created at',
-          type: 'date',
-        },
-      ],
-    },
-    contains: {
-      selectedValue: {},
-      options: [
-        {
-          value: 'contains',
-          label: 'Contains',
-          type: 'string',
-        },
-        {
-          value: 'startswith',
-          label: 'Start With',
-          type: 'string',
-        },
-        {
-          value: 'endswith',
-          label: 'End With',
-          type: 'string',
-        },
-        {
-          value: 'equals',
-          label: 'Equal',
-          type: 'string',
-        },
-
-        {
-          value: 'gt',
-          label: 'Greater than',
-          type: 'date',
-        },
-        {
-          value: 'lt',
-          label: 'Less than',
-          type: 'date',
-        },
-        {
-          value: 'gte',
-          label: 'Greater than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'lte',
-          label: 'Less than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'equal_date',
-          label: 'Equals',
-          type: 'date',
-        },
-        {
-          value: 'true',
-          label: 'True',
-          type: 'boolean',
-        },
-        {
-          value: 'false',
-          label: 'False',
-          type: 'boolean',
-        },
-      ],
-    },
-    filterValue: '',
-  };
-  return JSON.parse(JSON.stringify(initialFilterState));
-};
-export const getInitialFilterStateForRuns = () => {
-  const initialFilterState = {
-    column: {
-      selectedValue: {
-        value: '',
-        label: '',
-        type: '',
-      },
-      statusOption: [
-        {
-          value: 'completed',
-          label: 'Completed',
-          type: 'status',
-        },
-        {
-          value: 'failed',
-          label: 'Failed',
-          type: 'status',
-        },
-        {
-          value: 'running',
-          label: 'Running',
-          type: 'status',
-        },
-        {
-          value: 'cached',
-          label: 'Cached',
-          type: 'status',
-        },
-      ],
-      options: [
-        {
-          value: 'id',
-          label: 'Run ID',
-          type: 'string',
-        },
-        {
-          value: 'name',
-          label: 'Run Name',
-          type: 'string',
-        },
-        {
-          value: 'pipeline_id',
-          label: 'Pipeline',
-          type: 'string',
-        },
-        {
-          value: 'status',
-          label: 'Status',
-          type: 'status',
-        },
-        {
-          value: 'stack_id',
-          label: 'Stack Name',
-          type: 'string',
-        },
-        {
-          value: 'user_id',
-          label: 'Author',
-          type: 'string',
-        },
-
-        {
-          value: 'created',
-          label: 'Created at',
-          type: 'date',
-        },
-      ],
-    },
-    contains: {
-      selectedValue: {},
-      statusOption: [
-        {
-          value: 'completed',
-          label: 'Completed',
-          type: 'status',
-        },
-        {
-          value: 'failed',
-          label: 'Failed',
-          type: 'status',
-        },
-        {
-          value: 'running',
-          label: 'Running',
-          type: 'status',
-        },
-        {
-          value: 'cached',
-          label: 'Cached',
-          type: 'status',
-        },
-      ],
-      options: [
-        {
-          value: 'contains',
-          label: 'Contains',
-          type: 'string',
-        },
-        {
-          value: 'startswith',
-          label: 'Start With',
-          type: 'string',
-        },
-        {
-          value: 'endswith',
-          label: 'End With',
-          type: 'string',
-        },
-        {
-          value: 'equal',
-          label: 'Equal',
-          type: 'string',
-        },
-        {
-          value: 'not_equal',
-          label: 'Not Equal',
-          type: 'string',
-        },
-        {
-          value: 'gt',
-          label: 'Greater than',
-          type: 'date',
-        },
-        {
-          value: 'lt',
-          label: 'Less than',
-          type: 'date',
-        },
-        {
-          value: 'gte',
-          label: 'Greater than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'lte',
-          label: 'Less than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'equal_date',
-          label: 'Equals',
-          type: 'date',
-        },
-        {
-          value: 'true',
-          label: 'True',
-          type: 'boolean',
-        },
-        {
-          value: 'false',
-          label: 'False',
-          type: 'boolean',
-        },
-        {
-          value: 'completed',
-          label: 'Completed',
-          type: 'status',
-        },
-        {
-          value: 'running',
-          label: 'Running',
-          type: 'status',
-        },
-        {
-          value: 'failed',
-          label: 'Failed',
-          type: 'status',
-        },
-        {
-          value: 'cached',
-          label: 'Cached',
-          type: 'status',
-        },
-      ],
-    },
-    filterValue: '',
-  };
-  return JSON.parse(JSON.stringify(initialFilterState));
-};
-export const getInitialFilterStateForConnectors = () => {
-  const initialFilterState = {
-    column: {
-      selectedValue: {
-        value: '',
-        label: '',
-        type: '',
-      },
-      options: [
-        {
-          value: 'id',
-          label: 'ID',
-          type: 'string',
-        },
-        {
-          value: 'name',
-          label: 'Name',
-          type: 'string',
-        },
-        {
-          value: 'connector_type',
-          label: 'Connector type',
-          type: 'string',
-        },
-        {
-          value: 'resource_type',
-          label: 'Resource Type',
-          type: 'string',
-        },
-        {
-          value: 'resource_id',
-          label: 'Resource ID',
-          type: 'string',
-        },
-        {
-          value: 'connector_type',
-          label: 'Connector type',
-          type: 'string',
-        },
-        {
-          value: 'auth_method',
-          label: 'Authentication',
-          type: 'string',
-        },
-        {
-          value: 'user_id',
-          label: 'Author',
-          type: 'string',
-        },
-        {
-          value: 'is_shared',
-          label: 'Shared',
-          type: 'boolean',
-        },
-        {
-          value: 'created',
-          label: 'Created at',
-          type: 'date',
-        },
-      ],
-    },
-    contains: {
-      selectedValue: {},
-      options: [
-        {
-          value: 'contains',
-          label: 'Contains',
-          type: 'string',
-        },
-        {
-          value: 'startswith',
-          label: 'Start With',
-          type: 'string',
-        },
-        {
-          value: 'endswith',
-          label: 'End With',
-          type: 'string',
-        },
-        {
-          value: 'equals',
-          label: 'Equal',
-          type: 'string',
-        },
-        {
-          value: 'not_equal',
-          label: 'Not Equal',
-          type: 'string',
-        },
-        {
-          value: 'gt',
-          label: 'Greater than',
-          type: 'date',
-        },
-        {
-          value: 'lt',
-          label: 'Less than',
-          type: 'date',
-        },
-        {
-          value: 'gte',
-          label: 'Greater than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'lte',
-          label: 'Less than and Equal',
-          type: 'date',
-        },
-        {
-          value: 'equal_date',
-          label: 'Equals',
-          type: 'date',
-        },
-        {
-          value: 'true',
-          label: 'True',
-          type: 'boolean',
-        },
-        {
-          value: 'false',
-          label: 'False',
-          type: 'boolean',
-        },
-      ],
-    },
-    filterValue: '',
-  };
-  return JSON.parse(JSON.stringify(initialFilterState));
-};
 const FilterComponent = ({
   children,
   filters,
+  searchColumns,
   setFilter,
   getInitials,
 }: any) => {
@@ -846,7 +110,7 @@ const FilterComponent = ({
       dispatch(
         pipelinesActions.getMy({
           workspace: selectedWorkspace,
-          name: 'contains:' + name,
+          // name: 'contains:' + name,
         }),
       );
     } else if (newEvent.action === 'menu-close') {
@@ -858,7 +122,7 @@ const FilterComponent = ({
       dispatch(
         stacksActions.getMy({
           workspace: selectedWorkspace,
-          name: 'contains:' + name,
+          // name: 'contains:' + name,
         }),
       );
     } else if (newEvent.action === 'menu-close') {
@@ -1020,69 +284,76 @@ const FilterComponent = ({
 
   function handleValueFieldChangeOnSearch(value: string) {
     if (value) {
-      setFilter([
-        {
-          column: {
-            selectedValue: { value: 'id', label: 'ID', type: 'string' },
-          },
-          contains: {
-            selectedValue: {
-              value: 'contains',
-              label: 'Contains',
-              type: 'string',
-            },
-          },
-          filterValue: value,
-        },
-        {
-          column: {
-            selectedValue: { value: 'name', label: 'Name', type: 'string' },
-          },
-          contains: {
-            selectedValue: {
-              value: 'contains',
-              label: 'Contains',
-              type: 'string',
-            },
-          },
-          filterValue: value,
-        },
+      const searchParam = searchColumns.map((item: any) => ({
+        ...item,
+        filterValue: value,
+      }));
 
-        {
-          column: {
-            selectedValue: {
-              value: 'version',
-              label: 'Version',
-              type: 'string',
-            },
-          },
-          contains: {
-            selectedValue: {
-              value: 'contains',
-              label: 'Contains',
-              type: 'string',
-            },
-          },
-          filterValue: value,
-        },
-        {
-          column: {
-            selectedValue: {
-              value: 'scope',
-              label: 'Scope',
-              type: 'string',
-            },
-          },
-          contains: {
-            selectedValue: {
-              value: 'contains',
-              label: 'Contains',
-              type: 'string',
-            },
-          },
-          filterValue: value,
-        },
-      ]);
+      setFilter(searchParam);
+
+      // setFilter([
+      //   {
+      //     column: {
+      //       selectedValue: { value: 'id', label: 'ID', type: 'string' },
+      //     },
+      //     contains: {
+      //       selectedValue: {
+      //         value: 'contains',
+      //         label: 'Contains',
+      //         type: 'string',
+      //       },
+      //     },
+      //     filterValue: value,
+      //   },
+      //   {
+      //     column: {
+      //       selectedValue: { value: 'name', label: 'Name', type: 'string' },
+      //     },
+      //     contains: {
+      //       selectedValue: {
+      //         value: 'contains',
+      //         label: 'Contains',
+      //         type: 'string',
+      //       },
+      //     },
+      //     filterValue: value,
+      //   },
+
+      //   {
+      //     column: {
+      //       selectedValue: {
+      //         value: 'version',
+      //         label: 'Version',
+      //         type: 'string',
+      //       },
+      //     },
+      //     contains: {
+      //       selectedValue: {
+      //         value: 'contains',
+      //         label: 'Contains',
+      //         type: 'string',
+      //       },
+      //     },
+      //     filterValue: value,
+      //   },
+      //   {
+      //     column: {
+      //       selectedValue: {
+      //         value: 'scope',
+      //         label: 'Scope',
+      //         type: 'string',
+      //       },
+      //     },
+      //     contains: {
+      //       selectedValue: {
+      //         value: 'contains',
+      //         label: 'Contains',
+      //         type: 'string',
+      //       },
+      //     },
+      //     filterValue: value,
+      //   },
+      // ]);
       localStorage.setItem('logical_operator', JSON.stringify('or'));
     } else {
       setFilter([getInitials()]);
@@ -1093,7 +364,7 @@ const FilterComponent = ({
   function getSecondColumnOptions(options: any, type: any) {
     return options?.filter((o: any) => o?.type === type);
   }
-  const validFilters = filters?.filter((item: any) => item.filterValue);
+  const validFilters = filters.filter((item: any) => item.filterValue);
 
   return (
     <FlexBox.Column fullWidth>

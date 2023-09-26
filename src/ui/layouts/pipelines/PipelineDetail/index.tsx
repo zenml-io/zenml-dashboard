@@ -6,16 +6,17 @@ import { Configuration } from './Configuration';
 import { Runs } from './Runs';
 import { BasePage } from '../BasePage';
 import { useService } from './useService';
-import FilterComponent, {
-  getInitialFilterStateForRuns,
-} from '../../../components/Filters';
+import FilterComponent from '../../../components/Filters';
 import { Box } from '../../../components';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import { workspaceSelectors } from '../../../../redux/selectors';
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
-
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
+import {
+  getInitialFilterStateForRuns,
+  searchParamConstants,
+} from '../../AllRuns/Runs/filterParamConstants';
 
 interface Props {
   pipelineId: TId;
@@ -38,6 +39,7 @@ const FilterWrapperForRun = () => {
   return (
     <Box marginTop="lg" style={{ width: '100%' }}>
       <FilterComponent
+        searchColumns={searchParamConstants}
         getInitials={getInitialFilterStateForRuns}
         filters={filters}
         setFilter={setFilter}
@@ -50,6 +52,7 @@ const FilterWrapperForRun = () => {
     </Box>
   );
 };
+
 const FilterWrapperForConfiguration = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
   const [filters, setFilter] = useState([getInitialFilterStateForRuns()]);
@@ -63,6 +66,7 @@ const FilterWrapperForConfiguration = () => {
     </Box>
   );
 };
+
 const getTabPages = (pipelineId: TId, selectedWorkspace: string): TabPage[] => {
   return [
     {

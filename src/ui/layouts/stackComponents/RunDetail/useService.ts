@@ -3,8 +3,8 @@ import { RunDetailRouteParams } from '.';
 import { runsActions } from '../../../../redux/actions';
 import { runSelectors, sessionSelectors } from '../../../../redux/selectors';
 import { useDispatch, useParams, useSelector } from '../../../hooks';
-import axios from 'axios';
 import { Run } from '../../../../api/types';
+import axios from 'axios';
 
 interface ServiceInterface {
   runId: TId;

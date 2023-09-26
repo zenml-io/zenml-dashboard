@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { routePaths } from '../../../../routes/routePaths';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
-
 import { Table } from '../../common/Table';
-
 import { useHeaderCols } from './HeaderCols';
 import { useService } from './useService';
 import { workspaceSelectors } from '../../../../redux/selectors';

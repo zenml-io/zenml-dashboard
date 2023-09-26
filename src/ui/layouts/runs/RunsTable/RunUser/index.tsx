@@ -19,7 +19,7 @@ export const RunUser: React.FC<{ run: Run }> = ({ run }) => {
     return <Spinner size="xs" color="black" />;
   }
 
-  const userFullName = user.fullName || DEFAULT_FULL_NAME;
+  const userFullName = user.full_name || DEFAULT_FULL_NAME;
   const initials = getInitials(userFullName);
 
   return (

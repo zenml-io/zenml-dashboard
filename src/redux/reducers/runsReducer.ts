@@ -33,12 +33,6 @@ type PipelinesPayload = {
 
 type RunPayload = Run;
 
-type WorkspacePayload = {
-  id: TId;
-  workspaceName: TId;
-  pipeline_runs: Run[];
-};
-
 export type Action = {
   type: string;
   payload: any;

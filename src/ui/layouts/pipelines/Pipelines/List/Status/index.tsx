@@ -1,6 +1,5 @@
 import React from 'react';
 import { runStatus, iconColors, iconSizes } from '../../../../../../constants';
-
 import { Box, FlexBox, icons, If, Tooltip } from '../../../../../components';
 import { Pipeline } from '../../../../../../api/types';
 

@@ -114,6 +114,7 @@ export const GetList: React.FC<Props> = ({
 
           return (
             <Box
+              key={item.id}
               marginLeft="md"
               style={{ cursor: 'pointer' }}
               onClick={() => {
