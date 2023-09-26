@@ -1,14 +1,11 @@
 /* eslint-disable */
 
 import { useEffect, useState } from 'react';
-
 import { useDispatch, useLocationPath, useSelector } from '../../../../hooks';
-
 import {
   sessionSelectors,
   workspaceSelectors,
 } from '../../../../../redux/selectors';
-
 import axios from 'axios';
 
 export const getServiceConnectorResources = (connectorResourceType: any) => {

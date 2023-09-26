@@ -1,22 +1,13 @@
 import React from 'react';
-import cn from 'classnames';
-
 import { FlexBox, Box, Paragraph } from '../../../components';
-
 import styles from './index.module.scss';
 import { constantCommandsToCreateRepository } from '../../../../constants/constantCommands';
-import { title } from 'process';
 
 const DefaultHeader: React.FC<{
   breadcrumbs: TBreadcrumb[];
   renderRight?: () => JSX.Element;
 }> = ({ breadcrumbs, renderRight }) => (
-  <FlexBox
-    marginTop="xl"
-    alignItems="center"
-    justifyContent="space-between"
-    className={cn(styles.header, 'd-none d-md-block')}
-  >
+  <FlexBox marginTop="xl" alignItems="center" justifyContent="space-between">
     <FlexBox fullHeight alignItems="center">
       <Paragraph
         style={{
@@ -32,18 +23,19 @@ const DefaultHeader: React.FC<{
     <FlexBox alignItems="center">
       <Paragraph
         style={{
-          fontSize: '14px',
+          fontSize: '16px',
           lineHeight: '17px',
           color: '#828282',
           marginTop: '20px',
         }}
       >
+        Check out our easy to read{' '}
         <a
           style={{ color: '#443E99' }}
           href={constantCommandsToCreateRepository.documentation}
           target="__blank"
         >
-          document
+          docs
         </a>
       </Paragraph>
     </FlexBox>
@@ -56,9 +48,10 @@ const HeaderWithButtons: React.FC<{
   renderRight?: () => JSX.Element;
 }> = ({ breadcrumbs, renderRight, title }) => (
   <FlexBox
+    marginTop="xl"
     alignItems="center"
     justifyContent="space-between"
-    className={styles.header}
+    className={styles.header2}
   >
     <FlexBox className="d-none d-md-flex">
       <Paragraph
@@ -93,7 +86,7 @@ const HeaderWithButtons: React.FC<{
             href={constantCommandsToCreateRepository.documentation}
             target="__blank"
           >
-            document
+            docs
           </a>
         </Paragraph>
       </Box>

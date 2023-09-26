@@ -116,7 +116,7 @@ const Index: React.FC<ServicesSelector> = ({
             </FlexBox>
 
             {serviceConnectorResources?.map((connectorItem: any) => (
-              <Box>
+              <Box key={connectorItem.id}>
                 <FlexBox className={styles.services}>
                   <Box>
                     <img

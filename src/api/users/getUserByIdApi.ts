@@ -2,6 +2,7 @@ import { fetchApiWithAuthRequest } from '../fetchApi';
 import { endpoints } from '../endpoints';
 import { httpMethods } from '../constants';
 import { apiUrl } from '../apiUrl';
+import { User } from '../types';
 
 const getUserByIdApi = ({
   authenticationToken,
@@ -9,7 +10,7 @@ const getUserByIdApi = ({
 }: {
   authenticationToken: string;
   userId: TId;
-}): Promise<TOrganization> =>
+}): Promise<User> =>
   fetchApiWithAuthRequest({
     url: apiUrl(endpoints.users.get(userId)),
     method: httpMethods.get,

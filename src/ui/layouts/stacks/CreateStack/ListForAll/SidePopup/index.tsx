@@ -10,7 +10,6 @@ import {
   H3,
   PrimaryButton,
 } from '../../../../../components';
-
 import styles from './index.module.scss';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;

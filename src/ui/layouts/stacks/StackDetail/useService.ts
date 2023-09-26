@@ -2,14 +2,13 @@
 
 import { StackDetailRouteParams } from '.';
 import {
-  pipelinesActions,
   runPagesActions,
+  stackPagesActions,
   stacksActions,
 } from '../../../../redux/actions';
 import { stackSelectors } from '../../../../redux/selectors';
 import { useParams, useSelector } from '../../../hooks';
 import { useDispatch } from 'react-redux';
-import { stackPagesActions } from '../../../../redux/actions';
 import { useEffect } from 'react';
 import { filterObjectForParam } from '../../../../utils';
 import { Stack } from '../../../../api/types';
@@ -36,23 +35,22 @@ export const useService = (): ServiceInterface => {
       }),
     );
     // Legacy: previously runs was in pipeline
-    dispatch(
-      stacksActions.allRunsByStackId({
-        sort_by: 'desc:created',
-        logical_operator: 'and',
-        page: 1,
-        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
-        stackId: id,
-        onSuccess: () => setFetching(false),
-        onFailure: () => setFetching(false),
-      }),
-    );
+    // dispatch(
+    //   stacksActions.allRunsByStackId({
+    //     sort_by: 'desc:created',
+    //     logical_operator: 'and',
+    //     page: 1,
+    //     size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+    //     stackId: id,
+    //     onSuccess: () => setFetching(false),
+    //     onFailure: () => setFetching(false),
+    //   }),
+    // );
   }, [id]);
 
   const setFetching = (fetching: boolean) => {
-    dispatch(runPagesActions.setFetching({ fetching }));
+    dispatch(stackPagesActions.setFetching({ fetching }));
   };
-
   const stack = useSelector(stackSelectors.stackForId(id));
 
   return { stack };

@@ -47,7 +47,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const [disableToCreate, setDisableToCreate] = useState(false);
 
   const [selectedAuthMethod, setSelectedAuthMethod] = useState<any>(
-    connectorType.authMethods[0].auth_method,
+    connectorType?.authMethods[0].auth_method,
   );
   const [authMethoddropdownOptions, setAuthMethoddropdownOptions] = useState(
     [],
@@ -72,12 +72,12 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const inputRef = useRef<HTMLInputElement>(null) as any;
   const history = useHistory();
 
-  const matchedAuthMethod = connectorType.authMethods.find(
+  const matchedAuthMethod = connectorType?.authMethods.find(
     (item: any) => item?.auth_method === selectedAuthMethod,
   ) as any;
 
   useEffect(() => {
-    const dropdownOptions = connectorType.authMethods.map((item: any) => {
+    const dropdownOptions = connectorType?.authMethods.map((item: any) => {
       return {
         value: item.auth_method,
         label: item.name,
@@ -140,6 +140,45 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
         }
       }
     }
+    function removeEmpty(obj: any) {
+      if (Array.isArray(obj)) {
+        return obj.filter((item) => item !== '' && item !== null);
+      } else if (typeof obj === 'object' && obj !== null) {
+        const newObj: any = {};
+        for (const key in obj) {
+          if (obj.hasOwnProperty(key)) {
+            const value = obj[key];
+            if (value !== '' && value !== null) {
+              const cleanedValue = removeEmpty(value);
+              if (
+                (Array.isArray(cleanedValue) && cleanedValue.length > 0) ||
+                !Array.isArray(cleanedValue)
+              ) {
+                newObj[key] = cleanedValue;
+              }
+            }
+          }
+        }
+        return newObj;
+      }
+      return obj;
+    }
+
+    function removeEmptyAndDynamic(obj: any) {
+      const cleanedObj = removeEmpty(obj);
+      for (const key in cleanedObj) {
+        if (
+          cleanedObj.hasOwnProperty(key) &&
+          typeof cleanedObj[key] === 'object' &&
+          Object.keys(cleanedObj[key]).length === 0
+        ) {
+          delete cleanedObj[key];
+        }
+      }
+      return cleanedObj;
+    }
+
+    removeEmptyAndDynamic(configuration);
 
     const labels: any = {};
 
@@ -168,6 +207,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
         return false;
       }
     }
+
     const body: any = {
       user: user?.id,
       workspace: id,
@@ -177,7 +217,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       connector_type: connectorType.connectorType,
       auth_method: selectedAuthMethod,
       configuration: {
-        ...configuration,
+        ...removeEmptyAndDynamic(configuration),
       },
       labels: labels,
     };
@@ -366,7 +406,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   }
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    if (elementSchema.type === 'string') {
+    if (elementSchema?.type === 'string') {
       return (
         <>
           {elementSchema?.format === 'password' ? (
@@ -479,7 +519,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               }}
             >
               {inputFields[elementName]?.map((item: any, index: any) => (
-                <Fragment>
+                <Fragment key={index}>
                   <Box
                     style={{ display: 'flex', alignItems: 'center' }}
                     marginTop="sm"
@@ -515,7 +555,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                           setInputFields(values);
                         }}
                         label={'Key'}
-                        value={item.key}
+                        value={item?.key}
                         placeholder={''}
                       />
                     </Box>
@@ -631,7 +671,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
               {mappedConfiguration &&
                 mappedConfiguration[elementName].default?.map(
                   (item: any, index: any) => (
-                    <Fragment>
+                    <Fragment key={index}>
                       <Box
                         style={{ display: 'flex', alignItems: 'center' }}
                         marginTop="sm"
@@ -781,8 +821,12 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
         <Box marginLeft="xl">
           <Paragraph className={styles.title}>{connectorType?.name}</Paragraph>
           <FlexBox marginTop="lg">
-            {connectorType?.resourceTypes?.map((e: any) => (
-              <Box className={styles.resourceTypesImages} marginLeft="sm">
+            {connectorType?.resourceTypes?.map((e: any, index: number) => (
+              <Box
+                key={index}
+                className={styles.resourceTypesImages}
+                marginLeft="sm"
+              >
                 <img src={e?.logo_url} alt={e?.name} />
               </Box>
             ))}
@@ -845,8 +889,8 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
           <FlexBox.Row style={{ width: '40%' }}>
             <Container>
               {mappedConfiguration &&
-                Object.keys(mappedConfiguration)?.map((key, ind) => (
-                  <>{getFormElement(key, mappedConfiguration[key])}</>
+                Object.entries(mappedConfiguration).map(([key, value], ind) => (
+                  <Fragment key={ind}>{getFormElement(key, value)}</Fragment>
                 ))}
             </Container>
           </FlexBox.Row>
@@ -907,7 +951,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                 }}
               >
                 {labelsInputFields?.map((item: any, index: any) => (
-                  <Fragment>
+                  <Fragment key={index}>
                     <Box
                       style={{ display: 'flex', alignItems: 'center' }}
                       marginTop="sm"
@@ -943,7 +987,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                             setLabelsInputFields(values);
                           }}
                           label={'Key'}
-                          value={item.key}
+                          value={item?.key}
                           placeholder={''}
                         />
                       </Box>

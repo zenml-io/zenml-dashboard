@@ -1,6 +1,6 @@
 import { useDispatch, useSelector } from 'react-redux';
-import { stackPagesActions } from '../../../../../redux/actions';
-import { stackPagesSelectors } from '../../../../../redux/selectors';
+import { pipelinePagesActions } from '../../../../../redux/actions';
+import { pipelinePagesSelectors } from '../../../../../redux/selectors';
 import { Sorting, SortingDirection } from '../types';
 import { Run } from '../../../../../api/types';
 
@@ -12,7 +12,6 @@ export type SortMethod = (
 interface ServiceInterface {
   toggleSelectRun: (run: Run) => void;
   isRunSelected: (run: Run) => boolean;
-  allRunsSelected: (runs: Run[]) => boolean;
   selectRuns: (runs: Run[]) => void;
   unselectRuns: (runs: Run[]) => void;
   sortMethod: SortMethod;
@@ -36,10 +35,10 @@ export const useService = ({
   const dispatch = useDispatch();
 
   const setSelectedRunIds = (ids: TId[]) => {
-    dispatch(stackPagesActions.setSelectedRunIds({ runIds: ids }));
+    dispatch(pipelinePagesActions.setSelectedRunIds({ runIds: ids }));
   };
 
-  const selectedRunIds = useSelector(stackPagesSelectors.selectedRunIds);
+  const selectedRunIds = useSelector(pipelinePagesSelectors.selectedRunIds);
 
   const toggleSelectRun = (run: Run): void => {
     if (selectedRunIds.indexOf(run.id) === -1) {
@@ -67,10 +66,6 @@ export const useService = ({
     setSelectedRunIds(newRunIds);
   };
 
-  const allRunsSelected = (runs: Run[]): boolean => {
-    return runs.every((run: Run) => isRunSelected(run));
-  };
-
   const sortMethod = (
     sorting: Sorting,
     sort?: { asc: (runs: Run[]) => Run[]; desc: (runs: Run[]) => Run[] },
@@ -95,7 +90,6 @@ export const useService = ({
     isRunSelected,
     unselectRuns,
     selectRuns,
-    allRunsSelected,
     sortMethod,
   };
 };

@@ -7,17 +7,21 @@ import { routePaths } from '../../../../routes/routePaths';
 import { useService } from './useService';
 import { useLocation, useLocationPath, useSelector } from '../../../hooks';
 
-import FilterComponent, {
-  getInitialFilterState,
-} from '../../../components/Filters';
+import FilterComponent from '../../../components/Filters';
 import { camelCaseToParagraph } from '../../../../utils';
 
 import { DEFAULT_WORKSPACE_NAME } from '../../../../constants';
 import { workspaceSelectors } from '../../../../redux/selectors';
+import {
+  getInitialFilterStateStackComponents,
+  searchParamConstants,
+} from './filterParamConstants';
 
 const FilterWrapper = () => {
   // TODO: Dev please note: getInitialFilterState is for stack inital filter value for any other component you need to modify it
-  const [filters, setFilter] = useState([getInitialFilterState()]);
+  const [filters, setFilter] = useState([
+    getInitialFilterStateStackComponents(),
+  ]);
   function getFilter(values: any) {
     const filterValuesMap = values.map((v: any) => {
       return {
@@ -50,7 +54,8 @@ const FilterWrapper = () => {
 
   return (
     <FilterComponent
-      getInitials={getInitialFilterState}
+      searchColumns={searchParamConstants}
+      getInitials={getInitialFilterStateStackComponents}
       filters={filters}
       setFilter={setFilter}
     >

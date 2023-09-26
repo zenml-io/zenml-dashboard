@@ -87,6 +87,7 @@ import { ReactComponent as AddNew } from './assets/addNew.svg';
 import { ReactComponent as SupportAgent } from './assets/SupportAgent.svg';
 import { ReactComponent as Connector } from './assets/Connector.svg';
 import { ReactComponent as NotConnected } from './assets/notConnected.svg';
+import { ReactComponent as Back } from './assets/Back.svg';
 
 import { ReactComponent as PaginationFirst } from './assets/PaginationFirst.svg';
 import { ReactComponent as PaginationLast } from './assets/PaginationLast.svg';
@@ -228,6 +229,7 @@ const icons = {
   supportAgent: createIcon({ Component: SupportAgent }),
   connector: createIcon({ Component: Connector, useStroke: true }),
   notConnected: createIcon({ Component: NotConnected, useStroke: true }),
+  back: createIcon({ Component: Back, useStroke: true }),
   //icons for stackComponents
   artifact_store: createIcon({ Component: Folders, useStroke: true }),
   alerter: createIcon({ Component: ChatDots, useStroke: true }),
