@@ -14,6 +14,10 @@ Cypress.Commands.add('waitUntilDashboardIsLoaded' as any, () => {
   cy.get('[data-testid="dashboard-element"]').should('be.visible'); // Replace with the actual selector of an element on your dashboard
 });
 
+Cypress.Commands.add('waitUntilPipelineIsLoaded' as any, () => {
+  cy.get('[data-testid="pipeline-element"]').should('be.visible'); // Replace with the actual selector of an element on your dashboard
+});
+
 // -- This is a parent command --
 // Cypress.Commands.add('login', (email, password) => { ... })
 //

@@ -1,6 +1,6 @@
-import { login } from './utils/loginUtils';
-import { filterByName } from './utils/filterByNameUtils';
-import { filterById } from './utils/filterByIdUtils';
+import { login } from '../utils/loginUtils';
+import { filterByName } from '../utils/filterByNameUtils';
+import { filterById } from '../utils/filterByIdUtils';
 
 describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {

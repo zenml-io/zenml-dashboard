@@ -1,5 +1,5 @@
-import { login } from './utils/loginUtils';
-import { search } from './utils/searchUtils';
+import { login } from '../utils/loginUtils';
+import { search } from '../utils/searchUtils';
 
 describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
