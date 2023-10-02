@@ -544,6 +544,7 @@ const FilterComponent = ({
                   <>
                     <FlexBox.Row key={index} className="mb-1">
                       <FormDropdownField
+                        data-testid="status-options"
                         label={''}
                         disabled={!filter?.column.selectedValue.type}
                         placeholder={'category'}
@@ -588,6 +589,7 @@ const FilterComponent = ({
                       {filter?.column?.selectedValue?.value === 'is_shared' ? (
                         <FormDropdownField
                           label={''}
+                          data-testid="shared-option"
                           disabled={!filter?.column?.selectedValue?.type}
                           placeholder={'category'}
                           style={{

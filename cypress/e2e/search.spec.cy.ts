@@ -1,4 +1,5 @@
-import { login } from '../loginUtils';
+import { login } from './utils/loginUtils';
+import { search } from './utils/searchUtils';
 
 describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
@@ -12,12 +13,6 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it('should work with valid value', () => {
-    cy.get('[data-testid="search-input"]').type('pipeline');
-    cy.get('table').should('be.visible');
-    cy.get('[data-testid="search-input"]').clear();
-    cy.get('[data-testid="search-input"]').type('random value');
-    cy.get('h4').contains(
-      'We are sorry! We could not find anything for your filter set. Please change your filters and try again.',
-    );
+    search('pipeline');
   });
 });

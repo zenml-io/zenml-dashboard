@@ -37,7 +37,9 @@ export const Menu: React.FC = () => {
       <MenuItem
         id="runs"
         Icon={() => <icons.run color={iconColors.white} size={iconSizes.md} />}
-        to={routePaths.run.run.list(selectedWorkspace)}
+        to={routePaths.run.run.list(
+          selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+        )}
         isActive={() => window.location.href?.includes('all-runs')}
         text={'Runs'}
         innerItem={window.location.href?.includes('all-runs')}
@@ -53,7 +55,9 @@ export const Menu: React.FC = () => {
           window.location.href?.includes('stacks') &&
           !window.location.href?.includes('components')
         }
-        to={routePaths.stacks.list(selectedWorkspace)}
+        to={routePaths.stacks.list(
+          selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+        )}
       />
 
       <MenuItem
@@ -68,7 +72,7 @@ export const Menu: React.FC = () => {
         innerItem={window.location.href?.includes('components')}
         to={routePaths.stackComponents.base(
           stackComponentsTypes ? stackComponentsTypes[0] : '',
-          selectedWorkspace,
+          selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
         )}
         text={translate('menu.stackComponents.text')}
       />
@@ -77,7 +81,9 @@ export const Menu: React.FC = () => {
         id="repositories"
         isActive={() => window.location.href?.includes('repositories')}
         innerItem={window.location.href?.includes('repositories')}
-        to={routePaths.repositories.list(selectedWorkspace)}
+        to={routePaths.repositories.list(
+          selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+        )}
         text={translate('menu.repositories.text')}
         Icon={() => (
           <icons.repository color={iconColors.white} size={iconSizes.md} />
@@ -90,7 +96,9 @@ export const Menu: React.FC = () => {
         innerItem={window.location.href?.includes('secrets')}
         text={translate('menu.secrets.text')}
         isActive={() => window.location.href?.includes('secrets')}
-        to={routePaths.secrets.list(selectedWorkspace)}
+        to={routePaths.secrets.list(
+          selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+        )}
       />
       <MenuItem
         id="plugins"
@@ -102,7 +110,9 @@ export const Menu: React.FC = () => {
           <icons.storefront color={iconColors.white} size={iconSizes.md} />
         )}
         innerItem={window.location.href?.includes('plugins')}
-        to={routePaths.plugins.list(selectedWorkspace)}
+        to={routePaths.plugins.list(
+          selectedWorkspace ? selectedWorkspace : DEFAULT_WORKSPACE_NAME,
+        )}
         text={translate('menu.plugins.text')}
       />
 

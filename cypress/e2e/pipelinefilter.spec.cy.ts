@@ -1,4 +1,6 @@
-import { login } from '../loginUtils';
+import { login } from './utils/loginUtils';
+import { filterByName } from './utils/filterByNameUtils';
+import { filterById } from './utils/filterByIdUtils';
 
 describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
@@ -8,10 +10,16 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it('should apply filters where Id', () => {
+    filterById('ID');
+  });
+  it('should apply filters where Name', () => {
+    filterByName('Name');
+  });
+  it('should apply filters where version', () => {
     // Visit the page containing the FilterComponent
     // Click the filter icon to open the filter panel
     cy.get('[data-testid="filter-icon"]').click();
-    cy.get('[data-testid="column-name-dropdown"]').select('ID');
+    cy.get('[data-testid="column-name-dropdown"]').select('Version');
     cy.get('[data-testid="category-dropdown"]').select('Contains');
     cy.get('[data-testid="filter-value-input"]').type('random value');
     cy.get('h4').contains(
@@ -19,15 +27,26 @@ describe('FilterComponent E2E Tests', () => {
     );
     cy.get('[data-testid="filter-value-input"]').clear();
     // Apply filters as needed
-    cy.get('[data-testid="column-name-dropdown"]').select('ID');
+    cy.get('[data-testid="column-name-dropdown"]').select('Version');
     cy.get('[data-testid="category-dropdown"]').select('Contains');
-    cy.get('[data-testid="filter-value-input"]').type('12');
+    cy.get('[data-testid="filter-value-input"]').type('1');
     cy.get('table').should('be.visible');
     cy.get('[data-testid="filter-value-input"]').clear();
 
     cy.get('[data-testid="category-dropdown"]').select('Start With');
-    cy.get('[data-testid="filter-value-input"]').type('ee');
+    cy.get('[data-testid="filter-value-input"]').type('1');
     cy.get('table').should('be.visible');
+    cy.get('[data-testid="filter-value-input"]').clear();
+
+    cy.get('[data-testid="category-dropdown"]').select('End With');
+    cy.get('[data-testid="filter-value-input"]').type('1');
+    cy.get('table').should('be.visible');
+    cy.get('[data-testid="filter-value-input"]').clear();
+
+    cy.get('[data-testid="category-dropdown"]').select('Equal');
+    cy.get('[data-testid="filter-value-input"]').type('1');
+    cy.get('table').should('be.visible');
+    cy.get('[data-testid="filter-value-input"]').clear();
 
     // cy.get('[data-testid="column-name-dropdown"]').select('Author');
     // cy.get('[data-testid="disabled-equals"]').should('be.disabled');
