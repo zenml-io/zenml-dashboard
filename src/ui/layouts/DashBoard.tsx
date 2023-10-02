@@ -59,6 +59,7 @@ const GreyBoxWithIcon: React.FC<{
 }> = ({ title, buttonText, IconComponent, onClick }) => {
   return (
     <FlexBox.Row
+      data-testid="dashboard-element"
       marginVertical="md"
       className={styles.greyBoxWithIcon}
       padding="md"

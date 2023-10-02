@@ -212,6 +212,7 @@ const FilterComponent = ({
         return (
           <Box style={{ width: '146px' }}>
             <FormTextField
+              data-testid="filter-value-input"
               label={''}
               placeholder={''}
               value={filter?.filterValue}
@@ -367,10 +368,11 @@ const FilterComponent = ({
   const validFilters = filters.filter((item: any) => item.filterValue);
 
   return (
-    <FlexBox.Column fullWidth>
+    <FlexBox.Column fullWidth data-testid="filter-component">
       <div className={styles.inputRow}>
         <Box marginRight="md" marginTop="md" style={{ marginTop: '70px' }}>
           <SearchInputField
+            data-testid="search-input"
             placeholder={'Search'}
             value={searchText ? filters[0]?.filterValue : ''}
             disabled={applyFilter || showInBar}
@@ -390,6 +392,7 @@ const FilterComponent = ({
           }}
         >
           <Box
+            data-testid="filter-icon"
             onClick={() => {
               !searchText && setApplyFilter(!applyFilter);
             }}
@@ -517,6 +520,7 @@ const FilterComponent = ({
                 </Box>
                 <Box style={{ width: '146px' }}>
                   <FormDropdownField
+                    data-testid="column-name-dropdown"
                     label={''}
                     onChange={(value: string) => {
                       setShowInbar(true);
@@ -566,6 +570,7 @@ const FilterComponent = ({
                     <FlexBox.Row className="mb-1">
                       <FormTextField
                         label={''}
+                        data-testid="disabled-equals"
                         placeholder={''}
                         disabled
                         value={
@@ -676,6 +681,7 @@ const FilterComponent = ({
                   <>
                     <FlexBox.Row className="mb-1">
                       <FormDropdownField
+                        data-testid="category-dropdown"
                         label={''}
                         disabled={!filter?.column.selectedValue.type}
                         placeholder={'category'}
@@ -701,6 +707,7 @@ const FilterComponent = ({
                 )}
 
                 <Box
+                  data-testid="remove-condition-button"
                   onClick={() => {
                     if (filters.length === 1) {
                       setShowInbar(false);
@@ -722,6 +729,7 @@ const FilterComponent = ({
             className="mt-5"
             justifyContent="end"
             onClick={addAnotherFilter}
+            data-testid="add-condition-button"
           >
             <icons.simplePlus size={iconSizes.md} color={iconColors.darkGrey} />
             <Paragraph
