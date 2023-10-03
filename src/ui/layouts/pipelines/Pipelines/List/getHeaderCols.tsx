@@ -56,6 +56,7 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <SortingHeader
+          data-testid="ID"
           onlyOneRow={
             filteredPipelines.length === 1 || expendedRow?.length === 1
           }
@@ -72,6 +73,7 @@ export const GetHeaderCols = ({
           <HeaderText text="ID" margin="33px" />
         </SortingHeader>
       ),
+      testId: 'Id',
       width: '20%',
       renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
@@ -113,6 +115,7 @@ export const GetHeaderCols = ({
           <HeaderText text="NAME" />
         </SortingHeader>
       ),
+      testId: 'Name',
       width: '30%',
       renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
@@ -129,6 +132,7 @@ export const GetHeaderCols = ({
           <HeaderText text="STATUS" margin="-24px" />
         </div>
       ),
+      testId: 'Status',
       width: '10%',
       renderRow: (pipeline: Pipeline) => <Status pipeline={pipeline} />,
     },
@@ -151,6 +155,7 @@ export const GetHeaderCols = ({
           <HeaderText text="VERSION" />
         </SortingHeader>
       ),
+      testId: 'Version',
       width: '10%',
       renderRow: (pipeline: Pipeline) => (
         <Paragraph size="small">{pipeline?.version}</Paragraph>
@@ -175,6 +180,7 @@ export const GetHeaderCols = ({
           <HeaderText text="AUTHOR" />
         </SortingHeader>
       ),
+      testId: 'Author',
       width: '10%',
       renderRow: (pipeline: Pipeline) => {
         return (
@@ -238,6 +244,7 @@ export const GetHeaderCols = ({
           <HeaderText text="CREATED AT" />
         </SortingHeader>
       ),
+      testId: 'created_at',
       width: '20%',
       renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">

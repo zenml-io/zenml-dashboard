@@ -1,4 +1,4 @@
-export const filterByName = (columnName) => {
+export const filterByString = (columnName) => {
   cy.get('[data-testid="filter-icon"]').click();
   cy.get('[data-testid="column-name-dropdown"]').select(columnName);
   cy.get('[data-testid="category-dropdown"]').select('Contains');
@@ -10,22 +10,23 @@ export const filterByName = (columnName) => {
   // Apply filters as needed
   cy.get('[data-testid="column-name-dropdown"]').select(columnName);
   cy.get('[data-testid="category-dropdown"]').select('Contains');
-  cy.get('[data-testid="filter-value-input"]').type('fs');
-  cy.get('table').should('be.visible');
+  cy.get('[data-testid="filter-value-input"]').type('12');
+  cy.get('table td').should('be.visible');
   cy.get('[data-testid="filter-value-input"]').clear();
 
   cy.get('[data-testid="category-dropdown"]').select('Start With');
-  cy.get('[data-testid="filter-value-input"]').type('fs');
+  cy.get('[data-testid="filter-value-input"]').type('ee');
   cy.get('table').should('be.visible');
   cy.get('[data-testid="filter-value-input"]').clear();
 
   cy.get('[data-testid="category-dropdown"]').select('End With');
-  cy.get('[data-testid="filter-value-input"]').type('ne');
+  cy.get('[data-testid="filter-value-input"]').type('f3');
   cy.get('table').should('be.visible');
   cy.get('[data-testid="filter-value-input"]').clear();
 
   cy.get('[data-testid="category-dropdown"]').select('Equal');
-  cy.get('[data-testid="filter-value-input"]').type('fashion_mnist_pipeline');
+  cy.get('[data-testid="filter-value-input"]').type('1');
   cy.get('table').should('be.visible');
-  cy.get('[data-testid="filter-value-input"]').clear(); // Ensure the user is redirected
+  cy.get('[data-testid="filter-value-input"]').clear();
+  cy.get('[data-testid="filter-icon"]').click();
 };
