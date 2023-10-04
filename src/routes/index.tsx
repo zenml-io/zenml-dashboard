@@ -75,9 +75,12 @@ const useReplaceRouteIfNeeded = ({
 
 export const AppRoute = ({ path, component, exact }: any): JSX.Element => {
   const [notFound, setNotFound] = React.useState();
-  const locationPath = useLocationPath();
+  const { pathname, search } = useLocation();
+  const locationPath = encodeURIComponent(
+    `${pathname}?${new URLSearchParams(search).toString()}`,
+  );
 
-  const currentLocation = findRouteByLocationPath(locationPath);
+  const currentLocation = findRouteByLocationPath(pathname);
 
   useReplaceRouteIfNeeded({
     locationPath,

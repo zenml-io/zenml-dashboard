@@ -8,7 +8,7 @@ import { sessionSelectors } from '../../../../redux/selectors';
 import { endpoints } from '../../../../api/endpoints';
 import { apiUrl } from '../../../../api/apiUrl';
 import { Device } from '../../../../api/types';
-import { showToasterAction } from '../../../../redux/actions';
+import { sessionActions, showToasterAction } from '../../../../redux/actions';
 import { toasterTypes } from '../../../../constants';
 import { DeviceInfo } from './DeviceInfo';
 import { DeviceVerifySuccess } from './DeviceVerifySuccess';
@@ -87,6 +87,9 @@ export default function VerifyDevicesPage() {
             type: toasterTypes.failure,
           }),
         );
+        if ((error as AxiosError).response?.status === 401) {
+          dispatch(sessionActions.logout());
+        }
       }
     };
 
@@ -114,7 +117,7 @@ export default function VerifyDevicesPage() {
         <DeviceVerifySuccess />
       ) : (
         <DeviceInfo
-          disabled={submitted || success || error}
+          disabled={submitted || error}
           submitHandler={submitHandler}
           deviceInfo={deviceInfo}
           isTrusted={isTrusted}

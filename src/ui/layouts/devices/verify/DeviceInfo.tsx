@@ -38,12 +38,14 @@ export function DeviceInfo({
             <dt className={styles.infoBox__keyValuePair__key}>IP Address</dt>
             <dd>{deviceInfo?.ip_address}</dd>
           </div>
-          <div className={styles.infoBox__keyValuePair}>
-            <dt className={styles.infoBox__keyValuePair__key}>Location</dt>
-            <dd>
-              {deviceInfo?.city}, {deviceInfo?.country}
-            </dd>
-          </div>
+          {deviceInfo?.city && deviceInfo?.country && (
+            <div className={styles.infoBox__keyValuePair}>
+              <dt className={styles.infoBox__keyValuePair__key}>Location</dt>
+              <dd>
+                {deviceInfo?.city}, {deviceInfo?.country}
+              </dd>
+            </div>
+          )}
           <div className={styles.infoBox__keyValuePair}>
             <dt className={styles.infoBox__keyValuePair__key}>Hostname</dt>
             <dd>{deviceInfo?.hostname}</dd>
