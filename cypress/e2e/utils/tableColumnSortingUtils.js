@@ -1,8 +1,11 @@
+import { apiCall } from './apiCallUtils';
+
 export const tableColumnsSorting = (columnName) => {
   cy.get('table').should('be.visible');
   // Click on the column header to sort ascending
   cy.get(`th[data-column="${columnName}"]`).click();
-  cy.wait(3000);
+
+  // cy.wait(3000);
   // Optionally, you can check if the table is sorted correctly
   cy.get('tbody tr').each(($row, index, $list) => {
     // Extract the value of the column you are sorting by for each row

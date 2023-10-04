@@ -1,3 +1,4 @@
+import { apiCall } from '../utils/apiCallUtils';
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
 import { pagination } from '../utils/paginationUtils';
@@ -9,13 +10,13 @@ describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
     login();
     cy.waitUntilDashboardIsLoaded();
-    cy.wait(500);
+    apiCall();
     cy.get('[id="pipelines"]').click();
+
     // Replace with your custom wait command
   });
 
   it('should display the correct columns', () => {
-    // cy.wait(9000);
     const emptyText =
       'Nothing to see here, it seems like no pipeline has been configured yet.';
     const columnList = [
@@ -40,7 +41,6 @@ describe('FilterComponent E2E Tests', () => {
     ];
     columnTestIds.forEach((col) => {
       tableColumnsSorting(col);
-      // cy.wait(2000);
     });
   });
 

@@ -1,4 +1,3 @@
-import { apiCall } from '../utils/apiCallUtils';
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
 import { pagination } from '../utils/paginationUtils';
@@ -10,48 +9,30 @@ describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
     login();
     cy.waitUntilDashboardIsLoaded();
-    // cy.wait(500);
-    apiCall();
-    cy.get('[id="runs"]').click();
+    cy.wait(500);
+    cy.get('[id="secrets"]').click(); // Replace with your custom wait command
   });
 
   it('should display the correct columns', () => {
     const emptyText =
-      'Nothing to see here, it seems like no run has been configured yet.';
-    const columnList = [
-      'RUN ID',
-      'RUN NAME',
-      'PIPELINE',
-      'STATUS',
-      'STACK NAME',
-      'AUTHOR',
-      'CREATED AT',
-    ];
+      'Nothing to see here, it seems like no stack has been configured yet.';
+    const columnList = ['SECRET ID', 'NAME', 'SCOPE', 'AUTHOR', 'CREATED AT'];
     tableColumns(columnList, emptyText);
   });
 
-  it.only('should sort table columns', () => {
-    const columnTestIds = [
-      'Id',
-      'Name',
-      'Pipeline',
-      'Status',
-      'stack_name',
-      'Author',
-      'created_at',
-    ];
+  it('should sort table columns', () => {
+    const columnTestIds = ['Id', 'Name', 'Scope', 'Author', 'created_at'];
     columnTestIds.forEach((col) => {
-      apiCall();
       tableColumnsSorting(col);
     });
   });
 
   it('should work with valid value', () => {
-    search('pipeline');
+    search('asd2');
   });
 
   it('should apply filters where string', () => {
-    const columnList = ['ID', 'Name'];
+    const columnList = ['ID', 'Name', 'Scope'];
     columnList.forEach((col) => {
       filterByString(col);
     });

@@ -1,5 +1,6 @@
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
+import { pagination } from '../utils/paginationUtils';
 import { search } from '../utils/searchUtils';
 import { tableColumnsSorting } from '../utils/tableColumnSortingUtils';
 import { tableColumns } from '../utils/tableColumnUtils';
@@ -37,5 +38,11 @@ describe('FilterComponent E2E Tests', () => {
     columnList.forEach((col) => {
       filterByString(col);
     });
+  });
+  it('should navigate through pagination', () => {
+    // Assuming you have a button or link for next and previous pagination
+    // You can click these buttons to navigate through pages
+    pagination(); // Click the "Previous" button
+    // Add more assertions as needed
   });
 });
