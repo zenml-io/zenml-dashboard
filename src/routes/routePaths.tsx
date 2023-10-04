@@ -4,6 +4,9 @@ export const routePaths = {
   userEmail: `/user-email`,
   forgot: '/forgot-password',
   home: `/`,
+  devices: {
+    verify: '/devices/verify',
+  },
   dashboard: (workspace: string): string => `/workspaces/${workspace}`,
   pipelines: {
     base: `/pipelines`,

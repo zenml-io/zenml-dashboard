@@ -11,6 +11,10 @@ export const endpoints = {
     get: (id: TId): string => `/users/${id}`,
     updateUser: (username: string): string => `/users/${username}`,
   },
+  devices: {
+    getDetails: (id: TId): string => `/devices/${id}`,
+    verify: (id: TId): string => `/devices/${id}/verify`,
+  },
   organizations: {
     my: '/organizations/',
     reGenerateToken: (username: string): string =>

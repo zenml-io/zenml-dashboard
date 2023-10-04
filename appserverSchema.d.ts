@@ -17,20 +17,21 @@ export type paths = {
   };
   "/api/v1/login": {
     /**
-     * Login
-     * @description Authorize a user through the external authenticator service.
+     * Token
+     * @description OAuth2 token endpoint.
      *
      * Args:
      *     request: The request object.
      *     response: The response object.
-     *     redirect_url: The URL to redirect to after successful login.
-     *     auth_form_data: The authentication form data.
+     *     auth_form_data: The OAuth 2.0 authentication form data.
      *
      * Returns:
-     *     An authentication response with an access token or an external
-     *     authorization URL.
+     *     An access token or a redirect response.
+     *
+     * Raises:
+     *     ValueError: If the grant type is invalid.
      */
-    post: operations["login_api_v1_login_post"];
+    post: operations["token_api_v1_login_post"];
   };
   "/api/v1/logout": {
     /**
@@ -41,6 +42,119 @@ export type paths = {
      *     response: The response object.
      */
     get: operations["logout_api_v1_logout_get"];
+  };
+  "/api/v1/device_authorization": {
+    /**
+     * Device Authorization
+     * @description OAuth2 device authorization endpoint.
+     *
+     * This endpoint implements the OAuth2 device authorization grant flow as
+     * defined in https://tools.ietf.org/html/rfc8628. It is called to initiate
+     * the device authorization flow by requesting a device and user code for a
+     * given client ID.
+     *
+     * For a new client ID, a new OAuth device is created, stored in the DB and
+     * returned to the client along with a pair of newly generated device and user
+     * codes. If a device for the given client ID already exists, the existing
+     * DB entry is reused and new device and user codes are generated.
+     *
+     * Args:
+     *     request: The request object.
+     *     client_id: The client ID.
+     *
+     * Returns:
+     *     The device authorization response.
+     */
+    post: operations["device_authorization_api_v1_device_authorization_post"];
+  };
+  "/api/v1/devices": {
+    /**
+     * List Authorized Devices
+     * @description Gets a page of OAuth2 authorized devices belonging to the current user.
+     *
+     * Args:
+     *     filter_model: Filter model used for pagination, sorting,
+     *         filtering
+     *     auth_context: The current auth context.
+     *
+     * Returns:
+     *     Page of OAuth2 authorized device objects.
+     */
+    get: operations["list_authorized_devices_api_v1_devices_get"];
+  };
+  "/api/v1/devices/{device_id}": {
+    /**
+     * Get Authorization Device
+     * @description Gets a specific OAuth2 authorized device using its unique ID.
+     *
+     * Args:
+     *     device_id: The ID of the OAuth2 authorized device to get.
+     *     auth_context: The current auth context.
+     *
+     * Returns:
+     *     A specific OAuth2 authorized device object.
+     *
+     * Raises:
+     *     KeyError: If the device with the given ID does not exist or does not
+     *         belong to the current user.
+     */
+    get: operations["get_authorization_device_api_v1_devices__device_id__get"];
+    /**
+     * Update Authorized Device
+     * @description Updates a specific OAuth2 authorized device using its unique ID.
+     *
+     * Args:
+     *     device_id: The ID of the OAuth2 authorized device to update.
+     *     update: The model containing the attributes to update.
+     *     auth_context: The current auth context.
+     *
+     * Returns:
+     *     The updated OAuth2 authorized device object.
+     *
+     * Raises:
+     *     KeyError: If the device with the given ID does not exist or does not
+     *         belong to the current user.
+     */
+    put: operations["update_authorized_device_api_v1_devices__device_id__put"];
+    /**
+     * Delete Authorized Device
+     * @description Deletes a specific OAuth2 authorized device using its unique ID.
+     *
+     * Args:
+     *     device_id: The ID of the OAuth2 authorized device to delete.
+     *     auth_context: The current auth context.
+     *
+     * Raises:
+     *     KeyError: If the device with the given ID does not exist or does not
+     *         belong to the current user.
+     */
+    delete: operations["delete_authorized_device_api_v1_devices__device_id__delete"];
+  };
+  "/api/v1/devices/{device_id}/device_verification": {
+    /**
+     * Verify Authorized Device
+     * @description Verifies a specific OAuth2 authorized device using its unique ID.
+     *
+     * This endpoint implements the OAuth2 device authorization grant flow as
+     * defined in https://tools.ietf.org/html/rfc8628. It is called to verify
+     * the user code for a given device ID.
+     *
+     * If the user code is valid, the device is marked as verified and associated
+     * with the user that authorized the device. This association is required to
+     * be able to issue access tokens or revoke the device later on.
+     *
+     * Args:
+     *     device_id: The ID of the OAuth2 authorized device to update.
+     *     request: The model containing the verification request.
+     *     auth_context: The current auth context.
+     *
+     * Returns:
+     *     The updated OAuth2 authorized device object.
+     *
+     * Raises:
+     *     ValueError: If the device verification request fails.
+     */
+    put: operations["verify_authorized_device_api_v1_devices__device_id__device_verification_put"];
   };
   "/api/v1/pipelines": {
     /**
@@ -601,41 +715,6 @@ export type paths = {
      */
     get: operations["list_service_connector_resources_api_v1_workspaces__workspace_name_or_id__service_connectors_resources_get"];
   };
-  "/api/v1/workspaces/{workspace_name_or_id}/api_keys": {
-    /**
-     * List Workspace Api Keys
-     * @description Gets API keys defined for a specific workspace.
-     *
-     * # noqa: DAR401
-     *
-     * Args:
-     *     workspace_name_or_id: Name or ID of the workspace.
-     *     filter_model: Filter model used for pagination, sorting,
-     *         filtering
-     *
-     * Returns:
-     *     All API keys within the workspace.
-     */
-    get: operations["list_workspace_api_keys_api_v1_workspaces__workspace_name_or_id__api_keys_get"];
-    /**
-     * Create Api Key
-     * @description Creates an API key.
-     *
-     * Args:
-     *     workspace_name_or_id: Name or ID of the workspace.
-     *     api_key: API key to create.
-     *     auth_context: Authentication context.
-     *
-     * Returns:
-     *     The created API key.
-     *
-     * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the
-     *         code repository does not match the current workspace or
-     *         authenticated user.
-     */
-    post: operations["create_api_key_api_v1_workspaces__workspace_name_or_id__api_keys_post"];
-  };
   "/api/v1/flavors": {
     /**
      * List Flavors
@@ -704,6 +783,16 @@ export type paths = {
      *     The updated flavor.
      */
     put: operations["update_flavor_api_v1_flavors__team_id__put"];
+  };
+  "/api/v1/flavors/sync": {
+    /**
+     * Sync Flavors
+     * @description Purge all in-built and integration flavors from the DB and sync.
+     *
+     * Returns:
+     *     None if successful. Raises an exception otherwise.
+     */
+    patch: operations["sync_flavors_api_v1_flavors_sync_patch"];
   };
   "/api/v1/roles": {
     /**
@@ -1601,6 +1690,19 @@ export type paths = {
      *     A list of all users.
      */
     get: operations["list_users_api_v1_users_get"];
+    /**
+     * Create User
+     * @description Creates a user.
+     *
+     * # noqa: DAR401
+     *
+     * Args:
+     *     user: User to create.
+     *
+     * Returns:
+     *     The created user.
+     */
+    post: operations["create_user_api_v1_users_post"];
   };
   "/api/v1/users/{user_name_or_id}": {
     /**
@@ -1614,6 +1716,62 @@ export type paths = {
      *     A specific user.
      */
     get: operations["get_user_api_v1_users__user_name_or_id__get"];
+    /**
+     * Update User
+     * @description Updates a specific user.
+     *
+     * Args:
+     *     user_name_or_id: Name or ID of the user.
+     *     user_update: the user to use for the update.
+     *
+     * Returns:
+     *     The updated user.
+     */
+    put: operations["update_user_api_v1_users__user_name_or_id__put"];
+    /**
+     * Delete User
+     * @description Deletes a specific user.
+     *
+     * Args:
+     *     user_name_or_id: Name or ID of the user.
+     *     auth_context: The authentication context.
+     *
+     * Raises:
+     *     IllegalOperationError: If the user is not authorized to delete the user.
+     */
+    delete: operations["delete_user_api_v1_users__user_name_or_id__delete"];
+  };
+  "/api/v1/users/{user_name_or_id}/deactivate": {
+    /**
+     * Deactivate User
+     * @description Deactivates a user and generates a new activation token for it.
+     *
+     * Args:
+     *     user_name_or_id: Name or ID of the user.
+     *
+     * Returns:
+     *     The generated activation token.
+     */
+    put: operations["deactivate_user_api_v1_users__user_name_or_id__deactivate_put"];
+  };
+  "/api/v1/users/{user_name_or_id}/email-opt-in": {
+    /**
+     * Email Opt In Response
+     * @description Sets the response of the user to the email prompt.
+     *
+     * Args:
+     *     user_name_or_id: Name or ID of the user.
+     *     user_response: User Response to email prompt
+     *     auth_context: The authentication context of the user
+     *
+     * Returns:
+     *     The updated user.
+     *
+     * Raises:
+     *     AuthorizationException: if the user does not have the required
+     *         permissions
+     */
+    put: operations["email_opt_in_response_api_v1_users__user_name_or_id__email_opt_in_put"];
   };
   "/api/v1/users/{user_name_or_id}/roles": {
     /**
@@ -1653,87 +1811,19 @@ export type paths = {
      */
     put: operations["update_myself_api_v1_current_user_put"];
   };
-  "/api/v1/api_keys": {
+  "/api/v1/users/{user_name_or_id}/activate": {
     /**
-     * List Api Keys
-     * @description Returns all API keys.
+     * Activate User
+     * @description Activates a specific user.
      *
      * Args:
-     *     filter_model: Filter model used for pagination, sorting,
-     *         filtering
+     *     user_name_or_id: Name or ID of the user.
+     *     user_update: the user to use for the update.
      *
      * Returns:
-     *     All API keys matching the filter.
+     *     The updated user.
      */
-    get: operations["list_api_keys_api_v1_api_keys_get"];
-    /**
-     * Create Api Key
-     * @description Creates an API key.
-     *
-     * Args:
-     *     api_key: API key to create.
-     *     auth_context: Authentication context.
-     *
-     * Returns:
-     *     The created API key.
-     *
-     * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the API
-     *         key does not match the current workspace or
-     *         authenticated user.
-     */
-    post: operations["create_api_key_api_v1_api_keys_post"];
-  };
-  "/api/v1/api_keys/{api_key_id}": {
-    /**
-     * Get Api Key
-     * @description Returns the requested API key.
-     *
-     * Args:
-     *     api_key_id: ID of the API key.
-     *
-     * Returns:
-     *     The requested API key.
-     */
-    get: operations["get_api_key_api_v1_api_keys__api_key_id__get"];
-    /**
-     * Update Api Key
-     * @description Updates an API key.
-     *
-     * # noqa: DAR401
-     *
-     * Args:
-     *     api_key_id: ID of the API key to update.
-     *     api_key_update: API key update.
-     *
-     * Returns:
-     *     The updated API key.
-     */
-    put: operations["update_api_key_api_v1_api_keys__api_key_id__put"];
-    /**
-     * Delete Api Key
-     * @description Deletes an API key.
-     *
-     * Args:
-     *     api_key_id: ID of the API key to delete.
-     */
-    delete: operations["delete_api_key_api_v1_api_keys__api_key_id__delete"];
-  };
-  "/api/v1/api_keys/{api_key_id}/rotate": {
-    /**
-     * Rotate Api Key
-     * @description Rotate an API key.
-     *
-     * # noqa: DAR401
-     *
-     * Args:
-     *     api_key_id: ID of the API key to rotate.
-     *     rotate_request: API key rotation request.
-     *
-     * Returns:
-     *     The updated API key.
-     */
-    put: operations["rotate_api_key_api_v1_api_keys__api_key_id__rotate_put"];
+    put: operations["activate_user_api_v1_users__user_name_or_id__activate_put"];
   };
   "/api/v1/pipeline_builds": {
     /**
@@ -1858,119 +1948,6 @@ export type webhooks = Record<string, never>;
 
 export type components = {
   schemas: {
-    /**
-     * APIKeyRequestModel
-     * @description Request model for API keys.
-     */
-    APIKeyRequestModel: {
-      /**
-       * The id of the user that created this resource.
-       * Format: uuid
-       */
-      user: string;
-      /**
-       * The workspace to which this resource belongs.
-       * Format: uuid
-       */
-      workspace: string;
-      /** The name of the API Key. */
-      name: string;
-      /**
-       * The description of the API Key.
-       * @default
-       */
-      description?: string;
-    };
-    /**
-     * APIKeyResponseModel
-     * @description Response model for API keys.
-     */
-    APIKeyResponseModel: {
-      /**
-       * The unique resource id.
-       * Format: uuid
-       */
-      id: string;
-      /**
-       * Time when this resource was created.
-       * Format: date-time
-       */
-      created: string;
-      /**
-       * Time when this resource was last updated.
-       * Format: date-time
-       */
-      updated: string;
-      /** The user that created this resource. */
-      user?: components["schemas"]["UserResponseModel"] | null;
-      /** The workspace of this resource. */
-      workspace: components["schemas"]["WorkspaceResponseModel"];
-      /** The name of the API Key. */
-      name: string;
-      /**
-       * The description of the API Key.
-       * @default
-       */
-      description?: string;
-      /** The API key. Only set immediately after creation or rotation. */
-      key?: string;
-      /**
-       * Whether the API key is active.
-       * @default true
-       */
-      active?: boolean;
-      /** Number of minutes for which the previous key is still valid after it has been rotated. */
-      retain_period_minutes: number;
-      /**
-       * Time when the API key was last used to log in.
-       * Format: date-time
-       */
-      last_used: string;
-      /**
-       * Time when the API key was last rotated.
-       * Format: date-time
-       */
-      last_rotated: string;
-    };
-    /**
-     * APIKeyRotateRequestModel
-     * @description Request model for API key rotation.
-     */
-    APIKeyRotateRequestModel: {
-      /**
-       * Number of minutes for which the previous key is still valid after it has been rotated.
-       * @default 0
-       */
-      retain_period_minutes?: number;
-    };
-    /**
-     * APIKeyUpdateModel
-     * @description Update model for API keys.
-     */
-    APIKeyUpdateModel: {
-      /**
-       * The id of the user that created this resource.
-       * Format: uuid
-       */
-      user?: string;
-      /**
-       * The workspace to which this resource belongs.
-       * Format: uuid
-       */
-      workspace?: string;
-      /** The name of the API Key. */
-      name?: string;
-      /**
-       * The description of the API Key.
-       * @default
-       */
-      description?: string;
-      /**
-       * Whether the API key is active.
-       * @default true
-       */
-      active?: boolean;
-    };
     /**
      * ArtifactConfiguration
      * @description Class representing a complete input/output artifact configuration.
@@ -2153,18 +2130,6 @@ export type components = {
       default_expiration_seconds?: number;
     };
     /**
-     * AuthenticationResponse
-     * @description Authentication response.
-     */
-    AuthenticationResponse: {
-      /** Authorization Url */
-      authorization_url?: string;
-      /** Access Token */
-      access_token?: string;
-      /** Token Type */
-      token_type?: string;
-    };
-    /**
      * BaseSettings
      * @description Base class for settings.
      *
@@ -2173,25 +2138,26 @@ export type components = {
      * steps.
      */
     BaseSettings: Record<string, never>;
-    /** Body_login_api_v1_login_post */
-    Body_login_api_v1_login_post: {
+    /** Body_device_authorization_api_v1_device_authorization_post */
+    Body_device_authorization_api_v1_device_authorization_post: {
+      /**
+       * Client Id
+       * Format: uuid
+       */
+      client_id: string;
+    };
+    /** Body_token_api_v1_login_post */
+    Body_token_api_v1_login_post: {
       /** Grant Type */
       grant_type?: string;
       /** Username */
       username?: string;
       /** Password */
       password?: string;
-      /** Api Key */
-      api_key?: string;
-      /**
-       * Scope
-       * @default
-       */
-      scope?: string;
       /** Client Id */
       client_id?: string;
-      /** Client Secret */
-      client_secret?: string;
+      /** Device Code */
+      device_code?: string;
     };
     /**
      * BuildItem
@@ -2832,20 +2798,169 @@ export type components = {
      */
     MetadataTypeEnum: "str" | "int" | "float" | "bool" | "list" | "dict" | "tuple" | "set" | "Uri" | "Path" | "DType" | "StorageSize";
     /**
-     * Page[APIKeyResponseModel]
-     * @description Return Model for List Models to accommodate pagination.
+     * OAuthDeviceAuthorizationResponse
+     * @description OAuth2 device authorization grant response.
      */
-    Page_APIKeyResponseModel_: {
-      /** Index */
-      index: number;
-      /** Max Size */
-      max_size: number;
-      /** Total Pages */
-      total_pages: number;
-      /** Total */
-      total: number;
-      /** Items */
-      items: components["schemas"]["APIKeyResponseModel"][];
+    OAuthDeviceAuthorizationResponse: {
+      /** Device Code */
+      device_code: string;
+      /** User Code */
+      user_code: string;
+      /** Verification Uri */
+      verification_uri: string;
+      /** Verification Uri Complete */
+      verification_uri_complete?: string;
+      /** Expires In */
+      expires_in: number;
+      /** Interval */
+      interval: number;
+    };
+    /**
+     * OAuthDeviceResponseModel
+     * @description OAuth2 device response model.
+     */
+    OAuthDeviceResponseModel: {
+      /**
+       * The unique resource id.
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Time when this resource was created.
+       * Format: date-time
+       */
+      created: string;
+      /**
+       * Time when this resource was last updated.
+       * Format: date-time
+       */
+      updated: string;
+      /** The user that created this resource. */
+      user?: components["schemas"]["UserResponseModel"] | null;
+      /**
+       * Client Id
+       * Format: uuid
+       * @description The client ID of the OAuth2 device.
+       */
+      client_id: string;
+      /**
+       * Expires
+       * Format: date-time
+       * @description The expiration date of the OAuth2 device after which the device is no longer valid and cannot be used for authentication.
+       */
+      expires?: string;
+      /**
+       * Trusted Device
+       * @description Whether the OAuth2 device was marked as trusted. A trusted device has a much longer validity time.
+       */
+      trusted_device: boolean;
+      /** @description The status of the OAuth2 device. */
+      status: components["schemas"]["OAuthDeviceStatus"];
+      /**
+       * Os
+       * @description The operating system of the device used for authentication.
+       */
+      os?: string;
+      /**
+       * Ip Address
+       * @description The IP address of the device used for authentication.
+       */
+      ip_address?: string;
+      /**
+       * Hostname
+       * @description The hostname of the device used for authentication.
+       */
+      hostname?: string;
+      /**
+       * Python Version
+       * @description The Python version of the device used for authentication.
+       */
+      python_version?: string;
+      /**
+       * Zenml Version
+       * @description The ZenML version of the device used for authentication.
+       */
+      zenml_version?: string;
+      /**
+       * City
+       * @description The city where the device is located.
+       */
+      city?: string;
+      /**
+       * Region
+       * @description The region where the device is located.
+       */
+      region?: string;
+      /**
+       * Country
+       * @description The country where the device is located.
+       */
+      country?: string;
+      /**
+       * Failed Auth Attempts
+       * @description The number of failed authentication attempts.
+       */
+      failed_auth_attempts: number;
+      /**
+       * Last Login
+       * Format: date-time
+       * @description The date of the last successful login.
+       */
+      last_login?: string;
+    };
+    /**
+     * OAuthDeviceStatus
+     * @description The OAuth device status.
+     * @enum {string}
+     */
+    OAuthDeviceStatus: "pending" | "verified" | "active" | "locked";
+    /**
+     * OAuthDeviceUpdateModel
+     * @description OAuth2 device update model.
+     */
+    OAuthDeviceUpdateModel: {
+      /**
+       * Locked
+       * @description Whether to lock or unlock the OAuth2 device. A locked device cannot be used for authentication.
+       */
+      locked?: boolean;
+    };
+    /**
+     * OAuthDeviceVerificationRequest
+     * @description OAuth2 device authorization verification request.
+     */
+    OAuthDeviceVerificationRequest: {
+      /** User Code */
+      user_code: string;
+      /**
+       * Trusted Device
+       * @default false
+       */
+      trusted_device?: boolean;
+    };
+    /**
+     * OAuthRedirectResponse
+     * @description Redirect response.
+     */
+    OAuthRedirectResponse: {
+      /** Authorization Url */
+      authorization_url: string;
+    };
+    /**
+     * OAuthTokenResponse
+     * @description OAuth2 device authorization token response.
+     */
+    OAuthTokenResponse: {
+      /** Access Token */
+      access_token: string;
+      /** Token Type */
+      token_type: string;
+      /** Expires In */
+      expires_in?: number;
+      /** Refresh Token */
+      refresh_token?: string;
+      /** Scope */
+      scope?: string;
     };
     /**
      * Page[ArtifactResponseModel]
@@ -2910,6 +3025,22 @@ export type components = {
       total: number;
       /** Items */
       items: components["schemas"]["FlavorResponseModel"][];
+    };
+    /**
+     * Page[OAuthDeviceResponseModel]
+     * @description Return Model for List Models to accommodate pagination.
+     */
+    Page_OAuthDeviceResponseModel_: {
+      /** Index */
+      index: number;
+      /** Max Size */
+      max_size: number;
+      /** Total Pages */
+      total_pages: number;
+      /** Total */
+      total: number;
+      /** Items */
+      items: components["schemas"]["OAuthDeviceResponseModel"][];
     };
     /**
      * Page[PipelineBuildResponseModel]
@@ -3510,7 +3641,7 @@ export type components = {
       num_steps?: number;
       /**
        * Client version.
-       * @default 0.44.2
+       * @default 0.44.3
        */
       client_version?: string;
       /** Server version. */
@@ -3608,7 +3739,7 @@ export type components = {
       num_steps?: number;
       /**
        * Client version.
-       * @default 0.44.2
+       * @default 0.44.3
        */
       client_version?: string;
       /** Server version. */
@@ -5017,6 +5148,46 @@ export type components = {
       users?: string[];
     };
     /**
+     * UserRequestModel
+     * @description Request model for users.
+     *
+     * This model is used to create a user. The email field is optional but is
+     * more commonly set on the UpdateRequestModel which inherits from this model.
+     * Users can also optionally set their password during creation.
+     */
+    UserRequestModel: {
+      /** The unique username for the account. */
+      name: string;
+      /**
+       * The full name for the account owner.
+       * @default
+       */
+      full_name?: string;
+      /**
+       * Whether the user agreed to share their email.
+       * @description `null` if not answered, `true` if agreed, `false` if skipped.
+       */
+      email_opted_in?: boolean;
+      /** JWT Token for the connected Hub account. */
+      hub_token?: string;
+      /**
+       * Active account.
+       * @default false
+       */
+      active?: boolean;
+      /** The email address associated with the account. */
+      email?: string;
+      /** A password for the user. */
+      password?: string;
+      /** Activation Token */
+      activation_token?: string;
+      /**
+       * The external user ID associated with the account.
+       * Format: uuid
+       */
+      external_user_id?: string;
+    };
+    /**
      * UserResponseModel
      * @description Response model for users.
      *
@@ -5271,35 +5442,31 @@ export type operations = {
     };
   };
   /**
-   * Login
-   * @description Authorize a user through the external authenticator service.
+   * Token
+   * @description OAuth2 token endpoint.
    *
    * Args:
    *     request: The request object.
    *     response: The response object.
-   *     redirect_url: The URL to redirect to after successful login.
-   *     auth_form_data: The authentication form data.
+   *     auth_form_data: The OAuth 2.0 authentication form data.
    *
    * Returns:
-   *     An authentication response with an access token or an external
-   *     authorization URL.
+   *     An access token or a redirect response.
+   *
+   * Raises:
+   *     ValueError: If the grant type is invalid.
    */
-  login_api_v1_login_post: {
-    parameters: {
-      query?: {
-        redirect_url?: string;
-      };
-    };
+  token_api_v1_login_post: {
     requestBody?: {
       content: {
-        "application/x-www-form-urlencoded": components["schemas"]["Body_login_api_v1_login_post"];
+        "application/x-www-form-urlencoded": components["schemas"]["Body_token_api_v1_login_post"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["AuthenticationResponse"];
+          "application/json": components["schemas"]["OAuthTokenResponse"] | components["schemas"]["OAuthRedirectResponse"];
         };
       };
       /** @description Unauthorized */
@@ -5333,6 +5500,320 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Device Authorization
+   * @description OAuth2 device authorization endpoint.
+   *
+   * This endpoint implements the OAuth2 device authorization grant flow as
+   * defined in https://tools.ietf.org/html/rfc8628. It is called to initiate
+   * the device authorization flow by requesting a device and user code for a
+   * given client ID.
+   *
+   * For a new client ID, a new OAuth device is created, stored in the DB and
+   * returned to the client along with a pair of newly generated device and user
+   * codes. If a device for the given client ID already exists, the existing
+   * DB entry is reused and new device and user codes are generated.
+   *
+   * Args:
+   *     request: The request object.
+   *     client_id: The client ID.
+   *
+   * Returns:
+   *     The device authorization response.
+   */
+  device_authorization_api_v1_device_authorization_post: {
+    requestBody: {
+      content: {
+        "application/x-www-form-urlencoded": components["schemas"]["Body_device_authorization_api_v1_device_authorization_post"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["OAuthDeviceAuthorizationResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  /**
+   * List Authorized Devices
+   * @description Gets a page of OAuth2 authorized devices belonging to the current user.
+   *
+   * Args:
+   *     filter_model: Filter model used for pagination, sorting,
+   *         filtering
+   *     auth_context: The current auth context.
+   *
+   * Returns:
+   *     Page of OAuth2 authorized device objects.
+   */
+  list_authorized_devices_api_v1_devices_get: {
+    parameters: {
+      query?: {
+        sort_by?: string;
+        logical_operator?: components["schemas"]["LogicalOperators"];
+        page?: number;
+        size?: number;
+        id?: string;
+        created?: string;
+        updated?: string;
+        scope_user?: string;
+        expires?: string;
+        client_id?: string;
+        status?: components["schemas"]["OAuthDeviceStatus"] | string;
+        trusted_device?: boolean | string;
+        failed_auth_attempts?: number | string;
+        last_login?: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_OAuthDeviceResponseModel_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Get Authorization Device
+   * @description Gets a specific OAuth2 authorized device using its unique ID.
+   *
+   * Args:
+   *     device_id: The ID of the OAuth2 authorized device to get.
+   *     auth_context: The current auth context.
+   *
+   * Returns:
+   *     A specific OAuth2 authorized device object.
+   *
+   * Raises:
+   *     KeyError: If the device with the given ID does not exist or does not
+   *         belong to the current user.
+   */
+  get_authorization_device_api_v1_devices__device_id__get: {
+    parameters: {
+      path: {
+        device_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["OAuthDeviceResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Update Authorized Device
+   * @description Updates a specific OAuth2 authorized device using its unique ID.
+   *
+   * Args:
+   *     device_id: The ID of the OAuth2 authorized device to update.
+   *     update: The model containing the attributes to update.
+   *     auth_context: The current auth context.
+   *
+   * Returns:
+   *     The updated OAuth2 authorized device object.
+   *
+   * Raises:
+   *     KeyError: If the device with the given ID does not exist or does not
+   *         belong to the current user.
+   */
+  update_authorized_device_api_v1_devices__device_id__put: {
+    parameters: {
+      path: {
+        device_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["OAuthDeviceUpdateModel"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["OAuthDeviceResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete Authorized Device
+   * @description Deletes a specific OAuth2 authorized device using its unique ID.
+   *
+   * Args:
+   *     device_id: The ID of the OAuth2 authorized device to delete.
+   *     auth_context: The current auth context.
+   *
+   * Raises:
+   *     KeyError: If the device with the given ID does not exist or does not
+   *         belong to the current user.
+   */
+  delete_authorized_device_api_v1_devices__device_id__delete: {
+    parameters: {
+      path: {
+        device_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Verify Authorized Device
+   * @description Verifies a specific OAuth2 authorized device using its unique ID.
+   *
+   * This endpoint implements the OAuth2 device authorization grant flow as
+   * defined in https://tools.ietf.org/html/rfc8628. It is called to verify
+   * the user code for a given device ID.
+   *
+   * If the user code is valid, the device is marked as verified and associated
+   * with the user that authorized the device. This association is required to
+   * be able to issue access tokens or revoke the device later on.
+   *
+   * Args:
+   *     device_id: The ID of the OAuth2 authorized device to update.
+   *     request: The model containing the verification request.
+   *     auth_context: The current auth context.
+   *
+   * Returns:
+   *     The updated OAuth2 authorized device object.
+   *
+   * Raises:
+   *     ValueError: If the device verification request fails.
+   */
+  verify_authorized_device_api_v1_devices__device_id__device_verification_put: {
+    parameters: {
+      path: {
+        device_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["OAuthDeviceVerificationRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["OAuthDeviceResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -7277,124 +7758,6 @@ export type operations = {
     };
   };
   /**
-   * List Workspace Api Keys
-   * @description Gets API keys defined for a specific workspace.
-   *
-   * # noqa: DAR401
-   *
-   * Args:
-   *     workspace_name_or_id: Name or ID of the workspace.
-   *     filter_model: Filter model used for pagination, sorting,
-   *         filtering
-   *
-   * Returns:
-   *     All API keys within the workspace.
-   */
-  list_workspace_api_keys_api_v1_workspaces__workspace_name_or_id__api_keys_get: {
-    parameters: {
-      query?: {
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        scope_workspace?: string;
-        name?: string;
-        active?: boolean | string;
-        last_used?: string;
-        last_rotated?: string;
-        workspace_id?: string;
-        user_id?: string;
-      };
-      path: {
-        workspace_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_APIKeyResponseModel_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Create Api Key
-   * @description Creates an API key.
-   *
-   * Args:
-   *     workspace_name_or_id: Name or ID of the workspace.
-   *     api_key: API key to create.
-   *     auth_context: Authentication context.
-   *
-   * Returns:
-   *     The created API key.
-   *
-   * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the
-   *         code repository does not match the current workspace or
-   *         authenticated user.
-   */
-  create_api_key_api_v1_workspaces__workspace_name_or_id__api_keys_post: {
-    parameters: {
-      path: {
-        workspace_name_or_id: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["APIKeyRequestModel"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["APIKeyResponseModel"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Conflict */
-      409: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
    * List Flavors
    * @description Returns all flavors.
    *
@@ -7622,6 +7985,41 @@ export type operations = {
       };
       /** @description Conflict */
       409: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Sync Flavors
+   * @description Purge all in-built and integration flavors from the DB and sync.
+   *
+   * Returns:
+   *     None if successful. Raises an exception otherwise.
+   */
+  sync_flavors_api_v1_flavors_sync_patch: {
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -10926,6 +11324,51 @@ export type operations = {
     };
   };
   /**
+   * Create User
+   * @description Creates a user.
+   *
+   * # noqa: DAR401
+   *
+   * Args:
+   *     user: User to create.
+   *
+   * Returns:
+   *     The created user.
+   */
+  create_user_api_v1_users_post: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UserRequestModel"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["UserResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
    * Get User
    * @description Returns a specific user.
    *
@@ -10939,6 +11382,196 @@ export type operations = {
     parameters: {
       path: {
         user_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["UserResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Update User
+   * @description Updates a specific user.
+   *
+   * Args:
+   *     user_name_or_id: Name or ID of the user.
+   *     user_update: the user to use for the update.
+   *
+   * Returns:
+   *     The updated user.
+   */
+  update_user_api_v1_users__user_name_or_id__put: {
+    parameters: {
+      path: {
+        user_name_or_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UserUpdateModel"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["UserResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete User
+   * @description Deletes a specific user.
+   *
+   * Args:
+   *     user_name_or_id: Name or ID of the user.
+   *     auth_context: The authentication context.
+   *
+   * Raises:
+   *     IllegalOperationError: If the user is not authorized to delete the user.
+   */
+  delete_user_api_v1_users__user_name_or_id__delete: {
+    parameters: {
+      path: {
+        user_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Deactivate User
+   * @description Deactivates a user and generates a new activation token for it.
+   *
+   * Args:
+   *     user_name_or_id: Name or ID of the user.
+   *
+   * Returns:
+   *     The generated activation token.
+   */
+  deactivate_user_api_v1_users__user_name_or_id__deactivate_put: {
+    parameters: {
+      path: {
+        user_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["UserResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Email Opt In Response
+   * @description Sets the response of the user to the email prompt.
+   *
+   * Args:
+   *     user_name_or_id: Name or ID of the user.
+   *     user_response: User Response to email prompt
+   *     auth_context: The authentication context of the user
+   *
+   * Returns:
+   *     The updated user.
+   *
+   * Raises:
+   *     AuthorizationException: if the user does not have the required
+   *         permissions
+   */
+  email_opt_in_response_api_v1_users__user_name_or_id__email_opt_in_put: {
+    parameters: {
+      path: {
+        user_name_or_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UserUpdateModel"];
       };
     };
     responses: {
@@ -11103,40 +11736,32 @@ export type operations = {
     };
   };
   /**
-   * List Api Keys
-   * @description Returns all API keys.
+   * Activate User
+   * @description Activates a specific user.
    *
    * Args:
-   *     filter_model: Filter model used for pagination, sorting,
-   *         filtering
+   *     user_name_or_id: Name or ID of the user.
+   *     user_update: the user to use for the update.
    *
    * Returns:
-   *     All API keys matching the filter.
+   *     The updated user.
    */
-  list_api_keys_api_v1_api_keys_get: {
+  activate_user_api_v1_users__user_name_or_id__activate_put: {
     parameters: {
-      query?: {
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        scope_workspace?: string;
-        name?: string;
-        active?: boolean | string;
-        last_used?: string;
-        last_rotated?: string;
-        workspace_id?: string;
-        user_id?: string;
+      path: {
+        user_name_or_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["UserUpdateModel"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["Page_APIKeyResponseModel_"];
+          "application/json": components["schemas"]["UserResponseModel"];
         };
       };
       /** @description Unauthorized */
@@ -11147,240 +11772,6 @@ export type operations = {
       };
       /** @description Not Found */
       404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Create Api Key
-   * @description Creates an API key.
-   *
-   * Args:
-   *     api_key: API key to create.
-   *     auth_context: Authentication context.
-   *
-   * Returns:
-   *     The created API key.
-   *
-   * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the API
-   *         key does not match the current workspace or
-   *         authenticated user.
-   */
-  create_api_key_api_v1_api_keys_post: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["APIKeyRequestModel"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["APIKeyResponseModel"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Conflict */
-      409: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Get Api Key
-   * @description Returns the requested API key.
-   *
-   * Args:
-   *     api_key_id: ID of the API key.
-   *
-   * Returns:
-   *     The requested API key.
-   */
-  get_api_key_api_v1_api_keys__api_key_id__get: {
-    parameters: {
-      path: {
-        api_key_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["APIKeyResponseModel"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Update Api Key
-   * @description Updates an API key.
-   *
-   * # noqa: DAR401
-   *
-   * Args:
-   *     api_key_id: ID of the API key to update.
-   *     api_key_update: API key update.
-   *
-   * Returns:
-   *     The updated API key.
-   */
-  update_api_key_api_v1_api_keys__api_key_id__put: {
-    parameters: {
-      path: {
-        api_key_id: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["APIKeyUpdateModel"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["APIKeyResponseModel"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Conflict */
-      409: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Delete Api Key
-   * @description Deletes an API key.
-   *
-   * Args:
-   *     api_key_id: ID of the API key to delete.
-   */
-  delete_api_key_api_v1_api_keys__api_key_id__delete: {
-    parameters: {
-      path: {
-        api_key_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Rotate Api Key
-   * @description Rotate an API key.
-   *
-   * # noqa: DAR401
-   *
-   * Args:
-   *     api_key_id: ID of the API key to rotate.
-   *     rotate_request: API key rotation request.
-   *
-   * Returns:
-   *     The updated API key.
-   */
-  rotate_api_key_api_v1_api_keys__api_key_id__rotate_put: {
-    parameters: {
-      path: {
-        api_key_id: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["APIKeyRotateRequestModel"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["APIKeyResponseModel"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Conflict */
-      409: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
