@@ -1,4 +1,4 @@
-import { apiCall } from './apiCallUtils';
+// import { apiCall } from './apiCallUtils';
 
 export const tableColumnsSorting = (columnName) => {
   cy.get('table').should('be.visible');
