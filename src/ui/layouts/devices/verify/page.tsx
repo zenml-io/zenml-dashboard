@@ -51,7 +51,9 @@ export default function VerifyDevicesPage() {
       //check if error is AxiosError
       dispatch(
         showToasterAction({
-          description: (error as AxiosError).response?.data?.detail[1],
+          description:
+            (error as AxiosError).response?.data?.detail ||
+            'There was an error verifying the device',
           type: toasterTypes.failure,
         }),
       );
@@ -79,7 +81,9 @@ export default function VerifyDevicesPage() {
         setError(true);
         dispatch(
           showToasterAction({
-            description: (error as AxiosError).response?.data?.detail[1],
+            description:
+              (error as AxiosError).response?.data?.detail ||
+              'There was an error fetching device details',
             type: toasterTypes.failure,
           }),
         );
@@ -91,9 +95,15 @@ export default function VerifyDevicesPage() {
   }, []);
 
   if (!userCode || !deviceId) {
+    dispatch(
+      showToasterAction({
+        description: "Please provide 'user_code' and 'device_id' in the url",
+        type: toasterTypes.failure,
+      }),
+    );
     return (
       <Wrapper>
-        <Paragraph>Invalid request</Paragraph>
+        <Paragraph>Invalid Request</Paragraph>
       </Wrapper>
     );
   }
