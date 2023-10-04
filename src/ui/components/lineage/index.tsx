@@ -211,7 +211,7 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
           </div>
         </div>
         <div className="layout" style={{ overflow: 'hidden' }}>
-          <div className="layoutflow">
+          <div className="layoutflow" data-testid="display-dag">
             <ReactFlow
               nodes={nodes} // node itself
               edges={edges} //connection lines

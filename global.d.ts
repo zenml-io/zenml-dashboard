@@ -238,6 +238,7 @@ interface TabPage {
   path: string;
   externalPath?: string;
   locked?: boolean;
+  testId?: string;
   lockedClickHandler?: () => void;
 }
 

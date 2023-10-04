@@ -1,4 +1,5 @@
 import { apiCall } from '../utils/apiCallUtils';
+import { dag } from '../utils/dagUtils';
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
 import { pagination } from '../utils/paginationUtils';
@@ -30,7 +31,7 @@ describe('FilterComponent E2E Tests', () => {
     tableColumns(columnList, emptyText);
   });
 
-  it.only('should sort table columns', () => {
+  it('should sort table columns', () => {
     const columnTestIds = [
       'Id',
       'Name',
@@ -61,5 +62,17 @@ describe('FilterComponent E2E Tests', () => {
     // You can click these buttons to navigate through pages
     pagination(); // Click the "Previous" button
     // Add more assertions as needed
+  });
+
+  it.only('should display runDetail', () => {
+    cy.wait(5000);
+    cy.get('table').should('exist');
+
+    // Select the first row within the table (modify the selector as needed)
+    cy.get('table tbody tr:first').should('exist');
+
+    // Click on the first row
+    cy.get('table tbody tr:first').click({ force: true });
+    dag();
   });
 });

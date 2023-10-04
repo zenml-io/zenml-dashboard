@@ -1,3 +1,4 @@
+import { dag } from '../utils/dagUtils';
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
 import { pagination } from '../utils/paginationUtils';
@@ -44,5 +45,26 @@ describe('FilterComponent E2E Tests', () => {
     // You can click these buttons to navigate through pages
     pagination(); // Click the "Previous" button
     // Add more assertions as needed
+  });
+
+  it.only('should display stackDetails', () => {
+    // cy.wait(5000);
+    cy.get('table').should('exist');
+
+    // Select the first row within the table (modify the selector as needed)
+    cy.get('table tbody tr:first').should('exist');
+
+    // Click on the first row
+    cy.get('table tbody tr:eq(4)').click({ force: true });
+
+    cy.get('[data-testid="run_tab"]').click();
+    cy.get('table').should('exist');
+    cy.wait(5000);
+    // Select the first row within the table (modify the selector as needed)
+    cy.get('table:eq(1) tbody tr:first').should('exist');
+
+    // Click on the first row
+    cy.get('table:eq(1) tbody tr:first').click({ force: true });
+    dag();
   });
 });
