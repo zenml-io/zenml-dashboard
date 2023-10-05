@@ -20,13 +20,17 @@ export function OauthHandler() {
   const { search } = useLocation();
 
   const params = new URLSearchParams(search);
+  const context = params.get('context');
   const route = params.get('route');
+  params.set('context', 'cloud');
   const loginUrl = `${process.env.REACT_APP_BASE_API_URL}${endpoints.login}`;
   const callbackUrl = `${window.location.origin}/login?${params.toString()}`;
 
   useEffect(() => {
-    if (localStorage.getItem('logout') === 'true') {
-      return;
+    if (context && context !== 'cloud') {
+      if (localStorage.getItem('logout') === 'true') {
+        return;
+      }
     }
     handleLogin(true);
     // eslint-disable-next-line react-hooks/exhaustive-deps
