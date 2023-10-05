@@ -73,4 +73,22 @@ describe('FilterComponent E2E Tests', () => {
     pagination(); // Click the "Previous" button
     // Add more assertions as needed
   });
+  it.only("should display connector's component", () => {
+    // cy.wait(5000);
+    cy.get('table').should('exist');
+
+    // Select the first row within the table (modify the selector as needed)
+    cy.get('table tbody tr:eq(4)').click({ force: true });
+
+    cy.get('[data-testid="component_tab"]').click();
+    cy.get('table').should('exist');
+
+    cy.get('table').should('exist');
+    const columnList = ['ID', 'Name', 'Flavor'];
+    const emptyText = 'No components';
+    columnList.forEach((col) => {
+      filterByString(col, emptyText);
+    });
+    filterByBoolean();
+  });
 });
