@@ -1,10 +1,12 @@
-export const filterByString = (columnName) => {
+export const filterByString = (columnName, emptyText) => {
   cy.get('[data-testid="filter-icon"]').click();
   cy.get('[data-testid="column-name-dropdown"]').select(columnName);
   cy.get('[data-testid="category-dropdown"]').select('Contains');
   cy.get('[data-testid="filter-value-input"]').type('random value');
   cy.get('h4').contains(
-    'We are sorry! We could not find anything for your filter set. Please change your filters and try again.',
+    emptyText
+      ? emptyText
+      : 'We are sorry! We could not find anything for your filter set. Please change your filters and try again.',
   );
   cy.get('[data-testid="filter-value-input"]').clear();
   // Apply filters as needed
