@@ -73,10 +73,10 @@ describe('FilterComponent E2E Tests', () => {
 
     cy.get('table').should('exist');
     const columnList = ['ID', 'Name'];
-    const emptyText = 'No runs';
+    const emptyText = 'We are sorry!';
     columnList.forEach((col) => {
       filterByString(col, emptyText);
     });
-    filterByStatus();
+    filterByBoolean();
   });
 });
