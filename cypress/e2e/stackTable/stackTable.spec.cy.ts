@@ -1,4 +1,5 @@
 import { dag } from '../utils/dagUtils';
+import { filterByBoolean } from '../utils/filterByBooleanUtils';
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
 import { pagination } from '../utils/paginationUtils';
@@ -39,6 +40,7 @@ describe('FilterComponent E2E Tests', () => {
     columnList.forEach((col) => {
       filterByString(col);
     });
+    filterByBoolean();
   });
   it('should navigate through pagination', () => {
     // Assuming you have a button or link for next and previous pagination
@@ -47,7 +49,7 @@ describe('FilterComponent E2E Tests', () => {
     // Add more assertions as needed
   });
 
-  it.only('should display stackDetails', () => {
+  ity('should display stackDetails', () => {
     // cy.wait(5000);
     cy.get('table').should('exist');
 

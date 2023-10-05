@@ -1,5 +1,6 @@
 import { apiCall } from '../utils/apiCallUtils';
 import { dag } from '../utils/dagUtils';
+import { filterByStatus } from '../utils/filterByStatusUtils';
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
 import { pagination } from '../utils/paginationUtils';
@@ -52,10 +53,11 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it('should apply filters where string', () => {
-    const columnList = ['ID', 'Name'];
+    const columnList = ['Run ID', 'Run Name'];
     columnList.forEach((col) => {
       filterByString(col);
     });
+    filterByStatus();
   });
   it('should navigate through pagination', () => {
     // Assuming you have a button or link for next and previous pagination
@@ -64,7 +66,7 @@ describe('FilterComponent E2E Tests', () => {
     // Add more assertions as needed
   });
 
-  it.only('should display runDetail', () => {
+  it('should display runDetail', () => {
     cy.wait(5000);
     cy.get('table').should('exist');
 

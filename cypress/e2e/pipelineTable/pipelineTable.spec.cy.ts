@@ -63,7 +63,7 @@ describe('FilterComponent E2E Tests', () => {
     // Add more assertions as needed
   });
 
-  it.only('should display pipelineDetails', () => {
+  it('should display pipelineDetails', () => {
     // cy.wait(5000);
     cy.get('table').should('exist');
 

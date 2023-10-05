@@ -1,3 +1,4 @@
+import { filterByBoolean } from '../utils/filterByBooleanUtils';
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
 import { pagination } from '../utils/paginationUtils';
@@ -51,6 +52,7 @@ describe('FilterComponent E2E Tests', () => {
     columnList.forEach((col) => {
       filterByString(col);
     });
+    filterByBoolean();
   });
   it('should navigate through pagination', () => {
     // Assuming you have a button or link for next and previous pagination
