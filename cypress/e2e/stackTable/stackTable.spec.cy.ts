@@ -71,7 +71,7 @@ describe('FilterComponent E2E Tests', () => {
     dag();
   });
 
-  it.only("should display Stacks's runs", () => {
+  it("should display Stacks's runs", () => {
     // cy.wait(5000);
     cy.get('table').should('exist');
 

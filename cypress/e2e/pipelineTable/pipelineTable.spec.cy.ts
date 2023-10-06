@@ -83,7 +83,7 @@ describe('FilterComponent E2E Tests', () => {
     cy.get('table:eq(1) tbody tr:first').click({ force: true });
     dag();
   });
-  it.only("should display pipeline's runs", () => {
+  it("should display pipeline's runs", () => {
     // cy.wait(5000);
     cy.get('table').should('exist');
 

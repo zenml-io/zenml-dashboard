@@ -73,7 +73,7 @@ describe('FilterComponent E2E Tests', () => {
     pagination(); // Click the "Previous" button
     // Add more assertions as needed
   });
-  it.only("should display connector's component", () => {
+  it("should display connector's component", () => {
     // cy.wait(5000);
     cy.get('table').should('exist');
 

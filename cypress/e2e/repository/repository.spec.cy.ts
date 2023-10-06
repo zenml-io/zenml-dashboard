@@ -67,7 +67,7 @@ describe('FilterComponent E2E Tests', () => {
     // Add more assertions as needed
   });
 
-  it.only("should display respository's runs", () => {
+  it("should display respository's runs", () => {
     // cy.wait(5000);
     //   cy.get('table').should('exist');
 

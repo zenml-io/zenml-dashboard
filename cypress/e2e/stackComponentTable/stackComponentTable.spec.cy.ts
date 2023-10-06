@@ -1,5 +1,5 @@
 import { filterByBoolean } from '../utils/filterByBooleanUtils';
-import { filterByStatus } from '../utils/filterByStatusUtils';
+
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
 import { pagination } from '../utils/paginationUtils';
@@ -61,7 +61,7 @@ describe('FilterComponent E2E Tests', () => {
     pagination(); // Click the "Previous" button
     // Add more assertions as needed
   });
-  it.only("should display component's stack", () => {
+  it("should display component's stack", () => {
     // cy.wait(5000);
     cy.get('table').should('exist');
 
