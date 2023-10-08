@@ -8,6 +8,9 @@ jobs:
         uses: actions/checkout@v4
       # Install npm dependencies, cache them correctly
       # and run all Cypress tests
+      - name: Set Cypress baseUrl from Netlify
+        run: echo "export CYPRESS_BASE_URL=$DEPLOY_PREVIEW_URL" >> $GITHUB_ENV
+
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
