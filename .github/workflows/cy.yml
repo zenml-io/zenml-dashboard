@@ -2,8 +2,8 @@ name: End-to-end tests
 on: push
 jobs:
   cypress-run:
-     env:
-      CYPRESS_BASE_URL: https://appserver.zenml.io/api/v1
+    #  env:
+    #   CYPRESS_BASE_URL: https://appserver.zenml.io/api/v1
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
