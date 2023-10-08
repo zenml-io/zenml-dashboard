@@ -2,7 +2,7 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    baseUrl: Cypress.env('CYPRESS_BASE_URL'),
+    baseUrl: '',
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
@@ -11,3 +11,8 @@ export default defineConfig({
     numTestsKeptInMemory: 40,
   },
 });
+
+if (process.env.CYPRESS_BASE_URL) {
+  // Update the baseUrl with the environment variable value
+  module.exports.e2e.baseUrl = process.env.CYPRESS_BASE_URL;
+}
