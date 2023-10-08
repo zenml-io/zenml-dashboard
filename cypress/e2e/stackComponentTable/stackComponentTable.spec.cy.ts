@@ -63,6 +63,7 @@ describe('FilterComponent E2E Tests', () => {
   });
   it("should display component's stack", () => {
     // cy.wait(5000);
+    cy.waitForLoaderToDisappear();
     cy.get('table').should('exist');
 
     // Select the first row within the table (modify the selector as needed)

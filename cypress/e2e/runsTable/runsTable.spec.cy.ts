@@ -12,8 +12,8 @@ describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
     login();
     cy.waitUntilDashboardIsLoaded();
-    // cy.wait(500);
-    apiCall();
+    cy.wait(700);
+    // apiCall();
     cy.get('[id="runs"]').click();
   });
 
@@ -29,6 +29,7 @@ describe('FilterComponent E2E Tests', () => {
       'AUTHOR',
       'CREATED AT',
     ];
+    cy.wait(5000);
     tableColumns(columnList, emptyText);
   });
 
@@ -43,7 +44,7 @@ describe('FilterComponent E2E Tests', () => {
       'created_at',
     ];
     columnTestIds.forEach((col) => {
-      apiCall();
+      // apiCall();
       tableColumnsSorting(col);
     });
   });
@@ -54,8 +55,9 @@ describe('FilterComponent E2E Tests', () => {
 
   it('should apply filters where string', () => {
     const columnList = ['Run ID', 'Run Name'];
+    const emptyText = 'We are sorry';
     columnList.forEach((col) => {
-      filterByString(col);
+      filterByString(col, emptyText);
     });
     filterByStatus();
   });
@@ -67,7 +69,7 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it('should display runDetail', () => {
-    cy.wait(5000);
+    cy.waitForLoaderToDisappear();
     cy.get('table').should('exist');
 
     // Select the first row within the table (modify the selector as needed)

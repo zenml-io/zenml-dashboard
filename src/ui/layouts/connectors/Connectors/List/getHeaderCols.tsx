@@ -427,7 +427,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
-      testId: 'Created',
+      testId: 'created_at',
       width: '10%',
       renderRow: (connector: any) => (
         <>

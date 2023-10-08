@@ -1,4 +1,5 @@
 export const tableColumns = (columnList, emptyText) => {
+  cy.waitForLoaderToDisappear();
   cy.get('table')
     .should('be.visible')
     .then(($table) => {

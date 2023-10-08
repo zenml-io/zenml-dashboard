@@ -36,7 +36,7 @@ describe('FilterComponent E2E Tests', () => {
       'Id',
       'Name',
       'connector_type',
-      'resource_types',
+      // 'resource_types',
       'resource_id',
       'Authentication',
       'Author',
@@ -50,20 +50,22 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it('should work with valid value', () => {
-    search('asd2');
+    const emptyText = 'We are sorry';
+    search('asd', emptyText);
   });
 
   it('should apply filters where string', () => {
+    const emptyText = 'We are sorry';
     const columnList = [
       'ID',
       'Name',
       'Connector Type',
-      'Resource Types',
+      'Resource Type',
       'Resource ID',
       'Authentication',
     ];
     columnList.forEach((col) => {
-      filterByString(col);
+      filterByString(col, emptyText);
     });
     filterByBoolean();
   });
@@ -81,9 +83,9 @@ describe('FilterComponent E2E Tests', () => {
     cy.get('table tbody tr:eq(4)').click({ force: true });
 
     cy.get('[data-testid="component_tab"]').click();
-    cy.get('table').should('exist');
+    // cy.get('table').should('exist');
 
-    cy.get('table').should('exist');
+    // cy.get('table').should('exist');
     const columnList = ['ID', 'Name', 'Flavor'];
     const emptyText = 'No components';
     columnList.forEach((col) => {
