@@ -6,12 +6,28 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      # Install npm dependencies, cache them correctly
-      # and run all Cypress tests
-      - name: Set Cypress baseUrl from Netlify
+
+      - name: Wait for Netlify deploy-preview URL
+        id: wait-for-url
+        run: |
+          retries=0
+          max_retries=10
+          while [[ $retries -lt $max_retries ]]; do
+            export DEPLOY_PREVIEW_URL=$(curl -s https://api.netlify.com/api/v1/sites/your-netlify-site-id/deploys | jq -r '.[0].ssl_url')
+            if [ -n "$DEPLOY_PREVIEW_URL" ]; then
+              echo "Deploy-preview URL is available: $DEPLOY_PREVIEW_URL"
+              break
+            else
+              echo "Waiting for deploy-preview URL..."
+              sleep 60 # Wait for 60 seconds before checking again
+              retries=$((retries+1))
+            fi
+          done
+
+      - name: Set Cypress baseUrl
         run: echo "export CYPRESS_BASE_URL=$DEPLOY_PREVIEW_URL" >> $GITHUB_ENV
 
       - name: Cypress run
         uses: cypress-io/github-action@v6
         with:
-          config: baseUrl=${{ github.event.inputs.deployPrimeUrl }}
+          config: baseUrl=${{ env.CYPRESS_BASE_URL }}
