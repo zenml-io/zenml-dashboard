@@ -10,7 +10,7 @@ jobs:
       - name: Wait for Netlify deploy-preview URL
         id: wait-for-url
         run: |
-          max_retries=10
+          max_retries=3
           retries=0
           while [[ $retries -lt $max_retries ]]; do
             export DEPLOY_PREVIEW_URL=$(curl -s https://api.netlify.com/api/v1/sites/96256700-655b-4aa1-ba80-94fc59aafb69/deploys | jq -r '.[0].ssl_url')
