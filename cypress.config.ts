@@ -2,7 +2,7 @@ import { defineConfig } from 'cypress';
 
 export default defineConfig({
   e2e: {
-    baseUrl: 'https://zenml-ui-dev.netlify.app',
+    baseUrl: 'http://localhost:3000',
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
