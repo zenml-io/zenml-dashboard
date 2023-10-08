@@ -10,8 +10,5 @@ jobs:
       # and run all Cypress tests
       - name: Cypress run
         uses: cypress-io/github-action@v6
-
-      - name: Deploy to Netlify
-        run: npx netlify-cli deploy --prod
         with:
           config: baseUrl=${{ github.event.inputs.deployPrimeUrl }}
