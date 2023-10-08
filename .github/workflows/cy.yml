@@ -2,8 +2,6 @@ name: End-to-end tests
 on: push
 jobs:
   cypress-run:
-       env:
-          CYPRESS_BASE_URL: https://zenml-ui-dev.netlify.app
     runs-on: ubuntu-22.04
     steps:
       - name: Checkout
