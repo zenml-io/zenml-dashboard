@@ -27,7 +27,7 @@ export function OauthHandler() {
   const callbackUrl = `${window.location.origin}/login?${params.toString()}`;
 
   useEffect(() => {
-    if (context && context !== 'cloud') {
+    if (!context || context !== 'cloud') {
       if (localStorage.getItem('logout') === 'true') {
         return;
       }
