@@ -1,0 +1,32 @@
+name: Cypress Tests
+
+on:
+  pull_request:
+    types:
+      - opened
+      - synchronize
+
+jobs:
+  cypress:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check out code
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '18'
+
+      - name: Install dependencies
+        run: npm install
+      - name: Get PR number
+        id: pr_number
+        run: echo "PR_NUMBER=$(echo $GITHUB_REF | sed -n 's/refs\/pull\/\([0-9]*\)\/merge/\1/p')" >> $GITHUB_ENV
+
+      - name: Replace URL
+        run: sed -i "s|https://deploy-preview-499--zenml-ui-staging.netlify.app/|https://deploy-preview-${{ env.PR_NUMBER }}--zenml-ui-staging.netlify.app/|" cypress.config.ts
+
+      - name: Run Cypress tests
+        run: npm run cypress run
