@@ -219,6 +219,7 @@ export const useHeaderCols = ({
               <HeaderText text="RUN ID" margin="30px" />
             </SortingHeader>
           ),
+          testId: 'Id',
           width: '20%',
           renderRow: (run: Run) => (
             <FlexBox alignItems="center">
@@ -259,6 +260,7 @@ export const useHeaderCols = ({
               <HeaderText text="RUN NAME" />
             </SortingHeader>
           ),
+          testId: 'Name',
           width: '30%',
           renderRow: (run: Run) => (
             <div style={{ alignItems: 'center' }}>
@@ -284,6 +286,7 @@ export const useHeaderCols = ({
               <HeaderText text="PIPELINE" />
             </SortingHeader>
           ),
+          testId: 'Pipeline',
           width: '7.5%',
           renderRow: (run: Run) => (
             <FlexBox alignItems="center">
@@ -337,6 +340,7 @@ export const useHeaderCols = ({
               </div>
             </SortingHeader>
           ),
+          testId: 'Status',
           width: '7.5%',
           renderRow: (run: TRun) => <RunStatus run={run} />,
         },
@@ -356,6 +360,7 @@ export const useHeaderCols = ({
             </SortingHeader>
           ),
           width: '7.5%',
+          testId: 'stack_name',
           renderRow: (run: Run) => (
             <FlexBox alignItems="center">
               <div data-tip data-for={run?.stack?.name}>
@@ -398,6 +403,7 @@ export const useHeaderCols = ({
               <HeaderText text={translate('author.text')} />
             </SortingHeader>
           ),
+          testId: 'Author',
           width: '7.5%',
           renderRow: (run: Run) => {
             const initials = getInitialsFromEmail(
@@ -464,6 +470,7 @@ export const useHeaderCols = ({
             </SortingHeader>
           ),
           width: '20%',
+          testId: 'created_at',
           renderRow: (run: Run) => (
             <FlexBox alignItems="center">
               <div data-tip data-for={formatDateToDisplayOnTable(run?.created)}>

@@ -102,6 +102,7 @@ function RepositoryDetailOverview() {
           ),
         },
         {
+          testId: 'run_tab',
           text: translate('runs.text'),
           Component: FilterWrapperForRun,
           path: routePaths.repositories.runs(

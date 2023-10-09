@@ -72,6 +72,7 @@ export const BasePage: React.FC<{
 
                   {tabPages.map((page, index) => (
                     <AppRoute
+                      data-testid={page}
                       key={index}
                       path={page.path}
                       exact={true}

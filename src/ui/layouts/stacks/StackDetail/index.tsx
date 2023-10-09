@@ -70,6 +70,7 @@ const getTabPages = (
       path: routePaths.stack.configuration(stackId, selectedWorkspace),
     },
     {
+      testId: 'run_tab',
       text: translate('tabs.runs.text'),
       Component: FilterWrapperForRun,
       path: routePaths.stack.runs(selectedWorkspace, stackId),

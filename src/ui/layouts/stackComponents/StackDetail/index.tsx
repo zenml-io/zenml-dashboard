@@ -103,6 +103,7 @@ const getTabPages = (
     },
 
     {
+      testId: 'stack_tab',
       text: 'Stacks',
       Component: FilterWrapperForStacks,
       path: routePaths.stackComponents.stacks(
