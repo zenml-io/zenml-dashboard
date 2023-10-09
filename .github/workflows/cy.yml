@@ -25,12 +25,9 @@ jobs:
         id: pr_number
         run: echo "PR_NUMBER=$(echo $GITHUB_REF | sed -n 's/refs\/pull\/\([0-9]*\)\/merge/\1/p')" >> $GITHUB_ENV
 
-      - name: Replace URL
+      - name: Replace URL and running cypress test
         run: |
-          sed -e 's/baseUrl: .*/baseUrl: "https:\/\/deploy-preview-${{ env.PR_NUMBER }}--zenml-ui-staging.netlify.app",/' cypress.config.ts
+          sed -e 's/baseUrl: .*/baseUrl: "https:\/\/deploy-preview-${{ env.PR_NUMBER }}--zenml-ui-staging.netlify.app",/' cypress.config.ts && npx cypress run
 
       - name: view file
         run: cat cypress.config.ts
-
-      - name: Run Cypress tests
-        run: npx cypress run
