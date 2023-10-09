@@ -28,5 +28,8 @@ jobs:
       - name: Replace URL
         run: sed -i "s|http://localhost:3000/|https://deploy-preview-${{ env.PR_NUMBER }}--zenml-ui-staging.netlify.app/|" cypress.config.ts
 
+      - name: view file
+        run: cat cypress.config.ts
+
       - name: Run Cypress tests
         run: npx cypress run
