@@ -7,7 +7,5 @@ export default defineConfig({
       // implement node event listeners here
     },
     experimentalRunAllSpecs: true,
-    experimentalMemoryManagement: true,
-    numTestsKeptInMemory: 40,
   },
 });
