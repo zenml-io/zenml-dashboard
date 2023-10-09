@@ -1,39 +1,39 @@
-name: End-to-end tests
+name: Cypress E2E Tests on Netlify Preview
+
 on: push
+
 jobs:
-  cypress-run:
-    runs-on: ubuntu-22.04
+  build:
+    runs-on: ubuntu-latest
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v2
 
-      - name: Wait for Netlify deploy-preview URL
-        id: wait-for-url
-        run: |
-          max_retries=3
-          retries=0
-          while [[ $retries -lt $max_retries ]]; do
-            export DEPLOY_PREVIEW_URL=$(curl -s https://api.netlify.com/api/v1/sites/96256700-655b-4aa1-ba80-94fc59aafb69/deploys | jq -r '.[0].ssl_url')
-            if [ "$DEPLOY_PREVIEW_URL" != "null" ]; then
-              echo "Deploy-preview URL is available: $DEPLOY_PREVIEW_URL"
-              break
-            else
-              echo "Waiting for deploy-preview URL..."
-              sleep 60 # Wait for 60 seconds before checking again
-              retries=$((retries+1))
-            fi
-          done
-
-      - name: Set Cypress baseUrl from Netlify
-        run: echo "export CYPRESS_BASE_URL=$DEPLOY_PREVIEW_URL" >> $GITHUB_ENV
-
-      - name: Install Node.js
+      - name: Set up Node.js
         uses: actions/setup-node@v2
         with:
-          node-version: '14'
+          node-version: 14
 
-      - name: Install Cypress
-        run: npm install cypress
+      - name: Install dependencies
+        run: npm install
 
-      - name: Cypress run
-        run: npx cypress run --config baseUrl=${CYPRESS_BASE_URL}
+      - name: Build your React app (if needed)
+        run: npm run build
+
+      - name: Deploy to Netlify
+        run: npx netlify-cli deploy --prod
+
+      - name: Get the Netlify Deploy URL
+        id: netlify-deploy
+        run: echo "::set-output name=url::$(npx netlify-cli open:site)"
+
+      - name: Run Cypress tests
+        run: |
+          npx cypress run --config baseUrl=${{ steps.netlify-deploy.outputs.url }}
+
+      - name: Upload Cypress screenshots and videos
+        uses: actions/upload-artifact@v2
+        with:
+          name: cypress-artifacts
+          path: cypress/screenshots, cypress/videos
