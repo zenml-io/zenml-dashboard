@@ -29,4 +29,4 @@ jobs:
         run: sed -i "s|https://deploy-preview-499--zenml-ui-staging.netlify.app/|https://deploy-preview-${{ env.PR_NUMBER }}--zenml-ui-staging.netlify.app/|" cypress.config.ts
 
       - name: Run Cypress tests
-        run: npm run cypress run
+        run: npx cypress run
