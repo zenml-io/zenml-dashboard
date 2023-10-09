@@ -78,7 +78,7 @@ export function OauthHandler() {
       onClick={() => handleLogin(false)}
       style={{ width: '100%', backgroundColor: '#E8A562' }}
     >
-      Login with SSO
+      Login with ZenML Cloud
     </PrimaryButton>
   );
 }
