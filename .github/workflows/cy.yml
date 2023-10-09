@@ -27,7 +27,7 @@ jobs:
 
       - name: Replace URL and running cypress test
         run: |
-          sed -e 's/baseUrl: .*/baseUrl: "https:\/\/deploy-preview-${{ env.PR_NUMBER }}--zenml-ui-staging.netlify.app",/' cypress.config.ts && npx cypress run
+          sed -i 's/baseUrl: .*/baseUrl: "https:\/\/deploy-preview-${{ env.PR_NUMBER }}--zenml-ui-staging.netlify.app",/' cypress.config.ts && npx cypress run
 
       - name: view file
         run: cat cypress.config.ts
