@@ -1,4 +1,4 @@
-import { loginActionTypes } from '../../actionTypes';
+import { loginActionTypes, loginWithCookie } from '../../actionTypes';
 import loginApi from '../../../api/session/loginApi';
 
 export const loginAction = ({
@@ -26,5 +26,16 @@ export const loginAction = ({
         password,
       },
     },
+  },
+});
+
+export const setIsloggedinWithCookie = ({
+  isLoggedinWithCookie,
+}: {
+  isLoggedinWithCookie: boolean;
+}) => ({
+  type: loginWithCookie,
+  payload: {
+    isLoggedinWithCookie,
   },
 });

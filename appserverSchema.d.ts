@@ -18,18 +18,143 @@ export type paths = {
   "/api/v1/login": {
     /**
      * Token
-     * @description Returns an access token for the given user.
+     * @description OAuth2 token endpoint.
      *
      * Args:
-     *     auth_form_data: The authentication form data.
+     *     request: The request object.
+     *     response: The response object.
+     *     auth_form_data: The OAuth 2.0 authentication form data.
      *
      * Returns:
-     *     An access token.
+     *     An access token or a redirect response.
      *
      * Raises:
-     *     HTTPException: 401 if not authorized to login.
+     *     ValueError: If the grant type is invalid.
      */
     post: operations["token_api_v1_login_post"];
+  };
+  "/api/v1/logout": {
+    /**
+     * Logout
+     * @description Logs out the user.
+     *
+     * Args:
+     *     response: The response object.
+     */
+    get: operations["logout_api_v1_logout_get"];
+  };
+  "/api/v1/device_authorization": {
+    /**
+     * Device Authorization
+     * @description OAuth2 device authorization endpoint.
+     *
+     * This endpoint implements the OAuth2 device authorization grant flow as
+     * defined in https://tools.ietf.org/html/rfc8628. It is called to initiate
+     * the device authorization flow by requesting a device and user code for a
+     * given client ID.
+     *
+     * For a new client ID, a new OAuth device is created, stored in the DB and
+     * returned to the client along with a pair of newly generated device and user
+     * codes. If a device for the given client ID already exists, the existing
+     * DB entry is reused and new device and user codes are generated.
+     *
+     * Args:
+     *     request: The request object.
+     *     client_id: The client ID.
+     *
+     * Returns:
+     *     The device authorization response.
+     */
+    post: operations["device_authorization_api_v1_device_authorization_post"];
+  };
+  "/api/v1/devices": {
+    /**
+     * List Authorized Devices
+     * @description Gets a page of OAuth2 authorized devices belonging to the current user.
+     *
+     * Args:
+     *     filter_model: Filter model used for pagination, sorting,
+     *         filtering
+     *     auth_context: The current auth context.
+     *
+     * Returns:
+     *     Page of OAuth2 authorized device objects.
+     */
+    get: operations["list_authorized_devices_api_v1_devices_get"];
+  };
+  "/api/v1/devices/{device_id}": {
+    /**
+     * Get Authorization Device
+     * @description Gets a specific OAuth2 authorized device using its unique ID.
+     *
+     * Args:
+     *     device_id: The ID of the OAuth2 authorized device to get.
+     *     auth_context: The current auth context.
+     *
+     * Returns:
+     *     A specific OAuth2 authorized device object.
+     *
+     * Raises:
+     *     KeyError: If the device with the given ID does not exist or does not
+     *         belong to the current user.
+     */
+    get: operations["get_authorization_device_api_v1_devices__device_id__get"];
+    /**
+     * Update Authorized Device
+     * @description Updates a specific OAuth2 authorized device using its unique ID.
+     *
+     * Args:
+     *     device_id: The ID of the OAuth2 authorized device to update.
+     *     update: The model containing the attributes to update.
+     *     auth_context: The current auth context.
+     *
+     * Returns:
+     *     The updated OAuth2 authorized device object.
+     *
+     * Raises:
+     *     KeyError: If the device with the given ID does not exist or does not
+     *         belong to the current user.
+     */
+    put: operations["update_authorized_device_api_v1_devices__device_id__put"];
+    /**
+     * Delete Authorized Device
+     * @description Deletes a specific OAuth2 authorized device using its unique ID.
+     *
+     * Args:
+     *     device_id: The ID of the OAuth2 authorized device to delete.
+     *     auth_context: The current auth context.
+     *
+     * Raises:
+     *     KeyError: If the device with the given ID does not exist or does not
+     *         belong to the current user.
+     */
+    delete: operations["delete_authorized_device_api_v1_devices__device_id__delete"];
+  };
+  "/api/v1/devices/{device_id}/device_verification": {
+    /**
+     * Verify Authorized Device
+     * @description Verifies a specific OAuth2 authorized device using its unique ID.
+     *
+     * This endpoint implements the OAuth2 device authorization grant flow as
+     * defined in https://tools.ietf.org/html/rfc8628. It is called to verify
+     * the user code for a given device ID.
+     *
+     * If the user code is valid, the device is marked as verified and associated
+     * with the user that authorized the device. This association is required to
+     * be able to issue access tokens or revoke the device later on.
+     *
+     * Args:
+     *     device_id: The ID of the OAuth2 authorized device to update.
+     *     request: The model containing the verification request.
+     *     auth_context: The current auth context.
+     *
+     * Returns:
+     *     The updated OAuth2 authorized device object.
+     *
+     * Raises:
+     *     ValueError: If the device verification request fails.
+     */
+    put: operations["verify_authorized_device_api_v1_devices__device_id__device_verification_put"];
   };
   "/api/v1/pipelines": {
     /**
@@ -658,6 +783,16 @@ export type paths = {
      *     The updated flavor.
      */
     put: operations["update_flavor_api_v1_flavors__team_id__put"];
+  };
+  "/api/v1/flavors/sync": {
+    /**
+     * Sync Flavors
+     * @description Purge all in-built and integration flavors from the DB and sync.
+     *
+     * Returns:
+     *     None if successful. Raises an exception otherwise.
+     */
+    patch: operations["sync_flavors_api_v1_flavors_sync_patch"];
   };
   "/api/v1/roles": {
     /**
@@ -1687,9 +1822,6 @@ export type paths = {
      *
      * Returns:
      *     The updated user.
-     *
-     * Raises:
-     *     HTTPException: If the user is not authorized to activate the user.
      */
     put: operations["activate_user_api_v1_users__user_name_or_id__activate_put"];
   };
@@ -1823,6 +1955,7 @@ export type components = {
     ArtifactConfiguration: {
       /** Materializer Source */
       materializer_source: components["schemas"]["Source"][];
+      default_materializer_source?: components["schemas"]["Source"];
     };
     /**
      * ArtifactNode
@@ -1847,7 +1980,7 @@ export type components = {
       execution_id: string;
       /** Name */
       name: string;
-      status: components["schemas"]["ExecutionStatus"];
+      status: components["schemas"]["ArtifactNodeStatus"];
       /** Is Cached */
       is_cached: boolean;
       /** Artifact Type */
@@ -1863,6 +1996,12 @@ export type components = {
       /** Metadata */
       metadata: [string, string, string][];
     };
+    /**
+     * ArtifactNodeStatus
+     * @description Enum that represents the status of an artifact.
+     * @enum {string}
+     */
+    ArtifactNodeStatus: "cached" | "created" | "external" | "unknown";
     /**
      * ArtifactRequestModel
      * @description Request model for artifacts.
@@ -1957,6 +2096,12 @@ export type components = {
      */
     ArtifactType: "DataAnalysisArtifact" | "DataArtifact" | "ModelArtifact" | "SchemaArtifact" | "ServiceArtifact" | "StatisticsArtifact" | "BaseArtifact";
     /**
+     * AuthScheme
+     * @description The authentication scheme.
+     * @enum {string}
+     */
+    AuthScheme: "NO_AUTH" | "HTTP_BASIC" | "OAUTH2_PASSWORD_BEARER" | "EXTERNAL";
+    /**
      * AuthenticationMethodModel
      * @description Authentication method specification.
      *
@@ -1993,26 +2138,26 @@ export type components = {
      * steps.
      */
     BaseSettings: Record<string, never>;
+    /** Body_device_authorization_api_v1_device_authorization_post */
+    Body_device_authorization_api_v1_device_authorization_post: {
+      /**
+       * Client Id
+       * Format: uuid
+       */
+      client_id: string;
+    };
     /** Body_token_api_v1_login_post */
     Body_token_api_v1_login_post: {
       /** Grant Type */
       grant_type?: string;
       /** Username */
-      username: string;
-      /**
-       * Password
-       * @default
-       */
+      username?: string;
+      /** Password */
       password?: string;
-      /**
-       * Scope
-       * @default
-       */
-      scope?: string;
       /** Client Id */
       client_id?: string;
-      /** Client Secret */
-      client_secret?: string;
+      /** Device Code */
+      device_code?: string;
     };
     /**
      * BuildItem
@@ -2273,6 +2418,8 @@ export type components = {
       labels?: {
         [key: string]: unknown;
       };
+      /** The path to the component spec used for mlstacks deployments. */
+      component_spec_path?: string;
       /**
        * The service connector linked to this stack component.
        * Format: uuid
@@ -2324,6 +2471,8 @@ export type components = {
       labels?: {
         [key: string]: unknown;
       };
+      /** The path to the component spec used for mlstacks deployments. */
+      component_spec_path?: string;
       /** The service connector linked to this stack component. */
       connector?: components["schemas"]["ServiceConnectorResponseModel"];
     };
@@ -2366,6 +2515,8 @@ export type components = {
       labels?: {
         [key: string]: unknown;
       };
+      /** The path to the component spec used for mlstacks deployments. */
+      component_spec_path?: string;
       /**
        * The service connector linked to this stack component.
        * Format: uuid
@@ -2425,7 +2576,7 @@ export type components = {
       logo_url?: string;
       /** Optionally, a url pointing to docs, within docs.zenml.io. */
       docs_url?: string;
-      /** Optionally, a url pointing to SDK docs,within apidocs.zenml.io. */
+      /** Optionally, a url pointing to SDK docs,within sdkdocs.zenml.io. */
       sdk_docs_url?: string;
       /**
        * Whether or not this flavor is a custom, user created flavor.
@@ -2485,7 +2636,7 @@ export type components = {
       logo_url?: string;
       /** Optionally, a url pointing to docs, within docs.zenml.io. */
       docs_url?: string;
-      /** Optionally, a url pointing to SDK docs,within apidocs.zenml.io. */
+      /** Optionally, a url pointing to SDK docs,within sdkdocs.zenml.io. */
       sdk_docs_url?: string;
       /**
        * Whether or not this flavor is a custom, user created flavor.
@@ -2524,7 +2675,7 @@ export type components = {
       logo_url?: string;
       /** Optionally, a url pointing to docs, within docs.zenml.io. */
       docs_url?: string;
-      /** Optionally, a url pointing to SDK docs,within apidocs.zenml.io. */
+      /** Optionally, a url pointing to SDK docs,within sdkdocs.zenml.io. */
       sdk_docs_url?: string;
       /**
        * Whether or not this flavor is a custom, user created flavor.
@@ -2647,6 +2798,171 @@ export type components = {
      */
     MetadataTypeEnum: "str" | "int" | "float" | "bool" | "list" | "dict" | "tuple" | "set" | "Uri" | "Path" | "DType" | "StorageSize";
     /**
+     * OAuthDeviceAuthorizationResponse
+     * @description OAuth2 device authorization grant response.
+     */
+    OAuthDeviceAuthorizationResponse: {
+      /** Device Code */
+      device_code: string;
+      /** User Code */
+      user_code: string;
+      /** Verification Uri */
+      verification_uri: string;
+      /** Verification Uri Complete */
+      verification_uri_complete?: string;
+      /** Expires In */
+      expires_in: number;
+      /** Interval */
+      interval: number;
+    };
+    /**
+     * OAuthDeviceResponseModel
+     * @description OAuth2 device response model.
+     */
+    OAuthDeviceResponseModel: {
+      /**
+       * The unique resource id.
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Time when this resource was created.
+       * Format: date-time
+       */
+      created: string;
+      /**
+       * Time when this resource was last updated.
+       * Format: date-time
+       */
+      updated: string;
+      /** The user that created this resource. */
+      user?: components["schemas"]["UserResponseModel"] | null;
+      /**
+       * Client Id
+       * Format: uuid
+       * @description The client ID of the OAuth2 device.
+       */
+      client_id: string;
+      /**
+       * Expires
+       * Format: date-time
+       * @description The expiration date of the OAuth2 device after which the device is no longer valid and cannot be used for authentication.
+       */
+      expires?: string;
+      /**
+       * Trusted Device
+       * @description Whether the OAuth2 device was marked as trusted. A trusted device has a much longer validity time.
+       */
+      trusted_device: boolean;
+      /** @description The status of the OAuth2 device. */
+      status: components["schemas"]["OAuthDeviceStatus"];
+      /**
+       * Os
+       * @description The operating system of the device used for authentication.
+       */
+      os?: string;
+      /**
+       * Ip Address
+       * @description The IP address of the device used for authentication.
+       */
+      ip_address?: string;
+      /**
+       * Hostname
+       * @description The hostname of the device used for authentication.
+       */
+      hostname?: string;
+      /**
+       * Python Version
+       * @description The Python version of the device used for authentication.
+       */
+      python_version?: string;
+      /**
+       * Zenml Version
+       * @description The ZenML version of the device used for authentication.
+       */
+      zenml_version?: string;
+      /**
+       * City
+       * @description The city where the device is located.
+       */
+      city?: string;
+      /**
+       * Region
+       * @description The region where the device is located.
+       */
+      region?: string;
+      /**
+       * Country
+       * @description The country where the device is located.
+       */
+      country?: string;
+      /**
+       * Failed Auth Attempts
+       * @description The number of failed authentication attempts.
+       */
+      failed_auth_attempts: number;
+      /**
+       * Last Login
+       * Format: date-time
+       * @description The date of the last successful login.
+       */
+      last_login?: string;
+    };
+    /**
+     * OAuthDeviceStatus
+     * @description The OAuth device status.
+     * @enum {string}
+     */
+    OAuthDeviceStatus: "pending" | "verified" | "active" | "locked";
+    /**
+     * OAuthDeviceUpdateModel
+     * @description OAuth2 device update model.
+     */
+    OAuthDeviceUpdateModel: {
+      /**
+       * Locked
+       * @description Whether to lock or unlock the OAuth2 device. A locked device cannot be used for authentication.
+       */
+      locked?: boolean;
+    };
+    /**
+     * OAuthDeviceVerificationRequest
+     * @description OAuth2 device authorization verification request.
+     */
+    OAuthDeviceVerificationRequest: {
+      /** User Code */
+      user_code: string;
+      /**
+       * Trusted Device
+       * @default false
+       */
+      trusted_device?: boolean;
+    };
+    /**
+     * OAuthRedirectResponse
+     * @description Redirect response.
+     */
+    OAuthRedirectResponse: {
+      /** Authorization Url */
+      authorization_url: string;
+    };
+    /**
+     * OAuthTokenResponse
+     * @description OAuth2 device authorization token response.
+     */
+    OAuthTokenResponse: {
+      /** Access Token */
+      access_token: string;
+      /** Token Type */
+      token_type: string;
+      /** Expires In */
+      expires_in?: number;
+      /** Refresh Token */
+      refresh_token?: string;
+      /** Scope */
+      scope?: string;
+    };
+    /**
      * Page[ArtifactResponseModel]
      * @description Return Model for List Models to accommodate pagination.
      */
@@ -2709,6 +3025,22 @@ export type components = {
       total: number;
       /** Items */
       items: components["schemas"]["FlavorResponseModel"][];
+    };
+    /**
+     * Page[OAuthDeviceResponseModel]
+     * @description Return Model for List Models to accommodate pagination.
+     */
+    Page_OAuthDeviceResponseModel_: {
+      /** Index */
+      index: number;
+      /** Max Size */
+      max_size: number;
+      /** Total Pages */
+      total_pages: number;
+      /** Total */
+      total: number;
+      /** Items */
+      items: components["schemas"]["OAuthDeviceResponseModel"][];
     };
     /**
      * Page[PipelineBuildResponseModel]
@@ -3309,7 +3641,7 @@ export type components = {
       num_steps?: number;
       /**
        * Client version.
-       * @default 0.40.3
+       * @default 0.44.3
        */
       client_version?: string;
       /** Server version. */
@@ -3407,7 +3739,7 @@ export type components = {
       num_steps?: number;
       /**
        * Client version.
-       * @default 0.40.3
+       * @default 0.44.3
        */
       client_version?: string;
       /** Server version. */
@@ -3931,7 +4263,7 @@ export type components = {
      * @description Enum for server deployment types.
      * @enum {string}
      */
-    ServerDeploymentType: "local" | "docker" | "kubernetes" | "aws" | "gcp" | "azure" | "alpha" | "other" | "hf_spaces" | "sandbox";
+    ServerDeploymentType: "local" | "docker" | "kubernetes" | "aws" | "gcp" | "azure" | "alpha" | "other" | "hf_spaces" | "sandbox" | "cloud";
     /**
      * ServerModel
      * @description Domain model for ZenML servers.
@@ -3964,6 +4296,8 @@ export type components = {
        * @default none
        */
       secrets_store_type?: components["schemas"]["SecretsStoreType"];
+      /** The authentication scheme that the server is using. */
+      auth_scheme: components["schemas"]["AuthScheme"];
     };
     /**
      * ServiceConnectorRequestModel
@@ -4156,7 +4490,7 @@ export type components = {
       emoji?: string;
       /** Optionally, a URL pointing to docs, within docs.zenml.io. */
       docs_url?: string;
-      /** Optionally, a URL pointing to SDK docs,within apidocs.zenml.io. */
+      /** Optionally, a URL pointing to SDK docs,within sdkdocs.zenml.io. */
       sdk_docs_url?: string;
       /**
        * If True, the service connector is available locally.
@@ -4329,6 +4663,8 @@ export type components = {
        * @default
        */
       description?: string;
+      /** The path to the stack spec used for mlstacks deployments. */
+      stack_spec_path?: string;
       /** A mapping of stack component types to the actualinstances of components of this type. */
       components?: {
         [key: string]: unknown;
@@ -4367,6 +4703,8 @@ export type components = {
        * @default
        */
       description?: string;
+      /** The path to the stack spec used for mlstacks deployments. */
+      stack_spec_path?: string;
       /** A mapping of stack component types to the actualinstances of components of this type. */
       components: {
         [key: string]: unknown;
@@ -4399,6 +4737,8 @@ export type components = {
        * @default
        */
       description?: string;
+      /** The path to the stack spec used for mlstacks deployments. */
+      stack_spec_path?: string;
       /** A mapping of stack component types to the actualinstances of components of this type. */
       components?: {
         [key: string]: unknown;
@@ -4841,6 +5181,11 @@ export type components = {
       password?: string;
       /** Activation Token */
       activation_token?: string;
+      /**
+       * The external user ID associated with the account.
+       * Format: uuid
+       */
+      external_user_id?: string;
     };
     /**
      * UserResponseModel
@@ -4897,6 +5242,11 @@ export type components = {
        * @default
        */
       email?: string;
+      /**
+       * The external user ID associated with the account.
+       * Format: uuid
+       */
+      external_user_id?: string;
     };
     /**
      * UserRoleAssignmentRequestModel
@@ -4976,6 +5326,11 @@ export type components = {
       password?: string;
       /** Activation Token */
       activation_token?: string;
+      /**
+       * The external user ID associated with the account.
+       * Format: uuid
+       */
+      external_user_id?: string;
     };
     /** ValidationError */
     ValidationError: {
@@ -5081,28 +5436,300 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": unknown;
+          "application/json": string;
         };
       };
     };
   };
   /**
    * Token
-   * @description Returns an access token for the given user.
+   * @description OAuth2 token endpoint.
    *
    * Args:
-   *     auth_form_data: The authentication form data.
+   *     request: The request object.
+   *     response: The response object.
+   *     auth_form_data: The OAuth 2.0 authentication form data.
    *
    * Returns:
-   *     An access token.
+   *     An access token or a redirect response.
    *
    * Raises:
-   *     HTTPException: 401 if not authorized to login.
+   *     ValueError: If the grant type is invalid.
    */
   token_api_v1_login_post: {
-    requestBody: {
+    requestBody?: {
       content: {
         "application/x-www-form-urlencoded": components["schemas"]["Body_token_api_v1_login_post"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["OAuthTokenResponse"] | components["schemas"]["OAuthRedirectResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  /**
+   * Logout
+   * @description Logs out the user.
+   *
+   * Args:
+   *     response: The response object.
+   */
+  logout_api_v1_logout_get: {
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Device Authorization
+   * @description OAuth2 device authorization endpoint.
+   *
+   * This endpoint implements the OAuth2 device authorization grant flow as
+   * defined in https://tools.ietf.org/html/rfc8628. It is called to initiate
+   * the device authorization flow by requesting a device and user code for a
+   * given client ID.
+   *
+   * For a new client ID, a new OAuth device is created, stored in the DB and
+   * returned to the client along with a pair of newly generated device and user
+   * codes. If a device for the given client ID already exists, the existing
+   * DB entry is reused and new device and user codes are generated.
+   *
+   * Args:
+   *     request: The request object.
+   *     client_id: The client ID.
+   *
+   * Returns:
+   *     The device authorization response.
+   */
+  device_authorization_api_v1_device_authorization_post: {
+    requestBody: {
+      content: {
+        "application/x-www-form-urlencoded": components["schemas"]["Body_device_authorization_api_v1_device_authorization_post"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["OAuthDeviceAuthorizationResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Validation Error */
+      422: {
+        content: {
+          "application/json": components["schemas"]["HTTPValidationError"];
+        };
+      };
+    };
+  };
+  /**
+   * List Authorized Devices
+   * @description Gets a page of OAuth2 authorized devices belonging to the current user.
+   *
+   * Args:
+   *     filter_model: Filter model used for pagination, sorting,
+   *         filtering
+   *     auth_context: The current auth context.
+   *
+   * Returns:
+   *     Page of OAuth2 authorized device objects.
+   */
+  list_authorized_devices_api_v1_devices_get: {
+    parameters: {
+      query?: {
+        sort_by?: string;
+        logical_operator?: components["schemas"]["LogicalOperators"];
+        page?: number;
+        size?: number;
+        id?: string;
+        created?: string;
+        updated?: string;
+        scope_user?: string;
+        expires?: string;
+        client_id?: string;
+        status?: components["schemas"]["OAuthDeviceStatus"] | string;
+        trusted_device?: boolean | string;
+        failed_auth_attempts?: number | string;
+        last_login?: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_OAuthDeviceResponseModel_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Get Authorization Device
+   * @description Gets a specific OAuth2 authorized device using its unique ID.
+   *
+   * Args:
+   *     device_id: The ID of the OAuth2 authorized device to get.
+   *     auth_context: The current auth context.
+   *
+   * Returns:
+   *     A specific OAuth2 authorized device object.
+   *
+   * Raises:
+   *     KeyError: If the device with the given ID does not exist or does not
+   *         belong to the current user.
+   */
+  get_authorization_device_api_v1_devices__device_id__get: {
+    parameters: {
+      path: {
+        device_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["OAuthDeviceResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Update Authorized Device
+   * @description Updates a specific OAuth2 authorized device using its unique ID.
+   *
+   * Args:
+   *     device_id: The ID of the OAuth2 authorized device to update.
+   *     update: The model containing the attributes to update.
+   *     auth_context: The current auth context.
+   *
+   * Returns:
+   *     The updated OAuth2 authorized device object.
+   *
+   * Raises:
+   *     KeyError: If the device with the given ID does not exist or does not
+   *         belong to the current user.
+   */
+  update_authorized_device_api_v1_devices__device_id__put: {
+    parameters: {
+      path: {
+        device_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["OAuthDeviceUpdateModel"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["OAuthDeviceResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete Authorized Device
+   * @description Deletes a specific OAuth2 authorized device using its unique ID.
+   *
+   * Args:
+   *     device_id: The ID of the OAuth2 authorized device to delete.
+   *     auth_context: The current auth context.
+   *
+   * Raises:
+   *     KeyError: If the device with the given ID does not exist or does not
+   *         belong to the current user.
+   */
+  delete_authorized_device_api_v1_devices__device_id__delete: {
+    parameters: {
+      path: {
+        device_id: string;
       };
     };
     responses: {
@@ -5118,10 +5745,77 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
-      /** @description Validation Error */
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
       422: {
         content: {
-          "application/json": components["schemas"]["HTTPValidationError"];
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Verify Authorized Device
+   * @description Verifies a specific OAuth2 authorized device using its unique ID.
+   *
+   * This endpoint implements the OAuth2 device authorization grant flow as
+   * defined in https://tools.ietf.org/html/rfc8628. It is called to verify
+   * the user code for a given device ID.
+   *
+   * If the user code is valid, the device is marked as verified and associated
+   * with the user that authorized the device. This association is required to
+   * be able to issue access tokens or revoke the device later on.
+   *
+   * Args:
+   *     device_id: The ID of the OAuth2 authorized device to update.
+   *     request: The model containing the verification request.
+   *     auth_context: The current auth context.
+   *
+   * Returns:
+   *     The updated OAuth2 authorized device object.
+   *
+   * Raises:
+   *     ValueError: If the device verification request fails.
+   */
+  verify_authorized_device_api_v1_devices__device_id__device_verification_put: {
+    parameters: {
+      path: {
+        device_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["OAuthDeviceVerificationRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["OAuthDeviceResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
         };
       };
     };
@@ -7304,6 +7998,41 @@ export type operations = {
     };
   };
   /**
+   * Sync Flavors
+   * @description Purge all in-built and integration flavors from the DB and sync.
+   *
+   * Returns:
+   *     None if successful. Raises an exception otherwise.
+   */
+  sync_flavors_api_v1_flavors_sync_patch: {
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
    * List Roles
    * @description Returns a list of all roles.
    *
@@ -8742,7 +9471,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": unknown;
+          "application/json": string;
         };
       };
       /** @description Unauthorized */
@@ -10564,6 +11293,7 @@ export type operations = {
         email?: string;
         active?: boolean | string;
         email_opted_in?: boolean | string;
+        external_user_id?: string;
       };
     };
     responses: {
@@ -11015,9 +11745,6 @@ export type operations = {
    *
    * Returns:
    *     The updated user.
-   *
-   * Raises:
-   *     HTTPException: If the user is not authorized to activate the user.
    */
   activate_user_api_v1_users__user_name_or_id__activate_put: {
     parameters: {

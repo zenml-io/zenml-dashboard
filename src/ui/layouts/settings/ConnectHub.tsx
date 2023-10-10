@@ -20,10 +20,11 @@ import GitHubLogo from '../../assets/GitHub_Logo.png';
 import { useAuthToken, useHubToken } from '../../hooks/auth';
 import { useLocation, useToaster } from '../../hooks';
 import { userSelectors } from '../../../redux/selectors';
+import { hubAxios } from '../../../utils/axios';
 
 export const getGitHubRedirectURL = async (): Promise<{
   authorization_url: string;
-}> => (await axios.get(`${HUB_API_URL}/auth/github/authorize`)).data;
+}> => (await hubAxios.get(`${HUB_API_URL}/auth/github/authorize`)).data;
 
 const updateTokenInServer = (
   userId: string,

@@ -1,44 +1,39 @@
+import { ServerInfo } from '../../api/types';
 import { serverInfoActionTypes } from '../actionTypes';
 
 export interface State {
-  id: string;
-  version: string;
-  deploymentType: string;
-  databaseType: string;
-  secretsStoreType: string;
-  debug: boolean;
-}
-
-interface Payload {
-  id: string;
-  version: string;
-  deployment_type: string;
-  database_type: string;
-  secrets_store_type: string;
-  debug: boolean;
+  id: ServerInfo['id'];
+  version: ServerInfo['version'];
+  deploymentType: ServerInfo['deployment_type'];
+  databaseType: ServerInfo['database_type'];
+  secretsStoreType: ServerInfo['secrets_store_type'];
+  debug: ServerInfo['debug'];
+  authScheme: ServerInfo['auth_scheme'];
 }
 
 export type Action = {
   type: string;
-  payload: Payload;
+  payload: ServerInfo;
 };
 
 export const initialState: State = {
-  databaseType: '',
-  deploymentType: '',
+  databaseType: undefined,
+  deploymentType: undefined,
   id: '',
-  secretsStoreType: '',
+  secretsStoreType: undefined,
   version: '',
   debug: false,
+  authScheme: 'OAUTH2_PASSWORD_BEARER',
 };
 
-const newState = (info: Payload): State => ({
+const newState = (info: ServerInfo): State => ({
   databaseType: info.database_type,
   deploymentType: info.deployment_type,
   id: info.id,
   secretsStoreType: info.secrets_store_type,
   version: info.version,
   debug: info.debug,
+  authScheme: info.auth_scheme,
 });
 
 export default function serverInfoReducer(
