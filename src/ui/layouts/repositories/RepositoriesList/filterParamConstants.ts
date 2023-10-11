@@ -23,23 +23,6 @@ export const searchParamConstants = [
       },
     },
   },
-
-  {
-    column: {
-      selectedValue: {
-        value: 'version',
-        label: 'Version',
-        type: 'string',
-      },
-    },
-    contains: {
-      selectedValue: {
-        value: 'contains',
-        label: 'Contains',
-        type: 'string',
-      },
-    },
-  },
 ];
 
 export const getInitialFilterStateForRepositories = () => {

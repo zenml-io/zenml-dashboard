@@ -68,6 +68,7 @@ const getTabPages = (
       path: routePaths.connectors.configuration(connectorId, selectedWorkspace),
     },
     {
+      testId: 'component_tab',
       text: 'Components',
       Component: FilterWrapper,
       path: routePaths.connectors.connectorComponents(

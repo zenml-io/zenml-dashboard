@@ -10,9 +10,11 @@ const PaginationNavigationItem = (props: {
   onClick: any;
   hasNext: boolean;
   icon: any;
+  testId?: string;
   style?: any;
 }) => (
   <div
+    data-testid={props.testId}
     style={props.style}
     role="button"
     onClick={props.onClick}
@@ -61,6 +63,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
     <FlexBox.Column alignItems="center">
       <FlexBox>
         <PaginationNavigationItem
+          testId="first-page"
           hasNext={props.pageIndex !== 0}
           onClick={() => {
             props.onChange(
@@ -76,6 +79,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
           icon={icons.paginationFirst}
         />
         <PaginationNavigationItem
+          testId="prev-page"
           hasNext={props.pageIndex !== 0}
           onClick={() => {
             props.onChange(
@@ -134,6 +138,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
             })}
         </FlexBox>
         <PaginationNavigationItem
+          testId="next-page"
           hasNext={props.pageIndex + 1 < props.totalOfPages}
           onClick={() => {
             props.onChange(
@@ -149,6 +154,7 @@ export const Pagination: React.FC<Props> = forwardRef((props, ref) => {
           icon={icons.paginationNext}
         />
         <PaginationNavigationItem
+          testId="last-page"
           hasNext={props.pageIndex + 1 < props.totalOfPages}
           onClick={() => {
             props.onChange(

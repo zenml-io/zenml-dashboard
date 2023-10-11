@@ -57,7 +57,9 @@ export const fetchApiWithAuthRequest = ({
     headers: {
       ...DEFAULT_HEADERS,
       ...headers,
-      Authorization: `Bearer ${authenticationToken}`,
+      ...(!process.env.REACT_APP_USE_COOKIE && {
+        Authorization: `Bearer ${authenticationToken}`,
+      }),
     },
   });
 };

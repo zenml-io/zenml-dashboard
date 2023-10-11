@@ -91,7 +91,7 @@ export const AuthenticatedHeader: React.FC<{
   const logout = () => {
     localStorage.removeItem('persistSelectedStack');
     dispatch(sessionActions.logout());
-
+    localStorage.setItem('logout', 'true');
     history.push('/login');
   };
 

@@ -1,0 +1,94 @@
+@import '../../../globalStyles';
+
+.verifyContainer {
+    font-size: 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    width: 100%;
+    background: linear-gradient(#433E99, #8F599D);
+}
+
+.contentBox {
+    min-width: 540px;
+    border-radius: 8px;
+    background-color: white;
+    padding: 40px;
+    display: flex;
+    flex-direction: column;
+    // align-items: center;
+    gap: 24px;
+    border: 1px solid #E5E7EB;
+
+    &__heading {
+        text-align: center;
+    }
+
+    &__subHeading {
+        color: $greyColor;
+        text-align: center;
+    }
+}
+
+.infoBox {
+    width: 100%;
+    border: 1px solid #E5E7EB;
+    border-radius: 8px;
+    padding: 24px;
+    font-family: Rubik;
+
+    & dl, & dt, & dd {
+        margin: 0;
+    }
+
+    dl {
+        display: flex;
+        flex-direction: column;
+        gap: 24px;
+    }
+
+    &__keyValuePair {
+
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+
+
+        &__key {
+            font-weight: 400;
+            color: $darkGreyColor;
+        }
+    }
+}
+
+
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+
+    &__subLabel {
+        color: $greyColor;
+    }
+
+    &__button {
+        width: 100%;
+    }
+}
+
+
+
+
+.verifySuccessContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+
+    &__icon{
+        display: flex;
+        justify-content: center;
+    }
+}

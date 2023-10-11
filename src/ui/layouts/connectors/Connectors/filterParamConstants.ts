@@ -63,7 +63,7 @@ export const getInitialFilterStateForConnectors = () => {
         },
         {
           value: 'connector_type',
-          label: 'Connector type',
+          label: 'Connector Type',
           type: 'string',
         },
         {
