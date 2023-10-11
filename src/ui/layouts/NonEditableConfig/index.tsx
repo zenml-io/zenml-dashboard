@@ -104,7 +104,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
             <label htmlFor={elementName}>{titleCase(elementName)}</label>
           </Paragraph>
 
-          {Object.keys(elementSchema).length < 1 && (
+          {Object.keys(elementSchema || {}).length < 1 && (
             <Box style={{ position: 'relative' }}>
               <div
                 style={{
@@ -192,7 +192,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
                 marginLeft: '2px',
               }}
             >
-              {Object.entries(elementSchema).map(([key, value], index) => (
+              {/* {Object.entries(elementSchema).map(([key, value], index) => (
                 <FlexBox.Row key={index}>
                   <Box
                     style={{
@@ -240,7 +240,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
                     />
                   </Box>
                 </FlexBox.Row>
-              ))}
+              ))} */}
             </div>
           </Box>
         </Box>
@@ -272,43 +272,42 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
                 marginLeft: '2px',
               }}
             >
-              {mappedObject &&
-                mappedObject[elementName]?.map((item: any, index: any) => (
-                  <Fragment key={index}>
-                    <Box
-                      style={{ display: 'flex', alignItems: 'center' }}
-                      marginTop="sm"
+              {mappedObject[elementName]?.map((item: any, index: any) => (
+                <Fragment key={index}>
+                  <Box
+                    style={{ display: 'flex', alignItems: 'center' }}
+                    marginTop="sm"
+                  >
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
                     >
-                      <div
-                        style={{
-                          marginTop: '30px',
-                          width: '15px',
-                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
-                        }}
-                      ></div>
-                      <div
-                        style={{
-                          marginTop: '30px',
-                          marginRight: '5px',
-                          marginLeft: '-2px',
-                          color: 'rgba(68, 62, 153, 0.3)',
-                        }}
-                      >
-                        &#x27A4;
-                      </div>
+                      &#x27A4;
+                    </div>
 
-                      <div className="form-group" style={{ width: '28.3vw' }}>
-                        <EditField
-                          disabled
-                          className={styles.field}
-                          label={'Value'}
-                          value={item}
-                          placeholder={''}
-                        />
-                      </div>
-                    </Box>
-                  </Fragment>
-                ))}
+                    <div className="form-group" style={{ width: '28.3vw' }}>
+                      <EditField
+                        disabled
+                        className={styles.field}
+                        label={'Value'}
+                        value={item}
+                        placeholder={''}
+                      />
+                    </div>
+                  </Box>
+                </Fragment>
+              ))}
             </div>
             <div className="submit-button"></div>
             <br />
@@ -367,9 +366,10 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     ...result,
     ...details?.configuration,
   };
+  console.log(mappedObject, flavor?.config_schema?.properties, 'asdasda123123');
 
   return (
-    <FlexBox.Column marginTop="xl" fullWidth>
+    <FlexBox.Column marginTop="xl" fullWidth marginBottom="20xl">
       <FlexBox.Row flexDirection="column">
         <Box style={{ width: '30vw' }}>
           <EditField
@@ -394,9 +394,9 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       <FlexBox.Row flexDirection="column">
         <Box style={{ width: '80%' }}>
           {Object.keys(mappedObject).map((key, index) => (
-            <Fragment key={index}>
+            <React.Fragment key={index}>
               {getFormElement(key, mappedObject[key])}
-            </Fragment>
+            </React.Fragment>
           ))}
         </Box>
       </FlexBox.Row>

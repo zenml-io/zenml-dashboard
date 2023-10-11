@@ -34,6 +34,7 @@ export const Form: React.FC = () => {
     <Box marginTop="xxl">
       <Box marginBottom="lg">
         <FormTextField
+          data-testid="username"
           label={translate('form.username.label')}
           labelColor="#ffffff"
           placeholder={translate('form.username.placeholder')}
@@ -47,6 +48,7 @@ export const Form: React.FC = () => {
       </Box>
       <Box marginBottom="xxl">
         <FormPasswordField
+          data-testid="password"
           label={translate('form.password.label')}
           labelColor="#ffffff"
           placeholder={translate('form.password.placeholder')}
@@ -61,6 +63,7 @@ export const Form: React.FC = () => {
         loading={loading}
         disabled={BUTTON_DISABLED || loading}
         onClick={submit}
+        data-testid="login-button"
       >
         {translate('form.button.text')}
       </PrimaryButton>

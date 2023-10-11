@@ -13,23 +13,20 @@ import { translate } from './translate';
 import { InvitePopup } from './InvitePopup';
 import { useService } from './useService';
 import { rolesActions } from '../../../../redux/actions/roles';
-import { sessionSelectors } from '../../../../redux/selectors';
-import jwt_decode from 'jwt-decode';
+import { userSelectors } from '../../../../redux/selectors';
 import AddUserBox from './UserBox/AddUserBox';
 import UserBox from './UserBox/UserBox';
 import { PasswordPopup } from '../PasswordPopup';
+import { getUniquePermissions } from '../permissions';
 
 export const Organization: React.FC = () => {
   const dispatch = useDispatch();
 
-  const authToken = useSelector(sessionSelectors.authenticationToken);
-  if (authToken) {
-    var decoded: any = jwt_decode(authToken as any);
-  }
   // eslint-disable-next-line
   const [fetchingMembers, setFetchingMembers] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);
+  const loggedinUser = useSelector(userSelectors.myUser);
   const [user, setUser] = useState<any>({});
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
@@ -77,7 +74,9 @@ export const Organization: React.FC = () => {
           </FlexBox.Row>
 
           <Row>
-            {decoded.permissions.includes('write') && (
+            {getUniquePermissions(loggedinUser || undefined).includes(
+              'write',
+            ) && (
               <div onClick={() => setPopupOpen(true)}>
                 <AddUserBox />
               </div>
@@ -86,7 +85,9 @@ export const Organization: React.FC = () => {
               <UserBox
                 key={index}
                 data={e}
-                permission={decoded.permissions.includes('write')}
+                permission={getUniquePermissions(
+                  loggedinUser || undefined,
+                ).includes('write')}
                 setShowPasswordUpdate={setShowPasswordPopup}
                 setUser={setUser}
               />

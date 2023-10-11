@@ -10,6 +10,7 @@ export const Logout = () => {
   useEffect(() => {
     localStorage.removeItem('persistSelectedStack');
     dispatch(sessionActions.logout());
+    localStorage.setItem('logout', 'true');
   });
 
   return null;

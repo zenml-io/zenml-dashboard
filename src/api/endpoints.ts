@@ -1,5 +1,6 @@
 export const endpoints = {
   login: '/login',
+  logout: '/logout',
   signup: (username: string): string => `/users/${username}/activate`,
   userEmail: (userId: string): string => `/users/${userId}/email-opt-in`,
   forgot: '/login/email/resetpassword',
@@ -9,6 +10,10 @@ export const endpoints = {
     me: '/current-user',
     get: (id: TId): string => `/users/${id}`,
     updateUser: (username: string): string => `/users/${username}`,
+  },
+  devices: {
+    getDetails: (id: TId): string => `/devices/${id}`,
+    verify: (id: TId): string => `/devices/${id}/verify`,
   },
   organizations: {
     my: '/organizations/',

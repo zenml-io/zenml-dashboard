@@ -11,6 +11,13 @@ export function getDeploymentType(state?: any) {
   return serverInfoState.deploymentType || '';
 }
 
+export function getAuthScheme(state: any) {
+  if (!state) return;
+  const authScheme = getServerInfoState(state) || {};
+  return authScheme.authScheme || '';
+}
+
 export const serverInfoSelectors = {
   getDeploymentType,
+  getAuthScheme,
 };

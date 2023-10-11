@@ -59,6 +59,7 @@ const GreyBoxWithIcon: React.FC<{
 }> = ({ title, buttonText, IconComponent, onClick }) => {
   return (
     <FlexBox.Row
+      data-testid="dashboard-element"
       marginVertical="md"
       className={styles.greyBoxWithIcon}
       padding="md"
@@ -98,6 +99,9 @@ export const DashBoard: React.FC = () => {
   const [fetching, setFetching] = useState(false);
   const [dashboardData, setDashboardData] = useState('');
   const authToken = useSelector(sessionSelectors.authenticationToken);
+  const isCookieAuthenticated = useSelector(
+    sessionSelectors.isCookieAuthenticated,
+  );
 
   const startLoad = () => {
     dispatch(pipelinePagesActions.setFetching({ fetching: true }));
@@ -110,7 +114,41 @@ export const DashBoard: React.FC = () => {
   };
 
   const url = window.location.pathname;
+  const getDashboardData = async () => {
+    setFetching(true);
+    startLoad();
 
+    try {
+      const workspaceFromUrl = locationPath.split('/')[2];
+      const { data } = await axios.get(
+        `${process.env.REACT_APP_BASE_API_URL}/workspaces/${
+          workspaceFromUrl !== selectedWorkspace
+            ? workspaceFromUrl
+            : selectedWorkspace
+        }/statistics`,
+        { headers: { Authorization: `bearer ${authToken}` } },
+      );
+
+      setDashboardData(data);
+      setFetching(false);
+    } catch (e) {
+      dispatch(
+        showToasterAction({
+          description: 'Not found',
+          type: toasterTypes.failure,
+        }),
+      );
+
+      await dispatch(
+        workspacesActions.getMy({
+          selectDefault: false,
+          selectedWorkspace: DEFAULT_WORKSPACE_NAME,
+          onSuccess: () => setNotFound(true),
+          onFailure: () => stopLoad(),
+        }),
+      );
+    }
+  };
   useEffect(() => {
     if (url === '/') {
       push(
@@ -128,48 +166,20 @@ export const DashBoard: React.FC = () => {
         ),
       );
     }
-    if (authToken) {
+    if (!!authToken || isCookieAuthenticated) {
       dispatch(rolesActions.getRoles({}));
       dispatch(organizationActions.getMembers({}));
 
-      const getDashboardData = async () => {
-        setFetching(true);
-        startLoad();
-
-        try {
-          const workspaceFromUrl = locationPath.split('/')[2];
-          const { data } = await axios.get(
-            `${process.env.REACT_APP_BASE_API_URL}/workspaces/${
-              workspaceFromUrl !== selectedWorkspace
-                ? workspaceFromUrl
-                : selectedWorkspace
-            }/statistics`,
-            { headers: { Authorization: `bearer ${authToken}` } },
-          );
-
-          setDashboardData(data);
-          setFetching(false);
-        } catch (e) {
-          dispatch(
-            showToasterAction({
-              description: 'Not found',
-              type: toasterTypes.failure,
-            }),
-          );
-
-          await dispatch(
-            workspacesActions.getMy({
-              selectDefault: false,
-              selectedWorkspace: DEFAULT_WORKSPACE_NAME,
-              onSuccess: () => setNotFound(true),
-              onFailure: () => stopLoad(),
-            }),
-          );
-        }
-      };
-      getDashboardData();
+      // ;
     }
   }, [authToken, selectedWorkspace]);
+
+  useEffect(() => {
+    if (selectedWorkspace) {
+      getDashboardData();
+    }
+    // console.log(selectedWorkspace, 'selectedWorkspaceselectedWorkspace');
+  }, [selectedWorkspace]);
 
   const preData = Object.entries(dashboardData);
   const data = preData?.map(([key, value]) => {

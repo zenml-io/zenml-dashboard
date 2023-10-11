@@ -44,6 +44,12 @@ const workspacesReducer = (
   action: Action,
 ): State => {
   switch (action.type) {
+    case workspaceActionTypes.updateSelectedWorkspace: {
+      return {
+        ...state,
+        selectedWorkspace: action.payload.workspace,
+      };
+    }
     case workspaceActionTypes.getMyWorkspaces.success: {
       const workspaces: Workspace[] = camelCaseArray(action.payload.items);
 

@@ -22,6 +22,7 @@ export const FullWidthSpinner: React.FC<{
   color: Colors;
 }> = ({ size, color }) => (
   <FlexBox
+    data-testid="loader"
     fullWidth
     justifyContent="center"
     alignItems="center"

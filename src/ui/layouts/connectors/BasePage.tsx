@@ -4,7 +4,7 @@ import { AppRoute } from '../../../routes';
 import { Box, FlexBox, IfElse } from '../../components';
 import { AuthenticatedLayout } from '../common/layouts/AuthenticatedLayout';
 import { SidebarContainer } from '../common/layouts/SidebarContainer';
-import { Tabs } from '../common/Tabs';
+import { TabsRuns } from '../common/Tabs';
 import Header from './Header';
 import Connectors from './Connectors';
 import { useSelector } from 'react-redux';
@@ -63,13 +63,14 @@ export const BasePage: React.FC<{
 
           <Box>
             {children}
-            {tabPages.length >= 1 && singleTab ? (
-              <Tabs pages={tabPages} basePath={tabBasePath} />
+            {tabPages.length > 1 ? (
+              <TabsRuns pages={tabPages} basePath={tabBasePath} />
             ) : (
               <>
                 <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
                 <FlexBox marginBottom="xxl">
                   <Redirect exact from={tabBasePath} to={tabPages[0].path} />
+
                   {tabPages.map((page, index) => (
                     <AppRoute
                       key={index}

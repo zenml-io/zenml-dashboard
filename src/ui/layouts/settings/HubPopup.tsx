@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import axios from 'axios';
 import {
   Box,
   FlexBox,
@@ -12,6 +11,7 @@ import { Popup } from '../common/Popup';
 import { HUB_API_URL } from '../../../api/constants';
 import { useToaster } from '../../hooks';
 import { useHubToken } from '../../hooks/auth';
+import { hubAxios } from '../../../utils/axios';
 
 export const HubPopup: React.FC<{
   description: string;
@@ -29,7 +29,7 @@ export const HubPopup: React.FC<{
     setLoading(true);
 
     try {
-      await axios.patch(
+      await hubAxios.patch(
         `${HUB_API_URL}/users/me`,
         { [payloadKey]: payloadValue },
         { headers: { Authorization: `Bearer ${hubToken}` } },

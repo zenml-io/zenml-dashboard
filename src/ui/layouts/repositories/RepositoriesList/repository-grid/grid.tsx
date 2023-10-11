@@ -18,7 +18,7 @@ function RepositoryGrid({ repositories }: RepositoryListProps) {
       </div>
     );
   return (
-    <div className={styles.repositoryList}>
+    <div className={styles.repositoryList} data-testid="repository_card">
       {repositories.map((repo) => (
         <RepositoryCard repository={repo} key={repo.id} />
       ))}

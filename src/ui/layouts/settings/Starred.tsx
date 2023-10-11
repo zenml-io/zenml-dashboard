@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import axios from 'axios';
 import { selectedWorkspace } from '../../../redux/selectors';
 import { routePaths } from '../../../routes/routePaths';
 import { Box, FlexBox, FullWidthSpinner, Paragraph } from '../../components';
@@ -9,11 +8,12 @@ import { HUB_API_URL } from '../../../api/constants';
 import { useHubToken } from '../../hooks/auth';
 import { useHistory } from 'react-router';
 import { EmptyState } from '../common/EmptyState';
+import { hubAxios } from '../../../utils/axios';
 import { Plugin } from '../plugins/pluginsTypes';
 
 const getData = async (token: string) => {
   return (
-    await axios.get(`${HUB_API_URL}/plugins?starred_by_me=true`, {
+    await hubAxios.get(`${HUB_API_URL}/plugins?starred_by_me=true`, {
       headers: { Authorization: `Bearer ${token}` },
     })
   ).data as Plugin[];

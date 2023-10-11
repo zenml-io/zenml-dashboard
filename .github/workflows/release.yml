@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - "*"
+      - '*'
 
 jobs:
   release:
@@ -26,19 +26,20 @@ jobs:
           yarn install
           yarn build
         env:
-          REACT_APP_HUB_API_URL: "https://hubapi.zenml.io"
-          REACT_APP_BASE_API_URL: "/api/v1"
+          REACT_APP_HUB_API_URL: 'https://hubapi.zenml.io'
+          REACT_APP_BASE_API_URL: '/api/v1'
           REACT_APP_MOCKAPI_RESPONSE: false
+          REACT_APP_USE_COOKIE: 'true'
           REACT_APP_VERSION: ${{ steps.get_version.outputs.VERSION }}
       - name: Generate Changelog
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          pullRequests: "false"
-          onlyLastTag: "true"
-          stripGeneratorNotice: "true"
-          issuesWoLabels: "true"
-          stripHeaders: "true"
+          pullRequests: 'false'
+          onlyLastTag: 'true'
+          stripGeneratorNotice: 'true'
+          issuesWoLabels: 'true'
+          stripHeaders: 'true'
       - name: Create release archive
         run: |
           tar -zcf zenml-dashboard.tar.gz -C build --transform="s#\.\/##" .
@@ -50,6 +51,6 @@ jobs:
             zenml-dashboard.tar.gz
             zenml-dashboard.tar.gz.sha256
           body_path: ./CHANGELOG.md
-          prerelease: "true"
+          prerelease: 'true'
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
