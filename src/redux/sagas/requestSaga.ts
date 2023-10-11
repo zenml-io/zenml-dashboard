@@ -2,7 +2,7 @@ import { take, put, call, select, fork } from 'redux-saga/effects';
 import { getTranslateByScope } from '../../services/i18n';
 import { toasterTypes } from '../../constants/toast';
 import { sessionActions } from '../actions/session';
-import { sessionSelectors } from '../selectors';
+import { serverInfoSelectors, sessionSelectors } from '../selectors';
 import { showToasterAction } from '../actions';
 import { httpStatus } from '../../constants';
 import { actionTypesHandledByRequestSaga } from './actionTypesHandledByRequestSaga';
@@ -24,8 +24,13 @@ const isUnauthenticatedError = (e: any, action: any) => {
 
 function* logoutAndNotifyUserThatSessionExpired(): any {
   localStorage.removeItem('persistSelectedStack');
+  const authScheme = yield select(serverInfoSelectors.getAuthScheme);
+
   yield put(sessionActions.logout());
 
+  if (authScheme === 'EXTERNAL' && !localStorage.getItem('logout')) {
+    return;
+  }
   yield put(
     showToasterAction({
       description: translate(''),

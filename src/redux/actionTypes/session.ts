@@ -26,3 +26,5 @@ export const authoriseHubActionTypes = generateApiActionsTypes(
 export const disconnectHubActionTypes = generateApiActionsTypes(
   actionTypes.DISCONNECT_HUB,
 );
+
+export const loginWithCookie = actionTypes.LOGIN_WITH_COOKIE;

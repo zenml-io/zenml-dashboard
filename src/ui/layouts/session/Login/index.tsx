@@ -26,14 +26,20 @@ import {
   showToasterAction,
   stackComponentsActions,
   userActions,
+  serverInfoActions,
 } from '../../../../redux/actions';
 import { DEFAULT_WORKSPACE_NAME, toasterTypes } from '../../../../constants';
-import { workspaceSelectors } from '../../../../redux/selectors';
+import {
+  serverInfoSelectors,
+  workspaceSelectors,
+} from '../../../../redux/selectors';
+import { OauthHandler } from './OauthHandler';
 const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const dispatch = useDispatch();
   const password = process.env.REACT_APP_PASSWORD;
   const username = process.env.REACT_APP_USERNAME;
+  const authScheme = useSelector(serverInfoSelectors.getAuthScheme);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const { push } = usePushRoute();
 
@@ -90,6 +96,12 @@ const Login: React.FC = () => {
       }),
     );
   };
+
+  useEffect(() => {
+    dispatch(serverInfoActions.getServerInfo({}));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
   useEffect(() => {
     if (process.env.REACT_APP_DEMO_SETUP === 'true') {
       setLoading(true);
@@ -130,7 +142,7 @@ const Login: React.FC = () => {
                 </H2>
               </Box>
             </Box>
-            <Form />
+            {authScheme === 'EXTERNAL' ? <OauthHandler /> : <Form />}
           </FlexBox.Column>
         </Box>
       </Container>

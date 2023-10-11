@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import moment from 'moment';
 
 import {
@@ -26,6 +25,7 @@ import { useHubToken, useHubUser } from '../../../hooks/auth';
 import { PluginsLayout } from '../shared/Layout';
 import { getTagOptions } from '../api';
 import { debounce } from 'lodash';
+import { hubAxios } from '../../../../utils/axios';
 import { MyFallbackComponent } from '../../../components/FallbackComponent';
 import { ErrorBoundary } from 'react-error-boundary';
 
@@ -320,7 +320,7 @@ const CreatePlugin: React.FC = () => {
                   onClick={() => {
                     setCreatingPlugin(true);
 
-                    axios
+                    hubAxios
                       .post(
                         `${HUB_API_URL}/plugins`,
                         {

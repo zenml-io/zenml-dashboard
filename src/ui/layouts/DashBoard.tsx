@@ -99,6 +99,9 @@ export const DashBoard: React.FC = () => {
   const [fetching, setFetching] = useState(false);
   const [dashboardData, setDashboardData] = useState('');
   const authToken = useSelector(sessionSelectors.authenticationToken);
+  const isCookieAuthenticated = useSelector(
+    sessionSelectors.isCookieAuthenticated,
+  );
 
   const startLoad = () => {
     dispatch(pipelinePagesActions.setFetching({ fetching: true }));
@@ -163,7 +166,7 @@ export const DashBoard: React.FC = () => {
         ),
       );
     }
-    if (authToken) {
+    if (!!authToken || isCookieAuthenticated) {
       dispatch(rolesActions.getRoles({}));
       dispatch(organizationActions.getMembers({}));
 

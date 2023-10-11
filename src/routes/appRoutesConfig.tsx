@@ -50,6 +50,8 @@ import RepositoriesList from '../ui/layouts/repositories/RepositoriesList';
 import CreateRepository from '../ui/layouts/repositories/RepositoryCreate';
 import RepositoryDetail from '../ui/layouts/repositories/RepositoryDetail';
 
+import VerifyDevicesPage from '../ui/layouts/devices/verify/page';
+
 import { Logout } from '../ui/components/Logout';
 import DisplayPluginLogs from '../ui/layouts/plugins/DisplayLogs';
 
@@ -93,6 +95,14 @@ const routes = [
   {
     path: routePaths.home,
     Component: Home,
+    visibility: {
+      authentication: RouteVisibilityAuthentication.authenticatedOnly,
+    },
+    exact: true,
+  },
+  {
+    path: routePaths.devices.verify,
+    Component: VerifyDevicesPage,
     visibility: {
       authentication: RouteVisibilityAuthentication.authenticatedOnly,
     },
