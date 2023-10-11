@@ -10,6 +10,10 @@ jobs:
   cypress:
     runs-on: ubuntu-latest
 
+    env:
+      USERNAME: ${{ secrets.USERNAME }}
+      PASSWORD: ${{ secrets.PASSWORD }}
+
     steps:
       - name: Check out code
         uses: actions/checkout@v2
@@ -29,9 +33,15 @@ jobs:
         run: |
           sed -i 's/baseUrl: .*/baseUrl: "https:\/\/deploy-preview-${{ env.PR_NUMBER }}--zenml-ui-staging.netlify.app",/' cypress.config.ts
 
-      - name: Run Cypress tests
-        run: npx cypress run
-        continue-on-error: true
+      - name: Run e2e tests
+        run: |
+          export USERNAME=$USERNAME
+          export PASSWORD=$PASSWORD 
+          npx cypress run
+
+      # - name: Run Cypress tests
+      #   run: npx cypress run
+      #   continue-on-error: true
 
       - name: Check Cypress exit code
         run: |
