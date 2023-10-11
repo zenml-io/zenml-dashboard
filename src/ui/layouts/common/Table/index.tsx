@@ -15,6 +15,7 @@ import { Link } from 'react-router-dom';
 export interface HeaderCol {
   render?: () => JSX.Element;
   width: number | string;
+  testId?: string;
   renderRow: (arg: any) => JSX.Element;
 }
 
@@ -187,6 +188,7 @@ export const Table: React.FC<TableProps> = ({
                     <tr style={{ backgroundColor: '#F5F3F9' }}>
                       {columns.map(({ ref, text }, i) => (
                         <th
+                          data-column={text.testId}
                           ref={ref}
                           className={styles.tableHeadingTh}
                           style={{

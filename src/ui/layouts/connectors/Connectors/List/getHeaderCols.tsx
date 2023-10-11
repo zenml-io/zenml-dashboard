@@ -73,6 +73,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'Id',
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
@@ -116,6 +117,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'Name',
       width: '20%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
@@ -151,6 +153,7 @@ export const GetHeaderCols = ({
           </Box>
         </SortingHeader>
       ),
+      testId: 'connector_type',
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
@@ -197,6 +200,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'resource_types',
       width: '10%',
       renderRow: (connector: any) => {
         const filteredResourceTypes: Array<any> = connector?.connectorType?.resource_types?.filter(
@@ -312,6 +316,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'resource_id',
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
@@ -345,6 +350,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'Authentication',
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
@@ -378,6 +384,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'Author',
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
@@ -420,6 +427,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'created_at',
       width: '10%',
       renderRow: (connector: any) => (
         <>
@@ -462,6 +470,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'Shared',
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">

@@ -72,6 +72,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'Id',
       width: '20%',
       renderRow: (secret: any) => (
         <FlexBox alignItems="center">
@@ -113,6 +114,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'Name',
       width: '30%',
       renderRow: (secret: any) => (
         <FlexBox alignItems="center">
@@ -146,6 +148,7 @@ export const GetHeaderCols = ({
           </Box>
         </SortingHeader>
       ),
+      testId: 'Scope',
       width: '15%',
       renderRow: (secret: any) => (
         <FlexBox alignItems="center">
@@ -178,6 +181,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'Author',
       width: '15%',
       renderRow: (secret: any) => {
         return (
@@ -241,6 +245,7 @@ export const GetHeaderCols = ({
           </Paragraph>
         </SortingHeader>
       ),
+      testId: 'created_at',
       width: '20%',
       renderRow: (secret: any) => (
         <FlexBox alignItems="center">

@@ -198,7 +198,11 @@ export const TabsRuns: React.FC<{ pages: TabPage[]; basePath: string }> = ({
                         isActive ? styles.activeItem : '',
                       )}
                     >
-                      <Link className={styles.linkRuns} to={page.path}>
+                      <Link
+                        className={styles.linkRuns}
+                        to={page.path}
+                        data-testid={page.testId}
+                      >
                         <IfElse
                           condition={isActive}
                           renderWhenFalse={() => (

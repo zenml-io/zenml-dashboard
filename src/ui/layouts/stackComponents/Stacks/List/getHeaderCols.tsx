@@ -78,6 +78,7 @@ export const GetHeaderCols = ({
           <HeaderText text="ID" margin="25px" />
         </SortingHeader>
       ),
+      testId: 'Id',
       width: '20%',
       renderRow: (stackComponent: StackComponent) => (
         <FlexBox alignItems="center">
@@ -117,6 +118,7 @@ export const GetHeaderCols = ({
           <HeaderText text="NAME" />
         </SortingHeader>
       ),
+      testId: 'Name',
       width: '30%',
       renderRow: (stackComponent: StackComponent) => (
         <FlexBox alignItems="center">
@@ -148,6 +150,7 @@ export const GetHeaderCols = ({
           </div>
         </SortingHeader>
       ),
+      testId: 'Flavor',
       width: '10%',
       renderRow: (stackComponent: any) => (
         <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
@@ -191,6 +194,7 @@ export const GetHeaderCols = ({
           </div>
         </SortingHeader>
       ),
+      testId: 'Shared',
       width: '10%',
       renderRow: (stackComponent: StackComponent) => (
         <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
@@ -239,6 +243,7 @@ export const GetHeaderCols = ({
           <HeaderText text="AUTHOR" />
         </SortingHeader>
       ),
+      testId: 'Author',
       width: '10%',
       renderRow: (stackComponent: StackComponent) => {
         return (
@@ -300,6 +305,7 @@ export const GetHeaderCols = ({
           <HeaderText text="CREATED AT" />
         </SortingHeader>
       ),
+      testId: 'created_at',
       width: '20%',
       renderRow: (stackComponent: StackComponent) => (
         <FlexBox alignItems="center">
