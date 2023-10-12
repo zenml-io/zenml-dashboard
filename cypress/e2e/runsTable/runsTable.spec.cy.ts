@@ -70,7 +70,7 @@ describe('FilterComponent E2E Tests', () => {
     // Add more assertions as needed
   });
 
-  it.only('should display runDetail', () => {
+  it('should display runDetail', () => {
     cy.waitForLoaderToDisappear();
     cy.get('table').should('exist');
 

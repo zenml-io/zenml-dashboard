@@ -12,7 +12,7 @@ describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
     login();
     cy.waitUntilDashboardIsLoaded();
-    cy.wait(500);
+    cy.wait(1000);
     cy.get('[id="stack"]').click(); // Replace with your custom wait command
   });
 
