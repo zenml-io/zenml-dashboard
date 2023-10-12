@@ -33,13 +33,15 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it('should work with valid value', () => {
-    search('asd2');
+    const emptyText = 'We are sorry';
+    search('asd2', emptyText);
   });
 
   it('should apply filters where string', () => {
     const columnList = ['ID', 'Name'];
+    const emptyText = 'We are sorry';
     columnList.forEach((col) => {
-      filterByString(col);
+      filterByString(col, emptyText);
     });
     filterByBoolean();
   });
@@ -52,6 +54,7 @@ describe('FilterComponent E2E Tests', () => {
 
   it('should display stackDetails', () => {
     // cy.wait(5000);
+    cy.waitForLoaderToDisappear();
     cy.get('table').should('exist');
 
     // Select the first row within the table (modify the selector as needed)
@@ -61,6 +64,7 @@ describe('FilterComponent E2E Tests', () => {
     cy.get('table tbody tr:eq(4)').click({ force: true });
 
     cy.get('[data-testid="run_tab"]').click();
+    cy.waitForLoaderToDisappear();
     cy.get('table').should('exist');
     cy.wait(5000);
     // Select the first row within the table (modify the selector as needed)

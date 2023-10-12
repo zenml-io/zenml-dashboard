@@ -10,7 +10,7 @@ describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
     login();
     cy.waitUntilDashboardIsLoaded();
-    cy.wait(500);
+    cy.wait(1000);
     cy.get('[id="connector"]').click(); // Replace with your custom wait command
   });
 
@@ -77,6 +77,7 @@ describe('FilterComponent E2E Tests', () => {
   });
   it("should display connector's component", () => {
     // cy.wait(5000);
+    cy.waitForLoaderToDisappear();
     cy.get('table').should('exist');
 
     // Select the first row within the table (modify the selector as needed)
@@ -84,6 +85,7 @@ describe('FilterComponent E2E Tests', () => {
 
     cy.get('[data-testid="component_tab"]').click();
     // cy.get('table').should('exist');
+    cy.waitForLoaderToDisappear();
 
     // cy.get('table').should('exist');
     const columnList = ['ID', 'Name', 'Flavor'];

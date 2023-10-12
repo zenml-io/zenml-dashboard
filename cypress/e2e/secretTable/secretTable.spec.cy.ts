@@ -28,13 +28,15 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it('should work with valid value', () => {
-    search('asd2');
+    const emptyText = 'We are sorry';
+    search('asd2', emptyText);
   });
 
   it('should apply filters where string', () => {
+    const emptyText = 'We are sorry';
     const columnList = ['ID', 'Name', 'Scope'];
     columnList.forEach((col) => {
-      filterByString(col);
+      filterByString(col, emptyText);
     });
   });
   it('should navigate through pagination', () => {
