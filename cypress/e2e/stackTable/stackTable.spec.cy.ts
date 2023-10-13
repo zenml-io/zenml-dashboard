@@ -78,13 +78,14 @@ describe('FilterComponent E2E Tests', () => {
   it("should display Stacks's runs", () => {
     // cy.wait(5000);
     cy.waitForLoaderToDisappear();
-    cy.get('table').should('exist');
+    cy.checkTableAndH4Visibility('Nothing to see here');
 
     // Select the first row within the table (modify the selector as needed)
     cy.get('table tbody tr:eq(4)').click({ force: true });
-
     cy.get('[data-testid="run_tab"]').click();
-    cy.get('table').should('exist');
+    cy.waitForLoaderToDisappear();
+    cy.checkTableAndH4Visibility('No runs');
+
     cy.waitForLoaderToDisappear();
     const columnList = ['Run ID', 'Run Name'];
     const emptyText = 'No runs';

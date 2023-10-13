@@ -55,6 +55,7 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it('should apply filters where string', () => {
+    cy.waitForLoaderToDisappear();
     const columnList = ['Run ID', 'Run Name'];
     const emptyText = 'We are sorry';
     columnList.forEach((col) => {
