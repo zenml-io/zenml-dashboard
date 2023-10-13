@@ -1,5 +1,3 @@
-import { apiCall } from '../utils/apiCallUtils';
-
 import { filterByStatus } from '../utils/filterByStatusUtils';
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
@@ -9,7 +7,7 @@ describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
     login();
     cy.waitUntilDashboardIsLoaded();
-    apiCall();
+    cy.wait(1000);
     cy.get('[id="repositories"]').click();
 
     // Replace with your custom wait command
@@ -69,10 +67,7 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it("should display respository's runs", () => {
-    // cy.wait(5000);
     cy.waitForLoaderToDisappear();
-    //   cy.get('table').should('exist');
-
     // Select the first row within the table (modify the selector as needed)
     cy.get('[data-testid="repository_card"]')
       .first() // Select the first element with the data-testid
