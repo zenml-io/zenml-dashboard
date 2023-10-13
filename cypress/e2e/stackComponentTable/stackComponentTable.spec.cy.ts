@@ -55,7 +55,7 @@ describe('FilterComponent E2E Tests', () => {
     columnList.forEach((col) => {
       filterByString(col, emptyText);
     });
-    filterByBoolean();
+    filterByBoolean(emptyText);
   });
   it('should navigate through pagination', () => {
     cy.waitForLoaderToDisappear();
@@ -82,6 +82,6 @@ describe('FilterComponent E2E Tests', () => {
     columnList.forEach((col) => {
       filterByString(col, emptyText);
     });
-    filterByBoolean();
+    filterByBoolean(emptyText);
   });
 });

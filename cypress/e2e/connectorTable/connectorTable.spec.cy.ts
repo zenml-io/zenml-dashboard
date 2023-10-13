@@ -67,7 +67,7 @@ describe('FilterComponent E2E Tests', () => {
     columnList.forEach((col) => {
       filterByString(col, emptyText);
     });
-    filterByBoolean();
+    filterByBoolean(emptyText);
   });
   it('should navigate through pagination', () => {
     // Assuming you have a button or link for next and previous pagination
@@ -93,6 +93,6 @@ describe('FilterComponent E2E Tests', () => {
     columnList.forEach((col) => {
       filterByString(col, emptyText);
     });
-    filterByBoolean();
+    filterByBoolean(emptyText);
   });
 });
