@@ -12,7 +12,7 @@ describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
     login();
     cy.waitUntilDashboardIsLoaded();
-    cy.wait(700);
+    cy.wait(1000);
     // apiCall();
     cy.get('[id="runs"]').click();
   });
@@ -50,10 +50,12 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it('should work with valid value', () => {
-    search('pipeline');
+    const emptyText = 'We are sorry';
+    search('pipeline', emptyText);
   });
 
   it('should apply filters where string', () => {
+    cy.waitForLoaderToDisappear();
     const columnList = ['Run ID', 'Run Name'];
     const emptyText = 'We are sorry';
     columnList.forEach((col) => {
@@ -62,6 +64,7 @@ describe('FilterComponent E2E Tests', () => {
     filterByStatus();
   });
   it('should navigate through pagination', () => {
+    cy.waitForLoaderToDisappear();
     // Assuming you have a button or link for next and previous pagination
     // You can click these buttons to navigate through pages
     pagination(); // Click the "Previous" button
@@ -77,6 +80,7 @@ describe('FilterComponent E2E Tests', () => {
 
     // Click on the first row
     cy.get('table tbody tr:first').click({ force: true });
+    cy.waitForLoaderToDisappear();
     dag();
   });
 });
