@@ -11,7 +11,7 @@
   </h3>
   
   <p align="center">
-    Manage and visualize your ML pipelines, stacks and artifacts in one place.
+    Manage and visualize your ML pipelines, stacks and artefacts in one place.
     <br />
     <a href="https://docs.zenml.io/"><strong>Explore the docs »</strong></a>
     <br />
@@ -144,11 +144,11 @@ You can deploy this dashboard on supported cloud providers with ZenML python pac
 zenml deploy
 ```
 
-The above command deploys the dashboard in the [same process as the ZenML Server](https://docs.zenml.io/user-guide/starter-guide/switch-to-production), and automates a lot of the nitty gritties for you.
+The above command deploys the dashboard in the [same process as the ZenML Server](https://docs.zenml.io/user-guide/starter-guide/switch-to-production) and automates a lot of the nitty-gritty for you.
 
 However, the option to deploy standalone is also available. `yarn build` creates a build directory with a production build of the dashboard. Set up your favorite HTTP server so that a visitor to your site is served index.html. Here are [8 ways to deploy a React app for free](https://blog.logrocket.com/8-ways-deploy-react-app-free/) as a starting point.
 
-Just don't forget to the set the `REACT_APP_BASE_API_URL` environment variable!
+Just don't forget to set the `REACT_APP_BASE_API_URL` environment variable!
 
 # 🏄 User Experience
 
@@ -166,7 +166,7 @@ Just don't forget to the set the `REACT_APP_BASE_API_URL` environment variable!
 
 # 🙌 Contributing
 
-We would love to develop ZenML together with our community! Best way to get
+We would love to develop ZenML together with our community! The best way to get
 started is to select any issue from the [`good-first-issue`
 label](https://github.com/zenml-io/zenml-dashboard/labels/good%20first%20issue).
 
@@ -178,7 +178,7 @@ Guide](CONTRIBUTING.md) for all relevant details.
 ![Meet the Team](./assets/community_meetup.png)
 
 Every week, the ZenML [core team](https://zenml.io/company#CompanyTeam) will pop in for 30 minutes to interact directly with the community.
-Sometimes we'll be presenting a feature, other times we'll take questions and have fun.
+Sometimes, we'll be presenting a feature; other times, we'll take questions and have fun.
 
 [Register now](https://zenml.io/meet) for the ZenML Meet the Community session. It's free and open to everyone.
 
