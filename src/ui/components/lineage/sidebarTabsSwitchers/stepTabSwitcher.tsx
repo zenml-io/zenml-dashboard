@@ -202,7 +202,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   </tr>
                   <tr>
                     <td className="td_key">Status</td>
-                    {node.status && node.status === 'completed' ? (
+                    {node.body.status && node.body.status === 'completed' ? (
                       <>
                         <td className="td_value">
                           <FlexBox style={{ marginLeft: '5px', gap: '10px' }}>
@@ -213,8 +213,8 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                                 fontWeight: 'bold',
                               }}
                             >
-                              {node.status.charAt(0).toUpperCase() +
-                                node.status.slice(1)}
+                              {node.body.status.charAt(0).toUpperCase() +
+                                node.body.status.slice(1)}
                             </Paragraph>
                             {/* eslint-disable-next-line */}
                             <Status_Completed />
@@ -223,20 +223,20 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                         &nbsp;&nbsp;&nbsp;
                       </>
                     ) : (
-                      <td className="td_value">{node.status}</td>
+                      <td className="td_value">{node.body.status}</td>
                     )}
                   </tr>
                   <tr>
                     <td className="td_key">Cache key</td>
-                    <td className="td_value">{node?.cache_key}</td>
+                    <td className="td_value">{node?.metadata.cache_key}</td>
                   </tr>
-                  {node?.original_step_run_id && (
+                  {node?.metadata.original_step_run_id && (
                     <tr>
                       <td className="td_key">
                         (If cached) ID of original step
                       </td>
                       <td className="td_value">
-                        {node?.original_step_run_id || 'n/a'}
+                        {node?.metadta.original_step_run_id || 'n/a'}
                       </td>
                     </tr>
                   )}
@@ -244,22 +244,22 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                     <td className="td_key">Start time</td>
                     <td className="td_value">
                       {' '}
-                      {formatDateToDisplayOnTable(node?.created)}
+                      {formatDateToDisplayOnTable(node?.metadata.start_time)}
                     </td>
                   </tr>
                   <tr>
                     <td className="td_key">End time</td>
                     <td className="td_value">
-                      {formatDateToDisplayOnTable(node?.end_time)}
+                      {formatDateToDisplayOnTable(node?.metadata.end_time)}
                     </td>
                   </tr>
                   <tr>
-                    {node.config.enable_artifact_metadata &&
-                    node.config.enable_artifact_metadata ? (
+                    {node.metadata.config.enable_artifact_metadata &&
+                    node.metadata.config.enable_artifact_metadata ? (
                       <>
                         <td className="td_key">enable_artifact_metadata</td>
                         <td className="td_value">
-                          {node?.config.enable_artifact_metadata}
+                          {node?.metadata.config.enable_artifact_metadata}
                         </td>
                       </>
                     ) : (
@@ -278,7 +278,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                 language="python"
                 style={okaidia}
               >
-                {node.source_code ? node.source_code : ''}
+                {node.metadata.source_code ? node.metadata.source_code : ''}
               </SyntaxHighlighter>
             </div>
           )}
@@ -311,7 +311,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   <tr>
                     <td className="td_key">Caching</td>
                     <td className="td_value">
-                      {node?.config?.enable_cache ? (
+                      {node?.metadata.config?.enable_cache ? (
                         <>Enabled</>
                       ) : (
                         <>Disabled</>
@@ -321,7 +321,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   <tr>
                     <td className="td_key">Artifact Metadata</td>
                     <td className="td_value">
-                      {node?.config?.enable_artifact_metadata ? (
+                      {node?.metadata.config?.enable_artifact_metadata ? (
                         <>Enabled</>
                       ) : (
                         <>Disabled</>
@@ -331,7 +331,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   <tr>
                     <td className="td_key">Artifact Visualization</td>
                     <td className="td_value">
-                      {node?.config?.enable_artifact_visualization ? (
+                      {node?.metadata.config?.enable_artifact_visualization ? (
                         <>Enabled</>
                       ) : (
                         <>Disabled</>
@@ -341,9 +341,10 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   <tr>
                     <td className="td_key">Failure Hook Source</td>
                     <td className="td_value">
-                      {node?.config?.failure_hook_source ? (
+                      {node?.metadata.config?.failure_hook_source ? (
                         <div style={{ marginLeft: '1px' }}>Enabled</div>
-                      ) : node?.config?.failure_hook_source === null ? (
+                      ) : node?.metadata.config?.failure_hook_source ===
+                        null ? (
                         <div style={{ marginLeft: '1px' }}>Not Set</div>
                       ) : (
                         <div style={{ marginLeft: '1px' }}>Disabled</div>
@@ -353,9 +354,10 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   <tr>
                     <td className="td_key">Success Hook Source</td>
                     <td className="td_value">
-                      {node?.config?.success_hook_source ? (
+                      {node?.metadata.config?.success_hook_source ? (
                         <div style={{ marginLeft: '1px' }}>Enabled</div>
-                      ) : node?.config?.success_hook_source === null ? (
+                      ) : node?.metadata.config?.success_hook_source ===
+                        null ? (
                         <div style={{ marginLeft: '1px' }}>Not Set</div>
                       ) : (
                         <div style={{ marginLeft: '1px' }}>Disabled</div>
@@ -365,22 +367,25 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   <tr>
                     <ConfigBox
                       name="Settings"
-                      config={node?.config?.settings}
+                      config={node?.metadata.config?.settings}
                     />
                   </tr>
                   <tr>
-                    <ConfigBox name="Extra" config={node?.config?.extra} />
+                    <ConfigBox
+                      name="Extra"
+                      config={node?.metadata.config?.extra}
+                    />
                   </tr>
                   <tr>
                     <ConfigBox
                       name="Parameters"
-                      config={node?.config?.parameters}
+                      config={node?.metadata.config?.parameters}
                     />
                   </tr>
                   <tr>
                     <ConfigBox
                       name="Caching Parameters"
-                      config={node?.config?.caching_parameters}
+                      config={node?.metadata.config?.caching_parameters}
                     />
                   </tr>
                   <tr>
@@ -405,13 +410,15 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                     </div>
                   )}
 
-                  {Object.entries(node?.metadata).length >= 0 &&
-                    Object.entries(node?.metadata)?.map((e: any) => (
-                      <tr>
-                        <td className="td_key">{e[1]?.key}</td>
-                        <td className="td_value">{e[1]?.value}</td>
-                      </tr>
-                    ))}
+                  {Object.entries(node?.metadata.run_metadata).length >= 0 &&
+                    Object.entries(node?.metadata.run_metadata)?.map(
+                      (e: any) => (
+                        <tr>
+                          <td className="td_key">{e[1]?.key}</td>
+                          <td className="td_value">{e[1]?.value}</td>
+                        </tr>
+                      ),
+                    )}
                 </tbody>
               </table>
             </>
