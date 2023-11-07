@@ -366,7 +366,6 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     ...result,
     ...details?.configuration,
   };
-  console.log(mappedObject, flavor?.config_schema?.properties, 'asdasda123123');
 
   return (
     <FlexBox.Column marginTop="xl" fullWidth marginBottom="20xl">

@@ -158,7 +158,7 @@ export const GetHeaderCols = ({
       testId: 'Version',
       width: '10%',
       renderRow: (pipeline: Pipeline) => (
-        <Paragraph size="small">{pipeline?.version}</Paragraph>
+        <Paragraph size="small">{/* {pipeline?.version} */}</Paragraph>
       ),
     },
     {
@@ -188,29 +188,31 @@ export const GetHeaderCols = ({
             <div
               data-tip
               data-for={
-                pipeline?.user?.full_name
-                  ? pipeline?.user?.full_name
-                  : pipeline?.user?.name
+                pipeline?.body?.user?.name
+                // ? pipeline?.body?.user?.name
+                // : pipeline?.body?.user?.name
               }
             >
               <FlexBox alignItems="center">
                 <Paragraph size="small">
-                  {pipeline?.user?.full_name
-                    ? pipeline?.user?.full_name
-                    : pipeline?.user?.name}
+                  {
+                    pipeline?.body?.user?.name
+                    // ? pipeline?.body?.user?.name
+                    // : pipeline?.body?.user?.name
+                  }
                 </Paragraph>
               </FlexBox>
             </div>
             <Tooltip
               id={
-                pipeline?.user?.full_name
-                  ? pipeline?.user?.full_name
-                  : pipeline?.user?.name
+                pipeline?.body?.user?.name
+                // ? pipeline?.body?.user?.name
+                // : pipeline?.body?.user?.name
               }
               text={
-                pipeline?.user?.full_name
-                  ? pipeline?.user?.full_name
-                  : pipeline?.user?.name
+                pipeline?.body?.user?.name
+                // ? pipeline?.body?.user?.name
+                // : pipeline?.body?.user?.name
               }
             />
           </FlexBox>
@@ -228,13 +230,15 @@ export const GetHeaderCols = ({
             asc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(
                 filteredPipelines,
-                (pipeline: Pipeline) => new Date(pipeline.created).getTime(),
+                (pipeline: Pipeline) =>
+                  new Date(pipeline.body.created as string).getTime(),
                 ['asc'],
               ),
             desc: (filteredPipelines: Pipeline[]) =>
               _.orderBy(
                 filteredPipelines,
-                (pipeline: Pipeline) => new Date(pipeline.created).getTime(),
+                (pipeline: Pipeline) =>
+                  new Date(pipeline.body.created as string).getTime(),
                 ['desc'],
               ),
           })}
@@ -248,16 +252,19 @@ export const GetHeaderCols = ({
       width: '20%',
       renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToDisplayOnTable(pipeline.created)}>
+          <div
+            data-tip
+            data-for={formatDateToDisplayOnTable(pipeline.body.created)}
+          >
             <FlexBox alignItems="center">
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(pipeline.created)}
+                {formatDateToDisplayOnTable(pipeline.body.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <Tooltip
-            id={formatDateToDisplayOnTable(pipeline.created)}
-            text={formatDateToDisplayOnTable(pipeline.created)}
+            id={formatDateToDisplayOnTable(pipeline.body.created)}
+            text={formatDateToDisplayOnTable(pipeline.body.created)}
           />
         </FlexBox>
       ),

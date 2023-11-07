@@ -94,7 +94,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
                         <CustomFlavourBox
                           flavourDesc={item?.configSchema?.description}
                           flavourName={item?.name}
-                          logoUrl={item?.logoUrl}
+                          logoUrl={item?.body.logo_url}
                           onSelectFlavor={() => onSelectFlavor(item)}
                         />
                       </Box>

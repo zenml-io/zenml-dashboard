@@ -178,7 +178,6 @@ export const DashBoard: React.FC = () => {
     if (selectedWorkspace) {
       getDashboardData();
     }
-    // console.log(selectedWorkspace, 'selectedWorkspaceselectedWorkspace');
   }, [selectedWorkspace]);
 
   const preData = Object.entries(dashboardData);

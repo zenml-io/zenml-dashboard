@@ -117,29 +117,35 @@ export const StackDetail: React.FC = () => {
   if (Object.keys(stack).length === 0) {
     return <FullWidthSpinner color="black" size="md" />;
   }
+
   if (flavourList?.length > 1) {
     for (const [key] of Object.entries(
-      stack.components as Record<string, StackComponent[]>,
+      stack?.metadata?.components as Record<string, StackComponent[]>,
     )) {
-      const { logo_url }: any = flavourList.find(
+      const { body }: any = flavourList.find(
         (fl: Flavor) =>
           fl.name ===
-            (stack.components as Record<string, StackComponent[]>)[key][0]
-              ?.flavor &&
-          fl.type ===
-            (stack.components as Record<string, StackComponent[]>)[key][0]
-              ?.type,
+            (stack?.metadata?.components as Record<string, StackComponent[]>)[
+              key
+            ][0]?.body.flavor &&
+          fl.body.type ===
+            (stack?.metadata?.components as Record<string, StackComponent[]>)[
+              key
+            ][0]?.body.type,
       );
 
       nestedRowtiles.push({
-        ...((stack.components as Record<string, StackComponent[]>)[
+        ...((stack?.metadata?.components as Record<string, StackComponent[]>)[
           key
         ][0] as StackComponent),
         type: key,
-        name: (stack.components as Record<string, StackComponent[]>)[key][0]
-          ?.name,
-        id: (stack.components as Record<string, StackComponent[]>)[key][0]?.id,
-        logo: logo_url,
+        name: (stack?.metadata?.components as Record<string, StackComponent[]>)[
+          key
+        ][0]?.name,
+        id: (stack?.metadata?.components as Record<string, StackComponent[]>)[
+          key
+        ][0]?.id,
+        logo: body.logo_url,
       });
     }
   }

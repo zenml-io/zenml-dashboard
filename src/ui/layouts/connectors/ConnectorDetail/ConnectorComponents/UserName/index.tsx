@@ -21,7 +21,7 @@ export const UserName: React.FC<{ connector: ServiceConnector }> = ({
     return <Spinner size="xs" color="black" />;
   }
 
-  const userFullName = user.full_name || DEFAULT_FULL_NAME;
+  const userFullName = user.name || DEFAULT_FULL_NAME;
   const initials = getInitials(userFullName);
 
   return (

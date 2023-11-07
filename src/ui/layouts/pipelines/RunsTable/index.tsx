@@ -80,7 +80,7 @@ export const RunsTable: React.FC<{
         routePaths.run.pipeline.statistics(
           selectedWorkspace,
           run.id,
-          run.pipeline?.id as string,
+          run.body.pipeline?.id as string,
         ),
       );
     }

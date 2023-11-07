@@ -20,7 +20,7 @@ export const useService = ({
   const [fetching, setFetching] = useState<boolean>(false);
 
   const user = useSelector(
-    userSelectors.userForId(connector.user?.id as string),
+    userSelectors.userForId(connector.body.user?.id as string),
   );
 
   useEffect(() => {

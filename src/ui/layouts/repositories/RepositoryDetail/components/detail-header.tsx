@@ -13,7 +13,7 @@ function RepositoryDetailHeader({ repository }: RepositoryDetailHeaderProps) {
   return (
     <div className={styles.detailHeader}>
       <img
-        src={repository?.logo_url || Fallback}
+        src={repository?.body.logo_url || Fallback}
         alt={`Logo for repository ${repository?.name}`}
         className={styles.detailHeader__imageContainer}
       ></img>
@@ -22,26 +22,26 @@ function RepositoryDetailHeader({ repository }: RepositoryDetailHeaderProps) {
           {repository?.name}
         </h1>
         <p className={styles.detailHeader__header__timestamp}>
-          Published {moment(repository?.created).fromNow()}
+          Published {moment(repository?.body.created).fromNow()}
         </p>
         <div className={styles.detailHeader__footer}>
           <p className={styles.detailHeader__header__timestamp}>
-            {repository?.user?.name}
+            {repository?.body.user?.name}
           </p>
           <a
             target="_blank"
             rel="noopener noreferrer"
             onClick={(e) => e.stopPropagation()}
             href={`https://www.${
-              repository?.source?.attribute === 'GitHubCodeRepository'
+              repository?.body.source?.attribute === 'GitHubCodeRepository'
                 ? 'github'
                 : 'gitlab'
-            }.com/${repository?.config?.owner}/${
-              repository?.config?.repository
+            }.com/${repository?.metadata?.config?.owner}/${
+              repository?.metadata?.config?.repository
             }`}
             className={styles.detailHeader__footer__link}
           >
-            {repository?.source?.attribute === 'GitHubCodeRepository'
+            {repository?.body.source?.attribute === 'GitHubCodeRepository'
               ? 'Github'
               : 'Gitlab'}{' '}
             <ArrowSquareOut

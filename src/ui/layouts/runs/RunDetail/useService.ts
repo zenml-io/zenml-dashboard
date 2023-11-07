@@ -50,7 +50,7 @@ export const useService = (): ServiceInterface => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted, setIsMounted]);
   useEffect(() => {
-    if (run.status === 'running') {
+    if (run.body.status === 'running') {
       const intervalId = setInterval(() => {
         dispatch(
           runsActions.runForId({

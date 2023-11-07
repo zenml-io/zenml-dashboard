@@ -127,7 +127,7 @@ export const Configuration: React.FC<{
             className={styles.field}
           />
         </Box>
-        <Box marginTop="lg">
+        {/* <Box marginTop="lg">
           <ToggleField
             name="Share Component with public"
             value={stack.isShared}
@@ -135,7 +135,7 @@ export const Configuration: React.FC<{
             label="Share Component with public"
             disabled={true}
           />
-        </Box>
+        </Box> */}
       </FlexBox.Row>
       <Box margin="md">
         <Row>

@@ -67,7 +67,7 @@ export const RunsTable: React.FC<{
         routePaths.run.stack.statistics(
           selectedWorkspace,
           run.id,
-          run.stack?.id as string,
+          run.body.stack?.id as string,
         ),
       );
     }

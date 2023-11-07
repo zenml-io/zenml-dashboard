@@ -156,7 +156,7 @@ export const GetHeaderCols = ({
         <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
           <div
             data-tip
-            data-for={stackComponent?.flavor?.name || stackComponent?.flavor}
+            data-for={stackComponent?.flavor?.name}
             style={{ margin: ' 0 auto 0 auto' }}
           >
             <img
@@ -169,7 +169,7 @@ export const GetHeaderCols = ({
             />
           </div>
           <Tooltip
-            id={stackComponent?.flavor?.name || stackComponent?.flavor}
+            id={stackComponent?.flavor?.name}
             text={stackComponent?.flavor?.name}
           />
         </FlexBox>
@@ -200,12 +200,12 @@ export const GetHeaderCols = ({
         <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
           <div
             data-tip
-            data-for={stackComponent.is_shared}
+            data-for={stackComponent.body.is_shared}
             style={{ margin: '0 auto 0 auto' }}
           >
             <Box>
               <FlexBox justifyContent="center">
-                {stackComponent.is_shared ? (
+                {stackComponent.body.is_shared ? (
                   <icons.multiUser
                     color={iconColors.white}
                     size={iconSizes.md}
@@ -220,8 +220,8 @@ export const GetHeaderCols = ({
             </Box>
           </div>
           <Tooltip
-            id={stackComponent.is_shared ? 'true' : 'false'}
-            text={stackComponent.is_shared ? 'true' : 'false'}
+            id={stackComponent.body.is_shared ? 'true' : 'false'}
+            text={stackComponent.body.is_shared ? 'true' : 'false'}
           />
         </FlexBox>
       ),
@@ -248,33 +248,16 @@ export const GetHeaderCols = ({
       renderRow: (stackComponent: StackComponent) => {
         return (
           <FlexBox alignItems="center">
-            <div
-              data-tip
-              data-for={
-                stackComponent?.user?.full_name
-                  ? stackComponent.user.full_name
-                  : stackComponent?.user?.name
-              }
-            >
+            <div data-tip data-for={stackComponent?.body.user?.name}>
               <FlexBox alignItems="center">
                 <Paragraph size="small">
-                  {stackComponent?.user?.full_name
-                    ? stackComponent.user.full_name
-                    : stackComponent?.user?.name}
+                  {stackComponent?.body.user?.name}
                 </Paragraph>
               </FlexBox>
             </div>
             <Tooltip
-              id={
-                stackComponent?.user?.full_name
-                  ? stackComponent?.user?.full_name
-                  : stackComponent?.user?.name
-              }
-              text={
-                stackComponent?.user?.full_name
-                  ? stackComponent?.user?.full_name
-                  : stackComponent?.user?.name
-              }
+              id={stackComponent?.body.user?.name}
+              text={stackComponent?.body.user?.name}
             />
           </FlexBox>
         );
@@ -289,13 +272,15 @@ export const GetHeaderCols = ({
             asc: (filteredStacks: StackComponent[]) =>
               _.orderBy(
                 filteredStacks,
-                (stack: StackComponent) => new Date(stack.created).getTime(),
+                (stack: StackComponent) =>
+                  new Date(stack.body.created as string).getTime(),
                 ['asc'],
               ),
             desc: (filteredStacks: StackComponent[]) =>
               _.orderBy(
                 filteredStacks,
-                (stack: StackComponent) => new Date(stack.created).getTime(),
+                (stack: StackComponent) =>
+                  new Date(stack.body.created as string).getTime(),
                 ['desc'],
               ),
           })}
@@ -309,16 +294,19 @@ export const GetHeaderCols = ({
       width: '20%',
       renderRow: (stackComponent: StackComponent) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(stackComponent.created)}>
+          <div
+            data-tip
+            data-for={formatDateToSort(stackComponent.body.created as string)}
+          >
             <FlexBox alignItems="center">
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(stackComponent.created)}
+                {formatDateToDisplayOnTable(stackComponent.body.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <Tooltip
-            id={formatDateToSort(stackComponent.created)}
-            text={formatDateToDisplayOnTable(stackComponent.created)}
+            id={formatDateToSort(stackComponent.body.created as string)}
+            text={formatDateToDisplayOnTable(stackComponent.body.created)}
           />
         </FlexBox>
       ),

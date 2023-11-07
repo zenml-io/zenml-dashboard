@@ -82,7 +82,7 @@ export const AuthenticatedHeader: React.FC<{
 
   if (!user) return null;
 
-  const userFullName = user.full_name || user.name || DEFAULT_FULL_NAME;
+  const userFullName = user.name || DEFAULT_FULL_NAME;
   const userInitials = getInitials(userFullName);
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,

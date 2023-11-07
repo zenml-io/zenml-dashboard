@@ -26,33 +26,40 @@ export const Configuration: React.FC<{ pipelineId: TId }> = ({
     edgeArr = [...arr, ...edgeArr];
   }
 
-  let edgeMap = pipeline.spec.steps.map((item: any, index: number) => {
-    if (Array.isArray(item.upstream_steps) && item.upstream_steps.length > 1) {
-      upstremArrHandler(item);
-    }
+  let edgeMap = pipeline.metadata?.spec.steps.map(
+    (item: any, index: number) => {
+      if (
+        Array.isArray(item.upstream_steps) &&
+        item.upstream_steps.length > 1
+      ) {
+        upstremArrHandler(item);
+      }
 
-    return {
-      id: item.pipeline_parameter_name + Math.floor(Math.random() * 100),
-      target:
-        item.source.attribute !== undefined
-          ? item.source.attribute
-          : item.source,
-      source:
-        item.upstream_steps.length > 0
-          ? item.upstream_steps[0]
-          : item.upstream_steps[index],
-    };
-  });
-
-  const edge = [...edgeArr, ...edgeMap];
-
-  const node = pipeline.spec.steps.map((item: any, index: number) => ({
-    id: item.source.attribute,
-    type: 'step',
-    data: {
-      pipeline_parameter_name: item.pipeline_parameter_name,
+      return {
+        id: item.pipeline_parameter_name + Math.floor(Math.random() * 100),
+        target:
+          item.source.attribute !== undefined
+            ? item.source.attribute
+            : item.source,
+        source:
+          item.upstream_steps.length > 0
+            ? item.upstream_steps[0]
+            : item.upstream_steps[index],
+      };
     },
-  }));
+  );
+
+  const edge = [...edgeArr, ...(edgeMap || [])];
+
+  const node = pipeline.metadata?.spec.steps.map(
+    (item: any, index: number) => ({
+      id: item.source.attribute,
+      type: 'step',
+      data: {
+        pipeline_parameter_name: item.pipeline_parameter_name,
+      },
+    }),
+  );
 
   const graph = {
     edge,

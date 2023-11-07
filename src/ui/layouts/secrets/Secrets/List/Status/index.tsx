@@ -19,14 +19,14 @@ export const Status: React.FC<{ stack: TStack }> = ({ stack }) => {
       {lastThreeRuns.map((run: Run, index: number) => (
         <Box key={index} paddingHorizontal="xs">
           <>
-            <If condition={run.status === runStatus.Succeeded}>
+            <If condition={run.body.status === runStatus.Succeeded}>
               {() => (
                 <ColoredCircle color="green" size="xs">
                   <icons.check color={iconColors.white} size={iconSizes.xs} />
                 </ColoredCircle>
               )}
             </If>
-            <If condition={run.status === runStatus.Failed}>
+            <If condition={run.body.status === runStatus.Failed}>
               {() => (
                 <ColoredCircle color="red" size="xs">
                   <icons.close color={iconColors.white} size={iconSizes.xs} />

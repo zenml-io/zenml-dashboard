@@ -52,7 +52,7 @@ export const useService = (): ServiceInterface => {
   }, [isMounted, setIsMounted]);
 
   useEffect(() => {
-    if (run.status === 'running') {
+    if (run.body.status === 'running') {
       const intervalId = setInterval(() => {
         dispatch(
           runsActions.runForId({
