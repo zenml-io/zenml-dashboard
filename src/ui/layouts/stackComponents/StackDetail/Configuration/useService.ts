@@ -7,7 +7,7 @@ import { Flavor, StackComponent } from '../../../../../api/types';
 
 interface ServiceInterface {
   stackComponent: StackComponent;
-  flavor: Flavor;
+  // flavor: Flavor;
 }
 
 export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
@@ -15,9 +15,9 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
     stackComponentSelectors.stackComponentForId(stackId),
   );
 
-  const flavors = useSelector(flavorSelectors.myFlavorsAll);
+  // const flavor = useSelector(flavorSelectors.flavorForId(flavorId));
 
-  const flavor = flavors[0];
+  // const flavor = flavors[0];
 
-  return { stackComponent, flavor };
+  return { stackComponent };
 };

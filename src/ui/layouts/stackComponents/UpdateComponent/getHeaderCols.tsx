@@ -118,7 +118,7 @@ export const GetHeaderCols = ({
               <div
                 style={{ margin: '0 auto 0 auto' }}
                 data-tip
-                data-for={stack.body.is_shared}
+                data-for={stack?.body?.is_shared}
               >
                 <Box>
                   <FlexBox

@@ -86,9 +86,9 @@ export const CreateComponent: React.FC<{
       let setDefaultData = {};
       let setInputObjectType: any = [];
       let setInputArrayType: any = [];
-      initForm(flavor.configSchema.properties);
-      Object.keys(flavor.configSchema.properties).map((key, ind) => {
-        const data = flavor.configSchema.properties[key];
+      initForm(flavor.metadata.config_schema.properties);
+      Object.keys(flavor.metadata.config_schema.properties).map((key, ind) => {
+        const data = flavor.metadata.config_schema.properties[key];
         if (data.default && (data.type === 'string' || data.type === 'integer'))
           setDefaultData = {
             ...setDefaultData,
@@ -100,9 +100,9 @@ export const CreateComponent: React.FC<{
             [toSnakeCase(data.title)]: [...data.default, ''],
           };
         } else if (
-          flavor.configSchema.properties[key]?.additionalProperties &&
-          flavor.configSchema.properties[key]?.additionalProperties?.type !==
-            'string'
+          flavor.metadata.config_schema.properties[key]?.additionalProperties &&
+          flavor.metadata.config_schema.properties[key]?.additionalProperties
+            ?.type !== 'string'
         ) {
           setDefaultData = {
             ...setDefaultData,
@@ -112,13 +112,14 @@ export const CreateComponent: React.FC<{
         return null;
       });
 
-      Object.keys(flavor.configSchema.properties).map((key, ind) => {
-        const data = flavor.configSchema.properties[key];
+      Object.keys(flavor.metadata.config_schema.properties).map((key, ind) => {
+        const data = flavor.metadata.config_schema.properties[key];
         if (data.type === 'object') {
           if (
-            flavor.configSchema.properties[key]?.additionalProperties &&
-            flavor.configSchema.properties[key]?.additionalProperties?.type ===
-              'string'
+            flavor.metadata.config_schema.properties[key]
+              ?.additionalProperties &&
+            flavor.metadata.config_schema.properties[key]?.additionalProperties
+              ?.type === 'string'
           ) {
             setInputObjectType.push({
               [key]: [{ key: '', value: '' }],
@@ -456,7 +457,7 @@ export const CreateComponent: React.FC<{
             !connectorResourceId && (
               <Box marginTop="lg">
                 <MakeSecretField
-                  required={flavor?.configSchema?.required?.includes(
+                  required={flavor?.metadata.config_schema?.required?.includes(
                     elementName,
                   )}
                   label={titleCase(props.name) + ' (Secret)'}
@@ -557,7 +558,9 @@ export const CreateComponent: React.FC<{
                 connectorResourceId &&
                 elementName === flavor.connectorResourceIdAttr
               }
-              required={flavor?.configSchema?.required?.includes(elementName)}
+              required={flavor?.metadata.config_schema?.required?.includes(
+                elementName,
+              )}
               inputData={inputData}
               default={
                 inputData[props.name]
@@ -708,10 +711,12 @@ export const CreateComponent: React.FC<{
   };
 
   const onSubmit = async (values: any) => {
-    const requiredField = flavor?.configSchema?.required?.filter(
+    const requiredField = flavor?.metadata.config_schema?.required?.filter(
       (item: any) => inputData[item],
     );
-    if (requiredField?.length !== flavor?.configSchema?.required?.length) {
+    if (
+      requiredField?.length !== flavor?.metadata.config_schema?.required?.length
+    ) {
       dispatch(
         showToasterAction({
           description: 'Required Field is Empty',
@@ -829,7 +834,7 @@ export const CreateComponent: React.FC<{
       workspace: id,
       is_shared: isShared,
       name: componentName,
-      type: flavor.type,
+      type: flavor.body.type,
       flavor: flavor.name,
       configuration: { ...inputData, ...final, ...inputArrayFields },
     };
@@ -859,7 +864,7 @@ export const CreateComponent: React.FC<{
 
         history.push(
           routePaths.stackComponents.configuration(
-            flavor.type,
+            flavor.body.type,
             id,
             selectedWorkspace,
           ),
@@ -943,11 +948,16 @@ export const CreateComponent: React.FC<{
           )}
 
           <Form enableReinitialize initialValues={formData} onSubmit={onSubmit}>
-            {Object.keys(flavor.configSchema.properties).map((key, ind) => (
-              <div key={key}>
-                {getFormElement(key, flavor.configSchema.properties[key])}
-              </div>
-            ))}
+            {Object.keys(flavor.metadata.config_schema.properties).map(
+              (key, ind) => (
+                <div key={key}>
+                  {getFormElement(
+                    key,
+                    flavor.metadata.config_schema.properties[key],
+                  )}
+                </div>
+              ),
+            )}
           </Form>
         </Box>
 

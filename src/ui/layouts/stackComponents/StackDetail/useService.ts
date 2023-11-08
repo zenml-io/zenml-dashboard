@@ -24,6 +24,7 @@ interface ServiceInterface {
   id: TId;
   flavor: any;
   loading: any;
+  flavorList: any[];
   serviceConnectorResources?: any;
 }
 
@@ -31,7 +32,8 @@ export const useService = (): ServiceInterface => {
   const dispatch = useDispatch();
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const [fetching, setFetching] = useState(false);
-  const [flavor, setFlavor] = useState(([] as unknown) as Flavor);
+  const [flavor, setFlavor] = useState({} as Flavor);
+  const [flavorList, setFlavorList] = useState([] as Flavor[]);
   const [
     serviceConnectorResources,
     setServiceConnectorResources,
@@ -57,6 +59,7 @@ export const useService = (): ServiceInterface => {
   };
   useEffect(() => {
     setFetching(true);
+
     // Legacy: previously runs was in pipeline
     dispatch(
       stackComponentsActions.stackComponentForId({
@@ -66,11 +69,23 @@ export const useService = (): ServiceInterface => {
 
           dispatch(
             flavorsActions.getType({
-              type: res?.type,
-              name: res?.flavor,
+              type: res?.body.type,
+              name: res?.body.flavor,
               onSuccess: (res: any) => {
-                setFlavor(res.items);
-                setFetching(false);
+                setFlavorList(res.items);
+                // setFetching(false);
+
+                dispatch(
+                  flavorsActions.getById({
+                    flavorId: res.items[0].id,
+                    onSuccess: (item: any) => {
+                      setFlavor(item);
+
+                      setFetching(false);
+                    },
+                    onFailure: () => setFetching(false),
+                  }),
+                );
               },
               onFailure: () => setFetching(false),
             }),
@@ -85,6 +100,7 @@ export const useService = (): ServiceInterface => {
     stackComponent,
     id,
     flavor,
+    flavorList,
     loading: fetching,
     serviceConnectorResources,
   };

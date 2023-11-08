@@ -56,6 +56,7 @@ export const endpoints = {
   flavors: {
     all: '/flavors?sort_by=type',
     type: `/flavors`,
+    getById: (flavorId: TId): string => `/flavors/${flavorId}`,
     get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
   },
   runs: {

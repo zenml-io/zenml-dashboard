@@ -105,7 +105,7 @@ export const UpdateConfig: React.FC<{
     replaceNullWithEmptyString(stackComponent?.configuration);
     setComponentName(stackComponent?.name);
 
-    setIsShared(stackComponent?.isShared);
+    setIsShared(stackComponent?.body.is_shared);
 
     function convertJSON(json: any) {
       const convertedJSON: any = {};
@@ -281,10 +281,11 @@ export const UpdateConfig: React.FC<{
       workspace: id,
       is_shared: isShared,
       name: componentName,
-      type: stackComponent.type,
-      flavor: stackComponent.flavor,
+      type: stackComponent.body.type,
+      flavor: stackComponent.body.flavor,
       configuration: { ...mappedConfiguration, ...final },
     };
+    debugger;
     if (connector && connector !== null) {
       body.connector = connector;
       body.connector_resource_id = connectorResourceId;

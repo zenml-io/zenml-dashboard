@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useSelector } from '../../../../hooks';
+import { useDispatch, useSelector } from '../../../../hooks';
 import { useHistory } from 'react-router-dom';
 
 import { useService } from './useService';
@@ -23,12 +23,15 @@ import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
 import { callActionForFlavorsForPagination } from '../useService';
 import { SidePopup } from '../../../common/SidePopup';
 import { routePaths } from '../../../../../routes/routePaths';
+import { flavorsActions } from '../../../../../redux/actions';
+import { Flavor } from '../../../../../api/types';
 
 interface Props {
   type: string;
 }
 
 export const ListForAll: React.FC<Props> = ({ type }: Props) => {
+  const dispatch = useDispatch();
   const { dispatchFlavorsData } = callActionForFlavorsForPagination();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);
@@ -43,9 +46,18 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
     dispatchFlavorsData(1, flavorsPaginated.size, type, value);
   }
   const onSelectFlavor = (flavor: any) => {
-    setSelectedFlavor(flavor);
-    setShowModal(true);
+    dispatch(
+      flavorsActions.getById({
+        flavorId: flavor.id,
+        onSuccess: (res: Flavor) => {
+          setSelectedFlavor(res);
+          setShowModal(true);
+        },
+        onFailure: () => {},
+      }),
+    );
   };
+
   const handleSelectedFlavor = (selectedFlavor: any) => {
     setShowModal(false);
     history.push(

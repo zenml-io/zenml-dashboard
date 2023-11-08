@@ -32,18 +32,16 @@ import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
 
 import { truncate } from '../../../../../utils';
+import { Flavor } from '../../../../../api/types';
 
 export const Configuration: React.FC<{
   stackId: TId;
+  flavor: Flavor | any;
   loading?: boolean;
   serviceConnectorResources?: any;
-}> = ({ stackId, loading, serviceConnectorResources }) => {
+}> = ({ stackId, loading, serviceConnectorResources, flavor }) => {
   const locationPath = useLocationPath();
   const history = useHistory();
-
-  const { stackComponent, flavor } = useService({
-    stackId,
-  }) as any;
 
   const user = useSelector(userSelectors.myUser);
   const [componentfetching, setComponentFetching] = useState(false);
@@ -55,6 +53,14 @@ export const Configuration: React.FC<{
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
 
   const [inputFields, setInputFields] = useState([]) as any;
+  const { stackComponent } = useService({
+    stackId,
+  }) as any;
+
+  // if (loading) {
+  //   return <FullWidthSpinner color="black" size="md" />;
+  // }
+
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -208,7 +214,10 @@ export const Configuration: React.FC<{
   };
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    if (flavor?.configSchema?.properties[elementName]?.type === 'string') {
+    if (
+      flavor?.metadata?.config_schema?.properties[elementName]?.type ===
+      'string'
+    ) {
       const extracted = elementSchema.split(/\./)[0];
       const secretName = extracted.replace(/{{|}}|\./g, '').trim();
       const filteredSecret = secrets?.filter(
@@ -217,8 +226,9 @@ export const Configuration: React.FC<{
 
       return (
         <>
-          {flavor?.configSchema?.properties[elementName].sensitive ? (
-            !stackComponent.connectorResourceId && (
+          {flavor?.metadata?.config_schema?.properties[elementName]
+            .sensitive ? (
+            !stackComponent.metadata.connector_resource_id && (
               <Box marginTop="lg" style={{ width: '30vw' }}>
                 <EditField
                   disabled
@@ -239,9 +249,9 @@ export const Configuration: React.FC<{
                 />
               </Box>
             )
-          ) : flavor?.configSchema?.properties[elementName].title ===
+          ) : flavor?.metadata?.config_schema?.properties[elementName].title ===
               'Authentication Secret' &&
-            stackComponent.connectorResourceId ? null : (
+            stackComponent.metadata.connector_resource_id ? null : (
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
@@ -257,10 +267,12 @@ export const Configuration: React.FC<{
       );
     }
     if (
-      flavor?.configSchema?.properties[elementName]?.type === 'object' &&
-      flavor?.configSchema?.properties[elementName]?.additionalProperties &&
-      flavor?.configSchema?.properties[elementName]?.additionalProperties
-        .type !== 'string'
+      flavor?.metadata?.config_schema?.properties[elementName]?.type ===
+        'object' &&
+      flavor?.metadata?.config_schema?.properties[elementName]
+        ?.additionalProperties &&
+      flavor?.metadata?.config_schema?.properties[elementName]
+        ?.additionalProperties.type !== 'string'
     ) {
       return (
         <>
@@ -296,7 +308,10 @@ export const Configuration: React.FC<{
       );
     }
 
-    if (flavor?.configSchema?.properties[elementName]?.type === 'object') {
+    if (
+      flavor?.metadata?.config_schema?.properties[elementName]?.type ===
+      'object'
+    ) {
       return (
         <Box marginTop="lg" style={{ width: '30vw' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
@@ -542,7 +557,9 @@ export const Configuration: React.FC<{
       );
     }
 
-    if (flavor?.configSchema?.properties[elementName]?.type === 'array') {
+    if (
+      flavor?.metadata?.config_schema?.properties[elementName]?.type === 'array'
+    ) {
       return (
         <Box marginTop="md">
           <Paragraph size="body" style={{ color: '#000' }}>
@@ -645,6 +662,7 @@ export const Configuration: React.FC<{
       );
     }
   };
+
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
@@ -652,20 +670,18 @@ export const Configuration: React.FC<{
     return <FullWidthSpinner color="black" size="md" />;
   }
 
-  let result = Object.keys(flavor.configSchema.properties).reduce(function (
-    r: any,
-    name: any,
-  ) {
+  let result = Object.keys(
+    flavor?.metadata?.config_schema?.properties || {},
+  ).reduce(function (r: any, name: any) {
     return (
       (r[name] =
-        flavor?.configSchema?.properties[name].type === 'string' &&
-        flavor?.configSchema?.properties[name].default === undefined
+        flavor?.metadata?.config_schema?.properties[name].type === 'string' &&
+        flavor?.metadata?.config_schema?.properties[name].default === undefined
           ? ''
-          : flavor?.configSchema?.properties[name].default),
+          : flavor?.metadata?.config_schema?.properties[name].default),
       r
     );
-  },
-  {});
+  }, {});
   function replaceNullWithEmptyString(obj: any) {
     for (let prop in obj) {
       if (obj[prop] === null) {
@@ -677,11 +693,11 @@ export const Configuration: React.FC<{
     return obj;
   }
 
-  replaceNullWithEmptyString(stackComponent?.configuration);
+  replaceNullWithEmptyString(stackComponent?.metadata?.configuration);
 
   const mappedObject = {
     ...result,
-    ...stackComponent?.configuration,
+    ...stackComponent?.metadata?.configuration,
   };
 
   if (componentfetching) {
@@ -706,18 +722,18 @@ export const Configuration: React.FC<{
           </Box>
         </Container>
         <Container>
-          <Box marginTop="lg" style={{ width: '30vw' }}>
+          {/* <Box marginTop="lg" style={{ width: '30vw' }}>
             <ToggleField
-              value={stackComponent?.isShared}
+              value={stackComponent?.body.is_shared}
               onHandleChange={() =>
-                onChangeToggle(!stackComponent?.isShared, 'share')
+                onChangeToggle(!stackComponent?.body.is_shared, 'share')
               }
-              label="Share Component with public"
+              label="Share Component with spublic"
               disabled={true}
             />
-          </Box>
+          </Box> */}
         </Container>
-        {flavor.connector_resource_type && (
+        {flavor?.metadata?.connector_resource_type && (
           <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
             <Box>
               <Paragraph size="body" style={{ color: '#000' }}>

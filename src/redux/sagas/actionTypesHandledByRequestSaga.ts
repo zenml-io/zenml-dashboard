@@ -45,6 +45,7 @@ export const actionTypesHandledByRequestSaga: string[] = [
   stackActionTypes.getRunsByStackId.request,
   flavorActionTypes.getFlavorAll.request,
   flavorActionTypes.getFlavorType.request,
+  flavorActionTypes.getFlavorById.request,
   stackComponentActionTypes.getStackComponentTypes.request,
   stackComponentActionTypes.getStackComponentList.request,
   stackComponentActionTypes.getStackComponentForId.request,

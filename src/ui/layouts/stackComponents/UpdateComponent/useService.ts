@@ -64,6 +64,7 @@ export const useService = (): ServiceInterface => {
   useEffect(() => {
     setFetching(true);
     setLoading(true);
+
     // Legacy: previously runs was in pipeline
     dispatch(
       stackComponentsActions.stackComponentForId({
@@ -73,8 +74,8 @@ export const useService = (): ServiceInterface => {
 
           dispatch(
             flavorsActions.getType({
-              type: res?.type,
-              name: res?.flavor,
+              type: res?.body.type,
+              name: res?.body.flavor,
               onSuccess: (res: any) => {
                 setFlavor(res.items);
                 setFetching(false);
