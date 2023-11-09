@@ -49,7 +49,7 @@ export const ListForAll: React.FC<{
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const { flavourList } = GetFlavorsListForLogo();
   const [stackName, setStackName] = useState(stackDetails.name || '');
-  const [isShared, setIshared] = useState(stackDetails?.isShared);
+  const [isShared, setIshared] = useState(stackDetails.body.isShared);
   const [selectedStack, setSelectedStack] = useState<any>([]);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -57,16 +57,17 @@ export const ListForAll: React.FC<{
   useEffect(() => {
     if (flavourList.length) {
       const components = Object.values(
-        stackDetails.components,
+        stackDetails.metadata.components,
       ).flatMap((arr: any) => arr.flatMap((item: any) => item));
       const updatedComponentsWithLogo = components.map((item: any) => {
         const temp: any = flavourList.find(
-          (fl: any) => fl.name === item.flavor && fl.type === item.type,
+          (fl: any) =>
+            fl.name === item.body.flavor && fl.body.type === item.body.type,
         );
         if (temp) {
           return {
             ...item,
-            logoUrl: temp.logo_url,
+            logoUrl: temp.body.logo_url,
           };
         }
         return item;
@@ -94,7 +95,7 @@ export const ListForAll: React.FC<{
       );
     }
     const components = selectedStack.map((item: any) => {
-      return { [item.type]: [item.id] };
+      return { [item.body.type]: [item.id] };
     });
     var mergedObject = components.reduce((c: any, v: any) => {
       for (var k in v) {
