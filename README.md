@@ -1,140 +1,124 @@
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
-  <img referrerpolicy="no-referrer-when-downgrade" src="https://static.scarf.sh/a.png?x-pxid=24a6ae7a-e650-4f01-97db-c05083f2181c" />
-  <a href="https://zenml.io">
-    <img src="assets/zenml-dashboard-logo.gif" alt="Logo" width="400">
-  </a>
-
-  <h3 align="center">Open-source companion dashboard for
-   <a href="https://github.com/zenml-io/zenml">ZenML</a>.
-  </h3>
-  
-  <p align="center">
-    Manage and visualize your ML pipelines, stacks and artefacts in one place.
-    <br />
-    <a href="https://docs.zenml.io/"><strong>Explore the docs »</strong></a>
-    <br />
-    <div align="center">
+   <a href="https://zenml.io">
+   <img alt="ZenML Logo" src="https://raw.githubusercontent.com/zenml-io/zenml/80ca82a763d2da22bdf6558cde5e9d9bdfeafd9f/docs/book/.gitbook/assets/header.png" alt="ZenML Logo">
+   </a>
+   <h3 align="center">Open-source companion dashboard for
+      <a href="https://github.com/zenml-io/zenml">ZenML</a>.
+   </h3>
+   <h3 align="center">Build portable, production-ready MLOps pipelines.</h3>
+   <p align="center">
+   <div align="center">
       Join our <a href="https://zenml.io/slack-invite" target="_blank">
-      <img width="25" src="https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/306_Slack-512.png" alt="Slack"/>
-    <b>Slack Community</b> </a> and be part of the ZenML family.
-    </div>
-    <br />
-    <a href="https://zenml.io/features">Features</a>
-    ·
-    <a href="https://zenml.io/roadmap">Roadmap</a>
-    ·
+      <img width="18" src="https://cdn3.iconfinder.com/data/icons/logos-and-brands-adobe/512/306_Slack-512.png" alt="Slack"/>
+      <b>Slack Community</b> </a> and be part of the ZenML family.
+   </div>
+   <br />
+   <a href="https://zenml.io/features">Features</a>
+   ·
+   <a href="https://zenml.io/roadmap">Roadmap</a>
+   ·
     <a href="https://github.com/zenml-io/zenml-dashboard/issues">Report Bug</a>
-    ·
-    <a href="https://zenml.io/discussion">Vote New Features</a>
-    ·
-    <a href="https://blog.zenml.io/">Read Blog</a>
-    ·
-    <a href="#-meet-the-team">Meet the Team</a>
-    <br />
-    <br />
-    <a href="https://www.linkedin.com/company/zenml/">
-    <img src="https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555" alt="Logo">
-    </a>
-    <a href="https://twitter.com/zenml_io">
-    <img src="https://img.shields.io/badge/-Twitter-black.svg?style=for-the-badge&logo=twitter&colorB=555" alt="Logo">
-    </a>
-  </p>
+   ·
+   <a href="https://zenml.io/discussion">Vote New Features</a>
+   ·
+   <a href="https://blog.zenml.io/">Read Blog</a>
+   ·
+   <a href="https://www.zenml.io/company#team">Meet the Team</a>
+   <br />
+   <br />
+   </p>
 </div>
 
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>🏁 Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#-getting-started">⚡ Getting Started</a>
-      <ul>
-        <li><a href="#-installation">🔋 Installation</a></li>
-        <li><a href="#-relationship-with-zenml">👨‍👦 Relationship with ZenML</a></li>
-        <li><a href="#-deploying-the-dashboard">🪐 Deploying the dashboard</a></li>
-      </ul>
-    </li>
-    <li>
-    <a href="#-user-experience">🏄 User Experience</a>
-    <ul>
-        <li><a href="#-log-in">🔐 Log In</a></li>
-        <li><a href="#-home-page">🏠 Home Page</a></li>
-        <li><a href="#-pipelines-stacks-and-components">🗂 Pipelines, Stacks, and Components</a></li>
-      </ul>
-    </li>
-    <li><a href="#-contributing">🙌 Contributing</a></li>
-    <li><a href="#-meet-the-team">👩‍👩‍👧‍👦 Meet the Team</a></li>
-    <li><a href="#-getting-help">🆘 Getting Help</a></li>
-    <li><a href="#-license">📜 License</a></li>
-  </ol>
-</details>
+---
 
-<br />
 
 # ⚡ Getting Started
 
 ## 🔋 Installation
 
-The installation is as follows:
+To get started with the ZenML Dashboard, follow these steps:
 
-First, there is a pre-requisite to use [`node`](https://www.npmjs.com/) version 14.20.0 exactly. One can do this by installing the [`nvm`](https://github.com/nvm-sh/nvm) utility and then doing
+1. **Install Node.js (v18):**
+   - Ensure you have Node.js installed. You can either install version 18 directly or use [nvm (Node Version Manager)](https://github.com/nvm-sh/nvm) with the following commands:
 
-```
-nvm install 18
-nvm use 18
-```
+     ```bash
+     nvm install 18
+     nvm use 18
+     ```
 
-Users also need to have [`yarn`](https://yarnpkg.com/) installed.
+2. **Install Yarn:**
+   - The project uses Yarn as the package manager. Install it with:
 
-Then you can run it by doing:
+     ```bash
+     npm install -g yarn
+     ```
 
-```
-yarn install
-yarn start
-```
+3. **Install Dependencies:**
+   - Navigate to the project directory and install dependencies:
 
-To build it:
+     ```bash
+     yarn install
+     ```
 
-```
-yarn build
-```
+4. **Set Environment Variable:**
+   - Configure the environment variable `REACT_APP_BASE_API_URL` by replacing `<YOUR_ZENML_SERVER_DEPLOYMENT_URL>` with your ZenML Server deployment URL. Example:
 
-The app takes the following env variables:
+     ```bash
+     export REACT_APP_BASE_API_URL="https://your-zenml-server-url/api/v1"
+     ```
 
-```
-REACT_APP_BASE_API_URL="<YOUR_ZENML_SERVER_DEPOLOYMENT_URL>/api/v1"
-```
+5. **Run Development Server:**
+   - For development, run the server with:
 
-To learn how to get the `YOUR_ZENML_SERVER_DEPOLOYMENT_URL`, read the [deployment guide](https://docs.zenml.io/user-guide/starter-guide/switch-to-production).
+     ```bash
+     yarn start
+     ```
 
-Lastly, if you would like to use Docker, then the ZenML team provides [DockerHub] images to serve the ZenML Server and Dashboard in one image:
+   - Alternatively, build the project for production with:
 
-```shell
-docker run -it -d -p 8080:80 zenmldocker/zenml-server
-```
+     ```bash
+     yarn build
+     ```
 
-Which will serve the dashboard with the server at `http://localhost:8080`, with username `default` and an empty password.
+6. **Using Docker (Optional):**
+   - ZenML provides Docker images for the server and dashboard. Run the following command to serve both:
 
-## 👨‍👦 Relationship with ZenML
+     ```bash
+     docker run -it -d -p 8080:80 zenmldocker/zenml-server
+     ```
 
-The ZenML Dashboard is a Javascript React-based application that lives inside this repository, which is a sister repository of the main [ZenML Python package repo](https://github.com/zenml-io/zenml).
+   - Access the dashboard at `http://localhost:8080` with the username `default` and an empty password.
 
-> **Note** - The ZenML Dashboard is meant to be used with the ZenML Server as a backend and cannot be used standalone.
+For detailed deployment instructions and additional options, refer to the [deployment guide](https://docs.zenml.io/user-guide/starter-guide/switch-to-production).
 
-The dashboard build files come bundled into the [ZenML PyPi package](https://pypi.org/workspace/zenml/) and can be [served locally](https://docs.zenml.io/user-guide/starter-guide#explore-the-dashboard) and/or [deployed on the cloud](https://docs.zenml.io) through the main ZenML python package.
+Now you're ready to explore and visualize your ML pipelines, stacks, and artifacts with the ZenML Dashboard!
 
-Basically, each ZenML `Python` package comes with the build files (generated by `yarn build`) of a certain version of this dashboard (all build files of the dashboard can be seen in the [releases](https://github.com/zenml-io/zenml-dashboard/releases) section of this GitHub repo). Therefore, each ZenML PyPi package has bundled in it a corresponding version of this dashboard.
 
-With the `Python` package, you can then serve these static build files by doing:
+# 🤝 ZenML Dashboard Integration
 
-```
-zenml up
-```
+The ZenML Dashboard is a Javascript React-based application designed to seamlessly integrate with the main [ZenML Python package](https://github.com/zenml-io/zenml). It serves as a unified platform for managing and visualizing your ML pipelines, stacks, and artifacts in one centralized location.
 
-![img](./assets/zenml-up.gif)
+## Integration Overview
 
-Which creates a local daemon that serves the files in a [FastAPI](https://github.com/tiangolo/fastapi) server!
+The ZenML Dashboard is intricately connected with the ZenML Server as its backend and is not intended for standalone use. Here's a brief overview of how it fits into the ZenML ecosystem:
+
+- **Sister Repository:**
+  - The dashboard resides in this repository, acting as a sister repository to the main [ZenML Python package repo](https://github.com/zenml-io/zenml).
+
+- **Bundled Build Files:**
+  - The dashboard build files are bundled into the [ZenML PyPi package](https://pypi.org/workspace/zenml/) and are included with each version of the ZenML Python package. These build files, generated by `yarn build`, correspond to specific versions of the dashboard.
+
+- **Local Deployment:**
+  - Serve the static build files locally using the ZenML Python package:
+
+    ```bash
+    zenml up
+    ```
+
+    This creates a local daemon that serves the files in a [FastAPI](https://github.com/tiangolo/fastapi) server.
+
 
 ## 🪐 Deploying the dashboard
 
@@ -154,15 +138,18 @@ Just don't forget to set the `REACT_APP_BASE_API_URL` environment variable!
 
 ## 🔐 Log In
 
-![img](./assets/screenshot-login.png)
+Logging into the ZenML Dashboard is a simple process. Navigate to the login page and enter your credentials.
 
 ## 🏠 Home Page
 
-![img](./assets/screenshot-home.png)
+Once logged in, you'll be directed to the dashboard's home page. This page provides an overview of your projects, pipelines, and recent activities.
 
-## 🗂 Pipelines, Stacks and Components
+## 🗂 Pipelines, Stacks, Components and other resources
 
-![img](./assets/dashboard.gif)
+Explore your machine learning artifacts effortlessly. The dashboard offers a structured view of your pipelines, stacks, components, etc... making it easy to manage and visualize your workflows.
+
+This combination of a user-friendly interface and visualizations enhances your experience, helping you navigate and understand your machine learning processes efficiently.
+
 
 # 🙌 Contributing
 
@@ -175,22 +162,31 @@ Guide](CONTRIBUTING.md) for all relevant details.
 
 # 👩‍👩‍👧‍👦 Meet the Team
 
+Get to know the faces behind ZenML. Our dedicated team is passionate about creating tools that empower your machine learning journey.
+
 ![Meet the Team](./assets/community_meetup.png)
 
-Every week, the ZenML [core team](https://zenml.io/company#CompanyTeam) will pop in for 30 minutes to interact directly with the community.
-Sometimes, we'll be presenting a feature; other times, we'll take questions and have fun.
+Every week, the ZenML [core team](https://zenml.io/company#CompanyTeam) spends 30 minutes interacting directly with the community. This time may involve feature presentations, Q&A sessions, or just casual discussions.
 
 [Register now](https://zenml.io/meet) for the ZenML Meet the Community session. It's free and open to everyone.
 
-Or subscribe to our [public events calendar](https://calendar.google.com/calendar/u/0/r?cid=Y19iaDJ0Zm44ZzdodXBlbnBzaWplY3UwMmNjZ0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) to get notified
-before every community gathering.
+You can also subscribe to our [public events calendar](https://calendar.google.com/calendar/u/0/r?cid=Y19iaDJ0Zm44ZzdodXBlbnBzaWplY3UwMmNjZ0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) to stay informed about upcoming community gatherings.
+
+Join us and become part of the ZenML community!
+
 
 # 🆘 Getting Help
 
-By far the easiest and fastest way to get a response is to:
+Need a helping hand? We've got you covered! Getting assistance with ZenML is quick and easy.
 
-1. Ask your questions in [our Slack group](https://zenml.io/slack-invite/).
-2. [Open an issue](https://github.com/zenml-io/zenml-dashboard/issues/new/choose) on our GitHub repo.
+1. **Join our Slack Community:**
+   - Our lively Slack community is buzzing with friendly faces and helpful discussions. Drop by, ask questions, and connect with fellow enthusiasts. [Get your invite](https://zenml.io/slack-invite/).
+
+2. **Open an Issue:**
+   - Have a specific problem or found a bug? Open an issue on our [GitHub repo](https://github.com/zenml-io/zenml-dashboard/issues/new/choose). Our team and community members regularly monitor and respond.
+
+3. **Check the Documentation:**
+   - Explore our comprehensive [documentation](https://docs.zenml.io/) for in-depth guides, tutorials, and troubleshooting tips. It's a treasure trove of knowledge to empower your ZenML journey.
 
 # 📜 License
 
