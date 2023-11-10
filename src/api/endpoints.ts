@@ -20,7 +20,7 @@ export const endpoints = {
     reGenerateToken: (username: string): string =>
       `/users/${username}/deactivate`,
     invites: '/organizations/invite?status=pending',
-    members: '/users',
+    members: '/users?hydrate=true',
     membersWithRole: '/role_assignments',
     invite: '/users',
     deleteInvite: (id: string): string => `/users/${id}`,

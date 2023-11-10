@@ -37,7 +37,7 @@ export const InvitePopup: React.FC<{
   const [showTokField, setShowTokField] = useState(false);
 
   const dispatch = useDispatch();
-  const invite = useSelector(organizationSelectors.invite);
+  const invite: any = useSelector(organizationSelectors.invite);
   const roles = useSelector(rolesSelectors.getRoles);
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
@@ -68,7 +68,6 @@ export const InvitePopup: React.FC<{
             const headers = {
               Authorization: `Bearer ${authToken}`,
             };
-
             try {
               for (let index = 0; index < role.length; index++) {
                 const singleRole = role[index];
@@ -161,7 +160,7 @@ export const InvitePopup: React.FC<{
           <CopyField
             label="Invitation Link"
             labelColor="rgba(66, 66, 64, 0.5)"
-            value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.activationToken}`}
+            value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.metadata?.activation_token}`}
             showTokField={showTokField}
             disabled
           />
@@ -172,7 +171,7 @@ export const InvitePopup: React.FC<{
             <Separator.LightNew />
           </Box>
           <FlexBox justifyContent="center" flexWrap>
-            {name && role?.length > 0 && !showTokField ? (
+            {name && !showTokField ? (
               <Paragraph
                 style={{ cursor: 'pointer', color: '#443E99' }}
                 onClick={inviteNewMembers}

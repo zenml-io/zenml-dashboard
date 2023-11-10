@@ -17,6 +17,7 @@ import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { useService } from './ForSorting/useServiceForSorting';
+import { ServiceConnector } from '../../../../../api/types';
 
 export const GetHeaderCols = ({
   expendedRow,
@@ -203,9 +204,10 @@ export const GetHeaderCols = ({
       testId: 'resource_types',
       width: '10%',
       renderRow: (connector: any) => {
-        const filteredResourceTypes: Array<any> = connector?.connectorType?.resource_types?.filter(
+        const filteredResourceTypes: any = connector?.connector_type?.resource_types?.filter(
           (e: any) => {
-            if (connector.resourceTypes.includes(e.resource_type)) return e;
+            if (connector.metadata?.resource_types?.includes(e.resource_type))
+              return e;
           },
         );
 
@@ -213,7 +215,9 @@ export const GetHeaderCols = ({
           <FlexBox alignItems="center">
             {filteredResourceTypes?.slice(0, 2)?.map(
               (e: any, index: number) =>
-                connector.resourceTypes.includes(e.resource_type) && (
+                connector?.connector_type?.resource_types?.includes(
+                  e.resource_type,
+                ) && (
                   <Box key={index} marginLeft={index !== 0 ? 'sm' : null}>
                     <div data-tip data-for={e.name}>
                       <FlexBox alignItems="center">
@@ -388,12 +392,15 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.user.name}>
+          <div data-tip data-for={connector.body.user.name}>
             <Paragraph size="small" color="black">
-              {connector.user.name}
+              {connector.body.user.name}
             </Paragraph>
           </div>
-          <Tooltip id={connector.user.name} text={connector.user.name} />
+          <Tooltip
+            id={connector.body.user.name}
+            text={connector.body.user.name}
+          />
         </FlexBox>
       ),
     },

@@ -30,7 +30,7 @@ export const PersonalDetails: React.FC = () => {
   useRequestOnMount(userActions.getMy, {});
   const user = useSelector(userSelectors.myUser);
   const hubUser = useHubUser();
-  const userFullName = user?.name;
+  const userFullName = user?.metadata?.full_name;
   const userInitials = getInitials(userFullName as string);
 
   const [popupOpen, setPopupOpen] = useState(false);
@@ -42,6 +42,7 @@ export const PersonalDetails: React.FC = () => {
         payloadKey: string;
         payloadValue: string;
       });
+
   const [passwordPopupOpen, setPasswordPopupOpen] = useState(false);
   const [fullName, setFullName] = useState(userFullName ?? '');
   const [username, setUsername] = useState(user?.name ?? '');
@@ -234,13 +235,13 @@ export const PersonalDetails: React.FC = () => {
 
           <Box marginTop="lg">
             <Paragraph style={{ color: '#828282' }}>Roles</Paragraph>
-            {/* <Box style={{ display: 'inline-grid', gap: '10px' }}>
-              {user?.roles?.map((e: any) => (
+            <Box style={{ display: 'inline-grid', gap: '10px' }}>
+              {user?.metadata?.roles?.map((e: any) => (
                 <div key={e?.name} className={styles.roleBean}>
                   <p>{e?.name.charAt(0).toUpperCase() + e?.name?.slice(1)}</p>
                 </div>
               ))}
-            </Box> */}
+            </Box>
           </Box>
 
           <Box marginTop="lg">

@@ -85,9 +85,9 @@ export const Organization: React.FC = () => {
               <UserBox
                 key={index}
                 data={e}
-                // permission={getUniquePermissions(
-                //   loggedinUser || undefined,
-                // ).includes('write')}
+                permission={getUniquePermissions(
+                  loggedinUser || undefined,
+                ).includes('write')}
                 setShowPasswordUpdate={setShowPasswordPopup}
                 setUser={setUser}
               />
