@@ -47,7 +47,7 @@ config = run.config
     <FlexBox fullWidth style={{ position: 'relative' }}>
       <Box style={{ width: '100%' }}>
         <NonEditableRunConfig
-          runConfiguration={run.config}
+          runConfiguration={run.metadata.config}
         ></NonEditableRunConfig>
       </Box>
 
