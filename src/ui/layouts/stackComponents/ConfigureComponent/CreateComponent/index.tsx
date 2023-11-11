@@ -899,7 +899,7 @@ export const CreateComponent: React.FC<{
             showToasterAction({
               description: err?.response?.data?.detail[0].includes('Exists')
                 ? `Component name already exists.`
-                : err?.response?.data?.detail[0],
+                : err?.response?.data?.detail[1],
               type: toasterTypes.failure,
             }),
           );
@@ -908,7 +908,7 @@ export const CreateComponent: React.FC<{
             showToasterAction({
               description: err?.response?.data?.detail[0].includes('Exists')
                 ? `Component name already exists.`
-                : err?.response?.data?.detail[0],
+                : err?.response?.data?.detail[1],
               type: toasterTypes.failure,
             }),
           );

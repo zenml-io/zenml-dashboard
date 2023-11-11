@@ -228,7 +228,7 @@ export const Configuration: React.FC<{
         <>
           {flavor?.metadata?.config_schema?.properties[elementName]
             .sensitive ? (
-            !stackComponent.metadata.connector_resource_id && (
+            !stackComponent.metadata?.connector_resource_id && (
               <Box marginTop="lg" style={{ width: '30vw' }}>
                 <EditField
                   disabled
@@ -251,7 +251,7 @@ export const Configuration: React.FC<{
             )
           ) : flavor?.metadata?.config_schema?.properties[elementName].title ===
               'Authentication Secret' &&
-            stackComponent.metadata.connector_resource_id ? null : (
+            stackComponent.metadata?.connector_resource_id ? null : (
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
