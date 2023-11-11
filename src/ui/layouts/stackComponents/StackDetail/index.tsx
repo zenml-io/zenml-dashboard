@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import { Box, FlexBox, PrimaryButton } from '../../../components';
+import {
+  Box,
+  FlexBox,
+  FullWidthSpinner,
+  PrimaryButton,
+} from '../../../components';
 
 import { camelCaseToParagraph } from '../../../../utils';
 
@@ -206,6 +211,7 @@ export const StackDetail: React.FC = () => {
       return item;
     },
   );
+
   const headerCols = GetHeaderCols({
     mappedStackComponentWithLogo,
   });

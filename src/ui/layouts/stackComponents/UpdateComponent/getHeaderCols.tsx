@@ -118,7 +118,7 @@ export const GetHeaderCols = ({
               <div
                 style={{ margin: '0 auto 0 auto' }}
                 data-tip
-                data-for={stack?.body?.is_shared}
+                data-for={`tooltip-${String(stack.body.is_shared)}`}
               >
                 <Box>
                   <FlexBox
@@ -144,8 +144,8 @@ export const GetHeaderCols = ({
                 </Box>
               </div>
               <Tooltip
-                id={stack.body.is_shared ? 'true' : 'false'}
-                text={stack.body.is_shared ? 'true' : 'false'}
+                id={`tooltip-${String(stack.body.is_shared)}`}
+                text={stack.body.is_shared ? 'True' : 'False'}
               />
             </FlexBox>
           )}

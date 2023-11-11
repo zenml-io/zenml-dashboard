@@ -30,7 +30,7 @@ export const GetHeaderCols = ({
       width: '20%',
       renderRow: (stack: StackComponent) => (
         <>
-          {stack.id && (
+          {stack?.id && (
             <FlexBox alignItems="center">
               <div data-tip data-for={stack.id}>
                 <FlexBox.Row style={{ alignItems: 'center' }}>
@@ -40,11 +40,11 @@ export const GetHeaderCols = ({
                   />
 
                   <Paragraph size="small" style={{ marginLeft: '20px' }}>
-                    {truncate(stack.id, ID_MAX_LENGTH)}
+                    {truncate(stack?.id, ID_MAX_LENGTH)}
                   </Paragraph>
                 </FlexBox.Row>
               </div>
-              <Tooltip id={stack.id} text={stack.id} />
+              <Tooltip id={stack?.id} text={stack?.id} />
             </FlexBox>
           )}
         </>
@@ -55,14 +55,14 @@ export const GetHeaderCols = ({
       width: '30%',
       renderRow: (stack: StackComponent) => (
         <>
-          {stack.name && (
+          {stack?.name && (
             <FlexBox alignItems="center">
-              <div data-tip data-for={stack.name}>
+              <div data-tip data-for={stack?.name}>
                 <Paragraph size="small" color="black">
                   {stack.name}
                 </Paragraph>
               </div>
-              <Tooltip id={stack.name} text={stack.name} />
+              <Tooltip id={stack?.name} text={stack?.name} />
             </FlexBox>
           )}
         </>
@@ -81,12 +81,14 @@ export const GetHeaderCols = ({
             <FlexBox alignItems="center" style={{ marginLeft: '-24px' }}>
               <div
                 data-tip
-                data-for={stackComponent.flavor.name || stackComponent.flavor}
+                data-for={
+                  stackComponent?.flavor?.name || stackComponent?.flavor
+                }
                 style={{ margin: ' 0 auto 0 auto' }}
               >
                 <img
-                  alt={stackComponent.flavor.logoUrl}
-                  src={stackComponent.flavor.logoUrl}
+                  alt={stackComponent?.flavor?.logoUrl}
+                  src={stackComponent?.flavor?.logoUrl}
                   style={{
                     height: '28px',
                     width: '28px',
@@ -94,8 +96,8 @@ export const GetHeaderCols = ({
                 />
               </div>
               <Tooltip
-                id={stackComponent.flavor.name || stackComponent.flavor}
-                text={stackComponent.flavor.name}
+                id={stackComponent?.flavor?.name || stackComponent?.flavor}
+                text={stackComponent?.flavor?.name}
               />
             </FlexBox>
           )}
@@ -111,12 +113,12 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (stack: StackComponent) => (
         <>
-          {stack && (
+          {stack?.body && (
             <FlexBox alignItems="center">
               <div
                 style={{ margin: '0 auto 0 auto' }}
                 data-tip
-                data-for={stack?.body?.is_shared}
+                data-for={`tooltip-${String(stack?.body?.is_shared)}`}
               >
                 <Box>
                   <FlexBox
@@ -128,7 +130,7 @@ export const GetHeaderCols = ({
                       textAlign: 'center',
                     }}
                   >
-                    {stack.body.is_shared ? (
+                    {stack?.body?.is_shared ? (
                       <icons.multiUser
                         color={iconColors.white}
                         size={iconSizes.md}
@@ -143,8 +145,8 @@ export const GetHeaderCols = ({
                 </Box>
               </div>
               <Tooltip
-                id={stack.body.is_shared ? 'true' : 'false'}
-                text={stack.body.is_shared ? 'true' : 'false'}
+                id={`tooltip-${String(stack?.body?.is_shared)}`}
+                text={stack?.body?.is_shared ? 'True' : 'False'}
               />
             </FlexBox>
           )}
@@ -158,16 +160,18 @@ export const GetHeaderCols = ({
       renderRow: (stack: StackComponent) => {
         return (
           <>
-            {stack.body.user && (
+            {stack?.body?.user && (
               <FlexBox alignItems="center">
-                <div data-tip data-for={stack.body.user.name}>
+                <div data-tip data-for={stack?.body?.user?.name}>
                   <FlexBox alignItems="center">
-                    <Paragraph size="small">{stack.body.user.name}</Paragraph>
+                    <Paragraph size="small">
+                      {stack?.body?.user?.name}
+                    </Paragraph>
                   </FlexBox>
                 </div>
                 <Tooltip
-                  id={stack.body.user.name}
-                  text={stack.body.user.name}
+                  id={stack?.body?.user?.name}
+                  text={stack?.body?.user?.name}
                 />
               </FlexBox>
             )}
@@ -180,18 +184,18 @@ export const GetHeaderCols = ({
       width: '30%',
       renderRow: (stack: StackComponent) => (
         <>
-          {stack.body.created && (
+          {stack?.body?.created && (
             <FlexBox alignItems="center">
-              <div data-tip data-for={formatDateToSort(stack.body.created)}>
+              <div data-tip data-for={formatDateToSort(stack?.body?.created)}>
                 <FlexBox alignItems="center">
                   <Paragraph color="grey" size="tiny">
-                    {formatDateToDisplayOnTable(stack.body.created)}
+                    {formatDateToDisplayOnTable(stack?.body?.created)}
                   </Paragraph>
                 </FlexBox>
               </div>
               <Tooltip
-                id={formatDateToSort(stack.body.created)}
-                text={formatDateToDisplayOnTable(stack.body.created)}
+                id={formatDateToSort(stack?.body?.created)}
+                text={formatDateToDisplayOnTable(stack?.body?.created)}
               />
             </FlexBox>
           )}

@@ -46,16 +46,18 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
     dispatchFlavorsData(1, flavorsPaginated.size, type, value);
   }
   const onSelectFlavor = (flavor: any) => {
-    dispatch(
-      flavorsActions.getById({
-        flavorId: flavor.id,
-        onSuccess: (res: Flavor) => {
-          setSelectedFlavor(res);
-          setShowModal(true);
-        },
-        onFailure: () => {},
-      }),
-    );
+    setSelectedFlavor(flavor);
+    setShowModal(true);
+    // dispatch(
+    //   flavorsActions.getById({
+    //     flavorId: flavor.id,
+    //     onSuccess: (res: Flavor) => {
+    //       setSelectedFlavor(res);
+    //       setShowModal(true);
+    //     },
+    //     onFailure: () => {},
+    //   }),
+    // );
   };
 
   const handleSelectedFlavor = (selectedFlavor: any) => {
@@ -104,7 +106,9 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
                     <Row key={index} style={{ marginLeft: '15px' }}>
                       <Box marginVertical={'sm'} marginHorizontal={'md'}>
                         <CustomFlavourBox
-                          flavourDesc={item?.configSchema?.description}
+                          flavourDesc={
+                            item?.metadata.config_schema?.description
+                          }
                           flavourName={item?.name}
                           logoUrl={item?.body.logo_url}
                           onSelectFlavor={() => onSelectFlavor(item)}

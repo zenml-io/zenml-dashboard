@@ -828,6 +828,21 @@ export const CreateComponent: React.FC<{
         );
       }
     }
+    function removeEmptyValues(obj: any) {
+      for (const [key, value] of Object.entries(obj)) {
+        if (
+          value === null ||
+          value === undefined ||
+          value === '' ||
+          (typeof value === 'object' && Object.keys(value as any).length === 0)
+        ) {
+          delete obj[key];
+        }
+      }
+      return obj;
+    }
+
+    const cleanedInputData = removeEmptyValues(inputData);
 
     const body: any = {
       user: user?.id,
@@ -836,7 +851,7 @@ export const CreateComponent: React.FC<{
       name: componentName,
       type: flavor.body.type,
       flavor: flavor.name,
-      configuration: { ...inputData, ...final, ...inputArrayFields },
+      configuration: { ...cleanedInputData, ...final, ...inputArrayFields },
     };
     if (connector && connector !== null) {
       body.connector = connector;
