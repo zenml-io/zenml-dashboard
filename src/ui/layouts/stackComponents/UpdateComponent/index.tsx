@@ -110,18 +110,19 @@ export const StackDetail: React.FC = () => {
   const mappedStackComponent: any = [];
   mappedStackComponent.push(stackComponent);
   const history = useHistory();
-
+  console.log(flavor, 'flavor', mappedStackComponent);
   const mappedStackComponentWithLogo: any = mappedStackComponent.map(
     (item: any) => {
       const temp: any = flavor.find(
-        (fl: any) => fl.name === item.flavor && fl.type === item.type,
+        (fl: any) =>
+          fl.name === item.body?.flavor && fl.body?.type === item.body?.type,
       );
       if (temp) {
         return {
           ...item,
           flavor: {
-            logoUrl: temp.logo_url,
-            name: item.flavor,
+            logoUrl: temp.body?.logo_url,
+            name: item.body?.flavor,
           },
         };
       }
