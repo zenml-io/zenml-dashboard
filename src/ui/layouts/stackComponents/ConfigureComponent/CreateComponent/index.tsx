@@ -842,6 +842,16 @@ export const CreateComponent: React.FC<{
       return obj;
     }
 
+    const cleanedInputArrayFields = Object.keys(inputArrayFields).reduce(
+      (acc: any, key: any) => {
+        if (!inputArrayFields[key].includes('')) {
+          acc[key] = inputArrayFields[key];
+        }
+        return acc;
+      },
+      {},
+    );
+
     const cleanedInputData = removeEmptyValues(inputData);
 
     const body: any = {
@@ -851,7 +861,11 @@ export const CreateComponent: React.FC<{
       name: componentName,
       type: flavor.body.type,
       flavor: flavor.name,
-      configuration: { ...cleanedInputData, ...final, ...inputArrayFields },
+      configuration: {
+        ...cleanedInputData,
+        ...final,
+        ...cleanedInputArrayFields,
+      },
     };
     if (connector && connector !== null) {
       body.connector = connector;

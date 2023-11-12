@@ -565,18 +565,102 @@ export const Configuration: React.FC<{
           <Paragraph size="body" style={{ color: '#000' }}>
             <label htmlFor="key">{titleCase(elementName)}</label>
           </Paragraph>
+          <Box style={{ position: 'relative' }}>
+            {mappedObject[elementName].length < 1 && (
+              <>
+                <Box style={{ position: 'relative' }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '10px',
+                      width: '5px',
+                      height: '5px',
+                      borderRadius: '100%',
+                      backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                    }}
+                  ></div>
+
+                  <div
+                    className="form-row"
+                    style={{
+                      borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                      marginLeft: '2px',
+                    }}
+                  >
+                    {/* {mappedObject &&
+                mappedObject[elementName]?.map((item: any, index: any) => ( */}
+
+                    <Box
+                      style={{ display: 'flex', alignItems: 'center' }}
+                      marginTop="sm"
+                    >
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          width: '15px',
+                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                        }}
+                      ></div>
+                      <div
+                        style={{
+                          marginTop: '30px',
+                          marginRight: '5px',
+                          marginLeft: '-2px',
+                          color: 'rgba(68, 62, 153, 0.3)',
+                        }}
+                      >
+                        &#x27A4;
+                      </div>
+
+                      <div className="form-group" style={{ width: '28.5vw' }}>
+                        <EditField
+                          disabled
+                          className={styles.field}
+                          label={'Value'}
+                          value={''}
+                          placeholder={''}
+                        />
+                      </div>
+                      <div
+                        style={{
+                          justifyContent: 'space-between',
+                          display: 'flex',
+                          marginTop: '10px',
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: 'flex',
+                            flexDirection: 'row',
+                            justifyContent: 'space-between',
+                            alignItems: 'center',
+                          }}
+                        ></div>
+                      </div>
+                    </Box>
+
+                    {/* ))} */}
+                  </div>
+                  <div className="submit-button"></div>
+                  <br />
+                </Box>
+              </>
+            )}
+          </Box>
 
           <Box style={{ position: 'relative' }}>
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '10px',
-                width: '5px',
-                height: '5px',
-                borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.3)',
-              }}
-            ></div>
+            {mappedObject && mappedObject[elementName].length >= 1 && (
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '10px',
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '100%',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                }}
+              ></div>
+            )}
 
             <div
               className="form-row"

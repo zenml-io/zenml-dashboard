@@ -110,7 +110,7 @@ export const StackDetail: React.FC = () => {
   const mappedStackComponent: any = [];
   mappedStackComponent.push(stackComponent);
   const history = useHistory();
-  console.log(flavor, 'flavor', mappedStackComponent);
+
   const mappedStackComponentWithLogo: any = mappedStackComponent.map(
     (item: any) => {
       const temp: any = flavor.find(
