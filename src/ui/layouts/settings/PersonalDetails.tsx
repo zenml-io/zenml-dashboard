@@ -22,7 +22,7 @@ import { getInitials } from '../../../utils/name';
 import axios from 'axios';
 import { ConnectHub } from './ConnectHub';
 import { useHubUser } from '../../hooks/auth';
-import { getUniquePermissions } from './permissions';
+// import { getUniquePermissions } from './permissions';
 
 export const translate = getTranslateByScope('ui.layouts.PersonalDetails');
 

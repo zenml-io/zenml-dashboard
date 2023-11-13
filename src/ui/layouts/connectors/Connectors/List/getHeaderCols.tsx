@@ -17,7 +17,7 @@ import { HeaderCol } from '../../../common/Table';
 import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { useService } from './ForSorting/useServiceForSorting';
-import { ServiceConnector } from '../../../../../api/types';
+// import { ServiceConnector } from '../../../../../api/types';
 
 export const GetHeaderCols = ({
   expendedRow,

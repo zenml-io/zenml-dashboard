@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { useDispatch, useSelector } from '../../../../hooks';
+import { useSelector } from '../../../../hooks';
 import { useHistory } from 'react-router-dom';
 
 import { useService } from './useService';
@@ -23,15 +23,15 @@ import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
 import { callActionForFlavorsForPagination } from '../useService';
 import { SidePopup } from '../../../common/SidePopup';
 import { routePaths } from '../../../../../routes/routePaths';
-import { flavorsActions } from '../../../../../redux/actions';
-import { Flavor } from '../../../../../api/types';
+// import { flavorsActions } from '../../../../../redux/actions';
+// import { Flavor } from '../../../../../api/types';
 
 interface Props {
   type: string;
 }
 
 export const ListForAll: React.FC<Props> = ({ type }: Props) => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
   const { dispatchFlavorsData } = callActionForFlavorsForPagination();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);

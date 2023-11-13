@@ -1,9 +1,12 @@
 import { useSelector } from 'react-redux';
 import {
-  flavorSelectors,
+  // flavorSelectors,
   stackComponentSelectors,
 } from '../../../../../redux/selectors';
-import { Flavor, StackComponent } from '../../../../../api/types';
+import {
+  // Flavor,
+  StackComponent,
+} from '../../../../../api/types';
 
 interface ServiceInterface {
   stackComponent: StackComponent;

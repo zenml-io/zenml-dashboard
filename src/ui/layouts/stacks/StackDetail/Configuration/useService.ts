@@ -18,11 +18,11 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
     components: {},
   };
 
-  function isStackComponents(
-    obj: any,
-  ): obj is Record<string, StackComponent[]> {
-    return obj !== null && typeof obj === 'object';
-  }
+  // function isStackComponents(
+  //   obj: any,
+  // ): obj is Record<string, StackComponent[]> {
+  //   return obj !== null && typeof obj === 'object';
+  // }
 
   const components = stack.metadata?.components as
     | Record<string, StackComponent[]>
