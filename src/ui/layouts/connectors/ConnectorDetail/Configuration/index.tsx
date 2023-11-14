@@ -41,12 +41,12 @@ export const Configuration: React.FC<{
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
 
-  const matchedAuthMethod = connector.connectorType.auth_methods.find(
-    (item: any) => item?.auth_method === connector?.authMethod,
+  const matchedAuthMethod = connector.metadata.connector_type.auth_methods.find(
+    (item: any) => item?.auth_method === connector?.metadata.auth_method,
   );
 
-  const dropdownValue = connector?.connectorType?.auth_methods?.filter(
-    (e: any) => e?.auth_method === connector?.authMethod,
+  const dropdownValue = connector.metadata.connector_type?.auth_methods?.filter(
+    (e: any) => e?.auth_method === connector?.metadata.auth_method,
   );
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
@@ -439,11 +439,11 @@ export const Configuration: React.FC<{
   // Iterate over the properties of obj1
   for (let prop in matchedAuthMethod.config_schema.properties) {
     // Check if the property exists in obj2
-    if (connector.configuration.hasOwnProperty(prop)) {
+    if (connector.metadata.configuration.hasOwnProperty(prop)) {
       // Add the property to obj1 with the value from obj2
       configurationModifiedObj[prop] = {
         ...matchedAuthMethod.config_schema.properties[prop],
-        default: connector.configuration[prop],
+        default: connector.metadata.configuration[prop],
       };
     } else {
       // If the property does not exist in obj2, copy it as is

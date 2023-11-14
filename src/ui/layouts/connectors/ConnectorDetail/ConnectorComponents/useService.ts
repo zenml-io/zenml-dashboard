@@ -66,18 +66,21 @@ export const useService = ({
   );
 
   useEffect(() => {
+    // if (flavourList.length) {
+
     const mappedConnectorComponent = connectorComponent.map((item: any) => {
       const temp: any = flavourList.find(
-        (fl: any) => fl.name === item.flavor && fl.type === item.type,
+        (fl: any) =>
+          fl.name === item.body.flavor && fl.body.type === item.body.type,
       );
 
       if (temp) {
         return {
           ...item,
           flavor: {
-            logoUrl: temp.logo_url,
-            name: item.flavor,
-            connectorResourceType: temp.connector_resource_type,
+            logoUrl: temp.body.logo_url,
+            name: item.body.flavor,
+            connectorResourceType: temp.metadata.connector_resource_type,
           },
         };
       }
@@ -86,6 +89,7 @@ export const useService = ({
     });
 
     setFilteredConnectors(mappedConnectorComponent as ServiceConnector[]);
+    // }
   }, [connectorComponent, filter, flavourList]);
 
   useEffect(() => {

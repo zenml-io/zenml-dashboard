@@ -159,11 +159,11 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <Box marginLeft="sm">
-            <div data-tip data-for={connector.connectorType.name}>
+            <div data-tip data-for={connector.metadata.connector_type.name}>
               <FlexBox alignItems="center">
                 <img
-                  alt={connector.connectorType.logo_url}
-                  src={connector.connectorType.logo_url}
+                  alt={connector.metadata.connector_type.logo_url}
+                  src={connector.metadata.connector_type.logo_url}
                   style={{
                     height: '28px',
                     width: '28px',
@@ -172,8 +172,8 @@ export const GetHeaderCols = ({
               </FlexBox>
             </div>
             <Tooltip
-              id={connector.connectorType.name}
-              text={connector.connectorType.name}
+              id={connector.metadata.connector_type.name}
+              text={connector.metadata.connector_type.name}
             />
           </Box>
         </FlexBox>
@@ -204,7 +204,7 @@ export const GetHeaderCols = ({
       testId: 'resource_types',
       width: '10%',
       renderRow: (connector: any) => {
-        const filteredResourceTypes: any = connector?.connector_type?.resource_types?.filter(
+        const filteredResourceTypes: any = connector?.metadata?.connector_type?.resource_types?.filter(
           (e: any) => {
             if (connector.metadata?.resource_types?.includes(e.resource_type))
               return e;
@@ -215,7 +215,7 @@ export const GetHeaderCols = ({
           <FlexBox alignItems="center">
             {filteredResourceTypes?.slice(0, 2)?.map(
               (e: any, index: number) =>
-                connector?.connector_type?.resource_types?.includes(
+                connector?.metadata?.resource_types?.includes(
                   e.resource_type,
                 ) && (
                   <Box key={index} marginLeft={index !== 0 ? 'sm' : null}>
@@ -324,12 +324,15 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.resourceId}>
+          <div data-tip data-for={connector.metadata.resource_id}>
             <Paragraph size="small" color="black">
-              {connector.resourceId}
+              {connector.metadata.resource_id}
             </Paragraph>
           </div>
-          <Tooltip id={connector.resourceId} text={connector.resourceId} />
+          <Tooltip
+            id={connector.metadata.resource_id}
+            text={connector.metadata.resource_id}
+          />
         </FlexBox>
       ),
     },
@@ -358,12 +361,15 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.authMethod}>
+          <div data-tip data-for={connector.metadata.auth_method}>
             <Paragraph size="small" color="black">
-              {connector.authMethod}
+              {connector.metadata.auth_method}
             </Paragraph>
           </div>
-          <Tooltip id={connector.authMethod} text={connector.authMethod} />
+          <Tooltip
+            id={connector.metadata.auth_method}
+            text={connector.metadata.auth_method}
+          />
         </FlexBox>
       ),
     },
@@ -416,13 +422,13 @@ export const GetHeaderCols = ({
             asc: (filteredConnectors: any[]) =>
               _.orderBy(
                 filteredConnectors,
-                (connector: any) => new Date(connector.created).getTime(),
+                (connector: any) => new Date(connector.body.created).getTime(),
                 ['asc'],
               ),
             desc: (filteredConnectors: any[]) =>
               _.orderBy(
                 filteredConnectors,
-                (connector: any) => new Date(connector.created).getTime(),
+                (connector: any) => new Date(connector.body.created).getTime(),
                 ['desc'],
               ),
           })}
@@ -438,18 +444,18 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <>
-          {connector.created && (
+          {connector.body.created && (
             <FlexBox alignItems="center">
-              <div data-tip data-for={formatDateToSort(connector.created)}>
+              <div data-tip data-for={formatDateToSort(connector.body.created)}>
                 <FlexBox alignItems="center">
                   <Paragraph color="grey" size="tiny">
-                    {formatDateToDisplayOnTable(connector.created)}
+                    {formatDateToDisplayOnTable(connector.body.created)}
                   </Paragraph>
                 </FlexBox>
               </div>
               <Tooltip
-                id={formatDateToSort(connector.created)}
-                text={formatDateToDisplayOnTable(connector.created)}
+                id={formatDateToSort(connector.body.created)}
+                text={formatDateToDisplayOnTable(connector.body.created)}
               />
             </FlexBox>
           )}
@@ -482,7 +488,7 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <Box paddingRight="sm">
-            {connector.isShared && (
+            {connector.body.isShared && (
               <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
             )}
           </Box>
