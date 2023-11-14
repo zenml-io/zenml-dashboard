@@ -44,7 +44,8 @@ export const endpoints = {
     get: (secretId: TId): string => `/secrets/${secretId}`,
   },
   repositories: {
-    getAll: (workspace: string) => `/workspaces/${workspace}/code_repositories`,
+    getAll: (workspace: string) =>
+      `/workspaces/${workspace}/code_repositories?hydrate=true`,
     getByID: (repositoryID: string) => `/code_repositories/${repositoryID}`,
   },
   StackComponents: {
