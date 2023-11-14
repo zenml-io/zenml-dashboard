@@ -151,9 +151,9 @@ export const routePaths = {
     stacks: (type: string, id: TId, workspace: string): string =>
       `/workspaces/${workspace}/components/${type}/${id}/stacks`,
     registerComponents: (type: string, workspace: string): string =>
-      `/workspaces/${workspace}/registerComponents/${type}`,
+      `/workspaces/${workspace}/register-components/${type}`,
     configureComponent: (type: string, workspace: string, id: string): string =>
-      `/workspaces/${workspace}/registerComponents/${type}/${id}/configuration`,
+      `/workspaces/${workspace}/register-components/${type}/${id}/configuration`,
     updateComponent: (type: string, id: string, workspace: string): string =>
       `/workspaces/${workspace}/components/${type}/${id}/update-component`,
   },
@@ -185,9 +185,9 @@ export const routePaths = {
     list: (workspace: string): string =>
       `/workspaces/${workspace}/connectors/list`,
     connectorTypes: (workspace: string): string =>
-      `/workspaces/${workspace}/connector_types`,
+      `/workspaces/${workspace}/connector-types`,
     registerConnectors: (type: string, workspace: string): string =>
-      `/workspaces/${workspace}/${type}/register_connector`,
+      `/workspaces/${workspace}/${type}/register-connector`,
 
     configuration: (id: TId, workspace: string): string =>
       `/workspaces/${workspace}/connectors/${id}/configuration`,
