@@ -30,17 +30,18 @@ export const useService = (): ServiceInterface => {
   );
 
   useEffect(() => {
-    if (flavor.connectorResourceType) {
+    if (flavor.metadata.connector_resource_type) {
       fetchResourcesList();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [flavor.connectorResourceType]);
+  }, [flavor.metadata.connector_resource_type]);
 
   const fetchResourcesList = async () => {
     setFetching(true);
-    let url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${flavor.connectorResourceType}`;
-    if (flavor.connectorType !== null) {
-      url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${flavor.connectorResourceType}&connector_type=${flavor.connectorType}`;
+
+    let url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${flavor.metadata.connector_resource_type}`;
+    if (flavor.metadata.connector_type !== null) {
+      url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${flavor.metadata.connector_resource_type}&connector_type=${flavor.metadata.connector_type}`;
     }
     const response = await axios.get(url, {
       headers: {

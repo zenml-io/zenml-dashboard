@@ -806,16 +806,16 @@ export const Configuration: React.FC<{
           </Box>
         </Container>
         <Container>
-          {/* <Box marginTop="lg" style={{ width: '30vw' }}>
+          <Box marginTop="lg" style={{ width: '30vw' }}>
             <ToggleField
-              value={stackComponent?.body.is_shared}
+              value={stackComponent?.body?.is_shared}
               onHandleChange={() =>
-                onChangeToggle(!stackComponent?.body.is_shared, 'share')
+                onChangeToggle(!stackComponent?.body?.is_shared, 'share')
               }
               label="Share Component with spublic"
               disabled={true}
             />
-          </Box> */}
+          </Box>
         </Container>
         {flavor?.metadata?.connector_resource_type && (
           <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
@@ -832,7 +832,7 @@ export const Configuration: React.FC<{
                   borderWidth: '0px',
                 }}
               >
-                {stackComponent?.connector ? (
+                {stackComponent.metadata?.connector ? (
                   <FlexBox className={styles.service_selector_selected}>
                     <Box marginRight="sm"></Box>
 
@@ -843,10 +843,13 @@ export const Configuration: React.FC<{
                         alt={serviceConnectorResources?.name}
                       />{' '}
                       &#91;{' '}
-                      {truncate(stackComponent?.connector.id, ID_MAX_LENGTH) +
+                      {truncate(
+                        stackComponent.metadata.connector.id,
+                        ID_MAX_LENGTH,
+                      ) +
                         '-' +
-                        stackComponent.connector.name}
-                      &#93; {stackComponent.connectorResourceId}
+                        stackComponent.metadata.connector.name}
+                      &#93; {stackComponent.metadata.connector_resource_id}
                     </Paragraph>
                   </FlexBox>
                 ) : (

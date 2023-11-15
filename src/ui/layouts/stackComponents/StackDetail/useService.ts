@@ -2,6 +2,7 @@
 
 import { StackDetailRouteParams } from '.';
 import {
+  connectorsActions,
   flavorsActions,
   runPagesActions,
   stackComponentsActions,
@@ -45,7 +46,7 @@ export const useService = (): ServiceInterface => {
   );
   const fetchServiceConnectorType = async (res: any) => {
     const response = await axios.get(
-      `${process.env.REACT_APP_BASE_API_URL}/service_connector_types/${res?.metadata.connector?.connector_type}`,
+      `${process.env.REACT_APP_BASE_API_URL}/service_connector_types/${res?.metadata?.connector_type?.connector_type}`,
       {
         headers: {
           Authorization: `bearer ${authToken}`,
@@ -66,7 +67,14 @@ export const useService = (): ServiceInterface => {
         stackComponentId: id,
         onSuccess: (res) => {
           if (res?.metadata?.connector !== null) {
-            fetchServiceConnectorType(res);
+            dispatch(
+              connectorsActions.connectorForId({
+                connectorId: res?.metadata?.connector.id,
+                onSuccess: (res) => {
+                  fetchServiceConnectorType(res);
+                },
+              }),
+            );
           }
 
           dispatch(

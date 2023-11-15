@@ -947,7 +947,7 @@ export const CreateComponent: React.FC<{
               onHandleChange={() => setIsShared(!isShared)}
             />
           </Box>
-          {flavor.connectorResourceType && (
+          {flavor.metadata.connector_resource_type && (
             <Box marginTop="md" style={{ width: '30vw' }}>
               <Paragraph size="body" style={{ color: '#000' }}>
                 <label htmlFor="key">{'Connect to resource'}</label>
@@ -959,7 +959,9 @@ export const CreateComponent: React.FC<{
                   inputData={inputData}
                   setInputData={setInputData}
                   connector={connector}
-                  connectorResourceIdAttr={flavor.connectorResourceIdAttr}
+                  connectorResourceIdAttr={
+                    flavor.metadata.connector_resource_id_attr
+                  }
                   setConnector={setConnector}
                   connectorResourceId={connectorResourceId}
                   setConnectorResourceId={setConnectorResourceId}

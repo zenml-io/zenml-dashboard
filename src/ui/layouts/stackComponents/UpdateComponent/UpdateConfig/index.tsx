@@ -90,7 +90,7 @@ export const UpdateConfig: React.FC<{
   }, [state]);
   useEffect(() => {
     setConnector(stackComponent?.metadata?.connector?.id);
-    setConnectorResourceId(stackComponent?.metadata?.connector_resource_Id);
+    setConnectorResourceId(stackComponent?.metadata?.connector_resource_id);
     function replaceNullWithEmptyString(obj: any) {
       for (let prop in obj) {
         if (obj[prop] === null) {
@@ -105,7 +105,7 @@ export const UpdateConfig: React.FC<{
     replaceNullWithEmptyString(stackComponent?.metadata?.configuration);
     setComponentName(stackComponent?.name);
 
-    setIsShared(stackComponent?.body.is_shared);
+    setIsShared(stackComponent?.body?.is_shared);
 
     function convertJSON(json: any) {
       const convertedJSON: any = {};
@@ -280,6 +280,9 @@ export const UpdateConfig: React.FC<{
         final[key] = newObj;
       }
     });
+    if (JSON.stringify(tempFinal) !== JSON.stringify(final)) {
+      return false;
+    }
 
     function removeEmptyValues(obj: any) {
       for (const [key, value] of Object.entries(obj)) {
@@ -324,9 +327,8 @@ export const UpdateConfig: React.FC<{
       body.connector = connector;
       body.connector_resource_id = connectorResourceId;
     }
-    if (JSON.stringify(tempFinal) !== JSON.stringify(final)) {
-      return false;
-    }
+    debugger;
+
     for (const [key] of Object.entries(final)) {
       for (const [innerKey, innerValue] of Object.entries(final[key])) {
         if (!innerKey && innerValue) {
