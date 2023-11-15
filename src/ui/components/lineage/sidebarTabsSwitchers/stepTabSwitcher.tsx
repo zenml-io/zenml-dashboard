@@ -228,15 +228,15 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   </tr>
                   <tr>
                     <td className="td_key">Cache key</td>
-                    <td className="td_value">{node?.metadata.cache_key}</td>
+                    <td className="td_value">{node?.metadata?.cache_key}</td>
                   </tr>
-                  {node?.metadata.original_step_run_id && (
+                  {node?.metadata?.original_step_run_id && (
                     <tr>
                       <td className="td_key">
                         (If cached) ID of original step
                       </td>
                       <td className="td_value">
-                        {node?.metadta.original_step_run_id || 'n/a'}
+                        {node?.metadata?.original_step_run_id || 'n/a'}
                       </td>
                     </tr>
                   )}
@@ -244,13 +244,13 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                     <td className="td_key">Start time</td>
                     <td className="td_value">
                       {' '}
-                      {formatDateToDisplayOnTable(node?.metadata.start_time)}
+                      {formatDateToDisplayOnTable(node?.metadata?.start_time)}
                     </td>
                   </tr>
                   <tr>
                     <td className="td_key">End time</td>
                     <td className="td_value">
-                      {formatDateToDisplayOnTable(node?.metadata.end_time)}
+                      {formatDateToDisplayOnTable(node?.metadata?.end_time)}
                     </td>
                   </tr>
                   <tr>

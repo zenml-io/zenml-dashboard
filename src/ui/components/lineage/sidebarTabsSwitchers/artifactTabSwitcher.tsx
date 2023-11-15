@@ -192,10 +192,12 @@ loaded_artifact = artifact.load()
                   <tr>
                     <ConfigBox name="URI" config={node?.body.uri} />
                   </tr>
+
                   <tr>
                     <ConfigBox
                       name="Materializer"
-                      config="zenml.materializers.built_in_materializer.BuilntinContainerMaterializer"
+                      // config="zenml.materializers.built_in_materializer.BuilntinContainerMaterializer"
+                      config={node?.metadata?.materializer?.module}
                     />
                   </tr>
 
