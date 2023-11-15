@@ -326,6 +326,37 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       }
     }
 
+    function removeEmptyValues(obj: any) {
+      const newObj = JSON.parse(JSON.stringify(obj)); // Deep clone the original object
+
+      for (let key in newObj) {
+        if (
+          newObj[key] === '' ||
+          newObj[key] === undefined ||
+          newObj[key] === null
+        ) {
+          delete newObj[key];
+        } else if (Array.isArray(newObj[key])) {
+          newObj[key] = newObj[key].filter(
+            (item: any) =>
+              !(item === undefined || item === null || item === ''),
+          );
+          if (newObj[key].length === 0) {
+            delete newObj[key];
+          }
+        } else if (typeof newObj[key] === 'object') {
+          newObj[key] = removeEmptyValues(newObj[key]); // Recursive call for nested objects
+          if (Object.keys(newObj[key]).length === 0) {
+            delete newObj[key];
+          }
+        }
+      }
+
+      return newObj;
+    }
+
+    const modifiedConfiguration = removeEmptyValues(configuration);
+
     const body: any = {
       user: user?.id,
       workspace: id,
@@ -336,7 +367,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
       auth_method: selectedAuthMethod,
 
       configuration: {
-        ...configuration,
+        ...modifiedConfiguration,
       },
 
       labels: labels,

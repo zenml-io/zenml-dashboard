@@ -39,10 +39,10 @@ export const UpdateConfig: React.FC<{
   const history = useHistory();
   const [connectorName, setConnectorName] = useState('');
   const [connectorDescription, setConnectorDescription] = useState(
-    connector.description,
+    connector.metadata.description,
   );
   const [connectorExpirationSeconds, setConnectorExpirationSeconds] = useState(
-    connector.expirationSeconds,
+    connector.metadata.expirationSeconds,
   );
   const [labelsInputFields, setLabelsInputFields] = useState([]) as any;
   const [isShared, setIsShared] = useState() as any;
@@ -60,8 +60,8 @@ export const UpdateConfig: React.FC<{
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
-  const matchedAuthMethod = connector.connectorType.auth_methods.find(
-    (item: any) => item?.auth_method === connector?.authMethod,
+  const matchedAuthMethod = connector.metadata.connector_type.auth_methods.find(
+    (item: any) => item?.auth_method === connector?.metadata.auth_method,
   );
 
   useEffect(() => {
@@ -81,18 +81,18 @@ export const UpdateConfig: React.FC<{
 
       return updatedObj;
     }
-    const convertedJson = convertJSON(connector.labels);
+    const convertedJson = convertJSON(connector.metadata.labels);
 
     const configurationModifiedObj: any = {};
 
     // Iterate over the properties of obj1
     for (let prop in matchedAuthMethod.config_schema.properties) {
       // Check if the property exists in obj2
-      if (connector.configuration.hasOwnProperty(prop)) {
+      if (connector.metadata.configuration.hasOwnProperty(prop)) {
         // Add the property to obj1 with the value from obj2
         configurationModifiedObj[prop] = {
           ...matchedAuthMethod.config_schema.properties[prop],
-          default: connector.configuration[prop],
+          default: connector.metadata.configuration[prop],
         };
       } else {
         // If the property does not exist in obj2, copy it as is
@@ -114,7 +114,7 @@ export const UpdateConfig: React.FC<{
     setConnectorName(connector.name);
     setLabelsInputFields(convertedJson as any);
 
-    setIsShared(connector.isShared);
+    setIsShared(connector.body.is_shared);
 
     setMappedConfiguration(configurationModifiedObj);
 
@@ -182,18 +182,50 @@ export const UpdateConfig: React.FC<{
         return false;
       }
     }
+
+    function removeEmptyValues(obj: any) {
+      const newObj = JSON.parse(JSON.stringify(obj)); // Deep clone the original object
+
+      for (let key in newObj) {
+        if (
+          newObj[key] === '' ||
+          newObj[key] === undefined ||
+          newObj[key] === null
+        ) {
+          delete newObj[key];
+        } else if (Array.isArray(newObj[key])) {
+          newObj[key] = newObj[key].filter(
+            (item: any) =>
+              !(item === undefined || item === null || item === ''),
+          );
+          if (newObj[key].length === 0) {
+            delete newObj[key];
+          }
+        } else if (typeof newObj[key] === 'object') {
+          newObj[key] = removeEmptyValues(newObj[key]); // Recursive call for nested objects
+          if (Object.keys(newObj[key]).length === 0) {
+            delete newObj[key];
+          }
+        }
+      }
+
+      return newObj;
+    }
+
+    const modifiedPayload = removeEmptyValues(payload);
+
     const body = {
       user: user?.id,
       workspace: id,
       is_shared: isShared,
       name: connectorName,
-      connector_type: connector.connectorType.connector_type,
-      description: connector.description,
-      auth_method: connector.authMethod,
-      resource_types: connector.resourceTypes,
-      configuration: { ...payload },
+      connector_type: connector.metadata.connector_type.connector_type,
+      description: connector.metadata.description,
+      auth_method: connector.metadata.auth_method,
+      resource_types: connector.metadata.resource_types,
+      configuration: { ...modifiedPayload },
       labels: labels,
-      resource_id: connector.resourceId,
+      resource_id: connector.metadata.resource_id,
     };
 
     setFetching(true);
