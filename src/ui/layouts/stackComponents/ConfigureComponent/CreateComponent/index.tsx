@@ -89,15 +89,16 @@ export const CreateComponent: React.FC<{
       initForm(flavor.metadata.config_schema.properties);
       Object.keys(flavor.metadata.config_schema.properties).map((key, ind) => {
         const data = flavor.metadata.config_schema.properties[key];
+
         if (data.default && (data.type === 'string' || data.type === 'integer'))
           setDefaultData = {
             ...setDefaultData,
-            [toSnakeCase(data.title)]: data.default,
+            [key]: data.default,
           };
         else if (data.default && data.type === 'array') {
           setInputArrayType = {
             ...setInputArrayType,
-            [toSnakeCase(data.title)]: [...data.default, ''],
+            [key]: [...data.default, ''],
           };
         } else if (
           flavor.metadata.config_schema.properties[key]?.additionalProperties &&
@@ -106,7 +107,7 @@ export const CreateComponent: React.FC<{
         ) {
           setDefaultData = {
             ...setDefaultData,
-            [toSnakeCase(data.title)]: data.default,
+            [key]: data.default,
           };
         }
         return null;
@@ -153,14 +154,6 @@ export const CreateComponent: React.FC<{
     values[parentIndex][name].splice(childIndex, 1);
     setInputFields(values);
   };
-  const toSnakeCase = (str: any) =>
-    str &&
-    str
-      .match(
-        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
-      )
-      .map((x: any) => x.toLowerCase())
-      .join('_');
 
   const secretOptions = secrets.map((item: any) => {
     return {
