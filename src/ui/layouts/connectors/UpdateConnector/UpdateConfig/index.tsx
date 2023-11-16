@@ -39,10 +39,10 @@ export const UpdateConfig: React.FC<{
   const history = useHistory();
   const [connectorName, setConnectorName] = useState('');
   const [connectorDescription, setConnectorDescription] = useState(
-    connector.metadata.description,
+    connector?.metadata.description,
   );
   const [connectorExpirationSeconds, setConnectorExpirationSeconds] = useState(
-    connector.metadata.expirationSeconds,
+    connector?.metadata.expirationSeconds,
   );
   const [labelsInputFields, setLabelsInputFields] = useState([]) as any;
   const [isShared, setIsShared] = useState() as any;
@@ -60,8 +60,8 @@ export const UpdateConfig: React.FC<{
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
-  const matchedAuthMethod = connector.metadata.connector_type.auth_methods.find(
-    (item: any) => item?.auth_method === connector?.metadata.auth_method,
+  const matchedAuthMethod = connector?.body.connector_type.auth_methods.find(
+    (item: any) => item?.auth_method === connector?.body.auth_method,
   );
 
   useEffect(() => {
@@ -81,18 +81,18 @@ export const UpdateConfig: React.FC<{
 
       return updatedObj;
     }
-    const convertedJson = convertJSON(connector.metadata.labels);
+    const convertedJson = convertJSON(connector?.metadata.labels);
 
     const configurationModifiedObj: any = {};
 
     // Iterate over the properties of obj1
     for (let prop in matchedAuthMethod.config_schema.properties) {
       // Check if the property exists in obj2
-      if (connector.metadata.configuration.hasOwnProperty(prop)) {
+      if (connector?.metadata.configuration.hasOwnProperty(prop)) {
         // Add the property to obj1 with the value from obj2
         configurationModifiedObj[prop] = {
           ...matchedAuthMethod.config_schema.properties[prop],
-          default: connector.metadata.configuration[prop],
+          default: connector?.metadata.configuration[prop],
         };
       } else {
         // If the property does not exist in obj2, copy it as is
@@ -111,10 +111,10 @@ export const UpdateConfig: React.FC<{
         };
       }
     }
-    setConnectorName(connector.name);
+    setConnectorName(connector?.name);
     setLabelsInputFields(convertedJson as any);
 
-    setIsShared(connector.body.is_shared);
+    setIsShared(connector?.body.is_shared);
 
     setMappedConfiguration(configurationModifiedObj);
 
@@ -219,19 +219,19 @@ export const UpdateConfig: React.FC<{
       workspace: id,
       is_shared: isShared,
       name: connectorName,
-      connector_type: connector.metadata.connector_type.connector_type,
-      description: connector.metadata.description,
-      auth_method: connector.metadata.auth_method,
-      resource_types: connector.metadata.resource_types,
+      connector_type: connector?.body.connector_type.connector_type,
+      description: connector?.body.description,
+      auth_method: connector?.body.auth_method,
+      resource_types: connector?.body.resource_types,
       configuration: { ...modifiedPayload },
       labels: labels,
-      resource_id: connector.metadata.resource_id,
+      resource_id: connector?.body.resource_id,
     };
 
     setFetching(true);
     axios
       .put(
-        `${process.env.REACT_APP_BASE_API_URL}/service_connectors/${connector.id}`,
+        `${process.env.REACT_APP_BASE_API_URL}/service_connectors/${connector?.id}`,
         // @ts-ignore
         body,
         { headers: { Authorization: `Bearer ${authToken}` } },
@@ -246,7 +246,7 @@ export const UpdateConfig: React.FC<{
         );
 
         history.push(
-          routePaths.connectors.configuration(connector.id, selectedWorkspace),
+          routePaths.connectors.configuration(connector?.id, selectedWorkspace),
         );
       })
       .catch((err) => {

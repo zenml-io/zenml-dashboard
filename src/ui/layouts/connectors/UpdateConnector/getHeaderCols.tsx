@@ -27,16 +27,16 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.id}>
+          <div data-tip data-for={connector?.id}>
             <FlexBox.Row style={{ alignItems: 'center' }}>
               <icons.chevronDown color={iconColors.grey} size={iconSizes.xs} />
 
               <Paragraph size="small" style={{ marginLeft: '20px' }}>
-                {truncate(connector.id, ID_MAX_LENGTH)}
+                {truncate(connector?.id, ID_MAX_LENGTH)}
               </Paragraph>
             </FlexBox.Row>
           </div>
-          <Tooltip id={connector.id} text={connector.id} />
+          <Tooltip id={connector?.id} text={connector?.id} />
         </FlexBox>
       ),
     },
@@ -49,14 +49,14 @@ export const GetHeaderCols = ({
       width: '20%',
       renderRow: (connector: any) => (
         <>
-          {connector.name && (
+          {connector?.name && (
             <FlexBox alignItems="center">
-              <div data-tip data-for={connector.name}>
+              <div data-tip data-for={connector?.name}>
                 <Paragraph size="small" color="black">
-                  {connector.name}
+                  {connector?.name}
                 </Paragraph>
               </div>
-              <Tooltip id={connector.name} text={connector.name} />
+              <Tooltip id={connector?.name} text={connector?.name} />
             </FlexBox>
           )}
         </>
@@ -74,11 +74,11 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <Box marginLeft="sm">
-            <div data-tip data-for={connector.metadata.connector_type.name}>
+            <div data-tip data-for={connector?.body?.connector_type?.name}>
               <FlexBox alignItems="center">
                 <img
-                  alt={connector.metadata.connector_type.logo_url}
-                  src={connector.metadata.connector_type.logo_url}
+                  alt={connector?.body?.connector_type?.logo_url}
+                  src={connector?.body?.connector_type?.logo_url}
                   style={{
                     height: '28px',
                     width: '28px',
@@ -87,8 +87,8 @@ export const GetHeaderCols = ({
               </FlexBox>
             </div>
             <Tooltip
-              id={connector.metadata.connector_type.name}
-              text={connector.metadata.connector_type.name}
+              id={connector?.body?.connector_type?.name}
+              text={connector?.body?.connector_type?.name}
             />
           </Box>
         </FlexBox>
@@ -105,7 +105,7 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          {connector.metadata?.connector_type?.resource_types?.map((e: any) => (
+          {connector?.body?.connector_type?.resource_types?.map((e: any) => (
             <Box key={e.name} marginLeft="sm">
               <div data-tip data-for={e.name}>
                 <FlexBox alignItems="center">
@@ -136,14 +136,14 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => {
         return (
           <FlexBox alignItems="center">
-            <div data-tip data-for={connector.metadata.resource_id}>
+            <div data-tip data-for={connector?.body?.resource_id}>
               <Paragraph size="small" color="black">
-                {connector.metadata.resource_id}
+                {connector?.body?.resource_id}
               </Paragraph>
             </div>
             <Tooltip
-              id={connector.metadata.resource_id}
-              text={connector.metadata.resource_id}
+              id={connector?.body?.resource_id}
+              text={connector?.body?.resource_id}
             />
           </FlexBox>
         );
@@ -158,14 +158,14 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.metadata.auth_method}>
+          <div data-tip data-for={connector?.body?.auth_method}>
             <Paragraph size="small" color="black">
-              {connector.metadata.auth_method}
+              {connector?.body?.auth_method}
             </Paragraph>
           </div>
           <Tooltip
-            id={connector.metadata.auth_method}
-            text={connector.metadata.auth_method}
+            id={connector?.body?.auth_method}
+            text={connector?.body?.auth_method}
           />
         </FlexBox>
       ),
@@ -180,14 +180,14 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.body.user.name}>
+          <div data-tip data-for={connector?.body?.user.name}>
             <Paragraph size="small" color="black">
-              {connector.body.user.name}
+              {connector?.body?.user.name}
             </Paragraph>
           </div>
           <Tooltip
-            id={connector.body.user.name}
-            text={connector.body.user.name}
+            id={connector?.body?.user.name}
+            text={connector?.body?.user.name}
           />
         </FlexBox>
       ),
@@ -201,18 +201,21 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <>
-          {connector.created && (
+          {connector?.created && (
             <FlexBox alignItems="center">
-              <div data-tip data-for={formatDateToSort(connector.body.created)}>
+              <div
+                data-tip
+                data-for={formatDateToSort(connector?.body?.created)}
+              >
                 <FlexBox alignItems="center">
                   <Paragraph color="grey" size="tiny">
-                    {formatDateToDisplayOnTable(connector.body.created)}
+                    {formatDateToDisplayOnTable(connector?.body?.created)}
                   </Paragraph>
                 </FlexBox>
               </div>
               <Tooltip
-                id={formatDateToSort(connector.body.created)}
-                text={formatDateToDisplayOnTable(connector.body.created)}
+                id={formatDateToSort(connector?.body?.created)}
+                text={formatDateToDisplayOnTable(connector?.body?.created)}
               />
             </FlexBox>
           )}
@@ -229,7 +232,7 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <Box paddingRight="sm">
-            {connector.body.is_shared && (
+            {connector?.body?.is_shared && (
               <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
             )}
           </Box>

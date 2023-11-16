@@ -73,11 +73,11 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <Box marginLeft="sm">
-            <div data-tip data-for={connector?.metadata?.connector_type?.name}>
+            <div data-tip data-for={connector?.body?.connector_type?.name}>
               <FlexBox alignItems="center">
                 <img
-                  alt={connector?.metadata?.connector_type?.logo_url}
-                  src={connector?.metadata?.connector_type?.logo_url}
+                  alt={connector?.body?.connector_type?.logo_url}
+                  src={connector?.body?.connector_type?.logo_url}
                   style={{
                     height: '28px',
                     width: '28px',
@@ -86,8 +86,8 @@ export const GetHeaderCols = ({
               </FlexBox>
             </div>
             <Tooltip
-              id={connector?.metadata?.connector_type?.name}
-              text={connector?.metadata?.connector_type?.name}
+              id={connector?.body?.connector_type?.name}
+              text={connector?.body?.connector_type?.name}
             />
           </Box>
         </FlexBox>
@@ -103,9 +103,9 @@ export const GetHeaderCols = ({
       ),
       width: '10%',
       renderRow: (connector: any) => {
-        const filteredResourceTypes: Array<any> = connector?.metadata?.connector_type?.resource_types?.filter(
+        const filteredResourceTypes: Array<any> = connector?.body?.connector_type?.resource_types?.filter(
           (e: any) => {
-            if (connector?.metadata?.resource_types?.includes(e.resource_type))
+            if (connector?.body?.resource_types?.includes(e.resource_type))
               return e;
           },
         );
@@ -114,9 +114,7 @@ export const GetHeaderCols = ({
           <FlexBox alignItems="center">
             {filteredResourceTypes?.slice(0, 2)?.map(
               (e: any, index: number) =>
-                connector?.metadata?.resource_types.includes(
-                  e?.resource_type,
-                ) && (
+                connector?.body?.resource_types.includes(e?.resource_type) && (
                   <Box key={index} marginLeft={index !== 0 ? 'sm' : null}>
                     <div data-tip data-for={e?.name}>
                       <FlexBox alignItems="center">
@@ -208,14 +206,14 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => {
         return (
           <FlexBox alignItems="center">
-            <div data-tip data-for={connector?.metadata?.resource_id}>
+            <div data-tip data-for={connector?.body?.resource_id}>
               <Paragraph size="small" color="black">
-                {connector?.metadata?.resource_id}
+                {connector?.body?.resource_id}
               </Paragraph>
             </div>
             <Tooltip
-              id={connector?.metadata?.resource_id}
-              text={connector?.metadata?.resource_id}
+              id={connector?.body?.resource_id}
+              text={connector?.body?.resource_id}
             />
           </FlexBox>
         );
@@ -230,14 +228,14 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector?.metadata?.auth_method}>
+          <div data-tip data-for={connector?.body?.auth_method}>
             <Paragraph size="small" color="black">
-              {connector?.metadata?.auth_method}
+              {connector?.body?.auth_method}
             </Paragraph>
           </div>
           <Tooltip
-            id={connector?.metadata?.auth_method}
-            text={connector?.metadata?.auth_method}
+            id={connector?.body?.auth_method}
+            text={connector?.body?.auth_method}
           />
         </FlexBox>
       ),
