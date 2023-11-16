@@ -39,7 +39,7 @@ export const UpdateConfig: React.FC<{
   const history = useHistory();
   const [connectorName, setConnectorName] = useState('');
   const [connectorDescription, setConnectorDescription] = useState(
-    connector?.metadata.description,
+    connector?.body?.description,
   );
   const [connectorExpirationSeconds, setConnectorExpirationSeconds] = useState(
     connector?.metadata.expirationSeconds,
@@ -220,7 +220,7 @@ export const UpdateConfig: React.FC<{
       is_shared: isShared,
       name: connectorName,
       connector_type: connector?.body.connector_type.connector_type,
-      description: connector?.body.description,
+      description: connectorDescription,
       auth_method: connector?.body.auth_method,
       resource_types: connector?.body.resource_types,
       configuration: { ...modifiedPayload },
@@ -659,7 +659,7 @@ export const UpdateConfig: React.FC<{
               className={styles.textArea}
               value={connectorDescription}
               onChange={(e: any) => {
-                setConnectorDescription(e);
+                setConnectorDescription(e.target.value);
               }}
             />
           </FlexBox>

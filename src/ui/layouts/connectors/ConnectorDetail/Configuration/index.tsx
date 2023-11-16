@@ -489,7 +489,7 @@ export const Configuration: React.FC<{
               type="textarea"
               label={'Description'}
               optional={false}
-              defaultValue={connector?.description}
+              defaultValue={connector?.body?.description}
               placeholder=""
               className={styles.field}
               style={{ height: '200px' }}

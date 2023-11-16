@@ -150,7 +150,7 @@ const ArtifactVisualization = ({
     }
   }, [divRef.current, response?.data?.value, type]); //eslint-disable-line
 
-  if (node.metadata.visualizations.length < 1)
+  if (node?.metadata?.visualizations?.length < 1)
     return (
       <div className={`${style.FullWidthSpinnerContainer}`}>
         <Paragraph>No Visualisations available</Paragraph>

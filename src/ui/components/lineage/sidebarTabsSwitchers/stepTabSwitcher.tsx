@@ -202,7 +202,8 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                   </tr>
                   <tr>
                     <td className="td_key">Status</td>
-                    {node.body.status && node.body.status === 'completed' ? (
+                    {node?.body?.status &&
+                    node?.body?.status === 'completed' ? (
                       <>
                         <td className="td_value">
                           <FlexBox style={{ marginLeft: '5px', gap: '10px' }}>
@@ -223,7 +224,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                         &nbsp;&nbsp;&nbsp;
                       </>
                     ) : (
-                      <td className="td_value">{node.body.status}</td>
+                      <td className="td_value">{node?.body?.status}</td>
                     )}
                   </tr>
                   <tr>
@@ -254,8 +255,8 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                     </td>
                   </tr>
                   <tr>
-                    {node.metadata.config.enable_artifact_metadata &&
-                    node.metadata.config.enable_artifact_metadata ? (
+                    {node?.metadata.config.enable_artifact_metadata &&
+                    node?.metadata.config.enable_artifact_metadata ? (
                       <>
                         <td className="td_key">enable_artifact_metadata</td>
                         <td className="td_value">
@@ -410,12 +411,12 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                     </div>
                   )}
 
-                  {Object.entries(node?.metadata?.run_metadata).length >= 0 &&
-                    Object.entries(node?.metadata?.run_metadata)?.map(
-                      (e: any) => (
-                        <tr>
-                          <td className="td_key">{e[1]?.key}</td>
-                          <td className="td_value">{e[1]?.value}</td>
+                  {node?.metadata?.run_metadata &&
+                    Object.entries(node.metadata.run_metadata).map(
+                      (entry, index) => (
+                        <tr key={index}>
+                          <td className="td_key">{entry[0]}</td>
+                          <td className="td_value">{entry[1]}</td>
                         </tr>
                       ),
                     )}
