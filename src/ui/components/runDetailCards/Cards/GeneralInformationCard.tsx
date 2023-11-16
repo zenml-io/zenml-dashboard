@@ -45,14 +45,14 @@ const GeneralInformationCard = ({ run }: GeneralInformationCardProps) => {
         <Paragraph className={styles.card__key}>Start Time</Paragraph>
         <Paragraph className={styles.card__value}>
           {/* @ts-ignore */}
-          {formatDateToDisplay(run.startTime)}
+          {formatDateToDisplay(run.metadata.start_time)}
         </Paragraph>
       </div>
       <div>
         <Paragraph className={styles.card__key}>End Time</Paragraph>
         <Paragraph className={styles.card__value}>
           {/* @ts-ignore */}
-          {formatDateToDisplay(run.endTime)}
+          {formatDateToDisplay(run.metadata.end_time)}
         </Paragraph>
       </div>
       <div>

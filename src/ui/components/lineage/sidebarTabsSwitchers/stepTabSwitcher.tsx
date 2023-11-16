@@ -404,7 +404,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
             <>
               <table cellSpacing="0" className="sidebar_table">
                 <tbody>
-                  {_.isEmpty(node?.metadata) && (
+                  {_.isEmpty(node?.metadata?.run_metadata) && (
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <Paragraph>No Metadata available</Paragraph>
                     </div>
