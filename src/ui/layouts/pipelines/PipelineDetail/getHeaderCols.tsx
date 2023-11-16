@@ -64,7 +64,7 @@ export const GetHeaderCols = ({
       render: () => <HeaderText text="VERSION" />,
       width: '10%',
       renderRow: (pipeline: Pipeline) => (
-        <Paragraph size="small">{/* {pipeline?.version} */}</Paragraph>
+        <Paragraph size="small">{pipeline?.body?.version}</Paragraph>
       ),
     },
     {
