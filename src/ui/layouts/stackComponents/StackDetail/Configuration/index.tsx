@@ -649,7 +649,7 @@ export const Configuration: React.FC<{
           </Box>
 
           <Box style={{ position: 'relative' }}>
-            {mappedObject && mappedObject[elementName].length >= 1 && (
+            {mappedObject[elementName]?.length >= 1 && (
               <div
                 style={{
                   position: 'absolute',
@@ -669,59 +669,58 @@ export const Configuration: React.FC<{
                 marginLeft: '2px',
               }}
             >
-              {mappedObject &&
-                mappedObject[elementName]?.map((item: any, index: any) => (
-                  <Fragment key={index}>
-                    <Box
-                      style={{ display: 'flex', alignItems: 'center' }}
-                      marginTop="sm"
+              {mappedObject[elementName]?.map((item: any, index: any) => (
+                <Fragment key={index}>
+                  <Box
+                    style={{ display: 'flex', alignItems: 'center' }}
+                    marginTop="sm"
+                  >
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
+
+                    <div className="form-group" style={{ width: '28.5vw' }}>
+                      <EditField
+                        disabled
+                        className={styles.field}
+                        label={'Value'}
+                        value={item}
+                        placeholder={''}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        justifyContent: 'space-between',
+                        display: 'flex',
+                        marginTop: '10px',
+                      }}
                     >
                       <div
                         style={{
-                          marginTop: '30px',
-                          width: '15px',
-                          borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
                         }}
                       ></div>
-                      <div
-                        style={{
-                          marginTop: '30px',
-                          marginRight: '5px',
-                          marginLeft: '-2px',
-                          color: 'rgba(68, 62, 153, 0.3)',
-                        }}
-                      >
-                        &#x27A4;
-                      </div>
-
-                      <div className="form-group" style={{ width: '28.5vw' }}>
-                        <EditField
-                          disabled
-                          className={styles.field}
-                          label={'Value'}
-                          value={item}
-                          placeholder={''}
-                        />
-                      </div>
-                      <div
-                        style={{
-                          justifyContent: 'space-between',
-                          display: 'flex',
-                          marginTop: '10px',
-                        }}
-                      >
-                        <div
-                          style={{
-                            display: 'flex',
-                            flexDirection: 'row',
-                            justifyContent: 'space-between',
-                            alignItems: 'center',
-                          }}
-                        ></div>
-                      </div>
-                    </Box>
-                  </Fragment>
-                ))}
+                    </div>
+                  </Box>
+                </Fragment>
+              ))}
             </div>
             <div className="submit-button"></div>
             <br />
