@@ -294,7 +294,7 @@ export const useHeaderCols = ({
             <FlexBox alignItems="center">
               <div
                 data-tip
-                data-for={run?.body.pipeline?.name}
+                data-for={run?.body?.pipeline?.name}
                 // data-for={run?.body.pipeline?.name && run?.pipeline?.version}
               >
                 <Paragraph

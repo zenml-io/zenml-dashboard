@@ -69,7 +69,7 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
         <FlexBox alignItems="center">
           <div
             data-tip
-            data-for={run?.body.pipeline?.name}
+            data-for={run?.body?.pipeline?.name}
             // data-for={run?.body.pipeline?.name && run?.body?.pipeline?.version}
           >
             <Paragraph
