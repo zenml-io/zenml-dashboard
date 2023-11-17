@@ -182,7 +182,7 @@ export const DashBoard: React.FC = () => {
   }, [selectedWorkspace]);
 
   const preData = Object.entries(dashboardData);
-  const data = preData?.map(([key, value]) => {
+  const data = preData.map(([key, value]) => {
     const objData = { text: key, value: value };
     return objData;
   });
@@ -218,7 +218,7 @@ export const DashBoard: React.FC = () => {
                 <FullWidthSpinner color="black" size="md" />
               ) : (
                 <Row style={{ alignItems: 'center', marginLeft: '15px' }}>
-                  {data?.map((e, index) => (
+                  {data.map((e, index) => (
                     <Box
                       onMouseEnter={() => handleMouseEnter(e)}
                       onMouseLeave={handleMouseLeave}

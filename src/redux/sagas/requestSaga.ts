@@ -93,7 +93,7 @@ export function* handleRequestSaga(action: any) {
     } else {
       yield put({
         type: action.payload.successActionType,
-        payload: response.data,
+        payload: response?.data,
         requestParams: action.payload.params,
       });
 

@@ -25,6 +25,17 @@ Cypress.Commands.add('checkTableAndH4Visibility' as any, (emptyText) => {
   });
 });
 
+Cypress.Commands.add('checkTableAndClickRow' as any, (emptyText) => {
+  cy.get('table, h4').then(($elements) => {
+    cy.wait(500);
+    // At least one of the elements should be visible
+    expect($elements.filter(':visible')).to.have.length.above(0);
+    if ($elements.filter('table:visible').length > 0) {
+      cy.get('table tbody tr:first').click({ force: true });
+    }
+  });
+});
+
 Cypress.Commands.add('checkRepoCardAndH4Visibility' as any, (emptyText) => {
   cy.get('[data-testid="repository_card"], h4').then(($elements) => {
     cy.wait(500);
