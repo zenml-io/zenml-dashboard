@@ -405,20 +405,20 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
             <>
               <table cellSpacing="0" className="sidebar_table">
                 <tbody>
-                  {_.isEmpty(node?.metadata?.run_metadata) && (
+                  {_.isEmpty(node.metadata?.run_metadata) && (
                     <div style={{ display: 'flex', justifyContent: 'center' }}>
                       <Paragraph>No Metadata available</Paragraph>
                     </div>
                   )}
-
-                  {Object.entries(node.metadata.run_metadata)?.map(
-                    (e: any, index: number) => (
-                      <tr key={index}>
-                        <td className="td_key">{e[1]?.key}</td>
-                        <td className="td_value">{e[1]?.value}</td>
-                      </tr>
-                    ),
-                  )}
+                  {node.metadata?.run_metadata !== null &&
+                    Object.entries(node.metadata.run_metadata).map(
+                      (e: any, index: number) => (
+                        <tr key={index}>
+                          <td className="td_key">{e[1]?.key}</td>
+                          <td className="td_value">{e[1]?.value}</td>
+                        </tr>
+                      ),
+                    )}
                 </tbody>
               </table>
             </>
