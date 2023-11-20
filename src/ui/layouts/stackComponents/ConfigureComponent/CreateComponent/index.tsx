@@ -125,10 +125,6 @@ export const CreateComponent: React.FC<{
             setInputObjectType.push({
               [key]: [{ key: '', value: '' }],
             });
-          } else {
-            setInputObjectType.push({
-              [key]: [{ key: '', value: '' }],
-            });
           }
         }
         return null;
@@ -167,7 +163,7 @@ export const CreateComponent: React.FC<{
     setInputData({
       ...inputData,
       [name]: {
-        value: value.value ? value.value : value,
+        value: value?.value ? value?.value : value,
         id: value?.id ? value?.id : '',
       },
     });
