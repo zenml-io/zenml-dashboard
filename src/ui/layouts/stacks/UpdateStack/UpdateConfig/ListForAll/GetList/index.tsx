@@ -60,7 +60,7 @@ export const GetList: React.FC<Props> = ({
               const temp: any = flavourList.find(
                 (fl: any) =>
                   fl.name === item.body.flavor &&
-                  fl.body.type === item.body.type,
+                  fl.body?.type === item.body.type,
               );
               if (temp) {
                 return {

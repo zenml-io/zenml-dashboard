@@ -134,7 +134,7 @@ export const useHeaderCols = ({
         <FlexBox alignItems="center">
           <div
             data-tip
-            data-for={`${run?.body.pipeline?.name}`}
+            data-for={`${run?.body?.pipeline?.name}`}
             // data-for={`${run?.pipeline?.name} ${run?.pipeline?.version}`}
           >
             <Paragraph
@@ -148,21 +148,21 @@ export const useHeaderCols = ({
                 event.stopPropagation();
                 history.push(
                   routePaths.pipeline.configuration(
-                    run?.body.pipeline?.id as string,
+                    run?.body?.pipeline?.id as string,
                     selectedWorkspace,
                   ),
                 );
               }}
             >
-              {`${run?.body.pipeline?.name}`}
-              {/* {`${run?.body.pipeline?.name} ( v${run?.pipeline?.version} )`} */}
+              {`${run?.body?.pipeline?.name}`}
+              {/* {`${run?.body?.pipeline?.name} ( v${run?.pipeline?.version} )`} */}
             </Paragraph>
           </div>
           <Tooltip
-            id={`${run?.body.pipeline?.name}`}
-            text={`${run?.body.pipeline?.name}`}
-            // id={`${run?.body.pipeline?.name} ${run?.pipeline?.version}`}
-            // text={`${run?.body.pipeline?.name} (${run?.pipeline?.version})`}
+            id={`${run?.body?.pipeline?.name}`}
+            text={`${run?.body?.pipeline?.name}`}
+            // id={`${run?.body?.pipeline?.name} ${run?.pipeline?.version}`}
+            // text={`${run?.body?.pipeline?.name} (${run?.pipeline?.version})`}
           />
         </FlexBox>
       ),
@@ -249,12 +249,12 @@ export const useHeaderCols = ({
       renderRow: (run: Run) => {
         return (
           <FlexBox alignItems="center">
-            <div data-tip data-for={run?.body.user?.name}>
+            <div data-tip data-for={run?.body?.user?.name}>
               <FlexBox alignItems="center">
-                <Paragraph size="small">{run?.body.user?.name}</Paragraph>
+                <Paragraph size="small">{run?.body?.user?.name}</Paragraph>
               </FlexBox>
             </div>
-            <Tooltip id={run?.body.user?.name} text={run?.body.user?.name} />
+            <Tooltip id={run?.body?.user?.name} text={run?.body?.user?.name} />
           </FlexBox>
         );
       },
@@ -268,13 +268,13 @@ export const useHeaderCols = ({
             asc: (runs: Run[]) =>
               _.orderBy(
                 runs,
-                (run: Run) => new Date(run?.body.created as string).getTime(),
+                (run: Run) => new Date(run?.body?.created as string).getTime(),
                 ['asc'],
               ),
             desc: (runs: Run[]) =>
               _.orderBy(
                 runs,
-                (run: Run) => new Date(run?.body.created as string).getTime(),
+                (run: Run) => new Date(run?.body?.created as string).getTime(),
                 ['desc'],
               ),
           })}
@@ -287,16 +287,19 @@ export const useHeaderCols = ({
       width: '20%',
       renderRow: (run: Run) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToDisplayOnTable(run.body.created)}>
+          <div
+            data-tip
+            data-for={formatDateToDisplayOnTable(run.body?.created)}
+          >
             <FlexBox alignItems="center">
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(run.body.created)}
+                {formatDateToDisplayOnTable(run.body?.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <Tooltip
-            id={formatDateToDisplayOnTable(run.body.created)}
-            text={formatDateToDisplayOnTable(run.body.created)}
+            id={formatDateToDisplayOnTable(run.body?.created)}
+            text={formatDateToDisplayOnTable(run.body?.created)}
           />
         </FlexBox>
       ),

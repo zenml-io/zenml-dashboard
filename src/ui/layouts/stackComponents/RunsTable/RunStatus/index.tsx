@@ -7,8 +7,8 @@ export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
   return (
     <>
       <FlexBox alignItems="center">
-        <div data-tip data-for={run.body.status}>
-          <If condition={run.body.status === runStatus.COMPLETED}>
+        <div data-tip data-for={run.body?.status}>
+          <If condition={run.body?.status === runStatus.COMPLETED}>
             {() => (
               <div style={{ marginLeft: '-24px' }}>
                 <icons.circleCheck
@@ -19,16 +19,16 @@ export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
             )}
           </If>
         </div>
-        <Tooltip id={run.body.status} text={run.body.status} />
+        <Tooltip id={run.body?.status} text={run.body?.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
         <div
           data-tip
-          data-for={run.body.status}
+          data-for={run.body?.status}
           style={{ margin: '0 auto 0 auto' }}
         >
-          <If condition={run.body.status === runStatus.RUNNING}>
+          <If condition={run.body?.status === runStatus.RUNNING}>
             {() => (
               <div style={{ marginLeft: '-24px' }}>
                 <icons.inProgress
@@ -39,16 +39,16 @@ export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
             )}
           </If>
         </div>
-        <Tooltip id={run.body.status} text={run.body.status} />
+        <Tooltip id={run.body?.status} text={run.body?.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
         <div
           data-tip
-          data-for={run.body.status}
+          data-for={run.body?.status}
           style={{ margin: '0 auto 0 auto' }}
         >
-          <If condition={run.body.status === runStatus.FAILED}>
+          <If condition={run.body?.status === runStatus.FAILED}>
             {() => (
               <div style={{ marginLeft: '-24px' }}>
                 <icons.failed color={iconColors.red} size={iconSizes.md} />
@@ -56,16 +56,16 @@ export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
             )}
           </If>
         </div>
-        <Tooltip id={run.body.status} text={run.body.status} />
+        <Tooltip id={run.body?.status} text={run.body?.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
         <div
           data-tip
-          data-for={run.body.status}
+          data-for={run.body?.status}
           style={{ margin: '0 auto 0 auto' }}
         >
-          <If condition={run.body.status === runStatus.CACHED}>
+          <If condition={run.body?.status === runStatus.CACHED}>
             {() => (
               <div style={{ marginLeft: '-24px' }}>
                 \
@@ -77,7 +77,7 @@ export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
             )}
           </If>
         </div>
-        <Tooltip id={run.body.status} text={run.body.status} />
+        <Tooltip id={run.body?.status} text={run.body?.status} />
       </FlexBox>
     </>
   );

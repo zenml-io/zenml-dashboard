@@ -19,7 +19,7 @@ import {
 } from '../../../components';
 import { useSelector, useDispatch } from '../../../hooks';
 import { PopupSmall } from '../../common/PopupSmall';
-import { RoleSelector } from './RoleSelector';
+// import { RoleSelector } from './RoleSelector';
 import {
   organizationSelectors,
   rolesSelectors,
@@ -38,76 +38,78 @@ export const InvitePopup: React.FC<{
 
   const dispatch = useDispatch();
   const invite: any = useSelector(organizationSelectors.invite);
-  const roles = useSelector(rolesSelectors.getRoles);
+  // const roles = useSelector(rolesSelectors.getRoles);
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
-  const [role, setRole] = useState<Array<any>>([]);
+  // const [role, setRole] = useState<Array<any>>([]);
 
-  const [allRoles, setAllRoles] = useState(
-    roles?.map((e) => {
-      return { value: e.id, label: e.name };
-    }),
-  );
+  // const [allRoles, setAllRoles] = useState(
+  //   roles?.map((e) => {
+  //     return { value: e.id, label: e.name };
+  //   }),
+  // );
 
   const inviteNewMembers = () => {
-    if (role) {
-      setSubmitting(true);
-      dispatch(
-        organizationActions.invite({
-          name,
-          onFailure: (errorText: string) => {
-            dispatch(
-              showToasterAction({
-                description: errorText,
-                type: toasterTypes.failure,
-              }),
-            );
-            setSubmitting(false);
-          },
-          onSuccess: async (user: any) => {
-            const headers = {
-              Authorization: `Bearer ${authToken}`,
-            };
-            try {
-              for (let index = 0; index < role.length; index++) {
-                const singleRole = role[index];
-                await axios.post(
-                  `${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
-                  // @ts-ignore
-                  { user: user.id, role: singleRole?.value },
-                  { headers },
-                );
-              }
-              setSubmitting(false);
-              setShowTokField(true);
-            } catch (err) {
-              setSubmitting(false);
-              setPopupOpen(false);
-              dispatch(
-                showToasterAction({
-                  // @ts-ignore
-                  description: err.response?.data?.detail[1],
-                  type: toasterTypes.failure,
-                }),
-              );
-            }
-            await dispatch(organizationActions.getMembers({}));
-          },
-        }),
-      );
-    } else {
-      dispatch(
-        showToasterAction({
-          description: 'Select Role',
-          type: toasterTypes.failure,
-        }),
-      );
-    }
+    // if (role) {
+    setSubmitting(true);
+    dispatch(
+      organizationActions.invite({
+        name,
+        onFailure: (errorText: string) => {
+          dispatch(
+            showToasterAction({
+              description: errorText,
+              type: toasterTypes.failure,
+            }),
+          );
+          setSubmitting(false);
+        },
+        onSuccess: async (user: any) => {
+          setSubmitting(false);
+          setShowTokField(true);
+          // const headers = {
+          //   Authorization: `Bearer ${authToken}`,
+          // };
+          // try {
+          //   for (let index = 0; index < role.length; index++) {
+          //     const singleRole = role[index];
+          //     await axios.post(
+          //       `${process.env.REACT_APP_BASE_API_URL}/role_assignments`,
+          //       // @ts-ignore
+          //       { user: user.id, role: singleRole?.value },
+          //       { headers },
+          //     );
+          //   }
+
+          // }
+          // catch (err) {
+          // ;
+          //   dispatch(
+          //     showToasterAction({
+          //       // @ts-ignore
+          //       description: err.response?.data?.detail[1],
+          //       type: toasterTypes.failure,
+          //     }),
+          //   );
+          // }
+          await dispatch(organizationActions.getMembers({}));
+        },
+      }),
+    );
+    // }
+    // else {
+    //   dispatch(
+    //     showToasterAction({
+    //       description: 'Select Role',
+    //       type: toasterTypes.failure,
+    //     }),
+    //   );
+    // }
   };
 
-  const preRoles = role?.map((e: any) => {
-    return { id: e?.value, name: e?.label };
-  });
+  // const preRoles = role?.map((e: any) => {
+  //   return { id: e?.value, name: e?.label };
+  // });
 
   return (
     <>
@@ -140,7 +142,7 @@ export const InvitePopup: React.FC<{
             disabled={showTokField}
           />
         </Box>
-
+        {/* 
         {!showTokField ? (
           <Box marginTop="lg">
             <RoleSelector
@@ -154,7 +156,7 @@ export const InvitePopup: React.FC<{
           <Box marginTop="lg">
             <RoleSelectorReadOnly roles={preRoles} />
           </Box>
-        )}
+        )} */}
 
         <Box marginTop="lg" marginBottom="xxxl">
           <CopyField

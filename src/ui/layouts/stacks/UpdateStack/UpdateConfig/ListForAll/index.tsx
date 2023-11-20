@@ -62,7 +62,7 @@ export const ListForAll: React.FC<{
       const updatedComponentsWithLogo = components.map((item: any) => {
         const temp: any = flavourList.find(
           (fl: any) =>
-            fl.name === item.body.flavor && fl.body.type === item.body.type,
+            fl.name === item.body.flavor && fl.body?.type === item.body.type,
         );
         if (temp) {
           return {
@@ -241,14 +241,14 @@ export const ListForAll: React.FC<{
                 value={stackName}
               />
             </Box>
-
+            {/* 
             <Box marginLeft="xl" style={{ width: '30%' }}>
               <ToggleField
                 label={'Share Stack with public'}
                 value={isShared}
                 onHandleChange={(value: any) => setIshared(!isShared)}
               />
-            </Box>
+            </Box> */}
           </FlexBox.Row>
         </Box>
 

@@ -71,7 +71,7 @@ export const useService = ({
     const mappedConnectorComponent = connectorComponent.map((item: any) => {
       const temp: any = flavourList.find(
         (fl: any) =>
-          fl.name === item.body.flavor && fl.body.type === item.body.type,
+          fl.name === item.body.flavor && fl.body?.type === item.body.type,
       );
 
       if (temp) {

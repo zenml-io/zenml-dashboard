@@ -129,57 +129,57 @@ export const GetHeaderCols = ({
         </FlexBox>
       ),
     },
-    {
-      render: () => (
-        <SortingHeader
-          onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
-          sorting="is_shared"
-          sortMethod={sortMethod('is_shared', {
-            asc: (filteredStacks: Stack[]) =>
-              _.orderBy(filteredStacks, ['is_shared'], ['asc']),
-            desc: (filteredStacks: Stack[]) =>
-              _.orderBy(filteredStacks, ['is_shared'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-            <HeaderText text="SHARED" margin="-16px" />
-          </Box>
-        </SortingHeader>
-      ),
-      testId: 'Shared',
-      width: '15%',
-      renderRow: (stack: Stack) => (
-        <FlexBox alignItems="center">
-          <div
-            style={{ margin: '0 auto 0 auto' }}
-            data-tip
-            data-for={`tooltip-${String(stack.body.is_shared)}`}
-          >
-            <Box>
-              <FlexBox justifyContent="center" style={{ marginLeft: '-16px' }}>
-                {stack.body.is_shared ? (
-                  <icons.multiUser
-                    color={iconColors.white}
-                    size={iconSizes.md}
-                  />
-                ) : (
-                  <icons.singleUser
-                    color={iconColors.white}
-                    size={iconSizes.md}
-                  />
-                )}
-              </FlexBox>
-            </Box>
-          </div>
-          <Tooltip
-            id={`tooltip-${String(stack.body.is_shared)}`}
-            text={stack.body.is_shared ? 'True' : 'False'}
-          />
-        </FlexBox>
-      ),
-    },
+    // {
+    //   render: () => (
+    //     <SortingHeader
+    //       onlyOneRow={filteredStacks.length === 1 || expendedRow?.length === 1}
+    //       sorting="is_shared"
+    //       sortMethod={sortMethod('is_shared', {
+    //         asc: (filteredStacks: Stack[]) =>
+    //           _.orderBy(filteredStacks, ['is_shared'], ['asc']),
+    //         desc: (filteredStacks: Stack[]) =>
+    //           _.orderBy(filteredStacks, ['is_shared'], ['desc']),
+    //       })}
+    //       activeSorting={activeSorting}
+    //       activeSortingDirection={activeSortingDirection}
+    //     >
+    //       <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
+    //         <HeaderText text="SHARED" margin="-16px" />
+    //       </Box>
+    //     </SortingHeader>
+    //   ),
+    //   testId: 'Shared',
+    //   width: '15%',
+    //   renderRow: (stack: Stack) => (
+    //     <FlexBox alignItems="center">
+    //       <div
+    //         style={{ margin: '0 auto 0 auto' }}
+    //         data-tip
+    //         data-for={`tooltip-${String(stack.body?.is_shared)}`}
+    //       >
+    //         <Box>
+    //           <FlexBox justifyContent="center" style={{ marginLeft: '-16px' }}>
+    //             {stack.body?.is_shared ? (
+    //               <icons.multiUser
+    //                 color={iconColors.white}
+    //                 size={iconSizes.md}
+    //               />
+    //             ) : (
+    //               <icons.singleUser
+    //                 color={iconColors.white}
+    //                 size={iconSizes.md}
+    //               />
+    //             )}
+    //           </FlexBox>
+    //         </Box>
+    //       </div>
+    //       <Tooltip
+    //         id={`tooltip-${String(stack.body?.is_shared)}`}
+    //         text={stack.body?.is_shared ? 'True' : 'False'}
+    //       />
+    //     </FlexBox>
+    //   ),
+    // },
 
     {
       render: () => (
@@ -199,18 +199,18 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       testId: 'Author',
-      width: '15%',
+      width: '25%',
       renderRow: (stack: Stack) => {
         return (
           <FlexBox alignItems="center">
-            <div data-tip data-for={stack?.body.user?.name}>
+            <div data-tip data-for={stack?.body?.user?.name}>
               <FlexBox alignItems="center">
-                <Paragraph size="small">{stack?.body.user?.name}</Paragraph>
+                <Paragraph size="small">{stack?.body?.user?.name}</Paragraph>
               </FlexBox>
             </div>
             <Tooltip
-              id={stack?.body.user?.name}
-              text={stack?.body.user?.name}
+              id={stack?.body?.user?.name}
+              text={stack?.body?.user?.name}
             />
           </FlexBox>
         );
@@ -226,14 +226,14 @@ export const GetHeaderCols = ({
               _.orderBy(
                 filteredStacks,
                 (stack: Stack) =>
-                  new Date(stack.body.created as string).getTime(),
+                  new Date(stack.body?.created as string).getTime(),
                 ['asc'],
               ),
             desc: (filteredStacks: Stack[]) =>
               _.orderBy(
                 filteredStacks,
                 (stack: Stack) =>
-                  new Date(stack.body.created as string).getTime(),
+                  new Date(stack.body?.created as string).getTime(),
                 ['desc'],
               ),
           })}
@@ -244,22 +244,22 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       testId: 'created_at',
-      width: '20%',
+      width: '25%',
       renderRow: (stack: Stack) => (
         <FlexBox alignItems="center">
           <div
             data-tip
-            data-for={formatDateToSort(stack.body.created as string)}
+            data-for={formatDateToSort(stack.body?.created as string)}
           >
             <FlexBox alignItems="center">
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(stack.body.created)}
+                {formatDateToDisplayOnTable(stack.body?.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <Tooltip
-            id={formatDateToSort(stack.body.created as string)}
-            text={formatDateToDisplayOnTable(stack.body.created as string)}
+            id={formatDateToSort(stack.body?.created as string)}
+            text={formatDateToDisplayOnTable(stack.body?.created as string)}
           />
         </FlexBox>
       ),

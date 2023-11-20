@@ -664,7 +664,7 @@ export const UpdateConfig: React.FC<{
             />
           </FlexBox>
         </Container>
-        <Container>
+        {/* <Container>
           <Box marginTop="lg">
             <ToggleField
               label={'Share Component with public'}
@@ -673,7 +673,7 @@ export const UpdateConfig: React.FC<{
               onHandleChange={(key: any, value: any) => setIsShared(!isShared)}
             />
           </Box>
-        </Container>
+        </Container> */}
       </FlexBox.Row>
 
       <Box marginTop="lg" marginLeft="md" style={{ width: '30vw' }}>

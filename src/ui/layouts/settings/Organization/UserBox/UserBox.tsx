@@ -19,7 +19,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
 
   return (
     <>
-      {permission && editPopup && (
+      {editPopup && (
         <UpdateMember
           member={data}
           setEditPopup={setEditPopup}
@@ -27,13 +27,13 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
           setUser={setUser}
         />
       )}
-      {permission && tokenPopup && (
+      {tokenPopup && (
         <TokenPopup
           id={data?.id}
           fullName={data?.metadata?.fullName}
           username={data?.name}
           active={data?.metadata?.active}
-          roles={data?.metadata?.roles}
+          // roles={data?.metadata?.roles}
           setTokenPopup={setTokenPopup}
         />
       )}
@@ -60,7 +60,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
               {data?.metadata.fullName ? data?.metadata.fullName : data?.name}
             </Paragraph>
           </Box>
-
+          {/* 
           <Box marginTop="sm" className={styles.rolesContainer}>
             <Row>
               {data?.metadata.roles?.map((e: any, index: number) => (
@@ -75,7 +75,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
                 </Paragraph>
               ))}
             </Row>
-          </Box>
+          </Box> */}
 
           {!data?.metadata?.active && (
             <Box

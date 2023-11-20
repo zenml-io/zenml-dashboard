@@ -22,7 +22,7 @@ export const UpdateMember: React.FC<{
   const dispatch = useDispatch();
   const roles = useSelector(rolesSelectors.getRoles);
 
-  const userFullName = member.metadata?.full_name || member.name;
+  const userFullName = member.body?.full_name || member.name;
   const userInitials = getInitials(userFullName as string);
 
   const [allRoles, setAllRoles] = useState(
@@ -84,19 +84,17 @@ export const UpdateMember: React.FC<{
       <Box marginTop="md">
         <Box>
           <Paragraph className={styles.memberName}>
-            {member.metadata?.full_name
-              ? member.metadata?.full_name
-              : member.name}
+            {member.body?.full_name ? member.body?.full_name : member.name}
           </Paragraph>
         </Box>
 
-        <Box marginTop="lg">
+        {/* <Box marginTop="lg">
           <RoleSelectorAPI
             allRoles={allRoles}
             setAllRoles={setAllRoles}
             memberId={member.id}
           />
-        </Box>
+        </Box> */}
 
         <Box
           marginTop="lg"
@@ -109,19 +107,19 @@ export const UpdateMember: React.FC<{
         >
           <FlexBox.Row fullWidth justifyContent="space-between">
             <Box>Status</Box>
-            <Box>{member.metadata?.active ? <>Accepted</> : <>Pending</>}</Box>
+            <Box>{member.body?.active ? <>Accepted</> : <>Pending</>}</Box>
           </FlexBox.Row>
           <FlexBox.Row marginTop="sm" fullWidth justifyContent="space-between">
             <Box>Created at</Box>
             <Box>
-              {formatDateToDisplayWithoutTime(member.body.created as any)}
+              {formatDateToDisplayWithoutTime(member.body?.created as any)}
             </Box>
           </FlexBox.Row>
         </Box>
       </Box>
 
       <Box style={{ marginTop: '40px' }}>
-        {member.metadata?.active && (
+        {member.body?.active && (
           <>
             <Box marginBottom="md">
               <Separator.LightNew />

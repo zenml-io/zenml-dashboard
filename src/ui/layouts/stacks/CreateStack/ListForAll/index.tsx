@@ -231,13 +231,13 @@ export const ListForAll: React.FC<Props> = () => {
                 value={stackName}
               />
             </Box>
-            <Box marginLeft="xl" style={{ width: '30%' }}>
+            {/* <Box marginLeft="xl" style={{ width: '30%' }}>
               <ToggleField
                 label={'Share Stack with public'}
                 value={isShared}
                 onHandleChange={(value: any) => setIshared(!isShared)}
               />
-            </Box>
+            </Box> */}
           </FlexBox.Row>
         </Box>
 

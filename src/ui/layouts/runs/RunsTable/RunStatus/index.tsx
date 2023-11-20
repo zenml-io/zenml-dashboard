@@ -15,14 +15,14 @@ const Element = ({
   <FlexBox alignItems="center">
     <div
       data-tip
-      data-for={run?.body.status}
+      data-for={run?.body?.status}
       style={{ margin: '0 auto 0 auto' }}
     >
       <If condition={condition}>
         {() => <div style={{ marginLeft: '-24px' }}>{icon}</div>}
       </If>
     </div>
-    <Tooltip id={run?.body.status} text={run?.body.status} />
+    <Tooltip id={run?.body?.status} text={run?.body?.status} />
   </FlexBox>
 );
 
@@ -31,7 +31,7 @@ export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
     <>
       <Element
         run={run}
-        condition={run?.body.status === runStatus.COMPLETED}
+        condition={run?.body?.status === runStatus.COMPLETED}
         icon={
           <icons.circleCheck
             color={iconColors.lightGreen}
@@ -42,7 +42,7 @@ export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
 
       <Element
         run={run}
-        condition={run?.body.status === runStatus.RUNNING}
+        condition={run?.body?.status === runStatus.RUNNING}
         icon={
           <icons.inProgress color={iconColors.orange} size={iconSizes.md} />
         }
@@ -50,13 +50,13 @@ export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
 
       <Element
         run={run}
-        condition={run?.body.status === runStatus.FAILED}
+        condition={run?.body?.status === runStatus.FAILED}
         icon={<icons.failed color={iconColors.red} size={iconSizes.md} />}
       />
 
       <Element
         run={run}
-        condition={run?.body.status === runStatus.CACHED}
+        condition={run?.body?.status === runStatus.CACHED}
         icon={
           <icons.cached color={iconColors.butterflyBlue} size={iconSizes.md} />
         }

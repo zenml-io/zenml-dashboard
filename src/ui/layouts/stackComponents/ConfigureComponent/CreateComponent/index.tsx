@@ -939,14 +939,14 @@ export const CreateComponent: React.FC<{
             label={'Component Name'}
             value={componentName}
           />
-          <Box marginTop="md">
+          {/* <Box marginTop="md">
             <ToggleField
               label={'Share Component with public'}
               default={isShared}
               value={isShared}
               onHandleChange={() => setIsShared(!isShared)}
             />
-          </Box>
+          </Box> */}
           {flavor.metadata.connector_resource_type && (
             <Box marginTop="md" style={{ width: '30vw' }}>
               <Paragraph size="body" style={{ color: '#000' }}>

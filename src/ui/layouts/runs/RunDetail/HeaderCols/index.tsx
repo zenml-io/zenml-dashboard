@@ -67,8 +67,8 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
         <FlexBox alignItems="center">
           <div
             data-tip
-            data-for={`${run?.body.pipeline?.name}`}
-            // data-for={`${run?.body.pipeline?.name}  ${run?.body.pipeline?.version}`}
+            data-for={`${run?.body?.pipeline?.name}`}
+            // data-for={`${run?.body?.pipeline?.name}  ${run?.body?.pipeline?.version}`}
           >
             <Paragraph
               size="small"
@@ -81,21 +81,21 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
                 event.stopPropagation();
                 history.push(
                   routePaths.pipeline.configuration(
-                    run?.body.pipeline?.id as string,
+                    run?.body?.pipeline?.id as string,
                     selectedWorkspace,
                   ),
                 );
               }}
             >
-              {`${run?.body.pipeline?.name}`}
-              {/* {`${run?.body.pipeline?.name} ( v${run?.body.pipeline?.version} )`} */}
+              {`${run?.body?.pipeline?.name}`}
+              {/* {`${run?.body?.pipeline?.name} ( v${run?.body?.pipeline?.version} )`} */}
             </Paragraph>
           </div>
           <Tooltip
-            id={`${run?.body.pipeline?.name}`}
-            text={`${run?.body.pipeline?.name}`}
-            // id={`${run?.body.pipeline?.name} ${run?.body.pipeline?.version}`}
-            // text={`${run?.body.pipeline?.name} (${run?.body.pipeline?.version})`}
+            id={`${run?.body?.pipeline?.name}`}
+            text={`${run?.body?.pipeline?.name}`}
+            // id={`${run?.body?.pipeline?.name} ${run?.body?.pipeline?.version}`}
+            // text={`${run?.body?.pipeline?.name} (${run?.body?.pipeline?.version})`}
           />
         </FlexBox>
       ),
@@ -178,16 +178,19 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
       width: '20%',
       renderRow: (run: Run) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToDisplayOnTable(run.body.created)}>
+          <div
+            data-tip
+            data-for={formatDateToDisplayOnTable(run.body?.created)}
+          >
             <FlexBox alignItems="center">
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(run.body.created)}
+                {formatDateToDisplayOnTable(run.body?.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <Tooltip
-            id={formatDateToDisplayOnTable(run.body.created)}
-            text={formatDateToDisplayOnTable(run.body.created)}
+            id={formatDateToDisplayOnTable(run.body?.created)}
+            text={formatDateToDisplayOnTable(run.body?.created)}
           />
         </FlexBox>
       ),

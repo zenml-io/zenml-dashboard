@@ -78,7 +78,7 @@ export const CreatePipelineButton: React.FC = () => {
                   </FlexBox.Row>
                 ),
               )
-            : constantCommandsToCreatePipeline.body.map((item, index) =>
+            : constantCommandsToCreatePipeline.body?.map((item, index) =>
                 item.isCode ? (
                   <FlexBox alignItems="center" marginTop="md" key={index}>
                     <CommandBoxWScroll command={item.text} />

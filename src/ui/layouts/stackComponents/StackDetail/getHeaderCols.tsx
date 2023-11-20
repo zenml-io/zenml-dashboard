@@ -104,55 +104,55 @@ export const GetHeaderCols = ({
         </>
       ),
     },
-    {
-      render: () => (
-        <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-          <HeaderText text="SHARED" margin="-24px" />
-        </Box>
-      ),
-      width: '10%',
-      renderRow: (stack: StackComponent) => (
-        <>
-          {stack?.body && (
-            <FlexBox alignItems="center">
-              <div
-                style={{ margin: '0 auto 0 auto' }}
-                data-tip
-                data-for={`tooltip-${String(stack?.body?.is_shared)}`}
-              >
-                <Box>
-                  <FlexBox
-                    justifyContent="center"
-                    style={{
-                      borderRadius: '50%',
+    // {
+    //   render: () => (
+    //     <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
+    //       <HeaderText text="SHARED" margin="-24px" />
+    //     </Box>
+    //   ),
+    //   width: '10%',
+    //   renderRow: (stack: StackComponent) => (
+    //     <>
+    //       {stack?.body && (
+    //         <FlexBox alignItems="center">
+    //           <div
+    //             style={{ margin: '0 auto 0 auto' }}
+    //             data-tip
+    //             data-for={`tooltip-${String(stack?.body?.is_shared)}`}
+    //           >
+    //             <Box>
+    //               <FlexBox
+    //                 justifyContent="center"
+    //                 style={{
+    //                   borderRadius: '50%',
 
-                      marginLeft: '-24px',
-                      textAlign: 'center',
-                    }}
-                  >
-                    {stack?.body?.is_shared ? (
-                      <icons.multiUser
-                        color={iconColors.white}
-                        size={iconSizes.md}
-                      />
-                    ) : (
-                      <icons.singleUser
-                        color={iconColors.white}
-                        size={iconSizes.md}
-                      />
-                    )}
-                  </FlexBox>
-                </Box>
-              </div>
-              <Tooltip
-                id={`tooltip-${String(stack?.body?.is_shared)}`}
-                text={stack?.body?.is_shared ? 'True' : 'False'}
-              />
-            </FlexBox>
-          )}
-        </>
-      ),
-    },
+    //                   marginLeft: '-24px',
+    //                   textAlign: 'center',
+    //                 }}
+    //               >
+    //                 {stack?.body?.is_shared ? (
+    //                   <icons.multiUser
+    //                     color={iconColors.white}
+    //                     size={iconSizes.md}
+    //                   />
+    //                 ) : (
+    //                   <icons.singleUser
+    //                     color={iconColors.white}
+    //                     size={iconSizes.md}
+    //                   />
+    //                 )}
+    //               </FlexBox>
+    //             </Box>
+    //           </div>
+    //           <Tooltip
+    //             id={`tooltip-${String(stack?.body?.is_shared)}`}
+    //             text={stack?.body?.is_shared ? 'True' : 'False'}
+    //           />
+    //         </FlexBox>
+    //       )}
+    //     </>
+    //   ),
+    // },
 
     {
       render: () => <HeaderText text="AUTHOR" />,

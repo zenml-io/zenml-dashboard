@@ -876,14 +876,14 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
             label={'Name'}
             value={connectorName}
           />
-          <Box marginTop="md">
+          {/* <Box marginTop="md">
             <ToggleField
               label={'Share Component with public'}
               default={isShared}
               value={isShared}
               onHandleChange={(key: any, value: any) => setIsShared(!isShared)}
             />
-          </Box>
+          </Box> */}
           <Box>
             <Box marginTop="sm">
               <Paragraph size="body" style={{ color: '#000' }}>

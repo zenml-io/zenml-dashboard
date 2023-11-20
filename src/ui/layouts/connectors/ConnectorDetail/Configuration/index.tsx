@@ -496,7 +496,7 @@ export const Configuration: React.FC<{
             />
           </Box>
         </Container>
-        <Container>
+        {/* <Container>
           <Box marginTop="lg" style={{ width: '30vw' }}>
             <ToggleField
               value={connector?.is_shared}
@@ -504,7 +504,7 @@ export const Configuration: React.FC<{
               disabled={true}
             />
           </Box>
-        </Container>
+        </Container> */}
       </FlexBox.Row>
 
       <Box style={{ width: '30vw' }} marginLeft="md" marginTop="lg">

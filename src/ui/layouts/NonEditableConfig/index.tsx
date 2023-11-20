@@ -397,14 +397,14 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
             className={styles.field}
           />
         </Box>
-        <Box marginTop="lg">
+        {/* <Box marginTop="lg">
           <ToggleField
             name="Share Component with public"
             value={stackComponent?.body?.is_shared}
             label="Share Component with public"
             disabled={true}
           />
-        </Box>
+        </Box> */}
       </FlexBox.Row>
       <FlexBox.Row flexDirection="column">
         <Box style={{ width: '80%' }}>

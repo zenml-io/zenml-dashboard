@@ -6,7 +6,7 @@ import { Run } from '../../../../api/types';
 
 export const PipelineName: React.FC<{ run: Run }> = ({ run }) => {
   const stack = useSelector(
-    stackSelectors.stackForId(run.body.stack?.id as string),
+    stackSelectors.stackForId(run.body?.stack?.id as string),
   );
 
   const name = stack.name;

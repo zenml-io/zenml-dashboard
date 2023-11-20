@@ -17,7 +17,7 @@ import { userSelectors } from '../../../../redux/selectors';
 import AddUserBox from './UserBox/AddUserBox';
 import UserBox from './UserBox/UserBox';
 import { PasswordPopup } from '../PasswordPopup';
-import { getUniquePermissions } from '../permissions';
+// import { getUniquePermissions } from '../permissions';
 
 export const Organization: React.FC = () => {
   const dispatch = useDispatch();
@@ -85,9 +85,9 @@ export const Organization: React.FC = () => {
               <UserBox
                 key={index}
                 data={e}
-                permission={getUniquePermissions(
-                  loggedinUser || undefined,
-                ).includes('write')}
+                // permission={getUniquePermissions(
+                //   loggedinUser || undefined,
+                // ).includes('write')}
                 setShowPasswordUpdate={setShowPasswordPopup}
                 setUser={setUser}
               />

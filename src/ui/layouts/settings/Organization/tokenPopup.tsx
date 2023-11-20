@@ -27,9 +27,9 @@ export const TokenPopup: React.FC<{
   fullName: string | null;
   username: string;
   active: boolean;
-  roles: Array<any>;
+  // roles: Array<any>;
   setTokenPopup: any;
-}> = ({ id, fullName, username, roles, setTokenPopup }) => {
+}> = ({ id, fullName, username, setTokenPopup }) => {
   const [submitting, setSubmitting] = useState(false);
   const [showTokField, setShowTokField] = useState(false);
 
@@ -97,9 +97,9 @@ export const TokenPopup: React.FC<{
         </Box>
       </Box>
 
-      <Box marginTop="lg">
+      {/* <Box marginTop="lg">
         <RoleSelectorReadOnly roles={roles} />
-      </Box>
+      </Box> */}
 
       <Box marginTop="lg">
         <CopyField

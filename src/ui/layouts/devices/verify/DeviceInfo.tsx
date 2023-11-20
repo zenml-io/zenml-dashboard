@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './index.module.scss';
-import { Device } from '../../../../api/types';
+// import { Device } from '../../../../api/types';
 import {
   CheckboxInput,
   H3,
@@ -9,7 +9,8 @@ import {
 } from '../../../components';
 
 type DeviceInfoProps = {
-  deviceInfo: Device | null;
+  // any should be change to Device
+  deviceInfo: any | null;
   isTrusted: boolean;
   disabled: boolean;
   setIsTrusted: (value: boolean) => void;

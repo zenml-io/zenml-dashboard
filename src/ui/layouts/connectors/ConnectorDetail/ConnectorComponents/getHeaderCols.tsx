@@ -159,12 +159,12 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <Box marginLeft="sm">
-            <div data-tip data-for={connector.body.type}>
+            <div data-tip data-for={connector.body?.type}>
               <Paragraph size="small" color="black">
-                {connector.body.type}
+                {connector.body?.type}
               </Paragraph>
             </div>
-            <Tooltip id={connector.body.type} text={connector.body.type} />
+            <Tooltip id={connector.body?.type} text={connector.body?.type} />
           </Box>
         </FlexBox>
       ),
@@ -330,14 +330,14 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={connector.body.user.name}>
+          <div data-tip data-for={connector.body?.user.name}>
             <Paragraph size="small" color="black">
-              {connector.body.user.name}
+              {connector.body?.user.name}
             </Paragraph>
           </div>
           <Tooltip
-            id={connector.body.user.name}
-            text={connector.body.user.name}
+            id={connector.body?.user.name}
+            text={connector.body?.user.name}
           />
         </FlexBox>
       ),
@@ -354,13 +354,13 @@ export const GetHeaderCols = ({
             asc: (filteredConnectors: any[]) =>
               _.orderBy(
                 filteredConnectors,
-                (connector: any) => new Date(connector.body.created).getTime(),
+                (connector: any) => new Date(connector.body?.created).getTime(),
                 ['asc'],
               ),
             desc: (filteredConnectors: any[]) =>
               _.orderBy(
                 filteredConnectors,
-                (connector: any) => new Date(connector.body.created).getTime(),
+                (connector: any) => new Date(connector.body?.created).getTime(),
                 ['desc'],
               ),
           })}
@@ -375,18 +375,21 @@ export const GetHeaderCols = ({
       width: '10%',
       renderRow: (connector: any) => (
         <>
-          {connector.body.created && (
+          {connector.body?.created && (
             <FlexBox alignItems="center">
-              <div data-tip data-for={formatDateToSort(connector.body.created)}>
+              <div
+                data-tip
+                data-for={formatDateToSort(connector.body?.created)}
+              >
                 <FlexBox alignItems="center">
                   <Paragraph color="grey" size="tiny">
-                    {formatDateToDisplayOnTable(connector.body.created)}
+                    {formatDateToDisplayOnTable(connector.body?.created)}
                   </Paragraph>
                 </FlexBox>
               </div>
               <Tooltip
-                id={formatDateToSort(connector.body.created)}
-                text={formatDateToDisplayOnTable(connector.body.created)}
+                id={formatDateToSort(connector.body?.created)}
+                text={formatDateToDisplayOnTable(connector.body?.created)}
               />
             </FlexBox>
           )}
@@ -404,13 +407,13 @@ export const GetHeaderCols = ({
             asc: (filteredConnectors: any[]) =>
               _.orderBy(
                 filteredConnectors,
-                (connector: any) => new Date(connector.body.created).getTime(),
+                (connector: any) => new Date(connector.body?.created).getTime(),
                 ['asc'],
               ),
             desc: (filteredConnectors: any[]) =>
               _.orderBy(
                 filteredConnectors,
-                (connector: any) => new Date(connector.body.created).getTime(),
+                (connector: any) => new Date(connector.body?.created).getTime(),
                 ['desc'],
               ),
           })}
@@ -426,7 +429,7 @@ export const GetHeaderCols = ({
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <Box paddingRight="sm">
-            {connector.body.is_shared && (
+            {connector.body?.is_shared && (
               <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
             )}
           </Box>

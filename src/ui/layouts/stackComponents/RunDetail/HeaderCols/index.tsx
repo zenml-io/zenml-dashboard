@@ -70,7 +70,7 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
           <div
             data-tip
             data-for={run?.body?.pipeline?.name}
-            // data-for={run?.body.pipeline?.name && run?.body?.pipeline?.version}
+            // data-for={run?.body?.pipeline?.name && run?.body?.pipeline?.version}
           >
             <Paragraph
               size="small"
@@ -152,13 +152,13 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
       renderRow: (run: Run) => {
         return (
           <FlexBox alignItems="center">
-            <div data-tip data-for={run?.body.user?.name}>
+            <div data-tip data-for={run?.body?.user?.name}>
               <FlexBox alignItems="center">
-                <Paragraph size="small">{run?.body.user?.name}</Paragraph>
+                <Paragraph size="small">{run?.body?.user?.name}</Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip id={run?.body.user?.name} place="top" effect="solid">
-              <Paragraph color="white">{run?.body.user?.name}</Paragraph>
+            <ReactTooltip id={run?.body?.user?.name} place="top" effect="solid">
+              <Paragraph color="white">{run?.body?.user?.name}</Paragraph>
             </ReactTooltip>
           </FlexBox>
         );
@@ -171,21 +171,21 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
         <FlexBox alignItems="center">
           <div
             data-tip
-            data-for={formatDateToDisplayOnTable(run?.body.created)}
+            data-for={formatDateToDisplayOnTable(run?.body?.created)}
           >
             <FlexBox alignItems="center">
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(run?.body.created)}
+                {formatDateToDisplayOnTable(run?.body?.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <ReactTooltip
-            id={formatDateToDisplayOnTable(run?.body.created)}
+            id={formatDateToDisplayOnTable(run?.body?.created)}
             place="top"
             effect="solid"
           >
             <Paragraph color="white">
-              {formatDateToDisplayOnTable(run?.body.created)}
+              {formatDateToDisplayOnTable(run?.body?.created)}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>

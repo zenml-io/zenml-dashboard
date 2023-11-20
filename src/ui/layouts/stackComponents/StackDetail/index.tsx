@@ -197,7 +197,7 @@ export const StackDetail: React.FC = () => {
     (item: any) => {
       const temp: any = flavorList?.find(
         (fl: any) =>
-          fl.name === item.body.flavor && fl.body.type === item.body.type,
+          fl.name === item.body.flavor && fl.body?.type === item.body.type,
       );
       if (temp) {
         return {
