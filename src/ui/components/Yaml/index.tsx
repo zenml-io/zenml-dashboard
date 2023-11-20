@@ -125,7 +125,7 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
   const {
     initialNodes: layoutedNodes,
     initialEdges: layoutedEdges,
-  } = getLayoutedElements(graph.graph.node, graph.graph.edge);
+  } = getLayoutedElements(graph?.graph?.node, graph?.graph?.edge);
   const [fetching, setFetching] = useState(false); //eslint-disable-line
   const [fetchingSchedule, setFetchingSchedule] = useState(false); //eslint-disable-line
   const [na, setNa] = useState(false); //eslint-disable-line
@@ -136,15 +136,15 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
   const authToken = useSelector(sessionSelectors.authenticationToken);
 
   useEffect(() => {
-    const AsyncFetchCall = async () => {
-      setFetchingSchedule(true);
-      const resposne = await fetchSchedule(
-        '97f92da7-d5d7-4224-8b92-5fcbfb43d4fe',
-        authToken,
-      );
-      setSchedule(resposne);
-    };
-    AsyncFetchCall();
+    // const AsyncFetchCall = async () => {
+    //   setFetchingSchedule(true);
+    //   const resposne = await fetchSchedule(
+    //     '97f92da7-d5d7-4224-8b92-5fcbfb43d4fe',
+    //     authToken,
+    //   );
+    //   setSchedule(resposne);
+    // };
+    // AsyncFetchCall();
   }, []); //eslint-disable-line
 
   useEffect(() => {
@@ -188,7 +188,7 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
   return (
     <>
       <div style={{ overflow: 'hidden' }}>
-        <div>
+        {/* <div>
           {!fetchingSchedule ? (
             <table className={`${styles.Scheduled}`}>
               <thead>
@@ -254,7 +254,7 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
               </tbody>
             </table>
           )}
-        </div>
+        </div> */}
         <div className="layout" style={{ overflow: 'hidden' }}>
           <div className="layoutflow">
             <ReactFlow
