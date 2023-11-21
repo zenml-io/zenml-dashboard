@@ -81,7 +81,8 @@ export const UpdateConfig: React.FC<{
 
       return updatedObj;
     }
-    const convertedJson = convertJSON(connector?.metadata.labels);
+
+    const convertedJson = convertJSON(connector && connector.metadata.labels);
 
     const configurationModifiedObj: any = {};
 

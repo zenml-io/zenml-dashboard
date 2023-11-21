@@ -6,7 +6,7 @@ import { search } from '../utils/searchUtils';
 import { tableColumnsSorting } from '../utils/tableColumnSortingUtils';
 import { tableColumns } from '../utils/tableColumnUtils';
 
-describe('FilterComponent E2E Tests', () => {
+describe("Connector's Table E2E Tests", () => {
   beforeEach(() => {
     login();
     cy.waitUntilDashboardIsLoaded();

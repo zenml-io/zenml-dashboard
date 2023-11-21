@@ -548,11 +548,11 @@ export const Configuration: React.FC<{
 
       <Box marginTop="lg" marginLeft={'md'} style={{ width: '30vw' }}>
         <Paragraph size="body" style={{ color: 'black' }}>
-          <label htmlFor={connector?.labels}>{'Labels'}</label>
+          <label htmlFor={connector?.metadata?.labels}>{'Labels'}</label>
         </Paragraph>
 
         <Box style={{ position: 'relative' }}>
-          {Object.keys(connector?.labels || {}).length < 1 && (
+          {Object.keys(connector?.metadata?.labels || {}).length < 1 && (
             <>
               <div
                 style={{
@@ -620,7 +620,7 @@ export const Configuration: React.FC<{
         </Box>
 
         <Box style={{ position: 'relative' }}>
-          {Object.entries(connector?.labels || {}).map(
+          {Object.entries(connector?.metadata?.labels || {}).map(
             ([key, value], index) => (
               <>
                 <div
