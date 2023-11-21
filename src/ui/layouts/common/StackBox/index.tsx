@@ -1,15 +1,23 @@
 import React from 'react';
-import { Box, Paragraph } from '../../../components';
+import { Box, Paragraph, icons } from '../../../components';
 
 import styles from './index.module.scss';
 import imageAddIcon from '../../../assets/imageAddIcon.svg';
+import { iconColors, iconSizes } from '../../../../constants';
 
 export const StackBox: React.FC<{
+  fromDisabledNestedRowtiles?: boolean;
   showCheckbox?: boolean;
   image?: any;
   stackName?: string;
   stackDesc?: string;
-}> = ({ showCheckbox, image, stackName, stackDesc }) => {
+}> = ({
+  showCheckbox,
+  image,
+  stackName,
+  fromDisabledNestedRowtiles,
+  stackDesc,
+}) => {
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -24,11 +32,34 @@ export const StackBox: React.FC<{
       {showCheckbox && <input type="checkbox" className={styles.checkbox} />}
       <Box className={styles.imageWrapper}>
         <Box className={styles.imageContainer}>
-          <img
-            src={image ? image : imageAddIcon}
-            alt="by Zenml"
-            style={{ height: '59px' }}
-          />
+          {fromDisabledNestedRowtiles ? (
+            // <div
+            //   style={{
+            //     // justifyContent: 'center',
+            //     // alignItems: 'center',
+
+            //     flex: 1,
+            //     backgroundColor: 'red',
+            //   }}
+            // >
+            <icons.lock2
+              // style={{ }}
+              style={{
+                display: 'flex',
+                justifyContent: 'center', // Aligns content horizontally
+                alignItems: 'center',
+              }}
+              size={'xxl'}
+              color={iconColors.grey}
+            />
+          ) : (
+            // </div>
+            <img
+              src={image ? image : imageAddIcon}
+              alt="by Zenml"
+              style={{ height: '59px' }}
+            />
+          )}
         </Box>
       </Box>
 

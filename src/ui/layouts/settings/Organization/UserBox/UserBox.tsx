@@ -77,7 +77,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
             </Row>
           </Box> */}
 
-          {!data?.metadata?.active && (
+          {!data?.body?.active && (
             <Box
               onClick={handleTokenPopup}
               marginTop="sm"

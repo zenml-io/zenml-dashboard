@@ -36,18 +36,41 @@ import { routePaths } from '../../../../../routes/routePaths';
 export const Configuration: React.FC<{
   stackId: TId;
   tiles?: any;
+  disabledNestedRowtiles?: any;
   fetching?: boolean;
-}> = ({ stackId, tiles, fetching = false }) => {
+}> = ({ stackId, tiles, disabledNestedRowtiles, fetching = false }) => {
   const { stack } = useService({ stackId });
   const user = useSelector(userSelectors.myUser);
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [loading, setLoading] = useState(false);
+  const [showToolTip, setShowToolTip] = useState(null as any);
   const dispatch = useDispatch();
   const locationPath = useLocation() as any;
 
   const history = useHistory();
+
+  const handleIdToHover = (id: string) => {
+    setShowToolTip(id);
+  };
+  const handleIdToLeave = () => {
+    setShowToolTip(null);
+  };
+
+  const customToolTip = {
+    border: '2px solid #f0ebfc',
+    borderRadius: '5px',
+    // display: 'flex',
+    padding: 16,
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    zIndex: 1000,
+    backgroundColor: 'white',
+    position: 'absolute',
+    bottom: 200,
+    // marginBottom: '1000px',
+  };
 
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
@@ -153,11 +176,68 @@ export const Configuration: React.FC<{
                 }}
               >
                 <StackBox
+                  fromDisabledNestedRowtiles={false}
                   image={tile.logo}
                   stackName={tile.name}
                   stackDesc={tile.type}
                 />
               </Box>
+            ))}
+        </Row>
+
+        <Row>
+          {disabledNestedRowtiles &&
+            disabledNestedRowtiles.map((tile: any, index: number) => (
+              <div
+                key={index}
+                onMouseEnter={() => {
+                  handleIdToHover(tile.id);
+                }}
+                onMouseLeave={() => {
+                  handleIdToLeave();
+                }}
+              >
+                {tile.id === showToolTip && (
+                  <Box
+                    style={customToolTip as any}
+                    // style={innerBoxStyleDisable}
+                  >
+                    <div
+                      style={{
+                        width: '380px',
+                      }}
+                    >
+                      <p style={{ fontSize: 18, fontWeight: 'bold' }}>
+                        You Don't have acces to this Component.
+                      </p>
+                      <p style={{ fontSize: 16, color: '#666c78' }}>
+                        Please contact your admin for further information
+                        <br />
+                        or to request access.
+                        <br />
+                        {`( ${tile.name} )`}
+                      </p>
+                    </div>
+                  </Box>
+                )}
+                <Box
+                  key={index}
+                  className={styles.tile}
+                  marginTop="md"
+                  marginLeft="md"
+                  onClick={() => {
+                    // setShowPopup(true);
+                    // setSelectedStackBox(tile);
+                  }}
+                >
+                  <StackBox
+                    fromDisabledNestedRowtiles={true}
+                    image={tile.logo}
+                    stackName={tile.name}
+                    stackDesc={tile.type}
+                  />
+                </Box>
+              </div>
             ))}
         </Row>
       </Box>

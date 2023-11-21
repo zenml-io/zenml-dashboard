@@ -12,7 +12,7 @@ import { useDispatch, useSelector } from '../../../hooks';
 import { translate } from './translate';
 import { InvitePopup } from './InvitePopup';
 import { useService } from './useService';
-import { rolesActions } from '../../../../redux/actions/roles';
+// import { rolesActions } from '../../../../redux/actions/roles';
 import { userSelectors } from '../../../../redux/selectors';
 import AddUserBox from './UserBox/AddUserBox';
 import UserBox from './UserBox/UserBox';
@@ -36,7 +36,7 @@ export const Organization: React.FC = () => {
 
   useEffect(() => {
     setFetchingMembers(true);
-    dispatch(rolesActions.getRoles({}));
+    // dispatch(rolesActions.getRoles({}));
     dispatch(
       organizationActions.getMembers({
         page: 1,

@@ -59,13 +59,19 @@ const getTabPages = (
   fetching: boolean,
   selectedWorkspace: string,
   tiles?: any,
+  disabledNestedRowtiles?: any,
   history?: any,
 ): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
       Component: () => (
-        <Configuration fetching={fetching} tiles={tiles} stackId={stackId} />
+        <Configuration
+          fetching={fetching}
+          tiles={tiles}
+          disabledNestedRowtiles={disabledNestedRowtiles}
+          stackId={stackId}
+        />
       ),
       path: routePaths.stack.configuration(stackId, selectedWorkspace),
     },
@@ -111,6 +117,7 @@ export const StackDetail: React.FC = () => {
   filteredStacks.push(stack);
   const history = useHistory();
   const nestedRowtiles = [];
+  const disabledNestedRowtiles = [];
   const { flavourList, fetching } = GetFlavorsListForLogo();
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -142,6 +149,13 @@ export const StackDetail: React.FC = () => {
               logo: body.logo_url,
             });
           }
+        } else if (value && value[0]?.permission_denied) {
+          disabledNestedRowtiles.push({
+            ...(value[0] as StackComponent),
+            type: key,
+            name: value[0]?.name,
+            id: value[0]?.id,
+          });
         }
       }
     }
@@ -152,6 +166,7 @@ export const StackDetail: React.FC = () => {
     fetching,
     selectedWorkspace,
     nestedRowtiles,
+    disabledNestedRowtiles,
     history,
   );
   const breadcrumbs = getBreadcrumbs(stack?.id, selectedWorkspace);
