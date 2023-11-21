@@ -50,8 +50,9 @@ describe("Connector's Table E2E Tests", () => {
   });
 
   it('should work with valid value', () => {
+    cy.waitForLoaderToDisappear();
     const emptyText = 'We are sorry';
-    search('asd', emptyText);
+    search('a', emptyText);
   });
 
   it('should apply filters where string', () => {
@@ -70,6 +71,7 @@ describe("Connector's Table E2E Tests", () => {
     filterByBoolean(emptyText);
   });
   it('should navigate through pagination', () => {
+    cy.waitForLoaderToDisappear();
     // Assuming you have a button or link for next and previous pagination
     // You can click these buttons to navigate through pages
     pagination(); // Click the "Previous" button
