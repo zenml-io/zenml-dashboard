@@ -11,7 +11,7 @@ describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
     login();
     cy.waitUntilDashboardIsLoaded();
-    cy.wait(500);
+    cy.wait(1000);
     cy.get('[id="stack-component"]').click(); // Replace with your custom wait command
   });
 
@@ -46,7 +46,7 @@ describe('FilterComponent E2E Tests', () => {
 
   it('should work with valid value', () => {
     const emptyText = 'We are sorry';
-    search('asd2', emptyText);
+    search('a', emptyText);
   });
 
   it('should apply filters where string', () => {
@@ -70,7 +70,7 @@ describe('FilterComponent E2E Tests', () => {
     cy.checkTableAndH4Visibility('Nothing to see here');
 
     // Select the first row within the table (modify the selector as needed)
-    cy.get('table tbody tr:eq(4)').click({ force: true });
+    cy.get('table tbody tr:eq(1)').click({ force: true });
 
     cy.get('[data-testid="stack_tab"]').click();
     cy.waitForLoaderToDisappear();

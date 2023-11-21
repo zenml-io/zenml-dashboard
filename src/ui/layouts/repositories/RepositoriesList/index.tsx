@@ -115,7 +115,7 @@ const RepositoriyListBody = () => {
           ) : (
             <>
               <RepositoryGrid repositories={repositories} />
-              {repositories.length >= 1 && (
+              {repositories.length > 10 && (
                 <div
                   style={{
                     position: 'fixed',

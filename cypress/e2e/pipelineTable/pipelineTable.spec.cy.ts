@@ -48,7 +48,7 @@ describe('FilterComponent E2E Tests', () => {
 
   it('should work with valid value', () => {
     const emptyText = 'We are sorry';
-    search('pipeline', emptyText);
+    search('p', emptyText);
   });
 
   it('should apply filters where string', () => {

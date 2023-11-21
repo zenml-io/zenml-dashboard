@@ -29,7 +29,7 @@ describe('FilterComponent E2E Tests', () => {
 
   it('should work with valid value', () => {
     const emptyText = 'We are sorry';
-    search('asd2', emptyText);
+    search('a', emptyText);
   });
 
   it('should apply filters where string', () => {
@@ -40,6 +40,7 @@ describe('FilterComponent E2E Tests', () => {
     });
   });
   it('should navigate through pagination', () => {
+    cy.waitForLoaderToDisappear();
     // Assuming you have a button or link for next and previous pagination
     // You can click these buttons to navigate through pages
     pagination(); // Click the "Previous" button

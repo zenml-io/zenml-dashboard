@@ -25,6 +25,17 @@ Cypress.Commands.add('checkTableAndH4Visibility' as any, (emptyText) => {
   });
 });
 
+Cypress.Commands.add('checkDivAndH4Visibility' as any, (emptyText) => {
+  cy.get('[data-testid="search-input"], h4').then(($elements) => {
+    cy.wait(500);
+    // At least one of the elements should be visible
+    expect($elements.filter(':visible')).to.have.length.above(0);
+    if ($elements.filter('h4:visible').length > 0) {
+      cy.get('h4').should('contain', emptyText);
+    }
+  });
+});
+
 Cypress.Commands.add('checkTableAndClickRow' as any, (emptyText) => {
   cy.get('table, h4').then(($elements) => {
     cy.wait(500);
