@@ -199,10 +199,10 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          Resource Name
+          Resource ID
         </Paragraph>
       ),
-      width: '10%',
+      width: '14%',
       renderRow: (connector: any) => {
         return (
           <FlexBox alignItems="center">
@@ -225,7 +225,7 @@ export const GetHeaderCols = ({
           Authentication
         </Paragraph>
       ),
-      width: '10%',
+      width: '14%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={connector?.body?.auth_method}>
@@ -268,7 +268,7 @@ export const GetHeaderCols = ({
           Created
         </Paragraph>
       ),
-      width: '10%',
+      width: '12%',
       renderRow: (connector: any) => (
         <>
           {connector?.body?.created && (
@@ -292,22 +292,22 @@ export const GetHeaderCols = ({
         </>
       ),
     },
-    {
-      render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          Shared
-        </Paragraph>
-      ),
-      width: '10%',
-      renderRow: (connector: any) => (
-        <FlexBox alignItems="center">
-          <Box paddingRight="sm">
-            {connector?.body?.isShared && (
-              <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
-            )}
-          </Box>
-        </FlexBox>
-      ),
-    },
+    // {
+    //   render: () => (
+    //     <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
+    //       Shared
+    //     </Paragraph>
+    //   ),
+    //   width: '10%',
+    //   renderRow: (connector: any) => (
+    //     <FlexBox alignItems="center">
+    //       <Box paddingRight="sm">
+    //         {connector?.body?.isShared && (
+    //           <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
+    //         )}
+    //       </Box>
+    //     </FlexBox>
+    //   ),
+    // },
   ];
 };

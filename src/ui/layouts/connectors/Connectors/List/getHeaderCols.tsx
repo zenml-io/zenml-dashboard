@@ -319,7 +319,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       testId: 'resource_id',
-      width: '10%',
+      width: '14%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={connector?.body?.resource_id}>
@@ -356,7 +356,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       testId: 'Authentication',
-      width: '10%',
+      width: '14%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={connector?.body?.auth_method}>
@@ -441,7 +441,7 @@ export const GetHeaderCols = ({
         </SortingHeader>
       ),
       testId: 'created_at',
-      width: '10%',
+      width: '12%',
       renderRow: (connector: any) => (
         <>
           {connector?.body?.created && (
@@ -465,38 +465,38 @@ export const GetHeaderCols = ({
         </>
       ),
     },
-    {
-      render: () => (
-        <SortingHeader
-          onlyOneRow={
-            filteredConnectors.length === 1 || expendedRow?.length === 1
-          }
-          sorting="is_shared"
-          sortMethod={sortMethod('is_shared', {
-            asc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['is_shared'], ['asc']),
-            desc: (filteredConnectors: any[]) =>
-              _.orderBy(filteredConnectors, ['is_shared'], ['desc']),
-          })}
-          activeSorting={activeSorting}
-          activeSortingDirection={activeSortingDirection}
-        >
-          <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-            Shared
-          </Paragraph>
-        </SortingHeader>
-      ),
-      testId: 'Shared',
-      width: '10%',
-      renderRow: (connector: any) => (
-        <FlexBox alignItems="center">
-          <Box paddingRight="sm">
-            {connector?.body?.isShared && (
-              <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
-            )}
-          </Box>
-        </FlexBox>
-      ),
-    },
+    // {
+    //   render: () => (
+    //     <SortingHeader
+    //       onlyOneRow={
+    //         filteredConnectors.length === 1 || expendedRow?.length === 1
+    //       }
+    //       sorting="is_shared"
+    //       sortMethod={sortMethod('is_shared', {
+    //         asc: (filteredConnectors: any[]) =>
+    //           _.orderBy(filteredConnectors, ['is_shared'], ['asc']),
+    //         desc: (filteredConnectors: any[]) =>
+    //           _.orderBy(filteredConnectors, ['is_shared'], ['desc']),
+    //       })}
+    //       activeSorting={activeSorting}
+    //       activeSortingDirection={activeSortingDirection}
+    //     >
+    //       <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
+    //         Shared
+    //       </Paragraph>
+    //     </SortingHeader>
+    //   ),
+    //   testId: 'Shared',
+    //   width: '10%',
+    //   renderRow: (connector: any) => (
+    //     <FlexBox alignItems="center">
+    //       <Box paddingRight="sm">
+    //         {connector?.body?.isShared && (
+    //           <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
+    //         )}
+    //       </Box>
+    //     </FlexBox>
+    //   ),
+    // },
   ];
 };
