@@ -5,7 +5,7 @@ import {
   formatDateToSort,
   formatDateToDisplayOnTable,
 } from '../../../../utils';
-import { Box, FlexBox, icons, Paragraph, Tooltip } from '../../../components';
+import { FlexBox, icons, Paragraph, Tooltip } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { Stack } from '../../../../api/types';
 

@@ -3,7 +3,7 @@ import { Box, Paragraph, icons } from '../../../components';
 
 import styles from './index.module.scss';
 import imageAddIcon from '../../../assets/imageAddIcon.svg';
-import { iconColors, iconSizes } from '../../../../constants';
+import { iconColors } from '../../../../constants';
 
 export const StackBox: React.FC<{
   fromDisabledNestedRowtiles?: boolean;

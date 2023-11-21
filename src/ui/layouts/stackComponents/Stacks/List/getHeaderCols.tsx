@@ -7,7 +7,7 @@ import {
   formatDateToDisplayOnTable,
 } from '../../../../../utils';
 import {
-  Box,
+  // Box,
   FlexBox,
   icons,
   Paragraph,

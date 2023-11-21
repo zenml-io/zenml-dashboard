@@ -7,7 +7,7 @@ import {
   FullWidthSpinner,
   PrimaryButton,
 } from '../../../../../components';
-import { ToggleField } from '../../../../common/FormElement';
+// import { ToggleField } from '../../../../common/FormElement';
 
 import {
   sessionSelectors,
@@ -49,7 +49,7 @@ export const ListForAll: React.FC<{
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const { flavourList } = GetFlavorsListForLogo();
   const [stackName, setStackName] = useState(stackDetails.name || '');
-  const [isShared, setIshared] = useState(stackDetails.body.isShared);
+  // const [isShared, setIshared] = useState(stackDetails.body.isShared);
   const [selectedStack, setSelectedStack] = useState<any>([]);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -132,7 +132,7 @@ export const ListForAll: React.FC<{
     const body = {
       user: user?.id,
       workspace: id,
-      is_shared: isShared,
+      // is_shared: isShared,
       name: stackName,
       components: finalData,
     };

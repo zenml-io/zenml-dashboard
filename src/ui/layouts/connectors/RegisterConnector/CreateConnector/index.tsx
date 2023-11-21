@@ -42,7 +42,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   const user = useSelector(userSelectors.myUser);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [connectorName, setConnectorName] = useState('');
-  const [isShared, setIsShared] = useState(true);
+  // const [isShared, setIsShared] = useState(true);
   const [description, setDescription] = useState('');
   const [disableToCreate, setDisableToCreate] = useState(false);
 
@@ -211,7 +211,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
     const body: any = {
       user: user?.id,
       workspace: id,
-      is_shared: isShared,
+      // is_shared: isShared,
       name: connectorName,
       description: description,
       connector_type: connectorType.connectorType,
@@ -360,7 +360,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
     const body: any = {
       user: user?.id,
       workspace: id,
-      is_shared: isShared,
+      // is_shared: isShared,
       name: connectorName,
       description: description,
       connector_type: connectorType.connectorType,

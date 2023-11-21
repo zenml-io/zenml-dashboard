@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from './index.module.scss';
 import { useDispatch } from 'react-redux';
 import { Box, FlexBox, H4, Paragraph, Separator } from '../../../components';
@@ -6,9 +6,9 @@ import { PopupSmall } from '../../common/PopupSmall';
 import { translate } from './translate';
 import { organizationActions } from '../../../../redux/actions/organizations/index';
 import { showToasterAction } from '../../../../redux/actions/showToasterAction';
-import { rolesSelectors } from '../../../../redux/selectors';
-import { useSelector } from '../../../hooks';
-import { RoleSelectorAPI } from './RoleSelector/RoleSelectorAPI';
+// import { rolesSelectors } from '../../../../redux/selectors';
+// import { useSelector } from '../../../hooks';
+// import { RoleSelectorAPI } from './RoleSelector/RoleSelectorAPI';
 import { formatDateToDisplayWithoutTime } from '../../../../utils';
 import { getInitials } from '../../../../utils/name';
 import { User } from '../../../../api/types';
@@ -20,16 +20,16 @@ export const UpdateMember: React.FC<{
   setUser: any;
 }> = ({ member, setEditPopup, setShowPasswordUpdate, setUser }) => {
   const dispatch = useDispatch();
-  const roles = useSelector(rolesSelectors.getRoles);
+  // const roles = useSelector(rolesSelectors.getRoles);
 
   const userFullName = member.body?.full_name || member.name;
   const userInitials = getInitials(userFullName as string);
 
-  const [allRoles, setAllRoles] = useState(
-    roles?.map((e) => {
-      return { value: e.id, label: e.name };
-    }),
-  );
+  // const [allRoles, setAllRoles] = useState(
+  //   roles?.map((e) => {
+  //     return { value: e.id, label: e.name };
+  //   }),
+  // );
 
   const onDelete = () => {
     dispatch(

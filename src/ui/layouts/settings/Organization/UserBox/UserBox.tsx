@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
-import { FlexBox, Box, Row, Paragraph } from '../../../../components';
+import { FlexBox, Box, Paragraph } from '../../../../components';
 import { UpdateMember } from '../UpdateMember';
 import { TokenPopup } from '../tokenPopup';
 import { getInitials } from '../../../../../utils/name';

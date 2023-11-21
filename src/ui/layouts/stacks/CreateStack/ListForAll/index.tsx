@@ -6,7 +6,7 @@ import {
   FormTextField,
   PrimaryButton,
 } from '../../../../components';
-import { ToggleField } from '../../../common/FormElement';
+// import { ToggleField } from '../../../common/FormElement';
 
 import {
   sessionSelectors,
@@ -49,7 +49,7 @@ export const ListForAll: React.FC<Props> = () => {
   const [stackName, setStackName] = useState(
     paseSelectedStack?.stackName || '',
   );
-  const [isShared, setIshared] = useState(true);
+  // const [isShared, setIshared] = useState(true);
   const [selectedStack, setSelectedStack] = useState<any>(
     paseSelectedStack?.selectedStack || [],
   );
@@ -126,7 +126,7 @@ export const ListForAll: React.FC<Props> = () => {
     const body = {
       user: user?.id,
       workspace: id,
-      is_shared: isShared,
+      // is_shared: isShared,
       name: stackName,
       components: finalData,
     };
