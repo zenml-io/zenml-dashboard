@@ -52,17 +52,17 @@ const getLayoutedElements = (
     return { initialNodes, initialEdges };
   }
 
-  initialNodes.forEach((node) => {
-    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+  initialNodes?.forEach((node) => {
+    dagreGraph?.setNode(node.id, { width: nodeWidth, height: nodeHeight });
   });
 
-  initialEdges.forEach((edge) => {
-    dagreGraph.setEdge(edge.source, edge.target);
+  initialEdges?.forEach((edge) => {
+    dagreGraph?.setEdge(edge.source, edge.target);
   });
 
   dagre.layout(dagreGraph);
 
-  initialNodes.forEach((node) => {
+  initialNodes?.forEach((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
     node.targetPosition = isHorizontal ? 'left' : 'top';
     node.sourcePosition = isHorizontal ? 'right' : 'bottom';
