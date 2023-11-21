@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { sessionSelectors } from '../../../../redux/selectors';
 import { endpoints } from '../../../../api/endpoints';
 import { apiUrl } from '../../../../api/apiUrl';
-// import { Device } from '../../../../api/types';
+import { Device } from '../../../../api/types';
 import { sessionActions, showToasterAction } from '../../../../redux/actions';
 import { toasterTypes } from '../../../../constants';
 import { DeviceInfo } from './DeviceInfo';
@@ -17,8 +17,8 @@ export default function VerifyDevicesPage() {
   const dispatch = useDispatch();
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const { search } = useLocation();
-  // any should be change to Device
-  const [deviceInfo, setDeviceInfo] = useState<any | null>(null);
+
+  const [deviceInfo, setDeviceInfo] = useState<Device | null>(null);
 
   const [isTrusted, setIsTrusted] = useState(false);
   const [submitted, setSubmitted] = useState(false);

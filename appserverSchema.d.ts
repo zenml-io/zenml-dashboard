@@ -278,6 +278,19 @@ export type paths = {
      *     A list of workspaces.
      */
     get: operations["list_workspaces_api_v1_workspaces_get"];
+    /**
+     * Create Workspace
+     * @description Creates a workspace based on the requestBody.
+     *
+     * # noqa: DAR401
+     *
+     * Args:
+     *     workspace: Workspace to create.
+     *
+     * Returns:
+     *     The created workspace.
+     */
+    post: operations["create_workspace_api_v1_workspaces_post"];
   };
   "/api/v1/workspaces/{workspace_name_or_id}": {
     /**
@@ -295,6 +308,28 @@ export type paths = {
      *     The requested workspace.
      */
     get: operations["get_workspace_api_v1_workspaces__workspace_name_or_id__get"];
+    /**
+     * Update Workspace
+     * @description Get a workspace for given name.
+     *
+     * # noqa: DAR401
+     *
+     * Args:
+     *     workspace_name_or_id: Name or ID of the workspace to update.
+     *     workspace_update: the workspace to use to update
+     *
+     * Returns:
+     *     The updated workspace.
+     */
+    put: operations["update_workspace_api_v1_workspaces__workspace_name_or_id__put"];
+    /**
+     * Delete Workspace
+     * @description Deletes a workspace.
+     *
+     * Args:
+     *     workspace_name_or_id: Name or ID of the workspace.
+     */
+    delete: operations["delete_workspace_api_v1_workspaces__workspace_name_or_id__delete"];
   };
   "/api/v1/workspaces/{workspace_name_or_id}/stacks": {
     /**
@@ -344,7 +379,6 @@ export type paths = {
      *         filtering.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
-     *     auth_context: Authentication Context.
      *
      * Returns:
      *     All stack components part of the specified workspace.
@@ -579,14 +613,13 @@ export type paths = {
      * Args:
      *     workspace_name_or_id: Name or ID of the workspace.
      *     secret: Secret to create.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     The created secret.
      *
      * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the
-     *         secret does not match the current workspace or authenticated user.
+     *     IllegalOperationError: If the workspace specified in the
+     *         secret does not match the current workspace.
      */
     post: operations["create_secret_api_v1_workspaces__workspace_name_or_id__secrets_post"];
   };
@@ -748,15 +781,28 @@ export type paths = {
      */
     post: operations["create_model_version_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions_post"];
   };
-  "/api/v1/workspaces/{workspace_name_or_id}/models/{model_name_or_id}/model_versions/{model_version_name_or_id}/artifacts": {
+  "/api/v1/workspaces/{workspace_name_or_id}/model_versions/{model_version_id}/artifacts": {
+    /**
+     * List Workspace Model Version Artifact Links
+     * @description Get model version to artifact links according to query filters.
+     *
+     * Args:
+     *     workspace_name_or_id: Name or ID of the workspace.
+     *     model_version_id: Name or ID of the model version.
+     *     model_version_artifact_link_filter_model: Filter model used for pagination, sorting,
+     *         filtering
+     *
+     * Returns:
+     *     The model version to artifact links according to query filters.
+     */
+    get: operations["list_workspace_model_version_artifact_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__artifacts_get"];
     /**
      * Create Model Version Artifact Link
      * @description Create a new model version to artifact link.
      *
      * Args:
-     *     model_name_or_id: Name or ID of the model.
      *     workspace_name_or_id: Name or ID of the workspace.
-     *     model_version_name_or_id: Name or ID of the model version.
+     *     model_version_id: ID of the model version.
      *     model_version_artifact_link: The model version to artifact link to create.
      *     auth_context: Authentication context.
      *
@@ -768,34 +814,30 @@ export type paths = {
      *         model version does not match the current workspace or authenticated
      *         user.
      */
-    post: operations["create_model_version_artifact_link_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions__model_version_name_or_id__artifacts_post"];
+    post: operations["create_model_version_artifact_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__artifacts_post"];
   };
-  "/api/v1/workspaces/{workspace_name_or_id}/model_versions/{model_version_name_or_id}/artifacts": {
+  "/api/v1/workspaces/{workspace_name_or_id}/model_versions/{model_version_id}/runs": {
     /**
-     * List Workspace Model Version Artifact Links
-     * @description Get model version to artifact links according to query filters.
+     * List Workspace Model Version Pipeline Run Links
+     * @description Get model version to pipeline links according to query filters.
      *
      * Args:
-     *     model_name_or_id: Name or ID of the model.
      *     workspace_name_or_id: Name or ID of the workspace.
-     *     model_version_name_or_id: Name or ID of the model version.
-     *     model_version_artifact_link_filter_model: Filter model used for pagination, sorting,
+     *     model_version_id: ID of the model version.
+     *     model_version_pipeline_run_link_filter_model: Filter model used for pagination, sorting,
      *         filtering
      *
      * Returns:
-     *     The model version to artifact links according to query filters.
+     *     The model version to pipeline run links according to query filters.
      */
-    get: operations["list_workspace_model_version_artifact_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_name_or_id__artifacts_get"];
-  };
-  "/api/v1/workspaces/{workspace_name_or_id}/models/{model_name_or_id}/model_versions/{model_version_name_or_id}/runs": {
+    get: operations["list_workspace_model_version_pipeline_run_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__runs_get"];
     /**
      * Create Model Version Pipeline Run Link
      * @description Create a new model version to pipeline run link.
      *
      * Args:
-     *     model_name_or_id: Name or ID of the model.
      *     workspace_name_or_id: Name or ID of the workspace.
-     *     model_version_name_or_id: Name or ID of the model version.
+     *     model_version_id: ID of the model version.
      *     model_version_pipeline_run_link: The model version to pipeline run link to create.
      *     auth_context: Authentication context.
      *
@@ -808,24 +850,7 @@ export type paths = {
      *         model version does not match the current workspace or authenticated
      *         user.
      */
-    post: operations["create_model_version_pipeline_run_link_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions__model_version_name_or_id__runs_post"];
-  };
-  "/api/v1/workspaces/{workspace_name_or_id}/model_versions/{model_version_name_or_id}/runs": {
-    /**
-     * List Workspace Model Version Pipeline Run Links
-     * @description Get model version to pipeline links according to query filters.
-     *
-     * Args:
-     *     model_name_or_id: Name or ID of the model.
-     *     workspace_name_or_id: Name or ID of the workspace.
-     *     model_version_name_or_id: Name or ID of the model version.
-     *     model_version_pipeline_run_link_filter_model: Filter model used for pagination, sorting,
-     *         filtering
-     *
-     * Returns:
-     *     The model version to pipeline run links according to query filters.
-     */
-    get: operations["list_workspace_model_version_pipeline_run_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_name_or_id__runs_get"];
+    post: operations["create_model_version_pipeline_run_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__runs_post"];
   };
   "/api/v1/flavors": {
     /**
@@ -2017,101 +2042,118 @@ export type paths = {
      * List Model Versions
      * @description Get model versions according to query filters.
      *
+     * This endpoint serves the purpose of allowing scoped filtering by model_id.
+     *
      * Args:
      *     model_name_or_id: The name or ID of the model to list in.
      *     model_version_filter_model: Filter model used for pagination, sorting,
      *         filtering
+     *     auth_context: The authentication context.
      *
      * Returns:
      *     The model versions according to query filters.
      */
     get: operations["list_model_versions_api_v1_models__model_name_or_id__model_versions_get"];
   };
-  "/api/v1/models/{model_name_or_id}/model_versions/{model_version_name_or_number_or_id}": {
+  "/api/v1/model_versions": {
     /**
-     * Get Model Version
-     * @description Get a model version by name or ID.
+     * List Model Versions
+     * @description Get model versions according to query filters.
      *
      * Args:
-     *     model_name_or_id: The name or ID of the model containing version.
-     *     model_version_name_or_number_or_id: name, id, stage or number of the model version to be retrieved.
-     *             If skipped latest version will be retrieved.
-     *     is_number: If the model_version_name_or_number_or_id is a version number
+     *     model_version_filter_model: Filter model used for pagination, sorting,
+     *         filtering
+     *     auth_context: The authentication context.
+     *
+     * Returns:
+     *     The model versions according to query filters.
+     */
+    get: operations["list_model_versions_api_v1_model_versions_get"];
+  };
+  "/api/v1/model_versions/{model_version_id}": {
+    /**
+     * Get Model Version
+     * @description Get a model version by ID.
+     *
+     * Args:
+     *     model_version_id: id of the model version to be retrieved.
      *
      * Returns:
      *     The model version with the given name or ID.
      */
-    get: operations["get_model_version_api_v1_models__model_name_or_id__model_versions__model_version_name_or_number_or_id__get"];
-  };
-  "/api/v1/models/{model_id}/model_versions/{model_version_id}": {
+    get: operations["get_model_version_api_v1_model_versions__model_version_id__get"];
     /**
      * Update Model Version
      * @description Get all model versions by filter.
      *
      * Args:
-     *     model_id: The ID of the model that the version belongs to.
      *     model_version_id: The ID of model version to be updated.
      *     model_version_update_model: The model version to be updated.
      *
      * Returns:
      *     An updated model version.
      */
-    put: operations["update_model_version_api_v1_models__model_id__model_versions__model_version_id__put"];
-  };
-  "/api/v1/models/{model_name_or_id}/model_versions/{model_version_name_or_id}": {
+    put: operations["update_model_version_api_v1_model_versions__model_version_id__put"];
     /**
      * Delete Model Version
      * @description Delete a model by name or ID.
      *
      * Args:
-     *     model_name_or_id: The name or ID of the model containing version.
-     *     model_version_name_or_id: The name or ID of the model version to delete.
+     *     model_version_id: The name or ID of the model version to delete.
      */
-    delete: operations["delete_model_version_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__delete"];
+    delete: operations["delete_model_version_api_v1_model_versions__model_version_id__delete"];
   };
-  "/api/v1/models/{model_name_or_id}/model_versions/{model_version_name_or_id}/artifacts": {
+  "/api/v1/model_versions/{model_version_id}/artifacts": {
     /**
      * List Model Version Artifact Links
      * @description Get model version to artifact links according to query filters.
      *
      * Args:
-     *     model_name_or_id: The name or ID of the model containing version.
-     *     model_version_name_or_id: The name or ID of the model version containing links.
+     *     model_version_id: ID of the model version containing links.
      *     model_version_artifact_link_filter_model: Filter model used for pagination, sorting,
      *         filtering
      *
      * Returns:
      *     The model version to artifact links according to query filters.
      */
-    get: operations["list_model_version_artifact_links_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__artifacts_get"];
+    get: operations["list_model_version_artifact_links_api_v1_model_versions__model_version_id__artifacts_get"];
   };
-  "/api/v1/models/{model_name_or_id}/model_versions/{model_version_name_or_id}/artifacts/{model_version_artifact_link_name_or_id}": {
+  "/api/v1/model_versions/{model_version_id}/artifacts/{model_version_artifact_link_name_or_id}": {
     /**
      * Delete Model Version Artifact Link
      * @description Deletes a model version link.
      *
      * Args:
-     *     model_name_or_id: name or ID of the model containing the model version.
-     *     model_version_name_or_id: name or ID of the model version containing the link.
+     *     model_version_id: ID of the model version containing the link.
      *     model_version_artifact_link_name_or_id: name or ID of the model version to artifact link to be deleted.
      */
-    delete: operations["delete_model_version_artifact_link_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__artifacts__model_version_artifact_link_name_or_id__delete"];
+    delete: operations["delete_model_version_artifact_link_api_v1_model_versions__model_version_id__artifacts__model_version_artifact_link_name_or_id__delete"];
   };
-  "/api/v1/models/{model_name_or_id}/model_versions/{model_version_name_or_id}/runs": {
+  "/api/v1/model_versions/{model_version_id}/runs": {
     /**
      * List Model Version Pipeline Run Links
      * @description Get model version to pipeline run links according to query filters.
      *
      * Args:
-     *     model_name_or_id: name or ID of the model containing the model version.
-     *     model_version_name_or_id: name or ID of the model version containing the link.
+     *     model_version_id: ID of the model version containing the link.
      *     model_version_pipeline_run_link_filter_model: Filter model used for pagination, sorting,
      *         and filtering
      *
      * Returns:
      *     The model version to pipeline run links according to query filters.
      */
-    get: operations["list_model_version_pipeline_run_links_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__runs_get"];
+    get: operations["list_model_version_pipeline_run_links_api_v1_model_versions__model_version_id__runs_get"];
+  };
+  "/api/v1/model_versions/{model_version_id}/runs/{model_version_pipeline_run_link_name_or_id}": {
+    /**
+     * Delete Model Version Pipeline Run Link
+     * @description Deletes a model version link.
+     *
+     * Args:
+     *     model_version_id: name or ID of the model version containing the link.
+     *     model_version_pipeline_run_link_name_or_id: name or ID of the model version link to be deleted.
+     */
+    delete: operations["delete_model_version_pipeline_run_link_api_v1_model_versions__model_version_id__runs__model_version_pipeline_run_link_name_or_id__delete"];
   };
   "/api/v1/tags": {
     /**
@@ -2200,6 +2242,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["APIKeyResponseBody"];
       /** The metadata related to this resource. */
@@ -2378,6 +2425,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["ArtifactResponseBody"];
       /** The metadata related to this resource. */
@@ -2463,6 +2515,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["ArtifactVisualizationResponseBody"];
       /** The metadata related to this resource. */
@@ -2627,6 +2684,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["CodeReferenceResponseBody"];
       /** The metadata related to this resource. */
@@ -2718,6 +2780,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["CodeRepositoryResponseBody"];
       /** The metadata related to this resource. */
@@ -2871,6 +2938,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["ComponentResponseBody"];
       /** The metadata related to this resource. */
@@ -3077,6 +3149,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["FlavorResponseBody"];
       /** The metadata related to this resource. */
@@ -3255,6 +3332,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["LogsResponseBody"];
       /** The metadata related to this resource. */
@@ -3302,70 +3384,6 @@ export type components = {
      * @enum {string}
      */
     MetadataTypeEnum: "str" | "int" | "float" | "bool" | "list" | "dict" | "tuple" | "set" | "Uri" | "Path" | "DType" | "StorageSize";
-    /**
-     * ModelConfig
-     * @description ModelConfig class to pass into pipeline or step to set it into a model context.
-     *
-     * name: The name of the model.
-     * license: The license under which the model is created.
-     * description: The description of the model.
-     * audience: The target audience of the model.
-     * use_cases: The use cases of the model.
-     * limitations: The known limitations of the model.
-     * trade_offs: The tradeoffs of the model.
-     * ethics: The ethical implications of the model.
-     * tags: Tags associated with the model.
-     * version: The model version name, number or stage is optional and points model context
-     *     to a specific version/stage. If skipped new model version will be created.
-     * version_description: The description of the model version.
-     * save_models_to_registry: Whether to save all ModelArtifacts to Model Registry,
-     *     if available in active stack.
-     * delete_new_version_on_failure: Whether to delete failed runs with new versions for later recovery from it.
-     */
-    ModelConfig: {
-      /** Name */
-      name: string;
-      /** License */
-      license?: string;
-      /** Description */
-      description?: string;
-      /** Audience */
-      audience?: string;
-      /** Use Cases */
-      use_cases?: string;
-      /** Limitations */
-      limitations?: string;
-      /** Trade Offs */
-      trade_offs?: string;
-      /** Ethics */
-      ethics?: string;
-      /** Tags */
-      tags?: string[];
-      /** Version */
-      version?: components["schemas"]["ModelStages"] | number | string;
-      /** Version Description */
-      version_description?: string;
-      /**
-       * Save Models To Registry
-       * @default true
-       */
-      save_models_to_registry?: boolean;
-      /**
-       * Delete New Version On Failure
-       * @default true
-       */
-      delete_new_version_on_failure?: boolean;
-      /**
-       * Suppress Class Validation Warnings
-       * @default false
-       */
-      suppress_class_validation_warnings?: boolean;
-      /**
-       * Was Created In This Run
-       * @default false
-       */
-      was_created_in_this_run?: boolean;
-    };
     /**
      * ModelRequestModel
      * @description Model request model.
@@ -3483,6 +3501,61 @@ export type components = {
       remove_tags?: string[];
     };
     /**
+     * ModelVersion
+     * @description ModelVersion class to pass into pipeline or step to set it into a model context.
+     *
+     * name: The name of the model.
+     * license: The license under which the model is created.
+     * description: The description of the model.
+     * audience: The target audience of the model.
+     * use_cases: The use cases of the model.
+     * limitations: The known limitations of the model.
+     * trade_offs: The tradeoffs of the model.
+     * ethics: The ethical implications of the model.
+     * tags: Tags associated with the model.
+     * version: The model version name, number or stage is optional and points model context
+     *     to a specific version/stage. If skipped new model version will be created.
+     * save_models_to_registry: Whether to save all ModelArtifacts to Model Registry,
+     *     if available in active stack.
+     */
+    ModelVersion: {
+      /** Name */
+      name: string;
+      /** License */
+      license?: string;
+      /** Description */
+      description?: string;
+      /** Audience */
+      audience?: string;
+      /** Use Cases */
+      use_cases?: string;
+      /** Limitations */
+      limitations?: string;
+      /** Trade Offs */
+      trade_offs?: string;
+      /** Ethics */
+      ethics?: string;
+      /** Tags */
+      tags?: string[];
+      /** Version */
+      version?: components["schemas"]["ModelStages"] | number | string;
+      /**
+       * Save Models To Registry
+       * @default true
+       */
+      save_models_to_registry?: boolean;
+      /**
+       * Suppress Class Validation Warnings
+       * @default false
+       */
+      suppress_class_validation_warnings?: boolean;
+      /**
+       * Was Created In This Run
+       * @default false
+       */
+      was_created_in_this_run?: boolean;
+    };
+    /**
      * ModelVersionArtifactRequestModel
      * @description Model version link with artifact request model.
      */
@@ -3528,15 +3601,15 @@ export type components = {
        */
       model_version: string;
       /**
-       * Is Model Object
+       * Is Model Artifact
        * @default false
        */
-      is_model_object?: boolean;
+      is_model_artifact?: boolean;
       /**
-       * Is Deployment
+       * Is Endpoint Artifact
        * @default false
        */
-      is_deployment?: boolean;
+      is_endpoint_artifact?: boolean;
       /**
        * Overwrite
        * @default false
@@ -3605,15 +3678,15 @@ export type components = {
        */
       model_version: string;
       /**
-       * Is Model Object
+       * Is Model Artifact
        * @default false
        */
-      is_model_object?: boolean;
+      is_model_artifact?: boolean;
       /**
-       * Is Deployment
+       * Is Endpoint Artifact
        * @default false
        */
-      is_deployment?: boolean;
+      is_endpoint_artifact?: boolean;
       /** Link Version */
       link_version: number;
     };
@@ -3724,11 +3797,6 @@ export type components = {
        */
       name?: string;
       /**
-       * Number
-       * @description The number of the model version
-       */
-      number?: number;
-      /**
        * Description
        * @description The description of the model version
        */
@@ -3738,6 +3806,11 @@ export type components = {
        * @description The stage of the model version
        */
       stage?: string;
+      /**
+       * Number
+       * @description The number of the model version
+       */
+      number?: number;
       /**
        * Model
        * Format: uuid
@@ -3780,11 +3853,6 @@ export type components = {
        */
       name?: string;
       /**
-       * Number
-       * @description The number of the model version
-       */
-      number?: number;
-      /**
        * Description
        * @description The description of the model version
        */
@@ -3795,32 +3863,37 @@ export type components = {
        */
       stage?: string;
       /**
+       * Number
+       * @description The number of the model version
+       */
+      number: number;
+      /**
        * Model
        * @description The model containing version
        */
       model: components["schemas"]["ModelResponseModel"];
       /**
-       * Model Object Ids
-       * @description Model Objects linked to the model version
+       * Model Artifact Ids
+       * @description Model artifacts linked to the model version
        * @default {}
        */
-      model_object_ids?: {
+      model_artifact_ids?: {
         [key: string]: unknown;
       };
       /**
-       * Artifact Object Ids
-       * @description Artifacts linked to the model version
+       * Data Artifact Ids
+       * @description Data artifacts linked to the model version
        * @default {}
        */
-      artifact_object_ids?: {
+      data_artifact_ids?: {
         [key: string]: unknown;
       };
       /**
-       * Deployment Ids
-       * @description Deployments linked to the model version
+       * Endpoint Artifact Ids
+       * @description Endpoint artifacts linked to the model version
        * @default {}
        */
-      deployment_ids?: {
+      endpoint_artifact_ids?: {
         [key: string]: unknown;
       };
       /**
@@ -3888,6 +3961,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["OAuthDeviceResponseBody"];
       /** The metadata related to this resource. */
@@ -4478,6 +4556,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["PipelineBuildResponseBody"];
       /** The metadata related to this resource. */
@@ -4559,7 +4642,7 @@ export type components = {
       };
       failure_hook_source?: components["schemas"]["Source"];
       success_hook_source?: components["schemas"]["Source"];
-      model_config?: components["schemas"]["ModelConfig"];
+      model_version?: components["schemas"]["ModelVersion"];
       /** Name */
       name: string;
     };
@@ -4633,6 +4716,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["PipelineDeploymentResponseBody"];
       /** The metadata related to this resource. */
@@ -4732,6 +4820,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["PipelineResponseBody"];
       /** The metadata related to this resource. */
@@ -4846,6 +4939,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["PipelineRunResponseBody"];
       /** The metadata related to this resource. */
@@ -5073,6 +5171,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["RunMetadataResponseBody"];
       /** The metadata related to this resource. */
@@ -5194,6 +5297,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["ScheduleResponseBody"];
       /** The metadata related to this resource. */
@@ -5489,6 +5597,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["ServiceAccountResponseBody"];
       /** The metadata related to this resource. */
@@ -5627,6 +5740,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["ServiceConnectorResponseBody"];
       /** The metadata related to this resource. */
@@ -5923,6 +6041,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["StackResponseBody"];
       /** The metadata related to this resource. */
@@ -6046,7 +6169,7 @@ export type components = {
       };
       failure_hook_source?: components["schemas"]["Source"];
       success_hook_source?: components["schemas"]["Source"];
-      model_config?: components["schemas"]["ModelConfig"];
+      model_version?: components["schemas"]["ModelVersion"];
       /**
        * Outputs
        * @default {}
@@ -6195,6 +6318,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["StepRunResponseBody"];
       /** The metadata related to this resource. */
@@ -6443,6 +6571,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["UserResponseBody"];
       /** The metadata related to this resource. */
@@ -6555,6 +6688,19 @@ export type components = {
      */
     VisualizationType: "csv" | "html" | "image" | "markdown";
     /**
+     * WorkspaceRequest
+     * @description Request model for workspaces.
+     */
+    WorkspaceRequest: {
+      /** The unique name of the workspace. */
+      name: string;
+      /**
+       * The description of the workspace.
+       * @default
+       */
+      description?: string;
+    };
+    /**
      * WorkspaceResponse
      * @description Response model for workspaces.
      */
@@ -6564,6 +6710,11 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
       body?: components["schemas"]["WorkspaceResponseBody"];
       /** The metadata related to this resource. */
@@ -6592,6 +6743,19 @@ export type components = {
      * @description Response metadata for workspaces.
      */
     WorkspaceResponseMetadata: {
+      /**
+       * The description of the workspace.
+       * @default
+       */
+      description?: string;
+    };
+    /**
+     * WorkspaceUpdate
+     * @description Update model for workspaces.
+     */
+    WorkspaceUpdate: {
+      /** The unique name of the workspace. */
+      name?: string;
       /**
        * The description of the workspace.
        * @default
@@ -7467,6 +7631,51 @@ export type operations = {
     };
   };
   /**
+   * Create Workspace
+   * @description Creates a workspace based on the requestBody.
+   *
+   * # noqa: DAR401
+   *
+   * Args:
+   *     workspace: Workspace to create.
+   *
+   * Returns:
+   *     The created workspace.
+   */
+  create_workspace_api_v1_workspaces_post: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["WorkspaceRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["WorkspaceResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
    * Get Workspace
    * @description Get a workspace for given name.
    *
@@ -7494,6 +7703,97 @@ export type operations = {
       200: {
         content: {
           "application/json": components["schemas"]["WorkspaceResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Update Workspace
+   * @description Get a workspace for given name.
+   *
+   * # noqa: DAR401
+   *
+   * Args:
+   *     workspace_name_or_id: Name or ID of the workspace to update.
+   *     workspace_update: the workspace to use to update
+   *
+   * Returns:
+   *     The updated workspace.
+   */
+  update_workspace_api_v1_workspaces__workspace_name_or_id__put: {
+    parameters: {
+      path: {
+        workspace_name_or_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["WorkspaceUpdate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["WorkspaceResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete Workspace
+   * @description Deletes a workspace.
+   *
+   * Args:
+   *     workspace_name_or_id: Name or ID of the workspace.
+   */
+  delete_workspace_api_v1_workspaces__workspace_name_or_id__delete: {
+    parameters: {
+      path: {
+        workspace_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
         };
       };
       /** @description Unauthorized */
@@ -7646,7 +7946,6 @@ export type operations = {
    *         filtering.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
-   *     auth_context: Authentication Context.
    *
    * Returns:
    *     All stack components part of the specified workspace.
@@ -8421,14 +8720,13 @@ export type operations = {
    * Args:
    *     workspace_name_or_id: Name or ID of the workspace.
    *     secret: Secret to create.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     The created secret.
    *
    * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the
-   *         secret does not match the current workspace or authenticated user.
+   *     IllegalOperationError: If the workspace specified in the
+   *         secret does not match the current workspace.
    */
   create_secret_api_v1_workspaces__workspace_name_or_id__secrets_post: {
     parameters: {
@@ -8987,13 +9285,77 @@ export type operations = {
     };
   };
   /**
+   * List Workspace Model Version Artifact Links
+   * @description Get model version to artifact links according to query filters.
+   *
+   * Args:
+   *     workspace_name_or_id: Name or ID of the workspace.
+   *     model_version_id: Name or ID of the model version.
+   *     model_version_artifact_link_filter_model: Filter model used for pagination, sorting,
+   *         filtering
+   *
+   * Returns:
+   *     The model version to artifact links according to query filters.
+   */
+  list_workspace_model_version_artifact_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__artifacts_get: {
+    parameters: {
+      query?: {
+        sort_by?: string;
+        logical_operator?: components["schemas"]["LogicalOperators"];
+        page?: number;
+        size?: number;
+        id?: string;
+        created?: string;
+        updated?: string;
+        scope_workspace?: string;
+        name?: string;
+        pipeline_name?: string;
+        step_name?: string;
+        workspace_id?: string;
+        user_id?: string;
+        only_data_artifacts?: boolean;
+        only_model_artifacts?: boolean;
+        only_endpoint_artifacts?: boolean;
+      };
+      path: {
+        workspace_name_or_id: string;
+        model_version_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_ModelVersionArtifactResponseModel_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
    * Create Model Version Artifact Link
    * @description Create a new model version to artifact link.
    *
    * Args:
-   *     model_name_or_id: Name or ID of the model.
    *     workspace_name_or_id: Name or ID of the workspace.
-   *     model_version_name_or_id: Name or ID of the model version.
+   *     model_version_id: ID of the model version.
    *     model_version_artifact_link: The model version to artifact link to create.
    *     auth_context: Authentication context.
    *
@@ -9005,12 +9367,11 @@ export type operations = {
    *         model version does not match the current workspace or authenticated
    *         user.
    */
-  create_model_version_artifact_link_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions__model_version_name_or_id__artifacts_post: {
+  create_model_version_artifact_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__artifacts_post: {
     parameters: {
       path: {
         workspace_name_or_id: string;
-        model_name_or_id: string;
-        model_version_name_or_id: string;
+        model_version_id: string;
       };
     };
     requestBody: {
@@ -9046,23 +9407,21 @@ export type operations = {
     };
   };
   /**
-   * List Workspace Model Version Artifact Links
-   * @description Get model version to artifact links according to query filters.
+   * List Workspace Model Version Pipeline Run Links
+   * @description Get model version to pipeline links according to query filters.
    *
    * Args:
-   *     model_name_or_id: Name or ID of the model.
    *     workspace_name_or_id: Name or ID of the workspace.
-   *     model_version_name_or_id: Name or ID of the model version.
-   *     model_version_artifact_link_filter_model: Filter model used for pagination, sorting,
+   *     model_version_id: ID of the model version.
+   *     model_version_pipeline_run_link_filter_model: Filter model used for pagination, sorting,
    *         filtering
    *
    * Returns:
-   *     The model version to artifact links according to query filters.
+   *     The model version to pipeline run links according to query filters.
    */
-  list_workspace_model_version_artifact_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_name_or_id__artifacts_get: {
+  list_workspace_model_version_pipeline_run_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__runs_get: {
     parameters: {
-      query: {
-        model_name_or_id: string;
+      query?: {
         sort_by?: string;
         logical_operator?: components["schemas"]["LogicalOperators"];
         page?: number;
@@ -9071,25 +9430,19 @@ export type operations = {
         created?: string;
         updated?: string;
         scope_workspace?: string;
-        name?: string;
-        pipeline_name?: string;
-        step_name?: string;
         workspace_id?: string;
         user_id?: string;
-        only_artifacts?: boolean;
-        only_model_objects?: boolean;
-        only_deployments?: boolean;
       };
       path: {
         workspace_name_or_id: string;
-        model_version_name_or_id: string;
+        model_version_id: string;
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["Page_ModelVersionArtifactResponseModel_"];
+          "application/json": components["schemas"]["Page_ModelVersionPipelineRunResponseModel_"];
         };
       };
       /** @description Unauthorized */
@@ -9117,9 +9470,8 @@ export type operations = {
    * @description Create a new model version to pipeline run link.
    *
    * Args:
-   *     model_name_or_id: Name or ID of the model.
    *     workspace_name_or_id: Name or ID of the workspace.
-   *     model_version_name_or_id: Name or ID of the model version.
+   *     model_version_id: ID of the model version.
    *     model_version_pipeline_run_link: The model version to pipeline run link to create.
    *     auth_context: Authentication context.
    *
@@ -9132,12 +9484,11 @@ export type operations = {
    *         model version does not match the current workspace or authenticated
    *         user.
    */
-  create_model_version_pipeline_run_link_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions__model_version_name_or_id__runs_post: {
+  create_model_version_pipeline_run_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__runs_post: {
     parameters: {
       path: {
         workspace_name_or_id: string;
-        model_name_or_id: string;
-        model_version_name_or_id: string;
+        model_version_id: string;
       };
     };
     requestBody: {
@@ -9160,67 +9511,6 @@ export type operations = {
       };
       /** @description Conflict */
       409: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * List Workspace Model Version Pipeline Run Links
-   * @description Get model version to pipeline links according to query filters.
-   *
-   * Args:
-   *     model_name_or_id: Name or ID of the model.
-   *     workspace_name_or_id: Name or ID of the workspace.
-   *     model_version_name_or_id: Name or ID of the model version.
-   *     model_version_pipeline_run_link_filter_model: Filter model used for pagination, sorting,
-   *         filtering
-   *
-   * Returns:
-   *     The model version to pipeline run links according to query filters.
-   */
-  list_workspace_model_version_pipeline_run_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_name_or_id__runs_get: {
-    parameters: {
-      query: {
-        model_name_or_id: string;
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        scope_workspace?: string;
-        workspace_id?: string;
-        user_id?: string;
-      };
-      path: {
-        workspace_name_or_id: string;
-        model_version_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_ModelVersionPipelineRunResponseModel_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -13958,10 +14248,13 @@ export type operations = {
    * List Model Versions
    * @description Get model versions according to query filters.
    *
+   * This endpoint serves the purpose of allowing scoped filtering by model_id.
+   *
    * Args:
    *     model_name_or_id: The name or ID of the model to list in.
    *     model_version_filter_model: Filter model used for pagination, sorting,
    *         filtering
+   *     auth_context: The authentication context.
    *
    * Returns:
    *     The model versions according to query filters.
@@ -14021,26 +14314,82 @@ export type operations = {
     };
   };
   /**
-   * Get Model Version
-   * @description Get a model version by name or ID.
+   * List Model Versions
+   * @description Get model versions according to query filters.
    *
    * Args:
-   *     model_name_or_id: The name or ID of the model containing version.
-   *     model_version_name_or_number_or_id: name, id, stage or number of the model version to be retrieved.
-   *             If skipped latest version will be retrieved.
-   *     is_number: If the model_version_name_or_number_or_id is a version number
+   *     model_version_filter_model: Filter model used for pagination, sorting,
+   *         filtering
+   *     auth_context: The authentication context.
+   *
+   * Returns:
+   *     The model versions according to query filters.
+   */
+  list_model_versions_api_v1_model_versions_get: {
+    parameters: {
+      query?: {
+        sort_by?: string;
+        logical_operator?: components["schemas"]["LogicalOperators"];
+        page?: number;
+        size?: number;
+        id?: string;
+        created?: string;
+        updated?: string;
+        scope_workspace?: string;
+        name?: string;
+        number?: number;
+        workspace_id?: string;
+        user_id?: string;
+        stage?: string | components["schemas"]["ModelStages"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_ModelVersionResponseModel_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Get Model Version
+   * @description Get a model version by ID.
+   *
+   * Args:
+   *     model_version_id: id of the model version to be retrieved.
    *
    * Returns:
    *     The model version with the given name or ID.
    */
-  get_model_version_api_v1_models__model_name_or_id__model_versions__model_version_name_or_number_or_id__get: {
+  get_model_version_api_v1_model_versions__model_version_id__get: {
     parameters: {
-      query?: {
-        is_number?: boolean;
-      };
       path: {
-        model_name_or_id: string;
-        model_version_name_or_number_or_id: string | number | components["schemas"]["ModelStages"];
+        model_version_id: string;
       };
     };
     responses: {
@@ -14081,17 +14430,15 @@ export type operations = {
    * @description Get all model versions by filter.
    *
    * Args:
-   *     model_id: The ID of the model that the version belongs to.
    *     model_version_id: The ID of model version to be updated.
    *     model_version_update_model: The model version to be updated.
    *
    * Returns:
    *     An updated model version.
    */
-  update_model_version_api_v1_models__model_id__model_versions__model_version_id__put: {
+  update_model_version_api_v1_model_versions__model_version_id__put: {
     parameters: {
       path: {
-        model_id: string;
         model_version_id: string;
       };
     };
@@ -14138,14 +14485,12 @@ export type operations = {
    * @description Delete a model by name or ID.
    *
    * Args:
-   *     model_name_or_id: The name or ID of the model containing version.
-   *     model_version_name_or_id: The name or ID of the model version to delete.
+   *     model_version_id: The name or ID of the model version to delete.
    */
-  delete_model_version_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__delete: {
+  delete_model_version_api_v1_model_versions__model_version_id__delete: {
     parameters: {
       path: {
-        model_name_or_id: string;
-        model_version_name_or_id: string;
+        model_version_id: string;
       };
     };
     responses: {
@@ -14186,15 +14531,14 @@ export type operations = {
    * @description Get model version to artifact links according to query filters.
    *
    * Args:
-   *     model_name_or_id: The name or ID of the model containing version.
-   *     model_version_name_or_id: The name or ID of the model version containing links.
+   *     model_version_id: ID of the model version containing links.
    *     model_version_artifact_link_filter_model: Filter model used for pagination, sorting,
    *         filtering
    *
    * Returns:
    *     The model version to artifact links according to query filters.
    */
-  list_model_version_artifact_links_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__artifacts_get: {
+  list_model_version_artifact_links_api_v1_model_versions__model_version_id__artifacts_get: {
     parameters: {
       query?: {
         sort_by?: string;
@@ -14210,13 +14554,12 @@ export type operations = {
         step_name?: string;
         workspace_id?: string;
         user_id?: string;
-        only_artifacts?: boolean;
-        only_model_objects?: boolean;
-        only_deployments?: boolean;
+        only_data_artifacts?: boolean;
+        only_model_artifacts?: boolean;
+        only_endpoint_artifacts?: boolean;
       };
       path: {
-        model_name_or_id: string;
-        model_version_name_or_id: string;
+        model_version_id: string;
       };
     };
     responses: {
@@ -14257,15 +14600,13 @@ export type operations = {
    * @description Deletes a model version link.
    *
    * Args:
-   *     model_name_or_id: name or ID of the model containing the model version.
-   *     model_version_name_or_id: name or ID of the model version containing the link.
+   *     model_version_id: ID of the model version containing the link.
    *     model_version_artifact_link_name_or_id: name or ID of the model version to artifact link to be deleted.
    */
-  delete_model_version_artifact_link_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__artifacts__model_version_artifact_link_name_or_id__delete: {
+  delete_model_version_artifact_link_api_v1_model_versions__model_version_id__artifacts__model_version_artifact_link_name_or_id__delete: {
     parameters: {
       path: {
-        model_name_or_id: string;
-        model_version_name_or_id: string;
+        model_version_id: string;
         model_version_artifact_link_name_or_id: string;
       };
     };
@@ -14307,15 +14648,14 @@ export type operations = {
    * @description Get model version to pipeline run links according to query filters.
    *
    * Args:
-   *     model_name_or_id: name or ID of the model containing the model version.
-   *     model_version_name_or_id: name or ID of the model version containing the link.
+   *     model_version_id: ID of the model version containing the link.
    *     model_version_pipeline_run_link_filter_model: Filter model used for pagination, sorting,
    *         and filtering
    *
    * Returns:
    *     The model version to pipeline run links according to query filters.
    */
-  list_model_version_pipeline_run_links_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__runs_get: {
+  list_model_version_pipeline_run_links_api_v1_model_versions__model_version_id__runs_get: {
     parameters: {
       query?: {
         sort_by?: string;
@@ -14330,8 +14670,7 @@ export type operations = {
         user_id?: string;
       };
       path: {
-        model_name_or_id: string;
-        model_version_name_or_id: string;
+        model_version_id: string;
       };
     };
     responses: {
@@ -14339,6 +14678,54 @@ export type operations = {
       200: {
         content: {
           "application/json": components["schemas"]["Page_ModelVersionPipelineRunResponseModel_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete Model Version Pipeline Run Link
+   * @description Deletes a model version link.
+   *
+   * Args:
+   *     model_version_id: name or ID of the model version containing the link.
+   *     model_version_pipeline_run_link_name_or_id: name or ID of the model version link to be deleted.
+   */
+  delete_model_version_pipeline_run_link_api_v1_model_versions__model_version_id__runs__model_version_pipeline_run_link_name_or_id__delete: {
+    parameters: {
+      path: {
+        model_version_id: string;
+        model_version_pipeline_run_link_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
         };
       };
       /** @description Unauthorized */
@@ -14406,6 +14793,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -14445,6 +14838,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -14492,6 +14891,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -14528,6 +14933,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -14577,6 +14988,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };

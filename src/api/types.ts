@@ -46,4 +46,4 @@ export type User = components['schemas']['UserResponse'];
 export type UpdateUser = components['schemas']['UserUpdate'];
 
 //devices
-// export type Device = components['schemas']['OAuthDeviceResponseModel'];
+export type Device = components['schemas']['OAuthDeviceResponse'];
