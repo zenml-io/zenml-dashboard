@@ -205,6 +205,9 @@ export const Configuration: React.FC<{
                     <div
                       style={{
                         width: '380px',
+                        display: 'flex',
+                        flexDirection: 'column',
+                        gap: '5px',
                       }}
                     >
                       <div>
@@ -229,8 +232,18 @@ export const Configuration: React.FC<{
                           Please contact your admin for further information
                           <br />
                           or to request access.
-                          <br />
-                          {`( ${tile.name} )`}
+                        </p>
+                      </div>
+                      <div>
+                        {' '}
+                        <p
+                          style={{
+                            fontSize: 16,
+                            color: '#666c78',
+                            fontFamily: 'Rubik',
+                          }}
+                        >
+                          {`( ${tile.name} )`}{' '}
                         </p>
                       </div>
                     </div>
