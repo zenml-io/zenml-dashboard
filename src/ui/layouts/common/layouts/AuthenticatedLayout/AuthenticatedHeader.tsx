@@ -19,7 +19,7 @@ import {
   serverInfoSelectors,
 } from '../../../../../redux/selectors';
 import { getInitials } from '../../../../../utils/name';
-import { DEFAULT_FULL_NAME } from '../../../../../constants';
+// import { DEFAULT_FULL_NAME } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
 import {
   useDispatch,
