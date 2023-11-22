@@ -524,7 +524,7 @@ export const useHeaderCols = ({
                       onClick={(event) => {
                         event.stopPropagation();
                         history.push(
-                          routePaths.pipeline.configuration(
+                          routePaths.stack.configuration(
                             run?.body?.stack?.id as string,
                             selectedWorkspace,
                           ),
