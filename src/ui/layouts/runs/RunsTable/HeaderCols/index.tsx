@@ -48,19 +48,19 @@ const innerBoxStyleEnable = {
   alignItems: 'center',
 };
 
-const customToolTip = {
-  border: '2px solid #f0ebfc',
-  borderRadius: '5px',
-  display: 'flex',
-  padding: 16,
-  // justifyContent: 'center',
-  // alignItems: 'center',
-  zIndex: 1000,
-  backgroundColor: 'white',
-  position: 'absolute',
+// const customToolTip = {
+//   border: '2px solid #f0ebfc',
+//   borderRadius: '5px',
+//   display: 'flex',
+//   padding: 16,
+//   // justifyContent: 'center',
+//   // alignItems: 'center',
+//   zIndex: 1000,
+//   backgroundColor: 'white',
+//   position: 'absolute',
 
-  marginBottom: '200px',
-};
+//   marginBottom: '200px',
+// };
 
 const innerBoxStyleDisable = {
   // height: '30px',

@@ -65,19 +65,19 @@ export const Configuration: React.FC<{
     setShowToolTip(null);
   };
 
-  const customToolTip = {
-    border: '2px solid #f0ebfc',
-    borderRadius: '5px',
-    // display: 'flex',
-    padding: 16,
-    // justifyContent: 'center',
-    // alignItems: 'center',
-    zIndex: 1000,
-    backgroundColor: 'white',
-    position: 'absolute',
-    bottom: 200,
-    // marginBottom: '1000px',
-  };
+  // const customToolTip = {
+  //   border: '2px solid #f0ebfc',
+  //   borderRadius: '5px',
+  //   // display: 'flex',
+  //   padding: 16,
+  //   // justifyContent: 'center',
+  //   // alignItems: 'center',
+  //   zIndex: 1000,
+  //   backgroundColor: 'white',
+  //   position: 'absolute',
+  //   bottom: 200,
+  //   // marginBottom: '1000px',
+  // };
 
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
