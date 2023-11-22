@@ -207,7 +207,7 @@ export const Configuration: React.FC<{
                         width: '380px',
                         display: 'flex',
                         flexDirection: 'column',
-                        gap: '5px',
+                        gap: '10px',
                       }}
                     >
                       <div>
