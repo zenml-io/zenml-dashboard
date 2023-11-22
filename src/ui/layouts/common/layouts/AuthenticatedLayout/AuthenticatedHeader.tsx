@@ -171,7 +171,7 @@ export const AuthenticatedHeader: React.FC<{
                 <FlexBox alignItems="center">
                   <FlexBox alignItems="center" className="d-none d-md-flex">
                     <Box paddingRight="sm" style={{ textAlign: 'end' }}>
-                      {/* <Paragraph>{userFullName}</Paragraph> */}
+                      <Paragraph>{user?.name}</Paragraph>
                       <span className={styles.selectedWorkspace}>
                         {selected}
                       </span>

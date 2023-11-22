@@ -138,8 +138,11 @@ export const StackDetail: React.FC = () => {
 
   if (flavourList?.length > 1) {
     const components = stack?.metadata?.components as any;
-
-    ifPermissionDenied = checkPermissionDenied(components);
+    if (stack?.metadata === null) {
+      ifPermissionDenied = true;
+    } else {
+      ifPermissionDenied = checkPermissionDenied(components);
+    }
   }
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);

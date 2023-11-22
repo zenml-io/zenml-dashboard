@@ -300,7 +300,8 @@ export const Configuration: React.FC<{
               if (ifPermissionDenied) {
                 dispatch(
                   showToasterAction({
-                    description: 'Permission denied.',
+                    description:
+                      "IllegalOperationError. Insufficient permissions to UPDATE resource 'stack'.",
                     type: toasterTypes.failure,
                   }),
                 );
