@@ -831,15 +831,14 @@ export const CreateComponent: React.FC<{
       return obj;
     }
 
-    const cleanedInputArrayFields = Object.keys(inputArrayFields).reduce(
-      (acc: any, key: any) => {
+    const cleanedInputArrayFields =
+      inputArrayFields?.length &&
+      Object.keys(inputArrayFields).reduce((acc: any, key: any) => {
         if (!inputArrayFields[key].includes('')) {
           acc[key] = inputArrayFields[key];
         }
         return acc;
-      },
-      {},
-    );
+      }, {});
 
     const cleanedInputData = removeEmptyValues(inputData);
 
