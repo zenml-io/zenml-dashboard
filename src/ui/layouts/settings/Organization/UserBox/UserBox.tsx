@@ -9,7 +9,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
   const [editPopup, setEditPopup] = useState(false);
   const [tokenPopup, setTokenPopup] = useState(false);
 
-  const userFullName = data?.fullName || data?.fullName || data?.name;
+  const userFullName = data?.body.full_name ? data?.body.full_name : data?.name;
   const userInitials = getInitials(userFullName as string);
 
   const handleTokenPopup = (e: any) => {
@@ -57,7 +57,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
 
           <Box marginTop="sm">
             <Paragraph className={styles.userName}>
-              {data?.metadata.fullName ? data?.metadata.fullName : data?.name}
+              {data?.body.full_name ? data?.body.full_name : data?.name}
             </Paragraph>
           </Box>
           {/* 

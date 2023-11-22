@@ -138,7 +138,7 @@ export const PersonalDetails: React.FC = () => {
                 textAlign: 'center',
               }}
             >
-              {user?.name}
+              {user?.body?.full_name ? user?.body?.full_name : user?.name}
             </Paragraph>
           </Box>
 
