@@ -467,8 +467,8 @@ export type paths = {
      *     The created build.
      *
      * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the build
-     *         does not match the current workspace or authenticated user.
+     *     IllegalOperationError: If the workspace specified in the build
+     *         does not match the current workspace.
      */
     post: operations["create_build_api_v1_workspaces__workspace_name_or_id__pipeline_builds_post"];
   };
@@ -503,9 +503,8 @@ export type paths = {
      *     The created deployment.
      *
      * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the
-     *         deployment does not match the current workspace or authenticated
-     *         user.
+     *     IllegalOperationError: If the workspace specified in the
+     *         deployment does not match the current workspace.
      */
     post: operations["create_deployment_api_v1_workspaces__workspace_name_or_id__pipeline_deployments_post"];
   };
@@ -532,17 +531,13 @@ export type paths = {
      * Args:
      *     workspace_name_or_id: Name or ID of the workspace.
      *     pipeline_run: Pipeline run to create.
-     *     auth_context: Authentication context.
-     *     get_if_exists: If a similar pipeline run already exists, return it
-     *         instead of raising an error.
      *
      * Returns:
      *     The created pipeline run.
      *
      * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the
-     *         pipeline run does not match the current workspace or authenticated
-     *         user.
+     *     IllegalOperationError: If the workspace specified in the
+     *         pipeline run does not match the current workspace.
      */
     post: operations["create_pipeline_run_api_v1_workspaces__workspace_name_or_id__runs_post"];
   };
@@ -995,6 +990,7 @@ export type paths = {
      * @description Get all steps for a given pipeline run.
      *
      * Args:
+     *     run_id: ID of the pipeline run.
      *     step_run_filter_model: Filter model used for pagination, sorting,
      *         filtering
      *
@@ -1581,6 +1577,7 @@ export type paths = {
      *         filtering.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
+     *     auth_context: Authentication context.
      *
      * Returns:
      *     The run steps according to query filters.
@@ -8255,8 +8252,8 @@ export type operations = {
    *     The created build.
    *
    * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the build
-   *         does not match the current workspace or authenticated user.
+   *     IllegalOperationError: If the workspace specified in the build
+   *         does not match the current workspace.
    */
   create_build_api_v1_workspaces__workspace_name_or_id__pipeline_builds_post: {
     parameters: {
@@ -8375,9 +8372,8 @@ export type operations = {
    *     The created deployment.
    *
    * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the
-   *         deployment does not match the current workspace or authenticated
-   *         user.
+   *     IllegalOperationError: If the workspace specified in the
+   *         deployment does not match the current workspace.
    */
   create_deployment_api_v1_workspaces__workspace_name_or_id__pipeline_deployments_post: {
     parameters: {
@@ -8496,23 +8492,16 @@ export type operations = {
    * Args:
    *     workspace_name_or_id: Name or ID of the workspace.
    *     pipeline_run: Pipeline run to create.
-   *     auth_context: Authentication context.
-   *     get_if_exists: If a similar pipeline run already exists, return it
-   *         instead of raising an error.
    *
    * Returns:
    *     The created pipeline run.
    *
    * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the
-   *         pipeline run does not match the current workspace or authenticated
-   *         user.
+   *     IllegalOperationError: If the workspace specified in the
+   *         pipeline run does not match the current workspace.
    */
   create_pipeline_run_api_v1_workspaces__workspace_name_or_id__runs_post: {
     parameters: {
-      query?: {
-        get_if_exists?: boolean;
-      };
       path: {
         workspace_name_or_id: string;
       };
@@ -8959,7 +8948,6 @@ export type operations = {
         updated?: string;
         scope_workspace?: string;
         scope_type?: string;
-        is_shared?: boolean | string;
         name?: string;
         connector_type?: string;
         workspace_id?: string;
@@ -10117,6 +10105,7 @@ export type operations = {
    * @description Get all steps for a given pipeline run.
    *
    * Args:
+   *     run_id: ID of the pipeline run.
    *     step_run_filter_model: Filter model used for pagination, sorting,
    *         filtering
    *
@@ -10144,6 +10133,9 @@ export type operations = {
         original_step_run_id?: string;
         user_id?: string;
         workspace_id?: string;
+      };
+      path: {
+        run_id: string;
       };
     };
     responses: {
@@ -11421,7 +11413,6 @@ export type operations = {
         updated?: string;
         scope_workspace?: string;
         scope_type?: string;
-        is_shared?: boolean | string;
         name?: string;
         connector_type?: string;
         workspace_id?: string;
@@ -12409,6 +12400,7 @@ export type operations = {
    *         filtering.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
+   *     auth_context: Authentication context.
    *
    * Returns:
    *     The run steps according to query filters.
