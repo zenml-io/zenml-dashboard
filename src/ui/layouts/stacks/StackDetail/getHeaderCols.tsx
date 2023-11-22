@@ -4,8 +4,16 @@ import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
+  getInitialsFromEmail,
 } from '../../../../utils';
-import { FlexBox, icons, Paragraph, Tooltip } from '../../../components';
+import {
+  Box,
+  ColoredCircle,
+  FlexBox,
+  icons,
+  Paragraph,
+  Tooltip,
+} from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { Stack } from '../../../../api/types';
 
@@ -108,10 +116,21 @@ export const GetHeaderCols = ({
       render: () => <HeaderText text="AUTHOR" />,
       width: '25%',
       renderRow: (stack: Stack) => {
+        const initials = getInitialsFromEmail(
+          stack?.body?.user?.name as string,
+        );
         return (
           <FlexBox alignItems="center">
             <div data-tip data-for={stack?.body?.user?.name}>
               <FlexBox alignItems="center">
+                {stack?.body?.user?.name && (
+                  <Box paddingRight="sm">
+                    <ColoredCircle color="secondary" size="sm">
+                      {initials}
+                    </ColoredCircle>
+                  </Box>
+                )}
+
                 <Paragraph size="small">{stack?.body?.user?.name}</Paragraph>
               </FlexBox>
             </div>

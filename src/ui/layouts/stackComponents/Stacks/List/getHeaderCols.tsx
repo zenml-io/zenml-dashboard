@@ -5,8 +5,11 @@ import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
+  getInitialsFromEmail,
 } from '../../../../../utils';
 import {
+  Box,
+  ColoredCircle,
   // Box,
   FlexBox,
   icons,
@@ -246,10 +249,21 @@ export const GetHeaderCols = ({
       testId: 'Author',
       width: '12%',
       renderRow: (stackComponent: StackComponent) => {
+        const initials = getInitialsFromEmail(
+          stackComponent?.body?.user?.name as string,
+        );
         return (
           <FlexBox alignItems="center">
             <div data-tip data-for={stackComponent?.body?.user?.name}>
               <FlexBox alignItems="center">
+                {stackComponent?.body?.user?.name && (
+                  <Box paddingRight="sm">
+                    <ColoredCircle color="secondary" size="sm">
+                      {initials}
+                    </ColoredCircle>
+                  </Box>
+                )}
+
                 <Paragraph size="small">
                   {stackComponent?.body?.user?.name}
                 </Paragraph>

@@ -5,9 +5,11 @@ import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
+  getInitialsFromEmail,
 } from '../../../../../utils';
 import {
   Box,
+  ColoredCircle,
   FlexBox,
   icons,
   Paragraph,
@@ -394,19 +396,34 @@ export const GetHeaderCols = ({
       ),
       testId: 'Author',
       width: '10%',
-      renderRow: (connector: any) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={connector?.body?.user?.name}>
-            <Paragraph size="small" color="black">
-              {connector?.body?.user?.name}
-            </Paragraph>
-          </div>
-          <Tooltip
-            id={connector?.body?.user?.name}
-            text={connector?.body?.user?.name}
-          />
-        </FlexBox>
-      ),
+      renderRow: (connector: any) => {
+        const initials = getInitialsFromEmail(
+          connector?.body?.user?.name as string,
+        );
+        return (
+          <FlexBox alignItems="center">
+            <div data-tip data-for={connector?.body?.user?.name}>
+              <FlexBox alignItems="center">
+                {connector?.body?.user?.name && (
+                  <Box paddingRight="sm">
+                    <ColoredCircle color="secondary" size="sm">
+                      {initials}
+                    </ColoredCircle>
+                  </Box>
+                )}
+
+                <Paragraph size="small">
+                  {connector?.body?.user?.name}
+                </Paragraph>
+              </FlexBox>
+            </div>
+            <Tooltip
+              id={connector?.body?.user?.name}
+              text={connector?.body?.user?.name}
+            />
+          </FlexBox>
+        );
+      },
     },
 
     {

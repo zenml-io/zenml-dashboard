@@ -1,7 +1,18 @@
 import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
-import { truncate, formatDateToDisplayOnTable } from '../../../../utils';
-import { FlexBox, icons, Paragraph, Tooltip } from '../../../components';
+import {
+  truncate,
+  formatDateToDisplayOnTable,
+  getInitialsFromEmail,
+} from '../../../../utils';
+import {
+  Box,
+  ColoredCircle,
+  FlexBox,
+  icons,
+  Paragraph,
+  Tooltip,
+} from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { Status } from '../Pipelines/List/Status';
 import { Pipeline } from '../../../../api/types';
@@ -71,10 +82,18 @@ export const GetHeaderCols = ({
       render: () => <HeaderText text="AUTHOR" />,
       width: '10%',
       renderRow: (pipeline: Pipeline) => {
+        const initials = getInitialsFromEmail(
+          pipeline?.body?.user?.name as string,
+        );
         return (
           <FlexBox alignItems="center">
             <div data-tip data-for={pipeline?.body?.user?.name}>
               <FlexBox alignItems="center">
+                <Box paddingRight="sm">
+                  <ColoredCircle color="secondary" size="sm">
+                    {initials}
+                  </ColoredCircle>
+                </Box>
                 <Paragraph size="small">{pipeline?.body?.user?.name}</Paragraph>
               </FlexBox>
             </div>

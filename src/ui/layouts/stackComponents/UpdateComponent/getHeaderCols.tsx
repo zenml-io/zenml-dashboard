@@ -4,8 +4,16 @@ import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
+  getInitialsFromEmail,
 } from '../../../../utils';
-import { FlexBox, icons, Paragraph, Tooltip } from '../../../components';
+import {
+  Box,
+  ColoredCircle,
+  FlexBox,
+  icons,
+  Paragraph,
+  Tooltip,
+} from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { StackComponent } from '../../../../api/types';
 
@@ -155,23 +163,32 @@ export const GetHeaderCols = ({
     {
       render: () => <HeaderText text="AUTHOR" />,
       width: '10%',
-      renderRow: (stack: StackComponent) => {
+      renderRow: (stackComponent: StackComponent) => {
+        const initials = getInitialsFromEmail(
+          stackComponent?.body?.user?.name as string,
+        );
         return (
-          <>
-            {stack.body?.user && (
+          <FlexBox alignItems="center">
+            <div data-tip data-for={stackComponent?.body?.user?.name}>
               <FlexBox alignItems="center">
-                <div data-tip data-for={stack.body?.user.name}>
-                  <FlexBox alignItems="center">
-                    <Paragraph size="small">{stack.body?.user.name}</Paragraph>
-                  </FlexBox>
-                </div>
-                <Tooltip
-                  id={stack.body?.user.name}
-                  text={stack.body?.user.name}
-                />
+                {stackComponent?.body?.user?.name && (
+                  <Box paddingRight="sm">
+                    <ColoredCircle color="secondary" size="sm">
+                      {initials}
+                    </ColoredCircle>
+                  </Box>
+                )}
+
+                <Paragraph size="small">
+                  {stackComponent?.body?.user?.name}
+                </Paragraph>
               </FlexBox>
-            )}
-          </>
+            </div>
+            <Tooltip
+              id={stackComponent?.body?.user?.name}
+              text={stackComponent?.body?.user?.name}
+            />
+          </FlexBox>
         );
       },
     },
