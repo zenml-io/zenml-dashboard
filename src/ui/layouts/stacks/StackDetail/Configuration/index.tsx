@@ -73,9 +73,6 @@ export const Configuration: React.FC<{
     zIndex: 1000,
     backgroundColor: 'white',
     bottom: 200,
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '5px',
   };
 
   const [showPopup, setShowPopup] = useState<boolean>(false);
