@@ -65,15 +65,15 @@ export const Configuration: React.FC<{
     setShowToolTip(null);
   };
 
-  const customToolTip = {
-    position: 'absolute',
-    border: '2px solid #f0ebfc',
-    borderRadius: '5px',
-    padding: 16,
-    zIndex: 1000,
-    backgroundColor: 'white',
-    bottom: 200,
-  };
+  // const customToolTip = {
+  //   position: 'absolute',
+  //   border: '2px solid #f0ebfc',
+  //   borderRadius: '5px',
+  //   padding: 16,
+  //   zIndex: 1000,
+  //   backgroundColor: 'white',
+  //   bottom: 200,
+  // };
 
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
