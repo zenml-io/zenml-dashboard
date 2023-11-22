@@ -393,7 +393,19 @@ export const useHeaderCols = ({
                   {showToolTip === run?.id &&
                     selectedSubModelId === run?.body?.pipeline?.id && (
                       <Box
-                        style={customToolTip as any}
+                        style={{
+                          border: '2px solid #f0ebfc',
+                          borderRadius: '5px',
+                          display: 'flex',
+                          padding: 16,
+                          // justifyContent: 'center',
+                          // alignItems: 'center',
+                          zIndex: 1000,
+                          backgroundColor: 'white',
+                          position: 'absolute',
+
+                          marginBottom: '200px',
+                        }}
                         // style={innerBoxStyleDisable}
                       >
                         <div
@@ -559,7 +571,19 @@ export const useHeaderCols = ({
                   {showToolTip === run?.id &&
                     selectedSubModelId === run?.body?.stack?.id && (
                       <Box
-                        style={customToolTip as any}
+                        style={{
+                          border: '2px solid #f0ebfc',
+                          borderRadius: '5px',
+                          display: 'flex',
+                          padding: 16,
+                          // justifyContent: 'center',
+                          // alignItems: 'center',
+                          zIndex: 1000,
+                          backgroundColor: 'white',
+                          position: 'absolute',
+
+                          marginBottom: '200px',
+                        }}
                         // style={innerBoxStyleDisable}
                       >
                         <div
