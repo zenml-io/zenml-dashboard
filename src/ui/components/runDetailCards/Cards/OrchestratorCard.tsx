@@ -15,7 +15,7 @@ const OrchestratorCard = ({ run }: OrchestratorCardProps) => {
         <Paragraph className={styles.card__key}>Orchestrator Run ID</Paragraph>
         <Paragraph className={styles.card__value}>
           {/* @ts-ignore */}
-          {run.orchestratorRunId}
+          {run.metadata?.orchestrator_run_id}
         </Paragraph>
       </div>
       <div>

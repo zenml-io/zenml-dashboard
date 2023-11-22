@@ -107,34 +107,12 @@ export const GetHeaderCols = ({
           <>
             {secret.user && (
               <FlexBox alignItems="center">
-                <div
-                  data-tip
-                  data-for={
-                    secret.user?.full_name
-                      ? secret.user?.full_name
-                      : secret.user?.name
-                  }
-                >
+                <div data-tip data-for={secret.user.name}>
                   <FlexBox alignItems="center">
-                    <Paragraph size="small">
-                      {secret.user?.full_name
-                        ? secret.user?.full_name
-                        : secret.user?.name}
-                    </Paragraph>
+                    <Paragraph size="small">{secret.user?.name}</Paragraph>
                   </FlexBox>
                 </div>
-                <Tooltip
-                  id={
-                    secret.user?.full_name
-                      ? secret.user?.full_name
-                      : secret.user?.name
-                  }
-                  text={
-                    secret.user?.full_name
-                      ? secret.user?.full_name
-                      : secret.user?.name
-                  }
-                />
+                <Tooltip id={secret.user?.name} text={secret.user?.name} />
               </FlexBox>
             )}
           </>

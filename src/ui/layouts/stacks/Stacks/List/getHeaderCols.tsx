@@ -155,11 +155,11 @@ export const GetHeaderCols = ({
           <div
             style={{ margin: '0 auto 0 auto' }}
             data-tip
-            data-for={stack.is_shared}
+            data-for={`tooltip-${String(stack.body.is_shared)}`}
           >
             <Box>
               <FlexBox justifyContent="center" style={{ marginLeft: '-16px' }}>
-                {stack.is_shared ? (
+                {stack.body.is_shared ? (
                   <icons.multiUser
                     color={iconColors.white}
                     size={iconSizes.md}
@@ -174,8 +174,8 @@ export const GetHeaderCols = ({
             </Box>
           </div>
           <Tooltip
-            id={stack.is_shared ? 'true' : 'false'}
-            text={stack.is_shared ? 'true' : 'false'}
+            id={`tooltip-${String(stack.body.is_shared)}`}
+            text={stack.body.is_shared ? 'True' : 'False'}
           />
         </FlexBox>
       ),
@@ -203,33 +203,14 @@ export const GetHeaderCols = ({
       renderRow: (stack: Stack) => {
         return (
           <FlexBox alignItems="center">
-            <div
-              data-tip
-              data-for={
-                stack?.user?.full_name
-                  ? stack?.user?.full_name
-                  : stack?.user?.name
-              }
-            >
+            <div data-tip data-for={stack?.body.user?.name}>
               <FlexBox alignItems="center">
-                <Paragraph size="small">
-                  {stack?.user?.full_name
-                    ? stack?.user?.full_name
-                    : stack?.user?.name}
-                </Paragraph>
+                <Paragraph size="small">{stack?.body.user?.name}</Paragraph>
               </FlexBox>
             </div>
             <Tooltip
-              id={
-                stack?.user?.full_name
-                  ? stack?.user?.full_name
-                  : stack?.user?.name
-              }
-              text={
-                stack?.user?.full_name
-                  ? stack?.user?.full_name
-                  : stack?.user?.name
-              }
+              id={stack?.body.user?.name}
+              text={stack?.body.user?.name}
             />
           </FlexBox>
         );
@@ -244,13 +225,15 @@ export const GetHeaderCols = ({
             asc: (filteredStacks: Stack[]) =>
               _.orderBy(
                 filteredStacks,
-                (stack: Stack) => new Date(stack.created).getTime(),
+                (stack: Stack) =>
+                  new Date(stack.body.created as string).getTime(),
                 ['asc'],
               ),
             desc: (filteredStacks: Stack[]) =>
               _.orderBy(
                 filteredStacks,
-                (stack: Stack) => new Date(stack.created).getTime(),
+                (stack: Stack) =>
+                  new Date(stack.body.created as string).getTime(),
                 ['desc'],
               ),
           })}
@@ -264,16 +247,19 @@ export const GetHeaderCols = ({
       width: '20%',
       renderRow: (stack: Stack) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(stack.created)}>
+          <div
+            data-tip
+            data-for={formatDateToSort(stack.body.created as string)}
+          >
             <FlexBox alignItems="center">
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(stack.created)}
+                {formatDateToDisplayOnTable(stack.body.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <Tooltip
-            id={formatDateToSort(stack.created)}
-            text={formatDateToDisplayOnTable(stack.created)}
+            id={formatDateToSort(stack.body.created as string)}
+            text={formatDateToDisplayOnTable(stack.body.created as string)}
           />
         </FlexBox>
       ),

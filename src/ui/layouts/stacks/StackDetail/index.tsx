@@ -114,44 +114,47 @@ export const StackDetail: React.FC = () => {
   const { flavourList, fetching } = GetFlavorsListForLogo();
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  if (Object.keys(stack).length === 0) {
+  if (stack && Object.keys(stack).length === 0) {
     return <FullWidthSpinner color="black" size="md" />;
   }
-  if (flavourList?.length > 1) {
-    for (const [key] of Object.entries(
-      stack.components as Record<string, StackComponent[]>,
-    )) {
-      const { logo_url }: any = flavourList.find(
-        (fl: Flavor) =>
-          fl.name ===
-            (stack.components as Record<string, StackComponent[]>)[key][0]
-              ?.flavor &&
-          fl.type ===
-            (stack.components as Record<string, StackComponent[]>)[key][0]
-              ?.type,
-      );
 
-      nestedRowtiles.push({
-        ...((stack.components as Record<string, StackComponent[]>)[
-          key
-        ][0] as StackComponent),
-        type: key,
-        name: (stack.components as Record<string, StackComponent[]>)[key][0]
-          ?.name,
-        id: (stack.components as Record<string, StackComponent[]>)[key][0]?.id,
-        logo: logo_url,
-      });
+  if (flavourList?.length > 1) {
+    const components = stack?.metadata?.components as Record<
+      string,
+      StackComponent[]
+    >; // Ensure components exist
+
+    if (components) {
+      for (const [key, value] of Object.entries(components)) {
+        if (value && value[0]?.body?.flavor && value[0]?.body?.type) {
+          const { body }: any = flavourList.find(
+            (fl: Flavor) =>
+              fl.name === value[0].body.flavor &&
+              fl.body.type === value[0].body.type,
+          );
+
+          if (body && value[0]) {
+            nestedRowtiles.push({
+              ...(value[0] as StackComponent),
+              type: key,
+              name: value[0]?.name,
+              id: value[0]?.id,
+              logo: body.logo_url,
+            });
+          }
+        }
+      }
     }
   }
 
   const tabPages = getTabPages(
-    stack.id,
+    stack?.id,
     fetching,
     selectedWorkspace,
     nestedRowtiles,
     history,
   );
-  const breadcrumbs = getBreadcrumbs(stack.id, selectedWorkspace);
+  const breadcrumbs = getBreadcrumbs(stack?.id, selectedWorkspace);
   const headerCols = GetHeaderCols({
     filteredStacks,
   });
@@ -163,7 +166,7 @@ export const StackDetail: React.FC = () => {
     <BasePage
       headerWithButtons
       tabPages={tabPages}
-      tabBasePath={routePaths.stack.base(stack.id)}
+      tabBasePath={routePaths.stack.base(stack?.id)}
       breadcrumbs={breadcrumbs}
       title="Stacks"
     >

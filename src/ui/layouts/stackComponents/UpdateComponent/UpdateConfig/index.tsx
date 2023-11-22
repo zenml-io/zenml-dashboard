@@ -89,8 +89,8 @@ export const UpdateConfig: React.FC<{
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
   useEffect(() => {
-    setConnector(stackComponent?.connector?.id);
-    setConnectorResourceId(stackComponent?.connectorResourceId);
+    setConnector(stackComponent?.metadata?.connector?.id);
+    setConnectorResourceId(stackComponent?.metadata?.connector_resource_id);
     function replaceNullWithEmptyString(obj: any) {
       for (let prop in obj) {
         if (obj[prop] === null) {
@@ -102,10 +102,10 @@ export const UpdateConfig: React.FC<{
       return obj;
     }
 
-    replaceNullWithEmptyString(stackComponent?.configuration);
+    replaceNullWithEmptyString(stackComponent?.metadata?.configuration);
     setComponentName(stackComponent?.name);
 
-    setIsShared(stackComponent?.isShared);
+    setIsShared(stackComponent?.body?.is_shared);
 
     function convertJSON(json: any) {
       const convertedJSON: any = {};
@@ -113,9 +113,10 @@ export const UpdateConfig: React.FC<{
       for (const key in json) {
         if (Object.prototype.hasOwnProperty.call(json, key)) {
           if (
-            flavor?.configSchema?.properties[key]?.additionalProperties &&
-            flavor?.configSchema?.properties[key]?.additionalProperties
-              ?.type !== 'string'
+            flavor?.metadata?.config_schema?.properties[key]
+              ?.additionalProperties &&
+            flavor?.metadata?.config_schema.properties[key]
+              ?.additionalProperties?.type !== 'string'
           ) {
           } else if (
             typeof json[key] === 'object' &&
@@ -150,26 +151,29 @@ export const UpdateConfig: React.FC<{
     }
     if (!state?.state?.routeFromEditComponent) {
       if (flavor) {
-        let result = Object.keys(flavor?.configSchema?.properties || {}).reduce(
-          function (r: any, name: any) {
-            return (
-              (r[name] =
-                flavor?.configSchema?.properties[name]?.type === 'string' &&
-                flavor?.configSchema?.properties[name]?.default === undefined
-                  ? ''
-                  : flavor?.configSchema?.properties[name]?.type === 'array' &&
-                    !flavor?.configSchema?.properties[name]?.default?.length
-                  ? ['']
-                  : flavor?.configSchema?.properties[name]?.default),
-              r
-            );
-          },
-          {},
-        );
+        let result = Object.keys(
+          flavor?.metadata?.config_schema?.properties || {},
+        ).reduce(function (r: any, name: any) {
+          return (
+            (r[name] =
+              flavor?.metadata?.config_schema?.properties[name]?.type ===
+                'string' &&
+              flavor?.metadata?.config_schema?.properties[name]?.default ===
+                undefined
+                ? ''
+                : flavor?.metadata?.config_schema?.properties[name]?.type ===
+                    'array' &&
+                  !flavor?.metadata?.config_schema?.properties[name]?.default
+                    ?.length
+                ? ['']
+                : flavor?.metadata?.config_schema?.properties[name]?.default),
+            r
+          );
+        }, {});
 
         const mappedObject = {
           ...result,
-          ...stackComponent?.configuration,
+          ...stackComponent?.metadata?.configuration,
         };
         const convertedJson = convertJSON(mappedObject);
         setInputFields(convertedJson);
@@ -196,7 +200,7 @@ export const UpdateConfig: React.FC<{
       return keys;
     }
     const sensitiveFields = extractSensitiveKeys(
-      flavor?.configSchema?.properties,
+      flavor?.metadata?.config_schema?.properties,
     );
     setSensitiveFields(sensitiveFields);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -209,6 +213,7 @@ export const UpdateConfig: React.FC<{
       id: item.id as string,
     };
   }) as any;
+
   const onSubmit = () => {
     const { id }: any = workspaces.find(
       (item) => item.name === selectedWorkspace,
@@ -235,7 +240,7 @@ export const UpdateConfig: React.FC<{
     let tempFinal: any = {};
 
     Object.keys(inputFields).forEach((key) => {
-      if (flavor?.configSchema?.properties[key].type !== 'array') {
+      if (flavor?.metadata?.config_schema?.properties[key].type !== 'array') {
         const newObj: any = {};
         inputFields[key].forEach((obj: any) => {
           if (obj.key !== undefined && (obj.key !== '' || obj.value !== '')) {
@@ -257,7 +262,7 @@ export const UpdateConfig: React.FC<{
     const final: any = {};
 
     Object.keys(inputFields).forEach((key) => {
-      if (flavor?.configSchema?.properties[key].type !== 'array') {
+      if (flavor?.metadata?.config_schema?.properties[key].type !== 'array') {
         const newObj: any = {};
         inputFields[key].forEach((obj: any) => {
           if (obj.key !== undefined && (obj.key !== '' || obj.value !== '')) {
@@ -275,24 +280,54 @@ export const UpdateConfig: React.FC<{
         final[key] = newObj;
       }
     });
+    if (JSON.stringify(tempFinal) !== JSON.stringify(final)) {
+      return false;
+    }
 
+    function removeEmptyValues(obj: any) {
+      for (const [key, value] of Object.entries(obj)) {
+        if (
+          value === null ||
+          value === undefined ||
+          value === '' ||
+          (typeof value === 'object' &&
+            Object.keys(value as any).length === 0) ||
+          (Array.isArray(value) && value.length === 0) ||
+          (Array.isArray(value) &&
+            value.every(
+              (item: any) => item === '' || item === null || item === undefined,
+            ))
+        ) {
+          delete obj[key];
+        }
+      }
+
+      for (let key in obj) {
+        if (Array.isArray(obj[key])) {
+          obj[key] = obj[key].filter((item: any) => item !== '');
+        }
+      }
+
+      return obj;
+    }
+
+    const cleanedMappedConfiguration = removeEmptyValues(mappedConfiguration);
+    const cleanedFinal = removeEmptyValues(final);
     const body: any = {
       user: user?.id,
       workspace: id,
       is_shared: isShared,
       name: componentName,
-      type: stackComponent.type,
-      flavor: stackComponent.flavor,
-      configuration: { ...mappedConfiguration, ...final },
+      type: stackComponent.body.type,
+      flavor: stackComponent.body.flavor,
+      configuration: { ...cleanedMappedConfiguration, ...cleanedFinal },
     };
+
     if (connector && connector !== null) {
       body.connector = connector;
       body.connector_resource_id = connectorResourceId;
     }
-
-    if (JSON.stringify(tempFinal) !== JSON.stringify(final)) {
-      return false;
-    }
+    debugger;
 
     for (const [key] of Object.entries(final)) {
       for (const [innerKey, innerValue] of Object.entries(final[key])) {
@@ -403,14 +438,18 @@ export const UpdateConfig: React.FC<{
   }
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    if (flavor?.configSchema?.properties[elementName]?.type === 'string') {
+    if (
+      flavor?.metadata?.config_schema?.properties[elementName]?.type ===
+      'string'
+    ) {
       return (
         <>
-          {flavor?.configSchema?.properties[elementName].sensitive ? (
+          {flavor?.metadata?.config_schema?.properties[elementName]
+            .sensitive ? (
             connectorResourceId === null && (
               <Box marginTop="lg" style={{ width: '30vw' }}>
                 <MakeSecretField
-                  required={flavor?.configSchema?.required?.includes(
+                  required={flavor?.metadata?.config_schema?.required?.includes(
                     elementName,
                   )}
                   label={titleCase(elementName) + ' (Secret)'}
@@ -500,13 +539,13 @@ export const UpdateConfig: React.FC<{
                 />
               </Box>
             )
-          ) : flavor?.configSchema?.properties[elementName].title ===
+          ) : flavor?.metadata?.config_schema?.properties[elementName].title ===
               'Authentication Secret' && connectorResourceId !== null ? null : (
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <FormTextField
                 disabled={
                   connectorResourceId &&
-                  elementName === flavor.connector_resource_id_attr
+                  elementName === flavor.metadta?.connector_resource_id_attr
                 }
                 onChange={(e: any) => {
                   setMappedConfiguration((prevConfig: any) => ({
@@ -525,10 +564,12 @@ export const UpdateConfig: React.FC<{
     }
 
     if (
-      flavor?.configSchema?.properties[elementName]?.type === 'object' &&
-      flavor?.configSchema?.properties[elementName]?.additionalProperties &&
-      flavor?.configSchema?.properties[elementName]?.additionalProperties
-        .type !== 'string'
+      flavor?.metadata?.config_schema?.properties[elementName]?.type ===
+        'object' &&
+      flavor?.metadata?.config_schema?.properties[elementName]
+        ?.additionalProperties &&
+      flavor?.metadata?.config_schema?.properties[elementName]
+        ?.additionalProperties.type !== 'string'
     ) {
       return (
         <>
@@ -572,11 +613,12 @@ export const UpdateConfig: React.FC<{
       );
     }
     if (
-      flavor?.configSchema?.properties[elementName]?.type === 'object' &&
-      (flavor?.configSchema?.properties[elementName]?.additionalProperties
-        ?.type === 'string' ||
-        flavor?.configSchema?.properties[elementName]?.additionalProperties
-          ?.type === undefined)
+      flavor?.metadata?.config_schema?.properties[elementName]?.type ===
+        'object' &&
+      (flavor?.metadata?.config_schema?.properties[elementName]
+        ?.additionalProperties?.type === 'string' ||
+        flavor?.metadata?.config_schema?.properties[elementName]
+          ?.additionalProperties?.type === undefined)
     ) {
       return (
         <Box marginTop="md">
@@ -727,7 +769,9 @@ export const UpdateConfig: React.FC<{
         </Box>
       );
     }
-    if (flavor?.configSchema?.properties[elementName]?.type === 'array') {
+    if (
+      flavor?.metadata?.config_schema?.properties[elementName]?.type === 'array'
+    ) {
       return (
         <Box marginTop="md">
           <Paragraph size="body" style={{ color: '#000' }}>
@@ -918,7 +962,7 @@ export const UpdateConfig: React.FC<{
             />
           </Box>
         </Container>
-        {flavor.connector_resource_type && (
+        {flavor.metadata?.connector_resource_type && (
           <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
             <Paragraph size="body" style={{ color: '#000' }}>
               <label htmlFor="key">{'Connect to resource'}</label>
@@ -931,7 +975,9 @@ export const UpdateConfig: React.FC<{
                 setInputData={setMappedConfiguration}
                 sensitiveFields={sensitiveFields}
                 defaultMappedConfig={defaultMappedConfig}
-                connectorResourceIdAttr={flavor.connector_resource_id_attr}
+                connectorResourceIdAttr={
+                  flavor.metadata?.connector_resource_id_attr
+                }
                 connector={connector}
                 setConnector={setConnector}
                 connectorResourceId={connectorResourceId}

@@ -11,9 +11,10 @@ import { useSelector } from '../../../hooks';
 import { RoleSelectorAPI } from './RoleSelector/RoleSelectorAPI';
 import { formatDateToDisplayWithoutTime } from '../../../../utils';
 import { getInitials } from '../../../../utils/name';
+import { User } from '../../../../api/types';
 
 export const UpdateMember: React.FC<{
-  member: TMember;
+  member: User;
   setEditPopup: any;
   setShowPasswordUpdate: any;
   setUser: any;
@@ -21,7 +22,7 @@ export const UpdateMember: React.FC<{
   const dispatch = useDispatch();
   const roles = useSelector(rolesSelectors.getRoles);
 
-  const userFullName = member?.fullName || member?.fullName || member?.name;
+  const userFullName = member.metadata?.full_name || member.name;
   const userInitials = getInitials(userFullName as string);
 
   const [allRoles, setAllRoles] = useState(
@@ -83,7 +84,9 @@ export const UpdateMember: React.FC<{
       <Box marginTop="md">
         <Box>
           <Paragraph className={styles.memberName}>
-            {member?.fullName ? member?.fullName : member?.name}
+            {member.metadata?.full_name
+              ? member.metadata?.full_name
+              : member.name}
           </Paragraph>
         </Box>
 
@@ -91,7 +94,7 @@ export const UpdateMember: React.FC<{
           <RoleSelectorAPI
             allRoles={allRoles}
             setAllRoles={setAllRoles}
-            memberId={member?.id}
+            memberId={member.id}
           />
         </Box>
 
@@ -106,17 +109,19 @@ export const UpdateMember: React.FC<{
         >
           <FlexBox.Row fullWidth justifyContent="space-between">
             <Box>Status</Box>
-            <Box>{member.active ? <>Accepted</> : <>Pending</>}</Box>
+            <Box>{member.metadata?.active ? <>Accepted</> : <>Pending</>}</Box>
           </FlexBox.Row>
           <FlexBox.Row marginTop="sm" fullWidth justifyContent="space-between">
             <Box>Created at</Box>
-            <Box>{formatDateToDisplayWithoutTime(member.created)}</Box>
+            <Box>
+              {formatDateToDisplayWithoutTime(member.body.created as any)}
+            </Box>
           </FlexBox.Row>
         </Box>
       </Box>
 
       <Box style={{ marginTop: '40px' }}>
-        {member?.active && (
+        {member.metadata?.active && (
           <>
             <Box marginBottom="md">
               <Separator.LightNew />

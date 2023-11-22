@@ -69,7 +69,8 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
         <FlexBox alignItems="center">
           <div
             data-tip
-            data-for={run?.pipeline?.name && run?.pipeline?.version}
+            data-for={run?.body?.pipeline?.name}
+            // data-for={run?.body.pipeline?.name && run?.body?.pipeline?.version}
           >
             <Paragraph
               size="small"
@@ -82,23 +83,25 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
                 event.stopPropagation();
                 history.push(
                   routePaths.pipeline.configuration(
-                    run?.pipeline?.id as string,
+                    run?.body?.pipeline?.id as string,
                     selectedWorkspace,
                   ),
                 );
               }}
             >
-              {run?.pipeline?.name &&
-                `${run?.pipeline?.name} ( v${run?.pipeline?.version} )`}
+              {run?.body?.pipeline?.name && `${run?.body?.pipeline?.name}`}
+              {/* `${run?.body?.pipeline?.name} ( v${run?.body?.pipeline?.version} )`} */}
             </Paragraph>
           </div>
           <ReactTooltip
-            id={run?.pipeline?.name && run?.pipeline?.version}
+            id={run?.body?.pipeline?.name}
+            // id={run?.body?.pipeline?.name && run?.body?.pipeline?.version}
             place="top"
             effect="solid"
           >
             <Paragraph color="white">
-              {run?.pipeline?.name} ( v{run?.pipeline?.version} )
+              {run?.body?.pipeline?.name}
+              {/* {run?.body?.pipeline?.name} ( v{run?.body?.pipeline?.version} ) */}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>
@@ -115,7 +118,7 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
       width: '7.5%',
       renderRow: (run: Run) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={run?.stack?.name}>
+          <div data-tip data-for={run?.body?.stack?.name}>
             <Paragraph
               size="small"
               style={{
@@ -127,17 +130,17 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
                 event.stopPropagation();
                 history.push(
                   routePaths.stack.configuration(
-                    run?.stack?.id as string,
+                    run?.body?.stack?.id as string,
                     selectedWorkspace,
                   ),
                 );
               }}
             >
-              {run?.stack?.name}
+              {run?.body?.stack?.name}
             </Paragraph>
           </div>
-          <ReactTooltip id={run?.stack?.name} place="top" effect="solid">
-            <Paragraph color="white">{run?.stack?.name}</Paragraph>
+          <ReactTooltip id={run?.body?.stack?.name} place="top" effect="solid">
+            <Paragraph color="white">{run?.body?.stack?.name}</Paragraph>
           </ReactTooltip>
         </FlexBox>
       ),
@@ -149,28 +152,13 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
       renderRow: (run: Run) => {
         return (
           <FlexBox alignItems="center">
-            <div
-              data-tip
-              data-for={
-                run?.user?.full_name ? run?.user?.full_name : run?.user?.name
-              }
-            >
+            <div data-tip data-for={run?.body.user?.name}>
               <FlexBox alignItems="center">
-                <Paragraph size="small">
-                  {run?.user?.full_name
-                    ? run?.user?.full_name
-                    : run?.user?.name}
-                </Paragraph>
+                <Paragraph size="small">{run?.body.user?.name}</Paragraph>
               </FlexBox>
             </div>
-            <ReactTooltip
-              id={run?.user?.full_name ? run?.user?.full_name : run?.user?.name}
-              place="top"
-              effect="solid"
-            >
-              <Paragraph color="white">
-                {run?.user?.full_name ? run?.user?.full_name : run?.user?.name}
-              </Paragraph>
+            <ReactTooltip id={run?.body.user?.name} place="top" effect="solid">
+              <Paragraph color="white">{run?.body.user?.name}</Paragraph>
             </ReactTooltip>
           </FlexBox>
         );
@@ -181,20 +169,23 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
       width: '20%',
       renderRow: (run: Run) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToDisplayOnTable(run?.created)}>
+          <div
+            data-tip
+            data-for={formatDateToDisplayOnTable(run?.body.created)}
+          >
             <FlexBox alignItems="center">
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(run?.created)}
+                {formatDateToDisplayOnTable(run?.body.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <ReactTooltip
-            id={formatDateToDisplayOnTable(run?.created)}
+            id={formatDateToDisplayOnTable(run?.body.created)}
             place="top"
             effect="solid"
           >
             <Paragraph color="white">
-              {formatDateToDisplayOnTable(run?.created)}
+              {formatDateToDisplayOnTable(run?.body.created)}
             </Paragraph>
           </ReactTooltip>
         </FlexBox>

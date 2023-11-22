@@ -33,7 +33,7 @@ export const TokenPopup: React.FC<{
   const [submitting, setSubmitting] = useState(false);
   const [showTokField, setShowTokField] = useState(false);
 
-  const userFullName = fullName || fullName || username;
+  const userFullName = fullName || username;
   const userInitials = getInitials(userFullName as string);
 
   const dispatch = useDispatch();
@@ -115,6 +115,7 @@ export const TokenPopup: React.FC<{
         <Box marginBottom="md">
           <Separator.LightNew />
         </Box>
+
         <FlexBox justifyContent="center" flexWrap>
           {!showTokField ? (
             <Paragraph

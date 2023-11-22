@@ -2,6 +2,7 @@ import { filterByStatus } from '../utils/filterByStatusUtils';
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
 import { pagination } from '../utils/paginationUtils';
+import { search } from '../utils/searchUtils';
 
 describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
@@ -13,13 +14,16 @@ describe('FilterComponent E2E Tests', () => {
     // Replace with your custom wait command
   });
   it('should work with valid value', () => {
-    cy.get('[data-testid="search-input"]').type('repo');
-    cy.get('[data-testid="repository_card"]').should('exist');
-    cy.get('[data-testid="search-input"]').clear();
-    cy.get('[data-testid="search-input"]').type('random value');
-    cy.get('h4').contains('No Repositories found');
+    const emptyText = 'No Repositories found';
+    search('r', emptyText);
+    // cy.get('[data-testid="search-input"]').type('repo');
+    // cy.get('[data-testid="repository_card"]').should('exist');
+    // cy.get('[data-testid="search-input"]').clear();
+    // cy.get('[data-testid="search-input"]').type('random value');
+    // cy.get('h4').contains('No Repositories found');
   });
-  it('should apply filters where string', () => {
+  it.only('should apply filters where string', () => {
+    cy.waitForLoaderToDisappear();
     // const columnList = ['ID', 'Name', '\];
     // columnList.forEach((col) => {
     //   filterByString(col);

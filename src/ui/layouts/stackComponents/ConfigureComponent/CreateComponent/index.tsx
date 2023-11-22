@@ -86,44 +86,42 @@ export const CreateComponent: React.FC<{
       let setDefaultData = {};
       let setInputObjectType: any = [];
       let setInputArrayType: any = [];
-      initForm(flavor.configSchema.properties);
-      Object.keys(flavor.configSchema.properties).map((key, ind) => {
-        const data = flavor.configSchema.properties[key];
+      initForm(flavor.metadata.config_schema.properties);
+      Object.keys(flavor.metadata.config_schema.properties).map((key, ind) => {
+        const data = flavor.metadata.config_schema.properties[key];
+
         if (data.default && (data.type === 'string' || data.type === 'integer'))
           setDefaultData = {
             ...setDefaultData,
-            [toSnakeCase(data.title)]: data.default,
+            [key]: data.default,
           };
         else if (data.default && data.type === 'array') {
           setInputArrayType = {
             ...setInputArrayType,
-            [toSnakeCase(data.title)]: [...data.default, ''],
+            [key]: [...data.default, ''],
           };
         } else if (
-          flavor.configSchema.properties[key]?.additionalProperties &&
-          flavor.configSchema.properties[key]?.additionalProperties?.type !==
-            'string'
+          flavor.metadata.config_schema.properties[key]?.additionalProperties &&
+          flavor.metadata.config_schema.properties[key]?.additionalProperties
+            ?.type !== 'string'
         ) {
           setDefaultData = {
             ...setDefaultData,
-            [toSnakeCase(data.title)]: data.default,
+            [key]: data.default,
           };
         }
         return null;
       });
 
-      Object.keys(flavor.configSchema.properties).map((key, ind) => {
-        const data = flavor.configSchema.properties[key];
+      Object.keys(flavor.metadata.config_schema.properties).map((key, ind) => {
+        const data = flavor.metadata.config_schema.properties[key];
         if (data.type === 'object') {
           if (
-            flavor.configSchema.properties[key]?.additionalProperties &&
-            flavor.configSchema.properties[key]?.additionalProperties?.type ===
-              'string'
+            flavor.metadata.config_schema.properties[key]
+              ?.additionalProperties &&
+            flavor.metadata.config_schema.properties[key]?.additionalProperties
+              ?.type === 'string'
           ) {
-            setInputObjectType.push({
-              [key]: [{ key: '', value: '' }],
-            });
-          } else {
             setInputObjectType.push({
               [key]: [{ key: '', value: '' }],
             });
@@ -152,14 +150,6 @@ export const CreateComponent: React.FC<{
     values[parentIndex][name].splice(childIndex, 1);
     setInputFields(values);
   };
-  const toSnakeCase = (str: any) =>
-    str &&
-    str
-      .match(
-        /[A-Z]{2,}(?=[A-Z][a-z]+[0-9]*|\b)|[A-Z]?[a-z]+[0-9]*|[A-Z]|[0-9]+/g,
-      )
-      .map((x: any) => x.toLowerCase())
-      .join('_');
 
   const secretOptions = secrets.map((item: any) => {
     return {
@@ -173,7 +163,7 @@ export const CreateComponent: React.FC<{
     setInputData({
       ...inputData,
       [name]: {
-        value: value.value ? value.value : value,
+        value: value?.value ? value?.value : value,
         id: value?.id ? value?.id : '',
       },
     });
@@ -456,7 +446,7 @@ export const CreateComponent: React.FC<{
             !connectorResourceId && (
               <Box marginTop="lg">
                 <MakeSecretField
-                  required={flavor?.configSchema?.required?.includes(
+                  required={flavor?.metadata.config_schema?.required?.includes(
                     elementName,
                   )}
                   label={titleCase(props.name) + ' (Secret)'}
@@ -557,7 +547,9 @@ export const CreateComponent: React.FC<{
                 connectorResourceId &&
                 elementName === flavor.connectorResourceIdAttr
               }
-              required={flavor?.configSchema?.required?.includes(elementName)}
+              required={flavor?.metadata.config_schema?.required?.includes(
+                elementName,
+              )}
               inputData={inputData}
               default={
                 inputData[props.name]
@@ -708,10 +700,12 @@ export const CreateComponent: React.FC<{
   };
 
   const onSubmit = async (values: any) => {
-    const requiredField = flavor?.configSchema?.required?.filter(
+    const requiredField = flavor?.metadata.config_schema?.required?.filter(
       (item: any) => inputData[item],
     );
-    if (requiredField?.length !== flavor?.configSchema?.required?.length) {
+    if (
+      requiredField?.length !== flavor?.metadata.config_schema?.required?.length
+    ) {
       dispatch(
         showToasterAction({
           description: 'Required Field is Empty',
@@ -823,15 +817,44 @@ export const CreateComponent: React.FC<{
         );
       }
     }
+    function removeEmptyValues(obj: any) {
+      for (const [key, value] of Object.entries(obj)) {
+        if (
+          value === null ||
+          value === undefined ||
+          value === '' ||
+          (typeof value === 'object' && Object.keys(value as any).length === 0)
+        ) {
+          delete obj[key];
+        }
+      }
+      return obj;
+    }
+
+    const cleanedInputArrayFields = Object.keys(inputArrayFields).reduce(
+      (acc: any, key: any) => {
+        if (!inputArrayFields[key].includes('')) {
+          acc[key] = inputArrayFields[key];
+        }
+        return acc;
+      },
+      {},
+    );
+
+    const cleanedInputData = removeEmptyValues(inputData);
 
     const body: any = {
       user: user?.id,
       workspace: id,
       is_shared: isShared,
       name: componentName,
-      type: flavor.type,
+      type: flavor.body.type,
       flavor: flavor.name,
-      configuration: { ...inputData, ...final, ...inputArrayFields },
+      configuration: {
+        ...cleanedInputData,
+        ...final,
+        ...cleanedInputArrayFields,
+      },
     };
     if (connector && connector !== null) {
       body.connector = connector;
@@ -859,7 +882,7 @@ export const CreateComponent: React.FC<{
 
         history.push(
           routePaths.stackComponents.configuration(
-            flavor.type,
+            flavor.body.type,
             id,
             selectedWorkspace,
           ),
@@ -879,7 +902,7 @@ export const CreateComponent: React.FC<{
             showToasterAction({
               description: err?.response?.data?.detail[0].includes('Exists')
                 ? `Component name already exists.`
-                : err?.response?.data?.detail[0],
+                : err?.response?.data?.detail[1],
               type: toasterTypes.failure,
             }),
           );
@@ -888,7 +911,7 @@ export const CreateComponent: React.FC<{
             showToasterAction({
               description: err?.response?.data?.detail[0].includes('Exists')
                 ? `Component name already exists.`
-                : err?.response?.data?.detail[0],
+                : err?.response?.data?.detail[1],
               type: toasterTypes.failure,
             }),
           );
@@ -920,7 +943,7 @@ export const CreateComponent: React.FC<{
               onHandleChange={() => setIsShared(!isShared)}
             />
           </Box>
-          {flavor.connectorResourceType && (
+          {flavor.metadata.connector_resource_type && (
             <Box marginTop="md" style={{ width: '30vw' }}>
               <Paragraph size="body" style={{ color: '#000' }}>
                 <label htmlFor="key">{'Connect to resource'}</label>
@@ -932,7 +955,9 @@ export const CreateComponent: React.FC<{
                   inputData={inputData}
                   setInputData={setInputData}
                   connector={connector}
-                  connectorResourceIdAttr={flavor.connectorResourceIdAttr}
+                  connectorResourceIdAttr={
+                    flavor.metadata.connector_resource_id_attr
+                  }
                   setConnector={setConnector}
                   connectorResourceId={connectorResourceId}
                   setConnectorResourceId={setConnectorResourceId}
@@ -943,11 +968,16 @@ export const CreateComponent: React.FC<{
           )}
 
           <Form enableReinitialize initialValues={formData} onSubmit={onSubmit}>
-            {Object.keys(flavor.configSchema.properties).map((key, ind) => (
-              <div key={key}>
-                {getFormElement(key, flavor.configSchema.properties[key])}
-              </div>
-            ))}
+            {Object.keys(flavor.metadata.config_schema.properties).map(
+              (key, ind) => (
+                <div key={key}>
+                  {getFormElement(
+                    key,
+                    flavor.metadata.config_schema.properties[key],
+                  )}
+                </div>
+              ),
+            )}
           </Form>
         </Box>
 

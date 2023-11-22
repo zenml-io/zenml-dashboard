@@ -4,8 +4,8 @@ import { FlexBox, Box, Paragraph, icons } from '../../../components';
 import { iconColors } from '../../../../constants';
 
 const Index: React.FC<any> = ({ data }) => {
-  const resourceType = data?.connectorType?.resource_types?.filter(
-    (e: any) => e.resource_type === data?.resourceTypes[0],
+  const resourceType = data?.metadata?.connector_type?.resource_types?.filter(
+    (e: any) => e?.resource_type === data?.metadata?.resource_types[0],
   );
 
   return (
@@ -44,10 +44,10 @@ const Index: React.FC<any> = ({ data }) => {
             </Box>
             <Paragraph>
               {e?.name}-
-              {data?.resourceId === null ? (
+              {data?.metadata?.resource_id === null ? (
                 <>&#91;all&#93;</>
               ) : (
-                <>&#91;{data?.resourceId}&#93;</>
+                <>&#91;{data?.metadata?.resource_id}&#93;</>
               )}
             </Paragraph>
           </FlexBox>

@@ -10,12 +10,12 @@ import ReactFlow, {
 import dagre from 'dagre';
 import StepNode from './StepNode';
 import './index.css';
-import { Completed, FailedLg } from './icons';
+// import { Completed, FailedLg } from './icons';
 import { FullWidthSpinner } from '../spinners';
-import styles from './index.module.scss';
-import { useSelector } from 'react-redux';
-import { sessionSelectors } from '../../../redux/selectors';
-import { fetchSchedule } from '../../layouts/pipelines/PipelineDetail/Configuration/useService';
+// import styles from './index.module.scss';
+// import { useSelector } from 'react-redux';
+// import { sessionSelectors } from '../../../redux/selectors';
+// import { fetchSchedule } from '../../layouts/pipelines/PipelineDetail/Configuration/useService';
 
 interface Edge {
   id: string;
@@ -125,42 +125,42 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
   const {
     initialNodes: layoutedNodes,
     initialEdges: layoutedEdges,
-  } = getLayoutedElements(graph.graph.node, graph.graph.edge);
+  } = getLayoutedElements(graph?.graph?.node, graph?.graph?.edge);
   const [fetching, setFetching] = useState(false); //eslint-disable-line
-  const [fetchingSchedule, setFetchingSchedule] = useState(false); //eslint-disable-line
+  // const [fetchingSchedule, setFetchingSchedule] = useState(false); //eslint-disable-line
   const [na, setNa] = useState(false); //eslint-disable-line
   const [nodes, _, onNodesChange] = useNodesState(layoutedNodes); //eslint-disable-line
   const [edges, setEdges, onEdgesChange] = useEdgesState(layoutedEdges);
   const [selectedNode, setSelectedNode] = useState<any>(null);
-  const [schedule, setSchedule] = useState<any>(null);
-  const authToken = useSelector(sessionSelectors.authenticationToken);
+  // const [schedule, setSchedule] = useState<any>(null);
+  // const authToken = useSelector(sessionSelectors.authenticationToken);
 
   useEffect(() => {
-    const AsyncFetchCall = async () => {
-      setFetchingSchedule(true);
-      const resposne = await fetchSchedule(
-        '97f92da7-d5d7-4224-8b92-5fcbfb43d4fe',
-        authToken,
-      );
-      setSchedule(resposne);
-    };
-    AsyncFetchCall();
+    // const AsyncFetchCall = async () => {
+    //   setFetchingSchedule(true);
+    //   const resposne = await fetchSchedule(
+    //     '97f92da7-d5d7-4224-8b92-5fcbfb43d4fe',
+    //     authToken,
+    //   );
+    //   setSchedule(resposne);
+    // };
+    // AsyncFetchCall();
   }, []); //eslint-disable-line
 
-  useEffect(() => {
-    if (schedule !== null) {
-      setFetchingSchedule(false);
-    } else {
-      setFetchingSchedule(true);
-    }
+  // useEffect(() => {
+  //   if (schedule !== null) {
+  //     setFetchingSchedule(false);
+  //   } else {
+  //     setFetchingSchedule(true);
+  //   }
 
-    setTimeout(() => {
-      if (!fetchingSchedule) {
-        setNa(true);
-      } else {
-      }
-    }, 500);
-  }, [schedule]); //eslint-disable-line
+  //   setTimeout(() => {
+  //     if (!fetchingSchedule) {
+  //       setNa(true);
+  //     } else {
+  //     }
+  //   }, 500);
+  // }, [schedule]); //eslint-disable-line
 
   useEffect(() => {}, [selectedNode]);
 
@@ -188,7 +188,7 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
   return (
     <>
       <div style={{ overflow: 'hidden' }}>
-        <div>
+        {/* <div>
           {!fetchingSchedule ? (
             <table className={`${styles.Scheduled}`}>
               <thead>
@@ -254,7 +254,7 @@ export const LayoutFlow: React.FC<any> = (graph = null) => {
               </tbody>
             </table>
           )}
-        </div>
+        </div> */}
         <div className="layout" style={{ overflow: 'hidden' }}>
           <div className="layoutflow">
             <ReactFlow

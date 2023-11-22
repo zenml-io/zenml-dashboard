@@ -30,10 +30,10 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
       {permission && tokenPopup && (
         <TokenPopup
           id={data?.id}
-          fullName={data?.fullName}
+          fullName={data?.metadata?.fullName}
           username={data?.name}
-          active={data?.active}
-          roles={data?.roles}
+          active={data?.metadata?.active}
+          roles={data?.metadata?.roles}
           setTokenPopup={setTokenPopup}
         />
       )}
@@ -57,13 +57,13 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
 
           <Box marginTop="sm">
             <Paragraph className={styles.userName}>
-              {data?.fullName ? data?.fullName : data?.name}
+              {data?.metadata.fullName ? data?.metadata.fullName : data?.name}
             </Paragraph>
           </Box>
 
           <Box marginTop="sm" className={styles.rolesContainer}>
             <Row>
-              {data?.roles?.map((e: any, index: number) => (
+              {data?.metadata.roles?.map((e: any, index: number) => (
                 <Paragraph
                   key={index}
                   className={styles.role}
@@ -77,7 +77,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
             </Row>
           </Box>
 
-          {!data?.active && (
+          {!data?.metadata?.active && (
             <Box
               onClick={handleTokenPopup}
               marginTop="sm"

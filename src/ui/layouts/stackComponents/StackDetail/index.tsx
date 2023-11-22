@@ -1,7 +1,12 @@
 import React, { useState } from 'react';
 
 import { routePaths } from '../../../../routes/routePaths';
-import { Box, FlexBox, PrimaryButton } from '../../../components';
+import {
+  Box,
+  FlexBox,
+  // FullWidthSpinner,
+  PrimaryButton,
+} from '../../../components';
 
 import { camelCaseToParagraph } from '../../../../utils';
 
@@ -13,7 +18,7 @@ import { useService } from './useService';
 import { useHistory, useLocationPath, useSelector } from '../../../hooks';
 import FilterComponent from '../../../components/Filters';
 import { workspaceSelectors } from '../../../../redux/selectors';
-import { StackComponent } from '../../../../api/types';
+import { Flavor, StackComponent } from '../../../../api/types';
 
 import { List } from '../../stacks/Stacks/List';
 import { CollapseTable } from '../../common/CollapseTable';
@@ -79,6 +84,7 @@ const FilterWrapperForStacks = () => {
   );
 };
 const getTabPages = (
+  flavor: Flavor,
   stackId: TId,
   locationPath: any,
   selectedWorkspace: string,
@@ -90,6 +96,7 @@ const getTabPages = (
       text: translate('tabs.configuration.text'),
       Component: () => (
         <Configuration
+          flavor={flavor}
           stackId={stackId}
           loading={loading}
           serviceConnectorResources={serviceConnectorResources}
@@ -148,45 +155,63 @@ export interface StackDetailRouteParams {
 
 export const StackDetail: React.FC = () => {
   const locationPath = useLocationPath();
+  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
 
+  const history = useHistory();
   const {
     stackComponent,
     id,
     flavor,
+    flavorList,
     loading,
     serviceConnectorResources,
   } = useService();
 
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages(
+    flavor,
     id,
     locationPath,
     selectedWorkspace,
     loading,
     serviceConnectorResources,
   );
+
   const breadcrumbs = getBreadcrumbs(id, locationPath, selectedWorkspace);
   const mappedStackComponent: any = [];
   mappedStackComponent.push(stackComponent);
-  const history = useHistory();
+
+  // let mappedStackComponentWithLogo: any = [];
+  // if (flavor.name) {
+  //   mappedStackComponentWithLogo = mappedStackComponent.map((item: any) => {
+  //     return {
+  //       ...item,
+  //       flavor: {
+  //         logoUrl: flavor?.body.logo_url,
+  //         name: flavor?.name,
+  //       },
+  //     };
+  //   });
+  // }
 
   const mappedStackComponentWithLogo: any = mappedStackComponent.map(
     (item: any) => {
-      const temp: any = flavor.find(
-        (fl: any) => fl.name === item.flavor && fl.type === item.type,
+      const temp: any = flavorList?.find(
+        (fl: any) =>
+          fl.name === item.body.flavor && fl.body.type === item.body.type,
       );
       if (temp) {
         return {
           ...item,
           flavor: {
-            logoUrl: temp.logo_url,
-            name: item.flavor,
+            logoUrl: temp.body.logo_url,
+            name: item.name,
           },
         };
       }
       return item;
     },
   );
+
   const headerCols = GetHeaderCols({
     mappedStackComponentWithLogo,
   });

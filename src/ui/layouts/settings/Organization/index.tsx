@@ -74,13 +74,13 @@ export const Organization: React.FC = () => {
           </FlexBox.Row>
 
           <Row>
-            {getUniquePermissions(loggedinUser || undefined).includes(
+            {/* {getUniquePermissions(loggedinUser || undefined).includes(
               'write',
-            ) && (
-              <div onClick={() => setPopupOpen(true)}>
-                <AddUserBox />
-              </div>
-            )}
+            ) && ( */}
+            <div onClick={() => setPopupOpen(true)}>
+              <AddUserBox />
+            </div>
+            {/* )} */}
             {filteredMembers.map((e, index) => (
               <UserBox
                 key={index}

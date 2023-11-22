@@ -72,7 +72,7 @@ const organizationsReducer = (
 
       return {
         ...newState(state, []),
-        inviteCode: inviteCode?.activationToken,
+        inviteCode: inviteCode?.metadata.activation_token,
       };
     }
 

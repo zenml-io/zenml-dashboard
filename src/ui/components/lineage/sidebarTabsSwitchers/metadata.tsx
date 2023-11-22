@@ -6,7 +6,7 @@ interface MetadataTabProps {
 }
 
 const MetadataTab = ({ metadata }: MetadataTabProps) => {
-  if (Object.entries(metadata).length < 1)
+  if (Object.entries(metadata.run_metadata).length < 1)
     return (
       <div
         style={{
@@ -24,24 +24,24 @@ const MetadataTab = ({ metadata }: MetadataTabProps) => {
   return (
     <table className="sidebar_table">
       <tbody>
-        {Object.entries(metadata).map(([_, value]: any, i) => (
+        {Object.entries(metadata.run_metadata).map(([_, value]: any, i) => (
           <tr key={i}>
-            {value.type !== 'dict' ? (
+            {value.body.type !== 'dict' ? (
               <>
                 {' '}
-                <td className="td_key">{value.key}</td>
+                <td className="td_key">{value.body.key}</td>
                 <td className="td_value">
-                  {value.type === 'Uri' ? (
+                  {value.body.type === 'Uri' ? (
                     <a
                       rel="noopener noreferrer"
                       target="_blank"
-                      href={value.value}
+                      href={value.body.value}
                     >
-                      {value.value}
+                      {value.body.value}
                     </a>
                   ) : (
-                    `${value.value.toString()} ${
-                      value.type === 'StorageSize' ? 'Bytes' : ''
+                    `${value.body.value.toString()} ${
+                      value.body.type === 'StorageSize' ? 'Bytes' : ''
                     }`
                   )}
                 </td>
@@ -50,21 +50,23 @@ const MetadataTab = ({ metadata }: MetadataTabProps) => {
               <div style={{ width: '100%' }}>
                 <details>
                   <summary style={{ width: '100%' }} className="td_key">
-                    {value.key}
+                    {value.body.key}
                   </summary>
                   <table>
                     <tbody>
-                      {Object.entries(value.value || {}).map((item: any) => (
-                        <tr>
-                          <td className="td_key">{item[0]}</td>
-                          <td
-                            style={{ lineHeight: 'unset' }}
-                            className="td_value"
-                          >
-                            {item[1].toString() || 'n/a'}
-                          </td>
-                        </tr>
-                      ))}
+                      {Object.entries(value.body.value || {}).map(
+                        (item: any) => (
+                          <tr>
+                            <td className="td_key">{item[0]}</td>
+                            <td
+                              style={{ lineHeight: 'unset' }}
+                              className="td_value"
+                            >
+                              {item[1].toString() || 'n/a'}
+                            </td>
+                          </tr>
+                        ),
+                      )}
                     </tbody>
                   </table>
                 </details>{' '}
