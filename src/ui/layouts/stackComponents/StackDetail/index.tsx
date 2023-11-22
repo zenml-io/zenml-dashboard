@@ -228,6 +228,7 @@ export const StackDetail: React.FC = () => {
     <BasePage
       headerWithButtons
       tabPages={tabPages}
+      singleTab={true}
       tabBasePath={routePaths.stackComponents.base(
         stackComponent.id,
         selectedWorkspace,

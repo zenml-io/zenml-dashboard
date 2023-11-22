@@ -63,7 +63,7 @@ export const BasePage: React.FC<{
 
           <Box>
             {children}
-            {tabPages.length > 1 ? (
+            {tabPages.length >= 1 && singleTab ? (
               <TabsRuns pages={tabPages} basePath={tabBasePath} />
             ) : (
               <>
