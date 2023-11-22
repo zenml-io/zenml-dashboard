@@ -33,6 +33,15 @@
   -webkit-transition: 0.4s;
   transition: 0.4s;
 }
+.customToolTip {
+  position: absolute !important;
+  top: -150px !important;
+  border: 2px solid #f0ebfc !important;
+  border-radius: 5px !important;
+  padding: 16px !important;
+  z-index: 1000 !important;
+  background-color: white !important;
+}
 
 .slider:before {
   position: absolute;

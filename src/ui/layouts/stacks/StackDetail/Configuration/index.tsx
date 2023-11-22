@@ -66,17 +66,13 @@ export const Configuration: React.FC<{
   };
 
   const customToolTip = {
+    position: 'absolute',
     border: '2px solid #f0ebfc',
     borderRadius: '5px',
-    // display: 'flex',
     padding: 16,
-    // justifyContent: 'center',
-    // alignItems: 'center',
     zIndex: 1000,
     backgroundColor: 'white',
-    position: 'absolute',
     bottom: 200,
-    // marginBottom: '1000px',
   };
 
   const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -192,7 +188,7 @@ export const Configuration: React.FC<{
             ))}
         </Row>
 
-        <Row>
+        <Row style={{ position: 'relative' }}>
           {disabledNestedRowtiles &&
             disabledNestedRowtiles.map((tile: any, index: number) => (
               <div
@@ -205,39 +201,40 @@ export const Configuration: React.FC<{
                 }}
               >
                 {tile.id === showToolTip && (
-                  <Box
-                    style={customToolTip as any}
-                    // style={innerBoxStyleDisable}
-                  >
+                  <div className={styles.customToolTip}>
                     <div
                       style={{
                         width: '380px',
                       }}
                     >
-                      <p
-                        style={{
-                          fontSize: 18,
-                          fontWeight: 'bold',
-                          fontFamily: 'Rubik',
-                        }}
-                      >
-                        You Don't have access to this Component.
-                      </p>
-                      <p
-                        style={{
-                          fontSize: 16,
-                          color: '#666c78',
-                          fontFamily: 'Rubik',
-                        }}
-                      >
-                        Please contact your admin for further information
-                        <br />
-                        or to request access.
-                        <br />
-                        {`( ${tile.name} )`}
-                      </p>
+                      <div>
+                        <p
+                          style={{
+                            fontSize: 18,
+                            fontWeight: 'bold',
+                            fontFamily: 'Rubik',
+                          }}
+                        >
+                          You Don't have access to this Component.
+                        </p>
+                      </div>
+                      <div>
+                        <p
+                          style={{
+                            fontSize: 16,
+                            color: '#666c78',
+                            fontFamily: 'Rubik',
+                          }}
+                        >
+                          Please contact your admin for further information
+                          <br />
+                          or to request access.
+                          <br />
+                          {`( ${tile.name} )`}
+                        </p>
+                      </div>
                     </div>
-                  </Box>
+                  </div>
                 )}
                 <Box
                   key={index}
