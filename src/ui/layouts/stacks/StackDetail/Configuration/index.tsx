@@ -65,15 +65,15 @@ export const Configuration: React.FC<{
     setShowToolTip(null);
   };
 
-  // const customToolTip = {
-  //   position: 'absolute',
-  //   border: '2px solid #f0ebfc',
-  //   borderRadius: '5px',
-  //   padding: 16,
-  //   zIndex: 1000,
-  //   backgroundColor: 'white',
-  //   bottom: 200,
-  // };
+  const customToolTip = {
+    position: 'absolute',
+    border: '2px solid #f0ebfc',
+    borderRadius: '5px',
+    padding: 16,
+    zIndex: 1000,
+    backgroundColor: 'white',
+    bottom: 200,
+  };
 
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
@@ -188,7 +188,7 @@ export const Configuration: React.FC<{
             ))}
         </Row>
 
-        <Row style={{ position: 'relative' }}>
+        <Row>
           {disabledNestedRowtiles &&
             disabledNestedRowtiles.map((tile: any, index: number) => (
               <div
@@ -201,13 +201,13 @@ export const Configuration: React.FC<{
                 }}
               >
                 {tile.id === showToolTip && (
-                  <div className={styles.customToolTip}>
+                  <div
+                    style={customToolTip as any}
+                    // style={innerBoxStyleDisable}
+                  >
                     <div
                       style={{
                         width: '380px',
-                        display: 'flex',
-                        flexDirection: 'column',
-                        gap: '10px',
                       }}
                     >
                       <div>
@@ -232,18 +232,8 @@ export const Configuration: React.FC<{
                           Please contact your admin for further information
                           <br />
                           or to request access.
-                        </p>
-                      </div>
-                      <div>
-                        {' '}
-                        <p
-                          style={{
-                            fontSize: 16,
-                            color: '#666c78',
-                            fontFamily: 'Rubik',
-                          }}
-                        >
-                          {`( ${tile.name} )`}{' '}
+                          <br />
+                          {`( ${tile.name} )`}
                         </p>
                       </div>
                     </div>

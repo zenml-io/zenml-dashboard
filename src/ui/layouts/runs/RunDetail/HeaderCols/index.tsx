@@ -31,6 +31,7 @@ const customToolTip = {
   borderRadius: '5px',
   display: 'flex',
   padding: 16,
+
   // justifyContent: 'center',
   // alignItems: 'center',
   zIndex: 1000,
