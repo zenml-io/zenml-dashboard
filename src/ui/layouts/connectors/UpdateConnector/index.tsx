@@ -84,7 +84,7 @@ export const ConnectorDetail: React.FC = () => {
   });
 
   const openDetailPage = (secret: any) => {
-    history.push(routePaths.secrets.list(selectedWorkspace));
+    history.push(routePaths.connectors.list(selectedWorkspace));
   };
   return (
     <BasePage
