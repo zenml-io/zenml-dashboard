@@ -214,10 +214,22 @@ export const Configuration: React.FC<{
                         width: '380px',
                       }}
                     >
-                      <p style={{ fontSize: 18, fontWeight: 'bold' }}>
+                      <p
+                        style={{
+                          fontSize: 18,
+                          fontWeight: 'bold',
+                          fontFamily: 'Rubik',
+                        }}
+                      >
                         You Don't have access to this Component.
                       </p>
-                      <p style={{ fontSize: 16, color: '#666c78' }}>
+                      <p
+                        style={{
+                          fontSize: 16,
+                          color: '#666c78',
+                          fontFamily: 'Rubik',
+                        }}
+                      >
                         Please contact your admin for further information
                         <br />
                         or to request access.
