@@ -59,6 +59,7 @@ const getTabPages = (
   fetching: boolean,
   selectedWorkspace: string,
   tiles?: any,
+  ifPermissionDenied?: boolean,
   disabledNestedRowtiles?: any,
   history?: any,
 ): TabPage[] => {
@@ -67,6 +68,7 @@ const getTabPages = (
       text: translate('tabs.configuration.text'),
       Component: () => (
         <Configuration
+          ifPermissionDenied={ifPermissionDenied}
           fetching={fetching}
           tiles={tiles}
           disabledNestedRowtiles={disabledNestedRowtiles}
@@ -120,6 +122,26 @@ export const StackDetail: React.FC = () => {
   const disabledNestedRowtiles = [];
   const { flavourList, fetching } = GetFlavorsListForLogo();
 
+  function checkPermissionDenied(data: any) {
+    if (!data || typeof data !== 'object') {
+      return false; // Handle the case where data is not an object or is undefined/null
+    }
+
+    const keys = Object.keys(data);
+
+    return keys
+      .flatMap((key) => data[key])
+      .some((item) => item && item.permission_denied); // Check if any item has permission_denied set to true
+  }
+
+  let ifPermissionDenied: boolean = false;
+
+  if (flavourList?.length > 1) {
+    const components = stack?.metadata?.components as any;
+
+    ifPermissionDenied = checkPermissionDenied(components);
+  }
+
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   if (stack && Object.keys(stack).length === 0) {
     return <FullWidthSpinner color="black" size="md" />;
@@ -166,6 +188,7 @@ export const StackDetail: React.FC = () => {
     fetching,
     selectedWorkspace,
     nestedRowtiles,
+    ifPermissionDenied,
     disabledNestedRowtiles,
     history,
   );

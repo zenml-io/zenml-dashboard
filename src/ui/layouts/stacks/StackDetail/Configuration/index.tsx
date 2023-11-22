@@ -36,9 +36,16 @@ import { routePaths } from '../../../../../routes/routePaths';
 export const Configuration: React.FC<{
   stackId: TId;
   tiles?: any;
+  ifPermissionDenied?: boolean;
   disabledNestedRowtiles?: any;
   fetching?: boolean;
-}> = ({ stackId, tiles, disabledNestedRowtiles, fetching = false }) => {
+}> = ({
+  stackId,
+  tiles,
+  disabledNestedRowtiles,
+  ifPermissionDenied,
+  fetching = false,
+}) => {
   const { stack } = useService({ stackId });
   const user = useSelector(userSelectors.myUser);
   const authToken = useSelector(sessionSelectors.authenticationToken);
@@ -289,11 +296,20 @@ export const Configuration: React.FC<{
       >
         <Box marginBottom="lg">
           <PrimaryButton
-            onClick={() =>
-              history.push(
-                routePaths.stacks.UpdateStack(selectedWorkspace, stack.id),
-              )
-            }
+            onClick={() => {
+              if (ifPermissionDenied) {
+                dispatch(
+                  showToasterAction({
+                    description: 'Permission denied.',
+                    type: toasterTypes.failure,
+                  }),
+                );
+              } else {
+                history.push(
+                  routePaths.stacks.UpdateStack(selectedWorkspace, stack.id),
+                );
+              }
+            }}
             className={styles.updateButton}
           >
             Update Stack

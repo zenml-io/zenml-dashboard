@@ -89,7 +89,7 @@ export const ListForAll: React.FC<Props> = () => {
       );
     }
     const components = selectedStack.map((item: any) => {
-      return { [item.body.type]: [item.id] };
+      return { [item?.body?.type]: [item?.id] };
     });
     var mergedObject = components.reduce((c: any, v: any) => {
       for (var k in v) {

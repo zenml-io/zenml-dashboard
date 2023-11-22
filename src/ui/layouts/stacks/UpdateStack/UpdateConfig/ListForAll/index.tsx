@@ -62,7 +62,8 @@ export const ListForAll: React.FC<{
       const updatedComponentsWithLogo = components.map((item: any) => {
         const temp: any = flavourList.find(
           (fl: any) =>
-            fl.name === item.body.flavor && fl.body?.type === item.body.type,
+            fl.name === item?.body?.flavor &&
+            fl?.body?.type === item?.body?.type,
         );
         if (temp) {
           return {
@@ -95,7 +96,7 @@ export const ListForAll: React.FC<{
       );
     }
     const components = selectedStack.map((item: any) => {
-      return { [item.body.type]: [item.id] };
+      return { [item?.body?.type]: [item?.id] };
     });
     var mergedObject = components.reduce((c: any, v: any) => {
       for (var k in v) {
