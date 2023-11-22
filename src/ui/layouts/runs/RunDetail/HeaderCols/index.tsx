@@ -177,7 +177,7 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
                       }}
                     >
                       <p style={{ fontSize: 18, fontWeight: 'bold' }}>
-                        You Don't have acces to this Pipeline.
+                        You Don't have access to this Pipeline.
                       </p>
                       <p style={{ fontSize: 16, color: '#666c78' }}>
                         Please contact your admin for further information

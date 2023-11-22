@@ -208,7 +208,7 @@ export const Configuration: React.FC<{
                       }}
                     >
                       <p style={{ fontSize: 18, fontWeight: 'bold' }}>
-                        You Don't have acces to this Component.
+                        You Don't have access to this Component.
                       </p>
                       <p style={{ fontSize: 16, color: '#666c78' }}>
                         Please contact your admin for further information
