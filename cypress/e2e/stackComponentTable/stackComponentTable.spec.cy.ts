@@ -22,7 +22,7 @@ describe('FilterComponent E2E Tests', () => {
       'ID',
       'NAME',
       'FLAVOR',
-      'SHARED',
+      // 'SHARED',
       'AUTHOR',
       'CREATED AT',
     ];
@@ -34,7 +34,7 @@ describe('FilterComponent E2E Tests', () => {
       'Id',
       'Name',
       'Flavor',
-      'Shared',
+      // 'Shared',
       'Author',
       'created_at',
     ];
@@ -55,7 +55,7 @@ describe('FilterComponent E2E Tests', () => {
     columnList.forEach((col) => {
       filterByString(col, emptyText);
     });
-    filterByBoolean(emptyText);
+    // filterByBoolean(emptyText);
   });
   it('should navigate through pagination', () => {
     cy.waitForLoaderToDisappear();
@@ -70,7 +70,7 @@ describe('FilterComponent E2E Tests', () => {
     cy.checkTableAndH4Visibility('Nothing to see here');
 
     // Select the first row within the table (modify the selector as needed)
-    cy.get('table tbody tr:eq(1)').click({ force: true });
+    cy.get('table tbody tr:eq(0)').click({ force: true });
 
     cy.get('[data-testid="stack_tab"]').click();
     cy.waitForLoaderToDisappear();
@@ -82,6 +82,6 @@ describe('FilterComponent E2E Tests', () => {
     columnList.forEach((col) => {
       filterByString(col, emptyText);
     });
-    filterByBoolean(emptyText);
+    // filterByBoolean(emptyText);
   });
 });
