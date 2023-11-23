@@ -69,7 +69,8 @@ export const Configuration: React.FC<{
     position: 'absolute',
     border: '2px solid #f0ebfc',
     borderRadius: '5px',
-    padding: 16,
+    padding: '16px',
+    height: '155px',
     zIndex: 1000,
     backgroundColor: 'white',
     bottom: 200,
@@ -200,46 +201,48 @@ export const Configuration: React.FC<{
                   handleIdToLeave();
                 }}
               >
-                {tile.id === showToolTip && (
-                  <div
-                    style={customToolTip as any}
+                {/* {tile.id === showToolTip && ( */}
+                <div
+                  style={customToolTip as any}
 
-                    // style={innerBoxStyleDisable}
+                  // style={innerBoxStyleDisable}
+                >
+                  <div
+                    style={{
+                      width: '380px',
+                    }}
                   >
-                    <div
-                      style={{
-                        width: '380px',
-                      }}
-                    >
-                      <div>
-                        <p
-                          style={{
-                            fontSize: 18,
-                            fontWeight: 'bold',
-                            fontFamily: 'Rubik',
-                          }}
-                        >
-                          You Don't have access to this Component.
-                        </p>
-                      </div>
-                      <div>
-                        <p
-                          style={{
-                            fontSize: 16,
-                            color: '#666c78',
-                            fontFamily: 'Rubik',
-                          }}
-                        >
-                          Please contact your admin for further information
-                          <br />
-                          or to request access.
-                          <br />
-                          {`( ${tile.name} )`}
-                        </p>
-                      </div>
+                    <div>
+                      <p
+                        style={{
+                          fontSize: 18,
+                          fontWeight: 'bold',
+                          fontFamily: 'Rubik',
+                          marginBottom: '16px',
+                        }}
+                      >
+                        You Don't have access to this Component.
+                      </p>
+                    </div>
+                    <div>
+                      <p
+                        style={{
+                          fontSize: 16,
+                          color: '#666c78',
+                          fontFamily: 'Rubik',
+                          marginBottom: '16px',
+                        }}
+                      >
+                        Please contact your admin for further information
+                        <br />
+                        or to request access.
+                        <br />
+                        {`( ${tile.name} )`}
+                      </p>
                     </div>
                   </div>
-                )}
+                </div>
+                {/* )} */}
                 <Box
                   key={index}
                   className={styles.tile}
