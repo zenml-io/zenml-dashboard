@@ -28,10 +28,10 @@ export const Organization: React.FC = () => {
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);
   // const loggedinUser = useSelector(userSelectors.myUser);
   const [user, setUser] = useState<any>({});
-  const ITEMS_PER_PAGE = parseInt(
-    process.env.REACT_APP_ITEMS_PER_PAGE as string,
-  );
-  const DEFAULT_ITEMS_PER_PAGE = 100;
+  // const ITEMS_PER_PAGE = parseInt(
+  //   process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  // );
+  // const DEFAULT_ITEMS_PER_PAGE = 100;
   const { filteredMembers } = useService();
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export const Organization: React.FC = () => {
     dispatch(
       organizationActions.getMembers({
         page: 1,
-        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+        size: 1000,
         onSuccess: () => setFetchingMembers(false),
         onFailure: () => setFetchingMembers(false),
       }),

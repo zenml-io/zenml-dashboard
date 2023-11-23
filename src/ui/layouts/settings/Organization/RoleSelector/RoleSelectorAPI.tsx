@@ -65,7 +65,7 @@ export const RoleSelectorAPI = ({
 
     const index = allRoles?.indexOf(value);
     allRoles?.splice(index, 1);
-    await dispatch(organizationActions.getMembers({}));
+    await dispatch(organizationActions.getMembers({ page: 1, size: 1000 }));
   };
 
   const removeRoleBean = async (item: any) => {
@@ -81,7 +81,7 @@ export const RoleSelectorAPI = ({
     );
     setRole(data?.items);
     allRoles?.push({ value: item.id, label: item.role?.name });
-    await dispatch(organizationActions.getMembers({}));
+    await dispatch(organizationActions.getMembers({ page: 1, size: 1000 }));
   };
 
   return (

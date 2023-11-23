@@ -168,7 +168,7 @@ export const DashBoard: React.FC = () => {
     }
     if (!!authToken || isCookieAuthenticated) {
       // dispatch(rolesActions.getRoles({}));
-      dispatch(organizationActions.getMembers({}));
+      dispatch(organizationActions.getMembers({ page: 1, size: 1000 }));
 
       // ;
     }

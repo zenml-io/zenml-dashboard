@@ -92,7 +92,9 @@ export const InvitePopup: React.FC<{
           //     }),
           //   );
           // }
-          await dispatch(organizationActions.getMembers({}));
+          await dispatch(
+            organizationActions.getMembers({ page: 1, size: 1000 }),
+          );
         },
       }),
     );
@@ -162,7 +164,7 @@ export const InvitePopup: React.FC<{
           <CopyField
             label="Invitation Link"
             labelColor="rgba(66, 66, 64, 0.5)"
-            value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.metadata?.activation_token}`}
+            value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.body?.activation_token}`}
             showTokField={showTokField}
             disabled
           />

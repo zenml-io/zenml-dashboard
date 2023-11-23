@@ -37,7 +37,7 @@ export const UpdateMember: React.FC<{
         id: member.id,
         onSuccess: () => {
           setEditPopup(false);
-          dispatch(organizationActions.getMembers({}));
+          dispatch(organizationActions.getMembers({ page: 1, size: 1000 }));
           dispatch(
             showToasterAction({
               type: 'success',
