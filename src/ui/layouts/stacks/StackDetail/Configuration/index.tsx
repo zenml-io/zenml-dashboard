@@ -31,6 +31,7 @@ import {
 import { toasterTypes } from '../../../../../constants';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
+import { CustomToolTip } from '../../../common/CustomToolTip';
 // import { ToggleField } from '../../../common/FormElement';
 
 export const Configuration: React.FC<{
@@ -63,17 +64,6 @@ export const Configuration: React.FC<{
   };
   const handleIdToLeave = () => {
     setShowToolTip(null);
-  };
-
-  const customToolTip = {
-    position: 'absolute',
-    border: '2px solid #f0ebfc',
-    borderRadius: '5px',
-    padding: '16px',
-    height: '130px',
-    zIndex: 1000,
-    backgroundColor: 'white',
-    bottom: 200,
   };
 
   const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -201,62 +191,7 @@ export const Configuration: React.FC<{
                   handleIdToLeave();
                 }}
               >
-                {tile.id === showToolTip && (
-                  <div
-                    style={customToolTip as any}
-
-                    // style={innerBoxStyleDisable}
-                  >
-                    <div
-                      style={{
-                        height: '72px',
-                        width: '380px',
-                      }}
-                    >
-                      <div>
-                        <p
-                          style={{
-                            fontSize: 18,
-                            fontWeight: 'bold',
-                            fontFamily: 'Rubik',
-                            marginBottom: '16px',
-                          }}
-                        >
-                          You Don't have access to this Component.
-                        </p>
-                      </div>
-                      <div>
-                        <p
-                          style={{
-                            fontSize: 16,
-                            color: '#666c78',
-                            fontFamily: 'Rubik',
-                            marginBottom: '8px',
-                          }}
-                        >
-                          Please contact your admin for further information
-                        </p>
-                        <p
-                          style={{
-                            fontSize: 16,
-                            color: '#666c78',
-                            fontFamily: 'Rubik',
-                          }}
-                        >
-                          or to request access for "{tile.name}"
-                        </p>
-                        {/* <p
-                          style={{
-                            fontSize: 16,
-                            color: '#666c78',
-                            fontFamily: 'Rubik',
-                            marginBottom: '5px',
-                          }}
-                        >{`( ${tile.name} )`}</p> */}
-                      </div>
-                    </div>
-                  </div>
-                )}
+                {tile.id === showToolTip && <CustomToolTip name={tile.name} />}
                 <Box
                   key={index}
                   className={styles.tile}

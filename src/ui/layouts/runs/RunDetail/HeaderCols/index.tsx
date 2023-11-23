@@ -14,6 +14,7 @@ import { HeaderCol } from '../../../common/Table';
 import { RunStatus } from '../RunStatus';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 import { Run } from '../../../../../api/types';
+import { CustomToolTip } from '../../../common/CustomToolTip';
 
 const innerBoxStyleEnable = {
   border: '2px solid #f0ebfc',
@@ -24,21 +25,6 @@ const innerBoxStyleEnable = {
   backgroundColor: '#f0ebfc',
   justifyContent: 'center',
   alignItems: 'center',
-};
-
-const customToolTip = {
-  border: '2px solid #f0ebfc',
-  borderRadius: '5px',
-  display: 'flex',
-  padding: 16,
-
-  // justifyContent: 'center',
-  // alignItems: 'center',
-  zIndex: 1000,
-  backgroundColor: 'white',
-  position: 'absolute',
-
-  marginBottom: '200px',
 };
 
 const innerBoxStyleDisable = {
@@ -168,46 +154,7 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
             <>
               {showToolTip === run?.id &&
                 selectedSubModelId === run?.body?.pipeline?.id && (
-                  <Box
-                    style={customToolTip as any}
-                    // style={innerBoxStyleDisable}
-                  >
-                    <div
-                      style={{
-                        width: '380px',
-                      }}
-                    >
-                      <p
-                        style={{
-                          fontSize: 18,
-                          fontWeight: 'bold',
-                          fontFamily: 'Rubik',
-                        }}
-                      >
-                        You Don't have access to this Pipeline.
-                      </p>
-                      <p
-                        style={{
-                          fontSize: 16,
-                          color: '#666c78',
-                          fontFamily: 'Rubik',
-                        }}
-                      >
-                        Please contact your admin for further information
-                        <br />
-                        or to request access.
-                        <br />
-                        {`( ${run?.body?.pipeline?.name} )`}
-                      </p>
-                    </div>
-                  </Box>
-
-                  //   <Paragraph>You Don't have acces to this Stack.</Paragraph>
-                  //   <Paragraph>
-                  //     Please, contact with you Admin for further information
-                  //     or to request access.
-                  //   </Paragraph>
-                  // </Box>
+                  <CustomToolTip name={run?.body?.pipeline?.name} />
                 )}
 
               <Box style={innerBoxStyleDisable}>
@@ -349,34 +296,7 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
             <>
               {showToolTip === run?.id &&
                 selectedSubModelId === run?.body?.stack?.id && (
-                  <Box
-                    style={customToolTip as any}
-                    // style={innerBoxStyleDisable}
-                  >
-                    <div
-                      style={{
-                        width: '380px',
-                      }}
-                    >
-                      <p style={{ fontSize: 18, fontWeight: 'bold' }}>
-                        You Don't have acces to this Stack.
-                      </p>
-                      <p style={{ fontSize: 16, color: '#666c78' }}>
-                        Please contact your admin for further information
-                        <br />
-                        or to request access.
-                        <br />
-                        {`( ${run?.body?.stack?.name} )`}
-                      </p>
-                    </div>
-                  </Box>
-
-                  //   <Paragraph>You Don't have acces to this Stack.</Paragraph>
-                  //   <Paragraph>
-                  //     Please, contact with you Admin for further information
-                  //     or to request access.
-                  //   </Paragraph>
-                  // </Box>
+                  <CustomToolTip name={run?.body?.stack?.name} />
                 )}
 
               <Box style={innerBoxStyleDisable}>
