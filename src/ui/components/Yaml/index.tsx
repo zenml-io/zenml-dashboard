@@ -51,7 +51,7 @@ const getLayoutedElements = (
   }
 
   initialNodes?.forEach((node) => {
-    dagreGraph?.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
   });
 
   initialEdges.forEach((edge) => {

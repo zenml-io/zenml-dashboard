@@ -61,7 +61,6 @@ const getTabPages = (
   tiles?: any,
   ifPermissionDenied?: boolean,
   disabledNestedRowtiles?: any,
-  history?: any,
 ): TabPage[] => {
   return [
     {
@@ -193,7 +192,6 @@ export const StackDetail: React.FC = () => {
     nestedRowtiles,
     ifPermissionDenied,
     disabledNestedRowtiles,
-    history,
   );
   const breadcrumbs = getBreadcrumbs(stack?.id, selectedWorkspace);
   const headerCols = GetHeaderCols({

@@ -62,7 +62,7 @@ export const ListForAll: React.FC<{
       const updatedComponentsWithLogo = components.map((item: any) => {
         const temp: any = flavourList.find(
           (fl: any) =>
-            fl.name === item?.body?.flavor &&
+            fl?.name === item?.body?.flavor &&
             fl?.body?.type === item?.body?.type,
         );
         if (temp) {
@@ -320,7 +320,7 @@ export const ListForAll: React.FC<{
           selectedStackBox={selectedStackBox}
           selectedStack={selectedStack}
           onSelect={() => {
-            var index = selectedStack.findIndex(function (s: any) {
+            var index = selectedStack?.findIndex(function (s: any) {
               return s.id === selectedStackBox.id;
             });
             if (index !== -1) {
@@ -328,7 +328,7 @@ export const ListForAll: React.FC<{
               setSelectedStack([...selectedStack]);
             } else {
               if (
-                selectedStack.map((t: any) => t.type === selectedStackBox.type)
+                selectedStack?.map((t: any) => t.type === selectedStackBox.type)
               ) {
                 let filterSelectedStack = selectedStack?.filter(
                   (st: any) => st.type !== selectedStackBox.type,

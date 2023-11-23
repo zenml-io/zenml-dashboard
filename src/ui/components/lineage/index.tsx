@@ -35,7 +35,7 @@ interface Edge {
   };
 }
 
-const dagreGraph = new dagre.graphlib.Graph();
+const dagreGraph: any = new dagre.graphlib.Graph();
 dagreGraph.setDefaultEdgeLabel(() => ({}));
 
 const nodeWidth = 100;
@@ -53,11 +53,11 @@ const getLayoutedElements = (
   }
 
   initialNodes?.forEach((node) => {
-    dagreGraph?.setNode(node.id, { width: nodeWidth, height: nodeHeight });
+    dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
   });
 
   initialEdges?.forEach((edge) => {
-    dagreGraph?.setEdge(edge.source, edge.target);
+    dagreGraph.setEdge(edge.source, edge.target);
   });
 
   dagre.layout(dagreGraph);
@@ -74,7 +74,7 @@ const getLayoutedElements = (
     return node;
   });
 
-  initialEdges.forEach((edge) => {
+  initialEdges?.forEach((edge) => {
     edge.type = isHorizontal ? 'straight' : 'step';
     edge['markerEnd'] = {
       type: MarkerType.ArrowClosed,
