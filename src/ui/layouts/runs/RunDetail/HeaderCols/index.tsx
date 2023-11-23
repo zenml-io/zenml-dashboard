@@ -27,6 +27,21 @@ const innerBoxStyleEnable = {
   alignItems: 'center',
 };
 
+const customToolTip = {
+  border: '2px solid #f0ebfc',
+  borderRadius: '5px',
+  display: 'flex',
+  padding: 16,
+  height: 130,
+  // justifyContent: 'center',
+  // alignItems: 'center',
+  zIndex: 1000,
+  backgroundColor: 'white',
+  position: 'absolute',
+
+  marginBottom: '200px',
+};
+
 const innerBoxStyleDisable = {
   // height: '40px',
   border: '2px solid #f0ebfc',
@@ -154,7 +169,10 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
             <>
               {showToolTip === run?.id &&
                 selectedSubModelId === run?.body?.pipeline?.id && (
-                  <CustomToolTip name={run?.body?.pipeline?.name} />
+                  <CustomToolTip
+                    customStyle={customToolTip}
+                    name={run?.body?.pipeline?.name}
+                  />
                 )}
 
               <Box style={innerBoxStyleDisable}>
@@ -296,7 +314,10 @@ export const useHeaderCols = ({ runs }: { runs: Run[] }): HeaderCol[] => {
             <>
               {showToolTip === run?.id &&
                 selectedSubModelId === run?.body?.stack?.id && (
-                  <CustomToolTip name={run?.body?.stack?.name} />
+                  <CustomToolTip
+                    customStyle={customToolTip}
+                    name={run?.body?.stack?.name}
+                  />
                 )}
 
               <Box style={innerBoxStyleDisable}>

@@ -34,6 +34,20 @@ import { routePaths } from '../../../../../routes/routePaths';
 import { CustomToolTip } from '../../../common/CustomToolTip';
 // import { ToggleField } from '../../../common/FormElement';
 
+const customToolTip = {
+  border: '2px solid #f0ebfc',
+  borderRadius: '5px',
+  display: 'flex',
+  padding: 16,
+  height: 130,
+  // justifyContent: 'center',
+  // alignItems: 'center',
+  zIndex: 1000,
+  backgroundColor: 'white',
+  position: 'absolute',
+
+  bottom: 200,
+};
 export const Configuration: React.FC<{
   stackId: TId;
   tiles?: any;
@@ -191,7 +205,9 @@ export const Configuration: React.FC<{
                   handleIdToLeave();
                 }}
               >
-                {tile.id === showToolTip && <CustomToolTip name={tile.name} />}
+                {tile.id === showToolTip && (
+                  <CustomToolTip customStyle={customToolTip} name={tile.name} />
+                )}
                 <Box
                   key={index}
                   className={styles.tile}

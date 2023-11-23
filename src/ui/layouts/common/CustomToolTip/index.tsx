@@ -1,26 +1,19 @@
 import React from 'react';
 
-export const CustomToolTip: React.FC<{ name: string }> = ({ name }) => {
-  const customToolTip = {
-    position: 'absolute',
-    border: '2px solid #f0ebfc',
-    borderRadius: '5px',
-    padding: '16px',
-    height: '130px',
-    zIndex: 1000,
-    backgroundColor: 'white',
-    bottom: 200,
-  };
+export const CustomToolTip: React.FC<{ name: string; customStyle: any }> = ({
+  name,
+  customStyle,
+}) => {
   return (
     <div
-      style={customToolTip as any}
+      style={customStyle}
 
       // style={innerBoxStyleDisable}
     >
       <div
         style={{
           height: '72px',
-          width: '380px',
+          // width: '380px',
         }}
       >
         <div>
