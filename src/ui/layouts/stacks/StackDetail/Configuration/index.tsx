@@ -231,7 +231,7 @@ export const Configuration: React.FC<{
                             fontSize: 16,
                             color: '#666c78',
                             fontFamily: 'Rubik',
-                            marginBottom: '3px',
+                            marginBottom: '8px',
                           }}
                         >
                           Please contact your admin for further information
@@ -243,16 +243,16 @@ export const Configuration: React.FC<{
                             fontFamily: 'Rubik',
                           }}
                         >
-                          or to request access.
+                          or to request access for "{tile.name}"
                         </p>
-                        <p
+                        {/* <p
                           style={{
                             fontSize: 16,
                             color: '#666c78',
                             fontFamily: 'Rubik',
                             marginBottom: '5px',
                           }}
-                        >{`( ${tile.name} )`}</p>
+                        >{`( ${tile.name} )`}</p> */}
                       </div>
                     </div>
                   </div>
