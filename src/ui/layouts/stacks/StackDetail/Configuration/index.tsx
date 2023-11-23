@@ -209,6 +209,7 @@ export const Configuration: React.FC<{
                   >
                     <div
                       style={{
+                        height: '72px',
                         width: '380px',
                       }}
                     >
@@ -230,15 +231,28 @@ export const Configuration: React.FC<{
                             fontSize: 16,
                             color: '#666c78',
                             fontFamily: 'Rubik',
-                            marginBottom: '16px',
+                            marginBottom: '3px',
                           }}
                         >
                           Please contact your admin for further information
-                          <br />
-                          or to request access.
-                          <br />
-                          {`( ${tile.name} )`}
                         </p>
+                        <p
+                          style={{
+                            fontSize: 16,
+                            color: '#666c78',
+                            fontFamily: 'Rubik',
+                          }}
+                        >
+                          or to request access.
+                        </p>
+                        <p
+                          style={{
+                            fontSize: 16,
+                            color: '#666c78',
+                            fontFamily: 'Rubik',
+                            marginBottom: '5px',
+                          }}
+                        >{`( ${tile.name} )`}</p>
                       </div>
                     </div>
                   </div>
