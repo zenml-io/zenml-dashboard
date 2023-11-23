@@ -70,7 +70,7 @@ export const Configuration: React.FC<{
     border: '2px solid #f0ebfc',
     borderRadius: '5px',
     padding: '16px',
-    height: '155px',
+    height: '130px',
     zIndex: 1000,
     backgroundColor: 'white',
     bottom: 200,
