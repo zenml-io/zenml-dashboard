@@ -34,8 +34,7 @@ const customToolTip = {
   display: 'flex',
   padding: 16,
   height: 130,
-  // justifyContent: 'center',
-  // alignItems: 'center',
+
   zIndex: 1000,
   backgroundColor: 'white',
   position: 'absolute',
