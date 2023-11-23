@@ -43,7 +43,6 @@ const customToolTip = {
 };
 
 const innerBoxStyleDisable = {
-  // height: '40px',
   height: '24px',
   border: '2px solid #f0ebfc',
   borderRadius: '5px',
