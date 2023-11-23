@@ -282,7 +282,7 @@ export const Configuration: React.FC<{
                 dispatch(
                   showToasterAction({
                     description:
-                      "IllegalOperationError. Insufficient permissions to UPDATE resource 'stack'.",
+                      "IllegalOperationError Insufficient permissions to UPDATE resource 'stack'.",
                     type: toasterTypes.failure,
                   }),
                 );
