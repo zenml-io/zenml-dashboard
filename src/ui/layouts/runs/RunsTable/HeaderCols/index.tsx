@@ -47,6 +47,7 @@ const innerBoxStyleEnable = {
   backgroundColor: '#f0ebfc',
   justifyContent: 'center',
   alignItems: 'center',
+  height: '24px',
 };
 
 const customToolTip = {
@@ -66,6 +67,7 @@ const customToolTip = {
 
 const innerBoxStyleDisable = {
   // height: '30px',
+  height: '24px',
   border: '2px solid #f0ebfc',
   borderRadius: '5px',
   display: 'flex',
@@ -411,7 +413,7 @@ export const useHeaderCols = ({
                     <icons.lock2
                       style={{ paddingRight: '5px' }}
                       color={iconColors.grey}
-                      size={iconSizes.sm}
+                      size={iconSizes.sml}
                     />
                     <Paragraph
                       size="small"
@@ -541,7 +543,7 @@ export const useHeaderCols = ({
                     <icons.lock2
                       style={{ paddingRight: '5px' }}
                       color={iconColors.grey}
-                      size={iconSizes.sm}
+                      size={iconSizes.sml}
                     />
                     <Paragraph
                       size="small"
