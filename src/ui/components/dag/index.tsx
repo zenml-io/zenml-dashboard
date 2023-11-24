@@ -54,7 +54,7 @@ export const DAG: React.FC<{
     return (
       <div style={styles.container}>
         <div style={styles.dag}>
-          {errorMessage.includes('IllegalOperationError') ? (
+          {errorMessage?.includes('IllegalOperationError') ? (
             <Box
               style={{
                 textAlign: 'center',
