@@ -44,12 +44,12 @@ export const useService = (): ServiceInterface => {
                 },
                 onFailure: (res) => {
                   setErrorMessage(res);
-                  dispatch(
-                    showToasterAction({
-                      description: res,
-                      type: toasterTypes.failure,
-                    }),
-                  );
+                  // dispatch(
+                  //   showToasterAction({
+                  //     description: res,
+                  //     type: toasterTypes.failure,
+                  //   }),
+                  // );
                   setFetching(false);
                 },
               }),
