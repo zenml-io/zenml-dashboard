@@ -55,7 +55,12 @@ export const BasePage: React.FC<{
               />
             )}
           />
-          <Box>
+          <Box
+            style={{
+              maxHeight: 'calc(100vh - 200px)',
+              overflowY: 'auto',
+            }}
+          >
             {children}
             <TabsRuns pages={tabPages} basePath={tabBasePath} />
           </Box>

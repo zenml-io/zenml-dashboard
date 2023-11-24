@@ -63,40 +63,48 @@ export const BasePage: React.FC<{
               />
             )}
           />
-          <FlexBox.Row
-            justifyContent="space-between"
-            style={{ marginTop: '-20px' }}
-          >
-            {!fromConfigureComponent && (
-              <Component fromRegisterComponent={fromRegisterComponent} />
-            )}
-
-            <Box
-              marginLeft="lg"
-              style={{ width: !fromConfigureComponent ? '80%' : '100%' }}
+          <div style={{ maxHeight: 'calc(100vh - 200px)', overflowY: 'auto' }}>
+            <FlexBox.Row
+              justifyContent="space-between"
+              style={{
+                marginTop: '-20px',
+              }}
             >
-              {children}
-              {tabPages.length >= 1 && singleTab ? (
-                <TabsRuns pages={tabPages} basePath={tabBasePath} />
-              ) : (
-                <>
-                  <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
-                  <FlexBox marginBottom="xxl">
-                    <Redirect exact from={tabBasePath} to={tabPages[0].path} />
-
-                    {tabPages.map((page, index) => (
-                      <AppRoute
-                        key={index}
-                        path={page.path}
-                        exact={true}
-                        component={page.Component}
-                      />
-                    ))}
-                  </FlexBox>
-                </>
+              {!fromConfigureComponent && (
+                <Component fromRegisterComponent={fromRegisterComponent} />
               )}
-            </Box>
-          </FlexBox.Row>
+
+              <Box
+                marginLeft="lg"
+                style={{ width: !fromConfigureComponent ? '80%' : '100%' }}
+              >
+                {children}
+                {tabPages.length >= 1 && singleTab ? (
+                  <TabsRuns pages={tabPages} basePath={tabBasePath} />
+                ) : (
+                  <>
+                    <FlexBox marginTop="xxl" marginBottom="sm"></FlexBox>
+                    <FlexBox marginBottom="xxl">
+                      <Redirect
+                        exact
+                        from={tabBasePath}
+                        to={tabPages[0].path}
+                      />
+
+                      {tabPages.map((page, index) => (
+                        <AppRoute
+                          key={index}
+                          path={page.path}
+                          exact={true}
+                          component={page.Component}
+                        />
+                      ))}
+                    </FlexBox>
+                  </>
+                )}
+              </Box>
+            </FlexBox.Row>
+          </div>
         </SidebarContainer>
       </AuthenticatedLayout>
     </ErrorBoundary>
