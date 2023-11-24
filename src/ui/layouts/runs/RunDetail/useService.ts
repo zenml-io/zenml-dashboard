@@ -1,12 +1,12 @@
 import { useEffect, useState } from 'react';
 import { RunDetailRouteParams } from '.';
-import { runsActions, showToasterAction } from '../../../../redux/actions';
+import { runsActions } from '../../../../redux/actions';
 
 import { runSelectors, sessionSelectors } from '../../../../redux/selectors';
 import { useDispatch, useParams, useSelector } from '../../../hooks';
 import axios from 'axios';
 import { Run } from '../../../../api/types';
-import { toasterTypes } from '../../../../constants';
+// import { toasterTypes } from '../../../../constants';
 
 interface ServiceInterface {
   runId: TId;
