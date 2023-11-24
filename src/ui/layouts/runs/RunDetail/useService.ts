@@ -1,11 +1,12 @@
 import { useEffect, useState } from 'react';
 import { RunDetailRouteParams } from '.';
-import { runsActions } from '../../../../redux/actions';
+import { runsActions, showToasterAction } from '../../../../redux/actions';
 
 import { runSelectors, sessionSelectors } from '../../../../redux/selectors';
 import { useDispatch, useParams, useSelector } from '../../../hooks';
 import axios from 'axios';
 import { Run } from '../../../../api/types';
+import { toasterTypes } from '../../../../constants';
 
 interface ServiceInterface {
   runId: TId;
@@ -13,6 +14,7 @@ interface ServiceInterface {
   fetching: boolean;
   metadata: any;
   graph?: any;
+  errorMessage?: any;
 }
 
 export const useService = (): ServiceInterface => {
@@ -21,6 +23,7 @@ export const useService = (): ServiceInterface => {
   const [isMounted, setIsMounted] = useState(false);
   const [fetching, setFetching] = useState(false);
   const [metadata, setMetaData] = useState([] as any);
+  const [errorMessage, setErrorMessage] = useState('');
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const graph = useSelector(runSelectors.graphByRunId(runId));
   const run: Run = useSelector(runSelectors.runForId(runId));
@@ -39,7 +42,16 @@ export const useService = (): ServiceInterface => {
                   setFetching(false);
                   fetchMetaData();
                 },
-                onFailure: () => setFetching(false),
+                onFailure: (res) => {
+                  setErrorMessage(res);
+                  dispatch(
+                    showToasterAction({
+                      description: res,
+                      type: toasterTypes.failure,
+                    }),
+                  );
+                  setFetching(false);
+                },
               }),
             ),
           onFailure: () => setFetching(false),
@@ -88,5 +100,5 @@ export const useService = (): ServiceInterface => {
     setMetaData(response?.data?.items); //Setting the response into state
   };
 
-  return { runId: runId, run, fetching, metadata, graph };
+  return { runId: runId, run, fetching, metadata, graph, errorMessage };
 };
