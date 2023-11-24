@@ -101,7 +101,7 @@ const FilterComponent = ({
     if (name) {
       dispatch(organizationActions.getMembers({ name: 'contains:' + name }));
     } else if (newEvent.action === 'menu-close') {
-      dispatch(organizationActions.getMembers({}));
+      dispatch(organizationActions.getMembers({ page: 1, size: 1000 }));
     }
   }
 

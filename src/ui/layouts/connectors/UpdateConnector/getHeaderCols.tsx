@@ -1,11 +1,19 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
 import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
+  getInitialsFromEmail,
 } from '../../../../utils';
-import { Box, FlexBox, icons, Paragraph, Tooltip } from '../../../components';
+import {
+  Box,
+  ColoredCircle,
+  FlexBox,
+  icons,
+  Paragraph,
+  Tooltip,
+} from '../../../components';
 import { HeaderCol } from '../../common/Table';
 
 export const GetHeaderCols = ({
@@ -13,6 +21,9 @@ export const GetHeaderCols = ({
 }: {
   filteredConnector: any[];
 }): HeaderCol[] => {
+  const [showResourceTypes, setShowResourceTypes] = useState(false);
+  const [connectorId, setConnectorId] = useState('');
+
   return [
     {
       render: () => (
@@ -103,36 +114,107 @@ export const GetHeaderCols = ({
         </Box>
       ),
       width: '10%',
-      renderRow: (connector: any) => (
-        <FlexBox alignItems="center">
-          {connector?.body?.connector_type?.resource_types?.map((e: any) => (
-            <Box key={e.name} marginLeft="sm">
-              <div data-tip data-for={e.name}>
-                <FlexBox alignItems="center">
-                  <img
-                    alt={e.logo_url}
-                    src={e.logo_url}
-                    style={{
-                      height: '28px',
-                      width: '28px',
-                    }}
-                  />
+      renderRow: (connector: any) => {
+        const filteredResourceTypes: any = connector?.body?.connector_type?.resource_types?.filter(
+          (e: any) => {
+            if (connector?.body?.resource_types?.includes(e.resource_type))
+              return e;
+          },
+        );
+
+        return (
+          <FlexBox alignItems="center">
+            {filteredResourceTypes?.slice(0, 2)?.map(
+              (e: any, index: number) =>
+                connector?.body?.resource_types?.includes(e.resource_type) && (
+                  <Box key={index} marginLeft={index !== 0 ? 'sm' : null}>
+                    <div data-tip data-for={e.name}>
+                      <FlexBox alignItems="center">
+                        <img
+                          alt={e.logo_url}
+                          src={e.logo_url}
+                          style={{
+                            height: '28px',
+                            width: '28px',
+                          }}
+                        />
+                      </FlexBox>
+                    </div>
+                    <Tooltip id={e.name} text={e.name} />
+                  </Box>
+                ),
+            )}
+
+            {filteredResourceTypes?.length > 2 && (
+              <Box marginLeft="sm" onClick={(e) => e.stopPropagation()}>
+                <FlexBox
+                  alignItems="center"
+                  justifyContent="center"
+                  onClick={() => {
+                    setShowResourceTypes(!showResourceTypes);
+                    setConnectorId(connector?.id);
+                  }}
+                  style={{
+                    height: '28px',
+                    width: '28px',
+                    border: '1.5px solid #424240',
+                    borderRadius: '100%',
+                    cursor: 'pointer',
+                  }}
+                >
+                  <Paragraph>+{filteredResourceTypes?.length - 2}</Paragraph>
                 </FlexBox>
-              </div>
-              <Tooltip id={e.name} text={e.name} />
-            </Box>
-          ))}
-        </FlexBox>
-      ),
+
+                {showResourceTypes && connectorId === connector?.id && (
+                  <FlexBox
+                    padding="sm"
+                    alignItems="center"
+                    justifyContent="center"
+                    style={{
+                      marginTop: '5px',
+                      backgroundColor: '#fff',
+                      position: 'absolute',
+                      border: '1px solid #e9eaec',
+                      borderRadius: '4px',
+                      boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
+                      zIndex: 100,
+                    }}
+                  >
+                    {filteredResourceTypes
+                      ?.slice(2)
+                      ?.map((e: any, index: number) => (
+                        <Box key={index} marginLeft={index !== 0 ? 'sm' : null}>
+                          <div data-tip data-for={e?.name}>
+                            <FlexBox alignItems="center">
+                              <img
+                                alt={e?.logo_url}
+                                src={e?.logo_url}
+                                style={{
+                                  height: '28px',
+                                  width: '28px',
+                                }}
+                              />
+                            </FlexBox>
+                          </div>
+                          <Tooltip id={e?.name} text={e?.name} />
+                        </Box>
+                      ))}
+                  </FlexBox>
+                )}
+              </Box>
+            )}
+          </FlexBox>
+        );
+      },
     },
 
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          Resource Name
+          Resource ID
         </Paragraph>
       ),
-      width: '10%',
+      width: '14%',
       renderRow: (connector: any) => {
         return (
           <FlexBox alignItems="center">
@@ -155,7 +237,7 @@ export const GetHeaderCols = ({
           Authentication
         </Paragraph>
       ),
-      width: '10%',
+      width: '14%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={connector?.body?.auth_method}>
@@ -178,19 +260,34 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (connector: any) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={connector?.body?.user.name}>
-            <Paragraph size="small" color="black">
-              {connector?.body?.user.name}
-            </Paragraph>
-          </div>
-          <Tooltip
-            id={connector?.body?.user.name}
-            text={connector?.body?.user.name}
-          />
-        </FlexBox>
-      ),
+      renderRow: (connector: any) => {
+        const initials = getInitialsFromEmail(
+          connector?.body?.user?.name as string,
+        );
+        return (
+          <FlexBox alignItems="center">
+            <div data-tip data-for={connector?.body?.user?.name}>
+              <FlexBox alignItems="center">
+                {connector?.body?.user?.name && (
+                  <Box paddingRight="sm">
+                    <ColoredCircle color="secondary" size="sm">
+                      {initials}
+                    </ColoredCircle>
+                  </Box>
+                )}
+
+                <Paragraph size="small">
+                  {connector?.body?.user?.name}
+                </Paragraph>
+              </FlexBox>
+            </div>
+            <Tooltip
+              id={connector?.body?.user?.name}
+              text={connector?.body?.user?.name}
+            />
+          </FlexBox>
+        );
+      },
     },
     {
       render: () => (
@@ -198,10 +295,10 @@ export const GetHeaderCols = ({
           Created
         </Paragraph>
       ),
-      width: '10%',
+      width: '12%',
       renderRow: (connector: any) => (
         <>
-          {connector?.created && (
+          {connector?.body?.created && (
             <FlexBox alignItems="center">
               <div
                 data-tip
@@ -222,22 +319,22 @@ export const GetHeaderCols = ({
         </>
       ),
     },
-    {
-      render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          Shared
-        </Paragraph>
-      ),
-      width: '10%',
-      renderRow: (connector: any) => (
-        <FlexBox alignItems="center">
-          <Box paddingRight="sm">
-            {connector?.body?.is_shared && (
-              <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
-            )}
-          </Box>
-        </FlexBox>
-      ),
-    },
+    // {
+    //   render: () => (
+    //     <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
+    //       Shared
+    //     </Paragraph>
+    //   ),
+    //   width: '10%',
+    //   renderRow: (connector: any) => (
+    //     <FlexBox alignItems="center">
+    //       <Box paddingRight="sm">
+    //         {connector?.body?.is_shared && (
+    //           <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
+    //         )}
+    //       </Box>
+    //     </FlexBox>
+    //   ),
+    // },
   ];
 };

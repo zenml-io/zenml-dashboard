@@ -28,8 +28,8 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
   useEffect(() => {}, [locationPath]);
 
   const yamlConfigObj = {
-    [stackComponent.body.type]: {
-      flavor: stackComponent.body.flavor,
+    [stackComponent.body?.type as any]: {
+      flavor: stackComponent.body?.flavor,
       name: stackComponent.name,
       ...stackComponent.metadata?.configuration,
     },

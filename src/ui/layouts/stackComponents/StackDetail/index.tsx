@@ -197,7 +197,8 @@ export const StackDetail: React.FC = () => {
     (item: any) => {
       const temp: any = flavorList?.find(
         (fl: any) =>
-          fl.name === item.body.flavor && fl.body.type === item.body.type,
+          fl?.name === item?.body?.flavor &&
+          fl?.body?.type === item?.body?.type,
       );
       if (temp) {
         return {
@@ -228,6 +229,7 @@ export const StackDetail: React.FC = () => {
     <BasePage
       headerWithButtons
       tabPages={tabPages}
+      singleTab={true}
       tabBasePath={routePaths.stackComponents.base(
         stackComponent.id,
         selectedWorkspace,

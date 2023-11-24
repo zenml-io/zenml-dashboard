@@ -10,7 +10,7 @@ function log(message, emoji) {
   log('Script started.', '✨');
 
   const appserverOutput = await openapiTS(
-    'https://baris.develaws.zenml.io/openapi.json',
+    'https://michael.develaws.zenml.io/openapi.json',
     {
       exportType: true,
       transform: (schema) => {

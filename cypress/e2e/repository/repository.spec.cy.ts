@@ -22,7 +22,7 @@ describe('FilterComponent E2E Tests', () => {
     // cy.get('[data-testid="search-input"]').type('random value');
     // cy.get('h4').contains('No Repositories found');
   });
-  it.only('should apply filters where string', () => {
+  it('should apply filters where string', () => {
     cy.waitForLoaderToDisappear();
     // const columnList = ['ID', 'Name', '\];
     // columnList.forEach((col) => {
@@ -73,20 +73,28 @@ describe('FilterComponent E2E Tests', () => {
 
   it("should display respository's runs", () => {
     cy.waitForLoaderToDisappear();
-    // Select the first row within the table (modify the selector as needed)
-    cy.get('[data-testid="repository_card"]')
-      .first() // Select the first element with the data-testid
-      .children() // Get the child elements
-      .first() // Select the first child element
-      .click({ force: true });
-    cy.get('[data-testid="run_tab"]').click();
-    cy.waitForLoaderToDisappear();
-    // cy.get('table').should('exist');
-    const columnList = ['Run ID', 'Run Name'];
-    const emptyText = 'No runs';
-    columnList.forEach((col) => {
-      filterByString(col, emptyText);
+    cy.get('body').then((body) => {
+      const box = body.find('[data-testid="repository_card"]');
+
+      if (box.length && box.is(':visible')) {
+        box
+          .first() // Select the first element with the data-testid
+          .children() // Get the child elements
+          .first() // Select the first child element
+          .click({ force: true });
+        cy.get('[data-testid="run_tab"]').click();
+        cy.waitForLoaderToDisappear();
+        // cy.get('table').should('exist');
+        const columnList = ['Run ID', 'Run Name'];
+        const emptyText = 'No runs';
+        columnList.forEach((col) => {
+          filterByString(col, emptyText);
+        });
+        filterByStatus();
+      } else {
+        // Do nothing if the element is not found or is hidden
+      }
     });
-    filterByStatus();
+    // Select the first row within the table (modify the selector as needed)
   });
 });

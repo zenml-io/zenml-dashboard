@@ -1,4 +1,4 @@
-import { filterByBoolean } from '../utils/filterByBooleanUtils';
+// import { filterByBoolean } from '../utils/filterByBooleanUtils';
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
 import { pagination } from '../utils/paginationUtils';
@@ -26,7 +26,7 @@ describe("Connector's Table E2E Tests", () => {
       'Authentication',
       'Author',
       'Created',
-      'Shared',
+      // 'Shared',
     ];
     tableColumns(columnList, emptyText);
   });
@@ -41,7 +41,7 @@ describe("Connector's Table E2E Tests", () => {
       'Authentication',
       'Author',
       'created_at',
-      'Shared',
+      // 'Shared',
     ];
     columnTestIds.forEach((col) => {
       tableColumnsSorting(col);
@@ -68,7 +68,7 @@ describe("Connector's Table E2E Tests", () => {
     columnList.forEach((col) => {
       filterByString(col, emptyText);
     });
-    filterByBoolean(emptyText);
+    // filterByBoolean(emptyText);
   });
   it('should navigate through pagination', () => {
     cy.waitForLoaderToDisappear();
@@ -83,7 +83,7 @@ describe("Connector's Table E2E Tests", () => {
     cy.get('table').should('exist');
 
     // Select the first row within the table (modify the selector as needed)
-    cy.get('table tbody tr:eq(4)').click({ force: true });
+    cy.get('table tbody tr:eq(0)').click({ force: true });
 
     cy.get('[data-testid="component_tab"]').click();
     // cy.get('table').should('exist');
@@ -95,6 +95,6 @@ describe("Connector's Table E2E Tests", () => {
     columnList.forEach((col) => {
       filterByString(col, emptyText);
     });
-    filterByBoolean(emptyText);
+    // filterByBoolean(emptyText);
   });
 });

@@ -4,8 +4,16 @@ import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
+  getInitialsFromEmail,
 } from '../../../../utils';
-import { Box, FlexBox, icons, Paragraph, Tooltip } from '../../../components';
+import {
+  Box,
+  ColoredCircle,
+  FlexBox,
+  icons,
+  Paragraph,
+  Tooltip,
+} from '../../../components';
 import { HeaderCol } from '../../common/Table';
 
 export const GetHeaderCols = ({
@@ -199,10 +207,10 @@ export const GetHeaderCols = ({
     {
       render: () => (
         <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          Resource Name
+          Resource ID
         </Paragraph>
       ),
-      width: '10%',
+      width: '14%',
       renderRow: (connector: any) => {
         return (
           <FlexBox alignItems="center">
@@ -225,7 +233,7 @@ export const GetHeaderCols = ({
           Authentication
         </Paragraph>
       ),
-      width: '10%',
+      width: '14%',
       renderRow: (connector: any) => (
         <FlexBox alignItems="center">
           <div data-tip data-for={connector?.body?.auth_method}>
@@ -248,19 +256,34 @@ export const GetHeaderCols = ({
         </Paragraph>
       ),
       width: '10%',
-      renderRow: (connector: any) => (
-        <FlexBox alignItems="center">
-          <div data-tip data-for={connector?.body?.user?.name}>
-            <Paragraph size="small" color="black">
-              {connector?.body?.user?.name}
-            </Paragraph>
-          </div>
-          <Tooltip
-            id={connector?.body?.user?.name}
-            text={connector?.body?.user?.name}
-          />
-        </FlexBox>
-      ),
+      renderRow: (connector: any) => {
+        const initials = getInitialsFromEmail(
+          connector?.body?.user?.name as string,
+        );
+        return (
+          <FlexBox alignItems="center">
+            <div data-tip data-for={connector?.body?.user?.name}>
+              <FlexBox alignItems="center">
+                {connector?.body?.user?.name && (
+                  <Box paddingRight="sm">
+                    <ColoredCircle color="secondary" size="sm">
+                      {initials}
+                    </ColoredCircle>
+                  </Box>
+                )}
+
+                <Paragraph size="small">
+                  {connector?.body?.user?.name}
+                </Paragraph>
+              </FlexBox>
+            </div>
+            <Tooltip
+              id={connector?.body?.user?.name}
+              text={connector?.body?.user?.name}
+            />
+          </FlexBox>
+        );
+      },
     },
     {
       render: () => (
@@ -268,7 +291,7 @@ export const GetHeaderCols = ({
           Created
         </Paragraph>
       ),
-      width: '10%',
+      width: '12%',
       renderRow: (connector: any) => (
         <>
           {connector?.body?.created && (
@@ -292,22 +315,22 @@ export const GetHeaderCols = ({
         </>
       ),
     },
-    {
-      render: () => (
-        <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
-          Shared
-        </Paragraph>
-      ),
-      width: '10%',
-      renderRow: (connector: any) => (
-        <FlexBox alignItems="center">
-          <Box paddingRight="sm">
-            {connector?.body?.isShared && (
-              <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
-            )}
-          </Box>
-        </FlexBox>
-      ),
-    },
+    // {
+    //   render: () => (
+    //     <Paragraph size="small" color="black" style={{ fontSize: '14px' }}>
+    //       Shared
+    //     </Paragraph>
+    //   ),
+    //   width: '10%',
+    //   renderRow: (connector: any) => (
+    //     <FlexBox alignItems="center">
+    //       <Box paddingRight="sm">
+    //         {connector?.body?.isShared && (
+    //           <icons.lock2 color={iconColors.grey} size={iconSizes.sm} />
+    //         )}
+    //       </Box>
+    //     </FlexBox>
+    //   ),
+    // },
   ];
 };

@@ -59,13 +59,20 @@ const getTabPages = (
   fetching: boolean,
   selectedWorkspace: string,
   tiles?: any,
-  history?: any,
+  ifPermissionDenied?: boolean,
+  disabledNestedRowtiles?: any,
 ): TabPage[] => {
   return [
     {
       text: translate('tabs.configuration.text'),
       Component: () => (
-        <Configuration fetching={fetching} tiles={tiles} stackId={stackId} />
+        <Configuration
+          ifPermissionDenied={ifPermissionDenied}
+          fetching={fetching}
+          tiles={tiles}
+          disabledNestedRowtiles={disabledNestedRowtiles}
+          stackId={stackId}
+        />
       ),
       path: routePaths.stack.configuration(stackId, selectedWorkspace),
     },
@@ -111,7 +118,31 @@ export const StackDetail: React.FC = () => {
   filteredStacks.push(stack);
   const history = useHistory();
   const nestedRowtiles = [];
+  const disabledNestedRowtiles = [];
   const { flavourList, fetching } = GetFlavorsListForLogo();
+
+  function checkPermissionDenied(data: any) {
+    if (!data || typeof data !== 'object') {
+      return false; // Handle the case where data is not an object or is undefined/null
+    }
+
+    const keys = Object.keys(data);
+
+    return keys
+      .flatMap((key) => data[key])
+      .some((item) => item && item.permission_denied); // Check if any item has permission_denied set to true
+  }
+
+  let ifPermissionDenied: boolean = false;
+
+  if (flavourList?.length > 1) {
+    const components = stack?.metadata?.components as any;
+    if (stack?.metadata === null) {
+      ifPermissionDenied = true;
+    } else {
+      ifPermissionDenied = checkPermissionDenied(components);
+    }
+  }
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   if (stack && Object.keys(stack).length === 0) {
@@ -129,8 +160,8 @@ export const StackDetail: React.FC = () => {
         if (value && value[0]?.body?.flavor && value[0]?.body?.type) {
           const { body }: any = flavourList.find(
             (fl: Flavor) =>
-              fl.name === value[0].body.flavor &&
-              fl.body.type === value[0].body.type,
+              fl.name === value[0].body?.flavor &&
+              fl.body?.type === value[0].body?.type,
           );
 
           if (body && value[0]) {
@@ -142,6 +173,13 @@ export const StackDetail: React.FC = () => {
               logo: body.logo_url,
             });
           }
+        } else if (value && value[0]?.permission_denied) {
+          disabledNestedRowtiles.push({
+            ...(value[0] as StackComponent),
+            type: key,
+            name: value[0]?.name,
+            id: value[0]?.id,
+          });
         }
       }
     }
@@ -152,7 +190,8 @@ export const StackDetail: React.FC = () => {
     fetching,
     selectedWorkspace,
     nestedRowtiles,
-    history,
+    ifPermissionDenied,
+    disabledNestedRowtiles,
   );
   const breadcrumbs = getBreadcrumbs(stack?.id, selectedWorkspace);
   const headerCols = GetHeaderCols({

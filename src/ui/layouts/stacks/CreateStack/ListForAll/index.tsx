@@ -6,7 +6,7 @@ import {
   FormTextField,
   PrimaryButton,
 } from '../../../../components';
-import { ToggleField } from '../../../common/FormElement';
+// import { ToggleField } from '../../../common/FormElement';
 
 import {
   sessionSelectors,
@@ -49,7 +49,7 @@ export const ListForAll: React.FC<Props> = () => {
   const [stackName, setStackName] = useState(
     paseSelectedStack?.stackName || '',
   );
-  const [isShared, setIshared] = useState(true);
+  // const [isShared, setIshared] = useState(true);
   const [selectedStack, setSelectedStack] = useState<any>(
     paseSelectedStack?.selectedStack || [],
   );
@@ -89,7 +89,7 @@ export const ListForAll: React.FC<Props> = () => {
       );
     }
     const components = selectedStack.map((item: any) => {
-      return { [item.body.type]: [item.id] };
+      return { [item?.body?.type]: [item?.id] };
     });
     var mergedObject = components.reduce((c: any, v: any) => {
       for (var k in v) {
@@ -126,7 +126,7 @@ export const ListForAll: React.FC<Props> = () => {
     const body = {
       user: user?.id,
       workspace: id,
-      is_shared: isShared,
+      // is_shared: isShared,
       name: stackName,
       components: finalData,
     };
@@ -231,13 +231,13 @@ export const ListForAll: React.FC<Props> = () => {
                 value={stackName}
               />
             </Box>
-            <Box marginLeft="xl" style={{ width: '30%' }}>
+            {/* <Box marginLeft="xl" style={{ width: '30%' }}>
               <ToggleField
                 label={'Share Stack with public'}
                 value={isShared}
                 onHandleChange={(value: any) => setIshared(!isShared)}
               />
-            </Box>
+            </Box> */}
           </FlexBox.Row>
         </Box>
 

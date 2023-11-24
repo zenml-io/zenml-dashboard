@@ -94,7 +94,9 @@ export type paths = {
      *
      * Args:
      *     filter_model: Filter model used for pagination, sorting,
-     *         filtering
+     *         filtering.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *     auth_context: The current auth context.
      *
      * Returns:
@@ -111,6 +113,8 @@ export type paths = {
      *     device_id: The ID of the OAuth2 authorized device to get.
      *     user_code: The user code of the OAuth2 authorized device to get. Needs
      *         to be specified with devices that have not been verified yet.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *     auth_context: The current auth context.
      *
      * Returns:
@@ -327,40 +331,6 @@ export type paths = {
      */
     delete: operations["delete_workspace_api_v1_workspaces__workspace_name_or_id__delete"];
   };
-  "/api/v1/workspaces/{workspace_name_or_id}/role_assignments": {
-    /**
-     * List User Role Assignments For Workspace
-     * @description Returns a list of all roles that are assigned to a team.
-     *
-     * Args:
-     *     workspace_name_or_id: Name or ID of the workspace.
-     *     user_role_assignment_filter_model: Filter model used for pagination,
-     *         sorting, filtering.
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     A list of all roles that are assigned to a team.
-     */
-    get: operations["list_user_role_assignments_for_workspace_api_v1_workspaces__workspace_name_or_id__role_assignments_get"];
-  };
-  "/api/v1/workspaces/{workspace_name_or_id}/team_role_assignments": {
-    /**
-     * List Team Role Assignments For Workspace
-     * @description Returns a list of all roles that are assigned to a team.
-     *
-     * Args:
-     *     workspace_name_or_id: Name or ID of the workspace.
-     *     team_role_assignment_filter_model: Filter model used for pagination,
-     *         sorting, filtering.
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     A list of all roles that are assigned to a team.
-     */
-    get: operations["list_team_role_assignments_for_workspace_api_v1_workspaces__workspace_name_or_id__team_role_assignments_get"];
-  };
   "/api/v1/workspaces/{workspace_name_or_id}/stacks": {
     /**
      * List Workspace Stacks
@@ -374,7 +344,6 @@ export type paths = {
      *         filtering.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
-     *     auth_context: Authentication Context.
      *
      * Returns:
      *     All stacks part of the specified workspace.
@@ -387,14 +356,13 @@ export type paths = {
      * Args:
      *     workspace_name_or_id: Name or ID of the workspace.
      *     stack: Stack to register.
-     *     auth_context: The authentication context.
      *
      * Returns:
      *     The created stack.
      *
      * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the stack
-     *         does not match the current workspace or authenticated user.
+     *     IllegalOperationError: If the workspace specified in the stack
+     *         does not match the current workspace.
      */
     post: operations["create_stack_api_v1_workspaces__workspace_name_or_id__stacks_post"];
   };
@@ -411,7 +379,6 @@ export type paths = {
      *         filtering.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
-     *     auth_context: Authentication Context.
      *
      * Returns:
      *     All stack components part of the specified workspace.
@@ -424,15 +391,13 @@ export type paths = {
      * Args:
      *     workspace_name_or_id: Name or ID of the workspace.
      *     component: Stack component to register.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     The created stack component.
      *
      * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the stack
-     *         component does not match the current workspace or authenticated
-     *         user.
+     *     IllegalOperationError: If the workspace specified in the stack
+     *         component does not match the current workspace.
      */
     post: operations["create_stack_component_api_v1_workspaces__workspace_name_or_id__components_post"];
   };
@@ -461,7 +426,6 @@ export type paths = {
      * Args:
      *     workspace_name_or_id: Name or ID of the workspace.
      *     pipeline: Pipeline to create.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     The created pipeline.
@@ -503,8 +467,8 @@ export type paths = {
      *     The created build.
      *
      * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the build
-     *         does not match the current workspace or authenticated user.
+     *     IllegalOperationError: If the workspace specified in the build
+     *         does not match the current workspace.
      */
     post: operations["create_build_api_v1_workspaces__workspace_name_or_id__pipeline_builds_post"];
   };
@@ -539,9 +503,8 @@ export type paths = {
      *     The created deployment.
      *
      * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the
-     *         deployment does not match the current workspace or authenticated
-     *         user.
+     *     IllegalOperationError: If the workspace specified in the
+     *         deployment does not match the current workspace.
      */
     post: operations["create_deployment_api_v1_workspaces__workspace_name_or_id__pipeline_deployments_post"];
   };
@@ -568,17 +531,13 @@ export type paths = {
      * Args:
      *     workspace_name_or_id: Name or ID of the workspace.
      *     pipeline_run: Pipeline run to create.
-     *     auth_context: Authentication context.
-     *     get_if_exists: If a similar pipeline run already exists, return it
-     *         instead of raising an error.
      *
      * Returns:
      *     The created pipeline run.
      *
      * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the
-     *         pipeline run does not match the current workspace or authenticated
-     *         user.
+     *     IllegalOperationError: If the workspace specified in the
+     *         pipeline run does not match the current workspace.
      */
     post: operations["create_pipeline_run_api_v1_workspaces__workspace_name_or_id__runs_post"];
   };
@@ -649,14 +608,13 @@ export type paths = {
      * Args:
      *     workspace_name_or_id: Name or ID of the workspace.
      *     secret: Secret to create.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     The created secret.
      *
      * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the
-     *         secret does not match the current workspace or authenticated user.
+     *     IllegalOperationError: If the workspace specified in the
+     *         secret does not match the current workspace.
      */
     post: operations["create_secret_api_v1_workspaces__workspace_name_or_id__secrets_post"];
   };
@@ -685,7 +643,6 @@ export type paths = {
      * Args:
      *     workspace_name_or_id: Name or ID of the workspace.
      *     code_repository: Code repository to create.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     The created code repository.
@@ -725,7 +682,6 @@ export type paths = {
      *         filtering.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
-     *     auth_context: Authentication Context
      *
      * Returns:
      *     All service connectors part of the specified workspace.
@@ -738,7 +694,6 @@ export type paths = {
      * Args:
      *     workspace_name_or_id: Name or ID of the workspace.
      *     connector: Service connector to register.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     The created service connector.
@@ -770,27 +725,12 @@ export type paths = {
   };
   "/api/v1/workspaces/{workspace_name_or_id}/models": {
     /**
-     * List Workspace Models
-     * @description Get models according to query filters.
-     *
-     * Args:
-     *     workspace_name_or_id: Name or ID of the workspace.
-     *     model_filter_model: Filter model used for pagination, sorting,
-     *         filtering
-     *
-     *
-     * Returns:
-     *     The models according to query filters.
-     */
-    get: operations["list_workspace_models_api_v1_workspaces__workspace_name_or_id__models_get"];
-    /**
      * Create Model
      * @description Create a new model.
      *
      * Args:
      *     workspace_name_or_id: Name or ID of the workspace.
      *     model: The model to create.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     The created model.
@@ -817,21 +757,19 @@ export type paths = {
      *     The created model version.
      *
      * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the
-     *         model version does not match the current workspace or authenticated
-     *         user.
+     *     IllegalOperationError: If the workspace specified in the
+     *         model version does not match the current workspace.
      */
     post: operations["create_model_version_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions_post"];
   };
-  "/api/v1/workspaces/{workspace_name_or_id}/models/{model_name_or_id}/model_versions/{model_version_name_or_id}/artifacts": {
+  "/api/v1/workspaces/{workspace_name_or_id}/model_versions/{model_version_id}/artifacts": {
     /**
      * Create Model Version Artifact Link
      * @description Create a new model version to artifact link.
      *
      * Args:
-     *     model_name_or_id: Name or ID of the model.
      *     workspace_name_or_id: Name or ID of the workspace.
-     *     model_version_name_or_id: Name or ID of the model version.
+     *     model_version_id: ID of the model version.
      *     model_version_artifact_link: The model version to artifact link to create.
      *     auth_context: Authentication context.
      *
@@ -843,34 +781,16 @@ export type paths = {
      *         model version does not match the current workspace or authenticated
      *         user.
      */
-    post: operations["create_model_version_artifact_link_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions__model_version_name_or_id__artifacts_post"];
+    post: operations["create_model_version_artifact_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__artifacts_post"];
   };
-  "/api/v1/workspaces/{workspace_name_or_id}/model_versions/{model_version_name_or_id}/artifacts": {
-    /**
-     * List Workspace Model Version Artifact Links
-     * @description Get model version to artifact links according to query filters.
-     *
-     * Args:
-     *     model_name_or_id: Name or ID of the model.
-     *     workspace_name_or_id: Name or ID of the workspace.
-     *     model_version_name_or_id: Name or ID of the model version.
-     *     model_version_artifact_link_filter_model: Filter model used for pagination, sorting,
-     *         filtering
-     *
-     * Returns:
-     *     The model version to artifact links according to query filters.
-     */
-    get: operations["list_workspace_model_version_artifact_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_name_or_id__artifacts_get"];
-  };
-  "/api/v1/workspaces/{workspace_name_or_id}/models/{model_name_or_id}/model_versions/{model_version_name_or_id}/runs": {
+  "/api/v1/workspaces/{workspace_name_or_id}/model_versions/{model_version_id}/runs": {
     /**
      * Create Model Version Pipeline Run Link
      * @description Create a new model version to pipeline run link.
      *
      * Args:
-     *     model_name_or_id: Name or ID of the model.
      *     workspace_name_or_id: Name or ID of the workspace.
-     *     model_version_name_or_id: Name or ID of the model version.
+     *     model_version_id: ID of the model version.
      *     model_version_pipeline_run_link: The model version to pipeline run link to create.
      *     auth_context: Authentication context.
      *
@@ -883,24 +803,7 @@ export type paths = {
      *         model version does not match the current workspace or authenticated
      *         user.
      */
-    post: operations["create_model_version_pipeline_run_link_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions__model_version_name_or_id__runs_post"];
-  };
-  "/api/v1/workspaces/{workspace_name_or_id}/model_versions/{model_version_name_or_id}/runs": {
-    /**
-     * List Workspace Model Version Pipeline Run Links
-     * @description Get model version to pipeline links according to query filters.
-     *
-     * Args:
-     *     model_name_or_id: Name or ID of the model.
-     *     workspace_name_or_id: Name or ID of the workspace.
-     *     model_version_name_or_id: Name or ID of the model version.
-     *     model_version_pipeline_run_link_filter_model: Filter model used for pagination, sorting,
-     *         filtering
-     *
-     * Returns:
-     *     The model version to pipeline run links according to query filters.
-     */
-    get: operations["list_workspace_model_version_pipeline_run_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_name_or_id__runs_get"];
+    post: operations["create_model_version_pipeline_run_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__runs_post"];
   };
   "/api/v1/flavors": {
     /**
@@ -923,15 +826,9 @@ export type paths = {
      *
      * Args:
      *     flavor: Stack component flavor to register.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     The created stack component flavor.
-     *
-     * Raises:
-     *     IllegalOperationError: If the workspace or user specified in the stack
-     *         component flavor does not match the current workspace or authenticated
-     *         user.
      */
     post: operations["create_flavor_api_v1_flavors_post"];
   };
@@ -950,6 +847,20 @@ export type paths = {
      */
     get: operations["get_flavor_api_v1_flavors__flavor_id__get"];
     /**
+     * Update Flavor
+     * @description Updates a flavor.
+     *
+     * # noqa: DAR401
+     *
+     * Args:
+     *     flavor_id: ID of the flavor to update.
+     *     flavor_update: Flavor update.
+     *
+     * Returns:
+     *     The updated flavor.
+     */
+    put: operations["update_flavor_api_v1_flavors__flavor_id__put"];
+    /**
      * Delete Flavor
      * @description Deletes a flavor.
      *
@@ -957,22 +868,6 @@ export type paths = {
      *     flavor_id: ID of the flavor.
      */
     delete: operations["delete_flavor_api_v1_flavors__flavor_id__delete"];
-  };
-  "/api/v1/flavors/{team_id}": {
-    /**
-     * Update Flavor
-     * @description Updates a flavor.
-     *
-     * # noqa: DAR401
-     *
-     * Args:
-     *     flavor_id: ID of the team to update.
-     *     flavor_update: Team update.
-     *
-     * Returns:
-     *     The updated flavor.
-     */
-    put: operations["update_flavor_api_v1_flavors__team_id__put"];
   };
   "/api/v1/flavors/sync": {
     /**
@@ -983,177 +878,6 @@ export type paths = {
      *     None if successful. Raises an exception otherwise.
      */
     patch: operations["sync_flavors_api_v1_flavors_sync_patch"];
-  };
-  "/api/v1/roles": {
-    /**
-     * List Roles
-     * @description Returns a list of all roles.
-     *
-     * Args:
-     *     role_filter_model: Filter model used for pagination, sorting, filtering
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     List of all roles.
-     */
-    get: operations["list_roles_api_v1_roles_get"];
-    /**
-     * Create Role
-     * @description Creates a role.
-     *
-     * # noqa: DAR401
-     *
-     * Args:
-     *     role: Role to create.
-     *
-     * Returns:
-     *     The created role.
-     */
-    post: operations["create_role_api_v1_roles_post"];
-  };
-  "/api/v1/roles/{role_name_or_id}": {
-    /**
-     * Get Role
-     * @description Returns a specific role.
-     *
-     * Args:
-     *     role_name_or_id: Name or ID of the role.
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     A specific role.
-     */
-    get: operations["get_role_api_v1_roles__role_name_or_id__get"];
-    /**
-     * Delete Role
-     * @description Deletes a specific role.
-     *
-     * Args:
-     *     role_name_or_id: Name or ID of the role.
-     */
-    delete: operations["delete_role_api_v1_roles__role_name_or_id__delete"];
-  };
-  "/api/v1/roles/{role_id}": {
-    /**
-     * Update Role
-     * @description Updates a role.
-     *
-     * # noqa: DAR401
-     *
-     * Args:
-     *     role_id: The ID of the role.
-     *     role_update: Role update.
-     *
-     * Returns:
-     *     The created role.
-     */
-    put: operations["update_role_api_v1_roles__role_id__put"];
-  };
-  "/api/v1/role_assignments": {
-    /**
-     * List User Role Assignments
-     * @description Returns a list of all role assignments.
-     *
-     * Args:
-     *     user_role_assignment_filter_model: filter models for user role
-     *         assignments.
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     List of all role assignments.
-     */
-    get: operations["list_user_role_assignments_api_v1_role_assignments_get"];
-    /**
-     * Create Role Assignment
-     * @description Creates a role assignment.
-     *
-     * # noqa: DAR401
-     *
-     * Args:
-     *     role_assignment: Role assignment to create.
-     *
-     * Returns:
-     *     The created role assignment.
-     */
-    post: operations["create_role_assignment_api_v1_role_assignments_post"];
-  };
-  "/api/v1/role_assignments/{role_assignment_id}": {
-    /**
-     * Get Role Assignment
-     * @description Returns a specific role assignment.
-     *
-     * Args:
-     *     role_assignment_id: Name or ID of the role assignment.
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     A specific role assignment.
-     */
-    get: operations["get_role_assignment_api_v1_role_assignments__role_assignment_id__get"];
-    /**
-     * Delete Role Assignment
-     * @description Deletes a specific role.
-     *
-     * Args:
-     *     role_assignment_id: The ID of the role assignment.
-     */
-    delete: operations["delete_role_assignment_api_v1_role_assignments__role_assignment_id__delete"];
-  };
-  "/api/v1/team_role_assignments": {
-    /**
-     * List Team Role Assignments
-     * @description Returns a list of all role assignments.
-     *
-     * Args:
-     *     team_role_assignment_filter_model: filter models for team role
-     *         assignments.
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     List of all role assignments.
-     */
-    get: operations["list_team_role_assignments_api_v1_team_role_assignments_get"];
-    /**
-     * Create Team Role Assignment
-     * @description Creates a role assignment.
-     *
-     * # noqa: DAR401
-     *
-     * Args:
-     *     role_assignment: Role assignment to create.
-     *
-     * Returns:
-     *     The created role assignment.
-     */
-    post: operations["create_team_role_assignment_api_v1_team_role_assignments_post"];
-  };
-  "/api/v1/team_role_assignments/{role_assignment_id}": {
-    /**
-     * Get Team Role Assignment
-     * @description Returns a specific role assignment.
-     *
-     * Args:
-     *     role_assignment_id: Name or ID of the role assignment.
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     A specific role assignment.
-     */
-    get: operations["get_team_role_assignment_api_v1_team_role_assignments__role_assignment_id__get"];
-    /**
-     * Delete Team Role Assignment
-     * @description Deletes a specific role.
-     *
-     * Args:
-     *     role_assignment_id: The ID of the role assignment.
-     */
-    delete: operations["delete_team_role_assignment_api_v1_team_role_assignments__role_assignment_id__delete"];
   };
   "/api/v1/runs": {
     /**
@@ -1224,6 +948,7 @@ export type paths = {
      * @description Get all steps for a given pipeline run.
      *
      * Args:
+     *     run_id: ID of the pipeline run.
      *     step_run_filter_model: Filter model used for pagination, sorting,
      *         filtering
      *
@@ -1333,7 +1058,6 @@ export type paths = {
      * Args:
      *     secret_filter_model: Filter model used for pagination, sorting,
      *         filtering
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     List of secret objects.
@@ -1347,7 +1071,6 @@ export type paths = {
      *
      * Args:
      *     secret_id: ID of the secret to get.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     A specific secret object.
@@ -1395,6 +1118,157 @@ export type paths = {
      */
     get: operations["server_info_api_v1_info_get"];
   };
+  "/api/v1/service_accounts": {
+    /**
+     * List Service Accounts
+     * @description Returns a list of service accounts.
+     *
+     * Args:
+     *     filter_model: Model that takes care of filtering, sorting and
+     *         pagination.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
+     *
+     * Returns:
+     *     A list of service accounts matching the filter.
+     */
+    get: operations["list_service_accounts_api_v1_service_accounts_get"];
+    /**
+     * Create Service Account
+     * @description Creates a service account.
+     *
+     * Args:
+     *     service_account: Service account to create.
+     *
+     * Returns:
+     *     The created service account.
+     */
+    post: operations["create_service_account_api_v1_service_accounts_post"];
+  };
+  "/api/v1/service_accounts/{service_account_name_or_id}": {
+    /**
+     * Get Service Account
+     * @description Returns a specific service account.
+     *
+     * Args:
+     *     service_account_name_or_id: Name or ID of the service account.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
+     *
+     * Returns:
+     *     The service account matching the given name or ID.
+     */
+    get: operations["get_service_account_api_v1_service_accounts__service_account_name_or_id__get"];
+    /**
+     * Update Service Account
+     * @description Updates a specific service account.
+     *
+     * Args:
+     *     service_account_name_or_id: Name or ID of the service account.
+     *     service_account_update: the service account to use for the update.
+     *
+     * Returns:
+     *     The updated service account.
+     */
+    put: operations["update_service_account_api_v1_service_accounts__service_account_name_or_id__put"];
+    /**
+     * Delete Service Account
+     * @description Delete a specific service account.
+     *
+     * Args:
+     *     service_account_name_or_id: Name or ID of the service account.
+     */
+    delete: operations["delete_service_account_api_v1_service_accounts__service_account_name_or_id__delete"];
+  };
+  "/api/v1/service_accounts/{service_account_id}/api_keys": {
+    /**
+     * List Api Keys
+     * @description List API keys associated with a service account.
+     *
+     * Args:
+     *     service_account_id: ID of the service account to which the API keys
+     *         belong.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
+     *     filter_model: Filter model used for pagination, sorting,
+     *         filtering
+     *
+     * Returns:
+     *     All API keys matching the filter and associated with the supplied
+     *     service account.
+     */
+    get: operations["list_api_keys_api_v1_service_accounts__service_account_id__api_keys_get"];
+    /**
+     * Create Api Key
+     * @description Creates an API key for a service account.
+     *
+     * Args:
+     *     service_account_id: ID of the service account for which to create the
+     *         API key.
+     *     api_key: API key to create.
+     *
+     * Returns:
+     *     The created API key.
+     */
+    post: operations["create_api_key_api_v1_service_accounts__service_account_id__api_keys_post"];
+  };
+  "/api/v1/service_accounts/{service_account_id}/api_keys/{api_key_name_or_id}": {
+    /**
+     * Get Api Key
+     * @description Returns the requested API key.
+     *
+     * Args:
+     *     service_account_id: ID of the service account to which the API key
+     *         belongs.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
+     *     api_key_name_or_id: Name or ID of the API key to return.
+     *
+     * Returns:
+     *     The requested API key.
+     */
+    get: operations["get_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__get"];
+    /**
+     * Update Api Key
+     * @description Updates an API key for a service account.
+     *
+     * Args:
+     *     service_account_id: ID of the service account to which the API key
+     *         belongs.
+     *     api_key_name_or_id: Name or ID of the API key to update.
+     *     api_key_update: API key update.
+     *
+     * Returns:
+     *     The updated API key.
+     */
+    put: operations["update_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__put"];
+    /**
+     * Delete Api Key
+     * @description Deletes an API key.
+     *
+     * Args:
+     *     service_account_id: ID of the service account to which the API key
+     *         belongs.
+     *     api_key_name_or_id: Name or ID of the API key to delete.
+     */
+    delete: operations["delete_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__delete"];
+  };
+  "/api/v1/service_accounts/{service_account_id}/api_keys/{api_key_name_or_id}/rotate": {
+    /**
+     * Rotate Api Key
+     * @description Rotate an API key.
+     *
+     * Args:
+     *     service_account_id: ID of the service account to which the API key
+     *         belongs.
+     *     api_key_name_or_id: Name or ID of the API key to rotate.
+     *     rotate_request: API key rotation request.
+     *
+     * Returns:
+     *     The updated API key.
+     */
+    put: operations["rotate_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__rotate_put"];
+  };
   "/api/v1/service_connectors": {
     /**
      * List Service Connectors
@@ -1404,7 +1278,6 @@ export type paths = {
      *     connector_filter_model: Filter model used for pagination, sorting,
      *         filtering
      *     expand_secrets: Whether to expand secrets or not.
-     *     auth_context: Authentication Context.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
      *
@@ -1423,13 +1296,9 @@ export type paths = {
      *     expand_secrets: Whether to expand secrets or not.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     The requested service connector.
-     *
-     * Raises:
-     *     KeyError: If the service connector does not exist or is not accessible.
      */
     get: operations["get_service_connector_api_v1_service_connectors__connector_id__get"];
     /**
@@ -1439,13 +1308,9 @@ export type paths = {
      * Args:
      *     connector_id: ID of the service connector.
      *     connector_update: Service connector to use to update.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     Updated service connector.
-     *
-     * Raises:
-     *     KeyError: If the service connector does not exist or is not accessible.
      */
     put: operations["update_service_connector_api_v1_service_connectors__connector_id__put"];
     /**
@@ -1454,10 +1319,6 @@ export type paths = {
      *
      * Args:
      *     connector_id: ID of the service connector.
-     *     auth_context: Authentication context.
-     *
-     * Raises:
-     *     KeyError: If the service connector does not exist or is not accessible.
      */
     delete: operations["delete_service_connector_api_v1_service_connectors__connector_id__delete"];
   };
@@ -1497,14 +1358,10 @@ export type paths = {
      *     list_resources: If True, the list of all resources accessible
      *         through the service connector and matching the supplied resource
      *         type and ID are returned.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     The list of resources that the service connector has access to, scoped
      *     to the supplied resource type and ID, if provided.
-     *
-     * Raises:
-     *     KeyError: If the service connector does not exist or is not accessible.
      */
     put: operations["validate_and_verify_service_connector_api_v1_service_connectors__connector_id__verify_put"];
   };
@@ -1521,14 +1378,10 @@ export type paths = {
      *     connector_id: ID of the service connector.
      *     resource_type: Type of the resource to list.
      *     resource_id: ID of the resource to list.
-     *     auth_context: Authentication context.
      *
      * Returns:
      *     A service connector client that can be used to access the given
      *     resource.
-     *
-     * Raises:
-     *     KeyError: If the service connector does not exist or is not accessible.
      */
     get: operations["get_service_connector_client_api_v1_service_connectors__connector_id__client_get"];
   };
@@ -1570,7 +1423,6 @@ export type paths = {
      *         filtering.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
-     *     auth_context: Authentication Context
      *
      * Returns:
      *     All stacks.
@@ -1619,10 +1471,9 @@ export type paths = {
      *
      * Args:
      *     component_filter_model: Filter model used for pagination, sorting,
-     *                             filtering.
+     *         filtering.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
-     *     auth_context: Authentication Context.
      *
      * Returns:
      *     List of stack components for a specific type.
@@ -1684,6 +1535,7 @@ export type paths = {
      *         filtering.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
+     *     auth_context: Authentication context.
      *
      * Returns:
      *     The run steps according to query filters.
@@ -1812,6 +1664,18 @@ export type paths = {
      */
     get: operations["get_artifact_api_v1_artifacts__artifact_id__get"];
     /**
+     * Update Artifact
+     * @description Update an artifact by ID.
+     *
+     * Args:
+     *     artifact_id: The ID of the artifact to update.
+     *     artifact_update: The update to apply to the artifact.
+     *
+     * Returns:
+     *     The updated artifact.
+     */
+    put: operations["update_artifact_api_v1_artifacts__artifact_id__put"];
+    /**
      * Delete Artifact
      * @description Delete an artifact by ID.
      *
@@ -1834,89 +1698,6 @@ export type paths = {
      */
     get: operations["get_artifact_visualization_api_v1_artifacts__artifact_id__visualize_get"];
   };
-  "/api/v1/teams": {
-    /**
-     * List Teams
-     * @description Returns a list of all teams.
-     *
-     * Args:
-     *     team_filter_model: All filter parameters including pagination params.
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     List of all teams.
-     */
-    get: operations["list_teams_api_v1_teams_get"];
-    /**
-     * Create Team
-     * @description Creates a team.
-     *
-     * # noqa: DAR401
-     *
-     * Args:
-     *     team: Team to create.
-     *
-     * Returns:
-     *     The created team.
-     */
-    post: operations["create_team_api_v1_teams_post"];
-  };
-  "/api/v1/teams/{team_name_or_id}": {
-    /**
-     * Get Team
-     * @description Returns a specific team.
-     *
-     * Args:
-     *     team_name_or_id: Name or ID of the team.
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     A specific team.
-     */
-    get: operations["get_team_api_v1_teams__team_name_or_id__get"];
-    /**
-     * Delete Team
-     * @description Deletes a specific team.
-     *
-     * Args:
-     *     team_name_or_id: Name or ID of the team.
-     */
-    delete: operations["delete_team_api_v1_teams__team_name_or_id__delete"];
-  };
-  "/api/v1/teams/{team_id}": {
-    /**
-     * Update Team
-     * @description Updates a team.
-     *
-     * # noqa: DAR401
-     *
-     * Args:
-     *     team_id: ID of the team to update.
-     *     team_update: Team update.
-     *
-     * Returns:
-     *     The updated team.
-     */
-    put: operations["update_team_api_v1_teams__team_id__put"];
-  };
-  "/api/v1/teams/{team_name_or_id}/roles": {
-    /**
-     * List Role Assignments For Team
-     * @description Returns a list of all roles that are assigned to a team.
-     *
-     * Args:
-     *     team_role_assignment_filter_model: All filter parameters including
-     *         pagination params.
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     A list of all roles that are assigned to a team.
-     */
-    get: operations["list_role_assignments_for_team_api_v1_teams__team_name_or_id__roles_get"];
-  };
   "/api/v1/users": {
     /**
      * List Users
@@ -1924,7 +1705,7 @@ export type paths = {
      *
      * Args:
      *     user_filter_model: Model that takes care of filtering, sorting and
-     *         pagination
+     *         pagination.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
      *
@@ -2016,22 +1797,6 @@ export type paths = {
      *         permissions
      */
     put: operations["email_opt_in_response_api_v1_users__user_name_or_id__email_opt_in_put"];
-  };
-  "/api/v1/users/{user_name_or_id}/roles": {
-    /**
-     * List Role Assignments For User
-     * @description Returns a list of all roles that are assigned to a user.
-     *
-     * Args:
-     *     user_role_assignment_filter_model: filter models for user role
-     *         assignments.
-     *     hydrate: Flag deciding whether to hydrate the output model(s)
-     *         by including metadata fields in the response.
-     *
-     * Returns:
-     *     A list of all roles that are assigned to a user.
-     */
-    get: operations["list_role_assignments_for_user_api_v1_users__user_name_or_id__roles_get"];
   };
   "/api/v1/current-user": {
     /**
@@ -2256,33 +2021,46 @@ export type paths = {
      * List Model Versions
      * @description Get model versions according to query filters.
      *
+     * This endpoint serves the purpose of allowing scoped filtering by model_id.
+     *
      * Args:
      *     model_name_or_id: The name or ID of the model to list in.
      *     model_version_filter_model: Filter model used for pagination, sorting,
      *         filtering
+     *     auth_context: The authentication context.
      *
      * Returns:
      *     The model versions according to query filters.
      */
     get: operations["list_model_versions_api_v1_models__model_name_or_id__model_versions_get"];
   };
-  "/api/v1/models/{model_name_or_id}/model_versions/{model_version_name_or_number_or_id}": {
+  "/api/v1/model_versions": {
     /**
-     * Get Model Version
-     * @description Get a model version by name or ID.
+     * List Model Versions
+     * @description Get model versions according to query filters.
      *
      * Args:
-     *     model_name_or_id: The name or ID of the model containing version.
-     *     model_version_name_or_number_or_id: name, id, stage or number of the model version to be retrieved.
-     *             If skipped latest version will be retrieved.
-     *     is_number: If the model_version_name_or_number_or_id is a version number
+     *     model_version_filter_model: Filter model used for pagination, sorting,
+     *         filtering
+     *     auth_context: The authentication context.
+     *
+     * Returns:
+     *     The model versions according to query filters.
+     */
+    get: operations["list_model_versions_api_v1_model_versions_get"];
+  };
+  "/api/v1/model_versions/{model_version_id}": {
+    /**
+     * Get Model Version
+     * @description Get a model version by ID.
+     *
+     * Args:
+     *     model_version_id: id of the model version to be retrieved.
      *
      * Returns:
      *     The model version with the given name or ID.
      */
-    get: operations["get_model_version_api_v1_models__model_name_or_id__model_versions__model_version_name_or_number_or_id__get"];
-  };
-  "/api/v1/models/{model_id}/model_versions/{model_version_id}": {
+    get: operations["get_model_version_api_v1_model_versions__model_version_id__get"];
     /**
      * Update Model Version
      * @description Get all model versions by filter.
@@ -2294,74 +2072,126 @@ export type paths = {
      * Returns:
      *     An updated model version.
      */
-    put: operations["update_model_version_api_v1_models__model_id__model_versions__model_version_id__put"];
-  };
-  "/api/v1/models/{model_name_or_id}/model_versions/{model_version_name_or_id}": {
+    put: operations["update_model_version_api_v1_model_versions__model_version_id__put"];
     /**
      * Delete Model Version
      * @description Delete a model by name or ID.
      *
      * Args:
-     *     model_name_or_id: The name or ID of the model containing version.
-     *     model_version_name_or_id: The name or ID of the model version to delete.
+     *     model_version_id: The name or ID of the model version to delete.
      */
-    delete: operations["delete_model_version_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__delete"];
+    delete: operations["delete_model_version_api_v1_model_versions__model_version_id__delete"];
   };
-  "/api/v1/models/{model_name_or_id}/model_versions/{model_version_name_or_id}/artifacts": {
-    /**
-     * List Model Version Artifact Links
-     * @description Get model version to artifact links according to query filters.
-     *
-     * Args:
-     *     model_name_or_id: The name or ID of the model containing version.
-     *     model_version_name_or_id: The name or ID of the model version containing links.
-     *     model_version_artifact_link_filter_model: Filter model used for pagination, sorting,
-     *         filtering
-     *
-     * Returns:
-     *     The model version to artifact links according to query filters.
-     */
-    get: operations["list_model_version_artifact_links_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__artifacts_get"];
-  };
-  "/api/v1/models/{model_name_or_id}/model_versions/{model_version_name_or_id}/artifacts/{model_version_artifact_link_name_or_id}": {
+  "/api/v1/model_versions/{model_version_id}/artifacts/{model_version_artifact_link_name_or_id}": {
     /**
      * Delete Model Version Artifact Link
      * @description Deletes a model version link.
      *
      * Args:
-     *     model_name_or_id: name or ID of the model containing the model version.
-     *     model_version_name_or_id: name or ID of the model version containing the link.
+     *     model_version_id: ID of the model version containing the link.
      *     model_version_artifact_link_name_or_id: name or ID of the model version to artifact link to be deleted.
      */
-    delete: operations["delete_model_version_artifact_link_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__artifacts__model_version_artifact_link_name_or_id__delete"];
+    delete: operations["delete_model_version_artifact_link_api_v1_model_versions__model_version_id__artifacts__model_version_artifact_link_name_or_id__delete"];
   };
-  "/api/v1/models/{model_name_or_id}/model_versions/{model_version_name_or_id}/runs": {
-    /**
-     * List Model Version Pipeline Run Links
-     * @description Get model version to pipeline run links according to query filters.
-     *
-     * Args:
-     *     model_name_or_id: name or ID of the model containing the model version.
-     *     model_version_name_or_id: name or ID of the model version containing the link.
-     *     model_version_pipeline_run_link_filter_model: Filter model used for pagination, sorting,
-     *         and filtering
-     *
-     * Returns:
-     *     The model version to pipeline run links according to query filters.
-     */
-    get: operations["list_model_version_pipeline_run_links_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__runs_get"];
-  };
-  "/api/v1/models/{model_name_or_id}/model_versions/{model_version_name_or_id}/runs/{model_version_pipeline_run_link_name_or_id}": {
+  "/api/v1/model_versions/{model_version_id}/runs/{model_version_pipeline_run_link_name_or_id}": {
     /**
      * Delete Model Version Pipeline Run Link
      * @description Deletes a model version link.
      *
      * Args:
-     *     model_name_or_id: name or ID of the model containing the model version.
-     *     model_version_name_or_id: name or ID of the model version containing the link.
+     *     model_version_id: name or ID of the model version containing the link.
      *     model_version_pipeline_run_link_name_or_id: name or ID of the model version link to be deleted.
      */
-    delete: operations["delete_model_version_pipeline_run_link_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__runs__model_version_pipeline_run_link_name_or_id__delete"];
+    delete: operations["delete_model_version_pipeline_run_link_api_v1_model_versions__model_version_id__runs__model_version_pipeline_run_link_name_or_id__delete"];
+  };
+  "/api/v1/model_version_artifacts": {
+    /**
+     * List Model Version Artifact Links
+     * @description Get model version to artifact links according to query filters.
+     *
+     * Args:
+     *     model_version_artifact_link_filter_model: Filter model used for
+     *         pagination, sorting, filtering.
+     *
+     * Returns:
+     *     The model version to artifact links according to query filters.
+     */
+    get: operations["list_model_version_artifact_links_api_v1_model_version_artifacts_get"];
+  };
+  "/api/v1/model_version_pipeline_runs": {
+    /**
+     * List Model Version Pipeline Run Links
+     * @description Get model version to pipeline run links according to query filters.
+     *
+     * Args:
+     *     model_version_pipeline_run_link_filter_model: Filter model used for
+     *         pagination, sorting, and filtering.
+     *
+     * Returns:
+     *     The model version to pipeline run links according to query filters.
+     */
+    get: operations["list_model_version_pipeline_run_links_api_v1_model_version_pipeline_runs_get"];
+  };
+  "/api/v1/tags": {
+    /**
+     * List Tags
+     * @description Get tags according to query filters.
+     *
+     * Args:
+     *     tag_filter_model: Filter model used for pagination, sorting,
+     *         filtering
+     *
+     *
+     * Returns:
+     *     The tags according to query filters.
+     */
+    get: operations["list_tags_api_v1_tags_get"];
+    /**
+     * Create Tag
+     * @description Create a new tag.
+     *
+     * Args:
+     *     tag: The tag to create.
+     *
+     * Returns:
+     *     The created tag.
+     */
+    post: operations["create_tag_api_v1_tags_post"];
+  };
+  "/api/v1/tags/{tag_name_or_id}": {
+    /**
+     * Get Tag
+     * @description Get a tag by name or ID.
+     *
+     * Args:
+     *     tag_name_or_id: The name or ID of the tag to get.
+     *
+     * Returns:
+     *     The tag with the given name or ID.
+     */
+    get: operations["get_tag_api_v1_tags__tag_name_or_id__get"];
+    /**
+     * Delete Tag
+     * @description Delete a tag by name or ID.
+     *
+     * Args:
+     *     tag_name_or_id: The name or ID of the tag to delete.
+     */
+    delete: operations["delete_tag_api_v1_tags__tag_name_or_id__delete"];
+  };
+  "/api/v1/tags/{tag_id}": {
+    /**
+     * Update Tag
+     * @description Updates a tag.
+     *
+     * Args:
+     *     tag_id: Id or name of the tag.
+     *     tag_update_model: Tag to use for the update.
+     *
+     * Returns:
+     *     The updated tag.
+     */
+    put: operations["update_tag_api_v1_tags__tag_id__put"];
   };
 };
 
@@ -2369,6 +2199,112 @@ export type webhooks = Record<string, never>;
 
 export type components = {
   schemas: {
+    /**
+     * APIKeyRequest
+     * @description Request model for API keys.
+     */
+    APIKeyRequest: {
+      /** The name of the API Key. */
+      name: string;
+      /** The description of the API Key. */
+      description?: string;
+    };
+    /**
+     * APIKeyResponse
+     * @description Response model for API keys.
+     */
+    APIKeyResponse: {
+      /**
+       * The unique resource id.
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
+      /** The body of the resource. */
+      body?: components["schemas"]["APIKeyResponseBody"];
+      /** The metadata related to this resource. */
+      metadata?: components["schemas"]["APIKeyResponseMetadata"];
+      /** The name of the API Key. */
+      name: string;
+    };
+    /**
+     * APIKeyResponseBody
+     * @description Response body for API keys.
+     */
+    APIKeyResponseBody: {
+      /**
+       * The timestamp when this resource was created.
+       * Format: date-time
+       */
+      created?: string;
+      /**
+       * The timestamp when this resource was last updated.
+       * Format: date-time
+       */
+      updated?: string;
+      /** The API key. Only set immediately after creation or rotation. */
+      key?: string;
+      /**
+       * Whether the API key is active.
+       * @default true
+       */
+      active?: boolean;
+      /** The service account associated with this API key. */
+      service_account: components["schemas"]["ServiceAccountResponse"];
+    };
+    /**
+     * APIKeyResponseMetadata
+     * @description Response metadata for API keys.
+     */
+    APIKeyResponseMetadata: {
+      /**
+       * The description of the API Key.
+       * @default
+       */
+      description?: string;
+      /** Number of minutes for which the previous key is still valid after it has been rotated. */
+      retain_period_minutes: number;
+      /**
+       * Time when the API key was last used to log in.
+       * Format: date-time
+       */
+      last_login?: string;
+      /**
+       * Time when the API key was last rotated.
+       * Format: date-time
+       */
+      last_rotated?: string;
+    };
+    /**
+     * APIKeyRotateRequest
+     * @description Request model for API key rotation.
+     */
+    APIKeyRotateRequest: {
+      /**
+       * Number of minutes for which the previous key is still valid after it has been rotated.
+       * @default 0
+       */
+      retain_period_minutes?: number;
+    };
+    /**
+     * APIKeyUpdate
+     * @description Update model for API keys.
+     */
+    APIKeyUpdate: {
+      /** The name of the API Key. */
+      name?: string;
+      /** The description of the API Key. */
+      description?: string;
+      /**
+       * Whether the API key is active.
+       * @default true
+       */
+      active?: boolean;
+    };
     /**
      * ArtifactConfiguration
      * @description Class representing a complete input/output artifact configuration.
@@ -2438,8 +2374,15 @@ export type components = {
        * Format: uuid
        */
       workspace: string;
-      /** Name of the output in the parent step. */
+      /** Name of the artifact. */
       name: string;
+      /** Version of the artifact. */
+      version: string | number;
+      /**
+       * Whether the name is custom (True) or auto-generated (False).
+       * @default false
+       */
+      has_custom_name?: boolean;
       /** Type of the artifact. */
       type: components["schemas"]["ArtifactType"];
       /**
@@ -2453,6 +2396,11 @@ export type components = {
       materializer: components["schemas"]["Source"];
       /** Data type of the artifact. */
       data_type: components["schemas"]["Source"];
+      /**
+       * Tags of the artifact.
+       * @description Should be a list of plain strings, e.g., ['tag1', 'tag2']
+       */
+      tags?: string[];
       /** Visualizations of the artifact. */
       visualizations?: components["schemas"]["ArtifactVisualizationRequest"][];
     };
@@ -2466,8 +2414,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["ArtifactResponseBody"];
+      body?: components["schemas"]["ArtifactResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["ArtifactResponseMetadata"];
       /** Name of the output in the parent step. */
@@ -2490,6 +2443,8 @@ export type components = {
       updated?: string;
       /** The user who created this resource. */
       user?: components["schemas"]["UserResponse"];
+      /** Version of the artifact. */
+      version: string | number;
       /** URI of the artifact. */
       uri: string;
       /** Type of the artifact. */
@@ -2512,6 +2467,8 @@ export type components = {
        * Format: uuid
        */
       producer_step_run_id?: string;
+      /** Tags associated with the model */
+      tags: components["schemas"]["TagResponseModel"][];
       /** Visualizations of the artifact. */
       visualizations?: components["schemas"]["ArtifactVisualizationResponse"][];
       /**
@@ -2525,6 +2482,11 @@ export type components = {
       materializer: components["schemas"]["Source"];
       /** Data type of the artifact. */
       data_type: components["schemas"]["Source"];
+      /**
+       * Whether the name is custom (True) or auto-generated (False).
+       * @default false
+       */
+      has_custom_name?: boolean;
     };
     /**
      * ArtifactType
@@ -2532,6 +2494,18 @@ export type components = {
      * @enum {string}
      */
     ArtifactType: "DataAnalysisArtifact" | "DataArtifact" | "ModelArtifact" | "SchemaArtifact" | "ServiceArtifact" | "StatisticsArtifact" | "BaseArtifact";
+    /**
+     * ArtifactUpdate
+     * @description Artifact update model.
+     */
+    ArtifactUpdate: {
+      /** Name */
+      name?: string;
+      /** Add Tags */
+      add_tags?: string[];
+      /** Remove Tags */
+      remove_tags?: string[];
+    };
     /**
      * ArtifactVisualizationRequest
      * @description Request model for artifact visualization.
@@ -2551,8 +2525,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["ArtifactVisualizationResponseBody"];
+      body?: components["schemas"]["ArtifactVisualizationResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["ArtifactVisualizationResponseMetadata"];
     };
@@ -2715,8 +2694,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["CodeReferenceResponseBody"];
+      body?: components["schemas"]["CodeReferenceResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["CodeReferenceResponseMetadata"];
     };
@@ -2806,8 +2790,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["CodeRepositoryResponseBody"];
+      body?: components["schemas"]["CodeRepositoryResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["CodeRepositoryResponseMetadata"];
       /** The name of the code repository. */
@@ -2902,6 +2891,12 @@ export type components = {
       description?: string;
     };
     /**
+     * ColorVariants
+     * @description All possible color variants for frontend.
+     * @enum {string}
+     */
+    ColorVariants: "grey" | "purple" | "red" | "green" | "yellow" | "orange" | "lime" | "teal" | "turquoise" | "magenta" | "blue";
+    /**
      * ComponentRequest
      * @description Request model for components.
      */
@@ -2916,11 +2911,6 @@ export type components = {
        * Format: uuid
        */
       workspace: string;
-      /**
-       * Flag describing if this resource is shared with other users in the same workspace.
-       * @default false
-       */
-      is_shared?: boolean;
       /** The name of the stack component. */
       name: string;
       /** The type of the stack component. */
@@ -2958,8 +2948,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["ComponentResponseBody"];
+      body?: components["schemas"]["ComponentResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["ComponentResponseMetadata"];
       /** The name of the stack component. */
@@ -2982,8 +2977,6 @@ export type components = {
       updated: string;
       /** The user who created this resource. */
       user?: components["schemas"]["UserResponse"];
-      /** Flag describing if this resource is shared with other users in the same workspace. */
-      is_shared: boolean;
       /** The type of the stack component. */
       type: components["schemas"]["StackComponentType"];
       /** The flavor of the stack component. */
@@ -3029,11 +3022,6 @@ export type components = {
        * Format: uuid
        */
       workspace?: string;
-      /**
-       * Flag describing if this resource is shared with other users in the same workspace.
-       * @default false
-       */
-      is_shared?: boolean;
       /** The name of the stack component. */
       name?: string;
       /** The type of the stack component. */
@@ -3099,28 +3087,21 @@ export type components = {
        * Format: uuid
        */
       id?: string;
-      /** Pipeline Name */
-      pipeline_name?: string;
-      /** Artifact Name */
-      artifact_name?: string;
-      /** Model Name */
-      model_name?: string;
-      /** Model Version */
-      model_version?: string | number | components["schemas"]["ModelStages"];
-      /** Model Artifact Name */
-      model_artifact_name?: string;
-      /** Model Artifact Version */
-      model_artifact_version?: string;
-      /** Model Artifact Pipeline Name */
-      model_artifact_pipeline_name?: string;
-      /** Model Artifact Step Name */
-      model_artifact_step_name?: string;
+      /** Name */
+      name?: string;
+      /** Version */
+      version?: string;
     };
     /**
      * FlavorRequest
      * @description Request model for flavors.
      */
     FlavorRequest: {
+      /**
+       * The id of the user that created this resource.
+       * Format: uuid
+       */
+      user: string;
       /** The name of the Flavor. */
       name: string;
       /** The type of the Flavor. */
@@ -3151,11 +3132,6 @@ export type components = {
        */
       is_custom?: boolean;
       /**
-       * The id of the user that created this resource.
-       * Format: uuid
-       */
-      user?: string;
-      /**
        * The workspace to which this resource belongs.
        * Format: uuid
        */
@@ -3171,8 +3147,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["FlavorResponseBody"];
+      body?: components["schemas"]["FlavorResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["FlavorResponseMetadata"];
       /** The name of the Flavor. */
@@ -3193,8 +3174,8 @@ export type components = {
        * Format: date-time
        */
       updated?: string;
-      /** The user that created this resource. */
-      user?: components["schemas"]["UserResponse"] | null;
+      /** The user who created this resource. */
+      user?: components["schemas"]["UserResponse"];
       /** The type of the Flavor. */
       type: components["schemas"]["StackComponentType"];
       /** The name of the integration that the Flavor belongs to. */
@@ -3236,6 +3217,11 @@ export type components = {
      * @description Update model for flavors.
      */
     FlavorUpdate: {
+      /**
+       * The id of the user that created this resource.
+       * Format: uuid
+       */
+      user?: string;
       /** The name of the Flavor. */
       name?: string;
       /** The type of the Flavor. */
@@ -3265,11 +3251,6 @@ export type components = {
        * @default true
        */
       is_custom?: boolean;
-      /**
-       * The id of the user that created this resource.
-       * Format: uuid
-       */
-      user?: string;
       /**
        * The workspace to which this resource belongs.
        * Format: uuid
@@ -3349,8 +3330,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["LogsResponseBody"];
+      body?: components["schemas"]["LogsResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["LogsResponseMetadata"];
     };
@@ -3397,72 +3383,6 @@ export type components = {
      */
     MetadataTypeEnum: "str" | "int" | "float" | "bool" | "list" | "dict" | "tuple" | "set" | "Uri" | "Path" | "DType" | "StorageSize";
     /**
-     * ModelConfig
-     * @description ModelConfig class to pass into pipeline or step to set it into a model context.
-     *
-     * name: The name of the model.
-     * license: The license under which the model is created.
-     * description: The description of the model.
-     * audience: The target audience of the model.
-     * use_cases: The use cases of the model.
-     * limitations: The known limitations of the model.
-     * trade_offs: The tradeoffs of the model.
-     * ethics: The ethical implications of the model.
-     * tags: Tags associated with the model.
-     * version: The model version name, number or stage is optional and points model context
-     *     to a specific version/stage. If skipped and `create_new_model_version` is False -
-     *     latest model version will be used.
-     * version_description: The description of the model version.
-     * create_new_model_version: Whether to create a new model version during execution
-     * save_models_to_registry: Whether to save all ModelArtifacts to Model Registry,
-     *     if available in active stack.
-     * delete_new_version_on_failure: Whether to delete failed runs with new versions for later recovery from it.
-     */
-    ModelConfig: {
-      /** Name */
-      name: string;
-      /** License */
-      license?: string;
-      /** Description */
-      description?: string;
-      /** Audience */
-      audience?: string;
-      /** Use Cases */
-      use_cases?: string;
-      /** Limitations */
-      limitations?: string;
-      /** Trade Offs */
-      trade_offs?: string;
-      /** Ethics */
-      ethics?: string;
-      /** Tags */
-      tags?: string[];
-      /** Version */
-      version?: string | number | components["schemas"]["ModelStages"];
-      /** Version Description */
-      version_description?: string;
-      /**
-       * Create New Model Version
-       * @default false
-       */
-      create_new_model_version?: boolean;
-      /**
-       * Save Models To Registry
-       * @default true
-       */
-      save_models_to_registry?: boolean;
-      /**
-       * Delete New Version On Failure
-       * @default true
-       */
-      delete_new_version_on_failure?: boolean;
-      /**
-       * Suppress Class Validation Warnings
-       * @default false
-       */
-      suppress_class_validation_warnings?: boolean;
-    };
-    /**
      * ModelRequestModel
      * @description Model request model.
      */
@@ -3483,8 +3403,6 @@ export type components = {
       trade_offs?: string;
       /** The ethical implications of the model */
       ethics?: string;
-      /** Tags associated with the model */
-      tags?: string[];
       /**
        * The id of the user that created this resource.
        * Format: uuid
@@ -3495,6 +3413,8 @@ export type components = {
        * Format: uuid
        */
       workspace: string;
+      /** Tags associated with the model */
+      tags?: string[];
     };
     /**
      * ModelResponseModel
@@ -3519,8 +3439,6 @@ export type components = {
       trade_offs?: string;
       /** The ethical implications of the model */
       ethics?: string;
-      /** Tags associated with the model */
-      tags?: string[];
       /**
        * The unique resource id.
        * Format: uuid
@@ -3536,10 +3454,17 @@ export type components = {
        * Format: date-time
        */
       updated: string;
+      /**
+       * Missing Permissions
+       * @default false
+       */
+      missing_permissions?: boolean;
       /** The user that created this resource. */
       user?: components["schemas"]["UserResponse"] | null;
       /** The workspace of this resource. */
       workspace: components["schemas"]["WorkspaceResponse"];
+      /** Tags associated with the model */
+      tags: components["schemas"]["TagResponseModel"][];
       /** Latest Version */
       latest_version?: string;
     };
@@ -3548,7 +3473,7 @@ export type components = {
      * @description All possible stages of a Model Version.
      * @enum {string}
      */
-    ModelStages: "none" | "staging" | "production" | "archived";
+    ModelStages: "none" | "staging" | "production" | "archived" | "latest";
     /**
      * ModelUpdateModel
      * @description Model update model.
@@ -3568,8 +3493,65 @@ export type components = {
       trade_offs?: string;
       /** Ethics */
       ethics?: string;
+      /** Add Tags */
+      add_tags?: string[];
+      /** Remove Tags */
+      remove_tags?: string[];
+    };
+    /**
+     * ModelVersion
+     * @description ModelVersion class to pass into pipeline or step to set it into a model context.
+     *
+     * name: The name of the model.
+     * license: The license under which the model is created.
+     * description: The description of the model.
+     * audience: The target audience of the model.
+     * use_cases: The use cases of the model.
+     * limitations: The known limitations of the model.
+     * trade_offs: The tradeoffs of the model.
+     * ethics: The ethical implications of the model.
+     * tags: Tags associated with the model.
+     * version: The model version name, number or stage is optional and points model context
+     *     to a specific version/stage. If skipped new model version will be created.
+     * save_models_to_registry: Whether to save all ModelArtifacts to Model Registry,
+     *     if available in active stack.
+     */
+    ModelVersion: {
+      /** Name */
+      name: string;
+      /** License */
+      license?: string;
+      /** Description */
+      description?: string;
+      /** Audience */
+      audience?: string;
+      /** Use Cases */
+      use_cases?: string;
+      /** Limitations */
+      limitations?: string;
+      /** Trade Offs */
+      trade_offs?: string;
+      /** Ethics */
+      ethics?: string;
       /** Tags */
       tags?: string[];
+      /** Version */
+      version?: components["schemas"]["ModelStages"] | number | string;
+      /**
+       * Save Models To Registry
+       * @default true
+       */
+      save_models_to_registry?: boolean;
+      /**
+       * Suppress Class Validation Warnings
+       * @default false
+       */
+      suppress_class_validation_warnings?: boolean;
+      /**
+       * Was Created In This Run
+       * @default false
+       */
+      was_created_in_this_run?: boolean;
     };
     /**
      * ModelVersionArtifactRequestModel
@@ -3587,26 +3569,6 @@ export type components = {
        */
       workspace: string;
       /**
-       * Name
-       * @description The name of the artifact inside model version.
-       */
-      name?: string;
-      /**
-       * Pipeline Name
-       * @description The name of the pipeline creating this artifact.
-       */
-      pipeline_name?: string;
-      /**
-       * Step Name
-       * @description The name of the step creating this artifact.
-       */
-      step_name?: string;
-      /**
-       * Artifact
-       * Format: uuid
-       */
-      artifact: string;
-      /**
        * Model
        * Format: uuid
        */
@@ -3617,26 +3579,24 @@ export type components = {
        */
       model_version: string;
       /**
-       * Is Model Object
+       * Is Model Artifact
        * @default false
        */
-      is_model_object?: boolean;
+      is_model_artifact?: boolean;
       /**
-       * Is Deployment
+       * Is Endpoint Artifact
        * @default false
        */
-      is_deployment?: boolean;
+      is_endpoint_artifact?: boolean;
       /**
-       * Overwrite
-       * @default false
+       * Artifact
+       * Format: uuid
        */
-      overwrite?: boolean;
+      artifact: string;
     };
     /**
      * ModelVersionArtifactResponseModel
      * @description Model version link with artifact response model.
-     *
-     * link_version: The version of the link (always 1 for not versioned links).
      */
     ModelVersionArtifactResponseModel: {
       /**
@@ -3654,30 +3614,15 @@ export type components = {
        * Format: date-time
        */
       updated: string;
+      /**
+       * Missing Permissions
+       * @default false
+       */
+      missing_permissions?: boolean;
       /** The user that created this resource. */
       user?: components["schemas"]["UserResponse"] | null;
       /** The workspace of this resource. */
       workspace: components["schemas"]["WorkspaceResponse"];
-      /**
-       * Name
-       * @description The name of the artifact inside model version.
-       */
-      name?: string;
-      /**
-       * Pipeline Name
-       * @description The name of the pipeline creating this artifact.
-       */
-      pipeline_name?: string;
-      /**
-       * Step Name
-       * @description The name of the step creating this artifact.
-       */
-      step_name?: string;
-      /**
-       * Artifact
-       * Format: uuid
-       */
-      artifact: string;
       /**
        * Model
        * Format: uuid
@@ -3689,17 +3634,16 @@ export type components = {
        */
       model_version: string;
       /**
-       * Is Model Object
+       * Is Model Artifact
        * @default false
        */
-      is_model_object?: boolean;
+      is_model_artifact?: boolean;
       /**
-       * Is Deployment
+       * Is Endpoint Artifact
        * @default false
        */
-      is_deployment?: boolean;
-      /** Link Version */
-      link_version: number;
+      is_endpoint_artifact?: boolean;
+      artifact: components["schemas"]["ArtifactResponse"];
     };
     /**
      * ModelVersionPipelineRunRequestModel
@@ -3717,16 +3661,6 @@ export type components = {
        */
       workspace: string;
       /**
-       * Name
-       * @description The name of the pipeline run inside model version.
-       */
-      name?: string;
-      /**
-       * Pipeline Run
-       * Format: uuid
-       */
-      pipeline_run: string;
-      /**
        * Model
        * Format: uuid
        */
@@ -3736,6 +3670,11 @@ export type components = {
        * Format: uuid
        */
       model_version: string;
+      /**
+       * Pipeline Run
+       * Format: uuid
+       */
+      pipeline_run: string;
     };
     /**
      * ModelVersionPipelineRunResponseModel
@@ -3757,20 +3696,15 @@ export type components = {
        * Format: date-time
        */
       updated: string;
+      /**
+       * Missing Permissions
+       * @default false
+       */
+      missing_permissions?: boolean;
       /** The user that created this resource. */
       user?: components["schemas"]["UserResponse"] | null;
       /** The workspace of this resource. */
       workspace: components["schemas"]["WorkspaceResponse"];
-      /**
-       * Name
-       * @description The name of the pipeline run inside model version.
-       */
-      name?: string;
-      /**
-       * Pipeline Run
-       * Format: uuid
-       */
-      pipeline_run: string;
       /**
        * Model
        * Format: uuid
@@ -3781,6 +3715,7 @@ export type components = {
        * Format: uuid
        */
       model_version: string;
+      pipeline_run: components["schemas"]["PipelineRunResponse"];
     };
     /**
      * ModelVersionRequestModel
@@ -3803,11 +3738,6 @@ export type components = {
        */
       name?: string;
       /**
-       * Number
-       * @description The number of the model version
-       */
-      number?: number;
-      /**
        * Description
        * @description The description of the model version
        */
@@ -3817,6 +3747,11 @@ export type components = {
        * @description The stage of the model version
        */
       stage?: string;
+      /**
+       * Number
+       * @description The number of the model version
+       */
+      number?: number;
       /**
        * Model
        * Format: uuid
@@ -3844,6 +3779,11 @@ export type components = {
        * Format: date-time
        */
       updated: string;
+      /**
+       * Missing Permissions
+       * @default false
+       */
+      missing_permissions?: boolean;
       /** The user that created this resource. */
       user?: components["schemas"]["UserResponse"] | null;
       /** The workspace of this resource. */
@@ -3853,11 +3793,6 @@ export type components = {
        * @description The name of the model version
        */
       name?: string;
-      /**
-       * Number
-       * @description The number of the model version
-       */
-      number?: number;
       /**
        * Description
        * @description The description of the model version
@@ -3869,32 +3804,37 @@ export type components = {
        */
       stage?: string;
       /**
+       * Number
+       * @description The number of the model version
+       */
+      number: number;
+      /**
        * Model
        * @description The model containing version
        */
       model: components["schemas"]["ModelResponseModel"];
       /**
-       * Model Object Ids
-       * @description Model Objects linked to the model version
+       * Model Artifact Ids
+       * @description Model artifacts linked to the model version
        * @default {}
        */
-      model_object_ids?: {
+      model_artifact_ids?: {
         [key: string]: unknown;
       };
       /**
-       * Artifact Object Ids
-       * @description Artifacts linked to the model version
+       * Data Artifact Ids
+       * @description Data artifacts linked to the model version
        * @default {}
        */
-      artifact_object_ids?: {
+      data_artifact_ids?: {
         [key: string]: unknown;
       };
       /**
-       * Deployment Ids
-       * @description Deployments linked to the model version
+       * Endpoint Artifact Ids
+       * @description Endpoint artifacts linked to the model version
        * @default {}
        */
-      deployment_ids?: {
+      endpoint_artifact_ids?: {
         [key: string]: unknown;
       };
       /**
@@ -3953,27 +3893,42 @@ export type components = {
       interval: number;
     };
     /**
-     * OAuthDeviceResponseModel
-     * @description OAuth2 device response model.
+     * OAuthDeviceResponse
+     * @description Response model for OAuth2 devices.
      */
-    OAuthDeviceResponseModel: {
+    OAuthDeviceResponse: {
       /**
        * The unique resource id.
        * Format: uuid
        */
       id: string;
       /**
-       * Time when this resource was created.
-       * Format: date-time
+       * Permission Denied
+       * @default false
        */
-      created: string;
+      permission_denied?: boolean;
+      /** The body of the resource. */
+      body?: components["schemas"]["OAuthDeviceResponseBody"];
+      /** The metadata related to this resource. */
+      metadata?: components["schemas"]["OAuthDeviceResponseMetadata"];
+    };
+    /**
+     * OAuthDeviceResponseBody
+     * @description Response body for OAuth2 devices.
+     */
+    OAuthDeviceResponseBody: {
       /**
-       * Time when this resource was last updated.
+       * The timestamp when this resource was created.
        * Format: date-time
        */
-      updated: string;
-      /** The user that created this resource. */
-      user?: components["schemas"]["UserResponse"] | null;
+      created?: string;
+      /**
+       * The timestamp when this resource was last updated.
+       * Format: date-time
+       */
+      updated?: string;
+      /** The user who created this resource. */
+      user?: components["schemas"]["UserResponse"];
       /**
        * Client Id
        * Format: uuid
@@ -4008,6 +3963,12 @@ export type components = {
        * @description The hostname of the device used for authentication.
        */
       hostname?: string;
+    };
+    /**
+     * OAuthDeviceResponseMetadata
+     * @description Response metadata for OAuth2 devices.
+     */
+    OAuthDeviceResponseMetadata: {
       /**
        * Python Version
        * @description The Python version of the device used for authentication.
@@ -4052,10 +4013,10 @@ export type components = {
      */
     OAuthDeviceStatus: "pending" | "verified" | "active" | "locked";
     /**
-     * OAuthDeviceUpdateModel
+     * OAuthDeviceUpdate
      * @description OAuth2 device update model.
      */
-    OAuthDeviceUpdateModel: {
+    OAuthDeviceUpdate: {
       /**
        * Locked
        * @description Whether to lock or unlock the OAuth2 device. A locked device cannot be used for authentication.
@@ -4098,6 +4059,22 @@ export type components = {
       refresh_token?: string;
       /** Scope */
       scope?: string;
+    };
+    /**
+     * Page[APIKeyResponse]
+     * @description Return Model for List Models to accommodate pagination.
+     */
+    Page_APIKeyResponse_: {
+      /** Index */
+      index: number;
+      /** Max Size */
+      max_size: number;
+      /** Total Pages */
+      total_pages: number;
+      /** Total */
+      total: number;
+      /** Items */
+      items: components["schemas"]["APIKeyResponse"][];
     };
     /**
      * Page[ArtifactResponse]
@@ -4228,10 +4205,10 @@ export type components = {
       items: components["schemas"]["ModelVersionResponseModel"][];
     };
     /**
-     * Page[OAuthDeviceResponseModel]
+     * Page[OAuthDeviceResponse]
      * @description Return Model for List Models to accommodate pagination.
      */
-    Page_OAuthDeviceResponseModel_: {
+    Page_OAuthDeviceResponse_: {
       /** Index */
       index: number;
       /** Max Size */
@@ -4241,7 +4218,7 @@ export type components = {
       /** Total */
       total: number;
       /** Items */
-      items: components["schemas"]["OAuthDeviceResponseModel"][];
+      items: components["schemas"]["OAuthDeviceResponse"][];
     };
     /**
      * Page[PipelineBuildResponse]
@@ -4308,22 +4285,6 @@ export type components = {
       items: components["schemas"]["PipelineRunResponse"][];
     };
     /**
-     * Page[RoleResponse]
-     * @description Return Model for List Models to accommodate pagination.
-     */
-    Page_RoleResponse_: {
-      /** Index */
-      index: number;
-      /** Max Size */
-      max_size: number;
-      /** Total Pages */
-      total_pages: number;
-      /** Total */
-      total: number;
-      /** Items */
-      items: components["schemas"]["RoleResponse"][];
-    };
-    /**
      * Page[RunMetadataResponse]
      * @description Return Model for List Models to accommodate pagination.
      */
@@ -4370,6 +4331,22 @@ export type components = {
       total: number;
       /** Items */
       items: components["schemas"]["SecretResponseModel"][];
+    };
+    /**
+     * Page[ServiceAccountResponse]
+     * @description Return Model for List Models to accommodate pagination.
+     */
+    Page_ServiceAccountResponse_: {
+      /** Index */
+      index: number;
+      /** Max Size */
+      max_size: number;
+      /** Total Pages */
+      total_pages: number;
+      /** Total */
+      total: number;
+      /** Items */
+      items: components["schemas"]["ServiceAccountResponse"][];
     };
     /**
      * Page[ServiceConnectorResponse]
@@ -4420,10 +4397,10 @@ export type components = {
       items: components["schemas"]["StepRunResponse"][];
     };
     /**
-     * Page[TeamResponse]
+     * Page[TagResponseModel]
      * @description Return Model for List Models to accommodate pagination.
      */
-    Page_TeamResponse_: {
+    Page_TagResponseModel_: {
       /** Index */
       index: number;
       /** Max Size */
@@ -4433,23 +4410,7 @@ export type components = {
       /** Total */
       total: number;
       /** Items */
-      items: components["schemas"]["TeamResponse"][];
-    };
-    /**
-     * Page[TeamRoleAssignmentResponse]
-     * @description Return Model for List Models to accommodate pagination.
-     */
-    Page_TeamRoleAssignmentResponse_: {
-      /** Index */
-      index: number;
-      /** Max Size */
-      max_size: number;
-      /** Total Pages */
-      total_pages: number;
-      /** Total */
-      total: number;
-      /** Items */
-      items: components["schemas"]["TeamRoleAssignmentResponse"][];
+      items: components["schemas"]["TagResponseModel"][];
     };
     /**
      * Page[UserResponse]
@@ -4468,22 +4429,6 @@ export type components = {
       items: components["schemas"]["UserResponse"][];
     };
     /**
-     * Page[UserRoleAssignmentResponse]
-     * @description Return Model for List Models to accommodate pagination.
-     */
-    Page_UserRoleAssignmentResponse_: {
-      /** Index */
-      index: number;
-      /** Max Size */
-      max_size: number;
-      /** Total Pages */
-      total_pages: number;
-      /** Total */
-      total: number;
-      /** Items */
-      items: components["schemas"]["UserRoleAssignmentResponse"][];
-    };
-    /**
      * Page[WorkspaceResponse]
      * @description Return Model for List Models to accommodate pagination.
      */
@@ -4499,12 +4444,6 @@ export type components = {
       /** Items */
       items: components["schemas"]["WorkspaceResponse"][];
     };
-    /**
-     * PermissionType
-     * @description All permission types.
-     * @enum {string}
-     */
-    PermissionType: "write" | "read" | "me";
     /**
      * PipelineBuildRequest
      * @description Request model for pipelines builds.
@@ -4558,8 +4497,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["PipelineBuildResponseBody"];
+      body?: components["schemas"]["PipelineBuildResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["PipelineBuildResponseMetadata"];
     };
@@ -4639,7 +4583,7 @@ export type components = {
       };
       failure_hook_source?: components["schemas"]["Source"];
       success_hook_source?: components["schemas"]["Source"];
-      model_config?: components["schemas"]["ModelConfig"];
+      model_version?: components["schemas"]["ModelVersion"];
       /** Name */
       name: string;
     };
@@ -4713,8 +4657,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["PipelineDeploymentResponseBody"];
+      body?: components["schemas"]["PipelineDeploymentResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["PipelineDeploymentResponseMetadata"];
     };
@@ -4812,8 +4761,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["PipelineResponseBody"];
+      body?: components["schemas"]["PipelineResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["PipelineResponseMetadata"];
       /** The name of the pipeline. */
@@ -4926,8 +4880,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["PipelineRunResponseBody"];
+      body?: components["schemas"]["PipelineRunResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["PipelineRunResponseMetadata"];
       /** The name of the pipeline run. */
@@ -5100,63 +5059,6 @@ export type components = {
       emoji?: string;
     };
     /**
-     * RoleRequest
-     * @description Request model for roles.
-     */
-    RoleRequest: {
-      /** The unique name of the role. */
-      name: string;
-      permissions: components["schemas"]["PermissionType"][];
-    };
-    /**
-     * RoleResponse
-     * @description Response model for roles.
-     */
-    RoleResponse: {
-      /**
-       * The unique resource id.
-       * Format: uuid
-       */
-      id: string;
-      /** The body of the resource. */
-      body: components["schemas"]["RoleResponseBody"];
-      /** The metadata related to this resource. */
-      metadata?: components["schemas"]["RoleResponseMetadata"];
-      /** The unique name of the role. */
-      name: string;
-    };
-    /**
-     * RoleResponseBody
-     * @description Response body for roles.
-     */
-    RoleResponseBody: {
-      /**
-       * The timestamp when this resource was created.
-       * Format: date-time
-       */
-      created?: string;
-      /**
-       * The timestamp when this resource was last updated.
-       * Format: date-time
-       */
-      updated?: string;
-      permissions: components["schemas"]["PermissionType"][];
-    };
-    /**
-     * RoleResponseMetadata
-     * @description Response metadata for roles.
-     */
-    RoleResponseMetadata: Record<string, never>;
-    /**
-     * RoleUpdate
-     * @description Update model for roles.
-     */
-    RoleUpdate: {
-      /** The unique name of the role. */
-      name?: string;
-      permissions?: components["schemas"]["PermissionType"][];
-    };
-    /**
      * RunMetadataRequest
      * @description Request model for run metadata.
      */
@@ -5210,8 +5112,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["RunMetadataResponseBody"];
+      body?: components["schemas"]["RunMetadataResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["RunMetadataResponseMetadata"];
     };
@@ -5331,8 +5238,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["ScheduleResponseBody"];
+      body?: components["schemas"]["ScheduleResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["ScheduleResponseMetadata"];
       /** Name of this schedule. */
@@ -5497,6 +5409,11 @@ export type components = {
        * Format: date-time
        */
       updated: string;
+      /**
+       * Missing Permissions
+       * @default false
+       */
+      missing_permissions?: boolean;
       /** The user that created this resource. */
       user?: components["schemas"]["UserResponse"] | null;
       /** The workspace of this resource. */
@@ -5600,6 +5517,84 @@ export type components = {
       auth_scheme: components["schemas"]["AuthScheme"];
     };
     /**
+     * ServiceAccountRequest
+     * @description Request model for service accounts.
+     */
+    ServiceAccountRequest: {
+      /** The unique name for the service account. */
+      name: string;
+      /** A description of the service account. */
+      description?: string;
+      /** Whether the service account is active or not. */
+      active: boolean;
+    };
+    /**
+     * ServiceAccountResponse
+     * @description Response model for service accounts.
+     */
+    ServiceAccountResponse: {
+      /**
+       * The unique resource id.
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
+      /** The body of the resource. */
+      body?: components["schemas"]["ServiceAccountResponseBody"];
+      /** The metadata related to this resource. */
+      metadata?: components["schemas"]["ServiceAccountResponseMetadata"];
+      /** The unique username for the account. */
+      name: string;
+    };
+    /**
+     * ServiceAccountResponseBody
+     * @description Response body for service accounts.
+     */
+    ServiceAccountResponseBody: {
+      /**
+       * The timestamp when this resource was created.
+       * Format: date-time
+       */
+      created?: string;
+      /**
+       * The timestamp when this resource was last updated.
+       * Format: date-time
+       */
+      updated?: string;
+      /**
+       * Whether the account is active.
+       * @default false
+       */
+      active?: boolean;
+    };
+    /**
+     * ServiceAccountResponseMetadata
+     * @description Response metadata for service accounts.
+     */
+    ServiceAccountResponseMetadata: {
+      /**
+       * A description of the service account.
+       * @default
+       */
+      description?: string;
+    };
+    /**
+     * ServiceAccountUpdate
+     * @description Update model for service accounts.
+     */
+    ServiceAccountUpdate: {
+      /** The unique name for the service account. */
+      name?: string;
+      /** A description of the service account. */
+      description?: string;
+      /** Whether the service account is active or not. */
+      active?: boolean;
+    };
+    /**
      * ServiceConnectorRequest
      * @description Request model for service connectors.
      */
@@ -5614,11 +5609,6 @@ export type components = {
        * Format: uuid
        */
       workspace: string;
-      /**
-       * Flag describing if this resource is shared with other users in the same workspace.
-       * @default false
-       */
-      is_shared?: boolean;
       /** The service connector name. */
       name: string;
       /** The type of service connector. */
@@ -5691,8 +5681,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["ServiceConnectorResponseBody"];
+      body?: components["schemas"]["ServiceConnectorResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["ServiceConnectorResponseMetadata"];
       /** The service connector name. */
@@ -5715,16 +5710,6 @@ export type components = {
       updated?: string;
       /** The user who created this resource. */
       user?: components["schemas"]["UserResponse"];
-      /** Flag describing if this resource is shared with other users in the same workspace. */
-      is_shared: boolean;
-    };
-    /**
-     * ServiceConnectorResponseMetadata
-     * @description Response metadata for service connectors.
-     */
-    ServiceConnectorResponseMetadata: {
-      /** The workspace of this resource. */
-      workspace: components["schemas"]["WorkspaceResponse"];
       /**
        * The service connector instance description.
        * @default
@@ -5743,6 +5728,19 @@ export type components = {
        * @default false
        */
       supports_instances?: boolean;
+      /**
+       * Time when the authentication credentials configured for the connector expire. If omitted, the credentials do not expire.
+       * Format: date-time
+       */
+      expires_at?: string;
+    };
+    /**
+     * ServiceConnectorResponseMetadata
+     * @description Response metadata for service connectors.
+     */
+    ServiceConnectorResponseMetadata: {
+      /** The workspace of this resource. */
+      workspace: components["schemas"]["WorkspaceResponse"];
       /** The service connector configuration, not including secrets. */
       configuration?: {
         [key: string]: unknown;
@@ -5752,11 +5750,6 @@ export type components = {
        * Format: uuid
        */
       secret_id?: string;
-      /**
-       * Time when the authentication credentials configured for the connector expire. If omitted, the credentials do not expire.
-       * Format: date-time
-       */
-      expires_at?: string;
       /** The duration, in seconds, that the temporary credentials generated by this connector should remain valid. Only applicable for connectors and authentication methods that involve generating temporary credentials from the ones configured in the connector. */
       expiration_seconds?: number;
       /** The service connector secrets. */
@@ -5836,7 +5829,30 @@ export type components = {
     };
     /**
      * ServiceConnectorUpdate
-     * @description Update model for service connectors.
+     * @description Model used for service connector updates.
+     *
+     * Most fields in the update model are optional and will not be updated if
+     * omitted. However, the following fields are "special" and leaving them out
+     * will also cause the corresponding value to be removed from the service
+     * connector in the database:
+     *
+     * * the `resource_id` field
+     * * the `expiration_seconds` field
+     *
+     * In addition to the above exceptions, the following rules apply:
+     *
+     * * the `configuration` and `secrets` fields together represent a full
+     * valid configuration update, not just a partial update. If either is
+     * set (i.e. not None) in the update, their values are merged together and
+     * will replace the existing configuration and secrets values.
+     * * the `secret_id` field value in the update is ignored, given that
+     * secrets are managed internally by the ZenML store.
+     * * the `labels` field is also a full labels update: if set (i.e. not
+     * `None`), all existing labels are removed and replaced by the new labels
+     * in the update.
+     *
+     * NOTE: the attributes here override the ones in the base class, so they
+     * have a None default value.
      */
     ServiceConnectorUpdate: {
       /**
@@ -5849,11 +5865,6 @@ export type components = {
        * Format: uuid
        */
       workspace?: string;
-      /**
-       * Flag describing if this resource is shared with other users in the same workspace.
-       * @default false
-       */
-      is_shared?: boolean;
       /** The service connector name. */
       name?: string;
       /** The type of service connector. */
@@ -5947,11 +5958,6 @@ export type components = {
        * Format: uuid
        */
       workspace: string;
-      /**
-       * Flag describing if this resource is shared with other users in the same workspace.
-       * @default false
-       */
-      is_shared?: boolean;
       /** The name of the stack. */
       name: string;
       /**
@@ -5976,8 +5982,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["StackResponseBody"];
+      body?: components["schemas"]["StackResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["StackResponseMetadata"];
       /** The name of the stack. */
@@ -6000,8 +6011,6 @@ export type components = {
       updated?: string;
       /** The user who created this resource. */
       user?: components["schemas"]["UserResponse"];
-      /** Flag describing if this resource is shared with other users in the same workspace. */
-      is_shared: boolean;
     };
     /**
      * StackResponseMetadata
@@ -6037,11 +6046,6 @@ export type components = {
        * Format: uuid
        */
       workspace?: string;
-      /**
-       * Flag describing if this resource is shared with other users in the same workspace.
-       * @default false
-       */
-      is_shared?: boolean;
       /** The name of the stack. */
       name?: string;
       /**
@@ -6106,7 +6110,7 @@ export type components = {
       };
       failure_hook_source?: components["schemas"]["Source"];
       success_hook_source?: components["schemas"]["Source"];
-      model_config?: components["schemas"]["ModelConfig"];
+      model_version?: components["schemas"]["ModelVersion"];
       /**
        * Outputs
        * @default {}
@@ -6255,8 +6259,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["StepRunResponseBody"];
+      body?: components["schemas"]["StepRunResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["StepRunResponseMetadata"];
       /** The name of the pipeline run step. */
@@ -6364,6 +6373,20 @@ export type components = {
       outputs?: {
         [key: string]: unknown;
       };
+      /**
+       * The IDs of artifacts that were saved by this step run.
+       * @default {}
+       */
+      saved_artifacts?: {
+        [key: string]: unknown;
+      };
+      /**
+       * The IDs of artifacts that were loaded by this step run.
+       * @default {}
+       */
+      loaded_artifacts?: {
+        [key: string]: unknown;
+      };
       /** The status of the step. */
       status?: components["schemas"]["ExecutionStatus"];
       /**
@@ -6394,129 +6417,64 @@ export type components = {
       pipeline_parameter_name?: string;
     };
     /**
-     * TeamRequest
-     * @description Request model for teams.
+     * TagRequestModel
+     * @description Request model for tags.
      */
-    TeamRequest: {
-      /** The unique name of the team. */
+    TagRequestModel: {
+      /**
+       * Name
+       * @description The unique title of the tag.
+       */
       name: string;
-      /** The list of users within this team. */
-      users?: string[];
+      /** @description The color variant assigned to the tag. */
+      color?: components["schemas"]["ColorVariants"];
     };
     /**
-     * TeamResponse
-     * @description Response model  for teams.
+     * TagResponseModel
+     * @description Response model for tags.
      */
-    TeamResponse: {
+    TagResponseModel: {
       /**
        * The unique resource id.
        * Format: uuid
        */
       id: string;
-      /** The body of the resource. */
-      body: components["schemas"]["TeamResponseBody"];
-      /** The metadata related to this resource. */
-      metadata?: components["schemas"]["TeamResponseMetadata"];
-      /** The unique name of the team. */
+      /**
+       * Time when this resource was created.
+       * Format: date-time
+       */
+      created: string;
+      /**
+       * Time when this resource was last updated.
+       * Format: date-time
+       */
+      updated: string;
+      /**
+       * Missing Permissions
+       * @default false
+       */
+      missing_permissions?: boolean;
+      /**
+       * Name
+       * @description The unique title of the tag.
+       */
       name: string;
+      /** @description The color variant assigned to the tag. */
+      color?: components["schemas"]["ColorVariants"];
+      /**
+       * Tagged Count
+       * @description The count of resources tagged with this tag.
+       */
+      tagged_count: number;
     };
     /**
-     * TeamResponseBody
-     * @description Response body for teams.
+     * TagUpdateModel
+     * @description Update model for tags.
      */
-    TeamResponseBody: {
-      /**
-       * The timestamp when this resource was created.
-       * Format: date-time
-       */
-      created?: string;
-      /**
-       * The timestamp when this resource was last updated.
-       * Format: date-time
-       */
-      updated?: string;
-    };
-    /**
-     * TeamResponseMetadata
-     * @description Response metadata for teams.
-     */
-    TeamResponseMetadata: {
-      /** The list of users within this team. */
-      users: components["schemas"]["UserResponse"][];
-    };
-    /**
-     * TeamRoleAssignmentRequest
-     * @description Request model for team role assignments.
-     */
-    TeamRoleAssignmentRequest: {
-      /**
-       * The workspace that the role is limited to.
-       * Format: uuid
-       */
-      workspace?: string;
-      /**
-       * The team that the role is assigned to.
-       * Format: uuid
-       */
-      team: string;
-      /**
-       * The role.
-       * Format: uuid
-       */
-      role: string;
-    };
-    /**
-     * TeamRoleAssignmentResponse
-     * @description Response model for team role assignments.
-     */
-    TeamRoleAssignmentResponse: {
-      /**
-       * The unique resource id.
-       * Format: uuid
-       */
-      id: string;
-      /** The body of the resource. */
-      body: components["schemas"]["TeamRoleAssignmentResponseBody"];
-      /** The metadata related to this resource. */
-      metadata?: components["schemas"]["TeamRoleAssignmentResponseMetadata"];
-    };
-    /**
-     * TeamRoleAssignmentResponseBody
-     * @description Response model for team role assignments.
-     */
-    TeamRoleAssignmentResponseBody: {
-      /**
-       * The timestamp when this resource was created.
-       * Format: date-time
-       */
-      created?: string;
-      /**
-       * The timestamp when this resource was last updated.
-       * Format: date-time
-       */
-      updated?: string;
-    };
-    /**
-     * TeamRoleAssignmentResponseMetadata
-     * @description Response metadata for team role assignments.
-     */
-    TeamRoleAssignmentResponseMetadata: {
-      /** The workspace scope of this role assignment. */
-      workspace?: components["schemas"]["WorkspaceResponse"];
-      /** The team the role is assigned to. */
-      team?: components["schemas"]["TeamResponse"];
-      /** The assigned role. */
-      role?: components["schemas"]["RoleResponse"];
-    };
-    /**
-     * TeamUpdate
-     * @description Update model for teams.
-     */
-    TeamUpdate: {
-      /** The unique name of the team. */
+    TagUpdateModel: {
+      /** Name */
       name?: string;
-      /** The list of users within this team. */
-      users?: string[];
+      color?: components["schemas"]["ColorVariants"];
     };
     /**
      * UserRequest
@@ -6526,18 +6484,18 @@ export type components = {
       /** The unique username for the account. */
       name: string;
       /**
-       * The full name for the account owner.
+       * The full name for the account owner. Only relevant for user accounts.
        * @default
        */
       full_name?: string;
       /** The email address associated with the account. */
       email?: string;
       /**
-       * Whether the user agreed to share their email.
+       * Whether the user agreed to share their email. Only relevant for user accounts
        * @description `null` if not answered, `true` if agreed, `false` if skipped.
        */
       email_opted_in?: boolean;
-      /** JWT Token for the connected Hub account. */
+      /** JWT Token for the connected Hub account. Only relevant for user accounts. */
       hub_token?: string;
       /** A password for the user. */
       password?: string;
@@ -6549,14 +6507,18 @@ export type components = {
        */
       external_user_id?: string;
       /**
-       * Active account.
+       * Whether the account is active.
        * @default false
        */
       active?: boolean;
     };
     /**
      * UserResponse
-     * @description Response model for users.
+     * @description Response model for user and service accounts.
+     *
+     * This returns the activation_token that is required for the
+     * user-invitation-flow of the frontend. The email is returned optionally as
+     * well for use by the analytics on the client-side.
      */
     UserResponse: {
       /**
@@ -6564,8 +6526,13 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["UserResponseBody"];
+      body?: components["schemas"]["UserResponseBody"];
       /** The metadata related to this resource. */
       metadata?: components["schemas"]["UserResponseMetadata"];
       /** The unique username for the account. */
@@ -6586,6 +6553,25 @@ export type components = {
        * Format: date-time
        */
       updated?: string;
+      /**
+       * Whether the account is active.
+       * @default false
+       */
+      active?: boolean;
+      /** The activation token for the user. Only relevant for user accounts. */
+      activation_token?: string;
+      /**
+       * The full name for the account owner. Only relevant for user accounts.
+       * @default
+       */
+      full_name?: string;
+      /**
+       * Whether the user agreed to share their email. Only relevant for user accounts
+       * @description `null` if not answered, `true` if agreed, `false` if skipped.
+       */
+      email_opted_in?: boolean;
+      /** Indicates whether this is a service account or a user account. */
+      is_service_account: boolean;
     };
     /**
      * UserResponseMetadata
@@ -6593,100 +6579,17 @@ export type components = {
      */
     UserResponseMetadata: {
       /**
-       * The full name for the account owner.
-       * @default
-       */
-      full_name?: string;
-      /**
-       * The email address associated with the account.
+       * The email address associated with the account. Only relevant for user accounts.
        * @default
        */
       email?: string;
-      /**
-       * Whether the user agreed to share their email.
-       * @description `null` if not answered, `true` if agreed, `false` if skipped.
-       */
-      email_opted_in?: boolean;
-      /**
-       * Active account.
-       * @default false
-       */
-      active?: boolean;
-      /** Activation Token */
-      activation_token?: string;
-      /** JWT Token for the connected Hub account. */
+      /** JWT Token for the connected Hub account. Only relevant for user accounts. */
       hub_token?: string;
       /**
-       * The external user ID associated with the account.
+       * The external user ID associated with the account. Only relevant for user accounts.
        * Format: uuid
        */
       external_user_id?: string;
-      /** The list of roles for this user. */
-      roles?: components["schemas"]["RoleResponse"][];
-    };
-    /**
-     * UserRoleAssignmentRequest
-     * @description Request model for user role assignments.
-     */
-    UserRoleAssignmentRequest: {
-      /**
-       * The workspace that the role is limited to.
-       * Format: uuid
-       */
-      workspace?: string;
-      /**
-       * The user that the role is assigned to.
-       * Format: uuid
-       */
-      user: string;
-      /**
-       * The role.
-       * Format: uuid
-       */
-      role: string;
-    };
-    /**
-     * UserRoleAssignmentResponse
-     * @description Response model for user role assignments.
-     */
-    UserRoleAssignmentResponse: {
-      /**
-       * The unique resource id.
-       * Format: uuid
-       */
-      id: string;
-      /** The body of the resource. */
-      body: components["schemas"]["UserRoleAssignmentResponseBody"];
-      /** The metadata related to this resource. */
-      metadata?: components["schemas"]["UserRoleAssignmentResponseMetadata"];
-    };
-    /**
-     * UserRoleAssignmentResponseBody
-     * @description Response body for user role assignments.
-     */
-    UserRoleAssignmentResponseBody: {
-      /**
-       * The timestamp when this resource was created.
-       * Format: date-time
-       */
-      created?: string;
-      /**
-       * The timestamp when this resource was last updated.
-       * Format: date-time
-       */
-      updated?: string;
-    };
-    /**
-     * UserRoleAssignmentResponseMetadata
-     * @description Response metadata for user role assignments.
-     */
-    UserRoleAssignmentResponseMetadata: {
-      /** The workspace scope of this role assignment. */
-      workspace?: components["schemas"]["WorkspaceResponse"];
-      /** The user the role is assigned to. */
-      user?: components["schemas"]["UserResponse"];
-      /** The assigned role. */
-      role?: components["schemas"]["RoleResponse"];
     };
     /**
      * UserUpdate
@@ -6696,18 +6599,18 @@ export type components = {
       /** The unique username for the account. */
       name?: string;
       /**
-       * The full name for the account owner.
+       * The full name for the account owner. Only relevant for user accounts.
        * @default
        */
       full_name?: string;
       /** The email address associated with the account. */
       email?: string;
       /**
-       * Whether the user agreed to share their email.
+       * Whether the user agreed to share their email. Only relevant for user accounts
        * @description `null` if not answered, `true` if agreed, `false` if skipped.
        */
       email_opted_in?: boolean;
-      /** JWT Token for the connected Hub account. */
+      /** JWT Token for the connected Hub account. Only relevant for user accounts. */
       hub_token?: string;
       /** A password for the user. */
       password?: string;
@@ -6719,7 +6622,7 @@ export type components = {
        */
       external_user_id?: string;
       /**
-       * Active account.
+       * Whether the account is active.
        * @default false
        */
       active?: boolean;
@@ -6762,8 +6665,14 @@ export type components = {
        * Format: uuid
        */
       id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
       /** The body of the resource. */
-      body: components["schemas"]["WorkspaceResponseBody"];
+      body?: components["schemas"]["WorkspaceResponseBody"];
+      /** The metadata related to this resource. */
       metadata?: components["schemas"]["WorkspaceResponseMetadata"];
       /** The unique name of the workspace. */
       name: string;
@@ -7004,7 +6913,9 @@ export type operations = {
    *
    * Args:
    *     filter_model: Filter model used for pagination, sorting,
-   *         filtering
+   *         filtering.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *     auth_context: The current auth context.
    *
    * Returns:
@@ -7013,6 +6924,7 @@ export type operations = {
   list_authorized_devices_api_v1_devices_get: {
     parameters: {
       query?: {
+        hydrate?: boolean;
         sort_by?: string;
         logical_operator?: components["schemas"]["LogicalOperators"];
         page?: number;
@@ -7033,7 +6945,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["Page_OAuthDeviceResponseModel_"];
+          "application/json": components["schemas"]["Page_OAuthDeviceResponse_"];
         };
       };
       /** @description Unauthorized */
@@ -7064,6 +6976,8 @@ export type operations = {
    *     device_id: The ID of the OAuth2 authorized device to get.
    *     user_code: The user code of the OAuth2 authorized device to get. Needs
    *         to be specified with devices that have not been verified yet.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *     auth_context: The current auth context.
    *
    * Returns:
@@ -7078,6 +6992,7 @@ export type operations = {
     parameters: {
       query?: {
         user_code?: string;
+        hydrate?: boolean;
       };
       path: {
         device_id: string;
@@ -7087,7 +7002,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["OAuthDeviceResponseModel"];
+          "application/json": components["schemas"]["OAuthDeviceResponse"];
         };
       };
       /** @description Unauthorized */
@@ -7134,14 +7049,14 @@ export type operations = {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["OAuthDeviceUpdateModel"];
+        "application/json": components["schemas"]["OAuthDeviceUpdate"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["OAuthDeviceResponseModel"];
+          "application/json": components["schemas"]["OAuthDeviceResponse"];
         };
       };
       /** @description Unauthorized */
@@ -7247,7 +7162,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["OAuthDeviceResponseModel"];
+          "application/json": components["schemas"]["OAuthDeviceResponse"];
         };
       };
       /** @description Unauthorized */
@@ -7316,6 +7231,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -7360,6 +7281,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -7413,6 +7340,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -7449,6 +7382,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -7523,6 +7462,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -7562,6 +7507,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -7821,126 +7772,6 @@ export type operations = {
     };
   };
   /**
-   * List User Role Assignments For Workspace
-   * @description Returns a list of all roles that are assigned to a team.
-   *
-   * Args:
-   *     workspace_name_or_id: Name or ID of the workspace.
-   *     user_role_assignment_filter_model: Filter model used for pagination,
-   *         sorting, filtering.
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     A list of all roles that are assigned to a team.
-   */
-  list_user_role_assignments_for_workspace_api_v1_workspaces__workspace_name_or_id__role_assignments_get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        workspace_id?: string;
-        user_id?: string;
-        role_id?: string;
-      };
-      path: {
-        workspace_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_UserRoleAssignmentResponse_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * List Team Role Assignments For Workspace
-   * @description Returns a list of all roles that are assigned to a team.
-   *
-   * Args:
-   *     workspace_name_or_id: Name or ID of the workspace.
-   *     team_role_assignment_filter_model: Filter model used for pagination,
-   *         sorting, filtering.
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     A list of all roles that are assigned to a team.
-   */
-  list_team_role_assignments_for_workspace_api_v1_workspaces__workspace_name_or_id__team_role_assignments_get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        workspace_id?: string;
-        team_id?: string;
-        role_id?: string;
-      };
-      path: {
-        workspace_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_TeamRoleAssignmentResponse_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
    * List Workspace Stacks
    * @description Get stacks that are part of a specific workspace for the user.
    *
@@ -7952,7 +7783,6 @@ export type operations = {
    *         filtering.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
-   *     auth_context: Authentication Context.
    *
    * Returns:
    *     All stacks part of the specified workspace.
@@ -7969,8 +7799,6 @@ export type operations = {
         created?: string;
         updated?: string;
         scope_workspace?: string;
-        scope_user?: string;
-        is_shared?: boolean | string;
         name?: string;
         description?: string;
         workspace_id?: string;
@@ -8015,14 +7843,13 @@ export type operations = {
    * Args:
    *     workspace_name_or_id: Name or ID of the workspace.
    *     stack: Stack to register.
-   *     auth_context: The authentication context.
    *
    * Returns:
    *     The created stack.
    *
    * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the stack
-   *         does not match the current workspace or authenticated user.
+   *     IllegalOperationError: If the workspace specified in the stack
+   *         does not match the current workspace.
    */
   create_stack_api_v1_workspaces__workspace_name_or_id__stacks_post: {
     parameters: {
@@ -8074,7 +7901,6 @@ export type operations = {
    *         filtering.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
-   *     auth_context: Authentication Context.
    *
    * Returns:
    *     All stack components part of the specified workspace.
@@ -8091,9 +7917,7 @@ export type operations = {
         created?: string;
         updated?: string;
         scope_workspace?: string;
-        scope_user?: string;
         scope_type?: string;
-        is_shared?: boolean | string;
         name?: string;
         flavor?: string;
         type?: string;
@@ -8139,15 +7963,13 @@ export type operations = {
    * Args:
    *     workspace_name_or_id: Name or ID of the workspace.
    *     component: Stack component to register.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     The created stack component.
    *
    * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the stack
-   *         component does not match the current workspace or authenticated
-   *         user.
+   *     IllegalOperationError: If the workspace specified in the stack
+   *         component does not match the current workspace.
    */
   create_stack_component_api_v1_workspaces__workspace_name_or_id__components_post: {
     parameters: {
@@ -8260,7 +8082,6 @@ export type operations = {
    * Args:
    *     workspace_name_or_id: Name or ID of the workspace.
    *     pipeline: Pipeline to create.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     The created pipeline.
@@ -8389,8 +8210,8 @@ export type operations = {
    *     The created build.
    *
    * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the build
-   *         does not match the current workspace or authenticated user.
+   *     IllegalOperationError: If the workspace specified in the build
+   *         does not match the current workspace.
    */
   create_build_api_v1_workspaces__workspace_name_or_id__pipeline_builds_post: {
     parameters: {
@@ -8509,9 +8330,8 @@ export type operations = {
    *     The created deployment.
    *
    * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the
-   *         deployment does not match the current workspace or authenticated
-   *         user.
+   *     IllegalOperationError: If the workspace specified in the
+   *         deployment does not match the current workspace.
    */
   create_deployment_api_v1_workspaces__workspace_name_or_id__pipeline_deployments_post: {
     parameters: {
@@ -8630,23 +8450,16 @@ export type operations = {
    * Args:
    *     workspace_name_or_id: Name or ID of the workspace.
    *     pipeline_run: Pipeline run to create.
-   *     auth_context: Authentication context.
-   *     get_if_exists: If a similar pipeline run already exists, return it
-   *         instead of raising an error.
    *
    * Returns:
    *     The created pipeline run.
    *
    * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the
-   *         pipeline run does not match the current workspace or authenticated
-   *         user.
+   *     IllegalOperationError: If the workspace specified in the
+   *         pipeline run does not match the current workspace.
    */
   create_pipeline_run_api_v1_workspaces__workspace_name_or_id__runs_post: {
     parameters: {
-      query?: {
-        get_if_exists?: boolean;
-      };
       path: {
         workspace_name_or_id: string;
       };
@@ -8854,14 +8667,13 @@ export type operations = {
    * Args:
    *     workspace_name_or_id: Name or ID of the workspace.
    *     secret: Secret to create.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     The created secret.
    *
    * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the
-   *         secret does not match the current workspace or authenticated user.
+   *     IllegalOperationError: If the workspace specified in the
+   *         secret does not match the current workspace.
    */
   create_secret_api_v1_workspaces__workspace_name_or_id__secrets_post: {
     parameters: {
@@ -8971,7 +8783,6 @@ export type operations = {
    * Args:
    *     workspace_name_or_id: Name or ID of the workspace.
    *     code_repository: Code repository to create.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     The created code repository.
@@ -9078,7 +8889,6 @@ export type operations = {
    *         filtering.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
-   *     auth_context: Authentication Context
    *
    * Returns:
    *     All service connectors part of the specified workspace.
@@ -9095,9 +8905,7 @@ export type operations = {
         created?: string;
         updated?: string;
         scope_workspace?: string;
-        scope_user?: string;
         scope_type?: string;
-        is_shared?: boolean | string;
         name?: string;
         connector_type?: string;
         workspace_id?: string;
@@ -9153,7 +8961,6 @@ export type operations = {
    * Args:
    *     workspace_name_or_id: Name or ID of the workspace.
    *     connector: Service connector to register.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     The created service connector.
@@ -9255,72 +9062,12 @@ export type operations = {
     };
   };
   /**
-   * List Workspace Models
-   * @description Get models according to query filters.
-   *
-   * Args:
-   *     workspace_name_or_id: Name or ID of the workspace.
-   *     model_filter_model: Filter model used for pagination, sorting,
-   *         filtering
-   *
-   *
-   * Returns:
-   *     The models according to query filters.
-   */
-  list_workspace_models_api_v1_workspaces__workspace_name_or_id__models_get: {
-    parameters: {
-      query?: {
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        scope_workspace?: string;
-        name?: string;
-        workspace_id?: string;
-        user_id?: string;
-      };
-      path: {
-        workspace_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_ModelResponseModel_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
    * Create Model
    * @description Create a new model.
    *
    * Args:
    *     workspace_name_or_id: Name or ID of the workspace.
    *     model: The model to create.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     The created model.
@@ -9382,9 +9129,8 @@ export type operations = {
    *     The created model version.
    *
    * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the
-   *         model version does not match the current workspace or authenticated
-   *         user.
+   *     IllegalOperationError: If the workspace specified in the
+   *         model version does not match the current workspace.
    */
   create_model_version_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions_post: {
     parameters: {
@@ -9430,9 +9176,8 @@ export type operations = {
    * @description Create a new model version to artifact link.
    *
    * Args:
-   *     model_name_or_id: Name or ID of the model.
    *     workspace_name_or_id: Name or ID of the workspace.
-   *     model_version_name_or_id: Name or ID of the model version.
+   *     model_version_id: ID of the model version.
    *     model_version_artifact_link: The model version to artifact link to create.
    *     auth_context: Authentication context.
    *
@@ -9444,12 +9189,11 @@ export type operations = {
    *         model version does not match the current workspace or authenticated
    *         user.
    */
-  create_model_version_artifact_link_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions__model_version_name_or_id__artifacts_post: {
+  create_model_version_artifact_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__artifacts_post: {
     parameters: {
       path: {
         workspace_name_or_id: string;
-        model_name_or_id: string;
-        model_version_name_or_id: string;
+        model_version_id: string;
       };
     };
     requestBody: {
@@ -9485,80 +9229,12 @@ export type operations = {
     };
   };
   /**
-   * List Workspace Model Version Artifact Links
-   * @description Get model version to artifact links according to query filters.
-   *
-   * Args:
-   *     model_name_or_id: Name or ID of the model.
-   *     workspace_name_or_id: Name or ID of the workspace.
-   *     model_version_name_or_id: Name or ID of the model version.
-   *     model_version_artifact_link_filter_model: Filter model used for pagination, sorting,
-   *         filtering
-   *
-   * Returns:
-   *     The model version to artifact links according to query filters.
-   */
-  list_workspace_model_version_artifact_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_name_or_id__artifacts_get: {
-    parameters: {
-      query: {
-        model_name_or_id: string;
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        scope_workspace?: string;
-        name?: string;
-        pipeline_name?: string;
-        step_name?: string;
-        workspace_id?: string;
-        user_id?: string;
-        only_artifacts?: boolean;
-        only_model_objects?: boolean;
-        only_deployments?: boolean;
-      };
-      path: {
-        workspace_name_or_id: string;
-        model_version_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_ModelVersionArtifactResponseModel_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
    * Create Model Version Pipeline Run Link
    * @description Create a new model version to pipeline run link.
    *
    * Args:
-   *     model_name_or_id: Name or ID of the model.
    *     workspace_name_or_id: Name or ID of the workspace.
-   *     model_version_name_or_id: Name or ID of the model version.
+   *     model_version_id: ID of the model version.
    *     model_version_pipeline_run_link: The model version to pipeline run link to create.
    *     auth_context: Authentication context.
    *
@@ -9571,12 +9247,11 @@ export type operations = {
    *         model version does not match the current workspace or authenticated
    *         user.
    */
-  create_model_version_pipeline_run_link_api_v1_workspaces__workspace_name_or_id__models__model_name_or_id__model_versions__model_version_name_or_id__runs_post: {
+  create_model_version_pipeline_run_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__runs_post: {
     parameters: {
       path: {
         workspace_name_or_id: string;
-        model_name_or_id: string;
-        model_version_name_or_id: string;
+        model_version_id: string;
       };
     };
     requestBody: {
@@ -9599,67 +9274,6 @@ export type operations = {
       };
       /** @description Conflict */
       409: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * List Workspace Model Version Pipeline Run Links
-   * @description Get model version to pipeline links according to query filters.
-   *
-   * Args:
-   *     model_name_or_id: Name or ID of the model.
-   *     workspace_name_or_id: Name or ID of the workspace.
-   *     model_version_name_or_id: Name or ID of the model version.
-   *     model_version_pipeline_run_link_filter_model: Filter model used for pagination, sorting,
-   *         filtering
-   *
-   * Returns:
-   *     The model version to pipeline run links according to query filters.
-   */
-  list_workspace_model_version_pipeline_run_links_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_name_or_id__runs_get: {
-    parameters: {
-      query: {
-        model_name_or_id: string;
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        scope_workspace?: string;
-        workspace_id?: string;
-        user_id?: string;
-      };
-      path: {
-        workspace_name_or_id: string;
-        model_version_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_ModelVersionPipelineRunResponseModel_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -9717,6 +9331,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -9737,15 +9357,9 @@ export type operations = {
    *
    * Args:
    *     flavor: Stack component flavor to register.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     The created stack component flavor.
-   *
-   * Raises:
-   *     IllegalOperationError: If the workspace or user specified in the stack
-   *         component flavor does not match the current workspace or authenticated
-   *         user.
    */
   create_flavor_api_v1_flavors_post: {
     requestBody: {
@@ -9762,6 +9376,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -9814,8 +9434,71 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Update Flavor
+   * @description Updates a flavor.
+   *
+   * # noqa: DAR401
+   *
+   * Args:
+   *     flavor_id: ID of the flavor to update.
+   *     flavor_update: Flavor update.
+   *
+   * Returns:
+   *     The updated flavor.
+   */
+  update_flavor_api_v1_flavors__flavor_id__put: {
+    parameters: {
+      path: {
+        flavor_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["FlavorUpdate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["FlavorResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Conflict */
+      409: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -9854,59 +9537,14 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Update Flavor
-   * @description Updates a flavor.
-   *
-   * # noqa: DAR401
-   *
-   * Args:
-   *     flavor_id: ID of the team to update.
-   *     flavor_update: Team update.
-   *
-   * Returns:
-   *     The updated flavor.
-   */
-  update_flavor_api_v1_flavors__team_id__put: {
-    parameters: {
-      query: {
-        flavor_id: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["FlavorUpdate"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["FlavorResponse"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Conflict */
-      409: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -9940,617 +9578,8 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * List Roles
-   * @description Returns a list of all roles.
-   *
-   * Args:
-   *     role_filter_model: Filter model used for pagination, sorting, filtering
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     List of all roles.
-   */
-  list_roles_api_v1_roles_get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        name?: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_RoleResponse_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Create Role
-   * @description Creates a role.
-   *
-   * # noqa: DAR401
-   *
-   * Args:
-   *     role: Role to create.
-   *
-   * Returns:
-   *     The created role.
-   */
-  create_role_api_v1_roles_post: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RoleRequest"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["RoleResponse"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Conflict */
-      409: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Get Role
-   * @description Returns a specific role.
-   *
-   * Args:
-   *     role_name_or_id: Name or ID of the role.
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     A specific role.
-   */
-  get_role_api_v1_roles__role_name_or_id__get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-      };
-      path: {
-        role_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["RoleResponse"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Delete Role
-   * @description Deletes a specific role.
-   *
-   * Args:
-   *     role_name_or_id: Name or ID of the role.
-   */
-  delete_role_api_v1_roles__role_name_or_id__delete: {
-    parameters: {
-      path: {
-        role_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Update Role
-   * @description Updates a role.
-   *
-   * # noqa: DAR401
-   *
-   * Args:
-   *     role_id: The ID of the role.
-   *     role_update: Role update.
-   *
-   * Returns:
-   *     The created role.
-   */
-  update_role_api_v1_roles__role_id__put: {
-    parameters: {
-      path: {
-        role_id: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["RoleUpdate"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["RoleResponse"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Conflict */
-      409: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * List User Role Assignments
-   * @description Returns a list of all role assignments.
-   *
-   * Args:
-   *     user_role_assignment_filter_model: filter models for user role
-   *         assignments.
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     List of all role assignments.
-   */
-  list_user_role_assignments_api_v1_role_assignments_get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        workspace_id?: string;
-        user_id?: string;
-        role_id?: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_UserRoleAssignmentResponse_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Create Role Assignment
-   * @description Creates a role assignment.
-   *
-   * # noqa: DAR401
-   *
-   * Args:
-   *     role_assignment: Role assignment to create.
-   *
-   * Returns:
-   *     The created role assignment.
-   */
-  create_role_assignment_api_v1_role_assignments_post: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["UserRoleAssignmentRequest"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["UserRoleAssignmentResponse"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Conflict */
-      409: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Get Role Assignment
-   * @description Returns a specific role assignment.
-   *
-   * Args:
-   *     role_assignment_id: Name or ID of the role assignment.
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     A specific role assignment.
-   */
-  get_role_assignment_api_v1_role_assignments__role_assignment_id__get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-      };
-      path: {
-        role_assignment_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["UserRoleAssignmentResponse"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Delete Role Assignment
-   * @description Deletes a specific role.
-   *
-   * Args:
-   *     role_assignment_id: The ID of the role assignment.
-   */
-  delete_role_assignment_api_v1_role_assignments__role_assignment_id__delete: {
-    parameters: {
-      path: {
-        role_assignment_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * List Team Role Assignments
-   * @description Returns a list of all role assignments.
-   *
-   * Args:
-   *     team_role_assignment_filter_model: filter models for team role
-   *         assignments.
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     List of all role assignments.
-   */
-  list_team_role_assignments_api_v1_team_role_assignments_get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        workspace_id?: string;
-        team_id?: string;
-        role_id?: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_TeamRoleAssignmentResponse_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Create Team Role Assignment
-   * @description Creates a role assignment.
-   *
-   * # noqa: DAR401
-   *
-   * Args:
-   *     role_assignment: Role assignment to create.
-   *
-   * Returns:
-   *     The created role assignment.
-   */
-  create_team_role_assignment_api_v1_team_role_assignments_post: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["TeamRoleAssignmentRequest"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["TeamRoleAssignmentResponse"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Conflict */
-      409: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Get Team Role Assignment
-   * @description Returns a specific role assignment.
-   *
-   * Args:
-   *     role_assignment_id: Name or ID of the role assignment.
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     A specific role assignment.
-   */
-  get_team_role_assignment_api_v1_team_role_assignments__role_assignment_id__get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-      };
-      path: {
-        role_assignment_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["TeamRoleAssignmentResponse"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Delete Team Role Assignment
-   * @description Deletes a specific role.
-   *
-   * Args:
-   *     role_assignment_id: The ID of the role assignment.
-   */
-  delete_team_role_assignment_api_v1_team_role_assignments__role_assignment_id__delete: {
-    parameters: {
-      path: {
-        role_assignment_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Unauthorized */
-      401: {
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -10622,6 +9651,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -10666,6 +9701,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -10719,6 +9760,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -10755,6 +9802,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -10802,6 +9855,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -10821,6 +9880,7 @@ export type operations = {
    * @description Get all steps for a given pipeline run.
    *
    * Args:
+   *     run_id: ID of the pipeline run.
    *     step_run_filter_model: Filter model used for pagination, sorting,
    *         filtering
    *
@@ -10849,6 +9909,9 @@ export type operations = {
         user_id?: string;
         workspace_id?: string;
       };
+      path: {
+        run_id: string;
+      };
     };
     responses: {
       /** @description Successful Response */
@@ -10859,6 +9922,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -10908,6 +9977,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -10947,6 +10022,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -11007,6 +10088,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -11076,6 +10163,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -11120,6 +10213,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -11173,6 +10272,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -11213,6 +10318,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -11234,7 +10345,6 @@ export type operations = {
    * Args:
    *     secret_filter_model: Filter model used for pagination, sorting,
    *         filtering
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     List of secret objects.
@@ -11269,6 +10379,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -11289,7 +10405,6 @@ export type operations = {
    *
    * Args:
    *     secret_id: ID of the secret to get.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     A specific secret object.
@@ -11309,6 +10424,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -11366,6 +10487,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -11402,6 +10529,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -11479,6 +10612,555 @@ export type operations = {
     };
   };
   /**
+   * List Service Accounts
+   * @description Returns a list of service accounts.
+   *
+   * Args:
+   *     filter_model: Model that takes care of filtering, sorting and
+   *         pagination.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
+   *
+   * Returns:
+   *     A list of service accounts matching the filter.
+   */
+  list_service_accounts_api_v1_service_accounts_get: {
+    parameters: {
+      query?: {
+        hydrate?: boolean;
+        sort_by?: string;
+        logical_operator?: components["schemas"]["LogicalOperators"];
+        page?: number;
+        size?: number;
+        id?: string;
+        created?: string;
+        updated?: string;
+        name?: string;
+        description?: string;
+        active?: boolean | string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_ServiceAccountResponse_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Create Service Account
+   * @description Creates a service account.
+   *
+   * Args:
+   *     service_account: Service account to create.
+   *
+   * Returns:
+   *     The created service account.
+   */
+  create_service_account_api_v1_service_accounts_post: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ServiceAccountRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ServiceAccountResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Get Service Account
+   * @description Returns a specific service account.
+   *
+   * Args:
+   *     service_account_name_or_id: Name or ID of the service account.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
+   *
+   * Returns:
+   *     The service account matching the given name or ID.
+   */
+  get_service_account_api_v1_service_accounts__service_account_name_or_id__get: {
+    parameters: {
+      query?: {
+        hydrate?: boolean;
+      };
+      path: {
+        service_account_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ServiceAccountResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Update Service Account
+   * @description Updates a specific service account.
+   *
+   * Args:
+   *     service_account_name_or_id: Name or ID of the service account.
+   *     service_account_update: the service account to use for the update.
+   *
+   * Returns:
+   *     The updated service account.
+   */
+  update_service_account_api_v1_service_accounts__service_account_name_or_id__put: {
+    parameters: {
+      path: {
+        service_account_name_or_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ServiceAccountUpdate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ServiceAccountResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete Service Account
+   * @description Delete a specific service account.
+   *
+   * Args:
+   *     service_account_name_or_id: Name or ID of the service account.
+   */
+  delete_service_account_api_v1_service_accounts__service_account_name_or_id__delete: {
+    parameters: {
+      path: {
+        service_account_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * List Api Keys
+   * @description List API keys associated with a service account.
+   *
+   * Args:
+   *     service_account_id: ID of the service account to which the API keys
+   *         belong.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
+   *     filter_model: Filter model used for pagination, sorting,
+   *         filtering
+   *
+   * Returns:
+   *     All API keys matching the filter and associated with the supplied
+   *     service account.
+   */
+  list_api_keys_api_v1_service_accounts__service_account_id__api_keys_get: {
+    parameters: {
+      query?: {
+        hydrate?: boolean;
+        sort_by?: string;
+        logical_operator?: components["schemas"]["LogicalOperators"];
+        page?: number;
+        size?: number;
+        id?: string;
+        created?: string;
+        updated?: string;
+        service_account?: string;
+        name?: string;
+        description?: string;
+        active?: boolean | string;
+        last_login?: string;
+        last_rotated?: string;
+      };
+      path: {
+        service_account_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_APIKeyResponse_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Create Api Key
+   * @description Creates an API key for a service account.
+   *
+   * Args:
+   *     service_account_id: ID of the service account for which to create the
+   *         API key.
+   *     api_key: API key to create.
+   *
+   * Returns:
+   *     The created API key.
+   */
+  create_api_key_api_v1_service_accounts__service_account_id__api_keys_post: {
+    parameters: {
+      path: {
+        service_account_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["APIKeyRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["APIKeyResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Get Api Key
+   * @description Returns the requested API key.
+   *
+   * Args:
+   *     service_account_id: ID of the service account to which the API key
+   *         belongs.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
+   *     api_key_name_or_id: Name or ID of the API key to return.
+   *
+   * Returns:
+   *     The requested API key.
+   */
+  get_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__get: {
+    parameters: {
+      query?: {
+        hydrate?: boolean;
+      };
+      path: {
+        service_account_id: string;
+        api_key_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["APIKeyResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Update Api Key
+   * @description Updates an API key for a service account.
+   *
+   * Args:
+   *     service_account_id: ID of the service account to which the API key
+   *         belongs.
+   *     api_key_name_or_id: Name or ID of the API key to update.
+   *     api_key_update: API key update.
+   *
+   * Returns:
+   *     The updated API key.
+   */
+  update_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__put: {
+    parameters: {
+      path: {
+        service_account_id: string;
+        api_key_name_or_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["APIKeyUpdate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["APIKeyResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete Api Key
+   * @description Deletes an API key.
+   *
+   * Args:
+   *     service_account_id: ID of the service account to which the API key
+   *         belongs.
+   *     api_key_name_or_id: Name or ID of the API key to delete.
+   */
+  delete_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__delete: {
+    parameters: {
+      path: {
+        service_account_id: string;
+        api_key_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Rotate Api Key
+   * @description Rotate an API key.
+   *
+   * Args:
+   *     service_account_id: ID of the service account to which the API key
+   *         belongs.
+   *     api_key_name_or_id: Name or ID of the API key to rotate.
+   *     rotate_request: API key rotation request.
+   *
+   * Returns:
+   *     The updated API key.
+   */
+  rotate_api_key_api_v1_service_accounts__service_account_id__api_keys__api_key_name_or_id__rotate_put: {
+    parameters: {
+      path: {
+        service_account_id: string;
+        api_key_name_or_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["APIKeyRotateRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["APIKeyResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
    * List Service Connectors
    * @description Get a list of all service connectors for a specific type.
    *
@@ -11486,7 +11168,6 @@ export type operations = {
    *     connector_filter_model: Filter model used for pagination, sorting,
    *         filtering
    *     expand_secrets: Whether to expand secrets or not.
-   *     auth_context: Authentication Context.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
    *
@@ -11506,9 +11187,7 @@ export type operations = {
         created?: string;
         updated?: string;
         scope_workspace?: string;
-        scope_user?: string;
         scope_type?: string;
-        is_shared?: boolean | string;
         name?: string;
         connector_type?: string;
         workspace_id?: string;
@@ -11540,6 +11219,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -11563,13 +11248,9 @@ export type operations = {
    *     expand_secrets: Whether to expand secrets or not.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     The requested service connector.
-   *
-   * Raises:
-   *     KeyError: If the service connector does not exist or is not accessible.
    */
   get_service_connector_api_v1_service_connectors__connector_id__get: {
     parameters: {
@@ -11590,6 +11271,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -11615,13 +11302,9 @@ export type operations = {
    * Args:
    *     connector_id: ID of the service connector.
    *     connector_update: Service connector to use to update.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     Updated service connector.
-   *
-   * Raises:
-   *     KeyError: If the service connector does not exist or is not accessible.
    */
   update_service_connector_api_v1_service_connectors__connector_id__put: {
     parameters: {
@@ -11647,6 +11330,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -11667,10 +11356,6 @@ export type operations = {
    *
    * Args:
    *     connector_id: ID of the service connector.
-   *     auth_context: Authentication context.
-   *
-   * Raises:
-   *     KeyError: If the service connector does not exist or is not accessible.
    */
   delete_service_connector_api_v1_service_connectors__connector_id__delete: {
     parameters: {
@@ -11687,6 +11372,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -11746,6 +11437,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Conflict */
       409: {
         content: {
@@ -11775,14 +11472,10 @@ export type operations = {
    *     list_resources: If True, the list of all resources accessible
    *         through the service connector and matching the supplied resource
    *         type and ID are returned.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     The list of resources that the service connector has access to, scoped
    *     to the supplied resource type and ID, if provided.
-   *
-   * Raises:
-   *     KeyError: If the service connector does not exist or is not accessible.
    */
   validate_and_verify_service_connector_api_v1_service_connectors__connector_id__verify_put: {
     parameters: {
@@ -11804,6 +11497,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -11834,14 +11533,10 @@ export type operations = {
    *     connector_id: ID of the service connector.
    *     resource_type: Type of the resource to list.
    *     resource_id: ID of the resource to list.
-   *     auth_context: Authentication context.
    *
    * Returns:
    *     A service connector client that can be used to access the given
    *     resource.
-   *
-   * Raises:
-   *     KeyError: If the service connector does not exist or is not accessible.
    */
   get_service_connector_client_api_v1_service_connectors__connector_id__client_get: {
     parameters: {
@@ -11862,6 +11557,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -11913,6 +11614,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -11956,6 +11663,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -11979,7 +11692,6 @@ export type operations = {
    *         filtering.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
-   *     auth_context: Authentication Context
    *
    * Returns:
    *     All stacks.
@@ -11996,8 +11708,6 @@ export type operations = {
         created?: string;
         updated?: string;
         scope_workspace?: string;
-        scope_user?: string;
-        is_shared?: boolean | string;
         name?: string;
         description?: string;
         workspace_id?: string;
@@ -12014,6 +11724,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -12062,6 +11778,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -12115,6 +11837,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -12155,6 +11883,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -12175,10 +11909,9 @@ export type operations = {
    *
    * Args:
    *     component_filter_model: Filter model used for pagination, sorting,
-   *                             filtering.
+   *         filtering.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
-   *     auth_context: Authentication Context.
    *
    * Returns:
    *     List of stack components for a specific type.
@@ -12195,9 +11928,7 @@ export type operations = {
         created?: string;
         updated?: string;
         scope_workspace?: string;
-        scope_user?: string;
         scope_type?: string;
-        is_shared?: boolean | string;
         name?: string;
         flavor?: string;
         type?: string;
@@ -12215,6 +11946,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -12263,6 +12000,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -12316,6 +12059,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -12356,6 +12105,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -12391,6 +12146,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -12414,6 +12175,7 @@ export type operations = {
    *         filtering.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
+   *     auth_context: Authentication context.
    *
    * Returns:
    *     The run steps according to query filters.
@@ -12451,6 +12213,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -12494,6 +12262,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -12542,6 +12316,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -12595,6 +12375,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -12640,6 +12426,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -12679,6 +12471,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -12729,6 +12527,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -12769,6 +12573,8 @@ export type operations = {
         updated?: string;
         scope_workspace?: string;
         name?: string;
+        version?: string;
+        version_number?: number | string;
         uri?: string;
         materializer?: string;
         type?: string;
@@ -12788,6 +12594,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -12831,6 +12643,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -12883,6 +12701,67 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Update Artifact
+   * @description Update an artifact by ID.
+   *
+   * Args:
+   *     artifact_id: The ID of the artifact to update.
+   *     artifact_update: The update to apply to the artifact.
+   *
+   * Returns:
+   *     The updated artifact.
+   */
+  update_artifact_api_v1_artifacts__artifact_id__put: {
+    parameters: {
+      path: {
+        artifact_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ArtifactUpdate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ArtifactResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -12919,6 +12798,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -12970,295 +12855,8 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * List Teams
-   * @description Returns a list of all teams.
-   *
-   * Args:
-   *     team_filter_model: All filter parameters including pagination params.
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     List of all teams.
-   */
-  list_teams_api_v1_teams_get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        name?: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_TeamResponse_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Create Team
-   * @description Creates a team.
-   *
-   * # noqa: DAR401
-   *
-   * Args:
-   *     team: Team to create.
-   *
-   * Returns:
-   *     The created team.
-   */
-  create_team_api_v1_teams_post: {
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["TeamRequest"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["TeamResponse"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Conflict */
-      409: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Get Team
-   * @description Returns a specific team.
-   *
-   * Args:
-   *     team_name_or_id: Name or ID of the team.
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     A specific team.
-   */
-  get_team_api_v1_teams__team_name_or_id__get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-      };
-      path: {
-        team_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["TeamResponse"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Delete Team
-   * @description Deletes a specific team.
-   *
-   * Args:
-   *     team_name_or_id: Name or ID of the team.
-   */
-  delete_team_api_v1_teams__team_name_or_id__delete: {
-    parameters: {
-      path: {
-        team_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * Update Team
-   * @description Updates a team.
-   *
-   * # noqa: DAR401
-   *
-   * Args:
-   *     team_id: ID of the team to update.
-   *     team_update: Team update.
-   *
-   * Returns:
-   *     The updated team.
-   */
-  update_team_api_v1_teams__team_id__put: {
-    parameters: {
-      path: {
-        team_id: string;
-      };
-    };
-    requestBody: {
-      content: {
-        "application/json": components["schemas"]["TeamUpdate"];
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["TeamResponse"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Conflict */
-      409: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
-   * List Role Assignments For Team
-   * @description Returns a list of all roles that are assigned to a team.
-   *
-   * Args:
-   *     team_role_assignment_filter_model: All filter parameters including
-   *         pagination params.
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     A list of all roles that are assigned to a team.
-   */
-  list_role_assignments_for_team_api_v1_teams__team_name_or_id__roles_get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        workspace_id?: string;
-        team_id?: string;
-        role_id?: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_TeamRoleAssignmentResponse_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -13283,7 +12881,7 @@ export type operations = {
    *
    * Args:
    *     user_filter_model: Model that takes care of filtering, sorting and
-   *         pagination
+   *         pagination.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
    *
@@ -13620,62 +13218,6 @@ export type operations = {
     };
   };
   /**
-   * List Role Assignments For User
-   * @description Returns a list of all roles that are assigned to a user.
-   *
-   * Args:
-   *     user_role_assignment_filter_model: filter models for user role
-   *         assignments.
-   *     hydrate: Flag deciding whether to hydrate the output model(s)
-   *         by including metadata fields in the response.
-   *
-   * Returns:
-   *     A list of all roles that are assigned to a user.
-   */
-  list_role_assignments_for_user_api_v1_users__user_name_or_id__roles_get: {
-    parameters: {
-      query?: {
-        hydrate?: boolean;
-        sort_by?: string;
-        logical_operator?: components["schemas"]["LogicalOperators"];
-        page?: number;
-        size?: number;
-        id?: string;
-        created?: string;
-        updated?: string;
-        workspace_id?: string;
-        user_id?: string;
-        role_id?: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": components["schemas"]["Page_UserRoleAssignmentResponse_"];
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
    * Get Current User
    * @description Returns the model of the authenticated user.
    *
@@ -13855,6 +13397,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -13903,6 +13451,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -13939,6 +13493,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -14003,6 +13563,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -14051,6 +13617,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -14087,6 +13659,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -14148,6 +13726,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -14192,6 +13776,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -14245,6 +13835,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -14281,6 +13877,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -14340,6 +13942,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -14383,6 +13991,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -14419,6 +14033,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -14472,6 +14092,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -14490,10 +14116,13 @@ export type operations = {
    * List Model Versions
    * @description Get model versions according to query filters.
    *
+   * This endpoint serves the purpose of allowing scoped filtering by model_id.
+   *
    * Args:
    *     model_name_or_id: The name or ID of the model to list in.
    *     model_version_filter_model: Filter model used for pagination, sorting,
    *         filtering
+   *     auth_context: The authentication context.
    *
    * Returns:
    *     The model versions according to query filters.
@@ -14532,6 +14161,75 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * List Model Versions
+   * @description Get model versions according to query filters.
+   *
+   * Args:
+   *     model_version_filter_model: Filter model used for pagination, sorting,
+   *         filtering
+   *     auth_context: The authentication context.
+   *
+   * Returns:
+   *     The model versions according to query filters.
+   */
+  list_model_versions_api_v1_model_versions_get: {
+    parameters: {
+      query?: {
+        sort_by?: string;
+        logical_operator?: components["schemas"]["LogicalOperators"];
+        page?: number;
+        size?: number;
+        id?: string;
+        created?: string;
+        updated?: string;
+        scope_workspace?: string;
+        name?: string;
+        number?: number;
+        workspace_id?: string;
+        user_id?: string;
+        stage?: string | components["schemas"]["ModelStages"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_ModelVersionResponseModel_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -14548,25 +14246,18 @@ export type operations = {
   };
   /**
    * Get Model Version
-   * @description Get a model version by name or ID.
+   * @description Get a model version by ID.
    *
    * Args:
-   *     model_name_or_id: The name or ID of the model containing version.
-   *     model_version_name_or_number_or_id: name, id, stage or number of the model version to be retrieved.
-   *             If skipped latest version will be retrieved.
-   *     is_number: If the model_version_name_or_number_or_id is a version number
+   *     model_version_id: id of the model version to be retrieved.
    *
    * Returns:
    *     The model version with the given name or ID.
    */
-  get_model_version_api_v1_models__model_name_or_id__model_versions__model_version_name_or_number_or_id__get: {
+  get_model_version_api_v1_model_versions__model_version_id__get: {
     parameters: {
-      query?: {
-        is_number?: boolean;
-      };
       path: {
-        model_name_or_id: string;
-        model_version_name_or_number_or_id: string | number | components["schemas"]["ModelStages"];
+        model_version_id: string;
       };
     };
     responses: {
@@ -14578,6 +14269,12 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -14607,7 +14304,7 @@ export type operations = {
    * Returns:
    *     An updated model version.
    */
-  update_model_version_api_v1_models__model_id__model_versions__model_version_id__put: {
+  update_model_version_api_v1_model_versions__model_version_id__put: {
     parameters: {
       path: {
         model_version_id: string;
@@ -14631,6 +14328,12 @@ export type operations = {
           "application/json": components["schemas"]["ErrorModel"];
         };
       };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
       /** @description Not Found */
       404: {
         content: {
@@ -14650,14 +14353,12 @@ export type operations = {
    * @description Delete a model by name or ID.
    *
    * Args:
-   *     model_name_or_id: The name or ID of the model containing version.
-   *     model_version_name_or_id: The name or ID of the model version to delete.
+   *     model_version_id: The name or ID of the model version to delete.
    */
-  delete_model_version_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__delete: {
+  delete_model_version_api_v1_model_versions__model_version_id__delete: {
     parameters: {
       path: {
-        model_name_or_id: string;
-        model_version_name_or_id: string;
+        model_version_id: string;
       };
     };
     responses: {
@@ -14669,6 +14370,108 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete Model Version Artifact Link
+   * @description Deletes a model version link.
+   *
+   * Args:
+   *     model_version_id: ID of the model version containing the link.
+   *     model_version_artifact_link_name_or_id: name or ID of the model version to artifact link to be deleted.
+   */
+  delete_model_version_artifact_link_api_v1_model_versions__model_version_id__artifacts__model_version_artifact_link_name_or_id__delete: {
+    parameters: {
+      path: {
+        model_version_id: string;
+        model_version_artifact_link_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete Model Version Pipeline Run Link
+   * @description Deletes a model version link.
+   *
+   * Args:
+   *     model_version_id: name or ID of the model version containing the link.
+   *     model_version_pipeline_run_link_name_or_id: name or ID of the model version link to be deleted.
+   */
+  delete_model_version_pipeline_run_link_api_v1_model_versions__model_version_id__runs__model_version_pipeline_run_link_name_or_id__delete: {
+    parameters: {
+      path: {
+        model_version_id: string;
+        model_version_pipeline_run_link_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };
@@ -14692,15 +14495,13 @@ export type operations = {
    * @description Get model version to artifact links according to query filters.
    *
    * Args:
-   *     model_name_or_id: The name or ID of the model containing version.
-   *     model_version_name_or_id: The name or ID of the model version containing links.
-   *     model_version_artifact_link_filter_model: Filter model used for pagination, sorting,
-   *         filtering
+   *     model_version_artifact_link_filter_model: Filter model used for
+   *         pagination, sorting, filtering.
    *
    * Returns:
    *     The model version to artifact links according to query filters.
    */
-  list_model_version_artifact_links_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__artifacts_get: {
+  list_model_version_artifact_links_api_v1_model_version_artifacts_get: {
     parameters: {
       query?: {
         sort_by?: string;
@@ -14711,18 +14512,14 @@ export type operations = {
         created?: string;
         updated?: string;
         scope_workspace?: string;
-        name?: string;
-        pipeline_name?: string;
-        step_name?: string;
         workspace_id?: string;
         user_id?: string;
-        only_artifacts?: boolean;
-        only_model_objects?: boolean;
-        only_deployments?: boolean;
-      };
-      path: {
-        model_name_or_id: string;
-        model_version_name_or_id: string;
+        model_id?: string;
+        model_version_id?: string;
+        artifact_id?: string;
+        only_data_artifacts?: boolean;
+        only_model_artifacts?: boolean;
+        only_endpoint_artifacts?: boolean;
       };
     };
     responses: {
@@ -14753,63 +14550,17 @@ export type operations = {
     };
   };
   /**
-   * Delete Model Version Artifact Link
-   * @description Deletes a model version link.
-   *
-   * Args:
-   *     model_name_or_id: name or ID of the model containing the model version.
-   *     model_version_name_or_id: name or ID of the model version containing the link.
-   *     model_version_artifact_link_name_or_id: name or ID of the model version to artifact link to be deleted.
-   */
-  delete_model_version_artifact_link_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__artifacts__model_version_artifact_link_name_or_id__delete: {
-    parameters: {
-      path: {
-        model_name_or_id: string;
-        model_version_name_or_id: string;
-        model_version_artifact_link_name_or_id: string;
-      };
-    };
-    responses: {
-      /** @description Successful Response */
-      200: {
-        content: {
-          "application/json": unknown;
-        };
-      };
-      /** @description Unauthorized */
-      401: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Not Found */
-      404: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-      /** @description Unprocessable Entity */
-      422: {
-        content: {
-          "application/json": components["schemas"]["ErrorModel"];
-        };
-      };
-    };
-  };
-  /**
    * List Model Version Pipeline Run Links
    * @description Get model version to pipeline run links according to query filters.
    *
    * Args:
-   *     model_name_or_id: name or ID of the model containing the model version.
-   *     model_version_name_or_id: name or ID of the model version containing the link.
-   *     model_version_pipeline_run_link_filter_model: Filter model used for pagination, sorting,
-   *         and filtering
+   *     model_version_pipeline_run_link_filter_model: Filter model used for
+   *         pagination, sorting, and filtering.
    *
    * Returns:
    *     The model version to pipeline run links according to query filters.
    */
-  list_model_version_pipeline_run_links_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__runs_get: {
+  list_model_version_pipeline_run_links_api_v1_model_version_pipeline_runs_get: {
     parameters: {
       query?: {
         sort_by?: string;
@@ -14822,10 +14573,9 @@ export type operations = {
         scope_workspace?: string;
         workspace_id?: string;
         user_id?: string;
-      };
-      path: {
-        model_name_or_id: string;
-        model_version_name_or_id: string;
+        model_id?: string;
+        model_version_id?: string;
+        pipeline_run_id?: string;
       };
     };
     responses: {
@@ -14856,20 +14606,173 @@ export type operations = {
     };
   };
   /**
-   * Delete Model Version Pipeline Run Link
-   * @description Deletes a model version link.
+   * List Tags
+   * @description Get tags according to query filters.
    *
    * Args:
-   *     model_name_or_id: name or ID of the model containing the model version.
-   *     model_version_name_or_id: name or ID of the model version containing the link.
-   *     model_version_pipeline_run_link_name_or_id: name or ID of the model version link to be deleted.
+   *     tag_filter_model: Filter model used for pagination, sorting,
+   *         filtering
+   *
+   *
+   * Returns:
+   *     The tags according to query filters.
    */
-  delete_model_version_pipeline_run_link_api_v1_models__model_name_or_id__model_versions__model_version_name_or_id__runs__model_version_pipeline_run_link_name_or_id__delete: {
+  list_tags_api_v1_tags_get: {
+    parameters: {
+      query?: {
+        sort_by?: string;
+        logical_operator?: components["schemas"]["LogicalOperators"];
+        page?: number;
+        size?: number;
+        id?: string;
+        created?: string;
+        updated?: string;
+        name?: string;
+        color?: components["schemas"]["ColorVariants"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_TagResponseModel_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Create Tag
+   * @description Create a new tag.
+   *
+   * Args:
+   *     tag: The tag to create.
+   *
+   * Returns:
+   *     The created tag.
+   */
+  create_tag_api_v1_tags_post: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["TagRequestModel"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["TagResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Get Tag
+   * @description Get a tag by name or ID.
+   *
+   * Args:
+   *     tag_name_or_id: The name or ID of the tag to get.
+   *
+   * Returns:
+   *     The tag with the given name or ID.
+   */
+  get_tag_api_v1_tags__tag_name_or_id__get: {
     parameters: {
       path: {
-        model_name_or_id: string;
-        model_version_name_or_id: string;
-        model_version_pipeline_run_link_name_or_id: string;
+        tag_name_or_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["TagResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete Tag
+   * @description Delete a tag by name or ID.
+   *
+   * Args:
+   *     tag_name_or_id: The name or ID of the tag to delete.
+   */
+  delete_tag_api_v1_tags__tag_name_or_id__delete: {
+    parameters: {
+      path: {
+        tag_name_or_id: string;
       };
     };
     responses: {
@@ -14881,6 +14784,67 @@ export type operations = {
       };
       /** @description Unauthorized */
       401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Update Tag
+   * @description Updates a tag.
+   *
+   * Args:
+   *     tag_id: Id or name of the tag.
+   *     tag_update_model: Tag to use for the update.
+   *
+   * Returns:
+   *     The updated tag.
+   */
+  update_tag_api_v1_tags__tag_id__put: {
+    parameters: {
+      path: {
+        tag_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["TagUpdateModel"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["TagResponseModel"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
         content: {
           "application/json": components["schemas"]["ErrorModel"];
         };

@@ -31,23 +31,54 @@ import {
 import { toasterTypes } from '../../../../../constants';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
+import { CustomToolTip } from '../../../common/CustomToolTip';
 // import { ToggleField } from '../../../common/FormElement';
 
+const customToolTip = {
+  border: '2px solid #f0ebfc',
+  borderRadius: '5px',
+  display: 'flex',
+  padding: 16,
+  height: 130,
+  // justifyContent: 'center',
+  // alignItems: 'center',
+  zIndex: 1000,
+  backgroundColor: 'white',
+  position: 'absolute',
+
+  bottom: 200,
+};
 export const Configuration: React.FC<{
   stackId: TId;
   tiles?: any;
+  ifPermissionDenied?: boolean;
+  disabledNestedRowtiles?: any;
   fetching?: boolean;
-}> = ({ stackId, tiles, fetching = false }) => {
+}> = ({
+  stackId,
+  tiles,
+  disabledNestedRowtiles,
+  ifPermissionDenied,
+  fetching = false,
+}) => {
   const { stack } = useService({ stackId });
   const user = useSelector(userSelectors.myUser);
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const [loading, setLoading] = useState(false);
+  const [showToolTip, setShowToolTip] = useState(null as any);
   const dispatch = useDispatch();
   const locationPath = useLocation() as any;
 
   const history = useHistory();
+
+  const handleIdToHover = (id: string) => {
+    setShowToolTip(id);
+  };
+  const handleIdToLeave = () => {
+    setShowToolTip(null);
+  };
 
   const [showPopup, setShowPopup] = useState<boolean>(false);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
@@ -153,11 +184,48 @@ export const Configuration: React.FC<{
                 }}
               >
                 <StackBox
+                  fromDisabledNestedRowtiles={false}
                   image={tile.logo}
                   stackName={tile.name}
                   stackDesc={tile.type}
                 />
               </Box>
+            ))}
+        </Row>
+
+        <Row>
+          {disabledNestedRowtiles &&
+            disabledNestedRowtiles.map((tile: any, index: number) => (
+              <div
+                key={index}
+                onMouseEnter={() => {
+                  handleIdToHover(tile.id);
+                }}
+                onMouseLeave={() => {
+                  handleIdToLeave();
+                }}
+              >
+                {tile.id === showToolTip && (
+                  <CustomToolTip customStyle={customToolTip} name={tile.name} />
+                )}
+                <Box
+                  key={index}
+                  className={styles.tile}
+                  marginTop="md"
+                  marginLeft="md"
+                  onClick={() => {
+                    // setShowPopup(true);
+                    // setSelectedStackBox(tile);
+                  }}
+                >
+                  <StackBox
+                    fromDisabledNestedRowtiles={true}
+                    image={tile.logo}
+                    stackName={tile.name}
+                    stackDesc={tile.type}
+                  />
+                </Box>
+              </div>
             ))}
         </Row>
       </Box>
@@ -209,11 +277,21 @@ export const Configuration: React.FC<{
       >
         <Box marginBottom="lg">
           <PrimaryButton
-            onClick={() =>
-              history.push(
-                routePaths.stacks.UpdateStack(selectedWorkspace, stack.id),
-              )
-            }
+            onClick={() => {
+              if (ifPermissionDenied) {
+                dispatch(
+                  showToasterAction({
+                    description:
+                      "IllegalOperationError Insufficient permissions to UPDATE resource 'stack'.",
+                    type: toasterTypes.failure,
+                  }),
+                );
+              } else {
+                history.push(
+                  routePaths.stacks.UpdateStack(selectedWorkspace, stack.id),
+                );
+              }
+            }}
             className={styles.updateButton}
           >
             Update Stack

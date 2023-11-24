@@ -4,8 +4,16 @@ import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
+  getInitialsFromEmail,
 } from '../../../../utils';
-import { Box, FlexBox, icons, Paragraph, Tooltip } from '../../../components';
+import {
+  Box,
+  ColoredCircle,
+  FlexBox,
+  icons,
+  Paragraph,
+  Tooltip,
+} from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { StackComponent } from '../../../../api/types';
 
@@ -104,74 +112,83 @@ export const GetHeaderCols = ({
         </>
       ),
     },
-    {
-      render: () => (
-        <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
-          <HeaderText text="SHARED" margin="-24px" />
-        </Box>
-      ),
-      width: '10%',
-      renderRow: (stack: StackComponent) => (
-        <>
-          {stack && (
-            <FlexBox alignItems="center">
-              <div
-                style={{ margin: '0 auto 0 auto' }}
-                data-tip
-                data-for={`tooltip-${String(stack.body.is_shared)}`}
-              >
-                <Box>
-                  <FlexBox
-                    justifyContent="center"
-                    style={{
-                      borderRadius: '50%',
-                      marginLeft: '-24px',
-                      textAlign: 'center',
-                    }}
-                  >
-                    {stack.body.is_shared ? (
-                      <icons.multiUser
-                        color={iconColors.white}
-                        size={iconSizes.md}
-                      />
-                    ) : (
-                      <icons.singleUser
-                        color={iconColors.white}
-                        size={iconSizes.md}
-                      />
-                    )}
-                  </FlexBox>
-                </Box>
-              </div>
-              <Tooltip
-                id={`tooltip-${String(stack.body.is_shared)}`}
-                text={stack.body.is_shared ? 'True' : 'False'}
-              />
-            </FlexBox>
-          )}
-        </>
-      ),
-    },
+    // {
+    //   render: () => (
+    //     <Box style={{ margin: '0 auto 0 auto', textAlign: 'center' }}>
+    //       <HeaderText text="SHARED" margin="-24px" />
+    //     </Box>
+    //   ),
+    //   width: '10%',
+    //   renderRow: (stack: StackComponent) => (
+    //     <>
+    //       {stack && (
+    //         <FlexBox alignItems="center">
+    //           <div
+    //             style={{ margin: '0 auto 0 auto' }}
+    //             data-tip
+    //             data-for={`tooltip-${String(stack.body?.is_shared)}`}
+    //           >
+    //             <Box>
+    //               <FlexBox
+    //                 justifyContent="center"
+    //                 style={{
+    //                   borderRadius: '50%',
+    //                   marginLeft: '-24px',
+    //                   textAlign: 'center',
+    //                 }}
+    //               >
+    //                 {stack.body?.is_shared ? (
+    //                   <icons.multiUser
+    //                     color={iconColors.white}
+    //                     size={iconSizes.md}
+    //                   />
+    //                 ) : (
+    //                   <icons.singleUser
+    //                     color={iconColors.white}
+    //                     size={iconSizes.md}
+    //                   />
+    //                 )}
+    //               </FlexBox>
+    //             </Box>
+    //           </div>
+    //           <Tooltip
+    //             id={`tooltip-${String(stack.body?.is_shared)}`}
+    //             text={stack.body?.is_shared ? 'True' : 'False'}
+    //           />
+    //         </FlexBox>
+    //       )}
+    //     </>
+    //   ),
+    // },
     {
       render: () => <HeaderText text="AUTHOR" />,
       width: '10%',
-      renderRow: (stack: StackComponent) => {
+      renderRow: (stackComponent: StackComponent) => {
+        const initials = getInitialsFromEmail(
+          stackComponent?.body?.user?.name as string,
+        );
         return (
-          <>
-            {stack.body.user && (
+          <FlexBox alignItems="center">
+            <div data-tip data-for={stackComponent?.body?.user?.name}>
               <FlexBox alignItems="center">
-                <div data-tip data-for={stack.body.user.name}>
-                  <FlexBox alignItems="center">
-                    <Paragraph size="small">{stack.body.user.name}</Paragraph>
-                  </FlexBox>
-                </div>
-                <Tooltip
-                  id={stack.body.user.name}
-                  text={stack.body.user.name}
-                />
+                {stackComponent?.body?.user?.name && (
+                  <Box paddingRight="sm">
+                    <ColoredCircle color="secondary" size="sm">
+                      {initials}
+                    </ColoredCircle>
+                  </Box>
+                )}
+
+                <Paragraph size="small">
+                  {stackComponent?.body?.user?.name}
+                </Paragraph>
               </FlexBox>
-            )}
-          </>
+            </div>
+            <Tooltip
+              id={stackComponent?.body?.user?.name}
+              text={stackComponent?.body?.user?.name}
+            />
+          </FlexBox>
         );
       },
     },
@@ -180,18 +197,18 @@ export const GetHeaderCols = ({
       width: '30%',
       renderRow: (stack: StackComponent) => (
         <>
-          {stack.body.created && (
+          {stack.body?.created && (
             <FlexBox alignItems="center">
-              <div data-tip data-for={formatDateToSort(stack.body.created)}>
+              <div data-tip data-for={formatDateToSort(stack.body?.created)}>
                 <FlexBox alignItems="center">
                   <Paragraph color="grey" size="tiny">
-                    {formatDateToDisplayOnTable(stack.body.created)}
+                    {formatDateToDisplayOnTable(stack.body?.created)}
                   </Paragraph>
                 </FlexBox>
               </div>
               <Tooltip
-                id={formatDateToSort(stack.body.created)}
-                text={formatDateToDisplayOnTable(stack.body.created)}
+                id={formatDateToSort(stack.body?.created)}
+                text={formatDateToDisplayOnTable(stack.body?.created)}
               />
             </FlexBox>
           )}

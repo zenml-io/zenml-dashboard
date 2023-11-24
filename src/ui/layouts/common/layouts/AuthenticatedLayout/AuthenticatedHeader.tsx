@@ -19,7 +19,7 @@ import {
   serverInfoSelectors,
 } from '../../../../../redux/selectors';
 import { getInitials } from '../../../../../utils/name';
-import { DEFAULT_FULL_NAME } from '../../../../../constants';
+// import { DEFAULT_FULL_NAME } from '../../../../../constants';
 import OutsideClickHandler from 'react-outside-click-handler';
 import {
   useDispatch,
@@ -82,7 +82,7 @@ export const AuthenticatedHeader: React.FC<{
 
   if (!user) return null;
 
-  const userFullName = user.name || DEFAULT_FULL_NAME;
+  const userFullName = user.body?.full_name ? user.body?.full_name : user.name;
   const userInitials = getInitials(userFullName);
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
@@ -171,7 +171,7 @@ export const AuthenticatedHeader: React.FC<{
                 <FlexBox alignItems="center">
                   <FlexBox alignItems="center" className="d-none d-md-flex">
                     <Box paddingRight="sm" style={{ textAlign: 'end' }}>
-                      <Paragraph>{userFullName}</Paragraph>
+                      <Paragraph>{user?.name}</Paragraph>
                       <span className={styles.selectedWorkspace}>
                         {selected}
                       </span>

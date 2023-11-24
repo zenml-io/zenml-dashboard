@@ -7,7 +7,7 @@ import {
   FullWidthSpinner,
   PrimaryButton,
 } from '../../../../../components';
-import { ToggleField } from '../../../../common/FormElement';
+// import { ToggleField } from '../../../../common/FormElement';
 
 import {
   sessionSelectors,
@@ -49,7 +49,7 @@ export const ListForAll: React.FC<{
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const { flavourList } = GetFlavorsListForLogo();
   const [stackName, setStackName] = useState(stackDetails.name || '');
-  const [isShared, setIshared] = useState(stackDetails.body.isShared);
+  // const [isShared, setIshared] = useState(stackDetails.body.isShared);
   const [selectedStack, setSelectedStack] = useState<any>([]);
   const [selectedStackBox, setSelectedStackBox] = useState<any>();
   const [showPopup, setShowPopup] = useState<boolean>(false);
@@ -62,7 +62,8 @@ export const ListForAll: React.FC<{
       const updatedComponentsWithLogo = components.map((item: any) => {
         const temp: any = flavourList.find(
           (fl: any) =>
-            fl.name === item.body.flavor && fl.body.type === item.body.type,
+            fl?.name === item?.body?.flavor &&
+            fl?.body?.type === item?.body?.type,
         );
         if (temp) {
           return {
@@ -95,7 +96,7 @@ export const ListForAll: React.FC<{
       );
     }
     const components = selectedStack.map((item: any) => {
-      return { [item.body.type]: [item.id] };
+      return { [item?.body?.type]: [item?.id] };
     });
     var mergedObject = components.reduce((c: any, v: any) => {
       for (var k in v) {
@@ -132,7 +133,7 @@ export const ListForAll: React.FC<{
     const body = {
       user: user?.id,
       workspace: id,
-      is_shared: isShared,
+      // is_shared: isShared,
       name: stackName,
       components: finalData,
     };
@@ -241,14 +242,14 @@ export const ListForAll: React.FC<{
                 value={stackName}
               />
             </Box>
-
+            {/* 
             <Box marginLeft="xl" style={{ width: '30%' }}>
               <ToggleField
                 label={'Share Stack with public'}
                 value={isShared}
                 onHandleChange={(value: any) => setIshared(!isShared)}
               />
-            </Box>
+            </Box> */}
           </FlexBox.Row>
         </Box>
 
@@ -319,7 +320,7 @@ export const ListForAll: React.FC<{
           selectedStackBox={selectedStackBox}
           selectedStack={selectedStack}
           onSelect={() => {
-            var index = selectedStack.findIndex(function (s: any) {
+            var index = selectedStack?.findIndex(function (s: any) {
               return s.id === selectedStackBox.id;
             });
             if (index !== -1) {
@@ -327,7 +328,7 @@ export const ListForAll: React.FC<{
               setSelectedStack([...selectedStack]);
             } else {
               if (
-                selectedStack.map((t: any) => t.type === selectedStackBox.type)
+                selectedStack?.map((t: any) => t.type === selectedStackBox.type)
               ) {
                 let filterSelectedStack = selectedStack?.filter(
                   (st: any) => st.type !== selectedStackBox.type,

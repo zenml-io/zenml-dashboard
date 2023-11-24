@@ -5,9 +5,11 @@ import {
   truncate,
   formatDateToSort,
   formatDateToDisplayOnTable,
+  getInitialsFromEmail,
 } from '../../../../../utils';
 import {
   Box,
+  ColoredCircle,
   FlexBox,
   icons,
   Paragraph,
@@ -184,36 +186,23 @@ export const GetHeaderCols = ({
       testId: 'Author',
       width: '15%',
       renderRow: (secret: any) => {
+        const initials = getInitialsFromEmail(secret?.user?.name as string);
         return (
           <FlexBox alignItems="center">
-            <div
-              data-tip
-              data-for={
-                secret?.user?.full_name
-                  ? secret?.user?.full_name
-                  : secret?.user?.name
-              }
-            >
+            <div data-tip data-for={secret?.user?.name}>
               <FlexBox alignItems="center">
-                <Paragraph size="small">
-                  {secret?.user?.full_name
-                    ? secret?.user?.full_name
-                    : secret?.user?.name}
-                </Paragraph>
+                {secret?.user?.name && (
+                  <Box paddingRight="sm">
+                    <ColoredCircle color="secondary" size="sm">
+                      {initials}
+                    </ColoredCircle>
+                  </Box>
+                )}
+
+                <Paragraph size="small">{secret?.user?.name}</Paragraph>
               </FlexBox>
             </div>
-            <Tooltip
-              id={
-                secret?.user?.full_name
-                  ? secret?.user?.full_name
-                  : secret?.user?.name
-              }
-              text={
-                secret?.user?.full_name
-                  ? secret?.user?.full_name
-                  : secret?.user?.name
-              }
-            />
+            <Tooltip id={secret?.user?.name} text={secret?.user?.name} />
           </FlexBox>
         );
       },

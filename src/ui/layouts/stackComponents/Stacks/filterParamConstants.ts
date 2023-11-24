@@ -71,11 +71,11 @@ export const getInitialFilterStateStackComponents = () => {
           label: 'Author',
           type: 'string',
         },
-        {
-          value: 'is_shared',
-          label: 'Shared',
-          type: 'boolean',
-        },
+        // {
+        //   value: 'is_shared',
+        //   label: 'Shared',
+        //   type: 'boolean',
+        // },
         {
           value: 'created',
           label: 'Created at',

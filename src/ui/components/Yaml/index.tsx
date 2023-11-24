@@ -50,7 +50,7 @@ const getLayoutedElements = (
     return { initialNodes, initialEdges };
   }
 
-  initialNodes.forEach((node) => {
+  initialNodes?.forEach((node) => {
     dagreGraph.setNode(node.id, { width: nodeWidth, height: nodeHeight });
   });
 
@@ -60,7 +60,7 @@ const getLayoutedElements = (
 
   dagre.layout(dagreGraph);
 
-  initialNodes.forEach((node) => {
+  initialNodes?.forEach((node) => {
     const nodeWithPosition = dagreGraph.node(node.id);
     node.targetPosition = isHorizontal ? 'left' : 'top';
     node.sourcePosition = isHorizontal ? 'right' : 'bottom';

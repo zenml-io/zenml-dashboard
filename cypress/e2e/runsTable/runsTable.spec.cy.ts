@@ -1,4 +1,3 @@
-// import { apiCall } from '../utils/apiCallUtils';
 import { dag } from '../utils/dagUtils';
 import { filterByStatus } from '../utils/filterByStatusUtils';
 import { filterByString } from '../utils/filterByStringUtils';
@@ -13,7 +12,7 @@ describe('FilterComponent E2E Tests', () => {
     login();
     cy.waitUntilDashboardIsLoaded();
     cy.wait(1000);
-    // apiCall();
+
     cy.get('[id="runs"]').click();
   });
 

@@ -30,7 +30,7 @@ export const PersonalDetails: React.FC = () => {
   useRequestOnMount(userActions.getMy, {});
   const user = useSelector(userSelectors.myUser);
   const hubUser = useHubUser();
-  const userFullName = user?.metadata?.full_name;
+  const userFullName = user?.body?.full_name;
   const userInitials = getInitials(userFullName as string);
 
   const [popupOpen, setPopupOpen] = useState(false);
@@ -138,7 +138,7 @@ export const PersonalDetails: React.FC = () => {
                 textAlign: 'center',
               }}
             >
-              {user?.name}
+              {user?.body?.full_name ? user?.body?.full_name : user?.name}
             </Paragraph>
           </Box>
 
@@ -233,7 +233,7 @@ export const PersonalDetails: React.FC = () => {
             />
           </Box>
 
-          <Box marginTop="lg">
+          {/* <Box marginTop="lg">
             <Paragraph style={{ color: '#828282' }}>Roles</Paragraph>
             <Box style={{ display: 'inline-grid', gap: '10px' }}>
               {user?.metadata?.roles?.map((e: any) => (
@@ -242,12 +242,12 @@ export const PersonalDetails: React.FC = () => {
                 </div>
               ))}
             </Box>
-          </Box>
+          </Box> */}
 
           <Box marginTop="lg">
             <Paragraph style={{ color: '#828282' }}>Created</Paragraph>
             <div className={styles.date}>
-              {formatDateToDisplay(user.body.created as string)}
+              {formatDateToDisplay(user.body?.created as string)}
             </div>
           </Box>
 

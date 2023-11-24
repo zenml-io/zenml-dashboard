@@ -805,7 +805,7 @@ export const Configuration: React.FC<{
           </Box>
         </Container>
         <Container>
-          <Box marginTop="lg" style={{ width: '30vw' }}>
+          {/* <Box marginTop="lg" style={{ width: '30vw' }}>
             <ToggleField
               value={stackComponent?.body?.is_shared}
               onHandleChange={() =>
@@ -814,7 +814,7 @@ export const Configuration: React.FC<{
               label="Share Component with spublic"
               disabled={true}
             />
-          </Box>
+          </Box> */}
         </Container>
         {flavor?.metadata?.connector_resource_type && (
           <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>

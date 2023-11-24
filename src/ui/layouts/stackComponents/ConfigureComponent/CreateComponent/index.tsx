@@ -831,15 +831,14 @@ export const CreateComponent: React.FC<{
       return obj;
     }
 
-    const cleanedInputArrayFields = Object.keys(inputArrayFields).reduce(
-      (acc: any, key: any) => {
+    const cleanedInputArrayFields =
+      inputArrayFields?.length &&
+      Object.keys(inputArrayFields).reduce((acc: any, key: any) => {
         if (!inputArrayFields[key].includes('')) {
           acc[key] = inputArrayFields[key];
         }
         return acc;
-      },
-      {},
-    );
+      }, {});
 
     const cleanedInputData = removeEmptyValues(inputData);
 
@@ -935,14 +934,14 @@ export const CreateComponent: React.FC<{
             label={'Component Name'}
             value={componentName}
           />
-          <Box marginTop="md">
+          {/* <Box marginTop="md">
             <ToggleField
               label={'Share Component with public'}
               default={isShared}
               value={isShared}
               onHandleChange={() => setIsShared(!isShared)}
             />
-          </Box>
+          </Box> */}
           {flavor.metadata.connector_resource_type && (
             <Box marginTop="md" style={{ width: '30vw' }}>
               <Paragraph size="body" style={{ color: '#000' }}>

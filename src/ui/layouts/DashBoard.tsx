@@ -47,7 +47,7 @@ import {
 } from '../../redux/actions';
 import { NotFound } from './NotFound';
 
-import { rolesActions } from '../../redux/actions/roles';
+// import { rolesActions } from '../../redux/actions/roles';
 
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
@@ -167,8 +167,8 @@ export const DashBoard: React.FC = () => {
       );
     }
     if (!!authToken || isCookieAuthenticated) {
-      dispatch(rolesActions.getRoles({}));
-      dispatch(organizationActions.getMembers({}));
+      // dispatch(rolesActions.getRoles({}));
+      dispatch(organizationActions.getMembers({ page: 1, size: 1000 }));
 
       // ;
     }

@@ -318,8 +318,8 @@ export const UpdateConfig: React.FC<{
       workspace: id,
       is_shared: isShared,
       name: componentName,
-      type: stackComponent.body.type,
-      flavor: stackComponent.body.flavor,
+      type: stackComponent.body?.type,
+      flavor: stackComponent.body?.flavor,
       configuration: { ...cleanedMappedConfiguration, ...cleanedFinal },
     };
 
@@ -952,7 +952,7 @@ export const UpdateConfig: React.FC<{
             />
           </Box>
         </Container>
-        <Container>
+        {/* <Container>
           <Box marginTop="lg">
             <ToggleField
               label={'Share Component with public'}
@@ -961,7 +961,7 @@ export const UpdateConfig: React.FC<{
               onHandleChange={(key: any, value: any) => setIsShared(!isShared)}
             />
           </Box>
-        </Container>
+        </Container> */}
         {flavor.metadata?.connector_resource_type && (
           <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
             <Paragraph size="body" style={{ color: '#000' }}>

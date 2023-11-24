@@ -10,7 +10,7 @@ export const getGrpahByRunsIdAction = ({
   runId: TId;
 
   onSuccess?: () => void;
-  onFailure?: () => void;
+  onFailure?: (res: any) => void;
 }): TRequestAction => ({
   type: runActionTypes.getGraphForRunId.request,
   payload: {
