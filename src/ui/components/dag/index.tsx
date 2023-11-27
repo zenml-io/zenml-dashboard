@@ -3,7 +3,10 @@ import React, { useEffect, useState } from 'react';
 import { LayoutFlow } from '../lineage';
 import { FullWidthSpinner } from '../spinners';
 import { useDispatch } from 'react-redux';
-import { runsActions } from '../../../redux/actions';
+import { runsActions, showToasterAction } from '../../../redux/actions';
+import { toasterTypes } from '../../../constants';
+import { Box } from '../boxes';
+import { H3 } from '../typographies';
 
 const styles = {
   container: { width: '100%', height: '100%' },
@@ -11,69 +14,85 @@ const styles = {
 };
 
 export const DAG: React.FC<{
+  errorMessage?: any;
   runId: TId;
   fetching?: boolean;
   metadata?: any;
   graph?: any;
   runStatus?: string;
-}> = React.memo(({ runId, fetching, metadata, graph, runStatus }) => {
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
-  useEffect(() => {}, [runId]); //eslint-disable-line
+}> = React.memo(
+  ({ errorMessage, runId, fetching, metadata, graph, runStatus }) => {
+    const [loading, setLoading] = useState(false);
 
-  if (fetching || loading) {
-    return <FullWidthSpinner color="black" size="md" />;
-  }
-  const handleRefreshDAG = () => {
-    setLoading(true);
-    dispatch(
-      runsActions.graphForRun({
-        runId: runId,
-        onSuccess: () => {
-          setLoading(false);
-        },
-        onFailure: () => {
-          setLoading(false);
-        },
-      }),
-    );
-  };
+    const dispatch = useDispatch();
+    useEffect(() => {}, [runId]); //eslint-disable-line
 
-  return (
-    <div style={styles.container}>
-      <div style={styles.dag}>
-        <LayoutFlow
-          onRefreshDAG={handleRefreshDAG}
-          graph={graph}
-          runId={runId}
-          metadata={metadata}
-        />
-        {/* {runStatus === 'running' && ( */}
-        {/* <button
-          style={{
-            color: '#443E99',
-            position: 'sticky',
-            bottom: '10px',
-            zIndex: 10,
-            fontFamily: 'Rubik',
-            fontWeight: 'bold',
-            fontSize: '16px',
-            width: '185px',
-            height: '51px',
-            backgroundColor: 'rgb(241, 240, 255)',
-            border: 'none',
-            padding: '0.75rem',
-            borderRadius: '0.5rem',
-            cursor: 'pointer',
-          }}
-          onClick={() => {
-            
-          }}
-        >
-          Refresh
-        </button> */}
-        {/* )} */}
+    if (fetching || loading) {
+      return <FullWidthSpinner color="black" size="md" />;
+    }
+    const handleRefreshDAG = () => {
+      setLoading(true);
+      dispatch(
+        runsActions.graphForRun({
+          runId: runId,
+          onSuccess: () => {
+            setLoading(false);
+          },
+          onFailure: (res) => {
+            dispatch(
+              showToasterAction({
+                description: res,
+                type: toasterTypes.failure,
+              }),
+            );
+            setLoading(false);
+          },
+        }),
+      );
+    };
+
+    return (
+      <div style={styles.container}>
+        <div style={styles.dag}>
+          {errorMessage?.includes('IllegalOperationError') ? (
+            <Box
+              style={{
+                textAlign: 'center',
+                maxWidth: '700px',
+                margin: '0 auto',
+              }}
+              paddingVertical="xxl"
+            >
+              <H3>
+                You Don't have access to this DAG. Please contact your admin for
+                further information or to request access.
+              </H3>
+            </Box>
+          ) : (
+            errorMessage && (
+              <Box
+                style={{
+                  textAlign: 'center',
+                  maxWidth: '700px',
+                  margin: '0 auto',
+                }}
+                paddingVertical="xxl"
+              >
+                <H3>Something went wrong!</H3>
+              </Box>
+            )
+          )}
+          {console.log(graph, '123123123')}
+          {graph && Object.keys(graph).length > 0 ? (
+            <LayoutFlow
+              onRefreshDAG={handleRefreshDAG}
+              graph={graph}
+              runId={runId}
+              metadata={metadata}
+            />
+          ) : null}
+        </div>
       </div>
-    </div>
-  );
-});
+    );
+  },
+);
