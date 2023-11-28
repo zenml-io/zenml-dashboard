@@ -14,7 +14,7 @@ export const Status: React.FC<{ pipeline: Pipeline }> = ({ pipeline }) => {
       justifyContent="center"
       style={{ marginLeft: '-16px' }}
     >
-      {pipeline?.status?.map((item: any, index: number) => (
+      {pipeline?.body?.status?.map((item: any, index: number) => (
         <Box key={index}>
           <>
             <FlexBox alignItems="center">

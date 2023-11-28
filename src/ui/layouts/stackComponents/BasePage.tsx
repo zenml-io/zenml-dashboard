@@ -76,7 +76,7 @@ export const BasePage: React.FC<{
               style={{ width: !fromConfigureComponent ? '80%' : '100%' }}
             >
               {children}
-              {tabPages.length > 1 ? (
+              {tabPages.length >= 1 && singleTab ? (
                 <TabsRuns pages={tabPages} basePath={tabBasePath} />
               ) : (
                 <>

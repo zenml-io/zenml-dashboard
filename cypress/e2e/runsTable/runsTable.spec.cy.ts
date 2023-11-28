@@ -1,4 +1,3 @@
-// import { apiCall } from '../utils/apiCallUtils';
 import { dag } from '../utils/dagUtils';
 import { filterByStatus } from '../utils/filterByStatusUtils';
 import { filterByString } from '../utils/filterByStringUtils';
@@ -12,8 +11,7 @@ describe('FilterComponent E2E Tests', () => {
   beforeEach(() => {
     login();
     cy.waitUntilDashboardIsLoaded();
-    cy.wait(700);
-    // apiCall();
+    cy.wait(1000);
     cy.get('[id="runs"]').click();
   });
 
@@ -39,7 +37,7 @@ describe('FilterComponent E2E Tests', () => {
       'Name',
       'Pipeline',
       'Status',
-      'stack_name',
+      // 'stack_name',
       'Author',
       'created_at',
     ];
@@ -50,10 +48,12 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it('should work with valid value', () => {
-    search('pipeline');
+    const emptyText = 'We are sorry';
+    search('p', emptyText);
   });
 
   it('should apply filters where string', () => {
+    cy.waitForLoaderToDisappear();
     const columnList = ['Run ID', 'Run Name'];
     const emptyText = 'We are sorry';
     columnList.forEach((col) => {
@@ -62,6 +62,7 @@ describe('FilterComponent E2E Tests', () => {
     filterByStatus();
   });
   it('should navigate through pagination', () => {
+    cy.waitForLoaderToDisappear();
     // Assuming you have a button or link for next and previous pagination
     // You can click these buttons to navigate through pages
     pagination(); // Click the "Previous" button
@@ -77,6 +78,7 @@ describe('FilterComponent E2E Tests', () => {
 
     // Click on the first row
     cy.get('table tbody tr:first').click({ force: true });
+    cy.waitForLoaderToDisappear();
     dag();
   });
 });

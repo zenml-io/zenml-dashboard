@@ -15,13 +15,15 @@ export const useService = ({ stack }: { stack: Stack }): ServiceInterface => {
   const dispatch = useDispatch();
   const [fetching, setFetching] = useState<boolean>(false);
 
-  const user = useSelector(userSelectors.userForId(stack.user?.id as string));
+  const user = useSelector(
+    userSelectors.userForId(stack.body?.user?.id as string),
+  );
 
   useEffect(() => {
     setFetching(true);
     dispatch(
       userActions.userForId({
-        userId: stack.user?.id as string,
+        userId: stack.body?.user?.id as string,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),

@@ -9,6 +9,7 @@ export const filterByString = (columnName, emptyText) => {
   cy.waitForLoaderToDisappear();
   cy.checkTableAndH4Visibility(emptyText);
   cy.get('[data-testid="filter-value-input"]').clear();
+  cy.waitForLoaderToDisappear();
   // Apply filters as needed
   cy.get('[data-testid="column-name-dropdown"]').select(columnName);
   cy.get('[data-testid="category-dropdown"]').select('Contains');
@@ -19,20 +20,23 @@ export const filterByString = (columnName, emptyText) => {
   // Check for the h4 element with the error message
 
   cy.get('[data-testid="filter-value-input"]').clear();
+  cy.waitForLoaderToDisappear();
 
   cy.get('[data-testid="category-dropdown"]').select('Start With');
   cy.wait(500);
-  cy.get('[data-testid="filter-value-input"]').type('ee');
+  cy.get('[data-testid="filter-value-input"]').type('e');
   cy.waitForLoaderToDisappear();
   cy.checkTableAndH4Visibility(emptyText);
   cy.get('[data-testid="filter-value-input"]').clear();
+  cy.waitForLoaderToDisappear();
 
   cy.get('[data-testid="category-dropdown"]').select('End With');
   cy.wait(500);
-  cy.get('[data-testid="filter-value-input"]').type('f3');
+  cy.get('[data-testid="filter-value-input"]').type('f');
   cy.waitForLoaderToDisappear();
   cy.checkTableAndH4Visibility(emptyText);
   cy.get('[data-testid="filter-value-input"]').clear();
+  cy.waitForLoaderToDisappear();
   if (columnName !== 'ID' && columnName !== 'Run ID') {
     cy.get('[data-testid="category-dropdown"]').select('Equal');
     cy.wait(500);
@@ -40,6 +44,7 @@ export const filterByString = (columnName, emptyText) => {
     cy.waitForLoaderToDisappear();
     cy.checkTableAndH4Visibility(emptyText);
     cy.get('[data-testid="filter-value-input"]').clear();
+    cy.waitForLoaderToDisappear();
   }
   cy.get('[data-testid="filter-icon"]').click();
 };

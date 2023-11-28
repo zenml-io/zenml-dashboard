@@ -47,7 +47,7 @@ export const CreateStackButton: React.FC = () => {
               {constantCommandsToCreateStack.title}
             </H3>
           </FlexBox.Row>
-          {constantCommandsToCreateStack.body.map((item): any =>
+          {constantCommandsToCreateStack.body?.map((item): any =>
             item.isCode ? (
               <FlexBox alignItems="center" marginTop="md">
                 <CommandBoxWScroll command={item.text} />

@@ -8,16 +8,16 @@ import {
   Row,
   FullWidthSpinner,
 } from '../../../components';
-import { useDispatch, useSelector } from '../../../hooks';
+import { useDispatch } from '../../../hooks';
 import { translate } from './translate';
 import { InvitePopup } from './InvitePopup';
 import { useService } from './useService';
-import { rolesActions } from '../../../../redux/actions/roles';
-import { userSelectors } from '../../../../redux/selectors';
+// import { rolesActions } from '../../../../redux/actions/roles';
+// import { userSelectors } from '../../../../redux/selectors';
 import AddUserBox from './UserBox/AddUserBox';
 import UserBox from './UserBox/UserBox';
 import { PasswordPopup } from '../PasswordPopup';
-import { getUniquePermissions } from '../permissions';
+// import { getUniquePermissions } from '../permissions';
 
 export const Organization: React.FC = () => {
   const dispatch = useDispatch();
@@ -26,21 +26,21 @@ export const Organization: React.FC = () => {
   const [fetchingMembers, setFetchingMembers] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);
-  const loggedinUser = useSelector(userSelectors.myUser);
+  // const loggedinUser = useSelector(userSelectors.myUser);
   const [user, setUser] = useState<any>({});
-  const ITEMS_PER_PAGE = parseInt(
-    process.env.REACT_APP_ITEMS_PER_PAGE as string,
-  );
-  const DEFAULT_ITEMS_PER_PAGE = 100;
+  // const ITEMS_PER_PAGE = parseInt(
+  //   process.env.REACT_APP_ITEMS_PER_PAGE as string,
+  // );
+  // const DEFAULT_ITEMS_PER_PAGE = 100;
   const { filteredMembers } = useService();
 
   useEffect(() => {
     setFetchingMembers(true);
-    dispatch(rolesActions.getRoles({}));
+    // dispatch(rolesActions.getRoles({}));
     dispatch(
       organizationActions.getMembers({
         page: 1,
-        size: ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
+        size: 1000,
         onSuccess: () => setFetchingMembers(false),
         onFailure: () => setFetchingMembers(false),
       }),
@@ -74,20 +74,20 @@ export const Organization: React.FC = () => {
           </FlexBox.Row>
 
           <Row>
-            {getUniquePermissions(loggedinUser || undefined).includes(
+            {/* {getUniquePermissions(loggedinUser || undefined).includes(
               'write',
-            ) && (
-              <div onClick={() => setPopupOpen(true)}>
-                <AddUserBox />
-              </div>
-            )}
+            ) && ( */}
+            <div onClick={() => setPopupOpen(true)}>
+              <AddUserBox />
+            </div>
+            {/* )} */}
             {filteredMembers.map((e, index) => (
               <UserBox
                 key={index}
                 data={e}
-                permission={getUniquePermissions(
-                  loggedinUser || undefined,
-                ).includes('write')}
+                // permission={getUniquePermissions(
+                //   loggedinUser || undefined,
+                // ).includes('write')}
                 setShowPasswordUpdate={setShowPasswordPopup}
                 setUser={setUser}
               />

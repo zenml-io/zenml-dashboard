@@ -1,4 +1,4 @@
-import { camelCaseArray } from '../../utils/camelCase';
+import { camelCaseArray, camelCaseObject } from '../../utils/camelCase';
 import { flavorActionTypes } from '../actionTypes';
 import { byKeyInsert, idsInsert } from './reducerHelpers';
 import { Flavor } from '../../api/types';
@@ -61,6 +61,14 @@ const flavorsReducer = (state: State = initialState, action: Action): State => {
         ...newState(state, flavors, action.payload),
         myflavorIds,
       };
+    }
+
+    case flavorActionTypes.getFlavorById.success: {
+      const payload: Flavor = action.payload;
+
+      const flavor = camelCaseObject(payload);
+
+      return { ...state, ...newState(state, [flavor]) };
     }
 
     default:

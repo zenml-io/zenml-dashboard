@@ -83,6 +83,7 @@ const stackComponentActionTypes = {
 const flavorActionTypes = {
   FLAVORS_GET_FLAVORS_ALL: 'FLAVORS_GET_FLAVORS_ALL',
   FLAVORS_GET_FLAVORS_TYPE: 'FLAVORS_GET_FLAVORS_TYPE',
+  FLAVORS_GET_FLAVOR_FOR_ID: 'FLAVORS_GET_FLAVOR_FOR_ID',
 };
 
 const runActionTypes = {

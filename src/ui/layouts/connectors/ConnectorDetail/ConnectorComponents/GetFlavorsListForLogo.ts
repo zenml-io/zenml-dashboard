@@ -15,7 +15,7 @@ export const GetFlavorsListForLogo = () => {
   const fetchFlavourList = async () => {
     setFetching(true);
     const response = await axios.get(
-      `${process.env.REACT_APP_BASE_API_URL}/flavors?size=1000`,
+      `${process.env.REACT_APP_BASE_API_URL}/flavors?hydrate=true&size=1000`,
       {
         headers: {
           Authorization: `bearer ${authToken}`,

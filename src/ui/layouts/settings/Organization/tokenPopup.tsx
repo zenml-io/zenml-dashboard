@@ -27,13 +27,13 @@ export const TokenPopup: React.FC<{
   fullName: string | null;
   username: string;
   active: boolean;
-  roles: Array<any>;
+  // roles: Array<any>;
   setTokenPopup: any;
-}> = ({ id, fullName, username, roles, setTokenPopup }) => {
+}> = ({ id, fullName, username, setTokenPopup }) => {
   const [submitting, setSubmitting] = useState(false);
   const [showTokField, setShowTokField] = useState(false);
 
-  const userFullName = fullName || fullName || username;
+  const userFullName = fullName || username;
   const userInitials = getInitials(userFullName as string);
 
   const dispatch = useDispatch();
@@ -97,9 +97,9 @@ export const TokenPopup: React.FC<{
         </Box>
       </Box>
 
-      <Box marginTop="lg">
+      {/* <Box marginTop="lg">
         <RoleSelectorReadOnly roles={roles} />
-      </Box>
+      </Box> */}
 
       <Box marginTop="lg">
         <CopyField
@@ -115,6 +115,7 @@ export const TokenPopup: React.FC<{
         <Box marginBottom="md">
           <Separator.LightNew />
         </Box>
+
         <FlexBox justifyContent="center" flexWrap>
           {!showTokField ? (
             <Paragraph

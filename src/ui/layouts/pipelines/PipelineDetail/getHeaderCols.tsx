@@ -1,7 +1,18 @@
 import React from 'react';
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../constants';
-import { truncate, formatDateToDisplayOnTable } from '../../../../utils';
-import { FlexBox, icons, Paragraph, Tooltip } from '../../../components';
+import {
+  truncate,
+  formatDateToDisplayOnTable,
+  getInitialsFromEmail,
+} from '../../../../utils';
+import {
+  Box,
+  ColoredCircle,
+  FlexBox,
+  icons,
+  Paragraph,
+  Tooltip,
+} from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { Status } from '../Pipelines/List/Status';
 import { Pipeline } from '../../../../api/types';
@@ -64,42 +75,31 @@ export const GetHeaderCols = ({
       render: () => <HeaderText text="VERSION" />,
       width: '10%',
       renderRow: (pipeline: Pipeline) => (
-        <Paragraph size="small">{pipeline?.version}</Paragraph>
+        <Paragraph size="small">{pipeline?.body?.version}</Paragraph>
       ),
     },
     {
       render: () => <HeaderText text="AUTHOR" />,
       width: '10%',
       renderRow: (pipeline: Pipeline) => {
+        const initials = getInitialsFromEmail(
+          pipeline?.body?.user?.name as string,
+        );
         return (
           <FlexBox alignItems="center">
-            <div
-              data-tip
-              data-for={
-                pipeline?.user?.full_name
-                  ? pipeline?.user?.full_name
-                  : pipeline?.user?.name
-              }
-            >
+            <div data-tip data-for={pipeline?.body?.user?.name}>
               <FlexBox alignItems="center">
-                <Paragraph size="small">
-                  {pipeline?.user?.full_name
-                    ? pipeline?.user?.full_name
-                    : pipeline?.user?.name}
-                </Paragraph>
+                <Box paddingRight="sm">
+                  <ColoredCircle color="secondary" size="sm">
+                    {initials}
+                  </ColoredCircle>
+                </Box>
+                <Paragraph size="small">{pipeline?.body?.user?.name}</Paragraph>
               </FlexBox>
             </div>
             <Tooltip
-              id={
-                pipeline?.user?.full_name
-                  ? pipeline?.user?.full_name
-                  : pipeline?.user?.name
-              }
-              text={
-                pipeline?.user?.full_name
-                  ? pipeline?.user?.full_name
-                  : pipeline?.user?.name
-              }
+              id={pipeline?.body?.user?.name}
+              text={pipeline?.body?.user?.name}
             />
           </FlexBox>
         );
@@ -110,16 +110,19 @@ export const GetHeaderCols = ({
       width: '20%',
       renderRow: (pipeline: Pipeline) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToDisplayOnTable(pipeline.created)}>
+          <div
+            data-tip
+            data-for={formatDateToDisplayOnTable(pipeline?.body?.created)}
+          >
             <FlexBox alignItems="center">
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(pipeline.created)}
+                {formatDateToDisplayOnTable(pipeline?.body?.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <Tooltip
-            id={formatDateToDisplayOnTable(pipeline.created)}
-            text={formatDateToDisplayOnTable(pipeline.created)}
+            id={formatDateToDisplayOnTable(pipeline?.body?.created)}
+            text={formatDateToDisplayOnTable(pipeline?.body?.created)}
           />
         </FlexBox>
       ),

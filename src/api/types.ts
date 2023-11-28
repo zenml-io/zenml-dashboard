@@ -1,19 +1,19 @@
 import { components } from '../../appserverSchema';
 
 //Pipelines
-export type Pipeline = components['schemas']['PipelineResponseModel'];
+export type Pipeline = components['schemas']['PipelineResponse'];
 
 //stacks
-export type Stack = components['schemas']['StackResponseModel'];
+export type Stack = components['schemas']['StackResponse'];
 
 // Flavor
-export type Flavor = components['schemas']['FlavorResponseModel'];
+export type Flavor = components['schemas']['FlavorResponse'];
 
 //components
-export type StackComponent = components['schemas']['ComponentResponseModel'];
+export type StackComponent = components['schemas']['ComponentResponse'];
 
 //service connector
-export type ServiceConnector = components['schemas']['ServiceConnectorResponseModel'];
+export type ServiceConnector = components['schemas']['ServiceConnectorResponse'];
 
 export type ServiceConnectorTypes = components['schemas']['ServiceConnectorTypeModel'];
 
@@ -21,10 +21,10 @@ export type ServiceConnectorTypes = components['schemas']['ServiceConnectorTypeM
 export type Secret = components['schemas']['SecretResponseModel'];
 
 //runs
-export type Run = components['schemas']['PipelineRunResponseModel'];
+export type Run = components['schemas']['PipelineRunResponse'];
 
 // //Repository
-export type Repository = components['schemas']['CodeRepositoryResponseModel'];
+export type Repository = components['schemas']['CodeRepositoryResponse'];
 
 // ServerInfo
 
@@ -39,11 +39,11 @@ export type SSOResponse = {
   token_type?: string;
 };
 //workspace
-export type Workspace = components['schemas']['WorkspaceResponseModel'];
+export type Workspace = components['schemas']['WorkspaceResponse'];
 
 //user
-export type User = components['schemas']['UserResponseModel'];
-export type UpdateUser = components['schemas']['UserUpdateModel'];
+export type User = components['schemas']['UserResponse'];
+export type UpdateUser = components['schemas']['UserUpdate'];
 
 //devices
-export type Device = components['schemas']['OAuthDeviceResponseModel'];
+export type Device = components['schemas']['OAuthDeviceResponse'];
