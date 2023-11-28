@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { translate } from '../translate';
 import { RunsTable } from '../../RunsTable';
-import { useService } from './useService';
+// import { useService } from './useService';
+import { usePollingService } from '../../../../hooks/usePollingService';
+import {
+  runPagesSelectors,
+  runSelectors,
+} from '../../../../../redux/selectors';
+import { useSelector } from 'react-redux';
+import { Run } from '../../../../../api/types';
+import { stacksActions } from '../../../../../redux/actions';
 
 export const Runs: React.FC<{
   isExpended?: any;
@@ -14,11 +22,20 @@ export const Runs: React.FC<{
   function getSorted(activeSorting: any, activeSortingDirection: any) {
     setSortBy(activeSortingDirection?.toLowerCase() + ':' + activeSorting);
   }
-  const { fetching, runIds, runsPaginated } = useService({
-    isExpended,
+
+  const runs = useSelector(runSelectors.myRuns);
+  const runIds = runs.map((run: Run) => run.id);
+  const runsPaginated = useSelector(runSelectors.myRunsPaginated);
+  const fetching = useSelector(runPagesSelectors.fetching);
+
+  // const dispatchFun = 'runsActions.allRuns';
+  const paginatedValue = runsPaginated;
+  usePollingService({
     stackId,
     filter,
     sortBy,
+    dispatchFun: stacksActions.allRunsByStackId,
+    paginatedValue,
   });
 
   return (

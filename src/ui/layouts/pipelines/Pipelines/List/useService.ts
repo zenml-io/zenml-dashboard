@@ -61,37 +61,37 @@ export const useService = ({
   const [filteredPipelines, setFilteredPipelines] = useState<Pipeline[]>([]);
 
   const fetching = useSelector(pipelinePagesSelectors.fetching);
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const pipelines = useSelector(pipelineSelectors.myPipelines);
-  const pipelinesPaginated = useSelector(
-    pipelineSelectors.myPipelinesPaginated,
-  );
-  const isValidFilter = filter?.map((f) => f.value).join('');
+  // const pipelinesPaginated = useSelector(
+  //   pipelineSelectors.myPipelinesPaginated,
+  // );
+  // const isValidFilter = filter?.map((f) => f.value).join('');
   const { dispatchPipelineData } = callActionForPipelinesForPagination();
 
   useEffect(() => {
     setFilteredPipelines(pipelines as any[]);
   }, [filter, pipelines]);
 
-  useEffect(() => {
-    if (!isValidFilter && !isExpended) {
-      const intervalId = setInterval(() => {
-        const applySorting =
-          activeSortingDirection?.toLowerCase() + ':' + activeSorting;
-        dispatch(
-          pipelinesActions.getMy({
-            sort_by: applySorting !== 'created' ? applySorting : 'created',
-            logical_operator: 'and',
-            workspace: selectedWorkspace,
-            page: pipelinesPaginated.page,
-            size: pipelinesPaginated.size,
-          }),
-        );
-      }, 5000);
-      return () => clearInterval(intervalId);
-    }
-    // This is important
-  });
+  // useEffect(() => {
+  //   if (!isValidFilter && !isExpended) {
+  //     const intervalId = setInterval(() => {
+  //       const applySorting =
+  //         activeSortingDirection?.toLowerCase() + ':' + activeSorting;
+  //       dispatch(
+  //         pipelinesActions.getMy({
+  //           sort_by: applySorting !== 'created' ? applySorting : 'created',
+  //           logical_operator: 'and',
+  //           workspace: selectedWorkspace,
+  //           page: pipelinesPaginated.page,
+  //           size: pipelinesPaginated.size,
+  //         }),
+  //       );
+  //     }, 5000);
+  //     return () => clearInterval(intervalId);
+  //   }
+  //   // This is important
+  // });
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(pipelinePagesActions.setSelectedRunIds({ runIds }));

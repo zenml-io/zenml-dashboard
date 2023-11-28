@@ -19,6 +19,8 @@ import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQuer
 import { callActionForPipelinesForPagination } from '../useService';
 import { Pagination } from '../../../common/Pagination';
 import { Pipeline } from '../../../../../api/types';
+import { usePollingService } from '../../../../hooks/usePollingService';
+import { pipelinesActions } from '../../../../../redux/actions';
 
 interface Props {
   filter: any;
@@ -51,6 +53,13 @@ export const List: React.FC<Props> = ({
     setActiveSortingDirection,
     setSelectedRunIds,
   } = useService({ filter, isExpended });
+
+  usePollingService({
+    filter,
+    sortBy: activeSortingDirection?.toLowerCase() + ':' + activeSorting,
+    dispatchFun: pipelinesActions.getMy,
+    paginatedValue: pipelinesPaginated,
+  });
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
