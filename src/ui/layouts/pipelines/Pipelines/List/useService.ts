@@ -67,7 +67,7 @@ export const useService = ({
   //   pipelineSelectors.myPipelinesPaginated,
   // );
   // const isValidFilter = filter?.map((f) => f.value).join('');
-  const { dispatchPipelineData } = callActionForPipelinesForPagination();
+  // const { dispatchPipelineData } = callActionForPipelinesForPagination();
 
   useEffect(() => {
     setFilteredPipelines(pipelines as any[]);
