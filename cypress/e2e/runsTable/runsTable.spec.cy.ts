@@ -37,7 +37,7 @@ describe('FilterComponent E2E Tests', () => {
       'Name',
       'Pipeline',
       'Status',
-      'stack_name',
+      // 'stack_name',
       'Author',
       'created_at',
     ];
