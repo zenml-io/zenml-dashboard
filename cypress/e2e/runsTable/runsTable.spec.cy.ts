@@ -12,7 +12,6 @@ describe('FilterComponent E2E Tests', () => {
     login();
     cy.waitUntilDashboardIsLoaded();
     cy.wait(1000);
-
     cy.get('[id="runs"]').click();
   });
 
