@@ -20,7 +20,7 @@ export const endpoints = {
     reGenerateToken: (username: string): string =>
       `/users/${username}/deactivate`,
     invites: '/organizations/invite?status=pending',
-    members: '/users',
+    members: '/users?hydrate=true',
     membersWithRole: '/role_assignments',
     invite: '/users',
     deleteInvite: (id: string): string => `/users/${id}`,
@@ -44,7 +44,8 @@ export const endpoints = {
     get: (secretId: TId): string => `/secrets/${secretId}`,
   },
   repositories: {
-    getAll: (workspace: string) => `/workspaces/${workspace}/code_repositories`,
+    getAll: (workspace: string) =>
+      `/workspaces/${workspace}/code_repositories?hydrate=true`,
     getByID: (repositoryID: string) => `/code_repositories/${repositoryID}`,
   },
   StackComponents: {
@@ -55,7 +56,8 @@ export const endpoints = {
   },
   flavors: {
     all: '/flavors?sort_by=type',
-    type: `/flavors`,
+    type: `/flavors?hydrate=true`,
+    getById: (flavorId: TId): string => `/flavors/${flavorId}`,
     get: (stackComponentId: TId): string => `/components/${stackComponentId}`,
   },
   runs: {
@@ -96,6 +98,6 @@ export const endpoints = {
       `/workspaces/${workspace}/service_connectors`,
     get: (connectorId: TId): string => `/service_connectors/${connectorId}`,
     connectorsTypes: `/service_connector_types`,
-    connectorComponents: `/components`,
+    connectorComponents: `/components?hydrate=true`,
   },
 };

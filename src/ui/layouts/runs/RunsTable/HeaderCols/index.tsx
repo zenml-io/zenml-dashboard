@@ -1,5 +1,5 @@
 import _ from 'lodash';
-import React from 'react';
+import React, { useState } from 'react';
 
 import { iconColors, iconSizes, ID_MAX_LENGTH } from '../../../../../constants';
 import { translate } from '../translate';
@@ -26,6 +26,7 @@ import { useHistory, useSelector } from '../../../../hooks';
 import { routePaths } from '../../../../../routes/routePaths';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 import { Run } from '../../../../../api/types';
+import { CustomToolTip } from '../../../common/CustomToolTip';
 
 const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
   <Paragraph
@@ -36,6 +37,45 @@ const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
     {text}
   </Paragraph>
 );
+
+const innerBoxStyleEnable = {
+  border: '2px solid #f0ebfc',
+  borderRadius: '5px',
+  display: 'flex',
+  paddingLeft: '8px',
+  paddingRight: '8px',
+  backgroundColor: '#f0ebfc',
+  justifyContent: 'center',
+  alignItems: 'center',
+  height: '24px',
+};
+
+const customToolTip = {
+  border: '2px solid #f0ebfc',
+  borderRadius: '5px',
+  display: 'flex',
+  padding: 16,
+  height: 130,
+  // justifyContent: 'center',
+  // alignItems: 'center',
+  zIndex: 1000,
+  backgroundColor: 'white',
+  position: 'absolute',
+
+  marginBottom: '200px',
+};
+
+const innerBoxStyleDisable = {
+  // height: '30px',
+  height: '24px',
+  border: '2px solid #f0ebfc',
+  borderRadius: '5px',
+  display: 'flex',
+  paddingLeft: '8px',
+  paddingRight: '8px',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
 
 export const useHeaderCols = ({
   isExpended,
@@ -64,7 +104,19 @@ export const useHeaderCols = ({
     activeSortingDirection,
     runs,
   });
+
+  const [showToolTip, setShowToolTip] = useState(null as any);
+  const [selectedSubModelId, setSelectedSubModelId] = useState(null as any);
   const history = useHistory();
+
+  const handleIdToHover = (id: string, subModelId: string) => {
+    setShowToolTip(id);
+    setSelectedSubModelId(subModelId);
+  };
+  const handleIdToLeave = () => {
+    setShowToolTip(null);
+    setSelectedSubModelId(null);
+  };
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return nestedRuns
     ? [
@@ -152,7 +204,7 @@ export const useHeaderCols = ({
             </SortingHeader>
           ),
           width: '15%',
-          renderRow: (run: TRun) => <RunStatus run={run} />,
+          renderRow: (run: Run) => <RunStatus run={run} />,
         },
         {
           render: () => (
@@ -163,13 +215,15 @@ export const useHeaderCols = ({
                 asc: (runs: Run[]) =>
                   _.orderBy(
                     runs,
-                    (run: Run) => new Date(run?.created).getTime(),
+                    (run: Run) =>
+                      new Date(run?.body?.created as string).getTime(),
                     ['asc'],
                   ),
                 desc: (runs: Run[]) =>
                   _.orderBy(
                     runs,
-                    (run: Run) => new Date(run?.created).getTime(),
+                    (run: Run) =>
+                      new Date(run?.body?.created as string).getTime(),
                     ['desc'],
                   ),
               })}
@@ -220,7 +274,7 @@ export const useHeaderCols = ({
             </SortingHeader>
           ),
           testId: 'Id',
-          width: '20%',
+          width: '15%',
           renderRow: (run: Run) => (
             <FlexBox alignItems="center">
               <div data-tip data-for={run?.id}>
@@ -261,7 +315,7 @@ export const useHeaderCols = ({
             </SortingHeader>
           ),
           testId: 'Name',
-          width: '30%',
+          width: '25%',
           renderRow: (run: Run) => (
             <div style={{ alignItems: 'center' }}>
               <div data-tip data-for={run?.name}>
@@ -287,38 +341,103 @@ export const useHeaderCols = ({
             </SortingHeader>
           ),
           testId: 'Pipeline',
-          width: '7.5%',
+          width: '16%',
           renderRow: (run: Run) => (
-            <FlexBox alignItems="center">
-              <div
+            <FlexBox
+              alignItems="center"
+              onMouseEnter={() =>
+                handleIdToHover(run?.id as any, run?.body?.pipeline?.id as any)
+              }
+              onMouseLeave={() => handleIdToLeave()}
+              // style={{ position: 'relative' }}
+            >
+              {/* <div
                 data-tip
-                data-for={run?.pipeline?.name && run?.pipeline?.version}
-              >
-                <Paragraph
-                  size="small"
-                  style={{
-                    color: '#22BBDD',
-                    textDecoration: 'underline',
-                    zIndex: 100,
-                  }}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    history.push(
-                      routePaths.pipeline.configuration(
-                        run?.pipeline?.id as string,
-                        selectedWorkspace,
-                      ),
-                    );
-                  }}
+                data-for={run?.body?.pipeline?.name}
+                // data-for={run?.body?.pipeline?.name && run?.pipeline?.version}
+              > */}
+              {!run?.body?.pipeline?.permission_denied ? (
+                <div
+                  data-tip
+                  data-for={run?.body?.pipeline?.name}
+                  // data-for={run?.body?.pipeline?.name && run?.pipeline?.version}
                 >
-                  {run?.pipeline?.name &&
-                    `${run?.pipeline?.name} ( v${run?.pipeline?.version} )`}
-                </Paragraph>
-              </div>
+                  <Box style={innerBoxStyleEnable}>
+                    <Paragraph
+                      size="small"
+                      style={{
+                        color: '#3e238e',
+                        // textDecoration: 'underline',
+                        zIndex: 100,
+                      }}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        history.push(
+                          routePaths.pipeline.configuration(
+                            run?.body?.pipeline?.id as string,
+                            selectedWorkspace,
+                          ),
+                        );
+                      }}
+                    >
+                      {run?.body?.pipeline?.name &&
+                        `${run?.body?.pipeline?.name}`}
+                      {/* `${run?.body?.pipeline?.name} ( v${run?.pipeline?.version} )`} */}
+                    </Paragraph>
+                  </Box>
+                  <Tooltip
+                    id={run?.body?.pipeline?.name}
+                    text={`${run?.body?.pipeline?.name}`}
+                    // id={run?.pipeline?.name && run?.pipeline?.version}
+                    // text={`${run?.pipeline?.name} (v${run?.pipeline?.version})`}
+                  />
+                </div>
+              ) : (
+                <>
+                  {showToolTip === run?.id &&
+                    selectedSubModelId === run?.body?.pipeline?.id && (
+                      <CustomToolTip
+                        customStyle={customToolTip}
+                        name={run?.body?.pipeline?.name}
+                      />
+
+                      //   <Paragraph>You Don't have acces to this Stack.</Paragraph>
+                      //   <Paragraph>
+                      //     Please, contact with you Admin for further information
+                      //     or to request access.
+                      //   </Paragraph>
+                      // </Box>
+                    )}
+
+                  <Box style={innerBoxStyleDisable}>
+                    <icons.lock2
+                      style={{ paddingRight: '5px' }}
+                      color={iconColors.grey}
+                      size={iconSizes.sml}
+                    />
+                    <Paragraph
+                      size="small"
+                      style={{
+                        color: '#666c78',
+                        // textDecoration: 'underline',
+                        // zIndex: 100,
+                      }}
+                    >
+                      {run?.body?.pipeline?.name &&
+                        `${run?.body?.pipeline?.name}`}
+                      {/* `${run?.body?.pipeline?.name} ( v${run?.pipeline?.version} )`} */}
+                    </Paragraph>
+                  </Box>
+                </>
+              )}
+
+              {/* </div>
               <Tooltip
-                id={run?.pipeline?.name && run?.pipeline?.version}
-                text={`${run?.pipeline?.name} (v${run?.pipeline?.version})`}
-              />
+                id={run?.body?.pipeline?.name}
+                text={`${run?.body?.pipeline?.name}`}
+                // id={run?.pipeline?.name && run?.pipeline?.version}
+                // text={`${run?.pipeline?.name} (v${run?.pipeline?.version})`}
+              /> */}
             </FlexBox>
           ),
         },
@@ -341,51 +460,141 @@ export const useHeaderCols = ({
             </SortingHeader>
           ),
           testId: 'Status',
-          width: '7.5%',
-          renderRow: (run: TRun) => <RunStatus run={run} />,
+          width: '6.5%',
+          renderRow: (run: Run) => <RunStatus run={run} />,
         },
         {
           render: () => (
-            <SortingHeader
-              onlyOneRow={runs.length === 1}
-              sorting="stack_id"
-              sortMethod={sortMethod('stack_id', {
-                asc: (run: Run[]) => _.orderBy(run, ['stack_id'], ['asc']),
-                desc: (run: Run[]) => _.orderBy(run, ['stack_id'], ['desc']),
-              })}
-              activeSorting={activeSorting}
-              activeSortingDirection={activeSortingDirection}
-            >
-              <HeaderText text="STACK NAME" />
-            </SortingHeader>
+            // <SortingHeader
+            //   onlyOneRow={runs.length === 1}
+            //   sorting="stack_id"
+            //   sortMethod={sortMethod('stack_id', {
+            //     asc: (run: Run[]) => _.orderBy(run, ['stack_id'], ['asc']),
+            //     desc: (run: Run[]) => _.orderBy(run, ['stack_id'], ['desc']),
+            //   })}
+            //   activeSorting={activeSorting}
+            //   activeSortingDirection={activeSortingDirection}
+            // >
+            <HeaderText text="STACK NAME" />
+            // </SortingHeader>
           ),
-          width: '7.5%',
+          width: '16%',
           testId: 'stack_name',
           renderRow: (run: Run) => (
-            <FlexBox alignItems="center">
-              <div data-tip data-for={run?.stack?.name}>
-                <Paragraph
-                  size="small"
-                  style={{
-                    color: '#22BBDD',
-                    textDecoration: 'underline',
-                    cursor: 'pointer',
-                  }}
-                  onClick={(event) => {
-                    event.stopPropagation();
-                    history.push(
-                      routePaths.stack.configuration(
-                        run?.stack?.id as string,
-                        selectedWorkspace,
-                      ),
-                    );
-                  }}
+            <FlexBox
+              alignItems="center"
+              onMouseEnter={() =>
+                handleIdToHover(run?.id as any, run?.body?.stack?.id as any)
+              }
+              onMouseLeave={() => handleIdToLeave()}
+              // style={{ position: 'relative' }}
+            >
+              {/* <div
+              data-tip
+              data-for={run?.body?.pipeline?.name}
+              // data-for={run?.body?.pipeline?.name && run?.pipeline?.version}
+            > */}
+              {!run?.body?.stack?.permission_denied ? (
+                <div
+                  data-tip
+                  data-for={run?.body?.stack?.name}
+                  // data-for={run?.body?.pipeline?.name && run?.pipeline?.version}
                 >
-                  {run?.stack?.name}
-                </Paragraph>
-              </div>
-              <Tooltip id={run?.stack?.name} text={run?.stack?.name} />
+                  <Box style={innerBoxStyleEnable}>
+                    <Paragraph
+                      size="small"
+                      style={{
+                        color: '#3e238e',
+                        // textDecoration: 'underline',
+                        zIndex: 100,
+                      }}
+                      onClick={(event) => {
+                        event.stopPropagation();
+                        history.push(
+                          routePaths.stack.configuration(
+                            run?.body?.stack?.id as string,
+                            selectedWorkspace,
+                          ),
+                        );
+                      }}
+                    >
+                      {run?.body?.pipeline?.name && `${run?.body?.stack?.name}`}
+                      {/* `${run?.body?.pipeline?.name} ( v${run?.pipeline?.version} )`} */}
+                    </Paragraph>
+                  </Box>
+                  <Tooltip
+                    id={run?.body?.stack?.name}
+                    text={`${run?.body?.stack?.name}`}
+                    // id={run?.pipeline?.name && run?.pipeline?.version}
+                    // text={`${run?.pipeline?.name} (v${run?.pipeline?.version})`}
+                  />
+                </div>
+              ) : (
+                <>
+                  {showToolTip === run?.id &&
+                    selectedSubModelId === run?.body?.stack?.id && (
+                      <CustomToolTip
+                        customStyle={customToolTip}
+                        name={run?.body?.stack?.name}
+                      />
+                    )}
+
+                  <Box style={innerBoxStyleDisable}>
+                    <icons.lock2
+                      style={{ paddingRight: '5px' }}
+                      color={iconColors.grey}
+                      size={iconSizes.sml}
+                    />
+                    <Paragraph
+                      size="small"
+                      style={{
+                        color: '#666c78',
+                        // textDecoration: 'underline',
+                        // zIndex: 100,
+                      }}
+                    >
+                      {run?.body?.stack?.name && `${run?.body?.stack?.name}`}
+                      {/* `${run?.body?.pipeline?.name} ( v${run?.pipeline?.version} )`} */}
+                    </Paragraph>
+                  </Box>
+                </>
+              )}
+
+              {/* </div>
+            <Tooltip
+              id={run?.body?.pipeline?.name}
+              text={`${run?.body?.pipeline?.name}`}
+              // id={run?.pipeline?.name && run?.pipeline?.version}
+              // text={`${run?.pipeline?.name} (v${run?.pipeline?.version})`}
+            /> */}
             </FlexBox>
+            // <FlexBox alignItems="center">
+            //   <div data-tip data-for={run?.body?.stack?.name}>
+            //     <Paragraph
+            //       size="small"
+            //       style={{
+            //         color: '#22BBDD',
+            //         textDecoration: 'underline',
+            //         cursor: 'pointer',
+            //       }}
+            //       onClick={(event) => {
+            //         event.stopPropagation();
+            //         history.push(
+            //           routePaths.stack.configuration(
+            //             run?.body?.stack?.id as string,
+            //             selectedWorkspace,
+            //           ),
+            //         );
+            //       }}
+            //     >
+            //       {run?.body?.stack?.name}
+            //     </Paragraph>
+            //   </div>
+            //   <Tooltip
+            //     id={run?.body?.stack?.name}
+            //     text={run?.body?.stack?.name}
+            //   />
+            // </FlexBox>
           ),
         },
         {
@@ -407,38 +616,23 @@ export const useHeaderCols = ({
           width: '7.5%',
           renderRow: (run: Run) => {
             const initials = getInitialsFromEmail(
-              run?.user?.full_name
-                ? (run?.user.full_name as string)
-                : (run?.user?.name as string),
+              run?.body?.user?.name as string,
             );
             return (
               <FlexBox alignItems="center">
-                <div
-                  data-tip
-                  data-for={
-                    run?.user?.full_name ? run?.user.full_name : run?.user?.name
-                  }
-                >
+                <div data-tip data-for={run?.body?.user?.name}>
                   <FlexBox alignItems="center">
                     <Box paddingRight="sm">
                       <ColoredCircle color="secondary" size="sm">
                         {initials}
                       </ColoredCircle>
                     </Box>
-                    <Paragraph size="small">
-                      {run?.user?.full_name
-                        ? run?.user.full_name
-                        : run?.user?.name}
-                    </Paragraph>
+                    <Paragraph size="small">{run?.body?.user?.name}</Paragraph>
                   </FlexBox>
                 </div>
                 <Tooltip
-                  id={
-                    run?.user?.full_name ? run?.user.full_name : run?.user?.name
-                  }
-                  text={
-                    run?.user?.full_name ? run?.user.full_name : run?.user?.name
-                  }
+                  id={run?.body?.user?.name}
+                  text={run?.body?.user?.name}
                 />
               </FlexBox>
             );
@@ -453,13 +647,15 @@ export const useHeaderCols = ({
                 asc: (runs: Run[]) =>
                   _.orderBy(
                     runs,
-                    (run: Run) => new Date(run?.created).getTime(),
+                    (run: Run) =>
+                      new Date(run.body?.created as string).getTime(),
                     ['asc'],
                   ),
                 desc: (runs: Run[]) =>
                   _.orderBy(
                     runs,
-                    (run: Run) => new Date(run?.created).getTime(),
+                    (run: Run) =>
+                      new Date(run.body?.created as string).getTime(),
                     ['desc'],
                   ),
               })}
@@ -469,20 +665,23 @@ export const useHeaderCols = ({
               <HeaderText text={translate('createdAt.text')} />
             </SortingHeader>
           ),
-          width: '20%',
+          width: '14%',
           testId: 'created_at',
           renderRow: (run: Run) => (
             <FlexBox alignItems="center">
-              <div data-tip data-for={formatDateToDisplayOnTable(run?.created)}>
+              <div
+                data-tip
+                data-for={formatDateToDisplayOnTable(run.body?.created)}
+              >
                 <FlexBox alignItems="center">
                   <Paragraph color="grey" size="tiny">
-                    {formatDateToDisplayOnTable(run?.created)}
+                    {formatDateToDisplayOnTable(run.body?.created)}
                   </Paragraph>
                 </FlexBox>
               </div>
               <Tooltip
-                id={formatDateToDisplayOnTable(run?.created)}
-                text={formatDateToDisplayOnTable(run?.created)}
+                id={formatDateToDisplayOnTable(run.body?.created)}
+                text={formatDateToDisplayOnTable(run.body?.created)}
               />
             </FlexBox>
           ),

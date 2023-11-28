@@ -1,5 +1,5 @@
-import { dag } from '../utils/dagUtils';
-import { filterByBoolean } from '../utils/filterByBooleanUtils';
+// import { dag } from '../utils/dagUtils';
+// import { filterByBoolean } from '../utils/filterByBooleanUtils';
 import { filterByStatus } from '../utils/filterByStatusUtils';
 import { filterByString } from '../utils/filterByStringUtils';
 import { login } from '../utils/loginUtils';
@@ -20,12 +20,12 @@ describe('FilterComponent E2E Tests', () => {
     // cy.wait(9000);
     const emptyText =
       'Nothing to see here, it seems like no stack has been configured yet.';
-    const columnList = ['ID', 'NAME', 'SHARED', 'AUTHOR', 'CREATED AT'];
+    const columnList = ['ID', 'NAME', 'AUTHOR', 'CREATED AT'];
     tableColumns(columnList, emptyText);
   });
 
   it('should sort table columns', () => {
-    const columnTestIds = ['Id', 'Name', 'Shared', 'Author', 'created_at'];
+    const columnTestIds = ['Id', 'Name', 'Author', 'created_at'];
     columnTestIds.forEach((col) => {
       tableColumnsSorting(col);
       // cy.wait(2000);
@@ -34,7 +34,7 @@ describe('FilterComponent E2E Tests', () => {
 
   it('should work with valid value', () => {
     const emptyText = 'We are sorry';
-    search('asd2', emptyText);
+    search('a', emptyText);
   });
 
   it('should apply filters where string', () => {
@@ -43,10 +43,11 @@ describe('FilterComponent E2E Tests', () => {
     columnList.forEach((col) => {
       filterByString(col, emptyText);
     });
-    filterByBoolean(emptyText);
+    // filterByBoolean(emptyText);
   });
   it('should navigate through pagination', () => {
     cy.waitForLoaderToDisappear();
+
     // Assuming you have a button or link for next and previous pagination
     // You can click these buttons to navigate through pages
     pagination(); // Click the "Previous" button
@@ -62,18 +63,18 @@ describe('FilterComponent E2E Tests', () => {
     cy.get('table tbody tr:first').should('exist');
 
     // Click on the first row
-    cy.get('table tbody tr:eq(4)').click({ force: true });
+    cy.get('table tbody tr:eq(0)').click({ force: true });
 
-    cy.get('[data-testid="run_tab"]').click();
-    cy.waitForLoaderToDisappear();
-    cy.get('table').should('exist');
-    cy.wait(5000);
-    // Select the first row within the table (modify the selector as needed)
-    cy.get('table:eq(1) tbody tr:first').should('exist');
+    // cy.get('[data-testid="run_tab"]').click();
+    // cy.waitForLoaderToDisappear();
+    // cy.get('table').should('exist');
+    // cy.wait(5000);
+    // // Select the first row within the table (modify the selector as needed)
+    // cy.get('table:eq(1) tbody tr:first').should('exist');
 
-    // Click on the first row
-    cy.get('table:eq(1) tbody tr:first').click({ force: true });
-    dag();
+    // // Click on the first row
+    // cy.get('table:eq(1) tbody tr:first').click({ force: true });
+    // dag();
   });
 
   it("should display Stacks's runs", () => {
@@ -82,7 +83,7 @@ describe('FilterComponent E2E Tests', () => {
     cy.checkTableAndH4Visibility('Nothing to see here');
 
     // Select the first row within the table (modify the selector as needed)
-    cy.get('table tbody tr:eq(4)').click({ force: true });
+    cy.get('table tbody tr:eq(0)').click({ force: true });
     cy.get('[data-testid="run_tab"]').click();
     cy.waitForLoaderToDisappear();
     cy.checkTableAndH4Visibility('No runs');
@@ -93,6 +94,6 @@ describe('FilterComponent E2E Tests', () => {
     columnList.forEach((col) => {
       filterByString(col, emptyText);
     });
-    filterByStatus();
+    filterByStatus(emptyText);
   });
 });

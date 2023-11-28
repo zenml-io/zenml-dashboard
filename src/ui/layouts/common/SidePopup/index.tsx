@@ -35,8 +35,11 @@ export const SidePopup: React.FC<{
       return onClose();
     }
   };
+
   const [defaultSdkDocsUrl] = useState(
-    flavor?.sdkDocsUrl ? flavor?.sdkDocsUrl : flavor?.docsUrl,
+    flavor?.metadata.sdk_docs_url
+      ? flavor?.metadata.sdk_docs_url
+      : flavor?.metadata.docs_Url,
   );
   const [is404, setIs404] = useState(false);
 

@@ -30,7 +30,7 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
       dispatch(
         organizationActions.getMembers({
           page: membersPaginated.page,
-          size: membersPaginated.size,
+          size: 1000,
         }),
       );
     }, 5000);
@@ -45,7 +45,7 @@ export const DeleteMember: React.FC<{ member: TInvite }> = ({ member }) => {
         onSuccess: () => {
           setPopupOpen(false);
           setSubmitting(false);
-          dispatch(organizationActions.getMembers({}));
+          dispatch(organizationActions.getMembers({ page: 1, size: 1000 }));
           dispatch(
             showToasterAction({
               type: 'success',

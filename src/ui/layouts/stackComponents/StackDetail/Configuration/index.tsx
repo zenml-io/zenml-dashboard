@@ -32,18 +32,16 @@ import { ToggleField } from '../../../common/FormElement';
 import { routePaths } from '../../../../../routes/routePaths';
 
 import { truncate } from '../../../../../utils';
+import { Flavor } from '../../../../../api/types';
 
 export const Configuration: React.FC<{
   stackId: TId;
+  flavor: Flavor | any;
   loading?: boolean;
   serviceConnectorResources?: any;
-}> = ({ stackId, loading, serviceConnectorResources }) => {
+}> = ({ stackId, loading, serviceConnectorResources, flavor }) => {
   const locationPath = useLocationPath();
   const history = useHistory();
-
-  const { stackComponent, flavor } = useService({
-    stackId,
-  }) as any;
 
   const user = useSelector(userSelectors.myUser);
   const [componentfetching, setComponentFetching] = useState(false);
@@ -55,6 +53,14 @@ export const Configuration: React.FC<{
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
 
   const [inputFields, setInputFields] = useState([]) as any;
+  const { stackComponent } = useService({
+    stackId,
+  }) as any;
+
+  // if (loading) {
+  //   return <FullWidthSpinner color="black" size="md" />;
+  // }
+
   const titleCase = (s: any) =>
     s.replace(/^_*(.)|_+(.)/g, (s: any, c: string, d: string) =>
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
@@ -208,7 +214,10 @@ export const Configuration: React.FC<{
   };
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    if (flavor?.configSchema?.properties[elementName]?.type === 'string') {
+    if (
+      flavor?.metadata?.config_schema?.properties[elementName]?.type ===
+      'string'
+    ) {
       const extracted = elementSchema.split(/\./)[0];
       const secretName = extracted.replace(/{{|}}|\./g, '').trim();
       const filteredSecret = secrets?.filter(
@@ -217,8 +226,9 @@ export const Configuration: React.FC<{
 
       return (
         <>
-          {flavor?.configSchema?.properties[elementName].sensitive ? (
-            !stackComponent.connectorResourceId && (
+          {flavor?.metadata?.config_schema?.properties[elementName]
+            .sensitive ? (
+            !stackComponent.metadata?.connector_resource_id && (
               <Box marginTop="lg" style={{ width: '30vw' }}>
                 <EditField
                   disabled
@@ -239,9 +249,9 @@ export const Configuration: React.FC<{
                 />
               </Box>
             )
-          ) : flavor?.configSchema?.properties[elementName].title ===
+          ) : flavor?.metadata?.config_schema?.properties[elementName].title ===
               'Authentication Secret' &&
-            stackComponent.connectorResourceId ? null : (
+            stackComponent.metadata?.connector_resource_id ? null : (
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
@@ -257,10 +267,12 @@ export const Configuration: React.FC<{
       );
     }
     if (
-      flavor?.configSchema?.properties[elementName]?.type === 'object' &&
-      flavor?.configSchema?.properties[elementName]?.additionalProperties &&
-      flavor?.configSchema?.properties[elementName]?.additionalProperties
-        .type !== 'string'
+      flavor?.metadata?.config_schema?.properties[elementName]?.type ===
+        'object' &&
+      flavor?.metadata?.config_schema?.properties[elementName]
+        ?.additionalProperties &&
+      flavor?.metadata?.config_schema?.properties[elementName]
+        ?.additionalProperties.type !== 'string'
     ) {
       return (
         <>
@@ -296,7 +308,10 @@ export const Configuration: React.FC<{
       );
     }
 
-    if (flavor?.configSchema?.properties[elementName]?.type === 'object') {
+    if (
+      flavor?.metadata?.config_schema?.properties[elementName]?.type ===
+      'object'
+    ) {
       return (
         <Box marginTop="lg" style={{ width: '30vw' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
@@ -542,35 +557,39 @@ export const Configuration: React.FC<{
       );
     }
 
-    if (flavor?.configSchema?.properties[elementName]?.type === 'array') {
+    if (
+      flavor?.metadata?.config_schema?.properties[elementName]?.type === 'array'
+    ) {
       return (
         <Box marginTop="md">
           <Paragraph size="body" style={{ color: '#000' }}>
             <label htmlFor="key">{titleCase(elementName)}</label>
           </Paragraph>
-
           <Box style={{ position: 'relative' }}>
-            <div
-              style={{
-                position: 'absolute',
-                bottom: '10px',
-                width: '5px',
-                height: '5px',
-                borderRadius: '100%',
-                backgroundColor: 'rgba(68, 62, 153, 0.3)',
-              }}
-            ></div>
+            {mappedObject[elementName].length < 1 && (
+              <>
+                <Box style={{ position: 'relative' }}>
+                  <div
+                    style={{
+                      position: 'absolute',
+                      bottom: '10px',
+                      width: '5px',
+                      height: '5px',
+                      borderRadius: '100%',
+                      backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                    }}
+                  ></div>
 
-            <div
-              className="form-row"
-              style={{
-                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                marginLeft: '2px',
-              }}
-            >
-              {mappedObject &&
-                mappedObject[elementName]?.map((item: any, index: any) => (
-                  <Fragment key={index}>
+                  <div
+                    className="form-row"
+                    style={{
+                      borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                      marginLeft: '2px',
+                    }}
+                  >
+                    {/* {mappedObject &&
+                mappedObject[elementName]?.map((item: any, index: any) => ( */}
+
                     <Box
                       style={{ display: 'flex', alignItems: 'center' }}
                       marginTop="sm"
@@ -598,7 +617,7 @@ export const Configuration: React.FC<{
                           disabled
                           className={styles.field}
                           label={'Value'}
-                          value={item}
+                          value={''}
                           placeholder={''}
                         />
                       </div>
@@ -619,8 +638,89 @@ export const Configuration: React.FC<{
                         ></div>
                       </div>
                     </Box>
-                  </Fragment>
-                ))}
+
+                    {/* ))} */}
+                  </div>
+                  <div className="submit-button"></div>
+                  <br />
+                </Box>
+              </>
+            )}
+          </Box>
+
+          <Box style={{ position: 'relative' }}>
+            {mappedObject[elementName]?.length >= 1 && (
+              <div
+                style={{
+                  position: 'absolute',
+                  bottom: '10px',
+                  width: '5px',
+                  height: '5px',
+                  borderRadius: '100%',
+                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                }}
+              ></div>
+            )}
+
+            <div
+              className="form-row"
+              style={{
+                borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                marginLeft: '2px',
+              }}
+            >
+              {mappedObject[elementName]?.map((item: any, index: any) => (
+                <Fragment key={index}>
+                  <Box
+                    style={{ display: 'flex', alignItems: 'center' }}
+                    marginTop="sm"
+                  >
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
+
+                    <div className="form-group" style={{ width: '28.5vw' }}>
+                      <EditField
+                        disabled
+                        className={styles.field}
+                        label={'Value'}
+                        value={item}
+                        placeholder={''}
+                      />
+                    </div>
+                    <div
+                      style={{
+                        justifyContent: 'space-between',
+                        display: 'flex',
+                        marginTop: '10px',
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: 'flex',
+                          flexDirection: 'row',
+                          justifyContent: 'space-between',
+                          alignItems: 'center',
+                        }}
+                      ></div>
+                    </div>
+                  </Box>
+                </Fragment>
+              ))}
             </div>
             <div className="submit-button"></div>
             <br />
@@ -645,6 +745,7 @@ export const Configuration: React.FC<{
       );
     }
   };
+
   if (loading) {
     return <FullWidthSpinner color="black" size="md" />;
   }
@@ -652,20 +753,18 @@ export const Configuration: React.FC<{
     return <FullWidthSpinner color="black" size="md" />;
   }
 
-  let result = Object.keys(flavor.configSchema.properties).reduce(function (
-    r: any,
-    name: any,
-  ) {
+  let result = Object.keys(
+    flavor?.metadata?.config_schema?.properties || {},
+  ).reduce(function (r: any, name: any) {
     return (
       (r[name] =
-        flavor?.configSchema?.properties[name].type === 'string' &&
-        flavor?.configSchema?.properties[name].default === undefined
+        flavor?.metadata?.config_schema?.properties[name].type === 'string' &&
+        flavor?.metadata?.config_schema?.properties[name].default === undefined
           ? ''
-          : flavor?.configSchema?.properties[name].default),
+          : flavor?.metadata?.config_schema?.properties[name].default),
       r
     );
-  },
-  {});
+  }, {});
   function replaceNullWithEmptyString(obj: any) {
     for (let prop in obj) {
       if (obj[prop] === null) {
@@ -677,11 +776,11 @@ export const Configuration: React.FC<{
     return obj;
   }
 
-  replaceNullWithEmptyString(stackComponent?.configuration);
+  replaceNullWithEmptyString(stackComponent?.metadata?.configuration);
 
   const mappedObject = {
     ...result,
-    ...stackComponent?.configuration,
+    ...stackComponent?.metadata?.configuration,
   };
 
   if (componentfetching) {
@@ -706,18 +805,18 @@ export const Configuration: React.FC<{
           </Box>
         </Container>
         <Container>
-          <Box marginTop="lg" style={{ width: '30vw' }}>
+          {/* <Box marginTop="lg" style={{ width: '30vw' }}>
             <ToggleField
-              value={stackComponent?.isShared}
+              value={stackComponent?.body?.is_shared}
               onHandleChange={() =>
-                onChangeToggle(!stackComponent?.isShared, 'share')
+                onChangeToggle(!stackComponent?.body?.is_shared, 'share')
               }
-              label="Share Component with public"
+              label="Share Component with spublic"
               disabled={true}
             />
-          </Box>
+          </Box> */}
         </Container>
-        {flavor.connector_resource_type && (
+        {flavor?.metadata?.connector_resource_type && (
           <Box marginTop="md" marginLeft="md" style={{ width: '30vw' }}>
             <Box>
               <Paragraph size="body" style={{ color: '#000' }}>
@@ -732,7 +831,7 @@ export const Configuration: React.FC<{
                   borderWidth: '0px',
                 }}
               >
-                {stackComponent?.connector ? (
+                {stackComponent.metadata?.connector ? (
                   <FlexBox className={styles.service_selector_selected}>
                     <Box marginRight="sm"></Box>
 
@@ -743,10 +842,13 @@ export const Configuration: React.FC<{
                         alt={serviceConnectorResources?.name}
                       />{' '}
                       &#91;{' '}
-                      {truncate(stackComponent?.connector.id, ID_MAX_LENGTH) +
+                      {truncate(
+                        stackComponent.metadata.connector.id,
+                        ID_MAX_LENGTH,
+                      ) +
                         '-' +
-                        stackComponent.connector.name}
-                      &#93; {stackComponent.connectorResourceId}
+                        stackComponent.metadata.connector.name}
+                      &#93; {stackComponent.metadata.connector_resource_id}
                     </Paragraph>
                   </FlexBox>
                 ) : (

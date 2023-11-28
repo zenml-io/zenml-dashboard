@@ -17,7 +17,9 @@ export default function VerifyDevicesPage() {
   const dispatch = useDispatch();
   const authToken = useSelector(sessionSelectors.authenticationToken);
   const { search } = useLocation();
+
   const [deviceInfo, setDeviceInfo] = useState<Device | null>(null);
+
   const [isTrusted, setIsTrusted] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [success, setSuccess] = useState(false);
@@ -66,7 +68,7 @@ export default function VerifyDevicesPage() {
     }
     const fetchDeviceDetails = async () => {
       try {
-        const response = await axios.get<Device>(
+        const response = await axios.get<any>(
           `${apiUrl(
             endpoints.devices.getDetails(deviceId),
           )}?user_code=${userCode}`,

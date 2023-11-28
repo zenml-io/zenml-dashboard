@@ -20,7 +20,6 @@ export const Runs: React.FC<{
     filter,
     sortBy,
   });
-  console.log(fetching, 'fetchingfetching');
 
   return (
     <RunsTable

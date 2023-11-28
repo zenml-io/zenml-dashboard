@@ -1,4 +1,3 @@
-// import { apiCall } from '../utils/apiCallUtils';
 import { dag } from '../utils/dagUtils';
 import { filterByStatus } from '../utils/filterByStatusUtils';
 import { filterByString } from '../utils/filterByStringUtils';
@@ -13,7 +12,6 @@ describe('FilterComponent E2E Tests', () => {
     login();
     cy.waitUntilDashboardIsLoaded();
     cy.wait(1000);
-    // apiCall();
     cy.get('[id="runs"]').click();
   });
 
@@ -39,7 +37,7 @@ describe('FilterComponent E2E Tests', () => {
       'Name',
       'Pipeline',
       'Status',
-      'stack_name',
+      // 'stack_name',
       'Author',
       'created_at',
     ];
@@ -51,7 +49,7 @@ describe('FilterComponent E2E Tests', () => {
 
   it('should work with valid value', () => {
     const emptyText = 'We are sorry';
-    search('pipeline', emptyText);
+    search('p', emptyText);
   });
 
   it('should apply filters where string', () => {

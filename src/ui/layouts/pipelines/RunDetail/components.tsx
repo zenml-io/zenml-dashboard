@@ -32,48 +32,48 @@ export const KeyValue: React.FC<{ label: string; width: string }> = ({
 );
 
 export const RunStatus: React.FC<{ run: Run }> = ({ run }) => {
-  if (run.status === runStatus.Running) return null;
+  if (run.body?.status === runStatus.Running) return null;
 
   return (
     <>
       <FlexBox alignItems="center">
-        <div data-tip data-for={run.status}>
-          <If condition={run.status === runStatus.COMPLETED}>
+        <div data-tip data-for={run.body?.status}>
+          <If condition={run.body?.status === runStatus.COMPLETED}>
             {() => <icons.check color={iconColors.white} size={iconSizes.md} />}
           </If>
         </div>
-        <Tooltip id={run.status} text={run.status} />
+        <Tooltip id={run.body?.status} text={run.body?.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
-        <div data-tip data-for={run.status}>
-          <If condition={run.status === runStatus.RUNNING}>
+        <div data-tip data-for={run.body?.status}>
+          <If condition={run.body?.status === runStatus.RUNNING}>
             {() => (
               <icons.inProgress color={iconColors.orange} size={iconSizes.md} />
             )}
           </If>
         </div>
-        <Tooltip id={run.status} text={run.status} />
+        <Tooltip id={run.body?.status} text={run.body?.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
-        <div data-tip data-for={run.status}>
-          <If condition={run.status === runStatus.FAILED}>
+        <div data-tip data-for={run.body?.status}>
+          <If condition={run.body?.status === runStatus.FAILED}>
             {() => <icons.close color={iconColors.white} size={iconSizes.md} />}
           </If>
         </div>
-        <Tooltip id={run.status} text={run.status} />
+        <Tooltip id={run.body?.status} text={run.body?.status} />
       </FlexBox>
 
       <FlexBox alignItems="center">
-        <div data-tip data-for={run.status}>
-          <If condition={run.status === runStatus.CACHED}>
+        <div data-tip data-for={run.body?.status}>
+          <If condition={run.body?.status === runStatus.CACHED}>
             {() => (
               <icons.cached color={iconColors.white} size={iconSizes.md} />
             )}
           </If>
         </div>
-        <Tooltip id={run.status} text={run.status} />
+        <Tooltip id={run.body?.status} text={run.body?.status} />
       </FlexBox>
     </>
   );
