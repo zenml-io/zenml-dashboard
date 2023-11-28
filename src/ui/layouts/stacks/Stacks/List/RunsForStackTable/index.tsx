@@ -24,7 +24,9 @@ export const RunsForStackTable: React.FC<{
   if (!isStackOpen()) return null;
   if (nestedRow) {
     const nestedRowtiles: any[] = [];
-    for (const [key, value] of Object.entries(stack.components)) {
+    for (const [key, value] of Object.entries(
+      stack.metadata?.components ?? {},
+    )) {
       if (Array.isArray(value) && value.length > 0 && 'name' in value[0]) {
         nestedRowtiles.push({
           type: key,

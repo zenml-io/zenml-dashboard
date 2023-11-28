@@ -27,7 +27,7 @@ export const RoleSelectorAPI = ({
     const {
       data,
     } = await axios.get(
-      `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_id=${memberId}`,
+      `${process.env.REACT_APP_BASE_API_URL}/role_assignments?hydrate=true&&user_id=${memberId}`,
       { headers: { Authorization: `Bearer ${authToken}` } },
     );
     return setRole(data?.items);
@@ -58,14 +58,14 @@ export const RoleSelectorAPI = ({
     const {
       data,
     } = await axios.get(
-      `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_id=${memberId}`,
+      `${process.env.REACT_APP_BASE_API_URL}/role_assignments?hydrate=true&user_id=${memberId}`,
       { headers: { Authorization: `Bearer ${authToken}` } },
     );
     setRole(data?.items);
 
     const index = allRoles?.indexOf(value);
     allRoles?.splice(index, 1);
-    await dispatch(organizationActions.getMembers({}));
+    await dispatch(organizationActions.getMembers({ page: 1, size: 1000 }));
   };
 
   const removeRoleBean = async (item: any) => {
@@ -76,12 +76,12 @@ export const RoleSelectorAPI = ({
     const {
       data,
     } = await axios.get(
-      `${process.env.REACT_APP_BASE_API_URL}/role_assignments?user_id=${memberId}`,
+      `${process.env.REACT_APP_BASE_API_URL}/role_assignments?hydrate=true&user_id=${memberId}`,
       { headers: { Authorization: `Bearer ${authToken}` } },
     );
     setRole(data?.items);
-    allRoles?.push({ value: item.id, label: item?.role?.name });
-    await dispatch(organizationActions.getMembers({}));
+    allRoles?.push({ value: item.id, label: item.role?.name });
+    await dispatch(organizationActions.getMembers({ page: 1, size: 1000 }));
   };
 
   return (
@@ -121,11 +121,12 @@ export const RoleSelectorAPI = ({
               )}
             </If>
           </div>
+
           {role?.map((e: any) => (
-            <div key={e?.role?.name} className={styles.roleBean}>
+            <div key={e?.metadata.role?.name} className={styles.roleBean}>
               <p>
-                {e?.role?.name?.charAt(0)?.toUpperCase() +
-                  e?.role?.name?.slice(1)}{' '}
+                {e?.metadata.role?.name?.charAt(0)?.toUpperCase() +
+                  e?.metadata.role?.name?.slice(1)}{' '}
                 <span onClick={() => removeRoleBean(e)}>x</span>
               </p>
             </div>

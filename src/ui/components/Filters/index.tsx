@@ -101,7 +101,7 @@ const FilterComponent = ({
     if (name) {
       dispatch(organizationActions.getMembers({ name: 'contains:' + name }));
     } else if (newEvent.action === 'menu-close') {
-      dispatch(organizationActions.getMembers({}));
+      dispatch(organizationActions.getMembers({ page: 1, size: 1000 }));
     }
   }
 
@@ -179,7 +179,8 @@ const FilterComponent = ({
     }
     if (typeName === 'Pipeline') {
       const pipeline = pipelines.filter((item) => item.id === value);
-      return `${pipeline[0].name} ( v${pipeline[0].version} )`;
+      return `${pipeline[0]?.name}`;
+      // `${pipeline[0]?.name} ( v${pipeline[0]?.version} )`;
     }
     if (typeName === 'Stack Name') {
       const stack = stacks.filter((item) => item.id === value);

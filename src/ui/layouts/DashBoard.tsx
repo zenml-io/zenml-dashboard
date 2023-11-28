@@ -47,7 +47,7 @@ import {
 } from '../../redux/actions';
 import { NotFound } from './NotFound';
 
-import { rolesActions } from '../../redux/actions/roles';
+// import { rolesActions } from '../../redux/actions/roles';
 
 export const translate = getTranslateByScope('ui.layouts.Dashboard');
 
@@ -167,8 +167,8 @@ export const DashBoard: React.FC = () => {
       );
     }
     if (!!authToken || isCookieAuthenticated) {
-      dispatch(rolesActions.getRoles({}));
-      dispatch(organizationActions.getMembers({}));
+      // dispatch(rolesActions.getRoles({}));
+      dispatch(organizationActions.getMembers({ page: 1, size: 1000 }));
 
       // ;
     }
@@ -178,11 +178,10 @@ export const DashBoard: React.FC = () => {
     if (selectedWorkspace) {
       getDashboardData();
     }
-    // console.log(selectedWorkspace, 'selectedWorkspaceselectedWorkspace');
   }, [selectedWorkspace]);
 
   const preData = Object.entries(dashboardData);
-  const data = preData?.map(([key, value]) => {
+  const data = preData.map(([key, value]) => {
     const objData = { text: key, value: value };
     return objData;
   });
@@ -218,7 +217,7 @@ export const DashBoard: React.FC = () => {
                 <FullWidthSpinner color="black" size="md" />
               ) : (
                 <Row style={{ alignItems: 'center', marginLeft: '15px' }}>
-                  {data?.map((e, index) => (
+                  {data.map((e, index) => (
                     <Box
                       onMouseEnter={() => handleMouseEnter(e)}
                       onMouseLeave={handleMouseLeave}

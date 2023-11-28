@@ -22,7 +22,7 @@ const EnvironmentCard = ({ run }: EnvironmentCardProps) => {
         <Paragraph className={styles.card__key}>Server Version</Paragraph>
         <Paragraph className={styles.card__value}>
           {/* @ts-ignore */}
-          {run.serverVersion || 'n/a'}
+          {run.metadata.serverVersion || 'n/a'}
         </Paragraph>
       </div>
       <div>
@@ -37,7 +37,7 @@ const EnvironmentCard = ({ run }: EnvironmentCardProps) => {
           </summary>
           <div className={styles.card__detailsContainer}>
             {/* @ts-ignore */}
-            {Object.entries(run.clientEnvironment || {}).map(
+            {Object.entries(run.metadata.client_environment || {}).map(
               ([key, value], i) => (
                 <div key={i}>
                   <Paragraph className={styles.card__key}>{key}</Paragraph>
@@ -63,7 +63,7 @@ const EnvironmentCard = ({ run }: EnvironmentCardProps) => {
           </summary>
           <div className={styles.card__detailsContainer}>
             {/* @ts-ignore */}
-            {Object.entries(run.orchestratorEnvironment || {}).map(
+            {Object.entries(run.metadata.orchestrator_environment || {}).map(
               ([key, value], i) => (
                 <div key={i}>
                   <Paragraph className={styles.card__key}>{key}</Paragraph>

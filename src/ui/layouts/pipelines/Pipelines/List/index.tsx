@@ -91,7 +91,7 @@ export const List: React.FC<Props> = ({
     ?.map((f: any) => f.value && f.type.value)
     .join('');
   const checkValidFilter = isValidFilterFroValue + isValidFilterForCategory;
-  console.log(validFilters, 'validFiltersvalidFilters');
+
   useEffect(() => {
     if (filter) {
       setPageIndex(0);

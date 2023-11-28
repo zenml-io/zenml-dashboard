@@ -118,7 +118,7 @@ export const Menu: React.FC = () => {
 
       <MenuItem
         id="connector"
-        isActive={() => window.location.href?.includes('connectors')}
+        isActive={() => window.location.href?.includes('connector')}
         Icon={() => (
           <icons.connector color={iconColors.white} size={iconSizes.md} />
         )}

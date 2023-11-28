@@ -21,17 +21,17 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
     >
       <img
         className={styles.repositoryCard__headerImage}
-        src={repository.logo_url || Fallback}
+        src={repository.body?.logo_url || Fallback}
         alt={`Logo for repository ${repository.name}`}
       />
       <div className={styles.repositoryCard__body}>
         <h2 className={styles.repositoryCard__heading}>{repository.name}</h2>
         <div className={styles.repositoryCard__secondLine}>
           <p className={styles.repositoryCard__secondLine__description}>
-            {repository.user?.name}
+            {repository.body?.user?.name}
           </p>
           <p className={styles.repositoryCard__secondLine__description}>
-            {moment(repository.created).fromNow()}
+            {moment(repository.body?.created).fromNow()}
           </p>
         </div>
 
@@ -43,7 +43,7 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
             textOverflow: 'ellipsis',
           }}
         >
-          {repository.description || 'No Description provided'}
+          {repository.metadata?.description || 'No Description provided'}
         </p>
       </div>
     </Link>

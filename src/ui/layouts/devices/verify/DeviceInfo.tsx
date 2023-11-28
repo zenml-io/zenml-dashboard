@@ -36,19 +36,19 @@ export function DeviceInfo({
         <dl>
           <div className={styles.infoBox__keyValuePair}>
             <dt className={styles.infoBox__keyValuePair__key}>IP Address</dt>
-            <dd>{deviceInfo?.ip_address}</dd>
+            <dd>{deviceInfo?.body?.ip_address}</dd>
           </div>
-          {deviceInfo?.city && deviceInfo?.country && (
+          {deviceInfo?.metadata?.city && deviceInfo?.metadata?.country && (
             <div className={styles.infoBox__keyValuePair}>
               <dt className={styles.infoBox__keyValuePair__key}>Location</dt>
               <dd>
-                {deviceInfo?.city}, {deviceInfo?.country}
+                {deviceInfo?.metadata?.city}, {deviceInfo?.metadata?.country}
               </dd>
             </div>
           )}
           <div className={styles.infoBox__keyValuePair}>
             <dt className={styles.infoBox__keyValuePair__key}>Hostname</dt>
-            <dd>{deviceInfo?.hostname}</dd>
+            <dd>{deviceInfo?.body?.hostname}</dd>
           </div>
         </dl>
       </div>

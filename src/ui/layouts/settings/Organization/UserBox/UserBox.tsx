@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import styles from './index.module.scss';
-import { FlexBox, Box, Row, Paragraph } from '../../../../components';
+import { FlexBox, Box, Paragraph } from '../../../../components';
 import { UpdateMember } from '../UpdateMember';
 import { TokenPopup } from '../tokenPopup';
 import { getInitials } from '../../../../../utils/name';
@@ -9,7 +9,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
   const [editPopup, setEditPopup] = useState(false);
   const [tokenPopup, setTokenPopup] = useState(false);
 
-  const userFullName = data?.fullName || data?.fullName || data?.name;
+  const userFullName = data?.body.full_name ? data?.body.full_name : data?.name;
   const userInitials = getInitials(userFullName as string);
 
   const handleTokenPopup = (e: any) => {
@@ -19,7 +19,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
 
   return (
     <>
-      {permission && editPopup && (
+      {editPopup && (
         <UpdateMember
           member={data}
           setEditPopup={setEditPopup}
@@ -27,13 +27,13 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
           setUser={setUser}
         />
       )}
-      {permission && tokenPopup && (
+      {tokenPopup && (
         <TokenPopup
           id={data?.id}
-          fullName={data?.fullName}
+          fullName={data?.metadata?.fullName}
           username={data?.name}
-          active={data?.active}
-          roles={data?.roles}
+          active={data?.metadata?.active}
+          // roles={data?.metadata?.roles}
           setTokenPopup={setTokenPopup}
         />
       )}
@@ -57,13 +57,13 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
 
           <Box marginTop="sm">
             <Paragraph className={styles.userName}>
-              {data?.fullName ? data?.fullName : data?.name}
+              {data?.body.full_name ? data?.body.full_name : data?.name}
             </Paragraph>
           </Box>
-
+          {/* 
           <Box marginTop="sm" className={styles.rolesContainer}>
             <Row>
-              {data?.roles?.map((e: any, index: number) => (
+              {data?.metadata.roles?.map((e: any, index: number) => (
                 <Paragraph
                   key={index}
                   className={styles.role}
@@ -75,9 +75,9 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
                 </Paragraph>
               ))}
             </Row>
-          </Box>
+          </Box> */}
 
-          {!data?.active && (
+          {!data?.body?.active && (
             <Box
               onClick={handleTokenPopup}
               marginTop="sm"

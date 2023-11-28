@@ -28,16 +28,19 @@ describe('FilterComponent E2E Tests', () => {
   });
 
   it('should work with valid value', () => {
-    search('asd2');
+    const emptyText = 'We are sorry';
+    search('a', emptyText);
   });
 
   it('should apply filters where string', () => {
+    const emptyText = 'We are sorry';
     const columnList = ['ID', 'Name', 'Scope'];
     columnList.forEach((col) => {
-      filterByString(col);
+      filterByString(col, emptyText);
     });
   });
   it('should navigate through pagination', () => {
+    cy.waitForLoaderToDisappear();
     // Assuming you have a button or link for next and previous pagination
     // You can click these buttons to navigate through pages
     pagination(); // Click the "Previous" button

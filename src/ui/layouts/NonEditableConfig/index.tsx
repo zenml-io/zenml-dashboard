@@ -11,14 +11,22 @@ import styles from './index.module.scss';
 import { useService } from './useService';
 import { routePaths } from '../../../routes/routePaths';
 import { useSelector } from 'react-redux';
-import { secretSelectors, workspaceSelectors } from '../../../redux/selectors';
+import {
+  secretSelectors,
+  stackComponentSelectors,
+  workspaceSelectors,
+} from '../../../redux/selectors';
 import { useHistory } from '../../hooks';
+import { StackComponent } from '../../../api/types';
 
 export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
   const secrets = useSelector(secretSelectors.mySecrets);
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const stackComponent: StackComponent = useSelector(
+    stackComponentSelectors.stackComponentForId(details.id),
+  );
   const history = useHistory();
-  const { flavor } = useService({
+  const { flavor, fetching } = useService({
     details,
   }) as any;
 
@@ -28,7 +36,9 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     );
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
-    if (flavor?.config_schema?.properties[elementName]?.type === 'string') {
+    if (
+      flavor?.metadata.config_schema?.properties[elementName]?.type === 'string'
+    ) {
       const extracted = elementSchema.split(/\./)[0];
       const secretName = extracted.replace(/{{|}}|\./g, '').trim();
       const filteredSecret = secrets?.filter(
@@ -36,7 +46,7 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       );
       return (
         <>
-          {flavor?.config_schema?.properties[elementName].sensitive ? (
+          {flavor?.metadata.config_schema?.properties[elementName].sensitive ? (
             <Box marginTop="lg" style={{ width: '30vw' }}>
               <EditField
                 disabled
@@ -72,10 +82,12 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       );
     }
     if (
-      flavor?.config_schema?.properties[elementName]?.type === 'object' &&
-      flavor?.config_schema?.properties[elementName]?.additionalProperties &&
-      flavor?.config_schema?.properties[elementName]?.additionalProperties
-        .type !== 'string'
+      flavor?.metadata?.config_schema?.properties[elementName]?.type ===
+        'object' &&
+      flavor?.metadata?.config_schema?.properties[elementName]
+        ?.additionalProperties &&
+      flavor?.metadata?.config_schema?.properties[elementName]
+        ?.additionalProperties.type !== 'string'
     ) {
       return (
         <>
@@ -97,7 +109,10 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       );
     }
 
-    if (flavor?.config_schema?.properties[elementName]?.type === 'object') {
+    if (
+      flavor?.metadata?.config_schema?.properties[elementName]?.type ===
+      'object'
+    ) {
       return (
         <Box marginTop="lg" style={{ width: '30vw' }}>
           <Paragraph size="body" style={{ color: 'black' }}>
@@ -247,7 +262,9 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
       );
     }
 
-    if (flavor?.config_schema?.properties[elementName]?.type === 'array') {
+    if (
+      flavor?.metadata?.config_schema?.properties[elementName]?.type === 'array'
+    ) {
       return (
         <Box marginTop="md">
           <Paragraph size="body" style={{ color: '#000' }}>
@@ -331,23 +348,22 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     }
   };
 
-  if (flavor === undefined) {
+  if (fetching) {
     return <FullWidthSpinner color="black" size="md" />;
   }
 
-  let result = Object.keys(flavor?.config_schema?.properties || {}).reduce(
-    function (r: any, name: any) {
-      return (
-        (r[name] =
-          flavor?.config_schema?.properties[name].type === 'string' &&
-          flavor?.config_schema?.properties[name].default === undefined
-            ? ''
-            : flavor?.config_schema?.properties[name].default),
-        r
-      );
-    },
-    {},
-  );
+  let result = Object.keys(
+    flavor?.metadata?.config_schema?.properties || {},
+  ).reduce(function (r: any, name: any) {
+    return (
+      (r[name] =
+        flavor?.metadata?.config_schema?.properties[name].type === 'string' &&
+        flavor?.metadata?.config_schema?.properties[name].default === undefined
+          ? ''
+          : flavor?.metadata?.config_schema?.properties[name].default),
+      r
+    );
+  }, {});
 
   function replaceNullWithEmptyString(obj: any) {
     for (let prop in obj) {
@@ -360,13 +376,12 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
     return obj;
   }
 
-  replaceNullWithEmptyString(details?.configuration);
+  replaceNullWithEmptyString(stackComponent?.metadata?.configuration);
 
   const mappedObject = {
     ...result,
-    ...details?.configuration,
+    ...stackComponent?.metadata?.configuration,
   };
-  console.log(mappedObject, flavor?.config_schema?.properties, 'asdasda123123');
 
   return (
     <FlexBox.Column marginTop="xl" fullWidth marginBottom="20xl">
@@ -376,20 +391,20 @@ export const NonEditableConfig: React.FC<{ details: any }> = ({ details }) => {
             disabled
             label={'Flavor Name'}
             optional={false}
-            value={details?.flavor}
+            value={stackComponent?.body?.flavor}
             placeholder=""
             hasError={false}
             className={styles.field}
           />
         </Box>
-        <Box marginTop="lg">
+        {/* <Box marginTop="lg">
           <ToggleField
             name="Share Component with public"
-            value={details?.is_shared}
+            value={stackComponent?.body?.is_shared}
             label="Share Component with public"
             disabled={true}
           />
-        </Box>
+        </Box> */}
       </FlexBox.Row>
       <FlexBox.Row flexDirection="column">
         <Box style={{ width: '80%' }}>

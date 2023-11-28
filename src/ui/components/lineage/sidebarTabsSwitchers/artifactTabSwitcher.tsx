@@ -173,25 +173,31 @@ loaded_artifact = artifact.load()
                   </tr>
                   <tr>
                     <td className="td_key">Type</td>
-                    <td className="td_value">{node?.type}</td>
+                    <td className="td_value">{node?.body.type}</td>
                   </tr>
                   <tr>
                     <td className="td_key">Producer step</td>
-                    <td className="td_value">{node?.producer_step_run_id}</td>
+                    <td className="td_value">
+                      {node?.metadata.producer_step_run_id}
+                    </td>
                   </tr>
                   <tr>
                     <td className="td_key" style={{ wordWrap: 'break-word' }}>
                       Artifact store
                     </td>
-                    <td className="td_value">{node?.artifact_store_id}</td>
+                    <td className="td_value">
+                      {node?.metadata.artifact_store_id}
+                    </td>
                   </tr>
                   <tr>
-                    <ConfigBox name="URI" config={node?.uri} />
+                    <ConfigBox name="URI" config={node?.body.uri} />
                   </tr>
+
                   <tr>
                     <ConfigBox
                       name="Materializer"
-                      config="zenml.materializers.built_in_materializer.BuilntinContainerMaterializer"
+                      // config="zenml.materializers.built_in_materializer.BuilntinContainerMaterializer"
+                      config={node?.metadata?.materializer?.module}
                     />
                   </tr>
 

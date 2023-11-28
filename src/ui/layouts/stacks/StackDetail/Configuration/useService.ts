@@ -18,16 +18,27 @@ export const useService = ({ stackId }: { stackId: TId }): ServiceInterface => {
     components: {},
   };
 
-  Object.keys(stack.components).forEach((element) => {
-    const componentArray = stack.components[element] as StackComponent[]; // Type assertion
-    yamlConfigObj.components[element] = {
-      flavor: componentArray[0].flavor,
-      name: componentArray[0].name,
-      id: componentArray[0].id,
-      ...componentArray[0].configuration,
-    };
-  });
+  // function isStackComponents(
+  //   obj: any,
+  // ): obj is Record<string, StackComponent[]> {
+  //   return obj !== null && typeof obj === 'object';
+  // }
 
+  const components = stack.metadata?.components as
+    | Record<string, StackComponent[]>
+    | undefined;
+
+  if (components) {
+    Object.keys(components).forEach((element) => {
+      const componentArray = components[element];
+      yamlConfigObj.components[element] = {
+        flavor: componentArray[0].body?.flavor,
+        name: componentArray[0].name,
+        id: componentArray[0].id,
+        ...componentArray[0].metadata?.configuration,
+      };
+    });
+  }
   const stackConfig = YAML.stringify(yamlConfigObj);
 
   const downloadYamlFile = () => {

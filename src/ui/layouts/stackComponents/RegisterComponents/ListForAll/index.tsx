@@ -23,12 +23,15 @@ import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
 import { callActionForFlavorsForPagination } from '../useService';
 import { SidePopup } from '../../../common/SidePopup';
 import { routePaths } from '../../../../../routes/routePaths';
+// import { flavorsActions } from '../../../../../redux/actions';
+// import { Flavor } from '../../../../../api/types';
 
 interface Props {
   type: string;
 }
 
 export const ListForAll: React.FC<Props> = ({ type }: Props) => {
+  // const dispatch = useDispatch();
   const { dispatchFlavorsData } = callActionForFlavorsForPagination();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const flavorsPaginated = useSelector(flavorSelectors.myFlavorsPaginated);
@@ -45,7 +48,18 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
   const onSelectFlavor = (flavor: any) => {
     setSelectedFlavor(flavor);
     setShowModal(true);
+    // dispatch(
+    //   flavorsActions.getById({
+    //     flavorId: flavor.id,
+    //     onSuccess: (res: Flavor) => {
+    //       setSelectedFlavor(res);
+    //       setShowModal(true);
+    //     },
+    //     onFailure: () => {},
+    //   }),
+    // );
   };
+
   const handleSelectedFlavor = (selectedFlavor: any) => {
     setShowModal(false);
     history.push(
@@ -92,9 +106,11 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
                     <Row key={index} style={{ marginLeft: '15px' }}>
                       <Box marginVertical={'sm'} marginHorizontal={'md'}>
                         <CustomFlavourBox
-                          flavourDesc={item?.configSchema?.description}
+                          flavourDesc={
+                            item?.metadata.config_schema?.description
+                          }
                           flavourName={item?.name}
-                          logoUrl={item?.logoUrl}
+                          logoUrl={item?.body.logo_url}
                           onSelectFlavor={() => onSelectFlavor(item)}
                         />
                       </Box>

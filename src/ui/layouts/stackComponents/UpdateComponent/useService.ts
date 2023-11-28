@@ -47,9 +47,9 @@ export const useService = (): ServiceInterface => {
     [],
   );
   const fetchResourcesList = async () => {
-    let url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${currentFlavor[0].connectorResourceType}`;
-    if (currentFlavor[0].connectorType !== null) {
-      url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${currentFlavor[0].connectorResourceType}&connector_type=${currentFlavor[0].connectorType}`;
+    let url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${currentFlavor[0].metadata.connector_resource_type}`;
+    if (currentFlavor[0].metadata.connector_type !== null) {
+      url = `${process.env.REACT_APP_BASE_API_URL}/workspaces/${selectedWorkspace}/service_connectors/resources?resource_type=${currentFlavor[0].metadata.connector_resource_type}&connector_type=${currentFlavor[0].metadata.connector_type}`;
     }
     const response = await axios.get(url, {
       headers: {
@@ -64,6 +64,7 @@ export const useService = (): ServiceInterface => {
   useEffect(() => {
     setFetching(true);
     setLoading(true);
+
     // Legacy: previously runs was in pipeline
     dispatch(
       stackComponentsActions.stackComponentForId({
@@ -73,8 +74,8 @@ export const useService = (): ServiceInterface => {
 
           dispatch(
             flavorsActions.getType({
-              type: res?.type,
-              name: res?.flavor,
+              type: res?.body.type,
+              name: res?.body.flavor,
               onSuccess: (res: any) => {
                 setFlavor(res.items);
                 setFetching(false);

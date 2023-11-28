@@ -41,12 +41,12 @@ export const Configuration: React.FC<{
       c ? c.toUpperCase() : ' ' + d.toUpperCase(),
     );
 
-  const matchedAuthMethod = connector.connectorType.auth_methods.find(
-    (item: any) => item?.auth_method === connector?.authMethod,
+  const matchedAuthMethod = connector?.body?.connector_type?.auth_methods.find(
+    (item: any) => item?.auth_method === connector?.body?.auth_method,
   );
 
-  const dropdownValue = connector?.connectorType?.auth_methods?.filter(
-    (e: any) => e?.auth_method === connector?.authMethod,
+  const dropdownValue = connector?.body?.connector_type?.auth_methods?.filter(
+    (e: any) => e?.auth_method === connector?.body?.auth_method,
   );
 
   const getFormElement: any = (elementName: any, elementSchema: any) => {
@@ -439,11 +439,11 @@ export const Configuration: React.FC<{
   // Iterate over the properties of obj1
   for (let prop in matchedAuthMethod.config_schema.properties) {
     // Check if the property exists in obj2
-    if (connector.configuration.hasOwnProperty(prop)) {
+    if (connector?.metadata?.configuration.hasOwnProperty(prop)) {
       // Add the property to obj1 with the value from obj2
       configurationModifiedObj[prop] = {
         ...matchedAuthMethod.config_schema.properties[prop],
-        default: connector.configuration[prop],
+        default: connector?.metadata?.configuration[prop],
       };
     } else {
       // If the property does not exist in obj2, copy it as is
@@ -475,7 +475,7 @@ export const Configuration: React.FC<{
               disabled
               label={'Component Name'}
               optional={false}
-              defaultValue={connector.name}
+              defaultValue={connector?.name}
               placeholder=""
               hasError={false}
               className={styles.field}
@@ -489,22 +489,22 @@ export const Configuration: React.FC<{
               type="textarea"
               label={'Description'}
               optional={false}
-              defaultValue={connector.description}
+              defaultValue={connector?.body?.description}
               placeholder=""
               className={styles.field}
               style={{ height: '200px' }}
             />
           </Box>
         </Container>
-        <Container>
+        {/* <Container>
           <Box marginTop="lg" style={{ width: '30vw' }}>
             <ToggleField
-              value={connector.is_shared}
+              value={connector?.is_shared}
               label="Share Component with public"
               disabled={true}
             />
           </Box>
-        </Container>
+        </Container> */}
       </FlexBox.Row>
 
       <Box style={{ width: '30vw' }} marginLeft="md" marginTop="lg">
@@ -526,14 +526,14 @@ export const Configuration: React.FC<{
           ))}
         </Container>
       </FlexBox.Row>
-      {connector.expirationSeconds !== null && (
+      {connector?.expirationSeconds !== null && (
         <Container>
           <Box marginTop="lg" style={{ width: '30vw' }}>
             <EditField
               disabled
               label={'Expiration Seconds'}
               optional={false}
-              defaultValue={connector.expirationSeconds}
+              defaultValue={connector?.expirationSeconds}
               placeholder=""
               hasError={false}
               className={styles.field}
@@ -548,11 +548,11 @@ export const Configuration: React.FC<{
 
       <Box marginTop="lg" marginLeft={'md'} style={{ width: '30vw' }}>
         <Paragraph size="body" style={{ color: 'black' }}>
-          <label htmlFor={connector.labels}>{'Labels'}</label>
+          <label htmlFor={connector?.metadata?.labels}>{'Labels'}</label>
         </Paragraph>
 
         <Box style={{ position: 'relative' }}>
-          {Object.keys(connector.labels || {}).length < 1 && (
+          {Object.keys(connector?.metadata?.labels || {}).length < 1 && (
             <>
               <div
                 style={{
@@ -620,71 +620,73 @@ export const Configuration: React.FC<{
         </Box>
 
         <Box style={{ position: 'relative' }}>
-          {Object.entries(connector.labels || {}).map(([key, value], index) => (
-            <>
-              <div
-                style={{
-                  position: 'absolute',
-                  bottom: '-5px',
-                  width: '5px',
-                  height: '5px',
-                  borderRadius: '100%',
-                  backgroundColor: 'rgba(68, 62, 153, 0.3)',
-                }}
-              ></div>
+          {Object.entries(connector?.metadata?.labels || {}).map(
+            ([key, value], index) => (
+              <>
+                <div
+                  style={{
+                    position: 'absolute',
+                    bottom: '-5px',
+                    width: '5px',
+                    height: '5px',
+                    borderRadius: '100%',
+                    backgroundColor: 'rgba(68, 62, 153, 0.3)',
+                  }}
+                ></div>
 
-              <div
-                className="form-row"
-                style={{
-                  borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
-                  marginLeft: '2px',
-                }}
-              >
-                <FlexBox.Row
-                  marginTop="lg"
-                  alignItems="center"
-                  style={{ width: '30vw' }}
+                <div
+                  className="form-row"
+                  style={{
+                    borderLeft: '1px solid rgba(68, 62, 153, 0.3)',
+                    marginLeft: '2px',
+                  }}
                 >
-                  <div
-                    style={{
-                      marginTop: '30px',
-                      width: '15px',
-                      borderTop: '1px solid rgba(68, 62, 153, 0.3)',
-                    }}
-                  ></div>
-                  <div
-                    style={{
-                      marginTop: '30px',
-                      marginRight: '5px',
-                      marginLeft: '-2px',
-                      color: 'rgba(68, 62, 153, 0.3)',
-                    }}
+                  <FlexBox.Row
+                    marginTop="lg"
+                    alignItems="center"
+                    style={{ width: '30vw' }}
                   >
-                    &#x27A4;
-                  </div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        width: '15px',
+                        borderTop: '1px solid rgba(68, 62, 153, 0.3)',
+                      }}
+                    ></div>
+                    <div
+                      style={{
+                        marginTop: '30px',
+                        marginRight: '5px',
+                        marginLeft: '-2px',
+                        color: 'rgba(68, 62, 153, 0.3)',
+                      }}
+                    >
+                      &#x27A4;
+                    </div>
 
-                  <EditField
-                    disabled
-                    label="Key"
-                    optional={false}
-                    defaultValue={key}
-                    placeholder=""
-                    hasError={false}
-                    className={styles.field}
-                  />
-                  <div style={{ width: '10%' }}></div>
-                  <EditField
-                    disabled
-                    label="Value"
-                    defaultValue={value}
-                    placeholder=""
-                    hasError={false}
-                    className={styles.field}
-                  />
-                </FlexBox.Row>
-              </div>
-            </>
-          ))}
+                    <EditField
+                      disabled
+                      label="Key"
+                      optional={false}
+                      defaultValue={key}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                    <div style={{ width: '10%' }}></div>
+                    <EditField
+                      disabled
+                      label="Value"
+                      defaultValue={value}
+                      placeholder=""
+                      hasError={false}
+                      className={styles.field}
+                    />
+                  </FlexBox.Row>
+                </div>
+              </>
+            ),
+          )}
         </Box>
 
         <Box style={{ position: 'relative' }}>
@@ -771,7 +773,7 @@ export const Configuration: React.FC<{
             onClick={() =>
               history.push(
                 routePaths.connectors.updateConnector(
-                  connector.id,
+                  connector?.id,
                   selectedWorkspace,
                 ),
               )

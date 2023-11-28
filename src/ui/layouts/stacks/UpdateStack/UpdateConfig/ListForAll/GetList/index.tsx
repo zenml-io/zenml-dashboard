@@ -58,12 +58,14 @@ export const GetList: React.FC<Props> = ({
           onSuccess: (res) => {
             const updatedList = res.items.map((item: any) => {
               const temp: any = flavourList.find(
-                (fl: any) => fl.name === item.flavor && fl.type === item.type,
+                (fl: any) =>
+                  fl.name === item.body.flavor &&
+                  fl.body?.type === item.body.type,
               );
               if (temp) {
                 return {
                   ...item,
-                  logoUrl: temp.logo_url,
+                  logoUrl: temp.body.logo_url,
                 };
               }
               return item;
@@ -130,9 +132,13 @@ export const GetList: React.FC<Props> = ({
                   selectedStack.splice(index, 1);
                   setSelectedStack([...selectedStack]);
                 } else {
-                  if (selectedStack.map((t: any) => t.type === item.type)) {
+                  if (
+                    selectedStack.map(
+                      (t: any) => t.body.type === item.body.type,
+                    )
+                  ) {
                     let filterSelectedStack = selectedStack.filter(
-                      (st: any) => st.type !== item.type,
+                      (st: any) => st.body.type !== item.body.type,
                     );
                     setSelectedStack([...filterSelectedStack, item]);
                   } else {
@@ -144,7 +150,7 @@ export const GetList: React.FC<Props> = ({
               <CustomStackBox
                 image={item?.logoUrl}
                 stackName={item.name}
-                stackDesc={item?.flavor}
+                stackDesc={item?.body.flavor}
                 onViewConfig={(e: any) => {
                   e.stopPropagation();
                   setSelectedStackBox(item);
@@ -160,9 +166,13 @@ export const GetList: React.FC<Props> = ({
                     selectedStack.splice(index, 1);
                     setSelectedStack([...selectedStack]);
                   } else {
-                    if (selectedStack.map((t: any) => t.type === item.type)) {
+                    if (
+                      selectedStack.map(
+                        (t: any) => t.body.type === item.body.type,
+                      )
+                    ) {
                       let filterSelectedStack = selectedStack.filter(
-                        (st: any) => st.type !== item.type,
+                        (st: any) => st.body.type !== item.body.type,
                       );
                       setSelectedStack([...filterSelectedStack, item]);
                     } else {
@@ -189,10 +199,12 @@ export const GetList: React.FC<Props> = ({
               setSelectedStack([...selectedStack]);
             } else {
               if (
-                selectedStack.map((t: any) => t.type === selectedStackBox.type)
+                selectedStack.map(
+                  (t: any) => t.body.type === selectedStackBox.body.type,
+                )
               ) {
                 let filterSelectedStack = selectedStack.filter(
-                  (st: any) => st.type !== selectedStackBox.type,
+                  (st: any) => st.body.type !== selectedStackBox.body.type,
                 );
                 setSelectedStack([...filterSelectedStack, selectedStackBox]);
               } else {
