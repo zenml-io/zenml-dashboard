@@ -21,6 +21,8 @@ import { ItemPerPage } from '../../../common/ItemPerPage';
 import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQueryParam';
 import { callActionForStackComponentsForPagination } from '../useService';
 import { StackComponent } from '../../../../../api/types';
+import { usePollingService } from '../../../../hooks/usePollingService';
+import { stackComponentsActions } from '../../../../../redux/actions';
 
 interface Props {
   filter: any;
@@ -63,6 +65,13 @@ export const List: React.FC<Props> = ({
     setActiveSortingDirection,
     setSelectedRunIds,
   } = useService({ filter, isExpended });
+
+  usePollingService({
+    filter,
+    sortBy: activeSortingDirection?.toLowerCase() + ':' + activeSorting,
+    dispatchFun: stackComponentsActions.getMy,
+    paginatedValue: stackComponentsPaginated,
+  });
   const [itemPerPage, setItemPerPage] = useState(
     ITEMS_PER_PAGE ? ITEMS_PER_PAGE : DEFAULT_ITEMS_PER_PAGE,
   );

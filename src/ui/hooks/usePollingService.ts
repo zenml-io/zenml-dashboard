@@ -1,56 +1,61 @@
 import { useEffect, useState } from 'react';
-import { runsActions } from '../../../../../redux/actions';
-import {
-  runSelectors,
-  runPagesSelectors,
-  workspaceSelectors,
-} from '../../../../../redux/selectors';
-import { useDispatch, useSelector } from '../../../../hooks';
-import { Run } from '../../../../../api/types';
 
-interface ServiceInterface {
-  fetching: boolean;
-  runIds: TId[];
-  runsPaginated: any;
-}
+import { workspaceSelectors } from '../../redux/selectors';
+import { useDispatch, useSelector } from 'react-redux';
+
+interface ServiceInterface {}
 interface filterValue {
   label: string;
   type: string;
   value: string;
 }
 
-export const useService = ({
+export const usePollingService = ({
+  pipelineId,
+  stackId,
+  stackComponentId,
   filter,
   sortBy,
   isExpended,
+  dispatchFun,
+  paginatedValue,
 }: {
+  pipelineId?: TId;
+  stackId?: TId;
+  stackComponentId?: TId;
   isExpended?: any;
   sortBy: string;
+  dispatchFun: Function;
+
+  paginatedValue: any;
   filter: {
     column: filterValue;
     type: filterValue;
     value: string;
   }[];
 }): ServiceInterface => {
-  const fetching = useSelector(runPagesSelectors.fetching);
   const dispatch = useDispatch();
-  const runs = useSelector(runSelectors.myRuns);
+
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const runsPaginated = useSelector(runSelectors.myRunsPaginated);
+
   const isValidFilter = filter?.map((f) => f.value).join('');
   const [pending, setPending] = useState(false);
+  console.log(stackComponentId, 'dispatchFun');
   useEffect(() => {
     if (!isValidFilter && !isExpended && !pending) {
       const intervalId = setInterval(() => {
         setPending(true);
-        //assign interval to a variable to clear it.
+
         dispatch(
-          runsActions.allRuns({
+          dispatchFun({
+            pipelineId: pipelineId,
+            stackId: stackId,
+            component_id: stackComponentId,
             sort_by: sortBy,
             logical_operator: 'and',
             workspace: selectedWorkspace,
-            page: runsPaginated.page,
-            size: runsPaginated.size,
+            page: paginatedValue.page,
+            size: paginatedValue.size,
             onSuccess: () => {
               setPending(false);
             },
@@ -61,14 +66,9 @@ export const useService = ({
         );
       }, 5000);
 
-      return () => clearInterval(intervalId); //This is important
+      return () => clearInterval(intervalId);
     }
   });
-  const runIds = runs.map((run: Run) => run.id);
 
-  return {
-    fetching,
-    runIds,
-    runsPaginated,
-  };
+  return {};
 };
