@@ -262,7 +262,7 @@ export const Configuration: React.FC<{
             setSelectedStackBox(null);
           }}
         >
-          <Box marginTop="md" paddingBottom={'xxxl'}>
+          <Box marginTop="md" style={{ paddingBottom: '300px' }}>
             <NonEditableConfig details={selectedStackBox}></NonEditableConfig>
           </Box>
         </SidePopup>

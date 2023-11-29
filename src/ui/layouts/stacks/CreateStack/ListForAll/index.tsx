@@ -354,7 +354,7 @@ export const ListForAll: React.FC<Props> = () => {
             setSelectedStackBox(null);
           }}
         >
-          <Box marginTop="md" paddingBottom={'xxxl'}>
+          <Box marginTop="md" style={{ paddingBottom: '300px' }}>
             <NonEditableConfig details={selectedStackBox}></NonEditableConfig>
           </Box>
         </SidePopup>
