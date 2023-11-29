@@ -111,14 +111,12 @@ export const GetHeaderCols = ({
       ),
       width: '15%',
       renderRow: (secret: any) => {
-        const initials = getInitialsFromEmail(
-          secret?.body?.user?.name as string,
-        );
+        const initials = getInitialsFromEmail(secret?.user?.name as string);
         return (
           <FlexBox alignItems="center">
-            <div data-tip data-for={secret?.body?.user?.name}>
+            <div data-tip data-for={secret?.user?.name}>
               <FlexBox alignItems="center">
-                {secret?.body?.user?.name && (
+                {secret?.user?.name && (
                   <Box paddingRight="sm">
                     <ColoredCircle color="secondary" size="sm">
                       {initials}
@@ -126,13 +124,10 @@ export const GetHeaderCols = ({
                   </Box>
                 )}
 
-                <Paragraph size="small">{secret?.body?.user?.name}</Paragraph>
+                <Paragraph size="small">{secret?.user?.name}</Paragraph>
               </FlexBox>
             </div>
-            <Tooltip
-              id={secret?.body?.user?.name}
-              text={secret?.body?.user?.name}
-            />
+            <Tooltip id={secret?.user?.name} text={secret?.user?.name} />
           </FlexBox>
         );
       },

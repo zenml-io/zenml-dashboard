@@ -20,6 +20,7 @@ import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQuer
 import { Box, FlexBox, If } from '../../../../components';
 import { ItemPerPage } from '../../../common/ItemPerPage';
 import { callActionForStacksForPagination } from '../useService';
+import { usePollingService } from '../../../../hooks/usePollingService';
 
 interface Props {
   filter: any;
@@ -46,6 +47,7 @@ export const List: React.FC<Props> = ({
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
   const DEFAULT_ITEMS_PER_PAGE = 10;
+  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
   const {
     openStackIds,
     setOpenStackIds,
@@ -58,7 +60,15 @@ export const List: React.FC<Props> = ({
     setActiveSortingDirection,
     setSelectedRunIds,
   } = useService({ filter, isExpended, stackComponentId });
-  const stacksPaginated = useSelector(stackSelectors.mystacksPaginated);
+  console.log(stackComponentId, 'stackComponentIdstackComponentId');
+  usePollingService({
+    stackComponentId,
+    filter,
+    sortBy: activeSortingDirection?.toLowerCase() + ':' + activeSorting,
+    dispatchFun: stacksActions.getMy,
+    paginatedValue: stacksPaginated,
+  });
+
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
 
   const [itemPerPage, setItemPerPage] = useState(

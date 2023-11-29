@@ -465,18 +465,18 @@ export const useHeaderCols = ({
         },
         {
           render: () => (
-            <SortingHeader
-              onlyOneRow={runs.length === 1}
-              sorting="stack_id"
-              sortMethod={sortMethod('stack_id', {
-                asc: (run: Run[]) => _.orderBy(run, ['stack_id'], ['asc']),
-                desc: (run: Run[]) => _.orderBy(run, ['stack_id'], ['desc']),
-              })}
-              activeSorting={activeSorting}
-              activeSortingDirection={activeSortingDirection}
-            >
-              <HeaderText text="STACK NAME" />
-            </SortingHeader>
+            // <SortingHeader
+            //   onlyOneRow={runs.length === 1}
+            //   sorting="stack_id"
+            //   sortMethod={sortMethod('stack_id', {
+            //     asc: (run: Run[]) => _.orderBy(run, ['stack_id'], ['asc']),
+            //     desc: (run: Run[]) => _.orderBy(run, ['stack_id'], ['desc']),
+            //   })}
+            //   activeSorting={activeSorting}
+            //   activeSortingDirection={activeSortingDirection}
+            // >
+            <HeaderText text="STACK NAME" />
+            // </SortingHeader>
           ),
           width: '16%',
           testId: 'stack_name',

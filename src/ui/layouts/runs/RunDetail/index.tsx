@@ -19,6 +19,7 @@ const getTabPages = ({
   metadata,
   graph,
   run,
+  errorMessage,
 }: {
   selectedWorkspace: string;
   runId: TId;
@@ -26,6 +27,7 @@ const getTabPages = ({
   metadata?: any;
   graph?: any;
   run?: any;
+  errorMessage?: any;
 }): TabPage[] => {
   return [
     {
@@ -33,6 +35,7 @@ const getTabPages = ({
 
       Component: () => (
         <DAG
+          errorMessage={errorMessage}
           runId={runId}
           fetching={fetching}
           metadata={metadata}
@@ -84,7 +87,7 @@ export interface RunDetailRouteParams {
 }
 
 export const RunDetail: React.FC = () => {
-  const { runId, fetching, run, metadata, graph } = useService();
+  const { runId, fetching, run, metadata, graph, errorMessage } = useService();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   const tabPages = getTabPages({
     selectedWorkspace,
@@ -93,6 +96,7 @@ export const RunDetail: React.FC = () => {
     metadata,
     graph,
     run,
+    errorMessage,
   });
   const history = useHistory();
   const runRow: any = [];

@@ -58,33 +58,33 @@ export const useService = ({
   const fetching = useSelector(secretPagesSelectors.fetching);
 
   const secrets = useSelector(secretSelectors.mySecrets);
-  const secretsPaginated = useSelector(secretSelectors.mySecretsPaginated);
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const isValidFilter = filter.map((f) => f.value).join('');
+  // const secretsPaginated = useSelector(secretSelectors.mySecretsPaginated);
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const isValidFilter = filter.map((f) => f.value).join('');
 
   useEffect(() => {
     setFilteredSecrets(secrets as Secret[]);
   }, [secrets, filter]);
 
-  useEffect(() => {
-    if (!isValidFilter && !isExpended) {
-      const applySorting =
-        activeSortingDirection?.toLowerCase() + ':' + activeSorting;
-      const intervalId = setInterval(() => {
-        dispatch(
-          secretsActions.getMy({
-            sort_by: applySorting !== 'created' ? applySorting : 'created',
-            logical_operator: 'and',
-            workspace: selectedWorkspace,
-            page: secretsPaginated.page,
-            size: secretsPaginated.size,
-          }),
-        );
-      }, 5000);
+  // useEffect(() => {
+  //   if (!isValidFilter && !isExpended) {
+  //     const applySorting =
+  //       activeSortingDirection?.toLowerCase() + ':' + activeSorting;
+  //     const intervalId = setInterval(() => {
+  //       dispatch(
+  //         secretsActions.getMy({
+  //           sort_by: applySorting !== 'created' ? applySorting : 'created',
+  //           logical_operator: 'and',
+  //           workspace: selectedWorkspace,
+  //           page: secretsPaginated.page,
+  //           size: secretsPaginated.size,
+  //         }),
+  //       );
+  //     }, 5000);
 
-      return () => clearInterval(intervalId); //This is important
-    }
-  });
+  //     return () => clearInterval(intervalId); //This is important
+  //   }
+  // });
 
   const setSelectedRunIds = (runIds: TId[]) => {};
 

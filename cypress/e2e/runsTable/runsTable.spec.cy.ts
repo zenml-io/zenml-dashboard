@@ -12,7 +12,6 @@ describe('FilterComponent E2E Tests', () => {
     login();
     cy.waitUntilDashboardIsLoaded();
     cy.wait(1000);
-
     cy.get('[id="runs"]').click();
   });
 
@@ -38,7 +37,7 @@ describe('FilterComponent E2E Tests', () => {
       'Name',
       'Pipeline',
       'Status',
-      'stack_name',
+      // 'stack_name',
       'Author',
       'created_at',
     ];

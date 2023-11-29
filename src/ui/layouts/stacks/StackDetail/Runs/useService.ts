@@ -56,8 +56,6 @@ export const useService = ({
 
       return () => clearInterval(intervalId);
     }
-    //This is important
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [stackId, runsPaginated]);
   const runIds = runs.map((run: Run) => run.id);
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const CustomToolTip: React.FC<{ name: string; customStyle: any }> = ({
+export const CustomToolTip: React.FC<{ name?: string; customStyle: any }> = ({
   name,
   customStyle,
 }) => {
