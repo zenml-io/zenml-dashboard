@@ -6,7 +6,7 @@ import { TabsRuns } from '../common/Tabs';
 import Header from './Header';
 
 import { useHistory } from 'react-router';
-import { useSelector } from '../../hooks';
+import { useLocationPath, useSelector } from '../../hooks';
 import { workspaceSelectors } from '../../../redux/selectors';
 import { MyFallbackComponent } from '../../components/FallbackComponent';
 import { routePaths } from '../../../routes/routePaths';
@@ -30,6 +30,8 @@ export const BasePage: React.FC<{
 }) => {
   const history = useHistory();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  const location = useLocationPath();
+
   return (
     <ErrorBoundary
       FallbackComponent={MyFallbackComponent}
@@ -58,7 +60,7 @@ export const BasePage: React.FC<{
           <Box
             style={{
               maxHeight: 'calc(100vh - 200px)',
-              overflowY: 'auto',
+              overflowY: location.includes('dag') ? 'hidden' : 'auto',
             }}
           >
             {children}
