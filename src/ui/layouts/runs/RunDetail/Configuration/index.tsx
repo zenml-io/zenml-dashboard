@@ -67,6 +67,7 @@ config = run.config
               style={{
                 fontSize: '16px',
                 fontFamily: 'Rubik',
+                paddingRight: '50px',
               }}
               data={configSchema}
             ></JSONPretty>

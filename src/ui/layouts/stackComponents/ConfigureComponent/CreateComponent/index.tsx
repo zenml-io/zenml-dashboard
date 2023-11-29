@@ -137,8 +137,6 @@ export const CreateComponent: React.FC<{
     setInputFields(values);
   };
 
-  console.log(flavor, 'flavor');
-
   const handleRemoveFields = (parentIndex: any, childIndex: any, name: any) => {
     const values = [...inputFields];
 
