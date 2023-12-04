@@ -140,7 +140,7 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
           style={{
             fontSize: '16px',
             fontFamily: 'Rubik',
-            // paddingRight: '50px',
+            paddingRight: '50px',
           }}
           data={config}
         ></JSONPretty>
