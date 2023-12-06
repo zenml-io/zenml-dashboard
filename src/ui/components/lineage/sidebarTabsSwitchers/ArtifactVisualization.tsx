@@ -9,7 +9,7 @@ import CsvTable from '../CsvTable';
 import axios from 'axios';
 import { Paragraph } from '../../typographies';
 
-const resposneSizeConstant = 5 * 1024 * 1024;
+const responseSizeConstant = 5 * 1024 * 1024;
 
 function Modal({
   message,
@@ -28,7 +28,7 @@ function Modal({
   };
 
   useEffect(() => {
-    if (Number(size) < resposneSizeConstant) return proceed(true);
+    if (Number(size) < responseSizeConstant) return proceed(true);
   }, [isProceed]); //eslint-disable-line
 
   return (
@@ -162,7 +162,7 @@ const ArtifactVisualization = ({
     let size = node?.metadata?.storage_size?.value;
     return (
       <Modal
-        message="size of resposne in larger than 5mb. Do you want to continue?"
+        message="Size of response is larger than 5 MB. Do you want to continue?"
         proceed={setProceed}
         size={size}
       />
