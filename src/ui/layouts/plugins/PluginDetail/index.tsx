@@ -101,7 +101,15 @@ const PluginDetail: React.FC = () => {
         {/* content */}
         <FlexBox fullWidth>
           {/* left column */}
-          <FlexBox flexDirection="column" fullWidth padding="lg">
+          <FlexBox
+            flexDirection="column"
+            fullWidth
+            padding="lg"
+            style={{
+              maxHeight: 'calc(100vh - 200px)',
+              overflowY: 'auto',
+            }}
+          >
             {fetching ? (
               <FullWidthSpinner color="black" size="md" />
             ) : (

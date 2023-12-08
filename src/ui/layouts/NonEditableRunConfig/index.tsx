@@ -56,6 +56,7 @@ export const NonEditableRunConfig: React.FC<{ runConfiguration: any }> = ({
               style={{
                 fontSize: '16px',
                 fontFamily: 'Rubik',
+                paddingRight: '50px',
               }}
               data={elementSchema}
             ></JSONPretty>

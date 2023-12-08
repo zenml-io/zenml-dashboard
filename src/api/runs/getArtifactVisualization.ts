@@ -12,7 +12,7 @@ const getArtifactVisualization = async ({
   id: TId;
 }): Promise<Run> => {
   return fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.runs.artifactVisualization.get(id)),
+    url: apiUrl(endpoints.runs.artifactVersionVisualization.get(id)),
     method: httpMethods.get,
     authenticationToken,
   });

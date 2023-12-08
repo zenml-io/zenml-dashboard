@@ -13,6 +13,7 @@ import { routePaths } from '../../../routes/routePaths';
 
 import { workspaceSelectors } from '../../../redux/selectors';
 import { useSelector } from 'react-redux';
+import { useLocationPath } from '../../hooks';
 
 export const BasePage: React.FC<{
   tabPages: TabPage[];
@@ -31,6 +32,7 @@ export const BasePage: React.FC<{
   children,
 }) => {
   const history = useHistory();
+  const location = useLocationPath();
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
   return (
     <ErrorBoundary
@@ -58,7 +60,12 @@ export const BasePage: React.FC<{
             )}
           />
 
-          <Box>
+          <Box
+            style={{
+              maxHeight: 'calc(100vh - 200px)',
+              overflowY: location.includes('dag') ? 'hidden' : 'auto',
+            }}
+          >
             {children}
             {tabPages.length > 1 ? (
               <TabsRuns pages={tabPages} basePath={tabBasePath} />

@@ -78,11 +78,11 @@ export const endpoints = {
     graphById: {
       get: (runId: TId): string => `/runs/${runId}/graph`,
     },
-    artifact: {
-      get: (exe_id: TId): string => `/artifacts/${exe_id}`,
+    artifactVersion: {
+      get: (exe_id: TId): string => `/artifact_versions/${exe_id}`,
     },
-    artifactVisualization: {
-      get: (id: TId): string => `/artifacts/${id}/visualize`,
+    artifactVersionVisualization: {
+      get: (id: TId): string => `/artifact_versions/${id}/visualize`,
     },
     step: {
       get: (exe_id: TId): string => `/steps/${exe_id}`,

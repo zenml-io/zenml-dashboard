@@ -99,7 +99,7 @@ export const GetHeaderCols = ({
         const initials = getInitialsFromEmail(secret?.user?.name as string);
         return (
           <FlexBox alignItems="center">
-            <div data-tip data-for={secret?.user?.name}>
+            <div data-tip data-for={secret?.body?.user?.name}>
               <FlexBox alignItems="center">
                 {secret?.user?.name && (
                   <Box paddingRight="sm">
@@ -112,7 +112,10 @@ export const GetHeaderCols = ({
                 <Paragraph size="small">{secret?.user?.name}</Paragraph>
               </FlexBox>
             </div>
-            <Tooltip id={secret?.user?.name} text={secret?.user?.name} />
+            <Tooltip
+              id={secret?.body?.user?.name}
+              text={secret?.body?.user?.name}
+            />
           </FlexBox>
         );
       },
