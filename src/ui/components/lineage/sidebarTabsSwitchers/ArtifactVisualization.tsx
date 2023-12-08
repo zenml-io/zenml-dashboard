@@ -159,7 +159,8 @@ const ArtifactVisualization = ({
 
   // ASK TO PROCEED IF SIZE IN LARGER THAN 5MB
   if (!proceed) {
-    let size = node?.metadata?.storage_size?.value;
+    let size = node?.metadata?.run_metadata?.storage_size?.body?.value;
+
     return (
       <Modal
         message="Size of response is larger than 5 MB. Do you want to continue?"

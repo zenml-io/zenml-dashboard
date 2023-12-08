@@ -39,7 +39,7 @@ export const fetchStepLogs = async (id: string, authToken: any) => {
 export const fetchArtifactData = async (selectedNode: any, authToken: any) => {
   const data = await axios
     .get(
-      `${process.env.REACT_APP_BASE_API_URL}/artifacts/${selectedNode.execution_id}`,
+      `${process.env.REACT_APP_BASE_API_URL}/artifact_versions/${selectedNode.execution_id}`,
       {
         headers: {
           Authorization: `bearer ${authToken}`,
@@ -58,7 +58,7 @@ export const fetchArtifactData = async (selectedNode: any, authToken: any) => {
 export async function artifactService(artifactId: any, authToken: any) {
   const response = await axios
     .get(
-      `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
+      `${process.env.REACT_APP_BASE_API_URL}/artifact_versions/${artifactId}/visualize`,
       {
         headers: {
           Authorization: `bearer ${authToken}`,
@@ -83,7 +83,7 @@ export const fetchArtifactVisualizationSize = async (
 
   const response = await axios
     .get(
-      `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
+      `${process.env.REACT_APP_BASE_API_URL}/artifact_versions/${artifactId}/visualize`,
       {
         headers: {
           Authorization: `bearer ${authToken}`,
@@ -119,7 +119,7 @@ export async function artifactVisulizationService(
   source: any,
 ) {
   const response = await axios.get(
-    `${process.env.REACT_APP_BASE_API_URL}/artifacts/${artifactId}/visualize`,
+    `${process.env.REACT_APP_BASE_API_URL}/artifact_versions/${artifactId}/visualize`,
     {
       headers: {
         Authorization: `bearer ${authToken}`,
