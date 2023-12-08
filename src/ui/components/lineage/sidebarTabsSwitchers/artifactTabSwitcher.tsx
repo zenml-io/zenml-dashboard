@@ -170,7 +170,7 @@ loaded_artifact = artifact.load()
                   </tr>
                   <tr>
                     <td className="td_key">Name</td>
-                    <td className="td_value">{node?.name}</td>
+                    <td className="td_value">{node?.body?.artifact?.name}</td>
                   </tr>
                   <tr>
                     <td className="td_key">Type</td>
@@ -197,8 +197,7 @@ loaded_artifact = artifact.load()
                   <tr>
                     <ConfigBox
                       name="Materializer"
-                      // config="zenml.materializers.built_in_materializer.BuilntinContainerMaterializer"
-                      config={node?.metadata?.materializer?.module}
+                      config={node?.body?.materializer?.module}
                     />
                   </tr>
 
