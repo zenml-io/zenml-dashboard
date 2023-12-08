@@ -82,7 +82,6 @@ export const DAG: React.FC<{
               </Box>
             )
           )}
-
           {graph && Object.keys(graph).length > 0 ? (
             <LayoutFlow
               onRefreshDAG={handleRefreshDAG}
