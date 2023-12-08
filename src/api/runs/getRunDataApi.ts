@@ -12,7 +12,7 @@ const getArtifactDataApi = async ({
   exe_id: TId;
 }): Promise<Run> => {
   return fetchApiWithAuthRequest({
-    url: apiUrl(endpoints.runs.artifact.get(exe_id)),
+    url: apiUrl(endpoints.runs.artifactVersion.get(exe_id)),
     method: httpMethods.get,
     authenticationToken,
   });

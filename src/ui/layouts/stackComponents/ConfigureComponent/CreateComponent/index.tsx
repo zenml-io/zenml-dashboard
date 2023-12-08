@@ -116,16 +116,9 @@ export const CreateComponent: React.FC<{
       Object.keys(flavor.metadata.config_schema.properties).map((key, ind) => {
         const data = flavor.metadata.config_schema.properties[key];
         if (data.type === 'object') {
-          if (
-            flavor.metadata.config_schema.properties[key]
-              ?.additionalProperties &&
-            flavor.metadata.config_schema.properties[key]?.additionalProperties
-              ?.type === 'string'
-          ) {
-            setInputObjectType.push({
-              [key]: [{ key: '', value: '' }],
-            });
-          }
+          setInputObjectType.push({
+            [key]: [{ key: '', value: '' }],
+          });
         }
         return null;
       });

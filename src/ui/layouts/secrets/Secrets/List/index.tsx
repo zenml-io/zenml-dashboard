@@ -18,6 +18,8 @@ import { usePaginationAsQueryParam } from '../../../../hooks/usePaginationAsQuer
 import { Box, FlexBox, If, PrimaryButton } from '../../../../components';
 import { ItemPerPage } from '../../../common/ItemPerPage';
 import { callActionForSecretsForPagination } from '../useService';
+import { usePollingService } from '../../../../hooks/usePollingService';
+import { secretsActions } from '../../../../../redux/actions';
 
 interface Props {
   filter: any;
@@ -36,6 +38,7 @@ export const List: React.FC<Props> = ({
   const ITEMS_PER_PAGE = parseInt(
     process.env.REACT_APP_ITEMS_PER_PAGE as string,
   );
+  const secretsPaginated = useSelector(secretSelectors.mySecretsPaginated);
   const DEFAULT_ITEMS_PER_PAGE = 10;
   const {
     openSecretIds,
@@ -49,7 +52,14 @@ export const List: React.FC<Props> = ({
     setActiveSortingDirection,
     setSelectedRunIds,
   } = useService({ filter, isExpended });
-  const secretsPaginated = useSelector(secretSelectors.mySecretsPaginated);
+
+  usePollingService({
+    filter,
+    sortBy: activeSortingDirection?.toLowerCase() + ':' + activeSorting,
+    dispatchFun: secretsActions.getMy,
+    paginatedValue: secretsPaginated,
+  });
+
   const { pageIndex, setPageIndex } = usePaginationAsQueryParam();
 
   const [itemPerPage, setItemPerPage] = useState(

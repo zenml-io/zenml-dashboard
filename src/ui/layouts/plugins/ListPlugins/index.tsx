@@ -133,7 +133,14 @@ const ListPlugins: React.FC = () => {
           </FlexBox>
 
           {/* list plugins */}
-          <FlexBox flexWrap={true} padding="lg">
+          <FlexBox
+            flexWrap={true}
+            padding="lg"
+            style={{
+              maxHeight: 'calc(100vh - 200px)',
+              overflowY: 'auto',
+            }}
+          >
             {fetching ? (
               <FullWidthSpinner color="black" size="md" />
             ) : (

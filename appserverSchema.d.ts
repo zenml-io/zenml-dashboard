@@ -663,6 +663,7 @@ export type paths = {
      *
      * Args:
      *     workspace_name_or_id: Name or ID of the workspace to get statistics for.
+     *     auth_context: Authentication context.
      *
      * Returns:
      *     All pipelines within the workspace.
@@ -1684,19 +1685,82 @@ export type paths = {
      */
     delete: operations["delete_artifact_api_v1_artifacts__artifact_id__delete"];
   };
-  "/api/v1/artifacts/{artifact_id}/visualize": {
+  "/api/v1/artifact_versions": {
+    /**
+     * List Artifact Versions
+     * @description Get artifact versions according to query filters.
+     *
+     * Args:
+     *     artifact_version_filter_model: Filter model used for pagination,
+     *         sorting, filtering.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
+     *     auth_context: The authentication context.
+     *
+     * Returns:
+     *     The artifact versions according to query filters.
+     */
+    get: operations["list_artifact_versions_api_v1_artifact_versions_get"];
+    /**
+     * Create Artifact Version
+     * @description Create a new artifact version.
+     *
+     * Args:
+     *     artifact_version: The artifact version to create.
+     *
+     * Returns:
+     *     The created artifact version.
+     */
+    post: operations["create_artifact_version_api_v1_artifact_versions_post"];
+  };
+  "/api/v1/artifact_versions/{artifact_version_id}": {
+    /**
+     * Get Artifact Version
+     * @description Get an artifact version by ID.
+     *
+     * Args:
+     *     artifact_version_id: The ID of the artifact version to get.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
+     *
+     * Returns:
+     *     The artifact version with the given ID.
+     */
+    get: operations["get_artifact_version_api_v1_artifact_versions__artifact_version_id__get"];
+    /**
+     * Update Artifact Version
+     * @description Update an artifact by ID.
+     *
+     * Args:
+     *     artifact_version_id: The ID of the artifact version to update.
+     *     artifact_version_update: The update to apply to the artifact version.
+     *
+     * Returns:
+     *     The updated artifact.
+     */
+    put: operations["update_artifact_version_api_v1_artifact_versions__artifact_version_id__put"];
+    /**
+     * Delete Artifact Version
+     * @description Delete an artifact version by ID.
+     *
+     * Args:
+     *     artifact_version_id: The ID of the artifact version to delete.
+     */
+    delete: operations["delete_artifact_version_api_v1_artifact_versions__artifact_version_id__delete"];
+  };
+  "/api/v1/artifact_versions/{artifact_version_id}/visualize": {
     /**
      * Get Artifact Visualization
      * @description Get the visualization of an artifact.
      *
      * Args:
-     *     artifact_id: ID of the artifact for which to get the visualization.
+     *     artifact_version_id: ID of the artifact version for which to get the visualization.
      *     index: Index of the visualization to get (if there are multiple).
      *
      * Returns:
-     *     The visualization of the artifact.
+     *     The visualization of the artifact version.
      */
-    get: operations["get_artifact_visualization_api_v1_artifacts__artifact_id__visualize_get"];
+    get: operations["get_artifact_visualization_api_v1_artifact_versions__artifact_version_id__visualize_get"];
   };
   "/api/v1/users": {
     /**
@@ -1708,6 +1772,7 @@ export type paths = {
      *         pagination.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
+     *     auth_context: Authentication context.
      *
      * Returns:
      *     A list of all users.
@@ -1736,6 +1801,7 @@ export type paths = {
      *     user_name_or_id: Name or ID of the user.
      *     hydrate: Flag deciding whether to hydrate the output model(s)
      *         by including metadata fields in the response.
+     *     auth_context: Authentication context.
      *
      * Returns:
      *     A specific user.
@@ -1748,6 +1814,7 @@ export type paths = {
      * Args:
      *     user_name_or_id: Name or ID of the user.
      *     user_update: the user to use for the update.
+     *     auth_context: Authentication context.
      *
      * Returns:
      *     The updated user.
@@ -1773,6 +1840,7 @@ export type paths = {
      *
      * Args:
      *     user_name_or_id: Name or ID of the user.
+     *     auth_context: Authentication context.
      *
      * Returns:
      *     The generated activation token.
@@ -2361,52 +2429,20 @@ export type components = {
     ArtifactNodeStatus: "cached" | "created" | "external" | "unknown";
     /**
      * ArtifactRequest
-     * @description Request model for artifacts.
+     * @description Artifact request model.
      */
     ArtifactRequest: {
-      /**
-       * The id of the user that created this resource.
-       * Format: uuid
-       */
-      user: string;
-      /**
-       * The workspace to which this resource belongs.
-       * Format: uuid
-       */
-      workspace: string;
       /** Name of the artifact. */
       name: string;
-      /** Version of the artifact. */
-      version: string | number;
       /**
        * Whether the name is custom (True) or auto-generated (False).
        * @default false
        */
       has_custom_name?: boolean;
-      /** Type of the artifact. */
-      type: components["schemas"]["ArtifactType"];
-      /**
-       * ID of the artifact store in which this artifact is stored.
-       * Format: uuid
-       */
-      artifact_store_id?: string;
-      /** URI of the artifact. */
-      uri: string;
-      /** Materializer class to use for this artifact. */
-      materializer: components["schemas"]["Source"];
-      /** Data type of the artifact. */
-      data_type: components["schemas"]["Source"];
-      /**
-       * Tags of the artifact.
-       * @description Should be a list of plain strings, e.g., ['tag1', 'tag2']
-       */
-      tags?: string[];
-      /** Visualizations of the artifact. */
-      visualizations?: components["schemas"]["ArtifactVisualizationRequest"][];
     };
     /**
      * ArtifactResponse
-     * @description Response model for artifacts.
+     * @description Artifact response model.
      */
     ArtifactResponse: {
       /**
@@ -2441,8 +2477,125 @@ export type components = {
        * Format: date-time
        */
       updated?: string;
+    };
+    /**
+     * ArtifactResponseMetadata
+     * @description Response metadata for artifacts.
+     */
+    ArtifactResponseMetadata: {
+      /**
+       * Whether the name is custom (True) or auto-generated (False).
+       * @default false
+       */
+      has_custom_name?: boolean;
+      /** Tags associated with the model */
+      tags: components["schemas"]["TagResponseModel"][];
+    };
+    /**
+     * ArtifactType
+     * @description All possible types an artifact can have.
+     * @enum {string}
+     */
+    ArtifactType: "DataAnalysisArtifact" | "DataArtifact" | "ModelArtifact" | "SchemaArtifact" | "ServiceArtifact" | "StatisticsArtifact" | "BaseArtifact";
+    /**
+     * ArtifactUpdate
+     * @description Artifact update model.
+     */
+    ArtifactUpdate: {
+      /** Name */
+      name?: string;
+      /** Add Tags */
+      add_tags?: string[];
+      /** Remove Tags */
+      remove_tags?: string[];
+    };
+    /**
+     * ArtifactVersionRequest
+     * @description Request model for artifact versions.
+     */
+    ArtifactVersionRequest: {
+      /**
+       * The id of the user that created this resource.
+       * Format: uuid
+       */
+      user: string;
+      /**
+       * The workspace to which this resource belongs.
+       * Format: uuid
+       */
+      workspace: string;
+      /**
+       * ID of the artifact to which this version belongs.
+       * Format: uuid
+       */
+      artifact_id: string;
+      /** Version of the artifact. */
+      version: string | number;
+      /**
+       * Whether the name is custom (True) or auto-generated (False).
+       * @default false
+       */
+      has_custom_name?: boolean;
+      /** Type of the artifact. */
+      type: components["schemas"]["ArtifactType"];
+      /**
+       * ID of the artifact store in which this artifact is stored.
+       * Format: uuid
+       */
+      artifact_store_id?: string;
+      /** URI of the artifact. */
+      uri: string;
+      /** Materializer class to use for this artifact. */
+      materializer: components["schemas"]["Source"];
+      /** Data type of the artifact. */
+      data_type: components["schemas"]["Source"];
+      /**
+       * Tags of the artifact.
+       * @description Should be a list of plain strings, e.g., ['tag1', 'tag2']
+       */
+      tags?: string[];
+      /** Visualizations of the artifact. */
+      visualizations?: components["schemas"]["ArtifactVisualizationRequest"][];
+    };
+    /**
+     * ArtifactVersionResponse
+     * @description Response model for artifact versions.
+     */
+    ArtifactVersionResponse: {
+      /**
+       * The unique resource id.
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
+      /** The body of the resource. */
+      body?: components["schemas"]["ArtifactVersionResponseBody"];
+      /** The metadata related to this resource. */
+      metadata?: components["schemas"]["ArtifactVersionResponseMetadata"];
+    };
+    /**
+     * ArtifactVersionResponseBody
+     * @description Response body for artifact versions.
+     */
+    ArtifactVersionResponseBody: {
+      /**
+       * The timestamp when this resource was created.
+       * Format: date-time
+       */
+      created?: string;
+      /**
+       * The timestamp when this resource was last updated.
+       * Format: date-time
+       */
+      updated?: string;
       /** The user who created this resource. */
       user?: components["schemas"]["UserResponse"];
+      /** Artifact to which this version belongs. */
+      artifact: components["schemas"]["ArtifactResponse"];
       /** Version of the artifact. */
       version: string | number;
       /** URI of the artifact. */
@@ -2451,10 +2604,10 @@ export type components = {
       type: components["schemas"]["ArtifactType"];
     };
     /**
-     * ArtifactResponseMetadata
-     * @description Response metadata for artifacts.
+     * ArtifactVersionResponseMetadata
+     * @description Response metadata for artifact versions.
      */
-    ArtifactResponseMetadata: {
+    ArtifactVersionResponseMetadata: {
       /** The workspace of this resource. */
       workspace: components["schemas"]["WorkspaceResponse"];
       /**
@@ -2482,23 +2635,12 @@ export type components = {
       materializer: components["schemas"]["Source"];
       /** Data type of the artifact. */
       data_type: components["schemas"]["Source"];
-      /**
-       * Whether the name is custom (True) or auto-generated (False).
-       * @default false
-       */
-      has_custom_name?: boolean;
     };
     /**
-     * ArtifactType
-     * @description All possible types an artifact can have.
-     * @enum {string}
+     * ArtifactVersionUpdate
+     * @description Artifact version update model.
      */
-    ArtifactType: "DataAnalysisArtifact" | "DataArtifact" | "ModelArtifact" | "SchemaArtifact" | "ServiceArtifact" | "StatisticsArtifact" | "BaseArtifact";
-    /**
-     * ArtifactUpdate
-     * @description Artifact update model.
-     */
-    ArtifactUpdate: {
+    ArtifactVersionUpdate: {
       /** Name */
       name?: string;
       /** Add Tags */
@@ -2560,10 +2702,10 @@ export type components = {
      */
     ArtifactVisualizationResponseMetadata: {
       /**
-       * Artifact Id
+       * Artifact Version Id
        * Format: uuid
        */
-      artifact_id: string;
+      artifact_version_id: string;
     };
     /**
      * AuthScheme
@@ -3589,10 +3731,10 @@ export type components = {
        */
       is_endpoint_artifact?: boolean;
       /**
-       * Artifact
+       * Artifact Version
        * Format: uuid
        */
-      artifact: string;
+      artifact_version: string;
     };
     /**
      * ModelVersionArtifactResponseModel
@@ -3643,7 +3785,7 @@ export type components = {
        * @default false
        */
       is_endpoint_artifact?: boolean;
-      artifact: components["schemas"]["ArtifactResponse"];
+      artifact_version: components["schemas"]["ArtifactVersionResponse"];
     };
     /**
      * ModelVersionPipelineRunRequestModel
@@ -4091,6 +4233,22 @@ export type components = {
       total: number;
       /** Items */
       items: components["schemas"]["ArtifactResponse"][];
+    };
+    /**
+     * Page[ArtifactVersionResponse]
+     * @description Return Model for List Models to accommodate pagination.
+     */
+    Page_ArtifactVersionResponse_: {
+      /** Index */
+      index: number;
+      /** Max Size */
+      max_size: number;
+      /** Total Pages */
+      total_pages: number;
+      /** Total */
+      total: number;
+      /** Items */
+      items: components["schemas"]["ArtifactVersionResponse"][];
     };
     /**
      * Page[CodeRepositoryResponse]
@@ -4711,9 +4869,9 @@ export type components = {
         [key: string]: unknown;
       };
       /** The version of the ZenML installation on the client side. */
-      client_version: string;
+      client_version?: string;
       /** The version of the ZenML installation on the server side. */
-      server_version: string;
+      server_version?: string;
       /** The pipeline associated with the deployment. */
       pipeline?: components["schemas"]["PipelineResponse"];
       /** The stack associated with the deployment. */
@@ -5084,10 +5242,10 @@ export type components = {
        */
       step_run_id?: string;
       /**
-       * The ID of the artifact that this metadata belongs to.
+       * The ID of the artifact version that this metadata belongs to.
        * Format: uuid
        */
-      artifact_id?: string;
+      artifact_version_id?: string;
       /**
        * The ID of the stack component that this metadata belongs to.
        * Format: uuid
@@ -5169,7 +5327,7 @@ export type components = {
        * The ID of the artifact that this metadata belongs to.
        * Format: uuid
        */
-      artifact_id?: string;
+      artifact_version_id?: string;
       /**
        * The ID of the stack component that this metadata belongs to.
        * Format: uuid
@@ -6228,14 +6386,14 @@ export type components = {
       /** The IDs of the parent steps of this step run. */
       parent_step_ids?: string[];
       /**
-       * The IDs of the input artifacts of the step run.
+       * The IDs of the input artifact versions of the step run.
        * @default {}
        */
       inputs?: {
         [key: string]: unknown;
       };
       /**
-       * The IDs of the output artifacts of the step run.
+       * The IDs of the output artifact versions of the step run.
        * @default {}
        */
       outputs?: {
@@ -6291,14 +6449,14 @@ export type components = {
       /** The status of the step. */
       status: components["schemas"]["ExecutionStatus"];
       /**
-       * The input artifacts of the step run.
+       * The input artifact versions of the step run.
        * @default {}
        */
       inputs?: {
         [key: string]: unknown;
       };
       /**
-       * The output artifacts of the step run.
+       * The output artifact versions of the step run.
        * @default {}
        */
       outputs?: {
@@ -6367,24 +6525,24 @@ export type components = {
      */
     StepRunUpdate: {
       /**
-       * The IDs of the output artifacts of the step run.
+       * The IDs of the output artifact versions of the step run.
        * @default {}
        */
       outputs?: {
         [key: string]: unknown;
       };
       /**
-       * The IDs of artifacts that were saved by this step run.
+       * The IDs of artifact versions that were saved by this step run.
        * @default {}
        */
-      saved_artifacts?: {
+      saved_artifact_versions?: {
         [key: string]: unknown;
       };
       /**
-       * The IDs of artifacts that were loaded by this step run.
+       * The IDs of artifact versions that were loaded by this step run.
        * @default {}
        */
-      loaded_artifacts?: {
+      loaded_artifact_versions?: {
         [key: string]: unknown;
       };
       /** The status of the step. */
@@ -8838,6 +8996,7 @@ export type operations = {
    *
    * Args:
    *     workspace_name_or_id: Name or ID of the workspace to get statistics for.
+   *     auth_context: Authentication context.
    *
    * Returns:
    *     All pipelines within the workspace.
@@ -10073,7 +10232,7 @@ export type operations = {
         scope_workspace?: string;
         pipeline_run_id?: string;
         step_run_id?: string;
-        artifact_id?: string;
+        artifact_version_id?: string;
         stack_component_id?: string;
         key?: string;
         type?: string | components["schemas"]["MetadataTypeEnum"];
@@ -12571,18 +12730,7 @@ export type operations = {
         id?: string;
         created?: string;
         updated?: string;
-        scope_workspace?: string;
         name?: string;
-        version?: string;
-        version_number?: number | string;
-        uri?: string;
-        materializer?: string;
-        type?: string;
-        data_type?: string;
-        artifact_store_id?: string;
-        workspace_id?: string;
-        user_id?: string;
-        only_unused?: boolean;
       };
     };
     responses: {
@@ -12823,23 +12971,300 @@ export type operations = {
     };
   };
   /**
+   * List Artifact Versions
+   * @description Get artifact versions according to query filters.
+   *
+   * Args:
+   *     artifact_version_filter_model: Filter model used for pagination,
+   *         sorting, filtering.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
+   *     auth_context: The authentication context.
+   *
+   * Returns:
+   *     The artifact versions according to query filters.
+   */
+  list_artifact_versions_api_v1_artifact_versions_get: {
+    parameters: {
+      query?: {
+        hydrate?: boolean;
+        sort_by?: string;
+        logical_operator?: components["schemas"]["LogicalOperators"];
+        page?: number;
+        size?: number;
+        id?: string;
+        created?: string;
+        updated?: string;
+        scope_workspace?: string;
+        artifact_id?: string;
+        name?: string;
+        version?: string;
+        version_number?: number | string;
+        uri?: string;
+        materializer?: string;
+        type?: string;
+        data_type?: string;
+        artifact_store_id?: string;
+        workspace_id?: string;
+        user_id?: string;
+        only_unused?: boolean;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_ArtifactVersionResponse_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Create Artifact Version
+   * @description Create a new artifact version.
+   *
+   * Args:
+   *     artifact_version: The artifact version to create.
+   *
+   * Returns:
+   *     The created artifact version.
+   */
+  create_artifact_version_api_v1_artifact_versions_post: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ArtifactVersionRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ArtifactVersionResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Get Artifact Version
+   * @description Get an artifact version by ID.
+   *
+   * Args:
+   *     artifact_version_id: The ID of the artifact version to get.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
+   *
+   * Returns:
+   *     The artifact version with the given ID.
+   */
+  get_artifact_version_api_v1_artifact_versions__artifact_version_id__get: {
+    parameters: {
+      query?: {
+        hydrate?: boolean;
+      };
+      path: {
+        artifact_version_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ArtifactVersionResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Update Artifact Version
+   * @description Update an artifact by ID.
+   *
+   * Args:
+   *     artifact_version_id: The ID of the artifact version to update.
+   *     artifact_version_update: The update to apply to the artifact version.
+   *
+   * Returns:
+   *     The updated artifact.
+   */
+  update_artifact_version_api_v1_artifact_versions__artifact_version_id__put: {
+    parameters: {
+      path: {
+        artifact_version_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ArtifactVersionUpdate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ArtifactVersionResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete Artifact Version
+   * @description Delete an artifact version by ID.
+   *
+   * Args:
+   *     artifact_version_id: The ID of the artifact version to delete.
+   */
+  delete_artifact_version_api_v1_artifact_versions__artifact_version_id__delete: {
+    parameters: {
+      path: {
+        artifact_version_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
    * Get Artifact Visualization
    * @description Get the visualization of an artifact.
    *
    * Args:
-   *     artifact_id: ID of the artifact for which to get the visualization.
+   *     artifact_version_id: ID of the artifact version for which to get the visualization.
    *     index: Index of the visualization to get (if there are multiple).
    *
    * Returns:
-   *     The visualization of the artifact.
+   *     The visualization of the artifact version.
    */
-  get_artifact_visualization_api_v1_artifacts__artifact_id__visualize_get: {
+  get_artifact_visualization_api_v1_artifact_versions__artifact_version_id__visualize_get: {
     parameters: {
       query?: {
         index?: number;
       };
       path: {
-        artifact_id: string;
+        artifact_version_id: string;
       };
     };
     responses: {
@@ -12884,6 +13309,7 @@ export type operations = {
    *         pagination.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
+   *     auth_context: Authentication context.
    *
    * Returns:
    *     A list of all users.
@@ -12987,6 +13413,7 @@ export type operations = {
    *     user_name_or_id: Name or ID of the user.
    *     hydrate: Flag deciding whether to hydrate the output model(s)
    *         by including metadata fields in the response.
+   *     auth_context: Authentication context.
    *
    * Returns:
    *     A specific user.
@@ -13034,6 +13461,7 @@ export type operations = {
    * Args:
    *     user_name_or_id: Name or ID of the user.
    *     user_update: the user to use for the update.
+   *     auth_context: Authentication context.
    *
    * Returns:
    *     The updated user.
@@ -13126,6 +13554,7 @@ export type operations = {
    *
    * Args:
    *     user_name_or_id: Name or ID of the user.
+   *     auth_context: Authentication context.
    *
    * Returns:
    *     The generated activation token.
@@ -14516,7 +14945,8 @@ export type operations = {
         user_id?: string;
         model_id?: string;
         model_version_id?: string;
-        artifact_id?: string;
+        artifact_version_id?: string;
+        artifact_name?: string;
         only_data_artifacts?: boolean;
         only_model_artifacts?: boolean;
         only_endpoint_artifacts?: boolean;
@@ -14576,6 +15006,7 @@ export type operations = {
         model_id?: string;
         model_version_id?: string;
         pipeline_run_id?: string;
+        pipeline_run_name?: string;
       };
     };
     responses: {

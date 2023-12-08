@@ -5,16 +5,16 @@ import React from 'react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import {
-  stackComponentsActions,
+  // stackComponentsActions,
   stackPagesActions,
 } from '../../../../../redux/actions';
 import {
   workspaceSelectors,
   stackComponentSelectors,
   stackPagesSelectors,
-  stackSelectors,
+  // stackSelectors,
 } from '../../../../../redux/selectors';
-import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
+// import { getFilteredDataForTable } from '../../../../../utils/tableFilters';
 import { useLocationPath } from '../../../../hooks';
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { GetFlavorsListForLogo } from './GetFlavorsListForLogo';
@@ -40,8 +40,8 @@ interface filterValue {
 
 export const useService = ({
   filter,
-  isExpended,
-}: {
+}: // isExpended,
+{
   isExpended?: any;
   filter: {
     column: filterValue;
@@ -58,7 +58,7 @@ export const useService = ({
     setActiveSortingDirection,
   ] = React.useState<SortingDirection | null>('DESC');
   const dispatch = useDispatch();
-  const locationPath = useLocationPath();
+  // const locationPath = useLocationPath();y
   const [openStackIds, setOpenStackIds] = useState<TId[]>([]);
   const [filteredStacks, setFilteredStacks] = useState<StackComponent[]>([]);
 
@@ -67,11 +67,11 @@ export const useService = ({
   const stackComponents = useSelector(
     stackComponentSelectors.mystackComponents,
   );
-  const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
-  const stackComponentsPaginated = useSelector(
-    stackComponentSelectors.mystackComponentsPaginated,
-  );
-  const isValidFilter = filter?.map((f) => f.value).join('');
+  // const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
+  // const stackComponentsPaginated = useSelector(
+  //   stackComponentSelectors.mystackComponentsPaginated,
+  // );
+  // const isValidFilter = filter?.map((f) => f.value).join('');
   useEffect(() => {
     const stackComponentsMap = stackComponents.map((item: any) => {
       const temp: any = flavourList.find(
@@ -95,28 +95,28 @@ export const useService = ({
     setFilteredStacks((stackComponentsMap as unknown) as StackComponent[]);
   }, [stackComponents, filter, flavourList]);
 
-  useEffect(() => {
-    if (!isValidFilter && !isExpended) {
-      const intervalId = setInterval(() => {
-        const applySorting =
-          activeSortingDirection?.toLowerCase() + ':' + activeSorting;
-        dispatch(
-          stackComponentsActions.getMy({
-            sort_by: applySorting ? applySorting : 'created',
-            logical_operator: 'and',
-            page: stackComponentsPaginated.page,
-            size: stackComponentsPaginated.size,
-            type: locationPath.split('/')[4],
-            workspace: selectedWorkspace
-              ? selectedWorkspace
-              : locationPath.split('/')[2],
-          }),
-        );
-      }, 5000);
+  // useEffect(() => {
+  //   if (!isValidFilter && !isExpended) {
+  //     const intervalId = setInterval(() => {
+  //       const applySorting =
+  //         activeSortingDirection?.toLowerCase() + ':' + activeSorting;
+  //       dispatch(
+  //         stackComponentsActions.getMy({
+  //           sort_by: applySorting ? applySorting : 'created',
+  //           logical_operator: 'and',
+  //           page: stackComponentsPaginated.page,
+  //           size: stackComponentsPaginated.size,
+  //           type: locationPath.split('/')[4],
+  //           workspace: selectedWorkspace
+  //             ? selectedWorkspace
+  //             : locationPath.split('/')[2],
+  //         }),
+  //       );
+  //     }, 5000);
 
-      return () => clearInterval(intervalId);
-    }
-  });
+  //     return () => clearInterval(intervalId);
+  //   }
+  // });
 
   const setSelectedRunIds = (runIds: TId[]) => {
     dispatch(stackPagesActions.setSelectedRunIds({ runIds }));
