@@ -238,7 +238,7 @@ export const GetList: React.FC<Props> = ({
           }}
           onClose={() => setShowPopup(false)}
         >
-          <Box marginTop="md" paddingBottom={'xxxl'}>
+          <Box marginTop="md" style={{ paddingBottom: '300px' }}>
             <NonEditableConfig details={selectedStackBox}></NonEditableConfig>
           </Box>
         </SidePopup>

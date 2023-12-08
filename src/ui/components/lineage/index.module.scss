@@ -195,11 +195,13 @@
 
 .sidebarMainContainer {
   background-color: rgb(255, 255, 255);
-  height: 100vh;
+  // height: 695px;
+  // padding-bottom: 70px;
   width: 50vw;
   position: absolute;
   right: 0%;
-  top: 48px;
+  top: 120px;
+  // overflow-y: auto;
   z-index: 10001;
   display: flex;
   justify-content: flex-start;
@@ -234,7 +236,7 @@
 }
 
 .bodyContainer {
-  height: 100vh;
+  // height: 100vh;
   width: 100%;
   background-color: #ffffff;
 }

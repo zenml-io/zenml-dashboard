@@ -169,7 +169,10 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
 
       <div style={{ overflow: 'hidden' }}>
         <div className="controls">
-          <button onClick={() => setLegend(!legend)}>
+          <button
+            style={{ marginRight: '6px' }}
+            onClick={() => setLegend(!legend)}
+          >
             {legend ? (
               <img
                 className="legend_arrow"
@@ -186,8 +189,11 @@ export const LayoutFlow: React.FC<any> = (graph: any) => {
             Artifact Legends
           </button>
 
-          <div style={{}}>
-            <div className="legend" style={{ display: legend ? '' : 'none' }}>
+          <div>
+            <div
+              className="legend"
+              style={{ display: legend ? '' : 'none', marginRight: '6px' }}
+            >
               <span>
                 <Analysis /> <span>Data Analysis</span>
               </span>

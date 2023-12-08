@@ -1,7 +1,15 @@
 import React, { useState } from 'react';
 import { RunsTable } from '../../RunsTable';
-import { useService } from './useService';
+// import { useService } from './useService';
 import { getTranslateByScope } from '../../../../../services';
+import { usePollingService } from '../../../../hooks/usePollingService';
+import { useSelector } from 'react-redux';
+import {
+  runPagesSelectors,
+  runSelectors,
+} from '../../../../../redux/selectors';
+import { Run } from '../../../../../api/types';
+import { runsActions } from '../../../../../redux/actions';
 
 export const translate = getTranslateByScope('ui.layouts.AllRuns');
 
@@ -16,8 +24,21 @@ export const List: React.FC<Props> = ({ filter, pagination, runId }: Props) => {
   function getSorted(activeSorting: any, activeSortingDirection: any) {
     setSortBy(activeSortingDirection?.toLowerCase() + ':' + activeSorting);
   }
+  const runs = useSelector(runSelectors.myRuns);
+  const runIds = runs.map((run: Run) => run.id);
+  const runsPaginated = useSelector(runSelectors.myRunsPaginated);
+  const fetching = useSelector(runPagesSelectors.fetching);
 
-  const { fetching, runIds, runsPaginated } = useService({ filter, sortBy });
+  // const dispatchFun = 'runsActions.allRuns';
+  const paginatedValue = runsPaginated;
+  usePollingService({
+    filter,
+    sortBy,
+    dispatchFun: runsActions.allRuns,
+    paginatedValue,
+  });
+
+  // const { fetching, runIds, runsPaginated } = useService({ filter, sortBy });
 
   return (
     <>
