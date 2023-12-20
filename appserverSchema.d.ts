@@ -597,6 +597,7 @@ export type paths = {
      * Raises:
      *     IllegalOperationError: If the workspace or user specified in the run
      *         metadata does not match the current workspace or authenticated user.
+     *     RuntimeError: If the resource type is not supported.
      */
     post: operations["create_run_metadata_api_v1_workspaces__workspace_name_or_id__run_metadata_post"];
   };
@@ -999,6 +1000,21 @@ export type paths = {
      *     The pipeline runs according to query filters.
      */
     get: operations["list_run_metadata_api_v1_run_metadata_get"];
+  };
+  "/api/v1/run-metadata/{run_metadata_id}": {
+    /**
+     * Get Run Metadata
+     * @description Get run metadata by ID.
+     *
+     * Args:
+     *     run_metadata_id: The ID of run metadata.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
+     *
+     * Returns:
+     *     The run metadata response.
+     */
+    get: operations["get_run_metadata_api_v1_run_metadata__run_metadata_id__get"];
   };
   "/api/v1/schedules": {
     /**
@@ -2041,8 +2057,9 @@ export type paths = {
      *
      * Args:
      *     model_filter_model: Filter model used for pagination, sorting,
-     *         filtering
-     *
+     *         filtering.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *
      * Returns:
      *     The models according to query filters.
@@ -2056,6 +2073,8 @@ export type paths = {
      *
      * Args:
      *     model_name_or_id: The name or ID of the model to get.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *
      * Returns:
      *     The model with the given name or ID.
@@ -2094,7 +2113,9 @@ export type paths = {
      * Args:
      *     model_name_or_id: The name or ID of the model to list in.
      *     model_version_filter_model: Filter model used for pagination, sorting,
-     *         filtering
+     *         filtering.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *     auth_context: The authentication context.
      *
      * Returns:
@@ -2109,7 +2130,9 @@ export type paths = {
      *
      * Args:
      *     model_version_filter_model: Filter model used for pagination, sorting,
-     *         filtering
+     *         filtering.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *     auth_context: The authentication context.
      *
      * Returns:
@@ -2124,6 +2147,8 @@ export type paths = {
      *
      * Args:
      *     model_version_id: id of the model version to be retrieved.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *
      * Returns:
      *     The model version with the given name or ID.
@@ -2157,7 +2182,8 @@ export type paths = {
      *
      * Args:
      *     model_version_id: ID of the model version containing the link.
-     *     model_version_artifact_link_name_or_id: name or ID of the model version to artifact link to be deleted.
+     *     model_version_artifact_link_name_or_id: name or ID of the model
+     *         version to artifact link to be deleted.
      */
     delete: operations["delete_model_version_artifact_link_api_v1_model_versions__model_version_id__artifacts__model_version_artifact_link_name_or_id__delete"];
   };
@@ -2168,7 +2194,8 @@ export type paths = {
      *
      * Args:
      *     model_version_id: name or ID of the model version containing the link.
-     *     model_version_pipeline_run_link_name_or_id: name or ID of the model version link to be deleted.
+     *     model_version_pipeline_run_link_name_or_id: name or ID of the model
+     *         version link to be deleted.
      */
     delete: operations["delete_model_version_pipeline_run_link_api_v1_model_versions__model_version_id__runs__model_version_pipeline_run_link_name_or_id__delete"];
   };
@@ -2180,6 +2207,8 @@ export type paths = {
      * Args:
      *     model_version_artifact_link_filter_model: Filter model used for
      *         pagination, sorting, filtering.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *
      * Returns:
      *     The model version to artifact links according to query filters.
@@ -2194,6 +2223,8 @@ export type paths = {
      * Args:
      *     model_version_pipeline_run_link_filter_model: Filter model used for
      *         pagination, sorting, and filtering.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *
      * Returns:
      *     The model version to pipeline run links according to query filters.
@@ -2477,6 +2508,8 @@ export type components = {
        * Format: date-time
        */
       updated?: string;
+      /** Tags associated with the model */
+      tags: components["schemas"]["TagResponseModel"][];
     };
     /**
      * ArtifactResponseMetadata
@@ -2488,8 +2521,6 @@ export type components = {
        * @default false
        */
       has_custom_name?: boolean;
-      /** Tags associated with the model */
-      tags: components["schemas"]["TagResponseModel"][];
     };
     /**
      * ArtifactType
@@ -2602,6 +2633,12 @@ export type components = {
       uri: string;
       /** Type of the artifact. */
       type: components["schemas"]["ArtifactType"];
+      /** Materializer class to use for this artifact. */
+      materializer: components["schemas"]["Source"];
+      /** Data type of the artifact. */
+      data_type: components["schemas"]["Source"];
+      /** Tags associated with the model */
+      tags: components["schemas"]["TagResponseModel"][];
     };
     /**
      * ArtifactVersionResponseMetadata
@@ -2620,8 +2657,6 @@ export type components = {
        * Format: uuid
        */
       producer_step_run_id?: string;
-      /** Tags associated with the model */
-      tags: components["schemas"]["TagResponseModel"][];
       /** Visualizations of the artifact. */
       visualizations?: components["schemas"]["ArtifactVisualizationResponse"][];
       /**
@@ -2631,10 +2666,6 @@ export type components = {
       run_metadata?: {
         [key: string]: unknown;
       };
-      /** Materializer class to use for this artifact. */
-      materializer: components["schemas"]["Source"];
-      /** Data type of the artifact. */
-      data_type: components["schemas"]["Source"];
     };
     /**
      * ArtifactVersionUpdate
@@ -2741,6 +2772,13 @@ export type components = {
       /** The default number of seconds that the authentication session is valid for. Set to None for authentication sessions and long-lived credentials that don't expire. */
       default_expiration_seconds?: number;
     };
+    /**
+     * BaseResponseMetadata
+     * @description Base metadata model.
+     *
+     * Used as a base class for all metadata models associated with responses.
+     */
+    BaseResponseMetadata: Record<string, never>;
     /**
      * BaseSettings
      * @description Base class for settings.
@@ -3519,32 +3557,22 @@ export type components = {
       artifact_store_id: string;
     };
     /**
+     * MetadataResourceTypes
+     * @description All possible resource types for adding metadata.
+     * @enum {string}
+     */
+    MetadataResourceTypes: "pipeline_run" | "step_run" | "artifact_version" | "model_version";
+    /**
      * MetadataTypeEnum
      * @description String Enum of all possible types that metadata can have.
      * @enum {string}
      */
     MetadataTypeEnum: "str" | "int" | "float" | "bool" | "list" | "dict" | "tuple" | "set" | "Uri" | "Path" | "DType" | "StorageSize";
     /**
-     * ModelRequestModel
-     * @description Model request model.
+     * ModelRequest
+     * @description Request model for models.
      */
-    ModelRequestModel: {
-      /** The name of the model */
-      name: string;
-      /** The license model created under */
-      license?: string;
-      /** The description of the model */
-      description?: string;
-      /** The target audience of the model */
-      audience?: string;
-      /** The use cases of the model */
-      use_cases?: string;
-      /** The know limitations of the model */
-      limitations?: string;
-      /** The trade offs of the model */
-      trade_offs?: string;
-      /** The ethical implications of the model */
-      ethics?: string;
+    ModelRequest: {
       /**
        * The id of the user that created this resource.
        * Format: uuid
@@ -3555,16 +3583,6 @@ export type components = {
        * Format: uuid
        */
       workspace: string;
-      /** Tags associated with the model */
-      tags?: string[];
-    };
-    /**
-     * ModelResponseModel
-     * @description Model response model.
-     *
-     * latest_version: name of latest version, if any
-     */
-    ModelResponseModel: {
       /** The name of the model */
       name: string;
       /** The license model created under */
@@ -3581,34 +3599,74 @@ export type components = {
       trade_offs?: string;
       /** The ethical implications of the model */
       ethics?: string;
+      /** Tags associated with the model */
+      tags?: string[];
+    };
+    /**
+     * ModelResponse
+     * @description Response model for models.
+     */
+    ModelResponse: {
       /**
        * The unique resource id.
        * Format: uuid
        */
       id: string;
       /**
-       * Time when this resource was created.
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
+      /** The body of the resource. */
+      body?: components["schemas"]["ModelResponseBody"];
+      /** The metadata related to this resource. */
+      metadata?: components["schemas"]["ModelResponseMetadata"];
+      /** The name of the model */
+      name: string;
+    };
+    /**
+     * ModelResponseBody
+     * @description Response body for models.
+     */
+    ModelResponseBody: {
+      /**
+       * The timestamp when this component was created.
        * Format: date-time
        */
       created: string;
       /**
-       * Time when this resource was last updated.
+       * The timestamp when this component was last updated.
        * Format: date-time
        */
       updated: string;
-      /**
-       * Missing Permissions
-       * @default false
-       */
-      missing_permissions?: boolean;
-      /** The user that created this resource. */
-      user?: components["schemas"]["UserResponse"] | null;
-      /** The workspace of this resource. */
-      workspace: components["schemas"]["WorkspaceResponse"];
+      /** The user who created this resource. */
+      user?: components["schemas"]["UserResponse"];
       /** Tags associated with the model */
       tags: components["schemas"]["TagResponseModel"][];
       /** Latest Version */
       latest_version?: string;
+    };
+    /**
+     * ModelResponseMetadata
+     * @description Response metadata for models.
+     */
+    ModelResponseMetadata: {
+      /** The workspace of this resource. */
+      workspace: components["schemas"]["WorkspaceResponse"];
+      /** The license model created under */
+      license?: string;
+      /** The description of the model */
+      description?: string;
+      /** The target audience of the model */
+      audience?: string;
+      /** The use cases of the model */
+      use_cases?: string;
+      /** The know limitations of the model */
+      limitations?: string;
+      /** The trade offs of the model */
+      trade_offs?: string;
+      /** The ethical implications of the model */
+      ethics?: string;
     };
     /**
      * ModelStages
@@ -3617,10 +3675,10 @@ export type components = {
      */
     ModelStages: "none" | "staging" | "production" | "archived" | "latest";
     /**
-     * ModelUpdateModel
-     * @description Model update model.
+     * ModelUpdate
+     * @description Update model for models.
      */
-    ModelUpdateModel: {
+    ModelUpdate: {
       /** License */
       license?: string;
       /** Description */
@@ -3696,10 +3754,10 @@ export type components = {
       was_created_in_this_run?: boolean;
     };
     /**
-     * ModelVersionArtifactRequestModel
-     * @description Model version link with artifact request model.
+     * ModelVersionArtifactRequest
+     * @description Request model for links between model versions and artifacts.
      */
-    ModelVersionArtifactRequestModel: {
+    ModelVersionArtifactRequest: {
       /**
        * The id of the user that created this resource.
        * Format: uuid
@@ -3721,6 +3779,11 @@ export type components = {
        */
       model_version: string;
       /**
+       * Artifact Version
+       * Format: uuid
+       */
+      artifact_version: string;
+      /**
        * Is Model Artifact
        * @default false
        */
@@ -3730,41 +3793,42 @@ export type components = {
        * @default false
        */
       is_endpoint_artifact?: boolean;
-      /**
-       * Artifact Version
-       * Format: uuid
-       */
-      artifact_version: string;
     };
     /**
-     * ModelVersionArtifactResponseModel
-     * @description Model version link with artifact response model.
+     * ModelVersionArtifactResponse
+     * @description Response model for links between model versions and artifacts.
      */
-    ModelVersionArtifactResponseModel: {
+    ModelVersionArtifactResponse: {
       /**
        * The unique resource id.
        * Format: uuid
        */
       id: string;
       /**
-       * Time when this resource was created.
-       * Format: date-time
-       */
-      created: string;
-      /**
-       * Time when this resource was last updated.
-       * Format: date-time
-       */
-      updated: string;
-      /**
-       * Missing Permissions
+       * Permission Denied
        * @default false
        */
-      missing_permissions?: boolean;
-      /** The user that created this resource. */
-      user?: components["schemas"]["UserResponse"] | null;
-      /** The workspace of this resource. */
-      workspace: components["schemas"]["WorkspaceResponse"];
+      permission_denied?: boolean;
+      /** The body of the resource. */
+      body?: components["schemas"]["ModelVersionArtifactResponseBody"];
+      /** The metadata related to this resource. */
+      metadata?: components["schemas"]["BaseResponseMetadata"];
+    };
+    /**
+     * ModelVersionArtifactResponseBody
+     * @description Response body for links between model versions and artifacts.
+     */
+    ModelVersionArtifactResponseBody: {
+      /**
+       * The timestamp when this resource was created.
+       * Format: date-time
+       */
+      created?: string;
+      /**
+       * The timestamp when this resource was last updated.
+       * Format: date-time
+       */
+      updated?: string;
       /**
        * Model
        * Format: uuid
@@ -3775,6 +3839,7 @@ export type components = {
        * Format: uuid
        */
       model_version: string;
+      artifact_version: components["schemas"]["ArtifactVersionResponse"];
       /**
        * Is Model Artifact
        * @default false
@@ -3785,13 +3850,12 @@ export type components = {
        * @default false
        */
       is_endpoint_artifact?: boolean;
-      artifact_version: components["schemas"]["ArtifactVersionResponse"];
     };
     /**
-     * ModelVersionPipelineRunRequestModel
-     * @description Model version link with pipeline run request model.
+     * ModelVersionPipelineRunRequest
+     * @description Request model for links between model versions and pipeline runs.
      */
-    ModelVersionPipelineRunRequestModel: {
+    ModelVersionPipelineRunRequest: {
       /**
        * The id of the user that created this resource.
        * Format: uuid
@@ -3819,34 +3883,40 @@ export type components = {
       pipeline_run: string;
     };
     /**
-     * ModelVersionPipelineRunResponseModel
-     * @description Model version link with pipeline run response model.
+     * ModelVersionPipelineRunResponse
+     * @description Response model for links between model versions and pipeline runs.
      */
-    ModelVersionPipelineRunResponseModel: {
+    ModelVersionPipelineRunResponse: {
       /**
        * The unique resource id.
        * Format: uuid
        */
       id: string;
       /**
-       * Time when this resource was created.
-       * Format: date-time
-       */
-      created: string;
-      /**
-       * Time when this resource was last updated.
-       * Format: date-time
-       */
-      updated: string;
-      /**
-       * Missing Permissions
+       * Permission Denied
        * @default false
        */
-      missing_permissions?: boolean;
-      /** The user that created this resource. */
-      user?: components["schemas"]["UserResponse"] | null;
-      /** The workspace of this resource. */
-      workspace: components["schemas"]["WorkspaceResponse"];
+      permission_denied?: boolean;
+      /** The body of the resource. */
+      body?: components["schemas"]["ModelVersionPipelineRunResponseBody"];
+      /** The metadata related to this resource. */
+      metadata?: components["schemas"]["BaseResponseMetadata"];
+    };
+    /**
+     * ModelVersionPipelineRunResponseBody
+     * @description Response body for links between model versions and pipeline runs.
+     */
+    ModelVersionPipelineRunResponseBody: {
+      /**
+       * The timestamp when this resource was created.
+       * Format: date-time
+       */
+      created?: string;
+      /**
+       * The timestamp when this resource was last updated.
+       * Format: date-time
+       */
+      updated?: string;
       /**
        * Model
        * Format: uuid
@@ -3860,10 +3930,10 @@ export type components = {
       pipeline_run: components["schemas"]["PipelineRunResponse"];
     };
     /**
-     * ModelVersionRequestModel
-     * @description Model Version request model.
+     * ModelVersionRequest
+     * @description Request model for model versions.
      */
-    ModelVersionRequestModel: {
+    ModelVersionRequest: {
       /**
        * The id of the user that created this resource.
        * Format: uuid
@@ -3900,46 +3970,51 @@ export type components = {
        * @description The ID of the model containing version
        */
       model: string;
+      /** Tags associated with the model version */
+      tags?: string[];
     };
     /**
-     * ModelVersionResponseModel
-     * @description Model Version response model.
+     * ModelVersionResponse
+     * @description Response model for model versions.
      */
-    ModelVersionResponseModel: {
+    ModelVersionResponse: {
       /**
        * The unique resource id.
        * Format: uuid
        */
       id: string;
       /**
-       * Time when this resource was created.
-       * Format: date-time
-       */
-      created: string;
-      /**
-       * Time when this resource was last updated.
-       * Format: date-time
-       */
-      updated: string;
-      /**
-       * Missing Permissions
+       * Permission Denied
        * @default false
        */
-      missing_permissions?: boolean;
-      /** The user that created this resource. */
-      user?: components["schemas"]["UserResponse"] | null;
-      /** The workspace of this resource. */
-      workspace: components["schemas"]["WorkspaceResponse"];
+      permission_denied?: boolean;
+      /** The body of the resource. */
+      body?: components["schemas"]["ModelVersionResponseBody"];
+      /** The metadata related to this resource. */
+      metadata?: components["schemas"]["ModelVersionResponseMetadata"];
       /**
        * Name
        * @description The name of the model version
        */
       name?: string;
+    };
+    /**
+     * ModelVersionResponseBody
+     * @description Response body for model versions.
+     */
+    ModelVersionResponseBody: {
       /**
-       * Description
-       * @description The description of the model version
+       * The timestamp when this component was created.
+       * Format: date-time
        */
-      description?: string;
+      created: string;
+      /**
+       * The timestamp when this component was last updated.
+       * Format: date-time
+       */
+      updated: string;
+      /** The user who created this resource. */
+      user?: components["schemas"]["UserResponse"];
       /**
        * Stage
        * @description The stage of the model version
@@ -3954,7 +4029,7 @@ export type components = {
        * Model
        * @description The model containing version
        */
-      model: components["schemas"]["ModelResponseModel"];
+      model: components["schemas"]["ModelResponse"];
       /**
        * Model Artifact Ids
        * @description Model artifacts linked to the model version
@@ -3987,12 +4062,45 @@ export type components = {
       pipeline_run_ids?: {
         [key: string]: unknown;
       };
+      /**
+       * Run Metadata
+       * @description Metadata linked to the model version
+       * @default {}
+       */
+      run_metadata?: {
+        [key: string]: unknown;
+      };
+      /**
+       * Tags associated with the model version
+       * @default []
+       */
+      tags?: components["schemas"]["TagResponseModel"][];
     };
     /**
-     * ModelVersionUpdateModel
-     * @description Update Model for Model Version.
+     * ModelVersionResponseMetadata
+     * @description Response metadata for model versions.
      */
-    ModelVersionUpdateModel: {
+    ModelVersionResponseMetadata: {
+      /** The workspace of this resource. */
+      workspace: components["schemas"]["WorkspaceResponse"];
+      /**
+       * Description
+       * @description The description of the model version
+       */
+      description?: string;
+      /**
+       * Metadata associated with this pipeline run.
+       * @default {}
+       */
+      run_metadata?: {
+        [key: string]: unknown;
+      };
+    };
+    /**
+     * ModelVersionUpdate
+     * @description Update model for model versions.
+     */
+    ModelVersionUpdate: {
       /**
        * Model
        * Format: uuid
@@ -4015,6 +4123,16 @@ export type components = {
        * @description Target model version name to be set
        */
       name?: string;
+      /**
+       * Add Tags
+       * @description Tags to be added to the model version
+       */
+      add_tags?: string[];
+      /**
+       * Remove Tags
+       * @description Tags to be removed from the model version
+       */
+      remove_tags?: string[];
     };
     /**
      * OAuthDeviceAuthorizationResponse
@@ -4299,10 +4417,10 @@ export type components = {
       items: components["schemas"]["FlavorResponse"][];
     };
     /**
-     * Page[ModelResponseModel]
+     * Page[ModelResponse]
      * @description Return Model for List Models to accommodate pagination.
      */
-    Page_ModelResponseModel_: {
+    Page_ModelResponse_: {
       /** Index */
       index: number;
       /** Max Size */
@@ -4312,13 +4430,13 @@ export type components = {
       /** Total */
       total: number;
       /** Items */
-      items: components["schemas"]["ModelResponseModel"][];
+      items: components["schemas"]["ModelResponse"][];
     };
     /**
-     * Page[ModelVersionArtifactResponseModel]
+     * Page[ModelVersionArtifactResponse]
      * @description Return Model for List Models to accommodate pagination.
      */
-    Page_ModelVersionArtifactResponseModel_: {
+    Page_ModelVersionArtifactResponse_: {
       /** Index */
       index: number;
       /** Max Size */
@@ -4328,13 +4446,13 @@ export type components = {
       /** Total */
       total: number;
       /** Items */
-      items: components["schemas"]["ModelVersionArtifactResponseModel"][];
+      items: components["schemas"]["ModelVersionArtifactResponse"][];
     };
     /**
-     * Page[ModelVersionPipelineRunResponseModel]
+     * Page[ModelVersionPipelineRunResponse]
      * @description Return Model for List Models to accommodate pagination.
      */
-    Page_ModelVersionPipelineRunResponseModel_: {
+    Page_ModelVersionPipelineRunResponse_: {
       /** Index */
       index: number;
       /** Max Size */
@@ -4344,13 +4462,13 @@ export type components = {
       /** Total */
       total: number;
       /** Items */
-      items: components["schemas"]["ModelVersionPipelineRunResponseModel"][];
+      items: components["schemas"]["ModelVersionPipelineRunResponse"][];
     };
     /**
-     * Page[ModelVersionResponseModel]
+     * Page[ModelVersionResponse]
      * @description Return Model for List Models to accommodate pagination.
      */
-    Page_ModelVersionResponseModel_: {
+    Page_ModelVersionResponse_: {
       /** Index */
       index: number;
       /** Max Size */
@@ -4360,7 +4478,7 @@ export type components = {
       /** Total */
       total: number;
       /** Items */
-      items: components["schemas"]["ModelVersionResponseModel"][];
+      items: components["schemas"]["ModelVersionResponse"][];
     };
     /**
      * Page[OAuthDeviceResponse]
@@ -4742,6 +4860,10 @@ export type components = {
       failure_hook_source?: components["schemas"]["Source"];
       success_hook_source?: components["schemas"]["Source"];
       model_version?: components["schemas"]["ModelVersion"];
+      /** Parameters */
+      parameters?: {
+        [key: string]: unknown;
+      };
       /** Name */
       name: string;
     };
@@ -5077,6 +5199,8 @@ export type components = {
       build?: components["schemas"]["PipelineBuildResponse"];
       /** The schedule that was used for this run. */
       schedule?: components["schemas"]["ScheduleResponse"];
+      /** The code reference that was used for this run. */
+      code_reference?: components["schemas"]["CodeReferenceResponse"];
     };
     /**
      * PipelineRunResponseMetadata
@@ -5232,20 +5356,12 @@ export type components = {
        */
       workspace: string;
       /**
-       * The ID of the pipeline run that this metadata belongs to.
+       * The ID of the resource that this metadata belongs to.
        * Format: uuid
        */
-      pipeline_run_id?: string;
-      /**
-       * The ID of the step run that this metadata belongs to.
-       * Format: uuid
-       */
-      step_run_id?: string;
-      /**
-       * The ID of the artifact version that this metadata belongs to.
-       * Format: uuid
-       */
-      artifact_version_id?: string;
+      resource_id: string;
+      /** The type of the resource that this metadata belongs to. */
+      resource_type: components["schemas"]["MetadataResourceTypes"];
       /**
        * The ID of the stack component that this metadata belongs to.
        * Format: uuid
@@ -5314,20 +5430,12 @@ export type components = {
       /** The workspace of this resource. */
       workspace: components["schemas"]["WorkspaceResponse"];
       /**
-       * The ID of the pipeline run that this metadata belongs to.
+       * The ID of the resource that this metadata belongs to.
        * Format: uuid
        */
-      pipeline_run_id?: string;
-      /**
-       * The ID of the step run that this metadata belongs to.
-       * Format: uuid
-       */
-      step_run_id?: string;
-      /**
-       * The ID of the artifact that this metadata belongs to.
-       * Format: uuid
-       */
-      artifact_version_id?: string;
+      resource_id: string;
+      /** The type of the resource that this metadata belongs to. */
+      resource_type: components["schemas"]["MetadataResourceTypes"];
       /**
        * The ID of the stack component that this metadata belongs to.
        * Format: uuid
@@ -5792,6 +5900,8 @@ export type components = {
        * Format: date-time
        */
       expires_at?: string;
+      /** The number of seconds of tolerance to apply when checking whether the authentication credentials configured for the connector have expired. If omitted, no tolerance is applied. */
+      expires_skew_tolerance?: number;
       /** The duration, in seconds, that the temporary credentials generated by this connector should remain valid. Only applicable for connectors and authentication methods that involve generating temporary credentials from the ones configured in the connector. */
       expiration_seconds?: number;
       /** The service connector configuration, not including secrets. */
@@ -5891,6 +6001,8 @@ export type components = {
        * Format: date-time
        */
       expires_at?: string;
+      /** The number of seconds of tolerance to apply when checking whether the authentication credentials configured for the connector have expired. If omitted, no tolerance is applied. */
+      expires_skew_tolerance?: number;
     };
     /**
      * ServiceConnectorResponseMetadata
@@ -6048,6 +6160,8 @@ export type components = {
        * Format: date-time
        */
       expires_at?: string;
+      /** The number of seconds of tolerance to apply when checking whether the authentication credentials configured for the connector have expired. If omitted, no tolerance is applied. */
+      expires_skew_tolerance?: number;
       /** The duration, in seconds, that the temporary credentials generated by this connector should remain valid. Only applicable for connectors and authentication methods that involve generating temporary credentials from the ones configured in the connector. */
       expiration_seconds?: number;
       /** The service connector configuration, not including secrets. */
@@ -6158,15 +6272,15 @@ export type components = {
      */
     StackResponseBody: {
       /**
-       * The timestamp when this resource was created.
+       * The timestamp when this component was created.
        * Format: date-time
        */
-      created?: string;
+      created: string;
       /**
-       * The timestamp when this resource was last updated.
+       * The timestamp when this component was last updated.
        * Format: date-time
        */
-      updated?: string;
+      updated: string;
       /** The user who created this resource. */
       user?: components["schemas"]["UserResponse"];
     };
@@ -8082,6 +8196,7 @@ export type operations = {
         workspace_id?: string;
         user_id?: string;
         connector_id?: string;
+        stack_id?: string;
       };
       path: {
         workspace_name_or_id: string;
@@ -8779,6 +8894,7 @@ export type operations = {
    * Raises:
    *     IllegalOperationError: If the workspace or user specified in the run
    *         metadata does not match the current workspace or authenticated user.
+   *     RuntimeError: If the resource type is not supported.
    */
   create_run_metadata_api_v1_workspaces__workspace_name_or_id__run_metadata_post: {
     parameters: {
@@ -9244,14 +9360,14 @@ export type operations = {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["ModelRequestModel"];
+        "application/json": components["schemas"]["ModelRequest"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["ModelResponseModel"];
+          "application/json": components["schemas"]["ModelResponse"];
         };
       };
       /** @description Unauthorized */
@@ -9300,14 +9416,14 @@ export type operations = {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["ModelVersionRequestModel"];
+        "application/json": components["schemas"]["ModelVersionRequest"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["ModelVersionResponseModel"];
+          "application/json": components["schemas"]["ModelVersionResponse"];
         };
       };
       /** @description Unauthorized */
@@ -9357,14 +9473,14 @@ export type operations = {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["ModelVersionArtifactRequestModel"];
+        "application/json": components["schemas"]["ModelVersionArtifactRequest"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["ModelVersionArtifactResponseModel"];
+          "application/json": components["schemas"]["ModelVersionArtifactResponse"];
         };
       };
       /** @description Unauthorized */
@@ -9415,14 +9531,14 @@ export type operations = {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["ModelVersionPipelineRunRequestModel"];
+        "application/json": components["schemas"]["ModelVersionPipelineRunRequest"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["ModelVersionPipelineRunResponseModel"];
+          "application/json": components["schemas"]["ModelVersionPipelineRunResponse"];
         };
       };
       /** @description Unauthorized */
@@ -10230,9 +10346,8 @@ export type operations = {
         created?: string;
         updated?: string;
         scope_workspace?: string;
-        pipeline_run_id?: string;
-        step_run_id?: string;
-        artifact_version_id?: string;
+        resource_id?: string;
+        resource_type?: components["schemas"]["MetadataResourceTypes"];
         stack_component_id?: string;
         key?: string;
         type?: string | components["schemas"]["MetadataTypeEnum"];
@@ -10243,6 +10358,60 @@ export type operations = {
       200: {
         content: {
           "application/json": components["schemas"]["Page_RunMetadataResponse_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Get Run Metadata
+   * @description Get run metadata by ID.
+   *
+   * Args:
+   *     run_metadata_id: The ID of run metadata.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
+   *
+   * Returns:
+   *     The run metadata response.
+   */
+  get_run_metadata_api_v1_run_metadata__run_metadata_id__get: {
+    parameters: {
+      query?: {
+        hydrate?: boolean;
+      };
+      path: {
+        run_metadata_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["RunMetadataResponse"];
         };
       };
       /** @description Unauthorized */
@@ -12094,6 +12263,7 @@ export type operations = {
         workspace_id?: string;
         user_id?: string;
         connector_id?: string;
+        stack_id?: string;
       };
     };
     responses: {
@@ -14336,8 +14506,9 @@ export type operations = {
    *
    * Args:
    *     model_filter_model: Filter model used for pagination, sorting,
-   *         filtering
-   *
+   *         filtering.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *
    * Returns:
    *     The models according to query filters.
@@ -14345,6 +14516,7 @@ export type operations = {
   list_models_api_v1_models_get: {
     parameters: {
       query?: {
+        hydrate?: boolean;
         sort_by?: string;
         logical_operator?: components["schemas"]["LogicalOperators"];
         page?: number;
@@ -14362,7 +14534,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["Page_ModelResponseModel_"];
+          "application/json": components["schemas"]["Page_ModelResponse_"];
         };
       };
       /** @description Unauthorized */
@@ -14397,12 +14569,17 @@ export type operations = {
    *
    * Args:
    *     model_name_or_id: The name or ID of the model to get.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *
    * Returns:
    *     The model with the given name or ID.
    */
   get_model_api_v1_models__model_name_or_id__get: {
     parameters: {
+      query?: {
+        hydrate?: boolean;
+      };
       path: {
         model_name_or_id: string;
       };
@@ -14411,7 +14588,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["ModelResponseModel"];
+          "application/json": components["schemas"]["ModelResponse"];
         };
       };
       /** @description Unauthorized */
@@ -14505,14 +14682,14 @@ export type operations = {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["ModelUpdateModel"];
+        "application/json": components["schemas"]["ModelUpdate"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["ModelResponseModel"];
+          "application/json": components["schemas"]["ModelResponse"];
         };
       };
       /** @description Unauthorized */
@@ -14550,7 +14727,9 @@ export type operations = {
    * Args:
    *     model_name_or_id: The name or ID of the model to list in.
    *     model_version_filter_model: Filter model used for pagination, sorting,
-   *         filtering
+   *         filtering.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *     auth_context: The authentication context.
    *
    * Returns:
@@ -14559,6 +14738,7 @@ export type operations = {
   list_model_versions_api_v1_models__model_name_or_id__model_versions_get: {
     parameters: {
       query?: {
+        hydrate?: boolean;
         sort_by?: string;
         logical_operator?: components["schemas"]["LogicalOperators"];
         page?: number;
@@ -14581,7 +14761,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["Page_ModelVersionResponseModel_"];
+          "application/json": components["schemas"]["Page_ModelVersionResponse_"];
         };
       };
       /** @description Unauthorized */
@@ -14616,7 +14796,9 @@ export type operations = {
    *
    * Args:
    *     model_version_filter_model: Filter model used for pagination, sorting,
-   *         filtering
+   *         filtering.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *     auth_context: The authentication context.
    *
    * Returns:
@@ -14625,6 +14807,7 @@ export type operations = {
   list_model_versions_api_v1_model_versions_get: {
     parameters: {
       query?: {
+        hydrate?: boolean;
         sort_by?: string;
         logical_operator?: components["schemas"]["LogicalOperators"];
         page?: number;
@@ -14644,7 +14827,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["Page_ModelVersionResponseModel_"];
+          "application/json": components["schemas"]["Page_ModelVersionResponse_"];
         };
       };
       /** @description Unauthorized */
@@ -14679,12 +14862,17 @@ export type operations = {
    *
    * Args:
    *     model_version_id: id of the model version to be retrieved.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *
    * Returns:
    *     The model version with the given name or ID.
    */
   get_model_version_api_v1_model_versions__model_version_id__get: {
     parameters: {
+      query?: {
+        hydrate?: boolean;
+      };
       path: {
         model_version_id: string;
       };
@@ -14693,7 +14881,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["ModelVersionResponseModel"];
+          "application/json": components["schemas"]["ModelVersionResponse"];
         };
       };
       /** @description Unauthorized */
@@ -14741,14 +14929,14 @@ export type operations = {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["ModelVersionUpdateModel"];
+        "application/json": components["schemas"]["ModelVersionUpdate"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["ModelVersionResponseModel"];
+          "application/json": components["schemas"]["ModelVersionResponse"];
         };
       };
       /** @description Unauthorized */
@@ -14829,7 +15017,8 @@ export type operations = {
    *
    * Args:
    *     model_version_id: ID of the model version containing the link.
-   *     model_version_artifact_link_name_or_id: name or ID of the model version to artifact link to be deleted.
+   *     model_version_artifact_link_name_or_id: name or ID of the model
+   *         version to artifact link to be deleted.
    */
   delete_model_version_artifact_link_api_v1_model_versions__model_version_id__artifacts__model_version_artifact_link_name_or_id__delete: {
     parameters: {
@@ -14877,7 +15066,8 @@ export type operations = {
    *
    * Args:
    *     model_version_id: name or ID of the model version containing the link.
-   *     model_version_pipeline_run_link_name_or_id: name or ID of the model version link to be deleted.
+   *     model_version_pipeline_run_link_name_or_id: name or ID of the model
+   *         version link to be deleted.
    */
   delete_model_version_pipeline_run_link_api_v1_model_versions__model_version_id__runs__model_version_pipeline_run_link_name_or_id__delete: {
     parameters: {
@@ -14926,6 +15116,8 @@ export type operations = {
    * Args:
    *     model_version_artifact_link_filter_model: Filter model used for
    *         pagination, sorting, filtering.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *
    * Returns:
    *     The model version to artifact links according to query filters.
@@ -14933,6 +15125,7 @@ export type operations = {
   list_model_version_artifact_links_api_v1_model_version_artifacts_get: {
     parameters: {
       query?: {
+        hydrate?: boolean;
         sort_by?: string;
         logical_operator?: components["schemas"]["LogicalOperators"];
         page?: number;
@@ -14956,7 +15149,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["Page_ModelVersionArtifactResponseModel_"];
+          "application/json": components["schemas"]["Page_ModelVersionArtifactResponse_"];
         };
       };
       /** @description Unauthorized */
@@ -14986,6 +15179,8 @@ export type operations = {
    * Args:
    *     model_version_pipeline_run_link_filter_model: Filter model used for
    *         pagination, sorting, and filtering.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *
    * Returns:
    *     The model version to pipeline run links according to query filters.
@@ -14993,6 +15188,7 @@ export type operations = {
   list_model_version_pipeline_run_links_api_v1_model_version_pipeline_runs_get: {
     parameters: {
       query?: {
+        hydrate?: boolean;
         sort_by?: string;
         logical_operator?: components["schemas"]["LogicalOperators"];
         page?: number;
@@ -15013,7 +15209,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["Page_ModelVersionPipelineRunResponseModel_"];
+          "application/json": components["schemas"]["Page_ModelVersionPipelineRunResponse_"];
         };
       };
       /** @description Unauthorized */
