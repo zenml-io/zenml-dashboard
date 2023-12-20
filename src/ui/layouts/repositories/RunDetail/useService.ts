@@ -51,33 +51,6 @@ export const useService = (): ServiceInterface => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isMounted, setIsMounted]);
 
-  useEffect(() => {
-    if (run.body?.status === 'running') {
-      const intervalId = setInterval(() => {
-        dispatch(
-          runsActions.runForId({
-            repositoryID: repositoryID,
-            runId: id,
-            onSuccess: (res) => {
-              if (res.status !== 'running') {
-                dispatch(
-                  runsActions.graphForRun({
-                    runId: id,
-                  }),
-                );
-              }
-            },
-          }),
-        );
-      }, 12000);
-
-      return () => {
-        clearInterval(intervalId);
-      };
-    }
-    // This is important
-  }, [repositoryID, id, run, dispatch]);
-
   const fetchMetaData = async () => {
     const response = await axios.get(
       `${process.env.REACT_APP_BASE_API_URL}/run-metadata?pipeline_run_id=${id}&key=orchestrator_url`,
