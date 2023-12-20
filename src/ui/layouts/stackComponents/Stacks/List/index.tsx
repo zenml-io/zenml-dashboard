@@ -69,6 +69,7 @@ export const List: React.FC<Props> = ({
   usePollingService({
     filter,
     sortBy: activeSortingDirection?.toLowerCase() + ':' + activeSorting,
+    type: componentId,
     dispatchFun: stackComponentsActions.getMy,
     paginatedValue: stackComponentsPaginated,
   });

@@ -18,6 +18,7 @@ export const usePollingService = ({
   sortBy,
   isExpended,
   dispatchFun,
+  type,
   paginatedValue,
 }: {
   pipelineId?: TId;
@@ -26,7 +27,7 @@ export const usePollingService = ({
   isExpended?: any;
   sortBy: string;
   dispatchFun: Function;
-
+  type?: string;
   paginatedValue: any;
   filter: {
     column: filterValue;
@@ -40,7 +41,6 @@ export const usePollingService = ({
 
   const isValidFilter = filter?.map((f) => f.value).join('');
   const [pending, setPending] = useState(false);
-  console.log(stackComponentId, 'dispatchFun');
   useEffect(() => {
     if (!isValidFilter && !isExpended && !pending) {
       const intervalId = setInterval(() => {
@@ -52,6 +52,7 @@ export const usePollingService = ({
             stackId: stackId,
             component_id: stackComponentId,
             sort_by: sortBy,
+            type,
             logical_operator: 'and',
             workspace: selectedWorkspace,
             page: paginatedValue.page,

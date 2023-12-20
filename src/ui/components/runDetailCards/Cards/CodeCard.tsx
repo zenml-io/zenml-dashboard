@@ -7,10 +7,24 @@ import { workspaceSelectors } from '../../../../redux/selectors';
 import { Link } from 'react-router-dom';
 import { routePaths } from '../../../../routes/routePaths';
 import { Run } from '../../../../api/types';
+import { Box } from '../../boxes';
+import { icons } from '../../icons';
+import { iconColors, iconSizes } from '../../../../constants';
 
 interface CodeCardProps {
   run: Run;
 }
+
+const innerBoxStyleDisable = {
+  // height: '30px',
+  border: '2px solid #f0ebfc',
+  borderRadius: '5px',
+  display: 'inline-flex',
+  paddingLeft: '8px',
+  paddingRight: '8px',
+  justifyContent: 'center',
+  alignItems: 'center',
+};
 
 const CodeCard = ({ run }: CodeCardProps) => {
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -20,17 +34,43 @@ const CodeCard = ({ run }: CodeCardProps) => {
         <Paragraph className={styles.card__key}>Code Repository</Paragraph>
         <Paragraph className={styles.card__value}>
           {/* @ts-ignore */}
-          {run.deployment?.code_reference?.code_repository?.id ? (
-            <Link
-              to={routePaths.repositories.overview(
-                selectedWorkspace,
-                // @ts-ignore
-                run.deployment?.code_reference?.code_repository?.id,
+          {run.body?.code_reference?.body?.code_repository?.id ? (
+            <>
+              {run.body?.code_reference?.permission_denied ||
+              run.body?.code_reference?.body?.code_repository
+                .permission_denied ? (
+                <div>
+                  <Box style={innerBoxStyleDisable}>
+                    <icons.lock2
+                      style={{ paddingRight: '5px' }}
+                      color={iconColors.grey}
+                      size={iconSizes.sml}
+                    />
+                    <Paragraph
+                      size="small"
+                      style={{
+                        color: '#666c78',
+                      }}
+                    >
+                      {run.body?.code_reference?.body?.code_repository?.name &&
+                        `${run.body?.code_reference?.body.code_repository?.name}`}
+                      {/* `${run?.body?.pipeline?.name} ( v${run?.pipeline?.version} )`} */}
+                    </Paragraph>
+                  </Box>
+                </div>
+              ) : (
+                <Link
+                  to={routePaths.repositories.overview(
+                    selectedWorkspace,
+                    // @ts-ignore
+                    run.body?.code_reference?.body?.code_repository?.id,
+                  )}
+                >
+                  {/* @ts-ignore */}
+                  {run.body?.code_reference?.body?.code_repository?.name}
+                </Link>
               )}
-            >
-              {/* @ts-ignore */}
-              {run.deployment?.code_reference?.code_repository?.id}
-            </Link>
+            </>
           ) : (
             'n/a'
           )}
