@@ -78,12 +78,12 @@ export const GetHeaderCols = ({
       width: '15%',
       renderRow: (secret: Secret) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={secret.scope}>
+          <div data-tip data-for={secret.body?.scope}>
             <Paragraph size="small" color="black">
-              {secret.scope}
+              {secret.body?.scope}
             </Paragraph>
           </div>
-          <Tooltip id={secret.scope} text={secret.scope} />
+          <Tooltip id={secret.body?.scope} text={secret.body?.scope} />
         </FlexBox>
       ),
     },
@@ -129,16 +129,16 @@ export const GetHeaderCols = ({
       width: '20%',
       renderRow: (secret: Secret) => (
         <FlexBox alignItems="center">
-          <div data-tip data-for={formatDateToSort(secret.created)}>
+          <div data-tip data-for={formatDateToSort(secret.body?.created || '')}>
             <FlexBox alignItems="center">
               <Paragraph color="grey" size="tiny">
-                {formatDateToDisplayOnTable(secret.created)}
+                {formatDateToDisplayOnTable(secret.body?.created)}
               </Paragraph>
             </FlexBox>
           </div>
           <Tooltip
-            id={formatDateToSort(secret.created)}
-            text={formatDateToDisplayOnTable(secret.created)}
+            id={formatDateToSort(secret.body?.created || '')}
+            text={formatDateToDisplayOnTable(secret.body?.created)}
           />
         </FlexBox>
       ),
