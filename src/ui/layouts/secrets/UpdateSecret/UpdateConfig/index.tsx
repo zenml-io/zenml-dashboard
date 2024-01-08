@@ -36,7 +36,7 @@ export const UpdateConfig: React.FC<{
   const workspaces = useSelector(workspaceSelectors.myWorkspaces);
   const { secret } = useService({ secretId });
   const [secretName, setSecretName] = useState(secret?.name);
-  const [scope, setScope] = useState(secret?.scope);
+  const [scope, setScope] = useState(secret?.body?.scope);
   const [inputFields, setInputFields] = useState([]) as any;
   const [loading, setLoading] = useState(false);
   const childStateRef = useRef(null);
@@ -45,7 +45,7 @@ export const UpdateConfig: React.FC<{
     setInputFields(childStateRef.current as any);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [childStateRef]);
-  const valuesIntoArray = Object.entries(secret?.values || {}).map(
+  const valuesIntoArray = Object.entries(secret?.body?.values || {}).map(
     ([key, value]) => ({
       key,
       value,

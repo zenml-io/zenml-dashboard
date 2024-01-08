@@ -15,13 +15,14 @@ import { useService } from './useService';
 import { routePaths } from '../../../../../routes/routePaths';
 import { useHistory, useSelector } from '../../../../hooks';
 import { workspaceSelectors } from '../../../../../redux/selectors';
+import { Secret } from '../../../../../api/types';
 
 export const Configuration: React.FC<{
   secretId: TId;
   tiles?: any;
   fetching?: boolean;
 }> = ({ secretId, fetching }) => {
-  const { secret } = useService({ secretId });
+  const { secret }: { secret: Secret } = useService({ secretId });
   const history = useHistory();
 
   const selectedWorkspace = useSelector(workspaceSelectors.selectedWorkspace);
@@ -52,7 +53,7 @@ export const Configuration: React.FC<{
           label={'Scope'}
           labelColor="rgba(66, 66, 64, 0.5)"
           placeholder={'Choose a scope'}
-          value={secret?.scope}
+          value={secret?.body?.scope || ''}
           onChange={() => {}}
           disabled
           options={[] as any}
@@ -67,7 +68,7 @@ export const Configuration: React.FC<{
       </Box>
 
       <Box marginTop="md">
-        <SelectorDisabled inputFields={secret.values} width="30vw" />
+        <SelectorDisabled inputFields={secret.body?.values} width="30vw" />
       </Box>
 
       <FlexBox
