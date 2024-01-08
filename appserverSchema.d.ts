@@ -1074,7 +1074,9 @@ export type paths = {
      *
      * Args:
      *     secret_filter_model: Filter model used for pagination, sorting,
-     *         filtering
+     *         filtering.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *
      * Returns:
      *     List of secret objects.
@@ -1088,6 +1090,8 @@ export type paths = {
      *
      * Args:
      *     secret_id: ID of the secret to get.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *
      * Returns:
      *     A specific secret object.
@@ -2239,7 +2243,8 @@ export type paths = {
      * Args:
      *     tag_filter_model: Filter model used for pagination, sorting,
      *         filtering
-     *
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *
      * Returns:
      *     The tags according to query filters.
@@ -2264,6 +2269,8 @@ export type paths = {
      *
      * Args:
      *     tag_name_or_id: The name or ID of the tag to get.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
      *
      * Returns:
      *     The tag with the given name or ID.
@@ -2509,7 +2516,7 @@ export type components = {
        */
       updated?: string;
       /** Tags associated with the model */
-      tags: components["schemas"]["TagResponseModel"][];
+      tags: components["schemas"]["TagResponse"][];
     };
     /**
      * ArtifactResponseMetadata
@@ -2638,7 +2645,7 @@ export type components = {
       /** Data type of the artifact. */
       data_type: components["schemas"]["Source"];
       /** Tags associated with the model */
-      tags: components["schemas"]["TagResponseModel"][];
+      tags: components["schemas"]["TagResponse"][];
     };
     /**
      * ArtifactVersionResponseMetadata
@@ -3271,6 +3278,7 @@ export type components = {
       name?: string;
       /** Version */
       version?: string;
+      model_version?: components["schemas"]["ModelVersion"];
     };
     /**
      * FlavorRequest
@@ -3642,7 +3650,7 @@ export type components = {
       /** The user who created this resource. */
       user?: components["schemas"]["UserResponse"];
       /** Tags associated with the model */
-      tags: components["schemas"]["TagResponseModel"][];
+      tags: components["schemas"]["TagResponse"][];
       /** Latest Version */
       latest_version?: string;
     };
@@ -3789,10 +3797,10 @@ export type components = {
        */
       is_model_artifact?: boolean;
       /**
-       * Is Endpoint Artifact
+       * Is Deployment Artifact
        * @default false
        */
-      is_endpoint_artifact?: boolean;
+      is_deployment_artifact?: boolean;
     };
     /**
      * ModelVersionArtifactResponse
@@ -3846,10 +3854,10 @@ export type components = {
        */
       is_model_artifact?: boolean;
       /**
-       * Is Endpoint Artifact
+       * Is Deployment Artifact
        * @default false
        */
-      is_endpoint_artifact?: boolean;
+      is_deployment_artifact?: boolean;
     };
     /**
      * ModelVersionPipelineRunRequest
@@ -4047,11 +4055,11 @@ export type components = {
         [key: string]: unknown;
       };
       /**
-       * Endpoint Artifact Ids
-       * @description Endpoint artifacts linked to the model version
+       * Deployment Artifact Ids
+       * @description Deployment artifacts linked to the model version
        * @default {}
        */
-      endpoint_artifact_ids?: {
+      deployment_artifact_ids?: {
         [key: string]: unknown;
       };
       /**
@@ -4063,18 +4071,10 @@ export type components = {
         [key: string]: unknown;
       };
       /**
-       * Run Metadata
-       * @description Metadata linked to the model version
-       * @default {}
-       */
-      run_metadata?: {
-        [key: string]: unknown;
-      };
-      /**
        * Tags associated with the model version
        * @default []
        */
-      tags?: components["schemas"]["TagResponseModel"][];
+      tags?: components["schemas"]["TagResponse"][];
     };
     /**
      * ModelVersionResponseMetadata
@@ -4089,7 +4089,8 @@ export type components = {
        */
       description?: string;
       /**
-       * Metadata associated with this pipeline run.
+       * Run Metadata
+       * @description Metadata linked to the model version
        * @default {}
        */
       run_metadata?: {
@@ -4593,10 +4594,10 @@ export type components = {
       items: components["schemas"]["ScheduleResponse"][];
     };
     /**
-     * Page[SecretResponseModel]
+     * Page[SecretResponse]
      * @description Return Model for List Models to accommodate pagination.
      */
-    Page_SecretResponseModel_: {
+    Page_SecretResponse_: {
       /** Index */
       index: number;
       /** Max Size */
@@ -4606,7 +4607,7 @@ export type components = {
       /** Total */
       total: number;
       /** Items */
-      items: components["schemas"]["SecretResponseModel"][];
+      items: components["schemas"]["SecretResponse"][];
     };
     /**
      * Page[ServiceAccountResponse]
@@ -4673,10 +4674,10 @@ export type components = {
       items: components["schemas"]["StepRunResponse"][];
     };
     /**
-     * Page[TagResponseModel]
+     * Page[TagResponse]
      * @description Return Model for List Models to accommodate pagination.
      */
-    Page_TagResponseModel_: {
+    Page_TagResponse_: {
       /** Index */
       index: number;
       /** Max Size */
@@ -4686,7 +4687,7 @@ export type components = {
       /** Total */
       total: number;
       /** Items */
-      items: components["schemas"]["TagResponseModel"][];
+      items: components["schemas"]["TagResponse"][];
     };
     /**
      * Page[UserResponse]
@@ -5629,10 +5630,10 @@ export type components = {
       pipeline_id?: string;
     };
     /**
-     * SecretRequestModel
-     * @description Secret request model.
+     * SecretRequest
+     * @description Request models for secrets.
      */
-    SecretRequestModel: {
+    SecretRequest: {
       /**
        * The id of the user that created this resource.
        * Format: uuid
@@ -5656,36 +5657,44 @@ export type components = {
       };
     };
     /**
-     * SecretResponseModel
-     * @description Secret response model with user and workspace hydrated.
+     * SecretResponse
+     * @description Response model for secrets.
      */
-    SecretResponseModel: {
+    SecretResponse: {
       /**
        * The unique resource id.
        * Format: uuid
        */
       id: string;
       /**
-       * Time when this resource was created.
-       * Format: date-time
-       */
-      created: string;
-      /**
-       * Time when this resource was last updated.
-       * Format: date-time
-       */
-      updated: string;
-      /**
-       * Missing Permissions
+       * Permission Denied
        * @default false
        */
-      missing_permissions?: boolean;
-      /** The user that created this resource. */
-      user?: components["schemas"]["UserResponse"] | null;
-      /** The workspace of this resource. */
-      workspace: components["schemas"]["WorkspaceResponse"];
+      permission_denied?: boolean;
+      /** The body of the resource. */
+      body?: components["schemas"]["SecretResponseBody"];
+      /** The metadata related to this resource. */
+      metadata?: components["schemas"]["SecretResponseMetadata"];
       /** The name of the secret. */
       name: string;
+    };
+    /**
+     * SecretResponseBody
+     * @description Response body for secrets.
+     */
+    SecretResponseBody: {
+      /**
+       * The timestamp when this resource was created.
+       * Format: date-time
+       */
+      created?: string;
+      /**
+       * The timestamp when this resource was last updated.
+       * Format: date-time
+       */
+      updated?: string;
+      /** The user who created this resource. */
+      user?: components["schemas"]["UserResponse"];
       /**
        * The scope of the secret.
        * @default workspace
@@ -5697,16 +5706,24 @@ export type components = {
       };
     };
     /**
+     * SecretResponseMetadata
+     * @description Response metadata for secrets.
+     */
+    SecretResponseMetadata: {
+      /** The workspace of this resource. */
+      workspace: components["schemas"]["WorkspaceResponse"];
+    };
+    /**
      * SecretScope
      * @description Enum for the scope of a secret.
      * @enum {string}
      */
     SecretScope: "workspace" | "user";
     /**
-     * SecretUpdateModel
+     * SecretUpdate
      * @description Secret update model.
      */
-    SecretUpdateModel: {
+    SecretUpdate: {
       /**
        * The id of the user that created this resource.
        * Format: uuid
@@ -6214,7 +6231,7 @@ export type components = {
      * @description All possible types a `StackComponent` can have.
      * @enum {string}
      */
-    StackComponentType: "alerter" | "annotator" | "artifact_store" | "container_registry" | "data_validator" | "experiment_tracker" | "feature_store" | "image_builder" | "model_deployer" | "orchestrator" | "secrets_manager" | "step_operator" | "model_registry";
+    StackComponentType: "alerter" | "annotator" | "artifact_store" | "container_registry" | "data_validator" | "experiment_tracker" | "feature_store" | "image_builder" | "model_deployer" | "orchestrator" | "step_operator" | "model_registry";
     /**
      * StackRequest
      * @description Request model for stacks.
@@ -6689,10 +6706,10 @@ export type components = {
       pipeline_parameter_name?: string;
     };
     /**
-     * TagRequestModel
+     * TagRequest
      * @description Request model for tags.
      */
-    TagRequestModel: {
+    TagRequest: {
       /**
        * Name
        * @description The unique title of the tag.
@@ -6702,35 +6719,45 @@ export type components = {
       color?: components["schemas"]["ColorVariants"];
     };
     /**
-     * TagResponseModel
+     * TagResponse
      * @description Response model for tags.
      */
-    TagResponseModel: {
+    TagResponse: {
       /**
        * The unique resource id.
        * Format: uuid
        */
       id: string;
       /**
-       * Time when this resource was created.
-       * Format: date-time
-       */
-      created: string;
-      /**
-       * Time when this resource was last updated.
-       * Format: date-time
-       */
-      updated: string;
-      /**
-       * Missing Permissions
+       * Permission Denied
        * @default false
        */
-      missing_permissions?: boolean;
+      permission_denied?: boolean;
+      /** The body of the resource. */
+      body?: components["schemas"]["TagResponseBody"];
+      /** The metadata related to this resource. */
+      metadata?: components["schemas"]["BaseResponseMetadata"];
       /**
        * Name
        * @description The unique title of the tag.
        */
       name: string;
+    };
+    /**
+     * TagResponseBody
+     * @description Response body for tags.
+     */
+    TagResponseBody: {
+      /**
+       * The timestamp when this resource was created.
+       * Format: date-time
+       */
+      created?: string;
+      /**
+       * The timestamp when this resource was last updated.
+       * Format: date-time
+       */
+      updated?: string;
       /** @description The color variant assigned to the tag. */
       color?: components["schemas"]["ColorVariants"];
       /**
@@ -6740,10 +6767,10 @@ export type components = {
       tagged_count: number;
     };
     /**
-     * TagUpdateModel
+     * TagUpdate
      * @description Update model for tags.
      */
-    TagUpdateModel: {
+    TagUpdate: {
       /** Name */
       name?: string;
       color?: components["schemas"]["ColorVariants"];
@@ -8957,14 +8984,14 @@ export type operations = {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["SecretRequestModel"];
+        "application/json": components["schemas"]["SecretRequest"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["SecretResponseModel"];
+          "application/json": components["schemas"]["SecretResponse"];
         };
       };
       /** @description Unauthorized */
@@ -10672,7 +10699,9 @@ export type operations = {
    *
    * Args:
    *     secret_filter_model: Filter model used for pagination, sorting,
-   *         filtering
+   *         filtering.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *
    * Returns:
    *     List of secret objects.
@@ -10680,6 +10709,7 @@ export type operations = {
   list_secrets_api_v1_secrets_get: {
     parameters: {
       query?: {
+        hydrate?: boolean;
         sort_by?: string;
         logical_operator?: components["schemas"]["LogicalOperators"];
         page?: number;
@@ -10698,7 +10728,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["Page_SecretResponseModel_"];
+          "application/json": components["schemas"]["Page_SecretResponse_"];
         };
       };
       /** @description Unauthorized */
@@ -10733,12 +10763,17 @@ export type operations = {
    *
    * Args:
    *     secret_id: ID of the secret to get.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *
    * Returns:
    *     A specific secret object.
    */
   get_secret_api_v1_secrets__secret_id__get: {
     parameters: {
+      query?: {
+        hydrate?: boolean;
+      };
       path: {
         secret_id: string;
       };
@@ -10747,7 +10782,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["SecretResponseModel"];
+          "application/json": components["schemas"]["SecretResponse"];
         };
       };
       /** @description Unauthorized */
@@ -10799,14 +10834,14 @@ export type operations = {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["SecretUpdateModel"];
+        "application/json": components["schemas"]["SecretUpdate"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["SecretResponseModel"];
+          "application/json": components["schemas"]["SecretResponse"];
         };
       };
       /** @description Unauthorized */
@@ -15142,7 +15177,7 @@ export type operations = {
         artifact_name?: string;
         only_data_artifacts?: boolean;
         only_model_artifacts?: boolean;
-        only_endpoint_artifacts?: boolean;
+        only_deployment_artifacts?: boolean;
       };
     };
     responses: {
@@ -15239,7 +15274,8 @@ export type operations = {
    * Args:
    *     tag_filter_model: Filter model used for pagination, sorting,
    *         filtering
-   *
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *
    * Returns:
    *     The tags according to query filters.
@@ -15247,6 +15283,7 @@ export type operations = {
   list_tags_api_v1_tags_get: {
     parameters: {
       query?: {
+        hydrate?: boolean;
         sort_by?: string;
         logical_operator?: components["schemas"]["LogicalOperators"];
         page?: number;
@@ -15262,7 +15299,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["Page_TagResponseModel_"];
+          "application/json": components["schemas"]["Page_TagResponse_"];
         };
       };
       /** @description Unauthorized */
@@ -15304,14 +15341,14 @@ export type operations = {
   create_tag_api_v1_tags_post: {
     requestBody: {
       content: {
-        "application/json": components["schemas"]["TagRequestModel"];
+        "application/json": components["schemas"]["TagRequest"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["TagResponseModel"];
+          "application/json": components["schemas"]["TagResponse"];
         };
       };
       /** @description Unauthorized */
@@ -15346,12 +15383,17 @@ export type operations = {
    *
    * Args:
    *     tag_name_or_id: The name or ID of the tag to get.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
    *
    * Returns:
    *     The tag with the given name or ID.
    */
   get_tag_api_v1_tags__tag_name_or_id__get: {
     parameters: {
+      query?: {
+        hydrate?: boolean;
+      };
       path: {
         tag_name_or_id: string;
       };
@@ -15360,7 +15402,7 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["TagResponseModel"];
+          "application/json": components["schemas"]["TagResponse"];
         };
       };
       /** @description Unauthorized */
@@ -15454,14 +15496,14 @@ export type operations = {
     };
     requestBody: {
       content: {
-        "application/json": components["schemas"]["TagUpdateModel"];
+        "application/json": components["schemas"]["TagUpdate"];
       };
     };
     responses: {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": components["schemas"]["TagResponseModel"];
+          "application/json": components["schemas"]["TagResponse"];
         };
       };
       /** @description Unauthorized */

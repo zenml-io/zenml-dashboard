@@ -19,13 +19,15 @@ export const useService = ({
   const dispatch = useDispatch();
   const [fetching, setFetching] = useState<boolean>(false);
 
-  const user = useSelector(userSelectors.userForId(secret.user?.id as string));
+  const user = useSelector(
+    userSelectors.userForId(secret.body?.user?.id as string),
+  );
 
   useEffect(() => {
     setFetching(true);
     dispatch(
       userActions.userForId({
-        userId: secret.user?.id as string,
+        userId: secret.body?.user?.id as string,
         onSuccess: () => setFetching(false),
         onFailure: () => setFetching(false),
       }),
