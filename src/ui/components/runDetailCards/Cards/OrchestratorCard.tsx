@@ -14,41 +14,39 @@ const OrchestratorCard = ({ run }: OrchestratorCardProps) => {
       <div>
         <Paragraph className={styles.card__key}>Orchestrator Run ID</Paragraph>
         <Paragraph className={styles.card__value}>
-          {/* @ts-ignore */}
           {run.metadata?.orchestrator_run_id}
         </Paragraph>
       </div>
       <div>
         <Paragraph className={styles.card__key}>URL</Paragraph>
         <Paragraph className={styles.card__value}>
-          {/* @ts-ignore */}
-          {run.metadata?.orchestrator_url?.value ? (
+         
+          {(run.metadata?.run_metadata?.orchestrator_url as {[key: string]: any})?.body?.value ? (
             <a
               rel="noopener noreferrer"
-              // @ts-ignore
-              href={run.metadata?.orchestrator_url?.value}
+              
+              href={(run.metadata?.run_metadata?.orchestrator_url as {[key: string]: any})?.body?.value}
               target="_blank"
             >
-              {/* @ts-ignore */}
-              {run.metadata?.orchestrator_url?.value}
+              {(run.metadata?.run_metadata?.orchestrator_url as {[key: string]: any})?.body?.value.orchestrator_url?.value}
             </a>
           ) : (
             'n/a'
           )}
         </Paragraph>
       </div>
-      {/* @ts-ignore */}
-      {run.build?.images?.orchestrator && (
+     
+      {run.body?.build?.metadata?.images?.orchestrator && (
         <>
           <div>
             <Paragraph className={styles.card__key}>Image</Paragraph>
             <Paragraph className={styles.card__value}>
-              {/* @ts-ignore */}
-              {run.build?.images?.orchestrator?.image}
+             
+              {(run.body?.build?.metadata?.images?.orchestrator as {[key: string]: any})?.image}
             </Paragraph>
           </div>
-          {/* @ts-ignore */}
-          {run.build?.images?.orchestrator?.dockerfile ? (
+         
+          {run.body?.build?.metadata?.images?.dockerfile ? (
             <div>
               <details>
                 <summary className={styles.card__summary}>
@@ -59,14 +57,12 @@ const OrchestratorCard = ({ run }: OrchestratorCardProps) => {
                     Dockerfile
                   </Paragraph>
                 </summary>
-                <div className={styles.card__detailsContainer}>
-                  {/* @ts-ignore */}
+                <div className={styles.card__detailsContainer}>       
                   <Paragraph
                     style={{ whiteSpace: 'pre-wrap' }}
                     className={styles.card__value}
                   >
-                    {/* @ts-ignore */}
-                    {run.build?.images?.orchestrator?.dockerfile || 'n/a'}
+                    {(run.body?.build?.metadata?.images?.orchestrator as {[key: string]: any})?.dockerfile || 'n/a'}
                   </Paragraph>
                 </div>
               </details>
@@ -82,8 +78,7 @@ const OrchestratorCard = ({ run }: OrchestratorCardProps) => {
               </Paragraph>
             </div>
           )}
-          {/* @ts-ignore */}
-          {run.build?.images?.orchestrator?.requirements ? (
+          {(run.body?.build?.metadata?.images?.orchestrator as {[key: string]: any})?.requirements ? (
             <div>
               <details>
                 <summary className={styles.card__summary}>
@@ -95,13 +90,11 @@ const OrchestratorCard = ({ run }: OrchestratorCardProps) => {
                   </Paragraph>
                 </summary>
                 <div className={styles.card__detailsContainer}>
-                  {/* @ts-ignore */}
                   <Paragraph
                     style={{ whiteSpace: 'pre-wrap' }}
                     className={styles.card__value}
                   >
-                    {/* @ts-ignore */}
-                    {run.build?.images?.orchestrator?.requirements || 'n/a'}
+                    {(run.body?.build?.metadata?.images?.orchestrator as {[key: string]: any}) || 'n/a'}
                   </Paragraph>
                 </div>
               </details>
@@ -120,15 +113,13 @@ const OrchestratorCard = ({ run }: OrchestratorCardProps) => {
           <div>
             <Paragraph className={styles.card__key}>ZenML Version</Paragraph>
             <Paragraph className={styles.card__value}>
-              {/* @ts-ignore */}
-              {run.build?.zenml_version || 'n/a'}
+              {run.body?.build?.metadata?.zenml_version || 'n/a'}
             </Paragraph>
           </div>
           <div>
             <Paragraph className={styles.card__key}>Python Version</Paragraph>
             <Paragraph className={styles.card__value}>
-              {/* @ts-ignore */}
-              {run.build?.python_version || 'n/a'}
+              {run.body?.build?.metadata?.python_version || 'n/a'}
             </Paragraph>
           </div>
         </>
