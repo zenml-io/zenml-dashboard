@@ -87,7 +87,9 @@ const OrchestratorCard = ({ run }: OrchestratorCardProps) => {
             </Paragraph>
           </div>
 
-          {run.body?.build?.metadata?.images?.dockerfile ? (
+          {(pipelineBuild.metadata?.images?.orchestrator as {
+            [key: string]: any;
+          })?.dockerfile   ? (
             <div>
               <details>
                 <summary className={styles.card__summary}>
@@ -141,7 +143,7 @@ const OrchestratorCard = ({ run }: OrchestratorCardProps) => {
                   >
                     {(pipelineBuild.metadata?.images?.orchestrator as {
                       [key: string]: any;
-                    }) || 'n/a'}
+                    })?.requirements || 'n/a'}
                   </Paragraph>
                 </div>
               </details>
