@@ -412,11 +412,11 @@ const StepnodeTabHeader: React.FC<any> = ({ node, fetching }) => {
                     </div>
                   )}
                   {node.metadata?.run_metadata !== null &&
-                    Object.entries(node.metadata.run_metadata).map(
+                    Object.values(node.metadata.run_metadata).map(
                       (e: any, index: number) => (
                         <tr key={index}>
-                          <td className="td_key">{e[1]?.key}</td>
-                          <td className="td_value">{e[1]?.value}</td>
+                          <td className="td_key">{e?.body?.key}</td>
+                          <td className="td_value">{e?.body?.value}</td>
                         </tr>
                       ),
                     )}

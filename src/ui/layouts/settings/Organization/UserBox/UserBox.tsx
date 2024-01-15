@@ -44,7 +44,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
         justifyContent="center"
         marginTop="lg"
       >
-        <Box>
+        <Box style={{ width: '100%' }}>
           <Box className={styles.imageContainer}>
             <FlexBox
               justifyContent="center"
