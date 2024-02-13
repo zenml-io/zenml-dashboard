@@ -116,7 +116,7 @@ const ArtifactTabHeader = ({
   const configSchema = `
 from zenml.client import Client
 
-artifact = Client().get_artifact('${node?.id}')
+artifact = Client().get_artifact_version('${node?.id}')
 loaded_artifact = artifact.load()
 
 `;
