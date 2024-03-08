@@ -134,6 +134,9 @@ export default (state: any, action: any) => {
       .get(`${process.env.REACT_APP_BASE_API_URL}${endpoints.logout}`)
       .then(() => {
         return persisted(initialState as any, action);
+      })
+      .catch(() => {
+        return persisted(initialState as any, action);
       });
 
     return persisted(initialState as any, action);
