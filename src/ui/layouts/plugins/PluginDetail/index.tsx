@@ -29,6 +29,7 @@ import { hubConnectionPromptActionTypes } from '../../../../redux/actionTypes';
 import PluginFallbackImage from '../../../assets/plugin-fallback.svg';
 import { OverviewTab } from './OverviewTab';
 import { Plugin, PluginVersion } from '../pluginsTypes';
+import { sanitizeUrl } from '../../../../utils/url';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -134,7 +135,9 @@ const PluginDetail: React.FC = () => {
                       }}
                     >
                       <img
-                        src={plugin.logo_url || PluginFallbackImage}
+                        src={
+                          sanitizeUrl(plugin.logo_url) || PluginFallbackImage
+                        }
                         alt={`${plugin.name} logo`}
                         style={{
                           height: '80px',

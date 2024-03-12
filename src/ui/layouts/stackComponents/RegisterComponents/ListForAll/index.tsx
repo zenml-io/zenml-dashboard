@@ -23,6 +23,7 @@ import { CustomFlavourBox } from '../../../common/CustomFlavourBox';
 import { callActionForFlavorsForPagination } from '../useService';
 import { SidePopup } from '../../../common/SidePopup';
 import { routePaths } from '../../../../../routes/routePaths';
+import { sanitizeUrl } from '../../../../../utils/url';
 // import { flavorsActions } from '../../../../../redux/actions';
 // import { Flavor } from '../../../../../api/types';
 
@@ -110,7 +111,7 @@ export const ListForAll: React.FC<Props> = ({ type }: Props) => {
                             item?.metadata.config_schema?.description
                           }
                           flavourName={item?.name}
-                          logoUrl={item?.body.logo_url}
+                          logoUrl={sanitizeUrl(item?.body.logo_url)}
                           onSelectFlavor={() => onSelectFlavor(item)}
                         />
                       </Box>

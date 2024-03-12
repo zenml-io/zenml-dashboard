@@ -33,6 +33,7 @@ import { routePaths } from '../../../../../routes/routePaths';
 
 import { truncate } from '../../../../../utils';
 import { Flavor } from '../../../../../api/types';
+import { sanitizeUrl } from '../../../../../utils/url';
 
 export const Configuration: React.FC<{
   stackId: TId;
@@ -838,7 +839,7 @@ export const Configuration: React.FC<{
                     <Paragraph>
                       <img
                         className={styles.service_selector_image}
-                        src={serviceConnectorResources?.logo_url}
+                        src={sanitizeUrl(serviceConnectorResources?.logo_url)}
                         alt={serviceConnectorResources?.name}
                       />{' '}
                       &#91;{' '}

@@ -13,6 +13,7 @@ import {
 import styles from './index.module.scss';
 import { replaceVersion } from '../../../../utils/string';
 import { checkUrlStatus } from '../../../../utils/checkUrlStatus';
+import { sanitizeUrl } from '../../../../utils/url';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
@@ -77,7 +78,11 @@ export const SidePopup: React.FC<{
                 style={{
                   paddingBottom: '270px',
                 }}
-                src={is404 ? updatedSdkDocsUrl : defaultSdkDocsUrl}
+                src={
+                  is404
+                    ? sanitizeUrl(updatedSdkDocsUrl)
+                    : sanitizeUrl(defaultSdkDocsUrl)
+                }
               ></iframe>
             </Box>
 

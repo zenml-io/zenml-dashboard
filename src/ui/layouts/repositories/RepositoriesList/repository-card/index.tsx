@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import { workspaceSelectors } from '../../../../../redux/selectors';
 import { Repository } from '../../../../../api/types';
 import { Link } from 'react-router-dom';
+import { sanitizeUrl } from '../../../../../utils/url';
 
 interface RepositoryCardProps {
   repository: Repository;
@@ -21,7 +22,7 @@ function RepositoryCard({ repository }: RepositoryCardProps) {
     >
       <img
         className={styles.repositoryCard__headerImage}
-        src={repository.body?.logo_url || Fallback}
+        src={sanitizeUrl(repository.body?.logo_url) || Fallback}
         alt={`Logo for repository ${repository.name}`}
       />
       <div className={styles.repositoryCard__body}>

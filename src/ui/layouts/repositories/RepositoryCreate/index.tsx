@@ -25,6 +25,7 @@ import { toasterTypes } from '../../../../constants';
 import { showToasterAction } from '../../../../redux/actions';
 import { translate } from './translate';
 import axios from 'axios';
+import { sanitizeUrl } from '../../../../utils/url';
 
 function CreateRepositoryBody() {
   const dispatch = useDispatch();
@@ -132,7 +133,7 @@ function CreateRepositoryBody() {
           {logoUrl ? (
             <img
               className={styles.create__container__imageContainer__image}
-              src={logoUrl}
+              src={sanitizeUrl(logoUrl)}
               alt={`Logo of repository ${name}`}
             />
           ) : (

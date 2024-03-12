@@ -4,6 +4,7 @@ import { FlexBox, Box, Paragraph, Spinner, icons } from '../../../components';
 import { ID_MAX_LENGTH, iconColors, iconSizes } from '../../../../constants';
 import { truncate } from '../../../../utils';
 import ReactTooltip from 'react-tooltip';
+import { sanitizeUrl } from '../../../../utils/url';
 
 type ServicesSelector = {
   fetching?: boolean;
@@ -121,7 +122,7 @@ const Index: React.FC<ServicesSelector> = ({
                   <Box>
                     <img
                       className={styles.service_selector_image}
-                      src={connectorItem.connector_type?.logo_url}
+                      src={sanitizeUrl(connectorItem.connector_type?.logo_url)}
                       alt={connectorItem.connector_type?.logo_url}
                     />
                   </Box>

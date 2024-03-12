@@ -21,6 +21,10 @@ const Index: React.FC<ServicesSelector> = ({
     (e: any) => e.id === connector,
   );
 
+  function sanitiueUrl(logo_url: any): string | undefined {
+    throw new Error('Function not implemented.');
+  }
+
   return (
     <Box>
       <Paragraph size="body" style={{ color: '#000' }}>
@@ -42,7 +46,9 @@ const Index: React.FC<ServicesSelector> = ({
               <Paragraph>
                 <img
                   className={styles.service_selector_image}
-                  src={resourceTypeImage[0]?.connector_type?.logo_url}
+                  src={sanitiueUrl(
+                    resourceTypeImage[0]?.connector_type?.logo_url,
+                  )}
                   alt={resourceTypeImage[0]?.connector_type?.name}
                 />{' '}
                 &#91;{' '}

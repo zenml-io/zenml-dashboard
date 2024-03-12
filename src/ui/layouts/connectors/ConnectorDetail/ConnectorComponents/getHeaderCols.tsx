@@ -18,6 +18,7 @@ import { SortingHeader } from './ForSorting/SortingHeader';
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { useService } from './ForSorting/useServiceForSorting';
 import { ServiceConnector } from '../../../../../api/types';
+import { sanitizeUrl } from '../../../../../utils/url';
 
 export const GetHeaderCols = ({
   connectorDetail,
@@ -204,7 +205,7 @@ export const GetHeaderCols = ({
           >
             <img
               alt={connector?.flavor?.logoUrl}
-              src={connector?.flavor?.logoUrl}
+              src={sanitizeUrl(connector?.flavor?.logoUrl)}
               style={{
                 height: '28px',
                 width: '28px',
@@ -253,7 +254,7 @@ export const GetHeaderCols = ({
                       <FlexBox alignItems="center">
                         <img
                           alt={e?.logo_url}
-                          src={e?.logo_url}
+                          src={sanitizeUrl(e?.logo_url)}
                           style={{
                             height: '28px',
                             width: '28px',

@@ -11,6 +11,7 @@ import {
 } from '../../../../components';
 import ReactMarkdown from 'react-markdown';
 import styles from './index.module.scss';
+import { sanitizeUrl } from '../../../../../utils/url';
 
 const Dimmer: React.FC = () => <Box className={styles.dimmer}></Box>;
 
@@ -98,7 +99,10 @@ export const SidePopup: React.FC<{
             >
               <FlexBox>
                 <Box className={styles.mainImage}>
-                  <img src={connectorType?.logoUrl} alt={connectorType?.name} />
+                  <img
+                    src={sanitizeUrl(connectorType?.logoUrl)}
+                    alt={connectorType?.name}
+                  />
                 </Box>
                 <Box marginLeft="xl">
                   <Paragraph className={styles.title}>
@@ -110,7 +114,7 @@ export const SidePopup: React.FC<{
                         className={styles.resourceTypesImages}
                         marginLeft="sm"
                       >
-                        <img src={e?.logo_url} alt={e?.name} />
+                        <img src={sanitizeUrl(e?.logo_url)} alt={e?.name} />
                       </Box>
                     ))}
                   </FlexBox>

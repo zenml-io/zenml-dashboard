@@ -14,6 +14,7 @@ import { titleCase } from '../../../../../../utils';
 import { useHistory, useLocation } from '../../../../../hooks';
 import { routePaths } from '../../../../../../routes/routePaths';
 import { NonEditableConfig } from '../../../../NonEditableConfig';
+import { sanitizeUrl } from '../../../../../../utils/url';
 
 interface Props {
   type: string;
@@ -60,7 +61,7 @@ export const GetList: React.FC<Props> = ({
               if (temp) {
                 return {
                   ...item,
-                  logoUrl: temp.body.logo_url,
+                  logoUrl: sanitizeUrl(temp.body.logo_url),
                 };
               }
               return item;

@@ -27,6 +27,7 @@ import { showToasterAction } from '../../../../../redux/actions';
 import { iconColors, toasterTypes } from '../../../../../constants';
 import axios from 'axios';
 import { routePaths } from '../../../../../routes/routePaths';
+import { sanitizeUrl } from '../../../../../utils/url';
 
 export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
   connectorType,
@@ -847,7 +848,10 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
     <Box marginLeft={'lg'}>
       <FlexBox>
         <Box className={styles.mainImage}>
-          <img src={connectorType?.logoUrl} alt={connectorType?.name} />
+          <img
+            src={sanitizeUrl(connectorType?.logoUrl)}
+            alt={connectorType?.name}
+          />
         </Box>
         <Box marginLeft="xl">
           <Paragraph className={styles.title}>{connectorType?.name}</Paragraph>
@@ -858,7 +862,7 @@ export const CreateConnector: React.FC<{ connectorType: any; state: any }> = ({
                 className={styles.resourceTypesImages}
                 marginLeft="sm"
               >
-                <img src={e?.logo_url} alt={e?.name} />
+                <img src={sanitizeUrl(e?.logo_url)} alt={e?.name} />
               </Box>
             ))}
           </FlexBox>
