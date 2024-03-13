@@ -1892,6 +1892,7 @@ export type paths = {
      *
      * Args:
      *     user: User to create.
+     *     auth_context: Authentication context.
      *
      * Returns:
      *     The created user.
@@ -1924,6 +1925,10 @@ export type paths = {
      *
      * Returns:
      *     The updated user.
+     *
+     * Raises:
+     *     IllegalOperationError: if the user tries change admin status,
+     *         while not an admin
      */
     put: operations["update_user_api_v1_users__user_name_or_id__put"];
     /**
@@ -1950,6 +1955,10 @@ export type paths = {
      *
      * Returns:
      *     The generated activation token.
+     *
+     * Raises:
+     *     IllegalOperationError: if the user is trying to deactivate
+     *         themselves.
      */
     put: operations["deactivate_user_api_v1_users__user_name_or_id__deactivate_put"];
   };
@@ -6591,6 +6600,18 @@ export type components = {
       secrets_store_type?: components["schemas"]["SecretsStoreType"];
       /** The authentication scheme that the server is using. */
       auth_scheme: components["schemas"]["AuthScheme"];
+      /**
+       * The Base URL of the server.
+       * @default
+       */
+      base_url?: string;
+      /**
+       * The metadata associated with the server.
+       * @default {}
+       */
+      metadata?: {
+        [key: string]: unknown;
+      };
     };
     /**
      * ServiceAccountRequest
@@ -7840,13 +7861,6 @@ export type components = {
      * @description Request model for users.
      */
     UserRequest: {
-      /** The unique username for the account. */
-      name: string;
-      /**
-       * The full name for the account owner. Only relevant for user accounts.
-       * @default
-       */
-      full_name?: string;
       /** The email address associated with the account. */
       email?: string;
       /**
@@ -7865,6 +7879,15 @@ export type components = {
        * Format: uuid
        */
       external_user_id?: string;
+      /** The unique username for the account. */
+      name: string;
+      /**
+       * The full name for the account owner. Only relevant for user accounts.
+       * @default
+       */
+      full_name?: string;
+      /** Whether the account is an administrator. */
+      is_admin: boolean;
       /**
        * Whether the account is active.
        * @default false
@@ -7933,6 +7956,8 @@ export type components = {
       email_opted_in?: boolean;
       /** Indicates whether this is a service account or a user account. */
       is_service_account: boolean;
+      /** Whether the account is an administrator. */
+      is_admin: boolean;
     };
     /**
      * UserResponseMetadata
@@ -7962,13 +7987,6 @@ export type components = {
      * @description Update model for users.
      */
     UserUpdate: {
-      /** The unique username for the account. */
-      name?: string;
-      /**
-       * The full name for the account owner. Only relevant for user accounts.
-       * @default
-       */
-      full_name?: string;
       /** The email address associated with the account. */
       email?: string;
       /**
@@ -7987,10 +8005,13 @@ export type components = {
        * Format: uuid
        */
       external_user_id?: string;
-      /**
-       * Whether the account is active.
-       * @default false
-       */
+      /** The unique username for the account. */
+      name?: string;
+      /** The full name for the account owner. Only relevant for user accounts. */
+      full_name?: string;
+      /** Whether the account is an administrator. */
+      is_admin?: boolean;
+      /** Whether the account is active. */
       active?: boolean;
     };
     /** ValidationError */
@@ -15423,6 +15444,7 @@ export type operations = {
    *
    * Args:
    *     user: User to create.
+   *     auth_context: Authentication context.
    *
    * Returns:
    *     The created user.
@@ -15520,6 +15542,10 @@ export type operations = {
    *
    * Returns:
    *     The updated user.
+   *
+   * Raises:
+   *     IllegalOperationError: if the user tries change admin status,
+   *         while not an admin
    */
   update_user_api_v1_users__user_name_or_id__put: {
     parameters: {
@@ -15613,6 +15639,10 @@ export type operations = {
    *
    * Returns:
    *     The generated activation token.
+   *
+   * Raises:
+   *     IllegalOperationError: if the user is trying to deactivate
+   *         themselves.
    */
   deactivate_user_api_v1_users__user_name_or_id__deactivate_put: {
     parameters: {

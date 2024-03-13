@@ -64,20 +64,36 @@
 }
 
 .pendingIndicator {
-  width: 64px;
-  height: 20px;
-  background-color: rgba(255, 153, 0, 0.2);
-  border-radius: 4px;
-
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-left: 23px !important;
 
   .pendingText {
-    color: rgba(255, 153, 0, 0.5);
-    font-size: 14px;
-    font-weight: 400;
-    line-height: 24px;
+  border: 1px solid #FCC584;
+  background: #FEE8CE;
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #532E03;
+  height: 24px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
   }
+}
+
+
+.adminTag {
+  border: 1px solid #CAB2FB;
+  background: #F1EBFE;
+  display: inline-flex;
+  padding: 4px 8px;
+  border-radius: 8px;
+  font-size: 12px;
+  color: #431D93;
+  height: 24px;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4px;
 }
