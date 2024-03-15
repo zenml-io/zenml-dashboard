@@ -3,10 +3,12 @@ import inviteApi from '../../../api/organizations/inviteApi';
 
 export const inviteAction = ({
   name,
+  is_admin,
   onFailure,
   onSuccess,
 }: {
   name: string;
+  is_admin: boolean;
   onFailure?: (err: any) => void;
   onSuccess?: (res: any) => void;
 }): TRequestAction => ({
@@ -16,7 +18,7 @@ export const inviteAction = ({
     isAuthenticated: true,
     failureActionType: organizationActionTypes.invite.failure,
     successActionType: organizationActionTypes.invite.success,
-    params: { name },
+    params: { name, is_admin },
     onFailure,
     onSuccess,
   },

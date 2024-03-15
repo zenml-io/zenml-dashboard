@@ -3,6 +3,7 @@ import styles from './index.module.scss';
 import ReactTooltip from 'react-tooltip';
 import { FlexBox, Box, icons, Paragraph, Spinner } from '../../../components';
 import { iconColors, iconSizes } from '../../../../constants';
+import { sanitizeUrl } from '../../../../utils/url';
 
 type ServicesSelector = {
   parent: boolean;
@@ -68,7 +69,7 @@ const Index: React.FC<ServicesSelector> = ({
             <Box marginRight="sm">
               <img
                 className={styles.service_selector_image}
-                src={data?.logoUrl}
+                src={sanitizeUrl(data?.logoUrl)}
                 alt={data?.name}
               />
             </Box>

@@ -29,6 +29,7 @@ import { toasterTypes } from '../../../../../../constants';
 import { useHistory, useLocation } from '../../../../../hooks';
 import { routePaths } from '../../../../../../routes/routePaths';
 import { NonEditableConfig } from '../../../../NonEditableConfig';
+import { sanitizeUrl } from '../../../../../../utils/url';
 
 interface Props {}
 
@@ -68,7 +69,7 @@ export const ListForAll: React.FC<{
         if (temp) {
           return {
             ...item,
-            logoUrl: temp.body.logo_url,
+            logoUrl: sanitizeUrl(temp.body.logo_url),
           };
         }
         return item;
@@ -276,7 +277,7 @@ export const ListForAll: React.FC<{
                     onClick={(e) => handleSelectedBox(e, stack)}
                   />
                 )}
-                <img src={stack.logoUrl} alt={stack.name} />
+                <img src={sanitizeUrl(stack.logoUrl)} alt={stack.name} />
               </Box>
             ))}
           </FlexBox.Row>

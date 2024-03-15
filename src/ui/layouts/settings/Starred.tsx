@@ -10,6 +10,7 @@ import { useHistory } from 'react-router';
 import { EmptyState } from '../common/EmptyState';
 import { hubAxios } from '../../../utils/axios';
 import { Plugin } from '../plugins/pluginsTypes';
+import { sanitizeUrl } from '../../../utils/url';
 
 const getData = async (token: string) => {
   return (
@@ -47,7 +48,7 @@ export const Starred: React.FC = () => {
         {plugins.map((p, i) => (
           <PluginCard
             key={i}
-            logoUrl={p.logo_url}
+            logoUrl={sanitizeUrl(p.logo_url)}
             title={p.name}
             description={`${p.version}: ${p.description}`}
             url={routePaths.plugins.detail.overview(workspace, p.id)}

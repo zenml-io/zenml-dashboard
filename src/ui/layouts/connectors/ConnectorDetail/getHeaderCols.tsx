@@ -15,6 +15,7 @@ import {
   Tooltip,
 } from '../../../components';
 import { HeaderCol } from '../../common/Table';
+import { sanitizeUrl } from '../../../../utils/url';
 
 export const GetHeaderCols = ({
   filteredConnector,
@@ -85,7 +86,7 @@ export const GetHeaderCols = ({
               <FlexBox alignItems="center">
                 <img
                   alt={connector?.body?.connector_type?.logo_url}
-                  src={connector?.body?.connector_type?.logo_url}
+                  src={sanitizeUrl(connector?.body?.connector_type?.logo_url)}
                   style={{
                     height: '28px',
                     width: '28px',
@@ -128,7 +129,7 @@ export const GetHeaderCols = ({
                       <FlexBox alignItems="center">
                         <img
                           alt={e?.logo_url}
-                          src={e?.logo_url}
+                          src={sanitizeUrl(e?.logo_url)}
                           style={{
                             height: '28px',
                             width: '28px',
@@ -184,7 +185,7 @@ export const GetHeaderCols = ({
                             <FlexBox alignItems="center">
                               <img
                                 alt={e?.logo_url}
-                                src={e?.logo_url}
+                                src={sanitizeUrl(e?.logo_url)}
                                 style={{
                                   height: '28px',
                                   width: '28px',

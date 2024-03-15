@@ -19,6 +19,7 @@ import { useLocationPath } from '../../../../hooks';
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { GetFlavorsListForLogo } from './GetFlavorsListForLogo';
 import { StackComponent } from '../../../../../api/types';
+import { sanitizeUrl } from '../../../../../utils/url';
 
 interface ServiceInterface {
   openStackIds: TId[];
@@ -84,7 +85,7 @@ export const useService = ({
         return {
           ...item,
           flavor: {
-            logoUrl: temp.body.logo_url,
+            logoUrl: sanitizeUrl(temp.body.logo_url),
             name: temp.name,
           },
         };
