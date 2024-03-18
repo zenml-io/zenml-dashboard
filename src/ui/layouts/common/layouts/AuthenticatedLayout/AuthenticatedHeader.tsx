@@ -40,6 +40,7 @@ import { WorkspacePopup } from './workspacePopup';
 import ReactTooltip from 'react-tooltip';
 import { Breadcrumbs } from '../../Breadcrumbs';
 import DeploymentBanner from './DeploymentBanner';
+import DashboardBanner from './DashboardBanner';
 
 export const AuthenticatedHeader: React.FC<{
   breadcrumb?: Array<any>;
@@ -54,6 +55,8 @@ export const AuthenticatedHeader: React.FC<{
   const history = useHistory();
   const [popupOpen, setPopupOpen] = useState<boolean>(false);
   const [createPopupOpen, setCreatePopupOpen] = useState<boolean>(false);
+
+  const authScheme = useSelector(serverInfoSelectors.getAuthScheme);
 
   const dispatch = useDispatch();
 
@@ -144,7 +147,8 @@ export const AuthenticatedHeader: React.FC<{
 
   return (
     <>
-      {deploymentType === 'local' && <DeploymentBanner />}
+      {deploymentType === 'local' && <DeploymentBanner />}{' '}
+      {authScheme !== 'EXTERNAL' && <DashboardBanner />}
       {createPopupOpen && <WorkspacePopup setPopupOpen={setCreatePopupOpen} />}
       <FlexBox
         paddingHorizontal="lg"
