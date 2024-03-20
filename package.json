@@ -7,13 +7,14 @@
 		"build": "tsc && vite build",
 		"dev": "vite",
 		"format": "prettier  --write .",
+		"generate:types": "node scripts/types.js",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"prepare": "husky",
 		"preview": "vite preview"
 	},
 	"lint-staged": {
 		"*.{cjs,js,jsx,ts,tsx,css,scss}": [
-			"prettier --write --plugin-search-dir=."
+			"prettier --write"
 		],
 		"*.{js,jsx,ts,tsx}": [
 			"eslint --fix"
@@ -27,6 +28,7 @@
 	"devDependencies": {
 		"@tailwindcss/forms": "^0.5.7",
 		"@tailwindcss/typography": "^0.5.10",
+		"@types/node": "^20.11.30",
 		"@types/react": "^18.2.64",
 		"@types/react-dom": "^18.2.21",
 		"@typescript-eslint/eslint-plugin": "^7.1.1",
@@ -38,6 +40,7 @@
 		"eslint-plugin-react-refresh": "^0.4.5",
 		"husky": "^9.0.11",
 		"lint-staged": "^15.2.2",
+		"openapi-typescript": "^6.7.5",
 		"postcss": "^8.4.37",
 		"prettier": "^3.2.5",
 		"prettier-plugin-tailwindcss": "^0.5.12",
