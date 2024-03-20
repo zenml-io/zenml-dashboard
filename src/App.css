@@ -1,110 +1,42 @@
-@font-face {
-  font-family: Rubik;
-  src: url('./ui/assets/Rubik-Regular.ttf') format('truetype');
+#root {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  text-align: center;
 }
 
-@font-face {
-  font-family: RubikBold;
-  src: url('./ui/assets/Rubik-Medium.ttf') format('truetype');
+.logo {
+  height: 6em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
-@font-face {
-  font-family: SourceCodePro;
-  src: url('./ui/assets/SourceCodePro-Regular.ttf') format('truetype');
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
 }
 
-html,
-#root,
-body,
-.App {
-  height: 100%;
-  -webkit-tap-highlight-color: transparent;
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
 }
 
-::-webkit-scrollbar {
-  height: 11px; 
-  width: 11px;
+.card {
+  padding: 2em;
 }
 
-/* Handle */
-::-webkit-scrollbar-thumb {  
-  background: rgba(168, 168, 168, 0.5); 
-  border-radius: 6px;
-}
-
-/* Track */
-::-webkit-scrollbar-track {
-  background: rgba(217, 217, 217, 0.5);
-  border-radius: 6px;
-}
-
-
-html {
-  font-size: 62.5%;
-  box-sizing: border-box;
-}
-
-*,
-*:before,
-*:after {
-  box-sizing: inherit;
-}
-
-.container-fluid {
-  padding-left: 0;
-  padding-right: 0;
-}
-
-/* reactflow */
-.react-flow__edge-path {
-  stroke: #443E99;
-}
-
-.react-flow__controls {
-  border: none;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  filter: none;
-  box-shadow: none;
-  /* bottom: 10%; */
-  /* left: 40px; */
-}
-
-.react-flow__controls button :first-child {
-  border: none;
-  height: 55px;
-  width: 55px;
-}
-
-.react-flow__controls :nth-child(n) {
-  border-radius: 100%;
-  background-color: #fffffd;
-  height: 35px;
-  width: 35px;
-  filter: drop-shadow(0px 0px 5px rgba(0, 0, 0, 0.08));
-  margin: 5px;
-}
-
-.react-flow__controls :nth-child(n) :first-child {
-  border-radius: 0%;
-  height: 35px;
-  width: 35px;
-}
-
-
-.react-flow__zoom-in {
-  background-color: #443E99;
-  height: 100px;
-  width: 100px;
-}
-a[class*='MenuItem'][class*='active'] .sidebar-fill path {
-  stroke: transparent !important;
-  fill: #e8a562 !important;
-}
-
-a[class*='MenuItem']:hover .sidebar-fill path {
-  stroke: transparent !important;
-  fill: #e8a562 !important;
+.read-the-docs {
+  color: #888;
 }
