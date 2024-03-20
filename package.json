@@ -10,7 +10,8 @@
 		"generate:types": "node scripts/types.js",
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"prepare": "husky",
-		"preview": "vite preview"
+		"preview": "vite preview",
+		"test:e2e": "playwright test"
 	},
 	"lint-staged": {
 		"*.{cjs,js,jsx,ts,tsx,css,scss}": [
@@ -27,6 +28,7 @@
 		"react-router-dom": "^6.22.3"
 	},
 	"devDependencies": {
+		"@playwright/test": "^1.42.1",
 		"@tailwindcss/forms": "^0.5.7",
 		"@tailwindcss/typography": "^0.5.10",
 		"@types/node": "^20.11.30",
