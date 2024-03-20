@@ -13,6 +13,7 @@ import {
 import { Sorting, SortingDirection } from './ForSorting/types';
 import { GetFlavorsListForLogo } from './GetFlavorsListForLogo';
 import { ServiceConnector } from '../../../../../api/types';
+import { sanitizeUrl } from '../../../../../utils/url';
 
 interface ServiceInterface {
   openConnectorIds: TId[];
@@ -78,7 +79,7 @@ export const useService = ({
         return {
           ...item,
           flavor: {
-            logoUrl: temp.body.logo_url,
+            logoUrl: sanitizeUrl(temp.body.logo_url),
             name: item.body.flavor,
             connectorResourceType: temp.metadata.connector_resource_type,
           },

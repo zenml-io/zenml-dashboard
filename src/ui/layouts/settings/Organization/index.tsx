@@ -8,12 +8,12 @@ import {
   Row,
   FullWidthSpinner,
 } from '../../../components';
-import { useDispatch } from '../../../hooks';
+import { useDispatch, useSelector } from '../../../hooks';
 import { translate } from './translate';
 import { InvitePopup } from './InvitePopup';
 import { useService } from './useService';
 // import { rolesActions } from '../../../../redux/actions/roles';
-// import { userSelectors } from '../../../../redux/selectors';
+import { userSelectors } from '../../../../redux/selectors';
 import AddUserBox from './UserBox/AddUserBox';
 import UserBox from './UserBox/UserBox';
 import { PasswordPopup } from '../PasswordPopup';
@@ -26,7 +26,7 @@ export const Organization: React.FC = () => {
   const [fetchingMembers, setFetchingMembers] = useState(false);
   const [popupOpen, setPopupOpen] = useState(false);
   const [showPasswordPopup, setShowPasswordPopup] = useState(false);
-  // const loggedinUser = useSelector(userSelectors.myUser);
+  const loggedinUser = useSelector(userSelectors.myUser);
   const [user, setUser] = useState<any>({});
   // const ITEMS_PER_PAGE = parseInt(
   //   process.env.REACT_APP_ITEMS_PER_PAGE as string,
@@ -74,13 +74,11 @@ export const Organization: React.FC = () => {
           </FlexBox.Row>
 
           <Row>
-            {/* {getUniquePermissions(loggedinUser || undefined).includes(
-              'write',
-            ) && ( */}
-            <div onClick={() => setPopupOpen(true)}>
-              <AddUserBox />
-            </div>
-            {/* )} */}
+            {loggedinUser && loggedinUser.body?.is_admin && (
+              <div onClick={() => setPopupOpen(true)}>
+                <AddUserBox />
+              </div>
+            )}
             {filteredMembers.map((e, index) => (
               <UserBox
                 key={index}

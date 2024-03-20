@@ -22,6 +22,7 @@ import { EmptyState } from '../common/EmptyState';
 import PluginFallbackImage from '../../assets/plugin-fallback.svg';
 import { hubConnectionPromptActionTypes } from '../../../redux/actionTypes';
 import { hubAxios } from '../../../utils/axios';
+import { sanitizeUrl } from '../../../utils/url';
 
 type AugmentedPluginVersion = TPluginVersion & {
   name: string;
@@ -133,7 +134,7 @@ export const Plugins: React.FC = () => {
               >
                 {/* image */}
                 <img
-                  src={p.logo_url || PluginFallbackImage}
+                  src={sanitizeUrl(p.logo_url) || PluginFallbackImage}
                   alt={`${p.name} logo`}
                   style={{
                     width: '80px',
@@ -213,7 +214,7 @@ export const Plugins: React.FC = () => {
                 {m.plugins.map((p, i) => (
                   <PluginCard
                     key={i}
-                    logoUrl={p.logo_url || PluginFallbackImage}
+                    logoUrl={sanitizeUrl(p.logo_url )|| PluginFallbackImage}
                     title={p.name}
                     description={`${p.version}: ${
                       p.description ?? 'No plugin description'

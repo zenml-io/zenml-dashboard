@@ -22,6 +22,7 @@ import {
   getInitialFilterStateForRuns,
   searchParamConstants,
 } from '../../AllRuns/Runs/filterParamConstants';
+import { sanitizeUrl } from '../../../../utils/url';
 
 const FilterWrapperForRun = () => {
   const locationPath = useLocationPath();
@@ -170,7 +171,7 @@ export const StackDetail: React.FC = () => {
               type: key,
               name: value[0]?.name,
               id: value[0]?.id,
-              logo: body.logo_url,
+              logo: sanitizeUrl(body.logo_url),
             });
           }
         } else if (value && value[0]?.permission_denied) {

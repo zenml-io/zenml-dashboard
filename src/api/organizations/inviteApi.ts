@@ -6,9 +6,11 @@ import { apiUrl } from '../apiUrl';
 const inviteApi = ({
   authenticationToken,
   name,
+  is_admin,
 }: {
   authenticationToken: string;
   name: string;
+  is_admin: boolean;
 }): Promise<void> =>
   fetchApiWithAuthRequest({
     url: apiUrl(`${endpoints.organizations.invite}?assign_default_role=false`),
@@ -19,6 +21,7 @@ const inviteApi = ({
     },
     data: JSON.stringify({
       name,
+      is_admin,
     }),
   });
 

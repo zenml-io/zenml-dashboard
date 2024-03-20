@@ -82,10 +82,20 @@ export const UpdateMember: React.FC<{
       </FlexBox.Row>
 
       <Box marginTop="md">
-        <Box>
+        <Box
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
           <Paragraph className={styles.memberName}>
             {member.body?.full_name ? member.body?.full_name : member.name}
           </Paragraph>
+          {member.body?.is_admin && (
+            <div className={styles.adminTag}>Admin</div>
+          )}
         </Box>
 
         {/* <Box marginTop="lg">

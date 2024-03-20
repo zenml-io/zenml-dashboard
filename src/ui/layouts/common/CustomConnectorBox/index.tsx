@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Box, FlexBox, Paragraph } from '../../../components';
 import ReactTooltip from 'react-tooltip';
 import styles from './index.module.scss';
+import { sanitizeUrl } from '../../../../utils/url';
 
 export const CustomConnectorBox: React.FC<{
   connectorName: string;
@@ -60,7 +61,7 @@ export const CustomConnectorBox: React.FC<{
           {resourceTypes?.map((e: any) => (
             <Box marginLeft="sm" className={styles.resourceImages}>
               <div data-tip data-for={e?.name}>
-                <img src={e?.logo_url} alt={e?.name} />
+                <img src={sanitizeUrl(e?.logo_url)} alt={e?.name} />
               </div>
               <ReactTooltip id={e?.name} place="top" effect="solid">
                 <Paragraph color="white">{e?.name}</Paragraph>

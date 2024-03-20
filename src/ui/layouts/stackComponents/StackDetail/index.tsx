@@ -27,6 +27,7 @@ import {
   getInitialFilterStateStacks,
   searchParamConstants,
 } from '../../stacks/Stacks/filterParamConstants';
+import { sanitizeUrl } from '../../../../utils/url';
 
 const FilterWrapperForStacks = () => {
   const locationPath = useLocationPath();
@@ -204,7 +205,7 @@ export const StackDetail: React.FC = () => {
         return {
           ...item,
           flavor: {
-            logoUrl: temp.body.logo_url,
+            logoUrl: sanitizeUrl(temp.body.logo_url),
             name: item.name,
           },
         };

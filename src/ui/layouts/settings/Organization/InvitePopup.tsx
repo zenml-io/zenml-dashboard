@@ -28,12 +28,15 @@ import {
 import userImage from '../../../assets/userImage.png';
 import axios from 'axios';
 import { RoleSelectorReadOnly } from './RoleSelector/RoleSelectorReadOnly';
+import { ToggleField } from '../../common/FormElement';
+import { titleCase } from '../../../../utils';
 
 export const InvitePopup: React.FC<{
   setPopupOpen: (attr: boolean) => void;
 }> = ({ setPopupOpen }) => {
   const [submitting, setSubmitting] = useState(false);
   const [name, setName] = useState('');
+  const [isAdmin, setIsAdmin] = useState(false);
   const [showTokField, setShowTokField] = useState(false);
 
   const dispatch = useDispatch();
@@ -54,6 +57,7 @@ export const InvitePopup: React.FC<{
     setSubmitting(true);
     dispatch(
       organizationActions.invite({
+        is_admin: isAdmin,
         name,
         onFailure: (errorText: string) => {
           dispatch(
@@ -137,11 +141,21 @@ export const InvitePopup: React.FC<{
         <Box marginTop="md">
           <FormTextField
             label={translate('popup.username.label')}
-            labelColor="rgba(66, 66, 64, 0.5)"
             placeholder={translate('popup.username.placeholder')}
             value={name}
             onChange={(val: string) => setName(val)}
             disabled={showTokField}
+          />
+        </Box>
+        <Box marginTop="md">
+          <ToggleField
+            value={isAdmin}
+            onHandleChange={() =>
+              setIsAdmin((prev) => {
+                return !prev;
+              })
+            }
+            label={titleCase('Admin')}
           />
         </Box>
         {/* 
@@ -163,7 +177,6 @@ export const InvitePopup: React.FC<{
         <Box marginTop="lg" marginBottom="xxxl">
           <CopyField
             label="Invitation Link"
-            labelColor="rgba(66, 66, 64, 0.5)"
             value={`${window.location.origin}/signup?user=${invite?.id}&username=${name}&token=${invite?.body?.activation_token}`}
             showTokField={showTokField}
             disabled

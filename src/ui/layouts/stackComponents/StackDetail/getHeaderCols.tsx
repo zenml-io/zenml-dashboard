@@ -16,6 +16,7 @@ import {
 } from '../../../components';
 import { HeaderCol } from '../../common/Table';
 import { StackComponent } from '../../../../api/types';
+import { sanitizeUrl } from '../../../../utils/url';
 
 const HeaderText = ({ text, margin }: { text: string; margin?: string }) => (
   <Paragraph
@@ -96,7 +97,7 @@ export const GetHeaderCols = ({
               >
                 <img
                   alt={stackComponent?.flavor?.logoUrl}
-                  src={stackComponent?.flavor?.logoUrl}
+                  src={sanitizeUrl(stackComponent?.flavor?.logoUrl)}
                   style={{
                     height: '28px',
                     width: '28px',

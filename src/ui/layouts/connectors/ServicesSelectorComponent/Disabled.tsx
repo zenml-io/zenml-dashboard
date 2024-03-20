@@ -2,6 +2,7 @@ import React from 'react';
 import styles from './index.module.scss';
 import { FlexBox, Box, Paragraph, icons } from '../../../components';
 import { iconColors } from '../../../../constants';
+import { sanitizeUrl } from '../../../../utils/url';
 
 const Index: React.FC<any> = ({ data }) => {
   const resourceType = data?.metadata?.connector_type?.resource_types?.filter(
@@ -38,7 +39,7 @@ const Index: React.FC<any> = ({ data }) => {
             <Box marginRight="sm">
               <img
                 className={styles.service_selector_image}
-                src={e?.logo_url}
+                src={sanitizeUrl(e?.logo_url)}
                 alt={e?.name}
               />
             </Box>

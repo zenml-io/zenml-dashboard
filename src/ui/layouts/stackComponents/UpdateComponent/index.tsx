@@ -17,6 +17,7 @@ import { workspaceSelectors } from '../../../../redux/selectors';
 import { StackComponent } from '../../../../api/types';
 import { CollapseTable } from '../../common/CollapseTable';
 import { GetHeaderCols } from './getHeaderCols';
+import { sanitizeUrl } from '../../../../utils/url';
 
 const getTabPages = (
   stackId: TId,
@@ -121,7 +122,7 @@ export const StackDetail: React.FC = () => {
         return {
           ...item,
           flavor: {
-            logoUrl: temp.body?.logo_url,
+            logoUrl: sanitizeUrl(temp.body?.logo_url),
             name: item.body?.flavor,
           },
         };

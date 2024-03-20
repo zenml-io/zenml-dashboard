@@ -28,6 +28,7 @@ import { debounce } from 'lodash';
 import { hubAxios } from '../../../../utils/axios';
 import { MyFallbackComponent } from '../../../components/FallbackComponent';
 import { ErrorBoundary } from 'react-error-boundary';
+import { sanitizeUrl } from '../../../../utils/url';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
@@ -106,7 +107,7 @@ const CreatePlugin: React.FC = () => {
               >
                 {logoUrl ? (
                   <img
-                    src={logoUrl}
+                    src={sanitizeUrl(logoUrl)}
                     alt="Plugin logo"
                     style={{
                       maxWidth: '60%',
