@@ -4,12 +4,23 @@ import { FlexBox, Box, Paragraph } from '../../../../components';
 import { UpdateMember } from '../UpdateMember';
 import { TokenPopup } from '../tokenPopup';
 import { getInitials } from '../../../../../utils/name';
+import { User } from '../../../../../api/types';
 
-const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
+const UserBox = ({
+  data,
+  setShowPasswordUpdate,
+  setUser,
+}: {
+  data: User;
+  setShowPasswordUpdate: any;
+  setUser: any;
+}) => {
   const [editPopup, setEditPopup] = useState(false);
   const [tokenPopup, setTokenPopup] = useState(false);
 
-  const userFullName = data?.body.full_name ? data?.body.full_name : data?.name;
+  const userFullName = data?.body?.full_name
+    ? data?.body.full_name
+    : data?.name;
   const userInitials = getInitials(userFullName as string);
 
   const handleTokenPopup = (e: any) => {
@@ -30,9 +41,9 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
       {tokenPopup && (
         <TokenPopup
           id={data?.id}
-          fullName={data?.metadata?.fullName}
+          fullName={userFullName}
           username={data?.name}
-          active={data?.metadata?.active}
+          active={data?.body?.active || false}
           // roles={data?.metadata?.roles}
           setTokenPopup={setTokenPopup}
         />
@@ -56,9 +67,10 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
           </Box>
 
           <Box marginTop="sm">
-            <Paragraph className={styles.userName}>
-              {data?.body.full_name ? data?.body.full_name : data?.name}
-            </Paragraph>
+            <Paragraph className={styles.userName}>{userFullName}</Paragraph>
+            {data.body?.is_admin && (
+              <div className={styles.adminTag}>Admin</div>
+            )}
           </Box>
           {/* 
           <Box marginTop="sm" className={styles.rolesContainer}>
@@ -78,11 +90,7 @@ const UserBox = ({ data, permission, setShowPasswordUpdate, setUser }: any) => {
           </Box> */}
 
           {!data?.body?.active && (
-            <Box
-              onClick={handleTokenPopup}
-              marginTop="sm"
-              className={styles.pendingIndicator}
-            >
+            <Box onClick={handleTokenPopup} className={styles.pendingIndicator}>
               <Paragraph className={styles.pendingText}>Pending</Paragraph>
             </Box>
           )}

@@ -4,6 +4,7 @@ import moment from 'moment';
 import Fallback from '../../../../assets/plugin-fallback.svg';
 import { ReactComponent as ArrowSquareOut } from '../../../../components/icons/assets/ArrowSquareOut.svg';
 import { Repository } from '../../../../../api/types';
+import { sanitizeUrl } from '../../../../../utils/url';
 
 interface RepositoryDetailHeaderProps {
   repository: Repository;
@@ -13,7 +14,7 @@ function RepositoryDetailHeader({ repository }: RepositoryDetailHeaderProps) {
   return (
     <div className={styles.detailHeader}>
       <img
-        src={repository?.body?.logo_url || Fallback}
+        src={sanitizeUrl(repository?.body?.logo_url) || Fallback}
         alt={`Logo for repository ${repository?.name}`}
         className={styles.detailHeader__imageContainer}
       ></img>

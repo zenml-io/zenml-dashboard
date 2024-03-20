@@ -28,6 +28,7 @@ import { Filters } from './Filters';
 import { MyFallbackComponent } from '../../../components/FallbackComponent';
 import { ErrorBoundary } from 'react-error-boundary';
 import { Plugin } from '../pluginsTypes';
+import { sanitizeUrl } from '../../../../utils/url';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.list');
 
@@ -177,7 +178,7 @@ const ListPlugins: React.FC = () => {
                       )}
                       {/* logo */}
                       <img
-                        src={p.logo_url || PluginFallbackImage}
+                        src={sanitizeUrl(p.logo_url) || PluginFallbackImage}
                         alt={`${p.name} logo`}
                         style={{
                           height: '80px',

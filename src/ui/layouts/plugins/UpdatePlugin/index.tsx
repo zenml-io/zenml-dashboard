@@ -26,6 +26,7 @@ import { PluginsLayout } from '../shared/Layout';
 import { getPlugin } from '../api';
 import { hubAxios } from '../../../../utils/axios';
 import { Plugin } from '../pluginsTypes';
+import { sanitizeUrl } from '../../../../utils/url';
 
 export const translate = getTranslateByScope('ui.layouts.Plugins.create');
 
@@ -111,7 +112,7 @@ const UpdatePlugin: React.FC = () => {
             >
               {plugin?.logo_url ? (
                 <img
-                  src={logoUrl}
+                  src={sanitizeUrl(logoUrl)}
                   alt={`${plugin.name} logo`}
                   style={{
                     maxWidth: '60%',
