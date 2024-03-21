@@ -1,3 +1,5 @@
+import { Box } from "@zenml-io/react-component-library";
+
 export default function LoginPage() {
-	return <p>Login</p>;
+	return <Box>Login</Box>;
 }
