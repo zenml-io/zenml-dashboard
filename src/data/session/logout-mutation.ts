@@ -1,6 +1,6 @@
 import { apiPaths, createApiPath } from "@/data/api";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { FetchError } from "../FetchError";
+import { FetchError } from "../../lib/fetch-error";
 
 export async function loginUser() {
 	const url = createApiPath(apiPaths.logout);
