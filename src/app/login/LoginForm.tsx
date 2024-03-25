@@ -5,6 +5,7 @@ import { Button, Input } from "@zenml-io/react-component-library";
 import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { setAuthState } from "@/lib/sessions";
 
 export function LoginForm() {
 	const navigate = useNavigate();
@@ -19,6 +20,7 @@ export function LoginForm() {
 
 	const mutation = useLoginMutation({
 		onSuccess() {
+			setAuthState("true");
 			navigate(redirect || routes.home);
 			reset();
 		}

@@ -1,10 +1,12 @@
-import { routes } from "@/router/routes";
-import { Link } from "react-router-dom";
 import ZenMLIcon from "@/assets/icons/zenml-icon.svg?react";
-import { Button } from "@zenml-io/react-component-library";
 import { useLogoutMutation } from "@/data/session/logout-mutation";
+import { removeAuthState } from "@/lib/sessions";
+import { routes } from "@/router/routes";
+import { Button } from "@zenml-io/react-component-library";
+import { Link, useNavigate } from "react-router-dom";
 
 export function AuthenticatedHeader() {
+	const navigate = useNavigate();
 	const mutation = useLogoutMutation();
 
 	return (
@@ -17,7 +19,15 @@ export function AuthenticatedHeader() {
 				>
 					<ZenMLIcon className="h-6 w-6" />
 				</Link>
-				<Button onClick={() => mutation.mutate()}>Logout</Button>
+				<Button
+					onClick={() => {
+						mutation.mutate();
+						removeAuthState();
+						navigate(routes.login, { replace: true });
+					}}
+				>
+					Logout
+				</Button>
 			</div>
 		</header>
 	);
