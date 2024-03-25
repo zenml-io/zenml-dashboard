@@ -1,6 +1,7 @@
 export const apiPaths = {
 	currentUser: "/current-user",
-	login: "/login"
+	login: "/login",
+	logout: "/logout"
 };
 
 export function createApiPath(path: string) {

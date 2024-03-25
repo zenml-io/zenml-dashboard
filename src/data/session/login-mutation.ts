@@ -9,6 +9,7 @@ export async function loginUser(body: LoginPayload) {
 	// TODO possibly this fetch can be abstracted
 	const res = await fetch(url, {
 		method: "POST",
+		credentials: "include",
 		headers: {
 			"Content-Type": "application/x-www-form-urlencoded"
 		},

@@ -1,4 +1,4 @@
-import { useLoginMutation } from "@/data/login/login-mutation";
+import { useLoginMutation } from "@/data/session/login-mutation";
 import { routes } from "@/router/routes";
 import { LoginPayload } from "@/types/session";
 import { Button, Input } from "@zenml-io/react-component-library";
