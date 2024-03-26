@@ -1,3 +1,4 @@
+import { useAuthContext } from "@/context/AuthContext";
 import { useLoginMutation } from "@/data/session/login-mutation";
 import { routes } from "@/router/routes";
 import { LoginPayload } from "@/types/session";
@@ -5,10 +6,10 @@ import { Button, Input } from "@zenml-io/react-component-library";
 import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { setAuthState } from "@/lib/sessions";
 
 export function LoginForm() {
 	const navigate = useNavigate();
+	const { setAuthState } = useAuthContext();
 
 	const usernameId = useId();
 	const passwordId = useId();

@@ -3,7 +3,7 @@ import { PropsWithChildren, lazy } from "react";
 import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
-import { getAuthState, removeAuthState } from "@/lib/sessions";
+import { useAuthContext } from "@/context/AuthContext";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -31,6 +31,7 @@ export const router = createBrowserRouter(
 );
 
 function ProtectedRoute({ children }: PropsWithChildren) {
+	const { getAuthState, removeAuthState } = useAuthContext();
 	const isLoggedIn = getAuthState();
 	if (!isLoggedIn) {
 		removeAuthState();

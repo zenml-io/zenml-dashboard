@@ -1,13 +1,12 @@
 import { z } from "zod";
 
 // TODO We might want to refactor this to an AuthContext
-const authStateSchema = z.boolean();
-const authStateWriteSchema = z.enum(["true", "false"]);
+export const authStateSchema = z.boolean();
+export const authStateWriteSchema = z.enum(["true", "false"]);
 
 const authStateKey = "isAuthenticated";
 
 export function getAuthState() {
-	console.log("executed");
 	try {
 		const authState = localStorage.getItem(authStateKey);
 		if (authState === null) {

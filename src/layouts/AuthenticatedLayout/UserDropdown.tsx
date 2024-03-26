@@ -1,7 +1,7 @@
 import LogoutIcon from "@/assets/icons/logout.svg?react";
+import { useAuthContext } from "@/context/AuthContext";
 import { useLogoutMutation } from "@/data/session/logout-mutation";
 import { useCurrentUser } from "@/data/user/current-user-query";
-import { removeAuthState } from "@/lib/sessions";
 import {
 	Avatar,
 	AvatarFallback,
@@ -15,6 +15,7 @@ import { useNavigate } from "react-router-dom";
 
 export function UserDropdown() {
 	const { data, isPending, isError } = useCurrentUser();
+	const { removeAuthState } = useAuthContext();
 	const navigate = useNavigate();
 	const mutation = useLogoutMutation({
 		onSuccess: () => {
