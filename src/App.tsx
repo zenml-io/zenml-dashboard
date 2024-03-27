@@ -14,6 +14,11 @@ function handle401() {
 }
 
 const queryClient = new QueryClient({
+	defaultOptions: {
+		queries: {
+			retry: false
+		}
+	},
 	queryCache: new QueryCache({
 		onError: (error) => {
 			if (error instanceof FetchError) {
