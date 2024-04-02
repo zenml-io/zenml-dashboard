@@ -1,4 +1,7 @@
 export const routes = {
 	home: "/",
-	login: "/login"
+	login: "/login",
+	pipelines: {
+		overview: "/pipelines"
+	}
 };

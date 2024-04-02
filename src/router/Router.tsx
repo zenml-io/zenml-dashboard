@@ -7,6 +7,7 @@ import { useAuthContext } from "@/context/AuthContext";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
+const Pipelines = lazy(() => import("@/app/pipelines/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -21,7 +22,16 @@ export const router = createBrowserRouter(
 						</ProtectedRoute>
 					}
 				/>
+				<Route
+					path="/pipelines"
+					element={
+						<ProtectedRoute>
+							<Pipelines />
+						</ProtectedRoute>
+					}
+				/>
 			</Route>
+
 			{/* Gradient Layout */}
 			<Route element={<GradientLayout />}>
 				<Route path="/login" element={<Login />} />
