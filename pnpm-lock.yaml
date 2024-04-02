@@ -11,6 +11,9 @@ dependencies:
   '@tanstack/react-query':
     specifier: ^5.28.6
     version: 5.28.6(react@18.2.0)
+  '@tanstack/react-table':
+    specifier: ^8.15.3
+    version: 8.15.3(react-dom@18.2.0)(react@18.2.0)
   '@zenml-io/react-component-library':
     specifier: ^0.7.0
     version: 0.7.0(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)

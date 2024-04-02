@@ -1,7 +1,10 @@
 export const apiPaths = {
 	login: "/login",
 	logout: "/logout",
-	currentUser: "/current-user"
+	currentUser: "/current-user",
+	pipelines: {
+		namespaces: "/pipeline_namespaces"
+	}
 };
 
 export function createApiPath(path: string) {
