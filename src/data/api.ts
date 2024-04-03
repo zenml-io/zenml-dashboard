@@ -4,6 +4,9 @@ export const apiPaths = {
 	currentUser: "/current-user",
 	pipelines: {
 		namespaces: "/pipeline_namespaces"
+	},
+	runs: {
+		all: "/runs"
 	}
 };
 

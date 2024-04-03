@@ -43,7 +43,10 @@ export function Sidebar() {
 							</li>
 							<li className="w-full">
 								<SidebarLink
-									routePatterns={[routes.pipelines.overview]}
+									routePatterns={[
+										routes.pipelines.overview,
+										routes.pipelines.namespace(":namespace")
+									]}
 									icon={<Pipeline />}
 									label="Pipelines"
 									to={"/pipelines"}

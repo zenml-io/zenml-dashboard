@@ -6,10 +6,12 @@ import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "
 import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
+import { routes } from "./routes";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
+const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -19,7 +21,7 @@ export const router = createBrowserRouter(
 				<Route errorElement={<RootBoundary />}>
 					<Route
 						errorElement={<PageBoundary />}
-						path="/"
+						path={routes.home}
 						element={
 							<ProtectedRoute>
 								<Home />
@@ -28,10 +30,19 @@ export const router = createBrowserRouter(
 					/>
 					<Route
 						errorElement={<PageBoundary />}
-						path="/pipelines"
+						path={routes.pipelines.overview}
 						element={
 							<ProtectedRoute>
 								<Pipelines />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.pipelines.namespace(":namespace")}
+						element={
+							<ProtectedRoute>
+								<PipelinesNamespace />
 							</ProtectedRoute>
 						}
 					/>
@@ -40,7 +51,7 @@ export const router = createBrowserRouter(
 
 			{/* Gradient Layout */}
 			<Route element={<GradientLayout />}>
-				<Route path="/login" element={<Login />} />
+				<Route path={routes.login} element={<Login />} />
 			</Route>
 		</Route>
 	)

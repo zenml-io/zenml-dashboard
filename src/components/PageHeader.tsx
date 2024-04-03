@@ -1,8 +1,17 @@
-import { PropsWithChildren } from "react";
+import { cn } from "@zenml-io/react-component-library";
+import { HTMLAttributes, PropsWithChildren } from "react";
 
-export function PageHeader({ children }: PropsWithChildren) {
+type Props = HTMLAttributes<HTMLDivElement>;
+
+export function PageHeader({ children, className, ...rest }: PropsWithChildren<Props>) {
 	return (
-		<div className="border-b border-theme-border-moderate bg-theme-surface-primary px-5 py-3">
+		<div
+			{...rest}
+			className={cn(
+				"border-b border-theme-border-moderate bg-theme-surface-primary px-5 py-3",
+				className
+			)}
+		>
 			{children}
 		</div>
 	);
