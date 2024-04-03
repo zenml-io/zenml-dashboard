@@ -17,7 +17,13 @@ export const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route element={<RootLayout />}>
 			{/* AuthenticatedLayout */}
-			<Route element={<AuthenticatedLayout />}>
+			<Route
+				element={
+					<ProtectedRoute>
+						<AuthenticatedLayout />
+					</ProtectedRoute>
+				}
+			>
 				<Route errorElement={<RootBoundary />}>
 					<Route
 						errorElement={<PageBoundary />}
@@ -62,7 +68,11 @@ function ProtectedRoute({ children }: PropsWithChildren) {
 	const isLoggedIn = getAuthState();
 	if (!isLoggedIn) {
 		removeAuthState();
-		return <Navigate to="/login" />;
+		return (
+			<Navigate
+				to={routes.login + `?${new URLSearchParams({ redirect: location.pathname }).toString()}`}
+			/>
+		);
 	}
 	return children;
 }
