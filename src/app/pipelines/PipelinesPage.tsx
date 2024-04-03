@@ -42,10 +42,10 @@ export default function PipelinesPage() {
 							)}
 						</div>
 						{/* {data ? (
-							data.total_pages > 1 && <Pagination searchParams={queryParams} paginate={data} />
-						) : (
-							<Skeleton className="h-[36px] w-[300px]" />
-						)} */}
+                data.total_pages > 1 && <Pagination searchParams={queryParams} paginate={data} />
+            ) : (
+                <Skeleton className="h-[36px] w-[300px]" />
+            )} */}
 					</div>
 				</div>
 			</section>

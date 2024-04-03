@@ -1,9 +1,11 @@
+import { useAuthContext } from "@/context/AuthContext";
+import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PropsWithChildren, lazy } from "react";
 import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
-import { useAuthContext } from "@/context/AuthContext";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -14,22 +16,26 @@ export const router = createBrowserRouter(
 		<Route element={<RootLayout />}>
 			{/* AuthenticatedLayout */}
 			<Route element={<AuthenticatedLayout />}>
-				<Route
-					path="/"
-					element={
-						<ProtectedRoute>
-							<Home />
-						</ProtectedRoute>
-					}
-				/>
-				<Route
-					path="/pipelines"
-					element={
-						<ProtectedRoute>
-							<Pipelines />
-						</ProtectedRoute>
-					}
-				/>
+				<Route errorElement={<RootBoundary />}>
+					<Route
+						errorElement={<PageBoundary />}
+						path="/"
+						element={
+							<ProtectedRoute>
+								<Home />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						errorElement={<PageBoundary />}
+						path="/pipelines"
+						element={
+							<ProtectedRoute>
+								<Pipelines />
+							</ProtectedRoute>
+						}
+					/>
+				</Route>
 			</Route>
 
 			{/* Gradient Layout */}

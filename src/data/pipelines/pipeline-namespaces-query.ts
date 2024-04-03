@@ -3,6 +3,7 @@ import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
 import { objectToSearchParams } from "@/lib/url";
+import { notFound } from "@/lib/not-found-error";
 export type PipelineOverview = {
 	params: PipelineNamespacesParams;
 };
@@ -21,6 +22,8 @@ export async function fetchAllPipelines({ params }: PipelineOverview, token?: st
 			...(token && { Authorization: `Bearer ${token}` })
 		}
 	});
+
+	if (res.status === 404) notFound();
 
 	if (!res.ok) {
 		throw new FetchError({
