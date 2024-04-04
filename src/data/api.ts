@@ -6,7 +6,8 @@ export const apiPaths = {
 		namespaces: "/pipeline_namespaces"
 	},
 	runs: {
-		all: "/runs"
+		all: "/runs",
+		detail: (id: string) => `/runs/${id}`
 	}
 };
 

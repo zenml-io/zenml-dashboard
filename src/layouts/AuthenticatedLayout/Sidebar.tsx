@@ -45,7 +45,8 @@ export function Sidebar() {
 								<SidebarLink
 									routePatterns={[
 										routes.pipelines.overview,
-										routes.pipelines.namespace(":namespace")
+										routes.pipelines.namespace(":namespace"),
+										routes.runs.detail(":runId")
 									]}
 									icon={<Pipeline />}
 									label="Pipelines"

@@ -4,5 +4,8 @@ export const routes = {
 	pipelines: {
 		overview: "/pipelines",
 		namespace: (namespace: string) => `/pipelines/${namespace}`
+	},
+	runs: {
+		detail: (id: string) => `/runs/${id}`
 	}
 };

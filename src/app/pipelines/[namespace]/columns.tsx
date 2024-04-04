@@ -10,7 +10,9 @@ import { Tag } from "@zenml-io/react-component-library";
 import { Stack } from "@/types/stack";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { DisplayDate } from "@/components/DisplayDate";
-import { InlineAvatar } from "../../../components/InlineAvatar";
+import { InlineAvatar } from "@/components/InlineAvatar";
+import { Link } from "react-router-dom";
+import { routes } from "@/router/routes";
 
 export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 	return [
@@ -33,15 +35,15 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 					<div className="group/copybutton flex items-center gap-2">
 						<RunIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
 						<div>
-							<div className="flex items-center gap-1">
+							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
 								<h2 className="text-text-md font-semibold">{name}</h2>
 								<ExecutionStatusIcon status={status} />
 								{/* <CopyButton copyText={name} /> */}
-							</div>
-							<div className="flex items-center gap-1">
+							</Link>
+							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
 								<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
 								{/* <CopyButton copyText={id} /> */}
-							</div>
+							</Link>
 						</div>
 					</div>
 				);
