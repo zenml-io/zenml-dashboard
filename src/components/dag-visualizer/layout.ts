@@ -33,7 +33,7 @@ export function getLayoutedNodes(
 			return { ...node, position: { x, y } };
 		}),
 		edges: edges.map((edge) => {
-			return { ...edge, type: nodes.length > 30 ? "smoothstep" : "smoothstep" };
+			return { ...edge, type: nodes.length > 30 ? "smoothstep" : "smart" };
 		})
 	};
 }

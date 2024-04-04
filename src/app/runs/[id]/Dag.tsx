@@ -11,10 +11,15 @@ import ReactFlow, {
 import { getLayoutedNodes } from "@/components/dag-visualizer/layout";
 import { StepNode } from "@/components/dag-visualizer/StepNode";
 import { ArtifactNode } from "@/components/dag-visualizer/ArtifactNode";
+import { SmoothStepSmart } from "@/components/dag-visualizer/SmartEdge";
 
 const customNodes: NodeTypes = {
 	step: StepNode,
 	artifact: ArtifactNode
+};
+
+const customEdge = {
+	smart: SmoothStepSmart
 };
 
 export function DAG() {
@@ -56,7 +61,7 @@ export function DAG() {
 			connectOnClick={false}
 			nodesDraggable={false}
 			nodesConnectable={false}
-			// edgeTypes={customEdge}
+			edgeTypes={customEdge}
 			nodeTypes={customNodes}
 			nodes={nodes}
 			edges={edges}
