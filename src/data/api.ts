@@ -7,7 +7,8 @@ export const apiPaths = {
 	},
 	runs: {
 		all: "/runs",
-		detail: (id: string) => `/runs/${id}`
+		detail: (id: string) => `/runs/${id}`,
+		graph: (runId: string) => `/runs/${runId}/graph`
 	}
 };
 

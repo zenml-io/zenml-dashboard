@@ -1,11 +1,13 @@
+import { removeAuthState } from "@/lib/sessions";
+import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { Suspense } from "react";
 import { RouterProvider } from "react-router-dom";
-import { router } from "./router/Router";
-import { QueryCache, QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { FetchError } from "./lib/fetch-error";
-import { removeAuthState } from "@/lib/sessions";
-import { routes } from "./router/routes";
+import { ReactFlowProvider } from "reactflow";
+import "reactflow/dist/style.css";
 import { AuthProvider } from "./context/AuthContext";
+import { FetchError } from "./lib/fetch-error";
+import { router } from "./router/Router";
+import { routes } from "./router/routes";
 
 function handle401() {
 	removeAuthState();
@@ -34,9 +36,11 @@ export function App() {
 	return (
 		<Suspense>
 			<AuthProvider>
-				<QueryClientProvider client={queryClient}>
-					<RouterProvider router={router} />
-				</QueryClientProvider>
+				<ReactFlowProvider>
+					<QueryClientProvider client={queryClient}>
+						<RouterProvider router={router} />
+					</QueryClientProvider>
+				</ReactFlowProvider>
 			</AuthProvider>
 		</Suspense>
 	);
