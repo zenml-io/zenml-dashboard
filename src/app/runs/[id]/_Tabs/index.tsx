@@ -11,6 +11,8 @@ import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 import { OverviewTab } from "./Overview";
 import { useSelectedTab } from "./service";
+import { ConfigurationTab } from "./Configuration";
+import Tools from "@/assets/icons/tool.svg?react";
 
 type TabsHeaderProps = {
 	setIsPanelOpen: Dispatch<SetStateAction<boolean>>;
@@ -48,10 +50,20 @@ export function RunsDetailTabs() {
 						<Info className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 						<span>Overview</span>
 					</TabsTrigger>
+					<TabsTrigger
+						className="flex items-center gap-2 truncate text-text-md"
+						value="configuration"
+					>
+						<Tools className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+						<span>Configuration</span>
+					</TabsTrigger>
 				</TabsList>
 
 				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
 					<OverviewTab />
+				</TabsContent>
+				<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="configuration">
+					<ConfigurationTab />
 				</TabsContent>
 			</Tabs>
 		</div>

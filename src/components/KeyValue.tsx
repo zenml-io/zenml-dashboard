@@ -1,7 +1,7 @@
 // import { ReactNode } from "react";
 
 import { cn } from "@zenml-io/react-component-library";
-import { HTMLAttributes } from "react";
+import { HTMLAttributes, ReactNode } from "react";
 
 type Props = HTMLAttributes<HTMLDivElement>;
 export function Key({ children, className, ...rest }: Props) {
@@ -29,5 +29,18 @@ export function Value({ children, className, ...rest }: Props) {
 		>
 			{children}
 		</dd>
+	);
+}
+
+type KeyValueProps = {
+	label: ReactNode;
+	value: ReactNode;
+};
+export function KeyValue({ label, value }: KeyValueProps) {
+	return (
+		<>
+			<Key>{label}</Key>
+			<Value>{value}</Value>
+		</>
 	);
 }
