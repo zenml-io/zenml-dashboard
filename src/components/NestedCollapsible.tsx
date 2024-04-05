@@ -1,9 +1,9 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode } from "react";
 import { KeyValue } from "./KeyValue";
-// import Codesnippet from "../Codesnippet";
 import { CollapsibleHeaderProps } from "@zenml-io/react-component-library";
 import { CollapsibleCard } from "./CollapsibleCard";
+import { Codesnippet } from "./CodeSnippet";
 
 type Props = {
 	intent?: CollapsibleHeaderProps["intent"];
@@ -48,8 +48,7 @@ export function NestedCollapsible({
 									{typeof value === "boolean" ? (
 										<div className="py-1">{JSON.stringify(value)}</div>
 									) : regex.test(value) ? (
-										//  <Codesnippet className="py-1" highlightCode code={value} />
-										<div>{value}</div>
+										<Codesnippet className="py-1" highlightCode code={value} />
 									) : (
 										<div className="py-1">{value}</div>
 									)}

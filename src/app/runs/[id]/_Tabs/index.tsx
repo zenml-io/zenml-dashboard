@@ -1,5 +1,6 @@
 import Collapse from "@/assets/icons/collapse.svg?react";
 import Info from "@/assets/icons/info.svg?react";
+import Tools from "@/assets/icons/tool.svg?react";
 import {
 	Button,
 	Tabs,
@@ -9,10 +10,9 @@ import {
 } from "@zenml-io/react-component-library";
 import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
+import { ConfigurationTab } from "./Configuration";
 import { OverviewTab } from "./Overview";
 import { useSelectedTab } from "./service";
-import { ConfigurationTab } from "./Configuration";
-import Tools from "@/assets/icons/tool.svg?react";
 
 type TabsHeaderProps = {
 	setIsPanelOpen: Dispatch<SetStateAction<boolean>>;
