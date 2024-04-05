@@ -1,4 +1,9 @@
+import { ArtifactNode } from "@/components/dag-visualizer/ArtifactNode";
+import { SmoothStepSmart } from "@/components/dag-visualizer/SmartEdge";
+import { StepNode } from "@/components/dag-visualizer/StepNode";
+import { getLayoutedNodes } from "@/components/dag-visualizer/layout";
 import { usePipelineRunGraph } from "@/data/pipeline-runs/pipeline-run-graph-query";
+import { Spinner } from "@zenml-io/react-component-library";
 import { useCallback, useEffect, useLayoutEffect } from "react";
 import { useParams } from "react-router-dom";
 import ReactFlow, {
@@ -8,11 +13,7 @@ import ReactFlow, {
 	useReactFlow,
 	useStore
 } from "reactflow";
-import { getLayoutedNodes } from "@/components/dag-visualizer/layout";
-import { StepNode } from "@/components/dag-visualizer/StepNode";
-import { ArtifactNode } from "@/components/dag-visualizer/ArtifactNode";
-import { SmoothStepSmart } from "@/components/dag-visualizer/SmartEdge";
-import { Spinner } from "@zenml-io/react-component-library";
+import { DagControls } from "@/components/dag-visualizer/Controls";
 
 const customNodes: NodeTypes = {
 	step: StepNode,
@@ -80,6 +81,8 @@ export function DAG() {
 			onNodesChange={onNodesChange}
 			onEdgesChange={onEdgesChange}
 			fitView
-		/>
+		>
+			<DagControls />
+		</ReactFlow>
 	);
 }
