@@ -3,7 +3,7 @@ import Pipelines from "@/assets/icons/pipeline.svg?react";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { Key, Value } from "@/components/KeyValue";
-import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-query";
+import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,

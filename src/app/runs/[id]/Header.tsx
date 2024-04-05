@@ -1,7 +1,7 @@
 import RunIcon from "@/assets/icons/pipeline-run.svg?react";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { PageHeader } from "@/components/PageHeader";
-import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-query";
+import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { useParams } from "react-router-dom";
 

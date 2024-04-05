@@ -2,6 +2,7 @@ import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
 import { PipelineRun } from "@/types/pipeline-runs";
+import { notFound } from "@/lib/not-found-error";
 export type PipelineRunDetailOverview = {
 	runId: string;
 };
@@ -20,6 +21,8 @@ export async function fetchPipelineRun({ runId }: PipelineRunDetailOverview, tok
 			...(token && { Authorization: `Bearer ${token}` })
 		}
 	});
+
+	if (res.status === 404) notFound();
 
 	if (!res.ok) {
 		throw new FetchError({
