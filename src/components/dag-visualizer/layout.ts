@@ -3,7 +3,7 @@ import { Node, Edge } from "reactflow";
 import Dagre from "@dagrejs/dagre";
 
 const nodeWidth = 300;
-const artifactHeight = 70;
+const artifactHeight = 44;
 const stepHeight = 50;
 
 export function getLayoutedNodes(
@@ -11,7 +11,7 @@ export function getLayoutedNodes(
 	edges?: ZenEdge[]
 ): { nodes: Node[]; edges: Edge[] } {
 	const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
-	g.setGraph({ rankdir: "TB", ranksep: 35, nodesep: 10 });
+	g.setGraph({ rankdir: "TB", ranksep: 35, nodesep: 5 });
 	if (!nodes || !edges) return { nodes: [], edges: [] };
 	if (nodes.length < 1 || edges.length < 1) return { nodes: [], edges: [] };
 
