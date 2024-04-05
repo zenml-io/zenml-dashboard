@@ -12,6 +12,7 @@ import { getLayoutedNodes } from "@/components/dag-visualizer/layout";
 import { StepNode } from "@/components/dag-visualizer/StepNode";
 import { ArtifactNode } from "@/components/dag-visualizer/ArtifactNode";
 import { SmoothStepSmart } from "@/components/dag-visualizer/SmartEdge";
+import { Spinner } from "@zenml-io/react-component-library";
 
 const customNodes: NodeTypes = {
 	step: StepNode,
@@ -53,7 +54,16 @@ export function DAG() {
 
 	if (isError) return null;
 
-	if (isPending) return null;
+	if (isPending) {
+		return (
+			<div className="flex h-full flex-col items-center justify-center">
+				<Spinner />
+				<div className="mt-4 flex flex-col items-center">
+					<p className="mb-5 text-display-xs">Loading DAG Visualization</p>
+				</div>
+			</div>
+		);
+	}
 
 	return (
 		<ReactFlow

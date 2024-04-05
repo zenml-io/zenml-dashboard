@@ -2,7 +2,7 @@ import { Button } from "@zenml-io/react-component-library";
 import { DAG } from "./Dag";
 import { RunsDetailHeader } from "./Header";
 import { Dispatch, SetStateAction, useState } from "react";
-import { TabsHeader } from "./_Tabs";
+import { RunsDetailTabs, TabsHeader } from "./_Tabs";
 import Expand from "@/assets/icons/expand.svg?react";
 
 export default function RunDetailPage() {
@@ -28,7 +28,7 @@ export default function RunDetailPage() {
 					}`}
 				>
 					<TabsHeader setIsPanelOpen={setIsPanelOpen} />
-					{/* <RunsDetailTabs /> */}
+					<RunsDetailTabs />
 				</div>
 			</div>
 		</div>
