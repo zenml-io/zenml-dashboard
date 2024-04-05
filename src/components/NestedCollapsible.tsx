@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReactNode } from "react";
 import { KeyValue } from "./KeyValue";
 // import Codesnippet from "../Codesnippet";

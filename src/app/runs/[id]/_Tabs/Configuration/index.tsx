@@ -27,6 +27,7 @@ export function ConfigurationTab() {
 			<NestedCollapsible title="Extra" data={data.metadata?.config.extra} />
 			<NestedCollapsible
 				title="Resources"
+				// eslint-disable-next-line @typescript-eslint/no-explicit-any
 				data={(data.metadata?.config.settings as { [key: string]: any })?.resources || {}}
 			/>
 		</div>
