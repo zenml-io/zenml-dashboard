@@ -10,7 +10,6 @@ export interface Response {
 interface ForgotEmail {
   email: string;
   password: string;
-  old_password: string;
 }
 
 interface Params {
@@ -25,7 +24,7 @@ const forgotApi = ({
 }: {
   userId: string;
   password: Params;
-  old_password: Params;
+  old_password: string;
   authenticationToken: string;
 }): Promise<Response> =>
   fetchApiWithAuthRequest({
