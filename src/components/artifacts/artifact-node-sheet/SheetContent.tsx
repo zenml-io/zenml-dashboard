@@ -1,4 +1,5 @@
 import DoubleChevronRight from "@/assets/icons/chevron-right-double.svg?react";
+import CodeSquare from "@/assets/icons/code-square.svg?react";
 import Info from "@/assets/icons/info.svg?react";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
 import {
@@ -12,6 +13,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { ArtifactIcon } from "../../ArtifactIcon";
 import { ArtifactDetailTab } from "./DetailsTab";
+import { ArtifactMetadataTab } from "./MetadataTab";
 
 type Props = {
 	artifactVersionId: string;
@@ -59,10 +61,17 @@ export function ArtifactSheetContent({ artifactVersionId }: Props) {
 							<Info className="h-5 w-5 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 							<span>Overview</span>
 						</TabsTrigger>
+						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="metadata">
+							<CodeSquare className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<span>Metadata</span>
+						</TabsTrigger>
 					</TabsList>
 
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
 						<ArtifactDetailTab artifactVersionId={artifactVersionId} />
+					</TabsContent>
+					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="metadata">
+						<ArtifactMetadataTab artifactVersionId={artifactVersionId} />
 					</TabsContent>
 				</Tabs>
 			</div>
