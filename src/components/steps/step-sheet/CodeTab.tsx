@@ -2,15 +2,16 @@ import { Codesnippet } from "@/components/CodeSnippet";
 import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { Skeleton } from "@zenml-io/react-component-library";
+import { StepError } from "./Error";
 
 type Props = {
 	stepId: string;
 };
 
-export function CodeTab({ stepId }: Props) {
-	const { data, isPending, isError } = useStepDetail({ stepId });
+export function StepCodeTab({ stepId }: Props) {
+	const { data, isPending, isError, error } = useStepDetail({ stepId });
 
-	if (isError) return null;
+	if (isError) return <StepError err={error} />;
 
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 

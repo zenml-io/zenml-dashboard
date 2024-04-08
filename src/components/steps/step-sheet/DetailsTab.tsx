@@ -7,27 +7,18 @@ import { ExecutionStatusIcon, getExecutionStatusTagColor } from "../../Execution
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import Pipelines from "@/assets/icons/pipeline.svg?react";
 import Spinner from "@/assets/icons/spinner.svg?react";
-
-function calculateTimeDifference(start_time: string, end_time: string) {
-	const startTime = new Date(start_time);
-	const endTime = new Date(end_time);
-
-	const diffInMilliseconds = Math.abs(Number(endTime) - Number(startTime));
-	const minutes = Math.floor(diffInMilliseconds / (1000 * 60));
-	const seconds = Math.floor((diffInMilliseconds % (1000 * 60)) / 1000);
-
-	return `${minutes}min ${seconds}s`;
-}
+import { calculateTimeDifference } from "@/lib/dates";
+import { StepError } from "./Error";
 
 type Props = {
 	stepId: string;
 	runId: string;
 };
-export function DetailsCard({ stepId, runId }: Props) {
-	const { data, isError, isPending } = useStepDetail({ stepId });
+export function StepDetailsTab({ stepId, runId }: Props) {
+	const { data, isError, isPending, error } = useStepDetail({ stepId });
 	const { data: pipelineRunData } = usePipelineRun({ runId });
 
-	if (isError) return null;
+	if (isError) return <StepError err={error} />;
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 
 	return (

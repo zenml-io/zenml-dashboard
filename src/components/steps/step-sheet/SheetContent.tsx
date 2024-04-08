@@ -13,10 +13,11 @@ import {
 } from "@zenml-io/react-component-library";
 import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../../ExecutionStatus";
 import Info from "@/assets/icons/info.svg?react";
-import { DetailsCard } from "./DetailsTab";
+import { StepDetailsTab } from "./DetailsTab";
 import { useParams } from "react-router-dom";
-import { CodeTab } from "./CodeTab";
+import { StepCodeTab } from "./CodeTab";
 import Code from "@/assets/icons/code-browser.svg?react";
+import { StepLogsTab } from "./LogsTab";
 
 type Props = {
 	stepId: string;
@@ -76,13 +77,20 @@ export function StepSheetContent({ stepId }: Props) {
 							<Code className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 							<span>Code</span>
 						</TabsTrigger>
+						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="logs">
+							<Code className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<span>Logs</span>
+						</TabsTrigger>
 					</TabsList>
 
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
-						<DetailsCard runId={runId} stepId={stepId} />
+						<StepDetailsTab runId={runId} stepId={stepId} />
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="code">
-						<CodeTab stepId={stepId} />
+						<StepCodeTab stepId={stepId} />
+					</TabsContent>
+					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="logs">
+						<StepLogsTab stepId={stepId} />
 					</TabsContent>
 				</Tabs>
 			</div>
