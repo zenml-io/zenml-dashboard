@@ -98,15 +98,3 @@ export const getIconFill = (value: string) => {
 			return "fill-neutral-400";
 	}
 };
-
-export function getBadgeColor(status?: ExecutionStatus) {
-	if (!status) return "gray";
-	switch (status) {
-		case "completed":
-			return "success";
-		case "cached":
-			return "gray";
-		default:
-			return "gray";
-	}
-}
