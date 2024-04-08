@@ -13,6 +13,8 @@ import {
 } from "@zenml-io/react-component-library";
 import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../../ExecutionStatus";
 import Info from "@/assets/icons/info.svg?react";
+import { DetailsCard } from "./DetailsTab";
+import { useParams } from "react-router-dom";
 
 type Props = {
 	stepId: string;
@@ -29,6 +31,7 @@ function getBadgeColor(status?: ExecutionStatus): BadgeProps["color"] {
 }
 
 export function StepSheetContent({ stepId }: Props) {
+	const { runId } = useParams() as { runId: string };
 	const { data } = useStepDetail({
 		stepId: stepId
 	});
@@ -70,7 +73,7 @@ export function StepSheetContent({ stepId }: Props) {
 					</TabsList>
 
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
-						<div>Info</div>
+						<DetailsCard runId={runId} stepId={stepId} />
 					</TabsContent>
 				</Tabs>
 			</div>
