@@ -5,6 +5,9 @@ export const apiPaths = {
 	pipelines: {
 		namespaces: "/pipeline_namespaces"
 	},
+	artifactVersions: {
+		detail: (versionId: string) => `/artifact_versions/${versionId}`
+	},
 	runs: {
 		all: "/runs",
 		detail: (id: string) => `/runs/${id}`,

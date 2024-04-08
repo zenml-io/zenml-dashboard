@@ -22,7 +22,6 @@ export function StepNode({ data, selected }: NodeProps<StepNodeDetails>) {
 	return (
 		<BaseNode>
 			<StepSheet onOpenChange={openChangeHandler} stepId={data.execution_id}>
-				{/* TODO check shadow in design system */}
 				<button
 					data-selected={!!selected}
 					className="h-[44px] max-w-[300px] overflow-hidden rounded-md border border-theme-border-moderate bg-theme-surface-primary transition-all duration-200 hover:border-neutral-400 hover:shadow-md data-[selected=true]:border-theme-border-bold data-[selected=true]:shadow-md"
