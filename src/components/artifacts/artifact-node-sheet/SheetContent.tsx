@@ -11,6 +11,7 @@ import {
 	TabsTrigger
 } from "@zenml-io/react-component-library";
 import { ArtifactIcon } from "../../ArtifactIcon";
+import { ArtifactDetailTab } from "./DetailsTab";
 
 type Props = {
 	artifactVersionId: string;
@@ -61,7 +62,7 @@ export function ArtifactSheetContent({ artifactVersionId }: Props) {
 					</TabsList>
 
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
-						Detail
+						<ArtifactDetailTab artifactVersionId={artifactVersionId} />
 					</TabsContent>
 				</Tabs>
 			</div>

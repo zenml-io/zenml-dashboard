@@ -2,7 +2,7 @@ import { Codesnippet } from "@/components/CodeSnippet";
 import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { Skeleton } from "@zenml-io/react-component-library";
-import { StepError } from "./Error";
+import { ErrorFallback } from "../../Error";
 
 type Props = {
 	stepId: string;
@@ -11,7 +11,7 @@ type Props = {
 export function StepCodeTab({ stepId }: Props) {
 	const { data, isPending, isError, error } = useStepDetail({ stepId });
 
-	if (isError) return <StepError err={error} />;
+	if (isError) return <ErrorFallback err={error} />;
 
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 

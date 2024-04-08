@@ -1,5 +1,5 @@
 import { CollapsibleCard } from "@/components/CollapsibleCard";
-import { StepError } from "./Error";
+import { ErrorFallback } from "../../Error";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { AnyDict } from "@/types/common";
 import { Skeleton } from "@zenml-io/react-component-library";
@@ -15,7 +15,7 @@ export function StepConfigTab({ stepId }: Props) {
 	const extraData = Object.values(data?.metadata?.config?.extra || {});
 
 	if (isError) {
-		return <StepError err={error} />;
+		return <ErrorFallback err={error} />;
 	}
 	if (isPending)
 		return (

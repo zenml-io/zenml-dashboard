@@ -8,6 +8,9 @@ export const apiPaths = {
 	artifactVersions: {
 		detail: (versionId: string) => `/artifact_versions/${versionId}`
 	},
+	components: {
+		detail: (componentId: string) => `/components/${componentId}`
+	},
 	runs: {
 		all: "/runs",
 		detail: (id: string) => `/runs/${id}`,

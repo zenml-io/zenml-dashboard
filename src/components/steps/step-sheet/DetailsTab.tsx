@@ -8,7 +8,7 @@ import { useStepDetail } from "@/data/steps/step-detail-query";
 import Pipelines from "@/assets/icons/pipeline.svg?react";
 import Spinner from "@/assets/icons/spinner.svg?react";
 import { calculateTimeDifference } from "@/lib/dates";
-import { StepError } from "./Error";
+import { ErrorFallback } from "../../Error";
 
 type Props = {
 	stepId: string;
@@ -18,7 +18,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	const { data, isError, isPending, error } = useStepDetail({ stepId });
 	const { data: pipelineRunData } = usePipelineRun({ runId });
 
-	if (isError) return <StepError err={error} />;
+	if (isError) return <ErrorFallback err={error} />;
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 
 	return (

@@ -5,7 +5,7 @@ type Props = {
 	err: Error;
 };
 
-export function StepError({ err }: Props) {
+export function ErrorFallback({ err }: Props) {
 	return (
 		<EmptyState icon={<File className="h-[120px] w-[120px] fill-neutral-300" />}>
 			<div className="text-center">

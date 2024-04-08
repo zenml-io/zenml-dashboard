@@ -1,5 +1,5 @@
 import { useStepLogs } from "@/data/steps/step-logs-query";
-import { StepError } from "./Error";
+import { ErrorFallback } from "../../Error";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { Codesnippet } from "@/components/CodeSnippet";
@@ -12,7 +12,7 @@ export function StepLogsTab({ stepId }: Props) {
 	const { data, isPending, isError, error } = useStepLogs({ stepId });
 
 	if (isError) {
-		return <StepError err={error} />;
+		return <ErrorFallback err={error} />;
 	}
 
 	if (isPending) {

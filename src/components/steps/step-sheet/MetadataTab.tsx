@@ -1,7 +1,7 @@
 import File from "@/assets/icons/file.svg?react";
 import { EmptyState } from "../../EmptyState";
 import { MetadataMap } from "@/types/common";
-import { StepError } from "./Error";
+import { ErrorFallback } from "../../Error";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { MetadataCards, UncategorizedCard } from "@/components/MetadataCards";
@@ -24,7 +24,7 @@ export function StepMetadataTab({ stepId }: Props) {
 		);
 	}
 
-	if (isError) return <StepError err={error} />;
+	if (isError) return <ErrorFallback err={error} />;
 
 	if (!data.metadata?.run_metadata || Object.keys(data.metadata.run_metadata).length === 0) {
 		return (
