@@ -4,11 +4,13 @@ import forgotApi from '../../../api/session/forgotApi';
 export const forgotAction = ({
   userId,
   password,
+  old_password,
   onSuccess,
   onFailure,
 }: {
   userId: string;
   password: string;
+  old_password: string;
   onSuccess?: () => void;
   onFailure?: () => void;
 }): TRequestAction => ({
@@ -23,6 +25,7 @@ export const forgotAction = ({
     params: {
       userId,
       password,
+      old_password,
     },
   },
 });
