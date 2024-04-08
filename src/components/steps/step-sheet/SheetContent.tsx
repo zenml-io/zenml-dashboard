@@ -15,6 +15,8 @@ import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../../Ex
 import Info from "@/assets/icons/info.svg?react";
 import { DetailsCard } from "./DetailsTab";
 import { useParams } from "react-router-dom";
+import { CodeTab } from "./CodeTab";
+import Code from "@/assets/icons/code-browser.svg?react";
 
 type Props = {
 	stepId: string;
@@ -70,10 +72,17 @@ export function StepSheetContent({ stepId }: Props) {
 							<Info className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 							<span>Overview</span>
 						</TabsTrigger>
+						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="code">
+							<Code className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<span>Code</span>
+						</TabsTrigger>
 					</TabsList>
 
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
 						<DetailsCard runId={runId} stepId={stepId} />
+					</TabsContent>
+					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="code">
+						<CodeTab stepId={stepId} />
 					</TabsContent>
 				</Tabs>
 			</div>
