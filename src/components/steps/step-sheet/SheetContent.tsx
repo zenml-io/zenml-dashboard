@@ -1,4 +1,7 @@
 import DoubleChevronRight from "@/assets/icons/chevron-right-double.svg?react";
+import Code from "@/assets/icons/code-browser.svg?react";
+import Info from "@/assets/icons/info.svg?react";
+import Tools from "@/assets/icons/tool.svg?react";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import {
@@ -11,12 +14,11 @@ import {
 	TabsList,
 	TabsTrigger
 } from "@zenml-io/react-component-library";
-import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../../ExecutionStatus";
-import Info from "@/assets/icons/info.svg?react";
-import { StepDetailsTab } from "./DetailsTab";
 import { useParams } from "react-router-dom";
+import { ExecutionStatusIcon, getExecutionStatusBackgroundColor } from "../../ExecutionStatus";
 import { StepCodeTab } from "./CodeTab";
-import Code from "@/assets/icons/code-browser.svg?react";
+import { StepConfigTab } from "./ConfigurationTab";
+import { StepDetailsTab } from "./DetailsTab";
 import { StepLogsTab } from "./LogsTab";
 
 type Props = {
@@ -81,6 +83,10 @@ export function StepSheetContent({ stepId }: Props) {
 							<Code className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 							<span>Logs</span>
 						</TabsTrigger>
+						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="config">
+							<Tools className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<span>Configuration</span>
+						</TabsTrigger>
 					</TabsList>
 
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
@@ -91,6 +97,9 @@ export function StepSheetContent({ stepId }: Props) {
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="logs">
 						<StepLogsTab stepId={stepId} />
+					</TabsContent>
+					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="config">
+						<StepConfigTab stepId={stepId} />
 					</TabsContent>
 				</Tabs>
 			</div>

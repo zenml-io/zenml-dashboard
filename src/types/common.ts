@@ -5,3 +5,7 @@ export type ResponsePage<T> = {
 	total: number;
 	items: T[];
 };
+
+export type AnyDict = {
+	[key: string]: any;
+};
