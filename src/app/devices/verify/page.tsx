@@ -3,13 +3,14 @@ import { useDeviceSearchParams } from "./service";
 import { EmptyState } from "@/components/EmptyState";
 import { useDevice } from "@/data/devices/device-detail-query";
 import { ErrorFallback } from "@/components/Error";
-import { PropsWithChildren } from "react";
+import { PropsWithChildren, useState } from "react";
 import { DeviceInfo } from "./DeviceInfo";
 import { DeviceVerificationForm } from "./ConfirmationForm";
+import { DeviceVerificationSuccess } from "./Success";
 
 export default function DeviceVerificationPage() {
 	const { device_id, user_code } = useDeviceSearchParams();
-
+	const [success, setSuccess] = useState(false);
 	const { data, isPending, isError, error } = useDevice(
 		{
 			deviceId: device_id!,
@@ -44,6 +45,8 @@ export default function DeviceVerificationPage() {
 		);
 	}
 
+	if (success) return <DeviceVerificationSuccess />;
+
 	return (
 		<Wrapper>
 			<div className="w-full space-y-7">
@@ -52,7 +55,11 @@ export default function DeviceVerificationPage() {
 					<p className="text-theme-text-secondary">You are logging in from a new device.</p>
 				</div>
 				<DeviceInfo device={data} />
-				<DeviceVerificationForm deviceId={device_id} user_code={user_code} />
+				<DeviceVerificationForm
+					setSuccess={setSuccess}
+					deviceId={device_id}
+					user_code={user_code}
+				/>
 			</div>
 		</Wrapper>
 	);
