@@ -1,6 +1,11 @@
+import Home from "@/assets/icons/home.svg?react";
+import Pipeline from "@/assets/icons/pipeline.svg?react";
+import SideCollapse from "@/assets/icons/side-collapse.svg?react";
+import { routes } from "@/router/routes";
 import {
 	Avatar,
 	AvatarFallback,
+	AvatarImage,
 	SidebarBody,
 	SidebarHeader,
 	SidebarHeaderImage,
@@ -13,22 +18,20 @@ import {
 } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
-import Home from "@/assets/icons/home.svg?react";
-import Pipeline from "@/assets/icons/pipeline.svg?react";
-import { routes } from "@/router/routes";
 
 export function Sidebar() {
 	return (
 		<div>
 			<ZenMLSidebar className="sticky top-9 h-[calc(100vh_-_64px)] overflow-y-auto overflow-x-clip">
 				<div className="flex w-full flex-1 flex-col gap-0.5 self-start">
-					<SidebarHeader>
+					<SidebarHeader icon={<SideCollapse className="h-4 w-4 fill-neutral-500" />}>
 						<SidebarHeaderImage>
 							<Avatar size="md" type="square">
-								<AvatarFallback size="md">B</AvatarFallback>
+								<AvatarImage src="https://avatar.vercel.sh/default?size=24" />
+								<AvatarFallback size="md">D</AvatarFallback>
 							</Avatar>
 						</SidebarHeaderImage>
-						<SidebarHeaderTitle>Tenant</SidebarHeaderTitle>
+						<SidebarHeaderTitle>default</SidebarHeaderTitle>
 					</SidebarHeader>
 					<SidebarBody>
 						<SidebarList>
