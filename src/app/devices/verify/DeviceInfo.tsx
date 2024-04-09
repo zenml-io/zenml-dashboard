@@ -13,11 +13,11 @@ export function DeviceInfo({ device }: Props) {
 					<dt>IP Address</dt>
 					<dd>{device.body?.ip_address}</dd>
 				</div>
-				{device.metadata?.city && device?.metadata?.country && (
+				{device.metadata?.city && device.metadata?.country && (
 					<div className="flex items-center justify-between">
 						<dt>Location</dt>
 						<dd>
-							{device?.metadata?.city}, {device?.metadata?.country}
+							{device.metadata?.city}, {device.metadata?.country}
 						</dd>
 					</div>
 				)}
