@@ -18,6 +18,7 @@ export function DeviceVerificationForm({ deviceId, user_code, setSuccess }: Prop
 	const { register, handleSubmit, watch } = useForm<FormProps>();
 
 	const { mutate, isPending } = useVerifyDevice({
+		// TODO handle error
 		onSuccess: () => {
 			setSuccess(true);
 		}
