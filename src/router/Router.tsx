@@ -13,6 +13,7 @@ const Login = lazy(() => import("@/app/login/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
+const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -68,6 +69,14 @@ export const router = createBrowserRouter(
 			{/* Gradient Layout */}
 			<Route element={<GradientLayout />}>
 				<Route path={routes.login} element={<Login />} />
+				<Route
+					path={routes.devices.verify}
+					element={
+						<ProtectedRoute>
+							<DeviceVerification />
+						</ProtectedRoute>
+					}
+				/>
 			</Route>
 		</Route>
 	)
