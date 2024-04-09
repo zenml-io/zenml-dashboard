@@ -52,7 +52,7 @@ export default function DeviceVerificationPage() {
 					<p className="text-theme-text-secondary">You are logging in from a new device.</p>
 				</div>
 				<DeviceInfo device={data} />
-				<DeviceVerificationForm />
+				<DeviceVerificationForm deviceId={device_id} user_code={user_code} />
 			</div>
 		</Wrapper>
 	);
