@@ -2,17 +2,27 @@ import { useAuthContext } from "@/context/AuthContext";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PropsWithChildren, lazy } from "react";
-import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
+import {
+	Navigate,
+	Route,
+	Routes,
+	createBrowserRouter,
+	createRoutesFromElements
+} from "react-router-dom";
 import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
 import { routes } from "./routes";
+import MembersPage from "@/app/settings/members/MembersPage";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
+
+// Settings
+const Settings = lazy(() => import("@/app/settings/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -59,6 +69,38 @@ export const router = createBrowserRouter(
 						element={
 							<ProtectedRoute>
 								<RunDetail />
+							</ProtectedRoute>
+						}
+					/>
+					{/* Settings */}
+					{/* <Route
+						errorElement={<PageBoundary />}
+						path={routes.settings.general}
+						element={
+							<ProtectedRoute>
+								<Settings />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.settings.members}
+						element={
+							<ProtectedRoute>
+								<Settings />
+							</ProtectedRoute>
+						}
+					/> */}
+
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.settings.overview}
+						element={
+							<ProtectedRoute>
+								<Settings>
+									<MembersPage />
+									{/* <Route errorElement={<PageBoundary />} path={"/"} element={<MembersPage />} /> */}
+								</Settings>
 							</ProtectedRoute>
 						}
 					/>

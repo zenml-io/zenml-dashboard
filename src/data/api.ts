@@ -22,6 +22,9 @@ export const apiPaths = {
 	steps: {
 		detail: (stepId: string) => `/steps/${stepId}`,
 		logs: (stepId: string) => `/steps/${stepId}/logs`
+	},
+	members: {
+		detail: (id: string) => `/tenants/${id}`
 	}
 };
 

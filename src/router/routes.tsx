@@ -7,5 +7,10 @@ export const routes = {
 	},
 	runs: {
 		detail: (id: string) => `/runs/${id}`
+	},
+	settings: {
+		overview: "/settings",
+		general: `/settings/general`,
+		members: `/settings/members`
 	}
 };
