@@ -22,20 +22,28 @@
 		]
 	},
 	"dependencies": {
+		"@dagrejs/dagre": "^1.1.1",
 		"@hookform/resolvers": "^3.3.4",
 		"@tanstack/react-query": "^5.28.6",
-		"@zenml-io/react-component-library": "^0.6.0",
+		"@tanstack/react-table": "^8.15.3",
+		"@tisoap/react-flow-smart-edge": "^3.0.0",
+		"@zenml-io/react-component-library": "^0.9.1",
+		"lodash.debounce": "^4.0.8",
+		"prismjs": "^1.29.0",
 		"react": "^18.2.0",
 		"react-dom": "^18.2.0",
 		"react-hook-form": "^7.51.1",
 		"react-router-dom": "^6.22.3",
+		"reactflow": "^11.11.0",
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
 		"@playwright/test": "^1.42.1",
 		"@tailwindcss/forms": "^0.5.7",
 		"@tailwindcss/typography": "^0.5.10",
+		"@types/lodash.debounce": "^4.0.9",
 		"@types/node": "^20.11.30",
+		"@types/prismjs": "^1.26.3",
 		"@types/react": "^18.2.64",
 		"@types/react-dom": "^18.2.21",
 		"@typescript-eslint/eslint-plugin": "^7.1.1",
@@ -55,6 +63,7 @@
 		"tailwindcss-animate": "^1.0.7",
 		"typescript": "^5.2.2",
 		"vite": "^5.1.6",
+		"vite-plugin-bundle-prefetch": "^0.0.4",
 		"vite-plugin-svgr": "^4.2.0"
 	}
 }

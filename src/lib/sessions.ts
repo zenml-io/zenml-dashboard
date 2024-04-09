@@ -1,6 +1,5 @@
 import { z } from "zod";
 
-// TODO We might want to refactor this to an AuthContext
 export const authStateSchema = z.boolean();
 export const authStateWriteSchema = z.enum(["true", "false"]);
 

@@ -2,6 +2,7 @@ import { apiPaths, createApiPath } from "../api";
 import { User } from "@/types/user";
 import { FetchError } from "@/lib/fetch-error";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { notFound } from "@/lib/not-found-error";
 
 export function getCurrentUserKey() {
 	return ["current-user"];
@@ -19,9 +20,9 @@ export async function fetchCurrentUser(): Promise<User> {
 		}
 	});
 
-	// if (res.status === 404) {
-	// 	notFound();
-	// }
+	if (res.status === 404) {
+		notFound();
+	}
 
 	if (!res.ok) {
 		throw new FetchError({
