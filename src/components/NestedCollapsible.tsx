@@ -4,6 +4,7 @@ import { KeyValue } from "./KeyValue";
 import { CollapsibleHeaderProps } from "@zenml-io/react-component-library";
 import { CollapsibleCard } from "./CollapsibleCard";
 import { Codesnippet } from "./CodeSnippet";
+import { renderAnyToString } from "@/lib/strings";
 
 type Props = {
 	intent?: CollapsibleHeaderProps["intent"];
@@ -85,13 +86,7 @@ function RenderArray({ title, value }: { title: string; value: any }) {
 							<KeyValue
 								key={key}
 								label={key}
-								value={
-									<div className="py-1">
-										{typeof value === "boolean" || typeof value === "object"
-											? JSON.stringify(value)
-											: value}
-									</div>
-								}
+								value={<div className="py-1">{renderAnyToString(value)}</div>}
 							/>
 						))}
 					</dl>

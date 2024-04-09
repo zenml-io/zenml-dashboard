@@ -5,6 +5,7 @@ import { AnyDict } from "@/types/common";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { KeyValue } from "@/components/KeyValue";
 import { Codesnippet } from "@/components/CodeSnippet";
+import { renderAnyToString } from "@/lib/strings";
 
 type Props = {
 	stepId: string;
@@ -43,17 +44,7 @@ export function KeyValueCard({ data, title }: { title: string; data: AnyDict }) 
 				{Object.entries(data).map(
 					([key, value]) =>
 						typeof value !== "object" && (
-							<KeyValue
-								key={key}
-								label={key}
-								value={
-									<div>
-										{typeof value === "boolean" || typeof value === "object"
-											? JSON.stringify(value)
-											: value}
-									</div>
-								}
-							/>
+							<KeyValue key={key} label={key} value={<div>{renderAnyToString(value)}</div>} />
 						)
 				)}
 			</dl>
