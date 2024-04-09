@@ -19,7 +19,7 @@ export function EnvironmentCollapsible({ run }: Props) {
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
 			<CollapsibleHeader intent="primary" className="flex items-center gap-[10px]">
-				<CollapsibleTrigger className="flex w-full items-center">
+				<CollapsibleTrigger className="flex w-full items-center gap-[10px]">
 					<ChevronDown
 						className={` ${
 							open ? "" : "-rotate-90"

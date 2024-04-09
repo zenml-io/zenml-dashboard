@@ -143,7 +143,7 @@ export function DataCard({ artifactVersionId }: Props) {
 					label="Data Type"
 					value={
 						<Tag
-							className="flex w-fit items-center pr-2 text-theme-text-primary"
+							className="flex w-fit items-center text-theme-text-primary"
 							color="grey"
 							emphasis="subtle"
 							rounded={false}

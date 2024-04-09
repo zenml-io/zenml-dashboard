@@ -1,18 +1,17 @@
-import { PipelineRun, PipelineRunBody } from "@/types/pipeline-runs";
-import { ColumnDef } from "@tanstack/react-table";
 import RunIcon from "@/assets/icons/pipeline-run.svg?react";
-// import { CopyButton } from "@/components/button/CopyButton";
-import { User } from "@/types/user";
-// import Badge from "@/components/badge/Badge";
-import { PipelineBody } from "@/types/pipelines";
-import { CodeRepository } from "@/types/code-repository";
-import { Tag } from "@zenml-io/react-component-library";
-import { Stack } from "@/types/stack";
-import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
+import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
+import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
-import { Link } from "react-router-dom";
 import { routes } from "@/router/routes";
+import { CodeRepository } from "@/types/code-repository";
+import { PipelineRun, PipelineRunBody } from "@/types/pipeline-runs";
+import { PipelineBody } from "@/types/pipelines";
+import { Stack } from "@/types/stack";
+import { User } from "@/types/user";
+import { ColumnDef } from "@tanstack/react-table";
+import { Badge, Tag } from "@zenml-io/react-component-library";
+import { Link } from "react-router-dom";
 
 export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 	return [
@@ -38,11 +37,11 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
 								<h2 className="text-text-md font-semibold">{name}</h2>
 								<ExecutionStatusIcon status={status} />
-								{/* <CopyButton copyText={name} /> */}
+								<CopyButton copyText={name} />
 							</Link>
 							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
 								<p className="text-text-xs text-theme-text-secondary">{id.split("-")[0]}</p>
-								{/* <CopyButton copyText={id} /> */}
+								<CopyButton copyText={id} />
 							</Link>
 						</div>
 					</div>
@@ -56,10 +55,9 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 			cell: ({ getValue }) => {
 				const version = getValue<PipelineBody["version"]>();
 				return (
-					// TODO make this a badge
-					<Tag color="purple" className="inline-flex" emphasis="subtle">
+					<Badge color="purple" className="inline-flex" size="sm">
 						{version}
-					</Tag>
+					</Badge>
 				);
 			}
 		},

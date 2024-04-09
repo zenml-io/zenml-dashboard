@@ -6,7 +6,8 @@ import { PipelineNamespace, PipelineNamespaceBody } from "@/types/pipelines";
 import { ColumnDef } from "@tanstack/react-table";
 import { Tag } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
-import { routes } from "../../router/routes";
+import { routes } from "@/router/routes";
+import { CopyButton } from "@/components/CopyButton";
 
 export function getPipelineColumns(): ColumnDef<PipelineNamespace>[] {
 	return [
@@ -29,8 +30,7 @@ export function getPipelineColumns(): ColumnDef<PipelineNamespace>[] {
 						>
 							<h2 className="text-text-md font-semibold">{name}</h2>
 							<ExecutionStatusIcon status={status} />
-							{/* TODO add copybutton */}
-							{/* <CopyButton copyText={name} />  */}
+							<CopyButton copyText={name} />
 						</Link>
 					</div>
 				);

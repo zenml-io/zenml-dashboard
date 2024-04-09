@@ -1,5 +1,6 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import Pipelines from "@/assets/icons/pipeline.svg?react";
+import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { Key, Value } from "@/components/KeyValue";
@@ -42,7 +43,7 @@ export function Details() {
 					<Value>
 						<div className="group/copybutton flex items-center gap-0.5">
 							{data.id}
-							{/* <CopyButton copyText={data.id} /> */}
+							<CopyButton copyText={data.id} />
 						</div>
 					</Value>
 					<Key>Status</Key>
