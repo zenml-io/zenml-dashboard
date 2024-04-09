@@ -24,7 +24,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	return (
 		<CollapsibleCard initialOpen title="Details">
 			<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
-				<KeyValue label="Id" value={data?.id} />
+				<KeyValue label="Id" value={data.id} />
 
 				<KeyValue
 					label="Status"
@@ -36,7 +36,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 							className="flex w-fit items-center gap-1 capitalize"
 						>
 							<ExecutionStatusIcon className="fill-current" status={data.body?.status} />
-							{data?.body?.status}
+							{data.body?.status}
 						</Tag>
 					}
 				></KeyValue>
@@ -99,7 +99,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 									emphasis="subtle"
 								>
 									<Spinner className="mr-1 h-4 w-4" />
-									{pipelineRunData?.name}
+									{pipelineRunData.name}
 								</Tag>
 							}
 						/>
@@ -108,7 +108,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 					<Skeleton className="h-6 w-full" />
 				)}
 
-				<KeyValue label="Cache key" value={data?.metadata?.cache_key} />
+				<KeyValue label="Cache key" value={data.metadata?.cache_key || ""} />
 				<KeyValue
 					label="Start Time"
 					value={<DisplayDate dateString={data.metadata?.start_time || ""} />}
@@ -120,8 +120,8 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 				<KeyValue
 					label="Duration"
 					value={calculateTimeDifference(
-						data?.metadata?.start_time || "",
-						data?.metadata?.end_time || ""
+						data.metadata?.start_time || "",
+						data.metadata?.end_time || ""
 					)}
 				/>
 			</dl>

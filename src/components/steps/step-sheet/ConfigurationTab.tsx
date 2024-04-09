@@ -28,12 +28,10 @@ export function StepConfigTab({ stepId }: Props) {
 
 	return (
 		<div className="space-y-5">
-			<KeyValueCard data={data?.metadata?.config?.parameters as AnyDict} title="Parameters" />
+			<KeyValueCard data={data.metadata?.config?.parameters as AnyDict} title="Parameters" />
 			<CodeSnippetCard id={data.id} />
 
-			{extraData && extraData.length > 0 ? (
-				<KeyValueCard data={extraData as AnyDict} title="Extra" />
-			) : null}
+			{extraData.length > 0 ? <KeyValueCard data={extraData as AnyDict} title="Extra" /> : null}
 		</div>
 	);
 }

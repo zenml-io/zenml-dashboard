@@ -66,12 +66,12 @@ export function DetailsCard({ artifactVersionId }: Props) {
 					/>
 				)}
 
-				<KeyValue label="Type" value={artifactVersion?.body?.type} />
+				<KeyValue label="Type" value={artifactVersion.body?.type} />
 				<KeyValue
 					label="Created by"
 					value={
 						<div className="inline-flex items-center gap-1">
-							<InlineAvatar username={artifactVersion?.body?.user?.name || ""} />
+							<InlineAvatar username={artifactVersion.body?.user?.name || ""} />
 						</div>
 					}
 				/>

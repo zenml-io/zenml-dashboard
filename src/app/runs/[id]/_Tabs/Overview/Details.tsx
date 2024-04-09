@@ -54,7 +54,7 @@ export function Details() {
 							color={getExecutionStatusTagColor(data.body?.status)}
 						>
 							<ExecutionStatusIcon className="fill-current" status={data.body?.status} />
-							{data?.body?.status}
+							{data.body?.status}
 						</Tag>
 					</Value>
 					<Key>Pipeline</Key>
@@ -66,7 +66,7 @@ export function Details() {
 							emphasis="subtle"
 						>
 							<Pipelines className="h-4 w-4 fill-theme-text-brand" />
-							{data?.body?.pipeline?.name}
+							{data.body?.pipeline?.name}
 							<div className="rounded-sm bg-primary-50 px-1 py-0.25">
 								{data.body?.pipeline?.body?.version}
 							</div>
@@ -74,11 +74,11 @@ export function Details() {
 					</Value>
 					<Key>Start Time</Key>
 					<Value>
-						<DisplayDate dateString={data?.metadata?.start_time || ""} />
+						<DisplayDate dateString={data.metadata?.start_time || ""} />
 					</Value>
 					<Key>End Time</Key>
 					<Value>
-						<DisplayDate dateString={data?.metadata?.end_time || ""} />
+						<DisplayDate dateString={data.metadata?.end_time || ""} />
 					</Value>
 				</dl>
 			</CollapsibleContent>
