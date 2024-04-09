@@ -1520,6 +1520,68 @@ export type paths = {
      */
     get: operations["get_service_connector_type_api_v1_service_connector_types__connector_type__get"];
   };
+  "/api/v1/services": {
+    /**
+     * List Services
+     * @description Gets a page of service objects.
+     *
+     * Args:
+     *     filter_model: Filter model used for pagination, sorting,
+     *         filtering.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
+     *
+     * Returns:
+     *     Page of service objects.
+     */
+    get: operations["list_services_api_v1_services_get"];
+    /**
+     * Create Service
+     * @description Creates a new service.
+     *
+     * Args:
+     *     service: The model containing the attributes of the new service.
+     *
+     * Returns:
+     *     The created service object.
+     */
+    post: operations["create_service_api_v1_services_post"];
+  };
+  "/api/v1/services/{service_id}": {
+    /**
+     * Get Service
+     * @description Gets a specific service using its unique ID.
+     *
+     * Args:
+     *     service_id: The ID of the service to get.
+     *     hydrate: Flag deciding whether to hydrate the output model(s)
+     *         by including metadata fields in the response.
+     *
+     * Returns:
+     *     A specific service object.
+     */
+    get: operations["get_service_api_v1_services__service_id__get"];
+    /**
+     * Update Service
+     * @description Updates a service.
+     *
+     * Args:
+     *     service_id: The ID of the service to update.
+     *     update: The model containing the attributes to update.
+     *
+     * Returns:
+     *     The updated service object.
+     */
+    put: operations["update_service_api_v1_services__service_id__put"];
+    /**
+     * Delete Service
+     * @description Deletes a specific service.
+     *
+     * Args:
+     *     service_id: The ID of the service to delete.
+     */
+    delete: operations["delete_service_api_v1_services__service_id__delete"];
+  };
   "/api/v1/stacks": {
     /**
      * List Stacks
@@ -1928,7 +1990,10 @@ export type paths = {
      *
      * Raises:
      *     IllegalOperationError: if the user tries change admin status,
-     *         while not an admin
+     *         while not an admin, if the user tries to change the password
+     *         of another user, or if the user tries to change their own
+     *         password without providing the old password or providing
+     *         an incorrect old password.
      */
     put: operations["update_user_api_v1_users__user_name_or_id__put"];
     /**
@@ -2003,6 +2068,10 @@ export type paths = {
      *
      * Returns:
      *     The updated user.
+     *
+     * Raises:
+     *     IllegalOperationError: if the current password is not supplied when
+     *         changing the password or if the current password is incorrect.
      */
     put: operations["update_myself_api_v1_current_user_put"];
   };
@@ -2014,7 +2083,11 @@ export type paths = {
      * Args:
      *     event_source_id: The event_source_id
      *     request: The request object
+     *     background_tasks: Background task handler
      *     raw_body: The raw request body
+     *
+     * Returns:
+     *     Static dict stating that event is received.
      *
      * Raises:
      *     AuthorizationException: If the Event Source does not exist.
@@ -2567,6 +2640,25 @@ export type paths = {
      *         user.
      */
     post: operations["create_model_version_pipeline_run_link_api_v1_workspaces__workspace_name_or_id__model_versions__model_version_id__runs_post"];
+  };
+  "/api/v1/workspaces/{workspace_name_or_id}/services": {
+    /**
+     * Create Service
+     * @description Create a new service.
+     *
+     * Args:
+     *     workspace_name_or_id: Name or ID of the workspace.
+     *     service: The service to create.
+     *
+     * Returns:
+     *     The created service.
+     *
+     * Raises:
+     *     IllegalOperationError: If the workspace or user specified in the
+     *         model does not match the current workspace or authenticated
+     *         user.
+     */
+    post: operations["create_service_api_v1_workspaces__workspace_name_or_id__services_post"];
   };
   "/api/v1/users/{user_name_or_id}/activate": {
     /**
@@ -4691,7 +4783,13 @@ export type components = {
      * ModelVersionResponseResources
      * @description Class for all resource models associated with the model version entity.
      */
-    ModelVersionResponseResources: Record<string, never>;
+    ModelVersionResponseResources: {
+      /**
+       * Services
+       * @description Services linked to the model version
+       */
+      services: components["schemas"]["Page_ServiceResponse_"];
+    };
     /**
      * ModelVersionUpdate
      * @description Update model for model versions.
@@ -5295,6 +5393,22 @@ export type components = {
       total: number;
       /** Items */
       items: components["schemas"]["ServiceConnectorResponse"][];
+    };
+    /**
+     * Page[ServiceResponse]
+     * @description Return Model for List Models to accommodate pagination.
+     */
+    Page_ServiceResponse_: {
+      /** Index */
+      index: number;
+      /** Max Size */
+      max_size: number;
+      /** Total Pages */
+      total_pages: number;
+      /** Total */
+      total: number;
+      /** Items */
+      items: components["schemas"]["ServiceResponse"][];
     };
     /**
      * Page[StackResponse]
@@ -7023,6 +7137,229 @@ export type components = {
       };
     };
     /**
+     * ServiceRequest
+     * @description Request model for services.
+     */
+    ServiceRequest: {
+      /**
+       * The id of the user that created this resource.
+       * Format: uuid
+       */
+      user: string;
+      /**
+       * The workspace to which this resource belongs.
+       * Format: uuid
+       */
+      workspace: string;
+      /** The name of the service. */
+      name: string;
+      /** The type of the service. */
+      service_type: components["schemas"]["ServiceType"];
+      /**
+       * The class of the service.
+       * @description The fully qualified class name of the service implementation.
+       */
+      service_source?: string;
+      /**
+       * The admin state of the service.
+       * @description The administrative state of the service, e.g., ACTIVE, INACTIVE.
+       */
+      admin_state?: components["schemas"]["ServiceState"];
+      /**
+       * The service config.
+       * @description A dictionary containing configuration parameters for the service.
+       */
+      config: {
+        [key: string]: unknown;
+      };
+      /** The service labels. */
+      labels?: {
+        [key: string]: unknown;
+      };
+      /** The status of the service. */
+      status?: {
+        [key: string]: unknown;
+      };
+      /** The service endpoint. */
+      endpoint?: {
+        [key: string]: unknown;
+      };
+      /** The service endpoint URL. */
+      prediction_url?: string;
+      /** The service health check URL. */
+      health_check_url?: string;
+      /**
+       * The model version id linked to the service.
+       * Format: uuid
+       */
+      model_version_id?: string;
+      /**
+       * Pipeline Run Id
+       * @description By the event source this trigger is attached to.
+       */
+      pipeline_run_id?: string;
+    };
+    /**
+     * ServiceResponse
+     * @description Response model for services.
+     */
+    ServiceResponse: {
+      /** The body of the resource, containing at the minimum creation and updated fields. */
+      body?: components["schemas"]["ServiceResponseBody"];
+      /** The metadata related to this resource. */
+      metadata?: components["schemas"]["ServiceResponseMetadata"];
+      /** The resources related to this resource. */
+      resources?: components["schemas"]["ServiceResponseResources"];
+      /**
+       * The unique resource id.
+       * Format: uuid
+       */
+      id: string;
+      /**
+       * Permission Denied
+       * @default false
+       */
+      permission_denied?: boolean;
+      /** The name of the service. */
+      name: string;
+    };
+    /**
+     * ServiceResponseBody
+     * @description Response body for services.
+     */
+    ServiceResponseBody: {
+      /**
+       * The timestamp when this component was created.
+       * Format: date-time
+       */
+      created: string;
+      /**
+       * The timestamp when this component was last updated.
+       * Format: date-time
+       */
+      updated: string;
+      /** The user who created this resource. */
+      user?: components["schemas"]["UserResponse"];
+      /** The type of the service. */
+      service_type: components["schemas"]["ServiceType"];
+      /** The service labels. */
+      labels?: {
+        [key: string]: unknown;
+      };
+      /** The current state of the service. */
+      state?: components["schemas"]["ServiceState"];
+    };
+    /**
+     * ServiceResponseMetadata
+     * @description Response metadata for services.
+     */
+    ServiceResponseMetadata: {
+      /** The workspace of this resource. */
+      workspace: components["schemas"]["WorkspaceResponse"];
+      /** The class of the service. */
+      service_source?: string;
+      /** The admin state of the service. */
+      admin_state?: components["schemas"]["ServiceState"];
+      /** The service config. */
+      config: {
+        [key: string]: unknown;
+      };
+      /** The status of the service. */
+      status?: {
+        [key: string]: unknown;
+      };
+      /** The service endpoint. */
+      endpoint?: {
+        [key: string]: unknown;
+      };
+      /** The service endpoint URL. */
+      prediction_url?: string;
+      /** The service health check URL. */
+      health_check_url?: string;
+    };
+    /**
+     * ServiceResponseResources
+     * @description Class for all resource models associated with the service entity.
+     */
+    ServiceResponseResources: Record<string, never>;
+    /**
+     * ServiceState
+     * @description Possible states for the service and service endpoint.
+     * @enum {string}
+     */
+    ServiceState: "inactive" | "active" | "pending_startup" | "pending_shutdown" | "error" | "scaled_to_zero";
+    /**
+     * ServiceType
+     * @description Service type descriptor.
+     *
+     * Attributes:
+     *     type: service type
+     *     flavor: service flavor
+     *     name: name of the service type
+     *     description: description of the service type
+     *     logo_url: logo of the service type
+     */
+    ServiceType: {
+      /** Type */
+      type: string;
+      /** Flavor */
+      flavor: string;
+      /**
+       * Name
+       * @default
+       */
+      name?: string;
+      /**
+       * Description
+       * @default
+       */
+      description?: string;
+      /**
+       * Logo Url
+       * @default
+       */
+      logo_url?: string;
+    };
+    /**
+     * ServiceUpdate
+     * @description Update model for stack components.
+     */
+    ServiceUpdate: {
+      /** The name of the service. */
+      name?: string;
+      /**
+       * The admin state of the service.
+       * @description The administrative state of the service, e.g., ACTIVE, INACTIVE.
+       */
+      admin_state?: components["schemas"]["ServiceState"];
+      /**
+       * The class of the service.
+       * @description The fully qualified class name of the service implementation.
+       */
+      service_source?: string;
+      /** The status of the service. */
+      status?: {
+        [key: string]: unknown;
+      };
+      /** The service endpoint. */
+      endpoint?: {
+        [key: string]: unknown;
+      };
+      /** The service endpoint URL. */
+      prediction_url?: string;
+      /** The service health check URL. */
+      health_check_url?: string;
+      /** The service labels. */
+      labels?: {
+        [key: string]: unknown;
+      };
+      /**
+       * The model version id linked to the service.
+       * Format: uuid
+       */
+      model_version_id?: string;
+    };
+    /**
      * Source
      * @description Source specification.
      *
@@ -8013,6 +8350,8 @@ export type components = {
       is_admin?: boolean;
       /** Whether the account is active. */
       active?: boolean;
+      /** The previous password for the user. Only relevant for user accounts. Required when updating the password. */
+      old_password?: string;
     };
     /** ValidationError */
     ValidationError: {
@@ -13960,6 +14299,275 @@ export type operations = {
     };
   };
   /**
+   * List Services
+   * @description Gets a page of service objects.
+   *
+   * Args:
+   *     filter_model: Filter model used for pagination, sorting,
+   *         filtering.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
+   *
+   * Returns:
+   *     Page of service objects.
+   */
+  list_services_api_v1_services_get: {
+    parameters: {
+      query?: {
+        hydrate?: boolean;
+        sort_by?: string;
+        logical_operator?: components["schemas"]["LogicalOperators"];
+        page?: number;
+        size?: number;
+        id?: string;
+        created?: string;
+        updated?: string;
+        scope_workspace?: string;
+        name?: string;
+        workspace_id?: string;
+        user_id?: string;
+        type?: string;
+        flavor?: string;
+        config?: string;
+        pipeline_name?: string;
+        pipeline_step_name?: string;
+        running?: boolean;
+        model_version_id?: string;
+        pipeline_run_id?: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["Page_ServiceResponse_"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Create Service
+   * @description Creates a new service.
+   *
+   * Args:
+   *     service: The model containing the attributes of the new service.
+   *
+   * Returns:
+   *     The created service object.
+   */
+  create_service_api_v1_services_post: {
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ServiceRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ServiceResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Get Service
+   * @description Gets a specific service using its unique ID.
+   *
+   * Args:
+   *     service_id: The ID of the service to get.
+   *     hydrate: Flag deciding whether to hydrate the output model(s)
+   *         by including metadata fields in the response.
+   *
+   * Returns:
+   *     A specific service object.
+   */
+  get_service_api_v1_services__service_id__get: {
+    parameters: {
+      query?: {
+        hydrate?: boolean;
+      };
+      path: {
+        service_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ServiceResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Update Service
+   * @description Updates a service.
+   *
+   * Args:
+   *     service_id: The ID of the service to update.
+   *     update: The model containing the attributes to update.
+   *
+   * Returns:
+   *     The updated service object.
+   */
+  update_service_api_v1_services__service_id__put: {
+    parameters: {
+      path: {
+        service_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ServiceUpdate"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ServiceResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Delete Service
+   * @description Deletes a specific service.
+   *
+   * Args:
+   *     service_id: The ID of the service to delete.
+   */
+  delete_service_api_v1_services__service_id__delete: {
+    parameters: {
+      path: {
+        service_id: string;
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": unknown;
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Forbidden */
+      403: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Not Found */
+      404: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
    * List Stacks
    * @description Returns all stacks.
    *
@@ -15545,7 +16153,10 @@ export type operations = {
    *
    * Raises:
    *     IllegalOperationError: if the user tries change admin status,
-   *         while not an admin
+   *         while not an admin, if the user tries to change the password
+   *         of another user, or if the user tries to change their own
+   *         password without providing the old password or providing
+   *         an incorrect old password.
    */
   update_user_api_v1_users__user_name_or_id__put: {
     parameters: {
@@ -15779,6 +16390,10 @@ export type operations = {
    *
    * Returns:
    *     The updated user.
+   *
+   * Raises:
+   *     IllegalOperationError: if the current password is not supplied when
+   *         changing the password or if the current password is incorrect.
    */
   update_myself_api_v1_current_user_put: {
     requestBody: {
@@ -15820,7 +16435,11 @@ export type operations = {
    * Args:
    *     event_source_id: The event_source_id
    *     request: The request object
+   *     background_tasks: Background task handler
    *     raw_body: The raw request body
+   *
+   * Returns:
+   *     Static dict stating that event is received.
    *
    * Raises:
    *     AuthorizationException: If the Event Source does not exist.
@@ -15838,7 +16457,9 @@ export type operations = {
       /** @description Successful Response */
       200: {
         content: {
-          "application/json": unknown;
+          "application/json": {
+            [key: string]: unknown;
+          };
         };
       };
       /** @description Validation Error */
@@ -17586,6 +18207,60 @@ export type operations = {
       200: {
         content: {
           "application/json": components["schemas"]["ModelVersionPipelineRunResponse"];
+        };
+      };
+      /** @description Unauthorized */
+      401: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Conflict */
+      409: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+      /** @description Unprocessable Entity */
+      422: {
+        content: {
+          "application/json": components["schemas"]["ErrorModel"];
+        };
+      };
+    };
+  };
+  /**
+   * Create Service
+   * @description Create a new service.
+   *
+   * Args:
+   *     workspace_name_or_id: Name or ID of the workspace.
+   *     service: The service to create.
+   *
+   * Returns:
+   *     The created service.
+   *
+   * Raises:
+   *     IllegalOperationError: If the workspace or user specified in the
+   *         model does not match the current workspace or authenticated
+   *         user.
+   */
+  create_service_api_v1_workspaces__workspace_name_or_id__services_post: {
+    parameters: {
+      path: {
+        workspace_name_or_id: string;
+      };
+    };
+    requestBody: {
+      content: {
+        "application/json": components["schemas"]["ServiceRequest"];
+      };
+    };
+    responses: {
+      /** @description Successful Response */
+      200: {
+        content: {
+          "application/json": components["schemas"]["ServiceResponse"];
         };
       };
       /** @description Unauthorized */

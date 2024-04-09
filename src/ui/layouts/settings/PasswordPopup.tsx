@@ -69,42 +69,26 @@ export const PasswordPopup: React.FC<{
     } else {
       setSubmitting(true);
       dispatch(
-        loginAction({
-          password: currentPassword,
-          username: username,
-          onFailure: (err) => {
+        sessionActions.forgotPassword({
+          userId: user?.id,
+          password: newPassword,
+          old_password: currentPassword,
+          // @ts-ignore
+          onFailure: (errorText) => {
+            setSubmitting(false);
             dispatch(
               showToasterAction({
-                description: err,
+                description: errorText,
                 type: toasterTypes.failure,
               }),
             );
-            setSubmitting(false);
           },
-          onSuccess: async () => {
-            dispatch(
-              sessionActions.forgotPassword({
-                userId: user?.id,
-                password: newPassword,
-                // @ts-ignore
-                onFailure: (errorText) => {
-                  setSubmitting(false);
-                  dispatch(
-                    showToasterAction({
-                      description: errorText,
-                      type: toasterTypes.failure,
-                    }),
-                  );
-                },
-                onSuccess: () => {
-                  setSubmitting(false);
-                  setPasswordSuccess(true);
-                  setNewPassword('');
-                  setConfirmPassword('');
-                  setCurrentPassword('');
-                },
-              }),
-            );
+          onSuccess: () => {
+            setSubmitting(false);
+            setPasswordSuccess(true);
+            setNewPassword('');
+            setConfirmPassword('');
+            setCurrentPassword('');
           },
         }),
       );

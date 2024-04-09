@@ -30,6 +30,7 @@ export const useService = (): ServiceInterface => {
           forgotAction({
             userId: '',
             password: '',
+            old_password: '',
             onFailure: () => {
               dispatch(
                 showToasterAction({
