@@ -60,14 +60,12 @@ export function Sidebar() {
 							</li>
 						</SidebarList>
 						<div className="mt-auto">
-							<div className="pt-0.5">
-								<SidebarLink
-									icon={<Settings />}
-									label="Settings"
-									routePatterns={[routes.settings.overview, routes.settings.members]}
-									to={"/settings"}
-								/>
-							</div>
+							<SidebarLink
+								icon={<Settings />}
+								label="Settings"
+								routePatterns={[routes.settings.overview, routes.settings.members]}
+								to={"/settings"}
+							/>
 						</div>
 					</SidebarBody>
 				</div>
