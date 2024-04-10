@@ -2,6 +2,7 @@ import { useState } from "react";
 import { columns } from "./columns";
 import { DataTable, Input } from "@zenml-io/react-component-library";
 import { User } from "@/types/user";
+import { AddMemberDialog } from "./AddMemberDialog";
 
 type Props = {
 	users: User[];
@@ -27,7 +28,7 @@ export default function MembersTable({ users }: Props) {
 					inputSize="sm"
 					placeholder="Find a user"
 				/>
-				{/* <AddMemberDialog users={noTenantMembers} /> */}
+				<AddMemberDialog users={users} />
 			</div>
 			<div className="w-full">
 				<DataTable columns={columns()} data={filterData()} />

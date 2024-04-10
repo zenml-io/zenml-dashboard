@@ -5,6 +5,7 @@ import { CompleteAvatar } from "@/components/CompleteAvatar";
 import { useCurrentUser } from "@/data/user/current-user-query";
 import MembersPage from "./members/MembersPage";
 import GeneralSettingsPage from "./general/GeneralPage";
+import ProfileForm from "./profile/ProfileForm";
 
 export default function SettingsPage({ children }: { children: ReactNode }) {
 	const { data } = useCurrentUser();
@@ -49,8 +50,14 @@ export default function SettingsPage({ children }: { children: ReactNode }) {
 
 			{/* <div className="w-full">{children}</div> */}
 			<div className="w-full">
-				<GeneralSettingsPage user={data} />
-				<MembersPage />
+				{/* <GeneralSettingsPage user={data} /> */}
+				{/* <MembersPage /> */}
+				{data && (
+					<>
+						{/* <ProfileForm user={data} /> */}
+						<MembersPage />
+					</>
+				)}
 			</div>
 		</div>
 	);
