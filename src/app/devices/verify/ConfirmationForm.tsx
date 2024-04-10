@@ -1,5 +1,6 @@
 import { useVerifyDevice } from "@/data/devices/device-verify-mutation";
-import { Button } from "@zenml-io/react-component-library";
+import { Button, Checkbox, useToast } from "@zenml-io/react-component-library";
+import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { Dispatch, SetStateAction, useId } from "react";
 import { useForm } from "react-hook-form";
 
@@ -15,12 +16,24 @@ type FormProps = {
 export function DeviceVerificationForm({ deviceId, user_code, setSuccess }: Props) {
 	const id = useId();
 
-	const { register, handleSubmit, watch } = useForm<FormProps>();
+	const { register, handleSubmit, watch, setValue } = useForm<FormProps>();
+	const { toast } = useToast();
 
 	const { mutate, isPending } = useVerifyDevice({
 		// TODO handle error
 		onSuccess: () => {
 			setSuccess(true);
+		},
+		onError: (error) => {
+			if (error instanceof Error) {
+				toast({
+					status: "error",
+					emphasis: "subtle",
+					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					description: error.message,
+					rounded: true
+				});
+			}
 		}
 	});
 
@@ -30,8 +43,12 @@ export function DeviceVerificationForm({ deviceId, user_code, setSuccess }: Prop
 
 	return (
 		<form onSubmit={handleSubmit(verifyDevice)} className="flex flex-col gap-5">
-			<div className="flex">
-				<input {...register("trustDevice")} id={id} type="checkbox" />
+			<div className="flex items-start gap-2">
+				<Checkbox
+					{...register("trustDevice")}
+					onCheckedChange={(val) => setValue("trustDevice", !!val)}
+					id={id}
+				/>
 				<label htmlFor={id}>
 					<p>Trust this device</p>
 					<p className="text-theme-text-secondary">We won't ask you again soon on this device.</p>

@@ -22,10 +22,14 @@ export async function verifyDevice({ deviceId, payload }: VerifyDevicePayload) {
 	});
 
 	if (!res.ok) {
+		const data = await res
+			.json()
+			.then((data) => data.detail)
+			.catch(() => ["", "Failed to verify device."]);
 		throw new FetchError({
 			status: res.status,
 			statusText: res.statusText,
-			message: "Failed to verify device."
+			message: data[1] || "Failed to verify device."
 		});
 	}
 

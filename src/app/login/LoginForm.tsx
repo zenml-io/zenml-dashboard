@@ -2,14 +2,16 @@ import { useAuthContext } from "@/context/AuthContext";
 import { useLoginMutation } from "@/data/session/login-mutation";
 import { routes } from "@/router/routes";
 import { LoginPayload } from "@/types/session";
-import { Button, Input } from "@zenml-io/react-component-library";
+import { Button, Input, useToast } from "@zenml-io/react-component-library";
 import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 
 export function LoginForm() {
 	const navigate = useNavigate();
 	const { setAuthState } = useAuthContext();
+	const { toast } = useToast();
 
 	const usernameId = useId();
 	const passwordId = useId();
@@ -20,6 +22,17 @@ export function LoginForm() {
 	const { register, handleSubmit, reset } = useForm<LoginPayload>();
 
 	const mutation = useLoginMutation({
+		onError: (error) => {
+			if (error instanceof Error) {
+				toast({
+					status: "error",
+					emphasis: "subtle",
+					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					description: error.message,
+					rounded: true
+				});
+			}
+		},
 		onSuccess() {
 			setAuthState("true");
 			navigate(redirect || routes.home);

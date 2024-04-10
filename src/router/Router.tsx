@@ -89,7 +89,10 @@ function ProtectedRoute({ children }: PropsWithChildren) {
 		removeAuthState();
 		return (
 			<Navigate
-				to={routes.login + `?${new URLSearchParams({ redirect: location.pathname }).toString()}`}
+				to={
+					routes.login +
+					`?${new URLSearchParams({ redirect: location.pathname + location.search }).toString()}`
+				}
 			/>
 		);
 	}
