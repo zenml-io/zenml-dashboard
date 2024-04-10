@@ -24,7 +24,6 @@ export function HTMLVisualization({ content }: Props) {
 				title="Secure HTML Content"
 				ref={iframeRef}
 				srcDoc={content}
-				sandbox="allow-same-origin"
 				width="100%"
 				height="auto"
 				onLoad={handleIframeLoad}
