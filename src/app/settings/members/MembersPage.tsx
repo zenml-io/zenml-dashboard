@@ -1,12 +1,10 @@
 import { Box } from "@zenml-io/react-component-library";
 import MembersTable from "./MembersTable";
-import { useAllMembers } from "@/data/tenants/tenants";
+import { useAllMembers } from "@/data/users/users";
 
 export default function MembersPage() {
 	const { data } = useAllMembers();
 	const users = data?.items;
-
-	console.log("vvv", users);
 
 	return (
 		users &&

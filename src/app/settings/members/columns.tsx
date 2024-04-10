@@ -20,18 +20,28 @@ export function columns(): ColumnDef<User>[] {
 			},
 			accessorFn: (row) => ({
 				name: row.name,
-				email: row.body?.email_opted_in
+				email: row.body?.email_opted_in,
+				is_admin: row.body?.is_admin
 			}),
 			cell: ({ getValue }) => {
-				const { email, name } = getValue<NameColumn>();
+				const { email, name, is_admin } = getValue<NameColumn>();
 				return (
-					<CompleteAvatar
-						name={name}
-						size="md"
-						type="square"
-						email={email || "No email"}
-						avatarUrl="https://avatar.vercel.sh/default?size=24"
-					/>
+					<div className="flex">
+						<CompleteAvatar
+							name={name}
+							size="md"
+							type="square"
+							email={email || "No email"}
+							avatarUrl="https://avatar.vercel.sh/default?size=24"
+						/>
+						{is_admin && (
+							<div>
+								<Badge className="ml-2 capitalize" size="xs" color={"purple"}>
+									ADMIN
+								</Badge>
+							</div>
+						)}
+					</div>
 				);
 			},
 			header: "User"

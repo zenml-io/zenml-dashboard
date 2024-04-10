@@ -14,7 +14,7 @@ export function DisplayTenant() {
 	);
 }
 
-export function TenantSettingsMenu() {
+export function ServerSettingsMenu() {
 	function getNavItems() {
 		return [
 			{
@@ -24,6 +24,20 @@ export function TenantSettingsMenu() {
 			{
 				name: "Members",
 				href: routes.settings.members
+			}
+		];
+	}
+
+	const navItems = getNavItems();
+	return <SettingsMenu items={navItems} />;
+}
+
+export function ProfileSettingsMenu() {
+	function getNavItems() {
+		return [
+			{
+				name: "Profile",
+				href: routes.settings.profile
 			}
 		];
 	}

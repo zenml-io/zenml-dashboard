@@ -2,19 +2,11 @@ import { useAuthContext } from "@/context/AuthContext";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PropsWithChildren, lazy } from "react";
-import {
-	Navigate,
-	Route,
-	Router,
-	Routes,
-	createBrowserRouter,
-	createRoutesFromElements
-} from "react-router-dom";
+import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
 import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
 import { routes } from "./routes";
-import MembersPage from "@/app/settings/members/MembersPage";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -79,34 +71,10 @@ export const router = createBrowserRouter(
 						path={routes.settings.overview}
 						element={
 							<ProtectedRoute>
-								<Settings>
-									<MembersPage />
-									{/* <Route
-										errorElement={<PageBoundary />}
-										path={"/members"}
-										element={<MembersPage />}
-									/> */}
-								</Settings>
+								<Settings />
 							</ProtectedRoute>
 						}
 					/>
-
-					{/* <Route
-						errorElement={<PageBoundary />}
-						path={routes.settings.overview}
-						element={
-							<ProtectedRoute>
-								<Settings>
-									<MembersPage />
-									<Route
-										errorElement={<PageBoundary />}
-										path={"/members"}
-										element={<MembersPage />}
-									/>
-								</Settings>
-							</ProtectedRoute>
-						}
-					/> */}
 				</Route>
 			</Route>
 

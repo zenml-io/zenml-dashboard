@@ -1,15 +1,14 @@
 import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
-// import { objectToSearchParams } from "@/lib/url";
 import { notFound } from "@/lib/not-found-error";
 import { User } from "@/types/user";
 
 export function getMembersQueryKey() {
-	return ["members"];
+	return ["all-users"];
 }
 
-export async function fetchAllMembers(token?: string) {
+export async function fetchAllUsers(token?: string) {
 	const url = createApiPath(apiPaths.users.all);
 	const res = await fetch(url, {
 		method: "GET",
@@ -37,7 +36,7 @@ export function useAllMembers(
 ) {
 	return useQuery<User[], FetchError>({
 		queryKey: getMembersQueryKey(),
-		queryFn: () => fetchAllMembers(),
+		queryFn: () => fetchAllUsers(),
 		...options
 	});
 }
