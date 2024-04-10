@@ -1,22 +1,20 @@
 import { useState } from "react";
 import { columns } from "./columns";
 import { DataTable, Input } from "@zenml-io/react-component-library";
+import { User } from "@/types/user";
 
 type Props = {
-	members: any;
-	// members: TenantMember[];
-	// orgMembers: OrganizationMember[];
+	users: User[];
 };
 
-export default function MembersTable({ members }: Props) {
+export default function MembersTable({ users }: Props) {
 	const [filter, setFilter] = useState("");
-	// const { tenantID } = useParams() as { tenantID: string };
 
 	function filterData() {
-		return members.filter((member: { name: string; email: string }) => {
+		return users.filter((member) => {
 			return (
 				member?.name?.toLowerCase().includes(filter.toLowerCase()) ||
-				member?.email.toLowerCase().includes(filter.toLowerCase())
+				member?.body?.email_opted_in?.toLowerCase().includes(filter.toLowerCase())
 			);
 		});
 	}
@@ -29,10 +27,10 @@ export default function MembersTable({ members }: Props) {
 					inputSize="sm"
 					placeholder="Find a user"
 				/>
-				{/* <AddMemberDialog orgId={orgId} isTenant members={noTenantMembers} /> */}
+				{/* <AddMemberDialog users={noTenantMembers} /> */}
 			</div>
 			<div className="w-full">
-				<DataTable columns={columns({ tenantId: "tenantID" })} data={filterData()} />
+				<DataTable columns={columns()} data={filterData()} />
 			</div>
 		</>
 	);

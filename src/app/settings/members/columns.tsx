@@ -1,51 +1,37 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@zenml-io/react-component-library";
 import { DisplayDate } from "@/components/DisplayDate";
-import { ExecutionStatus } from "@/types/pipeline-runs";
 import MembersDropdown from "./MemberDropdown";
+import { User } from "@/types/user";
+import { CompleteAvatar } from "@/components/CompleteAvatar";
 
 type NameColumn = {
-	name: TenantMember["name"];
-	avatar_url: TenantMember["avatar_url"];
-	email: TenantMember["email"];
+	name: User["name"];
+	avatar_url: User["avatar_url"];
+	email: User["email"];
 };
 
-export function columns({ tenantId }: { tenantId: string }): ColumnDef<any>[] {
-	const getBadgeColor = (status?: ExecutionStatus) => {
-		if (!status) return "gray";
-		switch (status) {
-			case "completed":
-				return "success";
-			case "cached":
-				return "gray";
-			default:
-				return "gray";
-		}
-	};
-
+export function columns(): ColumnDef<User>[] {
 	return [
 		{
 			id: "name",
 			meta: {
 				width: "50%"
 			},
-			accessorFn: (row) => ({ avatar_url: row.avatar_url, name: row.name, email: row.email }),
+			accessorFn: (row) => ({
+				name: row.name,
+				email: row.body?.email_opted_in
+			}),
 			cell: ({ getValue }) => {
-				const { avatar_url, email, name } = getValue<NameColumn>();
+				const { email, name } = getValue<NameColumn>();
 				return (
-					<div className="inline-flex items-center gap-1">
-						{/* <CompleteAvatar
-							avatarUrl={avatar_url || ""}
-							fallbackValue={name ? name[0] : email[0]}
-							size="sm"
-						/> */}
-						<div>
-							<p className="text-text-sm">{getValue<NameColumn>().name}</p>
-							<p className="text-text-xs text-theme-text-secondary">
-								{getValue<NameColumn>().email}
-							</p>
-						</div>
-					</div>
+					<CompleteAvatar
+						name={name}
+						size="md"
+						type="square"
+						email={email || "No email"}
+						avatarUrl="https://avatar.vercel.sh/default?size=24"
+					/>
 				);
 			},
 			header: "User"
@@ -56,20 +42,20 @@ export function columns({ tenantId }: { tenantId: string }): ColumnDef<any>[] {
 			meta: {
 				width: "10%"
 			},
-			accessorFn: (row) => ({ status: "completed" }),
+			accessorFn: (row) => ({ status: row.body?.active }),
 			cell: ({ getValue }) => {
 				const { status } = getValue<{ status: string }>();
 				return (
-					<Badge className="capitalize" variant={getBadgeColor(status)}>
-						{status || "None"}
+					<Badge className="capitalize" color={status ? "green" : "grey"}>
+						{status ? "Active" : "Inactive"}
 					</Badge>
 				);
 			}
 		},
 		{
-			id: "deployed",
-			header: "Deployed",
-			accessorFn: (row) => row.created,
+			id: "created",
+			header: "Created",
+			accessorFn: (row) => row.body?.created,
 			meta: {
 				width: "10%"
 			},
@@ -80,23 +66,14 @@ export function columns({ tenantId }: { tenantId: string }): ColumnDef<any>[] {
 			)
 		},
 		{
-			id: "deployed",
+			id: "actions",
 			header: "",
-			accessorFn: (row) => row.created,
+			accessorFn: (row) => row.body?.created,
 			meta: {
-				width: "10%"
+				width: "5%"
 			},
 			cell: ({ getValue }) => {
-				const { orgId, tenantId, roleId, name, systemManaged } = getValue<NameColumn>();
-				return (
-					<MembersDropdown
-						orgId={orgId}
-						tenantId={tenantId || ""}
-						roleId={roleId}
-						systemManaged={systemManaged}
-						roleName={"idToTitle(name)"}
-					/>
-				);
+				return <MembersDropdown />;
 			}
 		}
 	];

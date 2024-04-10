@@ -5,6 +5,7 @@ import { PropsWithChildren, lazy } from "react";
 import {
 	Navigate,
 	Route,
+	Router,
 	Routes,
 	createBrowserRouter,
 	createRoutesFromElements
@@ -73,25 +74,6 @@ export const router = createBrowserRouter(
 						}
 					/>
 					{/* Settings */}
-					{/* <Route
-						errorElement={<PageBoundary />}
-						path={routes.settings.general}
-						element={
-							<ProtectedRoute>
-								<Settings />
-							</ProtectedRoute>
-						}
-					/>
-					<Route
-						errorElement={<PageBoundary />}
-						path={routes.settings.members}
-						element={
-							<ProtectedRoute>
-								<Settings />
-							</ProtectedRoute>
-						}
-					/> */}
-
 					<Route
 						errorElement={<PageBoundary />}
 						path={routes.settings.overview}
@@ -99,11 +81,32 @@ export const router = createBrowserRouter(
 							<ProtectedRoute>
 								<Settings>
 									<MembersPage />
-									{/* <Route errorElement={<PageBoundary />} path={"/"} element={<MembersPage />} /> */}
+									{/* <Route
+										errorElement={<PageBoundary />}
+										path={"/members"}
+										element={<MembersPage />}
+									/> */}
 								</Settings>
 							</ProtectedRoute>
 						}
 					/>
+
+					{/* <Route
+						errorElement={<PageBoundary />}
+						path={routes.settings.overview}
+						element={
+							<ProtectedRoute>
+								<Settings>
+									<MembersPage />
+									<Route
+										errorElement={<PageBoundary />}
+										path={"/members"}
+										element={<MembersPage />}
+									/>
+								</Settings>
+							</ProtectedRoute>
+						}
+					/> */}
 				</Route>
 			</Route>
 

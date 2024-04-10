@@ -12,7 +12,7 @@ export function AuthenticatedHeader() {
 					to={routes.home}
 					className="flex h-full w-9 flex-shrink-0 items-center justify-center border-r border-theme-border-moderate"
 				>
-					<ZenMLIcon className="h-6 w-6" />
+					<ZenMLIcon className="h-6 w-6 fill-theme-text-brand" />
 				</Link>
 				<div className="ml-auto pl-3 pr-4">
 					<UserDropdown />
