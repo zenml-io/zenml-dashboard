@@ -2,11 +2,14 @@ import { Avatar, AvatarImage, AvatarFallback } from "@zenml-io/react-component-l
 import { Box } from "@zenml-io/react-component-library";
 import GeneralOrgForm from "./Form";
 import { User } from "@/types/user";
+import { useCurrentUser } from "@/data/user/current-user-query";
 
 type Props = {
 	user: User;
 };
-export default function GeneralSettingsPage({ user }: Props) {
+export default function GeneralSettingsPage() {
+	const { data: user } = useCurrentUser();
+
 	return (
 		<div className="flex flex-col gap-4">
 			<Box className="flex flex-col gap-5 p-5">

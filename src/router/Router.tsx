@@ -7,6 +7,9 @@ import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
 import { routes } from "./routes";
+import GeneralSettingsPage from "@/app/settings/general/GeneralPage";
+import MembersPage from "@/app/settings/members/MembersPage";
+import ProfilePage from "@/app/settings/profile/ProfilePage";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -65,16 +68,11 @@ export const router = createBrowserRouter(
 							</ProtectedRoute>
 						}
 					/>
-					{/* Settings */}
-					<Route
-						errorElement={<PageBoundary />}
-						path={routes.settings.overview}
-						element={
-							<ProtectedRoute>
-								<Settings />
-							</ProtectedRoute>
-						}
-					/>
+					<Route path="/settings" element={<Settings />}>
+						<Route index element={<GeneralSettingsPage />} />
+						<Route path="members" element={<MembersPage />} />
+						<Route path="profile" element={<ProfilePage />} />
+					</Route>
 				</Route>
 			</Route>
 

@@ -64,11 +64,7 @@ export function Sidebar() {
 								<SidebarLink
 									icon={<Settings />}
 									label="Settings"
-									routePatterns={[
-										routes.settings.overview,
-										routes.settings.general,
-										routes.settings.members
-									]}
+									routePatterns={[routes.settings.overview, routes.settings.members]}
 									to={"/settings"}
 								/>
 							</div>

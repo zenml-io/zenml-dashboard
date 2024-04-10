@@ -5,9 +5,10 @@ import { CompleteAvatar } from "@/components/CompleteAvatar";
 import { useCurrentUser } from "@/data/user/current-user-query";
 import MembersPage from "./members/MembersPage";
 import GeneralSettingsPage from "./general/GeneralPage";
-import ProfileForm from "./profile/ProfileForm";
+import ProfileForm from "./profile/ProfilePage";
+import { Outlet } from "react-router-dom";
 
-export default function SettingsPage({ children }: { children: ReactNode }) {
+export default function SettingsPage() {
 	const { data } = useCurrentUser();
 
 	const VersionDisplay = () => (
@@ -47,17 +48,8 @@ export default function SettingsPage({ children }: { children: ReactNode }) {
 					<VersionDisplay />
 				</div>
 			</div>
-
-			{/* <div className="w-full">{children}</div> */}
 			<div className="w-full">
-				{/* <GeneralSettingsPage user={data} /> */}
-				{/* <MembersPage /> */}
-				{data && (
-					<>
-						{/* <ProfileForm user={data} /> */}
-						<MembersPage />
-					</>
-				)}
+				<Outlet />
 			</div>
 		</div>
 	);

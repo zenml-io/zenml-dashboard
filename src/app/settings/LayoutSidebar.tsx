@@ -19,7 +19,7 @@ export function ServerSettingsMenu() {
 		return [
 			{
 				name: "General",
-				href: routes.settings.general
+				href: routes.settings.overview
 			},
 			{
 				name: "Members",

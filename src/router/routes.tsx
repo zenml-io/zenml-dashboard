@@ -10,7 +10,6 @@ export const routes = {
 	},
 	settings: {
 		overview: "/settings",
-		general: `/settings/general`,
 		members: `/settings/members`,
 		profile: `/settings/profile`
 	}

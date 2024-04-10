@@ -1,13 +1,11 @@
-import { User } from "@/types/user";
 import { FormEvent, useState } from "react";
 import { Box, Button, Input } from "@zenml-io/react-component-library";
 import { Avatar, AvatarFallback, AvatarImage } from "@zenml-io/react-component-library";
+import { useCurrentUser } from "@/data/user/current-user-query";
 
-type ProfileFormProps = {
-	user: User;
-};
+export default function ProfilePage() {
+	const { data: user } = useCurrentUser();
 
-export default function ProfileForm({ user }: ProfileFormProps) {
 	const [name, setName] = useState(user.name);
 	const [fullName, setFullName] = useState(user.body?.full_name);
 	const [submitted, setSubmitted] = useState(false);
