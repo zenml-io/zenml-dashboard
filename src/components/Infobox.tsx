@@ -1,16 +1,13 @@
 import Info from "@/assets/icons/info.svg?react";
 import { cn } from "@zenml-io/react-component-library";
-import { ReactNode } from "react";
+import { HTMLAttributes, PropsWithChildren } from "react";
 
-export default function InfoBox({
-	children,
-	className
-}: {
-	children?: ReactNode;
-	className?: string;
-}) {
+type Props = HTMLAttributes<HTMLDivElement>;
+
+export default function InfoBox({ children, className, ...rest }: PropsWithChildren<Props>) {
 	return (
 		<div
+			{...rest}
 			className={cn(
 				"flex items-center rounded-md border border-primary-400 bg-primary-25 px-4 py-3",
 				className
