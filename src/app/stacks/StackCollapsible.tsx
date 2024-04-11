@@ -1,14 +1,15 @@
+import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import { CommandListArgs, generateCommandList } from "@/components/fallback-pages/Commands";
+import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
 	CollapsiblePanel,
-	CollapsibleTrigger
+	CollapsibleTrigger,
+	ProgressOutstanding
 } from "@zenml-io/react-component-library";
 import { Fragment, useState } from "react";
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import InfoBox from "../../components/Infobox";
-import { CommandListArgs, generateCommandList } from "@/components/fallback-pages/Commands";
-import { HelpBox } from "@/components/fallback-pages/Helpbox";
 
 export function StackCollapsible() {
 	const [open, setOpen] = useState(true);
@@ -31,8 +32,11 @@ export function StackCollapsible() {
 					so-called default stack. A stack consists of multiple components. All stacks have at
 					minimum an <strong>orchestrator</strong> and an <strong>artifact store</strong>.
 				</InfoBox>
-				{/* TODO Add ProgressOutstanding */}
-				<div>Administering the stack</div>
+
+				<div className="flex items-center gap-2">
+					<ProgressOutstanding />
+					Administering the stack
+				</div>
 				<CommandSection />
 			</CollapsibleContent>
 		</CollapsiblePanel>
