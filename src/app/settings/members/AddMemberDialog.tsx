@@ -1,12 +1,13 @@
-import {
-	Dialog,
-	DialogTrigger,
-	DialogContent,
-	DialogHeader,
-	DialogTitle,
-	DialogFooter,
-	DialogClose
-} from "@/components/dialog/Dialog";
+// import {
+// 	Dialog,
+// 	DialogTrigger,
+// 	DialogContent,
+// 	DialogHeader,
+// 	DialogTitle,
+// 	DialogFooter,
+// 	DialogClose,
+// 	Progress
+// } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import Info from "@/assets/icons/info.svg?react";
 import { TenantMember } from "@/types/tenants";
