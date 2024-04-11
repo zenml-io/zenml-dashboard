@@ -1,6 +1,7 @@
 import { Outlet } from "react-router-dom";
 import { AuthenticatedHeader } from "./AuthenticatedHeader";
 import { Sidebar } from "./Sidebar";
+import { SidebarProvider } from "@zenml-io/react-component-library";
 
 export function AuthenticatedLayout() {
 	return (
@@ -8,8 +9,9 @@ export function AuthenticatedLayout() {
 			<AuthenticatedHeader />
 			<main className="flex flex-grow flex-col">
 				<div className="flex flex-grow">
-					<Sidebar />
-
+					<SidebarProvider>
+						<Sidebar />
+					</SidebarProvider>
 					<div className="w-full">
 						<Outlet />
 					</div>
