@@ -1,4 +1,4 @@
-import RunIcon from "@/assets/icons/pipeline-run.svg?react";
+import RunIcon from "@/assets/icons/terminal.svg?react";
 import PipelineIcon from "@/assets/icons/pipeline.svg?react";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { ExecutionStatus } from "@/types/pipeline-runs";

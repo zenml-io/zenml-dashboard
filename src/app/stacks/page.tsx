@@ -1,3 +1,4 @@
+import { FallbackSupportCard, ResourcesCard } from "@/components/fallback-pages/Cards";
 import { HeaderBox, InfoBox, StacksHeader } from "./Fragments";
 import { StackCollapsible } from "./StackCollapsible";
 
@@ -12,6 +13,10 @@ export default function StacksPage() {
 					<div className="col-span-4 space-y-5 lg:col-span-3">
 						<HeaderBox />
 						<StackCollapsible />
+					</div>
+					<div className="col-span-4 space-y-5 lg:col-span-1">
+						<FallbackSupportCard />
+						<ResourcesCard />
 					</div>
 				</div>
 			</div>

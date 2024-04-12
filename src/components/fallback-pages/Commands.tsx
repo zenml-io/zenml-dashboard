@@ -1,12 +1,12 @@
 import { ReactNode } from "react";
 import { Codesnippet } from "../CodeSnippet";
 
-export type CommandListArgs = {
+export type CommandListItem = {
 	command: string;
 	description: ReactNode;
 };
 
-export function generateCommandList(item: CommandListArgs) {
+export function generateCommandList(item: CommandListItem) {
 	return (
 		<div className="space-y-1">
 			<p className="text-text-sm text-theme-text-secondary">{item.description}</p>

@@ -1,5 +1,5 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
-import { CommandListArgs, generateCommandList } from "@/components/fallback-pages/Commands";
+import { generateCommandList } from "@/components/fallback-pages/Commands";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import {
 	CollapsibleContent,
@@ -10,6 +10,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { Fragment, useState } from "react";
 import InfoBox from "../../components/Infobox";
+import { stackCommands } from "../../contents/stack";
 
 export function StackCollapsible() {
 	const [open, setOpen] = useState(true);
@@ -44,40 +45,13 @@ export function StackCollapsible() {
 }
 
 export function CommandSection() {
-	const commands: CommandListArgs[] = [
-		{
-			command: "zenml stack register a_new_local_stack -o default -a my_artifact_store",
-			description: "Register a stack"
-		},
-		{
-			command: "zenml stack list",
-			description: "List the stacks that you have registered within your current ZenML server"
-		},
-		{
-			command: "zenml stack delete STACK_NAME",
-			description: "Delete a stack that you have previously registered"
-		},
-		{
-			command: "zenml stack set STACK_NAME",
-			description: "Set a different stack"
-		},
-		{
-			command: "zenml stack get",
-			description: "Check which stack is currently set as the default active stack"
-		},
-		{
-			command: "zenml stack update STACK_NAME -o NEW_ORCHESTRATOR_NAME",
-			description: "Update a stack"
-		}
-	];
-
 	return (
 		<section className="space-y-5 pl-8 pr-5">
 			<InfoBox className="text-text-md" intent="neutral">
 				To register a new stack, you must already have registered the individual components of the
 				stack using the commands listed here.
 			</InfoBox>
-			{commands.map((item, index) => (
+			{stackCommands.map((item, index) => (
 				<Fragment key={index}>{generateCommandList(item)}</Fragment>
 			))}
 			{/* TODO add link */}
