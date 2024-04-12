@@ -54,8 +54,7 @@ export function CommandSection() {
 			{stackCommands.map((item, index) => (
 				<Fragment key={index}>{generateCommandList(item)}</Fragment>
 			))}
-			{/* TODO add link */}
-			<HelpBox link="" />
+			<HelpBox link="https://docs.zenml.io/user-guide/production-guide/understand-stacks" />
 		</section>
 	);
 }

@@ -24,8 +24,9 @@ export function StackComponentsSelect({ id, selectedType, onTypeChange }: Props)
 				<SelectValue placeholder="Select ComponentType" />
 			</SelectTrigger>
 			<SelectContent className="">
+				{/* TODO Add icons */}
 				<SelectItem value="orchestrator">Orchestrator</SelectItem>
-				<SelectItem value="artifact_store">ArtifactStore</SelectItem>
+				<SelectItem value="artifact_store">Artifact Store</SelectItem>
 				<SelectItem value="container_registry">Container Registry</SelectItem>
 				<SelectItem value="step_operator">Step Operator</SelectItem>
 				<SelectItem value="model_deployer">Model Deployer</SelectItem>

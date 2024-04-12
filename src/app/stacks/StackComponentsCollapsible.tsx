@@ -1,19 +1,28 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
-import { generateCommandList } from "@/components/fallback-pages/Commands";
-import { HelpBox } from "@/components/fallback-pages/Helpbox";
+import {
+	AlerterSection,
+	AnnotatorSection,
+	ArtifactStoreSection,
+	ContainerRegistrySection,
+	DataValidatorSection,
+	ExperimentTrackerSection,
+	FeatureStoreSection,
+	ImageBuilderSection,
+	ModelDeployerSection,
+	ModelRegistrySection,
+	OrchestratorSection,
+	StepOperatorSection
+} from "@/contents/components";
+import { StackComponentType } from "@/types/components";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
 	CollapsiblePanel,
 	CollapsibleTrigger
 } from "@zenml-io/react-component-library";
-import { Fragment, useState } from "react";
-import { InfoBox } from "../../components/Infobox";
-import { stackCommands } from "../../contents/stack";
-import { StackComponentsSelect } from "./StackComponentsSelect";
-import { StackComponentType } from "@/types/components";
+import { useState } from "react";
 import { ComponentTypeSection } from "./StackComponentFragments";
-import { OrchestratorSection } from "@/contents/components";
+import { StackComponentsSelect } from "./StackComponentsSelect";
 
 export function StackComponentCollapsible() {
 	const [open, setOpen] = useState(true);
@@ -50,25 +59,31 @@ export function StackComponentCollapsible() {
 	);
 }
 
-export function CommandSection() {
-	return (
-		<section className="space-y-5 pl-8 pr-5">
-			<InfoBox className="text-text-md" intent="neutral">
-				To register a new stack, you must already have registered the individual components of the
-				stack using the commands listed here.
-			</InfoBox>
-			{stackCommands.map((item, index) => (
-				<Fragment key={index}>{generateCommandList(item)}</Fragment>
-			))}
-			{/* TODO add link */}
-			<HelpBox link="" />
-		</section>
-	);
-}
-
 function getCategory(selected: StackComponentType) {
 	switch (selected) {
 		case "orchestrator":
 			return ComponentTypeSection(OrchestratorSection);
+		case "artifact_store":
+			return ComponentTypeSection(ArtifactStoreSection);
+		case "container_registry":
+			return ComponentTypeSection(ContainerRegistrySection);
+		case "alerter":
+			return ComponentTypeSection(AlerterSection);
+		case "annotator":
+			return ComponentTypeSection(AnnotatorSection);
+		case "data_validator":
+			return ComponentTypeSection(DataValidatorSection);
+		case "experiment_tracker":
+			return ComponentTypeSection(ExperimentTrackerSection);
+		case "feature_store":
+			return ComponentTypeSection(FeatureStoreSection);
+		case "image_builder":
+			return ComponentTypeSection(ImageBuilderSection);
+		case "model_deployer":
+			return ComponentTypeSection(ModelDeployerSection);
+		case "model_registry":
+			return ComponentTypeSection(ModelRegistrySection);
+		case "step_operator":
+			return ComponentTypeSection(StepOperatorSection);
 	}
 }
