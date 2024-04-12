@@ -15,7 +15,9 @@ export function SettingsMenu({ items }: MenuProps) {
 			<ul className="flex w-full flex-row items-center gap-1 lg:flex-col lg:items-start">
 				{items.map((item) => (
 					<li key={item.name} className="lg:w-full">
-						<NavLink to={item.href}>{item.name}</NavLink>
+						<NavLink end to={item.href}>
+							{item.name}
+						</NavLink>
 					</li>
 				))}
 			</ul>

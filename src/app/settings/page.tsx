@@ -1,12 +1,8 @@
-import { ReactNode } from "react";
-import { DisplayTenant, ProfileSettingsMenu, ServerSettingsMenu } from "./LayoutSidebar";
 import ZenMLIcon from "@/assets/icons/zenml-icon.svg?react";
-import { CompleteAvatar } from "@/components/CompleteAvatar";
 import { useCurrentUser } from "@/data/user/current-user-query";
-import MembersPage from "./members/MembersPage";
-import GeneralSettingsPage from "./general/GeneralPage";
-import ProfileForm from "./profile/ProfilePage";
 import { Outlet } from "react-router-dom";
+import { DisplayTenant, ProfileSettingsMenu, ServerSettingsMenu } from "./LayoutSidebar";
+import { InlineAvatar } from "@/components/InlineAvatar";
 
 export default function SettingsPage() {
 	const { data } = useCurrentUser();
@@ -32,13 +28,7 @@ export default function SettingsPage() {
 				</div>
 				<div className="flex flex-col gap-4">
 					<p className="text-text-xs font-semibold uppercase text-theme-text-tertiary">Account</p>
-					<CompleteAvatar
-						name={data?.name as string}
-						size="sm"
-						type="rounded"
-						email={data?.metadata?.email || "no email"}
-						avatarUrl="https://avatar.vercel.sh/default?size=24"
-					/>
+					<InlineAvatar username={data?.name || "User"} />
 				</div>
 				<div className="flex flex-col gap-4">
 					<ProfileSettingsMenu />

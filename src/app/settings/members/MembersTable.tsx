@@ -1,22 +1,20 @@
+import { useAllMembers } from "@/data/users/users";
+import { DataTable, Input, Skeleton } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { columns } from "./columns";
-import { DataTable, Input } from "@zenml-io/react-component-library";
-import { User } from "@/types/user";
 import { AddMemberDialog } from "./AddMemberDialog";
+import { columns } from "./columns";
 
-type Props = {
-	users: User[];
-};
-
-export default function MembersTable({ users }: Props) {
+export default function MembersTable() {
 	const [filter, setFilter] = useState("");
+	const { data, isPending, isError } = useAllMembers({ throwOnError: true });
 
+	if (isError) return null;
+	if (isPending) return <Skeleton className="h-[350px]" />;
+
+	// TODO this needs to happen on the server side
 	function filterData() {
-		return users.filter((member) => {
-			return (
-				member?.name?.toLowerCase().includes(filter.toLowerCase()) ||
-				member?.body?.email_opted_in?.toLowerCase().includes(filter.toLowerCase())
-			);
+		return data?.items.filter((member) => {
+			return member?.name?.toLowerCase().includes(filter.toLowerCase());
 		});
 	}
 
@@ -28,10 +26,10 @@ export default function MembersTable({ users }: Props) {
 					inputSize="sm"
 					placeholder="Find a user"
 				/>
-				<AddMemberDialog users={users} />
+				<AddMemberDialog />
 			</div>
 			<div className="w-full">
-				<DataTable columns={columns()} data={filterData()} />
+				<DataTable columns={columns()} data={filterData() || []} />
 			</div>
 		</>
 	);

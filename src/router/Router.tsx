@@ -7,15 +7,14 @@ import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
 import { routes } from "./routes";
-import GeneralSettingsPage from "@/app/settings/general/GeneralPage";
-import MembersPage from "@/app/settings/members/MembersPage";
-import ProfilePage from "@/app/settings/profile/ProfilePage";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
+const MembersPage = lazy(() => import("@/app/settings/members/page"));
+const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
 
 // Settings
 const Settings = lazy(() => import("@/app/settings/page"));
@@ -69,9 +68,8 @@ export const router = createBrowserRouter(
 						}
 					/>
 					<Route path="/settings" element={<Settings />}>
-						<Route index element={<GeneralSettingsPage />} />
 						<Route path="members" element={<MembersPage />} />
-						<Route path="profile" element={<ProfilePage />} />
+						<Route path="profile" element={<ProfileSettingsPage />} />
 					</Route>
 				</Route>
 			</Route>

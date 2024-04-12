@@ -18,10 +18,6 @@ export function ServerSettingsMenu() {
 	function getNavItems() {
 		return [
 			{
-				name: "General",
-				href: routes.settings.overview
-			},
-			{
 				name: "Members",
 				href: routes.settings.members
 			}

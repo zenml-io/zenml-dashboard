@@ -1,14 +1,12 @@
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@zenml-io/react-component-library";
 import { DisplayDate } from "@/components/DisplayDate";
-import MembersDropdown from "./MemberDropdown";
-import { User } from "@/types/user";
-import { CompleteAvatar } from "@/components/CompleteAvatar";
+import { User, UserBody } from "@/types/user";
+import { InlineAvatar } from "../../../components/InlineAvatar";
 
 type NameColumn = {
 	name: User["name"];
-	avatar_url: User["avatar_url"];
-	email: User["email"];
+	is_admin: UserBody["is_admin"];
 };
 
 export function columns(): ColumnDef<User>[] {
@@ -18,26 +16,19 @@ export function columns(): ColumnDef<User>[] {
 			meta: {
 				width: "50%"
 			},
-			accessorFn: (row) => ({
+			accessorFn: (row): NameColumn => ({
 				name: row.name,
-				email: row.body?.email_opted_in,
-				is_admin: row.body?.is_admin
+				is_admin: !!row.body?.is_admin
 			}),
 			cell: ({ getValue }) => {
-				const { email, name, is_admin } = getValue<NameColumn>();
+				const { name, is_admin } = getValue<NameColumn>();
 				return (
 					<div className="flex">
-						<CompleteAvatar
-							name={name}
-							size="md"
-							type="square"
-							email={email || "No email"}
-							avatarUrl="https://avatar.vercel.sh/default?size=24"
-						/>
+						<InlineAvatar username={name} />
 						{is_admin && (
 							<div>
 								<Badge className="ml-2 capitalize" size="xs" color={"purple"}>
-									ADMIN
+									Admin
 								</Badge>
 							</div>
 						)}
@@ -74,17 +65,17 @@ export function columns(): ColumnDef<User>[] {
 					<DisplayDate dateString={getValue<string>()} />
 				</p>
 			)
-		},
-		{
-			id: "actions",
-			header: "",
-			accessorFn: (row) => row.body?.created,
-			meta: {
-				width: "5%"
-			},
-			cell: ({ getValue }) => {
-				return <MembersDropdown />;
-			}
 		}
+		// {
+		// 	id: "actions",
+		// 	header: "",
+		// 	accessorFn: (row) => row.body?.created,
+		// 	meta: {
+		// 		width: "5%"
+		// 	},
+		// 	cell: ({ getValue }) => {
+		// 		return <MembersDropdown />;
+		// 	}
+		// }
 	];
 }
