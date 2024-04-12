@@ -1,6 +1,7 @@
 import { FetchError } from "@/lib/fetch-error";
 import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { fetcher } from "../fetch";
 
 type StepLogs = {
 	stepId: string;
@@ -10,14 +11,12 @@ export function getStepLogsQueryKey({ stepId }: StepLogs) {
 	return ["logs", stepId];
 }
 
-export async function fetchStepLogs({ stepId }: StepLogs, token?: string) {
+export async function fetchStepLogs({ stepId }: StepLogs) {
 	const url = createApiPath(apiPaths.steps.logs(stepId));
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "GET",
-		credentials: "include",
 		headers: {
-			"Content-Type": "application/json",
-			...(token && { Authorization: `Bearer ${token}` })
+			"Content-Type": "application/json"
 		}
 	});
 

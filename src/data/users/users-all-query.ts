@@ -3,6 +3,7 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
 import { notFound } from "@/lib/not-found-error";
 import { UserPage } from "@/types/user";
+import { fetcher } from "../fetch";
 
 export function getMembersQueryKey() {
 	return ["users"];
@@ -10,9 +11,8 @@ export function getMembersQueryKey() {
 
 export async function fetchAllUsers() {
 	const url = createApiPath(apiPaths.users.all);
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "GET",
-		credentials: "include",
 		headers: {
 			"Content-Type": "application/json"
 		}

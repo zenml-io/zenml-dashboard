@@ -1,14 +1,14 @@
 import { apiPaths, createApiPath } from "@/data/api";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { FetchError } from "../../lib/fetch-error";
+import { fetcher } from "../fetch";
 
 export async function loginUser() {
 	const url = createApiPath(apiPaths.logout);
 
 	// TODO possibly this fetch can be abstracted
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "GET",
-		credentials: "include",
 		headers: {
 			accept: "application/json"
 		}

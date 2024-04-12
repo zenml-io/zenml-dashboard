@@ -1,4 +1,4 @@
-import { useAllMembers } from "@/data/users/users";
+import { useAllMembers } from "@/data/users/users-all-query";
 import { DataTable, Input, Skeleton } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import { AddMemberDialog } from "./AddMemberDialog";

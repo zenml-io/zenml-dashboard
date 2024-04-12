@@ -1,7 +1,7 @@
 import LogoutIcon from "@/assets/icons/logout.svg?react";
 import { useAuthContext } from "@/context/AuthContext";
 import { useLogoutMutation } from "@/data/session/logout-mutation";
-import { useCurrentUser } from "@/data/user/current-user-query";
+import { useCurrentUser } from "@/data/users/current-user-query";
 import {
 	Avatar,
 	AvatarFallback,

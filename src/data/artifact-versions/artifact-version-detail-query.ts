@@ -3,6 +3,7 @@ import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { ArtifactVersion } from "@/types/artifact-versions";
 import { notFound } from "@/lib/not-found-error";
+import { fetcher } from "../fetch";
 
 type ArtifactVersionDetail = {
 	versionId: string;
@@ -12,17 +13,12 @@ export function getArtifactVersionDetailQueryKey({ versionId }: ArtifactVersionD
 	return ["artifact_versions", versionId];
 }
 
-export async function fetchArtifactVersionDetail(
-	{ versionId }: ArtifactVersionDetail,
-	token?: string
-) {
+export async function fetchArtifactVersionDetail({ versionId }: ArtifactVersionDetail) {
 	const url = createApiPath(apiPaths.artifactVersions.detail(versionId));
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "GET",
-		credentials: "include",
 		headers: {
-			"Content-Type": "application/json",
-			...(token && { Authorization: `Bearer ${token}` })
+			"Content-Type": "application/json"
 		}
 	});
 

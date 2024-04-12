@@ -3,6 +3,7 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
 import { Stack } from "@/types/stack";
 import { notFound } from "@/lib/not-found-error";
+import { fetcher } from "../fetch";
 export type StackDetailArgs = {
 	stackId: string;
 };
@@ -11,14 +12,12 @@ export function getPipelineRunDetailQueryKey({ stackId }: StackDetailArgs) {
 	return ["stacks", stackId];
 }
 
-export async function fetchStack({ stackId }: StackDetailArgs, token?: string) {
+export async function fetchStack({ stackId }: StackDetailArgs) {
 	const url = createApiPath(apiPaths.stacks.detail(stackId));
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "GET",
-		credentials: "include",
 		headers: {
-			"Content-Type": "application/json",
-			...(token && { Authorization: `Bearer ${token}` })
+			"Content-Type": "application/json"
 		}
 	});
 
