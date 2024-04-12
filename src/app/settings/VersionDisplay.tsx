@@ -7,8 +7,11 @@ export function VersionDisplay() {
 				<ZenMLIcon className="h-4 w-4 fill-theme-text-brand" />
 				<p className="ml-2 text-text-sm  font-semibold">Open source</p>
 			</div>
+			{/* TODO get this from server info */}
 			<p className="mb-1 text-text-sm text-theme-text-tertiary">ZenML 0.55.5</p>
-			<p className="text-text-sm text-theme-text-tertiary">UI Version 0.16.0</p>
+			<p className="text-text-sm text-theme-text-tertiary">
+				UI Version {import.meta.env.VITE_FRONTEND_VERSION}
+			</p>
 		</div>
 	);
 }
