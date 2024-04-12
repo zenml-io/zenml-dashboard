@@ -16,12 +16,7 @@ const infoBoxVariants = cva("flex items-center text-text-sm rounded-md border px
 });
 type Props = HTMLAttributes<HTMLDivElement> & VariantProps<typeof infoBoxVariants>;
 
-export default function InfoBox({
-	children,
-	className,
-	intent,
-	...rest
-}: PropsWithChildren<Props>) {
+export function InfoBox({ children, className, intent, ...rest }: PropsWithChildren<Props>) {
 	return (
 		<div {...rest} className={cn(infoBoxVariants({ intent }), className)}>
 			<Info className="mr-4 h-5 w-5 shrink-0 fill-theme-text-brand" />

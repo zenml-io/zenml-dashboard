@@ -1,4 +1,4 @@
-import InfoBoxPrimitive from "@/components/Infobox";
+import { InfoBox as InfoBoxPrimitive } from "@/components/Infobox";
 import { PageHeader } from "@/components/PageHeader";
 import { Box } from "@zenml-io/react-component-library";
 

@@ -5,15 +5,19 @@ import {
 	CollapsibleContent,
 	CollapsibleHeader,
 	CollapsiblePanel,
-	CollapsibleTrigger,
-	ProgressOutstanding
+	CollapsibleTrigger
 } from "@zenml-io/react-component-library";
 import { Fragment, useState } from "react";
-import { InfoBox } from "@/components/Infobox";
+import { InfoBox } from "../../components/Infobox";
 import { stackCommands } from "../../contents/stack";
+import { StackComponentsSelect } from "./StackComponentsSelect";
+import { StackComponentType } from "@/types/components";
+import { ComponentTypeSection } from "./StackComponentFragments";
+import { OrchestratorSection } from "@/contents/components";
 
-export function StackCollapsible() {
+export function StackComponentCollapsible() {
 	const [open, setOpen] = useState(true);
+	const [selectedType, setSelectedType] = useState<StackComponentType>("orchestrator");
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
 			<CollapsibleHeader className="flex items-center gap-[10px]">
@@ -23,22 +27,24 @@ export function StackCollapsible() {
 							open ? "" : "-rotate-90"
 						} h-5 w-5 rounded-md fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200`}
 					/>
-					Getting started with stacks
+					Getting started with stack components
 				</CollapsibleTrigger>
 			</CollapsibleHeader>
 			<CollapsibleContent className="space-y-5 border-t border-theme-border-moderate bg-theme-surface-primary p-5">
-				<InfoBox intent="neutral" className="text-text-md">
-					A stack is the configuration of tools and infrastructure that your pipelines can run on.
-					When you run ZenML code without configuring a stack, the pipeline will run on the
-					so-called default stack. A stack consists of multiple components. All stacks have at
-					minimum an <strong>orchestrator</strong> and an <strong>artifact store</strong>.
-				</InfoBox>
-
-				<div className="flex items-center gap-2">
-					<ProgressOutstanding />
-					Administering the stack
+				<div className="space-y-1">
+					<label
+						htmlFor="artifact-store-provider"
+						className="text-text-sm text-theme-text-secondary"
+					>
+						Select a category
+					</label>
+					<StackComponentsSelect
+						id="artifact-store-provider"
+						selectedType={selectedType}
+						onTypeChange={setSelectedType}
+					/>
 				</div>
-				<CommandSection />
+				{getCategory(selectedType)}
 			</CollapsibleContent>
 		</CollapsiblePanel>
 	);
@@ -58,4 +64,11 @@ export function CommandSection() {
 			<HelpBox link="" />
 		</section>
 	);
+}
+
+function getCategory(selected: StackComponentType) {
+	switch (selected) {
+		case "orchestrator":
+			return ComponentTypeSection(OrchestratorSection);
+	}
 }
