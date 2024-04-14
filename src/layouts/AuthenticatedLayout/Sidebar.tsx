@@ -6,6 +6,7 @@ import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
+	Button,
 	SidebarBody,
 	SidebarHeader,
 	SidebarHeaderImage,
@@ -14,17 +15,31 @@ import {
 	SidebarItemContent,
 	SidebarList,
 	Sidebar as ZenMLSidebar,
-	cn
+	cn,
+	useSidebarContext
 } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
 
 export function Sidebar() {
+	const { setIsOpen, isOpen } = useSidebarContext();
 	return (
 		<div>
 			<ZenMLSidebar className="sticky top-9 h-[calc(100vh_-_64px)] overflow-y-auto overflow-x-clip">
 				<div className="flex w-full flex-1 flex-col gap-0.5 self-start">
-					<SidebarHeader icon={<SideCollapse className="h-4 w-4 fill-neutral-500" />}>
+					<SidebarHeader
+						icon={
+							<Button
+								onClick={() => setIsOpen((prev) => !prev)}
+								intent="secondary"
+								className="flex h-6 w-6 items-center justify-center bg-transparent p-0"
+							>
+								<SideCollapse
+									className={`h-5 w-5 fill-neutral-500 transition-transform duration-100 ${!isOpen && "rotate-180"}`}
+								/>
+							</Button>
+						}
+					>
 						<SidebarHeaderImage>
 							<Avatar size="md" type="square">
 								<AvatarImage src="https://avatar.vercel.sh/default?size=24" />
