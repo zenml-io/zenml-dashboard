@@ -10,7 +10,7 @@ import { Dispatch, SetStateAction, lazy, useState } from "react";
 import { EmptyState } from "../EmptyState";
 import { HTMLVisualization } from "./HtmlVisualization";
 import { ImageVisualization } from "./ImageVisualization";
-import InfoBox from "../Infobox";
+import { InfoBox } from "../Infobox";
 import { useArtifactLoadConfirmationContext } from "@/context/VisualizationConfirmationContext";
 
 const CSVVisualization = lazy(() => import("./CsvVizualization"));

@@ -16,10 +16,14 @@ export async function loginUser(body: LoginPayload) {
 	});
 
 	if (!res.ok) {
+		const data = await res
+			.json()
+			.then((data) => data.detail)
+			.catch(() => ["", "Failed to login"]);
 		throw new FetchError({
 			status: res.status,
 			statusText: res.statusText,
-			message: "Failed to Login"
+			message: data[1] || "Failed to login"
 		});
 	}
 

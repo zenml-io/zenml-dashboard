@@ -12,9 +12,10 @@ import {
 	Tag
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { StackComponentCollapsible } from "./ComponentCollapsible";
 import { PipelineRun } from "@/types/pipeline-runs";
+import { routes } from "@/router/routes";
 
 export function StackCollapsible() {
 	const [open, setOpen] = useState(true);
@@ -50,15 +51,17 @@ export function StackCollapsible() {
 					</div>
 				</CollapsibleTrigger>
 
-				<Tag
-					rounded={false}
-					className="inline-flex items-center gap-0.5"
-					color="turquoise"
-					emphasis="subtle"
-				>
-					<Stack className="h-4 w-4 fill-current" />
-					<span>{runData?.body?.stack?.name}</span>
-				</Tag>
+				<Link to={routes.stacks.overview}>
+					<Tag
+						rounded={false}
+						className="inline-flex items-center gap-0.5"
+						color="turquoise"
+						emphasis="subtle"
+					>
+						<Stack className="h-4 w-4 fill-current" />
+						<span>{runData?.body?.stack?.name}</span>
+					</Tag>
+				</Link>
 			</CollapsibleHeader>
 			<CollapsibleContent className="border-t border-theme-border-moderate bg-theme-surface-primary px-5 py-3">
 				<StackComponentsContent stackId={stackId!} run={runData} />

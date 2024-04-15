@@ -1,5 +1,6 @@
-import Home from "@/assets/icons/home.svg?react";
+import Overview from "@/assets/icons/cloud-tenant.svg?react";
 import Pipeline from "@/assets/icons/pipeline.svg?react";
+import Stacks from "@/assets/icons/stack.svg?react";
 import SideCollapse from "@/assets/icons/side-collapse.svg?react";
 import Settings from "@/assets/icons/settings.svg?react";
 
@@ -8,6 +9,7 @@ import {
 	Avatar,
 	AvatarFallback,
 	AvatarImage,
+	Button,
 	SidebarBody,
 	SidebarHeader,
 	SidebarHeaderImage,
@@ -16,17 +18,31 @@ import {
 	SidebarItemContent,
 	SidebarList,
 	Sidebar as ZenMLSidebar,
-	cn
+	cn,
+	useSidebarContext
 } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
 
 export function Sidebar() {
+	const { setIsOpen, isOpen } = useSidebarContext();
 	return (
 		<div>
 			<ZenMLSidebar className="sticky top-9 h-[calc(100vh_-_64px)] overflow-y-auto overflow-x-clip">
 				<div className="flex w-full flex-1 flex-col gap-0.5 self-start">
-					<SidebarHeader icon={<SideCollapse className="h-4 w-4 fill-neutral-500" />}>
+					<SidebarHeader
+						icon={
+							<Button
+								onClick={() => setIsOpen((prev) => !prev)}
+								intent="secondary"
+								className="flex h-6 w-6 items-center justify-center bg-transparent p-0"
+							>
+								<SideCollapse
+									className={`h-5 w-5 fill-neutral-500 transition-transform duration-100 ${!isOpen && "rotate-180"}`}
+								/>
+							</Button>
+						}
+					>
 						<SidebarHeaderImage>
 							<Avatar size="md" type="square">
 								<AvatarImage src="https://avatar.vercel.sh/default?size=24" />
@@ -41,8 +57,8 @@ export function Sidebar() {
 								<SidebarLink
 									routePatterns={[routes.home]}
 									exact
-									icon={<Home />}
-									label="Home"
+									icon={<Overview />}
+									label="Overview"
 									to={"/"}
 								/>
 							</li>
@@ -56,6 +72,14 @@ export function Sidebar() {
 									icon={<Pipeline />}
 									label="Pipelines"
 									to={"/pipelines"}
+								/>
+							</li>
+							<li className="w-full">
+								<SidebarLink
+									routePatterns={[routes.stacks.overview]}
+									icon={<Stacks />}
+									label="Stacks"
+									to={"/stacks"}
 								/>
 							</li>
 						</SidebarList>

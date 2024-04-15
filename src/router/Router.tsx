@@ -15,13 +15,14 @@ const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page")
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
 const MembersPage = lazy(() => import("@/app/settings/members/page"));
 const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
-
 // Settings
 const Settings = lazy(() => import("@/app/settings/page"));
+const Stacks = lazy(() => import("@/app/stacks/page"));
+const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
-		<Route element={<RootLayout />}>
+		<Route errorElement={<RootBoundary />} element={<RootLayout />}>
 			{/* AuthenticatedLayout */}
 			<Route
 				element={
@@ -67,16 +68,54 @@ export const router = createBrowserRouter(
 							</ProtectedRoute>
 						}
 					/>
-					<Route path="/settings" element={<Settings />}>
-						<Route path="members" element={<MembersPage />} />
-						<Route path="profile" element={<ProfileSettingsPage />} />
+					<Route
+						path="/settings"
+						element={
+							<ProtectedRoute>
+								<Settings />
+							</ProtectedRoute>
+						}
+					>
+						<Route
+							path="members"
+							element={
+								<ProtectedRoute>
+									<MembersPage />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="profile"
+							element={
+								<ProtectedRoute>
+									<ProfileSettingsPage />
+								</ProtectedRoute>
+							}
+						/>
 					</Route>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.stacks.overview}
+						element={
+							<ProtectedRoute>
+								<Stacks />
+							</ProtectedRoute>
+						}
+					/>
 				</Route>
 			</Route>
 
 			{/* Gradient Layout */}
 			<Route element={<GradientLayout />}>
 				<Route path={routes.login} element={<Login />} />
+				<Route
+					path={routes.devices.verify}
+					element={
+						<ProtectedRoute>
+							<DeviceVerification />
+						</ProtectedRoute>
+					}
+				/>
 			</Route>
 		</Route>
 	)
@@ -89,7 +128,10 @@ function ProtectedRoute({ children }: PropsWithChildren) {
 		removeAuthState();
 		return (
 			<Navigate
-				to={routes.login + `?${new URLSearchParams({ redirect: location.pathname }).toString()}`}
+				to={
+					routes.login +
+					`?${new URLSearchParams({ redirect: location.pathname + location.search }).toString()}`
+				}
 			/>
 		);
 	}

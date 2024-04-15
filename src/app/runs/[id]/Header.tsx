@@ -1,4 +1,4 @@
-import RunIcon from "@/assets/icons/pipeline-run.svg?react";
+import RunIcon from "@/assets/icons/terminal.svg?react";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { PageHeader } from "@/components/PageHeader";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";

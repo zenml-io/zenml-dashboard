@@ -12,6 +12,10 @@ export const apiPaths = {
 	components: {
 		detail: (componentId: string) => `/components/${componentId}`
 	},
+	devices: {
+		detail: (deviceId: string) => `/devices/${deviceId}`,
+		verify: (deviceId: string) => `/devices/${deviceId}/verify`
+	},
 	runs: {
 		all: "/runs",
 		detail: (id: string) => `/runs/${id}`,

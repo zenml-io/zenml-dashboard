@@ -23,6 +23,9 @@ dependencies:
   '@zenml-io/react-component-library':
     specifier: ^0.13.0
     version: 0.13.0(@types/react-dom@18.2.22)(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)
+  class-variance-authority:
+    specifier: ^0.7.0
+    version: 0.7.0
   lodash.debounce:
     specifier: ^4.0.8
     version: 4.0.8
