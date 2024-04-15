@@ -1,5 +1,18 @@
 import { CommandListItem } from "@/components/fallback-pages/Commands";
 import { ComponentTypeSectionProps } from "../app/stacks/StackComponentFragments";
+import { StackComponentType } from "../types/components";
+import { ReactNode } from "react";
+import MlModel from "@/assets/icons/ml_model.svg?react";
+import Folder from "@/assets/icons/folder.svg?react";
+import Container from "@/assets/icons/container.svg?react";
+import Rocket from "@/assets/icons/rocket.svg?react";
+import Database from "@/assets/icons/database.svg?react";
+import Clipboard from "@/assets/icons/clipboard.svg?react";
+import Transform from "@/assets/icons/transform.svg?react";
+import Alerter from "@/assets/icons/annotation-alert.svg?react";
+import Barchart from "@/assets/icons/bar-chart-square-check.svg?react";
+import Package from "@/assets/icons/package-plus.svg?react";
+import Layout from "@/assets/icons/layout.svg?react";
 
 export const OrchestratorSection: ComponentTypeSectionProps = {
 	commandList: getComponentCommands(
@@ -168,3 +181,37 @@ export function getComponentCommands(
 		}
 	];
 }
+
+export type StackComponentSelectItem = {
+	value: StackComponentType;
+	label: string;
+	icon: ReactNode;
+};
+const iconClassName = "fill-theme-text-tertiary h-5 w-5";
+
+export const StackComponentSelectItems: StackComponentSelectItem[] = [
+	{ value: "orchestrator", label: "Orchestrator", icon: <MlModel className={iconClassName} /> },
+	{ value: "artifact_store", label: "Artifact Store", icon: <Folder className={iconClassName} /> },
+	{
+		value: "container_registry",
+		label: "Container Registry",
+		icon: <Container className={iconClassName} />
+	},
+	{ value: "step_operator", label: "Step Operator", icon: <Container className={iconClassName} /> },
+	{ value: "model_deployer", label: "Model Deployer", icon: <Rocket className={iconClassName} /> },
+	{ value: "feature_store", label: "Feature Store", icon: <Database className={iconClassName} /> },
+	{
+		value: "experiment_tracker",
+		label: "Experiment Tracker",
+		icon: <Clipboard className={iconClassName} />
+	},
+	{ value: "alerter", label: "Alerter", icon: <Alerter className={iconClassName} /> },
+	{ value: "annotator", label: "Annotator", icon: <Transform className={iconClassName} /> },
+	{
+		value: "data_validator",
+		label: "Data Validator",
+		icon: <Barchart className={iconClassName} />
+	},
+	{ value: "image_builder", label: "Image Builder", icon: <Package className={iconClassName} /> },
+	{ value: "model_registry", label: "Model Registry", icon: <Layout className={iconClassName} /> }
+];

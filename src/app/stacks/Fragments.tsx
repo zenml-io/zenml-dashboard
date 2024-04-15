@@ -31,7 +31,6 @@ export function HeaderBox() {
 					Your Stack from local to cloud.
 				</p>
 			</div>
-			<div className="flex w-full items-center justify-center bg-primary-500 md:w-1/3"></div>
 		</Box>
 	);
 }
