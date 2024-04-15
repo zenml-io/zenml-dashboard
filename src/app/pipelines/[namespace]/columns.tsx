@@ -78,11 +78,11 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 				if (!name || !id) return null;
 
 				return (
-					<div>
+					<Link to={routes.stacks.overview}>
 						<Tag rounded={false} className="inline-block" color="turquoise" emphasis="subtle">
 							{name}
 						</Tag>
-					</div>
+					</Link>
 				);
 			}
 		},
