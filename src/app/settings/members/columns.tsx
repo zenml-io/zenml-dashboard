@@ -3,13 +3,18 @@ import { Badge } from "@zenml-io/react-component-library";
 import { DisplayDate } from "@/components/DisplayDate";
 import { User, UserBody } from "@/types/user";
 import { InlineAvatar } from "../../../components/InlineAvatar";
+import MembersDropdown from "./MemberDropdown";
 
 type NameColumn = {
 	name: User["name"];
 	is_admin: UserBody["is_admin"];
 };
 
-export function columns(): ColumnDef<User>[] {
+type Props = {
+	isAdmin?: boolean;
+};
+
+export function columns({ isAdmin }: Props): ColumnDef<User>[] {
 	return [
 		{
 			id: "name",
@@ -56,17 +61,21 @@ export function columns(): ColumnDef<User>[] {
 					<DisplayDate dateString={getValue<string>()} />
 				</p>
 			)
-		}
-		// {
-		// 	id: "actions",
-		// 	header: "",
-		// 	accessorFn: (row) => row.body?.created,
-		// 	meta: {
-		// 		width: "5%"
-		// 	},
-		// 	cell: ({ getValue }) => {
-		// 		return <MembersDropdown />;
-		// 	}
-		// }
+		},
+		...(isAdmin
+			? [
+					{
+						id: "actions",
+						header: "",
+
+						meta: {
+							width: "5%"
+						},
+						cell: () => {
+							return <MembersDropdown />;
+						}
+					}
+				]
+			: [])
 	];
 }
