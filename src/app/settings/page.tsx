@@ -11,7 +11,7 @@ export default function SettingsPage() {
 
 	return (
 		<div className="layout-container flex flex-col gap-7 px-10 pt-5 lg:flex-row">
-			<div className="flex w-full max-w-[200px] flex-col gap-4">
+			<div className="flex w-[200px] shrink-0 flex-col gap-4">
 				<div className="flex flex-col gap-4">
 					<p className="text-text-xs font-semibold uppercase text-theme-text-tertiary">Server</p>
 					<DisplayTenant />

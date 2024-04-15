@@ -13,9 +13,6 @@ export function columns(): ColumnDef<User>[] {
 	return [
 		{
 			id: "name",
-			meta: {
-				width: "50%"
-			},
 			accessorFn: (row): NameColumn => ({
 				name: row.name,
 				is_admin: !!row.body?.is_admin
@@ -40,9 +37,6 @@ export function columns(): ColumnDef<User>[] {
 		{
 			accessorKey: "status",
 			header: "Status",
-			meta: {
-				width: "10%"
-			},
 			accessorFn: (row) => ({ status: row.body?.active }),
 			cell: ({ getValue }) => {
 				const { status } = getValue<{ status: string }>();
@@ -57,9 +51,6 @@ export function columns(): ColumnDef<User>[] {
 			id: "created",
 			header: "Created",
 			accessorFn: (row) => row.body?.created,
-			meta: {
-				width: "10%"
-			},
 			cell: ({ getValue }) => (
 				<p className="text-text-sm text-theme-text-secondary">
 					<DisplayDate dateString={getValue<string>()} />
