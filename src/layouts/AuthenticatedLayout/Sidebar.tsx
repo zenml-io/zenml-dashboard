@@ -1,5 +1,6 @@
-import Home from "@/assets/icons/home.svg?react";
+import Overview from "@/assets/icons/cloud-tenant.svg?react";
 import Pipeline from "@/assets/icons/pipeline.svg?react";
+import Stacks from "@/assets/icons/stack.svg?react";
 import SideCollapse from "@/assets/icons/side-collapse.svg?react";
 import { routes } from "@/router/routes";
 import {
@@ -54,8 +55,8 @@ export function Sidebar() {
 								<SidebarLink
 									routePatterns={[routes.home]}
 									exact
-									icon={<Home />}
-									label="Home"
+									icon={<Overview />}
+									label="Overview"
 									to={"/"}
 								/>
 							</li>
@@ -69,6 +70,14 @@ export function Sidebar() {
 									icon={<Pipeline />}
 									label="Pipelines"
 									to={"/pipelines"}
+								/>
+							</li>
+							<li className="w-full">
+								<SidebarLink
+									routePatterns={[routes.stacks.overview]}
+									icon={<Stacks />}
+									label="Stacks"
+									to={"/stacks"}
 								/>
 							</li>
 						</SidebarList>

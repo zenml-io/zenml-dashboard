@@ -13,11 +13,12 @@ const Login = lazy(() => import("@/app/login/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
+const Stacks = lazy(() => import("@/app/stacks/page"));
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
-		<Route element={<RootLayout />}>
+		<Route errorElement={<RootBoundary />} element={<RootLayout />}>
 			{/* AuthenticatedLayout */}
 			<Route
 				element={
@@ -60,6 +61,15 @@ export const router = createBrowserRouter(
 						element={
 							<ProtectedRoute>
 								<RunDetail />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.stacks.overview}
+						element={
+							<ProtectedRoute>
+								<Stacks />
 							</ProtectedRoute>
 						}
 					/>

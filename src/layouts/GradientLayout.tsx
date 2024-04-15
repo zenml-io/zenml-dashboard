@@ -1,5 +1,5 @@
 import { Outlet } from "react-router-dom";
-import ZenML from "@/assets/icons/ZenML.svg?react";
+import ZenML from "@/assets/icons/zenml.svg?react";
 
 export function GradientLayout() {
 	return (
