@@ -17,7 +17,7 @@ const Stacks = lazy(() => import("@/app/stacks/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
-		<Route element={<RootLayout />}>
+		<Route errorElement={<RootBoundary />} element={<RootLayout />}>
 			{/* AuthenticatedLayout */}
 			<Route
 				element={
