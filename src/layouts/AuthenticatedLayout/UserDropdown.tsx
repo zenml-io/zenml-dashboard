@@ -12,6 +12,7 @@ import {
 	Skeleton
 } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
+import { getUsername } from "@/lib/user";
 
 export function UserDropdown() {
 	const { data, isPending, isError } = useCurrentUser();
@@ -32,7 +33,7 @@ export function UserDropdown() {
 		<DropdownMenu>
 			<DropdownMenuTrigger>
 				<Avatar size="lg">
-					<AvatarFallback size="lg">{data.name[0]}</AvatarFallback>
+					<AvatarFallback size="lg">{getUsername(data)[0]}</AvatarFallback>
 				</Avatar>
 			</DropdownMenuTrigger>
 			<DropdownMenuContent align="end" sideOffset={7}>
