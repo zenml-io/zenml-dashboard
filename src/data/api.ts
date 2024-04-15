@@ -29,7 +29,8 @@ export const apiPaths = {
 		logs: (stepId: string) => `/steps/${stepId}/logs`
 	},
 	users: {
-		all: "/users"
+		all: "/users",
+		detail: (userId: string) => `/users/${userId}`
 	}
 };
 

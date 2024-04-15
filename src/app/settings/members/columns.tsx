@@ -1,8 +1,9 @@
+import { DisplayDate } from "@/components/DisplayDate";
+import { InlineAvatar } from "@/components/InlineAvatar";
+import { getUsername } from "@/lib/user";
+import { User, UserBody } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
 import { Badge } from "@zenml-io/react-component-library";
-import { DisplayDate } from "@/components/DisplayDate";
-import { User, UserBody } from "@/types/user";
-import { InlineAvatar } from "../../../components/InlineAvatar";
 import MembersDropdown from "./MemberDropdown";
 
 type NameColumn = {
@@ -62,19 +63,24 @@ export function columns({ isAdmin }: Props): ColumnDef<User>[] {
 				</p>
 			)
 		},
+
 		...(isAdmin
 			? [
 					{
 						id: "actions",
 						header: "",
-
+						accessorFn: (row) => ({
+							id: row.id,
+							name: getUsername(row)
+						}),
 						meta: {
 							width: "5%"
 						},
-						cell: () => {
-							return <MembersDropdown />;
+						cell: ({ getValue }) => {
+							const { id, name } = getValue() as { id: string; name: string };
+							return <MembersDropdown name={name} userId={id} />;
 						}
-					}
+					} as ColumnDef<User>
 				]
 			: [])
 	];
