@@ -1,9 +1,19 @@
+import {
+	Button,
+	Dialog,
+	DialogClose,
+	DialogContent,
+	DialogFooter,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+	Input
+} from "@zenml-io/react-component-library";
+import { useId, useState } from "react";
+
 export function AddMemberDialog() {
-	return null;
-	// 	const [open, setOpen] = useState(false);
-	// 	const [showSuccesNewMember, setShowSuccesNewMember] = useState(false);
-	// 	const [name, setName] = useState("");
-	// 	const [submitted, setSubmitted] = useState(false);
+	const [open, setOpen] = useState(false);
+	const [showSuccesNewMember] = useState(false);
 
 	// 	async function submitForm() {
 	// 		// Show when succesfull response
@@ -22,56 +32,49 @@ export function AddMemberDialog() {
 	// 		</div>
 	// 	);
 
-	// 	const AddMemberForm = () => (
-	// 		<div>
-	// 			<div className="p-7">
-	// 				<label htmlFor={name} className="text-text-sm">
-	// 					Username
-	// 				</label>
-	// 				<Input
-	// 					onChange={(e) => setName(e.target.value)}
-	// 					type="name"
-	// 					required
-	// 					placeholder="Create a username..."
-	// 					className="mb-5 w-full"
-	// 				/>
+	return (
+		<Dialog open={open} onOpenChange={setOpen}>
+			<DialogTrigger asChild>
+				<Button className="shrink-0" intent="primary">
+					Add Members
+				</Button>
+			</DialogTrigger>
+			<DialogContent>
+				<DialogHeader>
+					<DialogTitle> Add a New Member</DialogTitle>
+				</DialogHeader>
+				{showSuccesNewMember ? <SuccessAddMember /> : <AddMemberForm />}
+			</DialogContent>
+		</Dialog>
+	);
+}
 
-	// 				<label htmlFor={name} className="text-text-sm">
-	// 					Add user as an Admin
-	// 				</label>
-	// 				{/* Checkbox */}
-	// 			</div>
-	// 			<DialogFooter>
-	// 				<div className="flex items-center gap-2">
-	// 					<DialogClose asChild>
-	// 						<Button
-	// 							variant="secondary
-	// "
-	// 						>
-	// 							Cancel
-	// 						</Button>
-	// 					</DialogClose>
-	// 					<Button onClick={submitForm} disabled={submitted || name.trim() === ""} variant="primary">
-	// 						Generate Token
-	// 					</Button>
-	// 				</div>
-	// 			</DialogFooter>
-	// 		</div>
-	// 	);
+function AddMemberForm() {
+	const usernameId = useId();
+	return (
+		<>
+			<form className="space-y-5 p-7">
+				<div className="space-y-2">
+					<div className="space-y-0.5">
+						<label htmlFor={usernameId} className="text-text-sm">
+							Username
+						</label>
+						<Input id={usernameId} className="w-full" />
+					</div>
+				</div>
+			</form>
+			<DialogFooter className="gap-[10px]">
+				<DialogClose asChild>
+					<Button size="sm" intent="secondary">
+						Cancel
+					</Button>
+				</DialogClose>
+				<Button size="sm">Generate Token</Button>
+			</DialogFooter>
+		</>
+	);
+}
 
-	// 	return (
-	// 		<Dialog open={open} onOpenChange={setOpen}>
-	// 			<DialogTrigger asChild>
-	// 				<Button className="shrink-0" variant="primary">
-	// 					Add Members
-	// 				</Button>
-	// 			</DialogTrigger>
-	// 			<DialogContent>
-	// 				<DialogHeader>
-	// 					<DialogTitle> Add a New Member</DialogTitle>
-	// 				</DialogHeader>
-	// 				{showSuccesNewMember ? <SuccessAddMember /> : <AddMemberForm />}
-	// 			</DialogContent>
-	// 		</Dialog>
-	// 	);
+function SuccessAddMember() {
+	return <p>Success</p>;
 }
