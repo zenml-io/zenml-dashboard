@@ -19,6 +19,7 @@ const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
 const Settings = lazy(() => import("@/app/settings/page"));
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
+const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -76,6 +77,15 @@ export const router = createBrowserRouter(
 							</ProtectedRoute>
 						}
 					>
+						<Route
+							path="repositories"
+							element={
+								<ProtectedRoute>
+									<Repositories />
+								</ProtectedRoute>
+							}
+						/>
+
 						<Route
 							path="members"
 							element={

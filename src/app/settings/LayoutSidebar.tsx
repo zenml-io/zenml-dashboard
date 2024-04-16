@@ -20,6 +20,10 @@ export function ServerSettingsMenu() {
 			{
 				name: "Members",
 				href: routes.settings.members
+			},
+			{
+				name: "Repositories",
+				href: routes.settings.repositories
 			}
 		];
 	}
