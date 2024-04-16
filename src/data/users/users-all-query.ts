@@ -27,7 +27,7 @@ export async function fetchAllUsers({ params }: UserOverview) {
 
 	if (!res.ok) {
 		throw new FetchError({
-			message: "Error while fetching pipeline namespaces",
+			message: "Error while fetching users",
 			status: res.status,
 			statusText: res.statusText
 		});

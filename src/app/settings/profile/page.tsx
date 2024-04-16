@@ -1,67 +1,27 @@
-import { Box } from "@zenml-io/react-component-library";
+import { Avatar, AvatarFallback, Box, Skeleton } from "@zenml-io/react-component-library";
+import { UpdateProfileForm } from "./UpdateProfileForm";
+import { useCurrentUser } from "@/data/users/current-user-query";
+import { getUsername } from "@/lib/user";
 
 export default function ProfilePage() {
-	// const { data: user } = useCurrentUser();
-
-	// const [name, setName] = useState(user.name);
-	// const [fullName, setFullName] = useState(user.body?.full_name);
-	// const [submitted, setSubmitted] = useState(false);
-
-	// async function handleSubmit(e: FormEvent<HTMLFormElement>) {
-	// e.preventDefault();
-	// setSubmitted(true);
-	// const body: UpdateUser = {
-	// 	name
-	// };
-	// try {
-	// 	await updateMyUser(body);
-	// 	router.refresh();
-	// 	setSubmitted(false);
-	// } catch (e) {
-	// 	console.log(e);
-	// 	setSubmitted(false);
-	// }
-	// }
+	const { data: user } = useCurrentUser();
 
 	return (
 		<Box className="flex flex-col gap-5 p-5">
 			<h1 className="text-text-xl font-semibold">Profile</h1>
-			{/* <div className="flex justify-between">
-				<form onSubmit={(e) => handleSubmit(e)} className="flex w-full max-w-[600px] flex-col ">
-					<label htmlFor={fullName} className="mb-1 text-text-sm">
-						Full Name
-					</label>
-					<Input
-						onChange={(e) => setFullName(e.target.value)}
-						required
-						minLength={1}
-						maxLength={50}
-						className="mb-5 w-full"
-						defaultValue={fullName}
-					/>
-					<label htmlFor={name} className="mb-1 text-text-sm">
-						Username
-					</label>
-					<Input
-						onChange={(e) => setName(e.target.value)}
-						required
-						minLength={1}
-						maxLength={50}
-						className="mb-5 w-full"
-						defaultValue={name}
-					/>
-					<div className="flex justify-end">
-						<Button disabled={submitted || name?.trim() === ""} variant="primary">
-							Update
-						</Button>
-					</div>
-				</form>
+			<div className="flex justify-between">
+				{user ? <UpdateProfileForm user={user} /> : <Skeleton className="h-[350px] w-full" />}
 
-				<Avatar className="ml-5 h-[140px] w-[140px]" type="rounded">
-					<AvatarImage src="https://avatar.vercel.sh/default?size=24" />
-					<AvatarFallback>{user.name![0]}</AvatarFallback>
-				</Avatar>
-			</div> */}
+				{user ? (
+					<Avatar size="xxl" className="ml-5 h-[140px] w-[140px]" type="rounded">
+						<AvatarFallback className="text-display-lg" size="xxl">
+							{getUsername(user)[0]}
+						</AvatarFallback>
+					</Avatar>
+				) : (
+					<Skeleton className="h-[140px] w-[140px] rounded-rounded" />
+				)}
+			</div>
 		</Box>
 	);
 }

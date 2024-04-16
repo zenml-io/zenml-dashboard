@@ -9,3 +9,5 @@ export type CreateUser = components["schemas"]["UserRequest"];
 export type ListUserParams = NonNullable<
 	operations["list_users_api_v1_users_get"]["parameters"]["query"]
 >;
+
+export type UpdateUser = components["schemas"]["UserUpdate"];

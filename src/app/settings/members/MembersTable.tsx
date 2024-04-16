@@ -10,7 +10,7 @@ import Pagination from "@/components/Pagination";
 export default function MembersTable() {
 	const queryParams = useUserOverviewSearchParams();
 	const { data, isPending, isError } = useAllMembers(
-		{ params: queryParams },
+		{ params: { ...queryParams, sort_by: "desc:created" } },
 		{ throwOnError: true }
 	);
 	const {
