@@ -9,7 +9,7 @@ import Pagination from "@/components/Pagination";
 
 export default function MembersTable() {
 	const queryParams = useUserOverviewSearchParams();
-	const { data, isPending, isError } = useAllMembers(
+	const { data, isError } = useAllMembers(
 		{ params: { ...queryParams, sort_by: "desc:created" } },
 		{ throwOnError: true }
 	);
@@ -20,7 +20,7 @@ export default function MembersTable() {
 	} = useCurrentUser();
 
 	if (isError || currentUserError) return null;
-	if (isPending || currentUserPending) return <Skeleton className="h-[350px]" />;
+	if (currentUserPending) return <Skeleton className="h-[350px]" />;
 
 	return (
 		<>
@@ -31,10 +31,14 @@ export default function MembersTable() {
 			</div>
 			<div className="flex flex-col items-center gap-5">
 				<div className="w-full">
-					<DataTable
-						columns={columns({ isAdmin: currentUser?.body?.is_admin })}
-						data={data.items}
-					/>
+					{data ? (
+						<DataTable
+							columns={columns({ isAdmin: currentUser?.body?.is_admin })}
+							data={data.items}
+						/>
+					) : (
+						<Skeleton className="h-[250px] w-full" />
+					)}
 				</div>
 				{data ? (
 					data.total_pages > 1 && <Pagination searchParams={queryParams} paginate={data} />
