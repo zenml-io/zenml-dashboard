@@ -11,7 +11,7 @@ export const passwordSchema = z
 export const updatePasswordFormSchema = z
 	.object({
 		oldPassword: z.string(),
-		newPassword: z.string().min(1),
+		newPassword: passwordSchema,
 		confirmPassword: z.string()
 	})
 	.refine((data) => data.newPassword === data.confirmPassword, {
