@@ -1,5 +1,5 @@
 import { Box, ProgressOutstanding } from "@zenml-io/react-component-library";
-import { HeaderBox, InfoBox } from "./Fragments";
+import { CommandSection, HeaderBox, InfoBox } from "./Fragments";
 
 export default function ConnectorsPage() {
 	return (
@@ -11,6 +11,7 @@ export default function ConnectorsPage() {
 				<ProgressOutstanding />
 				Administering your Connectors
 			</div>
+			<CommandSection />
 		</Box>
 	);
 }

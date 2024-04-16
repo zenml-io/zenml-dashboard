@@ -1,5 +1,17 @@
 import { InfoBox as InfoBoxPrimitive } from "@/components/Infobox";
 import { Box } from "@zenml-io/react-component-library";
+import { ConnectorsSelect } from "./ConnectorsSelect";
+import {
+	AWSSection,
+	AzureSection,
+	ConnectorType,
+	DockerSection,
+	GCPSection,
+	KubernetesSection
+} from "@/contents/connectors";
+import { Fragment, useState } from "react";
+import { CommandListItem, generateCommandList } from "@/components/fallback-pages/Commands";
+import { HelpBox } from "@/components/fallback-pages/Helpbox";
 
 export function InfoBox() {
 	return (
@@ -26,21 +38,71 @@ export function HeaderBox() {
 	);
 }
 
-// export function Commands() {
-// 	return (
-// 		<section className="space-y-5 pl-8 pr-5">
-// 			<InfoBoxPrimitive className="text-text-md" intent="neutral">
-// 				A ZenML Secret is a collection or grouping of key-value pairs stored by the ZenML secrets
-// 				store. ZenML Secrets are identified by a unique name which allows you to fetch or reference
-// 				them in your pipelines and stacks.
-// 			</InfoBoxPrimitive>
-// 			{secretCommands.map((item, index) => (
-// 				<Fragment key={index}>{generateCommandList(item)}</Fragment>
-// 			))}
-// 			<HelpBox
-// 				text="Check all the commands and find more about Secrets in our Docs"
-// 				link="https://docs.zenml.io/user-guide/advanced-guide/secret-management"
-// 			/>
-// 		</section>
-// 	);
-// }
+export function CommandSection() {
+	const [connectorType, setConnectorType] = useState<ConnectorType>("kubernetes");
+	return (
+		<section className="space-y-5 pl-8 pr-5">
+			<ConnectorsSelect
+				selectedType={connectorType}
+				onTypeChange={setConnectorType}
+				id="connector-select"
+			/>
+			{getConnectorTypeSection(connectorType)}
+		</section>
+	);
+}
+
+export type ConnectorTypeSectionProps = {
+	topInfobox: string;
+	bottomInfobox: string;
+	listCommand: CommandListItem;
+	prerequisites?: CommandListItem[];
+	help: {
+		href: string;
+		text: string;
+	};
+};
+
+function ConnectorTypeSection({
+	topInfobox,
+	bottomInfobox,
+	listCommand,
+	prerequisites,
+	help
+}: ConnectorTypeSectionProps) {
+	return (
+		<>
+			<InfoBoxPrimitive className="text-text-md" intent="neutral">
+				{topInfobox}
+			</InfoBoxPrimitive>
+			{generateCommandList(listCommand)}
+			{prerequisites && (
+				<>
+					<p>Prerequisites</p>
+					{prerequisites.map((item, index) => (
+						<Fragment key={index}>{generateCommandList(item)}</Fragment>
+					))}
+				</>
+			)}
+			<InfoBoxPrimitive className="text-text-md" intent="neutral">
+				{bottomInfobox}
+			</InfoBoxPrimitive>
+			<HelpBox text={help.text} link={help.href} />
+		</>
+	);
+}
+
+function getConnectorTypeSection(type: ConnectorType) {
+	switch (type) {
+		case "kubernetes":
+			return ConnectorTypeSection(KubernetesSection);
+		case "gcp":
+			return ConnectorTypeSection(GCPSection);
+		case "docker":
+			return ConnectorTypeSection(DockerSection);
+		case "azure":
+			return ConnectorTypeSection(AzureSection);
+		case "aws":
+			return ConnectorTypeSection(AWSSection);
+	}
+}
