@@ -1,13 +1,18 @@
+import { SearchField } from "@/components/SearchField";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { useAllMembers } from "@/data/users/users-all-query";
-import { DataTable, Input, Skeleton } from "@zenml-io/react-component-library";
-import { useState } from "react";
+import { DataTable, Skeleton } from "@zenml-io/react-component-library";
 import { AddMemberDialog } from "./AddMemberDialog";
 import { columns } from "./columns";
+import { useUserOverviewSearchParams } from "./service";
+import Pagination from "@/components/Pagination";
 
 export default function MembersTable() {
-	const [filter, setFilter] = useState("");
-	const { data, isPending, isError } = useAllMembers({ throwOnError: true });
+	const queryParams = useUserOverviewSearchParams();
+	const { data, isPending, isError } = useAllMembers(
+		{ params: queryParams },
+		{ throwOnError: true }
+	);
 	const {
 		data: currentUser,
 		isPending: currentUserPending,
@@ -17,28 +22,25 @@ export default function MembersTable() {
 	if (isError || currentUserError) return null;
 	if (isPending || currentUserPending) return <Skeleton className="h-[350px]" />;
 
-	// TODO this needs to happen on the server side
-	function filterData() {
-		return data?.items.filter((member) => {
-			return member?.name?.toLowerCase().includes(filter.toLowerCase());
-		});
-	}
-
 	return (
 		<>
 			<div className="flex flex-wrap items-center justify-between gap-2">
-				<Input
-					onChange={(e) => setFilter(e.target.value)}
-					inputSize="sm"
-					placeholder="Find a user"
-				/>
+				<SearchField searchParams={queryParams} />
+
 				<AddMemberDialog />
 			</div>
-			<div className="w-full">
-				<DataTable
-					columns={columns({ isAdmin: currentUser?.body?.is_admin })}
-					data={filterData() || []}
-				/>
+			<div className="flex flex-col items-center gap-5">
+				<div className="w-full">
+					<DataTable
+						columns={columns({ isAdmin: currentUser?.body?.is_admin })}
+						data={data.items}
+					/>
+				</div>
+				{data ? (
+					data.total_pages > 1 && <Pagination searchParams={queryParams} paginate={data} />
+				) : (
+					<Skeleton className="h-[36px] w-[300px]" />
+				)}
 			</div>
 		</>
 	);

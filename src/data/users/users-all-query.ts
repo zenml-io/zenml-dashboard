@@ -2,15 +2,20 @@ import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
 import { notFound } from "@/lib/not-found-error";
-import { UserPage } from "@/types/user";
+import { ListUserParams, UserPage } from "@/types/user";
 import { fetcher } from "../fetch";
+import { objectToSearchParams } from "@/lib/url";
 
-export function getMembersQueryKey() {
-	return ["users"];
+type UserOverview = {
+	params: ListUserParams;
+};
+
+export function getMembersQueryKey({ params }: UserOverview) {
+	return ["users", params];
 }
 
-export async function fetchAllUsers() {
-	const url = createApiPath(apiPaths.users.all);
+export async function fetchAllUsers({ params }: UserOverview) {
+	const url = createApiPath(apiPaths.users.all + "?" + objectToSearchParams(params));
 	const res = await fetcher(url, {
 		method: "GET",
 		headers: {
@@ -31,11 +36,12 @@ export async function fetchAllUsers() {
 }
 
 export function useAllMembers(
+	params: UserOverview,
 	options?: Omit<UseQueryOptions<UserPage, FetchError>, "queryKey" | "queryFn">
 ) {
 	return useQuery<UserPage, FetchError>({
-		queryKey: getMembersQueryKey(),
-		queryFn: () => fetchAllUsers(),
+		queryKey: getMembersQueryKey(params),
+		queryFn: () => fetchAllUsers(params),
 		...options
 	});
 }
