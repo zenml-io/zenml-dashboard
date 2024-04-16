@@ -18,6 +18,7 @@ export const routes = {
 		members: `/settings/members`,
 		repositories: "/settings/repositories",
 		profile: `/settings/profile`,
-		secrets: "/settings/secrets"
+		secrets: "/settings/secrets",
+		connectors: "/settings/connectors"
 	}
 };

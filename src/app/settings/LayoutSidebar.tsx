@@ -28,6 +28,10 @@ export function ServerSettingsMenu() {
 			{
 				name: "Secrets",
 				href: routes.settings.secrets
+			},
+			{
+				name: "Connectors",
+				href: routes.settings.connectors
 			}
 		];
 	}
