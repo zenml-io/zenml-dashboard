@@ -101,7 +101,7 @@ export const AWSSection: ConnectorTypeSectionProps = {
 
 function getListCommand(type: string, capitalized: string): CommandListItem {
 	return {
-		command: `pip service-connector list-types --type ${type}`,
+		command: `zenml service-connector list-types --type ${type}`,
 		description: `List ${capitalized} Connector Types`
 	};
 }
