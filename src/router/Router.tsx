@@ -20,6 +20,7 @@ const Settings = lazy(() => import("@/app/settings/page"));
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
+const Secrets = lazy(() => import("@/app/settings/secrets/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -82,6 +83,14 @@ export const router = createBrowserRouter(
 							element={
 								<ProtectedRoute>
 									<Repositories />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="secrets"
+							element={
+								<ProtectedRoute>
+									<Secrets />
 								</ProtectedRoute>
 							}
 						/>
