@@ -1,12 +1,13 @@
+import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
+import { isFetchError } from "@/lib/fetch-error";
 import { UpdateUser, User } from "@/types/user";
+import { useQueryClient } from "@tanstack/react-query";
 import { Button, Input, useToast } from "@zenml-io/react-component-library";
 import { useId } from "react";
 import { useForm } from "react-hook-form";
+import { UpdatePasswordDialog } from "./UpdatePassword/UpdatePasswordDialog";
 import { UpdateProfileForm as UpdateProfileFormType } from "./UpdateProfileSchema";
-import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
-import { useQueryClient } from "@tanstack/react-query";
-import { isFetchError } from "@/lib/fetch-error";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 
 type Props = {
 	user: User;
@@ -56,40 +57,43 @@ export function UpdateProfileForm({ user }: Props) {
 	}
 
 	return (
-		<form className="w-full max-w-[600px]" onSubmit={handleSubmit(updateUser)}>
-			<div className="space-y-2">
-				<div className="space-y-0.5">
-					<label htmlFor={fullNameId} className="text-text-sm">
-						Full Name
-					</label>
-					<Input
-						placeholder={user.body?.full_name}
-						{...register("fullName")}
-						id={fullNameId}
-						className="w-full"
-					/>
+		<div className="w-full max-w-[600px]">
+			<form onSubmit={handleSubmit(updateUser)}>
+				<div className="space-y-2">
+					<div className="space-y-0.5">
+						<label htmlFor={fullNameId} className="text-text-sm">
+							Full Name
+						</label>
+						<Input
+							placeholder={user.body?.full_name}
+							{...register("fullName")}
+							id={fullNameId}
+							className="w-full"
+						/>
+					</div>
+					<div className="space-y-0.5">
+						<label htmlFor={usernameId} className="text-text-sm">
+							Username
+						</label>
+						<Input
+							{...register("username")}
+							placeholder={user.name}
+							id={usernameId}
+							className="w-full"
+						/>
+					</div>
+					<div className="flex justify-end">
+						<Button
+							disabled={isPending || (!watch("fullName") && !watch("username"))}
+							size="md"
+							intent="primary"
+						>
+							Update
+						</Button>
+					</div>
 				</div>
-				<div className="space-y-0.5">
-					<label htmlFor={usernameId} className="text-text-sm">
-						Username
-					</label>
-					<Input
-						{...register("username")}
-						placeholder={user.name}
-						id={usernameId}
-						className="w-full"
-					/>
-				</div>
-				<div className="flex justify-end">
-					<Button
-						disabled={isPending || (!watch("fullName") && !watch("username"))}
-						size="md"
-						intent="primary"
-					>
-						Update
-					</Button>
-				</div>
-			</div>
-		</form>
+			</form>
+			<UpdatePasswordDialog />
+		</div>
 	);
 }

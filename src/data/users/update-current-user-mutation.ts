@@ -18,7 +18,12 @@ export async function updateUser(body: UpdateUser) {
 	if (!res.ok) {
 		const errorData: string = await res
 			.json()
-			.then((data) => data.detail)
+			.then((data) => {
+				if (data.detail instanceof Array) {
+					return data.detail[1];
+				}
+				return data.detail;
+			})
 			.catch(() => "Failed to update User");
 
 		throw new FetchError({

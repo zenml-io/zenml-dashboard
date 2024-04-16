@@ -23,15 +23,6 @@ export function UpdateCredentialsDialog() {
 	// 	}
 	// };
 
-	// const SuccessAddMember = () => (
-	// 	<div className="p-7 text-center">
-	// 		<Tick className={`m-auto mb-5 h-[110px] w-[110px] fill-success-500`} />
-	// 		<p className="mb-5 text-text-sm font-semibold text-theme-text-primary">
-	// 			The password was updated successfully!
-	// 		</p>
-	// 	</div>
-	// );
-
 	// const ChangePasswordForm = () => (
 	// 	<div>
 	// 		<div className="p-7">
