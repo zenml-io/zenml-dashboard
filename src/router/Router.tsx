@@ -15,6 +15,8 @@ const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page")
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
+const Models = lazy(() => import("@/app/models/page"));
+const Artifacts = lazy(() => import("@/app/artifacts/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -52,6 +54,24 @@ export const router = createBrowserRouter(
 						element={
 							<ProtectedRoute>
 								<PipelinesNamespace />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.models.overview}
+						element={
+							<ProtectedRoute>
+								<Models />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.artifacts.overview}
+						element={
+							<ProtectedRoute>
+								<Artifacts />
 							</ProtectedRoute>
 						}
 					/>

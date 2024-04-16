@@ -4,6 +4,12 @@ export const routes = {
 	devices: {
 		verify: "/devices/verify"
 	},
+	models: {
+		overview: "/models"
+	},
+	artifacts: {
+		overview: "/artifacts"
+	},
 	pipelines: {
 		overview: "/pipelines",
 		namespace: (namespace: string) => `/pipelines/${namespace}`
