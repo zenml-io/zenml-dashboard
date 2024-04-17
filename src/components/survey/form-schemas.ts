@@ -14,7 +14,7 @@ export const primaryUseFormSchema = z.object({
 	amountProductionModels: z.string().min(1)
 });
 
-export type PrimaryUseForm = z.infer<typeof primaryUseFormSchema>;
+export type PrimaryUseFormType = z.infer<typeof primaryUseFormSchema>;
 
 export const ReasonFormSchema = z
 	.object({
