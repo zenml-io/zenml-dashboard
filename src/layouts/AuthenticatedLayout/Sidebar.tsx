@@ -108,9 +108,9 @@ export function Sidebar() {
 								routePatterns={[
 									routes.settings.profile,
 									routes.settings.members,
-									routes.settings.connectors,
-									routes.settings.repositories,
-									routes.settings.secrets
+									routes.settings.connectors.overview,
+									routes.settings.repositories.overview,
+									routes.settings.secrets.overview
 								]}
 								to={routes.settings.members}
 							/>

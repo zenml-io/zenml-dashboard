@@ -23,15 +23,15 @@ export function ServerSettingsMenu() {
 			},
 			{
 				name: "Repositories",
-				href: routes.settings.repositories
+				href: routes.settings.repositories.overview
 			},
 			{
 				name: "Secrets",
-				href: routes.settings.secrets
+				href: routes.settings.secrets.overview
 			},
 			{
 				name: "Connectors",
-				href: routes.settings.connectors
+				href: routes.settings.connectors.overview
 			}
 		];
 	}

@@ -1,6 +1,7 @@
 export const routes = {
 	home: "/",
 	login: "/login",
+	survey: "/survey",
 	devices: {
 		verify: "/devices/verify"
 	},
@@ -22,9 +23,9 @@ export const routes = {
 	},
 	settings: {
 		members: `/settings/members`,
-		repositories: "/settings/repositories",
+		repositories: { overview: "/settings/repositories" },
 		profile: `/settings/profile`,
-		secrets: "/settings/secrets",
-		connectors: "/settings/connectors"
+		secrets: { overview: "/settings/secrets" },
+		connectors: { overview: "/settings/connectors" }
 	}
 };
