@@ -1,5 +1,5 @@
-import { useAuthContext } from "@/context/AuthContext";
 import { RootBoundary } from "@/error-boundaries/RootBoundary";
+import { useAuthContext } from "@/context/AuthContext";
 import { AuthenticatedLayout } from "@/layouts/AuthenticatedLayout";
 import { PropsWithChildren, lazy } from "react";
 import { Navigate, Route, createBrowserRouter, createRoutesFromElements } from "react-router-dom";
@@ -17,13 +17,16 @@ const MembersPage = lazy(() => import("@/app/settings/members/page"));
 const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
 // Settings
 const Settings = lazy(() => import("@/app/settings/page"));
+const Connectors = lazy(() => import("@/app/settings/connectors/page"));
+const Repositories = lazy(() => import("@/app/settings/repositories/page"));
+const Secrets = lazy(() => import("@/app/settings/secrets/page"));
+
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
 const Artifacts = lazy(() => import("@/app/artifacts/page"));
-const Repositories = lazy(() => import("@/app/settings/repositories/page"));
-const Secrets = lazy(() => import("@/app/settings/secrets/page"));
-const Connectors = lazy(() => import("@/app/settings/connectors/page"));
+
+const Survey = lazy(() => import("@/app/survey/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -161,6 +164,14 @@ export const router = createBrowserRouter(
 					element={
 						<ProtectedRoute>
 							<DeviceVerification />
+						</ProtectedRoute>
+					}
+				/>
+				<Route
+					path={routes.survey}
+					element={
+						<ProtectedRoute>
+							<Survey />
 						</ProtectedRoute>
 					}
 				/>
