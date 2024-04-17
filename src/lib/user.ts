@@ -7,3 +7,7 @@ export function getUsername(user: User) {
 export function getActivationToken(user: User) {
 	return `${window.location.origin}/signup?user=${user.id}&username=${encodeURIComponent(user.name)}&token=${user.body?.activation_token}`;
 }
+
+export function getIsDefaultUser(user: User) {
+	return user.name === "default";
+}

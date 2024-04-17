@@ -9,6 +9,7 @@ import { RootLayout } from "../layouts/RootLayout";
 import { routes } from "./routes";
 import { rootLoader } from "./loaders";
 import { queryClient } from "./queryclient";
+import { surveyLoader } from "../app/survey/loader";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -173,6 +174,7 @@ export const router = createBrowserRouter(
 					}
 				/>
 				<Route
+					loader={surveyLoader(queryClient)}
 					path={routes.survey}
 					element={
 						<ProtectedRoute>
