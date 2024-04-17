@@ -13,10 +13,17 @@ const Login = lazy(() => import("@/app/login/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
+const MembersPage = lazy(() => import("@/app/settings/members/page"));
+const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
+// Settings
+const Settings = lazy(() => import("@/app/settings/page"));
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
 const Artifacts = lazy(() => import("@/app/artifacts/page"));
+const Repositories = lazy(() => import("@/app/settings/repositories/page"));
+const Secrets = lazy(() => import("@/app/settings/secrets/page"));
+const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
@@ -84,6 +91,56 @@ export const router = createBrowserRouter(
 							</ProtectedRoute>
 						}
 					/>
+					<Route
+						path="/settings"
+						element={
+							<ProtectedRoute>
+								<Settings />
+							</ProtectedRoute>
+						}
+					>
+						<Route
+							path="repositories"
+							element={
+								<ProtectedRoute>
+									<Repositories />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="connectors"
+							element={
+								<ProtectedRoute>
+									<Connectors />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="secrets"
+							element={
+								<ProtectedRoute>
+									<Secrets />
+								</ProtectedRoute>
+							}
+						/>
+
+						<Route
+							path="members"
+							element={
+								<ProtectedRoute>
+									<MembersPage />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							path="profile"
+							element={
+								<ProtectedRoute>
+									<ProfileSettingsPage />
+								</ProtectedRoute>
+							}
+						/>
+					</Route>
 					<Route
 						errorElement={<PageBoundary />}
 						path={routes.stacks.overview}

@@ -4,6 +4,7 @@ import { FetchError } from "@/lib/fetch-error";
 import { objectToSearchParams } from "@/lib/url";
 import { PipelineRunOvervieweParams, PipelineRunPage } from "@/types/pipeline-runs";
 import { notFound } from "@/lib/not-found-error";
+import { fetcher } from "../fetch";
 export type PipelineRunOverview = {
 	params: PipelineRunOvervieweParams;
 };
@@ -12,14 +13,12 @@ export function getPipelineRunQueryKey({ params }: PipelineRunOverview) {
 	return ["runs", params];
 }
 
-export async function fetchAllPipelineRuns({ params }: PipelineRunOverview, token?: string) {
+export async function fetchAllPipelineRuns({ params }: PipelineRunOverview) {
 	const url = createApiPath(apiPaths.runs.all + "?" + objectToSearchParams(params));
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "GET",
-		credentials: "include",
 		headers: {
-			"Content-Type": "application/json",
-			...(token && { Authorization: `Bearer ${token}` })
+			"Content-Type": "application/json"
 		}
 	});
 

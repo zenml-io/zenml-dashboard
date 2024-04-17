@@ -4,6 +4,8 @@ import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
 import { objectToSearchParams } from "@/lib/url";
 import { notFound } from "@/lib/not-found-error";
+import { fetcher } from "../fetch";
+
 export type PipelineOverview = {
 	params: PipelineNamespacesParams;
 };
@@ -12,14 +14,12 @@ export function getPipelinesQueryKey({ params }: PipelineOverview) {
 	return ["pipeline_namespaces", params];
 }
 
-export async function fetchAllPipelines({ params }: PipelineOverview, token?: string) {
+export async function fetchAllPipelines({ params }: PipelineOverview) {
 	const url = createApiPath(apiPaths.pipelines.namespaces + "?" + objectToSearchParams(params));
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "GET",
-		credentials: "include",
 		headers: {
-			"Content-Type": "application/json",
-			...(token && { Authorization: `Bearer ${token}` })
+			"Content-Type": "application/json"
 		}
 	});
 

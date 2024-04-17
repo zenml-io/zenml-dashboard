@@ -19,5 +19,12 @@ export const routes = {
 	},
 	runs: {
 		detail: (id: string) => `/runs/${id}`
+	},
+	settings: {
+		members: `/settings/members`,
+		repositories: "/settings/repositories",
+		profile: `/settings/profile`,
+		secrets: "/settings/secrets",
+		connectors: "/settings/connectors"
 	}
 };
