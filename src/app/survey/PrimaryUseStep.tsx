@@ -11,7 +11,7 @@ type Props = {
 
 export function PrimaryUseStep({ user, updateStep }: Props) {
 	const { mutate } = useUpdateCurrentUserMutation({
-		onSuccess() {
+		onSuccess: () => {
 			updateStep(3);
 		}
 	});

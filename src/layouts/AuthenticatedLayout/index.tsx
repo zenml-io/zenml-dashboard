@@ -1,14 +1,15 @@
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { SidebarProvider } from "@zenml-io/react-component-library";
-import { Outlet } from "react-router-dom";
+import { Navigate, Outlet } from "react-router-dom";
 import { AuthenticatedHeader } from "./AuthenticatedHeader";
 import { Sidebar } from "./Sidebar";
+import { routes } from "@/router/routes";
 
 export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();
 
 	if (data && !data.metadata?.email) {
-		// return <Navigate to={routes.survey} />;
+		return <Navigate to={routes.survey} />;
 	}
 
 	return (

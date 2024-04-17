@@ -11,7 +11,7 @@ type Props = {
 
 export function AccountDetailsStep({ user, updateStep }: Props) {
 	const { mutate } = useUpdateCurrentUserMutation({
-		onSuccess() {
+		onSuccess: () => {
 			updateStep(2);
 		}
 	});

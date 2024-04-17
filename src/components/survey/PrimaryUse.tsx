@@ -12,7 +12,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { Controller, useForm } from "react-hook-form";
 import { PrimaryUseRadioButton } from "./UseRadioButton";
-import { PrimaryUseForm as PrimaryUseFormType, primaryUseFormSchema } from "./form-schemas";
+import { PrimaryUseFormType, primaryUseFormSchema } from "./form-schemas";
 import { User, UserMetadata } from "@/types/user";
 
 const modelsRange = ["0", "1-5", "6-25", "26-99", "100+"];

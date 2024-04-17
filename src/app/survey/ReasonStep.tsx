@@ -17,8 +17,8 @@ export function ReasonStep({ isDefaultUser, updateStep }: Props) {
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const { mutate } = useUpdateCurrentUserMutation({
-		onSuccess() {
-			queryClient.invalidateQueries({ queryKey: [getCurrentUserKey()] });
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({ queryKey: [getCurrentUserKey()] });
 			if (isDefaultUser) {
 				updateStep(4);
 				return;

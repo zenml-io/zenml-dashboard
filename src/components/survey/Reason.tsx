@@ -15,6 +15,7 @@ type Reason = {
 	icon: ReactNode;
 };
 
+// TODO Add icons
 const reasons: Reason[] = [
 	{
 		reason: "Build an internal MLOps platform",

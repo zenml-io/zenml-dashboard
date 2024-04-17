@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 export function ServerNameStep() {
 	const navigate = useNavigate();
 	const { mutate: mutateServerSettings } = useUpdateServerSettings({
-		onSuccess() {
+		onSuccess: () => {
 			navigate("/");
 		}
 	});
