@@ -8,6 +8,7 @@ import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { UpdatePasswordDialog } from "./UpdatePassword/UpdatePasswordDialog";
 import { UpdateProfileForm as UpdateProfileFormType } from "./UpdateProfileSchema";
+import { DisplayDate } from "@/components/DisplayDate";
 
 type Props = {
 	user: User;
@@ -94,6 +95,9 @@ export function UpdateProfileForm({ user }: Props) {
 				</div>
 			</form>
 			<UpdatePasswordDialog />
+			<p className="mt-5 text-text-sm text-theme-text-secondary">
+				Created on <DisplayDate dateString={user.body?.created || ""} />
+			</p>
 		</div>
 	);
 }

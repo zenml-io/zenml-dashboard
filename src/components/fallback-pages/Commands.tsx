@@ -10,7 +10,7 @@ export function generateCommandList(item: CommandListItem) {
 	return (
 		<div className="space-y-1">
 			<p className="text-text-sm text-theme-text-secondary">{item.description}</p>
-			<Codesnippet wrap code={item.command} />
+			<Codesnippet codeClasses="whitespace-pre-wrap" wrap code={item.command} />
 		</div>
 	);
 }
