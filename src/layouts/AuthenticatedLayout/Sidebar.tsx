@@ -1,6 +1,8 @@
 import Overview from "@/assets/icons/cloud-tenant.svg?react";
 import Pipeline from "@/assets/icons/pipeline.svg?react";
 import Stacks from "@/assets/icons/stack.svg?react";
+import Chip from "@/assets/icons/chip.svg?react";
+import File from "@/assets/icons/file.svg?react";
 import SideCollapse from "@/assets/icons/side-collapse.svg?react";
 import Settings from "@/assets/icons/settings.svg?react";
 
@@ -72,6 +74,22 @@ export function Sidebar() {
 									icon={<Pipeline />}
 									label="Pipelines"
 									to={"/pipelines"}
+								/>
+							</li>
+							<li className="w-full">
+								<SidebarLink
+									routePatterns={[routes.models.overview]}
+									icon={<Chip />}
+									label="Models"
+									to={routes.models.overview}
+								/>
+							</li>
+							<li className="w-full">
+								<SidebarLink
+									routePatterns={[routes.artifacts.overview]}
+									icon={<File />}
+									label="Artifacts"
+									to={routes.artifacts.overview}
 								/>
 							</li>
 							<li className="w-full">
