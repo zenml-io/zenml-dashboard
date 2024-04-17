@@ -2,14 +2,13 @@ import { apiPaths, createApiPath } from "@/data/api";
 import { LoginPayload, LoginResponse } from "@/types/session";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { FetchError } from "../../lib/fetch-error";
+import { fetcher } from "../fetch";
 
 export async function loginUser(body: LoginPayload) {
 	const url = createApiPath(apiPaths.login);
 
-	// TODO possibly this fetch can be abstracted
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "POST",
-		credentials: "include",
 		headers: {
 			"Content-Type": "application/x-www-form-urlencoded"
 		},

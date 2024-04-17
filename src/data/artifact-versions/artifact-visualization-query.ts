@@ -2,6 +2,7 @@ import { FetchError } from "@/lib/fetch-error";
 import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { ArtifactVisualization as VisualizationType } from "@/types/artifact-versions";
+import { fetcher } from "../fetch";
 
 type ArtifactVisualization = {
 	versionId: string;
@@ -13,16 +14,13 @@ export function getArtifactVisualizationQueryKey({ versionId }: ArtifactVisualiz
 
 export async function fetchArtifactVisualization(
 	{ versionId }: ArtifactVisualization,
-	signal?: AbortSignal,
-	token?: string
+	signal?: AbortSignal
 ) {
 	const url = createApiPath(apiPaths.artifactVersions.visualize(versionId));
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "GET",
-		credentials: "include",
 		headers: {
-			"Content-Type": "application/json",
-			...(token && { Authorization: `Bearer ${token}` })
+			"Content-Type": "application/json"
 		},
 		signal
 	});

@@ -2,6 +2,7 @@ export const apiPaths = {
 	login: "/login",
 	logout: "/logout",
 	currentUser: "/current-user",
+	info: "/info",
 	pipelines: {
 		namespaces: "/pipeline_namespaces"
 	},
@@ -27,6 +28,10 @@ export const apiPaths = {
 	steps: {
 		detail: (stepId: string) => `/steps/${stepId}`,
 		logs: (stepId: string) => `/steps/${stepId}/logs`
+	},
+	users: {
+		all: "/users",
+		detail: (userId: string) => `/users/${userId}`
 	}
 };
 

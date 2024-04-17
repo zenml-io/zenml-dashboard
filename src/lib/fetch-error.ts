@@ -18,3 +18,7 @@ export class FetchError extends Error {
 		this.message = message;
 	}
 }
+
+export function isFetchError(err: unknown): err is FetchError {
+	return err instanceof FetchError;
+}

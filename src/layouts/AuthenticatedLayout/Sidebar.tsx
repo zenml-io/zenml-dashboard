@@ -2,6 +2,8 @@ import Overview from "@/assets/icons/cloud-tenant.svg?react";
 import Pipeline from "@/assets/icons/pipeline.svg?react";
 import Stacks from "@/assets/icons/stack.svg?react";
 import SideCollapse from "@/assets/icons/side-collapse.svg?react";
+import Settings from "@/assets/icons/settings.svg?react";
+
 import { routes } from "@/router/routes";
 import {
 	Avatar,
@@ -81,11 +83,20 @@ export function Sidebar() {
 								/>
 							</li>
 						</SidebarList>
-						{/* <div className="mt-auto">
-							<div className="pt-0.5">
-								<SidebarLink icon={<div></div>} label="Overview" to={"/"} />
-							</div>
-						</div> */}
+						<div className="mt-auto">
+							<SidebarLink
+								icon={<Settings />}
+								label="Settings"
+								routePatterns={[
+									routes.settings.profile,
+									routes.settings.members,
+									routes.settings.connectors,
+									routes.settings.repositories,
+									routes.settings.secrets
+								]}
+								to={routes.settings.members}
+							/>
+						</div>
 					</SidebarBody>
 				</div>
 			</ZenMLSidebar>

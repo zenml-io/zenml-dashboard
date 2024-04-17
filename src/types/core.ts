@@ -1989,7 +1989,10 @@ export type paths = {
 		 *
 		 * Raises:
 		 *     IllegalOperationError: if the user tries change admin status,
-		 *         while not an admin
+		 *         while not an admin, if the user tries to change the password
+		 *         of another user, or if the user tries to change their own
+		 *         password without providing the old password or providing
+		 *         an incorrect old password.
 		 */
 		put: operations["update_user_api_v1_users__user_name_or_id__put"];
 		/**
@@ -2064,6 +2067,10 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The updated user.
+		 *
+		 * Raises:
+		 *     IllegalOperationError: if the current password is not supplied when
+		 *         changing the password or if the current password is incorrect.
 		 */
 		put: operations["update_myself_api_v1_current_user_put"];
 	};
@@ -6417,6 +6424,11 @@ export type components = {
 			 */
 			catchup?: boolean;
 			/**
+			 * Run Once Start Time
+			 * Format: date-time
+			 */
+			run_once_start_time?: string;
+			/**
 			 * Orchestrator Id
 			 * Format: uuid
 			 */
@@ -6492,6 +6504,11 @@ export type components = {
 			 * @default false
 			 */
 			catchup?: boolean;
+			/**
+			 * Run Once Start Time
+			 * Format: date-time
+			 */
+			run_once_start_time?: string;
 		};
 		/**
 		 * ScheduleResponseMetadata
@@ -6557,6 +6574,11 @@ export type components = {
 			 * @default false
 			 */
 			catchup?: boolean;
+			/**
+			 * Run Once Start Time
+			 * Format: date-time
+			 */
+			run_once_start_time?: string;
 			/**
 			 * Orchestrator Id
 			 * Format: uuid
@@ -8412,6 +8434,8 @@ export type components = {
 			is_admin?: boolean;
 			/** Whether the account is active. */
 			active?: boolean;
+			/** The previous password for the user. Only relevant for user accounts. Required when updating the password. */
+			old_password?: string;
 		};
 		/** ValidationError */
 		ValidationError: {
@@ -12710,6 +12734,7 @@ export type operations = {
 				interval_second?: number;
 				catchup?: boolean;
 				name?: string;
+				run_once_start_time?: string;
 			};
 		};
 		responses: {
@@ -16214,7 +16239,10 @@ export type operations = {
 	 *
 	 * Raises:
 	 *     IllegalOperationError: if the user tries change admin status,
-	 *         while not an admin
+	 *         while not an admin, if the user tries to change the password
+	 *         of another user, or if the user tries to change their own
+	 *         password without providing the old password or providing
+	 *         an incorrect old password.
 	 */
 	update_user_api_v1_users__user_name_or_id__put: {
 		parameters: {
@@ -16448,6 +16476,10 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The updated user.
+	 *
+	 * Raises:
+	 *     IllegalOperationError: if the current password is not supplied when
+	 *         changing the password or if the current password is incorrect.
 	 */
 	update_myself_api_v1_current_user_put: {
 		requestBody: {

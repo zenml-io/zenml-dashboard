@@ -1,7 +1,9 @@
-import { apiPaths, createApiPath } from "../api";
-import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
 import { LineageGraph } from "@/types/pipeline-runs";
+import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { apiPaths, createApiPath } from "../api";
+import { fetcher } from "../fetch";
+
 export type PipelineRunDetailOverview = {
 	runId: string;
 };
@@ -10,14 +12,12 @@ export function getPipelineRunGraphQueryKey({ runId }: PipelineRunDetailOverview
 	return ["runs", runId, "graph"];
 }
 
-export async function fetchPipelineRunGraph({ runId }: PipelineRunDetailOverview, token?: string) {
+export async function fetchPipelineRunGraph({ runId }: PipelineRunDetailOverview) {
 	const url = createApiPath(apiPaths.runs.graph(runId));
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "GET",
-		credentials: "include",
 		headers: {
-			"Content-Type": "application/json",
-			...(token && { Authorization: `Bearer ${token}` })
+			"Content-Type": "application/json"
 		}
 	});
 

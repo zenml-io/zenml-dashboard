@@ -13,7 +13,7 @@ export function getLayoutedNodes(
 	const g = new Dagre.graphlib.Graph().setDefaultEdgeLabel(() => ({}));
 	g.setGraph({ rankdir: "TB", ranksep: 35, nodesep: 5 });
 	if (!nodes || !edges) return { nodes: [], edges: [] };
-	if (nodes.length < 1 || edges.length < 1) return { nodes: [], edges: [] };
+	if (nodes.length < 1) return { nodes: [], edges: [] };
 
 	edges.forEach((edge) => {
 		g.setEdge(edge.source, edge.target);

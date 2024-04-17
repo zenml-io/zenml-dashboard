@@ -3,6 +3,7 @@ import { createApiPath, apiPaths } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { StackComponent } from "@/types/components";
 import { notFound } from "@/lib/not-found-error";
+import { fetcher } from "../fetch";
 
 type ComponentDetail = {
 	componentId: string;
@@ -12,14 +13,12 @@ export function getComponentDetailQueryKey({ componentId }: ComponentDetail) {
 	return ["components", componentId];
 }
 
-export async function fetchComponentDetail({ componentId }: ComponentDetail, token?: string) {
+export async function fetchComponentDetail({ componentId }: ComponentDetail) {
 	const url = createApiPath(apiPaths.components.detail(componentId));
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "GET",
-		credentials: "include",
 		headers: {
-			"Content-Type": "application/json",
-			...(token && { Authorization: `Bearer ${token}` })
+			"Content-Type": "application/json"
 		}
 	});
 
