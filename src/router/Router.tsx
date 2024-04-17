@@ -7,6 +7,8 @@ import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
 import { routes } from "./routes";
+import { rootLoader } from "./loaders";
+import { queryClient } from "./queryclient";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -33,6 +35,7 @@ export const router = createBrowserRouter(
 		<Route errorElement={<RootBoundary />} element={<RootLayout />}>
 			{/* AuthenticatedLayout */}
 			<Route
+				loader={rootLoader(queryClient)}
 				element={
 					<ProtectedRoute>
 						<AuthenticatedLayout />
@@ -183,6 +186,7 @@ export const router = createBrowserRouter(
 function ProtectedRoute({ children }: PropsWithChildren) {
 	const { getAuthState, removeAuthState } = useAuthContext();
 	const isLoggedIn = getAuthState();
+
 	if (!isLoggedIn) {
 		removeAuthState();
 		return (
