@@ -2,6 +2,7 @@ export const routes = {
 	home: "/",
 	login: "/login",
 	survey: "/survey",
+	signup: "/signup",
 	devices: {
 		verify: "/devices/verify"
 	},

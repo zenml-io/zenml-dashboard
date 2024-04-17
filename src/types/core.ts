@@ -1224,6 +1224,27 @@ export type paths = {
 		 */
 		get: operations["server_info_api_v1_info_get"];
 	};
+	"/api/v1/settings": {
+		/**
+		 * Get Server Settings
+		 * @description Get settings of the server.
+		 *
+		 * Returns:
+		 *     Settings of the server.
+		 */
+		get: operations["get_server_settings_api_v1_settings_get"];
+		/**
+		 * Update Server Settings
+		 * @description Updates a stack.
+		 *
+		 * Args:
+		 *     settings_update: Settings update.
+		 *
+		 * Returns:
+		 *     The updated settings.
+		 */
+		put: operations["update_server_settings_api_v1_settings_put"];
+	};
 	"/api/v1/service_accounts": {
 		/**
 		 * List Service Accounts
@@ -6780,10 +6801,86 @@ export type components = {
 			 */
 			base_url?: string;
 			/**
+			 * Show what's new information in the dashboard.
+			 * @default true
+			 */
+			whats_new_enabled?: boolean;
+			/**
+			 * Enable server-side analytics.
+			 * @default true
+			 */
+			analytics_enabled?: boolean;
+			/**
+			 * Show ZenML user surveys in the frontend.
+			 * @default true
+			 */
+			user_surveys_enabled?: boolean;
+			/**
 			 * The metadata associated with the server.
 			 * @default {}
 			 */
 			metadata?: {
+				[key: string]: unknown;
+			};
+		};
+		/**
+		 * ServerSettingsResponse
+		 * @description Base domain model for all responses.
+		 */
+		ServerSettingsResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["ServerSettingsResponseBody"];
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["ServerSettingsResponseMetadata"];
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["ServerSettingsResponseResources"];
+		};
+		/**
+		 * ServerSettingsResponseBody
+		 * @description Response body for server settings.
+		 */
+		ServerSettingsResponseBody: {
+			/** The name of the server. */
+			name: string;
+			/** Whether to display information about what's new in ZenML. */
+			display_whats_new: boolean;
+			/** Whether to display user surveys about ZenML. */
+			display_user_surveys: boolean;
+			/**
+			 * The onboarding state of the server.
+			 * @default {}
+			 */
+			onboarding_state?: {
+				[key: string]: unknown;
+			};
+		};
+		/**
+		 * ServerSettingsResponseMetadata
+		 * @description Response metadata for server settings.
+		 */
+		ServerSettingsResponseMetadata: Record<string, never>;
+		/**
+		 * ServerSettingsResponseResources
+		 * @description Response resources for server settings.
+		 */
+		ServerSettingsResponseResources: Record<string, never>;
+		/**
+		 * ServerSettingsUpdate
+		 * @description Base model class for all ZenML models.
+		 *
+		 * This class is used as a base class for all ZenML models. It provides
+		 * functionality for tracking analytics events and proper encoding of
+		 * SecretStr values.
+		 */
+		ServerSettingsUpdate: {
+			/** The name of the server. */
+			name?: string;
+			/** Whether to display information about what's new in ZenML. */
+			display_whats_new?: boolean;
+			/** Whether to display user surveys about ZenML. */
+			display_user_surveys?: boolean;
+			/** The onboarding state of the server. */
+			onboarding_state?: {
 				[key: string]: unknown;
 			};
 		};
@@ -8300,6 +8397,10 @@ export type components = {
 			 * Format: uuid
 			 */
 			external_user_id?: string;
+			/** The metadata associated with the user. */
+			user_metadata?: {
+				[key: string]: unknown;
+			};
 			/** The unique username for the account. */
 			name: string;
 			/**
@@ -8397,6 +8498,13 @@ export type components = {
 			 * Format: uuid
 			 */
 			external_user_id?: string;
+			/**
+			 * The metadata associated with the user.
+			 * @default {}
+			 */
+			user_metadata?: {
+				[key: string]: unknown;
+			};
 		};
 		/**
 		 * UserResponseResources
@@ -8426,6 +8534,10 @@ export type components = {
 			 * Format: uuid
 			 */
 			external_user_id?: string;
+			/** The metadata associated with the user. */
+			user_metadata?: {
+				[key: string]: unknown;
+			};
 			/** The unique username for the account. */
 			name?: string;
 			/** The full name for the account owner. Only relevant for user accounts. */
@@ -13290,6 +13402,89 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": components["schemas"]["ServerModel"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Server Settings
+	 * @description Get settings of the server.
+	 *
+	 * Returns:
+	 *     Settings of the server.
+	 */
+	get_server_settings_api_v1_settings_get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["ServerSettingsResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Update Server Settings
+	 * @description Updates a stack.
+	 *
+	 * Args:
+	 *     settings_update: Settings update.
+	 *
+	 * Returns:
+	 *     The updated settings.
+	 */
+	update_server_settings_api_v1_settings_put: {
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["ServerSettingsUpdate"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["ServerSettingsResponse"];
 				};
 			};
 			/** @description Unauthorized */
