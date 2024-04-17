@@ -3,6 +3,7 @@ export const apiPaths = {
 	logout: "/logout",
 	currentUser: "/current-user",
 	info: "/info",
+	settings: "/settings",
 	pipelines: {
 		namespaces: "/pipeline_namespaces"
 	},

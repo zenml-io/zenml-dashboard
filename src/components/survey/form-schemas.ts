@@ -15,3 +15,24 @@ export const primaryUseFormSchema = z.object({
 });
 
 export type PrimaryUseForm = z.infer<typeof primaryUseFormSchema>;
+
+export const ReasonFormSchema = z
+	.object({
+		reasons: z.string().array().min(1),
+		other: z.boolean(),
+		otherVal: z.string().optional()
+	})
+	.refine((data) => {
+		if (data.other) {
+			return data.otherVal !== "";
+		}
+		return true;
+	});
+
+export type ReasonFormType = z.infer<typeof ReasonFormSchema>;
+
+export const ServerNameFormSchema = z.object({
+	serverName: z.string().optional()
+});
+
+export type ServerNameFormType = z.infer<typeof ServerNameFormSchema>;
