@@ -112,7 +112,7 @@ export function ChangePasswordForm({ setSuccess }: FormProps) {
 							</label>
 							<Input
 								{...register("newPassword")}
-								type="text"
+								type="password"
 								id={newPasswordId}
 								className="w-full"
 							/>
@@ -123,7 +123,7 @@ export function ChangePasswordForm({ setSuccess }: FormProps) {
 							</label>
 							<Input
 								{...register("confirmPassword")}
-								type="text"
+								type="password"
 								id={confirmPasswordId}
 								className="w-full"
 							/>
