@@ -1,4 +1,3 @@
-import { getIsDefaultUser } from "@/lib/user";
 import { User } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox, Input } from "@zenml-io/react-component-library";
@@ -8,11 +7,15 @@ import { AccountDetailForm, accountDetailsFormSchema } from "./form-schemas";
 
 type AccountDetailsProps = {
 	user?: User;
+	isDefaultUser?: boolean;
 	submitHandler: (data: AccountDetailForm) => void;
 };
 
-export function AccountDetailsForm({ user, submitHandler }: AccountDetailsProps) {
-	const isDefaultUser = user ? getIsDefaultUser(user) : false;
+export function AccountDetailsForm({
+	user,
+	submitHandler,
+	isDefaultUser = false
+}: AccountDetailsProps) {
 	const usernameId = useId();
 	const fullNameId = useId();
 	const workEmailId = useId();

@@ -8,11 +8,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { PasswordChecker } from "../password/PasswordChecker";
 
 type Props = {
-	isExistingUser: boolean;
+	isExistingUser?: boolean;
 	submitHandler: (data: UpdatePasswordFormType) => void;
 };
 
-export function SetPasswordForm({ isExistingUser, submitHandler }: Props) {
+export function SetPasswordForm({ isExistingUser = false, submitHandler }: Props) {
 	const {
 		register,
 		watch,

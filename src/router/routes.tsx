@@ -2,7 +2,7 @@ export const routes = {
 	home: "/",
 	login: "/login",
 	survey: "/survey",
-	signup: "/signup",
+	activate: "/activate",
 	devices: {
 		verify: "/devices/verify"
 	},

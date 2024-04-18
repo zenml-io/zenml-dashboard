@@ -5,6 +5,7 @@ import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-m
 import { useSurvayContext } from "@/components/survey/SurveyContext";
 import { useToast } from "@zenml-io/react-component-library";
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import { getIsDefaultUser } from "@/lib/user";
 
 type Props = {
 	user: User;
@@ -39,5 +40,11 @@ export function AccountDetailsStep({ user }: Props) {
 		});
 	}
 
-	return <AccountDetailsForm user={user} submitHandler={handleDetailsSubmit} />;
+	return (
+		<AccountDetailsForm
+			isDefaultUser={getIsDefaultUser(user)}
+			user={user}
+			submitHandler={handleDetailsSubmit}
+		/>
+	);
 }
