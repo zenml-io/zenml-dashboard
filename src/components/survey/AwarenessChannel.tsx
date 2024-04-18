@@ -4,15 +4,7 @@ import { Button, Checkbox, Input } from "@zenml-io/react-component-library";
 import { ReactNode, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { AwarenessFormType, AwarenessFormSchema } from "./form-schemas";
-import Linkedin from "@/assets/icons/services/linkedin.svg?react";
-import Twitter from "@/assets/icons/services/x-twitter-primary.svg?react";
-import Mail from "@/assets/icons/mail.svg?react";
-import PlayCircle from "@/assets/icons/play-circle.svg?react";
-import Reddit from "@/assets/icons/services/reddit-primary.svg?react";
-import Announcement from "@/assets/icons/announcement.svg?react";
-import Users from "@/assets/icons/users.svg?react";
-import FileText from "@/assets/icons/file-text.svg?react";
-import Search from "@/assets/icons/search.svg?react";
+import { Icon } from "../Icon";
 
 export type AwarenessFormProps = {
 	user?: User;
@@ -27,39 +19,39 @@ type AwarenessChannel = {
 const channels: AwarenessChannel[] = [
 	{
 		channel: "LinkedIn",
-		icon: <Linkedin className="h-5 w-5 fill-primary-400" />
+		icon: <Icon name="services/linkedin" className="h-5 w-5 fill-primary-400" />
 	},
 	{
 		channel: "X / Twitter",
-		icon: <Twitter className="h-5 w-5" />
+		icon: <Icon name="services/x-twitter-primary" className="h-5 w-5" />
 	},
 	{
 		channel: "Newsletter",
-		icon: <Mail className="h-5 w-5 fill-primary-400" />
+		icon: <Icon name="mail" className="h-5 w-5 fill-primary-400" />
 	},
 	{
 		channel: "Webinar",
-		icon: <PlayCircle className="h-5 w-5 fill-primary-400" />
+		icon: <Icon name="play-circle" className="h-5 w-5 fill-primary-400" />
 	},
 	{
 		channel: "Reddit",
-		icon: <Reddit className="h-5 w-5" />
+		icon: <Icon name="services/reddit-primary" className="h-5 w-5" />
 	},
 	{
 		channel: "Conference",
-		icon: <Announcement className="h-5 w-5 fill-primary-400" />
+		icon: <Icon name="announcement" className="h-5 w-5 fill-primary-400" />
 	},
 	{
 		channel: "Recommendation",
-		icon: <Users className="h-5 w-5 fill-primary-400" />
+		icon: <Icon name="users" className="h-5 w-5 fill-primary-400" />
 	},
 	{
 		channel: "Blog",
-		icon: <FileText className="h-5 w-5 fill-primary-400" />
+		icon: <Icon name="file-text" className="h-5 w-5 fill-primary-400" />
 	},
 	{
 		channel: "Google / Search Engine",
-		icon: <Search className="h-5 w-5 fill-primary-400" />
+		icon: <Icon name="search" className="h-5 w-5 fill-primary-400" />
 	}
 ];
 

@@ -21,7 +21,8 @@
 		"noFallthroughCasesInSwitch": true,
 		"baseUrl": "./",
 		"paths": {
-			"@/*": ["src/*"]
+			"@/*": ["src/*"],
+			"~/icon-name": ["src/assets/icons/name.d.ts", "src/types/icon-name.d.ts"]
 		}
 	},
 	"include": ["src"],

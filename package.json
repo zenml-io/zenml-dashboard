@@ -5,6 +5,7 @@
 	"type": "module",
 	"scripts": {
 		"build": "tsc && vite build",
+		"build:icons": "npx svg-icons-cli build -i src/assets/icons/ -o src/assets/icons --optimize",
 		"dev": "vite",
 		"format": "prettier  --write .",
 		"generate:types": "node scripts/types.js",
