@@ -4,12 +4,16 @@ import { useUpdateServerSettings } from "@/data/server/update-server-settings-mu
 import { useToast } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import { useQueryClient } from "@tanstack/react-query";
+import { getServerSettingsKey } from "@/data/server/get-server-settings";
 
 export function ServerNameStep() {
 	const navigate = useNavigate();
 	const { toast } = useToast();
+	const queryClient = useQueryClient();
 	const { mutate: mutateServerSettings } = useUpdateServerSettings({
 		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: getServerSettingsKey() });
 			navigate("/");
 		},
 		onError: (error) => {

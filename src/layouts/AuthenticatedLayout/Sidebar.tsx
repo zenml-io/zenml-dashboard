@@ -15,7 +15,6 @@ import {
 	SidebarBody,
 	SidebarHeader,
 	SidebarHeaderImage,
-	SidebarHeaderTitle,
 	SidebarItem,
 	SidebarItemContent,
 	SidebarList,
@@ -25,6 +24,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
+import { SidebarTitle } from "./Title";
 
 export function Sidebar() {
 	const { setIsOpen, isOpen } = useSidebarContext();
@@ -51,7 +51,7 @@ export function Sidebar() {
 								<AvatarFallback size="md">D</AvatarFallback>
 							</Avatar>
 						</SidebarHeaderImage>
-						<SidebarHeaderTitle>default</SidebarHeaderTitle>
+						<SidebarTitle />
 					</SidebarHeader>
 					<SidebarBody>
 						<SidebarList>
