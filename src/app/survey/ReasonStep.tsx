@@ -1,26 +1,26 @@
 import { ReasonForm } from "@/components/survey/Reason";
+import { useSurvayContext } from "@/components/survey/SurveyContext";
 import { ReasonFormType } from "@/components/survey/form-schemas";
 import { getCurrentUserKey } from "@/data/users/current-user-query";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { routes } from "@/router/routes";
 import { UserMetadata } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
-import { Dispatch, SetStateAction } from "react";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
 	isDefaultUser: boolean;
-	updateStep: Dispatch<SetStateAction<number>>;
 };
 
-export function ReasonStep({ isDefaultUser, updateStep }: Props) {
+export function ReasonStep({ isDefaultUser }: Props) {
+	const { setSurveyStep } = useSurvayContext();
 	const navigate = useNavigate();
 	const queryClient = useQueryClient();
 	const { mutate } = useUpdateCurrentUserMutation({
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: [getCurrentUserKey()] });
 			if (isDefaultUser) {
-				updateStep(4);
+				setSurveyStep(4);
 				return;
 			}
 			navigate(routes.home);

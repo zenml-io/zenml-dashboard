@@ -2,17 +2,17 @@ import { User } from "@/types/user";
 import { AccountDetailsForm } from "@/components/survey/AccountDetailsForm";
 import { AccountDetailForm } from "@/components/survey/form-schemas";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
-import { Dispatch, SetStateAction } from "react";
+import { useSurvayContext } from "@/components/survey/SurveyContext";
 
 type Props = {
 	user: User;
-	updateStep: Dispatch<SetStateAction<number>>;
 };
 
-export function AccountDetailsStep({ user, updateStep }: Props) {
+export function AccountDetailsStep({ user }: Props) {
+	const { setSurveyStep } = useSurvayContext();
 	const { mutate } = useUpdateCurrentUserMutation({
 		onSuccess: () => {
-			updateStep(2);
+			setSurveyStep(2);
 		}
 	});
 

@@ -1,18 +1,18 @@
 import { PrimaryUseForm } from "@/components/survey/PrimaryUse";
+import { useSurvayContext } from "@/components/survey/SurveyContext";
 import { PrimaryUseFormType } from "@/components/survey/form-schemas";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { User, UserMetadata } from "@/types/user";
-import { Dispatch, SetStateAction } from "react";
 
 type Props = {
 	user: User;
-	updateStep: Dispatch<SetStateAction<number>>;
 };
 
-export function PrimaryUseStep({ user, updateStep }: Props) {
+export function PrimaryUseStep({ user }: Props) {
+	const { setSurveyStep } = useSurvayContext();
 	const { mutate } = useUpdateCurrentUserMutation({
 		onSuccess: () => {
-			updateStep(3);
+			setSurveyStep(3);
 		}
 	});
 	function handlePrimaryUseSubmit({ amountProductionModels, primaryUse }: PrimaryUseFormType) {
