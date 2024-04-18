@@ -16,9 +16,9 @@ export const primaryUseFormSchema = z.object({
 
 export type PrimaryUseFormType = z.infer<typeof primaryUseFormSchema>;
 
-export const ReasonFormSchema = z
+export const AwarenessFormSchema = z
 	.object({
-		reasons: z.string().array().min(1),
+		channels: z.string().array().min(1),
 		other: z.boolean(),
 		otherVal: z.string().optional()
 	})
@@ -29,7 +29,7 @@ export const ReasonFormSchema = z
 		return true;
 	});
 
-export type ReasonFormType = z.infer<typeof ReasonFormSchema>;
+export type AwarenessFormType = z.infer<typeof AwarenessFormSchema>;
 
 export const ServerNameFormSchema = z.object({
 	serverName: z.string().optional()

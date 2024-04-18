@@ -1,6 +1,6 @@
 import { AccountDetailsStep } from "./AccountDetailsStep";
 import { PrimaryUseStep } from "./PrimaryUseStep";
-import { ReasonStep } from "./ReasonStep";
+import { AwarenessStep } from "./AwarenessStep";
 import { ServerNameStep } from "./ServerNameStep";
 import StepDisplay from "@/components/survey/StepDisplay";
 import { getIsDefaultUser } from "@/lib/user";
@@ -23,7 +23,7 @@ export function SurveyWizard() {
 			{surveyStep === 1 && <AccountDetailsStep user={data} />}
 			{surveyStep === 2 && <SetPasswordStep />}
 			{surveyStep === 3 && <PrimaryUseStep user={data} />}
-			{surveyStep === 4 && <ReasonStep isDefaultUser={isDefaultUser} />}
+			{surveyStep === 4 && <AwarenessStep isDefaultUser={isDefaultUser} />}
 			{surveyStep === 5 && <ServerNameStep />}
 		</>
 	);

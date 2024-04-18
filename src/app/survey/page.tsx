@@ -4,7 +4,7 @@ import { SurveyWizard } from "./Wizard";
 export default function SurveyPage() {
 	return (
 		<div>
-			<SurveyProvider initialStep={1}>
+			<SurveyProvider initialStep={4}>
 				<SurveyWizard />
 			</SurveyProvider>
 		</div>
