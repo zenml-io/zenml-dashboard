@@ -43,7 +43,9 @@ export function AccountDetailsStep({ user }: Props) {
 	return (
 		<AccountDetailsForm
 			isDefaultUser={getIsDefaultUser(user)}
-			user={user}
+			email={user.metadata?.email}
+			fullName={user.body?.full_name}
+			username={user.name}
 			submitHandler={handleDetailsSubmit}
 		/>
 	);
