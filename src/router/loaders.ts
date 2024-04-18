@@ -4,6 +4,7 @@ import { QueryClient } from "@tanstack/react-query";
 export const rootLoader = (queryClient: QueryClient) => async () => {
 	await queryClient
 		.ensureQueryData({ queryKey: getCurrentUserKey(), queryFn: fetchCurrentUser })
+		// I'm not sure if I like this handling here. A potential check could also be getAuthstate()
 		.catch(() => {});
 	return null;
 };
