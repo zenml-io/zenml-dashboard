@@ -1,21 +1,16 @@
-import { PrimaryUseForm } from "@/components/survey/PrimaryUse";
+import { UpdatePasswordFormType } from "@/components/password/UpdatePasswordSchemas";
+import { SetPasswordForm } from "@/components/survey/SetPassword";
 import { useSurvayContext } from "@/components/survey/SurveyContext";
-import { PrimaryUseFormType } from "@/components/survey/form-schemas";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
-import { User, UserMetadata } from "@/types/user";
 import { useToast } from "@zenml-io/react-component-library";
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 
-type Props = {
-	user: User;
-};
-
-export function PrimaryUseStep({ user }: Props) {
+export function SetPasswordStep() {
 	const { setSurveyStep } = useSurvayContext();
 	const { toast } = useToast();
 	const { mutate } = useUpdateCurrentUserMutation({
 		onSuccess: () => {
-			setSurveyStep(4);
+			setSurveyStep(3);
 		},
 		onError: (error) => {
 			if (error instanceof Error) {
@@ -29,13 +24,13 @@ export function PrimaryUseStep({ user }: Props) {
 			}
 		}
 	});
-	function handlePrimaryUseSubmit({ amountProductionModels, primaryUse }: PrimaryUseFormType) {
-		const metadata: UserMetadata = {
-			models_production: amountProductionModels,
-			primary_use: primaryUse
-		};
-		mutate({ metadata: metadata });
+
+	function handlePasswordSubmit({ oldPassword, newPassword }: UpdatePasswordFormType) {
+		mutate({
+			password: newPassword,
+			old_password: oldPassword
+		});
 	}
 
-	return <PrimaryUseForm user={user} submitHandler={handlePrimaryUseSubmit} />;
+	return <SetPasswordForm isExistingUser submitHandler={handlePasswordSubmit} />;
 }

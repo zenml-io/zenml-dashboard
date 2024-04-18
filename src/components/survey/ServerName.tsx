@@ -15,7 +15,8 @@ export function ServerNameForm({ submitHandler }: Props) {
 		register,
 		formState: { isValid }
 	} = useForm<ServerNameFormType>({
-		resolver: zodResolver(ServerNameFormSchema)
+		resolver: zodResolver(ServerNameFormSchema),
+		defaultValues: { serverName: "default" }
 	});
 
 	return (

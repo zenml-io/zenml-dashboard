@@ -10,13 +10,13 @@ export const passwordSchema = z
 
 export const updatePasswordFormSchema = z
 	.object({
-		oldPassword: z.string(),
+		oldPassword: z.string().optional(),
 		newPassword: passwordSchema,
-		confirmPassword: z.string()
+		confirmPassword: z.string().min(1)
 	})
 	.refine((data) => data.newPassword === data.confirmPassword, {
 		path: ["confirmPassword"],
 		message: "Passwords do not match"
 	});
 
-export type UpdatePasswordForm = z.infer<typeof updatePasswordFormSchema>;
+export type UpdatePasswordFormType = z.infer<typeof updatePasswordFormSchema>;

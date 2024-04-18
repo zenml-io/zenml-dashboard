@@ -7,6 +7,7 @@ import { getIsDefaultUser } from "@/lib/user";
 import { useSurvayContext } from "@/components/survey/SurveyContext";
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { Skeleton } from "@zenml-io/react-component-library";
+import { SetPasswordStep } from "./PasswordStep";
 
 export function SurveyWizard() {
 	const { data, isPending, isError } = useCurrentUser({ throwOnError: true });
@@ -18,11 +19,12 @@ export function SurveyWizard() {
 	const isDefaultUser = getIsDefaultUser(data);
 	return (
 		<>
-			<StepDisplay stepAmount={isDefaultUser ? 4 : 3} />
+			<StepDisplay stepAmount={isDefaultUser ? 5 : 4} />
 			{surveyStep === 1 && <AccountDetailsStep user={data} />}
-			{surveyStep === 2 && <PrimaryUseStep user={data} />}
-			{surveyStep === 3 && <ReasonStep isDefaultUser={isDefaultUser} />}
-			{surveyStep === 4 && <ServerNameStep />}
+			{surveyStep === 2 && <SetPasswordStep />}
+			{surveyStep === 3 && <PrimaryUseStep user={data} />}
+			{surveyStep === 4 && <ReasonStep isDefaultUser={isDefaultUser} />}
+			{surveyStep === 5 && <ServerNameStep />}
 		</>
 	);
 }

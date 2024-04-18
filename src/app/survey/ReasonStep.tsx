@@ -6,7 +6,9 @@ import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-m
 import { routes } from "@/router/routes";
 import { UserMetadata } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
+import { useToast } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
+import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 
 type Props = {
 	isDefaultUser: boolean;
@@ -15,22 +17,34 @@ type Props = {
 export function ReasonStep({ isDefaultUser }: Props) {
 	const { setSurveyStep } = useSurvayContext();
 	const navigate = useNavigate();
+	const { toast } = useToast();
 	const queryClient = useQueryClient();
 	const { mutate } = useUpdateCurrentUserMutation({
 		onSuccess: async () => {
-			await queryClient.invalidateQueries({ queryKey: [getCurrentUserKey()] });
+			await queryClient.invalidateQueries({ queryKey: getCurrentUserKey() });
 			if (isDefaultUser) {
-				setSurveyStep(4);
+				setSurveyStep(5);
 				return;
 			}
 			navigate(routes.home);
+		},
+		onError: (error) => {
+			if (error instanceof Error) {
+				toast({
+					status: "error",
+					emphasis: "subtle",
+					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					description: error.message,
+					rounded: true
+				});
+			}
 		}
 	});
 
 	function handleReasonFormSubmit({ other, reasons, otherVal }: ReasonFormType) {
 		const reasonsArr = other ? [...reasons, otherVal] : reasons;
 		const updateMetadata: UserMetadata = { reasons: reasonsArr as string[] };
-		mutate({ user_metadata: updateMetadata });
+		mutate({ metadata: updateMetadata });
 	}
 
 	return <ReasonForm submitHandler={handleReasonFormSubmit} />;

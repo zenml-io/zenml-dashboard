@@ -6800,21 +6800,8 @@ export type components = {
 			 * @default
 			 */
 			base_url?: string;
-			/**
-			 * Show what's new information in the dashboard.
-			 * @default true
-			 */
-			whats_new_enabled?: boolean;
-			/**
-			 * Enable server-side analytics.
-			 * @default true
-			 */
-			analytics_enabled?: boolean;
-			/**
-			 * Show ZenML user surveys in the frontend.
-			 * @default true
-			 */
-			user_surveys_enabled?: boolean;
+			/** Enable server-side analytics. */
+			analytics_enabled: boolean;
 			/**
 			 * The metadata associated with the server.
 			 * @default {}
@@ -6842,10 +6829,12 @@ export type components = {
 		ServerSettingsResponseBody: {
 			/** The name of the server. */
 			name: string;
-			/** Whether to display information about what's new in ZenML. */
-			display_whats_new: boolean;
-			/** Whether to display user surveys about ZenML. */
-			display_user_surveys: boolean;
+			/** The logo URL of the server. */
+			logo_url?: string;
+			/** Whether to display announcements about ZenML. */
+			display_announcements: boolean;
+			/** Whether to display updates of ZenML. */
+			display_updates: boolean;
 			/**
 			 * The onboarding state of the server.
 			 * @default {}
@@ -6875,10 +6864,12 @@ export type components = {
 		ServerSettingsUpdate: {
 			/** The name of the server. */
 			name?: string;
-			/** Whether to display information about what's new in ZenML. */
-			display_whats_new?: boolean;
-			/** Whether to display user surveys about ZenML. */
-			display_user_surveys?: boolean;
+			/** The logo URL of the server. */
+			logo_url?: string;
+			/** Whether to display announcements about ZenML. */
+			display_announcements?: boolean;
+			/** Whether to display updates of ZenML. */
+			display_updates?: boolean;
 			/** The onboarding state of the server. */
 			onboarding_state?: {
 				[key: string]: unknown;
@@ -8398,7 +8389,7 @@ export type components = {
 			 */
 			external_user_id?: string;
 			/** The metadata associated with the user. */
-			user_metadata?: {
+			metadata?: {
 				[key: string]: unknown;
 			};
 			/** The unique username for the account. */
@@ -8502,7 +8493,7 @@ export type components = {
 			 * The metadata associated with the user.
 			 * @default {}
 			 */
-			user_metadata?: {
+			metadata?: {
 				[key: string]: unknown;
 			};
 		};
@@ -8535,7 +8526,7 @@ export type components = {
 			 */
 			external_user_id?: string;
 			/** The metadata associated with the user. */
-			user_metadata?: {
+			metadata?: {
 				[key: string]: unknown;
 			};
 			/** The unique username for the account. */

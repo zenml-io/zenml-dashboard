@@ -41,7 +41,7 @@ export function LoginForm() {
 	});
 
 	function login(data: LoginPayload) {
-		mutation.mutate(data);
+		mutation.mutate({ username: data.username.trim(), password: data.password });
 	}
 
 	return (
