@@ -9,10 +9,15 @@ import { PasswordChecker } from "../password/PasswordChecker";
 
 type Props = {
 	isExistingUser?: boolean;
+	isDefaultUser?: boolean;
 	submitHandler: (data: UpdatePasswordFormType) => void;
 };
 
-export function SetPasswordForm({ isExistingUser = false, submitHandler }: Props) {
+export function SetPasswordForm({
+	isDefaultUser = false,
+	isExistingUser = false,
+	submitHandler
+}: Props) {
 	const {
 		register,
 		watch,
@@ -21,7 +26,8 @@ export function SetPasswordForm({ isExistingUser = false, submitHandler }: Props
 	} = useForm<UpdatePasswordFormType>({
 		resolver: zodResolver(updatePasswordFormSchema),
 		mode: "onChange",
-		criteriaMode: "all"
+		criteriaMode: "all",
+		defaultValues: { oldPassword: "" }
 	});
 
 	const newPasswordErrors = errors.newPassword?.types;
@@ -37,7 +43,11 @@ export function SetPasswordForm({ isExistingUser = false, submitHandler }: Props
 					{isExistingUser && (
 						<div className="space-y-0.5">
 							<label className="text-text-sm">Old Password</label>
-							<Input {...register("oldPassword")} type="password" className="w-full" />
+							<Input
+								{...(register("oldPassword"), { disabled: isDefaultUser })}
+								type="password"
+								className="w-full"
+							/>
 						</div>
 					)}
 				</div>
