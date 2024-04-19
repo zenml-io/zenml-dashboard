@@ -1,6 +1,6 @@
 import { useCurrentUser } from "@/data/users/current-user-query";
 import { Outlet } from "react-router-dom";
-import { DisplayTenant, ProfileSettingsMenu, ServerSettingsMenu } from "./LayoutSidebar";
+import { DisplayServer, ProfileSettingsMenu, ServerSettingsMenu } from "./LayoutSidebar";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { VersionDisplay } from "./VersionDisplay";
 import { getUsername } from "@/lib/user";
@@ -14,7 +14,7 @@ export default function SettingsPage() {
 			<div className="flex w-[200px] shrink-0 flex-col gap-4">
 				<div className="flex flex-col gap-4">
 					<p className="text-text-xs font-semibold uppercase text-theme-text-tertiary">Server</p>
-					<DisplayTenant />
+					<DisplayServer />
 					<ServerSettingsMenu />
 				</div>
 				{data ? (

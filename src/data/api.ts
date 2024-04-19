@@ -32,7 +32,8 @@ export const apiPaths = {
 	},
 	users: {
 		all: "/users",
-		detail: (userId: string) => `/users/${userId}`
+		detail: (userId: string) => `/users/${userId}`,
+		activate: (userId: string) => `/users/${userId}/activate`
 	}
 };
 

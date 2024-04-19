@@ -1,11 +1,11 @@
 import { SurveyProvider } from "@/components/survey/SurveyContext";
-import { SurveyWizard } from "./Wizard";
+import { ActivateWizard } from "./Wizard";
 
-export default function SurveyPage() {
+export default function ActivatePage() {
 	return (
 		<div>
 			<SurveyProvider>
-				<SurveyWizard />
+				<ActivateWizard />
 			</SurveyProvider>
 		</div>
 	);

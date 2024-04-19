@@ -5,16 +5,17 @@ import { AwarenessFormType } from "@/components/survey/form-schemas";
 import { getCurrentUserKey } from "@/data/users/current-user-query";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { routes } from "@/router/routes";
-import { UserMetadata } from "@/types/user";
+import { User, UserMetadata } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
 
 type Props = {
 	isDefaultUser: boolean;
+	user: User;
 };
 
-export function AwarenessStep({ isDefaultUser }: Props) {
+export function AwarenessStep({ isDefaultUser, user }: Props) {
 	const { setSurveyStep } = useSurvayContext();
 	const navigate = useNavigate();
 	const { toast } = useToast();
@@ -44,7 +45,7 @@ export function AwarenessStep({ isDefaultUser }: Props) {
 	function handleAwarenessFormSubmit({ other, channels, otherVal }: AwarenessFormType) {
 		const channelArr = other ? [...channels, otherVal] : channels;
 		const updateMetadata: UserMetadata = { awareness_channels: channelArr as string[] };
-		mutate({ metadata: updateMetadata });
+		mutate({ metadata: { ...user.metadata?.metadata, ...updateMetadata } });
 	}
 
 	return <AwarenessForm submitHandler={handleAwarenessFormSubmit} />;

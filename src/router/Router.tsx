@@ -13,7 +13,7 @@ import { surveyLoader } from "../app/survey/loader";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
-const Signup = lazy(() => import("@/app/signup/page"));
+const Activate = lazy(() => import("@/app/activate/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
@@ -164,7 +164,7 @@ export const router = createBrowserRouter(
 			{/* Gradient Layout */}
 			<Route element={<GradientLayout />}>
 				<Route path={routes.login} element={<Login />} />
-				<Route path={routes.signup} element={<Signup />} />
+				<Route path={routes.activate} element={<Activate />} />
 				<Route
 					path={routes.devices.verify}
 					element={

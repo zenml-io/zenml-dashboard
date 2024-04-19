@@ -37,7 +37,7 @@ export async function fetchServerSettings(): Promise<ServerSettings> {
 	return res.json();
 }
 
-export function useServerInfo(
+export function useServerSettings(
 	options?: Omit<UseQueryOptions<ServerSettings>, "queryKey" | "queryFn">
 ) {
 	return useQuery<ServerSettings>({

@@ -21,9 +21,9 @@ export function SurveyWizard() {
 		<>
 			<StepDisplay stepAmount={isDefaultUser ? 5 : 4} />
 			{surveyStep === 1 && <AccountDetailsStep user={data} />}
-			{surveyStep === 2 && <SetPasswordStep />}
+			{surveyStep === 2 && <SetPasswordStep user={data} />}
 			{surveyStep === 3 && <PrimaryUseStep user={data} />}
-			{surveyStep === 4 && <AwarenessStep isDefaultUser={isDefaultUser} />}
+			{surveyStep === 4 && <AwarenessStep user={data} isDefaultUser={isDefaultUser} />}
 			{surveyStep === 5 && <ServerNameStep />}
 		</>
 	);

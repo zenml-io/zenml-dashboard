@@ -1,5 +1,3 @@
-import { getIsDefaultUser } from "@/lib/user";
-import { User } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox, Input } from "@zenml-io/react-component-library";
 import { useId } from "react";
@@ -7,12 +5,20 @@ import { useForm } from "react-hook-form";
 import { AccountDetailForm, accountDetailsFormSchema } from "./form-schemas";
 
 type AccountDetailsProps = {
-	user?: User;
+	fullName?: string;
+	username?: string;
+	email?: string;
+	isDefaultUser?: boolean;
 	submitHandler: (data: AccountDetailForm) => void;
 };
 
-export function AccountDetailsForm({ user, submitHandler }: AccountDetailsProps) {
-	const isDefaultUser = user ? getIsDefaultUser(user) : false;
+export function AccountDetailsForm({
+	email,
+	fullName,
+	username,
+	submitHandler,
+	isDefaultUser = false
+}: AccountDetailsProps) {
 	const usernameId = useId();
 	const fullNameId = useId();
 	const workEmailId = useId();
@@ -25,9 +31,9 @@ export function AccountDetailsForm({ user, submitHandler }: AccountDetailsProps)
 	} = useForm<AccountDetailForm>({
 		resolver: zodResolver(accountDetailsFormSchema),
 		defaultValues: {
-			fullName: user?.body?.full_name,
-			username: user?.name,
-			workEmail: user?.metadata?.email
+			fullName: fullName,
+			username: username,
+			workEmail: email
 		}
 	});
 
