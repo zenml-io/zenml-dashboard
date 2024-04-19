@@ -1,4 +1,3 @@
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import {
 	getArtifactVisualizationQueryKey,
 	useArtifactVisualization
@@ -12,6 +11,7 @@ import { HTMLVisualization } from "./HtmlVisualization";
 import { ImageVisualization } from "./ImageVisualization";
 import { InfoBox } from "../Infobox";
 import { useArtifactLoadConfirmationContext } from "@/context/VisualizationConfirmationContext";
+import { Icon } from "@/components/Icon";
 
 const CSVVisualization = lazy(() => import("./CsvVizualization"));
 const MarkdownVisualization = lazy(() => import("./MarkdownVisualization"));
@@ -39,7 +39,9 @@ export function Visualization({ artifactVersionId, artifactName }: Visualization
 
 	if (isCancelled) {
 		return (
-			<EmptyState icon={<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />}>
+			<EmptyState
+				icon={<Icon name="alert-circle" className="h-[120px] w-[120px] fill-neutral-300" />}
+			>
 				<div className="flex flex-col items-center text-center">
 					<p className="mb-5 text-text-lg text-theme-text-secondary">
 						Loading the visualization cancelled
@@ -55,7 +57,9 @@ export function Visualization({ artifactVersionId, artifactName }: Visualization
 	if (isError) {
 		if (error.status === 501) {
 			return (
-				<EmptyState icon={<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />}>
+				<EmptyState
+					icon={<Icon name="alert-circle" className="h-[120px] w-[120px] fill-neutral-300" />}
+				>
 					<p>
 						This artifact cannot be visualized because it cannot be loaded from the artifact store.
 						This might happen if your ZenML server does not have the artifact stores dependencies
@@ -73,7 +77,9 @@ export function Visualization({ artifactVersionId, artifactName }: Visualization
 			);
 		}
 		return (
-			<EmptyState icon={<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />}>
+			<EmptyState
+				icon={<Icon name="alert-circle" className="h-[120px] w-[120px] fill-neutral-300" />}
+			>
 				<div className="text-center">
 					<p className="text-text-lg text-theme-text-secondary">{error.message}</p>
 				</div>

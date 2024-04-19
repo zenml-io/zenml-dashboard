@@ -1,4 +1,3 @@
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { isFetchError } from "@/lib/fetch-error";
 import { UpdateUser, User } from "@/types/user";
@@ -9,6 +8,7 @@ import { useForm } from "react-hook-form";
 import { UpdatePasswordDialog } from "./UpdatePassword/UpdatePasswordDialog";
 import { UpdateProfileForm as UpdateProfileFormType } from "./UpdateProfileSchema";
 import { DisplayDate } from "@/components/DisplayDate";
+import { Icon } from "@/components/Icon";
 
 type Props = {
 	user: User;
@@ -26,7 +26,7 @@ export function UpdateProfileForm({ user }: Props) {
 				toast({
 					status: "error",
 					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					icon: <Icon name="alert-circle" className="h-5 w-5 shrink-0 fill-error-700" />,
 					description: error.message,
 					rounded: true
 				});

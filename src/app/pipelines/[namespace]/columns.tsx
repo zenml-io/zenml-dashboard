@@ -1,7 +1,7 @@
-import RunIcon from "@/assets/icons/terminal.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
+import { Icon } from "@/components/Icon";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { routes } from "@/router/routes";
 import { CodeRepository } from "@/types/code-repository";
@@ -32,7 +32,7 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 
 				return (
 					<div className="group/copybutton flex items-center gap-2">
-						<RunIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
+						<Icon name="terminal" className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
 						<div>
 							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
 								<h2 className="text-text-md font-semibold">{name}</h2>

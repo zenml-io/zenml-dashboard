@@ -1,8 +1,3 @@
-import DoubleChevronRight from "@/assets/icons/chevron-right-double.svg?react";
-import Code from "@/assets/icons/code-browser.svg?react";
-import CodeSquare from "@/assets/icons/code-square.svg?react";
-import Info from "@/assets/icons/info.svg?react";
-import Tools from "@/assets/icons/tool.svg?react";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import {
@@ -22,6 +17,7 @@ import { StepConfigTab } from "./ConfigurationTab";
 import { StepDetailsTab } from "./DetailsTab";
 import { StepLogsTab } from "./LogsTab";
 import { StepMetadataTab } from "./MetadataTab";
+import { Icon } from "@/components/Icon";
 
 type Props = {
 	stepId: string;
@@ -49,7 +45,7 @@ export function StepSheetContent({ stepId }: Props) {
 		<div>
 			<div className="flex h-9 items-center border-b border-theme-border-moderate bg-theme-surface-primary px-4 py-3">
 				<SheetClose className="focus:outline-none focus:ring-2 focus:ring-offset-2 disabled:pointer-events-none">
-					<DoubleChevronRight className="h-5 w-5 fill-neutral-500" />
+					<Icon name="chevron-right-double" className="h-5 w-5 fill-neutral-500" />
 					<span className="sr-only">Close</span>
 				</SheetClose>
 			</div>
@@ -74,23 +70,38 @@ export function StepSheetContent({ stepId }: Props) {
 				<Tabs defaultValue="overview">
 					<TabsList>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="overview">
-							<Info className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<Icon
+								name="info"
+								className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong"
+							/>
 							<span>Overview</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="code">
-							<Code className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<Icon
+								name="code-browser"
+								className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong"
+							/>
 							<span>Code</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="logs">
-							<Code className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<Icon
+								name="code-browser"
+								className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong"
+							/>
 							<span>Logs</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="config">
-							<Tools className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<Icon
+								name="tool"
+								className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong"
+							/>
 							<span>Configuration</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="metadata">
-							<CodeSquare className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<Icon
+								name="code-square"
+								className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong"
+							/>
 							<span>Metadata</span>
 						</TabsTrigger>
 					</TabsList>

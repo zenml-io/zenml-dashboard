@@ -1,4 +1,3 @@
-import Spinner from "@/assets/icons/spinner.svg?react";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ErrorFallback } from "@/components/Error";
 import { InlineAvatar } from "@/components/InlineAvatar";
@@ -16,6 +15,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
+import { Icon } from "@/components/Icon";
 
 type Props = {
 	artifactVersionId: string;
@@ -55,7 +55,7 @@ export function DetailsCard({ artifactVersionId }: Props) {
 										rounded={false}
 										emphasis="subtle"
 									>
-										<Spinner className="mr-1 h-4 w-4" />
+										<Icon name="spinner" className="mr-1 h-4 w-4" />
 										{stepData?.name}
 									</Tag>
 								) : (

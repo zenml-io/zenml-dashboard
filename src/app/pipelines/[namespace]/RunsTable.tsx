@@ -1,11 +1,11 @@
 import { usePipelineRunParams } from "./service";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
-import Refresh from "@/assets/icons/refresh.svg?react";
 import { useParams } from "react-router-dom";
 import { useAllPipelineRuns } from "@/data/pipeline-runs/all-pipeline-runs-query";
 import { SearchField } from "@/components/SearchField";
 import Pagination from "@/components/Pagination";
 import { getPipelineDetailColumns } from "./columns";
+import { Icon } from "@/components/Icon";
 
 export function PipelineRunsTable() {
 	const { namespace } = useParams() as { namespace: string };
@@ -28,7 +28,7 @@ export function PipelineRunsTable() {
 			<div className="flex items-center justify-between">
 				<SearchField searchParams={params} />
 				<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>
-					<Refresh className="h-5 w-5 fill-theme-text-brand" />
+					<Icon name="refresh" className="h-5 w-5 fill-theme-text-brand" />
 					Refresh
 				</Button>
 			</div>

@@ -1,6 +1,5 @@
-import File from "@/assets/icons/file.svg?react";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { EmptyState } from "@/components/EmptyState";
+import { Icon } from "./Icon";
 
 type Props = {
 	isAlertCircle?: boolean;
@@ -12,9 +11,9 @@ export function ErrorFallback({ err, isAlertCircle = false }: Props) {
 		<EmptyState
 			icon={
 				isAlertCircle ? (
-					<AlertCircle className="h-[120px] w-[120px] fill-neutral-300" />
+					<Icon name="alert-circle" className="h-[120px] w-[120px] fill-neutral-300" />
 				) : (
-					<File className="h-[120px] w-[120px] fill-neutral-300" />
+					<Icon name="file" className="h-[120px] w-[120px] fill-neutral-300" />
 				)
 			}
 		>

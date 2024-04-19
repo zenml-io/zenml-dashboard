@@ -1,5 +1,3 @@
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import UserIcon from "@/assets/icons/user-plus.svg?react";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { useCreateUserMutation } from "@/data/users/create-user-mutation";
 import { isFetchError } from "@/lib/fetch-error";
@@ -22,6 +20,7 @@ import { useId, useState } from "react";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { getActivationToken } from "@/lib/user";
+import { Icon } from "@/components/Icon";
 
 export function AddMemberDialog() {
 	const [open, setOpen] = useState(false);
@@ -71,7 +70,7 @@ function AddMemberForm({ setSuccessMember }: AddMemberFormProps) {
 				toast({
 					status: "error",
 					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					icon: <Icon name="alert-circle" className="h-5 w-5 shrink-0 fill-error-700" />,
 					description: error.message,
 					rounded: true
 				});
@@ -129,7 +128,7 @@ function AddMemberForm({ setSuccessMember }: AddMemberFormProps) {
 function SuccessAddMember({ token, name }: { token: string; name: string }) {
 	return (
 		<div className="space-y-5 overflow-hidden p-7 text-center">
-			<UserIcon className="m-auto mb-5 h-[110px] w-[110px] fill-success-500" />
+			<Icon name="user-plus" className="m-auto mb-5 h-[110px] w-[110px] fill-success-500" />
 			<div className="space-y-1">
 				<p className="text-text-lg font-semibold text-theme-text-primary">{`The user ${name} was created successfully!`}</p>
 				<p className="text-text-md text-theme-text-secondary">

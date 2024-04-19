@@ -1,4 +1,4 @@
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import { Icon } from "@/components/Icon";
 import { Key, Value } from "@/components/KeyValue";
 import { snakeCaseToTitleCase } from "@/lib/strings";
 import { StackComponent } from "@/types/components";
@@ -41,7 +41,8 @@ export function StackComponentCollapsible({ component, run }: Props) {
 			<CollapsibleHeader intent="secondary" className="flex items-center justify-between ">
 				<div className="flex w-full items-center gap-[10px]">
 					<CollapsibleTrigger>
-						<ChevronDown
+						<Icon
+							name="chevron-down"
 							className={` ${
 								open ? "" : "-rotate-90"
 							} h-5 w-5 rounded-md fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200`}

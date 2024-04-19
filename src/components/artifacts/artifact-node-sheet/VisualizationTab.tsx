@@ -2,11 +2,11 @@
 import { Button, Skeleton } from "@zenml-io/react-component-library";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
 import { EmptyState } from "@/components/EmptyState";
-import BarChart from "@/assets/icons/bar-chart.svg?react";
 import { Visualization } from "../Visualization";
 import { MetadataMap } from "@/types/common";
 import { useState } from "react";
 import { FIVEMEGABYTES } from "@/lib/constants";
+import { Icon } from "@/components/Icon";
 
 type Props = {
 	artifactVersionId: string;
@@ -20,7 +20,7 @@ export function VisualizationTab({ artifactVersionId }: Props) {
 
 	if (isError) {
 		return (
-			<EmptyState icon={<BarChart className="h-[120px] w-[120px] fill-neutral-300" />}>
+			<EmptyState icon={<Icon name="bar-chart" className="h-[120px] w-[120px] fill-neutral-300" />}>
 				<div className="text-center">
 					<p className="text-text-lg text-theme-text-secondary">{error.message}</p>
 				</div>
@@ -36,7 +36,7 @@ export function VisualizationTab({ artifactVersionId }: Props) {
 
 	if (data.metadata?.visualizations && data.metadata.visualizations.length < 1) {
 		return (
-			<EmptyState icon={<BarChart className="h-[120px] w-[120px] fill-neutral-300" />}>
+			<EmptyState icon={<Icon name="bar-chart" className="h-[120px] w-[120px] fill-neutral-300" />}>
 				<div className="text-center">
 					<p className="mb-2 text-display-xs font-semibold">No visualizations found</p>
 					<p className="text-text-lg text-theme-text-secondary">

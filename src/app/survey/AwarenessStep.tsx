@@ -1,3 +1,4 @@
+import { Icon } from "@/components/Icon";
 import { AwarenessForm } from "@/components/survey/AwarenessChannel";
 import { useSurvayContext } from "@/components/survey/SurveyContext";
 import { AwarenessFormType } from "@/components/survey/form-schemas";
@@ -8,7 +9,6 @@ import { UserMetadata } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 
 type Props = {
 	isDefaultUser: boolean;
@@ -33,7 +33,7 @@ export function AwarenessStep({ isDefaultUser }: Props) {
 				toast({
 					status: "error",
 					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					icon: <Icon name="alert-circle" className="h-5 w-5 shrink-0 fill-error-700" />,
 					description: error.message,
 					rounded: true
 				});

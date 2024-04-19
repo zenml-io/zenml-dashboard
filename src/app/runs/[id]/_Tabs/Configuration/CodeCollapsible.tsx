@@ -1,4 +1,3 @@
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
@@ -8,6 +7,7 @@ import {
 import { PipelineRun } from "@/types/pipeline-runs";
 import { useState } from "react";
 import { Codesnippet } from "@/components/CodeSnippet";
+import { Icon } from "@/components/Icon";
 
 type Props = {
 	runId: PipelineRun["id"];
@@ -23,7 +23,8 @@ config = run.config`;
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
 			<CollapsibleHeader className="flex items-center gap-[10px]">
 				<CollapsibleTrigger className="flex w-full items-center gap-[10px]">
-					<ChevronDown
+					<Icon
+						name="chevron-down"
 						className={` ${
 							open ? "" : "-rotate-90"
 						} h-5 w-5 rounded-md fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200`}

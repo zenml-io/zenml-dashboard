@@ -1,10 +1,10 @@
-import File from "@/assets/icons/file.svg?react";
 import { EmptyState } from "../../EmptyState";
 import { MetadataMap } from "@/types/common";
 import { ErrorFallback } from "../../Error";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { MetadataCards, UncategorizedCard } from "@/components/MetadataCards";
+import { Icon } from "@/components/Icon";
 
 type Props = {
 	stepId: string;
@@ -28,7 +28,7 @@ export function StepMetadataTab({ stepId }: Props) {
 
 	if (!data.metadata?.run_metadata || Object.keys(data.metadata.run_metadata).length === 0) {
 		return (
-			<EmptyState icon={<File className="h-[120px] w-[120px] fill-neutral-300" />}>
+			<EmptyState icon={<Icon name="file" className="h-[120px] w-[120px] fill-neutral-300" />}>
 				<div className="text-center">
 					<p className="mb-2 text-display-xs font-semibold">No metadata found</p>
 					<p className="text-text-lg text-theme-text-secondary">

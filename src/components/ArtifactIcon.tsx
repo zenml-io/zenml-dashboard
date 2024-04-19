@@ -1,11 +1,5 @@
-import AnalysisIcon from "@/assets/icons/analysis.svg?react";
-import DataIcon from "@/assets/icons/database.svg?react";
-import ModelIcon from "@/assets/icons/dataflow-2.svg?react";
-import SchemaIcon from "@/assets/icons/route.svg?react";
-import ServiceIcon from "@/assets/icons/storefront.svg?react";
-import StatisticIcon from "@/assets/icons/storefront.svg?react";
-import BaseIcon from "@/assets/icons/file.svg?react";
 import { ArtifactVersionBody } from "@/types/artifact-versions";
+import { Icon } from "./Icon";
 
 type Props = {
 	className?: string;
@@ -15,18 +9,18 @@ type Props = {
 export function ArtifactIcon({ artifactType, className }: Props) {
 	switch (artifactType) {
 		case "DataAnalysisArtifact":
-			return <AnalysisIcon className={className} />;
+			return <Icon name="analysis" className={className} />;
 		case "DataArtifact":
-			return <DataIcon className={className} />;
+			return <Icon name="database" className={className} />;
 		case "ModelArtifact":
-			return <ModelIcon className={className} />;
+			return <Icon name="dataflow-2" className={className} />;
 		case "SchemaArtifact":
-			return <SchemaIcon className={className} />;
+			return <Icon name="route" className={className} />;
 		case "ServiceArtifact":
-			return <ServiceIcon className={className} />;
+			return <Icon name="storefront" className={className} />;
 		case "StatisticsArtifact":
-			return <StatisticIcon className={className} />;
+			return <Icon name="storefront" className={className} />;
 		default:
-			return <BaseIcon className={className} />;
+			return <Icon name="file" className={className} />;
 	}
 }

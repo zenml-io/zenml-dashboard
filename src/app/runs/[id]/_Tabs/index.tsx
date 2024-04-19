@@ -1,6 +1,3 @@
-import Collapse from "@/assets/icons/collapse.svg?react";
-import Info from "@/assets/icons/info.svg?react";
-import Tools from "@/assets/icons/tool.svg?react";
 import {
 	Button,
 	Tabs,
@@ -13,6 +10,7 @@ import { useNavigate } from "react-router-dom";
 import { ConfigurationTab } from "./Configuration";
 import { OverviewTab } from "./Overview";
 import { useSelectedTab } from "./service";
+import { Icon } from "@/components/Icon";
 
 type TabsHeaderProps = {
 	setIsPanelOpen: Dispatch<SetStateAction<boolean>>;
@@ -25,7 +23,7 @@ export function TabsHeader({ setIsPanelOpen }: TabsHeaderProps) {
 				intent="secondary"
 				onClick={() => setIsPanelOpen(false)}
 			>
-				<Collapse className="h-5 w-5 fill-theme-text-secondary" />
+				<Icon name="collapse" className="h-5 w-5 fill-theme-text-secondary" />
 			</Button>
 			<span className="text-text-xl">Run Insights</span>
 		</div>
@@ -47,14 +45,20 @@ export function RunsDetailTabs() {
 			<Tabs value={selectedTab} onValueChange={handleTabChage}>
 				<TabsList>
 					<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="overview">
-						<Info className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+						<Icon
+							name="info"
+							className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong"
+						/>
 						<span>Overview</span>
 					</TabsTrigger>
 					<TabsTrigger
 						className="flex items-center gap-2 truncate text-text-md"
 						value="configuration"
 					>
-						<Tools className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+						<Icon
+							name="tool"
+							className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong"
+						/>
 						<span>Configuration</span>
 					</TabsTrigger>
 				</TabsList>

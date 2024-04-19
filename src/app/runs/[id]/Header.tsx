@@ -1,5 +1,5 @@
-import RunIcon from "@/assets/icons/terminal.svg?react";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
+import { Icon } from "@/components/Icon";
 import { PageHeader } from "@/components/PageHeader";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { Skeleton } from "@zenml-io/react-component-library";
@@ -15,7 +15,8 @@ export function RunsDetailHeader() {
 			<div className="flex items-center gap-1">
 				{isSuccess ? (
 					<>
-						<RunIcon
+						<Icon
+							name="terminal"
 							className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(data?.body?.status)}`}
 						/>
 						<h1 className="min-w-0 truncate text-display-xs font-semibold">{data?.name}</h1>

@@ -1,8 +1,8 @@
 import { useVerifyDevice } from "@/data/devices/device-verify-mutation";
 import { Button, Checkbox, useToast } from "@zenml-io/react-component-library";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { Dispatch, SetStateAction, useId } from "react";
 import { useForm } from "react-hook-form";
+import { Icon } from "@/components/Icon";
 
 type Props = {
 	deviceId: string;
@@ -29,7 +29,7 @@ export function DeviceVerificationForm({ deviceId, user_code, setSuccess }: Prop
 				toast({
 					status: "error",
 					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					icon: <Icon name="alert-circle" className="h-5 w-5 shrink-0 fill-error-700" />,
 					description: error.message,
 					rounded: true
 				});

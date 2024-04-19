@@ -1,10 +1,10 @@
+import { Icon } from "@/components/Icon";
 import { PrimaryUseForm } from "@/components/survey/PrimaryUse";
 import { useSurvayContext } from "@/components/survey/SurveyContext";
 import { PrimaryUseFormType } from "@/components/survey/form-schemas";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { User, UserMetadata } from "@/types/user";
 import { useToast } from "@zenml-io/react-component-library";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 
 type Props = {
 	user: User;
@@ -22,7 +22,7 @@ export function PrimaryUseStep({ user }: Props) {
 				toast({
 					status: "error",
 					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					icon: <Icon name="alert-circle" className="h-5 w-5 shrink-0 fill-error-700" />,
 					description: error.message,
 					rounded: true
 				});

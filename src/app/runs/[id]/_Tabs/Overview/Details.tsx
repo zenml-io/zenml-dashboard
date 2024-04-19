@@ -1,8 +1,7 @@
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
-import Pipelines from "@/assets/icons/pipeline.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
+import { Icon } from "@/components/Icon";
 import { Key, Value } from "@/components/KeyValue";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import {
@@ -29,7 +28,8 @@ export function Details() {
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
 			<CollapsibleHeader className="flex items-center gap-[10px]">
 				<CollapsibleTrigger className="flex w-full items-center gap-[10px]">
-					<ChevronDown
+					<Icon
+						name="chevron-down"
 						className={` ${
 							open ? "" : "-rotate-90"
 						} h-5 w-5 rounded-md fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200`}
@@ -65,7 +65,7 @@ export function Details() {
 							rounded={false}
 							emphasis="subtle"
 						>
-							<Pipelines className="h-4 w-4 fill-theme-text-brand" />
+							<Icon name="pipeline" className="h-4 w-4 fill-theme-text-brand" />
 							{data.body?.pipeline?.name}
 							<div className="rounded-sm bg-primary-50 px-1 py-0.25">
 								{data.body?.pipeline?.body?.version}

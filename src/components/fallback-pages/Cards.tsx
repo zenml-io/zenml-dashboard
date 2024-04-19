@@ -2,12 +2,7 @@ import { Box } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import ZenMLLogo from "@/assets/services/zenml-icon.svg?react";
 import Slack from "@/assets/services/slack.svg?react";
-import Mail from "@/assets/icons/mail.svg?react";
-import FileQuestion from "@/assets/icons/file-question.svg?react";
-import FileText from "@/assets/icons/file-text.svg?react";
-import File from "@/assets/icons/file.svg?react";
-import Terminal from "@/assets/icons/terminal.svg?react";
-import Package from "@/assets/icons/package.svg?react";
+import { Icon } from "../Icon";
 
 export function FallbackSupportCard() {
 	const links: CardLinkProps[] = [
@@ -19,7 +14,7 @@ export function FallbackSupportCard() {
 		{
 			text: "Send us a message",
 			href: "mailto:cloud@zenml.io",
-			icon: <Mail className="h-5 w-5 fill-primary-600" />
+			icon: <Icon name="mail" className="h-5 w-5 fill-primary-600" />
 		}
 	];
 
@@ -50,29 +45,29 @@ export function ResourcesCard() {
 		{
 			text: "Browse our docs",
 			href: "https://docs.zenml.io",
-			icon: <FileText className="h-5 w-5 fill-primary-600" />
+			icon: <Icon name="file-text" className="h-5 w-5 fill-primary-600" />
 		},
 		{
 			text: "Discover projects",
 			href: "https://github.com/zenml-io/zenml-projects",
-			icon: <Package className="h-5 w-5 fill-primary-600" />
+			icon: <Icon name="package" className="h-5 w-5 fill-primary-600" />
 		},
 		{
 			text: "Navigate our examples",
 			href: "https://github.com/zenml-io/zenml/tree/main/examples/",
-			icon: <Terminal className="h-5 w-5 fill-primary-600" />
+			icon: <Icon name="terminal" className="h-5 w-5 fill-primary-600" />
 		},
 		{
 			text: "Read our blog",
 			href: "https://zenml.io/blog",
-			icon: <File className="h-5 w-5 fill-primary-600" />
+			icon: <Icon name="file" className="h-5 w-5 fill-primary-600" />
 		}
 	];
 
 	return (
 		<Box className="flex w-full flex-col overflow-hidden">
 			<div className={`flex h-[120px] items-center justify-center bg-turquoise-25`}>
-				<FileQuestion className="h-[60px] w-[60px] fill-teal-400" />
+				<Icon name="file-question" className="h-[60px] w-[60px] fill-teal-400" />
 			</div>
 			<div className="p-5">
 				<p className="mb-0.5 text-text-lg font-semibold">Resources</p>

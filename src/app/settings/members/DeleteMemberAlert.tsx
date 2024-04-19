@@ -8,8 +8,8 @@ import {
 	useToast
 } from "@zenml-io/react-component-library";
 import { useDeleteUserMutation } from "@/data/users/delete-user-mutation";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { useQueryClient } from "@tanstack/react-query";
+import { Icon } from "@/components/Icon";
 
 type Props = {
 	userId: string;
@@ -27,7 +27,7 @@ export function DeleteMemberAlert({ userId, name }: Props) {
 				toast({
 					status: "error",
 					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					icon: <Icon name="alert-circle" className="h-5 w-5 shrink-0 fill-error-700" />,
 					description: error.message,
 					rounded: true
 				});

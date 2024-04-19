@@ -1,10 +1,6 @@
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { TagProps, cn } from "@zenml-io/react-component-library";
-import CheckCircle from "@/assets/icons/check-circle.svg?react";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import Initializing from "@/assets/icons/initializing.svg?react";
-import Cached from "@/assets/icons/cached.svg?react";
-import Running from "@/assets/icons/dots-circle.svg?react";
+import { Icon } from "./Icon";
 
 export function getExecutionStatusColor(status?: ExecutionStatus) {
 	if (!status) return null;
@@ -65,15 +61,15 @@ export function ExecutionStatusIcon({
 	const classNames = cn(`h-4 w-4`, getExecutionStatusColor(status), className);
 	switch (status) {
 		case "completed":
-			return <CheckCircle className={classNames} />;
+			return <Icon name="check-circle" className={classNames} />;
 		case "failed":
-			return <AlertCircle className={classNames} />;
+			return <Icon name="alert-circle" className={classNames} />;
 		case "initializing":
-			return <Initializing className={classNames} />;
+			return <Icon name="initializing" className={classNames} />;
 		case "cached":
-			return <Cached className={classNames} />;
+			return <Icon name="cached" className={classNames} />;
 		case "running":
-			return <Running className={classNames} />;
+			return <Icon name="dots-circle" className={classNames} />;
 	}
 }
 

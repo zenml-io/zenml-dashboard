@@ -1,6 +1,3 @@
-import Building from "@/assets/icons/building.svg?react";
-import Hat from "@/assets/icons/hat.svg?react";
-import UserIcon from "@/assets/icons/user.svg?react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	Button,
@@ -14,6 +11,7 @@ import { Controller, useForm } from "react-hook-form";
 import { PrimaryUseRadioButton } from "./UseRadioButton";
 import { PrimaryUseFormType, primaryUseFormSchema } from "./form-schemas";
 import { User, UserMetadata } from "@/types/user";
+import { Icon } from "../Icon";
 
 const modelsRange = ["0", "1-5", "6-25", "26-99", "100+"];
 
@@ -44,16 +42,16 @@ export function PrimaryUseForm({ submitHandler, user }: Props) {
 			<form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
 				<div className="grid grid-cols-1 gap-[20px] md:grid-cols-3">
 					<PrimaryUseRadioButton id="use-personal" {...register("primaryUse")} value="personal">
-						<UserIcon className="h-7 w-7 fill-primary-400" />
+						<Icon name="user" className="h-7 w-7 fill-primary-400" />
 						<span>Personal</span>
 					</PrimaryUseRadioButton>
 					<PrimaryUseRadioButton {...register("primaryUse")} id="use-work" value="work">
-						<Building className="h-7 w-7 fill-primary-400" />
+						<Icon name="building" className="h-7 w-7 fill-primary-400" />
 						<span>Work</span>
 					</PrimaryUseRadioButton>
 
 					<PrimaryUseRadioButton {...register("primaryUse")} id="use-student" value="student">
-						<Hat className="h-7 w-7 fill-primary-400" />
+						<Icon name="hat" className="h-7 w-7 fill-primary-400" />
 						<span>Student</span>
 					</PrimaryUseRadioButton>
 				</div>

@@ -1,11 +1,4 @@
-import Overview from "@/assets/icons/cloud-tenant.svg?react";
-import Pipeline from "@/assets/icons/pipeline.svg?react";
-import Stacks from "@/assets/icons/stack.svg?react";
-import Chip from "@/assets/icons/chip.svg?react";
-import File from "@/assets/icons/file.svg?react";
-import SideCollapse from "@/assets/icons/side-collapse.svg?react";
-import Settings from "@/assets/icons/settings.svg?react";
-
+import { Icon } from "@/components/Icon";
 import { routes } from "@/router/routes";
 import {
 	Avatar,
@@ -39,7 +32,8 @@ export function Sidebar() {
 								intent="secondary"
 								className="flex h-6 w-6 items-center justify-center bg-transparent p-0"
 							>
-								<SideCollapse
+								<Icon
+									name="side-collapse"
 									className={`h-5 w-5 fill-neutral-500 transition-transform duration-100 ${!isOpen && "rotate-180"}`}
 								/>
 							</Button>
@@ -59,7 +53,7 @@ export function Sidebar() {
 								<SidebarLink
 									routePatterns={[routes.home]}
 									exact
-									icon={<Overview />}
+									icon={<Icon name="cloud-tenant" />}
 									label="Overview"
 									to={"/"}
 								/>
@@ -71,7 +65,7 @@ export function Sidebar() {
 										routes.pipelines.namespace(":namespace"),
 										routes.runs.detail(":runId")
 									]}
-									icon={<Pipeline />}
+									icon={<Icon name="pipeline" />}
 									label="Pipelines"
 									to={"/pipelines"}
 								/>
@@ -79,7 +73,7 @@ export function Sidebar() {
 							<li className="w-full">
 								<SidebarLink
 									routePatterns={[routes.models.overview]}
-									icon={<Chip />}
+									icon={<Icon name="chip" />}
 									label="Models"
 									to={routes.models.overview}
 								/>
@@ -87,7 +81,7 @@ export function Sidebar() {
 							<li className="w-full">
 								<SidebarLink
 									routePatterns={[routes.artifacts.overview]}
-									icon={<File />}
+									icon={<Icon name="file" />}
 									label="Artifacts"
 									to={routes.artifacts.overview}
 								/>
@@ -95,7 +89,7 @@ export function Sidebar() {
 							<li className="w-full">
 								<SidebarLink
 									routePatterns={[routes.stacks.overview]}
-									icon={<Stacks />}
+									icon={<Icon name="stack" />}
 									label="Stacks"
 									to={"/stacks"}
 								/>
@@ -103,7 +97,7 @@ export function Sidebar() {
 						</SidebarList>
 						<div className="mt-auto">
 							<SidebarLink
-								icon={<Settings />}
+								icon={<Icon name="settings" />}
 								label="Settings"
 								routePatterns={[
 									routes.settings.profile,

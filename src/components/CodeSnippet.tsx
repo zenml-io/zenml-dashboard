@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { cn } from "@zenml-io/react-component-library";
-import Copy from "@/assets/icons/copy.svg?react";
 import { CodeHighlighter } from "./CodeHighlighter";
+import { Icon } from "./Icon";
 
 type DisplayCodeProps = {
 	code: string;
@@ -54,7 +54,11 @@ export function Codesnippet({
 				{highlightCode ? <CodeHighlighter code={code} /> : <code>{code}</code>}
 			</pre>
 			<button onClick={() => copyToClipboard(code)}>
-				{copied ? <p>Copied!</p> : <Copy className="fill-neutral-500" width={24} height={24} />}
+				{copied ? (
+					<p>Copied!</p>
+				) : (
+					<Icon name="copy" className="fill-neutral-500" width={24} height={24} />
+				)}
 			</button>
 		</div>
 	);

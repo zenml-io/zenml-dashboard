@@ -3,7 +3,7 @@ import { DAG } from "./Dag";
 import { RunsDetailHeader } from "./Header";
 import { Dispatch, SetStateAction, useState } from "react";
 import { RunsDetailTabs, TabsHeader } from "./_Tabs";
-import Expand from "@/assets/icons/expand.svg?react";
+import { Icon } from "@/components/Icon";
 
 export default function RunDetailPage() {
 	const [isPanelOpen, setIsPanelOpen] = useState(true);
@@ -48,7 +48,7 @@ function ExpandPanelButton({ isPanelOpen, setIsPanelOpen }: ExpandPanelProps) {
 			}`}
 			onClick={() => setIsPanelOpen(true)}
 		>
-			<Expand className="h-5 w-5 fill-theme-text-primary" />
+			<Icon name="expand" className="h-5 w-5 fill-theme-text-primary" />
 		</Button>
 	);
 }

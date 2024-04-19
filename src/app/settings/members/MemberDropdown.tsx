@@ -4,11 +4,10 @@ import {
 	DropdownMenuContent,
 	AlertDialogTrigger
 } from "@zenml-io/react-component-library";
-import SlashCircle from "@/assets/icons/slash-circle.svg?react";
-import DotsIcon from "@/assets/icons/dots-horizontal.svg?react";
 import { AlertDialogItem } from "@/components/AlertDialogDropdownItem";
 import { DeleteMemberAlert } from "./DeleteMemberAlert";
 import { ElementRef, useRef, useState } from "react";
+import { Icon } from "@/components/Icon";
 
 type Props = {
 	userId: string;
@@ -39,7 +38,7 @@ export default function MembersDropdown({ userId, name }: Props) {
 	return (
 		<DropdownMenu onOpenChange={setDropdownOpen} open={dropdownOpen}>
 			<DropdownMenuTrigger ref={dropdownTriggerRef}>
-				<DotsIcon className="h-4 w-4 fill-theme-text-tertiary" />
+				<Icon name="dots-horizontal" className="h-4 w-4 fill-theme-text-tertiary" />
 			</DropdownMenuTrigger>
 			<DropdownMenuContent
 				hidden={hasOpenDialog}
@@ -58,7 +57,7 @@ export default function MembersDropdown({ userId, name }: Props) {
 					onSelect={handleDialogItemSelect}
 					onOpenChange={handleDialogItemOpenChange}
 					triggerChildren="Remove Member"
-					icon={<SlashCircle fill="red" />}
+					icon={<Icon name="slash-circle" fill="red" />}
 				>
 					<DeleteMemberAlert name={name} userId={userId} />
 				</AlertDialogItem>

@@ -6,7 +6,7 @@ import { Button, Input, useToast } from "@zenml-io/react-component-library";
 import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import { Icon } from "@/components/Icon";
 
 export function LoginForm() {
 	const navigate = useNavigate();
@@ -27,7 +27,7 @@ export function LoginForm() {
 				toast({
 					status: "error",
 					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					icon: <Icon name="alert-circle" className="h-5 w-5 shrink-0 fill-error-700" />,
 					description: error.message,
 					rounded: true
 				});

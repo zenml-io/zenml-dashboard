@@ -1,10 +1,10 @@
-import File from "@/assets/icons/file.svg?react";
 import { EmptyState } from "../../EmptyState";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
 import { ErrorFallback } from "@/components/Error";
 import { MetadataCards, UncategorizedCard } from "@/components/MetadataCards";
 import { MetadataMap } from "@/types/common";
+import { Icon } from "@/components/Icon";
 
 type Props = {
 	artifactVersionId: string;
@@ -21,7 +21,7 @@ export function ArtifactMetadataTab({ artifactVersionId }: Props) {
 
 	if (!data?.metadata) {
 		return (
-			<EmptyState icon={<File className="h-[120px] w-[120px] fill-neutral-300" />}>
+			<EmptyState icon={<Icon name="file" className="h-[120px] w-[120px] fill-neutral-300" />}>
 				<div className="text-center">
 					<h1 className="mb-2 text-display-xs font-semibold">
 						No Metadata Found for this Artifact

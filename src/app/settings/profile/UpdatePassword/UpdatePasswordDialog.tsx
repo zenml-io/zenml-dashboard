@@ -1,5 +1,3 @@
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import Tick from "@/assets/icons/tick-circle.svg?react";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { isFetchError } from "@/lib/fetch-error";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -23,6 +21,7 @@ import {
 	UpdatePasswordFormType,
 	updatePasswordFormSchema
 } from "@/components/password/UpdatePasswordSchemas";
+import { Icon } from "@/components/Icon";
 
 export function UpdatePasswordDialog() {
 	const [passwordUpdateSuccess, setPasswordUpdateSuccess] = useState(false);
@@ -70,7 +69,7 @@ export function ChangePasswordForm({ setSuccess }: FormProps) {
 				toast({
 					status: "error",
 					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					icon: <Icon name="alert-circle" className="h-5 w-5 shrink-0 fill-error-700" />,
 					description: error.message,
 					rounded: true
 				});
@@ -159,7 +158,7 @@ export function ChangePasswordForm({ setSuccess }: FormProps) {
 function SuccessAddMember() {
 	return (
 		<div className="space-y-5 p-7 text-center">
-			<Tick className={`mx-auto h-[110px] w-[110px] fill-success-500`} />
+			<Icon name="tick-circle" className={`mx-auto h-[110px] w-[110px] fill-success-500`} />
 			<p className="text-text-lg font-semibold text-theme-text-primary">
 				The password was updated successfully!
 			</p>

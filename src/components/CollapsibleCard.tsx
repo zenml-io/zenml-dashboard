@@ -5,8 +5,8 @@ import {
 	CollapsibleHeader,
 	CollapsibleHeaderProps
 } from "@zenml-io/react-component-library";
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { useState } from "react";
+import { Icon } from "./Icon";
 
 type CollapsibleCardProps = {
 	initialOpen?: boolean;
@@ -28,7 +28,8 @@ export function CollapsibleCard({
 		<CollapsiblePanel className={className} open={open} onOpenChange={setOpen}>
 			<CollapsibleHeader intent={intent}>
 				<CollapsibleTrigger className="flex w-full items-center gap-[10px]">
-					<ChevronDown
+					<Icon
+						name="chevron-down"
 						className={` ${
 							open ? "" : "-rotate-90"
 						} h-5 w-5 rounded-md fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200`}

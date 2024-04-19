@@ -1,8 +1,7 @@
 import { Button } from "@zenml-io/react-component-library/components";
-import Plus from "@/assets/icons/plus.svg?react";
-import Minus from "@/assets/icons/minus.svg?react";
-import Maximize from "@/assets/icons/maximize.svg?react";
+
 import { useReactFlow } from "reactflow";
+import { Icon } from "../Icon";
 
 export function DagControls() {
 	const { fitView, zoomIn, zoomOut } = useReactFlow();
@@ -17,7 +16,10 @@ export function DagControls() {
 						className="rounded-sharp border-none p-0.5"
 						intent="secondary"
 					>
-						<Plus className="h-5 w-5 bg-theme-surface-primary fill-theme-text-primary" />
+						<Icon
+							name="plus"
+							className="h-5 w-5 bg-theme-surface-primary fill-theme-text-primary"
+						/>
 					</Button>
 				</div>
 				<div>
@@ -27,7 +29,7 @@ export function DagControls() {
 						className="rounded-sharp border-none bg-theme-surface-primary p-0.5"
 						intent="secondary"
 					>
-						<Minus className="h-5 w-5 fill-theme-text-primary" />
+						<Icon name="minus" className="h-5 w-5 fill-theme-text-primary" />
 					</Button>
 				</div>
 			</div>
@@ -37,7 +39,7 @@ export function DagControls() {
 				emphasis="subtle"
 				intent="secondary"
 			>
-				<Maximize className="h-5 w-5 fill-theme-text-primary" />
+				<Icon name="maximize" className="h-5 w-5 fill-theme-text-primary" />
 			</Button>
 		</div>
 	);

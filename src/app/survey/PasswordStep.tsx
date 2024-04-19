@@ -1,9 +1,9 @@
+import { Icon } from "@/components/Icon";
 import { UpdatePasswordFormType } from "@/components/password/UpdatePasswordSchemas";
 import { SetPasswordForm } from "@/components/survey/SetPassword";
 import { useSurvayContext } from "@/components/survey/SurveyContext";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { useToast } from "@zenml-io/react-component-library";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 
 export function SetPasswordStep() {
 	const { setSurveyStep } = useSurvayContext();
@@ -17,7 +17,7 @@ export function SetPasswordStep() {
 				toast({
 					status: "error",
 					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					icon: <Icon name="alert-circle" className="h-5 w-5 shrink-0 fill-error-700" />,
 					description: error.message,
 					rounded: true
 				});

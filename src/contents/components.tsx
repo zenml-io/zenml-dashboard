@@ -2,17 +2,7 @@ import { CommandListItem } from "@/components/fallback-pages/Commands";
 import { ComponentTypeSectionProps } from "../app/stacks/StackComponentFragments";
 import { StackComponentType } from "../types/components";
 import { ReactNode } from "react";
-import MlModel from "@/assets/icons/ml_model.svg?react";
-import Folder from "@/assets/icons/folder.svg?react";
-import Container from "@/assets/icons/container.svg?react";
-import Rocket from "@/assets/icons/rocket.svg?react";
-import Database from "@/assets/icons/database.svg?react";
-import Clipboard from "@/assets/icons/clipboard.svg?react";
-import Transform from "@/assets/icons/transform.svg?react";
-import Alerter from "@/assets/icons/annotation-alert.svg?react";
-import Barchart from "@/assets/icons/bar-chart-square-check.svg?react";
-import Package from "@/assets/icons/package-plus.svg?react";
-import Layout from "@/assets/icons/layout.svg?react";
+import { Icon } from "@/components/Icon";
 
 export const OrchestratorSection: ComponentTypeSectionProps = {
 	commandList: getComponentCommands(
@@ -190,28 +180,64 @@ export type StackComponentSelectItem = {
 const iconClassName = "fill-theme-text-tertiary h-5 w-5";
 
 export const StackComponentSelectItems: StackComponentSelectItem[] = [
-	{ value: "orchestrator", label: "Orchestrator", icon: <MlModel className={iconClassName} /> },
-	{ value: "artifact_store", label: "Artifact Store", icon: <Folder className={iconClassName} /> },
+	{
+		value: "orchestrator",
+		label: "Orchestrator",
+		icon: <Icon name="ml_model" className={iconClassName} />
+	},
+	{
+		value: "artifact_store",
+		label: "Artifact Store",
+		icon: <Icon name="folder" className={iconClassName} />
+	},
 	{
 		value: "container_registry",
 		label: "Container Registry",
-		icon: <Container className={iconClassName} />
+		icon: <Icon name="container" className={iconClassName} />
 	},
-	{ value: "step_operator", label: "Step Operator", icon: <Container className={iconClassName} /> },
-	{ value: "model_deployer", label: "Model Deployer", icon: <Rocket className={iconClassName} /> },
-	{ value: "feature_store", label: "Feature Store", icon: <Database className={iconClassName} /> },
+	{
+		value: "step_operator",
+		label: "Step Operator",
+		icon: <Icon name="container" className={iconClassName} />
+	},
+	{
+		value: "model_deployer",
+		label: "Model Deployer",
+		icon: <Icon name="rocket" className={iconClassName} />
+	},
+	{
+		value: "feature_store",
+		label: "Feature Store",
+		icon: <Icon name="database" className={iconClassName} />
+	},
 	{
 		value: "experiment_tracker",
 		label: "Experiment Tracker",
-		icon: <Clipboard className={iconClassName} />
+		icon: <Icon name="clipboard" className={iconClassName} />
 	},
-	{ value: "alerter", label: "Alerter", icon: <Alerter className={iconClassName} /> },
-	{ value: "annotator", label: "Annotator", icon: <Transform className={iconClassName} /> },
+	{
+		value: "alerter",
+		label: "Alerter",
+		icon: <Icon name="annotation-alert" className={iconClassName} />
+	},
+	{
+		value: "annotator",
+		label: "Annotator",
+		icon: <Icon name="transform" className={iconClassName} />
+	},
 	{
 		value: "data_validator",
 		label: "Data Validator",
-		icon: <Barchart className={iconClassName} />
+		icon: <Icon name="bar-chart-square-check" className={iconClassName} />
 	},
-	{ value: "image_builder", label: "Image Builder", icon: <Package className={iconClassName} /> },
-	{ value: "model_registry", label: "Model Registry", icon: <Layout className={iconClassName} /> }
+	{
+		value: "image_builder",
+		label: "Image Builder",
+		icon: <Icon name="package" className={iconClassName} />
+	},
+	{
+		value: "model_registry",
+		label: "Model Registry",
+		icon: <Icon name="layout" className={iconClassName} />
+	}
 ];

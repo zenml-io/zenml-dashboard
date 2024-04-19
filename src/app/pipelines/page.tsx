@@ -1,4 +1,3 @@
-import Refresh from "@/assets/icons/refresh.svg?react";
 import { PageHeader } from "@/components/PageHeader";
 import { SearchField } from "@/components/SearchField";
 import { useAllPipelineNamespaces } from "@/data/pipelines/pipeline-namespaces-query";
@@ -6,6 +5,7 @@ import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
 import { getPipelineColumns } from "./columns";
 import { usePipelineOverviewSearchParams } from "./service";
 import Pagination from "@/components/Pagination";
+import { Icon } from "@/components/Icon";
 
 export default function PipelinesPage() {
 	const queryParams = usePipelineOverviewSearchParams();
@@ -31,7 +31,7 @@ export default function PipelinesPage() {
 						<SearchField searchParams={queryParams} />
 						<div className="flex justify-between">
 							<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>
-								<Refresh className="h-5 w-5 fill-theme-text-brand" />
+								<Icon name="refresh" className="h-5 w-5 fill-theme-text-brand" />
 								Refresh
 							</Button>
 						</div>

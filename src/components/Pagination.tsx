@@ -1,13 +1,9 @@
-import Dots from "@/assets/icons/dots-horizontal.svg?react";
-import LeftDouble from "@/assets/icons/chevron-left-double.svg?react";
-import RightDouble from "@/assets/icons/chevron-right-double.svg?react";
-import Left from "@/assets/icons/chevron-left.svg?react";
-import Right from "@/assets/icons/chevron-right.svg?react";
 import { objectToSearchParams } from "@/lib/url";
 import { forwardRef } from "react";
 import { cn } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
 import { ResponsePage } from "@/types/common";
+import { Icon } from "./Icon";
 
 type Props = {
 	// Maybe handle this with a generic?
@@ -85,7 +81,10 @@ export default function Pagination({ paginate, searchParams }: Props) {
 						onClick={() => goToPage(1)}
 						aria-label="Go to first page"
 					>
-						<LeftDouble className="h-4 w-4 group-disabled/button:fill-neutral-300" />
+						<Icon
+							name="chevron-left-double"
+							className="h-4 w-4 group-disabled/button:fill-neutral-300"
+						/>
 					</PaginationButton>
 				</li>
 				<li>
@@ -94,7 +93,7 @@ export default function Pagination({ paginate, searchParams }: Props) {
 						onClick={() => goToPage(index - 1)}
 						aria-label="Go to previous page"
 					>
-						<Left className="h-4 w-4 group-disabled/button:fill-neutral-300" />
+						<Icon name="chevron-left" className="h-4 w-4 group-disabled/button:fill-neutral-300" />
 					</PaginationButton>
 				</li>
 				{renderPageNumbers().map((pageNumber, i) => (
@@ -106,7 +105,7 @@ export default function Pagination({ paginate, searchParams }: Props) {
 						onClick={() => goToPage(index + 1)}
 						aria-label="Go to next page"
 					>
-						<Right className="h-4 w-4 group-disabled/button:fill-neutral-300" />
+						<Icon name="chevron-right" className="h-4 w-4 group-disabled/button:fill-neutral-300" />
 					</PaginationButton>
 				</li>
 				<li>
@@ -115,7 +114,10 @@ export default function Pagination({ paginate, searchParams }: Props) {
 						onClick={() => goToPage(total_pages)}
 						aria-label="Go to last page"
 					>
-						<RightDouble className="h-4 w-4 group-disabled/button:fill-neutral-300" />
+						<Icon
+							name="chevron-right-double"
+							className="h-4 w-4 group-disabled/button:fill-neutral-300"
+						/>
 					</PaginationButton>
 				</li>
 			</ul>
@@ -126,7 +128,7 @@ export default function Pagination({ paginate, searchParams }: Props) {
 function Ellipsis() {
 	return (
 		<div className="flex h-[36px] w-[36px] items-center justify-center rounded-sm border border-theme-border-moderate">
-			<Dots className="h-4 w-4" />
+			<Icon name="dots-horizontal" className="h-4 w-4" />
 		</div>
 	);
 }

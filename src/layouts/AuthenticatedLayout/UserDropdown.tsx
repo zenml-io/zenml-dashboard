@@ -1,4 +1,3 @@
-import LogoutIcon from "@/assets/icons/logout.svg?react";
 import { useAuthContext } from "@/context/AuthContext";
 import { useLogoutMutation } from "@/data/session/logout-mutation";
 import { useCurrentUser } from "@/data/users/current-user-query";
@@ -13,6 +12,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
 import { getUsername } from "@/lib/user";
+import { Icon } from "@/components/Icon";
 
 export function UserDropdown() {
 	const { data, isPending, isError } = useCurrentUser();
@@ -39,7 +39,7 @@ export function UserDropdown() {
 			<DropdownMenuContent align="end" sideOffset={7}>
 				<DropdownMenuItem
 					onClick={() => mutation.mutate()}
-					icon={<LogoutIcon className="h-3 w-3 fill-neutral-400" />}
+					icon={<Icon name="logout" className="h-3 w-3 fill-neutral-400" />}
 				>
 					Logout
 				</DropdownMenuItem>

@@ -1,5 +1,3 @@
-import RunIcon from "@/assets/icons/terminal.svg?react";
-import PipelineIcon from "@/assets/icons/pipeline.svg?react";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { PipelineNamespace, PipelineNamespaceBody } from "@/types/pipelines";
@@ -8,6 +6,7 @@ import { Tag } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { routes } from "@/router/routes";
 import { CopyButton } from "@/components/CopyButton";
+import { Icon } from "@/components/Icon";
 
 export function getPipelineColumns(): ColumnDef<PipelineNamespace>[] {
 	return [
@@ -23,7 +22,7 @@ export function getPipelineColumns(): ColumnDef<PipelineNamespace>[] {
 
 				return (
 					<div className="group/copybutton flex items-center gap-2">
-						<PipelineIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
+						<Icon name="terminal" className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
 						<Link
 							to={routes.pipelines.namespace(encodeURIComponent(name))}
 							className="flex items-center gap-1"
@@ -57,7 +56,7 @@ export function getPipelineColumns(): ColumnDef<PipelineNamespace>[] {
 							className="inline-flex items-center gap-0.5"
 							color={"green"}
 						>
-							<RunIcon className={`h-3 w-3 ${getRunIconColor(status)}`} />
+							<Icon name="terminal" className={`h-3 w-3 ${getRunIconColor(status)}`} />
 							{runId?.split("-")[0]}
 						</Tag>
 					</div>

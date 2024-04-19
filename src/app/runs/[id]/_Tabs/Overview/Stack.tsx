@@ -1,5 +1,3 @@
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
-import Stack from "@/assets/icons/stack.svg?react";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStack } from "@/data/stacks/stack-detail-query";
 import { StackComponentsList } from "@/types/stack";
@@ -16,6 +14,7 @@ import { Link, useParams } from "react-router-dom";
 import { StackComponentCollapsible } from "./ComponentCollapsible";
 import { PipelineRun } from "@/types/pipeline-runs";
 import { routes } from "@/router/routes";
+import { Icon } from "@/components/Icon";
 
 export function StackCollapsible() {
 	const [open, setOpen] = useState(true);
@@ -42,7 +41,8 @@ export function StackCollapsible() {
 			<CollapsibleHeader className="flex justify-between">
 				<CollapsibleTrigger className=" flex w-full items-center justify-between">
 					<div className="flex items-center gap-[10px]">
-						<ChevronDown
+						<Icon
+							name="chevron-down"
 							className={` ${
 								open ? "" : "-rotate-90"
 							} h-5 w-5 rounded-md fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200`}
@@ -58,7 +58,7 @@ export function StackCollapsible() {
 						color="turquoise"
 						emphasis="subtle"
 					>
-						<Stack className="h-4 w-4 fill-current" />
+						<Icon name="stack" className="h-4 w-4 fill-current" />
 						<span>{runData?.body?.stack?.name}</span>
 					</Tag>
 				</Link>

@@ -5,7 +5,7 @@ import {
 	Tooltip,
 	TooltipContent
 } from "@zenml-io/react-component-library";
-import CopyIcon from "@/assets/icons/copy.svg?react";
+import { Icon } from "./Icon";
 
 type Props = {
 	copyText: string;
@@ -43,7 +43,8 @@ export function CopyButton({ copyText, isVisible, copyTitle }: Props) {
 					ref={triggerRef}
 				>
 					<span className="sr-only">Copy to Clipboard</span>
-					<CopyIcon
+					<Icon
+						name="copy"
 						className={`${
 							isVisible ? "h-5 w-5" : "h-3 w-3"
 						} pointer-events-none  fill-theme-text-tertiary`}
