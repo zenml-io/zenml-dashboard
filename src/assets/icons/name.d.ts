@@ -54,15 +54,6 @@ export type IconName =
 	| "rocket"
 	| "route"
 	| "search"
-	| "services/aws"
-	| "services/azure"
-	| "services/docker"
-	| "services/gcp"
-	| "services/kubernetes"
-	| "services/linkedin"
-	| "services/reddit-primary"
-	| "services/slack"
-	| "services/x-twitter-primary"
 	| "settings"
 	| "side-collapse"
 	| "side-expand"
@@ -78,6 +69,4 @@ export type IconName =
 	| "transform"
 	| "user-plus"
 	| "user"
-	| "users"
-	| "zenml-icon"
-	| "zenml";
+	| "users";
