@@ -1,4 +1,4 @@
-import ZenMLIcon from "@/assets/icons/zenml-icon.svg?react";
+import ZenMLIcon from "@/assets/services/zenml-icon.svg?react";
 import { useServerInfo } from "@/data/server/info-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 

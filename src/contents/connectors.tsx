@@ -1,9 +1,9 @@
 import { ReactNode } from "react";
-import Azure from "@/assets/icons/services/azure.svg?react";
-import Kubernetes from "@/assets/icons/services/kubernetes.svg?react";
-import GCP from "@/assets/icons/services/gcp.svg?react";
-import Docker from "@/assets/icons/services/docker.svg?react";
-import AWS from "@/assets/icons/services/aws.svg?react";
+import Azure from "@/assets/services/azure.svg?react";
+import Kubernetes from "@/assets/services/kubernetes.svg?react";
+import GCP from "@/assets/services/gcp.svg?react";
+import Docker from "@/assets/services/docker.svg?react";
+import AWS from "@/assets/services/aws.svg?react";
 import { ConnectorTypeSectionProps } from "@/app/settings/connectors/Fragments";
 import { CommandListItem } from "@/components/fallback-pages/Commands";
 

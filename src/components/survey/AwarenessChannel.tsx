@@ -4,6 +4,9 @@ import { Button, Checkbox, Input } from "@zenml-io/react-component-library";
 import { ReactNode, useEffect } from "react";
 import { Controller, useForm } from "react-hook-form";
 import { AwarenessFormType, AwarenessFormSchema } from "./form-schemas";
+import LinkedIn from "@/assets/services/linkedin.svg?react";
+import Twitter from "@/assets/services/x-twitter-primary.svg?react";
+import Reddit from "@/assets/services/reddit-primary.svg?react";
 import { Icon } from "../Icon";
 
 export type AwarenessFormProps = {
@@ -19,11 +22,11 @@ type AwarenessChannel = {
 const channels: AwarenessChannel[] = [
 	{
 		channel: "LinkedIn",
-		icon: <Icon name="services/linkedin" className="h-5 w-5 fill-primary-400" />
+		icon: <LinkedIn className="h-5 w-5 fill-primary-400" />
 	},
 	{
 		channel: "X / Twitter",
-		icon: <Icon name="services/x-twitter-primary" className="h-5 w-5" />
+		icon: <Twitter className="h-5 w-5" />
 	},
 	{
 		channel: "Newsletter",
@@ -35,7 +38,7 @@ const channels: AwarenessChannel[] = [
 	},
 	{
 		channel: "Reddit",
-		icon: <Icon name="services/reddit-primary" className="h-5 w-5" />
+		icon: <Reddit className="h-5 w-5" />
 	},
 	{
 		channel: "Conference",

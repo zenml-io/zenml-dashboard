@@ -1,7 +1,7 @@
 import { Box } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
-import ZenMLLogo from "@/assets/icons/zenml-icon.svg?react";
-import Slack from "@/assets/icons/services/slack.svg?react";
+import ZenMLLogo from "@/assets/services/zenml-icon.svg?react";
+import Slack from "@/assets/services/slack.svg?react";
 import Mail from "@/assets/icons/mail.svg?react";
 import FileQuestion from "@/assets/icons/file-question.svg?react";
 import FileText from "@/assets/icons/file-text.svg?react";

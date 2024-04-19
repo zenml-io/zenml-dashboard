@@ -1,4 +1,4 @@
-import ZenMLIcon from "@/assets/icons/zenml-icon.svg?react";
+import ZenMLIcon from "@/assets/services/zenml-icon.svg?react";
 import { routes } from "@/router/routes";
 import { Link } from "react-router-dom";
 import { UserDropdown } from "./UserDropdown";
