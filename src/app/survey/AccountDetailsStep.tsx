@@ -6,6 +6,8 @@ import { useSurvayContext } from "@/components/survey/SurveyContext";
 import { useToast } from "@zenml-io/react-component-library";
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { getIsDefaultUser } from "@/lib/user";
+import { useQueryClient } from "@tanstack/react-query";
+import { getCurrentUserKey } from "@/data/users/current-user-query";
 
 type Props = {
 	user: User;
@@ -14,8 +16,10 @@ type Props = {
 export function AccountDetailsStep({ user }: Props) {
 	const { setSurveyStep } = useSurvayContext();
 	const { toast } = useToast();
+	const queryClient = useQueryClient();
 	const { mutate } = useUpdateCurrentUserMutation({
-		onSuccess: () => {
+		onSuccess: async () => {
+			await queryClient.invalidateQueries({ queryKey: getCurrentUserKey() });
 			setSurveyStep(2);
 		},
 		onError: (error) => {

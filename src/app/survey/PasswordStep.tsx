@@ -1,9 +1,9 @@
+import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { UpdatePasswordFormType } from "@/components/password/UpdatePasswordSchemas";
 import { SetPasswordForm } from "@/components/survey/SetPassword";
 import { useSurvayContext } from "@/components/survey/SurveyContext";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { useToast } from "@zenml-io/react-component-library";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 
 export function SetPasswordStep() {
 	const { setSurveyStep } = useSurvayContext();

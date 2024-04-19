@@ -23,7 +23,7 @@ export function SurveyWizard() {
 			{surveyStep === 1 && <AccountDetailsStep user={data} />}
 			{surveyStep === 2 && <SetPasswordStep />}
 			{surveyStep === 3 && <PrimaryUseStep user={data} />}
-			{surveyStep === 4 && <AwarenessStep isDefaultUser={isDefaultUser} />}
+			{surveyStep === 4 && <AwarenessStep user={data} isDefaultUser={isDefaultUser} />}
 			{surveyStep === 5 && <ServerNameStep />}
 		</>
 	);
