@@ -10,5 +10,26 @@ export default defineConfig({
 		alias: {
 			"@": "/src"
 		}
+	},
+	build: {
+		rollupOptions: {
+			output: {
+				manualChunks(id: string) {
+					const chunk = splitChunks(id);
+					if (chunk) {
+						return chunk;
+					}
+				}
+			}
+		}
 	}
 });
+
+function splitChunks(id: string) {
+	if (id.includes("reactflow")) return "@reactflow";
+	if (id.includes("radix")) return "@radix";
+	if (id.includes("tanstack")) return "@tanstack";
+	if (id.includes("react-router-dom") || id.includes("@remix-run") || id.includes("react-router")) {
+		return "@react-router";
+	}
+}
