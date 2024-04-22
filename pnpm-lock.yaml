@@ -53,6 +53,9 @@ dependencies:
   reactflow:
     specifier: ^11.11.0
     version: 11.11.0(@types/react@18.2.67)(react-dom@18.2.0)(react@18.2.0)
+  unique-names-generator:
+    specifier: ^4.7.1
+    version: 4.7.1
   zod:
     specifier: ^3.22.4
     version: 3.22.4
@@ -5124,6 +5127,11 @@ packages:
       is-plain-obj: 4.1.0
       trough: 2.2.0
       vfile: 6.0.1
+    dev: false
+
+  /unique-names-generator@4.7.1:
+    resolution: {integrity: sha512-lMx9dX+KRmG8sq6gulYYpKWZc9RlGsgBR6aoO8Qsm3qvkSJ+3rAymr+TnV8EDMrIrwuFJ4kruzMWM/OpYzPoow==}
+    engines: {node: '>=8'}
     dev: false
 
   /unist-util-is@6.0.0:

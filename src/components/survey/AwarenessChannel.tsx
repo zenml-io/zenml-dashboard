@@ -90,8 +90,8 @@ export function AwarenessForm({ submitHandler }: AwarenessFormProps) {
 	return (
 		<div className="space-y-5">
 			<div>
-				<h1 className="text-display-xs font-semibold">Why do you want to use ZenML?</h1>
-				<p className="text-theme-text-secondary">I want to...</p>
+				<h1 className="text-display-xs font-semibold">How did you hear about us?</h1>
+				<p className="text-theme-text-secondary">Select all the applicable options</p>
 			</div>
 			<form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
 				<div className="grid w-full grid-cols-1 gap-[20px] md:grid-cols-2 xl:min-w-[700px]">
@@ -103,7 +103,7 @@ export function AwarenessForm({ submitHandler }: AwarenessFormProps) {
 								{channels.map((channel, i) => (
 									<div
 										key={i}
-										className="flex items-center gap-1 rounded-md bg-theme-surface-primary p-3"
+										className="flex items-center gap-1 rounded-md bg-theme-surface-primary pl-3"
 									>
 										<Checkbox
 											onCheckedChange={(val) => {
@@ -117,8 +117,11 @@ export function AwarenessForm({ submitHandler }: AwarenessFormProps) {
 											className="h-3 w-3"
 											id={channel.channel}
 										/>
-										{channel.icon}
-										<label className="w-full text-theme-text-secondary" htmlFor={channel.channel}>
+										<label
+											className="flex w-full items-center gap-1 py-3 pr-3 text-theme-text-secondary hover:cursor-pointer"
+											htmlFor={channel.channel}
+										>
+											{channel.icon}
 											{channel.channel}
 										</label>
 									</div>
@@ -126,14 +129,17 @@ export function AwarenessForm({ submitHandler }: AwarenessFormProps) {
 							</>
 						)}
 					></Controller>
-					<div className="flex items-center rounded-md bg-theme-surface-primary p-3">
+					<div className="flex items-center rounded-md bg-theme-surface-primary pl-3">
 						<Checkbox
 							onCheckedChange={(val) => setValue("other", !!val)}
 							{...register(`other`, { value: false })}
 							className="mr-2 h-3 w-3"
 							id={"other"}
 						/>
-						<label className="w-full text-theme-text-secondary" htmlFor={"other"}>
+						<label
+							className="w-full py-3 pr-3 text-theme-text-secondary hover:cursor-pointer"
+							htmlFor={"other"}
+						>
 							Other (specify)
 						</label>
 					</div>

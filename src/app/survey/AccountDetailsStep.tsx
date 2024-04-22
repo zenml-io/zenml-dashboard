@@ -35,9 +35,9 @@ export function AccountDetailsStep({ user }: Props) {
 		}
 	});
 
-	function handleDetailsSubmit({ fullName, getUpdates, workEmail, username }: AccountDetailForm) {
+	function handleDetailsSubmit({ fullName, getUpdates, email, username }: AccountDetailForm) {
 		mutate({
-			email: workEmail,
+			email,
 			full_name: fullName,
 			name: username,
 			email_opted_in: getUpdates

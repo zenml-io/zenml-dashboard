@@ -7,10 +7,10 @@ export function AccountDetailsStep() {
 	const { setSurveyStep } = useSurvayContext();
 	const { setNewUser, newUser } = useActivationContext();
 
-	function handleDetailsSubmit({ fullName, getUpdates, workEmail, username }: AccountDetailForm) {
+	function handleDetailsSubmit({ fullName, getUpdates, email, username }: AccountDetailForm) {
 		setNewUser((prev) => ({
 			...prev,
-			email: workEmail,
+			email,
 			full_name: fullName,
 			name: username,
 			email_opted_in: getUpdates

@@ -3,10 +3,19 @@ import { ServerNameFormSchema, ServerNameFormType } from "./form-schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useId } from "react";
 import { Button, Input } from "@zenml-io/react-component-library";
+import { uniqueNamesGenerator, colors, animals } from "unique-names-generator";
 
 type Props = {
 	submitHandler: (data: ServerNameFormType) => void;
 };
+
+const blockedAnimals = ["booby", "swallow"];
+
+function generateUniqueName() {
+	return uniqueNamesGenerator({
+		dictionaries: [colors, animals.filter((el) => !blockedAnimals.includes(el))]
+	});
+}
 
 export function ServerNameForm({ submitHandler }: Props) {
 	const serverNameId = useId();
@@ -16,7 +25,7 @@ export function ServerNameForm({ submitHandler }: Props) {
 		formState: { isValid }
 	} = useForm<ServerNameFormType>({
 		resolver: zodResolver(ServerNameFormSchema),
-		defaultValues: { serverName: "default" }
+		defaultValues: { serverName: generateUniqueName() }
 	});
 
 	return (
@@ -33,20 +42,12 @@ export function ServerNameForm({ submitHandler }: Props) {
 						<label htmlFor={serverNameId} className="text-text-sm">
 							Server Name
 						</label>
-						<Input
-							placeholder="default"
-							{...register("serverName")}
-							id={serverNameId}
-							className="w-full"
-						/>
+						<Input {...register("serverName")} id={serverNameId} className="w-full" />
 					</div>
 				</div>
 				<Button disabled={!isValid} className="w-full text-center" size="md">
 					<span className="w-full">Continue</span>
 				</Button>
-				<p className="mx-auto max-w-md text-center text-theme-text-secondary">
-					By signing up you accept ZenML Terms of Service and Privacy Policy.
-				</p>
 			</form>
 		</div>
 	);
