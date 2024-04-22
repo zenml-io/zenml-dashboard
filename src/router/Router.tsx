@@ -31,6 +31,7 @@ const Models = lazy(() => import("@/app/models/page"));
 const Artifacts = lazy(() => import("@/app/artifacts/page"));
 
 const Survey = lazy(() => import("@/app/survey/page"));
+const Onboarding = lazy(() => import("@/app/onboarding/page"));
 
 const NotFoundPage = lazy(() => import("@/app/404"));
 
@@ -98,6 +99,15 @@ export const router = createBrowserRouter(
 						element={
 							<ProtectedRoute>
 								<RunDetail />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.onboarding}
+						element={
+							<ProtectedRoute>
+								<Onboarding />
 							</ProtectedRoute>
 						}
 					/>

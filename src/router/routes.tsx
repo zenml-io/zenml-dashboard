@@ -3,6 +3,7 @@ export const routes = {
 	login: "/login",
 	survey: "/survey",
 	activate: "/activate",
+	onboarding: "/onboarding",
 	devices: {
 		verify: "/devices/verify"
 	},
