@@ -2,13 +2,24 @@ import {
 	Collapsible,
 	CollapsibleContent,
 	CollapsibleTrigger,
-	RadialProgress
+	RadialProgress,
+	Skeleton
 } from "@zenml-io/react-component-library";
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { useState } from "react";
+import { useServerSettings } from "@/data/server/get-server-settings";
 
 export function StarterSetupList() {
+	const { isError, isPending, data } = useServerSettings({ throwOnError: true });
 	const [open, setOpen] = useState(false);
+
+	if (isPending) return <Skeleton className="h-[200px] w-full" />;
+	if (isError) return null;
+
+	// const doneItems = data.body?.onboarding_state?.starterSetup as OnboardingChecklistItem[];
+
+	const progress = (((data.body?.onboarding_state?.starterSetup as any[])?.length ?? 0) / 3) * 100;
+
 	return (
 		<Collapsible
 			open={open}
@@ -17,10 +28,11 @@ export function StarterSetupList() {
 		>
 			<CollapsibleTrigger className="flex w-full items-center justify-between gap-[10px] p-3">
 				<div className="flex items-center gap-3">
-					<RadialProgress value={45} />
+					<RadialProgress value={progress} />
 
 					<div className="text-left">
 						<p className="text-text-xl font-semibold">
+							Starter Setup{" "}
 							<span className="text-text-md font-medium text-theme-text-secondary">(2 min)</span>
 						</p>
 						<p className="text-theme-text-secondary">
