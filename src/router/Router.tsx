@@ -24,7 +24,7 @@ const Settings = lazy(() => import("@/app/settings/page"));
 const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 const Secrets = lazy(() => import("@/app/settings/secrets/page"));
-
+const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
@@ -109,6 +109,14 @@ export const router = createBrowserRouter(
 							</ProtectedRoute>
 						}
 					>
+						<Route
+							element={
+								<ProtectedRoute>
+									<GeneralSettings />
+								</ProtectedRoute>
+							}
+							path="general"
+						/>
 						<Route
 							path="repositories"
 							element={
