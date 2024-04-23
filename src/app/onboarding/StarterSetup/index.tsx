@@ -8,6 +8,11 @@ import {
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { useState } from "react";
 import { useServerSettings } from "@/data/server/get-server-settings";
+import { ConnectZenMLStep, RunFirstPipeline } from "./Items";
+import { Tick } from "@/components/Tick";
+import { getStarterSetup } from "../service";
+
+const CHECKBOX_SIZE = 2;
 
 export function StarterSetupList() {
 	const { isError, isPending, data } = useServerSettings({ throwOnError: true });
@@ -16,9 +21,7 @@ export function StarterSetupList() {
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 	if (isError) return null;
 
-	// const doneItems = data.body?.onboarding_state?.starterSetup as OnboardingChecklistItem[];
-
-	const progress = (((data.body?.onboarding_state?.starterSetup as any[])?.length ?? 0) / 3) * 100;
+	const progress = ((getStarterSetup(data)?.length ?? 0) / CHECKBOX_SIZE) * 100;
 
 	return (
 		<Collapsible
@@ -28,7 +31,15 @@ export function StarterSetupList() {
 		>
 			<CollapsibleTrigger className="flex w-full items-center justify-between gap-[10px] p-3">
 				<div className="flex items-center gap-3">
-					<RadialProgress value={progress} />
+					{progress === 100 ? (
+						<Tick className="h-7 w-7" tickClasses="w-[28px] h-[28px]" />
+					) : (
+						<RadialProgress value={progress}>
+							<span className="absolute text-text-xs font-semibold">
+								{0}/{CHECKBOX_SIZE}
+							</span>
+						</RadialProgress>
+					)}
 
 					<div className="text-left">
 						<p className="text-text-xl font-semibold">
@@ -47,7 +58,16 @@ export function StarterSetupList() {
 					} h-5 w-5 shrink-0 rounded-md fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200`}
 				/>
 			</CollapsibleTrigger>
-			<CollapsibleContent className="border-t border-theme-border-moderate p-5"></CollapsibleContent>
+			<CollapsibleContent className="border-t border-theme-border-moderate p-5">
+				<ul className="divide-y divide-theme-border-moderate">
+					<li className="py-5 first:pt-0 last:pb-0">
+						<ConnectZenMLStep />
+					</li>
+					<li className="py-5 first:pt-0 last:pb-0">
+						<RunFirstPipeline />
+					</li>
+				</ul>
+			</CollapsibleContent>
 		</Collapsible>
 	);
 }
