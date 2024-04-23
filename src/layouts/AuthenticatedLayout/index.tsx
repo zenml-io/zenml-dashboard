@@ -4,12 +4,12 @@ import { Navigate, Outlet } from "react-router-dom";
 import { AuthenticatedHeader } from "./AuthenticatedHeader";
 import { Sidebar } from "./Sidebar";
 import { routes } from "@/router/routes";
-import { UserMetadata } from "@/types/user";
+import { checkUserOnboarding } from "@/lib/user";
 
 export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();
 
-	if (data && !(data.metadata?.metadata as UserMetadata)?.awareness_channels) {
+	if (data && checkUserOnboarding(data)) {
 		return <Navigate to={routes.survey} />;
 	}
 

@@ -27,7 +27,7 @@ export default function MembersTable() {
 			<div className="flex flex-wrap items-center justify-between gap-2">
 				<SearchField searchParams={queryParams} />
 
-				<AddMemberDialog />
+				{currentUser.body?.is_admin && <AddMemberDialog />}
 			</div>
 			<div className="flex flex-col items-center gap-5">
 				<div className="w-full">
