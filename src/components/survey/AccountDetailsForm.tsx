@@ -50,14 +50,6 @@ export function AccountDetailsForm({ email, fullName, submitHandler }: AccountDe
 				</p>
 			</div>
 			<form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
-				<div className="space-y-2">
-					<div className="space-y-0.5">
-						<label htmlFor={fullNameId} className="text-text-sm">
-							Full Name
-						</label>
-						<Input {...register("fullName")} id={fullNameId} className="w-full" />
-					</div>
-				</div>
 				<div className="flex items-center space-x-1">
 					<Checkbox
 						{...register("getUpdates", { value: false })}
@@ -69,18 +61,26 @@ export function AccountDetailsForm({ email, fullName, submitHandler }: AccountDe
 					</label>
 				</div>
 				{watchGetUpdates && (
-					<div className="space-y-0.5">
-						<label htmlFor={emailId} className="text-text-sm">
-							Email
-						</label>
-						<Input
-							placeholder="example@company.inc"
-							{...register("email")}
-							type="email"
-							id={emailId}
-							className="w-full"
-						/>
-					</div>
+					<>
+						<div className="space-y-0.5">
+							<label htmlFor={emailId} className="text-text-sm">
+								Email
+							</label>
+							<Input
+								placeholder="example@company.inc"
+								{...register("email")}
+								type="email"
+								id={emailId}
+								className="w-full"
+							/>
+						</div>
+						<div className="space-y-0.5">
+							<label htmlFor={fullNameId} className="text-text-sm">
+								Full Name
+							</label>
+							<Input {...register("fullName")} id={fullNameId} className="w-full" />
+						</div>
+					</>
 				)}
 				<Button disabled={!isValid} className="w-full text-center" size="md">
 					<span className="w-full">Continue</span>
