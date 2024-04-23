@@ -10,18 +10,23 @@ import { useState } from "react";
 import { useServerSettings } from "@/data/server/get-server-settings";
 import { ConnectZenMLStep, RunFirstPipeline } from "./Items";
 import { Tick } from "@/components/Tick";
-import { getStarterSetup } from "../service";
+import { getOnboardingState, getProgress } from "../service";
+import { OnboardingChecklistItemName } from "@/types/onboarding";
 
-const CHECKBOX_SIZE = 2;
+export const STARTER_SETUP_ITEMS: OnboardingChecklistItemName[] = [
+	"connect_zenml",
+	"run_first_pipeline"
+];
 
 export function StarterSetupList() {
 	const { isError, isPending, data } = useServerSettings({ throwOnError: true });
-	const [open, setOpen] = useState(false);
+	const [open, setOpen] = useState(true);
 
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 	if (isError) return null;
 
-	const progress = ((getStarterSetup(data)?.length ?? 0) / CHECKBOX_SIZE) * 100;
+	const doneItems = getProgress(getOnboardingState(data), STARTER_SETUP_ITEMS);
+	const progress = (doneItems / STARTER_SETUP_ITEMS.length) * 100;
 
 	return (
 		<Collapsible
@@ -31,12 +36,12 @@ export function StarterSetupList() {
 		>
 			<CollapsibleTrigger className="flex w-full items-center justify-between gap-[10px] p-3">
 				<div className="flex items-center gap-3">
-					{progress === 100 ? (
+					{progress >= 100 ? (
 						<Tick className="h-7 w-7" tickClasses="w-[28px] h-[28px]" />
 					) : (
 						<RadialProgress value={progress}>
 							<span className="absolute text-text-xs font-semibold">
-								{0}/{CHECKBOX_SIZE}
+								{doneItems}/{STARTER_SETUP_ITEMS.length}
 							</span>
 						</RadialProgress>
 					)}
@@ -61,10 +66,10 @@ export function StarterSetupList() {
 			<CollapsibleContent className="border-t border-theme-border-moderate p-5">
 				<ul className="divide-y divide-theme-border-moderate">
 					<li className="py-5 first:pt-0 last:pb-0">
-						<ConnectZenMLStep />
+						<ConnectZenMLStep onboardingState={getOnboardingState(data)} />
 					</li>
 					<li className="py-5 first:pt-0 last:pb-0">
-						<RunFirstPipeline />
+						<RunFirstPipeline onboardingState={getOnboardingState(data)} />
 					</li>
 				</ul>
 			</CollapsibleContent>

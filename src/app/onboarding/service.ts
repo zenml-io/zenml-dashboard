@@ -1,13 +1,21 @@
 import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
 import { ServerSettings } from "@/types/server";
 
-export function getStarterSetup(serverSettings: ServerSettings) {
-	return (serverSettings.body?.onboarding_state as OnboardingState).starterSetup;
+export function getOnboardingState(data: ServerSettings) {
+	return data.body?.onboarding_state as OnboardingState;
 }
 
 export function getStarterSetupItem(
-	starterSetup: OnboardingChecklistItemName[],
+	onboardingState: OnboardingState,
 	item: OnboardingChecklistItemName
 ) {
-	return starterSetup.find((el) => el === item);
+	return onboardingState[item];
+}
+
+export function getProgress(
+	onboardingState: OnboardingState,
+	checklistItems: OnboardingChecklistItemName[]
+) {
+	// check how many items of checklistItems exist, and are set to true in onboardingState
+	return checklistItems.filter((item) => onboardingState[item]).length;
 }

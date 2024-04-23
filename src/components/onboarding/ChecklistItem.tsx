@@ -7,13 +7,36 @@ import {
 } from "@zenml-io/react-component-library";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { Tick } from "../Tick";
+import { useQueryClient } from "@tanstack/react-query";
+import { useUpdateServerSettings } from "@/data/server/update-server-settings-mutation";
+import { getServerSettingsKey, useServerSettings } from "@/data/server/get-server-settings";
+import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
+import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 
 type Props = {
 	completed: boolean;
 	title: ReactNode;
+	itemName: OnboardingChecklistItemName;
 };
-export function ChecklistItem({ completed, title, children }: PropsWithChildren<Props>) {
+export function ChecklistItem({ completed, title, children, itemName }: PropsWithChildren<Props>) {
 	const [open, setOpen] = useState(true);
+	const queryClient = useQueryClient();
+	const { data } = useServerSettings({ throwOnError: true });
+
+	const { mutate } = useUpdateServerSettings({
+		onSuccess: () => {
+			queryClient.invalidateQueries({ queryKey: getServerSettingsKey() });
+		}
+	});
+
+	function markAsDone() {
+		const newOnboardingState: OnboardingState = {
+			...data?.body?.onboarding_state,
+			[itemName]: true
+		};
+		mutate({ onboarding_state: newOnboardingState });
+	}
+
 	return (
 		<Collapsible open={open} onOpenChange={setOpen}>
 			<div className="flex w-full flex-col gap-3">
@@ -21,11 +44,23 @@ export function ChecklistItem({ completed, title, children }: PropsWithChildren<
 					<CollapsibleTrigger className="w-full">
 						<ChecklistHeader title={title} completed={completed} />
 					</CollapsibleTrigger>
-					{!completed && (
-						<Button className="whitespace-nowrap" intent="primary" emphasis="subtle">
-							Mark as done
-						</Button>
-					)}
+					<div className="flex items-center gap-1">
+						{!completed && (
+							<Button
+								onClick={markAsDone}
+								className="whitespace-nowrap"
+								intent="primary"
+								emphasis="subtle"
+							>
+								Mark as done
+							</Button>
+						)}
+						<ChevronDown
+							className={` ${
+								open ? "" : "-rotate-90"
+							} h-5 w-5 shrink-0 rounded-md fill-neutral-500`}
+						/>
+					</div>
 				</div>
 				{children && (
 					<CollapsibleContent>

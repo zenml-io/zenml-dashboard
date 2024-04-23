@@ -3,17 +3,17 @@ import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { Box, buttonVariants } from "@zenml-io/react-component-library";
 import Help from "@/assets/icons/help.svg?react";
-import { OnboardingChecklistItemName } from "@/types/onboarding";
+import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
 import { getStarterSetupItem } from "../service";
 
 type Props = {
-	onboardingState?: OnboardingChecklistItemName[];
+	onboardingState?: OnboardingState;
 };
 export function ConnectZenMLStep({ onboardingState }: Props) {
 	const itemName = "connect_zenml";
-	const item = getStarterSetupItem(onboardingState || [], itemName);
+	const item = getStarterSetupItem(onboardingState || {}, itemName);
 	return (
-		<ChecklistItem completed={!!item} title="Connect to ZenML">
+		<ChecklistItem itemName={itemName} completed={!!item} title="Connect to ZenML">
 			<div className="flex flex-col gap-5">
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Install ZenML</p>
@@ -33,9 +33,9 @@ export function ConnectZenMLStep({ onboardingState }: Props) {
 
 export function RunFirstPipeline({ onboardingState }: Props) {
 	const itemName: OnboardingChecklistItemName = "run_first_pipeline";
-	const item = getStarterSetupItem(onboardingState || [], itemName);
+	const item = getStarterSetupItem(onboardingState || {}, itemName);
 	return (
-		<ChecklistItem completed={!!item} title="Run your first pipeline">
+		<ChecklistItem itemName={itemName} completed={!!item} title="Run your first pipeline">
 			<div className="flex flex-col gap-5">
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">
