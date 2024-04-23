@@ -1,7 +1,6 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { Tick } from "@/components/Tick";
 import { useServerSettings } from "@/data/server/get-server-settings";
-import { OnboardingChecklistItemName } from "@/types/onboarding";
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -11,21 +10,14 @@ import {
 	cn
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { getOnboardingState, getProgress } from "../service";
-import { STARTER_SETUP_ITEMS } from "../StarterSetup";
+import { getOnboardingState, getProgress } from "@/lib/onboarding";
 import {
 	CreateArtifactStore,
 	CreateNewStack,
 	CreateServiceConnector,
 	RunNewPipeline
 } from "./Items";
-
-export const PRODUCTION_SETUP_ITEMS: OnboardingChecklistItemName[] = [
-	"create_service_connector",
-	"create_remote_artifact_store",
-	"create_remote_stack",
-	"run_remote_pipeline"
-];
+import { PRODUCTION_SETUP_ITEMS, STARTER_SETUP_ITEMS } from "@/lib/constants";
 
 export function ProductionSetupChecklist() {
 	const { isError, isPending, data } = useServerSettings({ throwOnError: true });

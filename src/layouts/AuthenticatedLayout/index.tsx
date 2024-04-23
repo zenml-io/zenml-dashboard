@@ -9,6 +9,9 @@ import { UserMetadata } from "@/types/user";
 export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();
 
+	// if window is 1440px wide, set boolean to true
+	const isMinWidth = window.innerWidth >= 1440;
+
 	if (data && !(data.metadata?.metadata as UserMetadata)?.awareness_channels) {
 		return <Navigate to={routes.survey} />;
 	}
@@ -18,7 +21,7 @@ export function AuthenticatedLayout() {
 			<AuthenticatedHeader />
 			<main className="flex flex-grow flex-col">
 				<div className="flex flex-grow">
-					<SidebarProvider>
+					<SidebarProvider initialOpen={isMinWidth}>
 						<Sidebar />
 					</SidebarProvider>
 					<div className="w-full">

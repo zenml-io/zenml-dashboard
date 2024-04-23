@@ -2,7 +2,7 @@ import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { CloudProvider, ProviderSelect } from "./ProviderSelect";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { useState } from "react";
-import { getOnboardingItem } from "../service";
+import { getOnboardingItem } from "@/lib/onboarding";
 import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
 import { getServiceConnectorStep } from "./ConnectorContent";
 import { getArtifactStoreStep } from "./ArtifactStore";

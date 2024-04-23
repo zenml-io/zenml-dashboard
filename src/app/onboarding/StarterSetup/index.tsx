@@ -10,13 +10,8 @@ import { useState } from "react";
 import { useServerSettings } from "@/data/server/get-server-settings";
 import { ConnectZenMLStep, RunFirstPipeline } from "./Items";
 import { Tick } from "@/components/Tick";
-import { getOnboardingState, getProgress } from "../service";
-import { OnboardingChecklistItemName } from "@/types/onboarding";
-
-export const STARTER_SETUP_ITEMS: OnboardingChecklistItemName[] = [
-	"connect_zenml",
-	"run_first_pipeline"
-];
+import { getOnboardingState, getProgress } from "@/lib/onboarding";
+import { STARTER_SETUP_ITEMS } from "@/lib/constants";
 
 export function StarterSetupList() {
 	const { isError, isPending, data } = useServerSettings({ throwOnError: true });

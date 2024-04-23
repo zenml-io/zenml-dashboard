@@ -1,19 +1,17 @@
 import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
-import { Box, buttonVariants } from "@zenml-io/react-component-library";
+import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
 import Help from "@/assets/icons/help.svg?react";
 import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
-import { getOnboardingItem } from "../service";
+import { getOnboardingItem } from "@/lib/onboarding";
 import { useServerInfo } from "@/data/server/info-query";
 
 type Props = {
 	onboardingState?: OnboardingState;
 };
 export function ConnectZenMLStep({ onboardingState }: Props) {
-	const { isPending, isError, data } = useServerInfo({ throwOnError: true });
-
-	if (isPending || isError) return null;
+	const { data } = useServerInfo({ throwOnError: true });
 
 	const itemName = "connect_zenml";
 	const item = getOnboardingItem(onboardingState || {}, itemName);
@@ -22,7 +20,9 @@ export function ConnectZenMLStep({ onboardingState }: Props) {
 			<div className="flex flex-col gap-5">
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Install ZenML</p>
-					<Codesnippet code={`pip install "zenml==${data.version}"`} />
+					<Codesnippet
+						code={`pip install "zenml==${data ? data.version : <Skeleton className="w-7" />}"`}
+					/>
 				</div>
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">

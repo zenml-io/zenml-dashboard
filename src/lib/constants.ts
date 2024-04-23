@@ -1,4 +1,5 @@
 import { StackComponentType } from "@/types/components";
+import { OnboardingChecklistItemName } from "@/types/onboarding";
 
 export const FIVEMEGABYTES = 5 * 1024 * 1024;
 
@@ -15,4 +16,16 @@ export const StackComponentTypes: StackComponentType[] = [
 	"data_validator",
 	"image_builder",
 	"model_registry"
+];
+
+export const STARTER_SETUP_ITEMS: OnboardingChecklistItemName[] = [
+	"connect_zenml",
+	"run_first_pipeline"
+];
+
+export const PRODUCTION_SETUP_ITEMS: OnboardingChecklistItemName[] = [
+	"create_service_connector",
+	"create_remote_artifact_store",
+	"create_remote_stack",
+	"run_remote_pipeline"
 ];

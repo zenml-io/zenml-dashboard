@@ -16,6 +16,5 @@ export function getProgress(
 	onboardingState: OnboardingState,
 	checklistItems: OnboardingChecklistItemName[]
 ) {
-	// check how many items of checklistItems exist, and are set to true in onboardingState
 	return checklistItems.filter((item) => onboardingState[item]).length;
 }
