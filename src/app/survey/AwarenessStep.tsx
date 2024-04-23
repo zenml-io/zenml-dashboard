@@ -1,32 +1,23 @@
 import { AwarenessForm } from "@/components/survey/AwarenessChannel";
-import { useSurvayContext } from "@/components/survey/SurveyContext";
 import { AwarenessFormType } from "@/components/survey/form-schemas";
 import { getCurrentUserKey } from "@/data/users/current-user-query";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { routes } from "@/router/routes";
-import { User, UserMetadata } from "@/types/user";
+import { UserMetadata } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
 import { useNavigate } from "react-router-dom";
 import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import { useSurveyUserContext } from "./SurveyUserContext";
 
-type Props = {
-	isDefaultUser: boolean;
-	user: User;
-};
-
-export function AwarenessStep({ isDefaultUser, user }: Props) {
-	const { setSurveyStep } = useSurvayContext();
+export function AwarenessStep() {
 	const navigate = useNavigate();
+	const { user } = useSurveyUserContext();
 	const { toast } = useToast();
 	const queryClient = useQueryClient();
 	const { mutate } = useUpdateCurrentUserMutation({
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: getCurrentUserKey() });
-			if (isDefaultUser) {
-				setSurveyStep(5);
-				return;
-			}
 			navigate(routes.home);
 		},
 		onError: (error) => {
@@ -45,7 +36,7 @@ export function AwarenessStep({ isDefaultUser, user }: Props) {
 	function handleAwarenessFormSubmit({ other, channels, otherVal }: AwarenessFormType) {
 		const channelArr = other ? [...channels, otherVal] : channels;
 		const updateMetadata: UserMetadata = { awareness_channels: channelArr as string[] };
-		mutate({ metadata: { ...user.metadata?.metadata, ...updateMetadata } });
+		mutate({ ...user, metadata: { ...user.metadata, ...updateMetadata } });
 	}
 
 	return <AwarenessForm submitHandler={handleAwarenessFormSubmit} />;

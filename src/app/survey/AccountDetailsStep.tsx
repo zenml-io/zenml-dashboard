@@ -1,13 +1,8 @@
-import { User } from "@/types/user";
 import { AccountDetailsForm } from "@/components/survey/AccountDetailsForm";
 import { AccountDetailForm } from "@/components/survey/form-schemas";
-import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
+import { User } from "@/types/user";
 import { useSurvayContext } from "@/components/survey/SurveyContext";
-import { useToast } from "@zenml-io/react-component-library";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
-import { getIsDefaultUser } from "@/lib/user";
-import { useQueryClient } from "@tanstack/react-query";
-import { getCurrentUserKey } from "@/data/users/current-user-query";
+import { useSurveyUserContext } from "./SurveyUserContext";
 
 type Props = {
 	user: User;
@@ -15,37 +10,19 @@ type Props = {
 
 export function AccountDetailsStep({ user }: Props) {
 	const { setSurveyStep } = useSurvayContext();
-	const { toast } = useToast();
-	const queryClient = useQueryClient();
-	const { mutate } = useUpdateCurrentUserMutation({
-		onSuccess: async () => {
-			await queryClient.invalidateQueries({ queryKey: getCurrentUserKey() });
-			setSurveyStep(2);
-		},
-		onError: (error) => {
-			if (error instanceof Error) {
-				toast({
-					status: "error",
-					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
-					description: error.message,
-					rounded: true
-				});
-			}
-		}
-	});
-
+	const { setUser } = useSurveyUserContext();
 	function handleDetailsSubmit({ fullName, getUpdates, email }: AccountDetailForm) {
-		mutate({
+		setUser((prev) => ({
+			...prev,
 			email,
 			full_name: fullName,
 			email_opted_in: getUpdates
-		});
+		}));
+		setSurveyStep(2);
 	}
 
 	return (
 		<AccountDetailsForm
-			isDefaultUser={getIsDefaultUser(user)}
 			email={user.metadata?.email}
 			fullName={user.body?.full_name}
 			submitHandler={handleDetailsSubmit}
