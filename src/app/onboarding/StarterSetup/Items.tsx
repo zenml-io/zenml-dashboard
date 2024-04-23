@@ -4,20 +4,25 @@ import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { Box, buttonVariants } from "@zenml-io/react-component-library";
 import Help from "@/assets/icons/help.svg?react";
 import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
-import { getStarterSetupItem } from "../service";
+import { getOnboardingItem } from "../service";
+import { useServerInfo } from "@/data/server/info-query";
 
 type Props = {
 	onboardingState?: OnboardingState;
 };
 export function ConnectZenMLStep({ onboardingState }: Props) {
+	const { isPending, isError, data } = useServerInfo({ throwOnError: true });
+
+	if (isPending || isError) return null;
+
 	const itemName = "connect_zenml";
-	const item = getStarterSetupItem(onboardingState || {}, itemName);
+	const item = getOnboardingItem(onboardingState || {}, itemName);
 	return (
 		<ChecklistItem itemName={itemName} completed={!!item} title="Connect to ZenML">
 			<div className="flex flex-col gap-5">
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Install ZenML</p>
-					<Codesnippet code={`pip install "zenml==0.56.0"`} />
+					<Codesnippet code={`pip install "zenml==${data.version}"`} />
 				</div>
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">
@@ -33,7 +38,7 @@ export function ConnectZenMLStep({ onboardingState }: Props) {
 
 export function RunFirstPipeline({ onboardingState }: Props) {
 	const itemName: OnboardingChecklistItemName = "run_first_pipeline";
-	const item = getStarterSetupItem(onboardingState || {}, itemName);
+	const item = getOnboardingItem(onboardingState || {}, itemName);
 	return (
 		<ChecklistItem itemName={itemName} completed={!!item} title="Run your first pipeline">
 			<div className="flex flex-col gap-5">

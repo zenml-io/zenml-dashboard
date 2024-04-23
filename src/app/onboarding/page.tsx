@@ -1,6 +1,7 @@
 import { FallbackSupportCard, ResourcesCard } from "@/components/fallback-pages/Cards";
 import { HeaderOnboardingBox } from "./Header";
 import { StarterSetupList } from "./StarterSetup";
+import { ProductionSetupChecklist } from "./ProductionSetup";
 
 export default function OnboardingPage() {
 	return (
@@ -8,7 +9,7 @@ export default function OnboardingPage() {
 			<div className="col-span-4 space-y-5 lg:col-span-3">
 				<HeaderOnboardingBox />
 				<StarterSetupList />
-				{/* <ProductionSetupChecklist /> */}
+				<ProductionSetupChecklist />
 			</div>
 			<div className="col-span-4 space-y-5 lg:col-span-1">
 				<FallbackSupportCard />

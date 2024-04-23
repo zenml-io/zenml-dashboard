@@ -15,11 +15,18 @@ import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 
 type Props = {
 	completed: boolean;
+	active?: boolean;
 	title: ReactNode;
 	itemName: OnboardingChecklistItemName;
 };
-export function ChecklistItem({ completed, title, children, itemName }: PropsWithChildren<Props>) {
-	const [open, setOpen] = useState(true);
+export function ChecklistItem({
+	completed,
+	title,
+	children,
+	itemName,
+	active = true
+}: PropsWithChildren<Props>) {
+	const [open, setOpen] = useState(false);
 	const queryClient = useQueryClient();
 	const { data } = useServerSettings({ throwOnError: true });
 
@@ -45,7 +52,7 @@ export function ChecklistItem({ completed, title, children, itemName }: PropsWit
 						<ChecklistHeader title={title} completed={completed} />
 					</CollapsibleTrigger>
 					<div className="flex items-center gap-1">
-						{!completed && (
+						{!completed && active && (
 							<Button
 								onClick={markAsDone}
 								className="whitespace-nowrap"

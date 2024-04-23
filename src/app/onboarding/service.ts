@@ -5,7 +5,7 @@ export function getOnboardingState(data: ServerSettings) {
 	return data.body?.onboarding_state as OnboardingState;
 }
 
-export function getStarterSetupItem(
+export function getOnboardingItem(
 	onboardingState: OnboardingState,
 	item: OnboardingChecklistItemName
 ) {
