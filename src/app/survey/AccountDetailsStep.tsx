@@ -35,11 +35,10 @@ export function AccountDetailsStep({ user }: Props) {
 		}
 	});
 
-	function handleDetailsSubmit({ fullName, getUpdates, email, username }: AccountDetailForm) {
+	function handleDetailsSubmit({ fullName, getUpdates, email }: AccountDetailForm) {
 		mutate({
 			email,
 			full_name: fullName,
-			name: username,
 			email_opted_in: getUpdates
 		});
 	}
@@ -49,7 +48,6 @@ export function AccountDetailsStep({ user }: Props) {
 			isDefaultUser={getIsDefaultUser(user)}
 			email={user.metadata?.email}
 			fullName={user.body?.full_name}
-			username={user.name}
 			submitHandler={handleDetailsSubmit}
 		/>
 	);

@@ -14,10 +14,9 @@ export function ActivateWizard() {
 	const [searchParams] = useSearchParams();
 
 	const id = searchParams.get("user");
-	const username = searchParams.get("username");
 	const token = searchParams.get("token");
 
-	if (!id || !token || !username) {
+	if (!id || !token) {
 		return (
 			<EmptyState>
 				<p>Invalid activation link.</p>
@@ -27,7 +26,7 @@ export function ActivateWizard() {
 
 	return (
 		<>
-			<ActivationProvider initialUser={{ name: username, activation_token: token }}>
+			<ActivationProvider initialUser={{ activation_token: token }}>
 				<StepDisplay stepAmount={4} />
 				{surveyStep === 1 && <AccountDetailsStep />}
 				{surveyStep === 2 && <SetPasswordStep />}

@@ -6,20 +6,12 @@ import { AccountDetailForm, accountDetailsFormSchema } from "./form-schemas";
 
 type AccountDetailsProps = {
 	fullName?: string;
-	username?: string;
 	email?: string;
 	isDefaultUser?: boolean;
 	submitHandler: (data: AccountDetailForm) => void;
 };
 
-export function AccountDetailsForm({
-	email,
-	fullName,
-	username,
-	submitHandler,
-	isDefaultUser = false
-}: AccountDetailsProps) {
-	const usernameId = useId();
+export function AccountDetailsForm({ email, fullName, submitHandler }: AccountDetailsProps) {
 	const fullNameId = useId();
 	const emailId = useId();
 	const getUpdatesId = useId();
@@ -34,7 +26,7 @@ export function AccountDetailsForm({
 		resolver: zodResolver(accountDetailsFormSchema),
 		defaultValues: {
 			fullName: fullName,
-			username: username,
+
 			email: email
 		}
 	});
@@ -59,16 +51,6 @@ export function AccountDetailsForm({
 			</div>
 			<form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
 				<div className="space-y-2">
-					<div className="space-y-0.5">
-						<label htmlFor={usernameId} className="text-text-sm">
-							Username
-						</label>
-						<Input
-							{...register("username", { disabled: isDefaultUser })}
-							id={usernameId}
-							className="w-full"
-						/>
-					</div>
 					<div className="space-y-0.5">
 						<label htmlFor={fullNameId} className="text-text-sm">
 							Full Name

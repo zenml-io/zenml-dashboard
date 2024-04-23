@@ -6,7 +6,7 @@ export function getUsername(user: User) {
 }
 
 export function getActivationToken(user: User) {
-	return `${window.location.origin}${routes.activate}?user=${user.id}&username=${encodeURIComponent(user.name)}&token=${user.body?.activation_token}`;
+	return `${window.location.origin}${routes.activate}?user=${user.id}&token=${user.body?.activation_token}`;
 }
 
 export function getIsDefaultUser(user: User) {

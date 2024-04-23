@@ -2,7 +2,6 @@ import { z } from "zod";
 
 export const accountDetailsFormSchema = z
 	.object({
-		username: z.string().optional(),
 		fullName: z.string().min(1),
 		email: z.string().email().optional(),
 		getUpdates: z.boolean()
