@@ -7,7 +7,7 @@ import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
 import { routes } from "./routes";
-import { rootLoader } from "./loaders";
+import { authenticatedLayoutLoader } from "./loaders";
 import { queryClient } from "./queryclient";
 import { surveyLoader } from "../app/survey/loader";
 
@@ -24,7 +24,7 @@ const Settings = lazy(() => import("@/app/settings/page"));
 const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 const Secrets = lazy(() => import("@/app/settings/secrets/page"));
-
+const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
@@ -32,12 +32,14 @@ const Artifacts = lazy(() => import("@/app/artifacts/page"));
 
 const Survey = lazy(() => import("@/app/survey/page"));
 
+const NotFoundPage = lazy(() => import("@/app/404"));
+
 export const router = createBrowserRouter(
 	createRoutesFromElements(
 		<Route errorElement={<RootBoundary />} element={<RootLayout />}>
 			{/* AuthenticatedLayout */}
 			<Route
-				loader={rootLoader(queryClient)}
+				loader={authenticatedLayoutLoader(queryClient)}
 				element={
 					<ProtectedRoute>
 						<AuthenticatedLayout />
@@ -107,6 +109,14 @@ export const router = createBrowserRouter(
 							</ProtectedRoute>
 						}
 					>
+						<Route
+							element={
+								<ProtectedRoute>
+									<GeneralSettings />
+								</ProtectedRoute>
+							}
+							path="general"
+						/>
 						<Route
 							path="repositories"
 							element={
@@ -183,6 +193,7 @@ export const router = createBrowserRouter(
 					}
 				/>
 			</Route>
+			<Route path="*" element={<NotFoundPage />} />
 		</Route>
 	)
 );

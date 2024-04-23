@@ -1,13 +1,9 @@
 import { Icon } from "@/components/Icon";
 import { routes } from "@/router/routes";
 import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
 	Button,
 	SidebarBody,
 	SidebarHeader,
-	SidebarHeaderImage,
 	SidebarItem,
 	SidebarItemContent,
 	SidebarList,
@@ -17,7 +13,7 @@ import {
 } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
-import { SidebarTitle } from "./Title";
+import { SidebarImage, SidebarTitle } from "./SidebarFragments";
 
 export function Sidebar() {
 	const { setIsOpen, isOpen } = useSidebarContext();
@@ -39,12 +35,7 @@ export function Sidebar() {
 							</Button>
 						}
 					>
-						<SidebarHeaderImage>
-							<Avatar size="md" type="square">
-								<AvatarImage src="https://avatar.vercel.sh/default?size=24" />
-								<AvatarFallback size="md">D</AvatarFallback>
-							</Avatar>
-						</SidebarHeaderImage>
+						<SidebarImage />
 						<SidebarTitle />
 					</SidebarHeader>
 					<SidebarBody>
@@ -104,9 +95,10 @@ export function Sidebar() {
 									routes.settings.members,
 									routes.settings.connectors.overview,
 									routes.settings.repositories.overview,
-									routes.settings.secrets.overview
+									routes.settings.secrets.overview,
+									routes.settings.general
 								]}
-								to={routes.settings.members}
+								to={routes.settings.general}
 							/>
 						</div>
 					</SidebarBody>

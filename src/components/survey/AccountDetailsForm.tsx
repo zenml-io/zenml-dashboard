@@ -1,6 +1,6 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox, Input } from "@zenml-io/react-component-library";
-import { useId } from "react";
+import { useEffect, useId } from "react";
 import { useForm } from "react-hook-form";
 import { AccountDetailForm, accountDetailsFormSchema } from "./form-schemas";
 
@@ -21,19 +21,31 @@ export function AccountDetailsForm({
 }: AccountDetailsProps) {
 	const usernameId = useId();
 	const fullNameId = useId();
-	const workEmailId = useId();
+	const emailId = useId();
 	const getUpdatesId = useId();
 	const {
 		register,
 		handleSubmit,
 		setValue,
+		unregister,
+		watch,
 		formState: { isValid }
 	} = useForm<AccountDetailForm>({
 		resolver: zodResolver(accountDetailsFormSchema),
 		defaultValues: {
 			fullName: fullName,
 			username: username,
-			workEmail: email
+			email: email
+		}
+	});
+
+	const watchGetUpdates = watch("getUpdates");
+
+	useEffect(() => {
+		if (watchGetUpdates) {
+			register("email");
+		} else {
+			unregister("email");
 		}
 	});
 
@@ -63,18 +75,6 @@ export function AccountDetailsForm({
 						</label>
 						<Input {...register("fullName")} id={fullNameId} className="w-full" />
 					</div>
-					<div className="space-y-0.5">
-						<label htmlFor={workEmailId} className="text-text-sm">
-							Work Email
-						</label>
-						<Input
-							placeholder="example@company.inc"
-							{...register("workEmail")}
-							type="email"
-							id={workEmailId}
-							className="w-full"
-						/>
-					</div>
 				</div>
 				<div className="flex items-center space-x-1">
 					<Checkbox
@@ -86,6 +86,20 @@ export function AccountDetailsForm({
 						I want to receive news and recommendations about how to use ZenML
 					</label>
 				</div>
+				{watchGetUpdates && (
+					<div className="space-y-0.5">
+						<label htmlFor={emailId} className="text-text-sm">
+							Email
+						</label>
+						<Input
+							placeholder="example@company.inc"
+							{...register("email")}
+							type="email"
+							id={emailId}
+							className="w-full"
+						/>
+					</div>
+				)}
 				<Button disabled={!isValid} className="w-full text-center" size="md">
 					<span className="w-full">Continue</span>
 				</Button>

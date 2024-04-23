@@ -1,7 +1,8 @@
+import { useServerSettings } from "@/data/server/get-server-settings";
+import { getGradientImage } from "@/lib/images";
 import { routes } from "@/router/routes";
 import { Avatar, AvatarFallback, AvatarImage, Skeleton } from "@zenml-io/react-component-library";
 import { SettingsMenu } from "./Menu";
-import { useServerSettings } from "@/data/server/get-server-settings";
 
 export function DisplayServer() {
 	const { data, isError, isPending } = useServerSettings({ throwOnError: true });
@@ -12,8 +13,8 @@ export function DisplayServer() {
 	return (
 		<div className="flex w-full items-center gap-2 rounded-md border border-theme-border-moderate bg-theme-surface-primary p-2">
 			<Avatar size="md" type="square">
-				<AvatarImage src={`https://avatar.vercel.sh/${data.body?.name}?size=24`} />
-				<AvatarFallback size="md">D</AvatarFallback>
+				<AvatarImage src={getGradientImage(data.body?.name || "default")} />
+				<AvatarFallback size="md">{data.body?.name[0] || "D"}</AvatarFallback>
 			</Avatar>
 			<p className="truncate text-text-sm font-semibold">{data.body?.name}</p>
 		</div>
@@ -23,6 +24,10 @@ export function DisplayServer() {
 export function ServerSettingsMenu() {
 	function getNavItems() {
 		return [
+			{
+				name: "General",
+				href: routes.settings.general
+			},
 			{
 				name: "Members",
 				href: routes.settings.members

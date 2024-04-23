@@ -1,11 +1,18 @@
 import { z } from "zod";
 
-export const accountDetailsFormSchema = z.object({
-	username: z.string().optional(),
-	fullName: z.string().min(1),
-	workEmail: z.string().email(),
-	getUpdates: z.boolean()
-});
+export const accountDetailsFormSchema = z
+	.object({
+		username: z.string().optional(),
+		fullName: z.string().min(1),
+		email: z.string().email().optional(),
+		getUpdates: z.boolean()
+	})
+	.refine((data) => {
+		if (data.getUpdates) {
+			return data.email !== "";
+		}
+		return true;
+	});
 
 export type AccountDetailForm = z.infer<typeof accountDetailsFormSchema>;
 
