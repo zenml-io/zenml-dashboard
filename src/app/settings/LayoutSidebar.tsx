@@ -43,6 +43,10 @@ export function ServerSettingsMenu() {
 			{
 				name: "Connectors",
 				href: routes.settings.connectors.overview
+			},
+			{
+				name: "Notifications",
+				href: routes.settings.notifications
 			}
 		];
 	}

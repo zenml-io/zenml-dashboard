@@ -1,33 +1,23 @@
 import { Icon } from "@/components/Icon";
 import { AwarenessForm } from "@/components/survey/AwarenessChannel";
-import { useSurvayContext } from "@/components/survey/SurveyContext";
+import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { AwarenessFormType } from "@/components/survey/form-schemas";
 import { getCurrentUserKey } from "@/data/users/current-user-query";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
-import { routes } from "@/router/routes";
-import { User, UserMetadata } from "@/types/user";
+import { UserMetadata } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
-import { useNavigate } from "react-router-dom";
+import { useSurveyUserContext } from "./SurveyUserContext";
 
-type Props = {
-	isDefaultUser: boolean;
-	user: User;
-};
-
-export function AwarenessStep({ isDefaultUser, user }: Props) {
-	const { setSurveyStep } = useSurvayContext();
-	const navigate = useNavigate();
+export function AwarenessStep() {
+	const { user } = useSurveyUserContext();
+	const { setSurveyStep } = useSurveyContext();
 	const { toast } = useToast();
 	const queryClient = useQueryClient();
 	const { mutate } = useUpdateCurrentUserMutation({
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: getCurrentUserKey() });
-			if (isDefaultUser) {
-				setSurveyStep(5);
-				return;
-			}
-			navigate(routes.home);
+			setSurveyStep((prev) => prev + 1);
 		},
 		onError: (error) => {
 			if (error instanceof Error) {
@@ -45,7 +35,7 @@ export function AwarenessStep({ isDefaultUser, user }: Props) {
 	function handleAwarenessFormSubmit({ other, channels, otherVal }: AwarenessFormType) {
 		const channelArr = other ? [...channels, otherVal] : channels;
 		const updateMetadata: UserMetadata = { awareness_channels: channelArr as string[] };
-		mutate({ metadata: { ...user.metadata?.metadata, ...updateMetadata } });
+		mutate({ ...user, metadata: { ...user.metadata, ...updateMetadata } });
 	}
 
 	return <AwarenessForm submitHandler={handleAwarenessFormSubmit} />;

@@ -23,10 +23,10 @@ export function SurveyProvider({
 	);
 }
 
-export function useSurvayContext() {
+export function useSurveyContext() {
 	const context = useContext(SurveyContext);
 	if (context === null) {
-		throw new Error("useSurvayContext must be used within an SurveyProvider");
+		throw new Error("useSurveyContext must be used within an SurveyProvider");
 	}
 	return context;
 }

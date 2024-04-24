@@ -1,28 +1,27 @@
 import { AccountDetailsForm } from "@/components/survey/AccountDetailsForm";
-import { useSurvayContext } from "@/components/survey/SurveyContext";
+import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { AccountDetailForm } from "@/components/survey/form-schemas";
 import { useActivationContext } from "./ActivationContext";
 
 export function AccountDetailsStep() {
-	const { setSurveyStep } = useSurvayContext();
+	const { setSurveyStep } = useSurveyContext();
 	const { setNewUser, newUser } = useActivationContext();
 
-	function handleDetailsSubmit({ fullName, getUpdates, email, username }: AccountDetailForm) {
+	function handleDetailsSubmit({ fullName, getUpdates, email }: AccountDetailForm) {
+		//@ts-expect-error null is the initial value it needs to be set to
 		setNewUser((prev) => ({
 			...prev,
-			email,
+			...(email ? { email } : { email: null }),
 			full_name: fullName,
-			name: username,
 			email_opted_in: getUpdates
 		}));
 
-		setSurveyStep(2);
+		setSurveyStep((prev) => prev + 1);
 	}
 
 	return (
 		<AccountDetailsForm
 			email={newUser.email}
-			username={newUser.name}
 			fullName={newUser.full_name}
 			submitHandler={handleDetailsSubmit}
 		/>

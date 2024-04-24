@@ -1,3 +1,5 @@
+@import "@fontsource/inter";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -5,5 +7,8 @@
 @layer utilities {
 	.layout-container {
 		@apply mx-auto w-11/12 max-w-[1440px];
+	}
+	.link {
+		@apply underline transition-all duration-150 hover:decoration-transparent;
 	}
 }

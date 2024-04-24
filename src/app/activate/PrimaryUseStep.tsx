@@ -1,11 +1,11 @@
 import { PrimaryUseForm } from "@/components/survey/PrimaryUse";
-import { useSurvayContext } from "@/components/survey/SurveyContext";
+import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { PrimaryUseFormType } from "@/components/survey/form-schemas";
 import { useActivationContext } from "./ActivationContext";
 import { UserMetadata } from "@/types/user";
 
 export function PrimaryUseStep() {
-	const { setSurveyStep } = useSurvayContext();
+	const { setSurveyStep } = useSurveyContext();
 	const { setNewUser } = useActivationContext();
 
 	function handlePrimaryUseSubmit({ amountProductionModels, primaryUse }: PrimaryUseFormType) {
@@ -17,7 +17,7 @@ export function PrimaryUseStep() {
 			...prev,
 			metadata: { ...prev.metadata, ...newMetadata }
 		}));
-		setSurveyStep(4);
+		setSurveyStep((prev) => prev + 1);
 	}
 
 	return <PrimaryUseForm submitHandler={handlePrimaryUseSubmit} />;

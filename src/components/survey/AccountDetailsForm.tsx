@@ -1,51 +1,32 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Checkbox, Input } from "@zenml-io/react-component-library";
-import { useEffect, useId } from "react";
-import { useForm } from "react-hook-form";
+import { useId } from "react";
+import { Controller, useForm } from "react-hook-form";
 import { AccountDetailForm, accountDetailsFormSchema } from "./form-schemas";
 
 type AccountDetailsProps = {
 	fullName?: string;
-	username?: string;
 	email?: string;
-	isDefaultUser?: boolean;
+	getUpdates?: boolean;
 	submitHandler: (data: AccountDetailForm) => void;
 };
 
-export function AccountDetailsForm({
-	email,
-	fullName,
-	username,
-	submitHandler,
-	isDefaultUser = false
-}: AccountDetailsProps) {
-	const usernameId = useId();
+export function AccountDetailsForm({ email, fullName, submitHandler }: AccountDetailsProps) {
 	const fullNameId = useId();
 	const emailId = useId();
 	const getUpdatesId = useId();
 	const {
 		register,
 		handleSubmit,
-		setValue,
-		unregister,
+		control,
 		watch,
 		formState: { isValid }
 	} = useForm<AccountDetailForm>({
 		resolver: zodResolver(accountDetailsFormSchema),
 		defaultValues: {
-			fullName: fullName,
-			username: username,
-			email: email
-		}
-	});
-
-	const watchGetUpdates = watch("getUpdates");
-
-	useEffect(() => {
-		if (watchGetUpdates) {
-			register("email");
-		} else {
-			unregister("email");
+			fullName: fullName || "",
+			getUpdates: true,
+			email: email || ""
 		}
 	});
 
@@ -60,36 +41,14 @@ export function AccountDetailsForm({
 			<form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
 				<div className="space-y-2">
 					<div className="space-y-0.5">
-						<label htmlFor={usernameId} className="text-text-sm">
-							Username
-						</label>
-						<Input
-							{...register("username", { disabled: isDefaultUser })}
-							id={usernameId}
-							className="w-full"
-						/>
-					</div>
-					<div className="space-y-0.5">
 						<label htmlFor={fullNameId} className="text-text-sm">
-							Full Name
+							Full Name (optional)
 						</label>
 						<Input {...register("fullName")} id={fullNameId} className="w-full" />
 					</div>
-				</div>
-				<div className="flex items-center space-x-1">
-					<Checkbox
-						{...register("getUpdates", { value: false })}
-						onCheckedChange={(val) => setValue("getUpdates", !!val)}
-						id={getUpdatesId}
-					/>
-					<label htmlFor={getUpdatesId} className="text-text-sm">
-						I want to receive news and recommendations about how to use ZenML
-					</label>
-				</div>
-				{watchGetUpdates && (
 					<div className="space-y-0.5">
 						<label htmlFor={emailId} className="text-text-sm">
-							Email
+							Email {!watch("getUpdates") && <>(optional)</>}
 						</label>
 						<Input
 							placeholder="example@company.inc"
@@ -99,10 +58,37 @@ export function AccountDetailsForm({
 							className="w-full"
 						/>
 					</div>
-				)}
+				</div>
+				<div className="flex items-center space-x-1">
+					<Controller
+						control={control}
+						name="getUpdates"
+						render={({ field: { onChange, value } }) => (
+							<Checkbox
+								checked={value}
+								onCheckedChange={(val) => onChange(!!val)}
+								id={getUpdatesId}
+							/>
+						)}
+					></Controller>
+					<label htmlFor={getUpdatesId} className="text-text-sm">
+						I want to receive news and recommendations about how to use ZenML
+					</label>
+				</div>
 				<Button disabled={!isValid} className="w-full text-center" size="md">
 					<span className="w-full">Continue</span>
 				</Button>
+				<p className="text-center text-theme-text-secondary">
+					By continuing you agree to the{" "}
+					<a
+						className="link text-theme-text-brand"
+						href="https://www.zenml.io/privacy-policy"
+						rel="noopener noreferrer"
+						target="_blank"
+					>
+						Privacy Policy
+					</a>
+				</p>
 			</form>
 		</div>
 	);
