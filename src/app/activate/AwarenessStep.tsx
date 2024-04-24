@@ -1,13 +1,13 @@
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import { Icon } from "@/components/Icon";
 import { AwarenessForm } from "@/components/survey/AwarenessChannel";
+import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { AwarenessFormType } from "@/components/survey/form-schemas";
+import { useAuthContext } from "@/context/AuthContext";
+import { useLoginMutation } from "@/data/session/login-mutation";
 import { useActivateUser } from "@/data/users/activate-user-mutation";
+import { UserMetadata } from "@/types/user";
 import { useToast } from "@zenml-io/react-component-library";
 import { useActivationContext } from "./ActivationContext";
-import { UserMetadata } from "@/types/user";
-import { useSurveyContext } from "@/components/survey/SurveyContext";
-import { useLoginMutation } from "@/data/session/login-mutation";
-import { useAuthContext } from "@/context/AuthContext";
 
 type Props = {
 	userId: string;
@@ -33,7 +33,7 @@ export function AwarenessStep({ userId }: Props) {
 				toast({
 					status: "error",
 					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					icon: <Icon name="alert-circle" className="h-5 w-5 shrink-0 fill-error-700" />,
 					description: error.message,
 					rounded: true
 				});

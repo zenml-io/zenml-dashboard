@@ -5,6 +5,7 @@ export type IconName =
 	| "analysis"
 	| "annotation-alert"
 	| "announcement"
+	| "arrow-right"
 	| "bar-chart-square-check"
 	| "bar-chart"
 	| "building"

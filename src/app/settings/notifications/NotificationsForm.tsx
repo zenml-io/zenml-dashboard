@@ -1,4 +1,4 @@
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
+import { Icon } from "@/components/Icon";
 import { getServerSettingsKey } from "@/data/server/get-server-settings";
 import { useUpdateServerSettings } from "@/data/server/update-server-settings-mutation";
 import { isFetchError } from "@/lib/fetch-error";
@@ -26,7 +26,7 @@ export function NotificationsForm({ settings }: Props) {
 				toast({
 					status: "error",
 					emphasis: "subtle",
-					icon: <AlertCircle className="h-5 w-5 shrink-0 fill-error-700" />,
+					icon: <Icon name="alert-circle" className="h-5 w-5 shrink-0 fill-error-700" />,
 					description: error.message,
 					rounded: true
 				});

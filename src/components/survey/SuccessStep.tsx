@@ -1,9 +1,8 @@
-import { Box, Button } from "@zenml-io/react-component-library";
-import CheckCircle from "@/assets/icons/check-circle.svg?react";
-import { Link, useSearchParams } from "react-router-dom";
 import { routes } from "@/router/routes";
+import { Box, Button } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
-import ArrowRight from "@/assets/icons/arrow-right.svg?react";
+import { Link, useSearchParams } from "react-router-dom";
+import { Icon } from "../Icon";
 
 type Props = {
 	username: string;
@@ -18,7 +17,7 @@ export function SuccessStep({ username, subHeader, displayBody = true }: Props) 
 
 	return (
 		<Box className="flex max-w-[540px] flex-col items-center justify-center space-y-7 px-7 py-9">
-			<CheckCircle className="h-[120px] w-[120px] fill-theme-text-success" />
+			<Icon name="check-circle" className="h-[120px] w-[120px] fill-theme-text-success" />
 			<div className="space-y-3 text-center">
 				<p className="text-display-xs font-semibold">
 					Congratulations!
@@ -36,7 +35,7 @@ export function SuccessStep({ username, subHeader, displayBody = true }: Props) 
 				<Button className="inline-flex" size="md" intent="primary" asChild>
 					<Link to={redirect || routes.home}>
 						<span>Go to Dashboard</span>
-						<ArrowRight className="h-5 w-5 fill-white" />
+						<Icon name="arrow-right" className="h-5 w-5 fill-white" />
 					</Link>
 				</Button>
 			</div>
