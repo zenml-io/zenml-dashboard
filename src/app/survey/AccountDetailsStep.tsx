@@ -15,7 +15,7 @@ export function AccountDetailsStep({ user }: Props) {
 		//@ts-expect-error null is the initial value it needs to be set to
 		setUser((prev) => ({
 			...prev,
-			...(email && email !== "" ? { email } : { email: null }),
+			...(email ? { email } : { email: null }),
 			full_name: fullName,
 			email_opted_in: getUpdates
 		}));

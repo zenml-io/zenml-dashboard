@@ -33,7 +33,7 @@ export default function MembersTable() {
 				<div className="w-full">
 					{data ? (
 						<DataTable
-							columns={columns({ isAdmin: currentUser?.body?.is_admin })}
+							columns={columns({ isAdmin: currentUser.body?.is_admin })}
 							data={data.items}
 						/>
 					) : (
