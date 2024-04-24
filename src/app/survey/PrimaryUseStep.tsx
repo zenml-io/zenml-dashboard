@@ -1,5 +1,5 @@
 import { PrimaryUseForm } from "@/components/survey/PrimaryUse";
-import { useSurvayContext } from "@/components/survey/SurveyContext";
+import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { PrimaryUseFormType } from "@/components/survey/form-schemas";
 import { User, UserMetadata } from "@/types/user";
 import { useSurveyUserContext } from "./SurveyUserContext";
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function PrimaryUseStep({ user }: Props) {
-	const { setSurveyStep } = useSurvayContext();
+	const { setSurveyStep } = useSurveyContext();
 	const { setUser } = useSurveyUserContext();
 
 	function handlePrimaryUseSubmit({ amountProductionModels, primaryUse }: PrimaryUseFormType) {

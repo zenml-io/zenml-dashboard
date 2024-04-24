@@ -1,24 +1,23 @@
+import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { AwarenessForm } from "@/components/survey/AwarenessChannel";
+import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { AwarenessFormType } from "@/components/survey/form-schemas";
 import { getCurrentUserKey } from "@/data/users/current-user-query";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
-import { routes } from "@/router/routes";
 import { UserMetadata } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { useToast } from "@zenml-io/react-component-library";
-import { useNavigate } from "react-router-dom";
-import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { useSurveyUserContext } from "./SurveyUserContext";
 
 export function AwarenessStep() {
-	const navigate = useNavigate();
 	const { user } = useSurveyUserContext();
+	const { setSurveyStep } = useSurveyContext();
 	const { toast } = useToast();
 	const queryClient = useQueryClient();
 	const { mutate } = useUpdateCurrentUserMutation({
 		onSuccess: async () => {
 			await queryClient.invalidateQueries({ queryKey: getCurrentUserKey() });
-			navigate(routes.home);
+			setSurveyStep((prev) => prev + 1);
 		},
 		onError: (error) => {
 			if (error instanceof Error) {

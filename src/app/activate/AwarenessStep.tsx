@@ -2,11 +2,12 @@ import AlertCircle from "@/assets/icons/alert-circle.svg?react";
 import { AwarenessForm } from "@/components/survey/AwarenessChannel";
 import { AwarenessFormType } from "@/components/survey/form-schemas";
 import { useActivateUser } from "@/data/users/activate-user-mutation";
-import { routes } from "@/router/routes";
 import { useToast } from "@zenml-io/react-component-library";
-import { useNavigate } from "react-router-dom";
 import { useActivationContext } from "./ActivationContext";
 import { UserMetadata } from "@/types/user";
+import { useSurveyContext } from "@/components/survey/SurveyContext";
+import { useLoginMutation } from "@/data/session/login-mutation";
+import { useAuthContext } from "@/context/AuthContext";
 
 type Props = {
 	userId: string;
@@ -14,11 +15,18 @@ type Props = {
 
 export function AwarenessStep({ userId }: Props) {
 	const { newUser } = useActivationContext();
-	const navigate = useNavigate();
+	const { setAuthState } = useAuthContext();
+	const { setSurveyStep } = useSurveyContext();
+	const { mutate: loginMutate } = useLoginMutation({
+		onSuccess: () => {
+			setAuthState("true");
+			setSurveyStep((prev) => prev + 1);
+		}
+	});
 	const { toast } = useToast();
 	const { mutate } = useActivateUser({
-		onSuccess: async () => {
-			navigate(routes.login);
+		onSuccess: async (data) => {
+			loginMutate({ username: data.name, password: newUser.password });
 		},
 		onError: (error) => {
 			if (error instanceof Error) {

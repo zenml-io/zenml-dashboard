@@ -10,7 +10,14 @@ export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();
 
 	if (data && checkUserOnboarding(data)) {
-		return <Navigate to={routes.survey} />;
+		return (
+			<Navigate
+				to={
+					routes.survey +
+					`?${new URLSearchParams({ redirect: location.pathname + location.search }).toString()}`
+				}
+			/>
+		);
 	}
 
 	return (

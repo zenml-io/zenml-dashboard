@@ -1,7 +1,7 @@
 import { AccountDetailsForm } from "@/components/survey/AccountDetailsForm";
 import { AccountDetailForm } from "@/components/survey/form-schemas";
 import { User } from "@/types/user";
-import { useSurvayContext } from "@/components/survey/SurveyContext";
+import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { useSurveyUserContext } from "./SurveyUserContext";
 
 type Props = {
@@ -9,7 +9,7 @@ type Props = {
 };
 
 export function AccountDetailsStep({ user }: Props) {
-	const { setSurveyStep } = useSurvayContext();
+	const { setSurveyStep } = useSurveyContext();
 	const { setUser } = useSurveyUserContext();
 	function handleDetailsSubmit({ fullName, getUpdates, email }: AccountDetailForm) {
 		//@ts-expect-error null is the initial value it needs to be set to
