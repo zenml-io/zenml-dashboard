@@ -2,13 +2,13 @@ import { z } from "zod";
 
 export const accountDetailsFormSchema = z
 	.object({
-		fullName: z.string().optional(),
-		email: z.string().email().optional(),
+		fullName: z.union([z.string(), z.literal("")]),
+		email: z.union([z.string().email(), z.literal("")]),
 		getUpdates: z.boolean()
 	})
 	.refine((data) => {
 		if (data.getUpdates) {
-			return data.email !== "" && data.fullName !== "";
+			return data.email !== "";
 		}
 		return true;
 	});
