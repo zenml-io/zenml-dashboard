@@ -188,7 +188,7 @@ export const router = createBrowserRouter(
 			{/* Gradient Layout */}
 			<Route element={<GradientLayout />}>
 				<Route path={routes.login} element={<Login />} />
-				<Route path={routes.activate} element={<ActivateUser />} />
+				<Route path={routes.activateUser} element={<ActivateUser />} />
 				<Route path={routes.activateServer} element={<ActivateServer />} />
 				<Route
 					path={routes.devices.verify}
