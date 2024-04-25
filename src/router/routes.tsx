@@ -26,6 +26,7 @@ export const routes = {
 	settings: {
 		general: "/settings/general",
 		members: `/settings/members`,
+		notifications: "/settings/notifications",
 		repositories: { overview: "/settings/repositories" },
 		profile: `/settings/profile`,
 		secrets: { overview: "/settings/secrets" },

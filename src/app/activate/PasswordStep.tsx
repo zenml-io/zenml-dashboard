@@ -1,10 +1,10 @@
 import { UpdatePasswordFormType } from "@/components/password/UpdatePasswordSchemas";
 import { SetPasswordForm } from "@/components/survey/SetPassword";
-import { useSurvayContext } from "@/components/survey/SurveyContext";
+import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { useActivationContext } from "./ActivationContext";
 
 export function SetPasswordStep() {
-	const { setSurveyStep } = useSurvayContext();
+	const { setSurveyStep } = useSurveyContext();
 	const { setNewUser } = useActivationContext();
 
 	function handlePasswordSubmit({ newPassword }: UpdatePasswordFormType) {
@@ -12,7 +12,7 @@ export function SetPasswordStep() {
 			...prev,
 			password: newPassword
 		}));
-		setSurveyStep(3);
+		setSurveyStep((prev) => prev + 1);
 	}
 
 	return <SetPasswordForm submitHandler={handlePasswordSubmit} />;

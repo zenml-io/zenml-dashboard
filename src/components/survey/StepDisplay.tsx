@@ -1,11 +1,12 @@
-import { useSurvayContext } from "./SurveyContext";
+import { useSurveyContext } from "./SurveyContext";
 
 type StepDisplayProps = {
 	stepAmount: number;
 };
 
 export default function StepDisplay({ stepAmount }: StepDisplayProps) {
-	const { surveyStep } = useSurvayContext();
+	const { surveyStep } = useSurveyContext();
+	if (surveyStep > stepAmount) return null;
 	return (
 		<ol className="flex flex-wrap justify-center gap-1 pb-5" aria-label="progress">
 			{Array.from({ length: stepAmount }, (_, i) => (

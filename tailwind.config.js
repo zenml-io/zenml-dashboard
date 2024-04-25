@@ -1,4 +1,5 @@
 import { zenmlPreset } from "@zenml-io/react-component-library/tailwind";
+import defaultTheme from "tailwindcss/defaultTheme";
 
 /** @type {import('tailwindcss').Config} */
 export default {
@@ -8,7 +9,11 @@ export default {
 		"./node_modules/@zenml-io/react-component-library/**/*.{js,ts,jsx,tsx}"
 	],
 	theme: {
-		extend: {}
+		extend: {
+			fontFamily: {
+				sans: ["Inter", ...defaultTheme.fontFamily.sans]
+			}
+		}
 	},
 	plugins: [
 		require("@tailwindcss/forms"),
