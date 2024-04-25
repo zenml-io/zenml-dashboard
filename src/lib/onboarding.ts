@@ -2,7 +2,7 @@ import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding
 import { ServerSettings } from "@/types/server";
 
 export function getOnboardingState(data: ServerSettings) {
-	return data.body?.onboarding_state as OnboardingState;
+	return data.metadata?.onboarding_state as OnboardingState;
 }
 
 export function getOnboardingItem(

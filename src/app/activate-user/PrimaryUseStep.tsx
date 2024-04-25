@@ -15,7 +15,7 @@ export function PrimaryUseStep() {
 		};
 		setNewUser((prev) => ({
 			...prev,
-			metadata: { ...prev.metadata, ...newMetadata }
+			metadata: { ...prev.user_metadata, ...newMetadata }
 		}));
 		setSurveyStep((prev) => prev + 1);
 	}

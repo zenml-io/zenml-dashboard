@@ -8,12 +8,14 @@ import { UserMetadata } from "@/types/user";
 import { useSurveyContext } from "@/components/survey/SurveyContext";
 import { useLoginMutation } from "@/data/session/login-mutation";
 import { useAuthContext } from "@/context/AuthContext";
+import { Dispatch, SetStateAction } from "react";
 
 type Props = {
 	userId: string;
+	setUsername: Dispatch<SetStateAction<string>>;
 };
 
-export function AwarenessStep({ userId }: Props) {
+export function AwarenessStep({ userId, setUsername }: Props) {
 	const { newUser } = useActivationContext();
 	const { setAuthState } = useAuthContext();
 	const { setSurveyStep } = useSurveyContext();
@@ -26,6 +28,7 @@ export function AwarenessStep({ userId }: Props) {
 	const { toast } = useToast();
 	const { mutate } = useActivateUser({
 		onSuccess: async (data) => {
+			setUsername(data.name);
 			loginMutate({ username: data.name, password: newUser.password });
 		},
 		onError: (error) => {
@@ -44,7 +47,10 @@ export function AwarenessStep({ userId }: Props) {
 	function handleAwarenessFormSubmit({ other, channels, otherVal }: AwarenessFormType) {
 		const channelArr = other ? [...channels, otherVal] : channels;
 		const updateMetadata: UserMetadata = { awareness_channels: channelArr as string[] };
-		mutate({ userId, body: { ...newUser, metadata: { ...newUser.metadata, ...updateMetadata } } });
+		mutate({
+			userId,
+			body: { ...newUser, user_metadata: { ...newUser.user_metadata, ...updateMetadata } }
+		});
 	}
 
 	return <AwarenessForm submitHandler={handleAwarenessFormSubmit} />;

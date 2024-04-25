@@ -38,7 +38,7 @@ export function ChecklistItem({
 
 	function markAsDone() {
 		const newOnboardingState: OnboardingState = {
-			...data?.body?.onboarding_state,
+			...data?.metadata?.onboarding_state,
 			[itemName]: true
 		};
 		mutate({ onboarding_state: newOnboardingState });
