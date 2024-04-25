@@ -1,25 +1,31 @@
 import { Button, Input } from "@zenml-io/react-component-library";
 import { MultipleFieldErrors, useForm } from "react-hook-form";
-import {
-	UpdatePasswordFormType,
-	updatePasswordFormSchema
-} from "../password/UpdatePasswordSchemas";
+
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PasswordChecker } from "../password/PasswordChecker";
+import { ReactNode } from "react";
+import { SetPasswordStepType, setPasswordStepSchema } from "./form-schemas";
 
 type Props = {
-	isExistingUser?: boolean;
-	submitHandler: (data: UpdatePasswordFormType) => void;
+	displayUsername?: boolean;
+	submitHandler: (data: SetPasswordStepType) => void;
+	headline?: ReactNode;
+	subHeadine?: ReactNode;
 };
 
-export function SetPasswordForm({ isExistingUser = false, submitHandler }: Props) {
+export function SetPasswordForm({
+	displayUsername = false,
+	submitHandler,
+	headline = "Create your password",
+	subHeadine = "Select a password for your account"
+}: Props) {
 	const {
 		register,
 		watch,
 		handleSubmit,
 		formState: { isValid, errors }
-	} = useForm<UpdatePasswordFormType>({
-		resolver: zodResolver(updatePasswordFormSchema),
+	} = useForm<SetPasswordStepType>({
+		resolver: zodResolver(setPasswordStepSchema),
 		mode: "onChange",
 		criteriaMode: "all",
 		defaultValues: { oldPassword: "" }
@@ -30,15 +36,15 @@ export function SetPasswordForm({ isExistingUser = false, submitHandler }: Props
 	return (
 		<div className="space-y-5">
 			<div>
-				<h1 className="text-display-xs font-semibold">Create your password</h1>
-				<p className="text-theme-text-secondary">Select a password for your account</p>
+				<h1 className="text-display-xs font-semibold">{headline}</h1>
+				<p className="text-theme-text-secondary">{subHeadine}</p>
 			</div>
 			<form onSubmit={handleSubmit(submitHandler)} className="space-y-5">
 				<div className="space-y-2">
-					{isExistingUser && (
+					{displayUsername && (
 						<div className="space-y-0.5">
-							<label className="text-text-sm">Old Password</label>
-							<Input {...register("oldPassword")} type="password" className="w-full" />
+							<label className="text-text-sm">Username</label>
+							<Input {...register("username")} className="w-full" />
 						</div>
 					)}
 				</div>

@@ -1,5 +1,6 @@
 export const apiPaths = {
 	login: "/login",
+	activate: "/activate",
 	logout: "/logout",
 	currentUser: "/current-user",
 	info: "/info",

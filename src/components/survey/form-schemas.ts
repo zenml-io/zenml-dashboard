@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { updatePasswordBaseFormSchema } from "../password/UpdatePasswordSchemas";
 
 export const accountDetailsFormSchema = z
 	.object({
@@ -42,3 +43,14 @@ export const ServerNameFormSchema = z.object({
 });
 
 export type ServerNameFormType = z.infer<typeof ServerNameFormSchema>;
+
+export const setPasswordStepSchema = updatePasswordBaseFormSchema
+	.extend({
+		username: z.string().min(1)
+	})
+	.refine((data) => data.newPassword === data.confirmPassword, {
+		path: ["confirmPassword"],
+		message: "Passwords do not match"
+	});
+
+export type SetPasswordStepType = z.infer<typeof setPasswordStepSchema>;

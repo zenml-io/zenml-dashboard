@@ -19,7 +19,7 @@ export function PrimaryUseStep({ user }: Props) {
 		};
 		setUser((prev) => ({
 			...prev,
-			metadata: { ...prev.user_metadata, ...metadata }
+			user_metadata: { ...prev.user_metadata, ...metadata }
 		}));
 		setSurveyStep(3);
 	}

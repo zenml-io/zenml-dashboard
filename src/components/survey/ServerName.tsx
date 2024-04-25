@@ -46,7 +46,7 @@ export function ServerNameForm({ submitHandler }: Props) {
 					</div>
 				</div>
 				<Button disabled={!isValid} className="w-full text-center" size="md">
-					<span className="w-full">Continue</span>
+					<span className="w-full">Activate your Server</span>
 				</Button>
 			</form>
 		</div>

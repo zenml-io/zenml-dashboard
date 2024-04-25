@@ -8,15 +8,18 @@ export const passwordSchema = z
 	.regex(/[0-9]/, "Password must contain at least one number")
 	.regex(/[!@#$%^&*(),.?":{}|<>]/, "Password must contain at least one special character");
 
-export const updatePasswordFormSchema = z
-	.object({
-		oldPassword: z.string().optional(),
-		newPassword: passwordSchema,
-		confirmPassword: z.string().min(1)
-	})
-	.refine((data) => data.newPassword === data.confirmPassword, {
+export const updatePasswordBaseFormSchema = z.object({
+	oldPassword: z.string().optional(),
+	newPassword: passwordSchema,
+	confirmPassword: z.string().min(1)
+});
+
+export const updatePasswordFormSchema = updatePasswordBaseFormSchema.refine(
+	(data) => data.newPassword === data.confirmPassword,
+	{
 		path: ["confirmPassword"],
 		message: "Passwords do not match"
-	});
+	}
+);
 
 export type UpdatePasswordFormType = z.infer<typeof updatePasswordFormSchema>;
