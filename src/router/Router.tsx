@@ -13,7 +13,7 @@ import { surveyLoader } from "../app/survey/loader";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
-const ActivateUser = lazy(() => import("@/app/activate/page"));
+const ActivateUser = lazy(() => import("@/app/activate-user/page"));
 const ActivateServer = lazy(() => import("@/app/activate-server/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));

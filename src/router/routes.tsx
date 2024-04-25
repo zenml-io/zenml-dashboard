@@ -3,7 +3,7 @@ export const routes = {
 	activateServer: "/activate-server",
 	login: "/login",
 	survey: "/survey",
-	activate: "/activate",
+	activate: "/activate-user",
 	devices: {
 		verify: "/devices/verify"
 	},
