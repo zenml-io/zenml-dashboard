@@ -4,7 +4,7 @@ import { MultipleFieldErrors, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { PasswordChecker } from "../password/PasswordChecker";
 import { ReactNode } from "react";
-import { SetPasswordStepType, setPasswordStepSchema } from "./form-schemas";
+import { SetPasswordStepType, getSetPasswordStepSchema } from "./form-schemas";
 
 type Props = {
 	displayUsername?: boolean;
@@ -25,10 +25,10 @@ export function SetPasswordForm({
 		handleSubmit,
 		formState: { isValid, errors }
 	} = useForm<SetPasswordStepType>({
-		resolver: zodResolver(setPasswordStepSchema),
+		resolver: zodResolver(getSetPasswordStepSchema(displayUsername)),
 		mode: "onChange",
 		criteriaMode: "all",
-		defaultValues: { oldPassword: "" }
+		defaultValues: { username: "" }
 	});
 
 	const newPasswordErrors = errors.newPassword?.types;
