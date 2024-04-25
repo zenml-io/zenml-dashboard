@@ -8,7 +8,6 @@ export function Analytics() {
 	const location = useLocation();
 	useEffect(() => {
 		if (data?.analytics_enabled) {
-			console.log("called");
 			analytics.load({
 				writeKey: import.meta.env.VITE_SEGMENT_KEY
 			});
@@ -19,7 +18,7 @@ export function Analytics() {
 
 	useEffect(() => {
 		if (data?.analytics_enabled) {
-			analytics.page();
+			analytics.page("ZenML Dashboard");
 		}
 	}, [location.pathname]);
 
