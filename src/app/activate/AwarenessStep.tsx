@@ -44,7 +44,10 @@ export function AwarenessStep({ userId }: Props) {
 	function handleAwarenessFormSubmit({ other, channels, otherVal }: AwarenessFormType) {
 		const channelArr = other ? [...channels, otherVal] : channels;
 		const updateMetadata: UserMetadata = { awareness_channels: channelArr as string[] };
-		mutate({ userId, body: { ...newUser, metadata: { ...newUser.metadata, ...updateMetadata } } });
+		mutate({
+			userId,
+			body: { ...newUser, user_metadata: { ...newUser.user_metadata, ...updateMetadata } }
+		});
 	}
 
 	return <AwarenessForm submitHandler={handleAwarenessFormSubmit} />;

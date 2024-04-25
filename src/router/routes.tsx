@@ -1,5 +1,6 @@
 export const routes = {
 	home: "/",
+	activateServer: "/activate-server",
 	login: "/login",
 	survey: "/survey",
 	activate: "/activate",
