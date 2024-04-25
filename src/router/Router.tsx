@@ -7,7 +7,7 @@ import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
 import { routes } from "./routes";
-import { authenticatedLayoutLoader } from "./loaders";
+import { authenticatedLayoutLoader, rootLoader } from "./loaders";
 import { queryClient } from "./queryclient";
 import { surveyLoader } from "../app/survey/loader";
 
@@ -37,7 +37,11 @@ const NotFoundPage = lazy(() => import("@/app/404"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
-		<Route errorElement={<RootBoundary />} element={<RootLayout />}>
+		<Route
+			loader={rootLoader(queryClient)}
+			errorElement={<RootBoundary />}
+			element={<RootLayout />}
+		>
 			{/* AuthenticatedLayout */}
 			<Route
 				loader={authenticatedLayoutLoader(queryClient)}
