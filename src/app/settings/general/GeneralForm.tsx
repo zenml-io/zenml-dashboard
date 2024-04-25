@@ -50,7 +50,7 @@ export function GeneralForm() {
 	});
 
 	function updateServerSettings(data: GeneralFormType) {
-		mutate({ name: data.serverName });
+		mutate({ server_name: data.serverName });
 	}
 
 	if (isError) return null;
@@ -65,7 +65,7 @@ export function GeneralForm() {
 							Server Name
 						</label>
 						<Input
-							placeholder={data.body?.name}
+							placeholder={data.body?.server_name}
 							{...register("serverName")}
 							id={serverNameId}
 							className="w-full"

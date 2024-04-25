@@ -28,8 +28,8 @@ export function PrimaryUseForm({ submitHandler, user }: Props) {
 		formState: { isValid }
 	} = useForm<PrimaryUseFormType>({
 		defaultValues: {
-			primaryUse: (user?.metadata?.metadata as UserMetadata)?.primary_use,
-			amountProductionModels: (user?.metadata?.metadata as UserMetadata)?.models_production
+			primaryUse: (user?.metadata?.user_metadata as UserMetadata)?.primary_use,
+			amountProductionModels: (user?.metadata?.user_metadata as UserMetadata)?.models_production
 		},
 		resolver: zodResolver(primaryUseFormSchema)
 	});

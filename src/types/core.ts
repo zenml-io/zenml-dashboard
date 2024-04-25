@@ -1226,16 +1226,16 @@ export type paths = {
 	};
 	"/api/v1/settings": {
 		/**
-		 * Get Server Settings
+		 * Get Settings
 		 * @description Get settings of the server.
 		 *
 		 * Returns:
 		 *     Settings of the server.
 		 */
-		get: operations["get_server_settings_api_v1_settings_get"];
+		get: operations["get_settings_api_v1_settings_get"];
 		/**
 		 * Update Server Settings
-		 * @description Updates a stack.
+		 * @description Updates the settings of the server.
 		 *
 		 * Args:
 		 *     settings_update: Settings update.
@@ -1244,6 +1244,19 @@ export type paths = {
 		 *     The updated settings.
 		 */
 		put: operations["update_server_settings_api_v1_settings_put"];
+	};
+	"/api/v1/activate": {
+		/**
+		 * Activate Server
+		 * @description Updates a stack.
+		 *
+		 * Args:
+		 *     activate_request: The request to activate the server.
+		 *
+		 * Returns:
+		 *     The default admin user that was created during activation, if any.
+		 */
+		put: operations["activate_server_api_v1_activate_put"];
 	};
 	"/api/v1/service_accounts": {
 		/**
@@ -6739,6 +6752,30 @@ export type components = {
 		 */
 		SecretsStoreType: "none" | "sql" | "aws" | "gcp" | "azure" | "hashicorp" | "custom";
 		/**
+		 * ServerActivationRequest
+		 * @description Model for activating the server.
+		 */
+		ServerActivationRequest: {
+			/** The name of the server. */
+			server_name?: string;
+			/** The logo URL of the server. */
+			logo_url?: string;
+			/** Whether to enable analytics for the server. */
+			enable_analytics?: boolean;
+			/** Whether to display announcements about ZenML in the dashboard. */
+			display_announcements?: boolean;
+			/** Whether to display notifications about ZenML updates in the dashboard. */
+			display_updates?: boolean;
+			/** The server's onboarding state. */
+			onboarding_state?: {
+				[key: string]: unknown;
+			};
+			/** The username of the default admin account to create. Leave empty to skip creating the default admin account. */
+			admin_username?: string;
+			/** The password of the default admin account to create. Leave empty to skip creating the default admin account. */
+			admin_password?: string;
+		};
+		/**
 		 * ServerDatabaseType
 		 * @description Enum for server database types.
 		 * @enum {string}
@@ -6773,6 +6810,11 @@ export type components = {
 			id?: string;
 			/** The ZenML version that the server is running. */
 			version: string;
+			/**
+			 * Flag to indicate whether the server is active.
+			 * @default true
+			 */
+			active?: boolean;
 			/**
 			 * Flag to indicate whether ZenML is running on debug mode.
 			 * @default false
@@ -6812,7 +6854,7 @@ export type components = {
 		};
 		/**
 		 * ServerSettingsResponse
-		 * @description Base domain model for all responses.
+		 * @description Response model for server settings.
 		 */
 		ServerSettingsResponse: {
 			/** The body of the resource. */
@@ -6827,16 +6869,36 @@ export type components = {
 		 * @description Response body for server settings.
 		 */
 		ServerSettingsResponseBody: {
+			/**
+			 * The unique server id.
+			 * Format: uuid
+			 */
+			server_id: string;
 			/** The name of the server. */
-			name: string;
+			server_name: string;
 			/** The logo URL of the server. */
 			logo_url?: string;
-			/** Whether to display announcements about ZenML. */
-			display_announcements: boolean;
-			/** Whether to display updates of ZenML. */
-			display_updates: boolean;
+			/** Whether the server has been activated or not. */
+			active: boolean;
+			/** Whether analytics are enabled for the server. */
+			enable_analytics: boolean;
+			/** Whether to display announcements about ZenML in the dashboard. */
+			display_announcements?: boolean;
+			/** Whether to display notifications about ZenML updates in the dashboard. */
+			display_updates?: boolean;
 			/**
-			 * The onboarding state of the server.
+			 * The timestamp when this resource was last updated.
+			 * Format: date-time
+			 */
+			updated: string;
+		};
+		/**
+		 * ServerSettingsResponseMetadata
+		 * @description Response metadata for server settings.
+		 */
+		ServerSettingsResponseMetadata: {
+			/**
+			 * The server's onboarding state.
 			 * @default {}
 			 */
 			onboarding_state?: {
@@ -6844,33 +6906,26 @@ export type components = {
 			};
 		};
 		/**
-		 * ServerSettingsResponseMetadata
-		 * @description Response metadata for server settings.
-		 */
-		ServerSettingsResponseMetadata: Record<string, never>;
-		/**
 		 * ServerSettingsResponseResources
 		 * @description Response resources for server settings.
 		 */
 		ServerSettingsResponseResources: Record<string, never>;
 		/**
 		 * ServerSettingsUpdate
-		 * @description Base model class for all ZenML models.
-		 *
-		 * This class is used as a base class for all ZenML models. It provides
-		 * functionality for tracking analytics events and proper encoding of
-		 * SecretStr values.
+		 * @description Model for updating server settings.
 		 */
 		ServerSettingsUpdate: {
 			/** The name of the server. */
-			name?: string;
+			server_name?: string;
 			/** The logo URL of the server. */
 			logo_url?: string;
-			/** Whether to display announcements about ZenML. */
+			/** Whether to enable analytics for the server. */
+			enable_analytics?: boolean;
+			/** Whether to display announcements about ZenML in the dashboard. */
 			display_announcements?: boolean;
-			/** Whether to display updates of ZenML. */
+			/** Whether to display notifications about ZenML updates in the dashboard. */
 			display_updates?: boolean;
-			/** The onboarding state of the server. */
+			/** The server's onboarding state. */
 			onboarding_state?: {
 				[key: string]: unknown;
 			};
@@ -8389,7 +8444,7 @@ export type components = {
 			 */
 			external_user_id?: string;
 			/** The metadata associated with the user. */
-			metadata?: {
+			user_metadata?: {
 				[key: string]: unknown;
 			};
 			/** The unique username for the account. */
@@ -8493,7 +8548,7 @@ export type components = {
 			 * The metadata associated with the user.
 			 * @default {}
 			 */
-			metadata?: {
+			user_metadata?: {
 				[key: string]: unknown;
 			};
 		};
@@ -8526,7 +8581,7 @@ export type components = {
 			 */
 			external_user_id?: string;
 			/** The metadata associated with the user. */
-			metadata?: {
+			user_metadata?: {
 				[key: string]: unknown;
 			};
 			/** The unique username for the account. */
@@ -13416,13 +13471,13 @@ export type operations = {
 		};
 	};
 	/**
-	 * Get Server Settings
+	 * Get Settings
 	 * @description Get settings of the server.
 	 *
 	 * Returns:
 	 *     Settings of the server.
 	 */
-	get_server_settings_api_v1_settings_get: {
+	get_settings_api_v1_settings_get: {
 		parameters: {
 			query?: {
 				hydrate?: boolean;
@@ -13457,7 +13512,7 @@ export type operations = {
 	};
 	/**
 	 * Update Server Settings
-	 * @description Updates a stack.
+	 * @description Updates the settings of the server.
 	 *
 	 * Args:
 	 *     settings_update: Settings update.
@@ -13476,6 +13531,49 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": components["schemas"]["ServerSettingsResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Activate Server
+	 * @description Updates a stack.
+	 *
+	 * Args:
+	 *     activate_request: The request to activate the server.
+	 *
+	 * Returns:
+	 *     The default admin user that was created during activation, if any.
+	 */
+	activate_server_api_v1_activate_put: {
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["ServerActivationRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["UserResponse"];
 				};
 			};
 			/** @description Unauthorized */

@@ -7,13 +7,14 @@ import { PageBoundary } from "../error-boundaries/PageBoundary";
 import { GradientLayout } from "../layouts/GradientLayout";
 import { RootLayout } from "../layouts/RootLayout";
 import { routes } from "./routes";
-import { authenticatedLayoutLoader } from "./loaders";
+import { authenticatedLayoutLoader, rootLoader } from "./loaders";
 import { queryClient } from "./queryclient";
 import { surveyLoader } from "../app/survey/loader";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
-const Activate = lazy(() => import("@/app/activate/page"));
+const ActivateUser = lazy(() => import("@/app/activate-user/page"));
+const ActivateServer = lazy(() => import("@/app/activate-server/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
@@ -37,7 +38,11 @@ const NotFoundPage = lazy(() => import("@/app/404"));
 
 export const router = createBrowserRouter(
 	createRoutesFromElements(
-		<Route errorElement={<RootBoundary />} element={<RootLayout />}>
+		<Route
+			loader={rootLoader(queryClient)}
+			errorElement={<RootBoundary />}
+			element={<RootLayout />}
+		>
 			{/* AuthenticatedLayout */}
 			<Route
 				loader={authenticatedLayoutLoader(queryClient)}
@@ -183,7 +188,8 @@ export const router = createBrowserRouter(
 			{/* Gradient Layout */}
 			<Route element={<GradientLayout />}>
 				<Route path={routes.login} element={<Login />} />
-				<Route path={routes.activate} element={<Activate />} />
+				<Route path={routes.activateUser} element={<ActivateUser />} />
+				<Route path={routes.activateServer} element={<ActivateServer />} />
 				<Route
 					path={routes.devices.verify}
 					element={
