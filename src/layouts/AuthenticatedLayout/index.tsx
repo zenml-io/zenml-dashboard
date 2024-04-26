@@ -5,6 +5,7 @@ import { AuthenticatedHeader } from "./AuthenticatedHeader";
 import { Sidebar } from "./Sidebar";
 import { routes } from "@/router/routes";
 import { checkUserOnboarding } from "@/lib/user";
+import { Analytics } from "@/components/Analytics";
 
 export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();
@@ -32,6 +33,7 @@ export function AuthenticatedLayout() {
 						<Sidebar />
 					</SidebarProvider>
 					<div className="w-full">
+						<Analytics />
 						<Outlet />
 					</div>
 				</div>
