@@ -61,6 +61,7 @@ function performPageEvent(
 
 	return fetcher("https://analytics.zenml.io/batch", {
 		method: "POST",
+		credentials: "omit",
 		headers: {
 			"Content-Type": "application/json"
 		},
