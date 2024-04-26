@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
   push:
     tags:
-      - '*'
+      - "*"
 
 jobs:
   release:
@@ -13,44 +13,70 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v2
+
       - name: Get the version from the github tag ref
         id: get_version
         run: echo ::set-output name=VERSION::${GITHUB_REF/refs\/tags\//}
+
       - uses: actions/setup-node@v3
         with:
-          node-version: 18.16.0
+          node-version: 20
+
       - name: Install yarn
         run: npm install --global yarn
-      - name: Build
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: latest
+
+      - name: Build old dashboard
+        working-directory: ./legacy
         run: |
           yarn install
           yarn build
         env:
-          REACT_APP_HUB_API_URL: 'https://hubapi.zenml.io'
-          REACT_APP_BASE_API_URL: '/api/v1'
+          REACT_APP_HUB_API_URL: "https://hubapi.zenml.io"
+          REACT_APP_BASE_API_URL: "/api/v1"
           REACT_APP_MOCKAPI_RESPONSE: false
-          REACT_APP_USE_COOKIE: 'true'
+          REACT_APP_USE_COOKIE: "true"
           REACT_APP_VERSION: ${{ steps.get_version.outputs.VERSION }}
+
+      - name: Build new dashboard
+        run: |
+          pnpm install --frozen-lockfile
+          pnpm build
+        env:
+          VITE_API_BASE_URL: "/api/v1"
+          VITE_FRONTEND_VERSION: ${{ steps.get_version.outputs.VERSION }}
+          VITE_FEATURE_OS_KEY: ${{ secrets.FEATURE_OS_KEY }}
+
       - name: Generate Changelog
         uses: heinrichreimer/github-changelog-generator-action@v2.1.1
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          pullRequests: 'false'
-          onlyLastTag: 'true'
-          stripGeneratorNotice: 'true'
-          issuesWoLabels: 'true'
-          stripHeaders: 'true'
+          pullRequests: "false"
+          onlyLastTag: "true"
+          stripGeneratorNotice: "true"
+          issuesWoLabels: "true"
+          stripHeaders: "true"
+
       - name: Create release archive
         run: |
-          tar -zcf zenml-dashboard.tar.gz -C build --transform="s#\.\/##" .
+          tar -zcf zenml-dashboard-legacy.tar.gz -C ./legacy/build --transform="s#\.\/##" .
+          sha256sum -b zenml-dashboard-legacy.tar.gz > zenml-dashboard-legacy.tar.gz.sha256
+          tar -zcf zenml-dashboard.tar.gz -C dist --transform="s#\.\/##" .
           sha256sum -b zenml-dashboard.tar.gz > zenml-dashboard.tar.gz.sha256
+
       - name: Release to GitHub
         uses: softprops/action-gh-release@v1
         with:
           files: |
+            zenml-dashboard-legacy.tar
+            zenml-dashboard-legacy.tar.gz
             zenml-dashboard.tar.gz
             zenml-dashboard.tar.gz.sha256
           body_path: ./CHANGELOG.md
-          prerelease: 'true'
+          prerelease: "true"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

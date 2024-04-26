@@ -72,7 +72,7 @@
     "prettier:fix": "prettier --write './src/**/*.{ts,tsx}'",
     "prettier:check": "prettier --check './src/**/*.{ts,tsx}'",
     "all": "eslint './src/**/*.ts*' & react-scripts test --all & tsc",
-    "prepare": "husky install",
+    "prepare": "cd .. && husky install legacy/.husky",
     "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "build-storybook -s public"
   },
