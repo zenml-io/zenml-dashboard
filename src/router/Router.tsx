@@ -9,7 +9,7 @@ import { RootLayout } from "../layouts/RootLayout";
 import { routes } from "./routes";
 import { authenticatedLayoutLoader, rootLoader } from "./loaders";
 import { queryClient } from "./queryclient";
-import { surveyLoader } from "../app/survey/loader";
+import { surveyLoader } from "@/app/survey/loader";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -17,7 +17,10 @@ const ActivateUser = lazy(() => import("@/app/activate-user/page"));
 const ActivateServer = lazy(() => import("@/app/activate-server/page"));
 const Pipelines = lazy(() => import("@/app/pipelines/page"));
 const PipelinesNamespace = lazy(() => import("@/app/pipelines/[namespace]/page"));
+
 const RunDetail = lazy(() => import("@/app/runs/[id]/page"));
+const RunNotFound = lazy(() => import("@/app/runs/[id]/not-found"));
+
 const MembersPage = lazy(() => import("@/app/settings/members/page"));
 const ProfileSettingsPage = lazy(() => import("@/app/settings/profile/page"));
 // Settings
@@ -33,6 +36,7 @@ const Models = lazy(() => import("@/app/models/page"));
 const Artifacts = lazy(() => import("@/app/artifacts/page"));
 
 const Survey = lazy(() => import("@/app/survey/page"));
+const Onboarding = lazy(() => import("@/app/onboarding/page"));
 
 const NotFoundPage = lazy(() => import("@/app/404"));
 
@@ -99,11 +103,24 @@ export const router = createBrowserRouter(
 						}
 					/>
 					<Route
-						errorElement={<PageBoundary />}
+						errorElement={
+							<PageBoundary>
+								<RunNotFound />
+							</PageBoundary>
+						}
 						path={routes.runs.detail(":runId")}
 						element={
 							<ProtectedRoute>
 								<RunDetail />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.onboarding}
+						element={
+							<ProtectedRoute>
+								<Onboarding />
 							</ProtectedRoute>
 						}
 					/>

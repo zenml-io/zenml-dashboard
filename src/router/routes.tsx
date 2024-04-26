@@ -4,6 +4,7 @@ export const routes = {
 	activateUser: "/activate-user",
 	login: "/login",
 	survey: "/survey",
+	onboarding: "/onboarding",
 	devices: {
 		verify: "/devices/verify"
 	},
