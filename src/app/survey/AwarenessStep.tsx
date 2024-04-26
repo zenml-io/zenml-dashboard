@@ -35,7 +35,7 @@ export function AwarenessStep() {
 	function handleAwarenessFormSubmit({ other, channels, otherVal }: AwarenessFormType) {
 		const channelArr = other ? [...channels, otherVal] : channels;
 		const updateMetadata: UserMetadata = { awareness_channels: channelArr as string[] };
-		mutate({ ...user, metadata: { ...user.metadata, ...updateMetadata } });
+		mutate({ ...user, user_metadata: { ...user.user_metadata, ...updateMetadata } });
 	}
 
 	return <AwarenessForm submitHandler={handleAwarenessFormSubmit} />;

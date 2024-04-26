@@ -16,7 +16,7 @@ function createUser(overrides: Partial<User> = {}): User {
 		},
 		metadata: {
 			email: "",
-			metadata: {},
+			user_metadata: {},
 			...overrides.metadata
 		},
 		id: "7310dfc0-0c6d-4d63-affb-863901893892",
@@ -38,7 +38,7 @@ describe("check user onboarding", () => {
 	});
 
 	test("should return true if awareness_channels is empty", () => {
-		const user: User = createUser({ metadata: { metadata: { awareness_channels: [] } } });
+		const user: User = createUser({ metadata: { user_metadata: { awareness_channels: [] } } });
 		expect(checkUserOnboarding(user)).toBeTruthy();
 	});
 
@@ -46,7 +46,7 @@ describe("check user onboarding", () => {
 		const user: User = createUser({
 			//@ts-expect-error its a tenary, where the default value is null in case it was never changed
 			body: { email_opted_in: true },
-			metadata: { metadata: { awareness_channels: [] } }
+			metadata: { user_metadata: { awareness_channels: [] } }
 		});
 		expect(checkUserOnboarding(user)).toBeTruthy();
 	});

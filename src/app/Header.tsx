@@ -14,9 +14,11 @@ export function OverviewHeader() {
 						<Avatar size="xxl" type="square">
 							<AvatarImage
 								alt="Logo displayed for the tenant"
-								src={getGradientImage(serverSettings.body?.name || "default", 64)}
+								src={getGradientImage(serverSettings.body?.server_name || "default", 64)}
 							/>
-							<AvatarFallback size="xxl">{serverSettings.body?.name[0] || "D"}</AvatarFallback>
+							<AvatarFallback size="xxl">
+								{serverSettings.body?.server_name[0] || "D"}
+							</AvatarFallback>
 						</Avatar>
 					) : (
 						<Skeleton className="h-[96px] w-[96px]" />
@@ -25,7 +27,7 @@ export function OverviewHeader() {
 						<div className="flex flex-col gap-2 md:flex-row">
 							{serverSettings ? (
 								<h1 className="mb-1 text-display-xs font-semibold">
-									{serverSettings.body?.name || "default"}
+									{serverSettings.body?.server_name || "default"}
 								</h1>
 							) : (
 								<Skeleton className="h-full w-8" />
@@ -34,13 +36,6 @@ export function OverviewHeader() {
 								<ZenMLVersionTag />
 							</div>
 						</div>
-
-						{/* <p className="text-text-sm text-theme-text-secondary">
-							Last update:{" "}
-							<time className="text-theme-text-primary">
-								<DisplayDate dateString={serverInfo..updated} />
-							</time>
-						</p> */}
 					</div>
 				</div>
 			</div>

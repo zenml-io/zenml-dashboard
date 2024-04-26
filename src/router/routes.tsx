@@ -1,8 +1,10 @@
 export const routes = {
 	home: "/",
+	activateServer: "/activate-server",
+	activateUser: "/activate-user",
 	login: "/login",
 	survey: "/survey",
-	activate: "/activate",
+	onboarding: "/onboarding",
 	devices: {
 		verify: "/devices/verify"
 	},

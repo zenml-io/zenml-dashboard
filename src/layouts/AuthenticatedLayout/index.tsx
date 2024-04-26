@@ -9,6 +9,9 @@ import { checkUserOnboarding } from "@/lib/user";
 export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();
 
+	// if window is 1440px wide, set boolean to true
+	const isMinWidth = window.innerWidth >= 1440;
+
 	if (data && checkUserOnboarding(data)) {
 		return (
 			<Navigate
@@ -25,7 +28,7 @@ export function AuthenticatedLayout() {
 			<AuthenticatedHeader />
 			<main className="flex flex-grow flex-col">
 				<div className="flex flex-grow">
-					<SidebarProvider>
+					<SidebarProvider initialOpen={isMinWidth}>
 						<Sidebar />
 					</SidebarProvider>
 					<div className="w-full">

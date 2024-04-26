@@ -1,13 +1,10 @@
+import { FetchError } from "@/lib/fetch-error";
 import { removeAuthState } from "@/lib/sessions";
 import { QueryCache, QueryClient } from "@tanstack/react-query";
-import { FetchError } from "@/lib/fetch-error";
-import { routes } from "./routes";
 
 function handle401() {
 	removeAuthState();
-	window.location.href =
-		routes.login +
-		`?${new URLSearchParams({ redirect: location.pathname + location.search }).toString()}`;
+	window.location.reload();
 }
 
 export const queryClient = new QueryClient({

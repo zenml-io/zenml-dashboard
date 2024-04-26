@@ -15,7 +15,7 @@ export function SidebarTitle() {
 	if (isError) return null;
 	if (isPending) return <Skeleton className="h-3 w-full" />;
 
-	return <SidebarHeaderTitle>{data.body?.name}</SidebarHeaderTitle>;
+	return <SidebarHeaderTitle>{data.body?.server_name}</SidebarHeaderTitle>;
 }
 
 export function SidebarImage() {
@@ -27,8 +27,8 @@ export function SidebarImage() {
 	return (
 		<SidebarHeaderImage>
 			<Avatar size="md" type="square">
-				<AvatarImage src={getGradientImage(data.body?.name || "default")} />
-				<AvatarFallback size="md">{data.body?.name[0] || "D"}</AvatarFallback>
+				<AvatarImage src={getGradientImage(data.body?.server_name || "default")} />
+				<AvatarFallback size="md">{data.body?.server_name[0] || "D"}</AvatarFallback>
 			</Avatar>
 		</SidebarHeaderImage>
 	);
