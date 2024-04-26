@@ -36,13 +36,6 @@ export function OverviewHeader() {
 								<ZenMLVersionTag />
 							</div>
 						</div>
-
-						{/* <p className="text-text-sm text-theme-text-secondary">
-							Last update:{" "}
-							<time className="text-theme-text-primary">
-								<DisplayDate dateString={serverInfo..updated} />
-							</time>
-						</p> */}
 					</div>
 				</div>
 			</div>

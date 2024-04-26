@@ -12,6 +12,7 @@ import { useUpdateServerSettings } from "@/data/server/update-server-settings-mu
 import { getServerSettingsKey, useServerSettings } from "@/data/server/get-server-settings";
 import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import Check from "@/assets/icons/check.svg?react";
 
 type Props = {
 	completed: boolean;
@@ -55,11 +56,11 @@ export function ChecklistItem({
 						{!completed && active && (
 							<Button
 								onClick={markAsDone}
-								className="whitespace-nowrap"
+								className="items-center whitespace-nowrap"
 								intent="primary"
 								emphasis="subtle"
 							>
-								Mark as done
+								<Check className="h-5 w-5 fill-primary-600" /> <span>Mark as done</span>
 							</Button>
 						)}
 						<ChevronDown
