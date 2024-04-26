@@ -20,8 +20,9 @@ import {
 } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
-import { SidebarImage, SidebarTitle } from "./SidebarFragments";
 import { OnboardingItem } from "./OnboardingItem";
+import { SidebarImage, SidebarTitle } from "./SidebarFragments";
+import { WhatsNewButton } from "./WhatsNewButton";
 
 export function Sidebar() {
 	const { setIsOpen, isOpen } = useSidebarContext();
@@ -95,6 +96,7 @@ export function Sidebar() {
 							</li>
 						</SidebarList>
 						<div className="mt-auto">
+							<WhatsNewButton />
 							<SidebarLink
 								icon={<Settings />}
 								label="Settings"
