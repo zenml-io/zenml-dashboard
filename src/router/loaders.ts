@@ -1,8 +1,8 @@
-import { fetchServerSettings, getServerSettingsKey } from "@/data/server/get-server-settings";
 import { fetchServerInfo, getServerInfoKey } from "@/data/server/info-query";
 import { fetchCurrentUser, getCurrentUserKey } from "@/data/users/current-user-query";
 import { getAuthState } from "@/lib/sessions";
 import { QueryClient } from "@tanstack/react-query";
+import { fetchServerSettings, getServerSettingsKey } from "@/data/server/get-server-settings";
 
 export const authenticatedLayoutLoader = (queryClient: QueryClient) => async () => {
 	if (getAuthState()) {
@@ -14,7 +14,7 @@ export const authenticatedLayoutLoader = (queryClient: QueryClient) => async () 
 			queryClient
 				.ensureQueryData({ queryKey: getServerSettingsKey(), queryFn: fetchServerSettings })
 				.catch(() => {})
-		]);
+		]).catch(() => {});
 	}
 
 	return null;
