@@ -1,6 +1,8 @@
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import { Icon } from "@/components/Icon";
 import { Tick } from "@/components/Tick";
 import { useServerSettings } from "@/data/server/get-server-settings";
+import { PRODUCTION_SETUP_ITEMS, STARTER_SETUP_ITEMS } from "@/lib/constants";
+import { getOnboardingState, getProgress } from "@/lib/onboarding";
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -10,14 +12,12 @@ import {
 	cn
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { getOnboardingState, getProgress } from "@/lib/onboarding";
 import {
 	CreateArtifactStore,
 	CreateNewStack,
 	CreateServiceConnector,
 	RunNewPipeline
 } from "./Items";
-import { PRODUCTION_SETUP_ITEMS, STARTER_SETUP_ITEMS } from "@/lib/constants";
 
 export function ProductionSetupChecklist() {
 	const { isError, isPending, data } = useServerSettings({ throwOnError: true });
@@ -67,7 +67,8 @@ export function ProductionSetupChecklist() {
 							</p>
 						</div>
 					</div>
-					<ChevronDown
+					<Icon
+						name="chevron-down"
 						className={` ${
 							open ? "" : "-rotate-90"
 						} h-5 w-5 shrink-0 rounded-md fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200`}

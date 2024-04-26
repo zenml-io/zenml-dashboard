@@ -1,7 +1,7 @@
-import Aws from "@/assets/icons/services/aws.svg?react";
-import Gcp from "@/assets/icons/services/gcp.svg?react";
-import Azure from "@/assets/icons/services/azure.svg?react";
-import Cloud from "@/assets/icons/cloud.svg?react";
+import Aws from "@/assets/services/aws.svg?react";
+import Azure from "@/assets/services/azure.svg?react";
+import Gcp from "@/assets/services/gcp.svg?react";
+import { Icon } from "@/components/Icon";
 import {
 	Select,
 	SelectContent,
@@ -51,7 +51,7 @@ export function ProviderSelect({ displayOther = false, setValue, value, id }: Pr
 				{displayOther && (
 					<SelectItem value="other">
 						<div className="flex items-center gap-1">
-							<Cloud className="h-5 w-5 stroke-neutral-400" />
+							<Icon name="cloud" className="h-5 w-5 stroke-neutral-400" />
 							Other
 						</div>
 					</SelectItem>

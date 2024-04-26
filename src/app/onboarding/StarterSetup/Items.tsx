@@ -1,11 +1,11 @@
-import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { Codesnippet } from "@/components/CodeSnippet";
+import { Icon } from "@/components/Icon";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
-import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
-import Help from "@/assets/icons/help.svg?react";
-import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
-import { getOnboardingItem } from "@/lib/onboarding";
+import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { useServerInfo } from "@/data/server/info-query";
+import { getOnboardingItem } from "@/lib/onboarding";
+import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
+import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
 
 type Props = {
 	onboardingState?: OnboardingState;
@@ -66,7 +66,7 @@ export function RunFirstPipeline({ onboardingState }: Props) {
 				<Box className="flex w-full flex-wrap items-center justify-between gap-y-1 p-2">
 					<div className="flex items-center gap-[10px]">
 						<div className="flex h-7 w-7 items-center justify-center rounded-sm bg-teal-25">
-							<Help className="h-5 w-5 fill-teal-400" />
+							<Icon name="help" className="h-5 w-5 fill-teal-400" />
 						</div>
 						<p>Do you need help?</p>
 					</div>

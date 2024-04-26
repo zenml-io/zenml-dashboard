@@ -4,7 +4,7 @@ import { getOnboardingState, getProgress } from "@/lib/onboarding";
 import { routes } from "@/router/routes";
 import { Box, ProgressBar, Skeleton, useSidebarContext } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
-import ChevronRight from "@/assets/icons/chevron-right.svg?react";
+import { Icon } from "@/components/Icon";
 
 export function OnboardingItem() {
 	const { isPending, isError, data } = useServerSettings({ throwOnError: true });
@@ -48,7 +48,7 @@ export function OnboardingItem() {
 						className={`m-0 flex h-0 items-center justify-between truncate  transition-all duration-300 ${isOpen ? "mb-2 h-5" : "opacity-0 group-hover:mb-2 group-hover:h-5 group-hover:opacity-100"} `}
 					>
 						{activeFlow.title}
-						<ChevronRight className="h-4 w-4 fill-theme-text-primary" />
+						<Icon name="chevron-right" className="h-4 w-4 fill-theme-text-primary" />
 					</div>
 					<div className="flex items-center gap-[10px]">
 						<span className="text-text-sm">

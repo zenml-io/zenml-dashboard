@@ -5,13 +5,13 @@ import {
 	RadialProgress,
 	Skeleton
 } from "@zenml-io/react-component-library";
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { useState } from "react";
 import { useServerSettings } from "@/data/server/get-server-settings";
 import { ConnectZenMLStep, RunFirstPipeline } from "./Items";
 import { Tick } from "@/components/Tick";
 import { getOnboardingState, getProgress } from "@/lib/onboarding";
 import { STARTER_SETUP_ITEMS } from "@/lib/constants";
+import { Icon } from "@/components/Icon";
 
 export function StarterSetupList() {
 	const { isError, isPending, data } = useServerSettings({ throwOnError: true });
@@ -52,7 +52,8 @@ export function StarterSetupList() {
 						</p>
 					</div>
 				</div>
-				<ChevronDown
+				<Icon
+					name="chevron-down"
 					className={` ${
 						open ? "" : "-rotate-90"
 					} h-5 w-5 shrink-0 rounded-md fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200`}

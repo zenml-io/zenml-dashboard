@@ -1,3 +1,7 @@
+import { getServerSettingsKey, useServerSettings } from "@/data/server/get-server-settings";
+import { useUpdateServerSettings } from "@/data/server/update-server-settings-mutation";
+import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
+import { useQueryClient } from "@tanstack/react-query";
 import {
 	Button,
 	Collapsible,
@@ -6,13 +10,8 @@ import {
 	ProgressOutstanding
 } from "@zenml-io/react-component-library";
 import { PropsWithChildren, ReactNode, useState } from "react";
+import { Icon } from "../Icon";
 import { Tick } from "../Tick";
-import { useQueryClient } from "@tanstack/react-query";
-import { useUpdateServerSettings } from "@/data/server/update-server-settings-mutation";
-import { getServerSettingsKey, useServerSettings } from "@/data/server/get-server-settings";
-import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
-import Check from "@/assets/icons/check.svg?react";
 
 type Props = {
 	completed: boolean;
@@ -60,10 +59,11 @@ export function ChecklistItem({
 								intent="primary"
 								emphasis="subtle"
 							>
-								<Check className="h-5 w-5 fill-primary-600" /> <span>Mark as done</span>
+								<Icon name="check" className="h-5 w-5 fill-primary-600" /> <span>Mark as done</span>
 							</Button>
 						)}
-						<ChevronDown
+						<Icon
+							name="chevron-down"
 							className={` ${
 								open ? "" : "-rotate-90"
 							} h-5 w-5 shrink-0 rounded-md fill-neutral-500`}
