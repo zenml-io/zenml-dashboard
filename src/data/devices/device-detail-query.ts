@@ -3,6 +3,7 @@ import { FetchError } from "@/lib/fetch-error";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { Device, DeviceQueryParams } from "@/types/devices";
 import { objectToSearchParams } from "@/lib/url";
+import { fetcher } from "../fetch";
 
 type DeviceQuery = {
 	deviceId: string;
@@ -18,7 +19,7 @@ export async function fetchDeviceDetail({ deviceId, queryParams }: DeviceQuery):
 	);
 
 	// TODO Abstract this fetch, as it's a lot of the times the same thing
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "GET",
 		credentials: "include",
 		headers: {
