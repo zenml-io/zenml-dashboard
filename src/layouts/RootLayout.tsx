@@ -1,4 +1,3 @@
-import { Analytics } from "@/components/Analytics";
 import { useServerInfo } from "@/data/server/info-query";
 import { routes } from "@/router/routes";
 import { useEffect } from "react";
@@ -17,7 +16,6 @@ export function RootLayout() {
 	return (
 		<div className="bg-theme-surface-secondary font-sans font-medium text-theme-text-primary antialiased">
 			<Outlet />
-			<Analytics />
 		</div>
 	);
 }
