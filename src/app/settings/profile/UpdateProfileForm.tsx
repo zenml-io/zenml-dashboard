@@ -1,6 +1,9 @@
+import { DisplayDate } from "@/components/DisplayDate";
+import { Icon } from "@/components/Icon";
 import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
 import { isFetchError } from "@/lib/fetch-error";
 import { UpdateUser, User } from "@/types/user";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { useQueryClient } from "@tanstack/react-query";
 import { Button, Input, useToast } from "@zenml-io/react-component-library";
 import { useId } from "react";
@@ -10,9 +13,6 @@ import {
 	UpdateProfileFormSchema,
 	UpdateProfileForm as UpdateProfileFormType
 } from "./UpdateProfileSchema";
-import { DisplayDate } from "@/components/DisplayDate";
-import { Icon } from "@/components/Icon";
-import { zodResolver } from "@hookform/resolvers/zod";
 
 type Props = {
 	user: User;

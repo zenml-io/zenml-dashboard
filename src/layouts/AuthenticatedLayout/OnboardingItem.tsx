@@ -1,10 +1,10 @@
+import { Icon } from "@/components/Icon";
 import { useServerSettings } from "@/data/server/get-server-settings";
 import { PRODUCTION_SETUP_ITEMS, STARTER_SETUP_ITEMS } from "@/lib/constants";
 import { getOnboardingState, getProgress } from "@/lib/onboarding";
 import { routes } from "@/router/routes";
 import { Box, ProgressBar, Skeleton, useSidebarContext } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
-import { Icon } from "@/components/Icon";
 
 export function OnboardingItem() {
 	const { isPending, isError, data } = useServerSettings({ throwOnError: true });

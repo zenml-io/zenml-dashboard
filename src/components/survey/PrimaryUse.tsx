@@ -1,3 +1,4 @@
+import { User, UserMetadata } from "@/types/user";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
 	Button,
@@ -8,10 +9,9 @@ import {
 	SelectValue
 } from "@zenml-io/react-component-library";
 import { Controller, useForm } from "react-hook-form";
+import { Icon } from "../Icon";
 import { PrimaryUseRadioButton } from "./UseRadioButton";
 import { PrimaryUseFormType, primaryUseFormSchema } from "./form-schemas";
-import { User, UserMetadata } from "@/types/user";
-import { Icon } from "../Icon";
 
 const modelsRange = ["0", "1-5", "6-25", "26-99", "100+"];
 

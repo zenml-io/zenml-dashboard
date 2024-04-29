@@ -16,12 +16,12 @@ import {
 import { Dispatch, SetStateAction, useId, useState } from "react";
 import { MultipleFieldErrors, useForm } from "react-hook-form";
 
+import { Icon } from "@/components/Icon";
 import { PasswordChecker } from "@/components/password/PasswordChecker";
 import {
 	UpdatePasswordFormType,
 	updatePasswordFormSchema
 } from "@/components/password/UpdatePasswordSchemas";
-import { Icon } from "@/components/Icon";
 
 export function UpdatePasswordDialog() {
 	const [passwordUpdateSuccess, setPasswordUpdateSuccess] = useState(false);
