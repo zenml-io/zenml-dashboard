@@ -1,7 +1,8 @@
 import { apiPaths, createApiPath } from "@/data/api";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
-import { FetchError } from "../../lib/fetch-error";
+import { FetchError } from "@/lib/fetch-error";
 import { Device, DeviceVerifyPayload } from "@/types/devices";
+import { fetcher } from "../fetch";
 
 type VerifyDevicePayload = {
 	deviceId: string;
@@ -12,7 +13,7 @@ export async function verifyDevice({ deviceId, payload }: VerifyDevicePayload) {
 	const url = createApiPath(apiPaths.devices.verify(deviceId));
 
 	// TODO possibly this fetch can be abstracted
-	const res = await fetch(url, {
+	const res = await fetcher(url, {
 		method: "PUT",
 		credentials: "include",
 		headers: {

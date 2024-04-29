@@ -6,9 +6,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { Button, Input, useToast } from "@zenml-io/react-component-library";
 import { useId } from "react";
 import { useForm } from "react-hook-form";
-import { UpdatePasswordDialog } from "./UpdatePassword/UpdatePasswordDialog";
-import { UpdateProfileForm as UpdateProfileFormType } from "./UpdateProfileSchema";
+import { UpdatePasswordDialog } from "./UpdatePasswordDialog";
+import {
+	UpdateProfileFormSchema,
+	UpdateProfileForm as UpdateProfileFormType
+} from "./UpdateProfileSchema";
 import { DisplayDate } from "@/components/DisplayDate";
+import { zodResolver } from "@hookform/resolvers/zod";
 
 type Props = {
 	user: User;
@@ -19,6 +23,7 @@ export function UpdateProfileForm({ user }: Props) {
 	const { toast } = useToast();
 	const fullNameId = useId();
 	const usernameId = useId();
+	const emailId = useId();
 
 	const { isPending, mutate } = useUpdateCurrentUserMutation({
 		onError(error) {
@@ -45,13 +50,27 @@ export function UpdateProfileForm({ user }: Props) {
 		}
 	});
 
-	const { register, reset, handleSubmit, watch } = useForm<UpdateProfileFormType>();
+	const {
+		register,
+		reset,
+		handleSubmit,
+
+		formState: { isValid }
+	} = useForm<UpdateProfileFormType>({
+		resolver: zodResolver(UpdateProfileFormSchema),
+		defaultValues: {
+			email: undefined,
+			fullName: undefined,
+			username: undefined
+		}
+	});
 
 	function updateUser(data: UpdateProfileFormType) {
 		// As this is a put, we need to filter out the empty values
 		const body: UpdateUser = {
 			...(data.fullName && { full_name: data.fullName }),
-			...(data.username && { name: data.username })
+			...(data.username && { name: data.username }),
+			...(data.email && { email: data.email })
 		};
 
 		mutate(body);
@@ -83,12 +102,19 @@ export function UpdateProfileForm({ user }: Props) {
 							className="w-full"
 						/>
 					</div>
+					<div className="space-y-0.5">
+						<label htmlFor={emailId} className="text-text-sm">
+							Email
+						</label>
+						<Input
+							placeholder={user.metadata?.email}
+							{...register("email")}
+							id={emailId}
+							className="w-full"
+						/>
+					</div>
 					<div className="flex justify-end">
-						<Button
-							disabled={isPending || (!watch("fullName") && !watch("username"))}
-							size="md"
-							intent="primary"
-						>
+						<Button disabled={isPending || !isValid} size="md" intent="primary">
 							Update
 						</Button>
 					</div>

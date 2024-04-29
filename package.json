@@ -11,7 +11,8 @@
 		"lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
 		"prepare": "husky",
 		"preview": "vite preview",
-		"test:e2e": "playwright test"
+		"test:e2e": "playwright test",
+		"test:unit": "vitest run"
 	},
 	"lint-staged": {
 		"*.{cjs,js,jsx,ts,tsx,css,scss}": [
@@ -23,11 +24,12 @@
 	},
 	"dependencies": {
 		"@dagrejs/dagre": "^1.1.1",
+		"@fontsource/inter": "^5.0.18",
 		"@hookform/resolvers": "^3.3.4",
 		"@tanstack/react-query": "^5.28.6",
 		"@tanstack/react-table": "^8.15.3",
 		"@tisoap/react-flow-smart-edge": "^3.0.0",
-		"@zenml-io/react-component-library": "^0.14.1",
+		"@zenml-io/react-component-library": "^0.15.0",
 		"class-variance-authority": "^0.7.0",
 		"lodash.debounce": "^4.0.8",
 		"papaparse": "^5.4.1",
@@ -38,6 +40,7 @@
 		"react-markdown": "^9.0.1",
 		"react-router-dom": "^6.22.3",
 		"reactflow": "^11.11.0",
+		"unique-names-generator": "^4.7.1",
 		"zod": "^3.22.4"
 	},
 	"devDependencies": {
@@ -68,6 +71,7 @@
 		"typescript": "^5.2.2",
 		"vite": "^5.1.6",
 		"vite-plugin-bundle-prefetch": "^0.0.4",
-		"vite-plugin-svgr": "^4.2.0"
+		"vite-plugin-svgr": "^4.2.0",
+		"vitest": "^1.5.0"
 	}
 }

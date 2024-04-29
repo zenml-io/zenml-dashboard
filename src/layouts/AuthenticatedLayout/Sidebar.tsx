@@ -1,21 +1,16 @@
-import Overview from "@/assets/icons/cloud-tenant.svg?react";
-import Pipeline from "@/assets/icons/pipeline.svg?react";
-import Stacks from "@/assets/icons/stack.svg?react";
 import Chip from "@/assets/icons/chip.svg?react";
+import Overview from "@/assets/icons/cloud-tenant.svg?react";
 import File from "@/assets/icons/file.svg?react";
-import SideCollapse from "@/assets/icons/side-collapse.svg?react";
+import Pipeline from "@/assets/icons/pipeline.svg?react";
 import Settings from "@/assets/icons/settings.svg?react";
+import SideCollapse from "@/assets/icons/side-collapse.svg?react";
+import Stacks from "@/assets/icons/stack.svg?react";
 
 import { routes } from "@/router/routes";
 import {
-	Avatar,
-	AvatarFallback,
-	AvatarImage,
 	Button,
 	SidebarBody,
 	SidebarHeader,
-	SidebarHeaderImage,
-	SidebarHeaderTitle,
 	SidebarItem,
 	SidebarItemContent,
 	SidebarList,
@@ -25,6 +20,9 @@ import {
 } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
+import { OnboardingItem } from "./OnboardingItem";
+import { SidebarImage, SidebarTitle } from "./SidebarFragments";
+import { WhatsNewButton } from "./WhatsNewButton";
 
 export function Sidebar() {
 	const { setIsOpen, isOpen } = useSidebarContext();
@@ -45,16 +43,12 @@ export function Sidebar() {
 							</Button>
 						}
 					>
-						<SidebarHeaderImage>
-							<Avatar size="md" type="square">
-								<AvatarImage src="https://avatar.vercel.sh/default?size=24" />
-								<AvatarFallback size="md">D</AvatarFallback>
-							</Avatar>
-						</SidebarHeaderImage>
-						<SidebarHeaderTitle>default</SidebarHeaderTitle>
+						<SidebarImage />
+						<SidebarTitle />
 					</SidebarHeader>
 					<SidebarBody>
 						<SidebarList>
+							{<OnboardingItem />}
 							<li className="w-full">
 								<SidebarLink
 									routePatterns={[routes.home]}
@@ -102,17 +96,19 @@ export function Sidebar() {
 							</li>
 						</SidebarList>
 						<div className="mt-auto">
+							<WhatsNewButton />
 							<SidebarLink
 								icon={<Settings />}
 								label="Settings"
 								routePatterns={[
 									routes.settings.profile,
 									routes.settings.members,
-									routes.settings.connectors,
-									routes.settings.repositories,
-									routes.settings.secrets
+									routes.settings.connectors.overview,
+									routes.settings.repositories.overview,
+									routes.settings.secrets.overview,
+									routes.settings.general
 								]}
-								to={routes.settings.members}
+								to={routes.settings.general}
 							/>
 						</div>
 					</SidebarBody>

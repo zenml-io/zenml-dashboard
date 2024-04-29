@@ -1,7 +1,7 @@
 function updateConfig(init?: RequestInit): RequestInit {
 	return {
-		...init,
 		credentials: "include",
+		...init,
 		headers: {
 			...init?.headers,
 			"Source-Context": "dashboard"

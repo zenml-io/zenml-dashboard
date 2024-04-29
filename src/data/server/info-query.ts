@@ -2,7 +2,7 @@ import { apiPaths, createApiPath } from "../api";
 import { FetchError } from "@/lib/fetch-error";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { fetcher } from "../fetch";
-import { ServerInfo } from "@/types/server-info";
+import { ServerInfo } from "@/types/server";
 
 export function getServerInfoKey() {
 	return ["info"];
