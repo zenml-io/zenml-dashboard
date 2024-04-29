@@ -1,10 +1,10 @@
 import { apiPaths, createApiPath } from "@/data/api";
-import { LoginPayload, LoginResponse } from "@/types/session";
+import { LoginFormType, LoginResponse } from "@/types/session";
 import { useMutation, UseMutationOptions } from "@tanstack/react-query";
 import { FetchError } from "../../lib/fetch-error";
 import { fetcher } from "../fetch";
 
-export async function loginUser(body: LoginPayload) {
+export async function loginUser(body: LoginFormType) {
 	const url = createApiPath(apiPaths.login);
 
 	const res = await fetcher(url, {
@@ -31,9 +31,9 @@ export async function loginUser(body: LoginPayload) {
 }
 
 export function useLoginMutation(
-	options?: Omit<UseMutationOptions<LoginResponse, unknown, LoginPayload>, "mutationFn">
+	options?: Omit<UseMutationOptions<LoginResponse, unknown, LoginFormType>, "mutationFn">
 ) {
-	return useMutation<LoginResponse, unknown, LoginPayload>({
+	return useMutation<LoginResponse, unknown, LoginFormType>({
 		mutationFn: async (payload) => {
 			return loginUser(payload);
 		},
