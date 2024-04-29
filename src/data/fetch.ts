@@ -4,7 +4,7 @@ function updateConfig(init?: RequestInit): RequestInit {
 		...init,
 		headers: {
 			...init?.headers,
-			"Source-Context": "dashboard"
+			"Source-Context": "dashboard-v2"
 		}
 	};
 }
