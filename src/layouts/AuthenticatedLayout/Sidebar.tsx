@@ -73,7 +73,6 @@ export function Sidebar() {
 							</li>
 							<li className="w-full">
 								<SidebarLink
-									id="test2"
 									routePatterns={[routes.models.overview]}
 									icon={<Chip />}
 									label="Models"
@@ -90,6 +89,7 @@ export function Sidebar() {
 							</li>
 							<li className="w-full">
 								<SidebarLink
+									id="stacks-sidebar-link"
 									routePatterns={[routes.stacks.overview]}
 									icon={<Stacks />}
 									label="Stacks"
@@ -100,6 +100,7 @@ export function Sidebar() {
 						<div className="mt-auto">
 							<WhatsNewButton />
 							<SidebarLink
+								id="settings-sidebar-link"
 								icon={<Settings />}
 								label="Settings"
 								routePatterns={[
