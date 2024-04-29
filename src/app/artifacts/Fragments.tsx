@@ -31,7 +31,7 @@ export function CommandSection() {
 			<div>
 				<p className="text-text-xl font-semibold">Staying Open Source? </p>
 				<p className="text-theme-text-secondary">
-					No problem! Use this CLI command to list your models
+					No problem! Use this CLI command to list your artifacts
 				</p>
 			</div>
 			<Codesnippet code={getCommand()} />

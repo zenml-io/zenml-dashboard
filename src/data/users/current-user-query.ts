@@ -25,7 +25,7 @@ export async function fetchCurrentUser(): Promise<User> {
 
 	if (!res.ok) {
 		throw new FetchError({
-			message: "Error while fetching models",
+			message: "Error while fetching current user",
 			status: res.status,
 			statusText: res.statusText
 		});

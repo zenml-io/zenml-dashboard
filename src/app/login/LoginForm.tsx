@@ -19,7 +19,7 @@ export function LoginForm() {
 	const [searchParams] = useSearchParams();
 	const redirect = searchParams.get("redirect");
 
-	const { register, handleSubmit, reset } = useForm<LoginPayload>();
+	const { register, handleSubmit } = useForm<LoginPayload>();
 
 	const mutation = useLoginMutation({
 		onError: (error) => {
@@ -33,15 +33,14 @@ export function LoginForm() {
 				});
 			}
 		},
-		onSuccess() {
+		onSuccess: async () => {
 			setAuthState("true");
 			navigate(redirect || routes.home);
-			reset();
 		}
 	});
 
 	function login(data: LoginPayload) {
-		mutation.mutate(data);
+		mutation.mutate({ username: data.username.trim(), password: data.password });
 	}
 
 	return (

@@ -17,7 +17,12 @@ import {
 } from "@zenml-io/react-component-library";
 import { Dispatch, SetStateAction, useId, useState } from "react";
 import { MultipleFieldErrors, useForm } from "react-hook-form";
-import { UpdatePasswordForm, updatePasswordFormSchema } from "./UpdatePasswordSchemas";
+
+import { PasswordChecker } from "@/components/password/PasswordChecker";
+import {
+	UpdatePasswordFormType,
+	updatePasswordFormSchema
+} from "@/components/password/UpdatePasswordSchemas";
 
 export function UpdatePasswordDialog() {
 	const [passwordUpdateSuccess, setPasswordUpdateSuccess] = useState(false);
@@ -78,13 +83,13 @@ export function ChangePasswordForm({ setSuccess }: FormProps) {
 		handleSubmit,
 		watch,
 		formState: { isValid, errors }
-	} = useForm<UpdatePasswordForm>({
+	} = useForm<UpdatePasswordFormType>({
 		resolver: zodResolver(updatePasswordFormSchema),
 		mode: "onChange",
 		criteriaMode: "all"
 	});
 
-	function updatePassword(data: UpdatePasswordForm) {
+	function updatePassword(data: UpdatePasswordFormType) {
 		mutate({ old_password: data.oldPassword, password: data.newPassword });
 	}
 
@@ -132,7 +137,9 @@ export function ChangePasswordForm({ setSuccess }: FormProps) {
 				</form>
 				<PasswordChecker
 					val={watch("newPassword")}
-					errors={newPasswordErrors || ([] as unknown as MultipleFieldErrors)}
+					errors={
+						(newPasswordErrors as MultipleFieldErrors) || ([] as unknown as MultipleFieldErrors)
+					}
 				/>
 			</div>
 			<DialogFooter className="gap-[10px]">
@@ -149,43 +156,6 @@ export function ChangePasswordForm({ setSuccess }: FormProps) {
 	);
 }
 
-const passwordCriteriaMap = {
-	uppercase: "Password must contain at least one uppercase letter",
-	lowercase: "Password must contain at least one lowercase letter",
-	number: "Password must contain at least one number",
-	special: "Password must contain at least one special character",
-	length: "Password must be at least 8 characters"
-};
-
-function PasswordChecker({ errors, val }: { errors?: MultipleFieldErrors; val: string }) {
-	const allErrors = flattenObjectValues(errors || {});
-
-	function getClassName(errorName: string) {
-		if (!val) return "text-theme-text-secondary";
-		if (allErrors.includes(errorName)) {
-			return "text-theme-text-error";
-		}
-		return "text-theme-text-success";
-	}
-
-	return (
-		<div className="space-y-1 rounded-md border border-theme-border-moderate bg-theme-surface-secondary px-5 py-3 text-text-xs text-theme-text-secondary">
-			<p className="text-text-sm text-theme-text-primary">Password criteria</p>
-			<div>
-				<p className={getClassName(passwordCriteriaMap["length"])}>Minimum 8 characters</p>
-				<p className={getClassName(passwordCriteriaMap["number"])}>
-					Must Contain one Numeric value
-				</p>
-				<p className={getClassName(passwordCriteriaMap["uppercase"])}>Must include upper cases</p>
-				<p className={getClassName(passwordCriteriaMap["lowercase"])}>Must include lower cases</p>
-				<p className={getClassName(passwordCriteriaMap["special"])}>
-					Must include one special character (!,@,#...)
-				</p>
-			</div>
-		</div>
-	);
-}
-
 function SuccessAddMember() {
 	return (
 		<div className="space-y-5 p-7 text-center">
@@ -195,20 +165,4 @@ function SuccessAddMember() {
 			</p>
 		</div>
 	);
-}
-
-function flattenObjectValues(obj: MultipleFieldErrors): string[] {
-	const values: string[] = [];
-
-	Object.values(obj).forEach((value) => {
-		if (typeof value === "string") {
-			values.push(value);
-		} else if (Array.isArray(value)) {
-			values.push(...value);
-		} else if (typeof value === "object" && value !== null) {
-			values.push(...flattenObjectValues(value as MultipleFieldErrors));
-		}
-	});
-
-	return values;
 }

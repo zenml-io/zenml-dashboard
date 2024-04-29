@@ -1,8 +1,10 @@
 export const apiPaths = {
 	login: "/login",
+	activate: "/activate",
 	logout: "/logout",
 	currentUser: "/current-user",
 	info: "/info",
+	settings: "/settings",
 	pipelines: {
 		namespaces: "/pipeline_namespaces"
 	},
@@ -31,7 +33,8 @@ export const apiPaths = {
 	},
 	users: {
 		all: "/users",
-		detail: (userId: string) => `/users/${userId}`
+		detail: (userId: string) => `/users/${userId}`,
+		activate: (userId: string) => `/users/${userId}/activate`
 	}
 };
 
