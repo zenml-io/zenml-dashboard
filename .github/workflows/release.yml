@@ -73,8 +73,8 @@ jobs:
         uses: softprops/action-gh-release@v1
         with:
           files: |
-            zenml-dashboard-legacy.tar
             zenml-dashboard-legacy.tar.gz
+            zenml-dashboard-legacy.tar.gz.sha256
             zenml-dashboard.tar.gz
             zenml-dashboard.tar.gz.sha256
           body_path: ./CHANGELOG.md
