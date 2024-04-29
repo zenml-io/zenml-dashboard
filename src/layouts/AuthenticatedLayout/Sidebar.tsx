@@ -60,7 +60,7 @@ export function Sidebar() {
 							</li>
 							<li className="w-full">
 								<SidebarLink
-									id="test"
+									id="pipelines-sidebar-link"
 									routePatterns={[
 										routes.pipelines.overview,
 										routes.pipelines.namespace(":namespace"),
