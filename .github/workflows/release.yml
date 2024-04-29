@@ -2,9 +2,10 @@ name: Release-pipeline
 
 on:
   workflow_dispatch:
-  push:
-    tags:
-      - "*"
+  pull_request:
+  # push:
+  #   tags:
+  #     - "*"
 
 jobs:
   release:
@@ -51,15 +52,15 @@ jobs:
           VITE_FRONTEND_VERSION: ${{ steps.get_version.outputs.VERSION }}
           VITE_FEATURE_OS_KEY: ${{ secrets.FEATURE_OS_KEY }}
 
-      - name: Generate Changelog
-        uses: heinrichreimer/github-changelog-generator-action@v2.1.1
-        with:
-          token: ${{ secrets.GITHUB_TOKEN }}
-          pullRequests: "false"
-          onlyLastTag: "true"
-          stripGeneratorNotice: "true"
-          issuesWoLabels: "true"
-          stripHeaders: "true"
+      # - name: Generate Changelog
+      #   uses: heinrichreimer/github-changelog-generator-action@v2.1.1
+      #   with:
+      #     token: ${{ secrets.GITHUB_TOKEN }}
+      #     pullRequests: "false"
+      #     onlyLastTag: "true"
+      #     stripGeneratorNotice: "true"
+      #     issuesWoLabels: "true"
+      #     stripHeaders: "true"
 
       - name: Create release archive
         run: |
@@ -68,15 +69,22 @@ jobs:
           tar -zcf zenml-dashboard.tar.gz -C dist --transform="s#\.\/##" .
           sha256sum -b zenml-dashboard.tar.gz > zenml-dashboard.tar.gz.sha256
 
-      - name: Release to GitHub
-        uses: softprops/action-gh-release@v1
-        with:
-          files: |
-            zenml-dashboard-legacy.tar
-            zenml-dashboard-legacy.tar.gz
-            zenml-dashboard.tar.gz
-            zenml-dashboard.tar.gz.sha256
-          body_path: ./CHANGELOG.md
-          prerelease: "true"
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Print size of release artifacts and sha256sums
+        run: |
+          du -h zenml-dashboard-legacy.tar.gz
+          cat zenml-dashboard-legacy.tar.gz.sha256
+          du -h zenml-dashboard.tar.gz
+          cat zenml-dashboard.tar.gz.sha256
+
+      # - name: Release to GitHub
+      #   uses: softprops/action-gh-release@v1
+      #   with:
+      #     files: |
+      #       zenml-dashboard-legacy.tar
+      #       zenml-dashboard-legacy.tar.gz
+      #       zenml-dashboard.tar.gz
+      #       zenml-dashboard.tar.gz.sha256
+      #     body_path: ./CHANGELOG.md
+      #     prerelease: "true"
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
