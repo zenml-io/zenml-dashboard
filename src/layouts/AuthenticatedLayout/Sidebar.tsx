@@ -73,6 +73,7 @@ export function Sidebar() {
 							</li>
 							<li className="w-full">
 								<SidebarLink
+									id="models-sidebar-link"
 									routePatterns={[routes.models.overview]}
 									icon={<Chip />}
 									label="Models"

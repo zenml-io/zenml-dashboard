@@ -1,14 +1,23 @@
+import Close from "@/assets/icons/close.svg?react";
 import { Button, cn } from "@zenml-io/react-component-library";
 import Joyride, { Step, TooltipRenderProps } from "react-joyride";
 
-function ModalComponent({ step, primaryProps, size, index }: TooltipRenderProps) {
+function ModalComponent({ step, primaryProps, size, index, skipProps }: TooltipRenderProps) {
 	return (
 		<div
 			className={cn(
-				"rounded-lg w-[300px] space-y-2 rounded-md bg-white p-6 shadow-sm",
+				"rounded-lg relative w-[300px] space-y-2 rounded-md bg-white p-6 shadow-sm",
 				step.data?.className
 			)}
 		>
+			<Button
+				{...skipProps}
+				className="absolute right-3 top-3 flex h-6 w-6 items-center justify-center p-0"
+				intent="secondary"
+				emphasis="minimal"
+			>
+				<Close className="h-5 w-5 shrink-0" /> <span className="sr-only">Close</span>
+			</Button>
 			{step.title && <div className="text-text-lg font-semibold">{step.title}</div>}
 			<div className="text-theme-text-secondary">{step.content}</div>
 			<div className="flex items-center justify-end py-1">
@@ -54,6 +63,15 @@ const steps: Step[] = [
 		data: {
 			className: "w-[480px]"
 		},
+		disableOverlayClose: true
+	},
+	{
+		content:
+			"Find out more about our advanced ZenML Cloud features like model and artifact management.",
+		target: "#models-sidebar-link",
+		title: "OSS is just the beginning",
+		disableBeacon: true,
+
 		disableOverlayClose: true
 	}
 ];
