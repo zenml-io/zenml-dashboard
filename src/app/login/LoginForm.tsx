@@ -18,8 +18,9 @@ export function LoginForm() {
 
 	const [searchParams] = useSearchParams();
 	const redirect = searchParams.get("redirect");
+	const username = searchParams.get("username") ?? undefined;
 
-	const { register, handleSubmit } = useForm<LoginPayload>();
+	const { register, handleSubmit } = useForm<LoginPayload>({ defaultValues: { username } });
 
 	const mutation = useLoginMutation({
 		onError: (error) => {
