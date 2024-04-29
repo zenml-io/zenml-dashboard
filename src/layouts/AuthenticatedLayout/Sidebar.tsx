@@ -60,6 +60,7 @@ export function Sidebar() {
 							</li>
 							<li className="w-full">
 								<SidebarLink
+									id="test"
 									routePatterns={[
 										routes.pipelines.overview,
 										routes.pipelines.namespace(":namespace"),
@@ -72,6 +73,7 @@ export function Sidebar() {
 							</li>
 							<li className="w-full">
 								<SidebarLink
+									id="test2"
 									routePatterns={[routes.models.overview]}
 									icon={<Chip />}
 									label="Models"
