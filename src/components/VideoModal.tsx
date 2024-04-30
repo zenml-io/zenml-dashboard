@@ -7,8 +7,8 @@ import {
 	DialogClose
 } from "@zenml-io/react-component-library";
 import { Button } from "@zenml-io/react-component-library";
-import PlayCircle from "@/assets/icons/play-circle.svg?react";
 import { ReactNode } from "react";
+import { Icon } from "./Icon";
 
 type Props = {
 	isButton?: boolean;
@@ -23,7 +23,7 @@ export function VideoModal({ videoLink, isButton = true, buttonText, fallbackIma
 			{isButton ? (
 				<DialogTrigger asChild>
 					<Button className="mt-5 h-auto gap-1 px-2 py-1 sm:h-7" size="md">
-						<PlayCircle className="h-5 w-5 shrink-0 fill-white" />
+						<Icon name="play-circle" className="h-5 w-5 shrink-0 fill-white" />
 						{buttonText ?? <>Watch the Quickstart Guide (3 min)</>}
 					</Button>
 				</DialogTrigger>

@@ -1,4 +1,4 @@
-import Speaker from "@/assets/icons/announcement.svg?react";
+import { Icon } from "@/components/Icon";
 import { useServerSettings } from "@/data/server/get-server-settings";
 import { SidebarItemContent, Skeleton } from "@zenml-io/react-component-library";
 import { useEffect, useRef } from "react";
@@ -54,7 +54,7 @@ export function WhatsNewButton() {
 			aria-label="Changelog popup info"
 			className="flex w-full cursor-pointer items-center gap-2 whitespace-nowrap rounded-md p-2 hover:cursor-pointer hover:bg-neutral-200 active:bg-neutral-300"
 		>
-			<SidebarItemContent isActive={false} icon={<Speaker />} label="What's New" />
+			<SidebarItemContent isActive={false} icon={<Icon name="announcement" />} label="What's New" />
 		</button>
 	);
 }
