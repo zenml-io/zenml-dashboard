@@ -3,8 +3,18 @@ import { Badge } from "@zenml-io/react-component-library";
 import { CommandSection, InfoBox } from "./Fragments";
 import { CTASection, modelFeatures } from "@/contents/cloud-only";
 import MCP from "@/assets/images/mcp.png";
+import { useTourContext } from "@/components/tour/TourContext";
+import { useEffect } from "react";
 
 export default function ModelsPage() {
+	const { setTourState, tourState } = useTourContext();
+
+	useEffect(() => {
+		if (tourState.tourActive) {
+			setTourState((prev) => ({ ...prev, run: true, stepIndex: prev.stepIndex }));
+		}
+	}, []);
+
 	return (
 		<div>
 			<PageHeader className="flex items-center gap-1">

@@ -1,21 +1,30 @@
-import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
+import { Dispatch, SetStateAction, createContext, useContext, useMemo, useState } from "react";
+
+type TourState = {
+	run: boolean;
+	stepIndex: number;
+	tourActive: boolean;
+};
+
+const initialTourState: TourState = {
+	run: false,
+	stepIndex: 0,
+	tourActive: false
+};
 
 type TourContextType = {
-	isActive: boolean;
-	setIsActive: Dispatch<SetStateAction<boolean>>;
+	tourState: TourState;
+	setTourState: Dispatch<SetStateAction<TourState>>;
 };
 
 export const AuthContext = createContext<TourContextType | null>(null);
 
-export function TourProvider({
-	children,
-	initialValue = false
-}: {
-	children: React.ReactNode;
-	initialValue?: boolean;
-}) {
-	const [isActive, setIsActive] = useState(initialValue);
-	return <AuthContext.Provider value={{ isActive, setIsActive }}>{children}</AuthContext.Provider>;
+export function TourProvider({ children }: { children: React.ReactNode }) {
+	const [tourState, setTourState] = useState<TourState>(initialTourState);
+
+	const value = useMemo(() => ({ tourState, setTourState }), [tourState, setTourState]);
+
+	return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 
 export function useTourContext() {

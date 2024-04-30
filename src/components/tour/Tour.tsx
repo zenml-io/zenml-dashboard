@@ -1,8 +1,14 @@
 import Close from "@/assets/icons/close.svg?react";
 import { routes } from "@/router/routes";
 import { Button, cn } from "@zenml-io/react-component-library";
-import Joyride, { Step, TooltipRenderProps } from "react-joyride";
+import Joyride, { CallBackProps, EVENTS, Step, TooltipRenderProps } from "react-joyride";
 import { useTourContext } from "./TourContext";
+import { useNavigate } from "react-router-dom";
+import { useUpdateCurrentUserMutation } from "@/data/users/update-current-user-mutation";
+import { getCurrentUserKey, useCurrentUser } from "@/data/users/current-user-query";
+import { UserMetadata } from "@/types/user";
+import { useQueryClient } from "@tanstack/react-query";
+import { StartTourDialog } from "./StartTourDialog";
 
 function ModalComponent({
 	step,
@@ -102,18 +108,71 @@ const steps: Step[] = [
 ];
 
 export function ProductTour() {
-	const { isActive } = useTourContext();
+	const { tourState, setTourState } = useTourContext();
+	const currentUser = useCurrentUser();
+	const queryClient = useQueryClient();
+	const navigate = useNavigate();
+	const updateUser = useUpdateCurrentUserMutation({
+		onSuccess: async () => {
+			queryClient.invalidateQueries({ queryKey: getCurrentUserKey() });
+		}
+	});
 
-	return (
-		<Joyride
-			styles={{
-				overlay: {
-					background: "rgba(0, 0, 0, 0.15)"
-				}
-			}}
-			tooltipComponent={ModalComponent}
-			run={isActive}
-			steps={steps}
-		/>
-	);
+	if (currentUser.isPending || currentUser.isError) return null;
+
+	// todo handle skip
+	function handleTourCallback({ type, index, step: { data } }: CallBackProps) {
+		if (([EVENTS.STEP_AFTER] as string[]).includes(type)) {
+			setTourState((prev) => ({
+				...prev,
+				stepIndex: prev.stepIndex + 1,
+				run: data?.next ? false : true
+			}));
+			data?.next && navigate(data.next);
+
+			if (index === steps.length - 1) {
+				setTourState((prev) => ({
+					...prev,
+					run: false,
+					tourActive: false
+				}));
+				updateUser.mutate({
+					user_metadata: {
+						...(currentUser.data?.metadata?.user_metadata as UserMetadata),
+						...({ overview_tour_done: true } as UserMetadata)
+					}
+				});
+			}
+		}
+	}
+	if (!(currentUser.data.metadata?.user_metadata as UserMetadata)?.overview_tour_done) {
+		return (
+			<>
+				<StartTourDialog
+					skipFunction={() =>
+						updateUser.mutate({
+							user_metadata: {
+								...(currentUser.data?.metadata?.user_metadata as UserMetadata),
+								...({ overview_tour_done: true } as UserMetadata)
+							}
+						})
+					}
+				/>
+				<Joyride
+					disableScrolling
+					styles={{
+						overlay: {
+							background: "rgba(0, 0, 0, 0.15)"
+						}
+					}}
+					callback={handleTourCallback}
+					tooltipComponent={ModalComponent}
+					run={tourState.run}
+					stepIndex={tourState.stepIndex}
+					steps={steps}
+				/>
+			</>
+		);
+	}
+	return null;
 }
