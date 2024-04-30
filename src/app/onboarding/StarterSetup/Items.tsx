@@ -50,6 +50,12 @@ export function RunFirstPipeline({ onboardingState }: Props) {
 				</div>
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">
+						Initialize ZenML in the current directory
+					</p>
+					<Codesnippet code="zenml init" />
+				</div>
+				<div>
+					<p className="mb-1 text-text-sm text-theme-text-secondary">
 						Install the remaining requirements apart from ZenML
 					</p>
 					<Codesnippet code="pip install -r requirements.txt" />
