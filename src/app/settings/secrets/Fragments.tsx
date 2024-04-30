@@ -22,8 +22,8 @@ export function HeaderBox() {
 	const videoLink =
 		"https://zenml.portal.trainn.co/share/R0A37qU8LVfcvPi6wxdhaQ/embed?autoplay=false";
 	return (
-		<Box className="flex flex-col-reverse items-stretch overflow-hidden md:flex-row">
-			<div className="w-full p-7 md:w-2/3">
+		<Box className="flex flex-col-reverse items-stretch overflow-hidden lg:flex-row">
+			<div className="w-full p-7 lg:w-2/3">
 				<h2 className="text-display-xs font-semibold">Learn More about Secrets</h2>
 				<p className="mt-2 text-text-lg text-theme-text-secondary">
 					Learn about using ZenML Secrets for a secure, centralized management of your pipeline
