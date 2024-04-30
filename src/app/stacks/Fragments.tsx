@@ -1,6 +1,7 @@
 import { InfoBox as InfoBoxPrimitive } from "@/components/Infobox";
 import { PageHeader } from "@/components/PageHeader";
 import { Box } from "@zenml-io/react-component-library";
+import { OnboardingVideoModal } from "@/components/VideoModal";
 
 export function StacksHeader() {
 	return (
@@ -22,6 +23,8 @@ export function InfoBox() {
 }
 
 export function HeaderBox() {
+	const videoLink =
+		"https://zenml.portal.trainn.co/share/pbJuqd7awpp5pjFQLoPmHQ/embed?autoplay=false";
 	return (
 		<Box className="flex flex-col-reverse items-stretch overflow-hidden md:flex-row">
 			<div className="w-full p-7 md:w-2/3">
@@ -30,6 +33,10 @@ export function HeaderBox() {
 					Get started with ZenML Stacks and Stack Components in this starter guide video. Set up
 					Your Stack from local to cloud.
 				</p>
+				<OnboardingVideoModal videoLink={videoLink} buttonText="Watch the Starter Guide (5 min)" />
+			</div>
+			<div className="flex w-full items-center justify-center bg-primary-50 md:w-1/3">
+				<OnboardingVideoModal videoLink={videoLink} isButton={false} />
 			</div>
 		</Box>
 	);
