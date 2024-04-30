@@ -1,3 +1,9 @@
+import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import { Tick } from "@/components/Tick";
+import { useServerSettings } from "@/data/server/get-server-settings";
+import { useServerInfo } from "@/data/server/info-query";
+import { getOnboardingState, getProgress, getStarterSetupItems } from "@/lib/onboarding";
+import { checkIsLocalServer } from "@/lib/server";
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -5,20 +11,19 @@ import {
 	RadialProgress,
 	Skeleton
 } from "@zenml-io/react-component-library";
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { useState } from "react";
-import { useServerSettings } from "@/data/server/get-server-settings";
 import { ConnectZenMLStep, RunFirstPipeline } from "./Items";
-import { Tick } from "@/components/Tick";
-import { getOnboardingState, getProgress } from "@/lib/onboarding";
-import { STARTER_SETUP_ITEMS } from "@/lib/constants";
 
 export function StarterSetupList() {
 	const { isError, isPending, data } = useServerSettings({ throwOnError: true });
+	const serverInfo = useServerInfo();
 	const [open, setOpen] = useState(true);
 
-	if (isPending) return <Skeleton className="h-[200px] w-full" />;
-	if (isError) return null;
+	if (isPending || serverInfo.isPending) return <Skeleton className="h-[200px] w-full" />;
+	if (isError || serverInfo.isError) return null;
+
+	const isLocalServer = checkIsLocalServer(serverInfo.data.deployment_type || "other");
+	const STARTER_SETUP_ITEMS = getStarterSetupItems(isLocalServer);
 
 	const doneItems = getProgress(getOnboardingState(data), STARTER_SETUP_ITEMS);
 	const progress = (doneItems / STARTER_SETUP_ITEMS.length) * 100;
@@ -60,9 +65,11 @@ export function StarterSetupList() {
 			</CollapsibleTrigger>
 			<CollapsibleContent className="border-t border-theme-border-moderate p-5">
 				<ul className="divide-y divide-theme-border-moderate">
-					<li className="py-5 first:pt-0 last:pb-0">
-						<ConnectZenMLStep onboardingState={getOnboardingState(data)} />
-					</li>
+					{!isLocalServer && (
+						<li className="py-5 first:pt-0 last:pb-0">
+							<ConnectZenMLStep onboardingState={getOnboardingState(data)} />
+						</li>
+					)}
 					<li className="py-5 first:pt-0 last:pb-0">
 						<RunFirstPipeline onboardingState={getOnboardingState(data)} />
 					</li>
