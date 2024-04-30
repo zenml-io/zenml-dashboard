@@ -17,12 +17,7 @@ type Props = {
 	fallbackImage?: ReactNode;
 };
 
-export function OnboardingVideoModal({
-	videoLink,
-	isButton = true,
-	buttonText,
-	fallbackImage
-}: Props) {
+export function VideoModal({ videoLink, isButton = true, buttonText, fallbackImage }: Props) {
 	return (
 		<Dialog>
 			{isButton ? (
