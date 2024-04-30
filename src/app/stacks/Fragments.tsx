@@ -34,7 +34,7 @@ export function HeaderBox() {
 					Get started with ZenML Stacks and Stack Components in this starter guide video. Set up
 					Your Stack from local to cloud.
 				</p>
-				<VideoModal videoLink={videoLink} buttonText="Watch the Starter Guide (5 min)" />
+				<VideoModal videoLink={videoLink} buttonText="Watch the Starter Guide (2 min)" />
 			</div>
 			<div className="flex w-full items-center justify-center bg-primary-50 lg:w-1/3">
 				<VideoModal

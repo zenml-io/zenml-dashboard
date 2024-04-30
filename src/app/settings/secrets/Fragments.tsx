@@ -4,6 +4,8 @@ import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { Fragment } from "react/jsx-runtime";
 import { generateCommandList } from "@/components/fallback-pages/Commands";
 import { secretCommands } from "@/contents/secrets";
+import { VideoModal } from "@/components/VideoModal";
+import SecretsVideo from "@/assets/illustrations/secrets-video.svg";
 
 export function InfoBox() {
 	return (
@@ -17,6 +19,8 @@ export function InfoBox() {
 }
 
 export function HeaderBox() {
+	const videoLink =
+		"https://zenml.portal.trainn.co/share/R0A37qU8LVfcvPi6wxdhaQ/embed?autoplay=false";
 	return (
 		<Box className="flex flex-col-reverse items-stretch overflow-hidden md:flex-row">
 			<div className="w-full p-7 md:w-2/3">
@@ -25,6 +29,20 @@ export function HeaderBox() {
 					Learn about using ZenML Secrets for a secure, centralized management of your pipeline
 					secrets and configurations.
 				</p>
+				<VideoModal videoLink={videoLink} buttonText="Watch the Starter Guide (1 min)" />
+			</div>
+			<div className="flex w-full items-center justify-center bg-primary-50 lg:w-1/3">
+				<VideoModal
+					fallbackImage={
+						<img
+							src={SecretsVideo}
+							alt="Purple squares with text indicating a starter guide for secrets"
+							className="h-full w-full"
+						/>
+					}
+					videoLink={videoLink}
+					isButton={false}
+				/>
 			</div>
 		</Box>
 	);
