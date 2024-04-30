@@ -1,7 +1,7 @@
 import { FallbackSupportCard, ResourcesCard } from "@/components/fallback-pages/Cards";
 import { HeaderOnboardingBox } from "./Header";
-import { StarterSetupList } from "./StarterSetup";
 import { ProductionSetupChecklist } from "./ProductionSetup";
+import { StarterSetupList } from "./StarterSetup";
 
 export default function OnboardingPage() {
 	return (

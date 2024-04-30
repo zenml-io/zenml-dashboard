@@ -18,3 +18,9 @@ export function useDeviceSearchParams(): DeviceQueryParams & { device_id?: strin
 
 	return { user_code, device_id };
 }
+
+export const deviceRegistrationFormSchema = z.object({
+	trustDevice: z.boolean()
+});
+
+export type DeviceRegistrationFormType = z.infer<typeof deviceRegistrationFormSchema>;
