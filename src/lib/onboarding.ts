@@ -18,3 +18,10 @@ export function getProgress(
 ) {
 	return checklistItems.filter((item) => onboardingState[item]).length;
 }
+
+export function getStarterSetupItems(isLocal: boolean): OnboardingChecklistItemName[] {
+	return [
+		...(isLocal ? [] : ["connect_zenml" as OnboardingChecklistItemName]),
+		"run_first_pipeline"
+	];
+}

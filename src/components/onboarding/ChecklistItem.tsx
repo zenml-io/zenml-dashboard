@@ -1,3 +1,9 @@
+import Check from "@/assets/icons/check.svg?react";
+import ChevronDown from "@/assets/icons/chevron-down.svg?react";
+import { getServerSettingsKey, useServerSettings } from "@/data/server/get-server-settings";
+import { useUpdateServerSettings } from "@/data/server/update-server-settings-mutation";
+import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
+import { useQueryClient } from "@tanstack/react-query";
 import {
 	Button,
 	Collapsible,
@@ -7,12 +13,6 @@ import {
 } from "@zenml-io/react-component-library";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { Tick } from "../Tick";
-import { useQueryClient } from "@tanstack/react-query";
-import { useUpdateServerSettings } from "@/data/server/update-server-settings-mutation";
-import { getServerSettingsKey, useServerSettings } from "@/data/server/get-server-settings";
-import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
-import ChevronDown from "@/assets/icons/chevron-down.svg?react";
-import Check from "@/assets/icons/check.svg?react";
 
 type Props = {
 	completed: boolean;
@@ -37,10 +37,10 @@ export function ChecklistItem({
 		}
 	});
 
-	function markAsDone() {
+	function toggleItem(isDone: boolean) {
 		const newOnboardingState: OnboardingState = {
 			...data?.metadata?.onboarding_state,
-			[itemName]: true
+			[itemName]: isDone
 		};
 		mutate({ onboarding_state: newOnboardingState });
 	}
@@ -49,13 +49,20 @@ export function ChecklistItem({
 		<Collapsible open={open} onOpenChange={setOpen}>
 			<div className="flex w-full flex-col gap-3">
 				<div className="flex w-full justify-between gap-2">
+					{completed ? (
+						<button onClick={() => toggleItem(false)}>
+							<Tick className="shrink-0" />
+						</button>
+					) : (
+						<ProgressOutstanding className="shrink-0" />
+					)}
 					<CollapsibleTrigger className="w-full">
 						<ChecklistHeader title={title} completed={completed} />
 					</CollapsibleTrigger>
 					<div className="flex items-center gap-1">
 						{!completed && active && (
 							<Button
-								onClick={markAsDone}
+								onClick={() => toggleItem(true)}
 								className="items-center whitespace-nowrap"
 								intent="primary"
 								emphasis="subtle"
@@ -63,11 +70,13 @@ export function ChecklistItem({
 								<Check className="h-5 w-5 fill-primary-600" /> <span>Mark as done</span>
 							</Button>
 						)}
-						<ChevronDown
-							className={` ${
-								open ? "" : "-rotate-90"
-							} h-5 w-5 shrink-0 rounded-md fill-neutral-500`}
-						/>
+						<CollapsibleTrigger>
+							<ChevronDown
+								className={` ${
+									open ? "" : "-rotate-90"
+								} h-5 w-5 shrink-0 rounded-md fill-neutral-500`}
+							/>
+						</CollapsibleTrigger>
 					</div>
 				</div>
 				{children && (
@@ -90,8 +99,7 @@ type HeaderProps = {
 export function ChecklistHeader({ completed, title }: HeaderProps) {
 	return (
 		<div className="flex w-full items-center justify-between gap-2">
-			<div className="flex w-full items-center gap-2">
-				{completed ? <Tick /> : <ProgressOutstanding />}
+			<div className="flex w-full items-center">
 				<div
 					className={`font-semibold ${
 						completed ? "text-theme-text-tertiary line-through decoration-theme-text-tertiary" : ""
