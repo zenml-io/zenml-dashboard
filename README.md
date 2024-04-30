@@ -72,12 +72,12 @@ To get started with the ZenML Dashboard, follow these steps:
      export VITE_API_BASE_URL="https://your-zenml-server-url/api/v1"
      ```
 
-   > [!IMPORTANT]  
-   > The frontend and the server-url needs to be on the same domain, e.g. `localhost` for local development
+> [!IMPORTANT]  
+> The frontend and the server-url needs to be on the same domain, e.g. `localhost` for local development
 
-   > [!NOTE]  
-   > For local development you **don't** need to set `VITE_FEATURE_OS_KEY`
-   > You can set the `VITE_FRONTEND_VERSION` to a version number, e.g `v0.17.0`. This value is used to read the UI Version from the environment
+> [!NOTE]  
+> For local development you **don't** need to set `VITE_FEATURE_OS_KEY`
+> You can set the `VITE_FRONTEND_VERSION` to a version number, e.g `v0.17.0`. This value is used to read the UI Version from the environment
 
 5. **Run Development Server:**
 
