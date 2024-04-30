@@ -7,18 +7,20 @@ import "reactflow/dist/style.css";
 import { AuthProvider } from "./context/AuthContext";
 import { router } from "./router/Router";
 import { queryClient } from "./router/queryclient";
-import { ProductTour } from "./components/tour/Tour";
+import { TourProvider } from "./components/tour/TourContext";
 
 export function App() {
 	return (
 		<Suspense>
 			<AuthProvider>
 				<ReactFlowProvider>
-					<QueryClientProvider client={queryClient}>
-						<Toaster />
-						<ProductTour />
-						<RouterProvider router={router} />
-					</QueryClientProvider>
+					<TourProvider initialValue>
+						<QueryClientProvider client={queryClient}>
+							<Toaster />
+
+							<RouterProvider router={router} />
+						</QueryClientProvider>
+					</TourProvider>
 				</ReactFlowProvider>
 			</AuthProvider>
 		</Suspense>

@@ -1,8 +1,17 @@
 import Close from "@/assets/icons/close.svg?react";
+import { routes } from "@/router/routes";
 import { Button, cn } from "@zenml-io/react-component-library";
 import Joyride, { Step, TooltipRenderProps } from "react-joyride";
+import { useTourContext } from "./TourContext";
 
-function ModalComponent({ step, primaryProps, size, index, skipProps }: TooltipRenderProps) {
+function ModalComponent({
+	step,
+	primaryProps,
+	size,
+	index,
+	skipProps,
+	isLastStep
+}: TooltipRenderProps) {
 	return (
 		<div
 			className={cn(
@@ -22,7 +31,7 @@ function ModalComponent({ step, primaryProps, size, index, skipProps }: TooltipR
 			<div className="text-theme-text-secondary">{step.content}</div>
 			<div className="flex items-center justify-end py-1">
 				<Button size="md" {...primaryProps}>
-					Next
+					{isLastStep ? "Get started" : "Next"}
 				</Button>
 			</div>
 			<div className="flex justify-center gap-2">
@@ -44,7 +53,10 @@ const steps: Step[] = [
 		target: "#pipelines-sidebar-link",
 		title: "Pipelines and runs, now together",
 		disableBeacon: true,
-		disableOverlayClose: true
+		disableOverlayClose: true,
+		data: {
+			next: routes.stacks.overview
+		}
 	},
 	{
 		content:
@@ -61,7 +73,8 @@ const steps: Step[] = [
 		title: "New home for your repos, secrets and connectors",
 		disableBeacon: true,
 		data: {
-			className: "w-[480px]"
+			className: "w-[480px]",
+			next: routes.models.overview
 		},
 		disableOverlayClose: true
 	},
@@ -71,22 +84,35 @@ const steps: Step[] = [
 		target: "#models-sidebar-link",
 		title: "OSS is just the beginning",
 		disableBeacon: true,
-
+		disableOverlayClose: true
+	},
+	{
+		content:
+			"Thank you for taking the tour. Your dashboard is now set up and waiting for you. For guidance, visit our documentation or reach out to our community support.",
+		target: "#models-sidebar-link",
+		title: "Ready to Go!",
+		disableBeacon: true,
+		placement: "center",
+		disableOverlay: true,
+		data: {
+			className: "w-[480px]"
+		},
 		disableOverlayClose: true
 	}
 ];
 
 export function ProductTour() {
+	const { isActive } = useTourContext();
+
 	return (
 		<Joyride
-			floaterProps={{}}
 			styles={{
 				overlay: {
 					background: "rgba(0, 0, 0, 0.15)"
 				}
 			}}
 			tooltipComponent={ModalComponent}
-			run
+			run={isActive}
 			steps={steps}
 		/>
 	);
