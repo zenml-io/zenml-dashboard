@@ -36,10 +36,10 @@ export function ChecklistItem({
 		}
 	});
 
-	function markAsDone() {
+	function toggleItem(isDone: boolean) {
 		const newOnboardingState: OnboardingState = {
 			...data?.metadata?.onboarding_state,
-			[itemName]: true
+			[itemName]: isDone
 		};
 		mutate({ onboarding_state: newOnboardingState });
 	}
@@ -48,13 +48,20 @@ export function ChecklistItem({
 		<Collapsible open={open} onOpenChange={setOpen}>
 			<div className="flex w-full flex-col gap-3">
 				<div className="flex w-full justify-between gap-2">
+					{completed ? (
+						<button onClick={() => toggleItem(false)}>
+							<Tick className="shrink-0" />
+						</button>
+					) : (
+						<ProgressOutstanding className="shrink-0" />
+					)}
 					<CollapsibleTrigger className="w-full">
 						<ChecklistHeader title={title} completed={completed} />
 					</CollapsibleTrigger>
 					<div className="flex items-center gap-1">
 						{!completed && active && (
 							<Button
-								onClick={markAsDone}
+								onClick={() => toggleItem(true)}
 								className="items-center whitespace-nowrap"
 								intent="primary"
 								emphasis="subtle"
@@ -62,12 +69,14 @@ export function ChecklistItem({
 								<Icon name="check" className="h-5 w-5 fill-primary-600" /> <span>Mark as done</span>
 							</Button>
 						)}
-						<Icon
-							name="chevron-down"
-							className={` ${
-								open ? "" : "-rotate-90"
-							} h-5 w-5 shrink-0 rounded-md fill-neutral-500`}
-						/>
+						<CollapsibleTrigger>
+							<Icon
+								name="chevron-down"
+								className={` ${
+									open ? "" : "-rotate-90"
+								} h-5 w-5 shrink-0 rounded-md fill-neutral-500`}
+							/>
+						</CollapsibleTrigger>
 					</div>
 				</div>
 				{children && (
@@ -90,8 +99,7 @@ type HeaderProps = {
 export function ChecklistHeader({ completed, title }: HeaderProps) {
 	return (
 		<div className="flex w-full items-center justify-between gap-2">
-			<div className="flex w-full items-center gap-2">
-				{completed ? <Tick /> : <ProgressOutstanding />}
+			<div className="flex w-full items-center">
 				<div
 					className={`font-semibold ${
 						completed ? "text-theme-text-tertiary line-through decoration-theme-text-tertiary" : ""

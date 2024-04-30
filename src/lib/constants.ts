@@ -18,11 +18,6 @@ export const StackComponentTypes: StackComponentType[] = [
 	"model_registry"
 ];
 
-export const STARTER_SETUP_ITEMS: OnboardingChecklistItemName[] = [
-	"connect_zenml",
-	"run_first_pipeline"
-];
-
 export const PRODUCTION_SETUP_ITEMS: OnboardingChecklistItemName[] = [
 	"create_service_connector",
 	"create_remote_artifact_store",

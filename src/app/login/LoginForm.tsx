@@ -1,12 +1,13 @@
+import { Icon } from "@/components/Icon";
 import { useAuthContext } from "@/context/AuthContext";
 import { useLoginMutation } from "@/data/session/login-mutation";
 import { routes } from "@/router/routes";
-import { LoginPayload } from "@/types/session";
+import { LoginFormType, loginFormSchema } from "@/types/session";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { Button, Input, useToast } from "@zenml-io/react-component-library";
 import { useId } from "react";
 import { useForm } from "react-hook-form";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Icon } from "@/components/Icon";
 
 export function LoginForm() {
 	const navigate = useNavigate();
@@ -18,8 +19,16 @@ export function LoginForm() {
 
 	const [searchParams] = useSearchParams();
 	const redirect = searchParams.get("redirect");
+	const username = searchParams.get("username") ?? undefined;
 
-	const { register, handleSubmit } = useForm<LoginPayload>();
+	const {
+		register,
+		handleSubmit,
+		formState: { isValid }
+	} = useForm<LoginFormType>({
+		resolver: zodResolver(loginFormSchema),
+		defaultValues: { username }
+	});
 
 	const mutation = useLoginMutation({
 		onError: (error) => {
@@ -39,7 +48,7 @@ export function LoginForm() {
 		}
 	});
 
-	function login(data: LoginPayload) {
+	function login(data: LoginFormType) {
 		mutation.mutate({ username: data.username.trim(), password: data.password });
 	}
 
@@ -59,7 +68,7 @@ export function LoginForm() {
 					<Input {...register("password")} id={passwordId} type="password" className="w-full" />
 				</div>
 			</div>
-			<Button className="w-full text-center" size="md">
+			<Button disabled={!isValid} className="w-full text-center" size="md">
 				<span className="w-full">Login</span>
 			</Button>
 		</form>
