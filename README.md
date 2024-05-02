@@ -154,20 +154,6 @@ label](https://github.com/zenml-io/zenml-dashboard/labels/good%20first%20issue).
 If you would like to contribute, please review our [Contributing
 Guide](CONTRIBUTING.md) for all relevant details.
 
-# 👩‍👩‍👧‍👦 Meet the Team
-
-Get to know the faces behind ZenML. Our dedicated team is passionate about creating tools that empower your machine learning journey.
-
-![Meet the Team](./assets/community_meetup.png)
-
-Every week, the ZenML [core team](https://zenml.io/company#CompanyTeam) spends 30 minutes interacting directly with the community. This time may involve feature presentations, Q&A sessions, or just casual discussions.
-
-[Register now](https://zenml.io/meet) for the ZenML Meet the Community session. It's free and open to everyone.
-
-You can also subscribe to our [public events calendar](https://calendar.google.com/calendar/u/0/r?cid=Y19iaDJ0Zm44ZzdodXBlbnBzaWplY3UwMmNjZ0Bncm91cC5jYWxlbmRhci5nb29nbGUuY29t) to stay informed about upcoming community gatherings.
-
-Join us and become part of the ZenML community!
-
 # 🆘 Getting Help
 
 Need a helping hand? We've got you covered! Getting assistance with ZenML is quick and easy.
