@@ -160,7 +160,7 @@ Need a helping hand? We've got you covered! Getting assistance with ZenML is qui
 
 1. **Join our Slack Community:**
 
-   - Our lively Slack community is buzzing with friendly faces and helpful discussions. Drop by, ask questions, and connect with fellow enthusiasts. [Get your invite](https://zenml.io/slack-invite/).
+   - Our lively Slack community is buzzing with friendly faces and helpful discussions. Drop by, ask questions, and connect with fellow enthusiasts. [Get your invite](https://zenml.io/slack/).
 
 2. **Open an Issue:**
 
