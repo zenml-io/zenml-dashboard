@@ -9,7 +9,7 @@ export function RootLayout() {
 
 	useEffect(() => {
 		if (data && data.active === false) {
-			navigate(routes.activateServer, { replace: true });
+			navigate(routes.activateServer + `?redirect=${routes.onboarding}`, { replace: true });
 		}
 	}, [data]);
 
