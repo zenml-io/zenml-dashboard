@@ -1,6 +1,10 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { Tick } from "@/components/Tick";
 import { useServerSettings } from "@/data/server/get-server-settings";
+import { useServerInfo } from "@/data/server/info-query";
+import { PRODUCTION_SETUP_ITEMS } from "@/lib/constants";
+import { getOnboardingState, getProgress, getStarterSetupItems } from "@/lib/onboarding";
+import { checkIsLocalServer } from "@/lib/server";
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -10,21 +14,24 @@ import {
 	cn
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import { getOnboardingState, getProgress } from "@/lib/onboarding";
 import {
 	CreateArtifactStore,
 	CreateNewStack,
 	CreateServiceConnector,
 	RunNewPipeline
 } from "./Items";
-import { PRODUCTION_SETUP_ITEMS, STARTER_SETUP_ITEMS } from "@/lib/constants";
 
 export function ProductionSetupChecklist() {
 	const { isError, isPending, data } = useServerSettings({ throwOnError: true });
+	const serverInfo = useServerInfo();
 	const [open, setOpen] = useState(true);
 
-	if (isPending) return <Skeleton className="h-[200px] w-full" />;
-	if (isError) return null;
+	if (isPending || serverInfo.isPending) return <Skeleton className="h-[200px] w-full" />;
+	if (isError || serverInfo.isError) return null;
+
+	const STARTER_SETUP_ITEMS = getStarterSetupItems(
+		checkIsLocalServer(serverInfo.data.deployment_type || "other")
+	);
 
 	const onboardingState = getOnboardingState(data);
 	const isStarterSetupFinished =

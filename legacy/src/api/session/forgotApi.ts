@@ -19,10 +19,12 @@ interface Params {
 const forgotApi = ({
   userId,
   password,
+  old_password,
   authenticationToken,
 }: {
   userId: string;
   password: Params;
+  old_password: string;
   authenticationToken: string;
 }): Promise<Response> =>
   fetchApiWithAuthRequest({
@@ -32,7 +34,7 @@ const forgotApi = ({
     headers: {
       'Content-Type': 'application/json',
     },
-    data: { password },
+    data: { password, old_password },
   });
 
 export default forgotApi;
