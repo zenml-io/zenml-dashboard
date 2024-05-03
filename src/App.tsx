@@ -14,7 +14,7 @@ export function App() {
 		<Suspense>
 			<AuthProvider>
 				<ReactFlowProvider>
-					<TourProvider initialValue>
+					<TourProvider>
 						<QueryClientProvider client={queryClient}>
 							<Toaster />
 
