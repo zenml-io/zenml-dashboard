@@ -45,12 +45,12 @@ export function getPipelineColumns(): ColumnDef<PipelineNamespace>[] {
 			}),
 			cell: ({ getValue }) => {
 				const { runId, status } = getValue<{
-					runId: PipelineNamespaceBody["latest_run_id"];
+					runId: string;
 					status: PipelineNamespaceBody["latest_run_status"];
 				}>();
 
 				return (
-					<div>
+					<Link to={routes.runs.detail(runId)}>
 						<Tag
 							emphasis="subtle"
 							rounded={false}
@@ -60,7 +60,7 @@ export function getPipelineColumns(): ColumnDef<PipelineNamespace>[] {
 							<RunIcon className={`h-3 w-3 ${getRunIconColor(status)}`} />
 							{runId?.split("-")[0]}
 						</Tag>
-					</div>
+					</Link>
 				);
 			}
 		}
