@@ -22,7 +22,9 @@ export function StartTourDialog({ skipFunction }: Props) {
 	return (
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogContent className="max-w-[600px]" onPointerDownOutside={(e) => e.preventDefault()}>
-				<div className="flex h-[200px] items-center justify-center bg-success-50"></div>
+				<div className="flex h-[200px] items-center justify-center rounded-t-md bg-primary-25">
+					{/* TODO add Image here */}
+				</div>
 				<div className="flex flex-col gap-1 py-7 pl-5 pr-6">
 					<p className="text-text-lg font-semibold">Fresh Look, Enhanced Experience!</p>
 					<p className="text-theme-text-secondary">
