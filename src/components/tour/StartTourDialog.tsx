@@ -7,6 +7,8 @@ import {
 	Button
 } from "@zenml-io/react-component-library";
 import { useTourContext } from "./TourContext";
+import { useNavigate } from "react-router-dom";
+import { routes } from "@/router/routes";
 
 type Props = {
 	skipFunction: () => void;
@@ -14,6 +16,7 @@ type Props = {
 
 export function StartTourDialog({ skipFunction }: Props) {
 	const { setTourState } = useTourContext();
+	const navigate = useNavigate();
 	const [open, setOpen] = useState(true);
 
 	return (
@@ -41,7 +44,7 @@ export function StartTourDialog({ skipFunction }: Props) {
 						<Button
 							intent="primary"
 							onClick={() => {
-								// TODO handle going to the correct route
+								navigate(routes.pipelines.overview);
 								setTourState((prev) => ({ ...prev, run: true, stepIndex: 0, tourActive: true }));
 							}}
 							size="md"

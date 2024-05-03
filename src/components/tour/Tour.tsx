@@ -121,7 +121,7 @@ export function ProductTour() {
 	if (currentUser.isPending || currentUser.isError) return null;
 
 	// todo handle skip
-	function handleTourCallback({ type, index, step: { data } }: CallBackProps) {
+	function handleTourCallback({ type, step: { data } }: CallBackProps) {
 		if (([EVENTS.STEP_AFTER] as string[]).includes(type)) {
 			setTourState((prev) => ({
 				...prev,
@@ -129,20 +129,19 @@ export function ProductTour() {
 				run: data?.next ? false : true
 			}));
 			data?.next && navigate(data.next);
-
-			if (index === steps.length - 1) {
-				setTourState((prev) => ({
-					...prev,
-					run: false,
-					tourActive: false
-				}));
-				updateUser.mutate({
-					user_metadata: {
-						...(currentUser.data?.metadata?.user_metadata as UserMetadata),
-						...({ overview_tour_done: true } as UserMetadata)
-					}
-				});
-			}
+		}
+		if (([EVENTS.TOUR_END] as string[]).includes(type)) {
+			setTourState((prev) => ({
+				...prev,
+				run: false,
+				tourActive: false
+			}));
+			updateUser.mutate({
+				user_metadata: {
+					...(currentUser.data?.metadata?.user_metadata as UserMetadata),
+					...({ overview_tour_done: true } as UserMetadata)
+				}
+			});
 		}
 	}
 	if (!(currentUser.data.metadata?.user_metadata as UserMetadata)?.overview_tour_done) {

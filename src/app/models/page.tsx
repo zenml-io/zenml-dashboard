@@ -7,13 +7,16 @@ import { useTourContext } from "@/components/tour/TourContext";
 import { useEffect } from "react";
 
 export default function ModelsPage() {
-	const { setTourState, tourState } = useTourContext();
+	const {
+		setTourState,
+		tourState: { tourActive }
+	} = useTourContext();
 
 	useEffect(() => {
-		if (tourState.tourActive) {
+		if (tourActive) {
 			setTourState((prev) => ({ ...prev, run: true, stepIndex: prev.stepIndex }));
 		}
-	}, []);
+	}, [tourActive]);
 
 	return (
 		<div>
