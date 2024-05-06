@@ -75,8 +75,9 @@ const steps: Step[] = [
 	},
 	{
 		content: (
-			<div className="space-y-2">
+			<div className="w-full space-y-2">
 				<img
+					className="aspect-video object-contain"
 					src={SettingsPreview}
 					alt="Screenshot of the new settings, with a highlight that connects, repositories, and secrets are grouped there now"
 				/>
@@ -101,7 +102,10 @@ const steps: Step[] = [
 		target: "#models-sidebar-link",
 		title: "OSS is just the beginning",
 		disableBeacon: true,
-		disableOverlayClose: true
+		disableOverlayClose: true,
+		data: {
+			next: routes.onboarding
+		}
 	},
 	{
 		content:
@@ -132,7 +136,7 @@ export function ProductTour() {
 	if (currentUser.isPending || currentUser.isError) return null;
 
 	// todo handle skip
-	function handleTourCallback({ type, step: { data } }: CallBackProps) {
+	function handleTourCallback({ type, index, size, step: { data } }: CallBackProps) {
 		if (([EVENTS.STEP_AFTER] as string[]).includes(type)) {
 			setTourState((prev) => ({
 				...prev,
@@ -140,6 +144,10 @@ export function ProductTour() {
 				run: data?.next ? false : true
 			}));
 			data?.next && navigate(data.next);
+
+			if (index === size - 1) {
+				navigate(routes.onboarding);
+			}
 		}
 		if (([EVENTS.TOUR_END] as string[]).includes(type)) {
 			setTourState((prev) => ({
