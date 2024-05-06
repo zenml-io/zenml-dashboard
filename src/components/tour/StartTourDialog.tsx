@@ -9,7 +9,7 @@ import {
 import { useTourContext } from "./TourContext";
 import { useNavigate } from "react-router-dom";
 import { routes } from "@/router/routes";
-import TourImage from "@/assets/images/product-tour/tour-cover.jpg";
+import TourImage from "@/assets/images/product-tour/tour-cover.webp";
 
 type Props = {
 	skipFunction: () => void;
