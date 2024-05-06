@@ -135,7 +135,6 @@ export function ProductTour() {
 
 	if (currentUser.isPending || currentUser.isError) return null;
 
-	// todo handle skip
 	function handleTourCallback({ type, index, size, step: { data } }: CallBackProps) {
 		if (([EVENTS.STEP_AFTER] as string[]).includes(type)) {
 			setTourState((prev) => ({
