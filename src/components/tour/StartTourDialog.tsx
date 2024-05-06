@@ -9,6 +9,7 @@ import {
 import { useTourContext } from "./TourContext";
 import { useNavigate } from "react-router-dom";
 import { routes } from "@/router/routes";
+import TourImage from "@/assets/images/product-tour/tour-cover.jpg";
 
 type Props = {
 	skipFunction: () => void;
@@ -23,7 +24,11 @@ export function StartTourDialog({ skipFunction }: Props) {
 		<Dialog open={open} onOpenChange={setOpen}>
 			<DialogContent className="max-w-[600px]" onPointerDownOutside={(e) => e.preventDefault()}>
 				<div className="flex h-[200px] items-center justify-center rounded-t-md bg-primary-25">
-					{/* TODO add Image here */}
+					<img
+						className="mix-blend-multiply"
+						alt="robot standing in front of a machine, with different items hanging on the wall behind the machine"
+						src={TourImage}
+					/>
 				</div>
 				<div className="flex flex-col gap-1 py-7 pl-5 pr-6">
 					<p className="text-text-lg font-semibold">Fresh Look, Enhanced Experience!</p>

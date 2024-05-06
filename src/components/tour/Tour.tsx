@@ -9,6 +9,7 @@ import { getCurrentUserKey, useCurrentUser } from "@/data/users/current-user-que
 import { UserMetadata } from "@/types/user";
 import { useQueryClient } from "@tanstack/react-query";
 import { StartTourDialog } from "./StartTourDialog";
+import SettingsPreview from "@/assets/images/product-tour/settings_preview.webp";
 
 function ModalComponent({
 	step,
@@ -73,8 +74,18 @@ const steps: Step[] = [
 		disableOverlayClose: true
 	},
 	{
-		content:
-			"We are preparing new direct management options for repositories, secrets, and connectors now accesible from your server settings. Until then, the CLI can assist you.",
+		content: (
+			<div className="space-y-2">
+				<img
+					src={SettingsPreview}
+					alt="Screenshot of the new settings, with a highlight that connects, repositories, and secrets are grouped there now"
+				/>
+				<p>
+					We are preparing new direct management options for repositories, secrets, and connectors
+					now accesible from your server settings. Until then, the CLI can assist you.
+				</p>
+			</div>
+		),
 		target: "#settings-sidebar-link",
 		title: "New home for your repos, secrets and connectors",
 		disableBeacon: true,
