@@ -7,7 +7,7 @@ export function HTMLVisualization({ content }: Props) {
 	const handleIframeLoad = () => {
 		if (iframeRef.current) {
 			const contentHeight = iframeRef.current.contentWindow?.document.documentElement.scrollHeight;
-			iframeRef.current.style.height = contentHeight ? `${contentHeight}px` : "100%";
+			iframeRef.current.height = contentHeight ? `${contentHeight}px` : "100%";
 		}
 	};
 
