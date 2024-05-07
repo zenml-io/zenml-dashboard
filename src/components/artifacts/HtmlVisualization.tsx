@@ -7,7 +7,7 @@ export function HTMLVisualization({ content }: Props) {
 	const handleIframeLoad = () => {
 		if (iframeRef.current) {
 			const contentHeight = iframeRef.current.contentWindow?.document.documentElement.scrollHeight;
-			iframeRef.current.height = contentHeight ? `${contentHeight}px` : "100%";
+			iframeRef.current.style.height = contentHeight ? `${contentHeight}px` : "100%";
 		}
 	};
 
@@ -21,11 +21,10 @@ export function HTMLVisualization({ content }: Props) {
 	return (
 		<div>
 			<iframe
+				className="w-full"
 				title="Secure HTML Content"
 				ref={iframeRef}
 				srcDoc={content}
-				width="100%"
-				height="auto"
 				onLoad={handleIframeLoad}
 			/>
 		</div>
