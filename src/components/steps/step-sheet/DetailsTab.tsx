@@ -34,7 +34,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	const orchestrator_run_id = pipelineRunData?.metadata?.orchestrator_run_id;
 
 	const enable_artifact_metadata = data?.metadata?.config?.enable_artifact_metadata;
-	const enable_artifact_visualization = data?.metadata?.config?.enable_artifact_visualization;
+	const enable_artifact_visualization = data.metadata?.config?.enable_artifact_visualization;
 
 	return (
 		<CollapsibleCard initialOpen title="Details">
