@@ -2,7 +2,7 @@ import { PageHeader } from "@/components/PageHeader";
 import { Badge } from "@zenml-io/react-component-library";
 import { CommandSection, InfoBox } from "./Fragments";
 import { CTASection, artifactFeatures } from "@/contents/cloud-only";
-import ACP from "@/assets/images/acp.png";
+import ACP from "@/assets/images/acp.webp";
 
 export default function ModelsPage() {
 	return (

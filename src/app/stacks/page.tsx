@@ -2,8 +2,21 @@ import { FallbackSupportCard, ResourcesCard } from "@/components/fallback-pages/
 import { HeaderBox, InfoBox, StacksHeader } from "./Fragments";
 import { StackCollapsible } from "./StackCollapsible";
 import { StackComponentCollapsible } from "./StackComponentsCollapsible";
+import { useTourContext } from "@/components/tour/TourContext";
+import { useEffect } from "react";
 
 export default function StacksPage() {
+	const {
+		setTourState,
+		tourState: { tourActive }
+	} = useTourContext();
+
+	useEffect(() => {
+		if (tourActive) {
+			setTourState((prev) => ({ ...prev, run: true, stepIndex: prev.stepIndex }));
+		}
+	}, [tourActive]);
+
 	return (
 		<div>
 			<StacksHeader />

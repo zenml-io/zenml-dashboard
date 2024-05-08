@@ -6,6 +6,7 @@ import { Sidebar } from "./Sidebar";
 import { routes } from "@/router/routes";
 import { checkUserOnboarding } from "@/lib/user";
 import { Analytics } from "@/components/Analytics";
+import { ProductTour } from "@/components/tour/Tour";
 
 export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();
@@ -31,6 +32,7 @@ export function AuthenticatedLayout() {
 					</SidebarProvider>
 					<div className="w-full">
 						<Analytics />
+						<ProductTour />
 						<Outlet />
 					</div>
 				</div>
