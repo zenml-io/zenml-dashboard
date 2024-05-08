@@ -114,7 +114,6 @@ const steps: Step[] = [
 		title: "Ready to Go!",
 		disableBeacon: true,
 		placement: "center",
-		disableOverlay: true,
 		data: {
 			className: "w-[480px]"
 		},
