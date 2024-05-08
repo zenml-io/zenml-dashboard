@@ -1,6 +1,5 @@
 import DoubleChevronRight from "@/assets/icons/chevron-right-double.svg?react";
 import Code from "@/assets/icons/code-browser.svg?react";
-import CodeSquare from "@/assets/icons/code-square.svg?react";
 import Info from "@/assets/icons/info.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
 import { useStepDetail } from "@/data/steps/step-detail-query";
@@ -21,7 +20,6 @@ import { StepCodeTab } from "./CodeTab";
 import { StepConfigTab } from "./ConfigurationTab";
 import { StepDetailsTab } from "./DetailsTab";
 import { StepLogsTab } from "./LogsTab";
-import { StepMetadataTab } from "./MetadataTab";
 import { StackCollapsible } from "@/app/runs/[id]/_Tabs/Overview/Stack";
 
 type Props = {
@@ -94,10 +92,6 @@ export function StepSheetContent({ stepId }: Props) {
 							<Tools className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 							<span>Configuration</span>
 						</TabsTrigger>
-						{/* <TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="metadata">
-							<CodeSquare className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
-							<span>Metadata</span>
-						</TabsTrigger> */}
 					</TabsList>
 
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
@@ -110,14 +104,11 @@ export function StepSheetContent({ stepId }: Props) {
 						<StepCodeTab stepId={stepId} />
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="logs">
-						<StepLogsTab stepId={stepId} />
+						<StepLogsTab stepId={stepId} stepDetail={data} />
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="config">
 						<StepConfigTab stepId={stepId} />
 					</TabsContent>
-					{/* <TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="metadata">
-						<StepMetadataTab stepId={stepId} />
-					</TabsContent> */}
 				</Tabs>
 			</div>
 		</div>

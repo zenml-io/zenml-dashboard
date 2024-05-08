@@ -10,6 +10,7 @@ import Spinner from "@/assets/icons/spinner.svg?react";
 import { calculateTimeDifference } from "@/lib/dates";
 import { ErrorFallback } from "../../Error";
 import Github from "@/assets/icons/github.svg?react";
+import { CopyButton } from "@/components/CopyButton";
 
 type Props = {
 	stepId: string;
@@ -22,11 +23,28 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	if (isError) return <ErrorFallback err={error} />;
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 
+	const transformToEllipsis = (text: string, maxLength: number) => {
+		if (text.length <= maxLength) {
+			return text;
+		} else {
+			return text.slice(0, maxLength - 3) + "...";
+		}
+	};
+
+	console.log("pipelineRunData", pipelineRunData?.metadata?.orchestrator_run_id);
+
 	const enable_cache = data?.metadata?.config?.enable_cache;
+	const orchestrator_url = pipelineRunData?.metadata?.orchestrator_url;
+	const orchestrator_run_id = pipelineRunData?.metadata?.orchestrator_run_id;
+
+	const enable_artifact_metadata = data?.metadata?.config?.enable_artifact_metadata;
+	const enable_artifact_visualization = data?.metadata?.config?.enable_artifact_visualization;
 
 	return (
 		<CollapsibleCard initialOpen title="Details">
 			<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
+				<KeyValue label="Orchestrator url" value={orchestrator_url || "Not available"} />
+				<KeyValue label="Orchestrator run Id" value={orchestrator_run_id || "Not available"} />
 				<KeyValue label="Id" value={data.id} />
 				<KeyValue
 					label="Status"
@@ -100,19 +118,26 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 							<KeyValue
 								label="Repository/Commit"
 								value={
-									<Tag
-										color="grey"
-										className="inline-flex items-center gap-0.5 font-semibold text-neutral-900"
-										rounded={false}
-										emphasis="subtle"
-									>
-										<Github className="mr-1 h-5 w-5 fill-theme-text-brand" />
-										zenml.io/zenml
-										<div className="rounded-sm bg-neutral-200 px-1 py-0.25">
-											{pipelineData.body?.deployment_id.split("-")[0]}
-											{/* {pipelineData.body?.code_reference} */}
-										</div>
-									</Tag>
+									<div className="group/copybutton mr-1">
+										<Tag
+											color="grey"
+											className="inline-flex items-center  font-semibold text-neutral-900"
+											rounded={false}
+											emphasis="subtle"
+										>
+											<Github className="mr-1 h-5 w-5 fill-theme-text-brand" />
+											zenml.io/zenml
+											<div className="ml-1 rounded-sm bg-neutral-200 px-1 py-0.25">
+												{transformToEllipsis(
+													pipelineRunData?.body?.code_reference?.body?.commit as string,
+													10
+												)}
+											</div>
+										</Tag>
+										<CopyButton
+											copyText={pipelineRunData?.body?.code_reference?.body?.commit as string}
+										/>
+									</div>
 								}
 							/>
 						)}
@@ -149,6 +174,26 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 						data.metadata?.start_time || "",
 						data.metadata?.end_time || ""
 					)}
+				/>
+				<KeyValue
+					label="Artifact metadata"
+					value={
+						<Badge size="sm" color={enable_artifact_metadata ? "green" : "grey"}>
+							{enable_artifact_metadata ? "Enable" : "Disabled"}
+						</Badge>
+					}
+				/>
+				<KeyValue
+					label="Artifact visualization"
+					value={
+						<Badge
+							className="h-6"
+							size="sm"
+							color={enable_artifact_visualization ? "green" : "grey"}
+						>
+							{enable_artifact_visualization ? "Enable" : "Disabled"}
+						</Badge>
+					}
 				/>
 			</dl>
 		</CollapsibleCard>

@@ -1,4 +1,4 @@
-import ChevronDown from "@/assets/icons/chevron-down.svg";
+import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
@@ -14,7 +14,12 @@ import { Codesnippet } from "@/components/CodeSnippet";
 import { KeyValue } from "@/components/KeyValue";
 
 type Props = {
-	data: any;
+	data: {
+		image: string;
+		contains_code: boolean;
+		dockerfile: string;
+		requirements: string;
+	};
 };
 
 export function DockerImageCollapsible({ data }: Props) {
@@ -23,14 +28,14 @@ export function DockerImageCollapsible({ data }: Props) {
 	return (
 		<CollapsiblePanel open={open} onOpenChange={setOpen}>
 			<CollapsibleHeader intent="primary" className="flex items-center gap-[10px]">
-				<CollapsibleTrigger>
+				<CollapsibleTrigger className="flex w-full items-center gap-[10px]">
 					<ChevronDown
 						className={` ${
 							open ? "" : "-rotate-90"
 						} h-5 w-5 rounded-md fill-neutral-500 transition-transform duration-200 hover:bg-neutral-200`}
 					/>
+					Docker Image
 				</CollapsibleTrigger>
-				Docker Image
 			</CollapsibleHeader>
 			<CollapsibleContent className="border-t border-theme-border-moderate bg-theme-surface-primary px-5 py-3">
 				<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
