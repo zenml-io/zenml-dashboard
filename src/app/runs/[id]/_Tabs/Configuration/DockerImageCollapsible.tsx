@@ -14,12 +14,7 @@ import { Codesnippet } from "@/components/CodeSnippet";
 import { KeyValue } from "@/components/KeyValue";
 
 type Props = {
-	data: {
-		image: string;
-		contains_code: boolean;
-		dockerfile: string;
-		requirements: string;
-	};
+	data: any;
 };
 
 export function DockerImageCollapsible({ data }: Props) {

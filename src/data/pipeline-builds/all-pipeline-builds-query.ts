@@ -1,7 +1,7 @@
 import { apiPaths, createApiPath } from "../api";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
-import { PipelineBuildPage } from "@/types/pipeline-builds";
+import { PipelineBuildResponse } from "@/types/pipeline-builds";
 export type PipelineBuildOverview = {
 	buildId: string;
 };
@@ -34,9 +34,9 @@ export async function fetchAllPipelineBuilds({ buildId }: PipelineBuildOverview,
 
 export function usePipelineBuild(
 	params: PipelineBuildOverview,
-	options?: Omit<UseQueryOptions<PipelineBuildPage, FetchError>, "queryKey" | "queryFn">
+	options?: Omit<UseQueryOptions<PipelineBuildResponse, FetchError>, "queryKey" | "queryFn">
 ) {
-	return useQuery<PipelineBuildPage, FetchError>({
+	return useQuery<PipelineBuildResponse, FetchError>({
 		queryKey: getPipelineBuildQueryKey(params),
 		queryFn: () => fetchAllPipelineBuilds(params),
 		...options

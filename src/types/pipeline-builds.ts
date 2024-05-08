@@ -1,3 +1,3 @@
 import { components } from "./core";
 
-export type PipelineBuildPage = components["schemas"]["PipelineBuildResponse"];
+export type PipelineBuildResponse = components["schemas"]["PipelineBuildResponse"];
