@@ -30,7 +30,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 
 	const enable_cache = data?.metadata?.config?.enable_cache;
-	const orchestrator_url = (pipelineRunData?.metadata as Metadata).orchestrator_url;
+	const orchestrator_url = (pipelineRunData?.metadata as Metadata)?.orchestrator_url;
 	const orchestrator_run_id = pipelineRunData?.metadata?.orchestrator_run_id;
 
 	const enable_artifact_metadata = data?.metadata?.config?.enable_artifact_metadata;
