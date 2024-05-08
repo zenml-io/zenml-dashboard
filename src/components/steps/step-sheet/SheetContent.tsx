@@ -44,7 +44,7 @@ export function StepSheetContent({ stepId }: Props) {
 	});
 
 	const status = data?.body?.status;
-	const enable_cache = data?.metadata?.config?.enable_cache || null;
+	const enable_cache = data?.metadata?.config?.enable_cache;
 
 	return (
 		<div>
