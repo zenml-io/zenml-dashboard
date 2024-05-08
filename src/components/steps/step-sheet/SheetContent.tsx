@@ -21,6 +21,7 @@ import { StepConfigTab } from "./ConfigurationTab";
 import { StepDetailsTab } from "./DetailsTab";
 import { StepLogsTab } from "./LogsTab";
 import { StackCollapsible } from "@/app/runs/[id]/_Tabs/Overview/Stack";
+import Logs from "@/assets/icons/logs.svg?react";
 
 type Props = {
 	stepId: string;
@@ -87,7 +88,7 @@ export function StepSheetContent({ stepId }: Props) {
 							<span>Code</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="logs">
-							<Code className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<Logs className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 							<span>Logs</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="config">
