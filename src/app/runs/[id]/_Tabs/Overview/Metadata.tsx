@@ -17,7 +17,7 @@ export function Metadata() {
 
 	return (
 		<div className="flex flex-col gap-5">
-			<UncategorizedCard metadata={data?.metadata?.run_metadata as MetadataMap} />
+			<UncategorizedCard metadata={(data?.metadata?.run_metadata as MetadataMap) || null} />
 			<MetadataCards metadata={data?.metadata?.run_metadata as MetadataMap} />
 		</div>
 	);
