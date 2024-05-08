@@ -7,7 +7,7 @@ import { KeyValue } from "@/components/KeyValue";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { renderAnyToString } from "@/lib/strings";
 import { DockerImageCollapsible } from "@/app/runs/[id]/_Tabs/Configuration/DockerImageCollapsible";
-import { useAllPipelineBuilds } from "@/data/pipeline-builds/all-pipeline-builds-query";
+import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-query";
 import { useParams } from "react-router-dom";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 
@@ -26,7 +26,7 @@ export function StepConfigTab({ stepId }: Props) {
 		{ throwOnError: true, enabled: !!runId }
 	);
 
-	const { data: buildData } = useAllPipelineBuilds(
+	const { data: buildData } = usePipelineBuild(
 		{
 			buildId: pipeline_run?.body?.build?.id as string
 		},

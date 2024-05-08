@@ -7,7 +7,7 @@ import {
 	Tag
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
-import Docker from "@/assets/icons/docker.svg?react";
+import Docker from "@/assets/icons/services/docker.svg?react";
 import Redirect from "@/assets/icons/redirect.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { Codesnippet } from "@/components/CodeSnippet";

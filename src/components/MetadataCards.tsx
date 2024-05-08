@@ -14,9 +14,7 @@ export function EmptyCards() {
 			<EmptyState icon={<File className="h-[120px] w-[120px] fill-neutral-300" />}>
 				<div className="text-center">
 					<p className="mb-2 text-display-xs font-semibold">No metadata found</p>
-					<p className="text-text-lg text-theme-text-secondary">
-						There are no metadata available for this step.
-					</p>
+					<p className="text-text-lg text-theme-text-secondary">There are no metadata available.</p>
 				</div>
 			</EmptyState>
 		</CollapsibleCard>

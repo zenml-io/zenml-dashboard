@@ -11,6 +11,7 @@ import { calculateTimeDifference } from "@/lib/dates";
 import { ErrorFallback } from "../../Error";
 import Github from "@/assets/icons/github.svg?react";
 import { CopyButton } from "@/components/CopyButton";
+import { transformToEllipsis } from "@/lib/strings";
 
 type Props = {
 	stepId: string;
@@ -27,14 +28,6 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 
 	if (isError) return <ErrorFallback err={error} />;
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
-
-	const transformToEllipsis = (text: string, maxLength: number) => {
-		if (text.length <= maxLength) {
-			return text;
-		} else {
-			return text.slice(0, maxLength - 3) + "...";
-		}
-	};
 
 	const enable_cache = data?.metadata?.config?.enable_cache;
 	const orchestrator_url = (pipelineRunData?.metadata as Metadata).orchestrator_url;

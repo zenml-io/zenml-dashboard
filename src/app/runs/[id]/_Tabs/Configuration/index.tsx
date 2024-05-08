@@ -4,13 +4,13 @@ import { useParams } from "react-router-dom";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { Skeleton } from "@zenml-io/react-component-library";
 import { NestedCollapsible } from "@/components/NestedCollapsible";
-import { useAllPipelineBuilds } from "@/data/pipeline-builds/all-pipeline-builds-query";
+import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-query";
 import { DockerImageCollapsible } from "./DockerImageCollapsible";
 
 export function ConfigurationTab() {
 	const { runId } = useParams() as { runId: string };
 	const { data, isError, isPending } = usePipelineRun({ runId: runId }, { throwOnError: true });
-	const { data: buildData } = useAllPipelineBuilds(
+	const { data: buildData } = usePipelineBuild(
 		{
 			buildId: data?.body?.build?.id as string
 		},

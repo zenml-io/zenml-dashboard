@@ -7,7 +7,7 @@ export type PipelineBuildOverview = {
 };
 
 export function getPipelineBuildQueryKey({ buildId }: PipelineBuildOverview) {
-	return ["builds", buildId];
+	return ["pipeline-builds", buildId];
 }
 
 export async function fetchAllPipelineBuilds({ buildId }: PipelineBuildOverview, token?: string) {
@@ -24,7 +24,7 @@ export async function fetchAllPipelineBuilds({ buildId }: PipelineBuildOverview,
 
 	if (!res.ok) {
 		throw new FetchError({
-			message: `Error while fetching pipeline run ${buildId}`,
+			message: `Error while fetching pipeline build ${buildId}`,
 			status: res.status,
 			statusText: res.statusText
 		});
@@ -32,7 +32,7 @@ export async function fetchAllPipelineBuilds({ buildId }: PipelineBuildOverview,
 	return res.json();
 }
 
-export function useAllPipelineBuilds(
+export function usePipelineBuild(
 	params: PipelineBuildOverview,
 	options?: Omit<UseQueryOptions<PipelineBuildPage, FetchError>, "queryKey" | "queryFn">
 ) {
