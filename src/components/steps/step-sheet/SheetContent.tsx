@@ -64,9 +64,11 @@ export function StepSheetContent({ stepId }: Props) {
 							<Badge size="sm" color={getBadgeColor(status)}>
 								{status || "None"}
 							</Badge>
-							<Badge size="sm" color={enable_cache ? "green" : "grey"}>
-								{enable_cache ? "Enable cache" : "Disabled cache"}
-							</Badge>
+							{typeof enable_cache === "boolean" && (
+								<Badge size="sm" color={enable_cache ? "green" : "grey"}>
+									{enable_cache ? "Enable cache" : "Disabled cache"}
+								</Badge>
+							)}
 						</div>
 					) : (
 						<Skeleton className="h-6 w-7" />

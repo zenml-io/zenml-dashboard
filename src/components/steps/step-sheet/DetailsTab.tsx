@@ -55,9 +55,11 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 								<ExecutionStatusIcon className="fill-current" status={data.body?.status} />
 								{data.body?.status}
 							</Tag>
-							<Badge size="sm" color={enable_cache ? "green" : "grey"}>
-								{enable_cache ? "Enable cache" : "Disabled cache"}
-							</Badge>
+							{typeof enable_cache === "boolean" && (
+								<Badge size="sm" color={enable_cache ? "green" : "grey"}>
+									{enable_cache ? "Enable cache" : "Disabled cache"}
+								</Badge>
+							)}
 						</div>
 					}
 				></KeyValue>
@@ -182,11 +184,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 				<KeyValue
 					label="Artifact visualization"
 					value={
-						<Badge
-							className="h-6"
-							size="sm"
-							color={enable_artifact_visualization ? "green" : "grey"}
-						>
+						<Badge size="sm" color={enable_artifact_visualization ? "green" : "grey"}>
 							{enable_artifact_visualization ? "Enable" : "Disabled"}
 						</Badge>
 					}
