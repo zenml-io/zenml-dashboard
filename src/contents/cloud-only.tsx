@@ -32,7 +32,7 @@ export function CTASection({ features, image }: CTASectionProps) {
 				</ul>
 				<div className="flex flex-wrap items-center gap-2">
 					<a
-						href="https://cloud.zenml.io/login"
+						href="https://zenml.io/pricing"
 						target="_blank"
 						rel="noopener noreferrer"
 						className={buttonVariants({ intent: "primary", size: "md" })}
