@@ -1,6 +1,5 @@
 import DoubleChevronRight from "@/assets/icons/chevron-right-double.svg?react";
 import Code from "@/assets/icons/code-browser.svg?react";
-import CodeSquare from "@/assets/icons/code-square.svg?react";
 import Info from "@/assets/icons/info.svg?react";
 import Tools from "@/assets/icons/tool.svg?react";
 import { useStepDetail } from "@/data/steps/step-detail-query";
@@ -21,7 +20,8 @@ import { StepCodeTab } from "./CodeTab";
 import { StepConfigTab } from "./ConfigurationTab";
 import { StepDetailsTab } from "./DetailsTab";
 import { StepLogsTab } from "./LogsTab";
-import { StepMetadataTab } from "./MetadataTab";
+import { StackCollapsible } from "@/app/runs/[id]/_Tabs/Overview/Stack";
+import Logs from "@/assets/icons/logs.svg?react";
 
 type Props = {
 	stepId: string;
@@ -44,6 +44,7 @@ export function StepSheetContent({ stepId }: Props) {
 	});
 
 	const status = data?.body?.status;
+	const enable_cache = data?.metadata?.config?.enable_cache;
 
 	return (
 		<div>
@@ -64,6 +65,11 @@ export function StepSheetContent({ stepId }: Props) {
 							<Badge size="sm" color={getBadgeColor(status)}>
 								{status || "None"}
 							</Badge>
+							{typeof enable_cache === "boolean" && (
+								<Badge size="sm" color={enable_cache ? "green" : "grey"}>
+									{enable_cache ? "Enable cache" : "Disabled cache"}
+								</Badge>
+							)}
 						</div>
 					) : (
 						<Skeleton className="h-6 w-7" />
@@ -82,33 +88,29 @@ export function StepSheetContent({ stepId }: Props) {
 							<span>Code</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="logs">
-							<Code className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
+							<Logs className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 							<span>Logs</span>
 						</TabsTrigger>
 						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="config">
 							<Tools className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
 							<span>Configuration</span>
 						</TabsTrigger>
-						<TabsTrigger className="flex items-center gap-2 truncate text-text-md" value="metadata">
-							<CodeSquare className="h-5 w-5 shrink-0 fill-theme-text-tertiary group-data-[state=active]/trigger:fill-theme-surface-strong" />
-							<span>Metadata</span>
-						</TabsTrigger>
 					</TabsList>
 
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="overview">
 						<StepDetailsTab runId={runId} stepId={stepId} />
+						<div className="mt-5">
+							<StackCollapsible />
+						</div>
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="code">
 						<StepCodeTab stepId={stepId} />
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="logs">
-						<StepLogsTab stepId={stepId} />
+						<StepLogsTab stepId={stepId} stepDetail={data} />
 					</TabsContent>
 					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="config">
 						<StepConfigTab stepId={stepId} />
-					</TabsContent>
-					<TabsContent className="m-0 mt-5 border-0 bg-transparent p-0" value="metadata">
-						<StepMetadataTab stepId={stepId} />
 					</TabsContent>
 				</Tabs>
 			</div>
