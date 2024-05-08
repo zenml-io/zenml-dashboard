@@ -16,6 +16,11 @@ type Props = {
 	stepId: string;
 	runId: string;
 };
+
+export type Metadata = {
+	orchestrator_url?: string;
+};
+
 export function StepDetailsTab({ stepId, runId }: Props) {
 	const { data, isError, isPending, error } = useStepDetail({ stepId });
 	const { data: pipelineRunData } = usePipelineRun({ runId });
@@ -31,10 +36,8 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 		}
 	};
 
-	console.log("pipelineRunData", pipelineRunData?.metadata?.orchestrator_run_id);
-
 	const enable_cache = data?.metadata?.config?.enable_cache;
-	const orchestrator_url = pipelineRunData?.metadata?.orchestrator_url;
+	const orchestrator_url = (pipelineRunData?.metadata as Metadata).orchestrator_url;
 	const orchestrator_run_id = pipelineRunData?.metadata?.orchestrator_run_id;
 
 	const enable_artifact_metadata = data?.metadata?.config?.enable_artifact_metadata;
