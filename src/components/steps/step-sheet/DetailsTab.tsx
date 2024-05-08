@@ -29,11 +29,11 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	if (isError) return <ErrorFallback err={error} />;
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 
-	const enable_cache = data?.metadata?.config?.enable_cache;
+	const enable_cache = data.metadata?.config?.enable_cache;
 	const orchestrator_url = (pipelineRunData?.metadata as Metadata)?.orchestrator_url;
 	const orchestrator_run_id = pipelineRunData?.metadata?.orchestrator_run_id;
 
-	const enable_artifact_metadata = data?.metadata?.config?.enable_artifact_metadata;
+	const enable_artifact_metadata = data.metadata?.config?.enable_artifact_metadata;
 	const enable_artifact_visualization = data.metadata?.config?.enable_artifact_visualization;
 
 	return (
