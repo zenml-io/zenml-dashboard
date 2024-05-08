@@ -1,4 +1,5 @@
 import { Details } from "./Details";
+import { Metadata } from "./Metadata";
 import { StackCollapsible } from "./Stack";
 
 export function OverviewTab() {
@@ -6,6 +7,7 @@ export function OverviewTab() {
 		<div className="grid grid-cols-1 gap-5">
 			<Details />
 			<StackCollapsible />
+			<Metadata />
 		</div>
 	);
 }

@@ -16,4 +16,5 @@ export type UserMetadata = {
 	awareness_channels?: string[];
 	primary_use?: string;
 	models_production?: string;
+	overview_tour_done?: boolean;
 };
