@@ -12,6 +12,7 @@ export function HTMLVisualization({ content }: Props) {
 	};
 
 	useEffect(() => {
+		handleIframeLoad();
 		window.addEventListener("resize", handleIframeLoad);
 		return () => {
 			window.removeEventListener("resize", handleIframeLoad);
