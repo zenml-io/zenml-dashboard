@@ -22,3 +22,13 @@ export const transformToEllipsis = (text: string, maxLength: number) => {
 		return text.slice(0, maxLength - 3) + "...";
 	}
 };
+
+export const extractDockerImageKey = (string: string) => {
+	const regex = /\/([^/@]+)@/;
+	const match = regex.exec(string);
+	if (match && match[1]) {
+		return match[1];
+	} else {
+		return null;
+	}
+};

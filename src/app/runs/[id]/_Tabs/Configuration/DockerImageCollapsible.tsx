@@ -12,6 +12,7 @@ import Redirect from "@/assets/icons/redirect.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { KeyValue } from "@/components/KeyValue";
+import { extractDockerImageKey } from "@/lib/strings";
 
 type Props = {
 	data: any;
@@ -40,7 +41,7 @@ export function DockerImageCollapsible({ data }: Props) {
 							<div className="flex justify-between">
 								<Tag className="inline-flex items-center gap-0.5" rounded={false} emphasis="subtle">
 									<Docker className="mr-1 h-4 w-4 fill-theme-text-brand" />
-									{"zenml/my_pipeline:data"}
+									{extractDockerImageKey(data.image)}
 								</Tag>
 								<div className="align-center mr-1 flex">
 									<a
