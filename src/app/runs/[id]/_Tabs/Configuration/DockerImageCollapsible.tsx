@@ -12,9 +12,10 @@ import Redirect from "@/assets/icons/redirect.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { KeyValue } from "@/components/KeyValue";
+import { BuildItem } from "@/types/pipeline-builds";
 
 type Props = {
-	data: any;
+	data: BuildItem;
 };
 
 export function DockerImageCollapsible({ data }: Props) {
@@ -70,10 +71,18 @@ export function DockerImageCollapsible({ data }: Props) {
 						}
 					/>
 				</dl>
-				<p className="mb-2 mt-5 text-theme-text-secondary">Dockerfile</p>
-				<Codesnippet fullWidth highlightCode wrap code={data.dockerfile} />
-				<p className="mb-2 mt-5 text-theme-text-secondary">Requirements</p>
-				<Codesnippet fullWidth highlightCode wrap code={data.requirements} />
+				{data.dockerfile && (
+					<>
+						<p className="mb-2 mt-5 text-theme-text-secondary">Dockerfile</p>
+						<Codesnippet fullWidth highlightCode wrap code={data.dockerfile} />
+					</>
+				)}
+				{data.requirements && (
+					<>
+						<p className="mb-2 mt-5 text-theme-text-secondary">Requirements</p>
+						<Codesnippet fullWidth highlightCode wrap code={data.requirements} />
+					</>
+				)}
 			</CollapsibleContent>
 		</CollapsiblePanel>
 	);

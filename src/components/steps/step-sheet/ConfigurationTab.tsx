@@ -1,15 +1,16 @@
-import { CollapsibleCard } from "@/components/CollapsibleCard";
-import { ErrorFallback } from "../../Error";
-import { useStepDetail } from "@/data/steps/step-detail-query";
-import { AnyDict } from "@/types/common";
-import { Skeleton } from "@zenml-io/react-component-library";
-import { KeyValue } from "@/components/KeyValue";
-import { Codesnippet } from "@/components/CodeSnippet";
-import { renderAnyToString } from "@/lib/strings";
 import { DockerImageCollapsible } from "@/app/runs/[id]/_Tabs/Configuration/DockerImageCollapsible";
+import { Codesnippet } from "@/components/CodeSnippet";
+import { CollapsibleCard } from "@/components/CollapsibleCard";
+import { KeyValue } from "@/components/KeyValue";
 import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-query";
-import { useParams } from "react-router-dom";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
+import { useStepDetail } from "@/data/steps/step-detail-query";
+import { renderAnyToString } from "@/lib/strings";
+import { AnyDict } from "@/types/common";
+import { BuildItemMap } from "@/types/pipeline-builds";
+import { Skeleton } from "@zenml-io/react-component-library";
+import { useParams } from "react-router-dom";
+import { ErrorFallback } from "../../Error";
 
 type Props = {
 	stepId: string;
@@ -55,7 +56,7 @@ export function StepConfigTab({ stepId }: Props) {
 
 	const indexImage = findIndexImage();
 
-	const dataImage = indexImage && buildData?.metadata?.images?.[indexImage];
+	const dataImage = indexImage && (buildData?.metadata?.images as BuildItemMap)?.[indexImage];
 
 	if (isError) {
 		return <ErrorFallback err={error} />;
