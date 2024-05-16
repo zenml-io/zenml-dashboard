@@ -162,7 +162,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 					label="Start Time"
 					value={
 						data.metadata?.start_time ? (
-							<DisplayDate dateString={data?.metadata?.start_time} />
+							<DisplayDate dateString={data.metadata?.start_time} />
 						) : (
 							"Not available"
 						)
