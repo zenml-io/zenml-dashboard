@@ -15,6 +15,7 @@ export function SuccessStep({ username, subHeader, displayBody = true }: Props) 
 	const [params] = useSearchParams();
 
 	const redirect = params.get("redirect");
+	const sanitizedRedirect = redirect && `${window.location.origin}${redirect}`;
 
 	return (
 		<Box className="flex max-w-[540px] flex-col items-center justify-center space-y-7 px-7 py-9">
@@ -34,7 +35,7 @@ export function SuccessStep({ username, subHeader, displayBody = true }: Props) 
 					</p>
 				)}
 				<Button className="inline-flex" size="md" intent="primary" asChild>
-					<Link to={redirect || routes.home}>
+					<Link to={sanitizedRedirect || routes.home}>
 						<span>Go to Dashboard</span>
 						<ArrowRight className="h-5 w-5 fill-white" />
 					</Link>
