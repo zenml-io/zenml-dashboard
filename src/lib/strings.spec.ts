@@ -48,13 +48,13 @@ describe("transformToEllipsis truncates text to maxLength and adds '...'", () =>
 		},
 		{
 			text: "This is a long text",
-			maxLength: 10,
+			maxLength: 12,
 			expected: "This is a...",
 			description: "Text longer than maxLength"
 		},
 		{
 			text: "Equal length",
-			maxLength: 13,
+			maxLength: 12,
 			expected: "Equal length",
 			description: "Text equal to maxLength"
 		}
