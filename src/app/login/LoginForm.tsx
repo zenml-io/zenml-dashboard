@@ -19,7 +19,6 @@ export function LoginForm() {
 
 	const [searchParams] = useSearchParams();
 	const redirect = searchParams.get("redirect");
-	const sanitizedRedirect = redirect && `${window.location.origin}${redirect}`;
 	const username = searchParams.get("username") ?? undefined;
 
 	const {
@@ -45,7 +44,7 @@ export function LoginForm() {
 		},
 		onSuccess: async () => {
 			setAuthState("true");
-			navigate(sanitizedRedirect || routes.home);
+			navigate(redirect || routes.home);
 		}
 	});
 
