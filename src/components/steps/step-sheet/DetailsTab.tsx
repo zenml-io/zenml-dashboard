@@ -160,11 +160,23 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 				<KeyValue label="Cache key" value={data.metadata?.cache_key || ""} />
 				<KeyValue
 					label="Start Time"
-					value={<DisplayDate dateString={data.metadata?.start_time || ""} />}
+					value={
+						data.metadata?.start_time ? (
+							<DisplayDate dateString={data.metadata?.start_time} />
+						) : (
+							"Not available"
+						)
+					}
 				/>
 				<KeyValue
 					label="End Time"
-					value={<DisplayDate dateString={data.metadata?.end_time || ""} />}
+					value={
+						data.metadata?.end_time ? (
+							<DisplayDate dateString={data.metadata?.end_time} />
+						) : (
+							"Not available"
+						)
+					}
 				/>
 				<KeyValue
 					label="Duration"
