@@ -10,6 +10,8 @@ type Props = {
 	intent?: CollapsibleHeaderProps["intent"];
 	data?: { [key: string]: any };
 	title: ReactNode;
+	contentClassName?: string;
+	className?: string;
 	isInitialOpen?: boolean;
 };
 
@@ -17,7 +19,9 @@ export function NestedCollapsible({
 	title,
 	data,
 	intent = "primary",
-	isInitialOpen = false
+	isInitialOpen = false,
+	contentClassName,
+	className
 }: Props) {
 	const objects: { [key: string]: any } = {};
 	const nonObjects: { [key: string]: any } = {};
@@ -40,7 +44,13 @@ export function NestedCollapsible({
 	values.sort((a, b) => a[0].localeCompare(b[0]));
 
 	return (
-		<CollapsibleCard initialOpen={isInitialOpen} intent={intent} title={title}>
+		<CollapsibleCard
+			contentClassName={contentClassName}
+			className={className}
+			initialOpen={isInitialOpen}
+			intent={intent}
+			title={title}
+		>
 			<div className="flex flex-col gap-3">
 				<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
 					{values.map(([key, value]) => (
@@ -54,7 +64,7 @@ export function NestedCollapsible({
 									) : regex.test(value) ? (
 										<Codesnippet className="py-1" highlightCode code={value} />
 									) : (
-										<div className="py-1">{value}</div>
+										<div className="overflow-x-auto py-1">{value}</div>
 									)}
 								</>
 							}
