@@ -36,11 +36,14 @@ export function NestedCollapsible({
 
 	if (Object.keys(data || {}).length === 0) return null;
 
+	const values = Object.entries(nonObjects);
+	values.sort((a, b) => a[0].localeCompare(b[0]));
+
 	return (
 		<CollapsibleCard initialOpen={isInitialOpen} intent={intent} title={title}>
 			<div className="flex flex-col gap-3">
 				<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
-					{Object.entries(nonObjects).map(([key, value]) => (
+					{values.map(([key, value]) => (
 						<KeyValue
 							key={key}
 							label={key}
