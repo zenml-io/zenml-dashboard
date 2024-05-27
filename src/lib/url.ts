@@ -1,3 +1,5 @@
+import { z } from "zod";
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function objectToSearchParams(object: Record<string, any>) {
 	return new URLSearchParams(
@@ -28,3 +30,5 @@ function _sanitizeUrl(url: string): string {
 export function sanitizeUrl(url = "about:blank"): string {
 	return _sanitizeUrl(String(url).trim());
 }
+
+export const urlSchema = z.string().url();

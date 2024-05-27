@@ -74,11 +74,19 @@ export function Details() {
 					</Value>
 					<Key>Start Time</Key>
 					<Value>
-						<DisplayDate dateString={data.metadata?.start_time || ""} />
+						{data.metadata?.start_time ? (
+							<DisplayDate dateString={data.metadata?.start_time} />
+						) : (
+							"Not available"
+						)}
 					</Value>
 					<Key>End Time</Key>
 					<Value>
-						<DisplayDate dateString={data.metadata?.end_time || ""} />
+						{data.metadata?.end_time ? (
+							<DisplayDate dateString={data.metadata?.end_time} />
+						) : (
+							"Not available"
+						)}
 					</Value>
 				</dl>
 			</CollapsibleContent>
