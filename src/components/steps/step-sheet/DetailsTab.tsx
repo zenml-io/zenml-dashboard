@@ -30,11 +30,11 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	const repository = pipelineRunData?.body?.code_reference?.body?.code_repository;
 
 	const { data: codeRepositoryData } = useCodeRepositoryList(
-		{ id: repository?.id, hydrate: true },
+		{ repositoryId: repository?.id as string },
 		{ throwOnError: true, enabled: !!repository?.id }
 	);
 
-	const repositoryMetadata = codeRepositoryData?.items?.[0]?.metadata?.config;
+	const repositoryMetadata = codeRepositoryData?.metadata?.config;
 
 	if (isError) return <ErrorFallback err={error} />;
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
@@ -46,7 +46,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	const enable_artifact_metadata = data.metadata?.config?.enable_artifact_metadata;
 	const enable_artifact_visualization = data.metadata?.config?.enable_artifact_visualization;
 
-	const urlCodeRepo = () => {
+	const getRepositoryLink = () => {
 		let name: string = repository?.name as string;
 		let url: string | null = "";
 
@@ -159,7 +159,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 											rounded={false}
 											emphasis="subtle"
 										>
-											{urlCodeRepo()}
+											{getRepositoryLink()}
 											<div className="ml-1 rounded-sm bg-neutral-200 px-1 py-0.25">
 												{transformToEllipsis(
 													pipelineRunData?.body?.code_reference?.body?.commit as string,

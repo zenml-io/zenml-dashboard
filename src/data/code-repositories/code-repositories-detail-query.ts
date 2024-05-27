@@ -1,23 +1,19 @@
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
 import { FetchError } from "@/lib/fetch-error";
-import { objectToSearchParams } from "@/lib/url";
 import { notFound } from "@/lib/not-found-error";
-import {
-	CodeRepositoryListQueryParams,
-	PageCodeRepositoryResponse
-} from "@/types/artifact-versions";
 import { apiPaths, createApiPath } from "../api";
+import { CodeRepository } from "@/types/code-repository";
 
-export type CodeRepositoriesList = {
-	params: CodeRepositoryListQueryParams;
+export type CodeRepositoryDetail = {
+	repositoryId: string;
 };
 
-export function getCodeRepositoryDetailQueryKey({ params }: CodeRepositoriesList) {
-	return ["code_repositories", params];
+export function getCodeRepositoryDetailQueryKey({ repositoryId }: CodeRepositoryDetail) {
+	return ["code_repositories", repositoryId];
 }
 
-export async function fetchAllCodeRepositories({ params }: CodeRepositoriesList) {
-	const url = createApiPath(apiPaths.code_repositories.all + "?" + objectToSearchParams(params));
+export async function fetchAllCodeRepositories({ repositoryId }: CodeRepositoryDetail) {
+	const url = createApiPath(apiPaths.code_repositories.detail(repositoryId));
 	const res = await fetch(url, {
 		method: "GET",
 		credentials: "include",
@@ -32,7 +28,7 @@ export async function fetchAllCodeRepositories({ params }: CodeRepositoriesList)
 
 	if (!res.ok) {
 		throw new FetchError({
-			message: `Error while fetching code repositories`,
+			message: `Error while fetching code repository ${repositoryId}`,
 			status: res.status,
 			statusText: res.statusText
 		});
@@ -41,12 +37,12 @@ export async function fetchAllCodeRepositories({ params }: CodeRepositoriesList)
 }
 
 export function useCodeRepositoryList(
-	params: CodeRepositoriesList,
-	options?: Omit<UseQueryOptions<PageCodeRepositoryResponse, FetchError>, "queryKey" | "queryFn">
+	repositoryId: CodeRepositoryDetail,
+	options?: Omit<UseQueryOptions<CodeRepository, FetchError>, "queryKey" | "queryFn">
 ) {
-	return useQuery<PageCodeRepositoryResponse, FetchError>({
-		queryKey: getCodeRepositoryDetailQueryKey(params),
-		queryFn: () => fetchAllCodeRepositories(params),
+	return useQuery<CodeRepository, FetchError>({
+		queryKey: getCodeRepositoryDetailQueryKey(repositoryId),
+		queryFn: () => fetchAllCodeRepositories(repositoryId),
 		...options
 	});
 }
