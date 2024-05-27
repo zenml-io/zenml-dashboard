@@ -46,6 +46,9 @@ export function UncategorizedCard({ metadata }: Props) {
 
 	if (nonDicts.length === 0) return null;
 
+	// sort nonDicts alphabetically by index 0
+	nonDicts.sort((a, b) => a[0].localeCompare(b[0]));
+
 	const convertToMBorGB = (number: number) => {
 		if (number < 1024) {
 			return number + " bytes";

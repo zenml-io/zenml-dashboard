@@ -5,6 +5,7 @@ import {
 	CollapsibleHeader,
 	CollapsibleHeaderProps
 } from "@zenml-io/react-component-library";
+import { cn } from "@zenml-io/react-component-library/utilities";
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { useState } from "react";
 
@@ -13,6 +14,7 @@ type CollapsibleCardProps = {
 	children: React.ReactNode;
 	title: string | React.ReactNode;
 	className?: string;
+	contentClassName?: string;
 	intent?: CollapsibleHeaderProps["intent"];
 };
 
@@ -21,6 +23,7 @@ export function CollapsibleCard({
 	children,
 	initialOpen = false,
 	className,
+	contentClassName,
 	intent = "primary"
 }: CollapsibleCardProps) {
 	const [open, setOpen] = useState(initialOpen);
@@ -37,7 +40,12 @@ export function CollapsibleCard({
 				</CollapsibleTrigger>
 			</CollapsibleHeader>
 
-			<CollapsibleContent className="space-y-3 border-t border-theme-border-moderate bg-theme-surface-primary px-5 py-3">
+			<CollapsibleContent
+				className={cn(
+					"space-y-3 border-t border-theme-border-moderate bg-theme-surface-primary px-5 py-3",
+					contentClassName
+				)}
+			>
 				{children}
 			</CollapsibleContent>
 		</CollapsiblePanel>
