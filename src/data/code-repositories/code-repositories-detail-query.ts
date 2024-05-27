@@ -36,7 +36,7 @@ export async function fetchAllCodeRepositories({ repositoryId }: CodeRepositoryD
 	return res.json();
 }
 
-export function useCodeRepositoryList(
+export function useCodeRepository(
 	repositoryId: CodeRepositoryDetail,
 	options?: Omit<UseQueryOptions<CodeRepository, FetchError>, "queryKey" | "queryFn">
 ) {

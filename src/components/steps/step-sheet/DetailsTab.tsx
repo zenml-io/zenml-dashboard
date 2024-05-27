@@ -12,7 +12,7 @@ import { ErrorFallback } from "../../Error";
 import Github from "@/assets/icons/github.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { transformToEllipsis } from "@/lib/strings";
-import { useCodeRepositoryList } from "@/data/code-repositories/code-repositories-detail-query";
+import { useCodeRepository } from "@/data/code-repositories/code-repositories-detail-query";
 
 type Props = {
 	stepId: string;
@@ -29,7 +29,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 
 	const repository = pipelineRunData?.body?.code_reference?.body?.code_repository;
 
-	const { data: codeRepositoryData } = useCodeRepositoryList(
+	const { data: codeRepositoryData } = useCodeRepository(
 		{ repositoryId: repository?.id as string },
 		{ throwOnError: true, enabled: !!repository?.id }
 	);
