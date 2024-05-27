@@ -12,6 +12,7 @@ import { ErrorFallback } from "../../Error";
 import Github from "@/assets/icons/github.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { transformToEllipsis } from "@/lib/strings";
+import { useCodeRepositoryList } from "@/data/code-repositories/code-repositories-detail-query";
 
 type Props = {
 	stepId: string;
@@ -26,6 +27,15 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	const { data, isError, isPending, error } = useStepDetail({ stepId });
 	const { data: pipelineRunData } = usePipelineRun({ runId });
 
+	const repository = pipelineRunData?.body?.code_reference?.body?.code_repository;
+
+	const { data: codeRepositoryData } = useCodeRepositoryList(
+		{ id: repository?.id, hydrate: true },
+		{ throwOnError: true, enabled: !!repository?.id }
+	);
+
+	const repositoryMetadata = codeRepositoryData?.items?.[0]?.metadata?.config;
+
 	if (isError) return <ErrorFallback err={error} />;
 	if (isPending) return <Skeleton className="h-[300px] w-full" />;
 
@@ -35,6 +45,32 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 
 	const enable_artifact_metadata = data.metadata?.config?.enable_artifact_metadata;
 	const enable_artifact_visualization = data.metadata?.config?.enable_artifact_visualization;
+
+	const urlCodeRepo = () => {
+		let name: string = repository?.name as string;
+		let url: string | null = "";
+
+		if (repository?.body?.source?.attribute === "GitHubCodeRepository") {
+			name = `${repositoryMetadata?.owner}/${repositoryMetadata?.repository}`;
+			url = `https://www.github.com/${name}`;
+		} else if (repository?.body?.source?.attribute === "GitLabCodeRepository") {
+			name = `${repositoryMetadata?.group}/${repositoryMetadata?.project}`;
+			url = `https://www.gitlab.com/${name}`;
+		}
+
+		return (
+			<a
+				target="_blank"
+				rel="noopener noreferrer"
+				className={`flex items-center ${url ? "" : "pointer-events-none"}`}
+				onClick={(e) => e.stopPropagation()}
+				href={url}
+			>
+				<Github className="mr-1 h-5 w-5 fill-theme-text-brand" />
+				{name}
+			</a>
+		);
+	};
 
 	return (
 		<CollapsibleCard initialOpen title="Details">
@@ -112,7 +148,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 								</Tag>
 							}
 						/>
-						{pipelineRunData.body?.code_reference && (
+						{pipelineRunData.body?.code_reference && repositoryMetadata && (
 							<KeyValue
 								label="Repository/Commit"
 								value={
@@ -123,8 +159,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 											rounded={false}
 											emphasis="subtle"
 										>
-											<Github className="mr-1 h-5 w-5 fill-theme-text-brand" />
-											zenml.io/zenml
+											{urlCodeRepo()}
 											<div className="ml-1 rounded-sm bg-neutral-200 px-1 py-0.25">
 												{transformToEllipsis(
 													pipelineRunData?.body?.code_reference?.body?.commit as string,
