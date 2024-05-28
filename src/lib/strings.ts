@@ -36,3 +36,10 @@ export const extractDockerImageKey = (string: string) => {
 		return null;
 	}
 };
+
+export const formatIdToTitleCase = (text: string): string => {
+	return text
+		.split("-")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+		.join(" ");
+};

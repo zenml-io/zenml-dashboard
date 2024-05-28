@@ -2,13 +2,20 @@ import RunIcon from "@/assets/icons/terminal.svg?react";
 import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/ExecutionStatus";
 import { PageHeader } from "@/components/PageHeader";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
+import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
 import { Skeleton } from "@zenml-io/react-component-library";
+import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 
 export function RunsDetailHeader() {
 	const { runId } = useParams() as { runId: string };
+	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
 
 	const { data, isSuccess } = usePipelineRun({ runId }, { throwOnError: true });
+
+	useEffect(() => {
+		data && setCurrentBreadcrumbData({ segment: "runs", data: data });
+	}, [data]);
 
 	return (
 		<PageHeader>
