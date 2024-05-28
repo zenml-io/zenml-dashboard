@@ -24,7 +24,7 @@ export default function PipelinesPage() {
 	);
 
 	useEffect(() => {
-		setCurrentBreadcrumbData({ segment: "pipelines", data: data });
+		setCurrentBreadcrumbData({ segment: "pipelines", data: null });
 	}, [data]);
 
 	return (

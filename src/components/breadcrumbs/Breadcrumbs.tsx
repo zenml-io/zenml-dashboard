@@ -80,7 +80,7 @@ export function Breadcrumbs() {
 											: ""
 									} 
 									${isLastOne ? "font-semibold text-theme-text-primary" : "text-theme-text-secondary"}
-									rounded-sm p-0.5 px-1 text-text-md  capitalize hover:bg-theme-surface-tertiary`}
+									rounded-sm p-0.5 px-1 text-text-md  capitalize hover:text-purple-900 hover:underline`}
 									to={matchSegmentWithURL(segment, value?.id as string)}
 								>
 									{typeof value?.name === "string"
