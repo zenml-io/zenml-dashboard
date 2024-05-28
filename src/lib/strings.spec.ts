@@ -1,6 +1,7 @@
 import { describe, expect, test } from "vitest";
 import {
 	extractDockerImageKey,
+	formatIdToTitleCase,
 	renderAnyToString,
 	snakeCaseToTitleCase,
 	transformToEllipsis
@@ -85,6 +86,21 @@ describe("extractDockerImageKey extracts Docker image key from string", () => {
 	testCases.forEach(({ string, expected, description }) => {
 		test(description, () => {
 			expect(extractDockerImageKey(string)).toBe(expected);
+		});
+	});
+});
+
+describe("formatIdToTitleCase converts hyphenated-strings to Title Case", () => {
+	const testCases = [
+		{ input: "hello_world", expected: "Hello_world" },
+		{ input: "another_example_string", expected: "Another_example_string" },
+		{ input: "single", expected: "Single" },
+		{ input: "", expected: "" }
+	];
+
+	testCases.forEach(({ input, expected }) => {
+		test(input, () => {
+			expect(formatIdToTitleCase(input)).toBe(expected);
 		});
 	});
 });
