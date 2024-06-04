@@ -11,11 +11,7 @@ type Props = {
 	stepDetail: any;
 };
 
-type LoadingLogsProps = {
-	stepId: string;
-};
-
-const LoadingLogs = ({ stepId }: LoadingLogsProps) => (
+const LoadingLogs = () => (
 	<section className="flex h-[calc(100vh_-_270px)] items-center justify-center">
 		<div className="flex flex-col items-center justify-center">
 			<div className="relative mb-2 flex items-center justify-center">
@@ -41,7 +37,7 @@ export function StepLogsTab({ stepId, stepDetail }: Props) {
 	}
 
 	if (isPending) {
-		return <LoadingLogs stepId={stepId} />;
+		return <LoadingLogs />;
 	}
 
 	return (

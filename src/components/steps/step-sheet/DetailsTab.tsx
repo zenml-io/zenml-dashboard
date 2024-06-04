@@ -6,7 +6,6 @@ import { CollapsibleCard } from "../../CollapsibleCard";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "../../ExecutionStatus";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import Pipelines from "@/assets/icons/pipeline.svg?react";
-import Spinner from "@/assets/icons/spinner.svg?react";
 import { calculateTimeDifference } from "@/lib/dates";
 import { ErrorFallback } from "../../Error";
 import Github from "@/assets/icons/github.svg?react";

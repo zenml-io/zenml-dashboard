@@ -34,7 +34,7 @@ export function DetailsCard({ artifactVersionId }: Props) {
 	} = useArtifactVersion({ versionId: artifactVersionId });
 
 	const producerId = artifactVersion?.metadata?.producer_step_run_id;
-	const { data: stepData, isSuccess: isStepSuccess } = useStepDetail(
+	const { data: stepData } = useStepDetail(
 		{
 			stepId: producerId!
 		},
