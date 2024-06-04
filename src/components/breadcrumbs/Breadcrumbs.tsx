@@ -56,7 +56,6 @@ export function Breadcrumbs() {
 			{currentData &&
 				Object.entries(currentData).map(([segment, value], index: number) => {
 					const isLastOne = index === totalEntries - 1;
-					const isPenultimate = index === totalEntries - 2 && !!currentData["tab"];
 
 					return (
 						<div className="flex items-center" key={index}>
@@ -74,11 +73,7 @@ export function Breadcrumbs() {
 								</div>
 							) : (
 								<Link
-									className={`${
-										isPenultimate || isLastOne || segment === "settings"
-											? "pointer-events-none"
-											: ""
-									} 
+									className={`${isLastOne || segment === "settings" ? "pointer-events-none" : ""} 
 									${isLastOne ? "font-semibold text-theme-text-primary" : "text-theme-text-secondary"}
 									rounded-sm p-0.5 px-1 text-text-md  capitalize hover:text-purple-900 hover:underline`}
 									to={matchSegmentWithURL(segment, value?.id as string)}
