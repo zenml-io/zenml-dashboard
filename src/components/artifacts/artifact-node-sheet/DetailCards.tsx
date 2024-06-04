@@ -65,8 +65,7 @@ export function DetailsCard({ artifactVersionId }: Props) {
 										className="mr-1 h-4 w-4 fill-current"
 									/>
 								)}
-
-								{stepData?.name}
+								{stepData ? stepData?.name : <Skeleton className="h-5 w-5" />}
 							</Tag>
 						}
 					/>
@@ -87,7 +86,11 @@ export function DetailsCard({ artifactVersionId }: Props) {
 									<Run className={`mr-1 h-4 w-4 fill-current`} />
 								)}
 
-								{artifactVersion.body?.producer_pipeline_run_id}
+								{artifactVersion ? (
+									artifactVersion.body?.producer_pipeline_run_id
+								) : (
+									<Skeleton className="h-5 w-5" />
+								)}
 							</Tag>
 						}
 					/>
