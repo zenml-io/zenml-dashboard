@@ -85,12 +85,7 @@ export function DetailsCard({ artifactVersionId }: Props) {
 								) : (
 									<Run className={`mr-1 h-4 w-4 fill-current`} />
 								)}
-
-								{artifactVersion ? (
-									artifactVersion.body?.producer_pipeline_run_id
-								) : (
-									<Skeleton className="h-5 w-5" />
-								)}
+								{artifactVersion.body?.producer_pipeline_run_id}
 							</Tag>
 						}
 					/>

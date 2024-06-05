@@ -107,7 +107,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 					label="Id"
 					value={
 						<div className="group/copybutton flex items-center gap-0.5">
-							{data?.id}
+							{data.id}
 							<CopyButton copyText={data.id} />
 						</div>
 					}
@@ -232,7 +232,7 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 					label="Author"
 					value={
 						<div className="inline-flex items-center gap-1">
-							<InlineAvatar username={data?.body?.user?.name as string} />
+							<InlineAvatar username={data.body?.user?.name as string} />
 						</div>
 					}
 				/>
