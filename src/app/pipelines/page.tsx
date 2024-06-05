@@ -6,8 +6,11 @@ import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
 import { getPipelineColumns } from "./columns";
 import { usePipelineOverviewSearchParams } from "./service";
 import Pagination from "@/components/Pagination";
+import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
+import { useEffect } from "react";
 
 export default function PipelinesPage() {
+	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
 	const queryParams = usePipelineOverviewSearchParams();
 
 	const { data, refetch } = useAllPipelineNamespaces(
@@ -19,6 +22,10 @@ export default function PipelinesPage() {
 		},
 		{ throwOnError: true }
 	);
+
+	useEffect(() => {
+		setCurrentBreadcrumbData({ segment: "pipelines", data: null });
+	}, []);
 
 	return (
 		<div>

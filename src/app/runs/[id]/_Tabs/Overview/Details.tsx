@@ -15,14 +15,27 @@ import {
 	Skeleton,
 	Tag
 } from "@zenml-io/react-component-library";
-import { useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useParams, useSearchParams, useNavigate, Link } from "react-router-dom";
 
 export function Details() {
 	const { runId } = useParams() as { runId: string };
 	const [open, setOpen] = useState(true);
+	const [searchParams] = useSearchParams();
+	const navigate = useNavigate();
 
 	const { data, isError, isPending } = usePipelineRun({ runId: runId }, { throwOnError: true });
+
+	useEffect(() => {
+		// To set current tab in URL
+		const tabParam = searchParams.get("tab");
+		if (!tabParam) {
+			const newUrl = new URL(window.location.href);
+			newUrl.searchParams.set("tab", "overview");
+			const newPath = `${newUrl.pathname}${newUrl.search}`;
+			navigate(newPath, { replace: true });
+		}
+	}, [searchParams, navigate]);
 
 	if (isError) return null;
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;

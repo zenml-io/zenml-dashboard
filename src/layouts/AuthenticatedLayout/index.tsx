@@ -7,6 +7,7 @@ import { routes } from "@/router/routes";
 import { checkUserOnboarding } from "@/lib/user";
 import { Analytics } from "@/components/Analytics";
 import { ProductTour } from "@/components/tour/Tour";
+import { BreadcrumbsContextProvider } from "./BreadcrumbsContext";
 
 export function AuthenticatedLayout() {
 	const { data } = useCurrentUser();
@@ -24,19 +25,21 @@ export function AuthenticatedLayout() {
 
 	return (
 		<div className="relative flex min-h-screen w-full flex-col">
-			<AuthenticatedHeader />
-			<main className="flex flex-grow flex-col">
-				<div className="flex flex-grow">
-					<SidebarProvider initialOpen={isMinWidth}>
-						<Sidebar />
-					</SidebarProvider>
-					<div className="w-full">
-						<Analytics />
-						<ProductTour />
-						<Outlet />
+			<BreadcrumbsContextProvider currentBreadcrumbData={null} setCurrentBreadcrumbData={null}>
+				<AuthenticatedHeader />
+				<main className="flex flex-grow flex-col">
+					<div className="flex flex-grow">
+						<SidebarProvider initialOpen={isMinWidth}>
+							<Sidebar />
+						</SidebarProvider>
+						<div className="w-full">
+							<Analytics />
+							<ProductTour />
+							<Outlet />
+						</div>
 					</div>
-				</div>
-			</main>
+				</main>
+			</BreadcrumbsContextProvider>
 		</div>
 	);
 }
