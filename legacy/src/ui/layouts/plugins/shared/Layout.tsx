@@ -28,6 +28,7 @@ export const PluginsLayout: React.FC<{
             <a
               target="_blank"
               rel="noopener noreferrer"
+              // ?
               href="https://docs.zenml.io/user-guide/advanced-guide/environment-management/use-the-hub"
             >
               here

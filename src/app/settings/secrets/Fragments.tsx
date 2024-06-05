@@ -61,7 +61,7 @@ export function Commands() {
 			))}
 			<HelpBox
 				text="Check all the commands and find more about Secrets in our Docs"
-				link="https://docs.zenml.io/user-guide/advanced-guide/secret-management"
+				link="https://docs.zenml.io/getting-started/deploying-zenml/manage-the-deployed-services/secret-management"
 			/>
 		</section>
 	);
