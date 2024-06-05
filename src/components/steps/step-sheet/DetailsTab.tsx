@@ -6,13 +6,15 @@ import { CollapsibleCard } from "../../CollapsibleCard";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "../../ExecutionStatus";
 import { useStepDetail } from "@/data/steps/step-detail-query";
 import Pipelines from "@/assets/icons/pipeline.svg?react";
-import Spinner from "@/assets/icons/spinner.svg?react";
 import { calculateTimeDifference } from "@/lib/dates";
 import { ErrorFallback } from "../../Error";
 import Github from "@/assets/icons/github.svg?react";
 import { CopyButton } from "@/components/CopyButton";
 import { transformToEllipsis } from "@/lib/strings";
 import { useCodeRepository } from "@/data/code-repositories/code-repositories-detail-query";
+import { InlineAvatar } from "@/components/InlineAvatar";
+import { Link } from "react-router-dom";
+import { routes } from "@/router/routes";
 
 type Props = {
 	stepId: string;
@@ -75,9 +77,41 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 	return (
 		<CollapsibleCard initialOpen title="Details">
 			<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
-				<KeyValue label="Orchestrator url" value={orchestrator_url || "Not available"} />
-				<KeyValue label="Orchestrator run Id" value={orchestrator_run_id || "Not available"} />
-				<KeyValue label="Id" value={data.id} />
+				<KeyValue
+					label="Orchestrator url"
+					value={
+						orchestrator_url ? (
+							<div className="group/copybutton flex items-center gap-0.5">
+								{orchestrator_url}
+								<CopyButton copyText={orchestrator_url} />
+							</div>
+						) : (
+							"Not available"
+						)
+					}
+				/>
+				<KeyValue
+					label="Orchestrator run Id"
+					value={
+						orchestrator_run_id ? (
+							<div className="group/copybutton flex items-center gap-0.5">
+								{orchestrator_run_id}
+								<CopyButton copyText={orchestrator_run_id as string} />
+							</div>
+						) : (
+							"Not available"
+						)
+					}
+				/>
+				<KeyValue
+					label="Id"
+					value={
+						<div className="group/copybutton flex items-center gap-0.5">
+							{data.id}
+							<CopyButton copyText={data.id} />
+						</div>
+					}
+				/>
 				<KeyValue
 					label="Status"
 					value={
@@ -134,18 +168,24 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 						<KeyValue
 							label="Pipeline"
 							value={
-								<Tag
-									color="purple"
-									className="inline-flex items-center gap-0.5"
-									rounded={false}
-									emphasis="subtle"
+								<Link
+									to={routes.pipelines.namespace(
+										encodeURIComponent(pipelineRunData.body?.pipeline?.name as string)
+									)}
 								>
-									<Pipelines className="mr-1 h-4 w-4 fill-theme-text-brand" />
-									{pipelineRunData.body?.pipeline?.name}
-									<div className="rounded-sm bg-primary-50 px-1 py-0.25">
-										{pipelineRunData.body?.pipeline?.body?.version}
-									</div>
-								</Tag>
+									<Tag
+										color="purple"
+										className="inline-flex items-center gap-0.5"
+										rounded={false}
+										emphasis="subtle"
+									>
+										<Pipelines className="mr-1 h-4 w-4 fill-theme-text-brand" />
+										{pipelineRunData.body?.pipeline?.name}
+										<div className="rounded-sm bg-primary-50 px-1 py-0.25">
+											{pipelineRunData.body?.pipeline?.body?.version}
+										</div>
+									</Tag>
+								</Link>
 							}
 						/>
 						{pipelineRunData.body?.code_reference && repositoryMetadata && (
@@ -174,25 +214,28 @@ export function StepDetailsTab({ stepId, runId }: Props) {
 								}
 							/>
 						)}
-						<KeyValue
-							label="Run"
-							value={
-								<Tag
-									color="grey"
-									className="inline-flex items-center gap-0.5"
-									rounded={false}
-									emphasis="subtle"
-								>
-									<Spinner className="mr-1 h-4 w-4" />
-									{pipelineRunData.name}
-								</Tag>
-							}
-						/>
 					</>
 				) : (
 					<Skeleton className="h-6 w-full" />
 				)}
-				<KeyValue label="Cache key" value={data.metadata?.cache_key || ""} />
+
+				<KeyValue
+					label="Cache key"
+					value={
+						<div className="group/copybutton flex items-center gap-0.5">
+							{data.metadata?.cache_key}
+							<CopyButton copyText={data.metadata?.cache_key as string} />
+						</div>
+					}
+				/>
+				<KeyValue
+					label="Author"
+					value={
+						<div className="inline-flex items-center gap-1">
+							<InlineAvatar username={data.body?.user?.name as string} />
+						</div>
+					}
+				/>
 				<KeyValue
 					label="Start Time"
 					value={
