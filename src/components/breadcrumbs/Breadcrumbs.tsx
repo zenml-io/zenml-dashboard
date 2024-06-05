@@ -9,6 +9,12 @@ import {
 } from "./SegmentsBreadcrumbs";
 import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
 import { formatIdToTitleCase, transformToEllipsis } from "@/lib/strings";
+import {
+	Tooltip,
+	TooltipContent,
+	TooltipProvider,
+	TooltipTrigger
+} from "@zenml-io/react-component-library";
 
 type BreadcrumbData = { [key: string]: { id?: string; name?: string } };
 
@@ -78,9 +84,22 @@ export function Breadcrumbs() {
 									rounded-sm p-0.5 px-1 text-text-md  capitalize hover:text-purple-900 hover:underline`}
 									to={matchSegmentWithURL(segment, value?.id as string)}
 								>
-									{typeof value?.name === "string"
-										? transformToEllipsis(value?.name, 20)
-										: value?.name}
+									{typeof value?.name === "string" ? (
+										value?.name.length > 20 ? (
+											<TooltipProvider>
+												<Tooltip>
+													<TooltipTrigger className="hover:text-theme-text-brand hover:underline">
+														{transformToEllipsis(value?.name, 20)}
+													</TooltipTrigger>
+													<TooltipContent>{value?.name}</TooltipContent>
+												</Tooltip>
+											</TooltipProvider>
+										) : (
+											value?.name
+										)
+									) : (
+										value?.name
+									)}
 								</Link>
 							)}
 						</div>
