@@ -10,7 +10,7 @@ function DeploymentBanner() {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://docs.zenml.io/user-guide/starter-guide/switch-to-production"
+          href="https://docs.zenml.io/getting-started/deploying-zenml"
         >
           deploy ZenML yourself
         </a>
@@ -18,7 +18,7 @@ function DeploymentBanner() {
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://docs.zenml.io/deploying-zenml/zenml-cloud"
+          href="https://docs.zenml.io/getting-started/zenml-pro"
         >
           {' '}
           ZenML Cloud

@@ -103,7 +103,7 @@ To get started with the ZenML Dashboard, follow these steps:
 
    - Access the dashboard at `http://localhost:8080`
 
-For detailed deployment instructions and additional options, refer to the [deployment guide](https://docs.zenml.io/user-guide/starter-guide/switch-to-production).
+For detailed deployment instructions and additional options, refer to the [deployment guide](https://docs.zenml.io/user-guide/production-guide/deploying-zenml).
 
 Now you're ready to explore and visualize your ML pipelines, stacks, and artifacts with the ZenML Dashboard!
 
