@@ -8,7 +8,7 @@ function AWSConnector() {
 			<div className="space-y-1">
 				<p className="text-text-sm text-theme-text-secondary">
 					Create a AWS service connector using the IAM Method{" "}
-					<LearnMoreLink href="https://docs.zenml.io/stacks-and-components/auth-management/aws-service-connector#aws-iam-role" />
+					<LearnMoreLink href="https://docs.zenml.io/how-to/auth-management/aws-service-connector#aws-iam-role" />
 				</p>
 				<Codesnippet
 					wrap
@@ -26,7 +26,7 @@ function GCPConnector() {
 			<div className="space-y-1">
 				<p className="text-text-sm text-theme-text-secondary">
 					Create a GCP service connector using the Service Account Method{" "}
-					<LearnMoreLink href="https://docs.zenml.io/stacks-and-components/auth-management/gcp-service-connector#gcp-service-account" />
+					<LearnMoreLink href="https://docs.zenml.io/how-to/auth-management/gcp-service-connector#gcp-service-account" />
 				</p>
 				<Codesnippet
 					wrap
@@ -44,7 +44,7 @@ function AzureStore() {
 			<div className="space-y-1">
 				<p className="text-text-sm text-theme-text-secondary">
 					Create an Azure service connector using the Service Principal Method{" "}
-					<LearnMoreLink href="https://docs.zenml.io/stacks-and-components/auth-management/azure-service-connector#azure-service-principal" />
+					<LearnMoreLink href="https://docs.zenml.io/how-to/auth-management/azure-service-connector#azure-service-principal" />
 				</p>
 				<Codesnippet
 					wrap

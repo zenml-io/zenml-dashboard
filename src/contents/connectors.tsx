@@ -37,7 +37,7 @@ export const ConnectorSelectOptions: { label: string; value: ConnectorType; icon
 
 export const KubernetesSection: ConnectorTypeSectionProps = {
 	help: {
-		href: "https://docs.zenml.io/stacks-and-components/auth-management/kubernetes-service-connector",
+		href: "https://docs.zenml.io/how-to/auth-management/kubernetes-service-connector",
 		text: "Use the complete guide to set up your Kubernetes Service Connector."
 	},
 	prerequisites: getPrerequites("kubernetes", "Kubernetes"),
@@ -51,7 +51,7 @@ export const KubernetesSection: ConnectorTypeSectionProps = {
 export const GCPSection: ConnectorTypeSectionProps = {
 	help: {
 		text: "Use the complete guide to set up your GCP Service Connector.",
-		href: "https://docs.zenml.io/stacks-and-components/auth-management/gcp-service-connector"
+		href: "https://docs.zenml.io/how-to/auth-management/gcp-service-connector"
 	},
 	prerequisites: getPrerequites("gcp", "GCP"),
 	listCommand: getListCommand("gcp", "GCP"),
@@ -64,7 +64,7 @@ export const GCPSection: ConnectorTypeSectionProps = {
 export const DockerSection: ConnectorTypeSectionProps = {
 	help: {
 		text: "Use the complete guide to set up your Docker Service Connector.",
-		href: "https://docs.zenml.io/stacks-and-components/auth-management/docker-service-connector"
+		href: "https://docs.zenml.io/how-to/auth-management/docker-service-connector"
 	},
 	listCommand: getListCommand("docker", "Docker"),
 	topInfobox:
@@ -76,7 +76,7 @@ export const DockerSection: ConnectorTypeSectionProps = {
 export const AzureSection: ConnectorTypeSectionProps = {
 	help: {
 		text: "Use the complete guide to set up your Azure Service Connector.",
-		href: "https://docs.zenml.io/stacks-and-components/auth-management/azure-service-connector"
+		href: "https://docs.zenml.io/how-to/auth-management/azure-service-connector"
 	},
 	listCommand: getListCommand("azure", "Azure"),
 	prerequisites: getPrerequites("azure", "Azure"),
@@ -89,7 +89,7 @@ export const AzureSection: ConnectorTypeSectionProps = {
 export const AWSSection: ConnectorTypeSectionProps = {
 	help: {
 		text: "Use the complete guide to set up your AWS Service Connector.",
-		href: "https://docs.zenml.io/stacks-and-components/auth-management/aws-service-connector"
+		href: "https://docs.zenml.io/how-to/auth-management/aws-service-connector"
 	},
 	listCommand: getListCommand("aws", "AWS"),
 	prerequisites: getPrerequites("aws", "AWS"),

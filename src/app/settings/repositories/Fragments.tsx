@@ -63,7 +63,7 @@ export function CommandSection() {
 			))}
 			<HelpBox
 				text="Check all the commands and find more about Repositories in our Docs"
-				link="https://docs.zenml.io/user-guide/production-guide/connect-code-repository"
+				link="https://docs.zenml.io/how-to/setting-up-a-project-repository/connect-your-git-repository"
 			/>
 		</section>
 	);

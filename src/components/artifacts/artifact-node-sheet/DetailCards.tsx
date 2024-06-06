@@ -16,6 +16,10 @@ import {
 } from "@zenml-io/react-component-library";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
+import { ArtifactIcon } from "@/components/ArtifactIcon";
+import { ArtifactVersionBody } from "@/types/artifact-versions";
+import { getExecutionStatusTagColor } from "@/components/ExecutionStatus";
+import Run from "@/assets/icons/terminal-square.svg?react";
 
 type Props = {
 	artifactVersionId: string;
@@ -30,7 +34,7 @@ export function DetailsCard({ artifactVersionId }: Props) {
 	} = useArtifactVersion({ versionId: artifactVersionId });
 
 	const producerId = artifactVersion?.metadata?.producer_step_run_id;
-	const { data: stepData, isSuccess: isStepSuccess } = useStepDetail(
+	const { data: stepData } = useStepDetail(
 		{
 			stepId: producerId!
 		},
@@ -47,28 +51,49 @@ export function DetailsCard({ artifactVersionId }: Props) {
 					<KeyValue
 						label="Producer Step"
 						value={
-							<>
-								{isStepSuccess ? (
-									<Tag
-										color="grey"
-										className="inline-flex items-center gap-0.5"
-										rounded={false}
-										emphasis="subtle"
-									>
-										<Spinner className="mr-1 h-4 w-4" />
-										{stepData?.name}
-									</Tag>
+							<Tag
+								color="grey"
+								className="inline-flex items-center gap-0.5"
+								rounded={false}
+								emphasis="subtle"
+							>
+								{stepData?.body?.status === "running" ? (
+									<Spinner className="mr-1 h-4 w-4 border-[2px]" />
 								) : (
-									<Skeleton className="h-6 w-12" />
+									<ArtifactIcon
+										artifactType={artifactVersion.body?.type as ArtifactVersionBody["type"]}
+										className="mr-1 h-4 w-4 fill-current"
+									/>
 								)}
-							</>
+								{stepData ? stepData?.name : <Skeleton className="h-5 w-5" />}
+							</Tag>
+						}
+					/>
+				)}
+				{artifactVersion.body?.producer_pipeline_run_id && (
+					<KeyValue
+						label="Producer Run"
+						value={
+							<Tag
+								color={getExecutionStatusTagColor(stepData?.body?.status)}
+								className="inline-flex items-center gap-0.5"
+								rounded={false}
+								emphasis="subtle"
+							>
+								{stepData?.body?.status === "running" ? (
+									<Spinner className="mr-1 h-4 w-4 border-[2px]" />
+								) : (
+									<Run className={`mr-1 h-4 w-4 fill-current`} />
+								)}
+								{artifactVersion.body?.producer_pipeline_run_id}
+							</Tag>
 						}
 					/>
 				)}
 
 				<KeyValue label="Type" value={artifactVersion.body?.type} />
 				<KeyValue
-					label="Created by"
+					label="Author"
 					value={
 						<div className="inline-flex items-center gap-1">
 							<InlineAvatar username={artifactVersion.body?.user?.name || ""} />
