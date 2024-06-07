@@ -9,8 +9,8 @@ const headers = new Headers({
 	"User-Agent": "ZenMLURLBot/1.0 (+http://zenml.io/bot)"
 });
 
-const noIndexRegex = /content="noindex"/gi;
-const docsRegex = /docs.zenml.io/gi;
+const noIndexRegex = /content="noindex"/i;
+const docsRegex = /docs.zenml.io/i;
 
 async function checkLink() {
 	let hasFailed = false;
