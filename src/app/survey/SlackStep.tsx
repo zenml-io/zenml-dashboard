@@ -67,7 +67,7 @@ function AvatarStack() {
 		<div className="space-y-1">
 			<div className="flex items-center justify-center -space-x-[7px]">
 				{avatarList.map((avatar) => (
-					<Avatar size="lg" type="rounded">
+					<Avatar key={avatar.name} size="lg" type="rounded">
 						<AvatarImage alt={`Portrait of ${avatar.name}`} src={avatar.image} />
 						<AvatarFallback size="lg">{avatar.name[0]}</AvatarFallback>
 					</Avatar>
