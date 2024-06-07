@@ -74,7 +74,7 @@ export const constantCommandsToCreatePipeline = {
 export const constantCommandsToCreateRuns = {
   title: 'Runs Cheatsheet',
   documentation:
-    'https://docs.zenml.io/user-guide/starter-guide/fetch-runs-after-execution',
+    'https://docs.zenml.io/how-to/build-pipelines/fetching-pipelines',
   body: [
     {
       text: 'Create a runs',
