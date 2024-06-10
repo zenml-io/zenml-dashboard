@@ -62,7 +62,7 @@ export function ExecutionStatusIcon({
 	className?: string;
 }) {
 	if (!status) return null;
-	const classNames = cn(`h-4 w-4`, getExecutionStatusColor(status), className);
+	const classNames = cn(`h-4 shrink-0 w-4`, getExecutionStatusColor(status), className);
 	switch (status) {
 		case "completed":
 			return <CheckCircle className={classNames} />;

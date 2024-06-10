@@ -32,7 +32,7 @@ export function getPipelineDetailColumns(): ColumnDef<PipelineRun>[] {
 
 				return (
 					<div className="group/copybutton flex items-center gap-2">
-						<RunIcon className={`h-5 w-5 ${getExecutionStatusColor(status)}`} />
+						<RunIcon className={`h-5 w-5 shrink-0 ${getExecutionStatusColor(status)}`} />
 						<div>
 							<Link to={routes.runs.detail(id)} className="flex items-center gap-1">
 								<h2 className="text-text-md font-semibold">{name}</h2>
