@@ -175,7 +175,9 @@ export function DataCard({ artifactVersionId }: Props) {
 						>
 							<TooltipProvider>
 								<Tooltip>
-									<TooltipTrigger>{artifactVersionData.body?.data_type.attribute}</TooltipTrigger>
+									<TooltipTrigger className="cursor-auto">
+										{artifactVersionData.body?.data_type.attribute}
+									</TooltipTrigger>
 									<TooltipContent>
 										{artifactVersionData.body?.data_type.module}.
 										{artifactVersionData.body?.data_type.attribute}{" "}
