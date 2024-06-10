@@ -1,4 +1,3 @@
-import Slack from "@/assets/icons/services/slack.svg?react";
 import Adam from "@/assets/images/portraits/adam.webp";
 import Alex from "@/assets/images/portraits/alex.webp";
 import Baris from "@/assets/images/portraits/baris.webp";
@@ -20,23 +19,29 @@ export function SlackStep() {
 			</div>
 			<AvatarStack />
 			<Button
-				className="h-auto min-h-10 w-full flex-wrap justify-center gap-3 bg-theme-surface-primary py-3"
-				intent="secondary"
-				emphasis="subtle"
+				className="h-auto min-h-8 justify-center py-1"
+				intent="primary"
+				emphasis="bold"
 				size="lg"
 				asChild
 			>
-				<a target="_blank" rel="noopener noreferrer" href="https://zenml.io/slack">
-					<Slack className="h-7 w-7 shrink-0" />
-					<p className="text-xl font-semibold">Join the ZenML Community</p>
+				<a
+					target="_blank"
+					className="text-text-lg font-semibold"
+					rel="noopener noreferrer"
+					href="https://zenml.io/slack"
+				>
+					Join the ZenML Community and Continue
 				</a>
 			</Button>
 			<Button
+				intent="secondary"
+				emphasis="minimal"
 				onClick={() => setSurveyStep((prev) => prev + 1)}
-				className="w-full justify-center"
-				size="lg"
+				className="mx-auto justify-center text-neutral-500"
+				size="sm"
 			>
-				Continue
+				Skip this step
 			</Button>
 		</div>
 	);
