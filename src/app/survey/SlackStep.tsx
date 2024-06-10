@@ -8,6 +8,12 @@ import { Avatar, AvatarFallback, AvatarImage, Button } from "@zenml-io/react-com
 
 export function SlackStep() {
 	const { setSurveyStep } = useSurveyContext();
+
+	function joinAndContinue() {
+		window.open("https://zenml.io/slack", "_blank");
+		setSurveyStep((prev) => prev + 1);
+	}
+
 	return (
 		<div className="max-w-[540px] space-y-5">
 			<div>
@@ -19,20 +25,13 @@ export function SlackStep() {
 			</div>
 			<AvatarStack />
 			<Button
-				className="h-auto min-h-8 justify-center py-1"
+				onClick={() => joinAndContinue()}
+				className="h-auto min-h-8 w-full justify-center py-1"
 				intent="primary"
 				emphasis="bold"
 				size="lg"
-				asChild
 			>
-				<a
-					target="_blank"
-					className="text-text-lg font-semibold"
-					rel="noopener noreferrer"
-					href="https://zenml.io/slack"
-				>
-					Join the ZenML Community and Continue
-				</a>
+				Join the ZenML Community and Continue
 			</Button>
 			<Button
 				intent="secondary"
