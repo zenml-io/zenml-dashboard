@@ -25,7 +25,7 @@ export type PrimaryUseFormType = z.infer<typeof primaryUseFormSchema>;
 
 export const AwarenessFormSchema = z
 	.object({
-		channels: z.string().array().min(1),
+		channels: z.string().array(),
 		other: z.boolean(),
 		otherVal: z.string().optional()
 	})
@@ -33,7 +33,7 @@ export const AwarenessFormSchema = z
 		if (data.other) {
 			return data.otherVal !== "";
 		}
-		return true;
+		return data.channels.length > 0;
 	});
 
 export type AwarenessFormType = z.infer<typeof AwarenessFormSchema>;
