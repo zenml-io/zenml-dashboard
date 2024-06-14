@@ -73,11 +73,8 @@ export function StepConfigTab({ stepId }: Props) {
 
 	return (
 		<div className="space-y-5">
-			{data?.metadata?.run_metadata && (
-				<UncategorizedCard
-					title="Metadata"
-					metadata={data?.metadata?.run_metadata as MetadataMap}
-				/>
+			{data.metadata?.run_metadata && (
+				<UncategorizedCard title="Metadata" metadata={data.metadata?.run_metadata as MetadataMap} />
 			)}
 			<KeyValueCard data={data.metadata?.config?.parameters as AnyDict} title="Parameters" />
 			{dataImage ? <DockerImageCollapsible data={dataImage} /> : null}

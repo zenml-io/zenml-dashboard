@@ -30,7 +30,7 @@ type Props = {
 export function DetailsCard({ artifactVersionId }: Props) {
 	const artifactVersion = useArtifactVersion({ versionId: artifactVersionId });
 
-	const producerRunId = artifactVersion?.data?.body?.producer_pipeline_run_id;
+	const producerRunId = artifactVersion.data?.body?.producer_pipeline_run_id;
 
 	const pipelineRun = usePipelineRun(
 		{
