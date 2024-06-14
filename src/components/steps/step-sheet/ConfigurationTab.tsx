@@ -1,11 +1,16 @@
-import { CollapsibleCard } from "@/components/CollapsibleCard";
-import { ErrorFallback } from "../../Error";
-import { useStepDetail } from "@/data/steps/step-detail-query";
-import { AnyDict } from "@/types/common";
-import { Skeleton } from "@zenml-io/react-component-library";
-import { KeyValue } from "@/components/KeyValue";
+import { DockerImageCollapsible } from "@/app/runs/[id]/_Tabs/Configuration/DockerImageCollapsible";
 import { Codesnippet } from "@/components/CodeSnippet";
+import { CollapsibleCard } from "@/components/CollapsibleCard";
+import { KeyValue } from "@/components/KeyValue";
+import { usePipelineBuild } from "@/data/pipeline-builds/all-pipeline-builds-query";
+import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
+import { useStepDetail } from "@/data/steps/step-detail-query";
 import { renderAnyToString } from "@/lib/strings";
+import { AnyDict } from "@/types/common";
+import { BuildItemMap } from "@/types/pipeline-builds";
+import { Skeleton } from "@zenml-io/react-component-library";
+import { useParams } from "react-router-dom";
+import { ErrorFallback } from "../../Error";
 
 type Props = {
 	stepId: string;
@@ -14,6 +19,44 @@ type Props = {
 export function StepConfigTab({ stepId }: Props) {
 	const { data, isPending, isError, error } = useStepDetail({ stepId });
 	const extraData = Object.values(data?.metadata?.config?.extra || {});
+
+	const { runId } = useParams() as { runId: string };
+
+	const { data: pipeline_run } = usePipelineRun(
+		{ runId: runId },
+		{ throwOnError: true, enabled: !!runId }
+	);
+
+	const { data: buildData } = usePipelineBuild(
+		{
+			buildId: pipeline_run?.body?.build?.id as string
+		},
+		{ enabled: !!pipeline_run?.body?.build?.id }
+	);
+
+	const findIndexImage = () => {
+		const dockerImages = buildData?.metadata?.images;
+
+		if (!dockerImages) {
+			return null;
+		}
+
+		if (Object.keys(dockerImages).length === 1 && Object.keys(dockerImages)[0] !== "orchestrator") {
+			return Object.keys(dockerImages)[0];
+		}
+
+		for (const key in dockerImages) {
+			if (key !== "orchestrator" && key.split(".")[1] !== "orchestrator") {
+				return key;
+			}
+		}
+
+		return "orchestrator";
+	};
+
+	const indexImage = findIndexImage();
+
+	const dataImage = indexImage && (buildData?.metadata?.images as BuildItemMap)?.[indexImage];
 
 	if (isError) {
 		return <ErrorFallback err={error} />;
@@ -30,8 +73,8 @@ export function StepConfigTab({ stepId }: Props) {
 	return (
 		<div className="space-y-5">
 			<KeyValueCard data={data.metadata?.config?.parameters as AnyDict} title="Parameters" />
+			{dataImage ? <DockerImageCollapsible data={dataImage} /> : null}
 			<CodeSnippetCard id={data.id} />
-
 			{extraData.length > 0 ? <KeyValueCard data={extraData as AnyDict} title="Extra" /> : null}
 		</div>
 	);

@@ -49,6 +49,15 @@ export function DAG() {
 		fitView(); // Keep an eye on performance here
 	}, [width, height]);
 
+	useEffect(() => {
+		const timeout = setTimeout(() => {
+			fitView({ duration: 200 });
+		}, 100);
+		return () => {
+			clearTimeout(timeout);
+		};
+	}, [data]);
+
 	useLayoutEffect(() => {
 		onDagreLayout();
 	}, [data?.nodes, data?.edges, onDagreLayout]);
@@ -82,7 +91,7 @@ export function DAG() {
 			onEdgesChange={onEdgesChange}
 			fitView
 		>
-			<DagControls />
+			<DagControls runId={runId} />
 		</ReactFlow>
 	);
 }

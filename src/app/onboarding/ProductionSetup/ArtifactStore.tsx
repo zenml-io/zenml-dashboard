@@ -182,7 +182,7 @@ function OtherStore() {
 						emphasis: "subtle",
 						size: "md"
 					})}
-					href="https://docs.zenml.io/stacks-and-components/custom-stack-solutions/implement-a-custom-stack-component"
+					href="https://docs.zenml.io/how-to/stack-deployment/implement-a-custom-stack-component"
 				>
 					How to create a custom artifact store
 				</a>

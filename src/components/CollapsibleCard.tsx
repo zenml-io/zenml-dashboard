@@ -1,9 +1,10 @@
 import {
 	CollapsibleContent,
-	CollapsibleTrigger,
-	CollapsiblePanel,
 	CollapsibleHeader,
-	CollapsibleHeaderProps
+	CollapsibleHeaderProps,
+	CollapsiblePanel,
+	CollapsibleTrigger,
+	cn
 } from "@zenml-io/react-component-library";
 import { useState } from "react";
 import { Icon } from "./Icon";
@@ -13,6 +14,7 @@ type CollapsibleCardProps = {
 	children: React.ReactNode;
 	title: string | React.ReactNode;
 	className?: string;
+	contentClassName?: string;
 	intent?: CollapsibleHeaderProps["intent"];
 };
 
@@ -21,6 +23,7 @@ export function CollapsibleCard({
 	children,
 	initialOpen = false,
 	className,
+	contentClassName,
 	intent = "primary"
 }: CollapsibleCardProps) {
 	const [open, setOpen] = useState(initialOpen);
@@ -38,7 +41,12 @@ export function CollapsibleCard({
 				</CollapsibleTrigger>
 			</CollapsibleHeader>
 
-			<CollapsibleContent className="space-y-3 border-t border-theme-border-moderate bg-theme-surface-primary px-5 py-3">
+			<CollapsibleContent
+				className={cn(
+					"space-y-3 border-t border-theme-border-moderate bg-theme-surface-primary px-5 py-3",
+					contentClassName
+				)}
+			>
 				{children}
 			</CollapsibleContent>
 		</CollapsiblePanel>

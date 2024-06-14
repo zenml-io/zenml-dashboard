@@ -1,10 +1,18 @@
 import { Button } from "@zenml-io/react-component-library/components";
-
 import { useReactFlow } from "reactflow";
+import { usePipelineRun } from "../../data/pipeline-runs/pipeline-run-detail-query";
+import { usePipelineRunGraph } from "../../data/pipeline-runs/pipeline-run-graph-query";
 import { Icon } from "../Icon";
 
-export function DagControls() {
+type Props = {
+	runId: string;
+};
+
+export function DagControls({ runId }: Props) {
 	const { fitView, zoomIn, zoomOut } = useReactFlow();
+
+	const run = usePipelineRun({ runId });
+	const graph = usePipelineRunGraph({ runId });
 
 	return (
 		<div aria-label="Dag Controls" className="absolute left-4 top-4 z-10 flex flex-col gap-1">
@@ -40,6 +48,18 @@ export function DagControls() {
 				intent="secondary"
 			>
 				<Icon name="maximize" className="h-5 w-5 fill-theme-text-primary" />
+			</Button>
+			<Button
+				className="h-6 w-6 bg-theme-surface-primary p-0.5"
+				onClick={() => {
+					run.refetch();
+					graph.refetch();
+				}}
+				emphasis="subtle"
+				intent="secondary"
+			>
+				<span className="sr-only">Refresh</span>
+				<Icon name="refresh" className="h-5 w-5 fill-theme-text-primary" />
 			</Button>
 		</div>
 	);

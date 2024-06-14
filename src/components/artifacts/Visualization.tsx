@@ -69,7 +69,7 @@ export function Visualization({ artifactVersionId, artifactName }: Visualization
 					<a
 						rel="noopener noreferrer"
 						target="_blank"
-						href="https://docs.zenml.io/stacks-and-components/component-guide/artifact-stores/custom"
+						href="https://docs.zenml.io/stack-components/artifact-stores/custom"
 					>
 						docs
 					</a>

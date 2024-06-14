@@ -2,8 +2,10 @@ import { CopyButton } from "@/components/CopyButton";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { Icon } from "@/components/Icon";
+import { InlineAvatar } from "@/components/InlineAvatar";
 import { Key, Value } from "@/components/KeyValue";
 import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
+import { routes } from "@/router/routes";
 import {
 	CollapsibleContent,
 	CollapsibleHeader,
@@ -12,14 +14,27 @@ import {
 	Skeleton,
 	Tag
 } from "@zenml-io/react-component-library";
-import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Link, useNavigate, useParams, useSearchParams } from "react-router-dom";
 
 export function Details() {
 	const { runId } = useParams() as { runId: string };
 	const [open, setOpen] = useState(true);
+	const [searchParams] = useSearchParams();
+	const navigate = useNavigate();
 
 	const { data, isError, isPending } = usePipelineRun({ runId: runId }, { throwOnError: true });
+
+	useEffect(() => {
+		// To set current tab in URL
+		const tabParam = searchParams.get("tab");
+		if (!tabParam) {
+			const newUrl = new URL(window.location.href);
+			newUrl.searchParams.set("tab", "overview");
+			const newPath = `${newUrl.pathname}${newUrl.search}`;
+			navigate(newPath, { replace: true });
+		}
+	}, [searchParams, navigate]);
 
 	if (isError) return null;
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
@@ -59,26 +74,46 @@ export function Details() {
 					</Value>
 					<Key>Pipeline</Key>
 					<Value>
-						<Tag
-							color="purple"
-							className="inline-flex items-center gap-0.5"
-							rounded={false}
-							emphasis="subtle"
+						<Link
+							to={routes.pipelines.namespace(
+								encodeURIComponent(data.body?.pipeline?.name as string)
+							)}
 						>
-							<Icon name="pipeline" className="h-4 w-4 fill-theme-text-brand" />
-							{data.body?.pipeline?.name}
-							<div className="rounded-sm bg-primary-50 px-1 py-0.25">
-								{data.body?.pipeline?.body?.version}
-							</div>
-						</Tag>
+							<Tag
+								color="purple"
+								className="inline-flex items-center gap-0.5"
+								rounded={false}
+								emphasis="subtle"
+							>
+								<Icon name="pipeline" className="h-4 w-4 fill-theme-text-brand" />
+								{data.body?.pipeline?.name}
+								<div className="rounded-sm bg-primary-50 px-1 py-0.25">
+									{data.body?.pipeline?.body?.version}
+								</div>
+							</Tag>
+						</Link>
+					</Value>
+					<Key>Author</Key>
+					<Value>
+						<div className="inline-flex items-center gap-1">
+							<InlineAvatar username={data.body?.user?.name || ""} />
+						</div>
 					</Value>
 					<Key>Start Time</Key>
 					<Value>
-						<DisplayDate dateString={data.metadata?.start_time || ""} />
+						{data.metadata?.start_time ? (
+							<DisplayDate dateString={data.metadata?.start_time} />
+						) : (
+							"Not available"
+						)}
 					</Value>
 					<Key>End Time</Key>
 					<Value>
-						<DisplayDate dateString={data.metadata?.end_time || ""} />
+						{data.metadata?.end_time ? (
+							<DisplayDate dateString={data.metadata?.end_time} />
+						) : (
+							"Not available"
+						)}
 					</Value>
 				</dl>
 			</CollapsibleContent>

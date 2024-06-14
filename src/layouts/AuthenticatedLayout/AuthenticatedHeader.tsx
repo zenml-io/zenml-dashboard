@@ -2,6 +2,7 @@ import ZenMLIcon from "@/assets/services/zenml-icon.svg?react";
 import { routes } from "@/router/routes";
 import { Link } from "react-router-dom";
 import { UserDropdown } from "./UserDropdown";
+import { Breadcrumbs } from "@/components/breadcrumbs/Breadcrumbs";
 
 export function AuthenticatedHeader() {
 	return (
@@ -14,6 +15,7 @@ export function AuthenticatedHeader() {
 				>
 					<ZenMLIcon className="h-6 w-6 fill-theme-text-brand" />
 				</Link>
+				<Breadcrumbs />
 				<div className="ml-auto pl-3 pr-4">
 					<UserDropdown />
 				</div>

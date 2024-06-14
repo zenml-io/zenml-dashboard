@@ -2,7 +2,7 @@ import { ExecutionStatusIcon, getExecutionStatusColor } from "@/components/Execu
 import { ExecutionStatus } from "@/types/pipeline-runs";
 import { PipelineNamespace, PipelineNamespaceBody } from "@/types/pipelines";
 import { ColumnDef } from "@tanstack/react-table";
-import { Tag } from "@zenml-io/react-component-library";
+import { Tag, TagProps } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { routes } from "@/router/routes";
 import { CopyButton } from "@/components/CopyButton";
@@ -44,22 +44,24 @@ export function getPipelineColumns(): ColumnDef<PipelineNamespace>[] {
 			}),
 			cell: ({ getValue }) => {
 				const { runId, status } = getValue<{
-					runId: PipelineNamespaceBody["latest_run_id"];
-					status: PipelineNamespaceBody["latest_run_status"];
+					runId?: string;
+					status?: PipelineNamespaceBody["latest_run_status"];
 				}>();
 
+				if (!runId || !status) return <div>No run</div>;
+
 				return (
-					<div>
+					<Link to={routes.runs.detail(runId)}>
 						<Tag
 							emphasis="subtle"
 							rounded={false}
 							className="inline-flex items-center gap-0.5"
-							color={"green"}
+							color={getTagColor(status)}
 						>
 							<Icon name="terminal" className={`h-3 w-3 ${getRunIconColor(status)}`} />
 							{runId?.split("-")[0]}
 						</Tag>
-					</div>
+					</Link>
 				);
 			}
 		}
@@ -79,5 +81,21 @@ function getRunIconColor(status?: ExecutionStatus) {
 			return "fill-error-800";
 		case "initializing":
 			return "fill-theme-text-brand";
+	}
+}
+
+function getTagColor(status?: ExecutionStatus): TagProps["color"] {
+	if (!status) return "purple";
+	switch (status) {
+		case "running":
+			return "orange";
+		case "cached":
+			return "grey";
+		case "completed":
+			return "green";
+		case "failed":
+			return "red";
+		case "initializing":
+			return "purple";
 	}
 }

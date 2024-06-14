@@ -46,7 +46,7 @@ export function Codesnippet({
 			<pre
 				className={cn(
 					`${
-						wrap ? "whitespace-normal" : "whitespace-nowrap"
+						wrap ? "" : "whitespace-nowrap"
 					} overflow-auto text-left font-mono text-theme-text-primary`,
 					codeClasses
 				)}

@@ -76,7 +76,7 @@ const HeaderWithButtons: React.FC<{
         <a
           target="_blank"
           rel="noopener noreferrer"
-          href="https://docs.zenml.io/stacks-and-components/stack-deployment"
+          href="https://docs.zenml.io/how-to/stack-deployment"
         >
           deploy a MLOps stack
         </a>{' '}

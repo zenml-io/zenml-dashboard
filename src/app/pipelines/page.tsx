@@ -1,13 +1,16 @@
+import { Icon } from "@/components/Icon";
 import { PageHeader } from "@/components/PageHeader";
+import Pagination from "@/components/Pagination";
 import { SearchField } from "@/components/SearchField";
 import { useAllPipelineNamespaces } from "@/data/pipelines/pipeline-namespaces-query";
+import { useBreadcrumbsContext } from "@/layouts/AuthenticatedLayout/BreadcrumbsContext";
 import { Button, DataTable, Skeleton } from "@zenml-io/react-component-library";
+import { useEffect } from "react";
 import { getPipelineColumns } from "./columns";
 import { usePipelineOverviewSearchParams } from "./service";
-import Pagination from "@/components/Pagination";
-import { Icon } from "@/components/Icon";
 
 export default function PipelinesPage() {
+	const { setCurrentBreadcrumbData } = useBreadcrumbsContext();
 	const queryParams = usePipelineOverviewSearchParams();
 
 	const { data, refetch } = useAllPipelineNamespaces(
@@ -19,6 +22,10 @@ export default function PipelinesPage() {
 		},
 		{ throwOnError: true }
 	);
+
+	useEffect(() => {
+		setCurrentBreadcrumbData({ segment: "pipelines", data: null });
+	}, []);
 
 	return (
 		<div>

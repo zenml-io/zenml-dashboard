@@ -54,6 +54,7 @@ export function Sidebar() {
 							</li>
 							<li className="w-full">
 								<SidebarLink
+									id="pipelines-sidebar-link"
 									routePatterns={[
 										routes.pipelines.overview,
 										routes.pipelines.namespace(":namespace"),
@@ -66,6 +67,7 @@ export function Sidebar() {
 							</li>
 							<li className="w-full">
 								<SidebarLink
+									id="models-sidebar-link"
 									routePatterns={[routes.models.overview]}
 									icon={<Icon name="chip" />}
 									label="Models"
@@ -82,6 +84,7 @@ export function Sidebar() {
 							</li>
 							<li className="w-full">
 								<SidebarLink
+									id="stacks-sidebar-link"
 									routePatterns={[routes.stacks.overview]}
 									icon={<Icon name="stack" />}
 									label="Stacks"
@@ -92,6 +95,7 @@ export function Sidebar() {
 						<div className="mt-auto">
 							<WhatsNewButton />
 							<SidebarLink
+								id="settings-sidebar-link"
 								icon={<Icon name="settings" />}
 								label="Settings"
 								routePatterns={[

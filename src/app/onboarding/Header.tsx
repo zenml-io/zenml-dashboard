@@ -6,7 +6,7 @@ export function HeaderOnboardingBox() {
 			<div className="w-full px-7 py-5 md:w-2/3">
 				<h2 className="text-display-xs font-semibold">Welcome to ZenML</h2>
 				<p className="mt-2 text-text-lg text-theme-text-secondary">
-					You successfully installed ZenML dashboard. Now you can get started with your new ZenML
+					You successfully installed the ZenML dashboard. Now you can get started with your new ZenML
 					server.
 				</p>
 			</div>

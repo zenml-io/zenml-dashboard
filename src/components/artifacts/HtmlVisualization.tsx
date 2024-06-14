@@ -12,6 +12,7 @@ export function HTMLVisualization({ content }: Props) {
 	};
 
 	useEffect(() => {
+		handleIframeLoad();
 		window.addEventListener("resize", handleIframeLoad);
 		return () => {
 			window.removeEventListener("resize", handleIframeLoad);
@@ -21,11 +22,10 @@ export function HTMLVisualization({ content }: Props) {
 	return (
 		<div>
 			<iframe
+				className="w-full"
 				title="Secure HTML Content"
 				ref={iframeRef}
 				srcDoc={content}
-				width="100%"
-				height="auto"
 				onLoad={handleIframeLoad}
 			/>
 		</div>

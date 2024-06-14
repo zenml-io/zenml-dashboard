@@ -14,3 +14,32 @@ export function renderAnyToString(value: any) {
 		return value; // Return original value
 	}
 }
+
+export const transformToEllipsis = (text: string, maxLength: number) => {
+	if (text.length <= maxLength) {
+		return text;
+	} else {
+		return text.slice(0, maxLength - 3) + "...";
+	}
+};
+
+export const extractDockerImageKey = (string: string) => {
+	const regex = /\/([^@/:]+)(?:@[^@]*$|:([^@]*$|$))/;
+	const match = regex.exec(string);
+	if (match && match[1]) {
+		if (match[2]) {
+			return `${match[1]}:${match[2]}`;
+		} else {
+			return match[1];
+		}
+	} else {
+		return null;
+	}
+};
+
+export const formatIdToTitleCase = (text: string): string => {
+	return text
+		.split("-")
+		.map((word) => word.charAt(0).toUpperCase() + word.slice(1).toLowerCase())
+		.join(" ");
+};
