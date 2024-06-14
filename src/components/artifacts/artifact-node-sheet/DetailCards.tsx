@@ -1,11 +1,16 @@
+import Pipelines from "@/assets/icons/pipeline.svg?react";
 import Spinner from "@/assets/icons/spinner.svg?react";
+import Run from "@/assets/icons/terminal-square.svg?react";
 import { DisplayDate } from "@/components/DisplayDate";
 import { ErrorFallback } from "@/components/Error";
+import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import { InlineAvatar } from "@/components/InlineAvatar";
 import { Key, KeyValue, Value } from "@/components/KeyValue";
 import { useArtifactVersion } from "@/data/artifact-versions/artifact-version-detail-query";
 import { useComponentDetail } from "@/data/components/component-detail-query";
+import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 import { useStepDetail } from "@/data/steps/step-detail-query";
+import { routes } from "@/router/routes";
 import {
 	Skeleton,
 	Tag,
@@ -14,13 +19,9 @@ import {
 	TooltipProvider,
 	TooltipTrigger
 } from "@zenml-io/react-component-library";
+import { Link } from "react-router-dom";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
-import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
-import Run from "@/assets/icons/terminal-square.svg?react";
-import { Link } from "react-router-dom";
-import { routes } from "@/router/routes";
-import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 
 type Props = {
 	artifactVersionId: string;
@@ -39,7 +40,7 @@ export function DetailsCard({ artifactVersionId }: Props) {
 	);
 
 	const producerId = artifactVersion.data?.metadata?.producer_step_run_id;
-	const { data: stepData } = useStepDetail(
+	const stepDetail = useStepDetail(
 		{
 			stepId: producerId!
 		},
@@ -54,6 +55,30 @@ export function DetailsCard({ artifactVersionId }: Props) {
 	return (
 		<CollapsibleCard initialOpen title="Details">
 			<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
+				<KeyValue
+					label="Pipeline"
+					value={
+						<Link
+							to={routes.pipelines.namespace(
+								encodeURIComponent(pipelineRun.data.body?.pipeline?.name as string)
+							)}
+						>
+							<Tag
+								color="purple"
+								className="inline-flex items-center gap-0.5"
+								rounded={false}
+								emphasis="subtle"
+							>
+								<Pipelines className="mr-1 h-4 w-4 fill-theme-text-brand" />
+								{pipelineRun.data.body?.pipeline?.name}
+
+								<div className="rounded-sm bg-primary-50 px-1 py-0.25">
+									{pipelineRun.data.body?.pipeline?.body?.version}
+								</div>
+							</Tag>
+						</Link>
+					}
+				/>
 				{artifactVersion.data.body?.producer_pipeline_run_id && pipelineRun.data.body?.status && (
 					<KeyValue
 						label="Producer Run"
@@ -77,26 +102,32 @@ export function DetailsCard({ artifactVersionId }: Props) {
 						}
 					/>
 				)}
-				{artifactVersion.data.body?.artifact.id && pipelineRun.data.body?.status && (
+				{artifactVersion.data.body?.artifact.id && (
 					<KeyValue
 						label="Producer Step"
 						value={
-							<Tag
-								color={getExecutionStatusTagColor(pipelineRun.data.body?.status)}
-								className="inline-flex items-center gap-0.5"
-								rounded={false}
-								emphasis="subtle"
-							>
-								{pipelineRun.data.body?.status === "running" ? (
-									<Spinner className="mr-1 h-4 w-4 border-[2px]" />
+							<>
+								{stepDetail.data ? (
+									<Tag
+										color={getExecutionStatusTagColor(pipelineRun.data.body?.status)}
+										className="inline-flex items-center gap-0.5"
+										rounded={false}
+										emphasis="subtle"
+									>
+										{pipelineRun.data.body?.status === "running" ? (
+											<Spinner className="mr-1 h-4 w-4 border-[2px]" />
+										) : (
+											<ExecutionStatusIcon
+												className="mr-1 fill-current"
+												status={pipelineRun.data.body?.status}
+											/>
+										)}
+										{stepDetail.data.name}
+									</Tag>
 								) : (
-									<ExecutionStatusIcon
-										className="mr-1 fill-current"
-										status={pipelineRun.data.body?.status}
-									/>
+									<Skeleton className="h-full w-[150px]" />
 								)}
-								{stepData?.name}
-							</Tag>
+							</>
 						}
 					/>
 				)}
