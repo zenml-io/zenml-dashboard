@@ -16,10 +16,12 @@ import {
 } from "@zenml-io/react-component-library";
 import { Codesnippet } from "../../CodeSnippet";
 import { CollapsibleCard } from "../../CollapsibleCard";
-import { ArtifactIcon } from "@/components/ArtifactIcon";
-import { ArtifactVersionBody } from "@/types/artifact-versions";
-import { getExecutionStatusTagColor } from "@/components/ExecutionStatus";
+import { ExecutionStatusIcon, getExecutionStatusTagColor } from "@/components/ExecutionStatus";
 import Run from "@/assets/icons/terminal-square.svg?react";
+import { Link } from "react-router-dom";
+import { routes } from "@/router/routes";
+import Pipelines from "@/assets/icons/dataflow.svg?react";
+import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
 
 type Props = {
 	artifactVersionId: string;
@@ -41,38 +43,73 @@ export function DetailsCard({ artifactVersionId }: Props) {
 		{ enabled: !!producerId }
 	);
 
+	const { data: pipeline } = usePipelineRun(
+		{
+			runId: artifactVersion?.body?.producer_pipeline_run_id as string
+		},
+		{ throwOnError: true, enabled: !!artifactVersion?.body?.producer_pipeline_run_id }
+	);
+
 	if (isArtifactVersionPending) return <Skeleton className="h-[500px] w-full" />;
 	if (isArtifactVersionError) return <ErrorFallback err={error} />;
 
 	return (
 		<CollapsibleCard initialOpen title="Details">
 			<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
-				{artifactVersion.metadata?.producer_step_run_id && (
-					<KeyValue
-						label="Producer Step"
-						value={
-							<Tag
-								color="grey"
-								className="inline-flex items-center gap-0.5"
-								rounded={false}
-								emphasis="subtle"
-							>
-								{stepData?.body?.status === "running" ? (
-									<Spinner className="mr-1 h-4 w-4 border-[2px]" />
-								) : (
-									<ArtifactIcon
-										artifactType={artifactVersion.body?.type as ArtifactVersionBody["type"]}
-										className="mr-1 h-4 w-4 fill-current"
-									/>
-								)}
-								{stepData ? stepData?.name : <Skeleton className="h-5 w-5" />}
-							</Tag>
-						}
-					/>
+				{pipeline && (
+					<>
+						<KeyValue
+							label="Pipeline"
+							value={
+								<Link
+									to={routes.pipelines.namespace(
+										encodeURIComponent(pipeline.body?.pipeline?.name as string)
+									)}
+								>
+									<Tag
+										color="purple"
+										className="inline-flex items-center gap-0.5"
+										rounded={false}
+										emphasis="subtle"
+									>
+										<Pipelines className="mr-1 h-4 w-4 fill-theme-text-brand" />
+										{pipeline.body?.pipeline?.name}
+
+										<div className="rounded-sm bg-primary-50 px-1 py-0.25">
+											{pipeline.body?.pipeline?.body?.version}
+										</div>
+									</Tag>
+								</Link>
+							}
+						/>
+					</>
 				)}
+
 				{artifactVersion.body?.producer_pipeline_run_id && (
 					<KeyValue
 						label="Producer Run"
+						value={
+							<Link to={routes.runs.detail(artifactVersion.body?.producer_pipeline_run_id)}>
+								<Tag
+									color={getExecutionStatusTagColor(stepData?.body?.status)}
+									className="inline-flex items-center gap-0.5"
+									rounded={false}
+									emphasis="subtle"
+								>
+									{stepData?.body?.status === "running" ? (
+										<Spinner className="mr-1 h-4 w-4 border-[2px]" />
+									) : (
+										<Run className={`mr-1 h-4 w-4 fill-current`} />
+									)}
+									{artifactVersion.body?.producer_pipeline_run_id}
+								</Tag>
+							</Link>
+						}
+					/>
+				)}
+				{artifactVersion.metadata?.producer_step_run_id && (
+					<KeyValue
+						label="Producer Step"
 						value={
 							<Tag
 								color={getExecutionStatusTagColor(stepData?.body?.status)}
@@ -83,14 +120,13 @@ export function DetailsCard({ artifactVersionId }: Props) {
 								{stepData?.body?.status === "running" ? (
 									<Spinner className="mr-1 h-4 w-4 border-[2px]" />
 								) : (
-									<Run className={`mr-1 h-4 w-4 fill-current`} />
+									<ExecutionStatusIcon className="fill-current" status={stepData?.body?.status} />
 								)}
-								{artifactVersion.body?.producer_pipeline_run_id}
+								{stepData ? stepData?.name : <Skeleton className="h-5 w-5" />}
 							</Tag>
 						}
 					/>
 				)}
-
 				<KeyValue label="Type" value={artifactVersion.body?.type} />
 				<KeyValue
 					label="Author"
