@@ -1,11 +1,6 @@
-import Check from "@/assets/icons/check.svg?react";
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
-import { getServerSettingsKey, useServerSettings } from "@/data/server/get-server-settings";
-import { useUpdateServerSettings } from "@/data/server/update-server-settings-mutation";
-import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
-import { useQueryClient } from "@tanstack/react-query";
+import { OnboardingChecklistItemName } from "@/types/onboarding";
 import {
-	Button,
 	Collapsible,
 	CollapsibleContent,
 	CollapsibleTrigger,
@@ -20,56 +15,18 @@ type Props = {
 	title: ReactNode;
 	itemName: OnboardingChecklistItemName;
 };
-export function ChecklistItem({
-	completed,
-	title,
-	children,
-	itemName,
-	active = true
-}: PropsWithChildren<Props>) {
+export function ChecklistItem({ completed, title, children }: PropsWithChildren<Props>) {
 	const [open, setOpen] = useState(false);
-	const queryClient = useQueryClient();
-	const { data } = useServerSettings({ throwOnError: true });
-
-	const { mutate } = useUpdateServerSettings({
-		onSuccess: () => {
-			queryClient.invalidateQueries({ queryKey: getServerSettingsKey() });
-		}
-	});
-
-	function toggleItem(isDone: boolean) {
-		const newOnboardingState: OnboardingState = {
-			...data?.metadata?.onboarding_state,
-			[itemName]: isDone
-		};
-		mutate({ onboarding_state: newOnboardingState });
-	}
 
 	return (
 		<Collapsible open={open} onOpenChange={setOpen}>
 			<div className="flex w-full flex-col gap-3">
 				<div className="flex w-full justify-between gap-2">
-					{completed ? (
-						<button onClick={() => toggleItem(false)}>
-							<Tick className="shrink-0" />
-						</button>
-					) : (
-						<ProgressOutstanding className="shrink-0" />
-					)}
+					{completed ? <Tick className="shrink-0" /> : <ProgressOutstanding className="shrink-0" />}
 					<CollapsibleTrigger className="w-full">
 						<ChecklistHeader title={title} completed={completed} />
 					</CollapsibleTrigger>
 					<div className="flex items-center gap-1">
-						{!completed && active && (
-							<Button
-								onClick={() => toggleItem(true)}
-								className="items-center whitespace-nowrap"
-								intent="primary"
-								emphasis="subtle"
-							>
-								<Check className="h-5 w-5 fill-primary-600" /> <span>Mark as done</span>
-							</Button>
-						)}
 						<CollapsibleTrigger>
 							<ChevronDown
 								className={` ${

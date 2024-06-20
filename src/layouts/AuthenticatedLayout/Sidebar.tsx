@@ -20,7 +20,6 @@ import {
 } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
 import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
-import { OnboardingItem } from "./OnboardingItem";
 import { SidebarImage, SidebarTitle } from "./SidebarFragments";
 import { WhatsNewButton } from "./WhatsNewButton";
 
@@ -48,7 +47,6 @@ export function Sidebar() {
 					</SidebarHeader>
 					<SidebarBody>
 						<SidebarList>
-							{<OnboardingItem />}
 							<li className="w-full">
 								<SidebarLink
 									routePatterns={[routes.home]}

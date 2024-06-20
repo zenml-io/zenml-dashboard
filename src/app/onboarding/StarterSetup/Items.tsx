@@ -1,20 +1,23 @@
-import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
+import Help from "@/assets/icons/help.svg?react";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
-import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
-import Help from "@/assets/icons/help.svg?react";
-import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
-import { getOnboardingItem } from "@/lib/onboarding";
+import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { useServerInfo } from "@/data/server/info-query";
+import { checkDownstreamStep, hasOnboardingItem } from "@/lib/onboarding";
+import { OnboardingChecklistItemName, OnboardingResponse } from "@/types/onboarding";
+import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
 
 type Props = {
-	onboardingState?: OnboardingState;
+	onboardingState?: OnboardingResponse;
+	order: OnboardingChecklistItemName[];
 };
-export function ConnectZenMLStep({ onboardingState }: Props) {
+export function ConnectZenMLStep({ onboardingState, order }: Props) {
 	const { data } = useServerInfo({ throwOnError: true });
 
-	const itemName = "connect_zenml";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
+	const itemName: OnboardingChecklistItemName = "device_verified";
+	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
+	console.log(hasDownStreamFinishded);
+	const item = hasOnboardingItem(itemName, onboardingState || []);
 	return (
 		<ChecklistItem itemName={itemName} completed={!!item} title="Connect to ZenML">
 			<div className="flex flex-col gap-5">
@@ -37,8 +40,8 @@ export function ConnectZenMLStep({ onboardingState }: Props) {
 }
 
 export function RunFirstPipeline({ onboardingState }: Props) {
-	const itemName: OnboardingChecklistItemName = "run_first_pipeline";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
+	const itemName: OnboardingChecklistItemName = "pipeline_run";
+	const item = hasOnboardingItem(itemName, onboardingState || []);
 	return (
 		<ChecklistItem itemName={itemName} completed={!!item} title="Run your first pipeline">
 			<div className="flex flex-col gap-5">

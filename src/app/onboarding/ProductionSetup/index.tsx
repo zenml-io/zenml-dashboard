@@ -1,10 +1,10 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { Tick } from "@/components/Tick";
-import { useServerSettings } from "@/data/server/get-server-settings";
 import { useServerInfo } from "@/data/server/info-query";
-import { PRODUCTION_SETUP_ITEMS } from "@/lib/constants";
-import { getOnboardingState, getProgress, getStarterSetupItems } from "@/lib/onboarding";
+import { useOnboarding } from "@/data/server/onboarding-state";
+import { getProductionSetupItems, getProgress, getStarterSetupItems } from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
+import { OnboardingChecklistItemName } from "@/types/onboarding";
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -22,21 +22,24 @@ import {
 } from "./Items";
 
 export function ProductionSetupChecklist() {
-	const { isError, isPending, data } = useServerSettings({ throwOnError: true });
+	const onboarding = useOnboarding({ refetchInterval: 5000 });
 	const serverInfo = useServerInfo();
 	const [open, setOpen] = useState(true);
 
-	if (isPending || serverInfo.isPending) return <Skeleton className="h-[200px] w-full" />;
-	if (isError || serverInfo.isError) return null;
+	if (onboarding.isPending || serverInfo.isPending)
+		return <Skeleton className="h-[200px] w-full" />;
+	if (onboarding.isError || serverInfo.isError) return null;
 
-	const STARTER_SETUP_ITEMS = getStarterSetupItems(
+	const { items: STARTER_SETUP_ITEMS } = getStarterSetupItems(
 		checkIsLocalServer(serverInfo.data.deployment_type || "other")
 	);
 
-	const onboardingState = getOnboardingState(data);
+	const { items: PRODUCTION_SETUP_ITEMS } = getProductionSetupItems();
+
 	const isStarterSetupFinished =
-		getProgress(onboardingState, STARTER_SETUP_ITEMS) === STARTER_SETUP_ITEMS.length;
-	const doneItems = getProgress(onboardingState, PRODUCTION_SETUP_ITEMS);
+		getProgress(onboarding.data, STARTER_SETUP_ITEMS as OnboardingChecklistItemName[]) ===
+		STARTER_SETUP_ITEMS.length;
+	const doneItems = getProgress(onboarding.data, PRODUCTION_SETUP_ITEMS);
 	const progress = (doneItems / PRODUCTION_SETUP_ITEMS.length) * 100;
 
 	return (
@@ -84,21 +87,21 @@ export function ProductionSetupChecklist() {
 					<ul className="divide-y divide-theme-border-moderate">
 						<li className="py-5 first:pt-0 last:pb-0">
 							<CreateServiceConnector
-								onboardingState={onboardingState}
+								onboardingState={onboarding.data}
 								active={isStarterSetupFinished}
 							/>
 						</li>
 						<li className="py-5 first:pt-0 last:pb-0">
 							<CreateArtifactStore
-								onboardingState={onboardingState}
+								onboardingState={onboarding.data}
 								active={isStarterSetupFinished}
 							/>
 						</li>
 						<li className="py-5 first:pt-0 last:pb-0">
-							<CreateNewStack onboardingState={onboardingState} active={isStarterSetupFinished} />
+							<CreateNewStack onboardingState={onboarding.data} active={isStarterSetupFinished} />
 						</li>
 						<li className="py-5 first:pt-0 last:pb-0">
-							<RunNewPipeline onboardingState={onboardingState} active={isStarterSetupFinished} />
+							<RunNewPipeline onboardingState={onboarding.data} active={isStarterSetupFinished} />
 						</li>
 					</ul>
 				</CollapsibleContent>

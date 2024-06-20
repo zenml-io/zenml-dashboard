@@ -1,9 +1,10 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { Tick } from "@/components/Tick";
-import { useServerSettings } from "@/data/server/get-server-settings";
 import { useServerInfo } from "@/data/server/info-query";
-import { getOnboardingState, getProgress, getStarterSetupItems } from "@/lib/onboarding";
+import { useOnboarding } from "@/data/server/onboarding-state";
+import { getProgress, getStarterSetupItems } from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
+import { OnboardingChecklistItemName } from "@/types/onboarding";
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -15,18 +16,25 @@ import { useState } from "react";
 import { ConnectZenMLStep, RunFirstPipeline } from "./Items";
 
 export function StarterSetupList() {
-	const { isError, isPending, data } = useServerSettings({ throwOnError: true });
+	const onboarding = useOnboarding({ refetchInterval: 5000 });
 	const serverInfo = useServerInfo();
 	const [open, setOpen] = useState(true);
 
-	if (isPending || serverInfo.isPending) return <Skeleton className="h-[200px] w-full" />;
-	if (isError || serverInfo.isError) return null;
+	if (onboarding.isPending || serverInfo.isPending)
+		return <Skeleton className="h-[200px] w-full" />;
+	if (onboarding.isError || serverInfo.isError) return null;
 
 	const isLocalServer = checkIsLocalServer(serverInfo.data.deployment_type || "other");
-	const STARTER_SETUP_ITEMS = getStarterSetupItems(isLocalServer);
-
-	const doneItems = getProgress(getOnboardingState(data), STARTER_SETUP_ITEMS);
+	const { items: STARTER_SETUP_ITEMS } = getStarterSetupItems(isLocalServer);
+	const doneItems = getProgress(
+		onboarding.data,
+		STARTER_SETUP_ITEMS as OnboardingChecklistItemName[]
+	);
 	const progress = (doneItems / STARTER_SETUP_ITEMS.length) * 100;
+	const order: OnboardingChecklistItemName[] = [
+		...(STARTER_SETUP_ITEMS as OnboardingChecklistItemName[]),
+		"starter_setup_completed"
+	];
 
 	return (
 		<Collapsible
@@ -67,11 +75,11 @@ export function StarterSetupList() {
 				<ul className="divide-y divide-theme-border-moderate">
 					{!isLocalServer && (
 						<li className="py-5 first:pt-0 last:pb-0">
-							<ConnectZenMLStep onboardingState={getOnboardingState(data)} />
+							<ConnectZenMLStep order={order} onboardingState={onboarding.data} />
 						</li>
 					)}
 					<li className="py-5 first:pt-0 last:pb-0">
-						<RunFirstPipeline onboardingState={getOnboardingState(data)} />
+						<RunFirstPipeline order={order} onboardingState={onboarding.data} />
 					</li>
 				</ul>
 			</CollapsibleContent>

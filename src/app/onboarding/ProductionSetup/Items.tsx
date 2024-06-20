@@ -1,22 +1,22 @@
-import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
-import { CloudProvider, ProviderSelect } from "./ProviderSelect";
-import { HelpBox } from "@/components/fallback-pages/Helpbox";
-import { useState } from "react";
-import { getOnboardingItem } from "@/lib/onboarding";
-import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
-import { getServiceConnectorStep } from "./ConnectorContent";
-import { getArtifactStoreStep } from "./ArtifactStore";
 import { Codesnippet } from "@/components/CodeSnippet";
+import { HelpBox } from "@/components/fallback-pages/Helpbox";
+import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
+import { hasOnboardingItem } from "@/lib/onboarding";
+import { OnboardingChecklistItemName, OnboardingResponse } from "@/types/onboarding";
+import { useState } from "react";
+import { getArtifactStoreStep } from "./ArtifactStore";
+import { getServiceConnectorStep } from "./ConnectorContent";
+import { CloudProvider, ProviderSelect } from "./ProviderSelect";
 
 type Props = {
-	onboardingState?: OnboardingState;
+	onboardingState?: OnboardingResponse;
 	active?: boolean;
 };
 
 export function CreateServiceConnector({ onboardingState, active }: Props) {
 	const [selectedProvider, setSelectedProvider] = useState<CloudProvider>("aws");
-	const itemName: OnboardingChecklistItemName = "create_service_connector";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
+	const itemName: OnboardingChecklistItemName = "service_connector_created";
+	const item = hasOnboardingItem(itemName, onboardingState || []);
 	return (
 		<ChecklistItem
 			active={active}
@@ -54,8 +54,8 @@ export function CreateServiceConnector({ onboardingState, active }: Props) {
 
 export function CreateArtifactStore({ onboardingState, active }: Props) {
 	const [selectedProvider, setSelectedProvider] = useState<CloudProvider>("aws");
-	const itemName: OnboardingChecklistItemName = "create_remote_artifact_store";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
+	const itemName: OnboardingChecklistItemName = "remote_artifact_store_created";
+	const item = hasOnboardingItem(itemName, onboardingState || []);
 
 	return (
 		<ChecklistItem
@@ -94,8 +94,8 @@ export function CreateArtifactStore({ onboardingState, active }: Props) {
 }
 
 export function CreateNewStack({ onboardingState, active }: Props) {
-	const itemName: OnboardingChecklistItemName = "create_remote_stack";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
+	const itemName: OnboardingChecklistItemName = "stack_with_remote_orchestrator_created";
+	const item = hasOnboardingItem(itemName, onboardingState || []);
 
 	return (
 		<ChecklistItem
@@ -125,8 +125,8 @@ export function CreateNewStack({ onboardingState, active }: Props) {
 }
 
 export function RunNewPipeline({ active, onboardingState }: Props) {
-	const itemName: OnboardingChecklistItemName = "run_remote_pipeline";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
+	const itemName: OnboardingChecklistItemName = "pipeline_run_with_remote_artifact_store";
+	const item = hasOnboardingItem(itemName, onboardingState || []);
 
 	return (
 		<ChecklistItem
