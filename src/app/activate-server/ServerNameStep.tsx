@@ -29,7 +29,7 @@ export function SetServerNameStep({ setUsername }: Props) {
 	const { mutate } = useActivateServer({
 		onSuccess: async (data) => {
 			setUsername(data.name);
-			loginMutate({ username: data.name, password: serverSettings.admin_password });
+			loginMutate({ username: data.name, password: serverSettings.admin_password ?? undefined });
 		},
 		onError: (error) => {
 			if (error instanceof Error) {

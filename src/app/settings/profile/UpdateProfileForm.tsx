@@ -107,7 +107,7 @@ export function UpdateProfileForm({ user }: Props) {
 							Email
 						</label>
 						<Input
-							placeholder={user.metadata?.email}
+							placeholder={user.metadata?.email ?? undefined}
 							{...register("email")}
 							id={emailId}
 							className="w-full"
