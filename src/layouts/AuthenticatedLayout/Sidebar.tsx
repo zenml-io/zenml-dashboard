@@ -22,6 +22,7 @@ import { ReactNode } from "react";
 import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
 import { SidebarImage, SidebarTitle } from "./SidebarFragments";
 import { WhatsNewButton } from "./WhatsNewButton";
+import { OnboardingItem } from "./OnboardingItem";
 
 export function Sidebar() {
 	const { setIsOpen, isOpen } = useSidebarContext();
@@ -47,6 +48,7 @@ export function Sidebar() {
 					</SidebarHeader>
 					<SidebarBody>
 						<SidebarList>
+							<OnboardingItem />
 							<li className="w-full">
 								<SidebarLink
 									routePatterns={[routes.home]}
