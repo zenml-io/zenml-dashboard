@@ -2,7 +2,7 @@ import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { Tick } from "@/components/Tick";
 import { useServerInfo } from "@/data/server/info-query";
 import { useOnboarding } from "@/data/server/onboarding-state";
-import { getProgress, getStarterSetupItems } from "@/lib/onboarding";
+import { getStarterSetupItems, getOnboardingProgress } from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
 import { OnboardingChecklistItemName } from "@/types/onboarding";
 import {
@@ -25,12 +25,14 @@ export function StarterSetupList() {
 	if (onboarding.isError || serverInfo.isError) return null;
 
 	const isLocalServer = checkIsLocalServer(serverInfo.data.deployment_type || "other");
-	const { items: STARTER_SETUP_ITEMS } = getStarterSetupItems(isLocalServer);
-	const doneItems = getProgress(
-		onboarding.data,
-		STARTER_SETUP_ITEMS as OnboardingChecklistItemName[]
-	);
-	const progress = (doneItems / STARTER_SETUP_ITEMS.length) * 100;
+	const STARTER_SETUP_ITEMS = getStarterSetupItems(isLocalServer);
+
+	const { doneItems, progress } = getOnboardingProgress({
+		itemList: STARTER_SETUP_ITEMS,
+		onboardingState: onboarding.data,
+		finalStep: "starter_setup_completed"
+	});
+
 	const order: OnboardingChecklistItemName[] = [
 		...(STARTER_SETUP_ITEMS as OnboardingChecklistItemName[]),
 		"starter_setup_completed"

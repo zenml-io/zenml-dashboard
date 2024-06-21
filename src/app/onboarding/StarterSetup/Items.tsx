@@ -16,10 +16,14 @@ export function ConnectZenMLStep({ onboardingState, order }: Props) {
 
 	const itemName: OnboardingChecklistItemName = "device_verified";
 	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
-	console.log(hasDownStreamFinishded);
 	const item = hasOnboardingItem(itemName, onboardingState || []);
 	return (
-		<ChecklistItem itemName={itemName} completed={!!item} title="Connect to ZenML">
+		<ChecklistItem
+			hasDownstream={hasDownStreamFinishded}
+			itemName={itemName}
+			completed={!!item}
+			title="Connect to ZenML"
+		>
 			<div className="flex flex-col gap-5">
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">Install ZenML</p>
@@ -39,11 +43,17 @@ export function ConnectZenMLStep({ onboardingState, order }: Props) {
 	);
 }
 
-export function RunFirstPipeline({ onboardingState }: Props) {
+export function RunFirstPipeline({ onboardingState, order }: Props) {
 	const itemName: OnboardingChecklistItemName = "pipeline_run";
 	const item = hasOnboardingItem(itemName, onboardingState || []);
+	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
 	return (
-		<ChecklistItem itemName={itemName} completed={!!item} title="Run your first pipeline">
+		<ChecklistItem
+			hasDownstream={hasDownStreamFinishded}
+			itemName={itemName}
+			completed={!!item}
+			title="Run your first pipeline"
+		>
 			<div className="flex flex-col gap-5">
 				<div>
 					<p className="mb-1 text-text-sm text-theme-text-secondary">

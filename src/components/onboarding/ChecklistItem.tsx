@@ -8,21 +8,34 @@ import {
 } from "@zenml-io/react-component-library";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { Tick } from "../Tick";
+import { SkippedStep } from "./SkippedStep";
 
 type Props = {
 	completed: boolean;
 	active?: boolean;
 	title: ReactNode;
 	itemName: OnboardingChecklistItemName;
+	hasDownstream?: boolean;
 };
-export function ChecklistItem({ completed, title, children }: PropsWithChildren<Props>) {
+export function ChecklistItem({
+	completed,
+	title,
+	children,
+	hasDownstream
+}: PropsWithChildren<Props>) {
 	const [open, setOpen] = useState(false);
 
 	return (
 		<Collapsible open={open} onOpenChange={setOpen}>
 			<div className="flex w-full flex-col gap-3">
 				<div className="flex w-full justify-between gap-2">
-					{completed ? <Tick className="shrink-0" /> : <ProgressOutstanding className="shrink-0" />}
+					{completed ? (
+						<Tick className="shrink-0" />
+					) : hasDownstream ? (
+						<SkippedStep />
+					) : (
+						<ProgressOutstanding className="shrink-0" />
+					)}
 					<CollapsibleTrigger className="w-full">
 						<ChecklistHeader title={title} completed={completed} />
 					</CollapsibleTrigger>

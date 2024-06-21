@@ -1,7 +1,7 @@
 import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
-import { hasOnboardingItem } from "@/lib/onboarding";
+import { checkDownstreamStep, hasOnboardingItem } from "@/lib/onboarding";
 import { OnboardingChecklistItemName, OnboardingResponse } from "@/types/onboarding";
 import { useState } from "react";
 import { getArtifactStoreStep } from "./ArtifactStore";
@@ -10,15 +10,18 @@ import { CloudProvider, ProviderSelect } from "./ProviderSelect";
 
 type Props = {
 	onboardingState?: OnboardingResponse;
+	order: OnboardingChecklistItemName[];
 	active?: boolean;
 };
 
-export function CreateServiceConnector({ onboardingState, active }: Props) {
+export function CreateServiceConnector({ onboardingState, active, order }: Props) {
 	const [selectedProvider, setSelectedProvider] = useState<CloudProvider>("aws");
 	const itemName: OnboardingChecklistItemName = "service_connector_created";
+	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
 	const item = hasOnboardingItem(itemName, onboardingState || []);
 	return (
 		<ChecklistItem
+			hasDownstream={hasDownStreamFinishded}
 			active={active}
 			completed={!!item}
 			title="Create a service connector"
@@ -52,13 +55,16 @@ export function CreateServiceConnector({ onboardingState, active }: Props) {
 	);
 }
 
-export function CreateArtifactStore({ onboardingState, active }: Props) {
+export function CreateArtifactStore({ onboardingState, active, order }: Props) {
 	const [selectedProvider, setSelectedProvider] = useState<CloudProvider>("aws");
 	const itemName: OnboardingChecklistItemName = "remote_artifact_store_created";
+	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
+
 	const item = hasOnboardingItem(itemName, onboardingState || []);
 
 	return (
 		<ChecklistItem
+			hasDownstream={hasDownStreamFinishded}
 			itemName={itemName}
 			completed={!!item}
 			title="Create an artifact store"
@@ -93,12 +99,14 @@ export function CreateArtifactStore({ onboardingState, active }: Props) {
 	);
 }
 
-export function CreateNewStack({ onboardingState, active }: Props) {
+export function CreateNewStack({ onboardingState, active, order }: Props) {
 	const itemName: OnboardingChecklistItemName = "stack_with_remote_orchestrator_created";
+	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
 	const item = hasOnboardingItem(itemName, onboardingState || []);
 
 	return (
 		<ChecklistItem
+			hasDownstream={hasDownStreamFinishded}
 			itemName={itemName}
 			completed={!!item}
 			title="Create a new stack"
@@ -124,12 +132,14 @@ export function CreateNewStack({ onboardingState, active }: Props) {
 	);
 }
 
-export function RunNewPipeline({ active, onboardingState }: Props) {
+export function RunNewPipeline({ active, onboardingState, order }: Props) {
 	const itemName: OnboardingChecklistItemName = "pipeline_run_with_remote_artifact_store";
+	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
 	const item = hasOnboardingItem(itemName, onboardingState || []);
 
 	return (
 		<ChecklistItem
+			hasDownstream={hasDownStreamFinishded}
 			itemName={itemName}
 			completed={!!item}
 			title="Run the pipeline in the new stack"

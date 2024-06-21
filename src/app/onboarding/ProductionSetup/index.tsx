@@ -2,7 +2,12 @@ import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { Tick } from "@/components/Tick";
 import { useServerInfo } from "@/data/server/info-query";
 import { useOnboarding } from "@/data/server/onboarding-state";
-import { getProductionSetupItems, getProgress, getStarterSetupItems } from "@/lib/onboarding";
+import {
+	getProductionSetupItems,
+	getProgress,
+	getStarterSetupItems,
+	getOnboardingProgress
+} from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
 import { OnboardingChecklistItemName } from "@/types/onboarding";
 import {
@@ -30,17 +35,29 @@ export function ProductionSetupChecklist() {
 		return <Skeleton className="h-[200px] w-full" />;
 	if (onboarding.isError || serverInfo.isError) return null;
 
-	const { items: STARTER_SETUP_ITEMS } = getStarterSetupItems(
+	const STARTER_SETUP_ITEMS = getStarterSetupItems(
 		checkIsLocalServer(serverInfo.data.deployment_type || "other")
 	);
 
-	const { items: PRODUCTION_SETUP_ITEMS } = getProductionSetupItems();
+	const PRODUCTION_SETUP_ITEMS = getProductionSetupItems();
 
 	const isStarterSetupFinished =
-		getProgress(onboarding.data, STARTER_SETUP_ITEMS as OnboardingChecklistItemName[]) ===
-		STARTER_SETUP_ITEMS.length;
-	const doneItems = getProgress(onboarding.data, PRODUCTION_SETUP_ITEMS);
-	const progress = (doneItems / PRODUCTION_SETUP_ITEMS.length) * 100;
+		getProgress(
+			onboarding.data,
+			STARTER_SETUP_ITEMS as OnboardingChecklistItemName[],
+			"starter_setup_completed"
+		) === STARTER_SETUP_ITEMS.length;
+
+	const { progress, doneItems } = getOnboardingProgress({
+		itemList: PRODUCTION_SETUP_ITEMS,
+		onboardingState: onboarding.data,
+		finalStep: "production_setup_completed"
+	});
+
+	const order: OnboardingChecklistItemName[] = [
+		...(PRODUCTION_SETUP_ITEMS as OnboardingChecklistItemName[]),
+		"production_setup_completed"
+	];
 
 	return (
 		<>
@@ -87,21 +104,31 @@ export function ProductionSetupChecklist() {
 					<ul className="divide-y divide-theme-border-moderate">
 						<li className="py-5 first:pt-0 last:pb-0">
 							<CreateServiceConnector
+								order={order}
 								onboardingState={onboarding.data}
 								active={isStarterSetupFinished}
 							/>
 						</li>
 						<li className="py-5 first:pt-0 last:pb-0">
 							<CreateArtifactStore
+								order={order}
 								onboardingState={onboarding.data}
 								active={isStarterSetupFinished}
 							/>
 						</li>
 						<li className="py-5 first:pt-0 last:pb-0">
-							<CreateNewStack onboardingState={onboarding.data} active={isStarterSetupFinished} />
+							<CreateNewStack
+								order={order}
+								onboardingState={onboarding.data}
+								active={isStarterSetupFinished}
+							/>
 						</li>
 						<li className="py-5 first:pt-0 last:pb-0">
-							<RunNewPipeline onboardingState={onboarding.data} active={isStarterSetupFinished} />
+							<RunNewPipeline
+								order={order}
+								onboardingState={onboarding.data}
+								active={isStarterSetupFinished}
+							/>
 						</li>
 					</ul>
 				</CollapsibleContent>
