@@ -4,7 +4,8 @@ import {
 	Collapsible,
 	CollapsibleContent,
 	CollapsibleTrigger,
-	ProgressOutstanding
+	ProgressOutstanding,
+	cn
 } from "@zenml-io/react-component-library";
 import { PropsWithChildren, ReactNode, useState } from "react";
 import { Tick } from "../Tick";
@@ -15,7 +16,7 @@ type Props = {
 	active?: boolean;
 	title: ReactNode;
 	itemName: OnboardingChecklistItemName;
-	hasDownstream?: boolean;
+	hasDownstream: boolean;
 };
 export function ChecklistItem({
 	completed,
@@ -37,7 +38,7 @@ export function ChecklistItem({
 						<ProgressOutstanding className="shrink-0" />
 					)}
 					<CollapsibleTrigger className="w-full">
-						<ChecklistHeader title={title} completed={completed} />
+						<ChecklistHeader skipped={hasDownstream} title={title} completed={completed} />
 					</CollapsibleTrigger>
 					<div className="flex items-center gap-1">
 						<CollapsibleTrigger>
@@ -65,15 +66,17 @@ export function ChecklistItem({
 type HeaderProps = {
 	completed: boolean;
 	title: ReactNode;
+	skipped: boolean;
 };
-export function ChecklistHeader({ completed, title }: HeaderProps) {
+export function ChecklistHeader({ completed, title, skipped }: HeaderProps) {
 	return (
 		<div className="flex w-full items-center justify-between gap-2">
 			<div className="flex w-full items-center">
 				<div
-					className={`font-semibold ${
-						completed ? "text-theme-text-tertiary line-through decoration-theme-text-tertiary" : ""
-					}
+					className={`font-semibold ${cn({
+						"text-theme-text-tertiary": completed || skipped,
+						"line-through decoration-theme-text-tertiary": completed
+					})} 
 					`}
 				>
 					{title}
