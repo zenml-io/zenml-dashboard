@@ -75,13 +75,13 @@ export function DockerImageCollapsible({ data }: Props) {
 				{data.dockerfile && (
 					<>
 						<p className="mb-2 mt-5 text-theme-text-secondary">Dockerfile</p>
-						<Codesnippet fullWidth highlightCode wrap code={data.dockerfile} />
+						<Codesnippet fullWidth wrap code={data.dockerfile} />
 					</>
 				)}
 				{data.requirements && (
 					<>
 						<p className="mb-2 mt-5 text-theme-text-secondary">Requirements</p>
-						<Codesnippet fullWidth highlightCode wrap code={data.requirements} />
+						<Codesnippet fullWidth wrap code={data.requirements} />
 					</>
 				)}
 			</CollapsibleContent>
