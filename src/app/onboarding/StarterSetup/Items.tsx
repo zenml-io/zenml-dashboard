@@ -8,7 +8,7 @@ import { OnboardingChecklistItemName, OnboardingResponse } from "@/types/onboard
 import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
 
 type Props = {
-	onboardingState?: OnboardingResponse;
+	onboardingState: OnboardingResponse;
 	order: OnboardingChecklistItemName[];
 };
 export function ConnectZenMLStep({ onboardingState, order }: Props) {

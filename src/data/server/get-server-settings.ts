@@ -21,7 +21,7 @@ export async function fetchServerSettings(): Promise<ServerSettings> {
 		const errorData: string = await res
 			.json()
 			.then((data) => {
-				if (data.detail instanceof Array) {
+				if (Array.isArray(data.detail)) {
 					return data.detail[1];
 				}
 				return data.detail;
