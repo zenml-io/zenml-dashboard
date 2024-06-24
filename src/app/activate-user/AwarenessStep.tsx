@@ -29,7 +29,7 @@ export function AwarenessStep({ userId, setUsername }: Props) {
 	const { mutate } = useActivateUser({
 		onSuccess: async (data) => {
 			setUsername(data.name);
-			loginMutate({ username: data.name, password: newUser.password });
+			loginMutate({ username: data.name, password: newUser.password ?? undefined });
 		},
 		onError: (error) => {
 			if (error instanceof Error) {

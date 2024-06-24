@@ -46,8 +46,8 @@ export function NotificationsForm({ settings }: Props) {
 	const { control, handleSubmit, watch } = useForm<NotificationFormType>({
 		resolver: zodResolver(NotificationFormSchema),
 		defaultValues: {
-			announcements: settings.body?.display_announcements,
-			updates: settings.body?.display_updates
+			announcements: settings.body?.display_announcements ?? undefined,
+			updates: settings.body?.display_updates ?? undefined
 		}
 	});
 
