@@ -36,7 +36,7 @@ export function MetadataCards({ metadata }: Props) {
 	);
 }
 
-export function UncategorizedCard({ metadata }: Props) {
+export function UncategorizedCard({ metadata, title }: Props & { title?: string }) {
 	const metaData = Object.entries(metadata || {});
 	const regex = /^<class\s+'.*'>$/;
 
@@ -63,7 +63,7 @@ export function UncategorizedCard({ metadata }: Props) {
 
 	return (
 		<div>
-			<CollapsibleCard initialOpen title="Uncategorized">
+			<CollapsibleCard initialOpen title={title || "Uncategorized"}>
 				<dl className="grid grid-cols-1 gap-x-[10px] gap-y-2 md:grid-cols-3 md:gap-y-4">
 					{nonDicts.map(([_, value]) => (
 						<KeyValue
