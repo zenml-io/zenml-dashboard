@@ -47,7 +47,7 @@ export function StepLogsTab({ stepId, stepDetail }: Props) {
 					<KeyValue label="Enable logs" value="Disabled" />
 				</dl>
 			) : (
-				<Codesnippet fullWidth wrap code={data || ""} />
+				<Codesnippet codeClasses="whitespace-pre-line" fullWidth wrap code={data || ""} />
 			)}
 		</CollapsibleCard>
 	);

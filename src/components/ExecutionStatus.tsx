@@ -6,7 +6,7 @@ import Initializing from "@/assets/icons/initializing.svg?react";
 import Cached from "@/assets/icons/cached.svg?react";
 import Running from "@/assets/icons/dots-circle.svg?react";
 
-export function getExecutionStatusColor(status?: ExecutionStatus) {
+export function getExecutionStatusColor(status?: ExecutionStatus | null) {
 	if (!status) return null;
 	switch (status) {
 		case "completed":
@@ -58,7 +58,7 @@ export function ExecutionStatusIcon({
 	status,
 	className
 }: {
-	status?: ExecutionStatus;
+	status?: ExecutionStatus | null;
 	className?: string;
 }) {
 	if (!status) return null;

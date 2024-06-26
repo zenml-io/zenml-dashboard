@@ -232,6 +232,8 @@ export type paths = {
 		 *
 		 * Raises:
 		 *     HTTPException: If the user is not authenticated.
+		 *     AuthorizationException: If trying to scope the API token to a different
+		 *         pipeline/schedule than the token used to authorize this request.
 		 */
 		get: operations["api_token_api_v1_api_token_get"];
 	};
@@ -1229,6 +1231,9 @@ export type paths = {
 		 * Get Settings
 		 * @description Get settings of the server.
 		 *
+		 * Args:
+		 *     hydrate: Whether to hydrate the response.
+		 *
 		 * Returns:
 		 *     Settings of the server.
 		 */
@@ -1239,6 +1244,11 @@ export type paths = {
 		 *
 		 * Args:
 		 *     settings_update: Settings update.
+		 *     auth_context: Authentication context.
+		 *
+		 * Raises:
+		 *     IllegalOperationError: If trying to update admin properties without
+		 *         admin permissions.
 		 *
 		 * Returns:
 		 *     The updated settings.
@@ -1815,6 +1825,8 @@ export type paths = {
 		 *
 		 * Args:
 		 *     step_id: ID of the step for which to get the logs.
+		 *     offset: The offset from which to start reading.
+		 *     length: The amount of bytes that should be read.
 		 *
 		 * Returns:
 		 *     The logs of the step.
@@ -2016,6 +2028,7 @@ export type paths = {
 		 * Args:
 		 *     user_name_or_id: Name or ID of the user.
 		 *     user_update: the user to use for the update.
+		 *     request: The request object.
 		 *     auth_context: Authentication context.
 		 *
 		 * Returns:
@@ -2097,6 +2110,7 @@ export type paths = {
 		 *
 		 * Args:
 		 *     user: the user to use for the update.
+		 *     request: The request object.
 		 *     auth_context: The authentication context.
 		 *
 		 * Returns:
@@ -2721,19 +2735,19 @@ export type components = {
 			/** The name of the API Key. */
 			name: string;
 			/** The description of the API Key. */
-			description?: string;
+			description?: string | null;
 		};
 		/**
 		 * APIKeyResponse
 		 * @description Response model for API keys.
 		 */
 		APIKeyResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["APIKeyResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["APIKeyResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["APIKeyResponseMetadata"];
+			metadata?: components["schemas"]["APIKeyResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["APIKeyResponseResources"];
+			resources?: components["schemas"]["APIKeyResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -2763,7 +2777,7 @@ export type components = {
 			 */
 			updated: string;
 			/** The API key. Only set immediately after creation or rotation. */
-			key?: string;
+			key?: string | null;
 			/**
 			 * Whether the API key is active.
 			 * @default true
@@ -2784,22 +2798,18 @@ export type components = {
 			description?: string;
 			/** Number of minutes for which the previous key is still valid after it has been rotated. */
 			retain_period_minutes: number;
-			/**
-			 * Time when the API key was last used to log in.
-			 * Format: date-time
-			 */
-			last_login?: string;
-			/**
-			 * Time when the API key was last rotated.
-			 * Format: date-time
-			 */
-			last_rotated?: string;
+			/** Time when the API key was last used to log in. */
+			last_login?: string | null;
+			/** Time when the API key was last rotated. */
+			last_rotated?: string | null;
 		};
 		/**
 		 * APIKeyResponseResources
 		 * @description Class for all resource models associated with the APIKey entity.
 		 */
-		APIKeyResponseResources: Record<string, never>;
+		APIKeyResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * APIKeyRotateRequest
 		 * @description Request model for API key rotation.
@@ -2817,23 +2827,29 @@ export type components = {
 		 */
 		APIKeyUpdate: {
 			/** The name of the API Key. */
-			name?: string;
+			name?: string | null;
 			/** The description of the API Key. */
-			description?: string;
-			/**
-			 * Whether the API key is active.
-			 * @default true
-			 */
-			active?: boolean;
+			description?: string | null;
+			/** Whether the API key is active. */
+			active?: boolean | null;
 		};
 		/**
 		 * ArtifactConfiguration
 		 * @description Class representing a complete input/output artifact configuration.
 		 */
-		ArtifactConfiguration: {
+		"ArtifactConfiguration-Input": {
 			/** Materializer Source */
 			materializer_source: components["schemas"]["Source"][];
-			default_materializer_source?: components["schemas"]["Source"];
+			default_materializer_source?: components["schemas"]["Source"] | null;
+		};
+		/**
+		 * ArtifactConfiguration
+		 * @description Class representing a complete input/output artifact configuration.
+		 */
+		"ArtifactConfiguration-Output": {
+			/** Materializer Source */
+			materializer_source: components["schemas"]["Source"][];
+			default_materializer_source?: components["schemas"]["Source"] | null;
 		};
 		/**
 		 * ArtifactNode
@@ -2868,7 +2884,7 @@ export type components = {
 			/** Parent Step Id */
 			parent_step_id: string;
 			/** Producer Step Id */
-			producer_step_id?: string;
+			producer_step_id: string | null;
 			/** Uri */
 			uri: string;
 			/** Metadata */
@@ -2896,19 +2912,19 @@ export type components = {
 			 * Artifact tags.
 			 * @description Should be a list of plain strings, e.g., ['tag1', 'tag2']
 			 */
-			tags?: string[];
+			tags?: string[] | null;
 		};
 		/**
 		 * ArtifactResponse
 		 * @description Artifact response model.
 		 */
 		ArtifactResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ArtifactResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ArtifactResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ArtifactResponseMetadata"];
+			metadata?: components["schemas"]["ArtifactResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ArtifactResponseResources"];
+			resources?: components["schemas"]["ArtifactResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -2940,12 +2956,9 @@ export type components = {
 			/** Tags associated with the model */
 			tags: components["schemas"]["TagResponse"][];
 			/** Latest Version Name */
-			latest_version_name?: string;
-			/**
-			 * Latest Version Id
-			 * Format: uuid
-			 */
-			latest_version_id?: string;
+			latest_version_name?: string | null;
+			/** Latest Version Id */
+			latest_version_id?: string | null;
 		};
 		/**
 		 * ArtifactResponseMetadata
@@ -2962,7 +2975,9 @@ export type components = {
 		 * ArtifactResponseResources
 		 * @description Class for all resource models associated with the Artifact Entity.
 		 */
-		ArtifactResponseResources: Record<string, never>;
+		ArtifactResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ArtifactType
 		 * @description All possible types an artifact can have.
@@ -2982,13 +2997,13 @@ export type components = {
 		 */
 		ArtifactUpdate: {
 			/** Name */
-			name?: string;
+			name?: string | null;
 			/** Add Tags */
-			add_tags?: string[];
+			add_tags?: string[] | null;
 			/** Remove Tags */
-			remove_tags?: string[];
+			remove_tags?: string[] | null;
 			/** Has Custom Name */
-			has_custom_name?: boolean;
+			has_custom_name?: boolean | null;
 		};
 		/**
 		 * ArtifactVersionRequest
@@ -3019,11 +3034,8 @@ export type components = {
 			has_custom_name?: boolean;
 			/** Type of the artifact. */
 			type: components["schemas"]["ArtifactType"];
-			/**
-			 * ID of the artifact store in which this artifact is stored.
-			 * Format: uuid
-			 */
-			artifact_store_id?: string;
+			/** ID of the artifact store in which this artifact is stored. */
+			artifact_store_id?: string | null;
 			/** URI of the artifact. */
 			uri: string;
 			/** Materializer class to use for this artifact. */
@@ -3034,21 +3046,21 @@ export type components = {
 			 * Tags of the artifact.
 			 * @description Should be a list of plain strings, e.g., ['tag1', 'tag2']
 			 */
-			tags?: string[];
+			tags?: string[] | null;
 			/** Visualizations of the artifact. */
-			visualizations?: components["schemas"]["ArtifactVisualizationRequest"][];
+			visualizations?: components["schemas"]["ArtifactVisualizationRequest"][] | null;
 		};
 		/**
 		 * ArtifactVersionResponse
 		 * @description Response model for artifact versions.
 		 */
 		ArtifactVersionResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ArtifactVersionResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ArtifactVersionResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ArtifactVersionResponseMetadata"];
+			metadata?: components["schemas"]["ArtifactVersionResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ArtifactVersionResponseResources"];
+			resources?: components["schemas"]["ArtifactVersionResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -3076,11 +3088,11 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** Artifact to which this version belongs. */
 			artifact: components["schemas"]["ArtifactResponse"];
 			/** Version of the artifact. */
-			version: string | number;
+			version: string;
 			/** URI of the artifact. */
 			uri: string;
 			/** Type of the artifact. */
@@ -3091,11 +3103,8 @@ export type components = {
 			data_type: components["schemas"]["Source"];
 			/** Tags associated with the model */
 			tags: components["schemas"]["TagResponse"][];
-			/**
-			 * The ID of the pipeline run that generated this artifact version.
-			 * Format: uuid
-			 */
-			producer_pipeline_run_id?: string;
+			/** The ID of the pipeline run that generated this artifact version. */
+			producer_pipeline_run_id?: string | null;
 		};
 		/**
 		 * ArtifactVersionResponseMetadata
@@ -3104,18 +3113,12 @@ export type components = {
 		ArtifactVersionResponseMetadata: {
 			/** The workspace of this resource. */
 			workspace: components["schemas"]["WorkspaceResponse"];
-			/**
-			 * ID of the artifact store in which this artifact is stored.
-			 * Format: uuid
-			 */
-			artifact_store_id?: string;
-			/**
-			 * ID of the step run that produced this artifact.
-			 * Format: uuid
-			 */
-			producer_step_run_id?: string;
+			/** ID of the artifact store in which this artifact is stored. */
+			artifact_store_id?: string | null;
+			/** ID of the step run that produced this artifact. */
+			producer_step_run_id?: string | null;
 			/** Visualizations of the artifact. */
-			visualizations?: components["schemas"]["ArtifactVisualizationResponse"][];
+			visualizations?: components["schemas"]["ArtifactVisualizationResponse"][] | null;
 			/**
 			 * Metadata of the artifact.
 			 * @default {}
@@ -3128,18 +3131,20 @@ export type components = {
 		 * ArtifactVersionResponseResources
 		 * @description Class for all resource models associated with the artifact version entity.
 		 */
-		ArtifactVersionResponseResources: Record<string, never>;
+		ArtifactVersionResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ArtifactVersionUpdate
 		 * @description Artifact version update model.
 		 */
 		ArtifactVersionUpdate: {
 			/** Name */
-			name?: string;
+			name?: string | null;
 			/** Add Tags */
-			add_tags?: string[];
+			add_tags?: string[] | null;
 			/** Remove Tags */
-			remove_tags?: string[];
+			remove_tags?: string[] | null;
 		};
 		/**
 		 * ArtifactVisualizationRequest
@@ -3155,12 +3160,12 @@ export type components = {
 		 * @description Response model for artifact visualizations.
 		 */
 		ArtifactVisualizationResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ArtifactVisualizationResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ArtifactVisualizationResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ArtifactVisualizationResponseMetadata"];
+			metadata?: components["schemas"]["ArtifactVisualizationResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ArtifactVisualizationResponseResources"];
+			resources?: components["schemas"]["ArtifactVisualizationResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -3206,7 +3211,9 @@ export type components = {
 		 * ArtifactVisualizationResponseResources
 		 * @description Class for all resource models associated with the artifact visualization.
 		 */
-		ArtifactVisualizationResponseResources: Record<string, never>;
+		ArtifactVisualizationResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * AuthScheme
 		 * @description The authentication scheme.
@@ -3235,11 +3242,11 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** The minimum number of seconds that the authentication session can be configured to be valid for. Set to None for authentication sessions and long-lived credentials that don't expire. */
-			min_expiration_seconds?: number;
+			min_expiration_seconds?: number | null;
 			/** The maximum number of seconds that the authentication session can be configured to be valid for. Set to None for authentication sessions and long-lived credentials that don't expire. */
-			max_expiration_seconds?: number;
+			max_expiration_seconds?: number | null;
 			/** The default number of seconds that the authentication session is valid for. Set to None for authentication sessions and long-lived credentials that don't expire. */
-			default_expiration_seconds?: number;
+			default_expiration_seconds?: number | null;
 		};
 		/**
 		 * BasePluginFlavorResponse
@@ -3247,11 +3254,11 @@ export type components = {
 		 */
 		BasePluginFlavorResponse: {
 			/** The body of the resource. */
-			body?: components["schemas"]["BasePluginResponseBody"];
+			body?: components["schemas"]["BasePluginResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["BasePluginResponseMetadata"];
+			metadata?: components["schemas"]["BasePluginResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["BasePluginResponseResources"];
+			resources?: components["schemas"]["BasePluginResponseResources"] | null;
 			/** Name of the flavor. */
 			name: string;
 			/** Type of the plugin. */
@@ -3273,7 +3280,9 @@ export type components = {
 		 * BasePluginResponseResources
 		 * @description Response resources for plugins.
 		 */
-		BasePluginResponseResources: Record<string, never>;
+		BasePluginResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * BaseResponseMetadata
 		 * @description Base metadata model.
@@ -3289,7 +3298,9 @@ export type components = {
 		 * specified. By default, subclasses can be defined on both pipelines and
 		 * steps.
 		 */
-		BaseSettings: Record<string, never>;
+		BaseSettings: {
+			[key: string]: unknown;
+		};
 		/** Body_device_authorization_api_v1_device_authorization_post */
 		Body_device_authorization_api_v1_device_authorization_post: {
 			/**
@@ -3301,15 +3312,15 @@ export type components = {
 		/** Body_token_api_v1_login_post */
 		Body_token_api_v1_login_post: {
 			/** Grant Type */
-			grant_type?: string;
+			grant_type?: string | null;
 			/** Username */
-			username?: string;
+			username?: string | null;
 			/** Password */
-			password?: string;
+			password?: string | null;
 			/** Client Id */
-			client_id?: string;
+			client_id?: string | null;
 			/** Device Code */
-			device_code?: string;
+			device_code?: string | null;
 		};
 		/**
 		 * BuildItem
@@ -3328,11 +3339,11 @@ export type components = {
 			/** The image name or digest. */
 			image: string;
 			/** The dockerfile used to build the image. */
-			dockerfile?: string;
+			dockerfile?: string | null;
 			/** The pip requirements installed in the image. */
-			requirements?: string;
+			requirements?: string | null;
 			/** The checksum of the build settings. */
-			settings_checksum?: string;
+			settings_checksum?: string | null;
 			/**
 			 * Whether the image contains user files.
 			 * @default true
@@ -3356,6 +3367,11 @@ export type components = {
 			 * @default []
 			 */
 			call_chain?: components["schemas"]["_CallStep"][];
+			/**
+			 * Exclude Next Call
+			 * @default false
+			 */
+			exclude_next_call?: boolean;
 		};
 		/**
 		 * CodeReferenceRequest
@@ -3384,12 +3400,12 @@ export type components = {
 		 * @description Response model for code references.
 		 */
 		CodeReferenceResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["CodeReferenceResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["CodeReferenceResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["CodeReferenceResponseMetadata"];
+			metadata?: components["schemas"]["CodeReferenceResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["CodeReferenceResponseResources"];
+			resources?: components["schemas"]["CodeReferenceResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -3426,10 +3442,7 @@ export type components = {
 			 * @description The subdirectory of the code reference.
 			 */
 			subdirectory: string;
-			/**
-			 * Code Repository
-			 * @description The repository of the code reference.
-			 */
+			/** @description The repository of the code reference. */
 			code_repository: components["schemas"]["CodeRepositoryResponse"];
 		};
 		/**
@@ -3441,7 +3454,9 @@ export type components = {
 		 * CodeReferenceResponseResources
 		 * @description Class for all resource models associated with the code reference entity.
 		 */
-		CodeReferenceResponseResources: Record<string, never>;
+		CodeReferenceResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * CodeRepositoryRequest
 		 * @description Request model for code repositories.
@@ -3466,33 +3481,30 @@ export type components = {
 			config: {
 				[key: string]: unknown;
 			};
-			/**
-			 * Source
-			 * @description The code repository source.
-			 */
+			/** @description The code repository source. */
 			source: components["schemas"]["Source"];
 			/**
 			 * Logo Url
 			 * @description Optional URL of a logo (png, jpg or svg) for the code repository.
 			 */
-			logo_url?: string;
+			logo_url?: string | null;
 			/**
 			 * Description
 			 * @description Code repository description.
 			 */
-			description?: string;
+			description?: string | null;
 		};
 		/**
 		 * CodeRepositoryResponse
 		 * @description Response model for code repositories.
 		 */
 		CodeRepositoryResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["CodeRepositoryResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["CodeRepositoryResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["CodeRepositoryResponseMetadata"];
+			metadata?: components["schemas"]["CodeRepositoryResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["CodeRepositoryResponseResources"];
+			resources?: components["schemas"]["CodeRepositoryResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -3522,17 +3534,14 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
-			/**
-			 * Source
-			 * @description The code repository source.
-			 */
+			user?: components["schemas"]["UserResponse"] | null;
+			/** @description The code repository source. */
 			source: components["schemas"]["Source"];
 			/**
 			 * Logo Url
 			 * @description Optional URL of a logo (png, jpg or svg) for the code repository.
 			 */
-			logo_url?: string;
+			logo_url?: string | null;
 		};
 		/**
 		 * CodeRepositoryResponseMetadata
@@ -3552,52 +3561,41 @@ export type components = {
 			 * Description
 			 * @description Code repository description.
 			 */
-			description?: string;
+			description?: string | null;
 		};
 		/**
 		 * CodeRepositoryResponseResources
 		 * @description Class for all resource models associated with the code repository entity.
 		 */
-		CodeRepositoryResponseResources: Record<string, never>;
+		CodeRepositoryResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * CodeRepositoryUpdate
 		 * @description Update model for code repositories.
 		 */
 		CodeRepositoryUpdate: {
-			/**
-			 * The id of the user that created this resource.
-			 * Format: uuid
-			 */
-			user?: string;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace?: string;
 			/** The name of the code repository. */
-			name?: string;
+			name?: string | null;
 			/**
 			 * Config
 			 * @description Configuration for the code repository.
 			 */
 			config?: {
 				[key: string]: unknown;
-			};
-			/**
-			 * Source
-			 * @description The code repository source.
-			 */
-			source?: components["schemas"]["Source"];
+			} | null;
+			/** @description The code repository source. */
+			source?: components["schemas"]["Source"] | null;
 			/**
 			 * Logo Url
 			 * @description Optional URL of a logo (png, jpg or svg) for the code repository.
 			 */
-			logo_url?: string;
+			logo_url?: string | null;
 			/**
 			 * Description
 			 * @description Code repository description.
 			 */
-			description?: string;
+			description?: string | null;
 		};
 		/**
 		 * ColorVariants
@@ -3645,30 +3643,27 @@ export type components = {
 			 * Connector Resource Id
 			 * @description The ID of a specific resource instance to gain access to through the connector
 			 */
-			connector_resource_id?: string;
+			connector_resource_id?: string | null;
 			/** The stack component labels. */
 			labels?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The path to the component spec used for mlstacks deployments. */
-			component_spec_path?: string;
-			/**
-			 * The service connector linked to this stack component.
-			 * Format: uuid
-			 */
-			connector?: string;
+			component_spec_path?: string | null;
+			/** The service connector linked to this stack component. */
+			connector?: string | null;
 		};
 		/**
 		 * ComponentResponse
 		 * @description Response model for components.
 		 */
 		ComponentResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ComponentResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ComponentResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ComponentResponseMetadata"];
+			metadata?: components["schemas"]["ComponentResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ComponentResponseResources"];
+			resources?: components["schemas"]["ComponentResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -3698,7 +3693,7 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The type of the stack component. */
 			type: components["schemas"]["StackComponentType"];
 			/** The flavor of the stack component. */
@@ -3718,63 +3713,52 @@ export type components = {
 			/** The stack component labels. */
 			labels?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The path to the component spec used for mlstacks deployments. */
-			component_spec_path?: string;
+			component_spec_path?: string | null;
 			/**
 			 * Connector Resource Id
 			 * @description The ID of a specific resource instance to gain access to through the connector
 			 */
-			connector_resource_id?: string;
+			connector_resource_id?: string | null;
 			/** The service connector linked to this stack component. */
-			connector?: components["schemas"]["ServiceConnectorResponse"];
+			connector?: components["schemas"]["ServiceConnectorResponse"] | null;
 		};
 		/**
 		 * ComponentResponseResources
 		 * @description Class for all resource models associated with the component entity.
 		 */
-		ComponentResponseResources: Record<string, never>;
+		ComponentResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ComponentUpdate
 		 * @description Update model for stack components.
 		 */
 		ComponentUpdate: {
-			/**
-			 * The id of the user that created this resource.
-			 * Format: uuid
-			 */
-			user?: string;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace?: string;
 			/** The name of the stack component. */
-			name?: string;
+			name?: string | null;
 			/** The type of the stack component. */
-			type?: components["schemas"]["StackComponentType"];
+			type?: components["schemas"]["StackComponentType"] | null;
 			/** The flavor of the stack component. */
-			flavor?: string;
+			flavor?: string | null;
 			/** The stack component configuration. */
 			configuration?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/**
 			 * Connector Resource Id
 			 * @description The ID of a specific resource instance to gain access to through the connector
 			 */
-			connector_resource_id?: string;
+			connector_resource_id?: string | null;
 			/** The stack component labels. */
 			labels?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The path to the component spec used for mlstacks deployments. */
-			component_spec_path?: string;
-			/**
-			 * The service connector linked to this stack component.
-			 * Format: uuid
-			 */
-			connector?: string;
+			component_spec_path?: string | null;
+			/** The service connector linked to this stack component. */
+			connector?: string | null;
 		};
 		/**
 		 * Edge
@@ -3816,7 +3800,7 @@ export type components = {
 			/** The flavor of event source. */
 			flavor: string;
 			/** The plugin subtype of the event source. */
-			plugin_subtype: string;
+			plugin_subtype: components["schemas"]["PluginSubType"];
 			/**
 			 * The description of the event source.
 			 * @default
@@ -3832,12 +3816,12 @@ export type components = {
 		 * @description Response model for event sources.
 		 */
 		EventSourceResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["EventSourceResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["EventSourceResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["EventSourceResponseMetadata"];
+			metadata?: components["schemas"]["EventSourceResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["EventSourceResponseResources"];
+			resources?: components["schemas"]["EventSourceResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -3867,11 +3851,11 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The flavor of event source. */
 			flavor: string;
 			/** The plugin subtype of the event source. */
-			plugin_subtype: string;
+			plugin_subtype: components["schemas"]["PluginSubType"];
 			/** Whether the event source is active. */
 			is_active: boolean;
 		};
@@ -3899,6 +3883,7 @@ export type components = {
 		EventSourceResponseResources: {
 			/** The triggers configured with this event source. */
 			triggers: components["schemas"]["Page_TriggerResponse_"];
+			[key: string]: unknown;
 		};
 		/**
 		 * EventSourceUpdate
@@ -3906,15 +3891,15 @@ export type components = {
 		 */
 		EventSourceUpdate: {
 			/** The updated name of the event source. */
-			name?: string;
+			name?: string | null;
 			/** The updated description of the event source. */
-			description?: string;
+			description?: string | null;
 			/** The updated event source configuration. */
 			configuration?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The status of the event source. */
-			is_active?: boolean;
+			is_active?: boolean | null;
 		};
 		/**
 		 * ExecutionStatus
@@ -3928,17 +3913,29 @@ export type components = {
 		 *
 		 * Lightweight class to pass in the steps for runtime inference.
 		 */
-		ExternalArtifactConfiguration: {
-			/**
-			 * Id
-			 * Format: uuid
-			 */
-			id?: string;
+		"ExternalArtifactConfiguration-Input": {
+			/** Id */
+			id?: string | null;
 			/** Name */
-			name?: string;
+			name?: string | null;
 			/** Version */
-			version?: string;
-			model?: components["schemas"]["Model"];
+			version?: string | null;
+			model?: components["schemas"]["Model"] | null;
+		};
+		/**
+		 * ExternalArtifactConfiguration
+		 * @description External artifact configuration.
+		 *
+		 * Lightweight class to pass in the steps for runtime inference.
+		 */
+		"ExternalArtifactConfiguration-Output": {
+			/** Id */
+			id?: string | null;
+			/** Name */
+			name?: string | null;
+			/** Version */
+			version?: string | null;
+			model?: components["schemas"]["Model"] | null;
 		};
 		/**
 		 * FlavorRequest
@@ -3959,43 +3956,40 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** The type of the connector that this flavor uses. */
-			connector_type?: string;
+			connector_type?: string | null;
 			/** The resource type of the connector that this flavor uses. */
-			connector_resource_type?: string;
+			connector_resource_type?: string | null;
 			/** The name of an attribute in the stack component configuration that plays the role of resource ID when linked to a service connector. */
-			connector_resource_id_attr?: string;
+			connector_resource_id_attr?: string | null;
 			/** The path to the module which contains this Flavor. */
 			source: string;
 			/** The name of the integration that the Flavor belongs to. */
-			integration?: string;
+			integration: string | null;
 			/** Optionally, a url pointing to a png,svg or jpg can be attached. */
-			logo_url?: string;
+			logo_url?: string | null;
 			/** Optionally, a url pointing to docs, within docs.zenml.io. */
-			docs_url?: string;
+			docs_url?: string | null;
 			/** Optionally, a url pointing to SDK docs,within sdkdocs.zenml.io. */
-			sdk_docs_url?: string;
+			sdk_docs_url?: string | null;
 			/**
 			 * Whether or not this flavor is a custom, user created flavor.
 			 * @default true
 			 */
 			is_custom?: boolean;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace?: string;
+			/** The workspace to which this resource belongs. */
+			workspace?: string | null;
 		};
 		/**
 		 * FlavorResponse
 		 * @description Response model for flavors.
 		 */
 		FlavorResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["FlavorResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["FlavorResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["FlavorResponseMetadata"];
+			metadata?: components["schemas"]["FlavorResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["FlavorResponseResources"];
+			resources?: components["schemas"]["FlavorResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -4025,13 +4019,13 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The type of the Flavor. */
 			type: components["schemas"]["StackComponentType"];
 			/** The name of the integration that the Flavor belongs to. */
-			integration?: string;
+			integration: string | null;
 			/** Optionally, a url pointing to a png,svg or jpg can be attached. */
-			logo_url?: string;
+			logo_url?: string | null;
 		};
 		/**
 		 * FlavorResponseMetadata
@@ -4039,23 +4033,23 @@ export type components = {
 		 */
 		FlavorResponseMetadata: {
 			/** The project of this resource. */
-			workspace?: components["schemas"]["WorkspaceResponse"];
+			workspace: components["schemas"]["WorkspaceResponse"] | null;
 			/** The JSON schema of this flavor's corresponding configuration. */
 			config_schema: {
 				[key: string]: unknown;
 			};
 			/** The type of the connector that this flavor uses. */
-			connector_type?: string;
+			connector_type?: string | null;
 			/** The resource type of the connector that this flavor uses. */
-			connector_resource_type?: string;
+			connector_resource_type?: string | null;
 			/** The name of an attribute in the stack component configuration that plays the role of resource ID when linked to a service connector. */
-			connector_resource_id_attr?: string;
+			connector_resource_id_attr?: string | null;
 			/** The path to the module which contains this Flavor. */
 			source: string;
 			/** Optionally, a url pointing to docs, within docs.zenml.io. */
-			docs_url?: string;
+			docs_url?: string | null;
 			/** Optionally, a url pointing to SDK docs,within sdkdocs.zenml.io. */
-			sdk_docs_url?: string;
+			sdk_docs_url?: string | null;
 			/**
 			 * Whether or not this flavor is a custom, user created flavor.
 			 * @default true
@@ -4066,51 +4060,42 @@ export type components = {
 		 * FlavorResponseResources
 		 * @description Class for all resource models associated with the flavor entity.
 		 */
-		FlavorResponseResources: Record<string, never>;
+		FlavorResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * FlavorUpdate
 		 * @description Update model for flavors.
 		 */
 		FlavorUpdate: {
-			/**
-			 * The id of the user that created this resource.
-			 * Format: uuid
-			 */
-			user?: string;
 			/** The name of the Flavor. */
-			name?: string;
+			name?: string | null;
 			/** The type of the Flavor. */
-			type?: components["schemas"]["StackComponentType"];
+			type?: components["schemas"]["StackComponentType"] | null;
 			/** The JSON schema of this flavor's corresponding configuration. */
 			config_schema?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The type of the connector that this flavor uses. */
-			connector_type?: string;
+			connector_type?: string | null;
 			/** The resource type of the connector that this flavor uses. */
-			connector_resource_type?: string;
+			connector_resource_type?: string | null;
 			/** The name of an attribute in the stack component configuration that plays the role of resource ID when linked to a service connector. */
-			connector_resource_id_attr?: string;
+			connector_resource_id_attr?: string | null;
 			/** The path to the module which contains this Flavor. */
-			source?: string;
+			source?: string | null;
 			/** The name of the integration that the Flavor belongs to. */
-			integration?: string;
+			integration?: string | null;
 			/** Optionally, a url pointing to a png,svg or jpg can be attached. */
-			logo_url?: string;
+			logo_url?: string | null;
 			/** Optionally, a url pointing to docs, within docs.zenml.io. */
-			docs_url?: string;
+			docs_url?: string | null;
 			/** Optionally, a url pointing to SDK docs,within sdkdocs.zenml.io. */
-			sdk_docs_url?: string;
-			/**
-			 * Whether or not this flavor is a custom, user created flavor.
-			 * @default true
-			 */
-			is_custom?: boolean;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace?: string;
+			sdk_docs_url?: string | null;
+			/** Whether or not this flavor is a custom, user created flavor. */
+			is_custom?: boolean | null;
+			/** The workspace to which this resource belongs. */
+			workspace?: string | null;
 		};
 		/** HTTPValidationError */
 		HTTPValidationError: {
@@ -4143,7 +4128,7 @@ export type components = {
 			 */
 			edges?: components["schemas"]["Edge"][];
 			/** Root Step Id */
-			root_step_id?: string;
+			root_step_id?: string | null;
 			/**
 			 * Run Metadata
 			 * @default []
@@ -4180,12 +4165,12 @@ export type components = {
 		 * @description Response model for logs.
 		 */
 		LogsResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["LogsResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["LogsResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["LogsResponseMetadata"];
+			metadata?: components["schemas"]["LogsResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["LogsResponseResources"];
+			resources?: components["schemas"]["LogsResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -4224,12 +4209,12 @@ export type components = {
 			 * Step ID to associate the logs with.
 			 * @description When this is set, pipeline_run_id should be set to None.
 			 */
-			step_run_id?: string;
+			step_run_id?: string | null;
 			/**
 			 * Pipeline run ID to associate the logs with.
 			 * @description When this is set, step_run_id should be set to None.
 			 */
-			pipeline_run_id?: string;
+			pipeline_run_id?: string | null;
 			/** The artifact store ID to associate the logs with. */
 			artifact_store_id: string;
 		};
@@ -4237,7 +4222,9 @@ export type components = {
 		 * LogsResponseResources
 		 * @description Class for all resource models associated with the Logs entity.
 		 */
-		LogsResponseResources: Record<string, never>;
+		LogsResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * MetadataResourceTypes
 		 * @description All possible resource types for adding metadata.
@@ -4279,33 +4266,37 @@ export type components = {
 		 *     to a specific version/stage. If skipped new version will be created.
 		 * save_models_to_registry: Whether to save all ModelArtifacts to Model Registry,
 		 *     if available in active stack.
+		 * model_version_id: The ID of a specific Model Version, if given - it will override
+		 *     `name` and `version` settings. Used mostly internally.
 		 */
 		Model: {
 			/** Name */
 			name: string;
 			/** License */
-			license?: string;
+			license?: string | null;
 			/** Description */
-			description?: string;
+			description?: string | null;
 			/** Audience */
-			audience?: string;
+			audience?: string | null;
 			/** Use Cases */
-			use_cases?: string;
+			use_cases?: string | null;
 			/** Limitations */
-			limitations?: string;
+			limitations?: string | null;
 			/** Trade Offs */
-			trade_offs?: string;
+			trade_offs?: string | null;
 			/** Ethics */
-			ethics?: string;
+			ethics?: string | null;
 			/** Tags */
-			tags?: string[];
+			tags?: string[] | null;
 			/** Version */
-			version?: components["schemas"]["ModelStages"] | number | string;
+			version?: components["schemas"]["ModelStages"] | number | string | null;
 			/**
 			 * Save Models To Registry
 			 * @default true
 			 */
 			save_models_to_registry?: boolean;
+			/** Model Version Id */
+			model_version_id?: string | null;
 			/**
 			 * Suppress Class Validation Warnings
 			 * @default false
@@ -4335,21 +4326,21 @@ export type components = {
 			/** The name of the model */
 			name: string;
 			/** The license model created under */
-			license?: string;
+			license?: string | null;
 			/** The description of the model */
-			description?: string;
+			description?: string | null;
 			/** The target audience of the model */
-			audience?: string;
+			audience?: string | null;
 			/** The use cases of the model */
-			use_cases?: string;
+			use_cases?: string | null;
 			/** The know limitations of the model */
-			limitations?: string;
+			limitations?: string | null;
 			/** The trade offs of the model */
-			trade_offs?: string;
+			trade_offs?: string | null;
 			/** The ethical implications of the model */
-			ethics?: string;
+			ethics?: string | null;
 			/** Tags associated with the model */
-			tags?: string[];
+			tags: string[] | null;
 			/**
 			 * Whether to save all ModelArtifacts to Model Registry
 			 * @default true
@@ -4361,12 +4352,12 @@ export type components = {
 		 * @description Response model for models.
 		 */
 		ModelResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ModelResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ModelResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ModelResponseMetadata"];
+			metadata?: components["schemas"]["ModelResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ModelResponseResources"];
+			resources?: components["schemas"]["ModelResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -4396,16 +4387,13 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** Tags associated with the model */
 			tags: components["schemas"]["TagResponse"][];
 			/** Latest Version Name */
-			latest_version_name?: string;
-			/**
-			 * Latest Version Id
-			 * Format: uuid
-			 */
-			latest_version_id?: string;
+			latest_version_name?: string | null;
+			/** Latest Version Id */
+			latest_version_id?: string | null;
 		};
 		/**
 		 * ModelResponseMetadata
@@ -4415,19 +4403,19 @@ export type components = {
 			/** The workspace of this resource. */
 			workspace: components["schemas"]["WorkspaceResponse"];
 			/** The license model created under */
-			license?: string;
+			license?: string | null;
 			/** The description of the model */
-			description?: string;
+			description?: string | null;
 			/** The target audience of the model */
-			audience?: string;
+			audience?: string | null;
 			/** The use cases of the model */
-			use_cases?: string;
+			use_cases?: string | null;
 			/** The know limitations of the model */
-			limitations?: string;
+			limitations?: string | null;
 			/** The trade offs of the model */
-			trade_offs?: string;
+			trade_offs?: string | null;
 			/** The ethical implications of the model */
-			ethics?: string;
+			ethics?: string | null;
 			/**
 			 * Whether to save all ModelArtifacts to Model Registry
 			 * @default true
@@ -4438,7 +4426,9 @@ export type components = {
 		 * ModelResponseResources
 		 * @description Class for all resource models associated with the model entity.
 		 */
-		ModelResponseResources: Record<string, never>;
+		ModelResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ModelStages
 		 * @description All possible stages of a Model Version.
@@ -4451,27 +4441,27 @@ export type components = {
 		 */
 		ModelUpdate: {
 			/** Name */
-			name?: string;
+			name?: string | null;
 			/** License */
-			license?: string;
+			license?: string | null;
 			/** Description */
-			description?: string;
+			description?: string | null;
 			/** Audience */
-			audience?: string;
+			audience?: string | null;
 			/** Use Cases */
-			use_cases?: string;
+			use_cases?: string | null;
 			/** Limitations */
-			limitations?: string;
+			limitations?: string | null;
 			/** Trade Offs */
-			trade_offs?: string;
+			trade_offs?: string | null;
 			/** Ethics */
-			ethics?: string;
+			ethics?: string | null;
 			/** Add Tags */
-			add_tags?: string[];
+			add_tags?: string[] | null;
 			/** Remove Tags */
-			remove_tags?: string[];
+			remove_tags?: string[] | null;
 			/** Save Models To Registry */
-			save_models_to_registry?: boolean;
+			save_models_to_registry?: boolean | null;
 		};
 		/**
 		 * ModelVersionArtifactRequest
@@ -4519,12 +4509,12 @@ export type components = {
 		 * @description Response model for links between model versions and artifacts.
 		 */
 		ModelVersionArtifactResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ModelVersionArtifactResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ModelVersionArtifactResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["BaseResponseMetadata"];
+			metadata?: components["schemas"]["BaseResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ModelVersionArtifactResponseResources"];
+			resources?: components["schemas"]["ModelVersionArtifactResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -4577,7 +4567,9 @@ export type components = {
 		 * ModelVersionArtifactResponseResources
 		 * @description Class for all resource models associated with the model version artifact entity.
 		 */
-		ModelVersionArtifactResponseResources: Record<string, never>;
+		ModelVersionArtifactResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ModelVersionDataLazyLoader
 		 * @description Model Version Data Lazy Loader helper class.
@@ -4586,14 +4578,31 @@ export type components = {
 		 * model version metadata or artifact metadata from the
 		 * model version during runtime time of the step.
 		 */
-		ModelVersionDataLazyLoader: {
+		"ModelVersionDataLazyLoader-Input": {
 			model: components["schemas"]["Model"];
 			/** Artifact Name */
-			artifact_name?: string;
+			artifact_name?: string | null;
 			/** Artifact Version */
-			artifact_version?: string;
+			artifact_version?: string | null;
 			/** Metadata Name */
-			metadata_name?: string;
+			metadata_name?: string | null;
+		};
+		/**
+		 * ModelVersionDataLazyLoader
+		 * @description Model Version Data Lazy Loader helper class.
+		 *
+		 * It helps the inner codes to fetch proper artifact,
+		 * model version metadata or artifact metadata from the
+		 * model version during runtime time of the step.
+		 */
+		"ModelVersionDataLazyLoader-Output": {
+			model: components["schemas"]["Model"];
+			/** Artifact Name */
+			artifact_name?: string | null;
+			/** Artifact Version */
+			artifact_version?: string | null;
+			/** Metadata Name */
+			metadata_name?: string | null;
 		};
 		/**
 		 * ModelVersionPipelineRunRequest
@@ -4631,12 +4640,12 @@ export type components = {
 		 * @description Response model for links between model versions and pipeline runs.
 		 */
 		ModelVersionPipelineRunResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ModelVersionPipelineRunResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ModelVersionPipelineRunResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["BaseResponseMetadata"];
+			metadata?: components["schemas"]["BaseResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ModelVersionPipelineRunResponseResources"];
+			resources?: components["schemas"]["ModelVersionPipelineRunResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -4679,7 +4688,9 @@ export type components = {
 		 * ModelVersionPipelineRunResponseResources
 		 * @description Class for all resource models associated with the model version pipeline run entity.
 		 */
-		ModelVersionPipelineRunResponseResources: Record<string, never>;
+		ModelVersionPipelineRunResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ModelVersionRequest
 		 * @description Request model for model versions.
@@ -4699,22 +4710,22 @@ export type components = {
 			 * Name
 			 * @description The name of the model version
 			 */
-			name?: string;
+			name?: string | null;
 			/**
 			 * Description
 			 * @description The description of the model version
 			 */
-			description?: string;
+			description?: string | null;
 			/**
 			 * Stage
 			 * @description The stage of the model version
 			 */
-			stage?: string;
+			stage?: string | null;
 			/**
 			 * Number
 			 * @description The number of the model version
 			 */
-			number?: number;
+			number?: number | null;
 			/**
 			 * Model
 			 * Format: uuid
@@ -4722,19 +4733,19 @@ export type components = {
 			 */
 			model: string;
 			/** Tags associated with the model version */
-			tags?: string[];
+			tags?: string[] | null;
 		};
 		/**
 		 * ModelVersionResponse
 		 * @description Response model for model versions.
 		 */
 		ModelVersionResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ModelVersionResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ModelVersionResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ModelVersionResponseMetadata"];
+			metadata?: components["schemas"]["ModelVersionResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ModelVersionResponseResources"];
+			resources?: components["schemas"]["ModelVersionResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -4749,7 +4760,7 @@ export type components = {
 			 * Name
 			 * @description The name of the model version
 			 */
-			name?: string;
+			name?: string | null;
 		};
 		/**
 		 * ModelVersionResponseBody
@@ -4767,21 +4778,18 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/**
 			 * Stage
 			 * @description The stage of the model version
 			 */
-			stage?: string;
+			stage?: string | null;
 			/**
 			 * Number
 			 * @description The number of the model version
 			 */
 			number: number;
-			/**
-			 * Model
-			 * @description The model containing version
-			 */
+			/** @description The model containing version */
 			model: components["schemas"]["ModelResponse"];
 			/**
 			 * Model Artifact Ids
@@ -4832,7 +4840,7 @@ export type components = {
 			 * Description
 			 * @description The description of the model version
 			 */
-			description?: string;
+			description?: string | null;
 			/**
 			 * Run Metadata
 			 * @description Metadata linked to the model version
@@ -4847,11 +4855,9 @@ export type components = {
 		 * @description Class for all resource models associated with the model version entity.
 		 */
 		ModelVersionResponseResources: {
-			/**
-			 * Services
-			 * @description Services linked to the model version
-			 */
+			/** @description Services linked to the model version */
 			services: components["schemas"]["Page_ServiceResponse_"];
+			[key: string]: unknown;
 		};
 		/**
 		 * ModelVersionUpdate
@@ -4868,7 +4874,7 @@ export type components = {
 			 * Stage
 			 * @description Target model version stage to be set
 			 */
-			stage?: string | components["schemas"]["ModelStages"];
+			stage?: string | components["schemas"]["ModelStages"] | null;
 			/**
 			 * Force
 			 * @description Whether existing model version in target stage should be silently archived or an error should be raised.
@@ -4879,22 +4885,22 @@ export type components = {
 			 * Name
 			 * @description Target model version name to be set
 			 */
-			name?: string;
+			name?: string | null;
 			/**
 			 * Description
 			 * @description Target model version description to be set
 			 */
-			description?: string;
+			description?: string | null;
 			/**
 			 * Add Tags
 			 * @description Tags to be added to the model version
 			 */
-			add_tags?: string[];
+			add_tags?: string[] | null;
 			/**
 			 * Remove Tags
 			 * @description Tags to be removed from the model version
 			 */
-			remove_tags?: string[];
+			remove_tags?: string[] | null;
 		};
 		/**
 		 * OAuthDeviceAuthorizationResponse
@@ -4908,7 +4914,7 @@ export type components = {
 			/** Verification Uri */
 			verification_uri: string;
 			/** Verification Uri Complete */
-			verification_uri_complete?: string;
+			verification_uri_complete?: string | null;
 			/** Expires In */
 			expires_in: number;
 			/** Interval */
@@ -4919,12 +4925,12 @@ export type components = {
 		 * @description Response model for OAuth2 devices.
 		 */
 		OAuthDeviceResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["OAuthDeviceResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["OAuthDeviceResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["OAuthDeviceResponseMetadata"];
+			metadata?: components["schemas"]["OAuthDeviceResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["OAuthDeviceResponseResources"];
+			resources?: components["schemas"]["OAuthDeviceResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -4952,7 +4958,7 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/**
 			 * Client Id
 			 * Format: uuid
@@ -4961,10 +4967,9 @@ export type components = {
 			client_id: string;
 			/**
 			 * Expires
-			 * Format: date-time
 			 * @description The expiration date of the OAuth2 device after which the device is no longer valid and cannot be used for authentication.
 			 */
-			expires?: string;
+			expires?: string | null;
 			/**
 			 * Trusted Device
 			 * @description Whether the OAuth2 device was marked as trusted. A trusted device has a much longer validity time.
@@ -4976,17 +4981,17 @@ export type components = {
 			 * Os
 			 * @description The operating system of the device used for authentication.
 			 */
-			os?: string;
+			os?: string | null;
 			/**
 			 * Ip Address
 			 * @description The IP address of the device used for authentication.
 			 */
-			ip_address?: string;
+			ip_address?: string | null;
 			/**
 			 * Hostname
 			 * @description The hostname of the device used for authentication.
 			 */
-			hostname?: string;
+			hostname?: string | null;
 		};
 		/**
 		 * OAuthDeviceResponseMetadata
@@ -4997,27 +5002,27 @@ export type components = {
 			 * Python Version
 			 * @description The Python version of the device used for authentication.
 			 */
-			python_version?: string;
+			python_version?: string | null;
 			/**
 			 * Zenml Version
 			 * @description The ZenML version of the device used for authentication.
 			 */
-			zenml_version?: string;
+			zenml_version?: string | null;
 			/**
 			 * City
 			 * @description The city where the device is located.
 			 */
-			city?: string;
+			city?: string | null;
 			/**
 			 * Region
 			 * @description The region where the device is located.
 			 */
-			region?: string;
+			region?: string | null;
 			/**
 			 * Country
 			 * @description The country where the device is located.
 			 */
-			country?: string;
+			country?: string | null;
 			/**
 			 * Failed Auth Attempts
 			 * @description The number of failed authentication attempts.
@@ -5025,16 +5030,17 @@ export type components = {
 			failed_auth_attempts: number;
 			/**
 			 * Last Login
-			 * Format: date-time
 			 * @description The date of the last successful login.
 			 */
-			last_login?: string;
+			last_login: string | null;
 		};
 		/**
 		 * OAuthDeviceResponseResources
 		 * @description Class for all resource models associated with the OAuthDevice entity.
 		 */
-		OAuthDeviceResponseResources: Record<string, never>;
+		OAuthDeviceResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * OAuthDeviceStatus
 		 * @description The OAuth device status.
@@ -5050,7 +5056,7 @@ export type components = {
 			 * Locked
 			 * @description Whether to lock or unlock the OAuth2 device. A locked device cannot be used for authentication.
 			 */
-			locked?: boolean;
+			locked?: boolean | null;
 		};
 		/**
 		 * OAuthDeviceVerificationRequest
@@ -5083,16 +5089,13 @@ export type components = {
 			/** Token Type */
 			token_type: string;
 			/** Expires In */
-			expires_in?: number;
+			expires_in?: number | null;
 			/** Refresh Token */
-			refresh_token?: string;
+			refresh_token?: string | null;
 			/** Scope */
-			scope?: string;
+			scope?: string | null;
 		};
-		/**
-		 * Page[APIKeyResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[APIKeyResponse] */
 		Page_APIKeyResponse_: {
 			/** Index */
 			index: number;
@@ -5105,10 +5108,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["APIKeyResponse"][];
 		};
-		/**
-		 * Page[ArtifactResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[ArtifactResponse] */
 		Page_ArtifactResponse_: {
 			/** Index */
 			index: number;
@@ -5121,10 +5121,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ArtifactResponse"][];
 		};
-		/**
-		 * Page[ArtifactVersionResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[ArtifactVersionResponse] */
 		Page_ArtifactVersionResponse_: {
 			/** Index */
 			index: number;
@@ -5137,10 +5134,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ArtifactVersionResponse"][];
 		};
-		/**
-		 * Page[BasePluginFlavorResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[BasePluginFlavorResponse] */
 		Page_BasePluginFlavorResponse_: {
 			/** Index */
 			index: number;
@@ -5153,10 +5147,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["BasePluginFlavorResponse"][];
 		};
-		/**
-		 * Page[CodeRepositoryResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[CodeRepositoryResponse] */
 		Page_CodeRepositoryResponse_: {
 			/** Index */
 			index: number;
@@ -5169,10 +5160,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["CodeRepositoryResponse"][];
 		};
-		/**
-		 * Page[ComponentResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[ComponentResponse] */
 		Page_ComponentResponse_: {
 			/** Index */
 			index: number;
@@ -5185,10 +5173,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ComponentResponse"][];
 		};
-		/**
-		 * Page[EventSourceResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[EventSourceResponse] */
 		Page_EventSourceResponse_: {
 			/** Index */
 			index: number;
@@ -5201,10 +5186,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["EventSourceResponse"][];
 		};
-		/**
-		 * Page[FlavorResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[FlavorResponse] */
 		Page_FlavorResponse_: {
 			/** Index */
 			index: number;
@@ -5217,10 +5199,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["FlavorResponse"][];
 		};
-		/**
-		 * Page[ModelResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[ModelResponse] */
 		Page_ModelResponse_: {
 			/** Index */
 			index: number;
@@ -5233,10 +5212,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ModelResponse"][];
 		};
-		/**
-		 * Page[ModelVersionArtifactResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[ModelVersionArtifactResponse] */
 		Page_ModelVersionArtifactResponse_: {
 			/** Index */
 			index: number;
@@ -5249,10 +5225,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ModelVersionArtifactResponse"][];
 		};
-		/**
-		 * Page[ModelVersionPipelineRunResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[ModelVersionPipelineRunResponse] */
 		Page_ModelVersionPipelineRunResponse_: {
 			/** Index */
 			index: number;
@@ -5265,10 +5238,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ModelVersionPipelineRunResponse"][];
 		};
-		/**
-		 * Page[ModelVersionResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[ModelVersionResponse] */
 		Page_ModelVersionResponse_: {
 			/** Index */
 			index: number;
@@ -5281,10 +5251,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ModelVersionResponse"][];
 		};
-		/**
-		 * Page[OAuthDeviceResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[OAuthDeviceResponse] */
 		Page_OAuthDeviceResponse_: {
 			/** Index */
 			index: number;
@@ -5297,10 +5264,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["OAuthDeviceResponse"][];
 		};
-		/**
-		 * Page[PipelineBuildResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[PipelineBuildResponse] */
 		Page_PipelineBuildResponse_: {
 			/** Index */
 			index: number;
@@ -5313,10 +5277,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["PipelineBuildResponse"][];
 		};
-		/**
-		 * Page[PipelineDeploymentResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[PipelineDeploymentResponse] */
 		Page_PipelineDeploymentResponse_: {
 			/** Index */
 			index: number;
@@ -5329,10 +5290,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["PipelineDeploymentResponse"][];
 		};
-		/**
-		 * Page[PipelineNamespaceResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[PipelineNamespaceResponse] */
 		Page_PipelineNamespaceResponse_: {
 			/** Index */
 			index: number;
@@ -5345,10 +5303,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["PipelineNamespaceResponse"][];
 		};
-		/**
-		 * Page[PipelineResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[PipelineResponse] */
 		Page_PipelineResponse_: {
 			/** Index */
 			index: number;
@@ -5361,10 +5316,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["PipelineResponse"][];
 		};
-		/**
-		 * Page[PipelineRunResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[PipelineRunResponse] */
 		Page_PipelineRunResponse_: {
 			/** Index */
 			index: number;
@@ -5377,10 +5329,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["PipelineRunResponse"][];
 		};
-		/**
-		 * Page[RunMetadataResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[RunMetadataResponse] */
 		Page_RunMetadataResponse_: {
 			/** Index */
 			index: number;
@@ -5393,10 +5342,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["RunMetadataResponse"][];
 		};
-		/**
-		 * Page[ScheduleResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[ScheduleResponse] */
 		Page_ScheduleResponse_: {
 			/** Index */
 			index: number;
@@ -5409,10 +5355,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ScheduleResponse"][];
 		};
-		/**
-		 * Page[SecretResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[SecretResponse] */
 		Page_SecretResponse_: {
 			/** Index */
 			index: number;
@@ -5425,10 +5368,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["SecretResponse"][];
 		};
-		/**
-		 * Page[ServiceAccountResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[ServiceAccountResponse] */
 		Page_ServiceAccountResponse_: {
 			/** Index */
 			index: number;
@@ -5441,10 +5381,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ServiceAccountResponse"][];
 		};
-		/**
-		 * Page[ServiceConnectorResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[ServiceConnectorResponse] */
 		Page_ServiceConnectorResponse_: {
 			/** Index */
 			index: number;
@@ -5457,10 +5394,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ServiceConnectorResponse"][];
 		};
-		/**
-		 * Page[ServiceResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[ServiceResponse] */
 		Page_ServiceResponse_: {
 			/** Index */
 			index: number;
@@ -5473,10 +5407,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["ServiceResponse"][];
 		};
-		/**
-		 * Page[StackResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[StackResponse] */
 		Page_StackResponse_: {
 			/** Index */
 			index: number;
@@ -5489,10 +5420,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["StackResponse"][];
 		};
-		/**
-		 * Page[StepRunResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[StepRunResponse] */
 		Page_StepRunResponse_: {
 			/** Index */
 			index: number;
@@ -5505,10 +5433,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["StepRunResponse"][];
 		};
-		/**
-		 * Page[TagResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[TagResponse] */
 		Page_TagResponse_: {
 			/** Index */
 			index: number;
@@ -5521,10 +5446,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["TagResponse"][];
 		};
-		/**
-		 * Page[TriggerExecutionResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[TriggerExecutionResponse] */
 		Page_TriggerExecutionResponse_: {
 			/** Index */
 			index: number;
@@ -5537,10 +5459,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["TriggerExecutionResponse"][];
 		};
-		/**
-		 * Page[TriggerResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[TriggerResponse] */
 		Page_TriggerResponse_: {
 			/** Index */
 			index: number;
@@ -5553,10 +5472,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["TriggerResponse"][];
 		};
-		/**
-		 * Page[UserResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[UserResponse] */
 		Page_UserResponse_: {
 			/** Index */
 			index: number;
@@ -5569,10 +5485,7 @@ export type components = {
 			/** Items */
 			items: components["schemas"]["UserResponse"][];
 		};
-		/**
-		 * Page[WorkspaceResponse]
-		 * @description Return Model for List Models to accommodate pagination.
-		 */
+		/** Page[WorkspaceResponse] */
 		Page_WorkspaceResponse_: {
 			/** Index */
 			index: number;
@@ -5612,38 +5525,29 @@ export type components = {
 			/** Whether any image of the build contains user code. */
 			contains_code: boolean;
 			/** The version of ZenML used for this build. */
-			zenml_version?: string;
+			zenml_version?: string | null;
 			/** The Python version used for this build. */
-			python_version?: string;
+			python_version?: string | null;
 			/** The build checksum. */
-			checksum?: string;
-			/**
-			 * The stack that was used for this build.
-			 * Format: uuid
-			 */
-			stack?: string;
-			/**
-			 * The pipeline that was used for this build.
-			 * Format: uuid
-			 */
-			pipeline?: string;
-			/**
-			 * Template Deployment Id
-			 * Format: uuid
-			 */
-			template_deployment_id?: string;
+			checksum?: string | null;
+			/** The stack that was used for this build. */
+			stack?: string | null;
+			/** The pipeline that was used for this build. */
+			pipeline?: string | null;
+			/** Template Deployment Id */
+			template_deployment_id?: string | null;
 		};
 		/**
 		 * PipelineBuildResponse
 		 * @description Response model for pipeline builds.
 		 */
 		PipelineBuildResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["PipelineBuildResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["PipelineBuildResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["PipelineBuildResponseMetadata"];
+			metadata?: components["schemas"]["PipelineBuildResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["PipelineBuildResponseResources"];
+			resources?: components["schemas"]["PipelineBuildResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -5671,7 +5575,7 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 		};
 		/**
 		 * PipelineBuildResponseMetadata
@@ -5681,9 +5585,9 @@ export type components = {
 			/** The workspace of this resource. */
 			workspace: components["schemas"]["WorkspaceResponse"];
 			/** The pipeline that was used for this build. */
-			pipeline?: components["schemas"]["PipelineResponse"];
+			pipeline?: components["schemas"]["PipelineResponse"] | null;
 			/** The stack that was used for this build. */
-			stack?: components["schemas"]["StackResponse"];
+			stack?: components["schemas"]["StackResponse"] | null;
 			/**
 			 * The images of this build.
 			 * @default {}
@@ -5692,39 +5596,38 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** The version of ZenML used for this build. */
-			zenml_version?: string;
+			zenml_version?: string | null;
 			/** The Python version used for this build. */
-			python_version?: string;
+			python_version?: string | null;
 			/** The build checksum. */
-			checksum?: string;
+			checksum?: string | null;
 			/** Whether the build images are stored in a container registry or locally. */
 			is_local: boolean;
 			/** Whether any image of the build contains user code. */
 			contains_code: boolean;
-			/**
-			 * Template Deployment Id
-			 * Format: uuid
-			 */
-			template_deployment_id?: string;
+			/** Template Deployment Id */
+			template_deployment_id?: string | null;
 		};
 		/**
 		 * PipelineBuildResponseResources
 		 * @description Class for all resource models associated with the pipeline build entity.
 		 */
-		PipelineBuildResponseResources: Record<string, never>;
+		PipelineBuildResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * PipelineConfiguration
 		 * @description Pipeline configuration class.
 		 */
-		PipelineConfiguration: {
+		"PipelineConfiguration-Input": {
 			/** Enable Cache */
-			enable_cache?: boolean;
+			enable_cache?: boolean | null;
 			/** Enable Artifact Metadata */
-			enable_artifact_metadata?: boolean;
+			enable_artifact_metadata?: boolean | null;
 			/** Enable Artifact Visualization */
-			enable_artifact_visualization?: boolean;
+			enable_artifact_visualization?: boolean | null;
 			/** Enable Step Logs */
-			enable_step_logs?: boolean;
+			enable_step_logs?: boolean | null;
 			/**
 			 * Settings
 			 * @default {}
@@ -5739,13 +5642,52 @@ export type components = {
 			extra?: {
 				[key: string]: unknown;
 			};
-			failure_hook_source?: components["schemas"]["Source"];
-			success_hook_source?: components["schemas"]["Source"];
-			model?: components["schemas"]["Model"];
+			failure_hook_source?: components["schemas"]["Source"] | null;
+			success_hook_source?: components["schemas"]["Source"] | null;
+			model?: components["schemas"]["Model"] | null;
 			/** Parameters */
 			parameters?: {
 				[key: string]: unknown;
+			} | null;
+			retry?: components["schemas"]["StepRetryConfig"] | null;
+			/** Name */
+			name: string;
+		};
+		/**
+		 * PipelineConfiguration
+		 * @description Pipeline configuration class.
+		 */
+		"PipelineConfiguration-Output": {
+			/** Enable Cache */
+			enable_cache?: boolean | null;
+			/** Enable Artifact Metadata */
+			enable_artifact_metadata?: boolean | null;
+			/** Enable Artifact Visualization */
+			enable_artifact_visualization?: boolean | null;
+			/** Enable Step Logs */
+			enable_step_logs?: boolean | null;
+			/**
+			 * Settings
+			 * @default {}
+			 */
+			settings?: {
+				[key: string]: unknown;
 			};
+			/**
+			 * Extra
+			 * @default {}
+			 */
+			extra?: {
+				[key: string]: unknown;
+			};
+			failure_hook_source?: components["schemas"]["Source"] | null;
+			success_hook_source?: components["schemas"]["Source"] | null;
+			model?: components["schemas"]["Model"] | null;
+			/** Parameters */
+			parameters?: {
+				[key: string]: unknown;
+			} | null;
+			retry?: components["schemas"]["StepRetryConfig"] | null;
 			/** Name */
 			name: string;
 		};
@@ -5767,7 +5709,7 @@ export type components = {
 			/** The run name template for runs created using this deployment. */
 			run_name_template: string;
 			/** The pipeline configuration for this deployment. */
-			pipeline_configuration: components["schemas"]["PipelineConfiguration"];
+			pipeline_configuration: components["schemas"]["PipelineConfiguration-Input"];
 			/**
 			 * The step configurations for this deployment.
 			 * @default {}
@@ -5783,43 +5725,34 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** The version of the ZenML installation on the client side. */
-			client_version?: string;
+			client_version?: string | null;
 			/** The version of the ZenML installation on the server side. */
-			server_version?: string;
+			server_version?: string | null;
 			/**
 			 * The stack associated with the deployment.
 			 * Format: uuid
 			 */
 			stack: string;
-			/**
-			 * The pipeline associated with the deployment.
-			 * Format: uuid
-			 */
-			pipeline?: string;
-			/**
-			 * The build associated with the deployment.
-			 * Format: uuid
-			 */
-			build?: string;
-			/**
-			 * The schedule associated with the deployment.
-			 * Format: uuid
-			 */
-			schedule?: string;
+			/** The pipeline associated with the deployment. */
+			pipeline?: string | null;
+			/** The build associated with the deployment. */
+			build?: string | null;
+			/** The schedule associated with the deployment. */
+			schedule?: string | null;
 			/** The code reference associated with the deployment. */
-			code_reference?: components["schemas"]["CodeReferenceRequest"];
+			code_reference?: components["schemas"]["CodeReferenceRequest"] | null;
 		};
 		/**
 		 * PipelineDeploymentResponse
 		 * @description Response model for pipeline deployments.
 		 */
 		PipelineDeploymentResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["PipelineDeploymentResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["PipelineDeploymentResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["PipelineDeploymentResponseMetadata"];
+			metadata?: components["schemas"]["PipelineDeploymentResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["PipelineDeploymentResponseResources"];
+			resources?: components["schemas"]["PipelineDeploymentResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -5847,7 +5780,7 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 		};
 		/**
 		 * PipelineDeploymentResponseMetadata
@@ -5859,7 +5792,7 @@ export type components = {
 			/** The run name template for runs created using this deployment. */
 			run_name_template: string;
 			/** The pipeline configuration for this deployment. */
-			pipeline_configuration: components["schemas"]["PipelineConfiguration"];
+			pipeline_configuration: components["schemas"]["PipelineConfiguration-Output"];
 			/**
 			 * The step configurations for this deployment.
 			 * @default {}
@@ -5875,19 +5808,19 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** The version of the ZenML installation on the client side. */
-			client_version?: string;
+			client_version: string | null;
 			/** The version of the ZenML installation on the server side. */
-			server_version?: string;
+			server_version: string | null;
 			/** The pipeline associated with the deployment. */
-			pipeline?: components["schemas"]["PipelineResponse"];
+			pipeline?: components["schemas"]["PipelineResponse"] | null;
 			/** The stack associated with the deployment. */
-			stack?: components["schemas"]["StackResponse"];
+			stack?: components["schemas"]["StackResponse"] | null;
 			/** The pipeline build associated with the deployment. */
-			build?: components["schemas"]["PipelineBuildResponse"];
+			build?: components["schemas"]["PipelineBuildResponse"] | null;
 			/** The schedule associated with the deployment. */
-			schedule?: components["schemas"]["ScheduleResponse"];
+			schedule?: components["schemas"]["ScheduleResponse"] | null;
 			/** The code reference associated with the deployment. */
-			code_reference?: components["schemas"]["CodeReferenceResponse"];
+			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
 		};
 		/**
 		 * PipelineDeploymentResponseResources
@@ -5896,6 +5829,7 @@ export type components = {
 		PipelineDeploymentResponseResources: {
 			/** The triggers configured with this event source. */
 			triggers: components["schemas"]["Page_TriggerResponse_"];
+			[key: string]: unknown;
 		};
 		/**
 		 * PipelineNamespaceResponse
@@ -5903,11 +5837,11 @@ export type components = {
 		 */
 		PipelineNamespaceResponse: {
 			/** The body of the resource. */
-			body?: components["schemas"]["PipelineNamespaceResponseBody"];
+			body?: components["schemas"]["PipelineNamespaceResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["PipelineNamespaceResponseMetadata"];
+			metadata?: components["schemas"]["PipelineNamespaceResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["PipelineNamespaceResponseResources"];
+			resources?: components["schemas"]["PipelineNamespaceResponseResources"] | null;
 			/** The name of the pipeline namespace. */
 			name: string;
 		};
@@ -5916,13 +5850,10 @@ export type components = {
 		 * @description Response body for pipeline namespaces.
 		 */
 		PipelineNamespaceResponseBody: {
-			/**
-			 * The ID of the latest run of the pipeline namespace.
-			 * Format: uuid
-			 */
-			latest_run_id?: string;
+			/** The ID of the latest run of the pipeline namespace. */
+			latest_run_id?: string | null;
 			/** The status of the latest run of the pipeline namespace. */
-			latest_run_status?: components["schemas"]["ExecutionStatus"];
+			latest_run_status?: components["schemas"]["ExecutionStatus"] | null;
 		};
 		/**
 		 * PipelineNamespaceResponseMetadata
@@ -5933,7 +5864,9 @@ export type components = {
 		 * PipelineNamespaceResponseResources
 		 * @description Class for all resource models associated with the pipeline namespace entity.
 		 */
-		PipelineNamespaceResponseResources: Record<string, never>;
+		PipelineNamespaceResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * PipelineRequest
 		 * @description Request model for pipelines.
@@ -5956,21 +5889,21 @@ export type components = {
 			/** The version hash of the pipeline. */
 			version_hash: string;
 			/** The docstring of the pipeline. */
-			docstring?: string;
+			docstring?: string | null;
 			/** The spec of the pipeline. */
-			spec: components["schemas"]["PipelineSpec"];
+			spec: components["schemas"]["PipelineSpec-Input"];
 		};
 		/**
 		 * PipelineResponse
 		 * @description Response model for pipelines.
 		 */
 		PipelineResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["PipelineResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["PipelineResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["PipelineResponseMetadata"];
+			metadata?: components["schemas"]["PipelineResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["PipelineResponseResources"];
+			resources?: components["schemas"]["PipelineResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -6000,9 +5933,9 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The status of the last 3 Pipeline Runs. */
-			status?: components["schemas"]["ExecutionStatus"][];
+			status?: components["schemas"]["ExecutionStatus"][] | null;
 			/** The version of the pipeline. */
 			version: string;
 		};
@@ -6016,15 +5949,17 @@ export type components = {
 			/** The version hash of the pipeline. */
 			version_hash: string;
 			/** The spec of the pipeline. */
-			spec: components["schemas"]["PipelineSpec"];
+			spec: components["schemas"]["PipelineSpec-Output"];
 			/** The docstring of the pipeline. */
-			docstring?: string;
+			docstring?: string | null;
 		};
 		/**
 		 * PipelineResponseResources
 		 * @description Class for all resource models associated with the pipeline entity.
 		 */
-		PipelineResponseResources: Record<string, never>;
+		PipelineResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * PipelineRunRequest
 		 * @description Request model for pipeline runs.
@@ -6047,23 +5982,14 @@ export type components = {
 			 * Format: uuid
 			 */
 			deployment: string;
-			/**
-			 * The pipeline associated with the pipeline run.
-			 * Format: uuid
-			 */
-			pipeline?: string;
+			/** The pipeline associated with the pipeline run. */
+			pipeline?: string | null;
 			/** The orchestrator run ID. */
-			orchestrator_run_id?: string;
-			/**
-			 * The start time of the pipeline run.
-			 * Format: date-time
-			 */
-			start_time?: string;
-			/**
-			 * The end time of the pipeline run.
-			 * Format: date-time
-			 */
-			end_time?: string;
+			orchestrator_run_id?: string | null;
+			/** The start time of the pipeline run. */
+			start_time?: string | null;
+			/** The end time of the pipeline run. */
+			end_time?: string | null;
 			/** The status of the pipeline run. */
 			status: components["schemas"]["ExecutionStatus"];
 			/**
@@ -6080,23 +6006,20 @@ export type components = {
 			orchestrator_environment?: {
 				[key: string]: unknown;
 			};
-			/**
-			 * ID of the trigger execution that triggered this run.
-			 * Format: uuid
-			 */
-			trigger_execution_id?: string;
+			/** ID of the trigger execution that triggered this run. */
+			trigger_execution_id?: string | null;
 		};
 		/**
 		 * PipelineRunResponse
 		 * @description Response model for pipeline runs.
 		 */
 		PipelineRunResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["PipelineRunResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["PipelineRunResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["PipelineRunResponseMetadata"];
+			metadata?: components["schemas"]["PipelineRunResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["PipelineRunResponseResources"];
+			resources?: components["schemas"]["PipelineRunResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -6126,26 +6049,23 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The status of the pipeline run. */
 			status: components["schemas"]["ExecutionStatus"];
 			/** The stack that was used for this run. */
-			stack?: components["schemas"]["StackResponse"];
+			stack?: components["schemas"]["StackResponse"] | null;
 			/** The pipeline this run belongs to. */
-			pipeline?: components["schemas"]["PipelineResponse"];
+			pipeline?: components["schemas"]["PipelineResponse"] | null;
 			/** The pipeline build that was used for this run. */
-			build?: components["schemas"]["PipelineBuildResponse"];
+			build?: components["schemas"]["PipelineBuildResponse"] | null;
 			/** The schedule that was used for this run. */
-			schedule?: components["schemas"]["ScheduleResponse"];
+			schedule?: components["schemas"]["ScheduleResponse"] | null;
 			/** The code reference that was used for this run. */
-			code_reference?: components["schemas"]["CodeReferenceResponse"];
-			/**
-			 * The deployment that was used for this run.
-			 * Format: uuid
-			 */
-			deployment_id?: string;
+			code_reference?: components["schemas"]["CodeReferenceResponse"] | null;
+			/** The deployment that was used for this run. */
+			deployment_id?: string | null;
 			/** The trigger execution that triggered this run. */
-			trigger_execution?: components["schemas"]["TriggerExecutionResponse"];
+			trigger_execution?: components["schemas"]["TriggerExecutionResponse"] | null;
 		};
 		/**
 		 * PipelineRunResponseMetadata
@@ -6169,17 +6089,11 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** The pipeline configuration used for this pipeline run. */
-			config: components["schemas"]["PipelineConfiguration"];
-			/**
-			 * The start time of the pipeline run.
-			 * Format: date-time
-			 */
-			start_time?: string;
-			/**
-			 * The end time of the pipeline run.
-			 * Format: date-time
-			 */
-			end_time?: string;
+			config: components["schemas"]["PipelineConfiguration-Output"];
+			/** The start time of the pipeline run. */
+			start_time?: string | null;
+			/** The end time of the pipeline run. */
+			end_time?: string | null;
 			/**
 			 * Environment of the client that initiated this pipeline run (OS, Python version, etc.).
 			 * @default {}
@@ -6195,36 +6109,36 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** The orchestrator run ID. */
-			orchestrator_run_id?: string;
+			orchestrator_run_id?: string | null;
 		};
 		/**
 		 * PipelineRunResponseResources
 		 * @description Class for all resource models associated with the pipeline run entity.
 		 */
-		PipelineRunResponseResources: Record<string, never>;
+		PipelineRunResponseResources: {
+			model_version?: components["schemas"]["ModelVersionResponse"] | null;
+			[key: string]: unknown;
+		};
 		/**
 		 * PipelineRunUpdate
 		 * @description Pipeline run update model.
 		 */
 		PipelineRunUpdate: {
-			status?: components["schemas"]["ExecutionStatus"];
-			/**
-			 * End Time
-			 * Format: date-time
-			 */
-			end_time?: string;
+			status?: components["schemas"]["ExecutionStatus"] | null;
+			/** End Time */
+			end_time?: string | null;
 		};
 		/**
 		 * PipelineSpec
 		 * @description Specification of a pipeline.
 		 */
-		PipelineSpec: {
+		"PipelineSpec-Input": {
 			/**
 			 * Version
 			 * @default 0.4
 			 */
 			version?: string;
-			source?: components["schemas"]["Source"];
+			source?: components["schemas"]["Source"] | null;
 			/**
 			 * Parameters
 			 * @default {}
@@ -6233,33 +6147,44 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** Steps */
-			steps: components["schemas"]["StepSpec"][];
+			steps: components["schemas"]["StepSpec-Input"][];
+		};
+		/**
+		 * PipelineSpec
+		 * @description Specification of a pipeline.
+		 */
+		"PipelineSpec-Output": {
+			/**
+			 * Version
+			 * @default 0.4
+			 */
+			version?: string;
+			source?: components["schemas"]["Source"] | null;
+			/**
+			 * Parameters
+			 * @default {}
+			 */
+			parameters?: {
+				[key: string]: unknown;
+			};
+			/** Steps */
+			steps: components["schemas"]["StepSpec-Output"][];
 		};
 		/**
 		 * PipelineUpdate
 		 * @description Update model for pipelines.
 		 */
 		PipelineUpdate: {
-			/**
-			 * The id of the user that created this resource.
-			 * Format: uuid
-			 */
-			user?: string;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace?: string;
 			/** The name of the pipeline. */
-			name?: string;
+			name?: string | null;
 			/** The version of the pipeline. */
-			version?: string;
+			version?: string | null;
 			/** The version hash of the pipeline. */
-			version_hash?: string;
+			version_hash?: string | null;
 			/** The docstring of the pipeline. */
-			docstring?: string;
+			docstring?: string | null;
 			/** The spec of the pipeline. */
-			spec?: components["schemas"]["PipelineSpec"];
+			spec?: components["schemas"]["PipelineSpec-Input"] | null;
 		};
 		/**
 		 * PluginSubType
@@ -6298,9 +6223,9 @@ export type components = {
 			 */
 			supports_instances?: boolean;
 			/** Optionally, a URL pointing to a png,svg or jpg file can be attached. */
-			logo_url?: string;
+			logo_url?: string | null;
 			/** Optionally, a python-rich emoji can be attached. */
-			emoji?: string;
+			emoji?: string | null;
 		};
 		/**
 		 * RunMetadataRequest
@@ -6324,11 +6249,8 @@ export type components = {
 			resource_id: string;
 			/** The type of the resource that this metadata belongs to. */
 			resource_type: components["schemas"]["MetadataResourceTypes"];
-			/**
-			 * The ID of the stack component that this metadata belongs to.
-			 * Format: uuid
-			 */
-			stack_component_id?: string;
+			/** The ID of the stack component that this metadata belongs to. */
+			stack_component_id: string | null;
 			/** The metadata to be created. */
 			values: {
 				[key: string]: unknown;
@@ -6343,12 +6265,12 @@ export type components = {
 		 * @description Response model for run metadata.
 		 */
 		RunMetadataResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["RunMetadataResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["RunMetadataResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["RunMetadataResponseMetadata"];
+			metadata?: components["schemas"]["RunMetadataResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["RunMetadataResponseResources"];
+			resources?: components["schemas"]["RunMetadataResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -6376,7 +6298,7 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The key of the metadata. */
 			key: string;
 			/** The value of the metadata. */
@@ -6389,7 +6311,7 @@ export type components = {
 				  }
 				| unknown[];
 			/** The type of the metadata. */
-			type: string;
+			type: components["schemas"]["MetadataTypeEnum"];
 		};
 		/**
 		 * RunMetadataResponseMetadata
@@ -6405,17 +6327,16 @@ export type components = {
 			resource_id: string;
 			/** The type of the resource that this metadata belongs to. */
 			resource_type: components["schemas"]["MetadataResourceTypes"];
-			/**
-			 * The ID of the stack component that this metadata belongs to.
-			 * Format: uuid
-			 */
-			stack_component_id?: string;
+			/** The ID of the stack component that this metadata belongs to. */
+			stack_component_id: string | null;
 		};
 		/**
 		 * RunMetadataResponseResources
 		 * @description Class for all resource models associated with the run metadata entity.
 		 */
-		RunMetadataResponseResources: Record<string, never>;
+		RunMetadataResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ScheduleRequest
 		 * @description Request model for schedules.
@@ -6436,54 +6357,36 @@ export type components = {
 			/** Active */
 			active: boolean;
 			/** Cron Expression */
-			cron_expression?: string;
-			/**
-			 * Start Time
-			 * Format: date-time
-			 */
-			start_time?: string;
-			/**
-			 * End Time
-			 * Format: date-time
-			 */
-			end_time?: string;
-			/**
-			 * Interval Second
-			 * Format: time-delta
-			 */
-			interval_second?: number;
+			cron_expression?: string | null;
+			/** Start Time */
+			start_time?: string | null;
+			/** End Time */
+			end_time?: string | null;
+			/** Interval Second */
+			interval_second?: string | null;
 			/**
 			 * Catchup
 			 * @default false
 			 */
 			catchup?: boolean;
-			/**
-			 * Run Once Start Time
-			 * Format: date-time
-			 */
-			run_once_start_time?: string;
-			/**
-			 * Orchestrator Id
-			 * Format: uuid
-			 */
-			orchestrator_id?: string;
-			/**
-			 * Pipeline Id
-			 * Format: uuid
-			 */
-			pipeline_id?: string;
+			/** Run Once Start Time */
+			run_once_start_time?: string | null;
+			/** Orchestrator Id */
+			orchestrator_id: string | null;
+			/** Pipeline Id */
+			pipeline_id: string | null;
 		};
 		/**
 		 * ScheduleResponse
 		 * @description Response model for schedules.
 		 */
 		ScheduleResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ScheduleResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ScheduleResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ScheduleResponseMetadata"];
+			metadata?: components["schemas"]["ScheduleResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ScheduleResponseResources"];
+			resources?: components["schemas"]["ScheduleResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -6513,36 +6416,24 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** Active */
 			active: boolean;
 			/** Cron Expression */
-			cron_expression?: string;
-			/**
-			 * Start Time
-			 * Format: date-time
-			 */
-			start_time?: string;
-			/**
-			 * End Time
-			 * Format: date-time
-			 */
-			end_time?: string;
-			/**
-			 * Interval Second
-			 * Format: time-delta
-			 */
-			interval_second?: number;
+			cron_expression?: string | null;
+			/** Start Time */
+			start_time?: string | null;
+			/** End Time */
+			end_time?: string | null;
+			/** Interval Second */
+			interval_second?: string | null;
 			/**
 			 * Catchup
 			 * @default false
 			 */
 			catchup?: boolean;
-			/**
-			 * Run Once Start Time
-			 * Format: date-time
-			 */
-			run_once_start_time?: string;
+			/** Run Once Start Time */
+			run_once_start_time?: string | null;
 		};
 		/**
 		 * ScheduleResponseMetadata
@@ -6551,78 +6442,43 @@ export type components = {
 		ScheduleResponseMetadata: {
 			/** The workspace of this resource. */
 			workspace: components["schemas"]["WorkspaceResponse"];
-			/**
-			 * Orchestrator Id
-			 * Format: uuid
-			 */
-			orchestrator_id?: string;
-			/**
-			 * Pipeline Id
-			 * Format: uuid
-			 */
-			pipeline_id?: string;
+			/** Orchestrator Id */
+			orchestrator_id: string | null;
+			/** Pipeline Id */
+			pipeline_id: string | null;
 		};
 		/**
 		 * ScheduleResponseResources
 		 * @description Class for all resource models associated with the schedule entity.
 		 */
-		ScheduleResponseResources: Record<string, never>;
+		ScheduleResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ScheduleUpdate
 		 * @description Update model for schedules.
 		 */
 		ScheduleUpdate: {
-			/**
-			 * The id of the user that created this resource.
-			 * Format: uuid
-			 */
-			user?: string;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace?: string;
 			/** Name */
-			name?: string;
+			name?: string | null;
 			/** Active */
-			active?: boolean;
+			active?: boolean | null;
 			/** Cron Expression */
-			cron_expression?: string;
-			/**
-			 * Start Time
-			 * Format: date-time
-			 */
-			start_time?: string;
-			/**
-			 * End Time
-			 * Format: date-time
-			 */
-			end_time?: string;
-			/**
-			 * Interval Second
-			 * Format: time-delta
-			 */
-			interval_second?: number;
-			/**
-			 * Catchup
-			 * @default false
-			 */
-			catchup?: boolean;
-			/**
-			 * Run Once Start Time
-			 * Format: date-time
-			 */
-			run_once_start_time?: string;
-			/**
-			 * Orchestrator Id
-			 * Format: uuid
-			 */
-			orchestrator_id?: string;
-			/**
-			 * Pipeline Id
-			 * Format: uuid
-			 */
-			pipeline_id?: string;
+			cron_expression?: string | null;
+			/** Start Time */
+			start_time?: string | null;
+			/** End Time */
+			end_time?: string | null;
+			/** Interval Second */
+			interval_second?: string | null;
+			/** Catchup */
+			catchup?: boolean | null;
+			/** Run Once Start Time */
+			run_once_start_time?: string | null;
+			/** Orchestrator Id */
+			orchestrator_id?: string | null;
+			/** Pipeline Id */
+			pipeline_id?: string | null;
 		};
 		/**
 		 * SecretRequest
@@ -6656,12 +6512,12 @@ export type components = {
 		 * @description Response model for secrets.
 		 */
 		SecretResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["SecretResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["SecretResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["SecretResponseMetadata"];
+			metadata?: components["schemas"]["SecretResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["SecretResponseResources"];
+			resources?: components["schemas"]["SecretResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -6691,7 +6547,7 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/**
 			 * The scope of the secret.
 			 * @default workspace
@@ -6714,7 +6570,9 @@ export type components = {
 		 * SecretResponseResources
 		 * @description Class for all resource models associated with the secret entity.
 		 */
-		SecretResponseResources: Record<string, never>;
+		SecretResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * SecretScope
 		 * @description Enum for the scope of a secret.
@@ -6726,24 +6584,14 @@ export type components = {
 		 * @description Secret update model.
 		 */
 		SecretUpdate: {
-			/**
-			 * The id of the user that created this resource.
-			 * Format: uuid
-			 */
-			user?: string;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace?: string;
 			/** The name of the secret. */
-			name?: string;
+			name?: string | null;
 			/** The scope of the secret. */
-			scope?: components["schemas"]["SecretScope"];
+			scope?: components["schemas"]["SecretScope"] | null;
 			/** The values stored in this secret. */
 			values?: {
 				[key: string]: unknown;
-			};
+			} | null;
 		};
 		/**
 		 * SecretsStoreType
@@ -6757,23 +6605,23 @@ export type components = {
 		 */
 		ServerActivationRequest: {
 			/** The name of the server. */
-			server_name?: string;
+			server_name?: string | null;
 			/** The logo URL of the server. */
-			logo_url?: string;
+			logo_url?: string | null;
 			/** Whether to enable analytics for the server. */
-			enable_analytics?: boolean;
+			enable_analytics?: boolean | null;
 			/** Whether to display announcements about ZenML in the dashboard. */
-			display_announcements?: boolean;
+			display_announcements?: boolean | null;
 			/** Whether to display notifications about ZenML updates in the dashboard. */
-			display_updates?: boolean;
+			display_updates?: boolean | null;
 			/** The server's onboarding state. */
 			onboarding_state?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The username of the default admin account to create. Leave empty to skip creating the default admin account. */
-			admin_username?: string;
+			admin_username?: string | null;
 			/** The password of the default admin account to create. Leave empty to skip creating the default admin account. */
-			admin_password?: string;
+			admin_password?: string | null;
 		};
 		/**
 		 * ServerDatabaseType
@@ -6838,12 +6686,20 @@ export type components = {
 			/** The authentication scheme that the server is using. */
 			auth_scheme: components["schemas"]["AuthScheme"];
 			/**
-			 * The Base URL of the server.
+			 * The URL where the ZenML server API is reachable. If not specified, the clients will use the same URL used to connect them to the ZenML server.
 			 * @default
 			 */
-			base_url?: string;
-			/** Enable server-side analytics. */
-			analytics_enabled: boolean;
+			server_url?: string;
+			/**
+			 * The URL where the ZenML dashboard is reachable. If not specified, the `server_url` value will be used instead.
+			 * @default
+			 */
+			dashboard_url?: string;
+			/**
+			 * Enable server-side analytics.
+			 * @default true
+			 */
+			analytics_enabled?: boolean;
 			/**
 			 * The metadata associated with the server.
 			 * @default {}
@@ -6851,6 +6707,11 @@ export type components = {
 			metadata?: {
 				[key: string]: unknown;
 			};
+			/**
+			 * Flag to indicate whether the server is using the legacy dashboard.
+			 * @default false
+			 */
+			use_legacy_dashboard?: boolean;
 		};
 		/**
 		 * ServerSettingsResponse
@@ -6858,11 +6719,11 @@ export type components = {
 		 */
 		ServerSettingsResponse: {
 			/** The body of the resource. */
-			body?: components["schemas"]["ServerSettingsResponseBody"];
+			body?: components["schemas"]["ServerSettingsResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ServerSettingsResponseMetadata"];
+			metadata?: components["schemas"]["ServerSettingsResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ServerSettingsResponseResources"];
+			resources?: components["schemas"]["ServerSettingsResponseResources"] | null;
 		};
 		/**
 		 * ServerSettingsResponseBody
@@ -6877,15 +6738,15 @@ export type components = {
 			/** The name of the server. */
 			server_name: string;
 			/** The logo URL of the server. */
-			logo_url?: string;
+			logo_url?: string | null;
 			/** Whether the server has been activated or not. */
 			active: boolean;
 			/** Whether analytics are enabled for the server. */
 			enable_analytics: boolean;
 			/** Whether to display announcements about ZenML in the dashboard. */
-			display_announcements?: boolean;
+			display_announcements: boolean | null;
 			/** Whether to display notifications about ZenML updates in the dashboard. */
-			display_updates?: boolean;
+			display_updates: boolean | null;
 			/**
 			 * The timestamp when this resource was last updated.
 			 * Format: date-time
@@ -6909,26 +6770,28 @@ export type components = {
 		 * ServerSettingsResponseResources
 		 * @description Response resources for server settings.
 		 */
-		ServerSettingsResponseResources: Record<string, never>;
+		ServerSettingsResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ServerSettingsUpdate
 		 * @description Model for updating server settings.
 		 */
 		ServerSettingsUpdate: {
 			/** The name of the server. */
-			server_name?: string;
+			server_name?: string | null;
 			/** The logo URL of the server. */
-			logo_url?: string;
+			logo_url?: string | null;
 			/** Whether to enable analytics for the server. */
-			enable_analytics?: boolean;
+			enable_analytics?: boolean | null;
 			/** Whether to display announcements about ZenML in the dashboard. */
-			display_announcements?: boolean;
+			display_announcements?: boolean | null;
 			/** Whether to display notifications about ZenML updates in the dashboard. */
-			display_updates?: boolean;
+			display_updates?: boolean | null;
 			/** The server's onboarding state. */
 			onboarding_state?: {
 				[key: string]: unknown;
-			};
+			} | null;
 		};
 		/**
 		 * ServiceAccountRequest
@@ -6938,7 +6801,7 @@ export type components = {
 			/** The unique name for the service account. */
 			name: string;
 			/** A description of the service account. */
-			description?: string;
+			description?: string | null;
 			/** Whether the service account is active or not. */
 			active: boolean;
 		};
@@ -6947,12 +6810,12 @@ export type components = {
 		 * @description Response model for service accounts.
 		 */
 		ServiceAccountResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ServiceAccountResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ServiceAccountResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ServiceAccountResponseMetadata"];
+			metadata?: components["schemas"]["ServiceAccountResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ServiceAccountResponseResources"];
+			resources?: components["schemas"]["ServiceAccountResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -7002,18 +6865,20 @@ export type components = {
 		 * ServiceAccountResponseResources
 		 * @description Class for all resource models associated with the service account entity.
 		 */
-		ServiceAccountResponseResources: Record<string, never>;
+		ServiceAccountResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ServiceAccountUpdate
 		 * @description Update model for service accounts.
 		 */
 		ServiceAccountUpdate: {
 			/** The unique name for the service account. */
-			name?: string;
+			name?: string | null;
 			/** A description of the service account. */
-			description?: string;
+			description?: string | null;
 			/** Whether the service account is active or not. */
-			active?: boolean;
+			active?: boolean | null;
 		};
 		/**
 		 * ServiceConnectorRequest
@@ -7044,21 +6909,18 @@ export type components = {
 			/** The type(s) of resource that the connector instance can be used to gain access to. */
 			resource_types?: string[];
 			/** Uniquely identifies a specific resource instance that the connector instance can be used to access. If omitted, the connector instance can be used to access any and all resource instances that the authentication method and resource type(s) allow. */
-			resource_id?: string;
+			resource_id?: string | null;
 			/**
 			 * Indicates whether the connector instance can be used to access multiple instances of the configured resource type.
 			 * @default false
 			 */
 			supports_instances?: boolean;
-			/**
-			 * Time when the authentication credentials configured for the connector expire. If omitted, the credentials do not expire.
-			 * Format: date-time
-			 */
-			expires_at?: string;
+			/** Time when the authentication credentials configured for the connector expire. If omitted, the credentials do not expire. */
+			expires_at?: string | null;
 			/** The number of seconds of tolerance to apply when checking whether the authentication credentials configured for the connector have expired. If omitted, no tolerance is applied. */
-			expires_skew_tolerance?: number;
+			expires_skew_tolerance?: number | null;
 			/** The duration, in seconds, that the temporary credentials generated by this connector should remain valid. Only applicable for connectors and authentication methods that involve generating temporary credentials from the ones configured in the connector. */
-			expiration_seconds?: number;
+			expiration_seconds?: number | null;
 			/** The service connector configuration, not including secrets. */
 			configuration?: {
 				[key: string]: unknown;
@@ -7080,31 +6942,28 @@ export type components = {
 		 * can provide access to.
 		 */
 		ServiceConnectorResourcesModel: {
-			/**
-			 * The ID of the service connector instance providing this resource.
-			 * Format: uuid
-			 */
-			id?: string;
+			/** The ID of the service connector instance providing this resource. */
+			id?: string | null;
 			/** The name of the service connector instance providing this resource. */
-			name?: string;
+			name?: string | null;
 			/** The type of service connector. */
 			connector_type: string | components["schemas"]["ServiceConnectorTypeModel"];
 			/** The list of resources that the service connector instance can give access to. Contains one entry for every resource type that the connector is configured for. */
 			resources?: components["schemas"]["ServiceConnectorTypedResourcesModel"][];
 			/** A global error message describing why the service connector instance could not authenticate to the remote service. */
-			error?: string;
+			error?: string | null;
 		};
 		/**
 		 * ServiceConnectorResponse
 		 * @description Response model for service connectors.
 		 */
 		ServiceConnectorResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ServiceConnectorResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ServiceConnectorResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ServiceConnectorResponseMetadata"];
+			metadata?: components["schemas"]["ServiceConnectorResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ServiceConnectorResponseResources"];
+			resources?: components["schemas"]["ServiceConnectorResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -7134,7 +6993,7 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/**
 			 * The service connector instance description.
 			 * @default
@@ -7147,19 +7006,16 @@ export type components = {
 			/** The type(s) of resource that the connector instance can be used to gain access to. */
 			resource_types?: string[];
 			/** Uniquely identifies a specific resource instance that the connector instance can be used to access. If omitted, the connector instance can be used to access any and all resource instances that the authentication method and resource type(s) allow. */
-			resource_id?: string;
+			resource_id?: string | null;
 			/**
 			 * Indicates whether the connector instance can be used to access multiple instances of the configured resource type.
 			 * @default false
 			 */
 			supports_instances?: boolean;
-			/**
-			 * Time when the authentication credentials configured for the connector expire. If omitted, the credentials do not expire.
-			 * Format: date-time
-			 */
-			expires_at?: string;
+			/** Time when the authentication credentials configured for the connector expire. If omitted, the credentials do not expire. */
+			expires_at?: string | null;
 			/** The number of seconds of tolerance to apply when checking whether the authentication credentials configured for the connector have expired. If omitted, no tolerance is applied. */
-			expires_skew_tolerance?: number;
+			expires_skew_tolerance?: number | null;
 		};
 		/**
 		 * ServiceConnectorResponseMetadata
@@ -7172,13 +7028,10 @@ export type components = {
 			configuration?: {
 				[key: string]: unknown;
 			};
-			/**
-			 * The ID of the secret that contains the service connector secret configuration values.
-			 * Format: uuid
-			 */
-			secret_id?: string;
+			/** The ID of the secret that contains the service connector secret configuration values. */
+			secret_id?: string | null;
 			/** The duration, in seconds, that the temporary credentials generated by this connector should remain valid. Only applicable for connectors and authentication methods that involve generating temporary credentials from the ones configured in the connector. */
-			expiration_seconds?: number;
+			expiration_seconds?: number | null;
 			/** The service connector secrets. */
 			secrets?: {
 				[key: string]: unknown;
@@ -7192,7 +7045,9 @@ export type components = {
 		 * ServiceConnectorResponseResources
 		 * @description Class for all resource models associated with the service connector entity.
 		 */
-		ServiceConnectorResponseResources: Record<string, never>;
+		ServiceConnectorResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ServiceConnectorTypeModel
 		 * @description Service connector type specification.
@@ -7226,13 +7081,13 @@ export type components = {
 			 */
 			supports_auto_configuration?: boolean;
 			/** Optionally, a URL pointing to a png,svg or jpg can be attached. */
-			logo_url?: string;
+			logo_url?: string | null;
 			/** Optionally, a python-rich emoji can be attached. */
-			emoji?: string;
+			emoji?: string | null;
 			/** Optionally, a URL pointing to docs, within docs.zenml.io. */
-			docs_url?: string;
+			docs_url?: string | null;
 			/** Optionally, a URL pointing to SDK docs,within sdkdocs.zenml.io. */
-			sdk_docs_url?: string;
+			sdk_docs_url?: string | null;
 			/**
 			 * If True, the service connector is available locally.
 			 * @default true
@@ -7255,9 +7110,9 @@ export type components = {
 			/** The type of resource that the service connector instance can be used to access. */
 			resource_type: string;
 			/** The resource IDs of all resource instances that the service connector instance can be used to access. Omitted (set to None) for multi-type service connectors that didn't explicitly request to fetch resources for all resource types. Also omitted if an error occurred while listing the resource instances or if no resources are listed due to authorization issues or lack of permissions (in both cases the 'error' field is set to an error message). For resource types that do not support multiple instances, a single resource ID is listed. */
-			resource_ids?: string[];
+			resource_ids?: string[] | null;
 			/** An error message describing why the service connector instance could not list the resources that it is configured to access. */
-			error?: string;
+			error?: string | null;
 		};
 		/**
 		 * ServiceConnectorUpdate
@@ -7287,57 +7142,38 @@ export type components = {
 		 * have a None default value.
 		 */
 		ServiceConnectorUpdate: {
-			/**
-			 * The id of the user that created this resource.
-			 * Format: uuid
-			 */
-			user?: string;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace?: string;
 			/** The service connector name. */
-			name?: string;
+			name?: string | null;
 			/** The type of service connector. */
-			connector_type?: string | components["schemas"]["ServiceConnectorTypeModel"];
-			/**
-			 * The service connector instance description.
-			 * @default
-			 */
-			description?: string;
+			connector_type?: string | components["schemas"]["ServiceConnectorTypeModel"] | null;
+			/** The service connector instance description. */
+			description?: string | null;
 			/** The authentication method that the connector instance uses to access the resources. */
-			auth_method?: string;
+			auth_method?: string | null;
 			/** The type(s) of resource that the connector instance can be used to gain access to. */
-			resource_types?: string[];
+			resource_types?: string[] | null;
 			/** Uniquely identifies a specific resource instance that the connector instance can be used to access. If omitted, the connector instance can be used to access any and all resource instances that the authentication method and resource type(s) allow. */
-			resource_id?: string;
-			/**
-			 * Indicates whether the connector instance can be used to access multiple instances of the configured resource type.
-			 * @default false
-			 */
-			supports_instances?: boolean;
-			/**
-			 * Time when the authentication credentials configured for the connector expire. If omitted, the credentials do not expire.
-			 * Format: date-time
-			 */
-			expires_at?: string;
+			resource_id?: string | null;
+			/** Indicates whether the connector instance can be used to access multiple instances of the configured resource type. */
+			supports_instances?: boolean | null;
+			/** Time when the authentication credentials configured for the connector expire. If omitted, the credentials do not expire. */
+			expires_at?: string | null;
 			/** The number of seconds of tolerance to apply when checking whether the authentication credentials configured for the connector have expired. If omitted, no tolerance is applied. */
-			expires_skew_tolerance?: number;
+			expires_skew_tolerance?: number | null;
 			/** The duration, in seconds, that the temporary credentials generated by this connector should remain valid. Only applicable for connectors and authentication methods that involve generating temporary credentials from the ones configured in the connector. */
-			expiration_seconds?: number;
+			expiration_seconds?: number | null;
 			/** The service connector configuration, not including secrets. */
 			configuration?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The service connector secrets. */
 			secrets?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** Service connector labels. */
 			labels?: {
 				[key: string]: unknown;
-			};
+			} | null;
 		};
 		/**
 		 * ServiceRequest
@@ -7362,12 +7198,12 @@ export type components = {
 			 * The class of the service.
 			 * @description The fully qualified class name of the service implementation.
 			 */
-			service_source?: string;
+			service_source?: string | null;
 			/**
 			 * The admin state of the service.
 			 * @description The administrative state of the service, e.g., ACTIVE, INACTIVE.
 			 */
-			admin_state?: components["schemas"]["ServiceState"];
+			admin_state?: components["schemas"]["ServiceState"] | null;
 			/**
 			 * The service config.
 			 * @description A dictionary containing configuration parameters for the service.
@@ -7378,41 +7214,38 @@ export type components = {
 			/** The service labels. */
 			labels?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The status of the service. */
 			status?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The service endpoint. */
 			endpoint?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The service endpoint URL. */
-			prediction_url?: string;
+			prediction_url?: string | null;
 			/** The service health check URL. */
-			health_check_url?: string;
-			/**
-			 * The model version id linked to the service.
-			 * Format: uuid
-			 */
-			model_version_id?: string;
+			health_check_url?: string | null;
+			/** The model version id linked to the service. */
+			model_version_id?: string | null;
 			/**
 			 * Pipeline Run Id
 			 * @description By the event source this trigger is attached to.
 			 */
-			pipeline_run_id?: string;
+			pipeline_run_id?: string | null;
 		};
 		/**
 		 * ServiceResponse
 		 * @description Response model for services.
 		 */
 		ServiceResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["ServiceResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["ServiceResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["ServiceResponseMetadata"];
+			metadata?: components["schemas"]["ServiceResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["ServiceResponseResources"];
+			resources?: components["schemas"]["ServiceResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -7442,15 +7275,15 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The type of the service. */
 			service_type: components["schemas"]["ServiceType"];
 			/** The service labels. */
 			labels?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The current state of the service. */
-			state?: components["schemas"]["ServiceState"];
+			state?: components["schemas"]["ServiceState"] | null;
 		};
 		/**
 		 * ServiceResponseMetadata
@@ -7460,31 +7293,33 @@ export type components = {
 			/** The workspace of this resource. */
 			workspace: components["schemas"]["WorkspaceResponse"];
 			/** The class of the service. */
-			service_source?: string;
+			service_source: string | null;
 			/** The admin state of the service. */
-			admin_state?: components["schemas"]["ServiceState"];
+			admin_state: components["schemas"]["ServiceState"] | null;
 			/** The service config. */
 			config: {
 				[key: string]: unknown;
 			};
 			/** The status of the service. */
-			status?: {
+			status: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The service endpoint. */
 			endpoint?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The service endpoint URL. */
-			prediction_url?: string;
+			prediction_url?: string | null;
 			/** The service health check URL. */
-			health_check_url?: string;
+			health_check_url?: string | null;
 		};
 		/**
 		 * ServiceResponseResources
 		 * @description Class for all resource models associated with the service entity.
 		 */
-		ServiceResponseResources: Record<string, never>;
+		ServiceResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * ServiceState
 		 * @description Possible states for the service and service endpoint.
@@ -7535,38 +7370,35 @@ export type components = {
 		 */
 		ServiceUpdate: {
 			/** The name of the service. */
-			name?: string;
+			name?: string | null;
 			/**
 			 * The admin state of the service.
 			 * @description The administrative state of the service, e.g., ACTIVE, INACTIVE.
 			 */
-			admin_state?: components["schemas"]["ServiceState"];
+			admin_state?: components["schemas"]["ServiceState"] | null;
 			/**
 			 * The class of the service.
 			 * @description The fully qualified class name of the service implementation.
 			 */
-			service_source?: string;
+			service_source?: string | null;
 			/** The status of the service. */
 			status?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The service endpoint. */
 			endpoint?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The service endpoint URL. */
-			prediction_url?: string;
+			prediction_url?: string | null;
 			/** The service health check URL. */
-			health_check_url?: string;
+			health_check_url?: string | null;
 			/** The service labels. */
 			labels?: {
 				[key: string]: unknown;
-			};
-			/**
-			 * The model version id linked to the service.
-			 * Format: uuid
-			 */
-			model_version_id?: string;
+			} | null;
+			/** The model version id linked to the service. */
+			model_version_id?: string | null;
 		};
 		/**
 		 * Source
@@ -7591,13 +7423,14 @@ export type components = {
 			/** Module */
 			module: string;
 			/** Attribute */
-			attribute?: string;
+			attribute?: string | null;
 			type: components["schemas"]["SourceType"];
+			[key: string]: unknown;
 		};
 		/**
 		 * SourceType
 		 * @description Enum representing different types of sources.
-		 * @enum {unknown}
+		 * @enum {string}
 		 */
 		SourceType:
 			| "user"
@@ -7647,23 +7480,23 @@ export type components = {
 			 */
 			description?: string;
 			/** The path to the stack spec used for mlstacks deployments. */
-			stack_spec_path?: string;
+			stack_spec_path?: string | null;
 			/** A mapping of stack component types to the actualinstances of components of this type. */
 			components?: {
 				[key: string]: unknown;
-			};
+			} | null;
 		};
 		/**
 		 * StackResponse
 		 * @description Response model for stacks.
 		 */
 		StackResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["StackResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["StackResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["StackResponseMetadata"];
+			metadata?: components["schemas"]["StackResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["StackResponseResources"];
+			resources?: components["schemas"]["StackResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -7693,7 +7526,7 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 		};
 		/**
 		 * StackResponseMetadata
@@ -7710,71 +7543,68 @@ export type components = {
 			 * The description of the stack
 			 * @default
 			 */
-			description?: string;
+			description?: string | null;
 			/** The path to the stack spec used for mlstacks deployments. */
-			stack_spec_path?: string;
+			stack_spec_path?: string | null;
 		};
 		/**
 		 * StackResponseResources
 		 * @description Class for all resource models associated with the stack entity.
 		 */
-		StackResponseResources: Record<string, never>;
+		StackResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * StackUpdate
 		 * @description Update model for stacks.
 		 */
 		StackUpdate: {
-			/**
-			 * The id of the user that created this resource.
-			 * Format: uuid
-			 */
-			user?: string;
-			/**
-			 * The workspace to which this resource belongs.
-			 * Format: uuid
-			 */
-			workspace?: string;
 			/** The name of the stack. */
-			name?: string;
-			/**
-			 * The description of the stack
-			 * @default
-			 */
-			description?: string;
+			name?: string | null;
+			/** The description of the stack */
+			description?: string | null;
 			/** The path to the stack spec used for mlstacks deployments. */
-			stack_spec_path?: string;
+			stack_spec_path?: string | null;
 			/** A mapping of stack component types to the actualinstances of components of this type. */
 			components?: {
 				[key: string]: unknown;
-			};
+			} | null;
 		};
 		/**
 		 * Step
 		 * @description Class representing a ZenML step.
 		 */
-		Step: {
-			spec: components["schemas"]["StepSpec"];
-			config: components["schemas"]["StepConfiguration"];
+		"Step-Input": {
+			spec: components["schemas"]["StepSpec-Input"];
+			config: components["schemas"]["StepConfiguration-Input"];
+		};
+		/**
+		 * Step
+		 * @description Class representing a ZenML step.
+		 */
+		"Step-Output": {
+			spec: components["schemas"]["StepSpec-Output"];
+			config: components["schemas"]["StepConfiguration-Output"];
 		};
 		/**
 		 * StepConfiguration
 		 * @description Step configuration class.
 		 */
-		StepConfiguration: {
+		"StepConfiguration-Input": {
 			/** Name */
 			name: string;
 			/** Enable Cache */
-			enable_cache?: boolean;
+			enable_cache?: boolean | null;
 			/** Enable Artifact Metadata */
-			enable_artifact_metadata?: boolean;
+			enable_artifact_metadata?: boolean | null;
 			/** Enable Artifact Visualization */
-			enable_artifact_visualization?: boolean;
+			enable_artifact_visualization?: boolean | null;
 			/** Enable Step Logs */
-			enable_step_logs?: boolean;
+			enable_step_logs?: boolean | null;
 			/** Step Operator */
-			step_operator?: string;
+			step_operator?: string | null;
 			/** Experiment Tracker */
-			experiment_tracker?: string;
+			experiment_tracker?: string | null;
 			/**
 			 * Parameters
 			 * @default {}
@@ -7796,9 +7626,90 @@ export type components = {
 			extra?: {
 				[key: string]: unknown;
 			};
-			failure_hook_source?: components["schemas"]["Source"];
-			success_hook_source?: components["schemas"]["Source"];
-			model?: components["schemas"]["Model"];
+			failure_hook_source?: components["schemas"]["Source"] | null;
+			success_hook_source?: components["schemas"]["Source"] | null;
+			model?: components["schemas"]["Model"] | null;
+			retry?: components["schemas"]["StepRetryConfig"] | null;
+			/**
+			 * Outputs
+			 * @default {}
+			 */
+			outputs?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Caching Parameters
+			 * @default {}
+			 */
+			caching_parameters?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * External Input Artifacts
+			 * @default {}
+			 */
+			external_input_artifacts?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Model Artifacts Or Metadata
+			 * @default {}
+			 */
+			model_artifacts_or_metadata?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Client Lazy Loaders
+			 * @default {}
+			 */
+			client_lazy_loaders?: {
+				[key: string]: unknown;
+			};
+		};
+		/**
+		 * StepConfiguration
+		 * @description Step configuration class.
+		 */
+		"StepConfiguration-Output": {
+			/** Name */
+			name: string;
+			/** Enable Cache */
+			enable_cache?: boolean | null;
+			/** Enable Artifact Metadata */
+			enable_artifact_metadata?: boolean | null;
+			/** Enable Artifact Visualization */
+			enable_artifact_visualization?: boolean | null;
+			/** Enable Step Logs */
+			enable_step_logs?: boolean | null;
+			/** Step Operator */
+			step_operator?: string | null;
+			/** Experiment Tracker */
+			experiment_tracker?: string | null;
+			/**
+			 * Parameters
+			 * @default {}
+			 */
+			parameters?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Settings
+			 * @default {}
+			 */
+			settings?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Extra
+			 * @default {}
+			 */
+			extra?: {
+				[key: string]: unknown;
+			};
+			failure_hook_source?: components["schemas"]["Source"] | null;
+			success_hook_source?: components["schemas"]["Source"] | null;
+			model?: components["schemas"]["Model"] | null;
+			retry?: components["schemas"]["StepRetryConfig"] | null;
 			/**
 			 * Outputs
 			 * @default {}
@@ -7881,6 +7792,29 @@ export type components = {
 			metadata: [string, string, string][];
 		};
 		/**
+		 * StepRetryConfig
+		 * @description Retry configuration for a step.
+		 *
+		 * Delay is an integer (specified in seconds).
+		 */
+		StepRetryConfig: {
+			/**
+			 * Max Retries
+			 * @default 1
+			 */
+			max_retries?: number;
+			/**
+			 * Delay
+			 * @default 0
+			 */
+			delay?: number;
+			/**
+			 * Backoff
+			 * @default 0
+			 */
+			backoff?: number;
+		};
+		/**
 		 * StepRunRequest
 		 * @description Request model for step runs.
 		 */
@@ -7897,36 +7831,27 @@ export type components = {
 			workspace: string;
 			/** The name of the pipeline run step. */
 			name: string;
-			/**
-			 * The start time of the step run.
-			 * Format: date-time
-			 */
-			start_time?: string;
-			/**
-			 * The end time of the step run.
-			 * Format: date-time
-			 */
-			end_time?: string;
+			/** The start time of the step run. */
+			start_time?: string | null;
+			/** The end time of the step run. */
+			end_time?: string | null;
 			/** The status of the step. */
 			status: components["schemas"]["ExecutionStatus"];
 			/** The cache key of the step run. */
-			cache_key?: string;
+			cache_key?: string | null;
 			/** The code hash of the step run. */
-			code_hash?: string;
+			code_hash?: string | null;
 			/** The docstring of the step function or class. */
-			docstring?: string;
+			docstring?: string | null;
 			/** The source code of the step function or class. */
-			source_code?: string;
+			source_code?: string | null;
 			/**
 			 * The ID of the pipeline run that this step run belongs to.
 			 * Format: uuid
 			 */
 			pipeline_run_id: string;
-			/**
-			 * The ID of the original step run if this step was cached.
-			 * Format: uuid
-			 */
-			original_step_run_id?: string;
+			/** The ID of the original step run if this step was cached. */
+			original_step_run_id?: string | null;
 			/** The IDs of the parent steps of this step run. */
 			parent_step_ids?: string[];
 			/**
@@ -7944,7 +7869,7 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** Logs associated with this step run. */
-			logs?: components["schemas"]["LogsRequest"];
+			logs?: components["schemas"]["LogsRequest"] | null;
 			/**
 			 * The deployment associated with the step run.
 			 * Format: uuid
@@ -7956,12 +7881,12 @@ export type components = {
 		 * @description Response model for step runs.
 		 */
 		StepRunResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["StepRunResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["StepRunResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["StepRunResponseMetadata"];
+			metadata?: components["schemas"]["StepRunResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["StepRunResponseResources"];
+			resources?: components["schemas"]["StepRunResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -7991,7 +7916,7 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The status of the step. */
 			status: components["schemas"]["ExecutionStatus"];
 			/**
@@ -8017,29 +7942,23 @@ export type components = {
 			/** The workspace of this resource. */
 			workspace: components["schemas"]["WorkspaceResponse"];
 			/** The configuration of the step. */
-			config: components["schemas"]["StepConfiguration"];
+			config: components["schemas"]["StepConfiguration-Output"];
 			/** The spec of the step. */
-			spec: components["schemas"]["StepSpec"];
+			spec: components["schemas"]["StepSpec-Output"];
 			/** The cache key of the step run. */
-			cache_key?: string;
+			cache_key?: string | null;
 			/** The code hash of the step run. */
-			code_hash?: string;
+			code_hash?: string | null;
 			/** The docstring of the step function or class. */
-			docstring?: string;
+			docstring?: string | null;
 			/** The source code of the step function or class. */
-			source_code?: string;
-			/**
-			 * The start time of the step run.
-			 * Format: date-time
-			 */
-			start_time?: string;
-			/**
-			 * The end time of the step run.
-			 * Format: date-time
-			 */
-			end_time?: string;
+			source_code?: string | null;
+			/** The start time of the step run. */
+			start_time?: string | null;
+			/** The end time of the step run. */
+			end_time?: string | null;
 			/** Logs associated with this step run. */
-			logs?: components["schemas"]["LogsResponse"];
+			logs?: components["schemas"]["LogsResponse"] | null;
 			/**
 			 * The deployment associated with the step run.
 			 * Format: uuid
@@ -8050,11 +7969,8 @@ export type components = {
 			 * Format: uuid
 			 */
 			pipeline_run_id: string;
-			/**
-			 * The ID of the original step run if this step was cached.
-			 * Format: uuid
-			 */
-			original_step_run_id?: string;
+			/** The ID of the original step run if this step was cached. */
+			original_step_run_id?: string | null;
 			/** The IDs of the parent steps of this step run. */
 			parent_step_ids?: string[];
 			/**
@@ -8069,7 +7985,10 @@ export type components = {
 		 * StepRunResponseResources
 		 * @description Class for all resource models associated with the step run entity.
 		 */
-		StepRunResponseResources: Record<string, never>;
+		StepRunResponseResources: {
+			model_version?: components["schemas"]["ModelVersionResponse"] | null;
+			[key: string]: unknown;
+		};
 		/**
 		 * StepRunUpdate
 		 * @description Update model for step runs.
@@ -8097,18 +8016,36 @@ export type components = {
 				[key: string]: unknown;
 			};
 			/** The status of the step. */
-			status?: components["schemas"]["ExecutionStatus"];
-			/**
-			 * The end time of the step run.
-			 * Format: date-time
-			 */
-			end_time?: string;
+			status?: components["schemas"]["ExecutionStatus"] | null;
+			/** The end time of the step run. */
+			end_time?: string | null;
 		};
 		/**
 		 * StepSpec
 		 * @description Specification of a pipeline.
 		 */
-		StepSpec: {
+		"StepSpec-Input": {
+			source: components["schemas"]["Source"];
+			/** Upstream Steps */
+			upstream_steps: string[];
+			/**
+			 * Inputs
+			 * @default {}
+			 */
+			inputs?: {
+				[key: string]: unknown;
+			};
+			/**
+			 * Pipeline Parameter Name
+			 * @default
+			 */
+			pipeline_parameter_name?: string;
+		};
+		/**
+		 * StepSpec
+		 * @description Specification of a pipeline.
+		 */
+		"StepSpec-Output": {
 			source: components["schemas"]["Source"];
 			/** Upstream Steps */
 			upstream_steps: string[];
@@ -8143,12 +8080,12 @@ export type components = {
 		 * @description Response model for tags.
 		 */
 		TagResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["TagResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["TagResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["BaseResponseMetadata"];
+			metadata?: components["schemas"]["BaseResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["TagResponseResources"];
+			resources?: components["schemas"]["TagResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -8192,27 +8129,29 @@ export type components = {
 		 * TagResponseResources
 		 * @description Class for all resource models associated with the tag entity.
 		 */
-		TagResponseResources: Record<string, never>;
+		TagResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * TagUpdate
 		 * @description Update model for tags.
 		 */
 		TagUpdate: {
 			/** Name */
-			name?: string;
-			color?: components["schemas"]["ColorVariants"];
+			name?: string | null;
+			color?: components["schemas"]["ColorVariants"] | null;
 		};
 		/**
 		 * TriggerExecutionResponse
 		 * @description Response model for trigger executions.
 		 */
 		TriggerExecutionResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["TriggerExecutionResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["TriggerExecutionResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["TriggerExecutionResponseMetadata"];
+			metadata?: components["schemas"]["TriggerExecutionResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["TriggerExecutionResponseResources"];
+			resources?: components["schemas"]["TriggerExecutionResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -8260,6 +8199,7 @@ export type components = {
 		TriggerExecutionResponseResources: {
 			/** The event source that activates this trigger. */
 			trigger: components["schemas"]["TriggerResponse"];
+			[key: string]: unknown;
 		};
 		/**
 		 * TriggerRequest
@@ -8299,26 +8239,26 @@ export type components = {
 			/** The flavor of the action that is executed by this trigger. */
 			action_flavor: string;
 			/** The subtype of the action that is executed by this trigger. */
-			action_subtype: string;
+			action_subtype: components["schemas"]["PluginSubType"];
 			/**
 			 * The service account that is used to execute the action.
 			 * Format: uuid
 			 */
 			service_account_id: string;
 			/** The time window in minutes for which the service account is authorized to execute the action. Set this to 0 to authorize the service account indefinitely (not recommended). If not set, a default value defined for each individual action type is used. */
-			auth_window?: number;
+			auth_window?: number | null;
 		};
 		/**
 		 * TriggerResponse
 		 * @description Response model for models.
 		 */
 		TriggerResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["TriggerResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["TriggerResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["TriggerResponseMetadata"];
+			metadata?: components["schemas"]["TriggerResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["TriggerResponseResources"];
+			resources?: components["schemas"]["TriggerResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -8348,13 +8288,13 @@ export type components = {
 			 */
 			updated: string;
 			/** The user who created this resource. */
-			user?: components["schemas"]["UserResponse"];
+			user?: components["schemas"]["UserResponse"] | null;
 			/** The flavor of the event source that activates this trigger. */
 			event_source_flavor: string;
 			/** The flavor of the action that is executed by this trigger. */
 			action_flavor: string;
 			/** The subtype of the action that is executed by this trigger. */
-			action_subtype: string;
+			action_subtype: components["schemas"]["PluginSubType"];
 			/** Whether the trigger is active. */
 			is_active: boolean;
 		};
@@ -8392,6 +8332,7 @@ export type components = {
 			service_account: components["schemas"]["UserResponse"];
 			/** The executions of this trigger. */
 			executions: components["schemas"]["Page_TriggerExecutionResponse_"];
+			[key: string]: unknown;
 		};
 		/**
 		 * TriggerUpdate
@@ -8399,26 +8340,23 @@ export type components = {
 		 */
 		TriggerUpdate: {
 			/** The new name for the Trigger. */
-			name?: string;
+			name?: string | null;
 			/** The new description for the trigger */
-			description?: string;
+			description?: string | null;
 			/** New filter applied to events that activate this trigger. */
 			event_filter?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The new configuration for the action that is executed by this trigger. */
 			action?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The new status of the trigger. */
-			is_active?: boolean;
-			/**
-			 * The service account that is used to execute the action.
-			 * Format: uuid
-			 */
-			service_account_id?: string;
+			is_active?: boolean | null;
+			/** The service account that is used to execute the action. */
+			service_account_id?: string | null;
 			/** The time window in minutes for which the service account is authorized to execute the action. Set this to 0 to authorize the service account indefinitely (not recommended). If not set, a default value defined for each individual action type is used. */
-			auth_window?: number;
+			auth_window?: number | null;
 		};
 		/**
 		 * UserRequest
@@ -8426,27 +8364,24 @@ export type components = {
 		 */
 		UserRequest: {
 			/** The email address associated with the account. */
-			email?: string;
+			email?: string | null;
 			/**
 			 * Whether the user agreed to share their email. Only relevant for user accounts
 			 * @description `null` if not answered, `true` if agreed, `false` if skipped.
 			 */
-			email_opted_in?: boolean;
+			email_opted_in?: boolean | null;
 			/** JWT Token for the connected Hub account. Only relevant for user accounts. */
-			hub_token?: string;
+			hub_token?: string | null;
 			/** A password for the user. */
-			password?: string;
+			password?: string | null;
 			/** Activation Token */
-			activation_token?: string;
-			/**
-			 * The external user ID associated with the account.
-			 * Format: uuid
-			 */
-			external_user_id?: string;
+			activation_token?: string | null;
+			/** The external user ID associated with the account. */
+			external_user_id?: string | null;
 			/** The metadata associated with the user. */
 			user_metadata?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The unique username for the account. */
 			name: string;
 			/**
@@ -8471,12 +8406,12 @@ export type components = {
 		 * well for use by the analytics on the client-side.
 		 */
 		UserResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["UserResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["UserResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["UserResponseMetadata"];
+			metadata?: components["schemas"]["UserResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["UserResponseResources"];
+			resources?: components["schemas"]["UserResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -8511,7 +8446,7 @@ export type components = {
 			 */
 			active?: boolean;
 			/** The activation token for the user. Only relevant for user accounts. */
-			activation_token?: string;
+			activation_token?: string | null;
 			/**
 			 * The full name for the account owner. Only relevant for user accounts.
 			 * @default
@@ -8521,7 +8456,7 @@ export type components = {
 			 * Whether the user agreed to share their email. Only relevant for user accounts
 			 * @description `null` if not answered, `true` if agreed, `false` if skipped.
 			 */
-			email_opted_in?: boolean;
+			email_opted_in?: boolean | null;
 			/** Indicates whether this is a service account or a user account. */
 			is_service_account: boolean;
 			/** Whether the account is an administrator. */
@@ -8536,14 +8471,11 @@ export type components = {
 			 * The email address associated with the account. Only relevant for user accounts.
 			 * @default
 			 */
-			email?: string;
+			email?: string | null;
 			/** JWT Token for the connected Hub account. Only relevant for user accounts. */
-			hub_token?: string;
-			/**
-			 * The external user ID associated with the account. Only relevant for user accounts.
-			 * Format: uuid
-			 */
-			external_user_id?: string;
+			hub_token?: string | null;
+			/** The external user ID associated with the account. Only relevant for user accounts. */
+			external_user_id?: string | null;
 			/**
 			 * The metadata associated with the user.
 			 * @default {}
@@ -8556,44 +8488,43 @@ export type components = {
 		 * UserResponseResources
 		 * @description Class for all resource models associated with the user entity.
 		 */
-		UserResponseResources: Record<string, never>;
+		UserResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * UserUpdate
 		 * @description Update model for users.
 		 */
 		UserUpdate: {
 			/** The email address associated with the account. */
-			email?: string;
+			email?: string | null;
 			/**
 			 * Whether the user agreed to share their email. Only relevant for user accounts
 			 * @description `null` if not answered, `true` if agreed, `false` if skipped.
 			 */
-			email_opted_in?: boolean;
+			email_opted_in?: boolean | null;
 			/** JWT Token for the connected Hub account. Only relevant for user accounts. */
-			hub_token?: string;
+			hub_token?: string | null;
 			/** A password for the user. */
-			password?: string;
+			password?: string | null;
 			/** Activation Token */
-			activation_token?: string;
-			/**
-			 * The external user ID associated with the account.
-			 * Format: uuid
-			 */
-			external_user_id?: string;
+			activation_token?: string | null;
+			/** The external user ID associated with the account. */
+			external_user_id?: string | null;
 			/** The metadata associated with the user. */
 			user_metadata?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** The unique username for the account. */
-			name?: string;
+			name?: string | null;
 			/** The full name for the account owner. Only relevant for user accounts. */
-			full_name?: string;
+			full_name?: string | null;
 			/** Whether the account is an administrator. */
-			is_admin?: boolean;
+			is_admin?: boolean | null;
 			/** Whether the account is active. */
-			active?: boolean;
+			active?: boolean | null;
 			/** The previous password for the user. Only relevant for user accounts. Required when updating the password. */
-			old_password?: string;
+			old_password?: string | null;
 		};
 		/** ValidationError */
 		ValidationError: {
@@ -8628,12 +8559,12 @@ export type components = {
 		 * @description Response model for workspaces.
 		 */
 		WorkspaceResponse: {
-			/** The body of the resource, containing at the minimum creation and updated fields. */
-			body?: components["schemas"]["WorkspaceResponseBody"];
+			/** The body of the resource. */
+			body?: components["schemas"]["WorkspaceResponseBody"] | null;
 			/** The metadata related to this resource. */
-			metadata?: components["schemas"]["WorkspaceResponseMetadata"];
+			metadata?: components["schemas"]["WorkspaceResponseMetadata"] | null;
 			/** The resources related to this resource. */
-			resources?: components["schemas"]["WorkspaceResponseResources"];
+			resources?: components["schemas"]["WorkspaceResponseResources"] | null;
 			/**
 			 * The unique resource id.
 			 * Format: uuid
@@ -8678,41 +8609,40 @@ export type components = {
 		 * WorkspaceResponseResources
 		 * @description Class for all resource models associated with the workspace entity.
 		 */
-		WorkspaceResponseResources: Record<string, never>;
+		WorkspaceResponseResources: {
+			[key: string]: unknown;
+		};
 		/**
 		 * WorkspaceUpdate
 		 * @description Update model for workspaces.
 		 */
 		WorkspaceUpdate: {
 			/** The unique name of the workspace. */
-			name?: string;
-			/**
-			 * The description of the workspace.
-			 * @default
-			 */
-			description?: string;
+			name?: string | null;
+			/** The description of the workspace. */
+			description?: string | null;
 		};
 		/** _CallStep */
 		_CallStep: {
 			/** Attribute Name */
-			attribute_name?: string;
+			attribute_name?: string | null;
 			/**
 			 * Is Call
 			 * @default false
 			 */
-			is_call?: boolean;
+			is_call?: boolean | null;
 			/**
 			 * Call Args
 			 * @default []
 			 */
-			call_args?: unknown[];
+			call_args?: unknown[] | null;
 			/**
 			 * Call Kwargs
 			 * @default {}
 			 */
 			call_kwargs?: {
 				[key: string]: unknown;
-			};
+			} | null;
 			/** Selector */
 			selector?: unknown;
 		};
@@ -8767,13 +8697,13 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				tag?: string;
-				name?: string;
-				has_custom_name?: boolean;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				tag?: string | null;
+				name?: string | null;
+				has_custom_name?: boolean | null;
 			};
 		};
 		responses: {
@@ -9035,24 +8965,24 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				tag?: string;
-				artifact_id?: string;
-				name?: string;
-				version?: string;
-				version_number?: number | string;
-				uri?: string;
-				materializer?: string;
-				type?: string;
-				data_type?: string;
-				artifact_store_id?: string;
-				workspace_id?: string;
-				user_id?: string;
-				only_unused?: boolean;
-				has_custom_name?: boolean;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				tag?: string | null;
+				artifact_id?: string | null;
+				name?: string | null;
+				version?: string | null;
+				version_number?: number | string | null;
+				uri?: string | null;
+				materializer?: string | null;
+				type?: string | null;
+				data_type?: string | null;
+				artifact_store_id?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				only_unused?: boolean | null;
+				has_custom_name?: boolean | null;
 			};
 		};
 		responses: {
@@ -9522,13 +9452,15 @@ export type operations = {
 	 *
 	 * Raises:
 	 *     HTTPException: If the user is not authenticated.
+	 *     AuthorizationException: If trying to scope the API token to a different
+	 *         pipeline/schedule than the token used to authorize this request.
 	 */
 	api_token_api_v1_api_token_get: {
 		parameters: {
 			query?: {
-				pipeline_id?: string;
-				schedule_id?: string;
-				expires_minutes?: number;
+				pipeline_id?: string | null;
+				schedule_id?: string | null;
+				expires_minutes?: number | null;
 			};
 		};
 		responses: {
@@ -9574,16 +9506,16 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_user?: string;
-				expires?: string;
-				client_id?: string;
-				status?: components["schemas"]["OAuthDeviceStatus"] | string;
-				trusted_device?: boolean | string;
-				failed_auth_attempts?: number | string;
-				last_login?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_user?: string | null;
+				expires?: string | null;
+				client_id?: string | null;
+				status?: components["schemas"]["OAuthDeviceStatus"] | string | null;
+				trusted_device?: boolean | string | null;
+				failed_auth_attempts?: number | string | null;
+				last_login?: string | null;
 			};
 		};
 		responses: {
@@ -9636,7 +9568,7 @@ export type operations = {
 	get_authorization_device_api_v1_devices__device_id__get: {
 		parameters: {
 			query?: {
-				user_code?: string;
+				user_code?: string | null;
 				hydrate?: boolean;
 			};
 			path: {
@@ -9851,13 +9783,13 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				workspace_id?: string;
-				user_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
 			};
 		};
 		responses: {
@@ -10181,13 +10113,13 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				flavor?: string;
-				plugin_subtype?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				flavor?: string | null;
+				plugin_subtype?: string | null;
 			};
 		};
 		responses: {
@@ -10468,15 +10400,15 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				type?: string;
-				integration?: string;
-				workspace_id?: string;
-				user_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				type?: string | null;
+				integration?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
 			};
 		};
 		responses: {
@@ -10780,14 +10712,14 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				tag?: string;
-				name?: string;
-				workspace_id?: string;
-				user_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				tag?: string | null;
+				name?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
 			};
 		};
 		responses: {
@@ -11003,16 +10935,16 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				tag?: string;
-				name?: string;
-				number?: number;
-				workspace_id?: string;
-				user_id?: string;
-				stage?: string | components["schemas"]["ModelStages"];
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				tag?: string | null;
+				name?: string | null;
+				number?: number | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				stage?: string | components["schemas"]["ModelStages"] | null;
 			};
 			path: {
 				model_name_or_id: string;
@@ -11073,16 +11005,16 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				tag?: string;
-				name?: string;
-				number?: number;
-				workspace_id?: string;
-				user_id?: string;
-				stage?: string | components["schemas"]["ModelStages"];
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				tag?: string | null;
+				name?: string | null;
+				number?: number | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				stage?: string | components["schemas"]["ModelStages"] | null;
 			};
 		};
 		responses: {
@@ -11442,20 +11374,20 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				workspace_id?: string;
-				user_id?: string;
-				model_id?: string;
-				model_version_id?: string;
-				artifact_version_id?: string;
-				artifact_name?: string;
-				only_data_artifacts?: boolean;
-				only_model_artifacts?: boolean;
-				only_deployment_artifacts?: boolean;
-				has_custom_name?: boolean;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				model_id?: string | null;
+				model_version_id?: string | null;
+				artifact_version_id?: string | null;
+				artifact_name?: string | null;
+				only_data_artifacts?: boolean | null;
+				only_model_artifacts?: boolean | null;
+				only_deployment_artifacts?: boolean | null;
+				has_custom_name?: boolean | null;
 			};
 		};
 		responses: {
@@ -11506,16 +11438,16 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				workspace_id?: string;
-				user_id?: string;
-				model_id?: string;
-				model_version_id?: string;
-				pipeline_run_id?: string;
-				pipeline_run_name?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				model_id?: string | null;
+				model_version_id?: string | null;
+				pipeline_run_id?: string | null;
+				pipeline_run_name?: string | null;
 			};
 		};
 		responses: {
@@ -11566,16 +11498,16 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				version?: string;
-				version_hash?: string;
-				docstring?: string;
-				workspace_id?: string;
-				user_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				version?: string | null;
+				version_hash?: string | null;
+				docstring?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
 			};
 		};
 		responses: {
@@ -11787,27 +11719,27 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				orchestrator_run_id?: string;
-				pipeline_name?: string;
-				workspace_id?: string;
-				user_id?: string;
-				stack_id?: string;
-				schedule_id?: string;
-				build_id?: string;
-				deployment_id?: string;
-				code_repository_id?: string;
-				status?: string;
-				start_time?: string;
-				end_time?: string;
-				unlisted?: boolean;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				orchestrator_run_id?: string | null;
+				pipeline_name?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				stack_id?: string | null;
+				schedule_id?: string | null;
+				build_id?: string | null;
+				deployment_id?: string | null;
+				code_repository_id?: string | null;
+				status?: string | null;
+				start_time?: string | null;
+				end_time?: string | null;
+				unlisted?: boolean | null;
 			};
 			path: {
-				pipeline_id: string;
+				pipeline_id: string | null;
 			};
 		};
 		responses: {
@@ -11863,7 +11795,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["PipelineSpec"];
+					"application/json": components["schemas"]["PipelineSpec-Output"];
 				};
 			};
 			/** @description Unauthorized */
@@ -11914,10 +11846,10 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				name?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				name?: string | null;
 			};
 		};
 		responses: {
@@ -11974,19 +11906,19 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				workspace_id?: string;
-				user_id?: string;
-				pipeline_id?: string;
-				stack_id?: string;
-				is_local?: boolean;
-				contains_code?: boolean;
-				zenml_version?: string;
-				python_version?: string;
-				checksum?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				pipeline_id?: string | null;
+				stack_id?: string | null;
+				is_local?: boolean | null;
+				contains_code?: boolean | null;
+				zenml_version?: string | null;
+				python_version?: string | null;
+				checksum?: string | null;
 			};
 		};
 		responses: {
@@ -12143,16 +12075,16 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				workspace_id?: string;
-				user_id?: string;
-				pipeline_id?: string;
-				stack_id?: string;
-				build_id?: string;
-				schedule_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				pipeline_id?: string | null;
+				stack_id?: string | null;
+				build_id?: string | null;
+				schedule_id?: string | null;
 			};
 		};
 		responses: {
@@ -12308,25 +12240,25 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				orchestrator_run_id?: string;
-				pipeline_id?: string;
-				pipeline_name?: string;
-				workspace_id?: string;
-				user_id?: string;
-				stack_id?: string;
-				schedule_id?: string;
-				build_id?: string;
-				deployment_id?: string;
-				code_repository_id?: string;
-				status?: string;
-				start_time?: string;
-				end_time?: string;
-				unlisted?: boolean;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				orchestrator_run_id?: string | null;
+				pipeline_id?: string | null;
+				pipeline_name?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				stack_id?: string | null;
+				schedule_id?: string | null;
+				build_id?: string | null;
+				deployment_id?: string | null;
+				code_repository_id?: string | null;
+				status?: string | null;
+				start_time?: string | null;
+				end_time?: string | null;
+				unlisted?: boolean | null;
 			};
 		};
 		responses: {
@@ -12585,20 +12517,20 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				code_hash?: string;
-				cache_key?: string;
-				status?: string;
-				start_time?: string;
-				end_time?: string;
-				pipeline_run_id?: string;
-				original_step_run_id?: string;
-				user_id?: string;
-				workspace_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				code_hash?: string | null;
+				cache_key?: string | null;
+				status?: string | null;
+				start_time?: string | null;
+				end_time?: string | null;
+				pipeline_run_id?: string | null;
+				original_step_run_id?: string | null;
+				user_id?: string | null;
+				workspace_id?: string | null;
 			};
 			path: {
 				run_id: string;
@@ -12758,15 +12690,15 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				resource_id?: string;
-				resource_type?: components["schemas"]["MetadataResourceTypes"];
-				stack_component_id?: string;
-				key?: string;
-				type?: string | components["schemas"]["MetadataTypeEnum"];
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				resource_id?: string | null;
+				resource_type?: components["schemas"]["MetadataResourceTypes"] | null;
+				stack_component_id?: string | null;
+				key?: string | null;
+				type?: string | components["schemas"]["MetadataTypeEnum"] | null;
 			};
 		};
 		responses: {
@@ -12877,22 +12809,22 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				workspace_id?: string;
-				user_id?: string;
-				pipeline_id?: string;
-				orchestrator_id?: string;
-				active?: boolean;
-				cron_expression?: string;
-				start_time?: string;
-				end_time?: string;
-				interval_second?: number;
-				catchup?: boolean;
-				name?: string;
-				run_once_start_time?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				pipeline_id?: string | null;
+				orchestrator_id?: string | null;
+				active?: boolean | null;
+				cron_expression?: string | null;
+				start_time?: string | null;
+				end_time?: string | null;
+				interval_second?: number | null;
+				catchup?: boolean | null;
+				name?: string | null;
+				run_once_start_time?: string | null;
 			};
 		};
 		responses: {
@@ -13104,14 +13036,14 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				scope?: components["schemas"]["SecretScope"] | string;
-				workspace_id?: string;
-				user_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				scope?: components["schemas"]["SecretScope"] | string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
 			};
 		};
 		responses: {
@@ -13216,7 +13148,7 @@ export type operations = {
 	update_secret_api_v1_secrets__secret_id__put: {
 		parameters: {
 			query?: {
-				patch_values?: boolean;
+				patch_values?: boolean | null;
 			};
 			path: {
 				secret_id: string;
@@ -13474,6 +13406,9 @@ export type operations = {
 	 * Get Settings
 	 * @description Get settings of the server.
 	 *
+	 * Args:
+	 *     hydrate: Whether to hydrate the response.
+	 *
 	 * Returns:
 	 *     Settings of the server.
 	 */
@@ -13516,6 +13451,11 @@ export type operations = {
 	 *
 	 * Args:
 	 *     settings_update: Settings update.
+	 *     auth_context: Authentication context.
+	 *
+	 * Raises:
+	 *     IllegalOperationError: If trying to update admin properties without
+	 *         admin permissions.
 	 *
 	 * Returns:
 	 *     The updated settings.
@@ -13573,7 +13513,7 @@ export type operations = {
 			/** @description Successful Response */
 			200: {
 				content: {
-					"application/json": components["schemas"]["UserResponse"];
+					"application/json": components["schemas"]["UserResponse"] | null;
 				};
 			};
 			/** @description Unauthorized */
@@ -13617,12 +13557,12 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				name?: string;
-				description?: string;
-				active?: boolean | string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				name?: string | null;
+				description?: string | null;
+				active?: boolean | string | null;
 			};
 		};
 		responses: {
@@ -13856,15 +13796,15 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				service_account?: string;
-				name?: string;
-				description?: string;
-				active?: boolean | string;
-				last_login?: string;
-				last_rotated?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				service_account?: string | null;
+				name?: string | null;
+				description?: string | null;
+				active?: boolean | string | null;
+				last_login?: string | null;
+				last_rotated?: string | null;
 			};
 			path: {
 				service_account_id: string;
@@ -14168,27 +14108,27 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				scope_type?: string;
-				name?: string;
-				connector_type?: string;
-				workspace_id?: string;
-				user_id?: string;
-				auth_method?: string;
-				resource_type?: string;
-				resource_id?: string;
-				labels_str?: string;
-				secret_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				scope_type?: string | null;
+				name?: string | null;
+				connector_type?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				auth_method?: string | null;
+				resource_type?: string | null;
+				resource_id?: string | null;
+				labels_str?: string | null;
+				secret_id?: string | null;
 			};
 		};
 		requestBody?: {
 			content: {
 				"application/json": {
 					[key: string]: unknown;
-				};
+				} | null;
 			};
 		};
 		responses: {
@@ -14465,8 +14405,8 @@ export type operations = {
 	validate_and_verify_service_connector_api_v1_service_connectors__connector_id__verify_put: {
 		parameters: {
 			query?: {
-				resource_type?: string;
-				resource_id?: string;
+				resource_type?: string | null;
+				resource_id?: string | null;
 				list_resources?: boolean;
 			};
 			path: {
@@ -14526,8 +14466,8 @@ export type operations = {
 	get_service_connector_client_api_v1_service_connectors__connector_id__client_get: {
 		parameters: {
 			query?: {
-				resource_type?: string;
-				resource_id?: string;
+				resource_type?: string | null;
+				resource_id?: string | null;
 			};
 			path: {
 				connector_id: string;
@@ -14581,9 +14521,9 @@ export type operations = {
 	list_service_connector_types_api_v1_service_connector_types_get: {
 		parameters: {
 			query?: {
-				connector_type?: string;
-				resource_type?: string;
-				auth_method?: string;
+				connector_type?: string | null;
+				resource_type?: string | null;
+				auth_method?: string | null;
 			};
 		};
 		responses: {
@@ -14689,21 +14629,21 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				workspace_id?: string;
-				user_id?: string;
-				type?: string;
-				flavor?: string;
-				config?: string;
-				pipeline_name?: string;
-				pipeline_step_name?: string;
-				running?: boolean;
-				model_version_id?: string;
-				pipeline_run_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				type?: string | null;
+				flavor?: string | null;
+				config?: string | null;
+				pipeline_name?: string | null;
+				pipeline_step_name?: string | null;
+				running?: boolean | null;
+				model_version_id?: string | null;
+				pipeline_run_id?: string | null;
 			};
 		};
 		responses: {
@@ -14958,15 +14898,15 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				description?: string;
-				workspace_id?: string;
-				user_id?: string;
-				component_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				description?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				component_id?: string | null;
 			};
 		};
 		responses: {
@@ -15178,18 +15118,18 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				scope_type?: string;
-				name?: string;
-				flavor?: string;
-				type?: string;
-				workspace_id?: string;
-				user_id?: string;
-				connector_id?: string;
-				stack_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				scope_type?: string | null;
+				name?: string | null;
+				flavor?: string | null;
+				type?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				connector_id?: string | null;
+				stack_id?: string | null;
 			};
 		};
 		responses: {
@@ -15443,20 +15383,20 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				code_hash?: string;
-				cache_key?: string;
-				status?: string;
-				start_time?: string;
-				end_time?: string;
-				pipeline_run_id?: string;
-				original_step_run_id?: string;
-				user_id?: string;
-				workspace_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				code_hash?: string | null;
+				cache_key?: string | null;
+				status?: string | null;
+				start_time?: string | null;
+				end_time?: string | null;
+				pipeline_run_id?: string | null;
+				original_step_run_id?: string | null;
+				user_id?: string | null;
+				workspace_id?: string | null;
 			};
 		};
 		responses: {
@@ -15756,6 +15696,8 @@ export type operations = {
 	 *
 	 * Args:
 	 *     step_id: ID of the step for which to get the logs.
+	 *     offset: The offset from which to start reading.
+	 *     length: The amount of bytes that should be read.
 	 *
 	 * Returns:
 	 *     The logs of the step.
@@ -15765,6 +15707,10 @@ export type operations = {
 	 */
 	get_step_logs_api_v1_steps__step_id__logs_get: {
 		parameters: {
+			query?: {
+				offset?: number;
+				length?: number;
+			};
 			path: {
 				step_id: string;
 			};
@@ -15823,11 +15769,11 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				name?: string;
-				color?: components["schemas"]["ColorVariants"];
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				name?: string | null;
+				color?: components["schemas"]["ColorVariants"] | null;
 			};
 		};
 		responses: {
@@ -16088,17 +16034,17 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				event_source_id?: string;
-				is_active?: boolean;
-				action_flavor?: string;
-				action_subtype?: string;
-				resource_id?: string;
-				resource_type?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				event_source_id?: string | null;
+				is_active?: boolean | null;
+				action_flavor?: string | null;
+				action_subtype?: string | null;
+				resource_id?: string | null;
+				resource_type?: string | null;
 			};
 		};
 		responses: {
@@ -16376,15 +16322,15 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				name?: string;
-				full_name?: string;
-				email?: string;
-				active?: boolean | string;
-				email_opted_in?: boolean | string;
-				external_user_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				name?: string | null;
+				full_name?: string | null;
+				email?: string | null;
+				active?: boolean | string | null;
+				email_opted_in?: boolean | string | null;
+				external_user_id?: string | null;
 			};
 		};
 		responses: {
@@ -16516,6 +16462,7 @@ export type operations = {
 	 * Args:
 	 *     user_name_or_id: Name or ID of the user.
 	 *     user_update: the user to use for the update.
+	 *     request: The request object.
 	 *     auth_context: Authentication context.
 	 *
 	 * Returns:
@@ -16756,6 +16703,7 @@ export type operations = {
 	 *
 	 * Args:
 	 *     user: the user to use for the update.
+	 *     request: The request object.
 	 *     auth_context: The authentication context.
 	 *
 	 * Returns:
@@ -16861,10 +16809,10 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				name?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				name?: string | null;
 			};
 		};
 		responses: {
@@ -17104,15 +17052,15 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				description?: string;
-				workspace_id?: string;
-				user_id?: string;
-				component_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				description?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				component_id?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -17222,18 +17170,18 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				scope_type?: string;
-				name?: string;
-				flavor?: string;
-				type?: string;
-				workspace_id?: string;
-				user_id?: string;
-				connector_id?: string;
-				stack_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				scope_type?: string | null;
+				name?: string | null;
+				flavor?: string | null;
+				type?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				connector_id?: string | null;
+				stack_id?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -17343,16 +17291,16 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				version?: string;
-				version_hash?: string;
-				docstring?: string;
-				workspace_id?: string;
-				user_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				version?: string | null;
+				version_hash?: string | null;
+				docstring?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -17462,19 +17410,19 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				workspace_id?: string;
-				user_id?: string;
-				pipeline_id?: string;
-				stack_id?: string;
-				is_local?: boolean;
-				contains_code?: boolean;
-				zenml_version?: string;
-				python_version?: string;
-				checksum?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				pipeline_id?: string | null;
+				stack_id?: string | null;
+				is_local?: boolean | null;
+				contains_code?: boolean | null;
+				zenml_version?: string | null;
+				python_version?: string | null;
+				checksum?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -17585,16 +17533,16 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				workspace_id?: string;
-				user_id?: string;
-				pipeline_id?: string;
-				stack_id?: string;
-				build_id?: string;
-				schedule_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				pipeline_id?: string | null;
+				stack_id?: string | null;
+				build_id?: string | null;
+				schedule_id?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -17703,25 +17651,25 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				orchestrator_run_id?: string;
-				pipeline_id?: string;
-				pipeline_name?: string;
-				workspace_id?: string;
-				user_id?: string;
-				stack_id?: string;
-				schedule_id?: string;
-				build_id?: string;
-				deployment_id?: string;
-				code_repository_id?: string;
-				status?: string;
-				start_time?: string;
-				end_time?: string;
-				unlisted?: boolean;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				orchestrator_run_id?: string | null;
+				pipeline_id?: string | null;
+				pipeline_name?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				stack_id?: string | null;
+				schedule_id?: string | null;
+				build_id?: string | null;
+				deployment_id?: string | null;
+				code_repository_id?: string | null;
+				status?: string | null;
+				start_time?: string | null;
+				end_time?: string | null;
+				unlisted?: boolean | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -18049,13 +17997,13 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				name?: string;
-				workspace_id?: string;
-				user_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -18214,20 +18162,20 @@ export type operations = {
 				logical_operator?: components["schemas"]["LogicalOperators"];
 				page?: number;
 				size?: number;
-				id?: string;
-				created?: string;
-				updated?: string;
-				scope_workspace?: string;
-				scope_type?: string;
-				name?: string;
-				connector_type?: string;
-				workspace_id?: string;
-				user_id?: string;
-				auth_method?: string;
-				resource_type?: string;
-				resource_id?: string;
-				labels_str?: string;
-				secret_id?: string;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				scope_type?: string | null;
+				name?: string | null;
+				connector_type?: string | null;
+				workspace_id?: string | null;
+				user_id?: string | null;
+				auth_method?: string | null;
+				resource_type?: string | null;
+				resource_id?: string | null;
+				labels_str?: string | null;
+				secret_id?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;
@@ -18237,7 +18185,7 @@ export type operations = {
 			content: {
 				"application/json": {
 					[key: string]: unknown;
-				};
+				} | null;
 			};
 		};
 		responses: {
@@ -18339,9 +18287,9 @@ export type operations = {
 	list_service_connector_resources_api_v1_workspaces__workspace_name_or_id__service_connectors_resources_get: {
 		parameters: {
 			query?: {
-				connector_type?: string;
-				resource_type?: string;
-				resource_id?: string;
+				connector_type?: string | null;
+				resource_type?: string | null;
+				resource_id?: string | null;
 			};
 			path: {
 				workspace_name_or_id: string;

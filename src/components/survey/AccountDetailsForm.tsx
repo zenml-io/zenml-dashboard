@@ -5,8 +5,8 @@ import { Controller, useForm } from "react-hook-form";
 import { AccountDetailForm, accountDetailsFormSchema } from "./form-schemas";
 
 type AccountDetailsProps = {
-	fullName?: string;
-	email?: string;
+	fullName?: string | null;
+	email?: string | null;
 	getUpdates?: boolean;
 	submitHandler: (data: AccountDetailForm) => void;
 };

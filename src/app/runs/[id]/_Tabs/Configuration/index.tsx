@@ -31,7 +31,7 @@ export function ConfigurationTab() {
 
 	return (
 		<div className="grid grid-cols-1 gap-5">
-			<NestedCollapsible title="Parameters" data={data.metadata?.config.parameters} />
+			<NestedCollapsible title="Parameters" data={data.metadata?.config.parameters ?? undefined} />
 			{(buildData?.metadata?.images as BuildItemMap)?.orchestrator && (
 				<DockerImageCollapsible data={buildData?.metadata?.images?.orchestrator as BuildItem} />
 			)}
