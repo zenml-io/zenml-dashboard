@@ -36,7 +36,7 @@ export function StepLogsTab({ stepId, stepDetail }: Props) {
 	const enableLogs = stepDetail?.metadata?.config?.enable_step_logs;
 	const { runId } = useParams() as { runId: string };
 
-	const { data, isPending, isError, error } = useStepLogs({ stepId }, { retry: 2 });
+	const { data, isPending, isError } = useStepLogs({ stepId }, { retry: 2 });
 
 	const { data: runData } = usePipelineRun({ runId: runId }, { throwOnError: true });
 

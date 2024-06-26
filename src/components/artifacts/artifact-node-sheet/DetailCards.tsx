@@ -102,24 +102,24 @@ export function DetailsCard({ artifactVersionId }: Props) {
 						}
 					/>
 				)}
-				{artifactVersion.data.body?.artifact.id && (
+				{artifactVersion.data.body?.artifact.id && stepDetail.data?.body?.status && (
 					<KeyValue
 						label="Producer Step"
 						value={
 							<>
 								{stepDetail.data ? (
 									<Tag
-										color={getExecutionStatusTagColor(stepDetail?.data?.body?.status)}
+										color={getExecutionStatusTagColor(stepDetail.data?.body?.status)}
 										className="inline-flex items-center gap-0.5"
 										rounded={false}
 										emphasis="subtle"
 									>
-										{stepDetail?.data?.body?.status === "running" ? (
+										{stepDetail.data?.body?.status === "running" ? (
 											<Spinner className="mr-1 h-4 w-4 border-[2px]" />
 										) : (
 											<ExecutionStatusIcon
 												className="mr-1 fill-current"
-												status={stepDetail?.data?.body?.status}
+												status={stepDetail.data?.body?.status}
 											/>
 										)}
 										{stepDetail.data.name}
