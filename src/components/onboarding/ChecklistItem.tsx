@@ -1,5 +1,4 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
-import { OnboardingChecklistItemName } from "@/types/onboarding";
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -15,7 +14,6 @@ type Props = {
 	completed: boolean;
 	active?: boolean;
 	title: ReactNode;
-	itemName: OnboardingChecklistItemName;
 	hasDownstream: boolean;
 };
 export function ChecklistItem({

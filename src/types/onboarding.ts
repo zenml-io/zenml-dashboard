@@ -12,3 +12,9 @@ export type OnboardingChecklistItemName =
 	| "production_setup_completed";
 
 export type OnboardingResponse = OnboardingChecklistItemName[];
+
+export type OnboardingStep = {
+	completed: boolean;
+	active: boolean;
+	hasDownstreamStep: boolean;
+};

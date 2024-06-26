@@ -1,31 +1,22 @@
 import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
-import { checkDownstreamStep, hasOnboardingItem } from "@/lib/onboarding";
-import { OnboardingChecklistItemName, OnboardingResponse } from "@/types/onboarding";
+import {} from "@/lib/onboarding";
+import { OnboardingStep } from "@/types/onboarding";
 import { useState } from "react";
 import { getArtifactStoreStep } from "./ArtifactStore";
 import { getServiceConnectorStep } from "./ConnectorContent";
 import { CloudProvider, ProviderSelect } from "./ProviderSelect";
 
-type Props = {
-	onboardingState?: OnboardingResponse;
-	order: OnboardingChecklistItemName[];
-	active?: boolean;
-};
-
-export function CreateServiceConnector({ onboardingState, active, order }: Props) {
+export function CreateServiceConnector({ hasDownstreamStep, active, completed }: OnboardingStep) {
 	const [selectedProvider, setSelectedProvider] = useState<CloudProvider>("aws");
-	const itemName: OnboardingChecklistItemName = "service_connector_created";
-	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
-	const item = hasOnboardingItem(itemName, onboardingState || []);
+
 	return (
 		<ChecklistItem
-			hasDownstream={hasDownStreamFinishded}
+			hasDownstream={hasDownstreamStep}
 			active={active}
-			completed={!!item}
+			completed={completed}
 			title="Create a service connector"
-			itemName={itemName}
 		>
 			<p className="mb-3">
 				A service connector grants users of your ZenML tenant the ability to access components like
@@ -55,18 +46,12 @@ export function CreateServiceConnector({ onboardingState, active, order }: Props
 	);
 }
 
-export function CreateArtifactStore({ onboardingState, active, order }: Props) {
+export function CreateArtifactStore({ completed, active, hasDownstreamStep }: OnboardingStep) {
 	const [selectedProvider, setSelectedProvider] = useState<CloudProvider>("aws");
-	const itemName: OnboardingChecklistItemName = "remote_artifact_store_created";
-	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
-
-	const item = hasOnboardingItem(itemName, onboardingState || []);
-
 	return (
 		<ChecklistItem
-			hasDownstream={hasDownStreamFinishded}
-			itemName={itemName}
-			completed={!!item}
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
 			title="Create an artifact store"
 			active={active}
 		>
@@ -99,16 +84,11 @@ export function CreateArtifactStore({ onboardingState, active, order }: Props) {
 	);
 }
 
-export function CreateNewStack({ onboardingState, active, order }: Props) {
-	const itemName: OnboardingChecklistItemName = "stack_with_remote_orchestrator_created";
-	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
-	const item = hasOnboardingItem(itemName, onboardingState || []);
-
+export function CreateNewStack({ completed, active, hasDownstreamStep }: OnboardingStep) {
 	return (
 		<ChecklistItem
-			hasDownstream={hasDownStreamFinishded}
-			itemName={itemName}
-			completed={!!item}
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
 			title="Create a new stack"
 			active={active}
 		>
@@ -132,16 +112,11 @@ export function CreateNewStack({ onboardingState, active, order }: Props) {
 	);
 }
 
-export function RunNewPipeline({ active, onboardingState, order }: Props) {
-	const itemName: OnboardingChecklistItemName = "pipeline_run_with_remote_artifact_store";
-	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
-	const item = hasOnboardingItem(itemName, onboardingState || []);
-
+export function RunNewPipeline({ active, completed, hasDownstreamStep }: OnboardingStep) {
 	return (
 		<ChecklistItem
-			hasDownstream={hasDownStreamFinishded}
-			itemName={itemName}
-			completed={!!item}
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
 			title="Run the pipeline in the new stack"
 			active={active}
 		>

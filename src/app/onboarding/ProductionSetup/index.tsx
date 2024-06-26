@@ -2,14 +2,8 @@ import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { Tick } from "@/components/Tick";
 import { useServerInfo } from "@/data/server/info-query";
 import { useOnboarding } from "@/data/server/onboarding-state";
-import {
-	getProductionSetupItems,
-	getProgress,
-	getStarterSetupItems,
-	getOnboardingProgress
-} from "@/lib/onboarding";
+import { getProductionSetup, getStarterSetup } from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
-import { OnboardingChecklistItemName } from "@/types/onboarding";
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -35,29 +29,17 @@ export function ProductionSetupChecklist() {
 		return <Skeleton className="h-[200px] w-full" />;
 	if (onboarding.isError || serverInfo.isError) return null;
 
-	const STARTER_SETUP_ITEMS = getStarterSetupItems(
+	const starterSetup = getStarterSetup(
+		onboarding.data,
 		checkIsLocalServer(serverInfo.data.deployment_type || "other")
 	);
 
-	const PRODUCTION_SETUP_ITEMS = getProductionSetupItems();
+	const { progress, totalItems, itemsDone, getItem } = getProductionSetup(onboarding.data);
 
-	const isStarterSetupFinished =
-		getProgress(
-			onboarding.data,
-			STARTER_SETUP_ITEMS as OnboardingChecklistItemName[],
-			"starter_setup_completed"
-		) === STARTER_SETUP_ITEMS.length;
-
-	const { progress, doneItems } = getOnboardingProgress({
-		itemList: PRODUCTION_SETUP_ITEMS,
-		onboardingState: onboarding.data,
-		finalStep: "production_setup_completed"
-	});
-
-	const order: OnboardingChecklistItemName[] = [
-		...(PRODUCTION_SETUP_ITEMS as OnboardingChecklistItemName[]),
-		"production_setup_completed"
-	];
+	const connectorStep = getItem("service_connector_created");
+	const storeStep = getItem("remote_artifact_store_created");
+	const stackStep = getItem("stack_with_remote_artifact_store_created");
+	const pipelineStep = getItem("pipeline_run_with_remote_artifact_store");
 
 	return (
 		<>
@@ -73,7 +55,7 @@ export function ProductionSetupChecklist() {
 						) : (
 							<RadialProgress value={progress}>
 								<span className="absolute text-text-xs font-semibold">
-									{doneItems}/{PRODUCTION_SETUP_ITEMS.length}
+									{itemsDone}/{totalItems}
 								</span>
 							</RadialProgress>
 						)}
@@ -84,7 +66,7 @@ export function ProductionSetupChecklist() {
 								<span className="text-text-md font-medium text-theme-text-secondary">(10 min)</span>
 							</p>
 							<p className="text-theme-text-secondary">
-								{isStarterSetupFinished ? (
+								{starterSetup.isFinished ? (
 									"Level up your skills in a production setting."
 								) : (
 									<span className="text-primary-400">
@@ -104,30 +86,30 @@ export function ProductionSetupChecklist() {
 					<ul className="divide-y divide-theme-border-moderate">
 						<li className="py-5 first:pt-0 last:pb-0">
 							<CreateServiceConnector
-								order={order}
-								onboardingState={onboarding.data}
-								active={isStarterSetupFinished}
+								active={starterSetup.isFinished && connectorStep.isActive}
+								completed={connectorStep.isCompleted}
+								hasDownstreamStep={connectorStep.hasDownStreamStep}
 							/>
 						</li>
 						<li className="py-5 first:pt-0 last:pb-0">
 							<CreateArtifactStore
-								order={order}
-								onboardingState={onboarding.data}
-								active={isStarterSetupFinished}
+								active={starterSetup.isFinished && storeStep.isActive}
+								completed={storeStep.isCompleted}
+								hasDownstreamStep={storeStep.hasDownStreamStep}
 							/>
 						</li>
 						<li className="py-5 first:pt-0 last:pb-0">
 							<CreateNewStack
-								order={order}
-								onboardingState={onboarding.data}
-								active={isStarterSetupFinished}
+								active={starterSetup.isFinished && stackStep.isActive}
+								completed={stackStep.isCompleted}
+								hasDownstreamStep={stackStep.hasDownStreamStep}
 							/>
 						</li>
 						<li className="py-5 first:pt-0 last:pb-0">
 							<RunNewPipeline
-								order={order}
-								onboardingState={onboarding.data}
-								active={isStarterSetupFinished}
+								active={starterSetup.isFinished && pipelineStep.isActive}
+								completed={pipelineStep.isCompleted}
+								hasDownstreamStep={pipelineStep.hasDownStreamStep}
 							/>
 						</li>
 					</ul>

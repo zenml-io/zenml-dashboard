@@ -3,25 +3,17 @@ import { Codesnippet } from "@/components/CodeSnippet";
 import { HelpBox } from "@/components/fallback-pages/Helpbox";
 import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
 import { useServerInfo } from "@/data/server/info-query";
-import { checkDownstreamStep, hasOnboardingItem } from "@/lib/onboarding";
-import { OnboardingChecklistItemName, OnboardingResponse } from "@/types/onboarding";
+import { OnboardingStep } from "@/types/onboarding";
 import { Box, Skeleton, buttonVariants } from "@zenml-io/react-component-library";
 
-type Props = {
-	onboardingState: OnboardingResponse;
-	order: OnboardingChecklistItemName[];
-};
-export function ConnectZenMLStep({ onboardingState, order }: Props) {
+export function ConnectZenMLStep({ completed, hasDownstreamStep, active }: OnboardingStep) {
 	const { data } = useServerInfo({ throwOnError: true });
 
-	const itemName: OnboardingChecklistItemName = "device_verified";
-	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
-	const item = hasOnboardingItem(itemName, onboardingState || []);
 	return (
 		<ChecklistItem
-			hasDownstream={hasDownStreamFinishded}
-			itemName={itemName}
-			completed={!!item}
+			active={active}
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
 			title="Connect to ZenML"
 		>
 			<div className="flex flex-col gap-5">
@@ -32,9 +24,7 @@ export function ConnectZenMLStep({ onboardingState, order }: Props) {
 					/>
 				</div>
 				<div>
-					<p className="mb-1 text-text-sm text-theme-text-secondary">
-						Login to your ZenML Cloud tenant
-					</p>
+					<p className="mb-1 text-text-sm text-theme-text-secondary">Login to your ZenML Server</p>
 					<Codesnippet code={`zenml connect --url ${window.location.origin}`} />
 				</div>
 				<HelpBox link="https://docs.zenml.io/user-guide/production-guide/deploying-zenml#connecting-to-a-deployed-zenml" />
@@ -43,15 +33,12 @@ export function ConnectZenMLStep({ onboardingState, order }: Props) {
 	);
 }
 
-export function RunFirstPipeline({ onboardingState, order }: Props) {
-	const itemName: OnboardingChecklistItemName = "pipeline_run";
-	const item = hasOnboardingItem(itemName, onboardingState || []);
-	const hasDownStreamFinishded = checkDownstreamStep(itemName, onboardingState || [], order);
+export function RunFirstPipeline({ active, completed, hasDownstreamStep }: OnboardingStep) {
 	return (
 		<ChecklistItem
-			hasDownstream={hasDownStreamFinishded}
-			itemName={itemName}
-			completed={!!item}
+			active={active}
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
 			title="Run your first pipeline"
 		>
 			<div className="flex flex-col gap-5">

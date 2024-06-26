@@ -2,9 +2,8 @@ import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { Tick } from "@/components/Tick";
 import { useServerInfo } from "@/data/server/info-query";
 import { useOnboarding } from "@/data/server/onboarding-state";
-import { getStarterSetupItems, getOnboardingProgress } from "@/lib/onboarding";
+import { getStarterSetup } from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
-import { OnboardingChecklistItemName } from "@/types/onboarding";
 import {
 	Collapsible,
 	CollapsibleContent,
@@ -25,18 +24,12 @@ export function StarterSetupList() {
 	if (onboarding.isError || serverInfo.isError) return null;
 
 	const isLocalServer = checkIsLocalServer(serverInfo.data.deployment_type || "other");
-	const STARTER_SETUP_ITEMS = getStarterSetupItems(isLocalServer);
-
-	const { doneItems, progress } = getOnboardingProgress({
-		itemList: STARTER_SETUP_ITEMS,
-		onboardingState: onboarding.data,
-		finalStep: "starter_setup_completed"
-	});
-
-	const order: OnboardingChecklistItemName[] = [
-		...(STARTER_SETUP_ITEMS as OnboardingChecklistItemName[]),
-		"starter_setup_completed"
-	];
+	const { progress, itemsDone, totalItems, getItem } = getStarterSetup(
+		onboarding.data,
+		isLocalServer
+	);
+	const connectStep = getItem("device_verified");
+	const pipelineStep = getItem("pipeline_run");
 
 	return (
 		<Collapsible
@@ -51,7 +44,7 @@ export function StarterSetupList() {
 					) : (
 						<RadialProgress value={progress}>
 							<span className="absolute text-text-xs font-semibold">
-								{doneItems}/{STARTER_SETUP_ITEMS.length}
+								{itemsDone}/{totalItems}
 							</span>
 						</RadialProgress>
 					)}
@@ -77,11 +70,19 @@ export function StarterSetupList() {
 				<ul className="divide-y divide-theme-border-moderate">
 					{!isLocalServer && (
 						<li className="py-5 first:pt-0 last:pb-0">
-							<ConnectZenMLStep order={order} onboardingState={onboarding.data} />
+							<ConnectZenMLStep
+								active={connectStep.isActive}
+								completed={connectStep.isCompleted}
+								hasDownstreamStep={connectStep.hasDownStreamStep}
+							/>
 						</li>
 					)}
 					<li className="py-5 first:pt-0 last:pb-0">
-						<RunFirstPipeline order={order} onboardingState={onboarding.data} />
+						<RunFirstPipeline
+							active={pipelineStep.isActive}
+							completed={pipelineStep.isCompleted}
+							hasDownstreamStep={pipelineStep.hasDownStreamStep}
+						/>
 					</li>
 				</ul>
 			</CollapsibleContent>
