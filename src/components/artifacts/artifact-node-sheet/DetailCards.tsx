@@ -109,12 +109,19 @@ export function DetailsCard({ artifactVersionId }: Props) {
 							<>
 								{stepDetail.data ? (
 									<Tag
-										color={getExecutionStatusTagColor("completed")}
+										color={getExecutionStatusTagColor(stepDetail?.data?.body?.status)}
 										className="inline-flex items-center gap-0.5"
 										rounded={false}
 										emphasis="subtle"
 									>
-										<ExecutionStatusIcon className="mr-1 fill-current" status={"completed"} />
+										{stepDetail?.data?.body?.status === "running" ? (
+											<Spinner className="mr-1 h-4 w-4 border-[2px]" />
+										) : (
+											<ExecutionStatusIcon
+												className="mr-1 fill-current"
+												status={stepDetail?.data?.body?.status}
+											/>
+										)}
 										{stepDetail.data.name}
 									</Tag>
 								) : (

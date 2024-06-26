@@ -1,10 +1,15 @@
 import { useStepLogs } from "@/data/steps/step-logs-query";
-import { ErrorFallback } from "../../Error";
 import { CollapsibleCard } from "@/components/CollapsibleCard";
 import { Codesnippet } from "@/components/CodeSnippet";
 import { KeyValue } from "@/components/KeyValue";
 import Logs from "@/assets/icons/logs.svg?react";
 import { Spinner } from "@zenml-io/react-component-library";
+import { usePipelineRun } from "@/data/pipeline-runs/pipeline-run-detail-query";
+import { useStack } from "@/data/stacks/stack-detail-query";
+import { fallbackMsg } from "@/components/fallback-pages/FallbackMessageCopies";
+import FallbackMessage from "@/components/fallback-pages/FallbackMessage";
+import { useParams } from "react-router-dom";
+import { useStackComponent } from "@/data/components/stack-component-detail-query";
 
 type Props = {
 	stepId: string;
@@ -29,11 +34,31 @@ const LoadingLogs = () => (
 
 export function StepLogsTab({ stepId, stepDetail }: Props) {
 	const enableLogs = stepDetail?.metadata?.config?.enable_step_logs;
+	const { runId } = useParams() as { runId: string };
 
-	const { data, isPending, isError, error } = useStepLogs({ stepId });
+	const { data, isPending, isError, error } = useStepLogs({ stepId }, { retry: 2 });
+
+	const { data: runData } = usePipelineRun({ runId: runId }, { throwOnError: true });
+
+	const stackId = runData?.body?.stack?.id;
+	const { data: stackData } = useStack({ stackId: stackId as string }, { enabled: !!stackId });
+	const stackComponentId = (stackData?.metadata?.components?.artifact_store as any[])[0].id;
+
+	const { data: stackComponent } = useStackComponent(
+		{
+			params: { component_id: stackComponentId as string }
+		},
+		{ enabled: !!stackComponentId, throwOnError: false }
+	);
+
+	if (stackComponent?.body?.flavor === "local") {
+		return <FallbackMessage fallbackMessageContent={fallbackMsg().noLogsLocalOnly} />;
+	} else if (!stackComponent?.metadata?.connector) {
+		return <FallbackMessage fallbackMessageContent={fallbackMsg().noLogsNoServiceConnector} />;
+	}
 
 	if (isError) {
-		return <ErrorFallback err={error} />;
+		return <FallbackMessage fallbackMessageContent={fallbackMsg().noLogsDocMissing} />;
 	}
 
 	if (isPending) {
