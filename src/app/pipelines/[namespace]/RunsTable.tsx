@@ -6,46 +6,54 @@ import { useAllPipelineRuns } from "@/data/pipeline-runs/all-pipeline-runs-query
 import { SearchField } from "@/components/SearchField";
 import Pagination from "@/components/Pagination";
 import { getPipelineDetailColumns } from "./columns";
+import { SkeletonMain } from "@/components/SkeletonMain";
+import FallbackMessage from "@/components/fallback-pages/FallbackMessage";
+import { fallbackMsg } from "@/components/fallback-pages/FallbackMessageCopies";
 
 export function PipelineRunsTable() {
 	const { namespace } = useParams() as { namespace: string };
 	const params = usePipelineRunParams();
 	const cols = getPipelineDetailColumns();
 
-	const { data, refetch } = useAllPipelineRuns(
-		{
-			params: {
-				pipeline_name: decodeURIComponent(namespace),
-				...params,
-				sort_by: "desc:updated"
-			}
-		},
-		{ throwOnError: true }
-	);
+	const { data, refetch, isPending } = useAllPipelineRuns({
+		params: {
+			pipeline_name: decodeURIComponent(namespace),
+			...params,
+			sort_by: "desc:updated"
+		}
+	});
 
 	return (
 		<div className="flex flex-col gap-5 p-5">
-			<div className="flex items-center justify-between">
-				<SearchField searchParams={params} />
-				<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>
-					<Refresh className="h-5 w-5 fill-theme-text-brand" />
-					Refresh
-				</Button>
-			</div>
-			<div className="flex flex-col items-center gap-5">
-				<div className="w-full">
-					{data ? (
-						<DataTable columns={cols} data={data.items} />
-					) : (
-						<Skeleton className="h-[500px] w-full" />
-					)}
-				</div>
-				{data ? (
-					data.total_pages > 1 && <Pagination searchParams={params} paginate={data} />
-				) : (
-					<Skeleton className="h-[36px] w-[300px]" />
-				)}
-			</div>
+			{isPending ? (
+				<SkeletonMain />
+			) : data?.items?.length ? (
+				<>
+					<div className="flex items-center justify-between">
+						<SearchField searchParams={params} />
+						<Button intent="primary" emphasis="subtle" size="md" onClick={() => refetch()}>
+							<Refresh className="h-5 w-5 fill-theme-text-brand" />
+							Refresh
+						</Button>
+					</div>
+					<div className="flex flex-col items-center gap-5">
+						<div className="w-full">
+							{data ? (
+								<DataTable columns={cols} data={data.items} />
+							) : (
+								<Skeleton className="h-[500px] w-full" />
+							)}
+						</div>
+						{data ? (
+							data.total_pages > 1 && <Pagination searchParams={params} paginate={data} />
+						) : (
+							<Skeleton className="h-[36px] w-[300px]" />
+						)}
+					</div>
+				</>
+			) : (
+				<FallbackMessage fallbackMessageContent={fallbackMsg().noRuns} />
+			)}
 		</div>
 	);
 }
