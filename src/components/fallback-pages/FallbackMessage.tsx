@@ -1,6 +1,4 @@
-"use client";
-
-import CodeBox from "@/assets/icons/code-box.svg";
+import CodeBox from "@/assets/icons/code-box.svg?react";
 import { Codesnippet } from "../CodeSnippet";
 
 type FallbackMessageContentProps = {
