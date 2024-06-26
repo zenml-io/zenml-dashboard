@@ -42,7 +42,8 @@ export function StepLogsTab({ stepId, stepDetail }: Props) {
 
 	const stackId = runData?.body?.stack?.id;
 	const { data: stackData } = useStack({ stackId: stackId as string }, { enabled: !!stackId });
-	const stackComponentId = (stackData?.metadata?.components?.artifact_store as any[])[0].id;
+
+	const stackComponentId = (stackData?.metadata?.components?.artifact_store as any)[0].id;
 
 	const { data: stackComponent } = useStackComponent(
 		{
