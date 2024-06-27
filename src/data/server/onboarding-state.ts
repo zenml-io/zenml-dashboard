@@ -1,15 +1,15 @@
-import { apiPaths, createApiPath } from "../api";
 import { FetchError } from "@/lib/fetch-error";
+import { OnboardingResponse } from "@/types/onboarding";
 import { UseQueryOptions, useQuery } from "@tanstack/react-query";
+import { apiPaths, createApiPath } from "../api";
 import { fetcher } from "../fetch";
-import { ServerSettings } from "@/types/server";
 
-export function getServerSettingsKey() {
-	return ["settings"];
+export function getOnboardingKey() {
+	return ["onboarding_state"];
 }
 
-export async function fetchServerSettings(): Promise<ServerSettings> {
-	const url = createApiPath(apiPaths.settings);
+export async function fetchOnboarding() {
+	const url = createApiPath(apiPaths.onboarding);
 	const res = await fetcher(url, {
 		method: "GET",
 		headers: {
@@ -26,7 +26,7 @@ export async function fetchServerSettings(): Promise<ServerSettings> {
 				}
 				return data.detail;
 			})
-			.catch(() => "Failed to load Server Settings");
+			.catch(() => "Failed to update activate user");
 
 		throw new FetchError({
 			status: res.status,
@@ -34,15 +34,16 @@ export async function fetchServerSettings(): Promise<ServerSettings> {
 			message: errorData
 		});
 	}
+
 	return res.json();
 }
 
-export function useServerSettings(
-	options?: Omit<UseQueryOptions<ServerSettings>, "queryKey" | "queryFn">
+export function useOnboarding(
+	options?: Omit<UseQueryOptions<OnboardingResponse, FetchError>, "queryKey" | "queryFn">
 ) {
-	return useQuery<ServerSettings>({
-		queryKey: getServerSettingsKey(),
-		queryFn: async () => fetchServerSettings(),
+	return useQuery<OnboardingResponse, FetchError>({
+		queryKey: getOnboardingKey(),
+		queryFn: async () => fetchOnboarding(),
 		...options
 	});
 }

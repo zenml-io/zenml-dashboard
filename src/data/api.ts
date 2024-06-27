@@ -5,6 +5,7 @@ export const apiPaths = {
 	currentUser: "/current-user",
 	info: "/info",
 	settings: "/settings",
+	onboarding: "/onboarding_state",
 	pipelines: {
 		namespaces: "/pipeline_namespaces"
 	},

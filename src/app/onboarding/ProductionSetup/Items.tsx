@@ -1,28 +1,22 @@
-import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
-import { CloudProvider, ProviderSelect } from "./ProviderSelect";
-import { HelpBox } from "@/components/fallback-pages/Helpbox";
-import { useState } from "react";
-import { getOnboardingItem } from "@/lib/onboarding";
-import { OnboardingChecklistItemName, OnboardingState } from "@/types/onboarding";
-import { getServiceConnectorStep } from "./ConnectorContent";
-import { getArtifactStoreStep } from "./ArtifactStore";
 import { Codesnippet } from "@/components/CodeSnippet";
+import { HelpBox } from "@/components/fallback-pages/Helpbox";
+import { ChecklistItem } from "@/components/onboarding/ChecklistItem";
+import {} from "@/lib/onboarding";
+import { OnboardingStep } from "@/types/onboarding";
+import { useState } from "react";
+import { getArtifactStoreStep } from "./ArtifactStore";
+import { getServiceConnectorStep } from "./ConnectorContent";
+import { CloudProvider, ProviderSelect } from "./ProviderSelect";
 
-type Props = {
-	onboardingState?: OnboardingState;
-	active?: boolean;
-};
-
-export function CreateServiceConnector({ onboardingState, active }: Props) {
+export function CreateServiceConnector({ hasDownstreamStep, active, completed }: OnboardingStep) {
 	const [selectedProvider, setSelectedProvider] = useState<CloudProvider>("aws");
-	const itemName: OnboardingChecklistItemName = "create_service_connector";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
+
 	return (
 		<ChecklistItem
+			hasDownstream={hasDownstreamStep}
 			active={active}
-			completed={!!item}
+			completed={completed}
 			title="Create a service connector"
-			itemName={itemName}
 		>
 			<p className="mb-3">
 				A service connector grants users of your ZenML tenant the ability to access components like
@@ -52,15 +46,12 @@ export function CreateServiceConnector({ onboardingState, active }: Props) {
 	);
 }
 
-export function CreateArtifactStore({ onboardingState, active }: Props) {
+export function CreateArtifactStore({ completed, active, hasDownstreamStep }: OnboardingStep) {
 	const [selectedProvider, setSelectedProvider] = useState<CloudProvider>("aws");
-	const itemName: OnboardingChecklistItemName = "create_remote_artifact_store";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
-
 	return (
 		<ChecklistItem
-			itemName={itemName}
-			completed={!!item}
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
 			title="Create an artifact store"
 			active={active}
 		>
@@ -93,14 +84,11 @@ export function CreateArtifactStore({ onboardingState, active }: Props) {
 	);
 }
 
-export function CreateNewStack({ onboardingState, active }: Props) {
-	const itemName: OnboardingChecklistItemName = "create_remote_stack";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
-
+export function CreateNewStack({ completed, active, hasDownstreamStep }: OnboardingStep) {
 	return (
 		<ChecklistItem
-			itemName={itemName}
-			completed={!!item}
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
 			title="Create a new stack"
 			active={active}
 		>
@@ -124,14 +112,11 @@ export function CreateNewStack({ onboardingState, active }: Props) {
 	);
 }
 
-export function RunNewPipeline({ active, onboardingState }: Props) {
-	const itemName: OnboardingChecklistItemName = "run_remote_pipeline";
-	const item = getOnboardingItem(onboardingState || {}, itemName);
-
+export function RunNewPipeline({ active, completed, hasDownstreamStep }: OnboardingStep) {
 	return (
 		<ChecklistItem
-			itemName={itemName}
-			completed={!!item}
+			hasDownstream={hasDownstreamStep}
+			completed={completed}
 			title="Run the pipeline in the new stack"
 			active={active}
 		>

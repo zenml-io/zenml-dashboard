@@ -1,8 +1,8 @@
 import ChevronDown from "@/assets/icons/chevron-down.svg?react";
 import { Tick } from "@/components/Tick";
-import { useServerSettings } from "@/data/server/get-server-settings";
 import { useServerInfo } from "@/data/server/info-query";
-import { getOnboardingState, getProgress, getStarterSetupItems } from "@/lib/onboarding";
+import { useOnboarding } from "@/data/server/onboarding-state";
+import { getStarterSetup } from "@/lib/onboarding";
 import { checkIsLocalServer } from "@/lib/server";
 import {
 	Collapsible,
@@ -15,18 +15,21 @@ import { useState } from "react";
 import { ConnectZenMLStep, RunFirstPipeline } from "./Items";
 
 export function StarterSetupList() {
-	const { isError, isPending, data } = useServerSettings({ throwOnError: true });
+	const onboarding = useOnboarding({ refetchInterval: 5000 });
 	const serverInfo = useServerInfo();
 	const [open, setOpen] = useState(true);
 
-	if (isPending || serverInfo.isPending) return <Skeleton className="h-[200px] w-full" />;
-	if (isError || serverInfo.isError) return null;
+	if (onboarding.isPending || serverInfo.isPending)
+		return <Skeleton className="h-[200px] w-full" />;
+	if (onboarding.isError || serverInfo.isError) return null;
 
 	const isLocalServer = checkIsLocalServer(serverInfo.data.deployment_type || "other");
-	const STARTER_SETUP_ITEMS = getStarterSetupItems(isLocalServer);
-
-	const doneItems = getProgress(getOnboardingState(data), STARTER_SETUP_ITEMS);
-	const progress = (doneItems / STARTER_SETUP_ITEMS.length) * 100;
+	const { progress, itemsDone, totalItems, getItem } = getStarterSetup(
+		onboarding.data,
+		isLocalServer
+	);
+	const connectStep = getItem("device_verified");
+	const pipelineStep = getItem("pipeline_run");
 
 	return (
 		<Collapsible
@@ -41,7 +44,7 @@ export function StarterSetupList() {
 					) : (
 						<RadialProgress value={progress}>
 							<span className="absolute text-text-xs font-semibold">
-								{doneItems}/{STARTER_SETUP_ITEMS.length}
+								{itemsDone}/{totalItems}
 							</span>
 						</RadialProgress>
 					)}
@@ -67,11 +70,19 @@ export function StarterSetupList() {
 				<ul className="divide-y divide-theme-border-moderate">
 					{!isLocalServer && (
 						<li className="py-5 first:pt-0 last:pb-0">
-							<ConnectZenMLStep onboardingState={getOnboardingState(data)} />
+							<ConnectZenMLStep
+								active={connectStep.isActive}
+								completed={connectStep.isCompleted}
+								hasDownstreamStep={connectStep.hasDownStreamStep}
+							/>
 						</li>
 					)}
 					<li className="py-5 first:pt-0 last:pb-0">
-						<RunFirstPipeline onboardingState={getOnboardingState(data)} />
+						<RunFirstPipeline
+							active={pipelineStep.isActive}
+							completed={pipelineStep.isCompleted}
+							hasDownstreamStep={pipelineStep.hasDownStreamStep}
+						/>
 					</li>
 				</ul>
 			</CollapsibleContent>
