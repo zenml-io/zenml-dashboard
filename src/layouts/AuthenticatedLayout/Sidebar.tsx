@@ -23,12 +23,17 @@ import { Link, LinkProps, matchPath, useLocation } from "react-router-dom";
 import { OnboardingItem } from "./OnboardingItem";
 import { SidebarImage, SidebarTitle } from "./SidebarFragments";
 import { WhatsNewButton } from "./WhatsNewButton";
+import { useServerInfo } from "../../data/server/info-query";
 
 export function Sidebar() {
 	const { setIsOpen, isOpen } = useSidebarContext();
+	const serverInfo = useServerInfo();
+	const isLocal = serverInfo.data?.deployment_type === "local";
 	return (
 		<div>
-			<ZenMLSidebar className="sticky top-9 h-[calc(100vh_-_64px)] overflow-y-auto overflow-x-clip">
+			<ZenMLSidebar
+				className={`sticky  ${isLocal ? "top-[128px] h-[calc(100vh_-_64px_-_64px)]" : "top-9 h-[calc(100vh_-_64px)]"} overflow-y-auto overflow-x-clip`}
+			>
 				<div className="flex w-full flex-1 flex-col gap-0.5 self-start">
 					<SidebarHeader
 						icon={
