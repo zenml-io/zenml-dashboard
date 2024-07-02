@@ -30,7 +30,11 @@ const Connectors = lazy(() => import("@/app/settings/connectors/page"));
 const Repositories = lazy(() => import("@/app/settings/repositories/page"));
 const Secrets = lazy(() => import("@/app/settings/secrets/page"));
 const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
+
+//Stacks
 const Stacks = lazy(() => import("@/app/stacks/page"));
+const NewStack = lazy(() => import("@/app/stacks/new/page"));
+
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
 const Artifacts = lazy(() => import("@/app/artifacts/page"));
@@ -196,6 +200,15 @@ export const router = createBrowserRouter(
 						element={
 							<ProtectedRoute>
 								<Stacks />
+							</ProtectedRoute>
+						}
+					/>
+					<Route
+						errorElement={<PageBoundary />}
+						path={routes.stacks.new}
+						element={
+							<ProtectedRoute>
+								<NewStack />
 							</ProtectedRoute>
 						}
 					/>
