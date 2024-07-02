@@ -5,7 +5,7 @@ import { CreateNewInfraWizard } from "./Wizard";
 export default function StackWithNewInfrastructurePage() {
 	return (
 		<NewInfraProvider>
-			<section className="layout-container flex gap-5 p-5">
+			<section className="layout-container flex flex-col gap-5 p-5 md:flex-row">
 				<LeftSideMenu
 					entries={[
 						"Infrastructure Type",
