@@ -1,7 +1,7 @@
 import { Tick } from "@/components/Tick";
 import { cn } from "@zenml-io/react-component-library";
 import { ReactNode } from "react";
-import { useNewInfraContext } from "./NewInfraContext";
+import { useNewInfraWizardContext } from "./NewInfraWizardContext";
 
 type Props = {
 	entries: string[];
@@ -26,7 +26,7 @@ type LeftSideMenuItemProps = {
 	children: ReactNode;
 };
 function LeftSideMenuItem({ index, children }: LeftSideMenuItemProps) {
-	const { currentStep } = useNewInfraContext();
+	const { currentStep } = useNewInfraWizardContext();
 
 	const classNames = cn("font-semibold flex items-center gap-1", {
 		"text-theme-text-tertiary": index < currentStep,
@@ -45,7 +45,7 @@ type StepIndicatorProps = {
 	index: number;
 };
 function StepIndicator({ index }: StepIndicatorProps) {
-	const { currentStep } = useNewInfraContext();
+	const { currentStep } = useNewInfraWizardContext();
 	const displayIndex = index + 1;
 	if (currentStep > index) return <Tick className="h-5 w-5" tickClasses="w-3 h-3" />;
 	if (currentStep === index)

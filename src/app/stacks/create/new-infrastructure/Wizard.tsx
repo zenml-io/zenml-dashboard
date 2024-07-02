@@ -1,17 +1,18 @@
-import { Box, Button } from "@zenml-io/react-component-library";
-import { useNewInfraContext } from "./NewInfraContext";
-import { Link } from "react-router-dom";
 import { routes } from "@/router/routes";
+import { Box, Button } from "@zenml-io/react-component-library";
+import { Link } from "react-router-dom";
+import { useNewInfraFormContext } from "./NewInfraFormContext";
+import { useNewInfraWizardContext } from "./NewInfraWizardContext";
+import { ProviderStep } from "./Steps/Provider";
 
 export function CreateNewInfraWizard() {
+	const { currentStep } = useNewInfraWizardContext();
 	return (
 		<Box className="w-full">
 			<div className="border-b border-theme-border-moderate px-5 py-3 text-display-xs font-semibold">
 				New Cloud Infrastructure
 			</div>
-			<div className="p-5">
-				<p>Steps here</p>
-			</div>
+			<div className="p-5">{currentStep === 1 && <ProviderStep />}</div>
 			<div className="flex items-center justify-end gap-2 border-t border-theme-border-moderate p-5">
 				<CancelButton />
 				<PrevButton />
@@ -23,9 +24,13 @@ export function CreateNewInfraWizard() {
 
 function NextButton() {
 	const maxSteps = 3;
-	const { isNextButtonDisabled, setCurrentStep } = useNewInfraContext();
+	const { setCurrentStep } = useNewInfraWizardContext();
+	const { formRef, isNextButtonDisabled } = useNewInfraFormContext();
 
 	function nextStep() {
+		if (formRef.current) {
+			formRef.current.requestSubmit();
+		}
 		setCurrentStep((prev) => {
 			if (prev < maxSteps) {
 				return prev + 1;
@@ -35,14 +40,14 @@ function NextButton() {
 	}
 
 	return (
-		<Button onClick={nextStep} disabled={isNextButtonDisabled} size="md">
+		<Button form={formRef.current?.id} disabled={isNextButtonDisabled} onClick={nextStep} size="md">
 			Next
 		</Button>
 	);
 }
 
 function PrevButton() {
-	const { setCurrentStep } = useNewInfraContext();
+	const { setCurrentStep, currentStep } = useNewInfraWizardContext();
 
 	function previousStep() {
 		setCurrentStep((prev) => {
@@ -54,7 +59,7 @@ function PrevButton() {
 	}
 
 	return (
-		<Button onClick={previousStep} emphasis="subtle" size="md">
+		<Button disabled={currentStep === 1} onClick={previousStep} emphasis="subtle" size="md">
 			Prev
 		</Button>
 	);
