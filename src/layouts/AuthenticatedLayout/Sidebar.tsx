@@ -91,7 +91,11 @@ export function Sidebar() {
 							<li className="w-full">
 								<SidebarLink
 									id="stacks-sidebar-link"
-									routePatterns={[routes.stacks.overview, routes.stacks.create]}
+									routePatterns={[
+										routes.stacks.overview,
+										routes.stacks.create.index,
+										routes.stacks.create.newInfra
+									]}
 									icon={<Stacks />}
 									label="Stacks"
 									to={"/stacks"}

@@ -20,7 +20,10 @@ export const routes = {
 	},
 	stacks: {
 		overview: "/stacks",
-		create: "/stacks/create"
+		create: {
+			index: "/stacks/create",
+			newInfra: "/stacks/create/new-infrastructure"
+		}
 	},
 	runs: {
 		detail: (id: string) => `/runs/${id}`

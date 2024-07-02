@@ -10,6 +10,7 @@ import { routes } from "./routes";
 import { authenticatedLayoutLoader, rootLoader } from "./loaders";
 import { queryClient } from "./queryclient";
 import { surveyLoader } from "@/app/survey/loader";
+import { CreateStacksLayout } from "@/app/stacks/create/layout";
 
 const Home = lazy(() => import("@/app/page"));
 const Login = lazy(() => import("@/app/login/page"));
@@ -34,6 +35,7 @@ const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
 //Stacks
 const Stacks = lazy(() => import("@/app/stacks/page"));
 const CreateStack = lazy(() => import("@/app/stacks/create/page"));
+const CreateStackNewInfra = lazy(() => import("@/app/stacks/create/new-infrastructure/page"));
 
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
@@ -204,14 +206,31 @@ export const router = createBrowserRouter(
 						}
 					/>
 					<Route
-						errorElement={<PageBoundary />}
-						path={routes.stacks.create}
 						element={
 							<ProtectedRoute>
-								<CreateStack />
+								<CreateStacksLayout />
 							</ProtectedRoute>
 						}
-					/>
+					>
+						<Route
+							errorElement={<PageBoundary />}
+							path={routes.stacks.create.index}
+							element={
+								<ProtectedRoute>
+									<CreateStack />
+								</ProtectedRoute>
+							}
+						/>
+						<Route
+							errorElement={<PageBoundary />}
+							path={routes.stacks.create.newInfra}
+							element={
+								<ProtectedRoute>
+									<CreateStackNewInfra />
+								</ProtectedRoute>
+							}
+						/>
+					</Route>
 				</Route>
 			</Route>
 

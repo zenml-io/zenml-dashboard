@@ -1,0 +1,26 @@
+import { Dispatch, SetStateAction, createContext, useContext, useState } from "react";
+
+type AuthContextType = {
+	currentStep: number;
+	setCurrentStep: Dispatch<SetStateAction<number>>;
+};
+
+export const NewInfraContext = createContext<AuthContextType | null>(null);
+
+export function NewInfraProvider({ children }: { children: React.ReactNode }) {
+	const [currentStep, setCurrentStep] = useState(0);
+
+	return (
+		<NewInfraContext.Provider value={{ currentStep, setCurrentStep }}>
+			{children}
+		</NewInfraContext.Provider>
+	);
+}
+
+export function useNewInfraContext() {
+	const context = useContext(NewInfraContext);
+	if (context === null) {
+		throw new Error("useNewInfraContext must be used within an AuthProvider");
+	}
+	return context;
+}

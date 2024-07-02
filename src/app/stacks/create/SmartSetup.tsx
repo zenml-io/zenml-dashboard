@@ -2,6 +2,7 @@ import CloudTenant from "@/assets/icons/cloud-tenant.svg?react";
 import Database from "@/assets/icons/database.svg?react";
 import { Link } from "react-router-dom";
 import { CreateStackOptionCard } from "./OptionCard";
+import { routes } from "@/router/routes";
 
 export function SmartSetup() {
 	return (
@@ -22,7 +23,7 @@ export function SmartSetup() {
 
 function NewInfrastructure() {
 	return (
-		<Link to="#">
+		<Link to={routes.stacks.create.newInfra}>
 			<CreateStackOptionCard
 				title="New Infrastructure"
 				isRecommended
