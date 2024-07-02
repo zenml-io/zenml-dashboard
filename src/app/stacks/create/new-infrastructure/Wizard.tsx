@@ -3,6 +3,7 @@ import { Box, Button } from "@zenml-io/react-component-library";
 import { Link } from "react-router-dom";
 import { useNewInfraFormContext } from "./NewInfraFormContext";
 import { useNewInfraWizardContext } from "./NewInfraWizardContext";
+import { ConfigurationStep } from "./Steps/Configuration";
 import { ProviderStep } from "./Steps/Provider";
 
 export function CreateNewInfraWizard() {
@@ -12,7 +13,10 @@ export function CreateNewInfraWizard() {
 			<div className="border-b border-theme-border-moderate px-5 py-3 text-display-xs font-semibold">
 				New Cloud Infrastructure
 			</div>
-			<div className="p-5">{currentStep === 1 && <ProviderStep />}</div>
+			<div className="p-5">
+				{currentStep === 1 && <ProviderStep />}
+				{currentStep === 2 && <ConfigurationStep />}
+			</div>
 			<div className="flex items-center justify-end gap-2 border-t border-theme-border-moderate p-5">
 				<CancelButton />
 				<PrevButton />
