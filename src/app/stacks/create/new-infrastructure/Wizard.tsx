@@ -46,7 +46,7 @@ function PrevButton() {
 
 	function previousStep() {
 		setCurrentStep((prev) => {
-			if (prev > 0) {
+			if (prev > 1) {
 				return prev - 1;
 			}
 			return prev;

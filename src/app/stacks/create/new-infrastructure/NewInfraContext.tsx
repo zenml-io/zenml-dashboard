@@ -10,7 +10,7 @@ type AuthContextType = {
 export const NewInfraContext = createContext<AuthContextType | null>(null);
 
 export function NewInfraProvider({ children }: { children: React.ReactNode }) {
-	const [currentStep, setCurrentStep] = useState(0);
+	const [currentStep, setCurrentStep] = useState(1);
 	const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(false);
 
 	return (
