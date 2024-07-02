@@ -33,7 +33,7 @@ const GeneralSettings = lazy(() => import("@/app/settings/general/page"));
 
 //Stacks
 const Stacks = lazy(() => import("@/app/stacks/page"));
-const NewStack = lazy(() => import("@/app/stacks/new/page"));
+const CreateStack = lazy(() => import("@/app/stacks/create/page"));
 
 const DeviceVerification = lazy(() => import("@/app/devices/verify/page"));
 const Models = lazy(() => import("@/app/models/page"));
@@ -205,10 +205,10 @@ export const router = createBrowserRouter(
 					/>
 					<Route
 						errorElement={<PageBoundary />}
-						path={routes.stacks.new}
+						path={routes.stacks.create}
 						element={
 							<ProtectedRoute>
-								<NewStack />
+								<CreateStack />
 							</ProtectedRoute>
 						}
 					/>

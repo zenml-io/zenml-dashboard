@@ -28,7 +28,7 @@ export function StackList() {
 							Refresh
 						</Button>
 						<Button size="md" asChild>
-							<Link to={routes.stacks.new}>
+							<Link to={routes.stacks.create}>
 								<Plus className="h-5 w-5 shrink-0 fill-white" />
 								<span>New Stack</span>
 							</Link>
