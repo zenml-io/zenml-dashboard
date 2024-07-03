@@ -7,9 +7,9 @@ import {
 	SelectTrigger,
 	SelectValue
 } from "@zenml-io/react-component-library";
-import { useNewInfraFormContext } from "../NewInfraFormContext";
+import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { Controller, useForm } from "react-hook-form";
-import { ConfigurationForm, configurationSchema } from "./schemas";
+import { ConfigurationForm, configurationSchema } from "../schemas";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect } from "react";
 export function ConfigurationStep() {

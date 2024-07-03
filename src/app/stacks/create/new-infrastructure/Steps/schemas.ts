@@ -8,7 +8,12 @@ export type ProviderForm = z.infer<typeof providerSchema>;
 
 export const configurationSchema = z.object({
 	region: z.string().trim().min(1),
-	stackName: z.string().trim().min(1)
+	stackName: z
+		.string()
+		.trim()
+		.min(1)
+		.max(32)
+		.regex(/^[a-zA-Z0-9-]+$/)
 });
 
 export type ConfigurationForm = z.infer<typeof configurationSchema>;
