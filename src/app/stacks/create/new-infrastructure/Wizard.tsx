@@ -5,25 +5,14 @@ import { useNewInfraFormContext } from "./NewInfraFormContext";
 import { useNewInfraWizardContext } from "./NewInfraWizardContext";
 import { ConfigurationStep } from "./Steps/Configuration";
 import { ProviderStep } from "./Steps/Provider";
+import { DeployStep } from "./Steps/Deploy";
+import { ReactNode } from "react";
 
 export function CreateNewInfraWizard() {
 	const { currentStep } = useNewInfraWizardContext();
-	return (
-		<Box className="w-full">
-			<div className="border-b border-theme-border-moderate px-5 py-3 text-display-xs font-semibold">
-				New Cloud Infrastructure
-			</div>
-			<div className="p-5">
-				{currentStep === 1 && <ProviderStep />}
-				{currentStep === 2 && <ConfigurationStep />}
-			</div>
-			<div className="flex items-center justify-end gap-2 border-t border-theme-border-moderate p-5">
-				<CancelButton />
-				<PrevButton />
-				<NextButton />
-			</div>
-		</Box>
-	);
+	if (currentStep === 1) return <ProviderStep />;
+	if (currentStep === 2) return <ConfigurationStep />;
+	if (currentStep === 3) return <DeployStep />;
 }
 
 function NextButton() {
@@ -74,5 +63,21 @@ function CancelButton() {
 		<Button intent="secondary" size="md">
 			<Link to={routes.stacks.create.index}>Cancel</Link>
 		</Button>
+	);
+}
+
+export function WizardStepWrapper({ children, title }: { children: ReactNode; title: ReactNode }) {
+	return (
+		<Box className="w-full">
+			<div className="border-b border-theme-border-moderate px-5 py-3 text-display-xs font-semibold">
+				{title}
+			</div>
+			<div className="p-5">{children}</div>
+			<div className="flex items-center justify-end gap-2 border-t border-theme-border-moderate p-5">
+				<CancelButton />
+				<PrevButton />
+				<NextButton />
+			</div>
+		</Box>
 	);
 }

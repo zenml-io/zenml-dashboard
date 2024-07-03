@@ -16,3 +16,7 @@ export type StackDeploymentInfo = components["schemas"]["StackDeploymentInfo"];
 export type StackDeploymentInfoQueryParams = NonNullable<
 	operations["get_stack_deployment_info_api_v1_stack_deployment_info_get"]["parameters"]["query"]
 >;
+export type StackDeploymentURLQueryParams = NonNullable<
+	operations["get_stack_deployment_url_api_v1_stack_deployment_url_get"]["parameters"]["query"]
+>;
+export type StackDeploymentURLResponse = [string, string];

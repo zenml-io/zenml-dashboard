@@ -1,11 +1,15 @@
 import { ReactNode } from "react";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { AWSConfigurationStep } from "./AWS";
+import { WizardStepWrapper } from "../../Wizard";
 
 export function ConfigurationStep() {
 	const { data } = useNewInfraFormContext();
-	if (data.provider === "aws") return <AWSConfigurationStep />;
-	return;
+	return (
+		<WizardStepWrapper title="Deploy AWS ZenML Stack">
+			{data.provider === "aws" && <AWSConfigurationStep />}
+		</WizardStepWrapper>
+	);
 }
 
 type ComponentListItemProps = {

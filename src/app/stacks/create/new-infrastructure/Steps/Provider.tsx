@@ -7,6 +7,7 @@ import { InputHTMLAttributes, ReactNode, forwardRef, useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { useNewInfraFormContext } from "../NewInfraFormContext";
 import { ProviderForm, providerSchema } from "./schemas";
+import { WizardStepWrapper } from "../Wizard";
 
 export function ProviderStep() {
 	const { formRef, setIsNextButtonDisabled, setData, data } = useNewInfraFormContext();
@@ -29,43 +30,45 @@ export function ProviderStep() {
 	}
 
 	return (
-		<div className="space-y-5">
-			<div className="space-y-1">
-				<p className="text-text-lg font-semibold">Select a Cloud Provider</p>
-				<p className="text-theme-text-secondary">
-					Select the cloud provider where your want to create your infrastructure and deploy your
-					ZenML models. You will be able to remove the ZenML stack at any time.
-				</p>
+		<WizardStepWrapper title="New Cloud Infrastructure">
+			<div className="space-y-5">
+				<div className="space-y-1">
+					<p className="text-text-lg font-semibold">Select a Cloud Provider</p>
+					<p className="text-theme-text-secondary">
+						Select the cloud provider where your want to create your infrastructure and deploy your
+						ZenML models. You will be able to remove the ZenML stack at any time.
+					</p>
+				</div>
+				<form
+					id="provider-form"
+					onSubmit={handleSubmit(submitProvider)}
+					className="grid grid-cols-1 gap-3 xl:grid-cols-3"
+					ref={formRef}
+				>
+					<CloudProviderRadioButton id="aws-provider" {...register("provider")} value="aws">
+						<ProviderCard
+							icon={<Aws className="h-6 w-6 shrink-0" />}
+							title="AWS"
+							subtitle="ZenML stack with S3, ECR, and SageMaker integration"
+						/>
+					</CloudProviderRadioButton>
+					<CloudProviderRadioButton id="azure-provider" {...register("provider")} value="azure">
+						<ProviderCard
+							icon={<Azure className="h-6 w-6 shrink-0" />}
+							title="Azure"
+							subtitle="Set up ZenML with Azure Storage, Container Registry, and ML services"
+						/>
+					</CloudProviderRadioButton>
+					<CloudProviderRadioButton id="gcp-provider" {...register("provider")} value="gcp">
+						<ProviderCard
+							icon={<GCP className="h-6 w-6 shrink-0" />}
+							title="GCP"
+							subtitle="Create ZenML infrastructure using GCS, Artifact Registry, and Vertex AI"
+						/>
+					</CloudProviderRadioButton>
+				</form>
 			</div>
-			<form
-				id="provider-form"
-				onSubmit={handleSubmit(submitProvider)}
-				className="grid grid-cols-1 gap-3 xl:grid-cols-3"
-				ref={formRef}
-			>
-				<CloudProviderRadioButton id="aws-provider" {...register("provider")} value="aws">
-					<ProviderCard
-						icon={<Aws className="h-6 w-6 shrink-0" />}
-						title="AWS"
-						subtitle="ZenML stack with S3, ECR, and SageMaker integration"
-					/>
-				</CloudProviderRadioButton>
-				<CloudProviderRadioButton id="azure-provider" {...register("provider")} value="azure">
-					<ProviderCard
-						icon={<Azure className="h-6 w-6 shrink-0" />}
-						title="Azure"
-						subtitle="Set up ZenML with Azure Storage, Container Registry, and ML services"
-					/>
-				</CloudProviderRadioButton>
-				<CloudProviderRadioButton id="gcp-provider" {...register("provider")} value="gcp">
-					<ProviderCard
-						icon={<GCP className="h-6 w-6 shrink-0" />}
-						title="GCP"
-						subtitle="Create ZenML infrastructure using GCS, Artifact Registry, and Vertex AI"
-					/>
-				</CloudProviderRadioButton>
-			</form>
-		</div>
+		</WizardStepWrapper>
 	);
 }
 

@@ -33,7 +33,8 @@ export const apiPaths = {
 		detail: (codeRepositoryId: string) => `/code_repositories/${codeRepositoryId}`
 	},
 	stackDeployment: {
-		info: "/stack-deployment/info"
+		info: "/stack-deployment/info",
+		url: "/stack-deployment/url"
 	},
 	stacks: {
 		all: "/stacks",
