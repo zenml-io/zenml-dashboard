@@ -4,6 +4,7 @@ import { InlineAvatar } from "@/components/InlineAvatar";
 import { Stack } from "@/types/stack";
 import { User } from "@/types/user";
 import { ColumnDef } from "@tanstack/react-table";
+import { Avatar, AvatarFallback } from "@zenml-io/react-component-library";
 
 export function getStackColumns(): ColumnDef<Stack>[] {
 	return [
@@ -15,6 +16,9 @@ export function getStackColumns(): ColumnDef<Stack>[] {
 				const { name, id } = getValue<{ name: string; id: string }>();
 				return (
 					<div className="group/copybutton flex items-center gap-2">
+						<Avatar type="square" size="md">
+							<AvatarFallback size="md">{name[0]}</AvatarFallback>
+						</Avatar>
 						<div>
 							<div className="flex items-center gap-1">
 								<h2 className="text-text-md font-semibold">{name}</h2>
