@@ -20,3 +20,7 @@ export type StackDeploymentURLQueryParams = NonNullable<
 	operations["get_stack_deployment_url_api_v1_stack_deployment_url_get"]["parameters"]["query"]
 >;
 export type StackDeploymentURLResponse = [string, string];
+export type StackDeploymentStackQueryParams = NonNullable<
+	operations["get_deployed_stack_api_v1_stack_deployment_stack_get"]["parameters"]["query"]
+>;
+export type StackDeploymentStack = components["schemas"]["DeployedStack"];

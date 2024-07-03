@@ -1,30 +1,17 @@
+import Coin from "@/assets/icons/coin.svg?react";
+import CreditCard from "@/assets/icons/credit-card.svg?react";
+import Package from "@/assets/icons/package.svg?react";
 import Pin from "@/assets/icons/pin.svg?react";
 import Stack from "@/assets/icons/stack.svg?react";
 import { InfoBox } from "@/components/Infobox";
 import { zodResolver } from "@hookform/resolvers/zod";
-import {
-	Avatar,
-	AvatarFallback,
-	Box,
-	Input,
-	Select,
-	SelectContent,
-	SelectItem,
-	SelectTrigger,
-	SelectValue,
-	Skeleton,
-	ScrollArea
-} from "@zenml-io/react-component-library";
-import Package from "@/assets/icons/package.svg?react";
+import { Box, Input } from "@zenml-io/react-component-library";
 import { useEffect } from "react";
-import { Controller, FormProvider, useForm, useFormContext } from "react-hook-form";
+import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
+import { AWSComponents } from "../aws/Components";
+import { AWSRegionSelect } from "../aws/LocationSelect";
 import { ConfigurationForm, configurationSchema } from "../schemas";
-import { ComponentListItem } from ".";
-import Coin from "@/assets/icons/coin.svg?react";
-import CreditCard from "@/assets/icons/credit-card.svg?react";
-import { useQuery } from "@tanstack/react-query";
-import { stackQueries } from "@/data/stacks";
 
 export function AWSConfigurationStep() {
 	const { formRef, setIsNextButtonDisabled, setData, data } = useNewInfraFormContext();
@@ -56,7 +43,6 @@ export function AWSConfigurationStep() {
 					<Region />
 					<StackName />
 				</form>
-
 				<ReviewYourStack />
 				<EstimateCosts />
 			</div>
@@ -77,44 +63,8 @@ function Region() {
 					compliance.
 				</p>
 			</div>
-			<RegionSelect />
+			<AWSRegionSelect />
 		</div>
-	);
-}
-
-function RegionSelect() {
-	const { control } = useFormContext();
-	const { isPending, isError, data } = useQuery({
-		...stackQueries.stackDeploymentInfo({ provider: "aws" }),
-		throwOnError: true
-	});
-
-	if (isError) return null;
-	if (isPending) return <Skeleton className="h-[40px] w-[100px]" />;
-
-	const locations = Object.entries(data.locations);
-
-	return (
-		<Controller
-			control={control}
-			name="region"
-			render={({ field: { onChange, ref, ...rest } }) => (
-				<Select {...rest} onValueChange={onChange}>
-					<SelectTrigger className="border border-neutral-300 text-left text-text-md">
-						<SelectValue className="flex items-center gap-2" placeholder="Select your AWS Region" />
-					</SelectTrigger>
-					<SelectContent>
-						<ScrollArea viewportClassName="max-h-[300px]">
-							{locations.map(([region, name]) => (
-								<SelectItem key={region} value={name as string}>
-									{region}
-								</SelectItem>
-							))}
-						</ScrollArea>
-					</SelectContent>
-				</Select>
-			)}
-		/>
 	);
 }
 
@@ -149,58 +99,7 @@ function ReviewYourStack() {
 					The following components will be created for your ZenML stack.
 				</p>
 			</div>
-			<div className="divide-y divide-theme-border-moderate overflow-hidden rounded-md border border-theme-border-moderate">
-				<div className="flex items-center gap-3 bg-theme-surface-secondary p-5 text-text-lg font-semibold">
-					<Avatar type="square" size="lg">
-						<AvatarFallback size="lg">{watch("stackName")[0]}</AvatarFallback>
-					</Avatar>
-					{watch("stackName")}
-				</div>
-				<div className="py-3 pl-9 pr-5">
-					<ComponentListItem
-						title="IAM Role"
-						subtitle="Manage access to AWS resources"
-						badge={<></>}
-						img={{
-							src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/service_connector/iam.webp",
-							alt: "Sagemaker logo"
-						}}
-					/>
-				</div>
-				<div className="py-3 pl-9 pr-5">
-					<ComponentListItem
-						title="S3 Bucket"
-						subtitle="Artifact storage for ML pipelines"
-						badge={<></>}
-						img={{
-							src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/artifact_store/aws.png",
-							alt: "S3 logo"
-						}}
-					/>
-				</div>
-				<div className="py-3 pl-9 pr-5">
-					<ComponentListItem
-						title="ECR Repository"
-						subtitle="Container image storage"
-						badge={<></>}
-						img={{
-							src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/container_registry/aws.png",
-							alt: "Sagemaker logo"
-						}}
-					/>
-				</div>
-				<div className="py-3 pl-9 pr-5">
-					<ComponentListItem
-						title="SageMaker"
-						subtitle="Manage access to AWS resources"
-						badge={<></>}
-						img={{
-							src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/sagemaker.png",
-							alt: "Sagemaker logo"
-						}}
-					/>
-				</div>
-			</div>
+			<AWSComponents stackName={watch("stackName")} />
 			<InfoBox>
 				These resources create a basic ZenML AWS stack for ML workflow management. ZenML supports
 				highly flexible stacks. You can build advanced stacks at any time, combining your preferred

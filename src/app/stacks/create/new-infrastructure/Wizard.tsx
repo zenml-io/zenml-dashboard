@@ -1,6 +1,6 @@
 import { routes } from "@/router/routes";
 import { Box, Button } from "@zenml-io/react-component-library";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useNewInfraFormContext } from "./NewInfraFormContext";
 import { useNewInfraWizardContext } from "./NewInfraWizardContext";
 import { ConfigurationStep } from "./Steps/Configuration";
@@ -19,6 +19,7 @@ function NextButton() {
 	const maxSteps = 3;
 	const { setCurrentStep, currentStep } = useNewInfraWizardContext();
 	const { formRef, isNextButtonDisabled } = useNewInfraFormContext();
+	const navigate = useNavigate();
 
 	function nextStep() {
 		if (formRef.current) {
@@ -30,6 +31,10 @@ function NextButton() {
 			}
 			return prev;
 		});
+
+		if (currentStep === maxSteps) {
+			navigate(routes.stacks.overview);
+		}
 	}
 
 	return (
@@ -39,24 +44,24 @@ function NextButton() {
 	);
 }
 
-function PrevButton() {
-	const { setCurrentStep, currentStep } = useNewInfraWizardContext();
+// function PrevButton() {
+// 	const { setCurrentStep, currentStep } = useNewInfraWizardContext();
 
-	function previousStep() {
-		setCurrentStep((prev) => {
-			if (prev > 1) {
-				return prev - 1;
-			}
-			return prev;
-		});
-	}
+// 	function previousStep() {
+// 		setCurrentStep((prev) => {
+// 			if (prev > 1) {
+// 				return prev - 1;
+// 			}
+// 			return prev;
+// 		});
+// 	}
 
-	return (
-		<Button disabled={currentStep === 1} onClick={previousStep} emphasis="subtle" size="md">
-			Prev
-		</Button>
-	);
-}
+// 	return (
+// 		<Button disabled={currentStep === 1} onClick={previousStep} emphasis="subtle" size="md">
+// 			Prev
+// 		</Button>
+// 	);
+// }
 
 function CancelButton() {
 	return (
@@ -75,7 +80,7 @@ export function WizardStepWrapper({ children, title }: { children: ReactNode; ti
 			<div className="p-5">{children}</div>
 			<div className="flex items-center justify-end gap-2 border-t border-theme-border-moderate p-5">
 				<CancelButton />
-				<PrevButton />
+				{/* <PrevButton /> */}
 				<NextButton />
 			</div>
 		</Box>

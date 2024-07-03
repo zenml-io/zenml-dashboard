@@ -1,15 +1,24 @@
 import External from "@/assets/icons/link-external.svg?react";
 import Aws from "@/assets/icons/services/aws.svg?react";
+import Configuration from "@/assets/icons/tool-02.svg?react";
 import { InfoBox } from "@/components/Infobox";
+import { stackQueries } from "@/data/stacks";
 import { useDeploymentUrl } from "@/data/stacks/stack-deployment-url";
-import { Box, Button } from "@zenml-io/react-component-library";
+import { useQuery } from "@tanstack/react-query";
+import { Box, Button, Skeleton } from "@zenml-io/react-component-library";
+import { useEffect, useState } from "react";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
+import { AWSComponents } from "../aws/Components";
+import { StackDeploymentStack } from "@/types/stack";
+import { StackComponent } from "@/types/components";
 
 export function AWSDeployStep() {
 	const { isLoading } = useNewInfraWizardContext();
 	const { setIsNextButtonDisabled } = useNewInfraFormContext();
-	setIsNextButtonDisabled(true);
+	useEffect(() => {
+		setIsNextButtonDisabled(true);
+	}, []);
 	if (isLoading) return <ProvisioningStep />;
 	return <DeployButtonPart />;
 }
@@ -36,6 +45,44 @@ function DeployButtonPart() {
 }
 
 function ProvisioningStep() {
+	const { data, setIsNextButtonDisabled } = useNewInfraFormContext();
+	const {
+		isPending,
+		isError,
+		data: stackData
+	} = useQuery({
+		...stackQueries.stackDeploymentStack({ provider: "aws", stack_name: data.stackName! }),
+		refetchInterval: 5000,
+		throwOnError: true
+	});
+
+	useEffect(() => {
+		if (stackData) setIsNextButtonDisabled(false);
+	}, [stackData]);
+
+	if (isPending) return <Skeleton className="h-[200px] w-full" />;
+	if (isError) return null;
+
+	const isReady = !!stackData;
+
+	return (
+		<div className="space-y-5">
+			{isReady ? <SuccessHeader /> : <LoadingHeader />}
+			<PollingList stack={stackData} />
+		</div>
+	);
+}
+
+function SuccessHeader() {
+	return (
+		<p className="text-theme-text-secondary">
+			Here you can review the created stack and stack components. Now you can start running
+			pipelines using this new configuration.
+		</p>
+	);
+}
+
+function LoadingHeader() {
 	return (
 		<Box className="flex items-center justify-between gap-4 px-6 py-5">
 			<div className="flex items-start gap-3">
@@ -70,5 +117,80 @@ function DeploymentButton() {
 		<Button className="min-w-fit" size="md" onClick={() => handleClick()}>
 			Deploy in AWS <External className="h-5 w-5 fill-white" />
 		</Button>
+	);
+}
+
+type PollingListProps = {
+	stack?: StackDeploymentStack;
+};
+function PollingList({ stack }: PollingListProps) {
+	const isReady = !!stack;
+	return (
+		<div className="space-y-5">
+			{!isReady && (
+				<div className="space-y-1">
+					<p className="flex items-center gap-1 text-text-lg font-semibold">
+						<Configuration className="h-5 w-5 fill-primary-400" />
+						Creating your stack and components...
+					</p>
+					<p className="text-theme-text-secondary">
+						We are creating your stack and stack components based on your AWS configuration. Once
+						you finish the setup in AWS, come back to check your brand new stack and components
+						ready.
+					</p>
+				</div>
+			)}
+			<ItTakesLongerBox isReady={isReady} />
+			<Components stack={stack} />
+		</div>
+	);
+}
+
+type CompnentProps = {
+	stack?: StackDeploymentStack;
+};
+function Components({ stack }: CompnentProps) {
+	const isReady = !!stack;
+	const { data } = useNewInfraFormContext();
+
+	const names = stack && {
+		orchestratorName: (stack.stack.metadata?.components["orchestrator"] as StackComponent[])[0]
+			.name,
+		artifactStoreName: (stack.stack.metadata?.components["artifact_store"] as StackComponent[])[0]
+			.name,
+		registryName: (stack.stack.metadata?.components["container_registry"] as StackComponent[])[0]
+			.name,
+		connectorName: stack.service_connector?.name
+	};
+
+	return (
+		<div className="relative overflow-hidden rounded-md">
+			{!isReady && <div className="absolute z-50 h-full w-full bg-neutral-50/50"></div>}
+			<AWSComponents
+				names={names}
+				isLoading={!isReady}
+				isSuccess={isReady}
+				stackName={data.stackName!}
+			/>
+		</div>
+	);
+}
+
+function ItTakesLongerBox({ isReady }: { isReady: boolean }) {
+	const [show, setIsShow] = useState(false);
+	useEffect(() => {
+		const timer = setTimeout(() => {
+			setIsShow(true);
+		}, 300000);
+
+		return () => clearTimeout(timer);
+	}, []);
+
+	if (!show || isReady) return null;
+	return (
+		<InfoBox>
+			Your stack is taking longer than usual to deploy. Please check your AWS console, or the stacks
+			list in ZenML.
+		</InfoBox>
 	);
 }
