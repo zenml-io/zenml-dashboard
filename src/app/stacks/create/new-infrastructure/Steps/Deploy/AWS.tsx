@@ -2,7 +2,7 @@ import External from "@/assets/icons/link-external.svg?react";
 import Aws from "@/assets/icons/services/aws.svg?react";
 import { InfoBox } from "@/components/Infobox";
 import { useDeploymentUrl } from "@/data/stacks/stack-deployment-url";
-import { Button } from "@zenml-io/react-component-library";
+import { Box, Button } from "@zenml-io/react-component-library";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
 
@@ -36,7 +36,21 @@ function DeployButtonPart() {
 }
 
 function ProvisioningStep() {
-	return <p>Provisioning</p>;
+	return (
+		<Box className="flex items-center justify-between gap-4 px-6 py-5">
+			<div className="flex items-start gap-3">
+				<Aws className="h-6 w-6 shrink-0" />
+				<div>
+					<p className="text-text-lg font-semibold">Deploying the Stack...</p>
+					<p className="text-theme-text-secondary">
+						Follow the steps in AWS to finish the setup. You can come back to check once your
+						components are deployed.
+					</p>
+				</div>
+			</div>
+			<DeploymentButton />
+		</Box>
+	);
 }
 
 function DeploymentButton() {
@@ -53,7 +67,7 @@ function DeploymentButton() {
 		mutate({ stack_name: data.stackName!, location: data.location, provider: "aws" });
 	}
 	return (
-		<Button size="md" onClick={() => handleClick()}>
+		<Button className="min-w-fit" size="md" onClick={() => handleClick()}>
 			Deploy in AWS <External className="h-5 w-5 fill-white" />
 		</Button>
 	);

@@ -17,7 +17,7 @@ export function CreateNewInfraWizard() {
 
 function NextButton() {
 	const maxSteps = 3;
-	const { setCurrentStep } = useNewInfraWizardContext();
+	const { setCurrentStep, currentStep } = useNewInfraWizardContext();
 	const { formRef, isNextButtonDisabled } = useNewInfraFormContext();
 
 	function nextStep() {
@@ -34,7 +34,7 @@ function NextButton() {
 
 	return (
 		<Button form={formRef.current?.id} disabled={isNextButtonDisabled} onClick={nextStep} size="md">
-			Next
+			{currentStep === maxSteps ? "Finish" : "Next"}
 		</Button>
 	);
 }
