@@ -11,7 +11,9 @@ import {
 	SelectContent,
 	SelectItem,
 	SelectTrigger,
-	SelectValue
+	SelectValue,
+	Skeleton,
+	ScrollArea
 } from "@zenml-io/react-component-library";
 import Package from "@/assets/icons/package.svg?react";
 import { useEffect } from "react";
@@ -21,6 +23,8 @@ import { ConfigurationForm, configurationSchema } from "../schemas";
 import { ComponentListItem } from ".";
 import Coin from "@/assets/icons/coin.svg?react";
 import CreditCard from "@/assets/icons/credit-card.svg?react";
+import { useQuery } from "@tanstack/react-query";
+import { stackQueries } from "@/data/stacks";
 
 export function AWSConfigurationStep() {
 	const { formRef, setIsNextButtonDisabled, setData, data } = useNewInfraFormContext();
@@ -36,7 +40,6 @@ export function AWSConfigurationStep() {
 
 	function handleConfigSubmit(data: ConfigurationForm) {
 		setData((prev) => ({ ...prev, location: data.region, stackName: data.stackName }));
-		console.log(data);
 	}
 
 	return (
@@ -62,7 +65,6 @@ export function AWSConfigurationStep() {
 }
 
 function Region() {
-	const { control } = useFormContext();
 	return (
 		<div className="space-y-5 border-b border-theme-border-moderate pb-5">
 			<div className="space-y-1">
@@ -75,26 +77,44 @@ function Region() {
 					compliance.
 				</p>
 			</div>
-			<Controller
-				control={control}
-				name="region"
-				render={({ field: { onChange, ...rest } }) => (
-					<Select {...rest} onValueChange={onChange}>
-						<SelectTrigger className="border border-neutral-300 text-left text-text-md">
-							<SelectValue
-								className="flex items-center gap-2"
-								placeholder="Select your AWS Region"
-							/>
-						</SelectTrigger>
-						<SelectContent>
-							<SelectItem value="us-east-1">US East (N. Virginia)</SelectItem>
-							<SelectItem value="us-west-1">US West (N. California)</SelectItem>
-							<SelectItem value="us-west-2">US West (Oregon)</SelectItem>
-						</SelectContent>
-					</Select>
-				)}
-			/>
+			<RegionSelect />
 		</div>
+	);
+}
+
+function RegionSelect() {
+	const { control } = useFormContext();
+	const { isPending, isError, data } = useQuery({
+		...stackQueries.stackDeploymentInfo({ provider: "aws" }),
+		throwOnError: true
+	});
+
+	if (isError) return null;
+	if (isPending) return <Skeleton className="h-[40px] w-[100px]" />;
+
+	const locations = Object.entries(data.locations);
+
+	return (
+		<Controller
+			control={control}
+			name="region"
+			render={({ field: { onChange, ref, ...rest } }) => (
+				<Select {...rest} onValueChange={onChange}>
+					<SelectTrigger className="border border-neutral-300 text-left text-text-md">
+						<SelectValue className="flex items-center gap-2" placeholder="Select your AWS Region" />
+					</SelectTrigger>
+					<SelectContent>
+						<ScrollArea viewportClassName="max-h-[300px]">
+							{locations.map(([region, name]) => (
+								<SelectItem key={region} value={name as string}>
+									{region}
+								</SelectItem>
+							))}
+						</ScrollArea>
+					</SelectContent>
+				</Select>
+			)}
+		/>
 	);
 }
 

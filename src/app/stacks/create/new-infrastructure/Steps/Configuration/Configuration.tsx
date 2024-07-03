@@ -31,7 +31,6 @@ export function ConfigurationStep() {
 
 	function handleConfigSubmit(data: ConfigurationForm) {
 		setData((prev) => ({ ...prev, location: data.region, stackName: data.stackName }));
-		console.log(data);
 	}
 
 	return (

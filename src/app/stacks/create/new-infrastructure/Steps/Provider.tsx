@@ -26,7 +26,6 @@ export function ProviderStep() {
 
 	function submitProvider(data: ProviderForm) {
 		setData((prev) => ({ ...prev, provider: data.provider }));
-		console.log(data);
 	}
 
 	return (

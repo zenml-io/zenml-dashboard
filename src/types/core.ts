@@ -14,6 +14,81 @@ export type paths = {
 		 */
 		get: operations["health_health_get"];
 	};
+	"/api/v1/actions": {
+		/**
+		 * List Actions
+		 * @description List actions.
+		 *
+		 * Args:
+		 *     action_filter_model: Filter model used for pagination, sorting,
+		 *         filtering.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
+		 *
+		 * Returns:
+		 *     Page of actions.
+		 */
+		get: operations["list_actions_api_v1_actions_get"];
+		/**
+		 * Create Action
+		 * @description Creates an action.
+		 *
+		 * Args:
+		 *     action: Action to create.
+		 *
+		 * Raises:
+		 *     ValueError: If the action handler for flavor/type is not valid.
+		 *
+		 * Returns:
+		 *     The created action.
+		 */
+		post: operations["create_action_api_v1_actions_post"];
+	};
+	"/api/v1/actions/{action_id}": {
+		/**
+		 * Get Action
+		 * @description Returns the requested action.
+		 *
+		 * Args:
+		 *     action_id: ID of the action.
+		 *     hydrate: Flag deciding whether to hydrate the output model(s)
+		 *         by including metadata fields in the response.
+		 *
+		 * Raises:
+		 *     ValueError: If the action handler for flavor/type is not valid.
+		 *
+		 * Returns:
+		 *     The requested action.
+		 */
+		get: operations["get_action_api_v1_actions__action_id__get"];
+		/**
+		 * Update Action
+		 * @description Update an action.
+		 *
+		 * Args:
+		 *     action_id: ID of the action to update.
+		 *     action_update: The action update.
+		 *
+		 * Raises:
+		 *     ValueError: If the action handler for flavor/type is not valid.
+		 *
+		 * Returns:
+		 *     The updated action.
+		 */
+		put: operations["update_action_api_v1_actions__action_id__put"];
+		/**
+		 * Delete Action
+		 * @description Delete an action.
+		 *
+		 * Args:
+		 *     action_id: ID of the action.
+		 *     force: Flag deciding whether to force delete the action.
+		 *
+		 * Raises:
+		 *     ValueError: If the action handler for flavor/type is not valid.
+		 */
+		delete: operations["delete_action_api_v1_actions__action_id__delete"];
+	};
 	"/api/v1/artifacts": {
 		/**
 		 * List Artifacts
@@ -1625,6 +1700,52 @@ export type paths = {
 		 */
 		delete: operations["delete_service_api_v1_services__service_id__delete"];
 	};
+	"/api/v1/stack-deployment/info": {
+		/**
+		 * Get Stack Deployment Info
+		 * @description Get information about a stack deployment provider.
+		 *
+		 * Args:
+		 *     provider: The stack deployment provider.
+		 *
+		 * Returns:
+		 *     Information about the stack deployment provider.
+		 */
+		get: operations["get_stack_deployment_info_api_v1_stack_deployment_info_get"];
+	};
+	"/api/v1/stack-deployment/url": {
+		/**
+		 * Get Stack Deployment Url
+		 * @description Return the URL to deploy the ZenML stack to the specified cloud provider.
+		 *
+		 * Args:
+		 *     provider: The stack deployment provider.
+		 *     stack_name: The name of the stack.
+		 *     location: The location where the stack should be deployed.
+		 *
+		 * Returns:
+		 *     The URL to deploy the ZenML stack to the specified cloud provider
+		 *     and a text description of the URL.
+		 */
+		get: operations["get_stack_deployment_url_api_v1_stack_deployment_url_get"];
+	};
+	"/api/v1/stack-deployment/stack": {
+		/**
+		 * Get Deployed Stack
+		 * @description Return a matching ZenML stack that was deployed and registered.
+		 *
+		 * Args:
+		 *     provider: The stack deployment provider.
+		 *     stack_name: The name of the stack.
+		 *     location: The location where the stack should be deployed.
+		 *     date_start: The date when the deployment started.
+		 *
+		 * Returns:
+		 *     The ZenML stack that was deployed and registered or None if the stack
+		 *     was not found.
+		 */
+		get: operations["get_deployed_stack_api_v1_stack_deployment_stack_get"];
+	};
 	"/api/v1/stacks": {
 		/**
 		 * List Stacks
@@ -1942,9 +2063,6 @@ export type paths = {
 		 *
 		 * Returns:
 		 *     The requested trigger.
-		 *
-		 * Raises:
-		 *     ValueError: If the action flavor/subtype combination is not actually a webhook event source
 		 */
 		get: operations["get_trigger_api_v1_triggers__trigger_id__get"];
 		/**
@@ -1968,10 +2086,6 @@ export type paths = {
 		 *
 		 * Args:
 		 *     trigger_id: Name of the trigger.
-		 *     force: Flag deciding whether to force delete the trigger.
-		 *
-		 * Raises:
-		 *     ValueError: If the action flavor/subtype combination is not actually a webhook event source
 		 */
 		delete: operations["delete_trigger_api_v1_triggers__trigger_id__delete"];
 	};
@@ -2246,6 +2360,21 @@ export type paths = {
 		 *         does not match the current workspace.
 		 */
 		post: operations["create_stack_api_v1_workspaces__workspace_name_or_id__stacks_post"];
+	};
+	"/api/v1/workspaces/{workspace_name_or_id}/full-stack": {
+		/**
+		 * Create Full Stack
+		 * @description Creates a stack for a particular workspace.
+		 *
+		 * Args:
+		 *     workspace_name_or_id: Name or ID of the workspace.
+		 *     full_stack: Stack to register.
+		 *     auth_context: Authentication context.
+		 *
+		 * Returns:
+		 *     The created stack.
+		 */
+		post: operations["create_full_stack_api_v1_workspaces__workspace_name_or_id__full_stack_post"];
 	};
 	"/api/v1/workspaces/{workspace_name_or_id}/components": {
 		/**
@@ -2834,6 +2963,144 @@ export type components = {
 			active?: boolean | null;
 		};
 		/**
+		 * ActionRequest
+		 * @description Model for creating a new action.
+		 */
+		ActionRequest: {
+			/**
+			 * The id of the user that created this resource.
+			 * Format: uuid
+			 */
+			user: string;
+			/**
+			 * The workspace to which this resource belongs.
+			 * Format: uuid
+			 */
+			workspace: string;
+			/** The name of the action. */
+			name: string;
+			/**
+			 * The description of the action
+			 * @default
+			 */
+			description?: string;
+			/** The flavor of the action. */
+			flavor: string;
+			/**
+			 * The subtype of the action.
+			 * @description All possible types of Plugins.
+			 * @enum {string}
+			 */
+			plugin_subtype: "webhook" | "pipeline_run";
+			/** The configuration for the action. */
+			configuration: {
+				[key: string]: unknown;
+			};
+			/**
+			 * The service account that is used to execute the action.
+			 * Format: uuid
+			 */
+			service_account_id: string;
+			/** The time window in minutes for which the service account is authorized to execute the action. Set this to 0 to authorize the service account indefinitely (not recommended). If not set, a default value defined for each individual action type is used. */
+			auth_window?: number | null;
+		};
+		/**
+		 * ActionResponse
+		 * @description Response model for actions.
+		 */
+		ActionResponse: {
+			/** The body of the resource. */
+			body?: components["schemas"]["ActionResponseBody"] | null;
+			/** The metadata related to this resource. */
+			metadata?: components["schemas"]["ActionResponseMetadata"] | null;
+			/** The resources related to this resource. */
+			resources?: components["schemas"]["ActionResponseResources"] | null;
+			/**
+			 * The unique resource id.
+			 * Format: uuid
+			 */
+			id: string;
+			/**
+			 * Permission Denied
+			 * @default false
+			 */
+			permission_denied?: boolean;
+			/** The name of the action. */
+			name: string;
+		};
+		/**
+		 * ActionResponseBody
+		 * @description Response body for actions.
+		 */
+		ActionResponseBody: {
+			/**
+			 * The timestamp when this resource was created.
+			 * Format: date-time
+			 */
+			created: string;
+			/**
+			 * The timestamp when this resource was last updated.
+			 * Format: date-time
+			 */
+			updated: string;
+			/** The user who created this resource. */
+			user?: components["schemas"]["UserResponse"] | null;
+			/** The flavor of the action. */
+			flavor: string;
+			/**
+			 * The subtype of the action.
+			 * @description All possible types of Plugins.
+			 * @enum {string}
+			 */
+			plugin_subtype: "webhook" | "pipeline_run";
+		};
+		/**
+		 * ActionResponseMetadata
+		 * @description Response metadata for actions.
+		 */
+		ActionResponseMetadata: {
+			/** The workspace of this resource. */
+			workspace: components["schemas"]["WorkspaceResponse"];
+			/**
+			 * The description of the action.
+			 * @default
+			 */
+			description?: string;
+			/** The configuration for the action. */
+			configuration: {
+				[key: string]: unknown;
+			};
+			/** The time window in minutes for which the service account is authorized to execute the action. */
+			auth_window: number;
+		};
+		/**
+		 * ActionResponseResources
+		 * @description Class for all resource models associated with the action entity.
+		 */
+		ActionResponseResources: {
+			/** The service account that is used to execute the action. */
+			service_account: components["schemas"]["UserResponse"];
+			[key: string]: unknown;
+		};
+		/**
+		 * ActionUpdate
+		 * @description Update model for actions.
+		 */
+		ActionUpdate: {
+			/** The new name for the action. */
+			name?: string | null;
+			/** The new description for the action. */
+			description?: string | null;
+			/** The configuration for the action. */
+			configuration?: {
+				[key: string]: unknown;
+			} | null;
+			/** The service account that is used to execute the action. */
+			service_account_id?: string | null;
+			/** The time window in minutes for which the service account is authorized to execute the action. Set this to 0 to authorize the service account indefinitely (not recommended). If not set, a default value defined for each individual action type is used. */
+			auth_window?: number | null;
+		};
+		/**
 		 * ArtifactConfiguration
 		 * @description Class representing a complete input/output artifact configuration.
 		 */
@@ -3264,7 +3531,7 @@ export type components = {
 			/** Type of the plugin. */
 			type: components["schemas"]["PluginType"];
 			/** Subtype of the plugin. */
-			subtype: components["schemas"]["PluginSubType"];
+			subtype: components["schemas"]["zenml__enums__PluginSubType__2"];
 		};
 		/**
 		 * BasePluginResponseBody
@@ -3615,6 +3882,28 @@ export type components = {
 			| "magenta"
 			| "blue";
 		/**
+		 * ComponentInfo
+		 * @description Information about each stack components when creating a full stack.
+		 */
+		ComponentInfo: {
+			/** Flavor */
+			flavor: string;
+			/**
+			 * The id of the service connector from the list `service_connectors`.
+			 * @description The id of the service connector from the list `service_connectors` from `FullStackRequest`.
+			 */
+			service_connector_index?: number | null;
+			/** Service Connector Resource Id */
+			service_connector_resource_id?: string | null;
+			/**
+			 * Configuration
+			 * @default {}
+			 */
+			configuration?: {
+				[key: string]: unknown;
+			};
+		};
+		/**
 		 * ComponentRequest
 		 * @description Request model for components.
 		 */
@@ -3761,6 +4050,22 @@ export type components = {
 			connector?: string | null;
 		};
 		/**
+		 * DeployedStack
+		 * @description Information about a deployed stack.
+		 */
+		DeployedStack: {
+			/**
+			 * The stack that was deployed.
+			 * @description The stack that was deployed.
+			 */
+			stack: components["schemas"]["StackResponse"];
+			/**
+			 * The service connector for the deployed stack.
+			 * @description The service connector for the deployed stack.
+			 */
+			service_connector?: components["schemas"]["ServiceConnectorResponse"] | null;
+		};
+		/**
 		 * Edge
 		 * @description A class that represents an edge in a lineage graph.
 		 */
@@ -3800,7 +4105,7 @@ export type components = {
 			/** The flavor of event source. */
 			flavor: string;
 			/** The plugin subtype of the event source. */
-			plugin_subtype: components["schemas"]["PluginSubType"];
+			plugin_subtype: components["schemas"]["zenml__enums__PluginSubType__2"];
 			/**
 			 * The description of the event source.
 			 * @default
@@ -3855,7 +4160,7 @@ export type components = {
 			/** The flavor of event source. */
 			flavor: string;
 			/** The plugin subtype of the event source. */
-			plugin_subtype: components["schemas"]["PluginSubType"];
+			plugin_subtype: components["schemas"]["zenml__enums__PluginSubType__2"];
 			/** Whether the event source is active. */
 			is_active: boolean;
 		};
@@ -4096,6 +4401,36 @@ export type components = {
 			is_custom?: boolean | null;
 			/** The workspace to which this resource belongs. */
 			workspace?: string | null;
+		};
+		/**
+		 * FullStackRequest
+		 * @description Request model for a full-stack.
+		 */
+		FullStackRequest: {
+			/** User */
+			user?: string | null;
+			/** Workspace */
+			workspace?: string | null;
+			/** The name of the stack. */
+			name: string;
+			/**
+			 * The description of the stack
+			 * @default
+			 */
+			description?: string | null;
+			/**
+			 * The service connectors dictionary for the full stack registration.
+			 * @description The UUID of an already existing service connector or request information to create a service connector from scratch.
+			 * @default []
+			 */
+			service_connectors?: (string | components["schemas"]["ServiceConnectorInfo"])[];
+			/**
+			 * The mapping for the components of the full stack registration.
+			 * @description The mapping from component types to either UUIDs of existing components or request information for brand new components.
+			 */
+			components: {
+				[key: string]: unknown;
+			};
 		};
 		/** HTTPValidationError */
 		HTTPValidationError: {
@@ -5107,6 +5442,19 @@ export type components = {
 			total: number;
 			/** Items */
 			items: components["schemas"]["APIKeyResponse"][];
+		};
+		/** Page[ActionResponse] */
+		Page_ActionResponse_: {
+			/** Index */
+			index: number;
+			/** Max Size */
+			max_size: number;
+			/** Total Pages */
+			total_pages: number;
+			/** Total */
+			total: number;
+			/** Items */
+			items: components["schemas"]["ActionResponse"][];
 		};
 		/** Page[ArtifactResponse] */
 		Page_ArtifactResponse_: {
@@ -6187,12 +6535,6 @@ export type components = {
 			spec?: components["schemas"]["PipelineSpec-Input"] | null;
 		};
 		/**
-		 * PluginSubType
-		 * @description All possible types of Plugins.
-		 * @enum {string}
-		 */
-		PluginSubType: "webhook" | "pipeline_run";
-		/**
 		 * PluginType
 		 * @description All possible types of Plugins.
 		 * @enum {string}
@@ -6336,6 +6678,49 @@ export type components = {
 		 */
 		RunMetadataResponseResources: {
 			[key: string]: unknown;
+		};
+		/**
+		 * Schedule
+		 * @description Class for defining a pipeline schedule.
+		 *
+		 * Attributes:
+		 *     name: Optional name to give to the schedule. If not set, a default name
+		 *         will be generated based on the pipeline name and the current date
+		 *         and time.
+		 *     cron_expression: Cron expression for the pipeline schedule. If a value
+		 *         for this is set it takes precedence over the start time + interval.
+		 *     start_time: datetime object to indicate when to start the schedule.
+		 *     end_time: datetime object to indicate when to end the schedule.
+		 *     interval_second: datetime timedelta indicating the seconds between two
+		 *         recurring runs for a periodic schedule.
+		 *     catchup: Whether the recurring run should catch up if behind schedule.
+		 *         For example, if the recurring run is paused for a while and
+		 *         re-enabled afterward. If catchup=True, the scheduler will catch
+		 *         up on (backfill) each missed interval. Otherwise, it only
+		 *         schedules the latest interval if more than one interval is ready to
+		 *         be scheduled. Usually, if your pipeline handles backfill
+		 *         internally, you should turn catchup off to avoid duplicate backfill.
+		 *     run_once_start_time: datetime object to indicate when to run the
+		 *         pipeline once. This is useful for one-off runs.
+		 */
+		Schedule: {
+			/** Name */
+			name?: string | null;
+			/** Cron Expression */
+			cron_expression?: string | null;
+			/** Start Time */
+			start_time?: string | null;
+			/** End Time */
+			end_time?: string | null;
+			/** Interval Second */
+			interval_second?: string | null;
+			/**
+			 * Catchup
+			 * @default false
+			 */
+			catchup?: boolean;
+			/** Run Once Start Time */
+			run_once_start_time?: string | null;
 		};
 		/**
 		 * ScheduleRequest
@@ -6879,6 +7264,23 @@ export type components = {
 			description?: string | null;
 			/** Whether the service account is active or not. */
 			active?: boolean | null;
+		};
+		/**
+		 * ServiceConnectorInfo
+		 * @description Information about the service connector when creating a full stack.
+		 */
+		ServiceConnectorInfo: {
+			/** Type */
+			type: string;
+			/** Auth Method */
+			auth_method: string;
+			/**
+			 * Configuration
+			 * @default {}
+			 */
+			configuration?: {
+				[key: string]: unknown;
+			};
 		};
 		/**
 		 * ServiceConnectorRequest
@@ -7457,6 +7859,50 @@ export type components = {
 			| "orchestrator"
 			| "step_operator"
 			| "model_registry";
+		/**
+		 * StackDeploymentInfo
+		 * @description Information about a stack deployment.
+		 */
+		StackDeploymentInfo: {
+			/** The provider of the stack deployment. */
+			provider: components["schemas"]["StackDeploymentProvider"];
+			/**
+			 * The description of the stack deployment.
+			 * @description The description of the stack deployment.
+			 */
+			description: string;
+			/**
+			 * The instructions for deploying the stack.
+			 * @description The instructions for deploying the stack.
+			 */
+			instructions: string;
+			/**
+			 * The instructions for post-deployment.
+			 * @description The instructions for post-deployment.
+			 */
+			post_deploy_instructions: string;
+			/**
+			 * The permissions granted to ZenML to access the cloud resources.
+			 * @description The permissions granted to ZenML to access the cloud resources, as a dictionary grouping permissions by resource.
+			 */
+			permissions: {
+				[key: string]: unknown;
+			};
+			/**
+			 * The locations where the stack can be deployed.
+			 * @description The locations where the stack can be deployed, as a dictionary mapping location names to descriptions.
+			 */
+			locations: {
+				[key: string]: unknown;
+			};
+		};
+		/**
+		 * StackDeploymentProvider
+		 * @description All possible stack deployment providers.
+		 * @constant
+		 * @enum {string}
+		 */
+		StackDeploymentProvider: "aws";
 		/**
 		 * StackRequest
 		 * @description Request model for stacks.
@@ -8203,7 +8649,7 @@ export type components = {
 		};
 		/**
 		 * TriggerRequest
-		 * @description Model for creating a new Trigger.
+		 * @description Model for creating a new trigger.
 		 */
 		TriggerRequest: {
 			/**
@@ -8216,7 +8662,7 @@ export type components = {
 			 * Format: uuid
 			 */
 			workspace: string;
-			/** The name of the Trigger. */
+			/** The name of the trigger. */
 			name: string;
 			/**
 			 * The description of the trigger
@@ -8224,29 +8670,18 @@ export type components = {
 			 */
 			description?: string;
 			/**
-			 * The event source that activates this trigger.
+			 * The action that is executed by this trigger.
 			 * Format: uuid
 			 */
-			event_source_id: string;
-			/** Filter applied to events that activate this trigger. */
-			event_filter: {
+			action_id: string;
+			/** The schedule for the trigger. Either a schedule or an event source is required. */
+			schedule?: components["schemas"]["Schedule"] | null;
+			/** The event source that activates this trigger. Either a schedule or an event source is required. */
+			event_source_id?: string | null;
+			/** Filter applied to events that activate this trigger. Only set if the trigger is activated by an event source. */
+			event_filter?: {
 				[key: string]: unknown;
-			};
-			/** The configuration for the action that is executed by this trigger. */
-			action: {
-				[key: string]: unknown;
-			};
-			/** The flavor of the action that is executed by this trigger. */
-			action_flavor: string;
-			/** The subtype of the action that is executed by this trigger. */
-			action_subtype: components["schemas"]["PluginSubType"];
-			/**
-			 * The service account that is used to execute the action.
-			 * Format: uuid
-			 */
-			service_account_id: string;
-			/** The time window in minutes for which the service account is authorized to execute the action. Set this to 0 to authorize the service account indefinitely (not recommended). If not set, a default value defined for each individual action type is used. */
-			auth_window?: number | null;
+			} | null;
 		};
 		/**
 		 * TriggerResponse
@@ -8269,12 +8704,12 @@ export type components = {
 			 * @default false
 			 */
 			permission_denied?: boolean;
-			/** The name of the model */
+			/** The name of the trigger */
 			name: string;
 		};
 		/**
 		 * TriggerResponseBody
-		 * @description ResponseBody for triggers.
+		 * @description Response body for triggers.
 		 */
 		TriggerResponseBody: {
 			/**
@@ -8289,12 +8724,14 @@ export type components = {
 			updated: string;
 			/** The user who created this resource. */
 			user?: components["schemas"]["UserResponse"] | null;
-			/** The flavor of the event source that activates this trigger. */
-			event_source_flavor: string;
 			/** The flavor of the action that is executed by this trigger. */
 			action_flavor: string;
 			/** The subtype of the action that is executed by this trigger. */
-			action_subtype: components["schemas"]["PluginSubType"];
+			action_subtype: string;
+			/** The flavor of the event source that activates this trigger. Not set if the trigger is activated by a schedule. */
+			event_source_flavor?: string | null;
+			/** The subtype of the event source that activates this trigger. Not set if the trigger is activated by a schedule. */
+			event_source_subtype?: string | null;
 			/** Whether the trigger is active. */
 			is_active: boolean;
 		};
@@ -8305,31 +8742,27 @@ export type components = {
 		TriggerResponseMetadata: {
 			/** The workspace of this resource. */
 			workspace: components["schemas"]["WorkspaceResponse"];
-			/** The event that activates this trigger. */
-			event_filter: {
-				[key: string]: unknown;
-			};
-			/** The action that is executed by this trigger. */
-			action: {
-				[key: string]: unknown;
-			};
 			/**
-			 * The description of the trigger
+			 * The description of the trigger.
 			 * @default
 			 */
 			description?: string;
-			/** The time window in minutes for which the service account is authorized to execute the action. Set this to 0 to authorize the service account indefinitely (not recommended). If not set, a default value defined for each individual action type is used. */
-			auth_window: number;
+			/** The event that activates this trigger. Not set if the trigger is activated by a schedule. */
+			event_filter?: {
+				[key: string]: unknown;
+			} | null;
+			/** The schedule that activates this trigger. Not set if the trigger is activated by an event source. */
+			schedule?: components["schemas"]["Schedule"] | null;
 		};
 		/**
 		 * TriggerResponseResources
 		 * @description Class for all resource models associated with the trigger entity.
 		 */
 		TriggerResponseResources: {
-			/** The event source that activates this trigger. */
-			event_source: components["schemas"]["EventSourceResponse"];
-			/** The service account that is used to execute the action. */
-			service_account: components["schemas"]["UserResponse"];
+			/** The action that is executed by this trigger. */
+			action: components["schemas"]["ActionResponse"];
+			/** The event source that activates this trigger. Not set if the trigger is activated by a schedule. */
+			event_source?: components["schemas"]["EventSourceResponse"] | null;
 			/** The executions of this trigger. */
 			executions: components["schemas"]["Page_TriggerExecutionResponse_"];
 			[key: string]: unknown;
@@ -8339,24 +8772,18 @@ export type components = {
 		 * @description Update model for triggers.
 		 */
 		TriggerUpdate: {
-			/** The new name for the Trigger. */
+			/** The new name for the trigger. */
 			name?: string | null;
-			/** The new description for the trigger */
+			/** The new description for the trigger. */
 			description?: string | null;
-			/** New filter applied to events that activate this trigger. */
+			/** New filter applied to events that activate this trigger. Only valid if the trigger is already configured to be activated by an event source. */
 			event_filter?: {
 				[key: string]: unknown;
 			} | null;
-			/** The new configuration for the action that is executed by this trigger. */
-			action?: {
-				[key: string]: unknown;
-			} | null;
+			/** The updated schedule for the trigger. Only valid if the trigger is already configured to be activated by a schedule. */
+			schedule?: components["schemas"]["Schedule"] | null;
 			/** The new status of the trigger. */
 			is_active?: boolean | null;
-			/** The service account that is used to execute the action. */
-			service_account_id?: string | null;
-			/** The time window in minutes for which the service account is authorized to execute the action. Set this to 0 to authorize the service account indefinitely (not recommended). If not set, a default value defined for each individual action type is used. */
-			auth_window?: number | null;
 		};
 		/**
 		 * UserRequest
@@ -8646,6 +9073,18 @@ export type components = {
 			/** Selector */
 			selector?: unknown;
 		};
+		/**
+		 * PluginSubType
+		 * @description All possible types of Plugins.
+		 * @enum {string}
+		 */
+		zenml__enums__PluginSubType__1: "webhook" | "pipeline_run";
+		/**
+		 * PluginSubType
+		 * @description All possible types of Plugins.
+		 * @enum {string}
+		 */
+		zenml__enums__PluginSubType__2: "webhook" | "pipeline_run";
 	};
 	responses: never;
 	parameters: never;
@@ -8672,6 +9111,289 @@ export type operations = {
 			200: {
 				content: {
 					"application/json": string;
+				};
+			};
+		};
+	};
+	/**
+	 * List Actions
+	 * @description List actions.
+	 *
+	 * Args:
+	 *     action_filter_model: Filter model used for pagination, sorting,
+	 *         filtering.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
+	 *
+	 * Returns:
+	 *     Page of actions.
+	 */
+	list_actions_api_v1_actions_get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+				sort_by?: string;
+				logical_operator?: components["schemas"]["LogicalOperators"];
+				page?: number;
+				size?: number;
+				id?: string | null;
+				created?: string | null;
+				updated?: string | null;
+				scope_workspace?: string | null;
+				name?: string | null;
+				flavor?: string | null;
+				plugin_subtype?: string | null;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["Page_ActionResponse_"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Create Action
+	 * @description Creates an action.
+	 *
+	 * Args:
+	 *     action: Action to create.
+	 *
+	 * Raises:
+	 *     ValueError: If the action handler for flavor/type is not valid.
+	 *
+	 * Returns:
+	 *     The created action.
+	 */
+	create_action_api_v1_actions_post: {
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["ActionRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["ActionResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Action
+	 * @description Returns the requested action.
+	 *
+	 * Args:
+	 *     action_id: ID of the action.
+	 *     hydrate: Flag deciding whether to hydrate the output model(s)
+	 *         by including metadata fields in the response.
+	 *
+	 * Raises:
+	 *     ValueError: If the action handler for flavor/type is not valid.
+	 *
+	 * Returns:
+	 *     The requested action.
+	 */
+	get_action_api_v1_actions__action_id__get: {
+		parameters: {
+			query?: {
+				hydrate?: boolean;
+			};
+			path: {
+				action_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["ActionResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Update Action
+	 * @description Update an action.
+	 *
+	 * Args:
+	 *     action_id: ID of the action to update.
+	 *     action_update: The action update.
+	 *
+	 * Raises:
+	 *     ValueError: If the action handler for flavor/type is not valid.
+	 *
+	 * Returns:
+	 *     The updated action.
+	 */
+	update_action_api_v1_actions__action_id__put: {
+		parameters: {
+			path: {
+				action_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["ActionUpdate"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["ActionResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Delete Action
+	 * @description Delete an action.
+	 *
+	 * Args:
+	 *     action_id: ID of the action.
+	 *     force: Flag deciding whether to force delete the action.
+	 *
+	 * Raises:
+	 *     ValueError: If the action handler for flavor/type is not valid.
+	 */
+	delete_action_api_v1_actions__action_id__delete: {
+		parameters: {
+			query?: {
+				force?: boolean;
+			};
+			path: {
+				action_id: string;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": unknown;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Not Found */
+			404: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
 				};
 			};
 		};
@@ -9998,7 +10720,7 @@ export type operations = {
 		parameters: {
 			query: {
 				type: components["schemas"]["PluginType"];
-				subtype: components["schemas"]["PluginSubType"];
+				subtype: components["schemas"]["zenml__enums__PluginSubType__2"];
 				page?: number;
 				size?: number;
 				hydrate?: boolean;
@@ -10053,7 +10775,7 @@ export type operations = {
 		parameters: {
 			query: {
 				type: components["schemas"]["PluginType"];
-				subtype: components["schemas"]["PluginSubType"];
+				subtype: components["schemas"]["zenml__enums__PluginSubType__2"];
 			};
 			path: {
 				name: string;
@@ -14878,6 +15600,147 @@ export type operations = {
 		};
 	};
 	/**
+	 * Get Stack Deployment Info
+	 * @description Get information about a stack deployment provider.
+	 *
+	 * Args:
+	 *     provider: The stack deployment provider.
+	 *
+	 * Returns:
+	 *     Information about the stack deployment provider.
+	 */
+	get_stack_deployment_info_api_v1_stack_deployment_info_get: {
+		parameters: {
+			query: {
+				provider: components["schemas"]["StackDeploymentProvider"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["StackDeploymentInfo"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Validation Error */
+			422: {
+				content: {
+					"application/json": components["schemas"]["HTTPValidationError"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Stack Deployment Url
+	 * @description Return the URL to deploy the ZenML stack to the specified cloud provider.
+	 *
+	 * Args:
+	 *     provider: The stack deployment provider.
+	 *     stack_name: The name of the stack.
+	 *     location: The location where the stack should be deployed.
+	 *
+	 * Returns:
+	 *     The URL to deploy the ZenML stack to the specified cloud provider
+	 *     and a text description of the URL.
+	 */
+	get_stack_deployment_url_api_v1_stack_deployment_url_get: {
+		parameters: {
+			query: {
+				provider: components["schemas"]["StackDeploymentProvider"];
+				stack_name: string;
+				location?: string | null;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": [string, string];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Validation Error */
+			422: {
+				content: {
+					"application/json": components["schemas"]["HTTPValidationError"];
+				};
+			};
+		};
+	};
+	/**
+	 * Get Deployed Stack
+	 * @description Return a matching ZenML stack that was deployed and registered.
+	 *
+	 * Args:
+	 *     provider: The stack deployment provider.
+	 *     stack_name: The name of the stack.
+	 *     location: The location where the stack should be deployed.
+	 *     date_start: The date when the deployment started.
+	 *
+	 * Returns:
+	 *     The ZenML stack that was deployed and registered or None if the stack
+	 *     was not found.
+	 */
+	get_deployed_stack_api_v1_stack_deployment_stack_get: {
+		parameters: {
+			query: {
+				provider: components["schemas"]["StackDeploymentProvider"];
+				stack_name: string;
+				location?: string | null;
+				date_start?: string | null;
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["DeployedStack"] | null;
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Forbidden */
+			403: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Validation Error */
+			422: {
+				content: {
+					"application/json": components["schemas"]["HTTPValidationError"];
+				};
+			};
+		};
+	};
+	/**
 	 * List Stacks
 	 * @description Returns all stacks.
 	 *
@@ -16040,11 +16903,12 @@ export type operations = {
 				scope_workspace?: string | null;
 				name?: string | null;
 				event_source_id?: string | null;
+				action_id?: string | null;
 				is_active?: boolean | null;
 				action_flavor?: string | null;
 				action_subtype?: string | null;
-				resource_id?: string | null;
-				resource_type?: string | null;
+				event_source_flavor?: string | null;
+				event_source_subtype?: string | null;
 			};
 		};
 		responses: {
@@ -16143,9 +17007,6 @@ export type operations = {
 	 *
 	 * Returns:
 	 *     The requested trigger.
-	 *
-	 * Raises:
-	 *     ValueError: If the action flavor/subtype combination is not actually a webhook event source
 	 */
 	get_trigger_api_v1_triggers__trigger_id__get: {
 		parameters: {
@@ -16253,16 +17114,9 @@ export type operations = {
 	 *
 	 * Args:
 	 *     trigger_id: Name of the trigger.
-	 *     force: Flag deciding whether to force delete the trigger.
-	 *
-	 * Raises:
-	 *     ValueError: If the action flavor/subtype combination is not actually a webhook event source
 	 */
 	delete_trigger_api_v1_triggers__trigger_id__delete: {
 		parameters: {
-			query?: {
-				force?: boolean;
-			};
 			path: {
 				trigger_id: string;
 			};
@@ -17117,6 +17971,56 @@ export type operations = {
 		requestBody: {
 			content: {
 				"application/json": components["schemas"]["StackRequest"];
+			};
+		};
+		responses: {
+			/** @description Successful Response */
+			200: {
+				content: {
+					"application/json": components["schemas"]["StackResponse"];
+				};
+			};
+			/** @description Unauthorized */
+			401: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Conflict */
+			409: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+			/** @description Unprocessable Entity */
+			422: {
+				content: {
+					"application/json": components["schemas"]["ErrorModel"];
+				};
+			};
+		};
+	};
+	/**
+	 * Create Full Stack
+	 * @description Creates a stack for a particular workspace.
+	 *
+	 * Args:
+	 *     workspace_name_or_id: Name or ID of the workspace.
+	 *     full_stack: Stack to register.
+	 *     auth_context: Authentication context.
+	 *
+	 * Returns:
+	 *     The created stack.
+	 */
+	create_full_stack_api_v1_workspaces__workspace_name_or_id__full_stack_post: {
+		parameters: {
+			path: {
+				workspace_name_or_id: string;
+			};
+		};
+		requestBody: {
+			content: {
+				"application/json": components["schemas"]["FullStackRequest"];
 			};
 		};
 		responses: {
