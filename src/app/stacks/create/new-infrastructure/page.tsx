@@ -7,7 +7,7 @@ export default function StackWithNewInfrastructurePage() {
 	return (
 		<NewInfraWizardProvider>
 			<NewInfraFormProvider>
-				<section className="layout-container flex flex-col gap-5 p-5 lg:flex-row">
+				<section className="layout-container flex flex-col gap-5 p-5 xl:flex-row">
 					<LeftSideMenu
 						entries={[
 							"Infrastructure Type",

@@ -4,26 +4,30 @@ import Configuration from "@/assets/icons/tool-02.svg?react";
 import { InfoBox } from "@/components/Infobox";
 import { stackQueries } from "@/data/stacks";
 import { useDeploymentUrl } from "@/data/stacks/stack-deployment-url";
+import { StackComponent } from "@/types/components";
+import { StackDeploymentStack } from "@/types/stack";
 import { useQuery } from "@tanstack/react-query";
 import { Box, Button, Skeleton } from "@zenml-io/react-component-library";
-import { useEffect, useState } from "react";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { useNewInfraWizardContext } from "../../NewInfraWizardContext";
 import { AWSComponents } from "../aws/Components";
-import { StackDeploymentStack } from "@/types/stack";
-import { StackComponent } from "@/types/components";
 
 export function AWSDeployStep() {
+	const [timestamp, setTimestamp] = useState<string>("");
 	const { isLoading } = useNewInfraWizardContext();
 	const { setIsNextButtonDisabled } = useNewInfraFormContext();
 	useEffect(() => {
 		setIsNextButtonDisabled(true);
 	}, []);
-	if (isLoading) return <ProvisioningStep />;
-	return <DeployButtonPart />;
+	if (isLoading) return <ProvisioningStep timestamp={timestamp} />;
+	return <DeployButtonPart setTimestamp={setTimestamp} />;
 }
 
-function DeployButtonPart() {
+type DeployButtonPartProps = {
+	setTimestamp: Dispatch<SetStateAction<string>>;
+};
+function DeployButtonPart({ setTimestamp }: DeployButtonPartProps) {
 	return (
 		<div className="space-y-5">
 			<InfoBox>
@@ -39,19 +43,26 @@ function DeployButtonPart() {
 					Deploy the stack using AWS CloudFormation in your browser by clicking the button below:
 				</p>
 			</div>
-			<DeploymentButton />
+			<DeploymentButton setTimestamp={setTimestamp} />
 		</div>
 	);
 }
 
-function ProvisioningStep() {
+type ProvisioningStepProps = {
+	timestamp: string;
+};
+function ProvisioningStep({ timestamp }: ProvisioningStepProps) {
 	const { data, setIsNextButtonDisabled } = useNewInfraFormContext();
 	const {
 		isPending,
 		isError,
 		data: stackData
 	} = useQuery({
-		...stackQueries.stackDeploymentStack({ provider: "aws", stack_name: data.stackName! }),
+		...stackQueries.stackDeploymentStack({
+			provider: "aws",
+			stack_name: data.stackName!,
+			date_start: timestamp
+		}),
 		refetchInterval: 5000,
 		throwOnError: true
 	});
@@ -100,11 +111,15 @@ function LoadingHeader() {
 	);
 }
 
-function DeploymentButton() {
+type DeploymentButtonProps = {
+	setTimestamp?: Dispatch<SetStateAction<string>>;
+};
+function DeploymentButton({ setTimestamp }: DeploymentButtonProps) {
 	const { data } = useNewInfraFormContext();
 	const { setIsLoading } = useNewInfraWizardContext();
 	const { mutate } = useDeploymentUrl({
 		onSuccess: async (data) => {
+			setTimestamp?.(new Date().toISOString());
 			setIsLoading(true);
 			window.open(data[0], "_blank");
 		}

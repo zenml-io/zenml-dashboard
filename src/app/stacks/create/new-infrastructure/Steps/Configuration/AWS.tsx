@@ -18,7 +18,7 @@ export function AWSConfigurationStep() {
 
 	const form = useForm<ConfigurationForm>({
 		resolver: zodResolver(configurationSchema),
-		defaultValues: { region: data.location, stackName: data.stackName || "aws-remote-stack" }
+		defaultValues: { region: data.location, stackName: data.stackName || "" }
 	});
 
 	useEffect(() => {
@@ -78,10 +78,10 @@ function StackName() {
 					Select a name for your Stack
 				</p>
 				<p className="text-theme-text-secondary">
-					You can keep the suggested name or create your own.
+					Please select a name for your stack, that is not used already.
 				</p>
 			</div>
-			<Input {...register("stackName")} />
+			<Input placeholder="zenml-remote-stack" {...register("stackName")} />
 		</div>
 	);
 }
@@ -99,7 +99,7 @@ function ReviewYourStack() {
 					The following components will be created for your ZenML stack.
 				</p>
 			</div>
-			<AWSComponents stackName={watch("stackName")} />
+			<AWSComponents displayPermissions stackName={watch("stackName")} />
 			<InfoBox>
 				These resources create a basic ZenML AWS stack for ML workflow management. ZenML supports
 				highly flexible stacks. You can build advanced stacks at any time, combining your preferred
