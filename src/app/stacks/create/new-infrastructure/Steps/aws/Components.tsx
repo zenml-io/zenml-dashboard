@@ -4,23 +4,27 @@ import { Tick } from "@/components/Tick";
 import { ComponentBadge } from "../../ComponentBadge";
 import { AWSPermissionsCard } from "./AWSPermissions";
 
+type Component = {
+	name: string;
+	id: string;
+};
 type Props = {
 	stackName: string;
 	isLoading?: boolean;
 	isSuccess?: boolean;
 	displayPermissions?: boolean;
-	names?: {
-		connectorName?: string;
-		artifactStoreName?: string;
-		registryName?: string;
-		orchestratorName?: string;
+	components?: {
+		connector?: Component;
+		artifactStore?: Component;
+		registry?: Component;
+		orchestrator?: Component;
 	};
 };
 export function AWSComponents({
 	stackName,
 	isLoading,
 	isSuccess,
-	names,
+	components,
 	displayPermissions = false
 }: Props) {
 	return (
@@ -35,10 +39,10 @@ export function AWSComponents({
 			</div>
 			<div className="space-y-1 py-3 pl-9 pr-5">
 				<ComponentListItem
-					title={names?.connectorName || "IAM Role"}
+					title={components?.connector?.name || "IAM Role"}
 					isLoading={isLoading}
 					isSuccess={isSuccess}
-					subtitle="Manage access to AWS resources"
+					subtitle={components?.connector?.id || "Manage access to AWS resources"}
 					badge={<ComponentBadge type="annotator">Service Connector</ComponentBadge>}
 					img={{
 						src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/service_connector/iam.webp",
@@ -49,8 +53,8 @@ export function AWSComponents({
 			</div>
 			<div className="py-3 pl-9 pr-5">
 				<ComponentListItem
-					title={names?.artifactStoreName || "S3 Bucket"}
-					subtitle="Artifact storage for ML pipelines"
+					title={components?.artifactStore?.name || "S3 Bucket"}
+					subtitle={components?.artifactStore?.id || "Artifact storage for ML pipelines"}
 					badge={<ComponentBadge type="artifact_store">Artifact Store</ComponentBadge>}
 					isLoading={isLoading}
 					isSuccess={isSuccess}
@@ -62,8 +66,8 @@ export function AWSComponents({
 			</div>
 			<div className="py-3 pl-9 pr-5">
 				<ComponentListItem
-					title={names?.registryName || "ECR Repository"}
-					subtitle="Container image storage"
+					title={components?.registry?.name || "ECR Repository"}
+					subtitle={components?.registry?.id || "Container image storage"}
 					badge={<ComponentBadge type="container_registry">Container Registry</ComponentBadge>}
 					isLoading={isLoading}
 					isSuccess={isSuccess}
@@ -75,10 +79,10 @@ export function AWSComponents({
 			</div>
 			<div className="py-3 pl-9 pr-5">
 				<ComponentListItem
-					title={names?.orchestratorName || "SageMaker"}
+					title={components?.orchestrator?.name || "SageMaker"}
 					isLoading={isLoading}
 					isSuccess={isSuccess}
-					subtitle="Manage access to AWS resources"
+					subtitle={components?.orchestrator?.id || "Manage access to AWS resources"}
 					badge={<ComponentBadge type="orchestrator">Orchestrator</ComponentBadge>}
 					img={{
 						src: "https://public-flavor-logos.s3.eu-central-1.amazonaws.com/orchestrator/sagemaker.png",

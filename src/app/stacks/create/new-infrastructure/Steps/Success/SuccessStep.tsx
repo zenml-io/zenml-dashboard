@@ -41,15 +41,28 @@ function SuccessList() {
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
 	if (isError) return null;
 
-	const names = {
-		orchestratorName: (stack.stack.metadata?.components["orchestrator"] as StackComponent[])[0]
-			.name,
-		artifactStoreName: (stack.stack.metadata?.components["artifact_store"] as StackComponent[])[0]
-			.name,
-		registryName: (stack.stack.metadata?.components["container_registry"] as StackComponent[])[0]
-			.name,
-		connectorName: stack.service_connector?.name
+	const components = {
+		orchestrator: {
+			name: (stack.stack.metadata?.components["orchestrator"] as StackComponent[])[0].name,
+			id: (stack.stack.metadata?.components["orchestrator"] as StackComponent[])[0].id.split("-")[0]
+		},
+		artifactStore: {
+			name: (stack.stack.metadata?.components["artifact_store"] as StackComponent[])[0].name,
+			id: (stack.stack.metadata?.components["artifact_store"] as StackComponent[])[0].id.split(
+				"-"
+			)[0]
+		},
+		registry: {
+			name: (stack.stack.metadata?.components["container_registry"] as StackComponent[])[0].name,
+			id: (stack.stack.metadata?.components["container_registry"] as StackComponent[])[0].id.split(
+				"-"
+			)[0]
+		},
+		connector: {
+			name: stack.service_connector?.name as string,
+			id: (stack.service_connector?.id as string).split("-")[0]
+		}
 	};
 
-	return <AWSComponents names={names} isSuccess stackName={data.stackName!} />;
+	return <AWSComponents components={components} isSuccess stackName={data.stackName!} />;
 }

@@ -44,7 +44,7 @@ function DeployButtonPart() {
 }
 
 function ProvisioningStep() {
-	const { data, timestamp } = useNewInfraFormContext();
+	const { data, timestamp, setIsNextButtonDisabled } = useNewInfraFormContext();
 	const { setCurrentStep } = useNewInfraWizardContext();
 
 	const {
@@ -62,7 +62,10 @@ function ProvisioningStep() {
 	});
 
 	useEffect(() => {
-		if (stackData) setCurrentStep((prev) => prev + 1);
+		if (stackData) {
+			setCurrentStep((prev) => prev + 1);
+			setIsNextButtonDisabled(false);
+		}
 	}, [stackData]);
 
 	if (isPending) return <Skeleton className="h-[200px] w-full" />;
