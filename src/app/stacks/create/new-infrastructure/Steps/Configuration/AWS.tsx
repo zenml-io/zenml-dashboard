@@ -2,22 +2,23 @@ import Coin from "@/assets/icons/coin.svg?react";
 import CreditCard from "@/assets/icons/credit-card.svg?react";
 import Package from "@/assets/icons/package.svg?react";
 import Pin from "@/assets/icons/pin.svg?react";
-import Stack from "@/assets/icons/stack.svg?react";
 import { InfoBox } from "@/components/Infobox";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { Box, Input } from "@zenml-io/react-component-library";
+import { Box } from "@zenml-io/react-component-library";
 import { useEffect } from "react";
 import { FormProvider, useForm, useFormContext } from "react-hook-form";
 import { useNewInfraFormContext } from "../../NewInfraFormContext";
 import { AWSComponents } from "../aws/Components";
 import { AWSRegionSelect } from "../aws/LocationSelect";
 import { ConfigurationForm, configurationSchema } from "../schemas";
+import { StackName } from "./StackName";
 
 export function AWSConfigurationStep() {
 	const { formRef, setIsNextButtonDisabled, setData, data } = useNewInfraFormContext();
 
 	const form = useForm<ConfigurationForm>({
 		resolver: zodResolver(configurationSchema),
+		mode: "onChange",
 		defaultValues: { region: data.location, stackName: data.stackName || "" }
 	});
 
@@ -64,24 +65,6 @@ function Region() {
 				</p>
 			</div>
 			<AWSRegionSelect />
-		</div>
-	);
-}
-
-function StackName() {
-	const { register } = useFormContext();
-	return (
-		<div className="space-y-5 border-b border-theme-border-moderate pb-5">
-			<div className="space-y-1">
-				<p className="flex items-center gap-1 text-text-lg font-semibold">
-					<Stack className="h-5 w-5 fill-primary-400" />
-					Select a name for your Stack
-				</p>
-				<p className="text-theme-text-secondary">
-					Please select a name for your stack, that is not used already.
-				</p>
-			</div>
-			<Input placeholder="zenml-remote-stack" {...register("stackName")} />
 		</div>
 	);
 }

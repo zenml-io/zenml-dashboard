@@ -15,6 +15,8 @@ type NewInfraFormType = {
 	data: Data;
 	setData: Dispatch<SetStateAction<Data>>;
 	formRef: React.RefObject<HTMLFormElement>;
+	setTimestamp: Dispatch<SetStateAction<string>>;
+	timestamp: string;
 };
 
 export const NewInfraFormContext = createContext<NewInfraFormType | null>(null);
@@ -22,11 +24,20 @@ export const NewInfraFormContext = createContext<NewInfraFormType | null>(null);
 export function NewInfraFormProvider({ children }: { children: React.ReactNode }) {
 	const [isNextButtonDisabled, setIsNextButtonDisabled] = useState(false);
 	const [data, setData] = useState<Data>({});
+	const [timestamp, setTimestamp] = useState<string>("");
 	const formRef = useRef<HTMLFormElement>(null);
 
 	return (
 		<NewInfraFormContext.Provider
-			value={{ isNextButtonDisabled, setIsNextButtonDisabled, data, setData, formRef }}
+			value={{
+				isNextButtonDisabled,
+				setIsNextButtonDisabled,
+				data,
+				setData,
+				formRef,
+				timestamp,
+				setTimestamp
+			}}
 		>
 			{children}
 		</NewInfraFormContext.Provider>
